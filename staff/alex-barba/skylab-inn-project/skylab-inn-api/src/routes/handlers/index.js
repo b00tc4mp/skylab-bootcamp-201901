@@ -19,8 +19,6 @@ module.exports = {
 
     removeUserInformation: require('./remove-user-information'),
 
-    registerAdmin: require('./register-admin'),
-
     addSkylaber: require('./add-skylaber'),
 
     retrievePendingSkylabers: require('./retrieve-pending-skylabers'),

@@ -41,6 +41,14 @@ function validate(params) {
                 if (!value.length) throw new Error(`${key} is empty`)
                 
                 break
+            case Buffer:
+                if (optional && value == null) break
+                
+                if (!(value instanceof Buffer)) throw new TypeError(`${value} is not a buffer`)
+
+                if (!value.length) throw new Error(`${key} is empty`)
+                
+                break
             case Blob:
                 if (optional && value == null) break
 

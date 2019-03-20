@@ -13,9 +13,11 @@ $desktop-width: 1024px
     
 /* Colors */
 
-$primary: #575757 
-$secondary: #A5A5A5
-$white: #F5F5F5     
+$primary: #F1F1F1 
+$secondary: #333333 
+$white: #FFFFFF
+$black: #010101
+$blue: #1091CF
 $danger: #D5544F
 $success: #DCECA9
 $link: #471E38
@@ -38,23 +40,24 @@ $xlarge--tablet: 1.3rem
 
 @mixin btn-bg($bg) 
     background: none
-    color: darken($bg, 30%)
+    color: darken($bg, 10%)
     &:hover
         transition: all 0.3s ease
         border-bottom: 0.05rem dotted darken($bg,10%)
 
 @mixin btn-inverted($bg)
-    background: darken($bg, 5%)
+    background: darken($bg, 10%)
     color: lighten($bg, 50%)
     &:hover
         border-bottom: 0.05rem dotted $bg
+        background: none
+        color: $bg
 
 .btn
     text-decoration: none
     font-size: $medium
     padding: 0.2rem
     cursor: pointer
-    color: $secondary
     border: none
 
     @include tablet
@@ -63,9 +66,9 @@ $xlarge--tablet: 1.3rem
 
     // Colors & Inverted
     &--primary
-        @include btn-bg($primary)
+        @include btn-bg($blue)
         &-inverted
-            @include btn-inverted($primary)
+            @include btn-inverted($blue)
     &--success
         @include btn-bg($success)
         &-inverted
@@ -78,7 +81,7 @@ $xlarge--tablet: 1.3rem
 
 /* Icons */
 .icon
-    color: $primary
+    color: $secondary
     align-self: center
     font-size: $xsmall
 
@@ -89,7 +92,7 @@ $xlarge--tablet: 1.3rem
         cursor: pointer
 
     &:hover
-        color: darken($primary, 30%)
+        color: darken($primary, 70%)
 
 /* Inputs */
 
@@ -98,9 +101,10 @@ input
     text-align: center
     font-size: $medium
     padding: 0.2rem
-    color: $primary
+    color: $secondary
     border: none
     background: none
+    width: 100%
 
     @include tablet
         font-size: $medium--tablet
@@ -114,19 +118,22 @@ input
 
 /* Links */
 
+a 
+    color: $blue
+
 a:link
-    color: $link
+    color: $blue
     &:visited
-        color: $link
+        color: $blue
 
 /* Border */
 %border
-    border: 0.05rem dotted $primary
+    border: 0.05rem dotted $secondary
     padding: 0.3rem
     margin-top: 0.2rem
 
     &:hover
-        box-shadow: 0.2rem 0.2rem $primary
+        box-shadow: 0.2rem 0.2rem $secondary
 
                          
 /* Line */
@@ -145,12 +152,11 @@ a:link
 /* Select */
 select
     background: none
-    width: 90%
     font-size: $xsmall
     text-align-last: center
+    width: 100%
 
     @include tablet
-        width: 90%
         text-align-last: center
         font-size: $xsmall--tablet
         background: none

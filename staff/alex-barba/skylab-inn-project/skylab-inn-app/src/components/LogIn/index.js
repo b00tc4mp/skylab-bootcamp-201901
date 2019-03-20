@@ -22,15 +22,13 @@ export default function LogIn({ onLogIn, onToSignUp }) {
     return (
         <div className='login-container'>
             <div className='login-container__header'>
-                <h1>SkyLab Inn</h1>
+                <div className='login-container__header-logo'></div>
             </div>
             <form className='login-container__form' onSubmit={handleFormSubmit}>
                 <div className='login-container__form-input'>
-                    <i className='far fa-user-circle icon'></i>&nbsp;
                     <input type='text' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} required></input>
                 </div>
                 <div className='login-container__form-input'>
-                    <i className='fas fa-key icon'></i>&nbsp;
                     <input type='password' name='password' placeholder='Password' onChange={e => setPassword(e.target.value)} required></input>
                 </div>
                 {feedback && <Feedback />}

@@ -9,12 +9,14 @@
     &__header
         flex-shrink: 0
         padding-top: 3rem
-        text-align: center
-        font-size: $xlarge
-
-        @include tablet
-            padding-top: 4rem
-            font-size: $xlarge--tablet
+        display: flex
+        flex-direction: row
+        justify-content: center
+        
+        &-logo 
+            content: url('https://res.cloudinary.com/barbass/image/upload/v1553072275/Logo_Skylab.png')
+            width: 30%
+            align-self: center
 
     &__form
         width: 60%
@@ -31,12 +33,14 @@
     &__link
         align-self: center
         font-size: $small
-        color: $primary
         text-align: center
         cursor: pointer
 
         @include tablet
             font-size: $small--tablet
+
+        & > a 
+            color: $secondary
 
     &__footer
         order: 4

@@ -108,7 +108,7 @@ const logic = {
         validate([{ key: 'query', value: query, type: String }])
 
         return skylabInnApi.searchSkylaber(this.__userApiToken__, query)
-            .then(({user}) => user)
+            .then(({user}) =>user)
     },
 
     /**

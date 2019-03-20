@@ -17,10 +17,10 @@
         left: 50%
         transform: translate(-50%,-50%)
         @extend %border
-        color: $primary
+        color: $secondary
         font-size: $large
         text-align: center
-        box-shadow: 0.3rem 0.3rem $primary
+        box-shadow: 0.3rem 0.3rem $secondary
         flex-shrink: 0
 
         @include tablet
@@ -33,6 +33,7 @@
             & > a
                 flex-shrink: 1
                 font-size: $medium
+                color: $secondary
 
                 @include tablet
                     font-size: $medium--tablet
@@ -51,7 +52,7 @@
 .checkbox__input
     flex-shrink: 1
     vertical-align: middle
-    width: 5% !important
+    width: 10% !important
 
     @include tablet
         font-size: $medium--tablet
@@ -72,4 +73,5 @@
     &__text
         flex-grow: 1
         overflow: auto
+        font-size: $small
 

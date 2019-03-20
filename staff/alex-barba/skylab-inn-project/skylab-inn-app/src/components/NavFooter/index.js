@@ -22,8 +22,9 @@ export default function NavFooter({ onToWelcome, onToProfile, onToSignOut }) {
 
     return (
         <nav className='nav-footer'>
-            <div className='nav-footer__home'>
-                <i className='fas fa-home icon' onClick={handleToWelcome}> <span>Skylab Inn</span></i>
+            <div className='nav-footer__home' onClick={handleToWelcome}>
+                <i className='fas fa-home icon'></i>
+                <div className='nav-footer__home-logo'></div>
             </div>
             <div className='nav-footer__profile'>
                 {userData.role === 'User' &&  <i className='far fa-user-circle icon' onClick={handleToProfile}/>}

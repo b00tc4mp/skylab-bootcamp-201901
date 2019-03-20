@@ -27,27 +27,22 @@ export default function SignUp({ onSignUp, onToLogIn }) {
     return (
         <div className='signup-container'>
             <div className='signup-container__header'>
-                <h1>SkyLab Inn</h1>
+                <div className='signup-container__header-logo'></div>
             </div>
             <form className='signup-container__form' onSubmit={handleFormSubmit}>
                 <div className='signup-container__form-input'>
-                    <i className='far fa-user-circle icon'></i>&nbsp;
                     <input type='text' name='name' placeholder='Name' onChange={e => setName(e.target.value)} required></input>
                 </div>
                 <div className='signup-container__form-input'>
-                    <i className='far fa-user-circle icon'></i>&nbsp;
                 <input type='text' name='surname' placeholder='Surname' onChange={e => setSurame(e.target.value)} required></input>
                 </div>
                 <div className='signup-container__form-input'>
-                    <i className='fas fa-at icon'></i>&nbsp;
                 <input type='email' name='email' placeholder='Email' onChange={e => setEmail(e.target.value)} required></input>
                 </div>
                 <div className='signup-container__form-input'>
-                    <i className='fas fa-key icon'></i>&nbsp;
                 <input type='password' name='password' placeholder='Password' onChange={e => setPassword(e.target.value)} required></input>
                 </div>
                 <div className='signup-container__form-input'>
-                    <i className='fas fa-key icon'></i>&nbsp;
                     <input type='password' name='passwordConfirm' placeholder='Confirm Password' onChange={e => setPasswordConfirm(e.target.value)} required></input>
                 </div>    
                 {feedback && <Feedback />}

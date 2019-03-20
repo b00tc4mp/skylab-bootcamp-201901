@@ -12,6 +12,7 @@ export default function SharedSkylabers({ encryptedIds, retrieveEncryptedIds, sk
     return (
         <div className='shared-container'>
             <div className='shared-container__header'>
+                <div className='shared-container__header-logo'></div>
                 <h5>Your Skylabers</h5>
             </div>
             <div className='shared-container__content'>
