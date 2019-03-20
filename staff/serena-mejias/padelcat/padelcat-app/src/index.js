@@ -6,7 +6,10 @@ import "./index.scss";
 import App from "./components/App";
 import * as serviceWorker from "./serviceWorker";
 import padelcatApi from "./padelcat-api";
-padelcatApi.setUpDefaults();
+
+const { REACT_APP_API_URL } = process.env
+
+padelcatApi.setUpDefaults(REACT_APP_API_URL);
 
 //ReactDOM.render(<Router><App /></Router>, document.getElementById('root'))
 ReactDOM.render(

@@ -16,4 +16,12 @@ div.player_details {
 
 h6.player_name {
     padding-right: 5em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: $size-s;
+}
+
+span.player_score {
+  font-family: 'Poppins', sans-serif;
+  font-size: $size-s;
 }

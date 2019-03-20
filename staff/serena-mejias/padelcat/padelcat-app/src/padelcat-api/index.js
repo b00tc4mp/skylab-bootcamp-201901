@@ -1,8 +1,8 @@
 import axios from "axios";
 
 const padelcatApi = {
-  setUpDefaults: () => {
-    axios.defaults.baseURL = "http://localhost:8080/api";
+  setUpDefaults: (url) => {
+    axios.defaults.baseURL = url || "http://localhost:8080/api";
     axios.interceptors.response.use(
       response => {
         return response.data;

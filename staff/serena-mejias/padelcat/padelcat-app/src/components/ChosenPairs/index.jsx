@@ -3,9 +3,6 @@ import { Field } from "react-final-form";
 import styles from "./index.module.scss";
 
 export default function ChosenPairs(props) {
-  // const onChosenPair = () => {
-  //   return props.playersChosen;
-  // };
   const { players, selectName } = props;
   return (
     <section className={styles.select_pair}>

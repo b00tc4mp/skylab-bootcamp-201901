@@ -71,14 +71,22 @@ h6.teamName {
 div.chosen_pairs{
     display: flex;
     flex-direction: column;
-    justify-content: center;
     margin: $size-s 0;
+    background:  #e0f7fa;
+    border-radius:36px;
+    width: 20em;
+    margin-right: 0;
+    @media screen and (min-width: $break-large) {
+      margin-left: 7em;
+    }
 }
 
 div.match {
     display: flex;
     flex-direction: row;
     align-items: baseline;
+    justify-content: center;
+    
 }
 
 h4 {

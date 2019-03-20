@@ -1,5 +1,19 @@
 @import "../../styles/_index.scss";
 
+.header_title {
+  font-size: 2em;
+  font-weight: bold;
+  @media screen and (max-width: 360px) {
+    font-size: $size-s;
+  }
+}
+
+button.button {
+  @media screen and (max-width: 360px) {
+    font-size: 0.75em;
+  }
+}
+
 .toolbar {
   display: flex;
   justify-content: space-between;

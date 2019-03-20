@@ -25,7 +25,7 @@ export const Header = props => {
               src="https://image.flaticon.com/icons/svg/434/434113.svg"
             />
             <Typography variant="h6" color="inherit" className={styles.grow}>
-              <NavLink to={"/home"}>Padelcat</NavLink>
+              <NavLink to={"/home"} className={styles.header_title}>Padelcat</NavLink>
             </Typography>
           </div>
           <div className={styles.buttons}>

@@ -57,7 +57,6 @@ export const Match = props => {
       return setAvailable(false);
     }
   }, [props]);
-  
   return (
     <div>
       <h4 className={styles.date}>{date}</h4>
