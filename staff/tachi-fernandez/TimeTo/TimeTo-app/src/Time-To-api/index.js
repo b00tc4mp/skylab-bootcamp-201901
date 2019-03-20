@@ -1,6 +1,6 @@
 
 const userApi = {
-    url: 'http://localhost:8000/final-proyect/api',
+    url: ' https://pacific-thicket-55566.herokuapp.com/final-proyect/api',
 
     register(name, surname, userName,age, description, email, password, passwordConfirmation) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)
