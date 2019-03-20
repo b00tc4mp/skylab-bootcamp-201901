@@ -66,7 +66,6 @@ class DetailedHouse extends Component {
 
 
     retrieveThisHouse(houseId) {
-        console.log('ksbadhsandsadjsn')
         if (houseId) {
             const { state: { thisHouse } } = this
             if (!thisHouse)

@@ -1,9 +1,8 @@
 import { Map, InfoWindow, Marker, GoogleApiWrapper } from 'google-maps-react';
 import React, { Component } from 'react'
-import dotenv from 'dotenv'
 import './index.sass';
 
-dotenv.config()
+
 
 const { REACT_APP_GOOGLE_MAPS_API_KEY } = process.env
 

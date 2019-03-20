@@ -2,17 +2,13 @@ import React, { Component } from 'react'
 import './index.sass';
 import logic from '../../logic'
 
-
-
-
-
 class Conversations extends Component {
 
     state = {
 
 
         conversations: null,
-        currentConversation: null
+
 
 
     }

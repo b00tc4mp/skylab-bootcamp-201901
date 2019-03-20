@@ -71,25 +71,21 @@ class App extends Component {
   updateInfo = async () => {
     this.setState({ updating: true })
     if (this.state.user) {
-      console.log('update')
       const user = await logic.retrieveUser()
       const userFavs = await logic.retrieveFavorites()
       const userHouses = await logic.retrieveMyHouses()
       if (JSON.stringify(this.state.user) !== JSON.stringify(user)) {
         this.setState({ user })
-        console.log('updated user')
 
       }
 
       if (JSON.stringify(this.state.userFavs) !== JSON.stringify(userFavs)) {
         this.setState({ userFavs })
-        console.log('updated userfavs')
 
       }
 
       if (JSON.stringify(this.state.userHouses) !== JSON.stringify(userHouses)) {
         this.setState({ userHouses })
-        console.log('updated userhouses')
 
       }
 

@@ -1,9 +1,10 @@
 'use strict'
 
-import { debug } from "util";
+
+const { REACT_APP_DB_URL  } = process.env
 
 const homeSwappApi = {
-    url: 'http://localhost:8000/api/',
+    url: REACT_APP_DB_URL,
 
     registerUser(username, email, password, passwordConfirm) {
 
@@ -387,7 +388,7 @@ const homeSwappApi = {
             .then(response => {
 
                 if (response.error) throw Error(response.error)
-                
+
                 return response
             })
     }

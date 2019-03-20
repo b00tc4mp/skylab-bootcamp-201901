@@ -1,6 +1,4 @@
 'use strict'
-import dotenv from 'dotenv'
-dotenv.config()
 
 const { REACT_APP_GOOGLE_MAPS_API_URL, REACT_APP_GOOGLE_MAPS_API_KEY } = process.env
 
@@ -10,7 +8,6 @@ const geocodeApi = {
 
 
     retrievePoint(number, street, city, country) {
-
 
         if (typeof number !== 'string') throw TypeError(`${number} is not a string`)
         if (typeof street !== 'string') throw TypeError(`${street} is not a string`)
