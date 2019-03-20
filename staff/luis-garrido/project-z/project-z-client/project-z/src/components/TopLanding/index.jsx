@@ -15,7 +15,6 @@ const TopLanding = props => {
     const getRanking = async () =>
         setRanking(await logic.retrieveBestScored("5"));
 
-    console.log(ranking);
     return (
         <Fragment>
             <div className="top-landing">

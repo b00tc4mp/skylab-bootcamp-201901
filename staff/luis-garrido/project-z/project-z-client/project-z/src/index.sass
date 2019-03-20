@@ -15,6 +15,9 @@ a:link, a:visited
   text-decoration: none
   color: rgb(185, 11, 176)
 
+.review-landing
+    color: black
+
 a:hover
   color: white
   background-color: rgb(255, 81, 246)
@@ -46,6 +49,9 @@ body
     color: rgb(40,40,40)
     line-height: 1em
     padding: 0.5em
+
+.welcome
+    text-align: center
 
 .nav-mobile 
     // background-color: rgba(255, 220, 255, 0.9)
@@ -138,9 +144,50 @@ body
         &::placeholder
             color: rgba(250, 90, 180, 0.6)
 
-.results
-    padding: 1em
+.game-profile
     overflow: initial
+    // display: grid
+    // grid-template-columns: 2.8em 20% auto 4em
+    width: 100%
+    max-width: 800px
+    margin: auto
+    align-items: center
+    display: grid
+    grid-template-columns: 40% auto
+    grid-template-rows: auto
+    // text-align: center
+    padding: 1em
+    color: rgb(40,40,40)
+    &__image
+        align-self: start
+        width: 100%
+        object-fit: cover
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    &__details
+        padding: 0 1em
+        grid-column-start: 2
+        grid-row-start: 1
+        color: rgb(80,80,80)
+        &--detail
+            font-weight: bold               
+        &__finalScore
+            font-size: 4em
+            font-weight: bold
+            color: rgb(215, 41, 206)
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3), 0 3px 10px rgba(0, 0, 0, 0.19)
+    &__overview
+        grid-row-start: 2
+        grid-column: 1 / span 2
+        padding-top: 1em
+
+.login-to-comment
+    text-align: center
+    padding-bottom: 1em
+
+.preScore
+    text-align: center
+    padding-top: 0.8em
+    color: rgb(42, 182, 114)
 
 .top-landing
     &__results
@@ -149,6 +196,10 @@ body
     &__link
         text-align: center
         text-transform: uppercase
+        margin-bottom: 1em
+
+.review-form__button
+    margin-bottom: 0
 
 .game-profile-stars
     // background: linear-gradient(135deg, rgb(255, 201, 127) 50%,rgb(250, 255, 0) 60%)
@@ -167,6 +218,9 @@ body
     // color: #FCD357
     font-size: 3rem
     text-align: center
+    padding-bottom: 0.25em
+
+.review
 
 .forms
     display: grid
@@ -193,15 +247,17 @@ body
     & textarea
         width: 100%
         padding: 1em
-        margin-bottom: 1em
+        margin-bottom: 0.5em
         border: 1px solid rgba(255,81,246,0.3)
         background-color: rgba(40,40,40,0.02)
         outline: none
+        font-family: 'PT Sans', sans-serif
         // height: 4em
         resize: none
         box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.07), 0 2px 5px 0 rgba(0, 0, 0, 0.06)
         &::placeholder
             color: rgba(110,50,100,0.7)
+            font-family: 'PT Sans', sans-serif
         &:focus
             border: 2px solid rgba(255,81,246,0.5)
     & button
@@ -229,13 +285,6 @@ body
         color: rgb(80,80,80)
         text-align: center
         font-size: 0.9em
-
-.avatar-review
-    width: 5em
-    height: 5em
-    border-radius: 50%
-    border: 2px solid rgb(40,40,40,)
-    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
 
 .user-profile
     // display: grid
@@ -289,40 +338,40 @@ body
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
 
 .review-card
-    // display: grid
-    // grid-template-columns: 2.8em 20% auto 4em
+    display: grid
+    grid-template-columns: 6em auto
     padding: 1em
     width: 100%
     max-width: 800px
     margin: auto
-    align-items: center
+    // align-items: center
     // &:hover
     //     background-color: rgba(0,0,0,0.15)
     &--background-even
         background-color: rgba(0,0,0,0.05)
-    &__position
-        font-size: 1.5em
-        text-align: center
-        margin: auto
-        font-family: "Bungee", cursive
-        color: rgb(40,40,40)
     &__image
-        width: 100%
-        max-height: 4em
+        width: 5em
         object-fit: cover
-    &__info
-        padding-left: 0.6em
+        box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    &__date
+        font-size: 0.8em
+        color: rgb(140,140,140)
         & a:hover
             background-color: transparent
             color: rgb(185, 11, 176)
         &--platform
             font-size: 0.8em
-    &__final-score
-        font-size: 1.5em
-        text-align: center
-        margin: auto
-        font-family: "Bungee", cursive
-        color: rgb(40,40,40)
+    &__title
+        font-weight: bold
+
+.avatar-review
+    width: 5em
+    height: 5em
+    border-radius: 50%
+    border: 2px solid rgb(40,40,40,)
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.19)
+    margin-bottom: 0.5em
+
 
     
 
@@ -343,6 +392,7 @@ body
     
     .navbar-tablet 
         display: flex
+        justify-content: space-around
         left: 0px
         width: 8rem
     

@@ -6,7 +6,7 @@ import "./index.sass";
 
 // import Feedback from "../Feedback";
 
-const Login = ({ history, gameId, gameInfo, refresh }) => {
+const WriteReview = ({ history, gameId, gameInfo, refresh }) => {
     const fullStar = "game-review-stars fas fa-star";
     const emptyStar = "game-review-stars far fa-star";
 
@@ -17,42 +17,53 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
     const [reviewTitle, setReviewTitle] = useState("");
     const [reviewText, setReviewText] = useState("");
     const [reviewScore, setReviewScore] = useState("");
-    const [preScore, setPreScore] = useState('')
+    // const [preScore, setPreScore] = useState("");
 
-    useEffect(() => {
-        getPreScore()
-    },[])
+    // useEffect(() => {
+    //     getPreScore();
+    // }, []);
 
-    const getPreScore = async () => {
-        const _preScore = await logic.getPreScore(gameId, gameInfo)
-        console.log(_preScore)
-        setPreScore(_preScore)
+    // const getPreScore = async () => {
+    //     const _preScore = await logic.getPreScore(gameId, gameInfo);
+    //     console.log(_preScore);
+    //     setPreScore(_preScore);
+    // };
 
-    }
-    
-    const [starClass, setStarClass] = useState([emptyStar, emptyStar, emptyStar, emptyStar, emptyStar]);
+    const [starClass, setStarClass] = useState([
+        emptyStar,
+        emptyStar,
+        emptyStar,
+        emptyStar,
+        emptyStar
+    ]);
 
     const star = score => (
         <i
-                className={starClass[score-1]}
-                key={score}
-                onClick={() => {
-                    let paintArray = [emptyStar, emptyStar, emptyStar, emptyStar, emptyStar]
-                    for (let i = 0; i<score; i++) {
-                        paintArray[i]=fullStar
-                    }
-                    setStarClass(paintArray)
-                    setReviewScore(score);
-                }}
-            />
-    )
+            className={starClass[score - 1]}
+            key={score}
+            onClick={() => {
+                let paintArray = [
+                    emptyStar,
+                    emptyStar,
+                    emptyStar,
+                    emptyStar,
+                    emptyStar
+                ];
+                for (let i = 0; i < score; i++) {
+                    paintArray[i] = fullStar;
+                }
+                setStarClass(paintArray);
+                setReviewScore(score);
+            }}
+        />
+    );
 
-    const scoreWithStars = () => [star(1),star(2),star(3),star(4),star(5)];
+    const scoreWithStars = () => [star(1), star(2), star(3), star(4), star(5)];
 
     const handleReviewTitleInput = ({ target: { value: reviewTitle } }) => {
         setReviewTitle(reviewTitle);
     };
-    
+
     const handleReviewTextInput = ({ target: { value: reviewText } }) => {
         setReviewText(reviewText);
     };
@@ -65,12 +76,12 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
         event.preventDefault();
 
         try {
-            let reviewTextFix
-            let reviewTitleFix
-            if (reviewText === '') reviewTextFix = 'no text'
-            else reviewTextFix = reviewText
-            if (reviewTitle === '') reviewTitleFix = 'no text'
-            else reviewTitleFix = reviewTitle
+            let reviewTextFix;
+            let reviewTitleFix;
+            if (reviewText === "") reviewTextFix = "no text";
+            else reviewTextFix = reviewText;
+            if (reviewTitle === "") reviewTitleFix = "no text";
+            else reviewTitleFix = reviewTitle;
             logic
                 .postReview(gameId, reviewTitleFix, reviewTextFix, reviewScore)
                 .then(() => {
@@ -80,10 +91,10 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
                     refresh(gameId);
                 })
                 .catch(error => {
-                    console.log(error)
+                    console.log(error);
                 });
         } catch ({ message }) {
-            console.log(message)
+            console.log(message);
         }
     };
 
@@ -121,28 +132,14 @@ const Login = ({ history, gameId, gameInfo, refresh }) => {
                     <div>
                         <p>{scoreWithStars()}</p>
                     </div>
-                    {/* <div>
-                        <input
-                            className="review-form__input"
-                            type="text"
-                            name="reviewScore"
-                            placeholder="score"
-                            autoComplete="off"
-                            autoCorrect="off"
-                            spellCheck="false"
-                            required
-                            value={reviewScore}
-                            onChange={handleReviewScoreInput}
-                        />
-                    </div> */}
                     <button className="review-form__button">Rate!</button>
                 </form>
-                <div>
+                {/* <div>
                     <h3>Precog data : {preScore.toString()}</h3>
-                </div>
+                </div> */}
             </div>
         </Fragment>
     );
 };
 
-export default withRouter(Login);
+export default withRouter(WriteReview);

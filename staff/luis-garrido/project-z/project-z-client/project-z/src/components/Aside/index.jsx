@@ -22,29 +22,36 @@ const Aside = props => {
                 <p className="navbar-tablet__logo--project">PROJECT</p>
                 <p className="navbar-tablet__logo--z">Z</p>
             </div>
-            <div className="navbar-tablet__icons" onClick={
-                        logic.__userApiToken__ !== null
-                            ? getUsernameLogged
-                            : () => props.history.push(`/login`)
-                    }>
+            <div
+                className="navbar-tablet__icons"
+                onClick={
+                    logic.__userApiToken__ !== null
+                        ? getUsernameLogged
+                        : () => props.history.push(`/login`)
+                }
+            >
                 <i className="fas fa-user-ninja" />
             </div>
             <div className="navbar-tablet__icons" onClick={onSearchClick}>
                 <i className="fas fa-search" />
             </div>
             <div className="navbar-tablet__icons">
-                    <i
-                        className="game-review-stars fas fa-star"
-                        onClick={() => props.history.push("/random")}
-                    />
-                </div>
-            <div className="navbar-tablet__icons" onClick={() => props.history.push("/")}>
-                <i className="fas fa-dungeon" />
+                <i
+                    className="fas fa-random"
+                    onClick={() => props.history.push("/random")}
+                />
             </div>
-            <div className="navbar-tablet__icons">
-                <i className="fas fa-bookmark" />
+            <div
+                className="navbar-tablet__icons"
+                onClick={() => props.history.push("/")}
+            >
+                <i className="fas fa-house-damage" />
             </div>
-            <div className="navbar-tablet__icons" onClick={() => props.history.push("/ranking")}>
+
+            <div
+                className="navbar-tablet__icons"
+                onClick={() => props.history.push("/ranking")}
+            >
                 <i className="fas fa-trophy" />
             </div>
         </Fragment>

@@ -220,6 +220,19 @@ const logic = {
             })
             .then(async gameInfo => {
                 const gameInfoMap = gameInfo.map(async oneGame => {
+                    const platformName = await Platform.find({
+                        id: oneGame.platform
+                    })
+                        .select("name")
+                        .lean();
+                    oneGame.platformName = platformName[0].name;
+                    return oneGame;
+                });
+                gameInfo = await Promise.all(gameInfoMap);
+                return gameInfo;
+            })
+            .then(async gameInfo => {
+                const gameInfoMap = gameInfo.map(async oneGame => {
                     const cover = await Boxart.find({ id_game: oneGame.id })
                         .select("-_id -__v")
                         .lean();
@@ -229,6 +242,12 @@ const logic = {
                         oneGame.boxartUrl = cover[0].images.find(
                             image => image.side === "front"
                         ).filename;
+                    }
+
+                    if (oneGame.scores !== undefined) {
+                        oneGame.finalScore =
+                            oneGame.scores.reduce((a, b) => a + b) /
+                            oneGame.scores.length;
                     }
 
                     if (oneGame.scores !== undefined) {
@@ -479,7 +498,7 @@ const logic = {
     },
 
     retrieveAllUsers() {
-        return User.find().populate("reviews");
+        return User.find().populate({ path: "reviews", populate: { path: "game author" } })
     },
 
     retrieveEuclideanDistance(userReviews, otherUserReviews) {

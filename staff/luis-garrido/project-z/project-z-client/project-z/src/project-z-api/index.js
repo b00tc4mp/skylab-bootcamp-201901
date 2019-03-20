@@ -244,6 +244,24 @@ const projectZApi = {
             });
     },
 
+    retrieveSimilarUsersReviews(token) {
+        // validate([
+        //     { key: "limit", value: limit, type: String },
+        // ])
+
+        return fetch(`${this.url}/similarityranking`, {
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error);
+
+                return response;
+            });
+    },
+
     getRandomGame() {
         return fetch(`${this.url}/random`)
             .then(response => response.json())

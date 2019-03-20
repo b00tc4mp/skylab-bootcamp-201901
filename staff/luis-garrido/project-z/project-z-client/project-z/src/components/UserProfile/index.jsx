@@ -41,7 +41,7 @@ const UserProfile = ({
         <Fragment>
             <div className="review-page">
                 <div className="header">
-                    <h1 className="header__title">{userInfo.username}</h1>
+                    <h2 className="header__title">{userInfo.username}</h2>
                 </div>
                 <div className="user-profile">
                     <div className="user-profile__info">
@@ -61,17 +61,20 @@ const UserProfile = ({
                     </div>
                 </div>
                 {userInfo.reviews && !!userInfo.reviews.length && (
-                    <div><div className="header">
-                    <h2 className="header__title">USER REVIEWS</h2>
-                </div>
-                        {userInfo.reviews.reverse().map((review,index) => (
-                            <Review
-                                index={index+1}
-                                key={review._id}
-                                review={review}
-                                printFrom={"userProfile"}
-                            />
-                        ))}
+                    <div>
+                        <div className="header">
+                            <h2 className="header__title">USER REVIEWS</h2>
+                        </div>
+                        {userInfo.reviews
+                            // .reverse()
+                            .map((review, index) => (
+                                <Review
+                                    index={index + 1}
+                                    key={review._id}
+                                    review={review}
+                                    printFrom={"userProfile"}
+                                />
+                            ))}
                     </div>
                 )}
             </div>

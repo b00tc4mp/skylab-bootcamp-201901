@@ -19,7 +19,8 @@ const Results = props => {
 
     const masonryOptions = {
         transitionDuration: 0,
-        gutter: 20
+        gutter: 1,
+        columnWidth: '.card'
     };
 
     return (

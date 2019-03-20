@@ -49,34 +49,32 @@ const Review = ({ index, history, review, printFrom }) => {
         }
         return stars;
     };
-    console.log(review)
+    console.log(review);
 
-    const reviewClass = index % 2 === 0 
-        ? "review-card review-card--background-even"
-        : "review-card"
+    const reviewClass =
+        index % 2 === 0
+            ? "review-card review-card--background-even"
+            : "review-card";
 
-        // onClick={() => history.push(`/game/${review.game.id}`)}
+    // onClick={() => history.push(`/game/${review.game.id}`)}
 
     return (
-        <article className={reviewClass} >
+        <article className={reviewClass}>
             <div>
                 {review.author !== null ? (
-                    printFrom === "gameProfile" ? (
+                    printFrom === "gameProfile" ||
+                    printFrom === "landingPage" ? (
                         <div>
                             <img
+                                onClick={() =>
+                                    history.push(`/${review.author.username}`)
+                                }
                                 className="avatar-review"
                                 src={`https://api.adorable.io/avatars/285/${
                                     review.author.username
                                 }.png`}
                                 alt="default avatar"
                             />
-                            <p>
-                                {" "}
-                                Author:{" "}
-                                <Link to={`/${review.author.username}`}>
-                                    {review.author.username}
-                                </Link>
-                            </p>
                         </div>
                     ) : (
                         ""
@@ -88,35 +86,69 @@ const Review = ({ index, history, review, printFrom }) => {
                             src={`https://api.adorable.io/avatars/285/anonymous.png`}
                             alt="default avatar"
                         />
-                        <p> Author: Anonymous</p>
                     </div>
                 )}
 
-                {printFrom === "userProfile" && (
-                    <p>
-                        Title:{" "}
+                {(printFrom === "userProfile" || printFrom === "landingPage") &&
+                    (review.boxart ? (
+                        <img
+                            onClick={() =>
+                                history.push(`/game/${review.game.id}`)
+                            }
+                            className="review-card__image"
+                            src={`${gameCover}${review.boxart}`}
+                            alt={review.game.game_title}
+                        />
+                    ) : (
+                        <img
+                            onClick={() =>
+                                history.push(`/game/${review.game.id}`)
+                            }
+                            className="review-card__image"
+                            src={notFoundImage}
+                            alt={review.game.game_title}
+                        />
+                    ))}
+            </div>
+            <div>
+                {(printFrom === "userProfile" ||
+                    printFrom === "landingPage") && (
+                    <h3>
                         <Link to={`/game/${review.game.id}`}>
                             {review.game.game_title}
                         </Link>
-                    </p>
+                    </h3>
                 )}
-                <p>Date: {`${y} / ${m} / ${d} - ${h}:${min}:${s}`}</p>
-                <p>Score: {starScores(review.score)}</p>
-                {review.boxart ? (
-                    <img
-                        className="review-card__image"
-                        src={`${gameCover}${review.boxart}`}
-                        alt={review.game.game_title}
-                    />
+
+                {review.author !== null ? (
+                    printFrom === "gameProfile" ? (
+                        <h3>
+                            <Link to={`/${review.author.username}`}>
+                                {review.author.username}
+                            </Link>
+                        </h3>
+                    ) : printFrom === "landingPage" ? (
+                        <h3>
+                            <Link to={`/${review.author.username}`}>
+                                <span className="review-landing">
+                                    {review.author.username}
+                                </span>
+                            </Link>
+                        </h3>
+                    ) : (
+                        ""
+                    )
                 ) : (
-                    <img
-                        className="review-card__image"
-                        src={notFoundImage}
-                        alt={review.game.game_title}
-                    />
+                    <h3>Anonymous</h3>
                 )}
-                {review.title && <p>Title: {review.title}</p>}
-                {review.text && <p>Text: {review.text}</p>}
+
+                <p>{starScores(review.score)}</p>
+                {review.title && (
+                    <h3 className="review-card__title">{review.title}</h3>
+                )}
+
+                <p className="review-card__date">{`${y}/${m}/${d}`}</p>
+                {review.text && <p>{review.text}</p>}
             </div>
         </article>
     );

@@ -29,23 +29,26 @@ const Footer = props => {
                 >
                     <i className="fas fa-user-ninja" />
                 </div>
-                <div onClick={onSearchClick} className="nav-mobile__icons">
-                    <i className="fas fa-search" />
-                </div>
-                <div className="nav-mobile__icons">
-                    <i
-                        className="game-review-stars fas fa-star"
-                        onClick={() => props.history.push("/random")}
-                    />
+                <div
+                    className="nav-mobile__icons"
+                    onClick={() => props.history.push("/ranking")}
+                >
+                    <i className="fas fa-trophy" />
                 </div>
                 <div
                     onClick={() => props.history.push("/")}
                     className="nav-mobile__icons"
                 >
-                    <i className="fas fa-dungeon" />
+                    <i className="fas fa-house-damage" />
                 </div>
                 <div className="nav-mobile__icons">
-                    <i className="fas fa-bookmark" />
+                    <i
+                        className="fas fa-random"
+                        onClick={() => props.history.push("/random")}
+                    />
+                </div>
+                <div onClick={onSearchClick} className="nav-mobile__icons">
+                    <i className="fas fa-search" />
                 </div>
             </div>
 

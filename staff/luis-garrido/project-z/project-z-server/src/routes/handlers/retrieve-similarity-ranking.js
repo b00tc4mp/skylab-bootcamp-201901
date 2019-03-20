@@ -21,7 +21,7 @@ module.exports = (req, res) => {
                 })
                 similarityList.sort((a, b) => b.euclideanSimilarity - a.euclideanSimilarity)
             })
-            .then(() => similarityList)
+            .then(() => { return { allUsers, similarityList}})
         // logic
         //     .retrieveUserByUsername(otherUserUsername)
         //     .then(({ reviews }) => (otherUserReviews = reviews))

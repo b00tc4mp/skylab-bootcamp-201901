@@ -133,6 +133,10 @@ const logic = {
         return projectZApi.retrieveBestScored(limit);
     },
 
+    retrieveSimilarUsersReviews() {
+        return projectZApi.retrieveSimilarUsersReviews(this.__userApiToken__);
+    },
+
     searchGames(query) {
         if (typeof query !== "string")
             throw TypeError(`${query} is not a string`);
