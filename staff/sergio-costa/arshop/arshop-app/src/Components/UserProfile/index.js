@@ -7,7 +7,7 @@ import './index.sass'
 
 class UserProfile extends Component {
 
-    state = { products: [], feedback: null, favIds: [], username: null, image: null, userImage: null }
+    state = { products: [], feedback: null, favIds: [], username: null, image: null, userImage: null, waiting: false }
 
     componentDidMount() {
 
@@ -21,8 +21,8 @@ class UserProfile extends Component {
             logic.retrieveUser()
                 .then(user => {
                     this.setState({ username: user.name })
-                    if(user.imageUrl !== null){
-                        this.setState({userImage: user.imageUrl})
+                    if (user.imageUrl !== null) {
+                        this.setState({ userImage: user.imageUrl })
                     }
                 })
         }
@@ -46,11 +46,13 @@ class UserProfile extends Component {
 
     handleUserImage = () => {
         try {
-            const { state: {image} } = this
-            logic.uploadUserImg({image})
-                .then(user => this.setState({userImage: user.imageUrl}))
+            this.setState({ waiting: true })
+            const { state: { image } } = this
+            logic.uploadUserImg({ image })
+                .then(user => this.setState({ userImage: user.imageUrl }))
+                .then(() => this.setState({waiting: false}))
         } catch (error) {
-            
+
         }
     }
 
@@ -69,7 +71,12 @@ class UserProfile extends Component {
                             <label class="label">
                                 <input type="file" onChange={e => this.setState({ image: e.target.files[0] }, () => this.handleUserImage())} />
                                 <figure className="personal-figure">
-                                    <img src={this.state.userImage ? this.state.userImage : "/images/logoplaceholder.png"} className="personal-avatar" alt="avatar" />
+                                    {!this.state.waiting && <img src={this.state.userImage ? this.state.userImage : "/images/logoplaceholder.png"} className="personal-avatar" alt="avatar" />}
+                                    {this.state.waiting && <div class="bouncing-loader">
+                                        <div></div>
+                                        <div></div>
+                                        <div></div>
+                                    </div>}
                                 </figure>
                             </label>
                         </div>

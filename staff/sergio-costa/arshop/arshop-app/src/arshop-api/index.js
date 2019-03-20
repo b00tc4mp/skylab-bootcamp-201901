@@ -1,7 +1,9 @@
 'use strict'
 
+const { REACT_APP_API_URL } = process.env 
+
 const arshopApi = {
-    url: 'http://localhost:8000/api',
+    url: REACT_APP_API_URL,
 
     registerUser(name, surname, email, password, passwordConfirm) {
         if (typeof name !== 'string') throw TypeError(`${name} is not a string`)

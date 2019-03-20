@@ -76,6 +76,9 @@ const logic = {
         this.__userApiToken__ = null
     },
 
+    /**
+     * Retrieves a User
+     */
     retrieveUser() {
         return arshopApi.retrieveUser(this.__userApiToken__)
             .then(({ id, name, surname, email, products = [], favoriteProducts = [], imageUrl = null, coversations = [] }) => ({
@@ -89,6 +92,11 @@ const logic = {
             }))
     },
 
+    /**
+     * Updates user info
+     * 
+     * @param {Object} data 
+     */
     updateUser(data) {
         if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
 
@@ -96,16 +104,29 @@ const logic = {
             .then((user) => user)
     },
 
+    /**
+     * Create a Product a put his id into user.products
+     * 
+     * @param {Object} product 
+     */
     createProduct(product) {
         if (product.constructor !== Object) throw TypeError(`${product} is not an object`)
 
         return arshopApi.createProduct(this.__userApiToken__, product)
     },
 
+    /**
+     * Retrieves all Products
+     */
     retrieveProducts() {
         return arshopApi.retrieveProducts()
     },
 
+    /**
+     * Retrieves a Product by his Id
+     * 
+     * @param {string} productId 
+     */
     retrieveProduct(productId) {
         if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
         if (!productId.trim().length) throw Error('productId cannot be empty')
@@ -113,10 +134,19 @@ const logic = {
         return arshopApi.retrieveProduct(productId)
     },
 
+    /**
+     * Retrieves a Product of user
+     */
     retrieveUserProducts() {
         return arshopApi.retrieveUserProducts(this.__userApiToken__)
     },
 
+    /**
+     * Updates a porduct user
+     * 
+     * @param {string} productId 
+     * @param {Object} data 
+     */
     updateProduct(productId, data) {
         if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
         if (!productId.trim().length) throw Error('productId cannot be empty')
@@ -126,6 +156,11 @@ const logic = {
         return arshopApi.updateProduct(this.__userApiToken__, productId, data)
     },
 
+    /**
+     * toogle true of false of product.sold
+     * 
+     * @param {string} productId 
+     */
     toogleSold(productId) {
         if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
         if (!productId.trim().length) throw Error('productId cannot be empty')
@@ -133,6 +168,11 @@ const logic = {
         return arshopApi.toogleSold(this.__userApiToken__, productId)
     },
 
+    /**
+     * add and delete product from favorites
+     * 
+     * @param {string} productId 
+     */
     toogleFav(productId) {
 
         if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
@@ -141,10 +181,21 @@ const logic = {
         return arshopApi.toogleFav(this.__userApiToken__, productId)
     },
 
+    /**
+     * retrieves all favorites products from user
+     * 
+     */
     retrieveFavs() {
         return arshopApi.retrieveFavs(this.__userApiToken__)
     },
 
+    /**
+     * search products by query
+     * 
+     * @param {string} q 
+     * @param {string} qcategory 
+     * @param {string} qcity 
+     */
     searchProducts(q, qcategory, qcity) {
         if (q !== undefined || null) {
             if (typeof q !== 'string') throw TypeError(`${q} is not a string`)
@@ -161,6 +212,12 @@ const logic = {
         return arshopApi.searchProducts(q, qcategory, qcity)
     },
 
+    /**
+     * save a product image
+     * 
+     * @param {string} productId 
+     * @param {Object} data 
+     */
     uploadProductImg(productId, data) {
         if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
         if (!productId.trim().length) throw Error('productId cannot be empty')
@@ -172,6 +229,11 @@ const logic = {
             // .then(({ product }) => product)
     },
 
+    /**
+     * save a user image
+     * 
+     * @param {Object} data 
+     */
     uploadUserImg(data) {
         if (!data) throw Error('data is empty')
         // if (data.constructor !== Object) throw TypeError(`${data} is not an object`)
@@ -180,6 +242,11 @@ const logic = {
             // .then(({ product }) => product)
     },
 
+    /**
+     * Retrieve the owner of a product
+     * 
+     * @param {string} productId 
+     */
     retrieveUserFromProducts(productId){
         if (typeof productId !== 'string') throw TypeError(productId + ' is not a string')
         if (!productId.trim().length) throw Error('productId cannot be empty')
@@ -187,6 +254,11 @@ const logic = {
         return arshopApi.retrieveUserFromProducts(productId)
     },
 
+    /**
+     * retrieve user by his Id
+     * 
+     * @param {string} userId 
+     */
     retrieveUserWithId(userId){
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -194,6 +266,11 @@ const logic = {
         return arshopApi.retrieveUserWithId(userId)
     },
 
+    /**
+     * retrieve all products from a user
+     * 
+     * @param {string} userId 
+     */
     retrieveProductsFromUserId(userId){
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -201,6 +278,11 @@ const logic = {
         return arshopApi.retrieveProductsFromUserId(userId)
     },
 
+    /**
+     * create a chat with two users
+     * 
+     * @param {string} userId 
+     */
     createChat(userId){
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -208,6 +290,12 @@ const logic = {
         return arshopApi.createChat(this.__userApiToken__, userId)
     },
 
+    /**
+     * send a message
+     * 
+     * @param {string} chatId 
+     * @param {string} text 
+     */
     sendMessage(chatId, text){
 
         if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
@@ -219,10 +307,18 @@ const logic = {
         return arshopApi.sendMessage(this.__userApiToken__, chatId, text)
     },
     
+    /**
+     * Retrieve all chats from a user
+     */
     retrieveChats() {
         return arshopApi.retrieveChats(this.__userApiToken__)
     },
 
+    /**
+     * Retrieve messages from a chat with his Id
+     * 
+     * @param {string} chatId 
+     */
     retrieveMessagesFromChat(chatId){
         if (typeof chatId !== 'string') throw TypeError(`${chatId} is not a string`)
         if (!chatId.trim().length) throw Error('chatId cannot be empty')
@@ -230,6 +326,12 @@ const logic = {
         return arshopApi.retrieveMessagesFromChat(this.__userApiToken__, chatId)
     },
 
+    /**
+     * Save a 3d Object
+     * 
+     * @param {string} productId 
+     * @param {file} object3d 
+     */
     saveObject3d(productId, object3d) {
         if(typeof productId !== 'string')throw Error(`${productId} is not a string`)
         if(!productId.trim().length)throw Error('productId cannot be empty')

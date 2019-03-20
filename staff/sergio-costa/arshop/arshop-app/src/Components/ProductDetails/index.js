@@ -57,7 +57,10 @@ class ProductDetails extends Component {
         try {
             logic.retrieveProduct(id)
                 .then(product => this.setState({ product }))
-                .catch(({ message }) => this.setState({ feedback: message }))
+                .catch(({ message }) => {
+                    this.setState({ feedback: message })
+                    this.props.history.push('/')
+                })
         } catch ({ message }) {
             this.setState({ feedback: message })
         }

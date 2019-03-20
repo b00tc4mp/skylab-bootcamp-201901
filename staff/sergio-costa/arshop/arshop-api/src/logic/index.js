@@ -204,6 +204,11 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieve Products from user
+     * 
+     * @param {string} userId 
+     */
     retrieveUserProducts(userId) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -225,6 +230,12 @@ const logic = {
             })
     },
 
+    /**
+     * add a delete product from favorites
+     * 
+     * @param {string} userId 
+     * @param {string} productId 
+     */
     toogleFav(userId, productId) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
@@ -250,6 +261,11 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieves all favorites from a user
+     * 
+     * @param {string} userId 
+     */
     retrieveFavs(userId) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -271,19 +287,11 @@ const logic = {
             })
     },
 
-    // retrieveFavs(userId) {
-
-    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-    //     if (!userId.trim().length) throw Error('userId cannot be empty')
-
-    //     return User.findById(userId)
-    //         .then(user => {
-    //             if (!user) throw Error(`user with id ${userId} not found`)
-
-    //             return user.favoriteProducts
-    //         })
-    // },
-
+    /**
+     * Search products by their category
+     * 
+     * @param {string} q 
+     */
     searchProductsByCategory(q) {
 
         if (typeof q !== 'string') throw TypeError(`${q} is not a string`)
@@ -301,6 +309,13 @@ const logic = {
             })
     },
 
+    /**
+     * advanced search
+     * 
+     * @param {string} q 
+     * @param {string} qcategory 
+     * @param {string} qcity 
+     */
     searchProducts(q, qcategory, qcity) {
 
         if (q !== undefined) {
@@ -334,6 +349,13 @@ const logic = {
             })
     },
 
+    /**
+     * updates a user
+     * 
+     * @param {string} userId 
+     * @param {string} productId 
+     * @param {object} data 
+     */
     updateProduct(userId, productId, data) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -368,6 +390,12 @@ const logic = {
 
     },
 
+    /**
+     * toogle true and false user.sold
+     * 
+     * @param {string} userId 
+     * @param {string} productId 
+     */
     toogleSold(userId, productId) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -395,6 +423,13 @@ const logic = {
 
     },
 
+    /**
+     * upload product image
+     * 
+     * @param {string} userId 
+     * @param {string} productId 
+     * @param {string} url 
+     */
     uploadProductImg(userId, productId, url) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
@@ -429,6 +464,12 @@ const logic = {
             })
     },
 
+    /**
+     * Upload User image
+     * 
+     * @param {string} userId 
+     * @param {string} url 
+     */
     uploadUserImg(userId, url) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
@@ -449,6 +490,11 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieves user from a product 
+     * 
+     * @param {string} productId 
+     */
     retrieveUserFromProducts(productId) {
 
         if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
@@ -478,6 +524,11 @@ const logic = {
         // })
     },
 
+    /**
+     * Retrieve a user by his Id
+     * 
+     * @param {string} id 
+     */
     retrieveUserWithId(id) {
 
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
@@ -495,6 +546,11 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieve Products from a user
+     * 
+     * @param {string} id 
+     */
     retrieveProductsFromUserId(id) {
 
         if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
@@ -517,38 +573,12 @@ const logic = {
             })
     },
 
-    // createChat(userId, id) {
-
-    //     if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-    //     if (!userId.trim().length) throw Error('userid cannot be empty')
-
-    //     if (typeof id !== 'string') throw TypeError(`${id} is not a string`)
-    //     if (!id.trim().length) throw Error('id cannot be empty')
-
-    //     return User.findById(userId)
-    //         .then(user => {
-    //             if (!user) throw Error(`user with id ${userId} not found`)
-
-    //             return Chat.create({ users: [userId, id] })
-    //                 .then((chat) => {
-
-    //                     user.chats.push(chat.id)
-
-    //                     return user.save()
-    //                         .then(() => User.findById(id)
-    //                             .then(_user => {
-    //                                 if (!_user) throw Error(`user with id ${id} not found`)
-
-    //                                 _user.chats.push(chat.id)
-
-    //                                 return _user.save()
-    //                                     .then(() => chat.id)
-    //                             })
-    //                         )
-    //                 })
-    //         })
-    // },
-
+    /**
+     * creates a Chat
+     * 
+     * @param {string} userId 
+     * @param {string} id 
+     */
     createChat(userId, id) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
@@ -602,6 +632,13 @@ const logic = {
             })
     },
 
+    /**
+     * send a message
+     * 
+     * @param {string} userId 
+     * @param {string} chatId 
+     * @param {string} text 
+     */
     sendMessage(userId, chatId, text) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
@@ -626,6 +663,11 @@ const logic = {
             })
     },
 
+    /**
+     * retrieves all chats from a user
+     * 
+     * @param {string} userId 
+     */
     retrieveChats(userId) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
@@ -649,6 +691,12 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieves Messages from a chat
+     * 
+     * @param {string} userId 
+     * @param {string} chatId 
+     */
     retrieveMessagesFromChat(userId, chatId) {
 
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
@@ -665,6 +713,13 @@ const logic = {
             })
     },
 
+    /**
+     * save object3d in disc
+     * 
+     * @param {string} userId 
+     * @param {string} productId 
+     * @param {object} object3d 
+     */
     saveObject3d(userId, productId, object3d) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userid cannot be empty')
@@ -694,6 +749,11 @@ const logic = {
         })()
     },
 
+    /**
+     * retrieves a Object 3d
+     * 
+     * @param {string} productId 
+     */
     retrieveObject3d(productId) {
         if (typeof productId !== 'string') throw TypeError(`${productId} is not a string`)
         if (!productId.trim().length) throw Error('productId cannot be empty')
