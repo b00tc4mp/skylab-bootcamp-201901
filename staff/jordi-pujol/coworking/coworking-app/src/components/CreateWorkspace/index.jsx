@@ -17,44 +17,33 @@ class Workspace extends Component {
     handleFormSubmit = event => {
         event.preventDefault()
 
-        const { state: { email, password, invitation } } = this
+        const { state: { email, password, name } } = this
 
         try {
-            if (invitation) {
-
-                return logic.logInUser(email, password)
-                    .then(() => logic.verifyNewUserLink(invitation))
-                    .then(workspaceId => {
-                        return logic.addUserToWorkspace(workspaceId)
-                    })
-                    .then(() => this.props.history.push('/home/inbox'))
-                    .catch(({ message }) => this.setState({ feedback: message }))
-            }
-            else {
-                logic.logInUser(email, password)
-                    .then(() => this.props.history.push('/home/inbox'))
-                    .catch(({ message }) => this.setState({ feedback: message }))
-            }
+            return logic.logInUser(email, password)
+                .then(() => logic.createWorkspace(name))
+                .then(() => this.props.history.push('/home/inbox'))
+                .catch(({ message }) => this.setState({ feedback: message }))
         } catch ({ message }) {
             this.setState({ feedback: message })
         }
     }
 
+    handleGoToRegister = event => {
+        event.preventDefault()
+        this.props.history.push('/register')}
+
     render() {
 
-        const { state: { feedback }, handleEmailInput, handlePasswordInput, handleFormSubmit, handleWorkspaceInput } = this
+        const { state: { feedback }, handleEmailInput, handleGoToRegister, handlePasswordInput, handleFormSubmit, handleWorkspaceInput } = this
 
         return <section className="login">
             <section className="login_content">
                 <h2>Welcome</h2>
                 <form className="login_content-form" onSubmit={handleFormSubmit}>
-                    <span>Email</span>
-                    <input type="text" autoFocus onChange={handleEmailInput} required />
-                    <span>Password</span>
-                    <input type="password" onChange={handlePasswordInput} required />
-                    <span>Workspace name</span>
-                    <input type="text" onChange={handleWorkspaceInput} required />
-                    <p className="contentforgot-pass">Forgot password?</p>
+                    <input type="text" placeholder="Email" autoFocus onChange={handleEmailInput} required />
+                    <input placeholder="Password" type="password" onChange={handlePasswordInput} required />
+                    <input placeholder="Workspace Name" type="text" onChange={handleWorkspaceInput} required />
                     <button className="submit">Create new Workspace and Log In</button>
                 </form>
             </section>
@@ -63,15 +52,15 @@ class Workspace extends Component {
                     <h2>New here?</h2>
                     <p>Sign up and discover great amount of new opportunities!</p>
                 </div>
+                <form onSubmit={handleGoToRegister} className="img__btn">
+                    <button>Sign Up</button>
+                </form>
                 <div className="img__text m--in">
                     <h2>One of us?</h2>
                     <p>If you already has an account, just sign in. We've missed you!</p>
                 </div>
-                <div className="img__btn">
-                    <span>Sign Up</span>
-                </div>
             </section>
-            {feedback && <Feedback message={feedback}/>}
+            {feedback && <Feedback message={feedback} />}
         </section>
     }
 }

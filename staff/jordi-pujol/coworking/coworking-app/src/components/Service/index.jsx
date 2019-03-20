@@ -38,17 +38,16 @@ class Service extends Component {
 
     render() {
 
-        const { state: { myservice, color }, props: { servicesFor: { title, description, user, id, date } }, onServiceClick } = this
+        const { state: { myservice, color }, props: { servicesFor: { title, description, user, userName, id, date } }, onServiceClick } = this
 
         let formatedDate = date.substring(0, 10) + ' ' + date.substring(11, 16)
 
-        // + Math.round(Math.random()*2)
-
-        return <section className={"service__" + color} onClick={() => onServiceClick(id)}>
-            <h2 className="service__title">Service: {title}</h2 >
+        return <section className={"service__" + color}>
+            <h2 className="service__title" onClick={() => onServiceClick(id)}>Service: {title}</h2 >
             <p className="service__item"><strong>Description:</strong> {description}</p>
             <p className="service__item"><strong>Upload date and time:</strong> {formatedDate}</p>
             {!myservice && <p className="service__item"><strong>Service provider:</strong> {user}</p>}
+            {!myservice && <a href={`#/home/inbox/profile/${userName}`} className="service__username"><strong>UserName:</strong> {userName}</a>}
         </section >
     }
 }

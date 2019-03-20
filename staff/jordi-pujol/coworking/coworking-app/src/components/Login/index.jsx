@@ -64,12 +64,9 @@ class Login extends Component {
             <section className="login_content">
                 <h2>Welcome back,</h2>
                 <form className="login_content-form" onSubmit={handleFormSubmit}>
-                    <span>Email</span>
-                    <input type="text" autoFocus onChange={handleEmailInput} required />
-                    <span>Password</span>
-                    <input type="password" onChange={handlePasswordInput} required />
-                    <p className="contentforgot-pass">Forgot password?</p>
-                    <button className="">Log In</button>
+                    <input type="text" placeholder="Email" autoFocus onChange={handleEmailInput} required />
+                    <input type="password" placeholder="Password" onChange={handlePasswordInput} required />
+                    <button className="">Login</button>
                 </form>
                 <form onSubmit={handleNewFormSubmit}>
                     <button className="submit">Create new Workspace and Log In</button>

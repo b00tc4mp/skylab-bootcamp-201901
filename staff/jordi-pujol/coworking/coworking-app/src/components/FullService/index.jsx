@@ -6,22 +6,24 @@ import Comment from '../Comment'
 
 class FullService extends Component {
 
-    state = { activeService: '', comment: '', comments: [], feedback: null }
+    state = { activeService: '', comment: '', comments: [], feedback: null, origin:'inbox' }
 
     componentDidMount() {
 
-        const { props: { service } } = this
+        const { props: { service, origin } } = this
 
         try {
             logic.retrieveService(service)
                 .then(service => this.setState({ activeService: service }))
                 .then(() => logic.retrieveWorkspaceComments(service))
                 .then(comments => this.setState({ comments }))
-                .catch(({ message }) => this.setState({ feedback: message }))
+                .catch(({ message }) => this.setState({ feedback: 'Service not found' }))
         }
         catch ({ message }) {
             this.setState({ feedback: message })
         }
+
+        this.setState({origin})
     }
 
     static getDerivedStateFromProps(props, state) {
@@ -44,7 +46,7 @@ class FullService extends Component {
                     .then(() => logic.retrieveWorkspaceComments(service))
                     .then(comments => this.setState({ comments }))
                     .then(() => this.setState({ feedback: null }))
-                    .catch(({ message }) => this.setState({ feedback: message }))
+                    .catch(({ message }) => this.setState({ feedback: 'Service not found' }))
             }
             catch ({ message }) {
                 this.setState({ feedback: message })
@@ -101,7 +103,18 @@ class FullService extends Component {
     }
 
     handleCloseModal = event => {
-        this.props.history.push('/home/inbox')
+
+        const {state: {origin}} = this
+
+        if (origin == 'inbox'){
+            this.props.history.push('/home/inbox')
+        }
+        else if (origin == 'myservices'){
+            this.props.history.push('/home/myownservices')
+        }
+        else {
+            this.props.history.push('/home/myservices/submited')
+        }
     }
 
     render() {
@@ -114,16 +127,17 @@ class FullService extends Component {
 
         return <section className="fullservice">
             <div className="fullservice__content">
+                    <i onClick={handleCloseModal} className="fas fa-window-close fa-2x"></i>
                 <div className="full__content--info">
-                    <h2 className="fullservice__content--title">Service: {title}</h2>
-                    <p className="fullservice__content--item"> Description: {description}</p>
-                    <p className="fullservice__content--item">Service provider: {user}</p>
-                    <p className="fullservice__content--item">Submited users: {submitedUsers && submitedUsers.length ? submitedUsers.length : '0'}</p>
-                    <p className="fullservice__content--item">Max users: {maxUsers}</p>
-                    <p className="fullservice__content--item">Place: {place}</p>
-                    <p className="fullservice__content--item">Expected service duration: {time} mins</p>
-                    <p className="fullservice__content--item">Avilable to submit: {active ? 'Yes' : 'No'}</p>
-                    <p >Upload date and time: {formatedDate}</p>
+                    <h2 className="fullservice__content--title">- Service: {title}</h2>
+                    <p className="fullservice__content--item">- Description: {description}</p>
+                    <p className="fullservice__content--item">- Service provider: {user}</p>
+                    <p className="fullservice__content--item">- Submited users: {submitedUsers && submitedUsers.length ? submitedUsers.length : '0'}</p>
+                    <p className="fullservice__content--item">- Max users: {maxUsers}</p>
+                    <p className="fullservice__content--item">- Place: {place}</p>
+                    <p className="fullservice__content--item">- Expected service duration: {time} mins</p>
+                    <p className="fullservice__content--item">- Avilable to submit: {active ? 'Yes' : 'No'}</p>
+                    <p >- Upload date and time: {formatedDate}</p>
                     <form onSubmit={handleSubmitForm}>
                         <button className="fullservice__button">Submit to this Service</button>
                     </form>
@@ -131,8 +145,7 @@ class FullService extends Component {
                 </div>
                 <div className="full__content--comments">
                     <section>
-                    <h2>Comments</h2>
-                    <i onClick={handleCloseModal} className="fas fa-window-close fa-2x"></i>
+                    <h2 className="comments__title">Comments</h2>
                     </section>
                     {comments && comments.map(comment => <Comment onDeleteComment={handleDeleteComment} comment={comment} />)}
                     <form onSubmit={handleSubmitComment}>

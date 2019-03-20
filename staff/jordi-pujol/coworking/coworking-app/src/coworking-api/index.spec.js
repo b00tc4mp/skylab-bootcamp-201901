@@ -9,7 +9,6 @@ const { mongoose, models: { User, Workspace, Service } } = require('coworking-da
 const { env: { TEST_DB_URL } } = process
 
 
-
 describe('coworkingApi', () => {
     beforeAll(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
 
@@ -28,9 +27,10 @@ describe('coworkingApi', () => {
         const password = `123-${Math.random()}`
         const passwordConfirm = password
         const isAdmin = false
+        const userName = 'Roronoaoa'
 
         it('should succeed on valid data', async () => {
-            const id = await coworkingApi.registerUser(name, surname, email, password, passwordConfirm)
+            const id = await coworkingApi.registerUser(name, surname, userName, email, password, passwordConfirm)
 
             expect(id).toBeDefined()
             expect(typeof id).toBe('string')
@@ -55,7 +55,7 @@ describe('coworkingApi', () => {
             const passwordConfirm = `1234-${Math.random()}`
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, passwordConfirm)
+                coworkingApi.registerUser(name, surname, userName, email, password, passwordConfirm)
             }).toThrow(TypeError('passwords do not match'))
 
         })
@@ -66,8 +66,8 @@ describe('coworkingApi', () => {
             const email = 'josepet@mail.com'
             const password = `123-${Math.random()}`
 
-            return coworkingApi.registerUser(name, surname, email, password, password)
-                .then(() => coworkingApi.registerUser(name, surname, email, password, password))
+            return coworkingApi.registerUser(name, surname, userName, email, password, password)
+                .then(() => coworkingApi.registerUser(name, surname, userName, email, password, password))
                 .catch(({ message }) => {
                     expect(message).toBe(`user with email ${email} already exists`)
                 }
@@ -78,7 +78,7 @@ describe('coworkingApi', () => {
             const name = undefined
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password)
+                coworkingApi.registerUser(name, surname, userName, email, password, password)
             }).toThrow(TypeError(undefined + ' is not a string'))
         })
 
@@ -89,7 +89,7 @@ describe('coworkingApi', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -101,7 +101,7 @@ describe('coworkingApi', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -113,7 +113,7 @@ describe('coworkingApi', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -125,7 +125,7 @@ describe('coworkingApi', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -286,7 +286,7 @@ describe('coworkingApi', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(Error('email is empty or blank'))
         })
 
@@ -298,7 +298,7 @@ describe('coworkingApi', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -310,7 +310,7 @@ describe('coworkingApi', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -322,7 +322,7 @@ describe('coworkingApi', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -334,7 +334,7 @@ describe('coworkingApi', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -346,7 +346,7 @@ describe('coworkingApi', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -358,7 +358,7 @@ describe('coworkingApi', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                coworkingApi.registerUser(name, surname, email, password, password, isAdmin)
+                coworkingApi.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(Error('password is empty or blank'))
         })
     })
@@ -368,10 +368,11 @@ describe('coworkingApi', () => {
         const surname = 'Pepet'
         const password = `123-${Math.random()}`
         const email = `josepet-${Math.random()}@mail.com`
+        const userName = 'Roronoaoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash }))
         )
 
         it('should succeed on correct credentials', () =>
@@ -480,12 +481,13 @@ describe('coworkingApi', () => {
         const password = `123-${Math.random()}`
         const isAdmin = 'false'
         let _token;
+        const userName = 'Roronoaoa'
 
         let userId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => userId = id)
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({ token }) => _token = token)
@@ -506,7 +508,7 @@ describe('coworkingApi', () => {
         )
 
         it('should fail on user not found', () => {
-            return coworkingApi.retrieveUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ')
+            return coworkingApi.retrieveUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18')
                 .catch(({ message }) => expect(message).toBe('id is not defined'))
         })
 
@@ -566,6 +568,7 @@ describe('coworkingApi', () => {
         const password = `123-${Math.random()}`
         const isAdmin = false
         let _token
+        const userName = 'Roronoaoa'
 
         const data = {
             name: "pepito",
@@ -575,7 +578,7 @@ describe('coworkingApi', () => {
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ _id }) => userId = _id)
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({ token }) => _token = token)
@@ -650,10 +653,11 @@ describe('coworkingApi', () => {
         const isAdmin = 'true'
         let userId = ''
         let _token
+        const userName = 'Roronoaoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => userId = id)
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({ token }) => _token = token)
@@ -679,7 +683,7 @@ describe('coworkingApi', () => {
 
         it('should fail on user not found', () => {
 
-            return coworkingApi.createWorkspace(name, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ')
+            return coworkingApi.createWorkspace(name, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18')
                 .catch(({ message }) => expect(message).toBe('user does not exist'))
         })
 
@@ -798,6 +802,9 @@ describe('coworkingApi', () => {
         let workspaceName = ''
         let workspaceId = ''
         let _hash = ''
+        const userName = 'Roronoaoa'
+        const userName2 = 'Roronoa22'
+        const userName3 = 'Roronoa23'
 
         const name2 = 'Josepet'
         const surname2 = 'Pepet'
@@ -824,9 +831,9 @@ describe('coworkingApi', () => {
             return bcrypt.hash(password, 10)
                 .then(hash => {
                     _hash = hash
-                    return User.create({ name: name2, surname: surname2, email: email2, password: hash }).then(({ _id }) => userId2 = _id.toString())
+                    return User.create({ name: name2, surname: surname2, userName, email: email2, password: hash }).then(({ _id }) => userId2 = _id.toString())
                 })
-                .then(() => User.create({ name, surname, email, password: _hash }))
+                .then(() => User.create({ name, surname, userName: userName2, email, password: _hash }))
                 .then(({ _id }) => userId = _id.toString())
                 .then(() => {
                     return Workspace.create({ name: workspaceName, user: userId })
@@ -970,11 +977,12 @@ describe('coworkingApi', () => {
         const isAdmin = 'true'
         let userId = ''
         let _token
+        const userName = 'Roronoaoa'
 
 
         beforeEach(() => {
             return bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ _id }) => userId = _id.toString())
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({ token }) => _token = token)
@@ -991,8 +999,8 @@ describe('coworkingApi', () => {
         })
 
         it('should fail on user does not exist', () => {
-            return coworkingApi.createNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ')
-                .catch(({ message }) => expect(message).toBe('5c8d187e43c9060fd539e676 does not exists'))
+            return coworkingApi.createNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18')
+                .catch(({ message }) => expect(message).toBe('5c83d564d0ebca3907486de2 does not exists'))
         })
 
 
@@ -1061,18 +1069,20 @@ describe('coworkingApi', () => {
         let userId2 = ''
         let _token
         let _token2
+        const userName = 'Roronoaoa'
+        const userName2 = 'potato'
 
         let workspaceId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => userId = id)
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({ token }) => _token = token)
                 .then(() => Workspace.create({ name: 'One piece', userId }))
                 .then(({ _id }) => workspaceId = _id.toString())
-                .then(() => User.create({ name: name2, surname: surname2, email: email2, password, isAdmin: isAdmin2 }))
+                .then(() => User.create({ name: name2, surname: surname2, userName: userName2, email: email2, password, isAdmin: isAdmin2 }))
                 .then(({ id }) => userId2 = id)
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({ token }) => _token2 = token)
@@ -1224,10 +1234,11 @@ describe('coworkingApi', () => {
         let link = 'id89380dhja89jds-dsakdias9dj98'
         let workspaceId
         let _token
+        const userName = 'Roronoaoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ _id }) => userId = _id.toString())
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({ token }) => _token = token)
@@ -1253,8 +1264,8 @@ describe('coworkingApi', () => {
 
         it('should fail on user does not exists', () => {
 
-            return coworkingApi.verifyNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ', link)
-                .catch(({ message }) => expect(message).toBe('5c8d187e43c9060fd539e676 does not exists'))
+            return coworkingApi.verifyNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18', link)
+                .catch(({ message }) => expect(message).toBe('5c83d564d0ebca3907486de2 does not exists'))
         })
 
         it('should fail on link not found', () => {
@@ -1374,10 +1385,11 @@ describe('coworkingApi', () => {
         let place = 'here'
         let time = 30
         let _token
+        const userName = 'Roronoaoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ _id }) => {
                     userId = _id.toString()
                     return Workspace.create({ name: 'Onepiece', user: _id })
@@ -1407,8 +1419,8 @@ describe('coworkingApi', () => {
 
         it('should fail on user does not exists', () => {
 
-            return coworkingApi.createService('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ', title, description, maxUsers, place, time)
-                .catch(({ message }) => expect(message).toBe('5c8d187e43c9060fd539e676 does not exists'))
+            return coworkingApi.createService('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18', title, description, maxUsers, place, time)
+                .catch(({ message }) => expect(message).toBe('5c83d564d0ebca3907486de2 does not exists'))
         })
 
         it('should fail on undefined token', () => {
@@ -1572,10 +1584,11 @@ describe('coworkingApi', () => {
         let place = 'here'
         let time = 30
         let _token
+        const userName = 'Roronoaoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => {
                     userId = id.toString()
                     return Workspace.create({ name: 'Onepiece', user: id })
@@ -1717,10 +1730,11 @@ describe('coworkingApi', () => {
         let place = 'here'
         let time = 30
         let _token
+        const userName = 'Roronoaoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ _id }) => {
                     userId = _id.toString()
                     return Workspace.create({ name: 'Onepiece', user: _id })
@@ -1749,7 +1763,7 @@ describe('coworkingApi', () => {
 
         it('should fail on user not exists', () => {
 
-            return coworkingApi.retrieveUserServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ')
+            return coworkingApi.retrieveUserServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18')
                 .catch(({ message }) => expect(message).toBe('user does not exists'))
         })
     })
@@ -1772,10 +1786,12 @@ describe('coworkingApi', () => {
         let time = 60
         let _token
         let _token2
+        const userName = 'Roronoaoa'
+        const userName2 = 'Roronoa23'
 
         beforeEach(() => {
 
-            return coworkingApi.registerUser(name, surname, email, password, password)
+            return coworkingApi.registerUser(name, surname, userName, email, password, password)
                 .then(id => userId = id.toString())
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({ token }) => _token = token)
@@ -1785,7 +1801,7 @@ describe('coworkingApi', () => {
                     return Service.create({ user: userId, title, description, maxUsers, place, time })
                 })
                 .then(service => serviceId = service._id.toString())
-                .then(() => coworkingApi.registerUser(name, surname, 'joanet@mail.com', password, password))
+                .then(() => coworkingApi.registerUser(name, surname, userName2, 'joanet@mail.com', password, password))
                 .then(id => userId2 = id.toString())
                 .then(() => coworkingApi.authenticateUser('joanet@mail.com', password))
                 .then(({ token }) => _token2 = token)
@@ -1797,14 +1813,13 @@ describe('coworkingApi', () => {
         it('should succed on valid data', () => {
             return coworkingApi.retrieveUserSubmitedServices(_token2)
                 .then(services => {
-                    console.log(services)
                     expect(services).toBeDefined()
                     expect(services).toEqual([])
                 })
         })
 
         it('should fail on non existing user', () => {
-            return coworkingApi.retrieveUserSubmitedServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzhkMTg3ZTQzYzkwNjBmZDUzOWU2NzYiLCJpYXQiOjE1NTI3NTA3NDIsImV4cCI6MTU1Mjc2NTE0Mn0.oqsojHP1OWNhXSqJXjQNbIhmfezuhD-zJ_Rxd4wt4VQ')
+            return coworkingApi.retrieveUserSubmitedServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18')
                 .catch(({ message }) => expect(message).toBe('User does not exists'))
         })
     })
@@ -1831,9 +1846,12 @@ describe('coworkingApi', () => {
         let _token2
         let _token3
         let _token4
+        const userName = 'Roronoaoa'
+        const userName2 = 'Roronoa3'
+        const userName3 = 'Roronoa34'
 
         beforeEach(() => {
-            return coworkingApi.registerUser(name, surname, email, password, password)
+            return coworkingApi.registerUser(name, surname, userName, email, password, password)
                 .then(id => userId = id.toString())
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({ token }) => _token = token)
@@ -1843,12 +1861,12 @@ describe('coworkingApi', () => {
                     return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [] })
                 })
                 .then(service => serviceId = service._id.toString())
-                .then(() => coworkingApi.registerUser(name, surname, 'joanet@mail.com', password, password))
+                .then(() => coworkingApi.registerUser(name, surname, userName2, 'joanet@mail.com', password, password))
                 .then(id => userId2 = id.toString())
                 .then(() => coworkingApi.authenticateUser('joanet@mail.com', password))
                 .then(({ token }) => _token2 = token)
                 .then(() => coworkingApi.addUserToWorkspace(_token2, workspaceId))
-                .then(() => coworkingApi.registerUser(name, surname, 'joanetaaaooo@mail.com', password, password ))
+                .then(() => coworkingApi.registerUser(name, surname, userName3, 'joanetaaaooo@mail.com', password, password ))
                 .then((id) => userId4 = id.toString())
                 .then(() => coworkingApi.authenticateUser('joanetaaaooo@mail.com', password))
                 .then(({ token }) => _token4 = token)
@@ -1907,9 +1925,10 @@ describe('coworkingApi', () => {
         let place = 'here'
         let time = 60
         let _token
+        const userName = 'Roronoaoa'
 
         beforeEach(() => {
-            return coworkingApi.registerUser(name, surname, email, password, password)
+            return coworkingApi.registerUser(name, surname, userName, email, password, password)
                 .then(id => userId = id.toString())
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({token})=> _token = token)
@@ -1962,9 +1981,10 @@ describe('coworkingApi', () => {
         let place = 'here'
         let time = 60
         let _token
+        const userName = 'Roronoaoa'
 
         beforeEach(() => {
-            return coworkingApi.registerUser(name, surname, email, password, password)
+            return coworkingApi.registerUser(name, surname, userName, email, password, password)
                 .then(id => userId = id.toString())
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({token}) => _token = token)
@@ -2023,9 +2043,10 @@ describe('coworkingApi', () => {
         let time = 60
         let text = 'me mola, muy guai'
         let _token
+        const userName = 'Roronoaoa'
 
         beforeEach(() => {
-            return coworkingApi.registerUser(name, surname, email, password, password)
+            return coworkingApi.registerUser(name, surname, userName, email, password, password)
                 .then(id => userId = id.toString())
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({token}) => _token = token)
@@ -2077,9 +2098,10 @@ describe('coworkingApi', () => {
         let time = 60
         let text = 'me mola, muy guai'
         let _token
+        const userName = 'Roronoaoa'
 
         beforeEach(() => {
-            return coworkingApi.registerUser(name, surname, email, password, password)
+            return coworkingApi.registerUser(name, surname, userName, email, password, password)
                 .then(id => userId = id.toString())
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({token}) => _token = token)
@@ -2103,7 +2125,7 @@ describe('coworkingApi', () => {
             return coworkingApi.retrieveWorkspaceComments(_token, serviceId)
                 .then( comments => {
                     expect(comments).toBeDefined()
-                    expect(comments[0].user.toString()).toBe(userId)
+                    expect(comments[0].user.userName.toString()).toBe(userName)
                     expect(comments[0].text).toBe(text)
                     expect(comments[0].id.toString()).toBe(commentId)
                 })
@@ -2132,9 +2154,10 @@ describe('coworkingApi', () => {
         let time = 60
         let text = 'me mola, muy guai'
         let _token
+        const userName = 'Roronoaoa'
 
         beforeEach(() => {
-            return coworkingApi.registerUser(name, surname, email, password, password)
+            return coworkingApi.registerUser(name, surname, userName, email, password, password)
                 .then(id => userId = id.toString())
                 .then(() => coworkingApi.authenticateUser(email, password))
                 .then(({token}) => _token = token)
@@ -2173,6 +2196,103 @@ describe('coworkingApi', () => {
             return coworkingApi.removeComment(_token, serviceId, commentId)
                 .then(() => coworkingApi.removeComment(_token, serviceId, commentId))
                 .catch(({message}) => expect(message).toBe('comment not found'))
+        })
+    })
+    
+    describe('search services', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        const userName = 'Roronoaoa'
+        let query = 'english'
+        let _token
+
+        beforeEach(() => {
+            return coworkingApi.registerUser(name, surname, userName, email, password, password)
+                .then(id => userId = id)
+                .then(() => coworkingApi.authenticateUser(email, password))
+                .then(({token}) => _token = token)
+                .then(() => coworkingApi.createWorkspace('One piece', _token))
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+        })
+
+        it('should succeed on valid data', () => {
+
+            return coworkingApi.searchServices(_token, query)
+                .then(services => {
+                    expect(services).toBeDefined()
+                    expect(services[0].place).toBe(place)
+                    expect(services[0].user).toBe(name)
+                    expect(services[0].title).toBe(title)
+                    expect(services[0].description).toBe(description)
+                    expect(services[0].maxUsers).toBe(maxUsers)
+                    expect(services[0].time).toBe(time)
+                    expect(services[0].id.toString()).toBe(serviceId)
+                })
+        })
+
+        it('should fail on workspace not existing', () => {
+
+            return coworkingApi.searchServices(_token, 'potato')
+                .catch(({ message }) => expect(message).toBe('workspace not found'))
+        })
+    })
+
+    describe('retrieve user Profile', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const isAdmin = 'false'
+        const userName = 'Roronoaoa'
+        let userId
+
+        let _token
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
+                .then(({id}) => userId = id)
+                .then(() => coworkingApi.authenticateUser(email, password))
+                .then(({ token }) => _token = token)
+        )
+
+        it('should succeed on correct credentials', () =>
+            coworkingApi.retrieveUserProfile(_token, userName)
+                .then(user => {
+                    expect(user.id).toBe(userId)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+                    expect(user.userName).toBe(userName)
+
+                    expect(user.save).toBeUndefined()
+                    expect(user.password).toBeUndefined()
+                    expect(user.__v).toBeUndefined()
+                })
+        )
+
+        it('should fail on user not found', () => {
+            return coworkingApi.retrieveUserProfile('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18', userName)
+                .catch(({ message }) => expect(message).toBe('id is not defined'))
         })
     })
 

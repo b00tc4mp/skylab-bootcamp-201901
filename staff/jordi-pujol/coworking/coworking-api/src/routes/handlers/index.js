@@ -9,6 +9,10 @@ module.exports = {
 
     removeUser: require('./remove-user'),
 
+    retrieveProfile: require('./view-profile'),
+
+    updateUserPhoto: require('./update-user-photo'),
+
     createWorkspace: require('./create-workspace'),
 
     addUserToWorkSpace: require('./add-user-to-workspace'),
@@ -22,6 +26,8 @@ module.exports = {
     addUserToService: require('./add-user-to-service'),
 
     retrieveService: require('./retrieve-service'),
+
+    searchServices: require('./search-services'),
 
     retrieveWorkspaceServices: require('./retrieve-workspace-services'),
 

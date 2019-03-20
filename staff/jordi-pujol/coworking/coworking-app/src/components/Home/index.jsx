@@ -1,29 +1,29 @@
 'use strict'
 
 import React, { Component } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 
 import Profile from '../Profile'
 import Inbox from '../Inbox'
-import NewService from '../Create-service'
+import NewService from '../CreateService'
 import MyServices from '../MyServices'
-import ServiceClosed from '../Service-to-close'
+import ServiceClosed from '../ServiceToClose'
 import SubmitedServices from '../SubmitedServices'
 import Topbar from '../Topbar';
 import logic from '../../logic';
-import NewInvitation from '../New-invitation';
+import NewInvitation from '../NewInvitation';
+import ViewTime from '../ViewTime'
+import Page404 from '../404'
 
 class Home extends Component {
 
-    state = { services: '', link: null, createServiceFeedback: null }
+    state = { services: '', link: null, createServiceFeedback: null, myTime: null }
 
     handleGoToHome = () => this.props.history.push('/home/inbox')
 
     handleGoToProfile = () => this.props.history.push('/home/profile')
 
     handleGoToServices = () => this.props.history.push('/home/service')
-
-    handleGoToNotifications = () => this.props.history.push('/home/notifications')
 
     handleCreateNewLink = () => {
 
@@ -59,20 +59,37 @@ class Home extends Component {
         }
     }
 
+    handleViewTime = () => {
+        try {
+            logic.retrieveUser()
+                .then(({ time }) => this.setState({ myTime: time }))
+                .then(() => {
+                    setTimeout(() => { this.setState({ myTime: null }) }, 5000);
+                })
+        }
+        catch ({ message }) {
+            this.setState({ createServiceFeedback: message })
+        }
+    }
+
     render() {
 
-        const { state: { link, createServiceFeedback }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService } = this
+        const { state: { link, createServiceFeedback, myTime }, handleGoToHome, handleGoToNotifications, handleGoToProfile, handleGoToServices, handleLogOut, handleCreateNewLink, handleCreateService, handleViewTime } = this
 
         return <section className="home">
-            <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} />
-            <Route exact path='/home/profile' render={() => <Profile />} />
-            <Route path='/home/inbox' render={() => <Inbox />} />
-            <Route path='/home/service' render={() => <NewService feedback={createServiceFeedback} onCreateService={handleCreateService} />} />
-            <Route path='/home/invitation' render={() => logic.isUserAdmin ? <NewInvitation invitation={link} /> : <Redirect to='/home/inbox' />} />
-            <Route path='/home/myownservices' render={() => logic.isUserLoggedIn ? <MyServices /> : <Redirect to='/login' />} />
-            <Route path='/home/myservices/closed' render={() => logic.isUserLoggedIn ? <ServiceClosed /> : <Redirect to='/login' />} />
-            <Route path='/home/myservices/submited' render={() => logic.isUserLoggedIn ? <SubmitedServices /> : <Redirect to='/login' />} />
-            {/* <Route exact path='/home/inbox' render={()=> services && <Service services={services}/>}/> */}
+            <Topbar onGoToHome={handleGoToHome} onGoToNotifications={handleGoToNotifications} onGoToProfile={handleGoToProfile} onGoToServices={handleGoToServices} onCreatingNewLink={handleCreateNewLink} onLogOut={handleLogOut} onViewingTime={handleViewTime} />
+            {myTime && <ViewTime time={myTime} />}
+            <Switch>
+                <Route exact path='/home' render={() => <Redirect to='/home/inbox' />} />
+                <Route exact path='/home/profile' render={() => <Profile />} />
+                <Route path='/home/inbox' render={() => <Inbox />} />
+                <Route path='/home/service' render={() => <NewService feedback={createServiceFeedback} onCreateService={handleCreateService} />} />
+                <Route path='/home/invitation' render={() => logic.isUserAdmin ? <NewInvitation invitation={link} /> : <Redirect to='/home/inbox' />} />
+                <Route path='/home/myownservices' render={() => logic.isUserLoggedIn ? <MyServices /> : <Redirect to='/login' />} />
+                <Route path='/home/myservices/closed' render={() => logic.isUserLoggedIn ? <ServiceClosed /> : <Redirect to='/login' />} />
+                <Route path='/home/myservices/submited' render={() => logic.isUserLoggedIn ? <SubmitedServices /> : <Redirect to='/login' />} />
+                <Route path='/*' render={() => <Page404 />} />
+            </Switch>
         </section>
     }
 }

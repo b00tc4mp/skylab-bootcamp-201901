@@ -1,12 +1,33 @@
 .myServices
-    padding-top: 2em
     display: flex
     flex-direction: row
     flex-wrap: wrap
-    width: 100%
+    max-width: 90%
     justify-content: center
+    padding-top: 5em
+    margin: 0 auto
 
     .title
         padding: 1em
-        width: 100%
-        margin-left: 40%
+        display: flex
+        justify-content: center
+        max-width: 85%
+        margin-bottom: 1em
+        justify-items: center
+        border-bottom: 2px solid #40676E
+        background: transparent
+        min-width: 90%
+        color: white
+        font-size: 26px
+
+@media (min-width: 700px)
+
+    .myServices
+        max-width: 90%
+
+        .title
+            border-bottom: 2px solid #40676E
+            background: transparent
+            min-width: 90%
+            color: white
+            font-size: 26px

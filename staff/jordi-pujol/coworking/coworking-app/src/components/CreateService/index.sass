@@ -1,0 +1,104 @@
+.createService
+    max-width: 85%
+    display: flex
+    display-direction: row
+    flex-wrap: wrap
+    margin: 0 auto
+    justify-content: space-around
+    width: 70%
+    padding-top: 6em
+    color: black
+
+    &__form
+        +flexin(flex, column, left)
+        justify-content: space-between
+        height: 70%
+        max-width: 85%
+        background-color: #40676E
+        padding: 2em
+        padding-top: 1em
+        border-radius: 5px
+        color: white
+
+        input, textarea
+            margin-top: 1em
+            font-size: 16px
+            border: none
+            border-bottom: 1px solid gray
+            color: white
+            outline: none
+            background-color: transparent
+
+        textarea
+            max-width: 100%
+            min-width: 100%
+            font-family: Arial
+
+        span
+            padding-top: 2em
+            font-size: 17px
+            color: #e8e8e8
+
+        button
+            margin: 3em auto
+            margin: 0 auto
+            margin-top: 1em
+            border-radius: 5px
+            width: 10em
+            height: 2em
+            border: none
+            color: #fff
+            font-size: 15px
+            cursor: pointer
+            background-color: #408E61
+            font-weight: 600
+            font-family: 'Ubuntu', sans-serif
+            margin-bottom: 1em
+            border: 1px solid #40676E
+
+    .title
+        padding: 1em
+        display: flex
+        justify-content: center
+        max-width: 85%
+        margin-bottom: 1em
+        justify-items: center
+        border-bottom: 2px solid #40676E
+        background: transparent
+        min-width: 80%
+        color: white
+        font-size: 26px
+
+
+@media (min-width: 700px)
+
+    .createService
+        max-width: 100%
+        padding-right: 1em
+
+        &__form
+            +flexin(flex, column, left)
+            justify-content: space-between
+            height: 70%
+            width: 80%
+            font-size: 1.5em
+
+            span
+                padding-top: 2em
+                font-size: 18px
+
+
+@media (min-width: 1000px)
+
+    .createService
+        color: black
+
+        &__form
+            +flexin(flex, column, left)
+            justify-content: space-between
+            height: 70%
+            width: 60%
+            font-size: 1.5em
+
+        .title
+            width: 65%

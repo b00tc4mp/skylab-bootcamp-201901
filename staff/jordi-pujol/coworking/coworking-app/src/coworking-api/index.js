@@ -2,12 +2,15 @@
 
 import validate from 'coworking-validation'
 
-const coworkingApi = {
-    url: 'http://localhost:8000/api',
+const { REACT_APP_URL } = process.env
 
-    registerUser(name, surname, email, password, passwordConfirm) {
+const coworkingApi = {
+    url: REACT_APP_URL,
+
+    registerUser(name, surname, userName, email, password, passwordConfirm) {
         validate([{ key: 'name', value: name, type: String },
         { key: 'surname', value: surname, type: String },
+        { key: 'userName', value: userName, type: String },
         { key: 'email', value: email, type: String },
         { key: 'password', value: password, type: String },
         { key: 'passwordConfirm', value: passwordConfirm, type: String }])
@@ -19,7 +22,7 @@ const coworkingApi = {
             headers: {
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({ name, surname, email, password, passwordConfirm })
+            body: JSON.stringify({ name, surname, userName, email, password, passwordConfirm })
         })
             .then(response => response.json())
             .then(response => {
@@ -53,6 +56,24 @@ const coworkingApi = {
         validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/user`, {
+            method: 'GET',
+            headers: {
+                authorization: `Bearer ${token}`
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    retrieveUserProfile(token, userName) {
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'userName', value: userName, type: String }])
+
+        return fetch(`${this.url}/user/${userName}`, {
             method: 'GET',
             headers: {
                 authorization: `Bearer ${token}`
@@ -227,6 +248,24 @@ const coworkingApi = {
             })
     },
 
+    searchServices(token, query) {
+        validate([{ key: 'token', value: token, type: String },
+        { key: 'query', value: query, type: String }])
+
+        return fetch(`${this.url}/services?q=${query}`, {
+            method: 'GET',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response.services
+            })
+    },
+
     retrieveService(token, serviceId) {
         validate([{ key: 'token', value: token, type: String },
         { key: 'serviceId', value: serviceId, type: String }])
@@ -371,7 +410,45 @@ const coworkingApi = {
                 if (response.error) throw Error(response.error)
                 return response
             })
-    }
+    },
+
+     /**
+     * Updates user information
+     * 
+     * @param {String} token
+     * @param {Blob} image
+     * 
+     * @throws {TypeError} - if token is not a string or blob is not a blob.
+     * @throws {Error} - if any param is empty.
+     *
+     * @returns {Object} - user.  
+     */
+    updateUserPhoto(token, image) {
+        validate([{ key: 'token', value: token, type: String }])
+
+        if (typeof token !== 'string') throw new TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw new Error('token is empty')
+
+        if (!image) throw Error('image is empty')
+        // if (image instanceof Blob === false) throw TypeError(`${image} is not a blob`)
+
+        let formData = new FormData()
+        formData.append('image', image)
+
+        return fetch(`${this.url}/user-photo`, {
+            method: 'POST',
+            headers: {
+                authorization: `Bearer ${token}`,
+            },
+            body: formData
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw new Error(response.error)
+
+                return response
+            })
+    },
 }
 
 export default coworkingApi

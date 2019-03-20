@@ -1,0 +1,108 @@
+.search
+    margin-top: 2em
+    padding: 1em
+    max-width: 75%
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    // background-color: #408E61
+    border-top: 1px solid #408E61
+    border-bottom: 1px solid #408E61
+    justify-content: center
+
+    &__form
+        display: flex
+        flex-direction: column
+        padding-bottom: 0.5rem
+        width: 80%
+        justify-content: center
+
+
+        &--input
+            border: none
+            border-bottom: 1px solid rgba(0,0,0,0.4)
+            outline: none
+            height: 1.5rem
+            border-radius: 5px
+            margin-bottom: 1em
+
+        &--button
+            margin-right: 1em
+            border-radius: 5px
+            width: 10em
+            height: 2em
+            border: none
+            color: #fff
+            font-size: 15px
+            cursor: pointer
+            background-color: #40676E
+            font-weight: 600
+            font-family: 'Ubuntu', sans-serif
+            margin: auto
+
+    &__viewAll
+
+        &--button
+            margin: 0 auto
+            border-radius: 5px
+            width: 10em
+            height: 2em
+            border: none
+            color: #fff
+            font-size: 15px
+            cursor: pointer
+            border: 2px solid #40676E
+            background: transparent
+            font-weight: 600
+            font-family: 'Ubuntu', sans-serif
+
+@media (min-width: 750px)
+
+    .search
+        min-width: 90%
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        padding-left: 2rem
+        justify-content: center
+
+        &__form
+            display: flex
+            flex-direction: row
+            padding-bottom: 0.5rem
+            width: 75%
+            justify-content: center
+
+            &--input
+                border: none
+                border-bottom: 1px solid rgba(0,0,0,0.4)
+                outline: none
+                margin-right: 1em
+                height: 2rem
+                width: 18rem
+                font-size: 20px
+                margin-bottom: 0
+
+            &--button
+                border-radius: 5px
+                width: 10em
+                height: 2em
+                border: none
+                color: #fff
+                font-size: 15px
+                cursor: pointer
+                background-color: #40676E
+                font-weight: 600
+                font-family: 'Ubuntu', sans-serif
+                margin: 0
+                margin-right: 1em
+
+@media (min-width: 1200px)
+    .search
+        margin-left: 10rem
+        margin-right: 10rem
+        
+        &__form
+
+            &--input
+                width: 40rem

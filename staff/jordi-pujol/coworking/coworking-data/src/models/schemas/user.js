@@ -60,6 +60,22 @@ const User = new Schema({
     interests:{
         type: String,
         required: false
+    },
+
+    userName: {
+        type: String,
+        required: true,
+        unique: true,
+    },
+
+    image: {
+        type: String,
+        required: false
+    },
+
+    backgroundImage: {
+        type: String,
+        required: false
     }
 })
 

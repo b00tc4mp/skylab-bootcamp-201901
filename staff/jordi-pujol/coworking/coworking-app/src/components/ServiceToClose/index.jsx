@@ -36,8 +36,8 @@ class ServiceClosed extends Component {
         const { state: { myServices }, handleClosedService } = this
 
         return <section className="servicetoclose">
-            <h2>Services to close</h2>
-            <div>
+            <h2 className="title">Services to close</h2>
+            <div className="servicestoclose">
                 {myServices && myServices.map(service =>
                     <ClosedService services={service} serviceClosed={handleClosedService} />)}
             </div>

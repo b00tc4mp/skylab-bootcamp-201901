@@ -1,11 +1,14 @@
 .topbar
+    padding: 0.6em 1em
     display: flex
     justify-content: space-around 
     border-bottom: 1px solid white
-    // background-color: #67ceb3
-
-    // a:hover, .dropdown:hover .dropbtn
-    //     background-color: red
+    background-color: #40676E
+    position: fixed
+    width: 98%
+    opacity: 1
+    z-index: 10
+    min-height: 2em
 
     &__item
         display: flex
@@ -18,14 +21,16 @@
             outline: none
             text-decoration: none
             font-size: 17px
-            color: #1f0054
+            color: white
             padding-left: 1em
 
-    &__item:hover
+    &__item:hover, .fa-users:hover
         size: 30px
         color: white
         // background-color: #3d5bfe
 
+    .fa-users:hover
+        cursor: pointer
 
     .dropdown
         align-self: center
@@ -40,11 +45,10 @@
     .dropdown-content
         display: none
         position: absolute
-        background-color: #1f0054
+        background-color: #71A596
         min-width: 160px
         box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
         z-index: 1
-
 
     .dropdown-content a
         float: none
@@ -55,9 +59,8 @@
         text-align: left
         color: white
     
-    
     .dropdown-content a:hover
-        background-color: #3d5bfe
+        background-color: #408E61
         color: white
     
     
@@ -72,10 +75,136 @@
         color: white
         padding: 0 1em
         outline: none
+        display: none
+
+        &.dropbtn
+            display: initial
+
+        &.dropbtn_more
+            display: initial
 
     &__icon
-        height: 4em
-        width: 4em
+        height: 3em
+        width: 3em
+        display: none
 
-    .fa-stopwatch
+    .fas
+        display: none
+
+    .fa-caret-square-down, .fa-bars
         cursor: pointer
+        display: initial
+
+
+@media (min-width: 700px)
+
+    .topbar
+        padding: 0.6em 1em
+        display: flex
+        justify-content: space-around 
+        border-bottom: 1px solid white
+        background-color: #40676E
+
+        // .fas
+        //     // display: none
+
+        &__icon
+            display: initial
+
+        .fa-stopwatch, .fa-network-wired
+            cursor: pointer
+            display: initial
+
+
+
+@media (min-width: 1100px)
+
+    .topbar
+        padding: 0.6em 1em
+        display: flex
+        justify-content: space-around 
+        border-bottom: 1px solid white
+        background-color: #40676E
+
+        &__item
+            display: flex
+            align-self: center
+
+            a
+                background-color: Transparent
+                border: none
+                cursor: pointer
+                outline: none
+                text-decoration: none
+                font-size: 17px
+                color: white
+                padding-left: 1em
+
+        &__item:hover
+            size: 30px
+            color: white
+            // background-color: #3d5bfe
+
+
+        .dropdown
+            align-self: center
+
+        .dropdown:hover
+            color: white
+
+            .dropbtn
+                padding: 1em 1em
+                // color: white
+
+        .dropdown-content
+            display: none
+            position: absolute
+            background-color: #71A596
+            min-width: 160px
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2)
+            z-index: 1
+
+
+        .dropdown-content a
+            float: none
+            color: black
+            padding: 12px 16px
+            text-decoration: none
+            display: block
+            text-align: left
+            color: white
+
+
+        .dropdown-content a:hover
+            background-color: #408E61
+            color: white
+
+
+        .dropdown:hover .dropdown-content
+            display: block
+
+        button
+            font-size: 17px
+            border: none
+            cursor: pointer
+            background-color: Transparent
+            color: white
+            padding: 0 1em
+            outline: none
+            display: initial
+
+            &.dropbtn_more
+                display: none
+
+        &__icon
+            height: 4em
+            width: 4em
+
+        .fas
+            display: initial
+
+        // .fa-stopwatch
+        //     cursor: pointer
+
+        .fa-bars
+            display: none

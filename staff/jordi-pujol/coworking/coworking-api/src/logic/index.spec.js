@@ -33,9 +33,10 @@ describe('logic', () => {
         const password = `123-${Math.random()}`
         const passwordConfirm = password
         const isAdmin = false
+        const userName = 'Roronoa'
 
         it('should succeed on valid data', async () => {
-            const id = await logic.registerUser(name, surname, email, password, passwordConfirm)
+            const id = await logic.registerUser(name, surname, userName, email, password, passwordConfirm)
 
             expect(id).toBeDefined()
             expect(typeof id).toBe('string')
@@ -58,9 +59,10 @@ describe('logic', () => {
             const email = 'josepet@mail.com'
             const password = `123-${Math.random()}`
             const passwordConfirm = `1234-${Math.random()}`
+            const userName = 'Roronoa'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, passwordConfirm)
+                logic.registerUser(name, surname, userName, email, password, passwordConfirm)
             }).toThrow(TypeError('passwords do not match'))
 
         })
@@ -70,9 +72,10 @@ describe('logic', () => {
             const surname = 'Pepet'
             const email = 'josepet@mail.com'
             const password = `123-${Math.random()}`
+            const userName = 'Roronoa'
 
-            return logic.registerUser(name, surname, email, password, password)
-                .then(() => logic.registerUser(name, surname, email, password, password))
+            return logic.registerUser(name, surname,userName, email, password, password)
+                .then(() => logic.registerUser(name, surname, userName, email, password, password))
                 .catch(({ message }) => {
                     expect(message).toBe(`user with email ${email} already exists`)
                 }
@@ -83,7 +86,7 @@ describe('logic', () => {
             const name = undefined
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password)
+                logic.registerUser(name, surname, userName, email, password, password)
             }).toThrow(TypeError(undefined + ' is not a string'))
         })
 
@@ -94,7 +97,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -106,7 +109,7 @@ describe('logic', () => {
             const password = `123-${Math.random()}`
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -118,7 +121,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -130,7 +133,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(name + ' is not a string'))
         })
 
@@ -142,7 +145,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(Error('name is empty or blank'))
         })
 
@@ -154,7 +157,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -166,7 +169,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -178,7 +181,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -190,7 +193,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName, email, password, password, isAdmin)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -202,7 +205,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(surname + ' is not a string'))
         })
 
@@ -215,7 +218,7 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(Error('surname is empty or blank'))
         })
 
@@ -228,7 +231,7 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -241,7 +244,7 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -254,7 +257,7 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -267,7 +270,7 @@ describe('logic', () => {
 
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -279,7 +282,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(email + ' is not a string'))
         })
 
@@ -291,7 +294,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(Error('email is empty or blank'))
         })
 
@@ -303,7 +306,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -315,7 +318,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -327,7 +330,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -339,7 +342,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -351,7 +354,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(TypeError(password + ' is not a string'))
         })
 
@@ -363,7 +366,7 @@ describe('logic', () => {
             const isAdmin = 'false'
 
             expect(() => {
-                logic.registerUser(name, surname, email, password, password, isAdmin)
+                logic.registerUser(name, surname, userName,email, password, password, isAdmin)
             }).toThrow(Error('password is empty or blank'))
         })
     })
@@ -373,10 +376,12 @@ describe('logic', () => {
         const surname = 'Pepet'
         const email = `josepet-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
+        const userName = 'Roronoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash }))
+                
         )
 
         it('should succeed on correct credentials', () =>
@@ -498,12 +503,13 @@ describe('logic', () => {
         const email = `josepet-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
         const isAdmin = 'false'
+        const userName = 'Roronoa'
 
         let userId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => userId = id)
         )
 
@@ -581,16 +587,17 @@ describe('logic', () => {
         const email = `josepet-${Math.random()}@mail.com`
         const password = `123-${Math.random()}`
         const isAdmin = false
+        const userName = 'Roronoa'
 
-        const data = {
+        const data = { data: [{
             name: "pepito",
             surname: "juanito"
-        }
+        }]}
         let userId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => userId = id)
         )
 
@@ -599,8 +606,8 @@ describe('logic', () => {
             return logic.updateUser(userId, data)
                 .then(({ _id }) => User.findById(_id))
                 .then(user => {
-                    expect(user.name).toBe(data.name)
-                    expect(user.surname).toBe(data.surname)
+                    expect(user.name).toBe(data.data[0].name)
+                    expect(user.surname).toBe(data.data[0].surname)
                     expect(user.email).toBe(email)
                     expect(user.isAdmin).toBe(isAdmin)
                 })
@@ -710,10 +717,11 @@ describe('logic', () => {
         const password = `123-${Math.random()}`
         const isAdmin = 'true'
         let userId = ''
+        const userName = 'Roronoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => userId = id)
         )
 
@@ -724,13 +732,13 @@ describe('logic', () => {
             return logic.createWorkspace(name, userId)
                 .then(id => {
                     expect(id).toBeDefined()
-                    expect(typeof id).toBe('object')
+                    expect(typeof id).toBe('string')
 
                     return Workspace.findById(id)
                         .then(workspace => {
                             expect(workspace._id).toBeDefined()
                             expect(workspace._id.toString()).toBe(id.toString())
-                            expect(workspace.user).toContain(userId)
+                            expect(workspace.user.toString()).toBe(userId)
                         })
                 })
         })
@@ -869,6 +877,7 @@ describe('logic', () => {
         const surname2 = 'Pepet'
         let email2 = ''
         let userId2 = ''
+        const userName = 'Roronoa45'
 
 
         // afterEach(()=>{
@@ -889,9 +898,9 @@ describe('logic', () => {
             return bcrypt.hash(password, 10)
                 .then(hash => {
                     _hash = hash
-                    return User.create({ name: name2, surname: surname2, email: email2, password: hash }).then(({ _id }) => userId2 = _id.toString())
+                    return User.create({ name: name2, surname: surname2, userName, email: email2, password: hash }).then(({ _id }) => userId2 = _id.toString())
                 })
-                .then(() => User.create({ name, surname, email, password: _hash }))
+                .then(() => User.create({ name, surname, userName: 'potato', email, password: _hash }))
                 .then(({ _id }) => userId = _id.toString())
                 .then(() => {
                     return Workspace.create({ name: workspaceName, user: userId })
@@ -910,7 +919,7 @@ describe('logic', () => {
                 .then(workspace => {
                     expect(workspace._id).toBeDefined()
                     expect(workspace._id.toString()).toBe(workspaceId)
-                    expect(workspace.user).toContain(userId2)
+                    expect(workspace.user[1].toString()).toBe(userId2)
                 })
         })
 
@@ -1032,10 +1041,11 @@ describe('logic', () => {
         const password = `123-${Math.random()}`
         const isAdmin = 'true'
         let userId = ''
+        const userName = 'Roronoa'
 
         beforeEach(() => {
             return bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ _id }) => userId = _id.toString())
         })
 
@@ -1117,16 +1127,18 @@ describe('logic', () => {
         const email2 = `josepet-${Math.random()}@mail.com`
         const isAdmin2 = false
         let userId2 = ''
+        let userName = 'Roronoa4'
+        let userName2 = 'potaot'
 
         let workspaceId
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => userId = id)
                 .then(() => Workspace.create({ name: 'One piece', userId }))
                 .then(({ _id }) => workspaceId = _id.toString())
-                .then(() => User.create({ name: name2, surname: surname2, email: email2, password, isAdmin: isAdmin2 }))
+                .then(() => User.create({ name: name2, surname: surname2, userName: userName2, email: email2, password, isAdmin: isAdmin2 }))
                 .then(({ id }) => userId2 = id)
                 .then(() => Workspace.findById(workspaceId))
                 .then((workspace) => {
@@ -1275,10 +1287,11 @@ describe('logic', () => {
         let userId = ''
         let link = 'id89380dhja89jds-dsakdias9dj98'
         let workspaceId
+        const userName = 'Roronoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ _id }) => userId = _id.toString())
                 .then(() => Workspace.create({ name: 'onepiece', user: userId }))
                 .then(workspace => {
@@ -1422,10 +1435,11 @@ describe('logic', () => {
         let maxUsers = 3
         let place = 'here'
         let time = 30
+        const userName = 'Roronoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => {
                     userId = id.toString()
                     return Workspace.create({ name: 'Onepiece', user: id })
@@ -1617,10 +1631,11 @@ describe('logic', () => {
         let maxUsers = 4
         let place = 'here'
         let time = 30
+        const userName = 'Roronoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => {
                     userId = id.toString()
                     return Workspace.create({ name: 'Onepiece', user: id })
@@ -1766,10 +1781,11 @@ describe('logic', () => {
             place: 'here',
             time: 40
         }
+        const userName = 'Roronoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ id }) => {
                     userId = id.toString()
                     return Workspace.create({ name: 'Onepiece', user: id })
@@ -1966,10 +1982,11 @@ describe('logic', () => {
         let maxUsers = 4
         let place = 'here'
         let time = 60
+        const userName = 'Roronoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ _id }) => {
                     userId = _id.toString()
                     return Workspace.create({ name: 'Onepiece', user: _id })
@@ -2016,10 +2033,11 @@ describe('logic', () => {
         let maxUsers = 4
         let place = 'here'
         let time = 30
+        const userName = 'Roronoa'
 
         beforeEach(() =>
             bcrypt.hash(password, 10)
-                .then(hash => User.create({ name, surname, email, password: hash, isAdmin }))
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
                 .then(({ _id }) => {
                     userId = _id.toString()
                     return Workspace.create({ name: 'Onepiece', user: _id })
@@ -2067,10 +2085,12 @@ describe('logic', () => {
         let maxUsers = 4
         let place = 'here'
         let time = 60
+        const userName = 'Roronoapp'
+        const userName2 = 'Roronoa'
 
         beforeEach(() => {
 
-            return logic.registerUser(name, surname, email, password, password)
+            return logic.registerUser(name, surname, userName, email, password, password)
                 .then(id => {
                     userId = id.toString()
                     return logic.createWorkspace('One piece', userId)
@@ -2080,7 +2100,7 @@ describe('logic', () => {
                     return Service.create({ user: userId, title, description, maxUsers, place, time })
                 })
                 .then(service => serviceId = service._id.toString())
-                .then(() => logic.registerUser(name, surname, 'joanet@mail.com', password, password))
+                .then(() => logic.registerUser(name, surname, userName2, 'joanet@mail.com', password, password))
                 .then(id => {
                     userId2 = id.toString()
                     return logic.addUserToWorkspace(workspaceId, userId2)
@@ -2120,9 +2140,13 @@ describe('logic', () => {
         let place = 'here'
         let time = 60
         let time2 = -200
+        const userName = 'Roronoa'
+        const userName2 = 'Roronoa34'
+        const userName3 = 'Roronoa54'
+        const userName4 = 'Roronoa23'
 
         beforeEach(() => {
-            return logic.registerUser(name, surname, email, password, password)
+            return logic.registerUser(name, surname, userName, email, password, password)
                 .then(id => {
                     userId = id.toString()
                     return logic.createWorkspace('One piece', userId)
@@ -2132,17 +2156,17 @@ describe('logic', () => {
                     return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [] })
                 })
                 .then(service => serviceId = service._id.toString())
-                .then(() => logic.registerUser(name, surname, 'joanet@mail.com', password, password))
+                .then(() => logic.registerUser(name, surname, userName2, 'joanet@mail.com', password, password))
                 .then(id => {
                     userId2 = id.toString()
                     return logic.addUserToWorkspace(workspaceId, userId2)
                 })
-                .then(() => User.create({ name, surname, email: 'joanetaaa@mail.com', password, password, time: time2 }))
+                .then(() => User.create({ name, surname, userName: userName3, email: 'joanetaaa@mail.com', password, password, time: time2 }))
                 .then(({ _id }) => {
                     userId3 = _id.toString()
                     return logic.addUserToWorkspace(workspaceId, userId3)
                 })
-                .then(() => User.create({ name, surname, email: 'joanetaaaooo@mail.com', password, password, time }))
+                .then(() => User.create({ name, surname, userName: userName4, email: 'joanetaaaooo@mail.com', password, password, time }))
                 .then(({ _id }) => {
                     userId4 = _id.toString()
                     return logic.addUserToWorkspace(workspaceId, userId4)
@@ -2203,9 +2227,10 @@ describe('logic', () => {
         let maxUsers = 2
         let place = 'here'
         let time = 60
+        const userName = 'Roronoa'
 
         beforeEach(() => {
-            return logic.registerUser(name, surname, email, password, password)
+            return logic.registerUser(name, surname, userName, email, password, password)
                 .then(id => {
                     userId = id.toString()
                     return logic.createWorkspace('One piece', userId)
@@ -2257,9 +2282,10 @@ describe('logic', () => {
         let maxUsers = 2
         let place = 'here'
         let time = 60
+        const userName = 'Roronoa'
 
         beforeEach(() => {
-            return logic.registerUser(name, surname, email, password, password)
+            return logic.registerUser(name, surname, userName, email, password, password)
                 .then(id => {
                     userId = id.toString()
                     return logic.createWorkspace('One piece', userId)
@@ -2317,9 +2343,10 @@ describe('logic', () => {
         let place = 'here'
         let time = 60
         let text = 'me mola, muy guai'
+        const userName = 'Roronoa'
 
         beforeEach(() => {
-            return logic.registerUser(name, surname, email, password, password)
+            return logic.registerUser(name, surname, userName, email, password, password)
                 .then(id => {
                     userId = id.toString()
                     return logic.createWorkspace('One piece', userId)
@@ -2370,9 +2397,10 @@ describe('logic', () => {
         let place = 'here'
         let time = 60
         let text = 'me mola, muy guai'
+        const userName = 'Roronoa'
 
         beforeEach(() => {
-            return logic.registerUser(name, surname, email, password, password)
+            return logic.registerUser(name, surname, userName, email, password, password)
                 .then(id => {
                     userId = id.toString()
                     return logic.createWorkspace('One piece', userId)
@@ -2424,9 +2452,10 @@ describe('logic', () => {
         let place = 'here'
         let time = 60
         let text = 'me mola, muy guai'
+        const userName = 'Roronoa'
 
         beforeEach(() => {
-            return logic.registerUser(name, surname, email, password, password)
+            return logic.registerUser(name, surname, userName, email, password, password)
                 .then(id => {
                     userId = id.toString()
                     return logic.createWorkspace('One piece', userId)
@@ -2465,6 +2494,99 @@ describe('logic', () => {
             return logic.removeComment(serviceId, commentId)
                 .then(() => logic.removeComment(serviceId, commentId))
                 .catch(({message}) => expect(message).toBe('comment not found'))
+        })
+    })
+
+    describe('search services', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        let userId
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let serviceId
+        let workspaceId
+        let maxUsers = 2
+        let place = 'here'
+        let time = 60
+        const userName = 'Roronoa'
+        let query = 'english'
+
+        beforeEach(() => {
+            return logic.registerUser(name, surname, userName, email, password, password)
+                .then(id => {
+                    userId = id.toString()
+                    return logic.createWorkspace('One piece', userId)
+                })
+                .then(id => {
+                    workspaceId = id.toString()
+                    return Service.create({ user: userId, title, description, maxUsers, place, time, submitedUsers: [], workspace: workspaceId })
+                })
+                .then(service => serviceId = service._id.toString())
+                .then(() => Workspace.findById(workspaceId))
+                .then(workspace => {
+                    workspace.service = [serviceId]
+                    return workspace.save()
+                })
+        })
+
+        it('should succeed on valid data', () => {
+
+            return logic.searchServices(userId, query)
+                .then(services => {
+                    expect(services).toBeDefined()
+                    expect(services[0].place).toBe(place)
+                    expect(services[0].user).toBe(name)
+                    expect(services[0].title).toBe(title)
+                    expect(services[0].description).toBe(description)
+                    expect(services[0].maxUsers).toBe(maxUsers)
+                    expect(services[0].time).toBe(time)
+                    expect(services[0].id.toString()).toBe(serviceId)
+                })
+        })
+
+        it('should fail on workspace not existing', () => {
+
+            return logic.searchServices(userId, 'potato')
+                .catch(({ message }) => expect(message).toBe('workspace not found'))
+        })
+    })
+
+    describe('retrieve user Profile', () => {
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const isAdmin = 'false'
+        const userName = 'Roronoa'
+
+        let userId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, userName, email, password: hash, isAdmin }))
+                .then(({ id }) => userId = id)
+        )
+
+        it('should succeed on correct credentials', () =>
+            logic.retrieveUserProfile(userId, userName)
+                .then(user => {
+                    expect(user.id).toBe(userId)
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+                    expect(user.userName).toBe(userName)
+
+                    expect(user.save).toBeUndefined()
+                    expect(user.password).toBeUndefined()
+                    expect(user.__v).toBeUndefined()
+                })
+        )
+
+        it('should fail on user not found', () => {
+            return logic.retrieveUserProfile('5c87d27a6a6e780f3f7c40f4', userName)
+                .catch(({ message }) => expect(message).toBe('id is not defined'))
         })
     })
 })

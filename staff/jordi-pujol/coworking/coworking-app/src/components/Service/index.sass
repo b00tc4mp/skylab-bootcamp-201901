@@ -1,47 +1,129 @@
 .service__
-    height: 450px
-    cursor: pointer
-    width: 400px
+    // height: 10em
+    // width: 8em
     color: #1f0054
 
     &title
-        padding-top: 4em
-        padding-left: 1em
+        padding: auto
+        padding-top: 1em
         max-width: 300px
         +flexin(flex, column, center)
+        cursor: pointer
 
     &item
-        padding-top: 1em
-        padding-left: 3em
+        padding: 0.8em
         max-width: 300px
 
-.service__yellow
-    // background-image: url(https://vignette.wikia.nocookie.net/inciclopedia/images/9/94/Post-It.png/revision/latest?cb=20100719151648&format=original)
-    background-image: url(https://9044c4.medialib.edu.glogster.com/vIWPvWGK3qapAtNR4XnA/media/15/15c3a611dfcbd8c4aa081b8bace8cbafb0b5456c/positvioleta.png)
-    height: 400px
-    cursor: pointer
-    width: 350px
-    color: #1f0054
-    padding: 2em
-    background-size: cover 
-
-.service__blue
-    // background-image: url(https://ya-webdesign.com/images/post-it-blue-png-6.png)
-    background-image: url(https://www.peritacionesdanielgarcia.com/wp-content/uploads/2016/08/postit-azul1.png)
-    height: 400px
-    cursor: pointer
-    width: 350px
-    color: #1f0054
-    padding: 2em
-    background-size: cover 
+    &username
+        margin-left: 1em
+        max-width: 300px
+        padding-bottom: 2em
+        text-decoration: none
+        color: black
 
 .service__red
-    // background-image: url(https://cdn.pixabay.com/photo/2014/04/02/10/13/sticky-note-303147__340.png)
-    background-image: url(https://9fc6ff.medialib.edu.glogster.com/vIWPvWGK3qapAtNR4XnA/media/49/4973721cb13fb2e01ea4829d786a7954a83337d8/online-textbook-orange-post-it-notes.png)
-    height: 400px
-    cursor: pointer
-    width: 350px
+    min-height: 350px
+    min-width: 80%
     color: #1f0054
-    padding: 2em
+    margin: 1em
     background-size: cover 
     color: white
+    background-color: #408E61
+    border-radius: 10px
+    padding-bottom: 1em
+
+    
+    .service__username
+        margin-left: 1em
+        max-width: 300px
+        padding-bottom: 2em
+        text-decoration: none
+        color: white
+
+.service__yellow
+    min-height: 350px
+    min-width: 80%
+    color: #1f0054
+    margin: 1em
+    background-size: cover 
+    color: black
+    background-color: #E3EECD
+    border-radius: 10px
+    padding-bottom: 1em
+
+.service__blue
+    min-height: 350px
+    min-width: 80%
+    color: #1f0054
+    margin: 1em
+    background-size: cover 
+    color: black
+    background-color: #ACD1B6
+    border-radius: 10px
+    padding-bottom: 1em
+
+@media (min-width: 580px)
+
+    .service__
+        height: 450px
+        width: 400px
+        color: #1f0054
+
+        &title
+            padding-top: 2em
+            padding-bottom: 2em
+            padding-left: 1em
+            max-width: 300px
+            +flexin(flex, column, center)
+
+        &item
+            padding-top: 1em
+            padding-left: 3em
+            padding-right: 1em
+            max-width: 300px
+
+        &username
+            margin-top: 3em
+            margin-left: 3em
+            max-width: 300px
+            text-decoration: none
+            color: black
+
+    .service__yellow
+        min-height: 400px
+        width: 350px
+        color: #1f0054
+        margin: 2em
+        background-size: cover 
+        color: black
+        background-color: #E3EECD
+        border-radius: 10px
+        min-width: 0
+
+    .service__blue
+        min-height: 400px
+        min-width: 0
+        width: 350px
+        color: #1f0054
+        margin: 2em
+        background-size: cover 
+        color: black
+        background-color: #ACD1B6
+        border-radius: 10px 
+
+    .service__red
+        min-height: 400px
+        min-width: 0
+        width: 350px
+        color: #1f0054
+        margin: 2em
+        background-size: cover 
+        color: white
+        background-color: #408E61
+        border-radius: 10px
+
+        .service__username
+            margin-top: 3em
+            margin-left: 3em
+            max-width: 300px
+            text-decoration: none

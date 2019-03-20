@@ -14,13 +14,15 @@ const logic = {
         * 
         * @param {string} name 
         * @param {string} surname 
+        * @param {string} userName 
         * @param {string} email 
         * @param {string} password 
         * @param {string} passwordConfirmation 
         */
-    registerUser(name, surname, email, password, passwordConfirmation) {
+    registerUser(name, surname, userName, email, password, passwordConfirmation) {
         validate([{ key: 'name', value: name, type: String },
         { key: 'surname', value: surname, type: String },
+        { key: 'userName', value: userName, type: String },
         { key: 'email', value: email, type: String },
         { key: 'password', value: password, type: String },
         { key: 'passwordConfirmation', value: passwordConfirmation, type: String }])
@@ -33,7 +35,7 @@ const logic = {
 
                 return bcrypt.hash(password, 10)
             })
-            .then(hash => User.create({ name, surname, email, password: hash }))
+            .then(hash => User.create({ name, surname, email, password: hash, userName }))
             .then(({ id }) => id)
     },
 
@@ -93,17 +95,17 @@ const logic = {
      * Updates a user. Can change user params.
      * 
      * @param {string} userId 
-     * @param {string} data 
+     * @param {Object} data 
      */
     updateUser(userId, data) {
         validate([{ key: 'userId', value: userId, type: String }])
-
-        let _data = data.data[0]
-
         if (!data) throw TypeError('data should be defined')
         if (data.constructor !== Object) throw Error(`${data} is not an object`)
 
-        return User.findOneAndUpdate({_id: userId}, {$set: _data})
+        let _data = data.data[0]
+
+
+        return User.findOneAndUpdate({ _id: userId }, { $set: _data })
     },
 
     /**
@@ -145,6 +147,28 @@ const logic = {
     },
 
     /**
+     * Retrieves user by it's Id
+     * 
+     * @param {string} userId
+     * @param {string} username 
+     */
+    retrieveUserProfile(userId, username) {
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'username', value: username, type: String }])
+
+        return User.findOne({ userName: username }).select('-password -__v').lean()
+            .then(user => {
+                if (!user) throw Error(`user with username ${username} not found`)
+
+                user.id = user._id.toString()
+
+                delete user._id
+
+                return user
+            })
+    },
+
+    /**
      * 
      * Creates a new workspace. Only admins can do it
      * 
@@ -174,7 +198,7 @@ const logic = {
             })
             .then(({ _id }) => {
 
-                workspaceId = _id
+                workspaceId = _id.toString()
 
                 return User.findById(userId)
             })
@@ -208,8 +232,6 @@ const logic = {
                 for (let i = 0; i < workspace.user.length; i++) {
                     if (workspace.user[i].toString() === userId) throw Error(`${userId} already exists`)
                 }
-
-                // add valiation
                 return workspace
             })
             .then((workspace) => {
@@ -297,9 +319,12 @@ const logic = {
      * 
      * Creates a service.
      * 
-     * @param {string} userId 
-     * @param {string} title 
-     * @param {string} description 
+     * @param {string} userId
+     * @param {string} title
+     * @param {string} description
+     * @param {number} maxUsers
+     * @param {string} place
+     * @param {number} time
      */
     createService(userId, title, description, maxUsers, place, time) {
 
@@ -360,6 +385,11 @@ const logic = {
 
     },
 
+    /**
+     * Retrieves all services from a user
+     * 
+     * @param {string} userId 
+     */
     retrieveUserServices(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 
@@ -367,9 +397,10 @@ const logic = {
 
         return User.findById(userId)
             .then((user) => {
-                if(!user) throw Error ('user does not exists')
+                if (!user) throw Error('user does not exists')
 
-                return Workspace.findOne({ _id: user.workspace }).populate('service').lean()})
+                return Workspace.findOne({ _id: user.workspace }).populate('service').lean()
+            })
             .then(({ service }) => {
 
                 service.map(_service => {
@@ -385,21 +416,27 @@ const logic = {
             })
     },
 
-    retrieveUserSubmitedEvents(userId){
+    /**
+     * Retrieves all services a user has submited
+     * 
+     * @param {string} userId 
+     */
+    retrieveUserSubmitedEvents(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
-        
+
         let _services = []
 
         return User.findById(userId)
-        .then(user => {
-            if (!user) throw Error ('User does not exists')
-            return Workspace.findOne({ _id: user.workspace }).populate('service user').lean()})
+            .then(user => {
+                if (!user) throw Error('User does not exists')
+                return Workspace.findOne({ _id: user.workspace }).populate('service user').lean()
+            })
             .then(({ service, user }) => {
 
                 service.map(_service => {
 
                     _service.submitedUsers.map(sub => {
-                        if (sub.toString() == userId){  
+                        if (sub.toString() == userId) {
                             _service.id = _service._id
                             delete _service._id
                             delete _service.__v
@@ -407,7 +444,9 @@ const logic = {
                             user.map(_user => {
                                 if (_user._id.toString() == _service.user) {
                                     _service.user = _user.name
-                                }})
+                                    _service.userName = _user.username
+                                }
+                            })
 
                             _services.push(_service)
                         }
@@ -418,17 +457,24 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieves all services from a workspace
+     * 
+     * @param {string} userId 
+     * @param {string} workspaceId 
+     */
     retrieveWorkspaceServices(userId, workspaceId) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'workspaceId', value: workspaceId, type: String }])
 
         let services
         let user
+        let userName
 
         return Workspace.findById(workspaceId).populate('service user').lean()
             .then(workspace => {
 
-                if(!workspace) throw Error ('workspace not found')
+                if (!workspace) throw Error('workspace not found')
 
                 services = workspace.service.map(service => {
                     service.id = service._id
@@ -441,10 +487,22 @@ const logic = {
                         }
                     })
 
+                    userName = workspace.user.map(_user => {
+                        if (_user._id.toString() == service.user) {
+                            return _user.username
+                        }
+                    })
+
                     const index = user.findIndex(_user => _user !== undefined)
 
                     service.user = user.splice(index, 1)
                     service.user = service.user.toString()
+
+                    const index2 = userName.findIndex(_user => _user !== undefined)
+
+                    service.userName = userName.splice(index2, 1)
+                    service.userName = service.userName.toString()
+
                     return service
                 })
                 return services
@@ -452,6 +510,71 @@ const logic = {
     },
 
     /**
+     * Search services by title
+     * 
+     * @param {string} userId 
+     * @param {string} query 
+     */
+    searchServices(userId, query) {
+        validate([{ key: 'userId', value: userId, type: String },
+        { key: 'query', value: query, type: String }])
+
+        let services
+        let _services
+        let user
+        let userName
+
+        return User.findById(userId)
+            .then(({ workspace }) => Workspace.findById(workspace).populate('service user').lean())
+            .then(workspace => {
+
+                if (!workspace) throw Error('workspace not found')
+
+                services = workspace.service.map(service => {
+                    service.id = service._id
+                    delete service._id
+                    delete service.__v
+
+                    user = workspace.user.map(_user => {
+                        if (_user._id.toString() == service.user) {
+                            return _user.name
+                        }
+                    })
+
+                    userName = workspace.user.map(_user => {
+                        if (_user._id.toString() == service.user) {
+                            return _user.username
+                        }
+                    })
+
+                    const index = user.findIndex(_user => _user !== undefined)
+
+                    service.user = user.splice(index, 1)
+                    service.user = service.user.toString()
+
+                    const index2 = userName.findIndex(_user => _user !== undefined)
+
+                    service.userName = userName.splice(index2, 1)
+                    service.userName = service.userName.toString()
+
+                    return service
+                })
+
+                _services = services.map(_service => {
+                    if (_service.title.toLowerCase().includes(query.toLowerCase()))
+                        return _service
+                })
+
+                const index3 = _services.findIndex(_service => _service !== undefined)
+
+                _services = _services.splice(index3, 1)
+
+                return _services
+            })
+    },
+
+    /**
+     * Updates a service
      * 
      * @param {string} userId 
      * @param {string} serviceId 
@@ -471,6 +594,12 @@ const logic = {
             .then(() => Service.findOneAndUpdate({ id: serviceId, $set: data }))
     },
 
+    /**
+     * Adds a user in a service
+     * 
+     * @param {string} userId 
+     * @param {string} serviceId 
+     */
     addUserToService(userId, serviceId) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'serviceId', value: serviceId, type: String }])
@@ -499,6 +628,11 @@ const logic = {
             })
     },
 
+    /**
+     * Close a service
+     * 
+     * @param {string} serviceId 
+     */
     closeService(serviceId) {
 
         let _time
@@ -508,7 +642,7 @@ const logic = {
         return Service.findById(serviceId)
             .then(service => {
 
-                if(!service) throw Error ('service not found')
+                if (!service) throw Error('service not found')
 
                 _time = service.time
                 _provider = service.user
@@ -532,6 +666,7 @@ const logic = {
     },
 
     /**
+     * Deletes a service
      * 
      * @param {string} userId 
      * @param {string} serviceId 
@@ -557,6 +692,13 @@ const logic = {
             })
     },
 
+    /**
+     * Creates a new comment
+     * 
+     * @param {string} userId 
+     * @param {string} serviceId 
+     * @param {string} text 
+     */
     createComment(userId, serviceId, text) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'serviceId', value: serviceId, type: String },
@@ -567,14 +709,19 @@ const logic = {
             .then(service => service.comments[service.comments.length - 1]._id)
     },
 
+    /**
+     * Retrieve all comments linked to a service
+     * 
+     * @param {string} serviceId 
+     */
     retrieveServiceComments(serviceId) {
         validate([{ key: 'serviceId', value: serviceId, type: String }])
 
         let comments = []
-        return Service.findById(serviceId).lean()
+        return Service.findById(serviceId).populate({ path: 'comments.user' }).lean()
             .then(service => {
 
-                if (!service) throw Error ('service not found')
+                if (!service) throw Error('service not found')
 
                 comments = service.comments.map(_service => {
                     _service.id = _service._id
@@ -587,6 +734,12 @@ const logic = {
             })
     },
 
+    /**
+     * Removes a comment
+     * 
+     * @param {string} serviceId 
+     * @param {string} commentId 
+     */
     removeComment(serviceId, commentId) {
         validate([{ key: 'serviceId', value: serviceId, type: String },
         { key: 'commentId', value: commentId, type: String }])
@@ -594,16 +747,37 @@ const logic = {
         return Service.findById(serviceId)
             .then(service => {
 
-                if (!service) throw Error ('service not found')
+                if (!service) throw Error('service not found')
 
                 const index = service.comments.findIndex(comment => comment._id == commentId)
 
-                if (index < 0) throw Error ('comment not found')
+                if (index < 0) throw Error('comment not found')
 
                 service.comments.splice(index, 1)
                 return service.save()
             })
-    }
+    },
+
+    /**
+   * Update user information.
+   * 
+   * @param {String} userId 
+   * @param {String} url 
+   */
+    updateUserPhoto(userId, url) {
+
+        validate([{ key: 'userId', value: userId, type: String }, { key: 'url', value: url, type: String }])
+
+        return (async () => {
+            const user = await User.findByIdAndUpdate(userId, { image: url }, { new: true, runValidators: true }).select('-__v -password').lean()
+            if (!user) throw new Error(`user with userId ${userId} not found`)
+
+            user.id = user._id.toString()
+            delete user._id
+
+            return user
+        })()
+    },
 }
 
 module.exports = logic
