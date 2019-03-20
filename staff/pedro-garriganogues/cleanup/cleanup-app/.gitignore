@@ -1,2 +1,4 @@
 .env
 node_modules
+src/api/index.spec.js
+src/logic/index.spec.js

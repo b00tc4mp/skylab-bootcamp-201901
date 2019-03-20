@@ -74,17 +74,6 @@ const logic = {
     },
 
 
-    listProducts(category) {
-        return (async () => {
-            const products = await Product.find({ category })
-
-            if (!products) throw Error(`no products found`)
-
-            return products
-        })()
-
-
-    },
 
 
     listProductsByIds(ids) {

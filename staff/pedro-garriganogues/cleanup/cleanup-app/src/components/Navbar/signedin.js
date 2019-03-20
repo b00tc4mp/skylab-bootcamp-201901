@@ -11,12 +11,17 @@ class SignedIn extends Component {
 
     }
 
+    logout = () => {
+        logic.logout()
+        this.props.history.push('/login')
+    }
+
     render() {
         return (
             <ul className="right">
                 <li><Link to='/profile'>Profile</Link></li>
                 <li><Link to='/cart'>Cart</Link></li>
-                <li> <Link to='/' onClick={() => { logic.logout() }}>Log Out</Link></li>
+                <li><button onClick={this.logout}>Log Out</button></li>
 
             </ul>
 

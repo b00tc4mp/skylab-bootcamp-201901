@@ -19,6 +19,7 @@ class Profile extends Component {
     }
 
     componentDidMount() {
+        if (!logic.__userApiToken__) return this.props.history.push('/login')
         logic.retrieveUser()
             .then(user => {
                 this.setState({

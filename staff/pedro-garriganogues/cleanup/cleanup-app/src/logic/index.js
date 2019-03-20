@@ -64,12 +64,6 @@ const logic = {
             .then(res => res)
     },
 
-    listProducts(category) {
-        return cleanUpApi.listProducts(category)
-            .then(products => {
-                return products
-            })
-    },
 
     listProductsByIds() {
         if (this.__userApiProducts__ !== null) {

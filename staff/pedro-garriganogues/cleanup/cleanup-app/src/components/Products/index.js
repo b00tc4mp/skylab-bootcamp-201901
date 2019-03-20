@@ -15,19 +15,6 @@ class Products extends Component {
         }
     }
 
-    // componentDidMount() {
-    //     logic.listProducts(this.props.categoryId)
-    //         .then(products => {
-    //             this.setState({ products })
-    //         })
-
-    //     logic.listCategories()
-    //         .then(categories => {
-    //             const category = categories.filter(category => category._id === this.props.categoryId)
-
-    //             this.setState({ categoryName: category[0].name })
-    //         })
-    // }
 
     componentDidUpdate(prevProps) {
         if (prevProps.categoryId !== this.props.categoryId) {
