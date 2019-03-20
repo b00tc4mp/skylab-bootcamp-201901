@@ -2,9 +2,7 @@ const { Quiz, Question } = require('triviapp-data');
 const validate = require('triviapp-validation');
 const { AlreadyExistsError, UnauthorizedError } = require('triviapp-errors');
 
-/**
- * Abstraction of auth logic.
- */
+
 module.exports = {
 
 	createQuestion(data) {

@@ -19,7 +19,6 @@ function UserProfile(props) {
 	const [uploading, setUploading] = useState(false);
 	const [image, setImage] = useState(null);
 
-	
 	const onDrop = useCallback(async acceptedFiles => {
 		try {
 			setUploading(true);
@@ -33,21 +32,26 @@ function UserProfile(props) {
 
 	const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
-
 	const handleUpdateUser = async Event => {
 		Event.preventDefault();
 
 		try {
-			const user = await auth.updateUser({name, surname, email, image, password, confirmPassword});
+			const user = await auth.updateUser({
+				name,
+				surname,
+				email,
+				image,
+				password,
+				confirmPassword,
+			});
 
-			feedback('Profile edited Successfully!', 'success')
+			feedback('Profile edited Successfully!', 'success');
 
 			props.history.push(`/dashboard`);
-
 		} catch (error) {
 			feedback(error.message, 'error');
 		}
-	}
+	};
 
 	useEffect(() => {
 		retrieveUser();
@@ -60,15 +64,14 @@ function UserProfile(props) {
 			setName(user.name);
 
 			setSurname(user.surname);
-			
+
 			setEmail(user.email);
 
 			setImage(user.picture);
-
 		} catch (error) {
 			feedback(error.message, 'error');
 		}
-	}
+	};
 
 	return (
 		<div className="container">
@@ -141,7 +144,7 @@ function UserProfile(props) {
 												}
 											/>
 										</p>
-										<p>
+										{/* <p>
 											<label
 												className="form__label"
 												htmlFor="user_password"
@@ -176,7 +179,7 @@ function UserProfile(props) {
 													setConfirmPassword(Event.target.value)
 												}
 											/>
-										</p>
+										</p> */}
 									</fieldset>
 
 									<div className="media-uploader">
@@ -198,19 +201,19 @@ function UserProfile(props) {
 														/>
 													</div>
 												)}
+
 												{image ? (
 													<img
 														src={image}
-														alt="Preview"
 														className="media-uploader__image-preview"
+														alt=""
 													/>
 												) : (
-													<div className="media-uploader__star">
-														<FontAwesomeIcon icon="download" />
-														<div>
-															Select a file or drag here
-														</div>
-													</div>
+													<img
+														src={`https://api.adorable.io/avatars/285/${email}`}
+														className="media-uploader__image-preview"
+														alt=""
+													/>
 												)}
 											</label>
 										</div>
@@ -218,9 +221,18 @@ function UserProfile(props) {
 								</div>
 							</div>
 
-							<button className="btn__link btn__link--green btn-submit">
-								Ok, save!
-							</button>
+							<div className="btn-form-action">
+								<button className="btn__link btn__link--green btn-submit">
+									Ok, save!
+								</button>
+
+								<Link
+									to={`/dashboard`}
+									className="btn__link btn__link--green btn-submit btn-back"
+								>
+									Back to dashboard
+								</Link>
+							</div>
 						</div>
 					</form>
 				</div>

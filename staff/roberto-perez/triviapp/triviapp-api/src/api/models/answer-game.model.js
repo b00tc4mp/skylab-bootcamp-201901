@@ -7,10 +7,6 @@ const {
 const httpStatus = require('http-status');
 const { NotFoundError } = require('../errors/index');
 
-/**
- * Answer Schema
- * @private
- */
 const answerGameSchema = new mongoose.Schema(
 	{
 		user: {
@@ -37,9 +33,6 @@ const answerGameSchema = new mongoose.Schema(
 	{ timestamps: true },
 );
 
-/**
- * Methods
- */
 answerGameSchema.method({
 	normalize() {
 		const answer = {};
@@ -51,16 +44,8 @@ answerGameSchema.method({
 	},
 });
 
-/**
- * Statics
- */
 answerGameSchema.statics = {
-	/**
-	 * Get answer
-	 *
-	 * @param {ObjectId} id - The objectId of answer.
-	 * @returns {Promise<Answer, Error>}
-	 */
+
 	async get(id) {
 		try {
 			let answerGame = await this.findById(id).exec();
@@ -78,11 +63,6 @@ answerGameSchema.statics = {
 		}
 	},
 
-	/**
-	 * Get answers game by gameID & answerID
-	 *
-	 * @returns {Promise<Quiz[]>}
-	 */
 	async getBy(option) {
 		try {
 			return await this.findOne(option)
@@ -94,11 +74,6 @@ answerGameSchema.statics = {
 		}
 	},
 
-	/**
-	 * Get answers game by gameID & answerID
-	 *
-	 * @returns {Promise<Quiz[]>}
-	 */
 	list(options = {}) {
 		return this.find(options)
 			.populate('user')
@@ -106,30 +81,6 @@ answerGameSchema.statics = {
 			.exec();
 	},
 
-	/**
-	 * Get answers game by gameID & answerID
-	 *
-	 * @returns {Promise<Quiz[]>}
-	 */
-	// async getAnswersQuestion(option) {
-	// 	return await this.find(option)
-	// 		.populate('user')
-	// 		.populate({
-	// 			path: 'question',
-	// 			model: 'Question',
-	// 			populate: {
-	// 				path: 'answer',
-	// 				model: 'Answer',
-	// 			},
-	// 		})
-	// 		.sort({ createdAt: -1 });
-	// },
-
-	/**
-	 * Get answers game by gameID & answerID
-	 *
-	 * @returns {Promise<Quiz[]>}
-	 */
 	async getAnswersQuestion(gameId, questionId) {
 		debugger;
 
@@ -145,23 +96,9 @@ answerGameSchema.statics = {
 			},
 		]);
 
-		// 	// return this.aggregate([
-		// 	// 	{ $match: { 'game': gameId, 'question': questionId } },
-		// 	// 	{
-		// 	// 		$group: {
-		// 	// 			_id: '$answer',
-		// 	// 			count: {
-		// 	// 				$sum: 1,
-		// 	// 			},
-		// 	// 		},
-		// 	// 	},
-		// 	// ]);
 	},
 };
 
-/**
- * @typedef AnswerGame
- */
 module.exports = {
 	AnswerGame: mongoose.model('answerGame', answerGameSchema),
 	answerGameSchema,

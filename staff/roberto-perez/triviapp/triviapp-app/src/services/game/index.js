@@ -1,4 +1,5 @@
 import gameApi from '../../api/game-api';
+import validate from '../../utils/validate';
 import auth from '../auth';
 import State from '../state';
 
@@ -40,6 +41,10 @@ const game = {
 	},
 
 	async create(quizId) {
+		validate([
+			{ key: 'Quiz ID', value: quizId, type: String },
+		]);
+
 		const game = await gameApi.createGame(auth.__userApiToken__, quizId);
 
 		this.state.set(game);

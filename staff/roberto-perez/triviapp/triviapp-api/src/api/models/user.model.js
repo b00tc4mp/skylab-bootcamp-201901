@@ -7,15 +7,8 @@ const jwt = require('jsonwebtoken');
 const { jwtSecret, jwtExpirationInterval } = require('../../config/vars');
 const { UnauthorizedError } = require('../errors');
 
-/**
- * User Roles
- */
 const roles = ['user', 'admin'];
 
-/**
- * User Schema
- * @private
- */
 const userSchema = new mongoose.Schema(
 	{
 		email: {
@@ -56,9 +49,7 @@ const userSchema = new mongoose.Schema(
 	{ timestamps: true },
 );
 
-/**
- * Pre middlewares
- */
+
 userSchema.pre('save', async function() {
 	try {
 		if (!this.isModified()) return;
@@ -69,9 +60,7 @@ userSchema.pre('save', async function() {
 	}
 });
 
-/**
- * Methods
- */
+
 userSchema.method({
 	normalize() {
 		const user = {};
@@ -91,18 +80,10 @@ userSchema.method({
 	},
 });
 
-/**
- * Statics
- */
+
 userSchema.statics = {
 	roles,
 
-	/**
-	 * Get user
-	 *
-	 * @param {ObjectId} id - The objectId of user.
-	 * @returns {Promise<User, Error>}
-	 */
 	async get(id) {
 		try {
 			let user = await this.findById(id).exec();
@@ -120,12 +101,7 @@ userSchema.statics = {
 		}
 	},
 
-	/**
-	 * Find user by email and tries to generate a JWT token
-	 *
-	 * @param {ObjectId} id - The objectId of user.
-	 * @returns {Promise<User, UnauthorizedError>}
-	 */
+
 	async findAndGenerateToken(options) {
 		const { email, password } = options;
 
@@ -149,9 +125,7 @@ userSchema.statics = {
 	},
 };
 
-/**
- * @typedef User
- */
+
 module.exports = {
 	User: mongoose.model('User', userSchema),
 	userSchema

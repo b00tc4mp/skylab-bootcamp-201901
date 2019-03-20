@@ -3,9 +3,7 @@ const validate = require('triviapp-validation');
 const { AlreadyExistsError, UnauthorizedError } = require('triviapp-errors');
 const { cloudName, apiKey, apiSecret } = require('../../../config/vars');
 
-/**
- * Abstraction of auth logic.
- */
+
 module.exports = {
 	listQuizzes(data = {}) {
 		const { offset } = data;

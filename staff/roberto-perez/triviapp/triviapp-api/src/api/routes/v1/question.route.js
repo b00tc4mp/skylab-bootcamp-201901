@@ -6,13 +6,9 @@ const { authorize } = require('../../midelware/auth');
 
 const router = express.Router({ mergeParams: true });
 
-/**
- * Load quiz when API with quizId route parameter is hit
- */
 router.param('questionId', controller.load);
 
 router.route('/').post(authorize, controller.create);
-// 	.post(authorize, controller.create);
 
 router
 	.route('/:questionId')

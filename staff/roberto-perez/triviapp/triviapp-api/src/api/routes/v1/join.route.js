@@ -11,7 +11,4 @@ router
 	.route('/')
 	.patch(userLogedIn, controller.join);
 
-
-
-
 module.exports = router;

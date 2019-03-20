@@ -9,10 +9,6 @@ const { answerSchema } = require('./answer.model');
 const { quizSchema } = require('./quiz.model');
 const { NotFoundError } = require('../errors/index');
 
-/**
- * Question Schema
- * @private
- */
 const questionSchema = new mongoose.Schema(
 	{
 		quiz: {
@@ -47,9 +43,6 @@ const questionSchema = new mongoose.Schema(
 	{ timestamps: true },
 );
 
-/**
- * Methods
- */
 questionSchema.method({
 	normalize() {
 		const question = {};
@@ -70,33 +63,8 @@ questionSchema.method({
 	},
 });
 
-/**
- * Pre middlewares
- */
-// quizSchema.pre('save', async function(next, req) {
-
-// 	if(!this.isModified() === true) {
-// 	}
-
-// 	// try {
-// 	// 	if (!this.isModified()) return;
-// 	// 	const hash = await bcrypt.hash(this.password, 10);
-// 	// 	this.author = hash;
-// 	// } catch (error) {
-// 	// 	return new Error(error);
-// 	// }
-// });
-
-/**
- * Statics
- */
 questionSchema.statics = {
-	/**
-	 * Get question
-	 *
-	 * @param {ObjectId} id - The objectId of question.
-	 * @returns {Promise<Question, Error>}
-	 */
+
 	async get(id) {
 		try {
 			let question = await this.findById(id).populate('quiz').exec();
@@ -111,10 +79,6 @@ questionSchema.statics = {
 		}
 	},
 };
-
-/**
- * @typedef Question
- */
 
 module.exports = {
 	Question: mongoose.model('Question', questionSchema),

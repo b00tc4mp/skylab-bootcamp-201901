@@ -3,10 +3,13 @@ const io = require('socket.io-client');
 const validate = require('triviapp-validation');
 // import socketApi from '../../services/socket';
 
+
+const { REACT_APP_BASE_URL } = process.env;
+
 const gameApi = {
 	url: 'NO_URL',
 	baseUrl: 'NO_URL',
-	socket: io.connect('http://192.168.0.54:8000'),
+	socket: io.connect(REACT_APP_BASE_URL),
 
 	onEvent(event, cb) {
 		this.socket.on(event, cb);

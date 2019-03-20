@@ -7,10 +7,7 @@ const {
 const httpStatus = require('http-status');
 const { NotFoundError } = require('../errors/index');
 
-/**
- * Quiz Schema
- * @private
- */
+
 const gameSchema = new mongoose.Schema(
 	{
 		code: {
@@ -48,9 +45,7 @@ const gameSchema = new mongoose.Schema(
 	{ timestamps: true },
 );
 
-/**
- * Methods
- */
+
 gameSchema.method({
 	normalize() {
 		const quiz = {};
@@ -72,33 +67,9 @@ gameSchema.method({
 	},
 });
 
-/**
- * Pre middlewares
- */
-// quizSchema.pre('save', async function(next, req) {
 
-// 	if(!this.isModified() === true) {
-// 	}
-
-// 	// try {
-// 	// 	if (!this.isModified()) return;
-// 	// 	const hash = await bcrypt.hash(this.password, 10);
-// 	// 	this.author = hash;
-// 	// } catch (error) {
-// 	// 	return new Error(error);
-// 	// }
-// });
-
-/**
- * Statics
- */
 gameSchema.statics = {
-	/**
-	 * Get quiz
-	 *
-	 * @param {ObjectId} id - The objectId of quiz.
-	 * @returns {Promise<Quiz, Error>}
-	 */
+
 	async get(id) {
 		try {
 			let game = await this.findById(id)
@@ -129,11 +100,7 @@ gameSchema.statics = {
 		}
 	},
 
-	/**
-	 * List quizzes in descending order of 'createdAt' timestamp.
-	 *
-	 * @returns {Promise<Quiz[]>}
-	 */
+
 	async getByCode(gameCode) {
 		try {
 			let game = this.findOne({ code: gameCode });
@@ -155,9 +122,7 @@ gameSchema.statics = {
 	},
 };
 
-/**
- * @typedef Game
- */
+
 module.exports = {
 	Game: mongoose.model('Game', gameSchema),
 	gameSchema,

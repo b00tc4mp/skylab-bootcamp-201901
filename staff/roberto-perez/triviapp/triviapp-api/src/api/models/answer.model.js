@@ -3,10 +3,6 @@
 const mongoose = require('mongoose');
 const httpStatus = require('http-status');
 
-/**
- * Answer Schema
- * @private
- */
 const answerSchema = new mongoose.Schema(
 	{
 		title: {
@@ -21,9 +17,6 @@ const answerSchema = new mongoose.Schema(
 	{ timestamps: true },
 );
 
-/**
- * Methods
- */
 answerSchema.method({
 	normalize() {
 		const answer = {};
@@ -41,16 +34,8 @@ answerSchema.method({
 	},
 });
 
-/**
- * Statics
- */
 answerSchema.statics = {
-	/**
-	 * Get answer
-	 *
-	 * @param {ObjectId} id - The objectId of answer.
-	 * @returns {Promise<Answer, Error>}
-	 */
+
 	async get(id) {
 		try {
 			let answer = await this.findById(id).exec();
@@ -69,9 +54,7 @@ answerSchema.statics = {
 	},
 };
 
-/**
- * @typedef Answer
- */
+
 module.exports = {
 	Answer: mongoose.model('Answer', answerSchema),
 	answerSchema

@@ -2,9 +2,6 @@ const { User } = require('triviapp-data');
 const validate = require('triviapp-validation');
 const { AlreadyExistsError, UnauthorizedError } = require('triviapp-errors');
 
-/**
- * Abstraction of auth logic.
- */
 module.exports = {
 	signupUser(data) {
 		const { name, surname, email, password } = data;
@@ -60,16 +57,17 @@ module.exports = {
 	updateUser(userId, data = {}) {
 		const { name, surname, email, image, password, confirmPassword } = data;
 
-		if(image) {
+		if (image) {
 			data.picture = image;
 			delete data.image;
 		}
 
 		if (!password) {
-			delete data.password;
-			delete data.confirmPassword;
+			delete data.password;	
 		}
-		
+
+		delete data.confirmPassword;
+
 		validate([
 			{ key: 'Name', value: name, type: String, optional: true },
 			{ key: 'Surname', value: surname, type: String, optional: true },
@@ -87,11 +85,8 @@ module.exports = {
 		}
 
 		return (async () => {
-			const user = await User.get(userId);
-			const userUpdated = Object.assign(user, data);
-			debugger
-			const savedUser = await userUpdated.save();
-			return savedUser.normalize();
+			const user = await User.findByIdAndUpdate(userId, data, { new: true });
+			return user.normalize();
 		})();
 	},
 };

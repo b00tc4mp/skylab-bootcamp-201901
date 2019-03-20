@@ -64,6 +64,32 @@
 	}
 }
 
-.btn-submit {
-	height: 5rem;
+.btn-form-action {
+	display: flex;
+	align-items: center;
+	.btn-submit {
+		margin-right: 10px;
+		height: 5rem;
+	}
+	.btn-back {
+		background: #fff;
+		color: #00c5b7;
+		border: 2px solid #00c5b7;
+		&:hover {
+			background: #00c5b7;
+		}
+	}
+}
+
+.btn-link-join-game {
+	background: #ffa602;
+	box-shadow: inset 0 0 0 4px #ffa601;
+	&:hover {
+		color: #ffa602;
+	}
+}
+
+
+.success-background {
+	background: #49c5b6  !important;
 }

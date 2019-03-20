@@ -52,7 +52,7 @@ const auth = {
 			delete data.image;
 		}
 
-		if (!password) {
+		if (!password || password === '') {
 			delete data.password;
 			delete data.confirmPassword;
 		}

@@ -9,15 +9,10 @@ const question = {
 			{ key: 'questionId', value: questionId, type: String },
 		]);
 
-		try {
-			return await questionApi.getQuestion(quizId, questionId);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await questionApi.getQuestion(quizId, questionId);
 	},
 
 	async create(quizId, data) {
-		
 		const {
 			title,
 			time,
@@ -35,15 +30,11 @@ const question = {
 			{ key: 'Time', value: time, type: String },
 			{ key: 'Answer 1', value: title1, type: String },
 			{ key: 'Answer 2', value: title2, type: String },
-			{ key: 'Answer 3', value: title3, type: String, optional: true},
+			{ key: 'Answer 3', value: title3, type: String, optional: true },
 			{ key: 'Answer 4', value: title4, type: String, optional: true },
 		]);
 
-		try {
-			return await questionApi.createQuestion(auth.__userApiToken__, quizId, data);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await questionApi.createQuestion(auth.__userApiToken__, quizId, data);
 	},
 
 	async edit(quizId, questionId, data) {
@@ -67,11 +58,12 @@ const question = {
 			{ key: 'title2', value: title2, type: String },
 		]);
 
-		try {
-			return await questionApi.editQuestion(auth.__userApiToken__, quizId, questionId, data);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await questionApi.editQuestion(
+			auth.__userApiToken__,
+			quizId,
+			questionId,
+			data,
+		);
 	},
 
 	async delete(quizId, questionId) {
@@ -80,24 +72,24 @@ const question = {
 			{ key: 'questionId', value: questionId, type: String },
 		]);
 
-		try {
-			return await questionApi.deleteQuestion(auth.__userApiToken__, quizId, questionId);
-		} catch (error) {
-			throw Error(error.message);
-		}
+		return await questionApi.deleteQuestion(
+			auth.__userApiToken__,
+			quizId,
+			questionId,
+		);
 	},
 
-	async editQuestionPicture(quizId, questionId, picture) {
-		try {
-			const data = {
-				picture
-			}
-			
-			return await questionApi.editQuestion(auth.__userApiToken__, quizId, questionId, data);
-		} catch (error) {
-			throw Error(error.message);
-		}
-	},
+	// async editQuestionPicture(quizId, questionId, picture) {
+	// 	const data = {
+	// 		picture,
+	// 	};
+	// 	return await questionApi.editQuestion(
+	// 		auth.__userApiToken__,
+	// 		quizId,
+	// 		questionId,
+	// 		data,
+	// 	);
+	// },
 };
 
 export default question;

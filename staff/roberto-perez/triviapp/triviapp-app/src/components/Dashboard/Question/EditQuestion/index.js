@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Link } from 'react-router-dom';
 import questionService from '../../../../services/question';
 import imageService from '../../../../services/image';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -326,9 +326,14 @@ function EditQuestion(props) {
 								</div>
 							</div>
 						</div>
-						<button className="btn__link btn__link--green btn-submit">
-							Ok, save!
-						</button>
+						<div className="btn-form-action">
+							<button className="btn__link btn__link--green btn-submit">
+								Ok, save!
+							</button>
+							<Link to={`/dashboard/create/quiz/${quizId}/overview`} className="btn__link btn__link--green btn-submit btn-back">
+								Return
+							</Link>
+						</div>
 					</div>
 				</form>
 			</div>
