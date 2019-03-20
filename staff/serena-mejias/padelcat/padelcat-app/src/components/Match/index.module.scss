@@ -59,6 +59,9 @@ div.availability {
 
 div.location {
   padding: $size-xs 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 h6.teamName {

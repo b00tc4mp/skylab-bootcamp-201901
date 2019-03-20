@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Fab from "@material-ui/core/Fab";
 import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
+import Place from "@material-ui/icons/Place";
 import Close from "@material-ui/icons/Close";
 import styles from "./index.module.scss";
 import ChosenPairs from "../ChosenPairs";
@@ -186,7 +187,7 @@ export const Match = props => {
         </div>
       )}
 
-      <div className={styles.location}>Location: {location}</div>
+      <div className={styles.location}><Place /> {location}</div>
     </div>
   );
 };
