@@ -10,7 +10,7 @@ import './index.sass'
 
 class Calendar extends Component {
 
-    state = { users: [], owner: '', pets: [], appointments: [], pet: '', date: '', hour: '', visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false, buttonConfirm: true, error: null, errorDate: false, visitDeleted: false }
+    state = { users: [], owner: '', pets: [], appointments: [], pet: '', date: '', hour: '', visitConfirmed: false, year: moment().format('YYYY'), month: moment().format('MM'), day: moment().format('DD'), askConfirmation: false, buttonConfirm: true, error: null, errorDate: false, askDelete: false }
 
     handleOnChange = ({ target: { name, value } }) => this.setState({ [name]: value })
 
@@ -107,7 +107,7 @@ class Calendar extends Component {
 
     handleConfirmVisitOK = event => {
         event.preventDefault()
-        this.setState({ visitConfirmed: false, askConfirmation: false, error: false, errorDate: false })
+        this.setState({ visitConfirmed: false, askConfirmation: false,error: false, errorDate: false })
         const { state: { owner, pet, date, hour } } = this
         this.assignVisit(owner, pet, date, hour)
     }
@@ -124,18 +124,31 @@ class Calendar extends Component {
         }
     }
 
+    handleConfirmDeleteOK = event => {
+        event.preventDefault()
+        this.setState({ askDelete: false, deleteVisit: true, error: false })
+        this.retrieveAppointments()
+    }
+
+    handleConfirmDeleteNO = event => {
+        event.preventDefault()
+        this.setState({ askDelete: false, deleteVisit: false,error: false})
+    }
+
     handleDeleteVisit = event => {
         event.preventDefault()
         const Id = event.target.value;
+        this.setState({deleteVisit: false})
         this.deleteVisit(Id)
     }
 
+    
+  
     deleteVisit = async (Id) => {
         try {
             debugger
             await logic.deleteAppointment(Id)
-            this.setState({ deleteVisit: true, visitConfirmed: false })
-            this.retrieveAppointments()
+            this.setState({ askDelete: true, deleteVisit: false, visitConfirmed: false })
         } catch ({ message }) {
             this.setState({ error: message, visitConfirmed: false })
         }
@@ -148,7 +161,7 @@ class Calendar extends Component {
 
     handleConfirmVisit = event => {
         event.preventDefault()
-        this.setState({ askConfirmation: true, error: false, visitConfirmed: false, errorDate: false })
+        this.setState({ askConfirmation: true, error: false, visitConfirmed: false, errorDate: false, deleteVisit:false })
     }
 
 
@@ -218,6 +231,10 @@ class Calendar extends Component {
                 {this.state.errorDate && <button onClick={this.handleCorrectDate} className="button__confirm">Ok</button>}
                 {this.state.error && <p className="feedback feedback__error">{this.state.error}</p>}
                 {this.state.deleteVisit && <p className="feedback feedback__success">Appointment succesfully deleted</p>}
+                {this.state.askDelete && <p className="feedback feedback__confirmation">Are you sure you want to delete this visit?</p>}
+                {this.state.askDelete && <button onClick={this.handleConfirmDeleteOK} className="button__confirm">Yes</button>}
+                {this.state.askDelete && <button onClick={this.handleConfirmDeleteNO} className="button__confirm">No</button>}
+               
             </div>
             <div className="arrows">
                 <i className="fas fa-arrow-left arrow" onClick={this.handleLastMont}></i>

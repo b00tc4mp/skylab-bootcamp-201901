@@ -363,7 +363,6 @@ const logic = {
         const _pets = await Pet.find({owner: ownerId})
 
         console.log(_pets)
-        debugger
         const pets = _pets.map(pet => {
             return {
                 owner: pet.owner,
@@ -374,7 +373,7 @@ const logic = {
                 id: pet._id
             }
         })
-
+debugger
         return pets
     },
 

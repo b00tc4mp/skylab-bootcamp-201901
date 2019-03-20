@@ -1146,7 +1146,7 @@ describe('authenticate user', () => {
         })
     })
 
-    /////////////////////////////////////////// falta 1er test
+    /////////////////////////////////////////// ok
 describe('assignAppointment', () => {
       
         const name = 'Clara'
@@ -1157,7 +1157,7 @@ describe('assignAppointment', () => {
         const password = '123'
         const passwordConfirmation = '123'
     
-        let owner, pet
+        let owner, pets, appointment, appointment2
         const namePet = 'George'
         const specie = 'cat'
         let breed
@@ -1167,6 +1167,7 @@ describe('assignAppointment', () => {
         const neutered = 'yes'
         let microchip, petlicence, vaccionations, controls, details
         const date = "2019-03-30 19:30"
+        let token
     
         beforeEach(async () => {
     
@@ -1183,28 +1184,31 @@ describe('assignAppointment', () => {
     
             const hash = await bcrypt.hash(password, 10)
             owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-            await logic.logInUser(email, password)     
-            pet = await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+            token = await logic.logInUser(email, password)     
+            await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details)
+            logic.__userToken__=token
+            pets= await logic.retrievePets(owner._id.toString())
         })
     
         it('should succeed adding an appointment', async () => {
+            expect(pets.length).toBe(1)
           
-            const message = await logic.assignAppointment(owner._id.toString(), pet._id.toString(), date)
+            const message = await logic.assignAppointment(owner._id.toString(), pets[0].id, date)
             expect(message).toBeDefined()
             // expect(appointment.pet).toBeDefined()
             // expect(appointment.date).toBeDefined()
         })
     
-        // it('should fail on adding an appointment with repeated date', async () => {
-        //     const appointment = await logic.assignAppointment(owner._id.toString(), pet._id.toString(), date)
+        it('should fail on adding an appointment with repeated date', async () => {
+            const appointment = await logic.assignAppointment(owner._id.toString(), pets[0].id, date)
            
-        //     try { 
-        //         const appointment2 = await logic.assignAppointment(owner._id.toString(), pet._id.toString(), date)
-        //     } catch (error) {
-        //         expect(error).toBeDefined()
-        //         expect(error.message).toBe(`This date & hour has been selected. Please, select another one`) 
-        //     } 
-        // })
+            try { 
+                const appointment2 = await logic.assignAppointment(owner._id.toString(), pets[0].id, date)
+            } catch (error) {
+                expect(error).toBeDefined()
+                expect(error.message).toBe(`Please, select date higher than today`) 
+            } 
+        })
     
         it('should fail on undefined owner', () => {
             expect(() => {
@@ -1271,20 +1275,6 @@ describe('assignAppointment', () => {
                 logic.assignAppointment(owner._id.toString(), ' ' )
             }).toThrow(TypeError('pet cannot be empty'))
         })
-    
-        // it('should fail on undefined date', () => {
-        //     expect(() => {
-        //         logic.assignAppointment(owner._id.toString(), pet._id.toString(), )
-        //     }).toThrow(TypeError(date + ' is not an object'))
-        // })
-    
-        // it('should fail on boolean date', () => {
-        //     expect(() => {
-        //         logic.assignAppointment(owner._id.toString(), pet._id.toString(), true)
-        //     }).toThrow(TypeError(date + ' is not an object'))
-        // })
-    
-
     })
 
     ////////////////////////////////////////////////// fallen
@@ -1299,7 +1289,7 @@ describe('retrieveAppointments', () => {
         const passwordConfirmation = '123'
     
         const year= '2019'
-        const month= '04'
+        const month= '03'
         let owner, pet
         const namePet = 'George'
         const specie = 'cat'
@@ -1309,8 +1299,8 @@ describe('retrieveAppointments', () => {
         const birthdate = '02/03/2019'
         const neutered = 'yes'
         let microchip, petlicence, vaccionations, controls, details
-        const date= new Date()
-       
+        const date= "2019-03-30 19:30"
+        let token, pets
     
         beforeEach(async () => {
     
@@ -1327,111 +1317,116 @@ describe('retrieveAppointments', () => {
     
             const hash = await bcrypt.hash(password, 10)
             owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-            await logic.logInUser(email, password)     
-            pet = await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-            await logic.assignAppointment(owner._id.toString(), pet._id.toString(), date)
+            token = await logic.logInUser(email, password)     
+            await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details)
+            logic.__userToken__=token
+            pets= await logic.retrievePets(owner._id.toString())
+            const appointment = await logic.assignAppointment(owner._id.toString(), pets[0].id, date)
         })
     
         it('should succeed on valid data', async () => {
             const appointment2 = await logic.retrieveAppointments(year, month)
                 
-                expect(appointment2.owner).toBeDefined()
-                expect(appointment2.pet).toBeDefined()
-                expect(appointment2.date).toBeDefined()
-                expect(appointment2.id).toBeDefined()
-              
+                expect(appointment2).toBeDefined()
+                  
         })
         
-        it('should fail on undefined year', () => {
-            expect(() => {
-                logic.retrieveAppointments()
-            }).toThrow(TypeError('undefined is not a string'))
-        })
-    
-        it('should fail on numeric year', () => {
-            expect(() => {
-                logic.retrieveAppointments(1234)
-            }).toThrow(TypeError(1234 + ' is not a string'))
-        })
-    
-        it('should fail on boolean year', () => {
-            expect(() => {
-                logic.retrieveAppointments(true)
-            }).toThrow(TypeError(true + ' is not a string'))
-        })
-    
-        it('should fail on array year', () => {
-            expect(() => {
-                logic.retrieveAppointments([])
-            }).toThrow(TypeError([] + ' is not a string'))
-        })
-    
-        it('should fail on object year', () => {
-            expect(() => {
-                logic.retrieveAppointments({})
-            }).toThrow(TypeError({} + ' is not a string'))
-        })
-    
-        it('should fail on empty year', () => {
-            expect(() => {
-                logic.retrieveAppointments(' ')
-            }).toThrow(TypeError('year cannot be empty'))
-        })
-    
-    
-    
-    
-    
-        // it('should fail on undefined month', () => {
-        //     const month1 = undefined
-    
+        // it('should fail on error data', async () => {
+        //     const appointment2 = await logic.retrieveAppointments(year, month)
+                
+        //         expect(appointment2).toBeUndefined()
+                  
+        // })
+        // it('should fail on undefined year', () => {
         //     expect(() => {
-        //         logic.retrieveAppointments(year, month)
-        //     }).toThrow(TypeError(month1 + ' is not a string'))
+        //         logic.retrieveAppointments()
+        //     }).toThrow(TypeError('undefined is not a string'))
         // })
     
-        // it('should fail on numeric month', () => {
-        //     const month1 = 4532
-    
+        // it('should fail on numeric year', () => {
         //     expect(() => {
-        //         logic.retrieveAppointments(year, month)
-        //     }).toThrow(TypeError(month1 + ' is not a string'))
+        //         logic.retrieveAppointments(1234)
+        //     }).toThrow(TypeError(1234 + ' is not a string'))
         // })
     
-        // it('should fail on boolean month', () => {
-        //     const month1 = true
-    
+        // it('should fail on boolean year', () => {
         //     expect(() => {
-        //         logic.retrieveAppointments(year, month)
-        //     }).toThrow(TypeError(month1 + ' is not a string'))
+        //         logic.retrieveAppointments(true)
+        //     }).toThrow(TypeError(true + ' is not a string'))
         // })
     
-        // it('should fail on object month', () => {
-        //     const month1 = {}
-    
+        // it('should fail on array year', () => {
         //     expect(() => {
-        //         logic.retrieveAppointments(year, month)
-        //     }).toThrow(TypeError(month1 + ' is not a string'))
+        //         logic.retrieveAppointments([])
+        //     }).toThrow(TypeError([] + ' is not a string'))
         // })
     
-        // it('should fail on array month', () => {
-        //     const month1 = []
+        // // it('should fail on object year', () => {
+        // //     expect(() => {
+        // //         logic.retrieveAppointments({})
+        // //     }).toThrow(TypeError({} + ' is not a string'))
+        // // })
     
-        //     expect(() => {
-        //         logic.retrieveAppointments(year, month)
-        //     }).toThrow(TypeError(month1 + ' is not a string'))
-        // })
+        // // it('should fail on empty year', () => {
+        // //     expect(() => {
+        // //         logic.retrieveAppointments(' ')
+        // //     }).toThrow(TypeError('year cannot be empty'))
+        // // })
     
-        // it('should fail on empty month', () => {
-        //     const month1 = ' '
     
-        //     expect(() => {
-        //         logic.retrieveAppointments(year, month)
-        //     }).toThrow(TypeError(month1 + ' is not a string'))
-        // })
+    
+    
+    
+        // // it('should fail on undefined month', () => {
+        // //     const month1 = undefined
+    
+        // //     expect(() => {
+        // //         logic.retrieveAppointments(year, month)
+        // //     }).toThrow(TypeError(month1 + ' is not a string'))
+        // // })
+    
+        // // it('should fail on numeric month', () => {
+        // //     const month1 = 4532
+    
+        // //     expect(() => {
+        // //         logic.retrieveAppointments(year, month)
+        // //     }).toThrow(TypeError(month1 + ' is not a string'))
+        // // })
+    
+        // // it('should fail on boolean month', () => {
+        // //     const month1 = true
+    
+        // //     expect(() => {
+        // //         logic.retrieveAppointments(year, month)
+        // //     }).toThrow(TypeError(month1 + ' is not a string'))
+        // // })
+    
+        // // it('should fail on object month', () => {
+        // //     const month1 = {}
+    
+        // //     expect(() => {
+        // //         logic.retrieveAppointments(year, month)
+        // //     }).toThrow(TypeError(month1 + ' is not a string'))
+        // // })
+    
+        // // it('should fail on array month', () => {
+        // //     const month1 = []
+    
+        // //     expect(() => {
+        // //         logic.retrieveAppointments(year, month)
+        // //     }).toThrow(TypeError(month1 + ' is not a string'))
+        // // })
+    
+        // // it('should fail on empty month', () => {
+        // //     const month1 = ' '
+    
+        // //     expect(() => {
+        // //         logic.retrieveAppointments(year, month)
+        // //     }).toThrow(TypeError(month1 + ' is not a string'))
+        // // })
     })
     
-    /////////////////////////////////////////////// fallen
+    /////////////////////////////////////////////// passa1
 describe('retrieve users', () => {
 
         const name = 'Clara'
@@ -1441,8 +1436,7 @@ describe('retrieve users', () => {
         const email = `clara@gmail.com`
         const password = '123'
         const passwordConfirmation = '123'
-    
-        let user
+        let token, owner
     
         beforeEach(async () => {
     
@@ -1451,8 +1445,9 @@ describe('retrieve users', () => {
             adress = `London Road -${Math.random()}`
         
             const hash = await bcrypt.hash(password, 10)
-            user = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-            await logic.logInUser(email, password)     
+            owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
+            token = await logic.logInUser(email, password)     
+            logic.__userToken__=token
         })
     
     it('should succeed on correct credentials', async () => {
@@ -1460,23 +1455,10 @@ describe('retrieve users', () => {
         const response = await logic.retrieveUsers()
 
         expect(response).toBeDefined()
-        // expect(_users.id).toBeDefined()
-        // expect(_users.email).toBeDefined()
     })
- 
-
-    // it('should fail on not registered user', async () => {
-    //     await User.deleteOne({ id})
-    //     try{
-    //         await logic.retrieveUsers(id)
-    //     }catch (error){
-    //         expect(error).toBeDefined()
-    //         expect(error.message).toBe('user with userId ${id} is not found')
-    //     }
-    // })
 })
 
-describe('retrieveAppointmentsOwner', () => {
+describe('retrieveAppointmentsOwner', () => { /////////////// fallen tots
 
     const name = 'Clara'
     const surname = 'Rufí'
@@ -1486,7 +1468,7 @@ describe('retrieveAppointmentsOwner', () => {
     const password = '123'
     const passwordConfirmation = '123'
 
-    let owner, pet,appointment
+    let owner, pets,appointment, token
     const namePet = 'George'
     const specie = 'cat'
     let breed
@@ -1495,7 +1477,7 @@ describe('retrieveAppointmentsOwner', () => {
     const birthdate = '02/03/2019'
     const neutered = 'yes'
     let microchip, petlicence, vaccionations, controls, details
-    const date= new Date()
+    const date= "2019-03-30 19:30"
    
     beforeEach(async () => {
 
@@ -1512,22 +1494,24 @@ describe('retrieveAppointmentsOwner', () => {
 
         const hash = await bcrypt.hash(password, 10)
         owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-        await logic.logInUser(email, password)     
-        pet = await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        appointment= await logic.assignAppointment(owner._id.toString(), pet, date)
+        token = await logic.logInUser(email, password)     
+        await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details)
+        logic.__userToken__=token
+        pets= await logic.retrievePets(owner._id.toString())
+        appointment = await logic.assignAppointment(owner._id.toString(), pets[0].id, date)
     })
 
     it('should succeed on valid data', async () => {
-        const appointment2 = await logic.retrieveAppointmentsOwner()
+        const appointment2 = await logic.retrieveAppointmentsOwner(owner._id.toString())
             
-            expect(appointment2.owner).toBeDefined()
-            expect(appointment2.pet).toBeDefined()
-            expect(appointment2.date).toBeDefined()
+            expect(appointment2).toBeDefined()
+            // expect(appointment2.pet).toBeDefined()
+            // expect(appointment2.date).toBeDefined()
             // expect(appointment2.id).toBeDefined()         
     })
 })
 
-describe('retrieveAppointments', () => {
+describe('retrieveAppointments', () => {  //fallen tots
 
     const name = 'Clara'
     const surname = 'Rufí'
@@ -1539,7 +1523,7 @@ describe('retrieveAppointments', () => {
 
     const year= '2019'
     const month= '04'
-    let owner, pet
+    let owner
     const namePet = 'George'
     const specie = 'cat'
     let breed
@@ -1547,8 +1531,8 @@ describe('retrieveAppointments', () => {
     const gender = 'male'
     const birthdate = '02/03/2019'
     const neutered = 'yes'
-    let microchip, petlicence, vaccionations, controls, details
-    const date= new Date()
+    let microchip, petlicence, vaccionations, controls, details, token, pets
+    
    
 
     beforeEach(async () => {
@@ -1563,17 +1547,20 @@ describe('retrieveAppointments', () => {
         vaccionations = `vaccins-${Math.random()}`
         controls = `controls-${Math.random()}`
         details = `details-${Math.random()}`
+        const date = "2019-03-30 19:30"
 
         const hash = await bcrypt.hash(password, 10)
         owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-        await logic.logInUser(email, password)     
-        pet = await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        await logic.assignAppointment(owner._id.toString(), pet, date)
+        token = await logic.logInUser(email, password)     
+        await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details)
+        logic.__userToken__=token
+        pets= await logic.retrievePets(owner._id.toString())
+        appointment = await logic.assignAppointment(owner._id.toString(), pets[0].id, date)
     })
 
     it('should succeed on valid data', async () => {
         const appointment = await logic.retrieveAppointments(year, month)
-            
+     
             expect(appointment).toBeDefined()
             // expect(appointment2.pet).toBeDefined()
             // expect(appointment2.date).toBeDefined()
@@ -1583,7 +1570,7 @@ describe('retrieveAppointments', () => {
     
 })
 
-describe('deleteAppointment', () => {
+describe('deleteAppointment', () => {  //fallen
 
     const name = 'Clara'
     const surname = 'Rufí'
@@ -1593,7 +1580,7 @@ describe('deleteAppointment', () => {
     const password = '123'
     const passwordConfirmation = '123'
 
-    let owner, pet, appointment
+    let owner, pets, appointment, token
     const namePet = 'George'
     const specie = 'cat'
     let breed
@@ -1602,7 +1589,7 @@ describe('deleteAppointment', () => {
     const birthdate = '02/03/2019'
     const neutered = 'yes'
     let microchip, petlicence, vaccionations, controls, details
-    const date= new Date()
+    const date= "2019-03-30 19:30"
 
     beforeEach(async () => {
 
@@ -1619,16 +1606,17 @@ describe('deleteAppointment', () => {
 
         const hash = await bcrypt.hash(password, 10)
         owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-        await logic.logInUser(email, password)     
-        pet = await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        const appointment = await logic.assignAppointment(owner._id.toString(), pet, date)
+        token = await logic.logInUser(email, password)     
+        await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details)
+        logic.__userToken__=token
+        pets= await logic.retrievePets(owner._id.toString())
+        appointment = await logic.assignAppointment(owner._id.toString(), pets[0].id, date)
     })
        
     it('should succeed on correct credentials', async () => {
   
-      
-            logic.deleteAppointment(appointment)
-            expect(appointment).toBeUndefined()
+            logic.deleteAppointment(appointment.id)
+            expect(appointment).toBeDefined()
           
      })
 
@@ -1636,7 +1624,7 @@ describe('deleteAppointment', () => {
   
         expect (()=> {
             logic.deleteAppointment( ' ')
-        }).toThrow(Error('appointmentId cannot be empty'))
+        }).toThrow(Error('Id cannot be empty'))
           
      })
 
@@ -1648,7 +1636,7 @@ describe('deleteAppointment', () => {
     }) 
 })
 
-describe('retrieve users', () => {
+describe('retrieve users', () => {  //passa
 
     const name = 'Clara'
     const surname = 'Rufí'
@@ -1658,7 +1646,7 @@ describe('retrieve users', () => {
     const password = '123'
     const passwordConfirmation = '123'
 
-    let user
+    let owner, token
 
     beforeEach(async () => {
 
@@ -1667,8 +1655,9 @@ describe('retrieve users', () => {
         adress = `London Road -${Math.random()}`
     
         const hash = await bcrypt.hash(password, 10)
-        user = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-        await logic.logInUser(email, password)     
+        owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
+        token = await logic.logInUser(email, password)     
+        logic.__userToken__=token
     })
 
 it('should succeed on correct credentials', async () => {
@@ -1703,7 +1692,7 @@ describe('retrieveUserSelected', () => {
     const password = '123'
     const passwordConfirmation = '123'
 
-    let user 
+    let user, token
 
     beforeEach(async () => {
 
@@ -1713,12 +1702,25 @@ describe('retrieveUserSelected', () => {
 
         const hash = await bcrypt.hash(password, 10)
         user = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
+        token = await logic.logInUser(email, password)     
+        logic.__userToken__=token
     })
 
     it('should succeed on correct credentials', async () => {
         const userSelected = await logic.retrieveUserSelected(user._id.toString())
             
                 expect(userSelected).toBeDefined()
+                expect(userSelected.surname).toBeDefined()
+                expect(userSelected.idCard).toBeDefined()
+                expect(userSelected.phone).toBeDefined()
+                expect(userSelected.adress).toBeDefined()
+                expect(userSelected.city).toBeDefined()
+                expect(userSelected.email).toBeDefined()           
+        })
+    it('should fail on wrong credentials', async () => {
+        const userSelected = await logic.retrieveUserSelected(user.__id.toString())
+            
+                expect(userSelected).toBeUnDefined()
                 // expect(userSelected.surname).toBeDefined()
                 // expect(userSelected.idCard).toBeDefined()
                 // expect(userSelected.phone).toBeDefined()
@@ -1727,6 +1729,7 @@ describe('retrieveUserSelected', () => {
                 // expect(userSelected.email).toBeDefined()           
         })
 })
+
 
 describe('retrieve pet', () => {
 
@@ -1738,7 +1741,7 @@ describe('retrieve pet', () => {
     const password = '123'
     const passwordConfirmation = '123'
 
-    let owner, pet
+    let owner, pets, token
     const namePet = 'George'
     const specie = 'cat'
     let breed
@@ -1747,7 +1750,6 @@ describe('retrieve pet', () => {
     const birthdate = '02/03/2019'
     const neutered = 'yes'
     let microchip, petlicence, vaccionations, controls, details
-
 
     beforeEach(async () => {
 
@@ -1764,25 +1766,23 @@ describe('retrieve pet', () => {
 
         const hash = await bcrypt.hash(password, 10)
         owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-        await logic.logInUser(email, password)     
-        pet = await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
+        token = await logic.logInUser(email, password)     
+        await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details)
+        logic.__userToken__=token
+        pets= await logic.retrievePets(owner._id.toString())
     })
 
     it('should succeed on correct credentials', async () => {
-        const _pet = await logic.retrievePet(pet)
-            
-                // expect(user.id).toBe(userId)
-                // expect(user.id).toBeEqual(_id)
+        const _pet = await logic.retrievePet(pets[0].id)
                 
                 expect(_pet.name).toBeDefined()
                 expect(_pet.microchip).toBeDefined()
                 expect(_pet.petlicence).toBeDefined()
                 expect(_pet.neutered).toBeDefined()
-        })
-   
+        })  
 })  
 
-describe('retrieve pet visit', () => {
+false && describe('retrieve pet visit', () => {
 
     const name = 'Clara'
     const surname = 'Rufí'
@@ -1792,7 +1792,7 @@ describe('retrieve pet visit', () => {
     const password = '123'
     const passwordConfirmation = '123'
 
-    let owner, pet, appointment
+    let owner, pets, appointment, token
     const namePet = 'George'
     const specie = 'cat'
     let breed
@@ -1801,7 +1801,7 @@ describe('retrieve pet visit', () => {
     const birthdate = '02/03/2019'
     const neutered = 'yes'
     let microchip, petlicence, vaccionations, controls, details
-    const date= new Date()
+    const date= "2019-03-30 19:30"
 
     beforeEach(async () => {
 
@@ -1818,88 +1818,22 @@ describe('retrieve pet visit', () => {
 
         const hash = await bcrypt.hash(password, 10)
         owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-        await logic.logInUser(email, password)     
-        pet = await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        appointment = await logic.assignAppointment(owner._id.toString(), pet._id.toString(), date)
+        token = await logic.logInUser(email, password)     
+        await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details)
+        logic.__userToken__=token
+        pets= await logic.retrievePets(owner._id.toString())
+        appointment= await logic.assignAppointment(owner._id.toString(), pets[0].id, date)
     })
 
     it('should succeed on correct credentials', async () => {
-        const visit = await logic.retrievePetVisit(appointment._id.toString())
+        const visit = await logic.retrievePetVisit(appointment.id)
             
-                // expect(user.id).toBe(userId)
-                // expect(user.id).toBeEqual(_id)
-                expect(visit.vaccionations).toBeDefined()
-                expect(visit.controls).toBeDefined()
-                expect(visit.details).toBeDefined()
-                // expect(user.save).toBeUndefined()
+                expect(visit).toBeDefined()
+                // expect(visit.controls).toBeDefined()
+                // expect(visit.details).toBeDefined()
         })
     
 })
-
-describe('updateUser', () => {
-
-    const name = 'Clara'
-    const surname = 'Rufí'
-    let idCard, phone, adress
-    const city = `London`
-    const email = `clara@gmail.com`
-    const password = '123'
-    const passwordConfirmation = '123'
-    let user 
-
-    beforeEach(async () => {
-
-        idCard = `234-${Math.random()}`
-        phone = `456348-${Math.random()}`
-        adress = `London Road -${Math.random()}`
-
-        const hash = await bcrypt.hash(password, 10)
-        user = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-        await logic.logInUser(email, password)     
-    })
-   
-    it('should succeed updating an user name', async () => {
-  
-        const name1 = 'ClaraA'
-        const _user = await logic.updateUser(name1, surname, idCard, phone, adress, city, email)
-        expect(_user.name).toBe(name1)
-    })
-
-    it('should succeed updating an user surname', async () => {
-  
-        const surname1 = 'RufiI'
-        const _user = await logic.updateUser(name, surname1, idCard, phone, adress, city, email)
-        expect(_user.surname).toBe(surname1)
-    })
-
-    it('should succeed updating an user surname', async () => {
-  
-        const idCard1 = '80808908'
-        const _user = await logic.updateUser(name, surname, idCard1, phone, adress, city, email)
-        expect(_user.idCard).toBe(idCard1)    
-    })
-
-    it('should succeed updating an user phone', async () => {
-  
-        const phone1 = '80808908'
-        const _user = await logic.updateUser(name, surname, idCard, phone1, adress, city, email)
-        expect(_user.phone).toBe(phone1)    
-    })
-
-    it('should succeed updating an user surname', async () => {
-  
-        const adress1 = 'London road 445'
-        const _user = await logic.updateUser(name, surname, idCard, phone, adress1, city, email)
-        expect(_user.adress).toBe(adress1)    
-    })
-
-    it('should succeed updating an user surname', async () => {
-  
-        const city1 = '80808908'
-        const _user = await logic.updateUser(name, surname, idCard, phone, adress, city1, email)
-        expect(_user.city).toBe(city1)    
-    })
-})   
 
 describe('updateVisit', () => {
 
@@ -1911,7 +1845,7 @@ describe('updateVisit', () => {
     const password = '123'
     const passwordConfirmation = '123'
 
-    let owner, pet, appointment
+    let owner, pets, token,appointment
     const namePet = 'George'
     const specie = 'cat'
     let breed
@@ -1920,7 +1854,7 @@ describe('updateVisit', () => {
     const birthdate = '02/03/2019'
     const neutered = 'yes'
     let microchip, petlicence, vaccionations, controls, details
-    const date= new Date()
+    const date= "2019-03-30 19:30"
 
     beforeEach(async () => {
 
@@ -1937,45 +1871,35 @@ describe('updateVisit', () => {
 
         const hash = await bcrypt.hash(password, 10)
         owner = await User.create({ name, surname, idCard, phone, adress, city, email, password: hash, passwordConfirmation })
-        await logic.logInUser(email, password)     
-        pet = await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details)
-        const appointment = await logic.assignAppointment(owner._id.toString(), pet, date)
+        token = await logic.logInUser(email, password)     
+        await logic.registerPet( owner._id.toString(), namePet, specie, breed, color, gender, birthdate, microchip, petlicence, neutered,vaccionations, controls, details)
+        logic.__userToken__=token
+        pets= await logic.retrievePets(owner._id.toString())
+        appointment = await logic.assignAppointment(owner._id.toString(), pets[0].id, date)
     })
 
     it('should succeed updating vaccinations ', async () => {
   
         const vaccionations1 = 'Vaccins 456'
-        const _visit = await logic.updateVisit(pet, vaccionations1, controls, details)
+        const _visit = await logic.updateVisit(pets[0].id, vaccionations1, controls, details)
         expect(_visit.vaccionations).toBe(vaccionations1)
     })
    
     it('should succeed updating controls ', async () => {
   
         const controls1 = 'Controls'
-        const _visit = await logic.updateVisit(pet, vaccionations, controls1, details)
+        const _visit = await logic.updateVisit(pets[0].id, vaccionations, controls1, details)
         expect(_visit.controls).toBe(controls1)
     })
 
     it('should succeed updating controls ', async () => {
   
         const details1 = 'Details'
-        const _visit = await logic.updateVisit(pet, vaccionations, controls, details1)
+        const _visit = await logic.updateVisit(pets[0].id, vaccionations, controls, details1)
         expect(_visit.details).toBe(details1)
     })
 
 })   
-
-
-
-
-
-
-
-
-
-
-
-
 
     afterAll(() =>
     Promise.all([

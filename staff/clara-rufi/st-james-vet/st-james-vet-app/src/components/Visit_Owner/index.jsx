@@ -41,7 +41,7 @@ class VisitOwner extends Component {
     deleteVisit = async (Id) => {
         try {
             await logic.deleteAppointment(Id)
-            this.setState({ askDelete: true, visitConfirmed: false })
+            this.setState({ askDelete: true, visitConfirmed: false, deleteVisit:false })
         } catch ({ message }) {
             this.setState({ error: message, visitConfirmed: false })
         }

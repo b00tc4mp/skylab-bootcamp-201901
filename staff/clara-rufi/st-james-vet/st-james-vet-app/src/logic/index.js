@@ -77,10 +77,10 @@ const logic = {
             body: JSON.stringify({ name, surname, idCard, phone, adress, city, email, password, passwordConfirmation })
         })
             .then(response => response.json())
-            .then(({ id, error }) => {
+            .then(({ message, error }) => {
                 if (error) throw Error(error)
 
-                return id
+                return message
             })
     },
 
@@ -139,7 +139,7 @@ const logic = {
 
         if (!petlicence.trim().length) throw Error ('petlicence cannot be empty')
 
-        if(typeof vaccionations != 'string') throw TypeError (vaccionations + 'is not a string')
+        if(typeof vaccionations != 'string') throw TypeError (vaccionations + ' is not a string')
 
         if (!vaccionations.trim().length) throw Error ('vaccionations cannot be empty')
 
@@ -166,10 +166,10 @@ const logic = {
             body: JSON.stringify({owner, name, specie, breed, color, gender, birthdate, microchip, petlicence, neutered, vaccionations, controls, details})
         })
             .then(response => response.json())
-            .then(({ id, error }) => {
+            .then(({ message, error }) => {
                 if (error) throw Error(error)
         
-                return id
+                return message
             })
     },
    
@@ -203,6 +203,7 @@ const logic = {
 
                 this.__userToken__ = response.token
                 this.__userAdmin__ = (response.role === 'admin')
+                return response.token
             })
     },
 
@@ -242,7 +243,7 @@ const logic = {
      */
     retrieveUsers() {
         
-        this.__updateToken__()
+        // this.__updateToken__()
         return fetch(`${this.url}/users`, {
 
             headers: {
@@ -262,7 +263,7 @@ const logic = {
      */
     retrieveAppointmentsOwner() {
         debugger
-        this.__updateToken__()
+        // this.__updateToken__()
         return fetch(`${this.url}/appointmentsOwner`, {
 
             headers: {
@@ -287,7 +288,7 @@ const logic = {
      */
     retrieveAppointments(year, month) {  
           
-        this.__updateToken__()
+        // this.__updateToken__()
         return fetch(`${this.url}/appointments/${year}/${month}`, {
           
             method: 'GET',
@@ -313,7 +314,7 @@ const logic = {
      */
     retrievePets(userId){
 
-          this.__updateToken__()
+        //   this.__updateToken__()
         return fetch(`${this.url}/pets/${userId}`, {
         
             headers:{
@@ -346,11 +347,8 @@ const logic = {
 
         if (typeof date !== 'string') throw TypeError(date + ' is not a string')
 
-        // if (!date.trim().length) throw Error(' date cannot be empty') /////////////
 
-        console.log(owner, pet, date)
-
-          this.__updateToken__()
+        //   this.__updateToken__()
         return fetch(`${this.url}/appointment`, {
             method: 'POST',
             headers:{
@@ -378,7 +376,7 @@ const logic = {
 
         if (!Id.trim().length) throw Error('Id cannot be empty')
 
-          this.__updateToken__()
+        //   this.__updateToken__()
         return fetch(`${this.url}/appointment`, {
             method: 'DELETE',
             headers:{
@@ -401,7 +399,7 @@ const logic = {
      */
     retrieveUser() {
       
-          this.__updateToken__()
+        //   this.__updateToken__()
         return fetch(`${this.url}/user/`, {
 
             headers: {
@@ -423,7 +421,7 @@ const logic = {
      */
     retrieveUserSelected(userSelectedId) {
         
-        this.__updateToken__()
+        // this.__updateToken__()
         return fetch(`${this.url}/user/${userSelectedId}`, {
 
             headers: {
@@ -445,7 +443,7 @@ const logic = {
      */
     retrievePet(petsId) {
       
-          this.__updateToken__()
+        //   this.__updateToken__()
         return fetch(`${this.url}/pet/${petsId}`, {
             headers: {
                 authorization: `Bearer ${this.__userToken__}`
@@ -466,7 +464,7 @@ const logic = {
      */
     retrievePetVisit(petsId) {
        
-          this.__updateToken__()
+        //   this.__updateToken__()
         return fetch(`${this.url}/visit/${petsId}`, {
             headers: {
                 authorization: `Bearer ${this.__userToken__}`
@@ -492,9 +490,9 @@ const logic = {
      * @param {string} city 
      * @param {string} email 
      */
-    updateUser(name, surname, idCard, phone, adress, city, email) {
+    updateUser(name, surname, idCard, phone, adress, city, email) { 
        
-          this.__updateToken__()
+        //   this.__updateToken__()
         return fetch(`${this.url}/user`, {
             method: 'PUT',
             headers: {
@@ -550,7 +548,7 @@ const logic = {
      */
     updateVisit(petsId, vaccionations, controls, details) {
        
-          this.__updateToken__()
+        //   this.__updateToken__()
         return fetch(`${this.url}/visit`, {
             method: 'PUT',
             headers: {
