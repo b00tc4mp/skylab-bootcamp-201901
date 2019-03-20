@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import Feedback from "../Feedback";
 import "./index.sass";
 import logic from "../../logic";
 import { withRouter } from "react-router-dom";
@@ -12,7 +11,6 @@ function Register(props) {
   const [name, setName] = useState(null);
   const [password, setPassword] = useState(null);
   const [passwordConfirm, setPasswordConfirm] = useState(null);
-  const [registerFeedback, setRegisterFeedback] = useState(null);
 
   const handleNameInput = event => setName(event.target.value);
   const handleUsernameInput = event => setUsername(event.target.value);
@@ -27,7 +25,7 @@ function Register(props) {
       logic
         .registerUser(name, username, email, password, passwordConfirm)
         .then(() => props.history.push("/login"))
-        .catch(({ message }) => setRegisterFeedback(message));
+        .catch(({ message }) => notify(message));
     } catch ({ message }) {
       notify(message);
     }
@@ -70,11 +68,8 @@ function Register(props) {
           onChange={handlePasswordConfirmationInput}
           placeholder="confirm password"
         />
-
         <button>Register</button>
       </form>
-
-      {registerFeedback && <Feedback message={registerFeedback} />}
     </section>
   );
 }

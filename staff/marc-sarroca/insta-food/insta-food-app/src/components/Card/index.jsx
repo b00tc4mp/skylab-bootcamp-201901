@@ -64,6 +64,7 @@ function Card({
     if (Number(seconds) < 10) seconds = "0" + seconds;
     setS(seconds);
   }, []);
+  console.log(location.pathname);
   return (
     <div className="instafood-card">
       <div className="instafood-card-header">
@@ -71,7 +72,8 @@ function Card({
           className="instafood-card-user-name"
           to={`/profile/${postUserId}`}
         >
-          {location.pathname === "/posts" || "/search" ? (
+          {location.pathname.includes("/posts") ||
+          location.pathname.includes("/search") ? (
             <img
               className="user-photo"
               src={`https://api.adorable.io/avatars/285/${postUserId}.png`}

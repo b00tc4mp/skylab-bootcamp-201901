@@ -11,7 +11,7 @@ function CardList(props) {
   const [posts, setPosts] = useState([]);
   const [userFavorites, setUserFavorites] = useState([]);
   const [page, setPage] = useState(1);
-  const [setn] = useState(false);
+  const [n, setn] = useState(false);
 
   window.scrollTo(0, 0);
 

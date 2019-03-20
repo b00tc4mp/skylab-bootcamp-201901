@@ -1,5 +1,7 @@
+const { REACT_APP_DB_URL } = process.env;
+
 const instaApi = {
-  url: "http://localhost:8000/api",
+  url: REACT_APP_DB_URL,
 
   registerUser(name, username, email, password, passwordConfirm) {
     if (typeof name !== "string") throw TypeError(`${name} is not a string`);

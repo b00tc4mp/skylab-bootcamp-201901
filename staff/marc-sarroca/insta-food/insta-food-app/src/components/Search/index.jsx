@@ -73,6 +73,7 @@ function Search({ history, match }) {
               countfavs={post.countfavs}
               date={post.date}
               call={retrieveUserFavs}
+              postUserId={post.user_id._id}
             />
           ))}
       </div>
