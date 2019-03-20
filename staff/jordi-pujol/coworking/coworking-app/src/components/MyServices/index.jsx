@@ -3,7 +3,7 @@ import { withRouter, Route } from 'react-router-dom'
 
 import logic from '../../logic'
 import Service from '../Service'
-import FullService from '../Full-Service'
+import FullService from '../FullService'
 
 class MyServices extends Component {
 

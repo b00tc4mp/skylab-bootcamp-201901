@@ -7,7 +7,7 @@ import Login from '../Login'
 import Register from '../Register'
 import Home from '../Home'
 import logic from '../../logic'
-import Workspace from '../Create-workspace'
+import Workspace from '../CreateWorkspace'
 import Page404 from '../404'
 
 class App extends Component {

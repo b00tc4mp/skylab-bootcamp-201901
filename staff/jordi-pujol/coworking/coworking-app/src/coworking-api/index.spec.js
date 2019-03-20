@@ -508,7 +508,7 @@ describe('coworkingApi', () => {
         )
 
         it('should fail on user not found', () => {
-            return coworkingApi.retrieveUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE')
+            return coworkingApi.retrieveUser('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18')
                 .catch(({ message }) => expect(message).toBe('id is not defined'))
         })
 
@@ -683,7 +683,7 @@ describe('coworkingApi', () => {
 
         it('should fail on user not found', () => {
 
-            return coworkingApi.createWorkspace(name, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE')
+            return coworkingApi.createWorkspace(name, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18')
                 .catch(({ message }) => expect(message).toBe('user does not exist'))
         })
 
@@ -999,8 +999,8 @@ describe('coworkingApi', () => {
         })
 
         it('should fail on user does not exist', () => {
-            return coworkingApi.createNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE')
-                .catch(({ message }) => expect(message).toBe('5c87e9a9bf25412cfbdccd0e does not exists'))
+            return coworkingApi.createNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18')
+                .catch(({ message }) => expect(message).toBe('5c83d564d0ebca3907486de2 does not exists'))
         })
 
 
@@ -1264,8 +1264,8 @@ describe('coworkingApi', () => {
 
         it('should fail on user does not exists', () => {
 
-            return coworkingApi.verifyNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE', link)
-                .catch(({ message }) => expect(message).toBe('5c87e9a9bf25412cfbdccd0e does not exists'))
+            return coworkingApi.verifyNewUserLink('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18', link)
+                .catch(({ message }) => expect(message).toBe('5c83d564d0ebca3907486de2 does not exists'))
         })
 
         it('should fail on link not found', () => {
@@ -1419,8 +1419,8 @@ describe('coworkingApi', () => {
 
         it('should fail on user does not exists', () => {
 
-            return coworkingApi.createService('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE', title, description, maxUsers, place, time)
-                .catch(({ message }) => expect(message).toBe('5c87e9a9bf25412cfbdccd0e does not exists'))
+            return coworkingApi.createService('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18', title, description, maxUsers, place, time)
+                .catch(({ message }) => expect(message).toBe('5c83d564d0ebca3907486de2 does not exists'))
         })
 
         it('should fail on undefined token', () => {
@@ -1763,7 +1763,7 @@ describe('coworkingApi', () => {
 
         it('should fail on user not exists', () => {
 
-            return coworkingApi.retrieveUserServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE')
+            return coworkingApi.retrieveUserServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18')
                 .catch(({ message }) => expect(message).toBe('user does not exists'))
         })
     })
@@ -1819,7 +1819,7 @@ describe('coworkingApi', () => {
         })
 
         it('should fail on non existing user', () => {
-            return coworkingApi.retrieveUserSubmitedServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE')
+            return coworkingApi.retrieveUserSubmitedServices('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18')
                 .catch(({ message }) => expect(message).toBe('User does not exists'))
         })
     })
@@ -2125,7 +2125,7 @@ describe('coworkingApi', () => {
             return coworkingApi.retrieveWorkspaceComments(_token, serviceId)
                 .then( comments => {
                     expect(comments).toBeDefined()
-                    expect(comments[0].user.toString()).toBe(userId)
+                    expect(comments[0].user.userName.toString()).toBe(userName)
                     expect(comments[0].text).toBe(text)
                     expect(comments[0].id.toString()).toBe(commentId)
                 })
@@ -2291,7 +2291,7 @@ describe('coworkingApi', () => {
         )
 
         it('should fail on user not found', () => {
-            return coworkingApi.retrieveUserProfile('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Yzg3ZTlhOWJmMjU0MTJjZmJkY2NkMGUiLCJpYXQiOjE1NTI5OTgzMTEsImV4cCI6MTU1MzAxMjcxMX0.Ma8IvDWdIEwgVc70QUuXvjmnDM5774Sn7gW5o23KZbE', userName)
+            return coworkingApi.retrieveUserProfile('eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1YzgzZDU2NGQwZWJjYTM5MDc0ODZkZTIiLCJpYXQiOjE1NTMwOTE1ODMsImV4cCI6MTU1MzEwNTk4M30.bMSwJmoTtdgDx3pV_N3-nf0lTdxhLwxXh4Kit65yx18', userName)
                 .catch(({ message }) => expect(message).toBe('id is not defined'))
         })
     })

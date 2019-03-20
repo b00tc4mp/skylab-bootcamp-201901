@@ -2,10 +2,10 @@ import React, { Component } from 'react'
 import { Route, withRouter } from 'react-router-dom'
 
 import Service from '../Service'
-import FullService from '../Full-Service'
+import FullService from '../FullService'
 import logic from '../../logic';
 import Feedback from '../Feedback'
-import OtherProfile from '../Ohters-profile'
+import OtherProfile from '../OhtersProfile'
 import Search from '../Search'
 
 class Inbox extends Component {

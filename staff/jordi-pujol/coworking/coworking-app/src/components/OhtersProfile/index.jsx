@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import logic from '../../logic';
 import Feedback from '../Feedback'
 
@@ -11,17 +11,24 @@ class OthersProfile extends Component {
 
         const { props: { username, origin } } = this
 
-        logic.retrieveUserProfile(username)
-            .then(({ name, surname, email, companyName, age, username, time, image }) => {
-                this.setState({ name })
-                this.setState({ surname })
-                this.setState({ email })
-                this.setState({ companyName })
-                this.setState({ age })
-                this.setState({ username })
-                this.setState({ time })
-                this.setState({ image })
-            })
+        try{
+            logic.retrieveUserProfile(username)
+                .then(({ name, surname, email, companyName, age, username, time, image }) => {
+                    this.setState({ name })
+                    this.setState({ surname })
+                    this.setState({ email })
+                    this.setState({ companyName })
+                    this.setState({ age })
+                    this.setState({ username })
+                    this.setState({ time })
+                    this.setState({ image })
+                })
+                .catch(({message}) => {
+                    this.setState({feedback: message})
+                    this.props.history.push('/home/inbox')})
+        } catch ({message}){
+            this.setState({feedback: message})
+        }
 
         this.setState({origin})   
     }

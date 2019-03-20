@@ -14,6 +14,7 @@ const logic = {
         * 
         * @param {string} name 
         * @param {string} surname 
+        * @param {string} userName 
         * @param {string} email 
         * @param {string} password 
         * @param {string} passwordConfirmation 
@@ -94,7 +95,7 @@ const logic = {
      * Updates a user. Can change user params.
      * 
      * @param {string} userId 
-     * @param {string} data 
+     * @param {Object} data 
      */
     updateUser(userId, data) {
         validate([{ key: 'userId', value: userId, type: String }])
@@ -148,13 +149,14 @@ const logic = {
     /**
      * Retrieves user by it's Id
      * 
-     * @param {string} userId 
+     * @param {string} userId
+     * @param {string} username 
      */
     retrieveUserProfile(userId, username) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'username', value: username, type: String }])
 
-        return User.findOne({ username }).select('-password -__v').lean()
+        return User.findOne({ userName: username }).select('-password -__v').lean()
             .then(user => {
                 if (!user) throw Error(`user with username ${username} not found`)
 
@@ -230,8 +232,6 @@ const logic = {
                 for (let i = 0; i < workspace.user.length; i++) {
                     if (workspace.user[i].toString() === userId) throw Error(`${userId} already exists`)
                 }
-
-                // add valiation
                 return workspace
             })
             .then((workspace) => {
@@ -319,9 +319,12 @@ const logic = {
      * 
      * Creates a service.
      * 
-     * @param {string} userId 
-     * @param {string} title 
-     * @param {string} description 
+     * @param {string} userId
+     * @param {string} title
+     * @param {string} description
+     * @param {number} maxUsers
+     * @param {string} place
+     * @param {number} time
      */
     createService(userId, title, description, maxUsers, place, time) {
 
@@ -382,6 +385,11 @@ const logic = {
 
     },
 
+    /**
+     * Retrieves all services from a user
+     * 
+     * @param {string} userId 
+     */
     retrieveUserServices(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 
@@ -408,6 +416,11 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieves all services a user has submited
+     * 
+     * @param {string} userId 
+     */
     retrieveUserSubmitedEvents(userId) {
         validate([{ key: 'userId', value: userId, type: String }])
 
@@ -444,6 +457,12 @@ const logic = {
             })
     },
 
+    /**
+     * Retrieves all services from a workspace
+     * 
+     * @param {string} userId 
+     * @param {string} workspaceId 
+     */
     retrieveWorkspaceServices(userId, workspaceId) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'workspaceId', value: workspaceId, type: String }])
@@ -490,6 +509,12 @@ const logic = {
             })
     },
 
+    /**
+     * Search services by title
+     * 
+     * @param {string} userId 
+     * @param {string} query 
+     */
     searchServices(userId, query) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'query', value: query, type: String }])
@@ -549,6 +574,7 @@ const logic = {
     },
 
     /**
+     * Updates a service
      * 
      * @param {string} userId 
      * @param {string} serviceId 
@@ -568,6 +594,12 @@ const logic = {
             .then(() => Service.findOneAndUpdate({ id: serviceId, $set: data }))
     },
 
+    /**
+     * Adds a user in a service
+     * 
+     * @param {string} userId 
+     * @param {string} serviceId 
+     */
     addUserToService(userId, serviceId) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'serviceId', value: serviceId, type: String }])
@@ -596,6 +628,11 @@ const logic = {
             })
     },
 
+    /**
+     * Close a service
+     * 
+     * @param {string} serviceId 
+     */
     closeService(serviceId) {
 
         let _time
@@ -629,6 +666,7 @@ const logic = {
     },
 
     /**
+     * Deletes a service
      * 
      * @param {string} userId 
      * @param {string} serviceId 
@@ -654,6 +692,13 @@ const logic = {
             })
     },
 
+    /**
+     * Creates a new comment
+     * 
+     * @param {string} userId 
+     * @param {string} serviceId 
+     * @param {string} text 
+     */
     createComment(userId, serviceId, text) {
         validate([{ key: 'userId', value: userId, type: String },
         { key: 'serviceId', value: serviceId, type: String },
@@ -664,11 +709,16 @@ const logic = {
             .then(service => service.comments[service.comments.length - 1]._id)
     },
 
+    /**
+     * Retrieve all comments linked to a service
+     * 
+     * @param {string} serviceId 
+     */
     retrieveServiceComments(serviceId) {
         validate([{ key: 'serviceId', value: serviceId, type: String }])
 
         let comments = []
-        return Service.findById(serviceId).populate({path:'comments.user'}).lean()
+        return Service.findById(serviceId).populate({ path: 'comments.user' }).lean()
             .then(service => {
 
                 if (!service) throw Error('service not found')
@@ -684,6 +734,12 @@ const logic = {
             })
     },
 
+    /**
+     * Removes a comment
+     * 
+     * @param {string} serviceId 
+     * @param {string} commentId 
+     */
     removeComment(serviceId, commentId) {
         validate([{ key: 'serviceId', value: serviceId, type: String },
         { key: 'commentId', value: commentId, type: String }])
@@ -707,11 +763,6 @@ const logic = {
    * 
    * @param {String} userId 
    * @param {String} url 
-   * 
-   * @throws {TypeError} - if userId is not a string or data is not an object.
-   * @throws {Error} - if any param is empty or user is not found.
-   *
-   * @returns {Object} - user.  
    */
     updateUserPhoto(userId, url) {
 

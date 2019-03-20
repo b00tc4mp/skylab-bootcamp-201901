@@ -66,7 +66,10 @@ class Profile extends Component {
 
         try {
             return logic.updateUserPhoto(image)
-                .then(user => this.setState({ image: user.image }))
+                .then(user =>{
+                    this.setState({ image: user.image })
+                    this.setState({feedback: null})
+                })
                 .catch(({ message }) => this.setState({ feedback: message }))
         } catch ({ message }) {
             this.setState({ feedback: message })

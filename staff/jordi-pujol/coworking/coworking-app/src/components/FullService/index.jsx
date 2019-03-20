@@ -17,7 +17,7 @@ class FullService extends Component {
                 .then(service => this.setState({ activeService: service }))
                 .then(() => logic.retrieveWorkspaceComments(service))
                 .then(comments => this.setState({ comments }))
-                .catch(({ message }) => this.setState({ feedback: message }))
+                .catch(({ message }) => this.setState({ feedback: 'Service not found' }))
         }
         catch ({ message }) {
             this.setState({ feedback: message })
@@ -46,7 +46,7 @@ class FullService extends Component {
                     .then(() => logic.retrieveWorkspaceComments(service))
                     .then(comments => this.setState({ comments }))
                     .then(() => this.setState({ feedback: null }))
-                    .catch(({ message }) => this.setState({ feedback: message }))
+                    .catch(({ message }) => this.setState({ feedback: 'Service not found' }))
             }
             catch ({ message }) {
                 this.setState({ feedback: message })

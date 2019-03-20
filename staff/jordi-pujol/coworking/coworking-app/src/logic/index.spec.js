@@ -1382,113 +1382,58 @@ describe('logic', () => {
     })
 
 
-    // describe('update service', () => {
+    describe('retrieve user submited services', () => {
 
-    //     const name = 'Josepet'
-    //     const surname = 'Pepet'
-    //     const email = `josepet-${Math.random()}@mail.com`
-    //     const password = `123-${Math.random()}`
-    //     const isAdmin = 'true'
-    //     let userId = ''
-    //     const title = 'english lesson'
-    //     const description = 'english lessons that will help you a lot'
-    //     let workspaceId
-    //     let serviceId
-    //     let time = 30
-    //     let maxUsers = 4
-    //     let place = 'here'
-    //     const data = {
-    //         title: 'pepito',
-    //         description: 'juanito',
-    //         maxUsers: 5,
-    //         place: 'here',
-    //         time: 40
-    //     }
+        const name = 'Josepet'
+        const surname = 'Pepet'
+        const email = `josepet-${Math.random()}@mail.com`
+        const email2 = `josepet-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+        const isAdmin = 'true'
+        let userId
+        let userId2
+        const title = 'english lesson'
+        const description = 'english lessons that will help you a lot'
+        let workspaceId
+        let serviceId
+        let maxUsers = 4
+        let place = 'here'
+        let time = 60
+        let userName = 'roro'
+        let userName2 = 'roronoa'
 
-    //     beforeEach(() =>
+        beforeEach(() =>
 
-    //         coworkingApi.registerUser(name, surname, userName, email, password, password)
-    //         .then(()=> coworkingApi.authenticateUser(email, password))
-    //         .then(({token}) => logic.__coworkingApiToken__ = token)
-    //         .then(()=> coworkingApi.createWorkspace('Onepiece', logic.__coworkingApiToken__))
-    //         .then(id => workspaceId = id)
-    //         .then(() => coworkingApi.updateUser(logic.__coworkingApiToken__, [{ isAdmin: true }]))
-    //         .then(()=> coworkingApi.createService(logic.__coworkingApiToken__, title, description, maxUsers, place, time))
-    //         .then( id => serviceId = id)
-    //     )
+            coworkingApi.registerUser(name, surname, userName, email, password, password)
+                .then(() => coworkingApi.authenticateUser(email, password))
+                .then(({ token }) => logic.__coworkingApiToken__ = token)
+                .then(() => coworkingApi.createWorkspace('Onepiece', logic.__coworkingApiToken__))
+                .then(id => workspaceId = id)
+                .then(() => coworkingApi.updateUser(logic.__coworkingApiToken__, [{ isAdmin: true }]))
+                .then(() => coworkingApi.createService(logic.__coworkingApiToken__, title, description, maxUsers, place, time))
+                .then(id => serviceId = id)
+                .then(() => coworkingApi.registerUser(name, surname, userName2, email2, password, password))
+                .then(() => coworkingApi.authenticateUser(email2, password))
+                .then(({ token }) => logic.__coworkingApiToken__ = token)
+                .then(() => coworkingApi.addUserToService(logic.__coworkingApiToken__, serviceId))
+        )
 
-    //     it('should succed on correct data', () => {
+        it('should succed on valid data', () => {
+            return logic.retrieveUserSubmitedServices()
+                .then(services => {
+                    debugger
+                    expect(services).toBeDefined()
+                    expect(services).toEqual([])
+                })
+        })
 
-    //         return logic.updateService(userId, serviceId, data)
-    //             .then(({ id }) => Service.findById(id))
-    //             .then(service => {
-    //                 expect(service).toBeDefined()
-    //                 expect(service.title).toBe(data.title)
-    //                 expect(service.description).toBe(data.description)
-    //                 expect(service.maxUsers).toBe(data.maxUsers)
-    //                 expect(service.place).toBe(data.place)
-    //                 expect(service.time).toBe(data.time)
-    //             })
-    //     })
+        it('should fail on non existing user', () => {
+            logic.__coworkingApiToken__ = 'asdsdk98879123uids9adsa9889dsndiasj89dusa'
 
-    //     it('should fail on user trying to update another person service', () => {
-
-    //         return logic.updateService('5c87e9a9bf25412cfbdccd0e', serviceId, data)
-    //             .catch(({ message }) => expect(message).toBe('this user cannot update this service'))
-    //     })
-    // })
-
-
-    // describe('retrieve user submited services', () => {
-
-    //     const name = 'Josepet'
-    //     const surname = 'Pepet'
-    //     const email = `josepet-${Math.random()}@mail.com`
-    //     const email2 = `josepet-${Math.random()}@mail.com`
-    //     const password = `123-${Math.random()}`
-    //     const isAdmin = 'true'
-    //     let userId
-    //     let userId2
-    //     const title = 'english lesson'
-    //     const description = 'english lessons that will help you a lot'
-    //     let workspaceId
-    //     let serviceId
-    //     let maxUsers = 4
-    //     let place = 'here'
-    //     let time = 60
-
-    //         beforeEach(() =>
-
-    //             coworkingApi.registerUser(name, surname, userName, email, password, password)
-    //             .then(()=> coworkingApi.authenticateUser(email, password))
-    //             .then(({token}) => logic.__coworkingApiToken__ = token)
-    //             .then(()=> coworkingApi.createWorkspace('Onepiece', logic.__coworkingApiToken__))
-    //             .then(id => workspaceId = id)
-    //             .then(() => coworkingApi.updateUser(logic.__coworkingApiToken__, [{ isAdmin: true }]))
-    //             .then(()=> coworkingApi.createService(logic.__coworkingApiToken__, title, description, maxUsers, place, time))
-    //             .then( id => serviceId = id)
-    //             .then(()=> coworkingApi.registerUser(name, surname, email2, password, password))
-    //             .then(()=> coworkingApi.authenticateUser(email2, password))
-    //             .then(({token}) => logic.__coworkingApiToken__ = token)
-    //             .then(()=> coworkingApi.addUserToService(logic.__coworkingApiToken__, serviceId))
-    //     )
-
-    //     it('should succed on valid data', () => {
-    //         return logic.retrieveUserSubmitedServices()
-    //             .then(services => {
-    //                 debugger
-    //                 expect(services).toBeDefined()
-    //                 expect(services).toEqual([])
-    //             })
-    //     })
-
-    // it('should fail on non existing user', () => {
-    //     logic.__coworkingApiToken__ = 'asdsdk98879123uids9adsa9889dsndiasj89dusa'
-
-    //     return logic.retrieveUserSubmitedServices()
-    //         .catch(({ message }) => expect(message).toBe('User does not exists'))
-    // })
-    // })
+            return logic.retrieveUserSubmitedServices()
+                .catch(({ message }) => expect(message).toBe('User does not exists'))
+        })
+    })
 
 
     describe('add user to service', () => {
@@ -1776,7 +1721,7 @@ describe('logic', () => {
             return logic.retrieveWorkspaceComments(serviceId)
                 .then(comments => {
                     expect(comments).toBeDefined()
-                    expect(comments[0].user.toString()).toBe(userId)
+                    expect(comments[0].user.userName.toString()).toBe(userName)
                     expect(comments[0].text).toBe(text)
                 })
         })

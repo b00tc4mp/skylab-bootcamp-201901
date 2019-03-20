@@ -2,8 +2,10 @@
 
 import validate from 'coworking-validation'
 
+const { REACT_APP_URL } = process.env
+
 const coworkingApi = {
-    url: 'http://localhost:8000/api',
+    url: REACT_APP_URL,
 
     registerUser(name, surname, userName, email, password, passwordConfirm) {
         validate([{ key: 'name', value: name, type: String },
