@@ -4,16 +4,17 @@ module.exports = (req, res) => {
   const {
     body: { playerId, matchId }
   } = req;
+  debugger
   try {
     logic
-      .addAvailabilityPlayer(playerId, matchId)
+    .addAvailabilityPlayer(playerId, matchId)
       .then(response => {
         res.json(response);
       })
       .catch(err => {
-        throw Error(err);
+        res.status(409).json({ err: err.message });
       });
   } catch (err) {
-    throw Error(err);
+    res.status(409).json({ err: err.message });
   }
 };

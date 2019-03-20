@@ -9,9 +9,9 @@ module.exports = (req, res) => {
       .setScorePlayers(link)
       .then(res.json.bind(res))
       .catch(err => {
-        throw Error (err)
-    });
+        res.status(409).json({ err: err.message });
+      });
   } catch (err) {
-    throw Error(err)
+    res.status(409).json({ err: err.message });
   }
 };

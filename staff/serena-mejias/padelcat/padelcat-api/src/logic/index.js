@@ -355,12 +355,13 @@ const logic = {
    */
 
   addAvailabilityPlayer(playerId, matchId) {
+    debugger
     if (typeof playerId !== "string") throw TypeError(`playerId is not string`);
     if (!playerId.trim().length) throw Error("playerId cannot be empty");
 
     if (typeof matchId !== "string") throw TypeError(`matchId is not string`);
     if (!matchId.trim().length) throw Error("matchId cannot be empty");
-
+    
     return (async () => {
       await Player.findByIdAndUpdate(
         { _id: playerId },

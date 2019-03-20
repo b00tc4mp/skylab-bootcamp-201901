@@ -5,11 +5,12 @@ module.exports = (req, res) => {
     logic
       .getMatchesWithData()
       .then(response => {
-        
         res.json(response);
       })
-      .catch(err => console.log(err));
+      .catch(err => {
+        res.status(409).json({ err: err.message });
+      });
   } catch (err) {
-    console.log(err);
+    res.status(409).json({ err: err.message });
   }
 };

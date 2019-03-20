@@ -56,10 +56,6 @@ router.get(
   [jsonBodyParser, tokenVerifierMiddleware],
   getMatchesWithData
 );
-router.get(
-  "/retrieveAvailabilityPlayers/:matchId",
-  retrieveAvailabilityPlayers
-);
 router.put("/availabilityPlayer", [jsonBodyParser, tokenVerifierMiddleware], availabilityPlayer);
 router.put(
   "/deleteAvailabilityPlayer",

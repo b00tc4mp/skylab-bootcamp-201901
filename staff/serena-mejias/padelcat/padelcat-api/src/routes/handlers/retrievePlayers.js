@@ -9,9 +9,9 @@ module.exports = (req, res) => {
       .retrievePlayers()
       .then(r => res.json(r))
       .catch(err => {
-        throw Error(err);
+        res.status(409).json({ err: err.message });
       });
   } catch (err) {
-    throw Error(err);
+    res.status(409).json({ err: err.message });
   }
 };

@@ -1,17 +1,16 @@
 const logic = require("../../logic");
 module.exports = (req, res) => {
   const {
-    body: {  }, playerId
+    body: {  }
   } = req;
-
   try {
     logic
-      .retrieveMatchesScrapping(playerId)
-      .then(r =>  res.json(r))
-      .catch(error => {
-        res.status(400).json(error);
+      .retrieveMatchesScrapping()
+      .then(response =>  res.json(response))
+      .catch(err => {
+        res.status(400).json({ err: err.message });
       });
   } catch (err) {
-    res.status(400).json(err);
+    res.status(400).json({ err: err.message });
   }
 };

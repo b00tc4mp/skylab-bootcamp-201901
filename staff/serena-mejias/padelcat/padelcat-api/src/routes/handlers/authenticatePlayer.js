@@ -7,7 +7,6 @@ module.exports = (req, res) => {
   } = req;
 
   try {
-    debugger
     logic
       .authenticatePlayer(email, password)
       .then(response => {
