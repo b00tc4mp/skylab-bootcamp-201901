@@ -90,7 +90,13 @@ const logic = {
    *
    * @param {string} email
    * @param {string} password
+   * @throws {TypeError} - When any param is not a string.
+   * @throws {Error} - When any param is empty.
+   * @throws {Error} - When player is not defined.
+   *
+   * @returns {Object} - player.
    */
+
   authenticatePlayer(email, password) {
     if (typeof email !== "string") throw TypeError(email + " is not string");
 
@@ -114,6 +120,16 @@ const logic = {
     })();
   },
 
+  /**
+   * Retrieve players in data.
+   *
+   * @throws {TypeError} - When any param is not a string.
+   * @throws {Error} - When any param is empty.
+   * @throws {Error} - When player is not defined.
+   *
+   * @returns {Object} - player.
+   */
+   
   retrievePlayers() {
     return (async () => {
       const players = await Player.find();
@@ -121,6 +137,17 @@ const logic = {
       return players;
     })();
   },
+
+  /**
+   * Retrieve player by id.
+   *
+   * @param {string} playerId
+   * @throws {TypeError} - When any param is not a string.
+   * @throws {Error} - When any param is empty.
+   * @throws {Error} - When player is not defined.
+   *
+   * @returns {Object} - player.
+   */
 
   getPlayerById(playerId) {
     if (typeof playerId !== "string")
@@ -132,6 +159,12 @@ const logic = {
       return player;
     })();
   },
+
+  /**
+   * Authenticates score data from scrapping.
+   *
+   * @returns {Array} - data.
+   */
 
   retrieveScoreScrapping() {
     const urlScores =
@@ -170,6 +203,14 @@ const logic = {
     })(urlScores);
   },
 
+  /**
+   * Add score to player by link.
+   *
+   * @param {string} link
+   * @throws {TypeError} - When any param is not a string.
+   * @throws {Error} - When any param is empty.
+   * @throws {Error} - When link is incorrect.
+   */
   setScorePlayers(link) {
     if (typeof link !== "string") throw TypeError(`${link} is not string`);
     if (!link.trim().length) throw Error("link cannot be empty");
@@ -186,6 +227,12 @@ const logic = {
       }
     });
   },
+
+  /**
+   * Authenticates score data from scrapping.
+   *
+   * @returns {Array} - data.
+   */
 
   retrieveMatchesScrapping() {
     const urlMatches =
@@ -254,6 +301,12 @@ const logic = {
     })(urlMatches);
   },
 
+    /**
+   * Retrieve scrapping and data of matches.
+   *
+   * @returns {Array} - data.
+   */
+
   getMatchesWithData() {
     return (async () => {
       const dataMatches = await this.retrieveMatchesScrapping();
@@ -292,6 +345,15 @@ const logic = {
     })();
   },
 
+   /**
+   * Add availability to player and match.
+   *
+   * @param {string} - playerId
+   * @param {string} - matchId
+   * @throws {TypeError} - When any param is not a string.
+   * @throws {Error} - When any param is empty.
+   */
+
   addAvailabilityPlayer(playerId, matchId) {
     if (typeof playerId !== "string") throw TypeError(`playerId is not string`);
     if (!playerId.trim().length) throw Error("playerId cannot be empty");
@@ -313,6 +375,15 @@ const logic = {
       }
     })();
   },
+
+   /**
+   * Delete availability to player and match.
+   *
+   * @param {string} - playerId
+   * @param {string} - matchId
+   * @throws {TypeError} - When any param is not a string.
+   * @throws {Error} - When any param is empty.
+   */
 
   deleteAvailabilityPlayer(playerId, matchId) {
     if (typeof playerId !== "string") throw TypeError(`playerId is not string`);
@@ -338,6 +409,15 @@ const logic = {
       }
     })();
   },
+
+  /**
+   * Add players chosen to match.
+   *
+   * @param {Object} - playerId
+   * @param {string} - matchId
+   * @throws {TypeError} - When any param is not a string.
+   * @throws {Error} - When any param is empty.
+   */
 
   addChosenPlayers(players, matchId) {
     if (typeof players !== "object") throw TypeError(`players is not object`);

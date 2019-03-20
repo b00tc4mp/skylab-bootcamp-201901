@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import Button from "@material-ui/core/Button";
 import Fab from "@material-ui/core/Fab";
 import CheckCircleOutline from "@material-ui/icons/CheckCircleOutline";
 import Close from "@material-ui/icons/Close";
@@ -7,7 +6,6 @@ import styles from "./index.module.scss";
 import ChosenPairs from "../ChosenPairs";
 import { Form, Values } from "react-final-form";
 import logic from "../../logic";
-import { log } from "util";
 import { find, get } from "lodash";
 
 export const Match = props => {
@@ -44,8 +42,14 @@ export const Match = props => {
   };
 
   const onSubmit = e => {
-    logic.addChosenPlayers(e, matchId);
+    try {
+      logic.addChosenPlayers(e, matchId);
+      window.location.reload();
+    } catch (error) {
+      throw Error(error);
+    }
   };
+
   useEffect(() => {
     if (playersAvailable.filter(player => player._id === _id).length) {
       return setAvailable(true);
@@ -53,6 +57,7 @@ export const Match = props => {
       return setAvailable(false);
     }
   }, [props]);
+  
   return (
     <div>
       <h4 className={styles.date}>{date}</h4>

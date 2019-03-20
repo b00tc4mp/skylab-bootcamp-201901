@@ -101,12 +101,24 @@ class App extends Component {
   };
 
   handleSetUnavailable = matchId => {
-    logic.deleteAvalabilityPlayer(this.state.player._id, matchId);
+    try {
+      logic
+        .deleteAvalabilityPlayer(this.state.player._id, matchId)
+        .catch(({ response }) => {
+          this.setState({ registerFeedback: response.data.err });
+        });
+    } catch (error) {
+      this.setState({ registerFeedback: error });
+    }
   };
 
   handleLogout = () => {
-    logic.logout();
-    this.props.history.push("/login");
+    try {
+      logic.logout();
+      this.props.history.push("/login");
+    } catch (error) {
+      this.setState({ registerFeedback: error });
+    }
   };
 
   handleChangeHeader = () => {
