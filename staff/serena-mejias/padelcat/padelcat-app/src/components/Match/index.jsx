@@ -187,7 +187,9 @@ export const Match = props => {
         </div>
       )}
 
-      <div className={styles.location}><Place /> {location}</div>
+      <div className={styles.location}>
+        <Place /> <span>{location}</span>
+      </div>
     </div>
   );
 };

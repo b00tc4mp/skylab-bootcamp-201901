@@ -39,7 +39,6 @@ div.buttons {
   text-align: right;
 }
 
-
 div.result {
   padding: 0 0 $size-xs 0;
   text-align: center;
@@ -68,29 +67,28 @@ h6.teamName {
   margin: $size-xs;
 }
 
-div.chosen_pairs{
-    display: flex;
-    flex-direction: column;
-    margin: $size-s auto;
-    background:  #e0f7fa;
-    border-radius:36px;
-    width: 20em;
-    h4 {
-      margin-right: 0;
-    }
-    @media screen and (min-width: $break-large) {
-      margin-left: 7em;
-    }
+div.chosen_pairs {
+  display: flex;
+  flex-direction: column;
+  margin: $size-s auto;
+  background: #e0f7fa;
+  border-radius: 36px;
+  width: 20em;
+  h4 {
+    margin-right: 0;
+  }
+  @media screen and (min-width: $break-large) {
+    margin-left: 7em;
+  }
 }
 
 div.match {
-    display: flex;
-    flex-direction: row;
-    align-items: baseline;
-    justify-content: center;
-    
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: center;
 }
 
 h4 {
-    margin-right: $size-m;
+  margin-right: $size-m;
 }
