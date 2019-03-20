@@ -1,44 +1,47 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
-import { data, mongoose, models } from 'sail-away-data'
-import logic from '../../logic'
+import { withRouter } from 'react-router-dom'
+
 import MapRoute from '../MapRoute'
 import DateRange from '../DateRange'
 import Talents from '../Talents'
 import Experience from '../Experience'
 import Language from '../Language'
 import BoatInfo from '../BoatInfo'
+import Feedback from '../Feedback'
 
+import data from '../../data'
+import logic from '../../logic'
 import './index.sass'
 
 function JourneyCreate(props) {
 
     const { id } = props.match.params
     const { isEdit } = props
+    const [feedback, setfeedback] = useState('')
+
     
-    let [seaIdSelection, setSeaIdSelection] = useState('00')
-    let [route, setRoute] = useState(null)
-    let [dates, setDates] = useState(null)
-    let [title, setTitle] = useState('')
-    let [description, setDescription] = useState('')
-    let [talents, setTalents] = useState(null)
-    let [experience, setExperience] = useState(null)
-    let [languages, setLanguages] = useState(null)
-    let [boatSelected, setBoatSelected] = useState(null)
-    let [boats, setBoats] = useState(null)
-    let [userId, setUserId] = useState('')
+    const [seaIdSelection, setSeaIdSelection] = useState('00')
+    const [route, setRoute] = useState(null)
+    const [dates, setDates] = useState(null)
+    const [title, setTitle] = useState('')
+    const [description, setDescription] = useState('')
+    const [talents, setTalents] = useState(null)
+    const [experience, setExperience] = useState(null)
+    const [languages, setLanguages] = useState(null)
+    const [boatSelected, setBoatSelected] = useState(null)
+    const [boats, setBoats] = useState(null)
+    const [userId, setUserId] = useState('')
   
     useEffect(() => {
         if (isEdit) getJourney(id)
         else {
-            let userGet = getUser()
+            const userGet = getUser()
             Promise.resolve(userGet)
                 .then(user => {
                     setUserId(user.id)
                     setBoats(user.boats)
-
                     setRoute([])
                     setDates([null, null])
                     setSeaIdSelection('00')
@@ -53,9 +56,10 @@ function JourneyCreate(props) {
 
     async function getJourney(id) {
         try {
-            let journey = await logic.retrieveJourney(id)
-            let user = await getUser()
+            const journey = await logic.retrieveJourney(id)
+            const user = await getUser()
             if (journey.userId !== user.id) throw Error('user not allowed to edit')
+            setfeedback('')
             setBoats(user.boats)
             setRoute(journey.route)
             setDates(journey.dates)
@@ -68,7 +72,7 @@ function JourneyCreate(props) {
             setBoatSelected(journey.boat.id)
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
 
@@ -76,13 +80,13 @@ function JourneyCreate(props) {
         try {
             let user = await logic.retrieveUserLogged()
             setUserId(user.id)
+            setfeedback('')
             return user
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
-
 
     function handleSeaSelection(event) {
         let seaName = event.target.value
@@ -90,12 +94,12 @@ function JourneyCreate(props) {
         try {
             let seaId = logic.findSeaId(seaName)
             setSeaIdSelection(seaId)
+            setfeedback('')
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
-
 
     function getBoat(boatSelected) {
         let boat = boats.find(boat => boat.id === boatSelected)
@@ -104,14 +108,19 @@ function JourneyCreate(props) {
 
     async function handleOnSubmit() {
         try {
+            let journeyCreated
             let sailingTitles = []
             let boat = getBoat(boatSelected)
-            if (isEdit) await logic.updateJourney(id, title, seaIdSelection, route, dates, description, userId, boat, talents, experience, sailingTitles, languages)
-            else await logic.generateJourney(title, seaIdSelection, route, dates, description, userId, boat, talents, experience, sailingTitles, languages)
-            props.history.push('/')
+            let datesString=[dates[0].toString().substring(0,15), dates[1].toString().substring(0,15)]
+           
+            if (isEdit) journeyCreated= await logic.updateJourney(id, title, seaIdSelection, route, datesString, description, userId, boat, talents, experience, sailingTitles, languages)
+            else journeyCreated= await logic.generateJourney(title, seaIdSelection, route, dates, description, userId, boat, talents, experience, sailingTitles, languages)
+            setfeedback('')
+           
+            props.history.push(`/journey/${journeyCreated.id}`)
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
 
@@ -183,6 +192,7 @@ function JourneyCreate(props) {
                 </div>
             </div>
 
+            {feedback ? <Feedback message={feedback} /> : <div />}
             <div className='createJourney__submit'>
                 <button onClick={handleOnSubmit} className='createJourney__submit-button' >Create Journey</button>
             </div>

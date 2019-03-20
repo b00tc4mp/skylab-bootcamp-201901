@@ -1,15 +1,14 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
-import { data } from 'sail-away-data'
+import { withRouter } from 'react-router-dom'
+import data from '../../data'
 
 import './index.sass'
 
-
 function Talents({ getChecks, initialChecks }) {
 
-    let [checked, setChecked] = useState(initialChecks)
+    const [checked, setChecked] = useState(initialChecks)
 
     function handleChange(e) {
         !checked.includes(e.target.name)
@@ -23,10 +22,11 @@ function Talents({ getChecks, initialChecks }) {
 
     useEffect(() => {
         setChecked(checked)
+        getChecks(checked)
+
     }, [checked, getChecks])
 
     return (<main className="talents">
-
         <div className='talents__container'>
             {
                 data.talents.map(category => {
@@ -42,9 +42,7 @@ function Talents({ getChecks, initialChecks }) {
                                         onChange={handleChange} />
                                     <label>{offer}</label>
                                 </div>
-
                             )
-
                         }
                     </section>)
                 })

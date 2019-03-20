@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import MapDisplay from '../MapDisplay'
 import JourneyCard from '../JourneyCard'
@@ -12,7 +12,7 @@ import logic from '../../logic';
 function Home(props) {
 
         const { seaId } = props.match.params
-        let [journeys, setJourneys] = useState(null)
+        const [journeys, setJourneys] = useState(null)
 
         useEffect(() => {
                 handleSearch(seaId)
@@ -21,7 +21,7 @@ function Home(props) {
         async function handleSearch(seaId) {
 
                 try {
-                        let response = await logic.searchBySea(seaId)
+                        const response = await logic.searchBySea(seaId)
                         if (!response.length) props.history.push('/no-result')
                         setJourneys(response)
 
@@ -37,7 +37,7 @@ function Home(props) {
         }
 
         return (<main className="journeyHome">
-                {journeys &&
+                {!!journeys &&
                         <div>
                                 <div className="journeyHome__map">
                                         <MapDisplay seaId={journeys[0].seaId} markers={getMarkers(journeys)} />

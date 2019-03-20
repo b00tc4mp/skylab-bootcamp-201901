@@ -10,10 +10,10 @@ function Calendar({ month, year, selectDate, date1, date2 }) {
 
     return (<section className='calendar'>
         <div>
-            <h4 className='text-center'>{m.format('MMMM')} {m.format('YYYY')}</h4>
-            <div className='month'>
+            <h4 className='calendar__title'>{m.format('MMMM')} {m.format('YYYY')}</h4>
+            <div className='calendar__month'>
                 {
-                    week.map(day => <div className='week' key={day}>{day}</div>)
+                    week.map(day => <div className='calendar__week' key={day}>{day}</div>)
                 }
                 {
                     (() => {
@@ -36,9 +36,9 @@ function Calendar({ month, year, selectDate, date1, date2 }) {
                                     date=new Date(m.year(), m.month(), day )
                                     
                                     if(date1 && date2) {
-                                        if (date.toString()===date1.toString()) dayClass='day start'
+                                        if (date.toString().substring(0, 15)===date1.toString().substring(0, 15)) dayClass='day start'
                                         else if((date > date1 && date < date2)) dayClass='day selected'
-                                        else if (date.toString()===date2.toString()) dayClass='day end'
+                                        else if (date.toString().substring(0, 15)===date2.toString().substring(0, 15)) dayClass='day end'
                                         else dayClass='day'
                                     }
 

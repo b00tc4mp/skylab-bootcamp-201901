@@ -1,12 +1,11 @@
 'use strict'
 
-import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import React from 'react'
+import { withRouter } from 'react-router-dom'
 
 import './index.sass'
 
 function NoResult(props) {
-
 
     return (<main className="NoResult">
         <div className="NoResult__container">

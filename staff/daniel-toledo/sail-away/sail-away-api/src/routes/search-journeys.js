@@ -4,7 +4,7 @@ module.exports = (req, res) => {
     const { query: { query } } = req
 
     try {
-        debugger
+
         return logic.searchJourneys(query)
             .then(journeys => res.json({ journeys }))
 

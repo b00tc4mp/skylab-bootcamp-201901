@@ -1,18 +1,21 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
+
+import Feedback from '../Feedback'
 
 import logic from '../../logic'
-
 import './index.sass'
 
 function Nav(props) {
 
-    let [user, setUser] = useState(null)
+    const [user, setUser] = useState(null)
+    const [feedback, setfeedback] = useState('')
 
     useEffect(()=>{
        getUser()
+
     },[])
 
     async function getUser() {
@@ -21,18 +24,19 @@ function Nav(props) {
             setUser(user)
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
 
 
-    return (user && 
+    return (!!user && 
         <section className='welcome'>
         <div className='welcome__container'>
             <h2 className='welcome__title'>Ahoy {user.name}!</h2>
-            <p className='welcome__text'>Tell us more about you, so we can find you the best match</p>
+            <p className='welcome__text'>Tell us more about yourself, so we can find your best match</p>
             <button className='welcome__button' onClick={() => props.history.push('/edit-profile')}>Let's sail away</button>
         </div>
+        {feedback ? <Feedback message={feedback} /> : <div />}
     </section>
     )
 }

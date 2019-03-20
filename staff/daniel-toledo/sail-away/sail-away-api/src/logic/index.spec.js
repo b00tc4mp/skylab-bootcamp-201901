@@ -3,7 +3,7 @@ require('isomorphic-fetch')
 require('moment')
 
 const jwt = require('jsonwebtoken')
-const { models: { User, Journey }, data: { seas, languages, talents }, mongoose: { Types: { ObjectId } }, mongoose } = require('sail-away-data')
+const { models: { User, Journey },  mongoose: { Types: { ObjectId } }, mongoose } = require('sail-away-data')
 const bcrypt = require('bcrypt')
 const expect = require('expect')
 const moment = require('moment')
@@ -832,7 +832,6 @@ describe('logic', () => {
             let userId = 123
 
             expect(() => {
-                debugger
                 logic.updateUserPicture(userId, url)
             }).toThrow(TypeError(`${userId} is not a string`))
 
@@ -1041,7 +1040,6 @@ describe('logic', () => {
             let userId = 123
 
             expect(() => {
-                debugger
                 logic.updateBoatPicture(userId, boatId, url)
             }).toThrow(TypeError(`${userId} is not a string`))
 
@@ -1059,7 +1057,6 @@ describe('logic', () => {
             let boatId = 123
 
             expect(() => {
-                debugger
                 logic.updateBoatPicture(userId, boatId, url)
             }).toThrow(TypeError(`${boatId} is not a string`))
 
@@ -1252,7 +1249,7 @@ describe('logic', () => {
             lenguages: ['it', 'en'],
             experience: 500,
             sailingTitles: [],
-            talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
+            talents: ['general mantenence', 'children care', 'body balance']
         }
 
         let name = 'Rita'
@@ -1441,7 +1438,7 @@ describe('logic', () => {
             lenguages: ['it', 'en'],
             experience: 500,
             sailingTitles: [],
-            talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
+            talents: ['general mantenence', 'children care', 'body balance']
         }
 
         const name = 'Rita'
@@ -1574,7 +1571,7 @@ describe('logic', () => {
             lenguages: ['it', 'en'],
             experience: 500,
             sailingTitles: [],
-            talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
+            talents: ['general mantenence', 'children care', 'body balance']
         }
 
         const name = 'Rita'
@@ -1701,7 +1698,7 @@ describe('logic', () => {
             lenguages: ['it', 'en'],
             experience: 500,
             sailingTitles: [],
-            talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
+            talents: ['general mantenence', 'children care', 'body balance']
         }
 
         const name = 'Rita'
@@ -1753,7 +1750,7 @@ describe('logic', () => {
                     lenguages: ['it', 'en', 'cat'],
                     experience: 550,
                     sailingTitles: [],
-                    talents: [talents[2].offers[3], talents[2].offers[1], talents[2].offers[2]]
+                    talents: ['animal care', 'barmen', 'children care']
                 }
             }
 
@@ -1892,7 +1889,7 @@ describe('logic', () => {
             lenguages: ['it', 'en'],
             experience: 500,
             sailingTitles: [],
-            talents: [talents[0].offers[1], talents[2].offers[2], talents[3].offers[3]]
+            talents: ['general mantenence', 'children care', 'body balance']
         }
 
         let name = 'Rita'
@@ -1953,7 +1950,6 @@ describe('logic', () => {
             let userId = 123
 
             expect(() => {
-                debugger
                 logic.myJourneys(userId)
             }).toThrow(TypeError(`${userId} is not a string`))
 

@@ -1,8 +1,8 @@
 const logic = require('../logic')
 
 module.exports = (req, res) => {
-    const { userId, body: { boat }} = req
-    debugger
+    const { userId, body: { boat } } = req
+
     try {
         logic.updateBoat(userId, boat)
             .then(res.json.bind(res))

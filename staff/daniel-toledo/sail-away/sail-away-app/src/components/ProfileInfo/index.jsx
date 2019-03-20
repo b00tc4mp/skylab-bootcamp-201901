@@ -1,10 +1,11 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import SlideShow from '../SlideShow'
 import BoatInfo from '../BoatInfo'
+import Feedback from '../Feedback'
 
 import logic from '../../logic'
 
@@ -13,8 +14,8 @@ import './index.sass'
 function ProfileInfo(props) {
 
     const { id } = props.match.params
-    let [user, setUser] = useState(null)
-
+    const [user, setUser] = useState(null)
+    const [feedback, setfeedback] = useState('')
 
     async function getUser(id) {
         try {
@@ -22,16 +23,22 @@ function ProfileInfo(props) {
             setUser(showUser)
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
 
+    function getAge(birthdayString) {
+        let birthDate = new Date(birthdayString)
+        let date = Date.now() - birthDate
+        let ageDate = new Date(date)
+        let age = Math.abs(ageDate.getUTCFullYear() - 1970)
+        return `${age} years`
+    }
 
     useEffect(() => {
         getUser(id)
 
-    }, [user])
-
+    }, [])
 
     return (<section className="profileInfo">
         {user && <div>
@@ -63,7 +70,10 @@ function ProfileInfo(props) {
                     <p className=''>{user.nationality}</p>
                 </div>
 
-                <h5>age</h5>
+                <div className='profileInfo__general'>
+                    <h5 className=''>age</h5>
+                    <p className=''>{getAge(user.birthday)}</p>
+                </div>
 
                 <h3 className='profileInfo__titleSection'>Description</h3>
                 <p>{user.description}</p>
@@ -101,6 +111,8 @@ function ProfileInfo(props) {
                     }
                 </div>
 
+                {feedback ? <Feedback message={feedback} /> : <div />}
+            
             </div>
 
         </div>}

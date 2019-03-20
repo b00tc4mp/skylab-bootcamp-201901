@@ -7,7 +7,7 @@ module.exports = {
 
     retrieveUserLogged: require('./retrieve-user-logged'),
 
-    updateUser:require('./update-user'),
+    updateUser: require('./update-user'),
 
     updateBoat: require('./update-boat'),
 

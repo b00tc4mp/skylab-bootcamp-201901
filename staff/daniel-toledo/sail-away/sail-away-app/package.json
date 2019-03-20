@@ -9,14 +9,15 @@
     "react": "^16.8.3",
     "react-dom": "^16.8.3",
     "react-router-dom": "^4.3.1",
-    "react-scripts": "2.1.5"
-
+    "react-scripts": "2.1.5",
+    "sail-away-data": "../sail-away-data"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "test": "react-scripts test --runInBand",
+    "eject": "react-scripts eject",
+    "test-coverage": "npm test -- --coverage"
   },
   "eslintConfig": {
     "extends": "react-app"

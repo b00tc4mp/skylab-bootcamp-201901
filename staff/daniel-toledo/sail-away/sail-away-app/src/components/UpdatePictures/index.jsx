@@ -1,34 +1,36 @@
 'use strict'
 
-import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
+
+import Feedback from '../Feedback'
 
 import logic from '../../logic'
-// import './index.sass'
+import './index.sass'
 
 function UpdatePictures({ getPictures, boatId }) {
 
-    let [pictures, setPictures] = useState([])
-
+    const [pictures, setPictures] = useState([])
+    const [feedback, setfeedback] = useState('')
 
     async function handlePictures(event) {
-        let newPictureBlob = event.target.files[0]
-        let newPictures = [...pictures, newPictureBlob]
+        const newPictureBlob = event.target.files[0]
+        const newPictures = [...pictures, newPictureBlob]
         setPictures(newPictures)
         getPictures(newPictures)
         try {
-            let result = await logic.updatePicture(pictures, boatId)
-            debugger
+            const result = await logic.updatePicture(pictures, boatId)
             getPictures(result.pictures)
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
 
     return (<main className="update-picture">
-        <input className="update-picture__button" type='file' name='image' onChange={handlePictures}></input>
-        {/* <span className="update-picture__span">edit picture</span> */}
+        {feedback ? <Feedback message={feedback} /> : <div />}
+        <span className="update-picture__span">edit picture</span>
+        <input className="update-picture__input" type='file' name='image' onChange={handlePictures}></input>
     </main>)
 }
 

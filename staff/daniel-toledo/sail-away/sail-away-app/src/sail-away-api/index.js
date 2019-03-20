@@ -1,11 +1,11 @@
 'use strict'
 
 import moment from 'moment'
-import Users from '../components/Users';
 
 const sailAwayApi = {
 
-    url: `http://localhost:8000/api`,
+    url: `https://afternoon-falls-79254.herokuapp.com/api`,
+    // url: 'http://localhost:8000/api',
 
     registerUser(name, surname, email, password, passwordConfirm, kind) {
         return fetch(`${this.url}/user`, {
@@ -18,7 +18,6 @@ const sailAwayApi = {
             .then(response => response.json())
 
             .then(({ id, error }) => {
-
                 if (!error) return id
 
                 else throw Error(error)
@@ -77,25 +76,24 @@ const sailAwayApi = {
         })
         .then(response => response.json())
         .then(users => {
-            debugger
+            
             if (!users.error) return users
 
             else throw Error(users.error)
         })
     },
 
-    updateUser(token, pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages){
+    updateUser(token,  name, surname, gender, nationality, birthday, description, boats, talents, experience, languages){
         return fetch(`${this.url}/user/`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
                 authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ pictures, name, surname, gender, nationality, birthday, description, boats, talents, experience, languages })
+            body: JSON.stringify({  name, surname, gender, nationality, birthday, description, boats, talents, experience, languages })
         })
             .then(response => response.json())
             .then(user => {
-                debugger
                 if (!user.error) return user
 
                 else throw Error(user.error)
@@ -113,7 +111,7 @@ const sailAwayApi = {
         })
             .then(response => response.json())
             .then(boat => {
-                debugger
+                
                 if (!boat.error) return boat
 
                 else throw Error(boat.error)
@@ -121,7 +119,7 @@ const sailAwayApi = {
     },
 
     updatePicture(token, picture){
-        debugger
+        
         let formData = new FormData()
         formData.append('image', picture)
 
@@ -134,7 +132,7 @@ const sailAwayApi = {
         })
         .then(response => response.json())
         .then(user => {
-            debugger
+            
             if (!user.error) return user
 
             else throw Error(user.error)
@@ -143,7 +141,7 @@ const sailAwayApi = {
     },
 
     updateBoatPicture(token, picture, boatId){
-        debugger
+        
         let formData = new FormData()
         formData.append('image', picture)
 
@@ -156,7 +154,7 @@ const sailAwayApi = {
         })
         .then(response => response.json())
         .then(boat => {
-            debugger
+            
             if (!boat.error) return boat
 
             else throw Error(boat.error)
@@ -166,7 +164,7 @@ const sailAwayApi = {
 
 
     createJourney(title, seaId, route, dates, description, userId, boat, lookingFor) {
-        debugger
+        
         return fetch(`${this.url}/journey/`, {
             method: 'POST',
             headers: {
@@ -176,6 +174,7 @@ const sailAwayApi = {
         })
             .then(response => response.json())
             .then(journey => {
+                
                 if (!journey.error) return journey
 
                 else throw Error(journey.error)
@@ -216,7 +215,8 @@ const sailAwayApi = {
             .then(journey => journey.json())
             .then(response => {
                 if (!response.error) {
-                    response.journey.dates = (response.journey.dates || []).map(date => moment(date.substring(0, 10)))
+                    
+                    response.journey.dates = (response.journey.dates || []).map(date => moment(date))
                     return response.journey
                 }
 
@@ -233,7 +233,6 @@ const sailAwayApi = {
         })
             .then(response => response.json())
             .then(response => {
-                debugger
                 if (!response.error) {
                     response.journey = response.journeys.map(journey => {
 
@@ -280,7 +279,7 @@ const sailAwayApi = {
     },
 
     toggleCrewFavorite(token, crewId){
-        debugger
+        
         return fetch(`${this.url}/favorite-crew/${crewId}`, {
             method: 'PUT',
             headers: {
@@ -289,7 +288,7 @@ const sailAwayApi = {
         })
             .then(journey => journey.json())
             .then(user => {
-                debugger
+                
                 if (!user.error) return user
     
                 else throw Error(user.error)

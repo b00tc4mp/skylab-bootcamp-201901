@@ -1,17 +1,20 @@
 'use strict'
 
-import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
-import logic from '../../logic'
+import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
+
 import Feedback from '../Feedback'
 
+import logic from '../../logic'
 import './index.sass'
 
 function Login(props) {
 
-    let [email, setEmail] = useState('')
-    let [password, setPassword] = useState('')
-    let [feedback, setfeedback] = useState('')
+    const { isNeeded, isLogged } = props
+
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [feedback, setfeedback] = useState('')
 
     async function handleFormSubmit(event) {
         event.preventDefault()
@@ -19,6 +22,7 @@ function Login(props) {
         try {
             await logic.login(email, password)
             setfeedback('')
+            isLogged()
             props.history.push('/')
 
         } catch (error) {
@@ -27,7 +31,7 @@ function Login(props) {
     }
 
     return (<section className="login">
-        {props.isNeeded && <div className='login__need'>
+        {isNeeded && <div className='login__need'>
             <h2 className='login__need-title'>Avast ye!</h2>
             <p className='login__need-text'>You need to be logged to proceed. Please Sign in!</p>
 

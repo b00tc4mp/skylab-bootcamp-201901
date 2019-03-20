@@ -1,19 +1,19 @@
 'use strict'
 
-import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
-import { data } from 'sail-away-data'
+import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
+import data from '../../data'
 
 import './index.sass'
 
 
 function Languages({ getLanguages, initialLanguages }) {
 
-    let [languages, setLanguages] = useState(initialLanguages)
     let [counter, setCounter] = useState(initialLanguages.length + 1)
+    let [languages, setLanguages] = useState(initialLanguages)
 
     function handleChange(event, index) {
-        let newLanguage = event.target.value
+        const newLanguage = event.target.value
         if (index === languages.length - 1) languages = newLanguage === 'Select language' ? [...languages] : [...languages, event.target.value]
         else languages.splice(index, 1, newLanguage)
 
@@ -33,7 +33,7 @@ function Languages({ getLanguages, initialLanguages }) {
     return (<main className="languages">
         {
             [...Array(counter)].map((count, index) =>
-                <div>
+                <div key={index}>
                     <select name="languages" onChange={event => handleChange(event, index)} value={initialLanguages[index]} key={count} className='languages__language'>
                         {
                             data.languages.map(language => <option value={language.name} key={language.code}>{language.name}</option>)
@@ -44,7 +44,7 @@ function Languages({ getLanguages, initialLanguages }) {
             )
 
         }
-        {counter < 8 && <button className='languages__addButton' onClick={() => setCounter(++counter)}>Add language</button>}
+        {(counter < 8) && <button className='languages__addButton' onClick={() => setCounter(++counter)}>Add language</button>}
 
     </main>)
 }

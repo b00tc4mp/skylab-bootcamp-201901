@@ -2,6 +2,17 @@
 
 const seas = [
     {
+        id: '00',
+        name: 'Select Ocean',
+        center: {
+            lat: 0,
+            lng: 0
+        },
+        zoom: 2
+
+    },
+    {
+        id: '01',
         name: 'North Pacific Ocean',
         center: {
             lat: 35.468199,
@@ -10,6 +21,7 @@ const seas = [
         zoom: 3
     },
     {
+        id: '02',
         name: 'South Pacific Ocean',
         center: {
             lat: -30.45719314,
@@ -18,6 +30,7 @@ const seas = [
         zoom: 3
     },
     {
+        id: '03',
         name: 'North Atlantic Ocean',
         center: {
             lat: 23.96239409,
@@ -26,6 +39,7 @@ const seas = [
         zoom: 3
     },
     {
+        id: '04',
         name: 'South Atlantic Ocean',
         center: {
             lat: -33.73239551,
@@ -34,6 +48,7 @@ const seas = [
         zoom: 3
     },
     {
+        id: '05',
         name: 'Indian Ocean',
         center: {
             lat: -32.72458381,
@@ -42,6 +57,7 @@ const seas = [
         zoom: 3
     },
     {
+        id: '06',
         name: 'Southern Ocean',
         center: {
             lat: -68.03981889,
@@ -50,6 +66,7 @@ const seas = [
         zoom: 2
     },
     {
+        id: '07',
         name: 'Arctic Ocean',
         center: {
             lat: 84.86488603,
@@ -58,6 +75,7 @@ const seas = [
         zoom: 2
     },
     {
+        id: '08',
         name: 'Mediterranean Sea',
         center: {
             lat: 38.02360535,
@@ -66,6 +84,7 @@ const seas = [
         zoom: 4
     },
     {
+        id: '09',
         name: 'Caribean Sea',
         center: {
             lat: 15.31030446,
@@ -74,6 +93,7 @@ const seas = [
         zoom: 5
     },
     {
+        id: '10',
         name: 'South China Sea',
         center: {
             lat: 11.77674997,
@@ -82,6 +102,7 @@ const seas = [
         zoom: 4
     },
     {
+        id: '11',
         name: 'Berin Sea',
         center: {
             lat: 54.393203,
@@ -90,6 +111,7 @@ const seas = [
         zoom: 4
     },
     {
+        id: '12',
         name: 'Gulf of Mexico',
         center: {
             lat: 24.94231563,
@@ -98,6 +120,7 @@ const seas = [
         zoom: 5
     },
     {
+        id: '13',
         name: 'Okhotsk Sea',
         center: {
             lat: 53.23385899,
@@ -106,6 +129,7 @@ const seas = [
         zoom: 4
     },
     {
+        id: '14',
         name: 'Eastern Sea',
         center: {
             lat: 29.13089135,
@@ -114,6 +138,7 @@ const seas = [
         zoom: 4
     },
     {
+        id: '15',
         name: 'Hudson Sea',
         center: {
             lat: 59.03587571,
@@ -122,6 +147,7 @@ const seas = [
         zoom: 4
     },
     {
+        id: '16',
         name: 'Japan Sea',
         center: {
             lat: 40.50843024,
@@ -130,6 +156,7 @@ const seas = [
         zoom: 5
     },
     {
+        id: '17',
         name: 'Andaman Sea',
         center: {
             lat: 11.20149397,
@@ -138,6 +165,7 @@ const seas = [
         zoom: 6
     },
     {
+        id: '18',
         name: 'Red Sea',
         center: {
             lat: 20.31573096,
@@ -146,6 +174,7 @@ const seas = [
         zoom: 6
     },
     {
+        id: '19',
         name: 'Persian Gulf',
         center: {
             lat: 26.8033073,
@@ -154,6 +183,7 @@ const seas = [
         zoom: 6
     },
     {
+        id: '20',
         name: 'Arabian Sea',
         center: {
             lat: 13.33512866,
@@ -162,6 +192,7 @@ const seas = [
         zoom: 4
     },
     {
+        id: '21',
         name: 'Arafura Sea',
         center: {
             lat: -10.51841719,
@@ -170,6 +201,7 @@ const seas = [
         zoom: 5
     },
     {
+        id: '22',
         name: 'Banda Sea',
         center: {
             lat: -5.46594965,
@@ -178,6 +210,7 @@ const seas = [
         zoom: 6
     },
     {
+        id: '23',
         name: 'Barents Sea',
         center: {
             lat: 74.72392506,
@@ -186,6 +219,7 @@ const seas = [
         zoom: 3
     },
     {
+        id: '24',
         name: 'Bay of Bangal',
         center: {
             lat: 13.17322167,
@@ -194,6 +228,7 @@ const seas = [
         zoom: 5
     },
     {
+        id: '25',
         name: 'Bay of Biscay',
         center: {
             lat: 45.2244286,
@@ -202,6 +237,7 @@ const seas = [
         zoom: 6
     },
     {
+        id: '26',
         name: 'Black Sea',
         center: {
             lat: 43.27652404,
@@ -210,6 +246,7 @@ const seas = [
         zoom: 5.5
     },
     {
+        id: '27',
         name: 'Gulf of Bothnia',
         center: {
             lat: 62.63224634,
@@ -218,6 +255,7 @@ const seas = [
         zoom: 5
     },
     {
+        id: '28',
         name: 'Celebes Sea',
         center: {
             lat: 3.71432642,
@@ -226,6 +264,7 @@ const seas = [
         zoom: 6
     },
     {
+        id: '29',
         name: 'Celtic Sea',
         center: {
             lat: 49.58987684,
@@ -234,6 +273,7 @@ const seas = [
         zoom: 5.5
     },
     {
+        id: '30',
         name: 'English Chanel',
         center: {
             lat: 49.86121795,
@@ -242,6 +282,7 @@ const seas = [
         zoom: 6
     },
     {
+        id: '31',
         name: 'Greenland Sea',
         center: {
             lat: 74.25027165,
@@ -250,6 +291,7 @@ const seas = [
         zoom: 3
     },
     {
+        id: '32',
         name: 'Gulf of California',
         center: {
             lat: 26.88455783,
@@ -258,6 +300,7 @@ const seas = [
         zoom: 5.5
     },
     {
+        id: '33',
         name: 'Gulf of Siam',
         center: {
             lat: 9.71989293,
@@ -266,6 +309,7 @@ const seas = [
         zoom: 5.5
     },
     {
+        id: '34',
         name: 'Yellow Sea',
         center: {
             lat: 36.69709686,
@@ -274,6 +318,7 @@ const seas = [
         zoom: 5
     },
     {
+        id: '35',
         name: 'Molukka Sea',
         center: {
             lat: 0.67433267,
@@ -282,6 +327,7 @@ const seas = [
         zoom: 6
     },
     {
+        id: '36',
         name: 'Mozambique Channel',
         center: {
             lat: -19.30409503,
@@ -290,6 +336,7 @@ const seas = [
         zoom: 6
     },
     {
+        id: '37',
         name: 'North Western Passages',
         center: {
             lat: 72.60748207,
@@ -298,6 +345,7 @@ const seas = [
         zoom: 3.5
     },
     {
+        id: '38',
         name: 'Sawu Sea',
         center: {
             lat: -9.48015052,
@@ -306,14 +354,16 @@ const seas = [
         zoom: 6
     },
     {
+        id: '39',
         name: 'Coral Sea',
         center: {
-            lat:-18.22433055,
+            lat: -18.22433055,
             lng: 156.76782488
         },
         zoom: 4
     },
     {
+        id: '40',
         name: 'North Sea',
         center: {
             lat: 56.4239952,
@@ -322,6 +372,7 @@ const seas = [
         zoom: 5
     },
     {
+        id: '41',
         name: 'Baltic Sea',
         center: {
             lat: 56.66584338,
@@ -331,4 +382,4 @@ const seas = [
     }
 ]
 
-export default seas
+module.exports = seas

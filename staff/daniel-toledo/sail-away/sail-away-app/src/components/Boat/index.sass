@@ -3,6 +3,7 @@
     
     &__container
         padding: 10px
+        display: flex
 
     &__header
         width: 250px
@@ -10,6 +11,9 @@
         flex-direction: column
         justify-content: center
         align-items: center
+    
+    &__form
+        width: 100%
 
     &__name
         text-align: center
@@ -20,33 +24,7 @@
         display: flex
         flex-direction: column
         justify-content: space-around
-          
-
-
-        &-item-edit
-            display: flex
-            flex-flow: row wrap
-            width: 100%
-           
-
-            label
-                display: flex
-                align-items: center
-                font-weight: bold
-                margin-bottom: 5px
-                width: 100px
-
-            input
-                display: flex
-                align-items: center
-                margin-bottom: 5px
-                border: 1px solid #A9CFE4
-        
-            
-            textarea
-                width: 100%
-                border: 1px solid #A9CFE4
-
+        width: 100%
 
     &__buttons
         padding-left: 10px
@@ -66,6 +44,41 @@
             border: 2px solid #012C4C
             color: white
             background: #012C4C
+
+.boat__infoEdit-item-edit
+    display: flex
+    flex-flow: row nowrap
+    width: 100%
+    
+
+    label
+        display: flex
+        align-items: center
+        font-weight: bold
+        margin-bottom: 5px
+        width: 100px
+
+    input
+        display: flex
+        align-items: center
+        margin-bottom: 5px
+        border: 1px solid #A9CFE4
+        width: 100%
+
+.boat__infoEdit-item-edit-description 
+    display: flex
+    flex-flow: row wrap
+    width: 100%
+      
+    label
+        display: flex
+        align-items: center
+        font-weight: bold
+        margin-bottom: 5px
+        width: 100px
+    textarea
+        width: 100%
+        border: 1px solid #A9CFE4
 
 @media (min-width: 576px)
     .boat__container

@@ -1,21 +1,31 @@
 'use strict'
 
-import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
+
+import Feedback from '../Feedback'
 
 import './index.sass'
 import logic from '../../logic';
 
 function Menu(props) {
 
+    const [feedback, setfeedback] = useState('')
+
     async function handleMyProfile() {
         try {
-            let { id } = await logic.retrieveUserLogged()
+            const { id } = await logic.retrieveUserLogged()
             props.history.push(`/user/${id}`)
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
+    }
+
+    function handleLoggOut() {
+        logic.logOutUser()
+        props.isLogged(false)
+        props.history.push(`/`)
     }
 
     return (
@@ -25,6 +35,8 @@ function Menu(props) {
             <button onClick={() => props.history.push(`/my-journeys`)}>My Journeys</button>
             <button onClick={() => props.history.push(`/create-journey`)}>Create Journey</button>
             <button onClick={() => props.history.push(`/favorites/`)}>Favorites</button>
+            <button onClick={handleLoggOut}>Log out</button>
+            {feedback ? <Feedback message={feedback} /> : <div />}
         </section>)
 }
 

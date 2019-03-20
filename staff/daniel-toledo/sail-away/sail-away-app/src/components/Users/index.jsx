@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import Language from '../Language'
 
-import { data } from 'sail-away-data'
+import data from '../../data'
 import logic from '../../logic'
 import UserCard from '../UserCard'
 
@@ -11,15 +11,13 @@ import Feedback from '../Feedback'
 
 import './index.sass'
 
-function Users(props) {
+function Users() {
 
     let [languages, setLanguages] = useState([])
     let [talents, setTalents] = useState([])
     let [users, setUsers] = useState([])
-    let [user, setUser] = useState(null)
-    let [feedback, setfeedback] = useState('')
-
     let [counter, setCounter] = useState(1)
+    let [feedback, setfeedback] = useState('')
 
     function handleChange(event, index) {
         let newTalent = event.target.value
@@ -27,41 +25,27 @@ function Users(props) {
         if (index === talents.length - 1) talents = newTalent === 'Select talent' ? [...talents] : [...talents, event.target.value]
         else talents.splice(index, 1, newTalent)
 
-        console.log(talents)
         setTalents(talents)
     }
-
-    async function getUserLogged() {
-        try {
-            let userLogged = await logic.retrieveUserLogged()
-            setUser(userLogged)
-        } catch (error) {
-            console.error(error)
-        }
-    }
-
-    useEffect(() => {
-
-    }, [])
 
     useEffect(() => {
         setLanguages(languages)
         setTalents(talents)
         setUsers(users)
+
     }, [languages, talents, users])
 
     async function handleSearch() {
         try {
             setfeedback('')
-            let findedUsers = await logic.searchUseres(talents, languages)
+            let findedUsers = await logic.searchUsers(talents, languages)
             findedUsers.length ? setUsers(findedUsers) : setfeedback('No results for this parameters. Try something different :)')
-            getUserLogged()
             setLanguages([])
             setTalents([])
 
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
 
@@ -70,7 +54,6 @@ function Users(props) {
         talents.splice(index, 1)
 
         setTalents(talents)
-        console.log(languages)
     }
 
     return (<section className='users'>
@@ -94,7 +77,7 @@ function Users(props) {
                             )
 
                         }
-                        {counter < 8 && <button className='languages__addButton' onClick={() => setCounter(++counter)}>Add talent</button>}
+                        {(counter < 8) && <button className='languages__addButton' onClick={() => setCounter(++counter)}>Add talent</button>}
                     </main>
 
                 </div>

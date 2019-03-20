@@ -1,10 +1,10 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
 
 import SlideShow from '../SlideShow'
 import UpdatePictures from '../UpdatePictures'
+import Feedback from '../Feedback'
 
 import logic from '../../logic'
 import './index.sass'
@@ -22,52 +22,38 @@ function Boat({ getBoat, initialBoat, cancelBoat }) {
         description: ''
     }
 
-    let buttonName = initialBoat ? 'Edit boat' : 'Add new Boat'
+    const buttonName = initialBoat ? 'Edit boat' : 'Add new Boat'
     initialBoat = initialBoat ? initialBoat : emptyBoat
 
     const id = initialBoat.id
-    // let [id, setId] = useState(initialBoat.id)
-    let [pictures, setPictures] = useState(initialBoat.pictures)
-    let [picturesBlob, setPicturesBlob] = useState([])
-    let [name, setName] = useState(initialBoat.name)
-    let [type, setType] = useState(initialBoat.type)
-    let [model, setModel] = useState(initialBoat.model)
-    let [boatLength, setBoatLength] = useState(initialBoat.boatLength)
-    let [crew, setCrew] = useState(initialBoat.crew)
-    let [age, setAge] = useState(initialBoat.age)
-    let [description, setDescription] = useState(initialBoat.description)
+    const [pictures, setPictures] = useState(initialBoat.pictures)
+    const [picturesBlob, setPicturesBlob] = useState([])
+    const [name, setName] = useState(initialBoat.name)
+    const [type, setType] = useState(initialBoat.type)
+    const [model, setModel] = useState(initialBoat.model)
+    const [boatLength, setBoatLength] = useState(initialBoat.boatLength)
+    const [crew, setCrew] = useState(initialBoat.crew)
+    const [age, setAge] = useState(initialBoat.age)
+    const [description, setDescription] = useState(initialBoat.description)
+    const [feedback, setfeedback] = useState('')
 
     async function handleFormBoat(event) {
         event.preventDefault()
-        try{
-            let boat = {
-                id,
-                pictures:[],
-                name,
-                type,
-                model,
-                boatLength,
-                crew,
-                age,
-                description
-            }
-
-            let updatedBoat= await logic.updateBoat(boat)
-
-            let updatedBoatPictures = picturesBlob.map(async p => await logic.updateBoatPicture(p, boat.id))
+        try {
+            await logic.updateBoat({ id, pictures: [], name, type, model, boatLength, crew, age, description })
+            const updatedBoatPictures = picturesBlob.map(async p => await logic.updateBoatPicture(p, id))
             Promise.all(updatedBoatPictures).then(() => getBoat())
-            // getBoat(boat)
-        }catch(error){
-            console.error(error)
+
+        } catch (error) {
+            setfeedback(error.message)
         }
     }
 
 
- 
-    function handleGetPictures(pictures){
+    function handleGetPictures(pictures) {
 
-        let picturesURL = pictures.map(pictureBlob => {
-            let image = new Image();
+        const picturesURL = pictures.map(pictureBlob => {
+            const image = new Image();
             image.src = URL.createObjectURL(pictureBlob);
             return image.src
         })
@@ -76,51 +62,52 @@ function Boat({ getBoat, initialBoat, cancelBoat }) {
         setPicturesBlob(pictures)
     }
 
-    useEffect(()=>{
+    useEffect(() => {
         setPictures(pictures)
-    },[pictures])
+    }, [pictures])
 
     return (<section className="boat">
         <div className='boat__container'>
             <div className='boat__header'>
                 <SlideShow pictures={pictures} isBoat={true} />
-                <UpdatePictures getPictures={handleGetPictures} boatId={id}/>
+                <UpdatePictures getPictures={handleGetPictures} boatId={id} />
 
             </div>
-            <form onSubmit={handleFormBoat} className=''>
+            <form onSubmit={handleFormBoat} className='boat__form'>
                 <div className='boat__infoEdit'>
                     <div className='boat__infoEdit-item-edit'>
-                        <label for="name" className=''>Name</label>
+                        <label htmlFor="name" className=''>Name</label>
                         <input onChange={e => setName(e.target.value)} className='' type="text" name="name" value={name} required />
                     </div>
                     <div className='boat__infoEdit-item-edit'>
-                        <label for="type" className=''>Type</label>
+                        <label htmlFor="type" className=''>Type</label>
                         <input onChange={e => setType(e.target.value)} className='' type="text" name="type" value={type} required />
                     </div>
                     <div className='boat__infoEdit-item-edit'>
-                        <label for="model" className=''>Model</label>
+                        <label htmlFor="model" className=''>Model</label>
                         <input onChange={e => setModel(e.target.value)} className='' type="text" name="model" value={model} />
                     </div>
                     <div className='boat__infoEdit-item-edit'>
-                        <label for="length" className=''>Length</label>
+                        <label htmlFor="length" className=''>Length</label>
                         <input onChange={e => setBoatLength(e.target.value)} className='' type="text" name="length" value={boatLength} />
                     </div>
                     <div className='boat__infoEdit-item-edit'>
-                        <label for="crew" className=''>Crew that fits</label>
+                        <label htmlFor="crew" className=''>Crew that fits</label>
                         <input onChange={e => setCrew(e.target.value)} className='' type="text" name="crew" value={crew} required />
                     </div>
                     <div className='boat__infoEdit-item-edit'>
-                        <label for="age" className=''>Age of the Boat</label>
+                        <label htmlFor="age" className=''>Age of the Boat</label>
                         <input onChange={e => setAge(e.target.value)} className='' type="text" name="age" value={age} required />
                     </div>
-                    <div className='boat__infoEdit-item-edit'>
-                        <label for="description" className=''>Description</label>
+                    <div className='boat__infoEdit-item-edit-description'>
+                        <label htmlFor="description" className=''>Description</label>
                         <textarea onChange={e => setDescription(e.target.value)} className='' type="text" name="description" value={description} required />
                     </div>
                 </div>
+                {feedback ? <Feedback message={feedback} /> : <div />}
                 <div className='boat__buttons'>
                     <button type='submit'>{buttonName}</button>
-                    <button type='button' onClick={()=> cancelBoat()}>Cancel</button>
+                    <button type='button' onClick={() => cancelBoat()}>Cancel</button>
                 </div>
             </form>
         </div>

@@ -9,9 +9,7 @@ import './index.sass'
 
 function BoatInfo({ getEdit, getDelete, boat }) {
 
-    useEffect(() => {
-
-    }, [boat])
+    useEffect(() => {}, [boat])
 
     return (<section className="boat">
         <div className='boat__container'>

@@ -1,31 +1,33 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import { withRouter} from 'react-router-dom'
 
 import UserCard from '../UserCard'
 import JourneyCard from '../JourneyCard'
+import Feedback from '../Feedback'
 
 import logic from '../../logic'
 import './index.sass'
 
-function Favorites(props) {
+function Favorites() {
  
-    let [journeyFavorites, setJourneyFavorites] = useState([])
-    let [crewFavorites, setCrewFavorites] = useState([])
+    const [journeyFavorites, setJourneyFavorites] = useState([])
+    const [crewFavorites, setCrewFavorites] = useState([])
+    const [feedback, setfeedback] = useState('')
     
     async function getUserLogged() {
         try {
-            let userLogged = await logic.retrieveUserLogged()
+            const userLogged = await logic.retrieveUserLogged()
 
-            let JourneyFavs = userLogged.favoriteJourneys.map(async j => await logic.retrieveJourney(j))
+            const JourneyFavs = userLogged.favoriteJourneys.map(async j => await logic.retrieveJourney(j))
             Promise.all(JourneyFavs).then(favs => setJourneyFavorites(favs))
 
-            let CrewFavs = userLogged.favoriteCrew.map(async j => await logic.retrieveUser(j))
+            const CrewFavs = userLogged.favoriteCrew.map(async j => await logic.retrieveUser(j))
             Promise.all(CrewFavs).then(favs => setCrewFavorites(favs))
 
         } catch (error) {
-            console.error(error)
+            setfeedback(error.message)
         }
     }
 
@@ -36,16 +38,16 @@ function Favorites(props) {
     useEffect(() => {
         setJourneyFavorites(journeyFavorites)
         setCrewFavorites(crewFavorites)
-        console.log(journeyFavorites, crewFavorites)
     }, [journeyFavorites, crewFavorites])
 
    
     return (
         <section className="favorites">
             <h3 className='favorites__title'>Users</h3>
-            {crewFavorites.length && <UserCard users={crewFavorites}/>}
+            {!!crewFavorites.length && <UserCard users={crewFavorites}/>}
             <h3 className='favorites__title'>Journyes</h3>
-            {journeyFavorites.length && <JourneyCard journeys={journeyFavorites} />}
+            {!!journeyFavorites.length && <JourneyCard journeys={journeyFavorites} />}
+            {feedback ? <Feedback message={feedback} /> : <div />}
         </section>)
 }
 

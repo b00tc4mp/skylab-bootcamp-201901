@@ -1,12 +1,16 @@
-.month
-    display: grid
-    grid-template-columns: repeat(7, 1fr)
-    grid-template-rows: repeat(5, 1fr)
-    cursor: pointer
+.calendar
+    &__title
+        text-align: center
+    
+    &__month
+        display: grid
+        grid-template-columns: repeat(7, 1fr)
+        grid-template-rows: repeat(5, 1fr)
+        cursor: pointer
 
-.week 
-    display: flex
-    justify-content: center
+    &__week 
+        display: flex
+        justify-content: center
 
 
 .day

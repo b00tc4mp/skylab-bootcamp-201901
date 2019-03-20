@@ -1,5 +1,5 @@
 const logic = require('../logic')
-const {createToken} = require('../middlewares/token-helper')
+const { createToken } = require('../middlewares/token-helper')
 
 module.exports = (req, res) => {
     const { body: { email, password } } = req
@@ -16,6 +16,7 @@ module.exports = (req, res) => {
                     error: message
                 })
             })
+
     } catch ({ message }) {
         res.status(401).json({
             error: message

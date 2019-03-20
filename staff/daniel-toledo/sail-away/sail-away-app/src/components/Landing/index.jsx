@@ -1,12 +1,14 @@
-import React, { useState } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import React from 'react'
+import { withRouter} from 'react-router-dom'
 
 import Search from '../Search'
 
 import './index.sass'
 
 function Landing(props) {
-    let { search } = props
+    
+    const { search } = props
+
     return (<main className="landing">
         <h2 className='landing__title'>Find your next sailing adventure!</h2>
         <div className='lookingFor'>

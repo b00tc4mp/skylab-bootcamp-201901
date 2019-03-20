@@ -1,41 +1,42 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import { withRouter} from 'react-router-dom'
 
-import logic from '../../logic'
+import logo from './logo.png'
 
 import './index.sass'
 
 function Nav(props) {
 
-    const { toggleMenu, isLanding } = props
+    const { toggleMenu, isLanding, isLogged, isOpen } = props
 
-    let [menuDisplayer, setMenuDisplayer] = useState('nav__icon')
+    const [menuDisplayer, setMenuDisplayer] = useState(`nav__icon ${isOpen}`)
+
+    useEffect(()=>{
+        setMenuDisplayer(`nav__icon ${isOpen}`)
+
+    },[isOpen])
 
     function handleOnClick() {
-        if (menuDisplayer === 'nav__icon') {
+        if (menuDisplayer === 'nav__icon close') {
             setMenuDisplayer('nav__icon open')
             toggleMenu(true)
         }
         else {
-            setMenuDisplayer('nav__icon')
+            setMenuDisplayer('nav__icon close')
             toggleMenu(false)
         }
     }
 
-    function handleLogin() {
-        props.history.push('/login')
-    }
-
-    function handleRegister() {
-        props.history.push('/register')
-    }
-
     let navClass = isLanding ? 'navbar nav nav-landing' : 'navbar nav'
+    
     return (
         <nav className={navClass}>
-            {logic.isUserLoggedIn &&
+            <div onClick={()=>props.history.push('/')}>
+                <img src={logo} alt="logo-sail-away" className='nav__logo' />
+            </div>
+            {isLogged &&
                 <div className={menuDisplayer} onClick={() => handleOnClick()}>
                     <span></span>
                     <span></span>
@@ -43,12 +44,13 @@ function Nav(props) {
                     <span></span>
                 </div>
             }
-            {!logic.isUserLoggedIn &&
+            {!isLogged &&
                 <div className='nav__sign'>
-                    <button onClick={handleLogin} className='nav__sign-login'>Login</button>
-                    <button onClick={handleRegister}>Register</button>
+                    <button onClick={()=> props.history.push('/login')} className='nav__sign-login'>Login</button>
+                    <button onClick={()=>props.history.push('/register')}>Register</button>
                 </div>
             }
+            
         </nav>)
 }
 

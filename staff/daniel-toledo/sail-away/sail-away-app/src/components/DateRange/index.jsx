@@ -9,24 +9,26 @@ import './index.sass'
 
 function DateRange({getDates, initialDates}) {
 
-    let [month1, setMonth1] = useState(moment().get('month') + 1)
-    let [year1, setYear1] = useState(moment().get('year'))
+    const [month1, setMonth1] = useState(moment().get('month') + 1)
+    const [year1, setYear1] = useState(moment().get('year'))
 
-    let [month2, setMonth2] = useState(moment().add(1, 'month').get('month') + 1)
-    let [year2, setYear2] = useState(moment().add(1, 'month').get('year'))
+    const [month2, setMonth2] = useState(moment().add(1, 'month').get('month') + 1)
+    const [year2, setYear2] = useState(moment().add(1, 'month').get('year'))
 
-    let [date1, setDate1] = useState(initialDates[0])
-    let [date2, setDate2] = useState(initialDates[1])
-
-
+    const [date1, setDate1] = useState(initialDates[0])
+    const [date2, setDate2] = useState(initialDates[1])
+    
     function handleSelectDate(year, monthIndex, day) {
-
-        let newDate = new Date(year, monthIndex, day)
-
+        
+        const newDate = new Date(year, monthIndex, day)
+        
         if (!date1 && !date2) setDate1(newDate)
         else if (newDate < date1) setDate1(newDate)
         else if (newDate > date2) setDate2(newDate)
         else if (newDate > date1 && newDate < date2) (Math.abs(newDate - date1) <= Math.abs(newDate - date2)) ? setDate1(newDate) : setDate2(newDate)   
+ 
+        getDates(date1, date2)
+
     }
 
     useEffect(()=>{

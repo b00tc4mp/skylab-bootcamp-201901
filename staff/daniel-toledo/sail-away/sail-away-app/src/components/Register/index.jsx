@@ -1,19 +1,19 @@
 'use strict'
 
-import React, { useState, useEffect } from 'react'
-import { Route, withRouter, Link } from 'react-router-dom'
+import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 
 import Feedback from '../Feedback'
 import logic from '../../logic'
 import './index.sass'
 
 function Register(props) {
-    let [name, setName] = useState('')
-    let [surname, setSurname] = useState('')
-    let [email, setEmail] = useState('')
-    let [password, setPassword] = useState('')
-    let [passwordConfirm, setPasswordConfirm] = useState('')
-    let [feedback, setfeedback] = useState('')
+    const [name, setName] = useState('')
+    const [surname, setSurname] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
+    const [passwordConfirm, setPasswordConfirm] = useState('')
+    const [feedback, setfeedback] = useState('')
 
     async function handleFormSubmit(event) {
         event.preventDefault()
@@ -21,6 +21,7 @@ function Register(props) {
         try {
             await logic.register(name, surname, email, password, passwordConfirm, 'captain')
             await logic.login(email, password)
+            props.isLogged()
             setfeedback('')
             props.history.push('/welcome')
 

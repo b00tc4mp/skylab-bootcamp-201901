@@ -1,25 +1,35 @@
 .update-picture
-    height: 25px
+    height: 30px
+    width: 100%
 
-.update-picture__button
-    opacity: 0
-    z-index: 2000
-    width: 250px
+    &__input
+        opacity: 0
+        z-index: 2000
+        height: 40px
+        position: relative
+        top: -30px
+        cursor: pointer
+
+    input
+        cursor: pointer
+        z-index: 2000
+        width: 100%
+        opacity: 0
 
 .update-picture__span
-    position: relative
-    top: -30px
     
     padding: 3px 82.5px
-    background: none
-    border: 2px solid white
+    margin: 0
+    height: 30px
+    z-index: -2000
+    background: #012C4C
+    border: 2px solid #012C4C
     color: white
     border-radius: 0.2em
-    width: 250px
+    width: 100%
         
 .update-picture__span:hover
     background: none
     border: 2px solid #012C4C
     color: white
     background: #012C4C
-    width: 250px
