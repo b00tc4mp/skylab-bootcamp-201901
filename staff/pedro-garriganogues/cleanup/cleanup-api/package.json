@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha --timeout 10000 $(find src -name *.spec.js)",
-    "watch": "nodemon src"
+    "watch": "nodemon src",
+    "start": "node ."
   },
   "keywords": [],
   "author": "",
