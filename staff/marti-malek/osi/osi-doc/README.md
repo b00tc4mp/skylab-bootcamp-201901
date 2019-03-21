@@ -22,7 +22,7 @@ The user also has a clock and a toolbar embedded in desktop. With the toolbar yo
 
 ## Data Model
 
-![Data model Diagram](images/Data-model.jpg)
+![Data model Diagram](images/Data-Model.jpg)
 
 ## Code Coverage
 
