@@ -2,9 +2,9 @@ import React, { Component } from 'react'
 import logic from '../../logic'
 
 import './index.css'
-import Indexitems from './../Indexitems'
+import IndexProducts from './../IndexProducts'
 
-class Totalproducts extends Component {
+class TotalProducts extends Component {
 
     constructor() {
         super()
@@ -25,7 +25,7 @@ class Totalproducts extends Component {
             <main className="main">
                 <h1 className="title">Products:</h1>
 
-                <Indexitems className="products"
+                <IndexProducts className="products"
                     productDetail
                     items={this.state.products}
                 />
@@ -36,4 +36,4 @@ class Totalproducts extends Component {
 
 }
 
-export default Totalproducts
+export default TotalProducts

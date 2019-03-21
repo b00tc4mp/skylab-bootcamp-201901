@@ -3,7 +3,7 @@ import React, { Component } from 'react'
 import logic from '../../logic'
 
 import './index.css'
-import Indexitems from './../Indexitems'
+import IndexProducts from './../IndexProducts'
 
 class Products extends Component {
 
@@ -38,7 +38,7 @@ class Products extends Component {
 
             <main className="products">
                 {this.state.categoryName && <h2>{this.state.categoryName}</h2>}
-                <Indexitems
+                <IndexProducts
                     productDetail
                     items={this.state.products}
                 />

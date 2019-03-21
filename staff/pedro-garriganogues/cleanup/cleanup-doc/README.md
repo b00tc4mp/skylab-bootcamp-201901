@@ -82,19 +82,9 @@ In the diagram below we can see the components and some of their propieties.
 
 
 
-## DESIGN (screenshots)
+## USER EXPERIENCE 
 
-### Home Page
-
-![](./images/landing.png)
-
-### Products
-
-![](./images/products.png)
-
-### Cart
-
-![](./images/cart.png)
+![](./images/userexp.png)
 
 
 ## PROJECT DEMO

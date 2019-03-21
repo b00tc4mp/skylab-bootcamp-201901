@@ -12,7 +12,7 @@ import Footer from '../Footer'
 import Profile from '../Profile'
 import Cart from '../Cart'
 import Product from '../Product'
-import Totalproducts from '../Totalproducts'
+import TotalProducts from '../TotalProducts'
 
 
 import logic from '../../logic'
@@ -77,7 +77,7 @@ class App extends Component {
             <Route exact path="/about" component={About} />
             <Route exact path="/contact" component={Contact} />
             <Route exact path="/profile" component={Profile} />
-            <Route exact path="/products" render={props => <Totalproducts categoryId={props.match.params.id} />} />
+            <Route exact path="/products" render={props => <TotalProducts categoryId={props.match.params.id} />} />
             <Route exact path="/product/:id" render={props => <Product productId={props.match.params.id} />} />
             <Route exact path="/cart" render={() => <Cart />} />
             <Route exact path="/register" render={() => <Register title='Register' onRegister={handleRegister} feedback={registerFeedback} />} />

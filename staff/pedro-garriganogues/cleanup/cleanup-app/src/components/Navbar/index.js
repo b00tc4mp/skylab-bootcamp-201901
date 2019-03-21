@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
 import './index.css'
-import SignedIn from './signedin'
-import SignedOut from './signedout'
+import SignedIn from './SignedIn'
+import SignedOut from './SignedOut'
 import logic from '../../logic'
 
 
