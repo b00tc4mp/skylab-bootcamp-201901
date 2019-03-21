@@ -1,0 +1,39 @@
+.comment
+    marign-top: 10%
+    &__card
+        margin-bottom: 5%
+        &-text
+            color: white
+        &-user
+            text-decoration: none
+            color: black
+            margin-top: 10%
+            margin-bottom: 30px
+            &-img
+                display: flex
+                flex-direction: row
+                border-radius: 50px
+                width: 20px
+            &-username
+                display: flex
+                flex-direction: row
+                color: white
+        &-button
+            background: #4697e6
+            color: white
+            display: -webkit-flex
+            display: flex
+            -webkit-justify-content: space-around
+            justify-content: space-around
+            border: 0
+            border-radius: 5px
+            padding: 10px 20px
+            cursor: pointer
+            width: 68px
+
+@media (min-width: 600px)
+    .comment
+        &__card
+            &-user
+                &-img
+                    width: 5%
