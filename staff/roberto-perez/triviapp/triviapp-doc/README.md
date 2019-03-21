@@ -8,7 +8,7 @@
 
 <p align="center">
 <img src="https://media.giphy.com/media/SV09Wp6hvMW7m/giphy.gif" >
-<img src="images/keyboard.png" width="600" >
+<img src="images/keyboard.png" >
 
 <img src="images/captura.png" style="margin: 0px 10px; 60px 0px">
 </p>
