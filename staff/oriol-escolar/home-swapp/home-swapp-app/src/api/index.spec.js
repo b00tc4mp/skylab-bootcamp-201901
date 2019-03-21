@@ -7,10 +7,10 @@ const { User, House, mongoose } = require('homeSwapp-data')
 import expect from 'expect'
 import bcrypt from 'bcrypt'
 import homeSwappApi from './index'
-const { env: { TEST_DB_URL } } = process
+const { env: { REACT_APP_TEST_DB_URL } } = process
 
 describe('homeSwappApi ', () => {
-    beforeAll(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
+    beforeAll(() => mongoose.connect(REACT_APP_TEST_DB_URL, { useNewUrlParser: true }))
 
     beforeEach(() =>
         Promise.all([
