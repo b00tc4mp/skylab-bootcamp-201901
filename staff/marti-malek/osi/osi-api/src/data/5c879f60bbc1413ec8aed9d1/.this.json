@@ -1,0 +1,13 @@
+{
+    "open": false,
+    "type": "folder",
+    "name": "Desktop",
+    "children": [
+        {
+            "name": "eheh",
+            "open": false,
+            "type": "file",
+            "position": 0
+        }
+    ]
+}
