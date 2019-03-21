@@ -24,7 +24,7 @@ export default function Flights({ userId, history }) {
     }
 
     return (<section className="section">
-        <h1 className="title section--title">FLIGHTS</h1>
+        <h1 className="title section--title">YOUR FLIGHTS</h1>
         <div className="columns is-multiline">
             {flights && flights.map(flight => <div key={flight.id} className="column is-4-desktop">
                 <div className="box flight" onClick={() => onFlightDetail(flight._id)}>

@@ -12,7 +12,7 @@ function Landing() {
                             <img src="https://res.cloudinary.com/drohwwwof/image/upload/v1553157693/Logo_tot.png" />
                         </figure>
                         <p>Flyme is an application that allows the user to control a drone through the keyboard or also program a flight path to do it automatically.</p>
-                        <p>Your system is designed to be very intuitive and can be used by everyone.</p>
+                        <p>The system is designed to be very intuitive and can be used by everyone.</p>
                         <p>The application allows to learn the most basic notions on which the programming paradigms are based.</p>
                         <p>With Flyme you can enjoy from the youngest to the oldest.</p>
                         <div className="field has-text-centered landing--links">

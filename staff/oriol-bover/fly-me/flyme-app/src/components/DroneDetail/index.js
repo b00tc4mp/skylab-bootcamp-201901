@@ -37,7 +37,7 @@ export default function DroneDetail({ user, history, droneId }) {
         if (droneId) {
             return logic.updateDrone(droneId, brand, model, host, parseInt(port))
                 .then(res => {
-                    if (res.status === 'OK') setFeedback('Changes saved')
+                    if (res.status === 'OK') history.push('/admin/drones')
                 })
                 .catch(err => setFeedback(err))
         } else {
