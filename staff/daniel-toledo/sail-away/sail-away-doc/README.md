@@ -10,6 +10,8 @@ you do not need to be logged to navigate, however if you want to have favorites,
 
 Once the user is logged it can edit its profile to find the best match and creates journeys to atract people to join their adventures
 
+![Introduction](images/introduction.jpg)
+
 ## Functional Description
 
 ### Use Cases
