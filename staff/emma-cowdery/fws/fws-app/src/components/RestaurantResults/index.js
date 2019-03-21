@@ -73,11 +73,11 @@ export default withRouter(function RestaurantResults(props) {
             <Navbar setQuery={setQuery} setShowDropdown={props.setShowDropdown} setShowRightBar={props.setShowRightBar} setSubmit={setSubmit} q={q}/>
             <div className='restaurant-results'>
                 {results ? results.map(({ geometry, formatted_address, name, opening_hours, place_id, price_level, rating }) => {
-                    return <div className='restaurant-results__restaurant'><MoreRestaurantInfo place_id={place_id} geometry={geometry} formatted_address={formatted_address} name={name} opening_hours={opening_hours} price_level={price_level} rating={rating} setSelectedRestaurant={setSelectedRestaurant} setLat={setLat} setLng={setLng} setPriceLevel={setPriceLevel} setRating={setRating} setRestaurantName={setRestaurantName} setCreateEvent={setCreateEvent}/></div>
+                    return <div key={place_id} className='restaurant-results__restaurant'><MoreRestaurantInfo place_id={place_id} geometry={geometry} formatted_address={formatted_address} name={name} opening_hours={opening_hours} price_level={price_level} rating={rating} setSelectedRestaurant={setSelectedRestaurant} setLat={setLat} setLng={setLng} setPriceLevel={setPriceLevel} setRating={setRating} setRestaurantName={setRestaurantName} setCreateEvent={setCreateEvent} setResFeedback={setFeedback}/></div>
                 }) : bouncy && <BouncingLoader/>}
                 {showHowTo && <HowTo setShowHowTo={setShowHowTo}/>}
             </div>
-            {createEvent && <CreateEvent setCreateEvent={setCreateEvent} lat={lat} lng={lng} rating={rating} priceLevel={priceLevel} restaurantName={restaurantName} selectedRestaurant={selectedRestaurant} setLat={setLat} setLng={setLng} setRating={setRating} setPriceLevel={setPriceLevel} setRestaurantName={setRestaurantName}/>}
+            {createEvent && <CreateEvent setFeedback={setFeedback} setLevel={setLevel} setType={setType} setCreateEvent={setCreateEvent} lat={lat} lng={lng} rating={rating} priceLevel={priceLevel} restaurantName={restaurantName} selectedRestaurant={selectedRestaurant} setLat={setLat} setLng={setLng} setRating={setRating} setPriceLevel={setPriceLevel} setRestaurantName={setRestaurantName}/>}
             {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
         </Fragment>
     )

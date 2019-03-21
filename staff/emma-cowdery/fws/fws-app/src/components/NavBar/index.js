@@ -46,7 +46,7 @@ export default withRouter(function Navbar(props) {
 
     return (
         <header className="nav-bar">
-            <div onClick={e => {e.preventDefault(); props.history.push('/event-categories')}}><p className={`nav-bar__${logo}`}>LOGO</p></div>
+            <div onClick={e => {e.preventDefault(); props.history.push('/event-categories')}} className={`nav-bar__${logo}`}></div>
             <div className='nav-bar__right'>
                 {stringContainsAny(pathname, '/restaurant-results/search/') && !showUserButton && <div className='nav-bar__right-desksearch'><Search setQuery={props.setQuery} setSubmit={props.setSubmit} query={props.query} /></div>}
                 {stringContainsAny(pathname,'/restaurant-results/search/') && <button onClick={e => { e.preventDefault(); props.history.push('/event-categories') }} className={`nav-bar__${eventsButton}`}>events</button>}

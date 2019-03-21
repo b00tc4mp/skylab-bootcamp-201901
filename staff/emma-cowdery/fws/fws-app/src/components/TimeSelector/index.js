@@ -17,11 +17,11 @@ export default function TimeSelector ({ setEventTime }) {
     return (
         <div className='time-selector'>
             <select className='time-selector__sel' onChange={e => {e.preventDefault(); setTimeHour(e.target.value)}}>
-                {hours.map(hour =>  <option value={hour}>{hour}</option>)}
+                {hours.map(hour =>  <option key={hour} value={hour}>{hour}</option>)}
             </select>
             <p className='time-selector__sep'>:</p>
             <select className='time-selector__sel' onChange={e => {e.preventDefault(); setTimeMinute(e.target.value)}}>
-                {minutes.map(minute => <option valur={minute}>{minute}</option>)}
+                {minutes.map(minute => <option key={minute} value={minute}>{minute}</option>)}
             </select>
         </div>   
     )

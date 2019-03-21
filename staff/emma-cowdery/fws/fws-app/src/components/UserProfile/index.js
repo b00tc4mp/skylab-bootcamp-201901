@@ -192,10 +192,9 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
                             {userProfile && userProfile.facebook !== 'enter a link to your profile' && <a href={userProfile.facebook} target="_blank"><i className="fab fa-facebook-square  user-profile__header-socials-icon"></i></a>}
                         </div>
                     </div>
-                    {!mobile && <div className='user-profile__line'></div>}
                 </div>
                 <div className='user-profile__body'>
-                    {user.id === userProfile.id && !editInfo && <i className="far fa-edit" onClick={e => {e.preventDefault(); setEditInfo(true)}}></i>}
+                    {user.id === userProfile.id && !editInfo && <i className="far fa-edit user-profile__body-editbutton" onClick={e => {e.preventDefault(); setEditInfo(true)}}></i>}
                     {editInfo ? <div className='user-profile__body-edit'>
                         <p className='user-profile__body-edit-title'>Social Media</p>
                         <div className='user-profile__body-edit-inputs'>
@@ -219,10 +218,12 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
                         {userProfile.about !== 'no-about' ? <div className='user-profile__body-about'>
                             <p>{about}</p>
                         </div> : <p>No information available</p>}
-                        <h2 className='user-profile__body-info-title'>Event Count:</h2>
-                        {userProfile.events ? <div className='user-profile__body-events'>
-                            <p className='user-profile__body-events-txt'>{events} events</p>
-                        </div> : <p>This user hasn't eaten with any strangers yet</p>}
+                        <div className='user-profile__event-count'>
+                            <h2 className='user-profile__body-info-title'>Event Count <i className="fas fa-arrow-right"></i></h2>
+                            {userProfile.events ? <div className='user-profile__body-events'>
+                                <p className='user-profile__body-events-txt'>{events}</p>
+                            </div> : <p>This user hasn't eaten with any strangers yet</p>}
+                        </div>
                     </div>}
                 </div>
                 {editImg && <div className='user-profile__upload'>

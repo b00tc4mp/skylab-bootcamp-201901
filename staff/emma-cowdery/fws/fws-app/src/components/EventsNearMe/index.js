@@ -45,7 +45,7 @@ export default function EventsNearMe({setShowRightBar, setShowDropdown}) {
                 <div className='events-nearme__elements'>
                     {eventsNearme ? eventsNearme.map(({ eventDate, eventTime, id, participants, reservationName, restaurantCategory, restaurantId, totalDist, restaurantName }) => {
 
-                        return <div className='events-nearme__event'><EventsNearMeEvent reservationName={reservationName} restaurantId={restaurantId} eventDate={eventDate} eventTime={eventTime} participants={participants} totalDist={totalDist} setJoinEvent={setJoinEvent} restaurantName={restaurantName} restaurantCategory={restaurantCategory} setSelectedEvent={setSelectedEvent} setUserInEvent={setUserInEvent} id={id} setReservationName={setReservationName} setPhone={setPhone}/></div>
+                        return <div key={id} className='events-nearme__event'><EventsNearMeEvent reservationName={reservationName} restaurantId={restaurantId} eventDate={eventDate} eventTime={eventTime} participants={participants} totalDist={totalDist} setJoinEvent={setJoinEvent} restaurantName={restaurantName} restaurantCategory={restaurantCategory} setSelectedEvent={setSelectedEvent} setUserInEvent={setUserInEvent} id={id} setReservationName={setReservationName} setPhone={setPhone}/></div>
                         
                     }) : <BouncingLoader/>}
                 </div>

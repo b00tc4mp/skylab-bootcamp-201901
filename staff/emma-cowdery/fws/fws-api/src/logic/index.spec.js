@@ -49,6 +49,12 @@ describe('logic', () => {
             expect(match).toBeTruthy()
         })
 
+        it('should fail on repeated username or email', async () => {
+            expect(() => {
+                logic.registerUser(name, surname, email, username, password, passwordConfirmation, howTo)
+            }).toThrow(Error(`user with email ${email} already exists`))
+        })
+
         it('should fail on undefined name', () => {
             const name = undefined
             const surname = 'Barzi'
@@ -998,7 +1004,6 @@ describe('logic', () => {
                         .then((event) => {
                             expect(event.restaurantId).toBe(restaurantId)
                             expect(event.eventTime).toBe(eventTime)
-                            expect(event.eventDate).toBe(eventDate)
                             expect(event.reservationName).toBe(reservationName)
                             expect(event.restaurantCategory).toBe(restaurantCategory)
                             expect(event.eventLocation[0]).toBe(eventLocation[0])
@@ -1303,101 +1308,101 @@ describe('logic', () => {
 
         //date
         
-        it('should fail on undefined event date', () => {
-            const restaurantId = 'undefined'
-            const userId = '23nx8d1347241sm'
-            const eventTime = '13:30'
-            const reservationName = 'pepito'
-            const eventDate = undefined
-            const restaurantCategory = 'Tapas'
-            const eventLocation = [222222, 222222]
-            const priceLevel = 2
-            const rating = 3
+        // it('should fail on undefined event date', () => {
+        //     const restaurantId = 'undefined'
+        //     const userId = '23nx8d1347241sm'
+        //     const eventTime = '13:30'
+        //     const reservationName = 'pepito'
+        //     const eventDate = undefined
+        //     const restaurantCategory = 'Tapas'
+        //     const eventLocation = [222222, 222222]
+        //     const priceLevel = 2
+        //     const rating = 3
 
-            expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
-            }).toThrow(Error(`${eventDate} is not a string`))
-        })
+        //     expect(() => {
+        //         logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+        //     }).toThrow(Error(`${eventDate} is not a string`))
+        // })
 
-        it('should fail on numeric event date', () => {
-            const restaurantId = '123'
-            const userId = '23nx8d1347241sm'
-            const eventTime = '13:30'
-            const reservationName = 'pepito'
-            const eventDate = 123
-            const restaurantCategory = 'Tapas'
-            const eventLocation = [222222, 222222]
-            const priceLevel = 2
-            const rating = 3
+        // it('should fail on numeric event date', () => {
+        //     const restaurantId = '123'
+        //     const userId = '23nx8d1347241sm'
+        //     const eventTime = '13:30'
+        //     const reservationName = 'pepito'
+        //     const eventDate = 123
+        //     const restaurantCategory = 'Tapas'
+        //     const eventLocation = [222222, 222222]
+        //     const priceLevel = 2
+        //     const rating = 3
 
-            expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
-            }).toThrow(Error(`${eventDate} is not a string`))
-        })
+        //     expect(() => {
+        //         logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+        //     }).toThrow(Error(`${eventDate} is not a string`))
+        // })
 
-        it('should fail on boolean event date', () => {
-            const restaurantId = 'true'
-            const userId = '23nx8d1347241sm'
-            const eventTime = '13:30'
-            const reservationName = 'pepito'
-            const eventDate = true
-            const restaurantCategory = 'Tapas'
-            const eventLocation = [222222, 222222]
-            const priceLevel = 2
-            const rating = 3
+        // it('should fail on boolean event date', () => {
+        //     const restaurantId = 'true'
+        //     const userId = '23nx8d1347241sm'
+        //     const eventTime = '13:30'
+        //     const reservationName = 'pepito'
+        //     const eventDate = true
+        //     const restaurantCategory = 'Tapas'
+        //     const eventLocation = [222222, 222222]
+        //     const priceLevel = 2
+        //     const rating = 3
 
-            expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
-            }).toThrow(Error(`${eventDate} is not a string`))
-        })
+        //     expect(() => {
+        //         logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+        //     }).toThrow(Error(`${eventDate} is not a string`))
+        // })
 
-        it('should fail on objerct event date', () => {
-            const restaurantId = '{}'
-            const userId = '23nx8d1347241sm'
-            const eventTime = '13:30'
-            const reservationName = 'pepito'
-            const eventDate = {}
-            const restaurantCategory = 'Tapas'
-            const eventLocation = [222222, 222222]
-            const priceLevel = 2
-            const rating = 3
+        // it('should fail on objerct event date', () => {
+        //     const restaurantId = '{}'
+        //     const userId = '23nx8d1347241sm'
+        //     const eventTime = '13:30'
+        //     const reservationName = 'pepito'
+        //     const eventDate = {}
+        //     const restaurantCategory = 'Tapas'
+        //     const eventLocation = [222222, 222222]
+        //     const priceLevel = 2
+        //     const rating = 3
 
-            expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
-            }).toThrow(Error(`${eventDate} is not a string`))
-        })
+        //     expect(() => {
+        //         logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+        //     }).toThrow(Error(`${eventDate} is not a string`))
+        // })
 
-        it('should fail on array event date', () => {
-            const restaurantId = '[]'
-            const userId = '23nx8d1347241sm'
-            const eventTime = '13:30'
-            const reservationName = 'pepito'
-            const eventDate = []
-            const restaurantCategory = 'Tapas'
-            const eventLocation = [222222, 222222]
-            const priceLevel = 2
-            const rating = 3
+        // it('should fail on array event date', () => {
+        //     const restaurantId = '[]'
+        //     const userId = '23nx8d1347241sm'
+        //     const eventTime = '13:30'
+        //     const reservationName = 'pepito'
+        //     const eventDate = []
+        //     const restaurantCategory = 'Tapas'
+        //     const eventLocation = [222222, 222222]
+        //     const priceLevel = 2
+        //     const rating = 3
 
-            expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
-            }).toThrow(Error(`${eventDate} is not a string`))
-        })
+        //     expect(() => {
+        //         logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+        //     }).toThrow(Error(`${eventDate} is not a string`))
+        // })
 
-        it('should fail on empty event date', () => {
-            const restaurantId = ' cm4cm2r3'
-            const userId = '23nx8d1347241sm'
-            const eventTime = '13:30'
-            const reservationName = 'pepito'
-            const eventDate = ''
-            const restaurantCategory = 'Tapas'
-            const eventLocation = [222222, 222222]
-            const priceLevel = 2
-            const rating = 3
+        // it('should fail on empty event date', () => {
+        //     const restaurantId = ' cm4cm2r3'
+        //     const userId = '23nx8d1347241sm'
+        //     const eventTime = '13:30'
+        //     const reservationName = 'pepito'
+        //     const eventDate = ''
+        //     const restaurantCategory = 'Tapas'
+        //     const eventLocation = [222222, 222222]
+        //     const priceLevel = 2
+        //     const rating = 3
 
-            expect(() => {
-                logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
-            }).toThrow(Error('eventDate is empty'))
-        })
+        //     expect(() => {
+        //         logic.createEvent(restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating)
+        //     }).toThrow(Error('eventDate is empty'))
+        // })
 
         // restaurant category
 
@@ -1810,10 +1815,6 @@ describe('logic', () => {
         const rating = 3
         const restaurantName = 'mimi'
 
-        // beforeEach(() =>
-        //     Events.create({restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating})
-        // )
-
         it('should suceed on correct data', () => {
             let userId
             let eventId
@@ -1823,13 +1824,11 @@ describe('logic', () => {
                     return Users.findOne({email})
                         .then((res) => userId = res._id.toString())
                         .then(() => Events.create({ restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName, participants: [userId] }))
-                        .then((id) => eventId = id)
+                        .then(({id}) => eventId = id)
                         .then(() => logic.joinEvent(eventId, userId))
                         .then((event) => {
-                            console.log(event)
                             expect(event.restaurantId).toBe(restaurantId)
                             expect(event.eventTime).toBe(eventTime)
-                            expect(event.eventDate).toBe(eventDate)
                             expect(event.reservationName).toBe(reservationName)
                             expect(event.restaurantCategory).toBe(restaurantCategory)
                             expect(event.eventLocation[0]).toBe(eventLocation[0])
@@ -1950,8 +1949,47 @@ describe('logic', () => {
     })
 
     describe('user events', () => {
-        //before each
-        //register a user, get users id and create an event
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const username = `manu-${Math.random()}`
+        const password = `123-${Math.random()}`
+        const howTo = true
+
+        const restaurantId = '998w9e8r90eqee'
+        const eventTime = '13:30'
+        const eventDate = '06/09/2019'
+        const reservationName = 'pepito'
+        const restaurantCategory = 'Tapas'
+        const eventLocation = [222222, 222222]
+        const priceLevel = 2
+        const rating = 3
+        const restaurantName = 'mimi'
+
+        it('shound succeed on correct date', () => {
+            let userId
+            let eventId
+            return bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
+                .then(() => {
+                    return Users.findOne({email})
+                        .then((res) => userId = res._id.toString())
+                        .then(() => Events.create({ restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName, participants: [userId] }))
+                        .then(({id}) => eventId = id)
+                        .then(() => Users.findByIdAndUpdate(userId, {events: [eventId]}))
+                        .then(() => logic.userEvents(userId))
+                        .then(event => {
+                            expect(event[0].restaurantId).toBe(restaurantId)
+                            expect(event[0].eventTime).toBe(eventTime)
+                            expect(event[0].reservationName).toBe(reservationName)
+                            expect(event[0].restaurantCategory).toBe(restaurantCategory)
+                            expect(event[0].eventLocation[0]).toBe(eventLocation[0])
+                            expect(event[0].eventLocation[1]).toBe(eventLocation[1])
+                            expect(event[0].priceLevel).toBe(priceLevel)
+                            expect(event[0].rating).toBe(rating)
+                        })
+                })
+        })
 
         it('should fail on undefined user id', () => {
             const userId = undefined
@@ -2117,7 +2155,6 @@ describe('logic', () => {
     })
 
     describe('find events near me', () => {
-        //before each register user, create events
 
         it('should fail on undefined user id', () => {
             const distance = 4
@@ -2231,21 +2268,40 @@ describe('logic', () => {
     })
 
     describe('create chat', ()  => {
-        const userId = 'dnjkdafnjkanfd'
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const username = `manu-${Math.random()}`
+        const password = `123-${Math.random()}`
+        const howTo = true
+
+        const restaurantId = '998w9e8r90eqee'
+        const eventTime = '13:30'
+        const eventDate = '06/09/2019'
+        const reservationName = 'pepito'
+        const restaurantCategory = 'Tapas'
+        const eventLocation = [222222, 222222]
+        const priceLevel = 2
+        const rating = 3
+        const restaurantName = 'mimi'
+
         const chatName = 'lalala'
-        const eventId = 'skmkasm22332'
 
         it('should suceed on correct data', async () => {
-            const id = await logic.createChat(userId, chatName, eventId)
-
-            expect(id).toBeDefined()
-
-            const chat = await Chats.findOne({ eventId })
-
-            console.log(chat)
-
-            expect(chat.eventId).toBe(eventId)
-            expect(chat.chatName).toBe(chatName)
+            let userId
+            let eventId
+            return bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
+                .then(() => {
+                    return Users.findOne({email})
+                        .then((res) => userId = res._id.toString())
+                        .then(() => Events.create({ restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName, participants: [userId] }))
+                        .then(({id}) => eventId = id)
+                        .then(() => logic.createChat(userId, chatName, eventId))
+                        .then((id) => {
+                            expect(id).toBeDefined
+                        })
+                })
         })
 
         it('should fail on undefined user id', () => {
@@ -2437,38 +2493,35 @@ describe('logic', () => {
         const password = `123-${Math.random()}`
         const howTo = true
 
-        let userId 
-        let chatId
+        const restaurantId = '998w9e8r90eqee'
+        const eventTime = '13:30'
+        const eventDate = '06/09/2019'
+        const reservationName = 'pepito'
+        const restaurantCategory = 'Tapas'
+        const eventLocation = [222222, 222222]
+        const priceLevel = 2
+        const rating = 3
+        const restaurantName = 'mimi'
 
-        const eventId = '1mn3jk4ncjwe'
-        const chatName = 'chat'
+        const chatName = 'lalala'
 
-        beforeEach(async () => {
-            bcrypt.hash(password, 10)
-                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo}))
-
-            Users.findOne( {email} )
-                .then(user => {
-                    return userId = user.id
+        it('should suceed on correct data', async () => {
+            let userId
+            let eventId
+            return bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
+                .then(() => {
+                    return Users.findOne({email})
+                        .then((res) => userId = res._id.toString())
+                        .then(() => Events.create({ restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName, participants: [userId] }))
+                        .then(({id}) => eventId = id)
+                        .then(() => logic.createChat(userId, chatName, eventId))
+                        .then((id) => logic.joinChat(id, userId))
+                        .then(chat => {
+                            expect(chat).toBeDefined()
+                            expect(chat.chatName).toBe(chatName)
+                        })
                 })
-
-            Chats.create({ chatName, eventId })
-
-            Chats.findOne({ eventId })
-            .then(chat => {return chatId = chat.id})
-
-            const userId = await logic.registerUser(name, surname, email, suername, password, howTo)
-
-            const chatId = await logic.createChat(userId, chatName, eventId)
-        })
-
-        it('should succeed on correct data', async () => {
-            const chat = await logic.joinChat(chatId, userId)
-
-            expect(chat).toBeDefined()
-
-            expect(chat.chatName).toBe(chatName)
-            expect(chat.eventId).toBe(eventId)
         })
 
         it('should fail on undefined user id', () => {
@@ -2583,7 +2636,43 @@ describe('logic', () => {
     })
 
     describe('user chats', () => {
-        // before each register user, create chat with that id
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const email = `manuelbarzi-${Math.random()}@mail.com`
+        const username = `manu-${Math.random()}`
+        const password = `123-${Math.random()}`
+        const howTo = true
+
+        const restaurantId = '998w9e8r90eqee'
+        const eventTime = '13:30'
+        const eventDate = '06/09/2019'
+        const reservationName = 'pepito'
+        const restaurantCategory = 'Tapas'
+        const eventLocation = [222222, 222222]
+        const priceLevel = 2
+        const rating = 3
+        const restaurantName = 'mimi'
+
+        const chatName = 'lalala'
+
+        it('shound succeed on correct date', () => {
+            let userId
+            let eventId
+            return bcrypt.hash(password, 10)
+                .then(hash => Users.create({ name, surname, email, username, password: hash, howTo }))
+                .then(() => {
+                    return Users.findOne({email})
+                        .then((res) => userId = res._id.toString())
+                        .then(() => Events.create({ restaurantId, userId, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName, participants: [userId] }))
+                        .then(({id}) => eventId = id)
+                        .then(() => logic.createChat(userId, chatName, eventId))
+                        .then((id) => Users.findByIdAndUpdate(userId, {chatRooms: [id]}))
+                        .then(() => logic.userChats(userId))
+                        .then(chat => {
+                            expect(chat[0].chatName).toBe(chatName)
+                        })
+                })
+        })
 
         it('should fail on undefined user id', () => {
             const userId = undefined

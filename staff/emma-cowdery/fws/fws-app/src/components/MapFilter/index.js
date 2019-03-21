@@ -54,13 +54,13 @@ export default function MapFilter ({ setPreferedDate, setTimeRange, setFilteredC
                     <div className='map-filter__fil-item'>
                         <p className='map-filter__fil-txt'>min</p>
                         <select className='map-filter__fil-select' onChange={e => {e.preventDefault(); setMin(e.target.value)}} defaultValue='0'>
-                            {values.map(value => <option value={value}>{value}</option>)}
+                            {values.map(value => <option key={value} value={value}>{value}</option>)}
                         </select>
                     </div>  
                     <div className='map-filter__fil-item'>
                         <p className='map-filter__fil-txt'>max</p>
                         <select className='map-filter__fil-select' onChange={e => {e.preventDefault(); setMax(e.target.value)}} defaultValue='5'>
-                            {values.map(value => <option value={value}>{value}</option>)}
+                            {values.map(value => <option key={value} value={value}>{value}</option>)}
                         </select>
                     </div>
                 </div>             
@@ -75,7 +75,7 @@ export default function MapFilter ({ setPreferedDate, setTimeRange, setFilteredC
             <div className='map-filter__fil'>
                 <p className='map-filter__fil-title'>select a min restaurant rating</p>
                 <select className='map-filter__fil-select' onChange={e => {e.preventDefault(); setRating(e.target.value)}} defaultValue='0'>
-                    {values.map(value => <option value={value}>{value}</option>)}
+                    {values.map(value => <option key={value} value={value}>{value}</option>)}
                 </select>
             </div>
             <div className='map-filter__fil'>

@@ -1,11 +1,11 @@
-import React, { Fragment, useState, useEffect } from 'react'
+import React, { Fragment, useState } from 'react'
 import './index.sass'
 import logic from '../../logic'
 import Calendar from '../Calendar'
 import TimeSelector from '../TimeSelector'
 import CategorySelector from '../CategorySelector'
 
-export default function CreateEvent ({ setCreateEvent, lat, lng, rating, priceLevel, restaurantName, selectedRestaurant, setLat, setLng, setRating, setPriceLevel, setRestaurantName }) {
+export default function CreateEvent ({ setCreateEvent, lat, lng, rating, priceLevel, restaurantName, selectedRestaurant, setLat, setLng, setRating, setPriceLevel, setRestaurantName, setFeedback, setLevel, setType }) {
     const [eventTime, setEventTime] = useState()
     const [eventDate, setEventDate] = useState()
     const [reservationName, setReservationName] = useState(undefined)
@@ -18,12 +18,28 @@ export default function CreateEvent ({ setCreateEvent, lat, lng, rating, priceLe
 
         if (priceLevel === undefined) priceLevel = 2
 
-        logic.createEvent(selectedRestaurant, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName)
+        try {
+            logic.createEvent(selectedRestaurant, eventTime, eventDate, reservationName, restaurantCategory, eventLocation, priceLevel, rating, restaurantName)
             .then(eventId => {
                 logic.createChat(chatName, eventId)
                     .then(chatId => {
-                        if (!chatId) console.log('error')//feedback to error
-                        else console.log('egood') //feedback to good
+                        if (!chatId) {
+                            setFeedback('error on creating event')
+                            setLevel('alert')
+                            setType('banner')
+                            setCreateEvent(false)
+                        } else {
+                            setFeedback('event created successfully')
+                            setLevel('success')
+                            setType('banner')
+                            setCreateEvent(false)
+                        }
+                    })
+                    .catch(err => {
+                        setFeedback(err.message)
+                        setLevel('warning')
+                        setType('banner')
+                        setCreateEvent(false)
                     })
             })
             .then(() => {
@@ -38,12 +54,22 @@ export default function CreateEvent ({ setCreateEvent, lat, lng, rating, priceLe
                 setPriceLevel()
                 setRestaurantName()
                 setChatName()
-                //set feedback message to event created successfully
+                setFeedback('event created successfuly')
+                setLevel('siccess')
+                setType('banner')
             })
             .catch(err => {
-                console.log(err)
-                //delete console log and set feedback to err
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+                setCreateEvent(false)
             })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+            setCreateEvent(false)
+        }
     }
     return (
         <Fragment>
@@ -76,10 +102,9 @@ export default function CreateEvent ({ setCreateEvent, lat, lng, rating, priceLe
                     <input className='create-event__chat-name' type='text' placeholder='chat name' onChange={e => {e.preventDefault(); setChatName(e.target.value)}}/>
                     <div className='create-event__buttons'>
                         <button className='create-event__buttons-cancel' onClick={e => {e.preventDefault(); setCreateEvent(false)}}>cancel</button>
-                        <button className='create-event__buttons-create' onClick={e => {e.preventDefault(); handleEventCreation(); setCreateEvent(false)}}>create event</button>
+                        <button className='create-event__buttons-create' onClick={e => {e.preventDefault(); handleEventCreation()}}>create event</button>
                     </div>
                 </div>
-                
             </div>
         </Fragment>
     )

@@ -318,8 +318,6 @@ const logic = {
 
             if (!chats) throw Error('unable to retrieve users chats')
 
-            console.log(chats)
-
             return chats
         })()
     },

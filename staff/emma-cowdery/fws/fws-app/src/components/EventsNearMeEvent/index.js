@@ -2,18 +2,23 @@ import React, { Fragment, useState, useEffect } from 'react'
 import logic from '../../logic'
 import './index.sass'
 import BouncingLoader from '../BouncingLoader'
+import Feedback from '../Feedback'
 
 export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime, participants, totalDist, setJoinEvent, restaurantName, restaurantCategory, setSelectedEvent, setUserInEvent, id, reservationName, setReservationName, setPhone }) {
     const [details, setDetails] = useState()
     const [eventStyle, setEventStyle] = useState()
     const [counter, setCounter] = useState(0)
     const [userId, setUserId] = useState()
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState() 
 
     if (counter === 10) setCounter(0)
     if (counter === -1) setCounter(9)
 
     useEffect(() => {
-        logic.restaurantDetails(restaurantId)
+        try {
+            logic.restaurantDetails(restaurantId)
             .then(({result}) => {
                 setDetails(result)
 
@@ -21,16 +26,48 @@ export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime,
                     .then(url => {
                         setEventStyle({backgroundImage: `url(${url})`})
                     })
+                    .catch(err => {
+                        setFeedback(err.message)
+                        setLevel('warning')
+                        setType('banner')
+                    })
             })
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
 
-        logic.retrieveUser()
+        try {
+            logic.retrieveUser()
             .then(({user}) => setUserId(user.id))
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
+
     }, [])
 
     useEffect(() => {
         details && logic.retrievePhoto(details.photos[counter].photo_reference)
             .then(url => {
                 setEventStyle({backgroundImage: `url(${url})`})
+            })
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
             })
     }, [counter])
 
@@ -58,8 +95,8 @@ export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime,
                             <p>{eventTime}</p>
                         </div>
                         <div className='event-nearme__info-links'>
-                            <a className='event-nearme__info-link event-nearme__info-link-one' href={details.url} target="_blank"><i class="fas fa-map-marked-alt event-nearme__info-link-icon"/> open in maps</a>
-                            <a className='event-nearme__info-link event-nearme__info-link-two' href={details.website} target="_blank"><i class="fas fa-desktop event-nearme__info-link-icon"></i> website</a>
+                            <a className='event-nearme__info-link event-nearme__info-link-one' href={details.url} target="_blank"><i className="fas fa-map-marked-alt event-nearme__info-link-icon"/> open in maps</a>
+                            <a className='event-nearme__info-link event-nearme__info-link-two' href={details.website} target="_blank"><i className="fas fa-desktop event-nearme__info-link-icon"></i> website</a>
                         </div>
                     </div>
                     {participants.includes(userId) ?  
@@ -72,6 +109,7 @@ export default function EventsNearMeEvent ({ restaurantId, eventDate, eventTime,
                     </div>}
                 </div>
             : <BouncingLoader/>}
+            {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
         </Fragment>
     )
 }

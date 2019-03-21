@@ -242,7 +242,7 @@ const logic = {
         if (!restaurantName.trim().length) throw Error('restaurantName cannot be empty')
 
         return (async () => {
-            if ((new Date()) > eventDate) throw Error('unable to create an event on a date that is equal to the present or has already passed')
+            if ((new Date()).getDate() >= (new Date(eventDate)).getDate() && (new Date()).getMonth() >= (new Date(eventDate)).getMonth() && (new Date()).getFullYear() >= (new Date(eventDate)).getFullYear()) throw Error('unable to create an event on a date that is equal to the present or has already passed')
             
             const restaurant = await Events.findOne({ restaurantId })
 
@@ -751,9 +751,6 @@ const logic = {
             if (filters.hasOwnProperty('distance')) 
                 events = await logic.findEventsNearMe(userId, filters.distance)
 
-                console.log((new Date(events[0].eventDate)).setHours(10,0,0,0))
-                console.log(filters.date.setHours(0, 0, 0, 0))
-
             if (filters.hasOwnProperty('restaurantCategory')) 
                     events = events.filter(event => event.restaurantCategory === filters.restaurantCategory)
             
@@ -770,7 +767,7 @@ const logic = {
                     events = events.filter(event => filters.timeRange[0] <= event.eventTime && event.eventTime <= filters.timeRange[1])
             
             if (filters.hasOwnProperty('date'))       
-                    events = events.filter(event => new Date(event.eventDate) === filters.date)
+                    events = events.filter(event => (new Date(event.eventDate)).getDate() === (new Date(filters.date)).getDate() && (new Date(event.eventDate)).getMonth() === (new Date(filters.date)).getMonth() && (new Date(event.eventDate)).getFullYear() === (new Date(filters.date)).getFullYear())
                 
             return events
         })()

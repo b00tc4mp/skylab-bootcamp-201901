@@ -1,11 +1,27 @@
-import React, { Fragment } from 'react'
+import React, { Fragment, useState } from 'react'
 import './index.sass'
 import logic from '../../logic'
+import Feedback from '../Feedback'
 
 export default function HowTo ({setShowHowTo}) {
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState() 
+
     function handleDontShowHowTo() {
-        logic.dontShowHowTo()
+        try {
+            logic.dontShowHowTo()
             .then(res => setShowHowTo(res.howTo))
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
     }
 
     return (
@@ -17,7 +33,7 @@ export default function HowTo ({setShowHowTo}) {
                     <button className='how-to__never' onClick={e => {e.preventDefault(); handleDontShowHowTo()}}>don't show again</button>
                 </div>
             </div>
-            
+            {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
         </Fragment>
     )
 }

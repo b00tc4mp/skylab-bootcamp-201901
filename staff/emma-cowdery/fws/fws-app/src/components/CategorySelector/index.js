@@ -6,7 +6,7 @@ export default function CategorySelector ({ setRestaurantCategory }) {
     
     return (
         <select className='category-selector' onChange={e => {e.preventDefault(); setRestaurantCategory(e.target.value)}}>
-            {categories.map(category=> <option value={category}>{category}</option>)}
+            {categories.map(category=> <option key={category} value={category}>{category}</option>)}
         </select>
     )
 }

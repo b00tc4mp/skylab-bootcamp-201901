@@ -1,6 +1,6 @@
 import React, { Fragment } from 'react'
 import './index.sass'
-import { withRouter, Route, Redirect } from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 import EventsNav from '../EventsNav'
 import NavBar from '../NavBar'
 

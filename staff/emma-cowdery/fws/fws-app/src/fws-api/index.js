@@ -163,8 +163,6 @@ const fwsApi = {
         if (!image) throw Error('image is empty')
         if (image instanceof Blob === false) throw TypeError(`${image} is not a blob`)
 
-        console.log(image)
-
         let formData = new FormData()
         formData.append('image', image)
 
@@ -326,7 +324,6 @@ const fwsApi = {
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response)
             if (response.error) throw Error(response.error)
 
             return response
@@ -407,7 +404,6 @@ const fwsApi = {
         })
         .then(response => response.json())
         .then(response => {
-            console.log(response)
             if (response.error) throw Error(response.error)
 
             return response

@@ -52,13 +52,13 @@ export default withRouter(function RightBar (props) {
                             <p className='right-bar__email'>{user.email}</p>
                         </div>
                     </div>
-                    {stringContainsAny(pathname, '/user/') ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-user right-bar__button-icon"></i> Profile</button> : <button onClick={e => {e.preventDefault(); props.history.push(`/user/${user.id}`)}} className='right-bar__button'><i class="far fa-user right-bar__button-icon"></i> Profile</button>}
+                    {stringContainsAny(pathname, '/user/') ? <button className='right-bar__button right-bar__button-highlited'><i className="far fa-user right-bar__button-icon"></i> Profile</button> : <button onClick={e => {e.preventDefault(); props.history.push(`/user/${user.id}`)}} className='right-bar__button'><i className="far fa-user right-bar__button-icon"></i> Profile</button>}
                     <span className='right-bar__line'></span>
-                    {stringContainsAny(pathname, '/chats') ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-comments right-bar__button-icon"></i> Chats</button> : <button onClick={e => {e.preventDefault(); props.history.push('/chats')}} className='right-bar__button'><i class="far fa-comments right-bar__button-icon"></i> Chats</button>}
+                    {stringContainsAny(pathname, '/chats') ? <button className='right-bar__button right-bar__button-highlited'><i className="far fa-comments right-bar__button-icon"></i> Chats</button> : <button onClick={e => {e.preventDefault(); props.history.push('/chats')}} className='right-bar__button'><i className="far fa-comments right-bar__button-icon"></i> Chats</button>}
                     <span className='right-bar__line'></span>
-                    {stringContainsAny(pathname, '/my-events') ? <button className='right-bar__button right-bar__button-highlited'><i class="far fa-calendar right-bar__button-icon"></i> Events</button> : <button onClick={e => {e.preventDefault(); props.history.push('/my-events')}} className='right-bar__button'><i class="far fa-calendar right-bar__button-icon"></i> Events</button>}
+                    {stringContainsAny(pathname, '/my-events') ? <button className='right-bar__button right-bar__button-highlited'><i className="far fa-calendar right-bar__button-icon"></i> Events</button> : <button onClick={e => {e.preventDefault(); props.history.push('/my-events')}} className='right-bar__button'><i className="far fa-calendar right-bar__button-icon"></i> Events</button>}
                     <span className='right-bar__line'></span>
-                    <button onClick={e => {e.preventDefault(); handleLogout(); props.setShowRightBar(false)}} className='right-bar__button-logout'><i class="fas fa-sign-out-alt right-bar__button-icon"></i> Logout</button>
+                    <button onClick={e => {e.preventDefault(); handleLogout(); props.setShowRightBar(false)}} className='right-bar__button-logout'><i className="fas fa-sign-out-alt right-bar__button-icon"></i> Logout</button>
                 </div>
             </div>}
             {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}

@@ -1,23 +1,71 @@
 @import '../../utils.sass'
 
-.landing-header
-    display: flex
-    flex-flow: row
-    justify-content: space-between
-    background-color: $yellow
-    align-items: center
+.landing
     
+    &__header
+        display: flex
+        flex-flow: row
+        justify-content: space-between
+        background-color: $yellow
+        align-items: center
 
-    &__logo
-        color: $dark-gray
-        margin-left: 2em
 
-    &__sign-in
-        border-style: solid
-        background-color: $ocre
-        border-radius: 0.5em
-        color: $dark-gray
-        border-width: 0
-        padding: 0.5em
-        margin-right: 2em
-        cursor: pointer
+        &-logo
+            margin-left: 1.5em
+            cursor: pointer
+            width: 5.9em
+            height: 3.25em
+            background-image: url('/images/logo.png')
+            background-repeat: no-repeat
+            background-position: center
+            background-size: 100%
+
+        &-sign-in
+            border-style: solid
+            background-color: $ocre
+            border-radius: 0.5em
+            color: $dark-gray
+            border-width: 0
+            padding: 0.5em
+            margin-right: 2em
+            cursor: pointer
+
+    &__main
+        position: fixed
+        top: 3em
+        bottom: 0
+        left: 0
+        right: 0
+        background-color: $dark-gray
+        display: flex
+        flex-flow: column
+        justify-content: center
+        align-items: center
+
+        &-logo
+            width: 80%
+            height: 8em
+            border-radius: 1em
+            background-image: url('/images/logo.png')
+            background-repeat: no-repeat
+            background-position: center
+            background-size: 100%
+
+        &-txt
+            font-weight: 600
+            font-size: 2em
+            color: white
+            margin: 1em
+            text-align: center
+
+@media (min-width: 768px)
+    .landing__main-logo
+        height: 14em
+        width: 60%
+
+@media (min-width: 768px)
+    .landing__main-logo
+        height: 18em
+        width: 50%
+
+

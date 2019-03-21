@@ -4,6 +4,7 @@ import './index.sass'
 import ChatsNav from '../ChatsNav'
 import Conversation from '../Conversation'
 import NavBar from '../NavBar'
+import Feedback from '../Feedback'
 
 export default function Chats ({ setShowRightBar, setShowDropdown }) {
     const [selectedChat, setSelectedChat] = useState(false)
@@ -11,16 +12,29 @@ export default function Chats ({ setShowRightBar, setShowDropdown }) {
     const [showNav, setShowNav] = useState(false)
     const [chatName, setChatName] = useState()
     const [message, setMessage] = useState()
-    const [eventId, setEventId] = useState()
+    const [feedback, setFeedback] = useState()
+    const [level, setLevel] = useState()
+    const [type, setType] = useState() 
 
     useEffect(() => {
         if (window.innerWidth < 1200) setMobile(true)
     }, [])
 
     const handleSendMessage = () => {
-        logic.addMessageToChat(selectedChat, message)
+        try {
+            logic.addMessageToChat(selectedChat, message)
             .then(()=> setMessage(''))
-            .catch(err => console.log(err)) //set feedback
+            .then(() => window.scrollTo(0, 100000000))
+            .catch(err => {
+                setFeedback(err.message)
+                setLevel('warning')
+                setType('banner')
+            })
+        } catch ({message}) {
+            setFeedback(message)
+            setLevel('warning')
+            setType('banner')
+        }
     }
 
     return (
@@ -29,7 +43,7 @@ export default function Chats ({ setShowRightBar, setShowDropdown }) {
             <div className='chats'>
                 {showNav && <ChatsNav setSelectedChat={setSelectedChat} setShowNav={setShowNav} setChatName={setChatName}/>}
                 {!mobile && <div className='chats__nav'><ChatsNav setSelectedChat={setSelectedChat} setShowNav={setShowNav} setChatName={setChatName}/></div>}
-                {mobile && !showNav && <div className='chats__to-nav' onClick={e => {e.preventDefault(); setShowNav(true)}}><p className='chats__to-nav-txt'>chats <i class="fas fa-chevron-right"></i></p></div>}
+                {mobile && !showNav && <div className='chats__to-nav' onClick={e => {e.preventDefault(); setShowNav(true)}}><p className='chats__to-nav-txt'>chats <i className="fas fa-chevron-right"></i></p></div>}
                 <div className='chats__messaging'>
                     {selectedChat ? <div>
                         <div className='chats__header'>
@@ -46,6 +60,7 @@ export default function Chats ({ setShowRightBar, setShowDropdown }) {
                     </div>}
                 </div>
             </div>
+            {feedback && <Feedback feedback={feedback} level={level} type={type} setFeedback={setFeedback}/>}
         </Fragment>
     )
 }

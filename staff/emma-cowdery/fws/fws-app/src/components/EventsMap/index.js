@@ -152,10 +152,6 @@ export default function EventsMap ({setShowRightBar, setShowDropdown}) {
                     <div className='events-map__map-panel'>
                         {eventInfo && <InfoWindow className='events-map__map-panel-info' id={id} setMapInGrid={setMapInGrid} setEventInfo={setEventInfo} participants={participants} eventDate={eventDate} eventTime={eventTime} restaurantId={restaurantId} reservationName={reservationName} restaurantCategory={restaurantCategory} mobile={mobile} restaurantName={restaurantName} setJoinEvent={setJoinEvent} setSelectedEvent={setSelectedEvent} setPhone={setPhone}/>}
                         <div id='map' className={`events-map__map-panel-map${mapInGrid} events-map__map-panel-map`}></div>
-                        {/* <div alt='Legend' id='legend'>
-                            <img alt='legend icon' src='images/event-yellow-45.png'></img>
-                            <img alt='legend icon' src='images/event-gray-45.png'></img>
-                        </div> */}
                         {mobile ? <div className='events-map__map-panel-filters'>
                             <div className='events-map__map-panel-arrow'>
                                 <i className="fas fa-chevron-up events-map__map-panel-icon"></i>
