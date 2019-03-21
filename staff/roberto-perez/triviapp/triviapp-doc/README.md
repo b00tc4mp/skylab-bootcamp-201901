@@ -1,4 +1,4 @@
-![Use Cases](images/triviapp.png)
+# ![Use Cases](images/triviapp.png)
 
 [![react version](https://img.shields.io/badge/react-16.8.3-blue.svg)](https://www.npmjs.com/package/react/v/16.8.3) 
 [![react version](https://img.shields.io/badge/express-4.16.4-green.svg)](https://www.npmjs.com/package/express/v/4.16.4) 
