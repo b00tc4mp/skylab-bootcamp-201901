@@ -69,33 +69,33 @@ class App extends Component {
       let userFavs = null;
       let userHouses = null;
       let user = await logic.retrieveUser()
-      if(this.state.user){
-        
+      if (this.state.user) {
+
         userFavs = await logic.retrieveFavorites()
 
       }
-      if(this.state.user){
-        
+      if (this.state.user) {
+
         userHouses = await logic.retrieveMyHouses()
       }
       if (JSON.stringify(this.state.user) !== JSON.stringify(user)) {
-        
+
         this.setState({ user })
       }
 
       if (JSON.stringify(this.state.userFavs) !== JSON.stringify(userFavs)) {
-        
+
         this.setState({ userFavs })
       }
 
       if (JSON.stringify(this.state.userHouses) !== JSON.stringify(userHouses)) {
-        
+
         this.setState({ userHouses })
       }
 
       if (JSON.stringify(this.state.conversations) !== JSON.stringify(user.conversations)) {
         await this.setState({ conversations: user.conversations })
-        
+
         if (this.state.userChat) {
 
           var index = this.state.conversations.findIndex(conver => conver.interlocutor == this.state.userChat)
@@ -111,7 +111,7 @@ class App extends Component {
       }
 
       setTimeout(this.updateInfo, 3000);
-    } 
+    }
 
 
 
@@ -119,7 +119,7 @@ class App extends Component {
 
 
   handleLogin = (email, password) => {
-    this.setState({loginFeedback:""})
+    this.setState({ loginFeedback: "" })
     try {
       return logic.loginUser(email, password)
         .then((token) => {
@@ -208,7 +208,7 @@ class App extends Component {
   handleGoToLogout = () => {
 
     logic.logout();
-    this.setState({ user: null, token: null, userFavs: null, userHouses: null, conversations: [],userChat: null,messages: [],loginFeedback: null,registerFeedback: null,createHouseFeedback: null })
+    this.setState({ user: null, token: null, userFavs: null, userHouses: null, conversations: [], userChat: null, messages: [], loginFeedback: null, registerFeedback: null, createHouseFeedback: null })
     this.props.history.push('/');
   }
 
@@ -347,14 +347,14 @@ class App extends Component {
           <Switch>
             <Route path="/search/:query" render={() => <SearchResults toggleFavs={toggleFavs} updateInfo={updateInfo} userFavs={userFavs} retrieveHouse={retrieveHouse} />} />
             <Route path="/house/:houseId" render={() => <DetailedHouse toggleFavs={toggleFavs} favorites={userFavs} user={user} contactButton={contactButton} />} />
-            <Route exact path="/createHouse" render={() => <CreateHouse onCreateHouse={onCreateHouse} createHouseFeedback={createHouseFeedback} />} />
+            <Route exact path="/createHouse" render={() => user ? <CreateHouse onCreateHouse={onCreateHouse} createHouseFeedback={createHouseFeedback} /> : <Redirect to='/' />} />
             <Route exact path='/' render={() => <LandingPage />} />
-            <Route exact path="/login" render={() => <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />
-            <Route exact path="/chat" render={() => <Chat interlocutorId={userChat} messages={messages} sendMessage={sendMessage} />} />
-            <Route exact path="/conversations" render={() => <Conversations conversations={conversations} contactButton={contactButton} />} />
-            <Route exact path="/register" render={() => <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />
+            <Route exact path="/login" render={() => user ? <Redirect to='/' /> : <Login loginFeedback={loginFeedback} onLogin={handleLogin} />} />
+            <Route exact path="/chat" render={() => !userChat ? <Redirect to='/conversations' /> : <Chat interlocutorId={userChat} messages={messages} sendMessage={sendMessage} />} />
+            <Route exact path="/conversations" render={() => user ? <Conversations conversations={conversations} contactButton={contactButton} /> : <Redirect to='/' />} />
+            <Route exact path="/register" render={() => user ? <Redirect to='/' /> : <Register registerFeedback={registerFeedback} onRegister={handleRegister} />} />
           </Switch>
-          <Route exact path="/user" render={() => <div>
+          <Route exact path="/user" render={() => !user ? <Redirect to='/' /> : <div>
             <MyHouses user={user} userHouses={userHouses} updateInfo={updateInfo} onCreateHousePage={onCreateHousePage} retrieveHouse={retrieveHouse} />
             <Favorites user={user} userFavs={userFavs} updateInfo={updateInfo} retrieveHouse={retrieveHouse} />
 
