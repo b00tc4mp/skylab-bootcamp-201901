@@ -63,17 +63,6 @@ const logic = {
         if (typeof password !== 'string') throw TypeError(password + ' is not a string')
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        // return User.findOne({ email })
-        //     .then(user => {
-        //         if (!user) throw Error(`user with email ${email} not found`)
-
-        //         return bcrypt.compare(password, user.password)
-        //             .then(match => {
-        //                 if (!match) throw Error('wrong credentials')
-        //                 const { id } = user
-        //                 return id
-        //             })
-        //     })
         return (async () => {
             const user = await User.findOne({ email })
 
@@ -738,11 +727,9 @@ const logic = {
             })
     
             let streamBuffer = streamifier.createReadStream(object3d);
-            // let exist = fs.existsSync(pathId)
-            // let rs = fs.createReadStream(object3d) //Must be a path, not an object
+
             let ws = fs.createWriteStream(pathId)
-            // rs.on('data', (chunk) => chunk.pipe(ws))
-            // rs.on('end', console.log('end'))
+     
             streamBuffer.pipe(ws)
             
             return true
@@ -763,11 +750,11 @@ const logic = {
             let modelsPath = path.join(__dirname, '../../models3d')
 
             let modelsItems = await fs.readdirSync(modelsPath)
-            debugger
+            
             let modelFound = modelsItems.find(foundId => foundId == productId)
-            debugger
+            
             let resultPath = path.join(modelsPath, modelFound)
-            debugger
+
             let rs = fs.createReadStream(resultPath)
 
             return rs
