@@ -10,9 +10,9 @@ function App() {
     const [isDevelopment] = useState(true)
 
     return (<Fragment>
-        <Route exact path="/" render={() => isDevelopment ? <Redirect to="/login" /> : <Landing />} />
-        <Route path="/login" component={Login} />
-        <Route path="/register" component={Register} />
+        <Route exact path="/" component={Landing} />
+        <Route path="/login" render={props => logic.isUserLoggedIn ? <Redirect to="/admin" /> : <Login history={props.history} />} />
+        <Route path="/register" render={props => logic.isUserLoggedIn ? <Redirect to="/admin" /> : <Register history={props.history} />} />
         <Route path="/admin" render={() => logic.isUserLoggedIn ? <Admin /> : <Redirect to="/login" />} />
     </Fragment>)
 }

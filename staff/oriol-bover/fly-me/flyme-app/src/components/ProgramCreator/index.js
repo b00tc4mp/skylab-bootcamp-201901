@@ -4,7 +4,7 @@ import logic from '../../logic'
 import initialData from './initial-data'
 import './index.sass'
 
-export default function ProgramCreator() {
+export default function ProgramCreator({ user, history }) {
     const [state, setState] = useState(initialData)
     const [name, setName] = useState('')
     const [feedback, setFeedback] = useState(null)
@@ -98,7 +98,7 @@ export default function ProgramCreator() {
         try {
             logic.createProgram(name, orders)
                 .then(res => {
-                    if (res) console.log('res', res)
+                    history.push(`/admin/user/${user.id}/programs`)
                 })
                 .catch(err => setFeedback(err.message))
         } catch ({ message }) {
@@ -122,6 +122,11 @@ export default function ProgramCreator() {
         setState(newState)
     }
 
+    const droppableStyle = {
+        paddingBottom: '5em'
+    }
+
+
     return (<DragDropContext on onDragEnd={onDragEnd} >
         <section className="section">
             <div className="columns">
@@ -139,12 +144,16 @@ export default function ProgramCreator() {
                             <h3 className="t-title">{column.title}</h3>
                             <Droppable droppableId={column.id} isDropDisabled={column.id === 'column-1'} >
                                 {(provided) => (
-                                    <div className="t-tasks" ref={provided.innerRef} {...provided.droppableProps}>
+                                    <div className="t-tasks" style={droppableStyle} ref={provided.innerRef} {...provided.droppableProps}>
                                         {tasks.map((task, index) =>
                                             <Draggable draggableId={task.id} index={index}>
                                                 {(provided) => (
                                                     <div className="t-task" key={task.id} ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                                        {task.content} {column.id == 'column-2' ? <button className="delete" onClick={() => deleteCommand(task.id)} ></button> : ''}
+                                                        <div className="level">
+                                                            <div className="level-left">{task.content}</div>
+                                                            <div className="level-right">{column.id == 'column-2' ? <button className="delete" onClick={() => deleteCommand(task.id)} ></button> : ''}</div>
+                                                        </div>
+
                                                     </div>
                                                 )}
                                             </Draggable>)}

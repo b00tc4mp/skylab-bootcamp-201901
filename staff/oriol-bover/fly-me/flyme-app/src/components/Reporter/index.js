@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
+import Feedback from '../Feedback'
 import logic from '../../logic'
-
+import './index.sass'
 
 export default function Reporter() {
     const [subject, setSubject] = useState('')
@@ -27,8 +28,8 @@ export default function Reporter() {
 
     return (<section className="section">
         <p>You can report any problem, incident or bug that has occurred during the course of use.</p>
-        {feedback && <p>{feedback}</p>}
-        <form className="block" onSubmit={e => handleSubmit(e)} >
+        {feedback && <Feedback>{feedback}</Feedback>}
+        <form className="block reporter" onSubmit={e => handleSubmit(e)} >
             <div className="field">
                 <label className="label">Subject</label>
                 <div className="control">
@@ -36,9 +37,9 @@ export default function Reporter() {
                 </div>
             </div>
             <div className="field">
-                <label className="label">Subject</label>
+                <label className="label">Message</label>
                 <div className="control">
-                    <textarea className="input" value={message} onChange={e => setMessage(e.target.value)} required />
+                    <textarea className="input reporter--message" value={message} onChange={e => setMessage(e.target.value)} required />
                 </div>
             </div>
             <div className="field">

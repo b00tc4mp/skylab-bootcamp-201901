@@ -31,7 +31,7 @@ export default function Flights({ userId, history }) {
                     <article className="media">
                         {!userId && <figure className="media-left">
                             <p className="image is-64x64">
-                                <img src={flight.userId.image ? flight.userId.image : "https://bulma.io/images/placeholders/128x128.png"} />
+                                <img src={flight.userId.image ? flight.userId.image : "http://bcnnow.decodeproject.eu/img/users/no-image.jpg"} />
                             </p>
                         </figure>}
                         <div className="media-content">

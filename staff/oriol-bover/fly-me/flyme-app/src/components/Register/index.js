@@ -1,7 +1,11 @@
 import React, { useState } from 'react'
+import { Link } from 'react-router-dom'
+import { ToastContainer, toast } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.min.css'
+import Feedback from '../Feedback'
 import logic from '../../logic'
 
-function Register() {
+function Register({ history }) {
     const [name, setName] = useState(null)
     const [surname, setSurname] = useState(null)
     const [email, setEmail] = useState(null)
@@ -9,12 +13,27 @@ function Register() {
     const [passwordConfirm, setPasswordConfirm] = useState(null)
     const [feedback, setFeedback] = useState(null)
 
+
     function handleRegister(e) {
         e.preventDefault()
 
         try {
             logic.registerUser(name, surname, email, password, passwordConfirm)
-                .then(({ status }) => console.log('async res', status))
+                .then(({ status }) => {
+                    if (status === 'OK') {
+
+                        toast.success('Register successfully done', {
+                            position: "top-right",
+                            autoClose: 3000,
+                            hideProgressBar: false,
+                            closeOnClick: true,
+                            pauseOnHover: true,
+                            draggable: true,
+                        })
+
+                        setTimeout(() => history.push('/login'), 3000);
+                    }
+                })
                 .catch(({ message }) => setFeedback(message))
         } catch ({ message }) {
             setFeedback(message)
@@ -22,11 +41,28 @@ function Register() {
     }
 
     return (<section className="hero is-fullheight">
+
+        <ToastContainer
+            position="top-right"
+            autoClose={3000}
+            hideProgressBar={false}
+            newestOnTop={false}
+            closeOnClick
+            rtl={false}
+            pauseOnVisibilityChange
+            draggable
+            pauseOnHover
+        />
+        <ToastContainer />
+
         <div className="hero-body">
             <div className="container">
                 <div className="columns is-centered">
                     <div className="column is-5-tablet is-4-desktop is-3-widescreen">
                         <form className="box" onSubmit={e => handleRegister(e)}>
+                            <div class="field has-text-centered">
+                                <img src="https://res.cloudinary.com/drohwwwof/image/upload/v1553157712/Logo_tot.png" alt="logo-flyme" width="87" />
+                            </div>
                             <div className="field">
                                 <label className="label">Name</label>
                                 <div className="control">
@@ -58,10 +94,13 @@ function Register() {
                                 </div>
                             </div>
                             <div className="field">
-                                <button className="button">Login</button>
+                                <button className="button">Register</button>
                             </div>
                         </form>
-                        {feedback && <p>{feedback}</p>}
+                        <div className="field has-text-centered">
+                            <p>Go back to <Link to="/login">login</Link></p>
+                        </div>
+                        {feedback && <Feedback message={feedback} />}
                     </div>
                 </div>
             </div>

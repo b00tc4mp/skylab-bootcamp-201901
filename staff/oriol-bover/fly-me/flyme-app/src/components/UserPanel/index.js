@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
 import logic from '../../logic';
+import Feedback from '../Feedback'
 import './index.sass'
 
 
@@ -47,7 +48,7 @@ export default function UserPanel() {
                     setName(user.name)
                     setSurname(user.surname)
                     setEmail(user.email)
-                    setFeedback('changes saved correctly')
+                    window.location.reload()
                 })
                 .catch(error => setFeedback(error))
         } catch ({ message }) {
@@ -87,7 +88,7 @@ export default function UserPanel() {
                         <button className="button">Save</button>
                     </div>
                 </form>
-                {feedback && <p>{feedback}</p>}
+                {feedback && <Feedback>{feedback}</Feedback>}
             </div>
         </div>
     </section>)

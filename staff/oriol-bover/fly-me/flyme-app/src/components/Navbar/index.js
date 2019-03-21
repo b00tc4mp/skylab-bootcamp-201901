@@ -24,10 +24,14 @@ export default function Navbar() {
         logic.logOutUser()
     }
 
+    const logoStyle = {
+        color: '#EDF5E1',
+    }
+
     return (<nav className="navbar is-primary">
         <div className="navbar-brand">
             <Link to="/admin" className="navbar-item">
-                <h1 className="title">FLYME-APP</h1>
+                <h1 className="title" style={logoStyle} >FLYME-APP</h1>
             </Link>
             <div className="navbar-burger">
                 <span></span>

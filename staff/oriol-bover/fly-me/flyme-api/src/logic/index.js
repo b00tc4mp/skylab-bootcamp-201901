@@ -7,6 +7,7 @@ const DroneApi = require('drone-api')
 const validate = require('flyme-validation')
 const mail_transporter = require('../mail')
 const wait = require('waait')
+const detectSSid = require('detect-ssid')
 
 /**
  * 
@@ -137,10 +138,7 @@ const logic = {
     },
 
     //END USERS CRUD
-
     addDrone(userId, brand, model, host, port) {
-        console.log(userId, brand, model, host, port)
-
         validate([{ key: 'userId', value: userId, type: String }, { key: 'brand', value: brand, type: String }, { key: 'model', value: model, type: String }, { key: 'host', value: host, type: String }, { key: 'port', value: port, type: Number }])
 
         return Drone.create({ owner: userId, brand, model, host, port })
@@ -210,44 +208,55 @@ const logic = {
     },
 
     startDrone(userId, droneId) {
+        const net = new Promise(function (resolve, reject) {
+            detectSSid(function (error, ssidname) {
+                resolve(ssidname.split('-'))
+            })
+        })
 
-        let drone = this.activeDrones.get(droneId)
+        return net
+            .then(ssidname => {
+                if (ssidname[0] !== 'TELLO') throw Error('Not TELLO network detected')
 
-        if (drone) throw Error(`drone ${droneId} already started`)
+                let drone = this.activeDrones.get(droneId)
 
-        return Drone.findById(droneId)
-            .then(({ host, port }) => {
+                if (drone) throw Error(`drone ${droneId} already started`)
 
-                return Flight.create({ userId, droneId })
-                    .then(flight => {
+                return Drone.findById(droneId)
+                    .then(({ host, port }) => {
 
-                        if (this.activeFLight.get(flight.id)) throw Error(`Flight ${flightId} already exist`)
+                        return Flight.create({ userId, droneId })
+                            .then(flight => {
 
-                        drone = new DroneApi(host, port)
+                                if (this.activeFLight.get(flight.id)) throw Error(`Flight ${flightId} already exist`)
 
-                        drone.history = []
+                                drone = new DroneApi(host, port)
 
-                        drone.start()
+                                drone.history = []
 
-                        const onDroneMessage = new Promise(function (resolve, reject) {
-                            drone.onMessage(message => resolve(message))
-                        })
+                                drone.start()
 
-                        drone.sendCommand('command', function (err) {
-                            if (err) throw Error(err)
+                                const onDroneMessage = new Promise(function (resolve, reject) {
+                                    drone.onMessage(message => resolve(message))
+                                })
 
-                            drone.history.push({ command: 'command', date: new Date })
-                        })
+                                drone.sendCommand('command', function (err) {
+                                    if (err) throw Error('impoosible to connect')
 
-                        this.activeDrones.set(droneId, { machine: drone, history: drone.history, flightId: flight.id })
+                                    drone.history.push({ command: 'command', date: new Date })
+                                })
 
-                        return onDroneMessage.then(message => {
-                            if (drone.history.length > 0) drone.history[drone.history.length - 1].response = message.toString()
+                                this.activeDrones.set(droneId, { machine: drone, history: drone.history, flightId: flight.id })
 
-                            return { start: 'OK', history: drone.history }
-                        })
+                                return onDroneMessage.then(message => {
+                                    if (drone.history.length > 0) drone.history[drone.history.length - 1].response = message.toString()
 
+                                    return { start: 'OK', history: drone.history }
+                                })
+
+                            })
                     })
+
             })
             .catch(({ message }) => {
                 throw Error(message)
@@ -478,7 +487,7 @@ const logic = {
             .then(user => {
                 if (!user) throw Error('no authentication user')
 
-                return Program.findById(programId)
+                return Program.findById(programId).populate('userId').select('-__v').lean()
             })
             .then(program => program)
     },
@@ -491,7 +500,7 @@ const logic = {
     },
 
     retrievePrograms() {
-        return Program.find().select('-__v').lean()
+        return Program.find().populate('userId').select('-__v').lean()
             .then(programs => programs)
     },
 
@@ -527,56 +536,67 @@ const logic = {
     playProgram(userId, droneId, orders, index = 0, droneMachine = null) {
         validate([{ key: 'userId', value: userId, type: String }, { key: 'droneId', value: droneId, type: String }])
 
-        let i = index
-        let drone = this.activeDrones.get(droneId)
-
-        if (drone) throw Error(`drone ${droneId} already started`)
-
-        return User.findById(userId)
-            .then(user => {
-                if (!user) throw Error('auth permissions denied')
-
-                return Drone.findById(droneId)
+        const net = new Promise(function (resolve, reject) {
+            detectSSid(function (error, ssidname) {
+                resolve(ssidname.split('-'))
             })
-            .then(drone => {
-                if (!drone) throw Error('No drone found')
+        })
 
-                console.log('drone', drone)
+        return net
+            .then(ssidname => {
 
-                if (i === 0 && !droneMachine) {
-                    orders.unshift({ id: "task-0", content: "COMMAND", command: "command", timeOut: 5000 })
+                if (ssidname[0] !== 'TELLO') throw Error('Not TELLO network detected')
 
-                    droneMachine = new DroneApi(drone.host, drone.port)
+                let i = index
+                let drone = this.activeDrones.get(droneId)
 
-                    droneMachine.start()
+                if (drone) throw Error(`drone ${droneId} already started`)
 
-                    droneMachine.onMessage(message => console.log(`drone: ${message}`))
-                }
+                return User.findById(userId)
+                    .then(user => {
+                        if (!user) throw Error('auth permissions denied')
 
-                const command = orders[i].command
+                        return Drone.findById(droneId)
+                    })
+                    .then(drone => {
+                        if (!drone) throw Error('No drone found')
 
-                console.log(`running command: ${command}`)
+                        if (i === 0 && !droneMachine) {
+                            orders.unshift({ id: "task-0", content: "COMMAND", command: "command", timeOut: 500 })
 
-                return wait(500)
-                    .then(() => {
-                        droneMachine.sendCommand(command, function (err) {
-                            if (err) throw new DroneError(err)
-                        })
+                            droneMachine = new DroneApi(drone.host, drone.port)
 
-                        return wait(orders[i].timeOut)
+                            droneMachine.start()
+
+                            droneMachine.onMessage(message => console.log(`drone: ${message}`))
+                        }
+
+                        const command = orders[i].command
+
+                        console.log(`running command: ${command}`)
+
+                        return wait(500)
                             .then(() => {
-                                i += 1
+                                droneMachine.sendCommand(command, function (err) {
+                                    if (err) throw new DroneError(err)
+                                })
 
-                                if (i < orders.length) {
-                                    return this.playProgram(userId, droneId, orders, i, droneMachine)
-                                }
+                                return wait(orders[i].timeOut)
+                                    .then(() => {
+                                        i += 1
 
-                                droneMachine.stop()
-                                console.log('all commands done!')
-                                return { status: 'OK' }
+                                        if (i < orders.length) {
+                                            return this.playProgram(userId, droneId, orders, i, droneMachine)
+                                        }
+
+                                        droneMachine.stop()
+                                        console.log('all commands done!')
+                                        return { status: 'OK', message: 'All commands done!' }
+                                    })
                             })
                     })
             })
+
     }
 }
 

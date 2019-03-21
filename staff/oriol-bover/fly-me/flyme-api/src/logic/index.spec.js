@@ -8,10 +8,10 @@ const expect = require('expect')
 const logic = require('.')
 const bcrypt = require('bcrypt')
 
-const { env: { TEST_DB_URL } } = process
+const { env: { DB_URL } } = process
 
 describe('logic', () => {
-    before(() => mongoose.connect(TEST_DB_URL, { useNewUrlParser: true }))
+    before(() => mongoose.connect(DB_URL, { useNewUrlParser: true }))
 
     beforeEach(() =>
         Promise.all([

@@ -1126,7 +1126,7 @@ describe('flymeApi', () => {
                     return Program.create({ name: 'TEST REACT PROGRAM', orders, seconds: 10, userId })
                 })
                 .then(program => {
-                    programId = program._id
+                    programId = program._id.toString()
                 })
 
         )
@@ -1137,6 +1137,163 @@ describe('flymeApi', () => {
         })
     })
 
+    describe('retrieve user programs', () => {
+        const name = 'Leia'
+        const surname = 'Organa'
+        const email = `leia${Math.random()}@mail.com`
+        const password = `starwars${Math.random()}`
+        let userId, userToken, programId
+        const orders = [{ command: 'command', timeOut: 3000 }]
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => flymeApi.authenticateUser(email, password))
+                .then(res => {
+                    userToken = res.token
+
+                    return Program.create({ name: 'TEST REACT PROGRAM', orders, seconds: 10, userId })
+                })
+                .then(program => {
+                    programId = program._id.toString()
+                })
+
+        )
+
+        it('should succed on correct data', () => {
+            return flymeApi.retrieveUserPrograms(userToken, userId)
+                .then(res => {
+                    expect(res).toBeDefined()
+                    expect(res.length).toBe(1)
+                })
+        })
+    })
+
+    describe('play program', () => {
+        const name = 'Leia'
+        const surname = 'Organa'
+        const email = `leia${Math.random()}@mail.com`
+        const password = `starwars${Math.random()}`
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, userToken, droneId, programId
+        const orders = [{ command: 'command', timeOut: 3000 }]
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => flymeApi.authenticateUser(email, password))
+                .then(res => {
+                    userToken = res.token
+
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone._id.toString()
+
+                    return Program.create({ name: 'TEST REACT PROGRAM', orders, seconds: 10, userId })
+                })
+                .then(program => {
+                    programId = program._id.toString()
+                })
+
+        )
+
+        it('should succed on correct data', () => {
+            return flymeApi.playProgram(userToken, droneId, orders)
+                .then(res => {
+                    expect(res).toBeDefined()
+                })
+        })
+    })
+
+    describe('delete flight', () => {
+        const name = 'Leia'
+        const surname = 'Organa'
+        const email = `leia${Math.random()}@mail.com`
+        const password = `starwars${Math.random()}`
+        const brand = 'Tello'
+        const model = 'DJI'
+        const host = '192.168.10.1'
+        const port = 8889
+        let userId, userToken, droneId, flightId
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => flymeApi.authenticateUser(email, password))
+                .then(res => {
+                    userToken = res.token
+                    return Drone.create({ owner: userId, brand, model, host, port })
+                })
+                .then(drone => {
+                    droneId = drone._id.toString()
+                    return Flight.create({ userId, droneId, start: new Date })
+                })
+                .then(flight => flightId = flight._id.toString())
+        )
+
+        it('should succed on correct data', () => {
+            return flymeApi.deleteFlight(userToken, flightId)
+                .then(res => expect(res).toBeDefined())
+        })
+    })
+
+    describe('delete program', () => {
+        const name = 'Leia'
+        const surname = 'Organa'
+        const email = `leia${Math.random()}@mail.com`
+        const password = `starwars${Math.random()}`
+        let userId, userToken, programId
+        const orders = [{ command: 'command', timeOut: 3000 }]
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => flymeApi.authenticateUser(email, password))
+                .then(res => {
+                    userToken = res.token
+
+                    return Program.create({ name: 'TEST REACT PROGRAM', orders, seconds: 10, userId })
+                })
+                .then(program => {
+                    programId = program._id.toString()
+                })
+
+        )
+
+        it('should succed on correct data', () => {
+            return flymeApi.deleteProgram(userToken, programId)
+                .then(res => expect(res).toBeDefined())
+        })
+    })
+
+    describe('send mail', () => {
+        const name = 'Leia'
+        const surname = 'Organa'
+        const email = `leia${Math.random()}@mail.com`
+        const password = `starwars${Math.random()}`
+        let userId, userToken
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ name, surname, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => flymeApi.authenticateUser(email, password))
+                .then(res => userToken = res.token)
+        )
+
+
+        it('should succeed on correct data', () =>
+            flymeApi.sendEmail(userToken, { subject: "bug done", message: "The drone is bugged and i can take off" })
+                .then(res => {
+                    expect(res).toBeDefined()
+                })
+        )
+    })
 
     afterAll(() => {
         Promise.all([

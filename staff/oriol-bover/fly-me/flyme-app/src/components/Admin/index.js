@@ -37,7 +37,7 @@ function Admin(props) {
             <div className="column">
                 {/* Flight section */}
                 <Route exact path="/admin" render={props => <Flights userId={null} history={props.history} />} />
-                <Route path="/admin/:flightId/flight" render={props => <FlightDetail flightId={props.match.params.flightId} />} />
+                <Route path="/admin/:flightId/flight" render={props => <FlightDetail flightId={props.match.params.flightId} user={user} history={props.history} />} />
                 <Route path="/admin/user/:userId/flights" render={props => <Flights userId={props.match.params.userId} history={props.history} />} />
 
                 {/* drone section */}
@@ -53,8 +53,8 @@ function Admin(props) {
                 {/* program section */}
                 <Route exact path="/admin" render={props => <Programs userId={null} history={props.history} />} />
                 <Route path="/admin/user/:userId/programs" render={props => <Programs userId={props.match.params.userId} history={props.history} />} />
-                <Route exact path="/admin/:programId/program/" render={props => <ProgramDetail programId={props.match.params.programId} />} />
-                <Route exact path="/admin/program/create" component={ProgramCreator} />
+                <Route exact path="/admin/:programId/program/" render={props => <ProgramDetail programId={props.match.params.programId} user={user} history={props.history} />} />
+                <Route exact path="/admin/program/create" render={props => <ProgramCreator user={user} history={props.history} />} />
             </div>
         </div>
     </Fragment>)

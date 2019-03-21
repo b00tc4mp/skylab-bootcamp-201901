@@ -22,22 +22,25 @@ export default function Keyboard({onActiveKey}) {
     useEffect(() => {
       document.body.addEventListener('keydown', function (e) {
           var key = getKey(e);
-          if (!key) {
-              // return console.warn('No key for', e.keyCode);
+          if(key){
+            onActiveKey(e.keyCode)
+            
+             key.setAttribute('data-pressed', 'on');
           }
   
-          onActiveKey(e.keyCode)
-  
-          key.setAttribute('data-pressed', 'on');
-  
       })
-    }, [])
-
-    document.body.addEventListener('keyup', function (e) {
+      
+      document.body.addEventListener('keyup', function (e) {
         var key = getKey(e);
         key && key.removeAttribute('data-pressed');
-    });
+    })
 
+      return () => {
+        document.body.removeEventListener('keyup', () => {})
+      }
+      
+    }, [])
+    
     return (
         <div> 
           <div className="keyboard">

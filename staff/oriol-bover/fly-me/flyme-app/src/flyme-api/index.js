@@ -61,9 +61,6 @@ const flymeApi = {
     updateUserImage(token, image) {
         validate([{ key: 'token', value: token, type: String }])
 
-        // if (!image) throw Error('image is empty')
-        // if (image.constructor !== Object) throw TypeError(`${image} is not an object`)
-
         let formData = new FormData()
         formData.append('image', image)
 
@@ -281,12 +278,7 @@ const flymeApi = {
 
 
     retrieveUserPrograms(token, userId) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error('userId is empty')
-
+        validate([{ key: 'token', value: token, type: String }, { key: 'userId', value: userId, type: String }])
 
         return fetch(`${this.url}/user/${userId}/programs`, {
             headers: { authorization: `Bearer ${token}` }
@@ -296,11 +288,7 @@ const flymeApi = {
     },
 
     playProgram(token, droneId, orders) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof droneId !== 'string') throw TypeError(`${droneId} is not a string`)
-        if (!droneId.trim().length) throw Error('droneId is empty')
+        validate([{ key: 'token', value: token, type: String }, { key: 'droneId', value: droneId, type: String }])
 
         return fetch(`${this.url}/program/play`, {
             method: 'POST',
@@ -314,9 +302,38 @@ const flymeApi = {
             .then(res => res)
     },
 
+    deleteFlight(token, flightId) {
+        validate([{ key: 'token', value: token, type: String }, { key: 'flightId', value: flightId, type: String }])
+
+        return fetch(`${this.url}/flight`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ flightId })
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
+    deleteProgram(token, programId) {
+        validate([{ key: 'token', value: token, type: String }, { key: 'programId', value: programId, type: String }])
+
+        return fetch(`${this.url}/program`, {
+            method: 'DELETE',
+            headers: {
+                'content-type': 'application/json',
+                authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ programId })
+        })
+            .then(res => res.json())
+            .then(res => res)
+    },
+
     sendEmail(token, data) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
+        validate([{ key: 'token', value: token, type: String }])
 
         return fetch(`${this.url}/sendemail`, {
             method: 'POST',

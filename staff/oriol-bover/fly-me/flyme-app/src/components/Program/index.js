@@ -34,12 +34,12 @@ export default function Programs({ userId, history }) {
 
     return (<section className="section">
         <h1 className="title section--title">{userId ? 'YOUR PROGRAMS' : 'PROGRAMS'}</h1>
-        <div className="columns">
-            {userId && <button className="button" onClick={e => createProgram(e)} >Add Program</button>}
-            {programs && programs.map(program => <div className="column has-text-centered">
+        {userId && <button className="button program--add" onClick={e => createProgram(e)} >Add Program</button>}
+        <div className="columns is-multiline">
+            {programs && programs.map(program => <div className="column is-4-desktop has-text-centered">
                 <div className="box program" key={program.id} onClick={() => onProgramDetail(program._id)}>
                     <h2 className="program--title">{program.name}</h2>
-                    {!userId && <span className="program--name">by <small>{program.userId}</small></span>}
+                    {!userId && <span className="program--name">by <small>{program.userId.name} {program.userId.surname}</small></span>}
                     {program.orders.length > 2 && < ul className="program--orders">
                         <strong className="program--orders__title">COMMANDS</strong>
                         <li className="program--orders__item">{program.orders[0].content}</li>
