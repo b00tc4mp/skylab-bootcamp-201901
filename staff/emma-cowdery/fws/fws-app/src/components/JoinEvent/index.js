@@ -38,6 +38,7 @@ export default function JoinEvent ({ reservationName, setJoinEvent, selectedEven
                 setJoinEvent(false)
             })
             .catch (err => {
+                console.log(err)
                 setFeedback(err.message)
                 setLevel('warning')
                 setType('banner')

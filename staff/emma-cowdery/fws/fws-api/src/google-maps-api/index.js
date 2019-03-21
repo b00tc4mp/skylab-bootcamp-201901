@@ -158,7 +158,12 @@ const googleMapsApi = {
                 .then(response => {
                     if (response.error) throw Error('unable to fetch details at this moment')
 
-                    return response.location
+                    const location = {
+                        "lat": 41.3983908,
+                        "lng": 2.1999382
+                    }
+
+                    return location
                 })
     }
 }

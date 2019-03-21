@@ -53,7 +53,7 @@ export default withRouter( function Register(props) {
         <main className="register-page">
             <div className="register-panel">
                 <div className="register-panel__box">
-                    <h1>LOGO</h1>
+                    <img width='150em' alt='logo' src='images/logo.png'></img>
                     <form onSubmit={handleRegisterSubmit} className='login-panel-form'>
                         <div className="register-panel__row">
                             <p className='register-panel__input-title'>Name</p>

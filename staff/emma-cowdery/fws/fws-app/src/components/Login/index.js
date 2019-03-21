@@ -41,7 +41,7 @@ export default withRouter(function Login(props) {
         <main className="login-page">
             <div className="login-panel">
                 <div className="login-panel__box">
-                    <h1>LOGO</h1>
+                    <img width='150em' alt='logo' src='images/logo.png'></img>
                     <form onSubmit={handleLoginSubmit} className='login-panel__form'>
                         <div className="login-panel__row">
                             <p className='login-panel__input-title'>Email or Username</p>

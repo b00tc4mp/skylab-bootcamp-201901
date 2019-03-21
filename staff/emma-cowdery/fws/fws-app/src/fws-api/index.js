@@ -1,7 +1,7 @@
 'use strict'
 
 const fwsApi = {
-    url: 'http://localhost:8000/api',
+    url: 'https://quiet-beach-54775.herokuapp.com/api',
 
     /**
      * 
@@ -122,18 +122,6 @@ const fwsApi = {
     updateUser(token, about, instagram, twitter, facebook) {
         if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
         if (!token.trim().length) throw Error('token is empty')
-
-        if (typeof about !== 'string') throw TypeError(`${about} is not a string`)
-        if (!about.trim().length) throw Error('about is empty')
-
-        if (typeof instagram !== 'string') throw TypeError(`${instagram} is not a string`)
-        if (!instagram.trim().length) throw Error('instagram is empty')
-
-        if (typeof twitter !== 'string') throw TypeError(`${twitter} is not a string`)
-        if (!twitter.trim().length) throw Error('twitter is empty')
-
-        if (typeof facebook !== 'string') throw TypeError(`${facebook} is not a string`)
-        if (!facebook.trim().length) throw Error('facebook is empty')
 
         return fetch(`${this.url}/update-user`, {
             method: 'POST',

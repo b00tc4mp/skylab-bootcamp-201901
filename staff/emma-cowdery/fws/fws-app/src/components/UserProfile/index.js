@@ -13,10 +13,10 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
     const [user, setUser] = useState()
     const [mobile, setMobile] = useState(false)
     const [editInfo, setEditInfo] = useState(false)
-    const [about, setAbout] = useState('explain a bit about yourself')
-    const [instagram, setInstagram] = useState('enter a link to your profile')
-    const [twitter, setTwitter] = useState('enter a link to your profile')
-    const [facebook, setFacebook] = useState('enter a link to your profile')
+    const [about, setAbout] = useState()
+    const [instagram, setInstagram] = useState()
+    const [twitter, setTwitter] = useState()
+    const [facebook, setFacebook] = useState()
     const [events, setEvents] = useState(0)
     const [number, setNumber] = useState(Math.random)
 
@@ -27,6 +27,9 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
     const { id } = match.params
 
     useEffect(() => {
+        setFeedback()
+        setLevel()
+        setType()
         try {
             logic.retrieveUser()
             .then(({user}) => {
@@ -122,6 +125,9 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
     }, [number])
 
     const handleUploadPicture = () => {
+        setFeedback()
+        setLevel()
+        setType()
         try {
             logic.updateProfilePicture(image)
                 .then(({user}) => setUserProfile(user))
@@ -148,7 +154,14 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
     }
 
     const handleUpdateInformation = () => {
+        setFeedback()
+        setLevel()
+        setType()
         try {
+            if (!about) setAbout('no about')
+            if (!instagram) setInstagram('no link')
+            if (!twitter) setTwitter('no link')
+            if (!facebook) setFacebook('no link')
             logic.updateUser(about, instagram, twitter, facebook)
                 .then(user => {
                     if (user) setEditInfo(false)
@@ -157,8 +170,12 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
                     setFacebook('')
                     setTwitter('')
                     setNumber(Math.random)
+                    setFeedback('user updated successfully!')
+                    setLevel('success')
+                    setType('banner')
                 })
                 .catch(err => {
+                    console.log(err)
                     setFeedback(err.message)
                     setLevel('alert')
                     setType('banner')
@@ -187,9 +204,9 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
                     <div className='user-profile__header-info'>
                         <p className='user-profile__header-username'>{userProfile.username}</p>
                         <div className='user-profile__header-socials'>
-                            {userProfile && userProfile.instagram !== 'enter a link to your profile' && <a href={userProfile.instagram} target="_blank"><i className="fab fa-instagram  user-profile__header-socials-icon"></i></a>}
-                            {userProfile && userProfile.twitter !== 'enter a link to your profile' && <a href={userProfile.twitter} target="_blank"><i className="fab fa-twitter-square  user-profile__header-socials-icon"></i></a>}
-                            {userProfile && userProfile.facebook !== 'enter a link to your profile' && <a href={userProfile.facebook} target="_blank"><i className="fab fa-facebook-square  user-profile__header-socials-icon"></i></a>}
+                            {userProfile.instagram && userProfile.instagram.length && userProfile.instagram !== 'no link' && <a href={userProfile.instagram} target="_blank"><i className="fab fa-instagram  user-profile__header-socials-icon"></i></a>}
+                            {userProfile.twitter && userProfile.twitter.length && userProfile.twitter !== 'no link' && <a href={userProfile.twitter} target="_blank"><i className="fab fa-twitter-square  user-profile__header-socials-icon"></i></a>}
+                            {userProfile.facebook && userProfile.facebook.length && userProfile.facebook !== 'no link' && <a href={userProfile.facebook} target="_blank"><i className="fab fa-facebook-square  user-profile__header-socials-icon"></i></a>}
                         </div>
                     </div>
                 </div>
@@ -215,7 +232,7 @@ export default withRouter(function UserProfile ({ setShowRightBar, setShowDropdo
                     :
                     <div className='user-profile__body-info'>
                         <h2 className='user-profile__body-info-title'>About:</h2>
-                        {userProfile.about !== 'no-about' ? <div className='user-profile__body-about'>
+                        {userProfile.about && userProfile.about.length && userProfile.about !== 'no about' ? <div className='user-profile__body-about'>
                             <p>{about}</p>
                         </div> : <p>No information available</p>}
                         <div className='user-profile__event-count'>

@@ -127,19 +127,6 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error('userId is empty')
 
-        if (typeof about !== 'string') throw TypeError(`${about} is not a string`)
-        if (!about.trim().length) throw Error('about is empty')
-
-        if (typeof instagram !== 'string') throw TypeError(`${instagram} is not a string`)
-        if (!instagram.trim().length) throw Error('instagram is empty')
-
-        if (typeof twitter !== 'string') throw TypeError(`${twitter} is not a string`)
-        if (!twitter.trim().length) throw Error('twitter is empty')
-
-        if (typeof facebook !== 'string') throw TypeError(`${facebook} is not a string`)
-        if (!facebook.trim().length) throw Error('facebook is empty')
-
-
         return (async () => {
             const data = { about: about, instagram: instagram, twitter: twitter, facebook: facebook }
 

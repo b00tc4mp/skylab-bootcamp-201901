@@ -45,10 +45,10 @@ export default withRouter(function SelectedCategory ({ selectedCategory, setView
             <div className='selected-category'>
                 <EventsNav/>
                 <div className='selected-category__elements'>
-                    <div className='selected-category__header'>
+                    {/* <div className='selected-category__header'>
                         <button className='selected-category__header-back'  onClick={e => {e.preventDefault(); history.push('/event-categories')}}><i className="fas fa-arrow-left selected-category__header-arrow"></i> back</button>
                         <p className='selected-category__header-cat'>{match.params.category}</p>
-                    </div>
+                    </div> */}
                     {events && events.length ? events.map(({ eventDate, eventTime, id, participants, reservationName, restaurantCategory, restaurantId, totalDist, restaurantName }) => {
                         return <div key={id} className='selected-category__event'><EventsNearMeEvent reservationName={reservationName} restaurantId={restaurantId} eventDate={eventDate} eventTime={eventTime} participants={participants} totalDist={totalDist} setJoinEvent={setJoinEvent} restaurantName={restaurantName} restaurantCategory={restaurantCategory} setUserInEvent={setUserInEvent} id={id} setSelectedEvent={setSelectedEvent} setReservationName={setReservationName} setPhone={setPhone}/></div>
                         }

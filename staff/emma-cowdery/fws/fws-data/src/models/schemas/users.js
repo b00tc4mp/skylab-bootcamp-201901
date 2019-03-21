@@ -39,18 +39,15 @@ const Users = new Schema({
     },
 
     favouriteRestaurants: [{
-        type: String,
-        unique: true
+        type: String
     }],
 
     chatRooms: [{
-        type: String,
-        unique: true
+        type: String
     }],
 
     events: [{
-        type: String,
-        unique: true
+        type: String
     }],
 
     instagram: {
