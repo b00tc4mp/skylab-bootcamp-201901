@@ -4,6 +4,11 @@
 
 Creation of an event manager in which a user can both create and join events and comment on them.
 
+<p>
+<img src="https://media.giphy.com/media/3o6fJ5z2bgCLBshZUA/giphy.gif">
+</p>
+
+![TimeTo](images/timeto.png)
 
 ## Funtional description:
 
