@@ -18,7 +18,7 @@ User can:
 * Chat with other users
 
 ### Use Cases
-![Use Cases](images/use-cases.jpg)
+![Use Cases](images/use-cases.JPG)
 
 ## Technical Description
 
@@ -30,12 +30,12 @@ User can:
 
 
 ### Data Model
-![Data Model](images/data-model.jpg)
+![Data Model](images/data-model.JPG)
 
 ### Code Coverage
 
 #### Coverage API
-![API Coverage](images/coverage-api.png)
+![API Coverage](images/coverage-api.PNG)
 
 
 ### Technologies
