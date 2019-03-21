@@ -12,17 +12,17 @@ The user also has a clock and a toolbar embedded in desktop. With the toolbar yo
 
 ### Use cases
 
-![Use cases Diagram](.\images\Use-cases.jpg)
+![Use cases Diagram](./images/Use-cases.jpg)
 
 ##Technical Description
 
 ##Blocks
 
-![Blocks Diagram](.\images\Blocks.jpg)
+![Blocks Diagram](./images/Blocks.jpg)
 
 ##Data Model
 
-![Use cases Diagram](.\images\Data-model.jpg)
+![Use cases Diagram](./images/Data-model.jpg)
 
 ## Code Coverage
 
