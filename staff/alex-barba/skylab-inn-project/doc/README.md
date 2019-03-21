@@ -28,6 +28,18 @@ Skylabers can:
 ### Use Cases
 ![Use Cases](images/use-cases.png)
 
+
+### Flowcharts
+
+#### Admin
+![Flow Admin](images/flow-admin.png)
+
+#### User
+![Flow User](images/flow-user.png)
+
+#### Guest
+![Flow Guest](images/flow-guest.png)
+
 ## Technical Description
 
 ### Blocks
@@ -38,7 +50,13 @@ Skylabers can:
 
 ### React Components
 
-![Class/Objects](images/react-components.png)
+![React Components](images/react-components-1.png)
+
+![React Components](images/react-components-2.png)
+
+![React Components](images/react-components-3.png)
+
+![React Components](images/react-components-4.png)
 
 ### Data Model
 ![Data Model](images/data-model.png)

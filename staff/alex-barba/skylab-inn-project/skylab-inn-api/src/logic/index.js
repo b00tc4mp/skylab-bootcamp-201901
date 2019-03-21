@@ -7,7 +7,6 @@ const nodemailer = require('nodemailer')
 const { createToken, verifyToken } = require('../token-helper')
 const streamifier = require('streamifier')
 const cloudinary = require('cloudinary').v2
-const fs = require('fs')
 
 /**
  * Abstraction of business logic.
