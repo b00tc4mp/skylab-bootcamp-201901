@@ -1,7 +1,8 @@
 const osiApi = {
-    url: 'http://localhost:8000/api/',
+    // url: 'http://localhost:8000/api/',
     // url: 'https://immense-refuge-79832.herokuapp.com/api/',
     // url: 'https://safe-forest-53345.herokuapp.com/api/',
+    url: 'http://192.168.0.15:8000/api/',
 
     register(name, surname, email, password, passwordConfirm) {
 
