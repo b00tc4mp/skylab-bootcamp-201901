@@ -6,6 +6,8 @@ Flare is a platform that allows users to send messages based on geographical loc
 
 Choose a user, add a text and an image to the message, select the date from which the message will be available and send it! The recipient will get your flare once located in the message position.
 
+![Intro landing](images/landing.jpg)
+
 ## Functional description
 
 Users can:
