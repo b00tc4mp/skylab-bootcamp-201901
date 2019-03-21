@@ -1,7 +1,16 @@
 "use strict";
 
 const {
-    models: { User, Game, Boxart, Review, Platform }
+    models: {
+        User,
+        Game,
+        Boxart,
+        Review,
+        Platform,
+        Developer,
+        Publisher,
+        Genre
+    }
 } = require("project-z-data");
 const bcrypt = require("bcrypt");
 const {
@@ -295,6 +304,80 @@ const logic = {
                 return gameInfo;
             })
             .then(async gameInfo => {
+                gameInfo.developerNames = [];
+                if (gameInfo.developers === null)
+                    gameInfo.developerNames.push("N/A");
+                else {
+                    const developersMap = gameInfo.developers.map(
+                        async (oneDeveloper, index) => {
+                            const developerNames = await Developer.find({
+                                id: oneDeveloper
+                            })
+                                .select("name")
+                                .lean();
+                            gameInfo.developerNames.push(
+                                developerNames[0].name
+                            );
+                            return oneDeveloper;
+                        }
+                    );
+                    const gameInfoDev = await Promise.all(developersMap);
+                }
+                return gameInfo;
+            })
+            .then(async gameInfo => {
+                gameInfo.genreNames = [];
+                if (gameInfo.genres === null) gameInfo.genreNames.push("N/A");
+                else {
+                    const genresMap = gameInfo.genres.map(
+                        async (oneGenre, index) => {
+                            const genreNames = await Genre.find({
+                                id: oneGenre
+                            })
+                                .select("name")
+                                .lean();
+                            gameInfo.genreNames.push(genreNames[0].name);
+                            return oneGenre;
+                        }
+                    );
+                    const gameInfoDev = await Promise.all(genresMap);
+                }
+                return gameInfo;
+            })
+            .then(async gameInfo => {
+                gameInfo.publisherNames = [];
+                if (gameInfo.publishers === null)
+                    gameInfo.publisherNames.push("N/A");
+                else {
+                    const publishersMap = gameInfo.publishers.map(
+                        async (onePublisher, index) => {
+                            const publisherNames = await Publisher.find({
+                                id: onePublisher
+                            })
+                                .select("name")
+                                .lean();
+                            gameInfo.publisherNames.push(
+                                publisherNames[0].name
+                            );
+                            return onePublisher;
+                        }
+                    );
+                    const gameInfoDev = await Promise.all(publishersMap);
+                }
+                return gameInfo;
+            })
+            .then(async gameInfo => {
+                gameInfo.platformName = [];
+                const platformName = await Platform.find({
+                    id: gameInfo.platform
+                })
+                    .select("name")
+                    .lean();
+                gameInfo.platformName.push(platformName[0].name);
+
+                return gameInfo;
+            })
+            .then(async gameInfo => {
                 const cover = await Boxart.find({ id_game: gameId })
                     .select("-_id -__v")
                     .lean();
@@ -488,7 +571,7 @@ const logic = {
 
     /**
      * Retrieve random game Id
-     * 
+     *
      * @returns {Promise} with game Id
      */
     retrieveRandomGame() {
@@ -504,7 +587,7 @@ const logic = {
 
     /**
      * Retrieve list of all users
-     * 
+     *
      * @returns {Promise} an array of every user, populated with reviews info
      */
     retrieveAllUsers() {
@@ -523,7 +606,7 @@ const logic = {
         let euclideanDistances = [];
         let sumSquares = 0;
         let noGamesCoincidence = true;
-        
+
         userReviews.forEach(userReview => {
             otherUserReviews.find(otherUserReview => {
                 if (

@@ -13,7 +13,7 @@ const Random = props => {
 
     const getRandomGame = async () => {
         const randomGame = await logic.getRandomGame();
-
+        console.log(`/game/${randomGame.id.toString()}`)
         props.history.push(`/game/${randomGame.id.toString()}`);
     };
 

@@ -44,17 +44,17 @@ const GameProfile = ({
                 .then(res => setGameInfo(res))
                 .catch(({ message }) => {
                     // notify("No results found!")
-                    history.push('/noresults')
+                    history.push("/noresults");
                 });
         } catch (error) {
             // notify(error.message);
-            history.push('/noresults')
+            history.push("/noresults");
         }
     };
 
     const notify = message => {
-        toast.dismiss()
-        toast.error(message)
+        toast.dismiss();
+        toast.error(message);
     };
 
     const getPreScore = async () => {
@@ -114,38 +114,48 @@ const GameProfile = ({
                                         {Math.round(gameInfo.finalScore * 20)}
                                     </h2>
                                 ) : (
-                                    <h2>Not rated yet, be the first!</h2>
+                                    <h2 className="game-profile__details__notRated">
+                                        Not rated yet, be the first!
+                                    </h2>
                                 )}
                                 <p>
                                     Platform :{" "}
                                     <span className="game-profile__details--detail">
-                                        {gameInfo.platform}
+                                        {gameInfo.platformName.join(", ")}
                                     </span>
                                 </p>
-                                <p>
-                                    Genres :{" "}
-                                    <span className="game-profile__details--detail">
-                                        {gameInfo.genres}
-                                    </span>
-                                </p>
-                                <p>
-                                    Developers :{" "}
-                                    <span className="game-profile__details--detail">
-                                        {gameInfo.developers}
-                                    </span>
-                                </p>
-                                <p>
-                                    Publishers :{" "}
-                                    <span className="game-profile__details--detail">
-                                        {gameInfo.publishers}
-                                    </span>
-                                </p>
-                                <p>
-                                    Players :{" "}
-                                    <span className="game-profile__details--detail">
-                                        {gameInfo.players}
-                                    </span>
-                                </p>
+                                {gameInfo.genreNames[0] !== "N/A" && (
+                                    <p>
+                                        Genres :{" "}
+                                        <span className="game-profile__details--detail">
+                                            {gameInfo.genreNames.join(", ")}
+                                        </span>
+                                    </p>
+                                )}
+                                {gameInfo.developerNames[0] !== "N/A" && (
+                                    <p>
+                                        Developers :{" "}
+                                        <span className="game-profile__details--detail">
+                                            {gameInfo.developerNames.join(", ")}
+                                        </span>
+                                    </p>
+                                )}
+                                {gameInfo.publisherNames[0] !== "N/A" && (
+                                    <p>
+                                        Publishers :{" "}
+                                        <span className="game-profile__details--detail">
+                                            {gameInfo.publisherNames.join(", ")}
+                                        </span>
+                                    </p>
+                                )}
+                                {gameInfo.players !== null && (
+                                    <p>
+                                        Players :{" "}
+                                        <span className="game-profile__details--detail">
+                                            {gameInfo.players}
+                                        </span>
+                                    </p>
+                                )}
                                 <p>
                                     Coop :{" "}
                                     <span className="game-profile__details--detail">
