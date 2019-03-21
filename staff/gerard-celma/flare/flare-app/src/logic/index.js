@@ -101,7 +101,6 @@ const logic = {
      * Updates user photo.
      * 
      * @param {File} data
-     * @param {string} msgId
      */
     updateUserPhoto(data) {
         validate([{ key: 'data', value: data, type: File }])
@@ -110,6 +109,14 @@ const logic = {
             .then(({user}) => user)
     },
 
+    /**
+     * Creates message.
+     * 
+     * @param {string} userIdTo
+     * @param {string} launchDate
+     * @param {array} position
+     * @param {string} text
+     */
     createMessage(userIdTo, launchDate, position, text) {
         validate([{ key: 'userIdTo', value: userIdTo, type: String }, { key: 'launchDate', value: launchDate, type: String }, { key: 'position', value: position, type: Array }, { key: 'text', value: text, type: String }])
 
@@ -128,22 +135,42 @@ const logic = {
             .then((messages) => messages)
     },
 
+    /**
+     * Retrieves sent messages.
+     */
     retrieveSentMessages() {
         return flareApi.retrieveSentMessages(this.__userApiToken__)
             .then((messages) => messages)
     },
 
+    /**
+     * Retrieves all messages.
+     */
     retrieveAllMessages() {
         return flareApi.retrieveAllMessages(this.__userApiToken__)
             .then((messages) => messages)
     },
 
+    /**
+     * Marks message as read.
+     * 
+     * @param {string} msgId
+     */
     messageRead(msgId) {
+        validate([{ key: 'msgId', value: msgId, type: String }])
+
         return flareApi.messageRead(this.__userApiToken__, msgId)
         .then((messages) => messages)
     },
 
+    /**
+     * Deletes messages.
+     * 
+     * @param {string} msgId
+     */
     messageDelete(msgId) {
+        validate([{ key: 'msgId', value: msgId, type: String }])
+        
         return flareApi.messageDelete(this.__userApiToken__, msgId)
         .then((messages) => messages)
     }

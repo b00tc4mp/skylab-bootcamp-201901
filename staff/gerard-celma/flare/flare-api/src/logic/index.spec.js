@@ -1920,7 +1920,6 @@ describe('logic', () => {
         it('should succeed on correct userId', () => {
             return logic.retrieveReceivedMessages(userIdTo)
                 .then((user) => {
-                    debugger
                     expect(user).toBeDefined()
                     expect(user instanceof Object).toBeTruthy()
                     expect(user._doc.name).toBe('pepe')
@@ -2021,7 +2020,6 @@ describe('logic', () => {
         it('should succeed on correct userId', () => {
             return logic.retrieveSentMessages(userIdFrom)
                 .then((user) => {
-                    debugger
                     expect(user).toBeDefined()
                     expect(user instanceof Object).toBeTruthy()
                     expect(user._doc.name).toBe('carlos')

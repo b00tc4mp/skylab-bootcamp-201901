@@ -8,7 +8,6 @@ module.exports = (req, res) => {
 
     try {
         logic.authenticateUser(email, password)
-            // .then(data => res.json(data))
             .then(userId => {
                 const token = createToken(userId)
 

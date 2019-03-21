@@ -7,6 +7,15 @@ const flareApi = {
     url: "http://localhost:8000/api",
     // url: 'https://stark-basin-28669.herokuapp.com/api',
 
+    /**
+    * Registers a user.
+    * 
+    * @param {string} name 
+    * @param {string} surname 
+    * @param {string} email 
+    * @param {string} password 
+    * @param {string} passwordConfirm 
+    */
     registerUser(name, surname, email, password, passwordConfirm) {
         validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, { key: 'passwordConfirm', value: passwordConfirm, type: String }])
 
@@ -27,6 +36,12 @@ const flareApi = {
             })
     },
 
+    /**
+     * Authenticates user by its credentials.
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     */
     authenticateUser(email, password) {
         validate([{ key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }])
 
@@ -45,6 +60,11 @@ const flareApi = {
             })
     },
 
+    /**
+     * Retrieves user by its token.
+     * 
+     * @param {string} token
+     */
     retrieveUser(token) {
         validate([{ key: 'token', value: token, type: String }])
 
@@ -61,6 +81,11 @@ const flareApi = {
             })
     },
 
+    /**
+     * Retrieves users.
+     * 
+     * @param {string} token
+     */
     retrieveUsers(token) {
         validate([{ key: 'token', value: token, type: String }])
 
@@ -77,6 +102,14 @@ const flareApi = {
             })
     },
 
+    /**
+     * Updates user.
+     * 
+     * @param {string} token
+     * @param {string} name
+     * @param {string} surname
+     * @param {string} email
+     */
     updateUser(token, name, surname, email) {
         validate([{ key: 'token', value: token, type: String }, { key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }])
         
@@ -96,6 +129,13 @@ const flareApi = {
             })
     },
 
+    /**
+     * Updates message image.
+     * 
+     * @param {string} token
+     * @param {file} data
+     * @param {string} msgId
+     */
     uploadMessagePhoto(token, data, msgId) {
         validate([{ key: 'token', value: token, type: String }, { key: 'data', value: data, type: File }, { key: 'msgId', value: msgId, type: String }])
 
@@ -117,13 +157,14 @@ const flareApi = {
             })
     },
 
+    /**
+     * Updates user image.
+     * 
+     * @param {string} token
+     * @param {file} data
+     */
     updateUserPhoto(token, data) {
-        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
-        if (!token.trim().length) throw Error('token is empty')
-
-        if (!data) throw Error('data is empty')
-        if (data.constructor !== File) throw TypeError(`${data} is not an object`)
-
+        validate([{ key: 'token', value: token, type: String }, { key: 'data', value: data, type: File }])
         let formData = new FormData()
         formData.append('image', data)
 
@@ -142,7 +183,18 @@ const flareApi = {
             })
     },
 
+    /**
+     * Creates message.
+     * 
+     * @param {string} token
+     * @param {string} userIdTo
+     * @param {string} launchDate
+     * @param {array} position
+     * @param {string} text
+     */
     createMessage(token, userIdTo, launchDate, position, text) {
+        validate([{ key: 'token', value: token, type: String }, { key: 'userIdTo', value: userIdTo, type: String }, { key: 'launchDate', value: launchDate, type: String }, { key: 'position', value: position, type: Array }, { key: 'text', value: text, type: String }])
+
         return fetch(`${this.url}/message/create`, {
             method: 'POST',
             headers: {
@@ -159,7 +211,14 @@ const flareApi = {
             })
     },
 
+    /**
+     * Retrieves received messages.
+     * 
+     * @param {string} token
+     */
     retrieveReceivedMessages(token) {
+        validate([{ key: 'token', value: token, type: String }])
+
         return fetch(`${this.url}/message/received`, {
             headers: {
                 authorization: `Bearer ${token}`
@@ -173,7 +232,14 @@ const flareApi = {
             })
     },
 
+    /**
+     * Retrieves sent messages.
+     * 
+     * @param {string} token
+     */
     retrieveSentMessages(token) {
+        validate([{ key: 'token', value: token, type: String }])
+
         return fetch(`${this.url}/message/sent`, {
             headers: {
                 authorization: `Bearer ${token}`
@@ -187,7 +253,14 @@ const flareApi = {
             })
     },
 
+    /**
+     * Retrieves all messages.
+     * 
+     * @param {string} token
+     */
     retrieveAllMessages(token) {
+        validate([{ key: 'token', value: token, type: String }])
+
         return fetch(`${this.url}/message/all`, {
             headers: {
                 authorization: `Bearer ${token}`
@@ -201,7 +274,15 @@ const flareApi = {
             })
     },
 
+    /**
+     * Marks messages as read.
+     * 
+     * @param {string} token
+     * @param {string} msgId
+     */
     messageRead(token, msgId) {
+        validate([{ key: 'token', value: token, type: String }, { key: 'msgId', value: msgId, type: String }])
+
         return fetch(`${this.url}/message/read`, {
             method: 'POST',
             headers: {
@@ -218,7 +299,15 @@ const flareApi = {
             })
     },
 
+    /**
+     * Marks message as read.
+     * 
+     * @param {string} token
+     * @param {string} msgId
+     */
     messageDelete(token, msgId) {
+        validate([{ key: 'token', value: token, type: String }, { key: 'msgId', value: msgId, type: String }])
+
         return fetch(`${this.url}/message/delete`, {
             method: 'POST',
             headers: {

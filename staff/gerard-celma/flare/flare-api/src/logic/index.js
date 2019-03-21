@@ -32,33 +32,33 @@ const logic = {
 
             const { id } = await User.create({ name, surname, email, password: hash })
 
-            // Nodemailer blocked is for testing------------------------------>
+            // Nodemailer register email------------------------------>
 
-            // const transporter = nodemailer.createTransport({
-            //     service: 'gmail',
-            //     auth: {
-            //         user: 'FlareWelcome@gmail.com',
-            //         pass: 'jhg4qYIU7'
-            //     }
-            // })
+            const transporter = nodemailer.createTransport({
+                service: 'gmail',
+                auth: {
+                    user: 'FlareWelcome@gmail.com',
+                    pass: 'jhg4qYIU7'
+                }
+            })
 
-            // const mailOptions = {
-            //     from: 'FlareWelcome@gmail.com',
-            //     to: `${email}`,
-            //     subject: 'Welcome to Flare!',
-            //     html: `<h1>Thanks for registering ${name}!</h1>
-            //         <p>We want to welcome you to Flare.<p>
-            //         <p>Please click on the following <a href='http://localhost:3000'>link</a> in order to login and start shooting Flares!</p>
-            //         <p>Remember to go to your profile and upload your profile picture so that other users can recognize you easily.</p>
-            //         <p>Thanks</p>
-            //         <p>The Flare team ;)</p>
-            //     `
-            // }
+            const mailOptions = {
+                from: 'FlareWelcome@gmail.com',
+                to: `${email}`,
+                subject: 'Welcome to Flare!',
+                html: `<h1>Thanks for registering ${name}!</h1>
+                    <p>We want to welcome you to Flare.<p>
+                    <p>Please click on the following <a href='http://localhost:3000'>link</a> in order to login and start shooting Flares!</p>
+                    <p>Remember to go to your profile and upload your profile picture so that other users can recognize you easily.</p>
+                    <p>Thanks</p>
+                    <p>The Flare team ;)</p>
+                `
+            }
 
-            // transporter.sendMail(mailOptions, function (error, info) {
-            //     if (error) throw new Error(`email could not be sent`)
-            //     else ('Email sent: ' + info.response)
-            // })
+            transporter.sendMail(mailOptions, function (error, info) {
+                if (error) throw new Error(`email could not be sent`)
+                else ('Email sent: ' + info.response)
+            })
 
 
             return id
@@ -111,7 +111,7 @@ const logic = {
     },
 
     /**
-     * Retrieves user by its userId.
+     * Retrieves users.
      * 
      * @param {string} userId
      */
@@ -135,7 +135,7 @@ const logic = {
     },
 
     /**
-     * Retrieves user by its userId.
+     * Updates user.
      * 
      * @param {string} userId
      * @param {string} _name
@@ -156,7 +156,7 @@ const logic = {
     },
 
     /**
-     * Retrieves user by its userId.
+     * Updates message image.
      * 
      * @param {string} userId
      * @param {string} url
@@ -177,7 +177,7 @@ const logic = {
     },
 
     /**
-     * Retrieves user by its userId.
+     * Updates user image.
      * 
      * @param {string} userId
      * @param {string} url
@@ -197,7 +197,7 @@ const logic = {
     },
 
     /**
-     * Retrieves user by its userId.
+     * Removes user by its userId.
      * 
      * @param {string} userId
      */
@@ -213,7 +213,7 @@ const logic = {
     },
 
     /**
-     * Retrieves user by its userId.
+     * Creates message.
      * 
      * @param {string} userIdFrom
      * @param {string} userIdTo
@@ -241,7 +241,7 @@ const logic = {
     },
 
     /**
-     * Retrieves user by its userId.
+     * Marks messages as read.
      * 
      * @param {string} userIdTo
      * @param {string} msgId
@@ -259,7 +259,7 @@ const logic = {
     },
   
     /**
-     * Retrieves user by its userId.
+     * Deletes message.
      * 
      * @param {string} userId
      * @param {string} msgId
@@ -291,7 +291,7 @@ const logic = {
     },
     
     /**
-     * Retrieves user by its userId.
+     * Retrieves received messages.
      * 
      * @param {string} userId
      */
@@ -303,7 +303,7 @@ const logic = {
     },
 
     /**
-     * Retrieves user by its userId.
+     * Retrieves sent messages.
      * 
      * @param {string} userId
      */
@@ -315,7 +315,7 @@ const logic = {
     },
 
     /**
-     * Retrieves user by its userId.
+     * Retrieves all messages.
      * 
      * @param {string} userId
      */

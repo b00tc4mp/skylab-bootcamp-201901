@@ -38,9 +38,6 @@ class Watch extends Component {
 
     captureBrowserPosition = (position) => {
         const { state:{ userMessages } } = this
- 
-        console.log(position)
-        console.log(userMessages)
 
         userMessages.map(message => {
             let lowLatMessage = message.position[0] - 0.000150
@@ -66,8 +63,8 @@ class Watch extends Component {
         this.setState({ feedback: err.message })
     }
 
-    handleBackClick = () => {
-        // clear watchPosition
+    // when stops watch mode --> clear watchPosition and redirect to home
+    handleBackClick = () => { 
         navigator.geolocation.clearWatch(userPosition)
         this.props.history.push('/home')
     }
