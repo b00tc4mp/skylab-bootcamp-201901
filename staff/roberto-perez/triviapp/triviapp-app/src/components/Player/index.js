@@ -5,6 +5,7 @@ import gameService from '../../services/game';
 import authService from '../../services/auth';
 
 import PlayerContext from './PlayerContext';
+import feedback from '../../utils/feedback';
 
 // import Pin from './Pin';
 import YouAreIn from './YouAreIn';
@@ -74,7 +75,7 @@ function Player(props) {
 			}
 
 		} catch (error) {
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	};
 

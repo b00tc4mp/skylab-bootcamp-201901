@@ -1,8 +1,8 @@
 import { toast } from 'react-toastify';
 
-function feedback(message, level, toastId) {
+function feedback(message, level) {
 	toast.dismiss();
-	return toast[level](message, {
+	toast[level](message, {
 		autoClose: level === 'error' ? false : 3000,
 		className: level === 'error' ? 'error-background' : 'success-background',
 		position: 'bottom-right',

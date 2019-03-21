@@ -96,7 +96,6 @@ function EditQuestion(props) {
 				success: answercheck4,
 			},
 		];
-		// console.log(answers);
 		edit({ title, time, answers });
 	};
 	return (

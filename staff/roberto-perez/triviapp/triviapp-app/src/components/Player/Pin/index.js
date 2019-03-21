@@ -3,9 +3,9 @@ import { withRouter, Link } from 'react-router-dom';
 
 import gameService from '../../../services/game';
 import authService from '../../../services/auth';
+import feedback from '../../../utils/feedback';
 
 function Pin(props) {
-	console.log(props);
 	const [code, setCode] = useState(null);
 
 	const joinGame = async Event => {
@@ -14,7 +14,7 @@ function Pin(props) {
 			const { game } = await gameService.joinGame(code);
 			props.history.push(`/player/${game.id}/youarein`);
 		} catch (error) {
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -50,7 +50,6 @@ function Pin(props) {
 							</fieldset>
 						</div>
 					</form>
-					{/* {error && <Feedback message={error} />} */}
 					<footer className="login__footer">
 						Have an account?{' '}
 						<Link to="/login" title="Log in" className="login__signup">

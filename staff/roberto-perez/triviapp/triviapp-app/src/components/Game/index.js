@@ -4,6 +4,7 @@ import { withRouter, Switch, Route } from 'react-router-dom';
 import requireAuth from '../middlewares/requireAuth';
 import gameService from '../../services/game';
 import authService from '../../services/auth';
+import feedback from '../../utils/feedback';
 
 import Welcome from './Welcome';
 import Start from './Start';
@@ -22,16 +23,6 @@ function Game(props) {
 	} = props;
 
 	const hostGame = useRef(null);
-
-	// const [gameInfo, setGameInfo] = useState({
-	// 	gameTitle: '',
-	// 	players: [],
-	// 	code: 'Connecting...',
-	// 	totalQuestions: 0,
-	// 	currentQuestion: null,
-	// 	currentQuestionIndex: 0,
-	// 	totalUsers: 0,
-	// });
 
 	const [game, setGame] = useState(null);
 	const [gameID, setGameID] = useState(gameId);
@@ -63,14 +54,9 @@ function Game(props) {
 				throw Error(
 					'This quiz has been set to private. Ask the creator to share it with you to play',
 				);
-			} 
-			
-			gameService.onReconect(gameID);
-			
+			}
 
-			// if (game.end) {
-			// 	props.history.replace(`/`);
-			// }
+			gameService.onReconect(gameID);
 
 			const _currentQuestionIndex = game.quiz.questions.findIndex(
 				question => question._id === game.currentQuestion._id,
@@ -90,7 +76,7 @@ function Game(props) {
 
 			setCurrentQuestion(game.currentQuestion);
 		} catch (error) {
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -112,16 +98,15 @@ function Game(props) {
 				props.history.replace(`/game/${gameID}/gameover`);
 			}
 		} catch (error) {
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	};
 
 	const gameOver = async () => {
-		console.log('GAMEOVER!');
 		try {
 			props.history.replace(`/game/${gameId}/game-over`);
 		} catch (error) {
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	};
 

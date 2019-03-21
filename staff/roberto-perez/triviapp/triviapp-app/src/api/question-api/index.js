@@ -74,7 +74,6 @@ const questionApi = {
 	},
 
 	editQuestion(token, quizId, questionId, data) {
-		console.log(token, quizId, questionId, data)
 		const {
 			title = '',
 			time = '',

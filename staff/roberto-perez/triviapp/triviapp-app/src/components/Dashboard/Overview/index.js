@@ -26,7 +26,6 @@ function Overview(props) {
 	const getQuizById = async quizId => {
 		try {
 			const newQuiz = await quiz.get(quizId);
-			console.log(newQuiz);
 			setCurrentQuiz(newQuiz);
 			setQuestions(newQuiz.questions);
 		} catch (error) {

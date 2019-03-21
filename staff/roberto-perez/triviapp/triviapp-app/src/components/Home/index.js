@@ -40,6 +40,7 @@ function Home(props) {
 	const showSearch = () => {
 		wrapperRef.current.classList.add('wrapper--show');
 		searchRef.current.classList.add('search__content--open');
+		searchRef.current.children[0].focus();
 	};
 
 

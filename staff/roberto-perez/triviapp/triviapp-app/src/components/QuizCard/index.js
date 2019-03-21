@@ -52,16 +52,15 @@ function QuizCard(props) {
 					<footer className="quiz__footer">
 						<div>
 							by{' '}
-							<Link
-								to={`/author/${author._id}`}
+							<span
 								rel="author"
 								className="quiz__author"
 							>
 								{author.name}
-							</Link>
+							</span>
 						</div>
 						<div className="quiz__stats">
-							{questions.length > 0 && (<PlayGame id={id} />)}
+							{(userLoggedIn && questions.length > 0) && (<PlayGame id={id} />)}
 							<span className="purple">{questions.length}Qs</span>
 							<span className="red">
 								{games} play{games > 1 && 's'}

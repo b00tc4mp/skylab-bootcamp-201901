@@ -3,6 +3,7 @@ import { withRouter, Link } from 'react-router-dom';
 import gameService from '../../../services/game';
 
 import GameContext from '../GameContext';
+import feedback from '../../../utils/feedback';
 
 function GameOver(props) {
 
@@ -16,7 +17,6 @@ function GameOver(props) {
 	}, []);
 
 	const getPodium = async () => {
-		console.log('GAMEOVER!');
 		try {
 			const gamePodium = await gameService.getPodium(gameID);
 
@@ -29,7 +29,7 @@ function GameOver(props) {
 			
 			setPodium(p);
 		} catch (error) {
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -38,7 +38,7 @@ function GameOver(props) {
 			await gameService.leaveGame(gameID);
 			props.history.replace(`/`);
 		} catch (error) {
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	}
 

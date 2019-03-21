@@ -1,15 +1,9 @@
-import auth from '../../services/auth';
-const io = require('socket.io-client');
 const validate = require('triviapp-validation');
 // import socketApi from '../../services/socket';
 
-
-const { REACT_APP_BASE_URL } = process.env;
-
 const gameApi = {
-	url: 'NO_URL',
-	baseUrl: 'NO_URL',
-	socket: io.connect(REACT_APP_BASE_URL),
+	url: null,
+	socket: null,
 
 	onEvent(event, cb) {
 		this.socket.on(event, cb);
@@ -121,7 +115,6 @@ const gameApi = {
 	},
 
 	getQuestionsResults(token, data) {
-		console.log(token, data)
 		return fetch(`${this.url}/game/${data.gameID}/question/results`, {
 			method: 'POST',
 			headers: {

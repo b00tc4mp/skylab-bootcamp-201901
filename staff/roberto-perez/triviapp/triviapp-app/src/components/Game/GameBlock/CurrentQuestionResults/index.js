@@ -5,23 +5,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import gameService from '../../../../services/game';
 
 function CurrentQuestionResults(props) {
-	console.log(props);
-	// const nextQuestion = async () => {
-	// 	try {
-	// 		const game = await gameService.nextQuestion();
-	// 		console.log(game);
-	// 		props.history.push(`/game/${game.id}/questions/getready`);
-	// 	} catch(error) {
-	// 		console.log(error)
-	// 	}
-	// }
 
 	useEffect(() => {
 		if (props.currentQuestionIndex + 1 >= props.totalQuestions) {
 			gameService.gameOver(props.gameID);
 		}
 	}, []);
-	console.log(props.results);
 
 	const colors = ['red', 'blue', 'yellow', 'green'];
 

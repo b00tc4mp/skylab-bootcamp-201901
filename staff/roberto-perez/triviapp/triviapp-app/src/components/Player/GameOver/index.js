@@ -6,6 +6,8 @@ import gameService from '../../../services/game';
 
 import PlayerContext from '../PlayerContext';
 
+import feedback from '../../../utils/feedback';
+
 function GameOver(props) {
 	
 	const { gameID, timeOut } = useContext(PlayerContext);
@@ -24,10 +26,9 @@ function GameOver(props) {
 				return { user: score[pod].user, score: score[pod].score };
 			});
 
-			console.log(p);
 			setPoints(p);
 		} catch (error) {
-			console.error(error);
+			feedback(error.message, 'error');
 		}
 	};
 
@@ -36,7 +37,7 @@ function GameOver(props) {
 			await gameService.leaveGame(gameID);
 			props.history.replace(`/`);
 		} catch (error) {
-			console.log(error);
+			feedback(error.message, 'error');
 		}
 	}
 

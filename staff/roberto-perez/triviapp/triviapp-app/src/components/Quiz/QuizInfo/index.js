@@ -48,14 +48,12 @@ function QuizInfo(props) {
 					{author && (
 						<footer className="quiz-footer">
 							by{' '}
-							<Link
-								to={`/author/${author._id}`}
+							<span
 								rel="author"
-								title={author.name}
 								className="quiz__author"
 							>
 								{author.name}
-							</Link>
+							</span>
 						</footer>
 					)}
 				</div>

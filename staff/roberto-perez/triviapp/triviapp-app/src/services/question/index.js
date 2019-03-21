@@ -78,18 +78,6 @@ const question = {
 			questionId,
 		);
 	},
-
-	// async editQuestionPicture(quizId, questionId, picture) {
-	// 	const data = {
-	// 		picture,
-	// 	};
-	// 	return await questionApi.editQuestion(
-	// 		auth.__userApiToken__,
-	// 		quizId,
-	// 		questionId,
-	// 		data,
-	// 	);
-	// },
 };
 
 export default question;

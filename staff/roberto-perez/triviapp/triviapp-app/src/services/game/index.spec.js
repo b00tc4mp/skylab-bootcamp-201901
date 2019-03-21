@@ -714,7 +714,6 @@ describe('Game', () => {
 
 		it('should succeed on valid data', async () => {
 			const podium = await game.getPodium(newGame.id);
-			console.log(podium)
 
 			expect(podium[player.id].score).toEqual(150);
 		});

@@ -4,6 +4,7 @@ import { HashRouter } from 'react-router-dom';
 import './sass/main.scss';
 import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
+import io from 'socket.io-client';
 
 import userApi from './api/user-api';
 import gameApi from './api/game-api';
@@ -17,7 +18,7 @@ const { REACT_APP_BASE_URL_API, REACT_APP_BASE_URL } = process.env;
 
 userApi.url = REACT_APP_BASE_URL_API;
 gameApi.url = REACT_APP_BASE_URL_API;
-gameApi.baseUrl = REACT_APP_BASE_URL;
+gameApi.socket = io.connect(REACT_APP_BASE_URL);
 questionApi.url = REACT_APP_BASE_URL_API;
 quizApi.url = REACT_APP_BASE_URL_API;
 imageApi.url = REACT_APP_BASE_URL_API;

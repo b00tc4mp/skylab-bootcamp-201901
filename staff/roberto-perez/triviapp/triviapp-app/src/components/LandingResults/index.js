@@ -1,5 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react';
 
+import feedback from '../../utils/feedback';
 import quiz from '../../services/quiz';
 import QuizCard from '../QuizCard';
 
@@ -17,7 +18,6 @@ function LandingResults(props) {
 	};
 
 	const handleListQuiz = async () => {
-		console.log(offset);
 		try {
 			const newQuizzes = await quiz.list(offset);
 
@@ -25,7 +25,7 @@ function LandingResults(props) {
 
 			setQuizzes([...quizzes, ...newQuizzes]);
 		} catch (error) {
-			console.error(error);
+			feedback(error.message, 'error');
 		}
 	};
 
