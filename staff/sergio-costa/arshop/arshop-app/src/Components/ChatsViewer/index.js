@@ -6,7 +6,7 @@ import './index.sass'
 
 class ChatViewer extends Component {
 
-    state = { chats: [], users: [], userid: null }
+    state = { chats: [], users: [], userid: null, finished: false }
 
     componentDidMount() {
         this.retrieveAllChats()
@@ -25,6 +25,8 @@ class ChatViewer extends Component {
                         return chats
                     })
             })
+            .then(() => this.setState({finished: true}))
+            .then(() => console.log('cargado'))
     }
 
     render() {
@@ -45,7 +47,10 @@ class ChatViewer extends Component {
                     return <Chat key={id} id={id} messages={messages} users={users} userid={this.state.userid} onChatClick={this.props.onChatClick} />
                 })}
             </div>
-            {!chats.length && <div>
+            {!chats.length && !this.state.finished &&<div className="donutcontainer__chat">
+                <div className="donut__chat"></div>
+            </div>}
+            {!chats.length && this.state.finished && <div>
                 <p className="chatsViewer__notfound">You don't have Conversations... :(</p>
             </div>}
         </section>

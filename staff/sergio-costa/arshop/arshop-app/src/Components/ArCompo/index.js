@@ -18,7 +18,13 @@ class ArCompo extends Component {
         this.props.history.replace('/')
     }
 
-    componentDidMount(){
+    componentDidMount() {
+
+        // var el = document.getElementsByTagName('a-entity')[0]
+
+        // el.object3D.scale.set({x: 0.01, y: 0.01, z: 0.01})
+
+        // console.log(el.object3D)
     }
 
     // stopStreamVideo = videoElem => {
@@ -32,19 +38,44 @@ class ArCompo extends Component {
 
     render() {
         // mas o menos correcto, tocando posicion y sin UI
+        // return <section className="ar">
+        //     <button className="ar__btn" onClick={() => this.onClose()}>
+        //     close ar 
+        //     </button>
+        //     <Scene embedded arjs={{ sourceType: 'webcam', debugUIEnabled: 'false', detectionMode: 'mono', maxDetectionRate: 30, canvasWidth: 240, canvasHeight: 180 }}>
+        //         <a-marker preset="hiro">
+        //             {/* <a-gltf-model src={`models/seat/scene.gltf`} scale="1 1 1"></a-gltf-model> */}
+        //             <a-entity obj-model={`obj: url(${REACT_APP_API_URL}/object3d/${this.props.productId}.obj)`} position="0 0 0" rotation="-90 180 180" scale="0.0009 0.0009 0.0009"></a-entity>
+        //             {/* <Entity geometry={{ primitive: 'box', width: '1', height: '1' }}
+        //                 position={{ x: 0, y: 0, z: -1 }} /> */}
+        //         </a-marker>
+        //         <Entity camera/>
+        //     </Scene>
+        // </section>
+
+        // return <section className="ar">
+        //     <button className="ar__btn" onClick={() => this.onClose()}>
+        //     close ar 
+        //     </button>
+        //     <Scene embedded arjs={{ sourceType: 'webcam', debugUIEnabled: 'false', detectionMode: 'mono', maxDetectionRate: 30, canvasWidth: 240, canvasHeight: 180 }}>
+        //         <a-marker preset="hiro">
+        //             {/* <a-gltf-model src={`models/seat/scene.gltf`} scale="1 1 1"></a-gltf-model> */}
+        //             <a-entity obj-model={`obj: url(${REACT_APP_API_URL}/object3d/${this.props.productId}.obj)`} position="0 0 0" rotation="-90 180 180" scale="0.1 0.1 0.1"></a-entity>
+        //             {/* <Entity geometry={{ primitive: 'box', width: '1', height: '1' }}
+        //                 position={{ x: 0, y: 0, z: -1 }} /> */}
+        //         </a-marker>
+        //         <Entity camera/>
+        //     </Scene>
+        // </section>
+
         return <section className="ar">
             <button className="ar__btn" onClick={() => this.onClose()}>
-            close ar 
+            Close
             </button>
-            <Scene embedded arjs={{ sourceType: 'webcam', debugUIEnabled: 'false' }}>
-                <a-marker preset="hiro">
-                    {/* <a-gltf-model src={`models/seat/scene.gltf`} scale="1 1 1"></a-gltf-model> */}
-                    <a-entity obj-model={`obj: url(${REACT_APP_API_URL}/object3d/${this.props.productId}.obj)`} position="0 0 0" rotation="-90 180 180" scale="0.0009 0.0009 0.0009"></a-entity>
-                    {/* <Entity geometry={{ primitive: 'box', width: '1', height: '1' }}
-                        position={{ x: 0, y: 0, z: -1 }} /> */}
-                </a-marker>
-                <Entity camera/>
-            </Scene>
+            <a-scene embedded artoolkit='sourceType: webcam'>
+                <a-entity obj-model={`obj: url(${REACT_APP_API_URL}/object3d/${this.props.productId}.obj)`} position="0 0 0" rotation="-90 180 180" scale="0.1 0.1 0.1"></a-entity>
+                <a-marker-camera preset='hiro'></a-marker-camera>
+            </a-scene>
         </section>
 
         // return <section>
