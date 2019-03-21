@@ -36,6 +36,7 @@ Once the user is logged it can edit its profile to find the best match and creat
 
 ### Technologies
 
+<div>
 <img src="images/logos/react.png" alt="react" width="130px" />
 
 <img src="images/logos/sass.png" alt="sass" width="130px" />
@@ -43,8 +44,9 @@ Once the user is logged it can edit its profile to find the best match and creat
 <img src="images/logos/node.png" alt="node" width="130px" />
 
 <img src="images/logos/mongo.png" alt="mongo" width="130px" />
+</div>
 
 
 ### Code Coverage
 
-![Code Coverage](images/test-api.png)
+![Code Coverage](images/test.png)
