@@ -20,15 +20,15 @@ The user also has a clock and a toolbar embedded in desktop. With the toolbar yo
 
 ![Blocks Diagram](images/Blocks.jpg)
 
-## Data Model
+### Data Model
 
 ![Data model Diagram](images/Data-Model.jpg)
 
-## Code Coverage
+### Code Coverage
 
 N / A
 
-## Technologies
+### Technologies
 ![Javascript](images/js.jpg)
 ![HTML](images/html.png)
 ![CSS](images/css.png)
