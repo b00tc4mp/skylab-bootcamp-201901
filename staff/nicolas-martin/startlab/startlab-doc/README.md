@@ -40,7 +40,7 @@
 
 ### Technologies
 
-<div class="table">
+<div style="width:50%;">
 
 Client Side                |  Server Side
 :-------------------------:|:-------------------------:
@@ -50,7 +50,3 @@ Client Side                |  Server Side
 ![](images/logos/sass.png)  |  ![](images/logos/nodemailer.png)
 
 </div>
-
-.table {
-    width: 70%;
-}
