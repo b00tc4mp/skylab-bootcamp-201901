@@ -2,7 +2,7 @@
 
 Application that allows the user to control a drone and program it to make specific routes
 
-[DOCUMENTATION](doc/README.md)
+[DOCUMENTATION](flyme-doc/README.md)
 
 [Trello](https://trello.com/b/pNvapqFh/fly-me-project)
 

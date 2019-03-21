@@ -10,6 +10,8 @@ The application allows to learn the most basic notions on which the programming 
 
 With Flyme you can enjoy from the youngest to the oldest.
 
+![Use Cases](images/flyme.jpg)
+
 ## Functional description
 
 Users can:
