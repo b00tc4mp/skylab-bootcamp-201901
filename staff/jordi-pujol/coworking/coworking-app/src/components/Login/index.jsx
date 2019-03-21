@@ -46,7 +46,6 @@ class Login extends Component {
             }
             else {
                 return logic.logInUser(email, password)
-                    .then(() => console.log(2))
                     .then(() => logic.retrieveUser())
                     .then(user => {
                         if (!user.workspace) {
