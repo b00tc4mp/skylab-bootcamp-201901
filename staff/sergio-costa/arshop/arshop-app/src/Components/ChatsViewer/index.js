@@ -26,7 +26,6 @@ class ChatViewer extends Component {
                     })
             })
             .then(() => this.setState({finished: true}))
-            .then(() => console.log('cargado'))
     }
 
     render() {

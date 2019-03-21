@@ -17,7 +17,7 @@ class Aside extends Component {
 
     onLogout = () => {
         logic.logOutUser()
-        this.props.history.push('/upload/product') //Chapu pero funcional
+        this.props.history.push('/upload/product')
     }
 
     goToUploadProduct = () => {

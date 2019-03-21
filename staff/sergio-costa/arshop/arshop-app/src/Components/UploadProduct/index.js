@@ -48,15 +48,12 @@ class UploadProduct extends Component {
     }
 
     onClean = () => {
-        console.log('cleaned')
         this.props.history.push('/')
     }
 
     componentWillMount() {
         this.setState({ city: this.props.city })
         this.setState({ category: this.props.category })
-
-        console.log('will mount')
     }
 
     render() {
@@ -96,14 +93,6 @@ class UploadProduct extends Component {
                 <div className="upload__donut"></div>
             </div>}
             <form className="form" onSubmit={handleFormSubmit}>
-                {/* <div className="form__inputrow">
-                    <label className="form__label--input">City</label>
-                    <input className="form__input" required="true" type="text" name="city" value={this.state.city} onChange={handleInput} onFocus={() => goToCity()} />
-                </div>
-                <div className="form__inputrow">
-                    <label className="form__label--input">Category</label>
-                    <input className="form__input" required="true" type="text" name="category" value={this.state.category} onChange={handleInput} onFocus={() => goToCategory()} />
-                </div> */}
                 <div className="form__inputrow">
                     <label className="form__label--input">Tittle</label>
                     <input className="form__input" required="true" type="text" name="tittle" onChange={handleInput} />

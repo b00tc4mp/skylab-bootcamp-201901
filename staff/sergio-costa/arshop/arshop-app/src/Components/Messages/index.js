@@ -33,7 +33,7 @@ class Messages extends Component {
     }
 
     cleanInput = () => {
-        this.setState({message: ''}, console.log(this.state.message))
+        this.setState({message: ''})
     }
 
     render() {

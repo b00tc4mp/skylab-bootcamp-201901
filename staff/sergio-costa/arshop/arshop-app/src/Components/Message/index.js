@@ -16,7 +16,6 @@ class Message extends Component {
     render() {
         const { props: { text, sender } } = this
         return <section className={this.state.sendByMe ? "message--right" : "message--left"}>
-            {/* {this.state.sendByMe && <p className="message__user">username</p>} */}
             <p className={this.state.sendByMe ? "message__text--right" : "message__text--left"}>{text}</p>
         </section>
     }
