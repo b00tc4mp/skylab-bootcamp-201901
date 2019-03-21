@@ -96,7 +96,7 @@ class ProductDetails extends Component {
                     this.setState({ username: user[0].name })
                     this.setState({ imageUrl: user[0].imageUrl })
                     this.setState({ userId: user[0].id })
-                    this.setState({finished : true})
+                    this.setState({ finished: true })
                 })
         } catch (error) {
 
@@ -110,12 +110,16 @@ class ProductDetails extends Component {
     }
 
     onCLickChat = () => {
-        logic.createChat(this.state.userId)
-            .then((id) => this.props.history.push(`/chat/${id}`))
+        if (logic.isUserLoggedIn) {
+            logic.createChat(this.state.userId)
+                .then((id) => this.props.history.push(`/chat/${id}`))
+        }else{
+            this.props.history.push('/login')
+        }
     }
 
     handleProductId = id => {
-        
+
         this.props.onProductId(id)
     }
 
@@ -155,7 +159,7 @@ class ProductDetails extends Component {
                     {!this.state.userProduct && <button className="productDetails__btn" onClick={() => this.onCLickChat()}>Chat</button>}
                 </div>
             </div>}
-            {!this.state.finished &&<div className="donutcontainer">
+            {!this.state.finished && <div className="donutcontainer">
                 <div className="donut"></div>
             </div>}
             <Feedback message={feedback} />
