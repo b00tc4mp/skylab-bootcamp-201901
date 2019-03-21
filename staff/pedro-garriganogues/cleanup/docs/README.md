@@ -99,7 +99,7 @@ In the diagram below we can see the components and some of their propieties.
 
 ## PROJECT DEMO
 
-You can see a demo of the project here: [surge]
+You can see a demo of the project here: [surge](http://cleanup.surge.sh/#/)
 
 
 

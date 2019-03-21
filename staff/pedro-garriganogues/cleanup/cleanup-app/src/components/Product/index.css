@@ -11,6 +11,11 @@
 .addcartbutton{
     border-radius: 8px;
     width: 13em;
+    outline: 0;
+}
+
+.addcartbutton:hover{
+    box-shadow: 0 4px 5px 0 rgba(0,0,0, .2)
 }
 
 .productImage{

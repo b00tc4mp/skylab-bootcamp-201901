@@ -31,6 +31,7 @@ class Profile extends Component {
 
         logic.retrieveOrder()
             .then(orders => {
+                debugger
                 this.setState({
                     orders
                 })
@@ -65,7 +66,7 @@ class Profile extends Component {
                     <div className="innerpayment">
                         <label>Product reference:</label>
                         <br />
-                        {this.state.orders.map(order => <div>{order.products}</div>)}
+                        {this.state.orders.map(order => { return order.products.map(product => <div>{product.name}</div>) })}
                     </div>
                 </table>
             </div>

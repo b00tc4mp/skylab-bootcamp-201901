@@ -1,6 +1,16 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
 import './index.css'
+import Swal from 'sweetalert2'
+import 'sweetalert2/src/sweetalert2.scss'
+
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
 
 
 class Order extends Component {
@@ -48,7 +58,10 @@ class Order extends Component {
         } else {
             console.log('Please, fill all fields')
         }
-        alert('Thank you for your purchase!')
+        Toast.fire({
+            type: 'success',
+            title: 'Thank you for your purchase'
+        })
     }
 
     handlerCapturingPaymentMethod = (e) => {

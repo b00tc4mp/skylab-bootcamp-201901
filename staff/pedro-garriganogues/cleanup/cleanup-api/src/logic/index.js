@@ -64,8 +64,7 @@ const logic = {
         if (typeof userId !== 'string') throw Error('order order is not a string')
 
         return (async () => {
-
-            const orders = await Order.find({ userId }).select({ _id: 0, paymentMethod: 1, status: 1, products: 1, userId: 1 })
+            const orders = await Order.find({ userId }).select({ _id: 0, paymentMethod: 1, status: 1, products: 1, userId: 1 }).populate('products')
 
             if (!orders.length) throw Error(`no order found with order ${order}`)
 

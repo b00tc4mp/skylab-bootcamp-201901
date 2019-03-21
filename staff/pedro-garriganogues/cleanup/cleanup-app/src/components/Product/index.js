@@ -1,6 +1,17 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
 import './index.css'
+import Swal from 'sweetalert2'
+import 'sweetalert2/src/sweetalert2.scss'
+import { Link } from 'react-router-dom'
+
+
+const Toast = Swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
 
 
 class Product extends Component {
@@ -25,6 +36,15 @@ class Product extends Component {
             })
     }
 
+    addProduct = () => {
+        logic.addProductToCart(this.state.product)
+        Toast.fire({
+            type: 'success',
+            title: 'Added to cart'
+        })
+
+    }
+
 
 
 
@@ -44,7 +64,7 @@ class Product extends Component {
                             <p className="productDescription">{this.state.product.description}</p>
                             <div className="productCard">
                                 <h3 className="productPrice">{this.state.product.price} €</h3>
-                                <button className="addcartbutton" onClick={() => logic.addProductToCart(this.state.product)}>Add to cart</button>
+                                <button className="addcartbutton" onClick={this.addProduct}>Add to cart</button>
                             </div>
                         </div>
                     </div>
