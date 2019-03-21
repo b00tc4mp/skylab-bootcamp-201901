@@ -44,4 +44,4 @@ Only registered users can access the platform's content.
 
 ### Technologies
 
-Javascript, ReactJS(Hooks), Node.js, Express, MongoDB & Mongoose.
+Javascript, ReactJS(Hooks), Node.js, Express, MongoDB & Mongoose, Firebase.
