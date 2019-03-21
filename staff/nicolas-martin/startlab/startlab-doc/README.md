@@ -7,6 +7,8 @@
 
 **Startlab** students needs an invitation to start the test.
 
+![Intro image](images/intro-image.png)
+
 ### Use Cases
 
 ![Use Cases](images/use-cases.png)
@@ -50,7 +52,3 @@ Client Side                |  Server Side
 ![](images/logos/sass.png)  |  ![](images/logos/nodemailer.png)
 
 </div>
-
-.table {
-    width: 70%;
-}
