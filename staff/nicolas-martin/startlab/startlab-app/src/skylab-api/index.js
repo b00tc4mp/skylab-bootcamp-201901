@@ -181,7 +181,6 @@ const skylabApi = {
         })
             .then(response => response.json())
             .then(response => {
-                console.log(response)
                 if (response.error) throw Error(response.error)
 
                 return response

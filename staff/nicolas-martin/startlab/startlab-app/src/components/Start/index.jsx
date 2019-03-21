@@ -88,6 +88,7 @@ class Start extends Component {
         const { state: { activeExercise, exercises, failures, checkResponse, answer },
             handleAnswerSubmit, handleAnswerChange } = this
 
+        console.log(activeExercise)
         return (
             <main className="start">
 
