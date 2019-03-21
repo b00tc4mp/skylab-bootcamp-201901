@@ -12,7 +12,6 @@ function AddComment({ postId, refreshComments }) {
     try {
       logic.addComment(postId, text).then(comment => {
         refreshComments(comment.comments);
-        setText("");
       });
     } catch ({ message }) {
       notify(message);
