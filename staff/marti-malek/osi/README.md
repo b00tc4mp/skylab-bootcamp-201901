@@ -1,5 +1,7 @@
 # OSI
 
-[Documentation](/staff/marti-malek/osi/osi-doc)
+[Documentation](./osi-doc)
 
-[Demo](...)
+[Demo](http://osi.surge.sh/#/)
+
+[GitHub](https://github.com/martimalek/)
