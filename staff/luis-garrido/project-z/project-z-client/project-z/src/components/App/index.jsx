@@ -1,13 +1,10 @@
 "use strict";
 
 import React, { useState, useEffect, useRef } from "react";
-import { Route, withRouter, Link, Switch, Redirect } from "react-router-dom";
+import { Route, withRouter, Switch, Redirect } from "react-router-dom";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
-// import Register from '../Register'
-// import Login from '../Login'
-// import Home from '../Home'
 import logic from "../../logic";
 import "./index.sass";
 
@@ -24,7 +21,7 @@ import Random from "../Random";
 import TopFifty from "../TopFifty";
 import NoResults from "../NoResults";
 
-const App = ({ history }) => {
+const App = () => {
     const [username, setUsername] = useState("");
 
     useEffect(() => {
@@ -32,8 +29,8 @@ const App = ({ history }) => {
     }, []);
 
     const notify = message => {
-        toast.dismiss()
-        toast.error(message)
+        toast.dismiss();
+        toast.error(message);
     };
 
     const getUsernameLogged = async () => {
@@ -46,7 +43,7 @@ const App = ({ history }) => {
     };
 
     const searchFocus = useRef(null);
-    
+
     return (
         <div className="main">
             <div className="navbar-tablet">
@@ -57,7 +54,7 @@ const App = ({ history }) => {
                 <Header searchFocus={searchFocus} />
 
                 <div className="content">
-        <ToastContainer />
+                    <ToastContainer />
                     <Switch>
                         <Route exact path="/" component={LandingPage} />
                         <Route path="/search/:query" component={Results} />
@@ -96,7 +93,7 @@ const App = ({ history }) => {
                         />
                         <Route exact path="/ranking" component={TopFifty} />
                         <Route exact path="/random" component={Random} />
-                        <Route exact path='/noresults' component={NoResults} />
+                        <Route exact path="/noresults" component={NoResults} />
                         <Route path="/:username" component={UserProfile} />
                     </Switch>
                 </div>
@@ -108,7 +105,3 @@ const App = ({ history }) => {
 };
 
 export default withRouter(App);
-
-//     {/* <Route path="/register" render={() => <Register title={i18n[selectedLanguage].registerTitle} onRegister={handleRegister} feedback={registerFeedback} />} />
-//     <Route path="/login" render={() => <Login title={i18n[selectedLanguage].loginTitle} onLogin={handleLogin} feedback={loginFeedback} />} />
-// <Route path="/" render={() => logic.isUserLoggedIn ? <Home language={selectedLanguage} /> : <section><Link to="/login">Login</Link> or <Link to="/register">Register</Link></section>} /> */}

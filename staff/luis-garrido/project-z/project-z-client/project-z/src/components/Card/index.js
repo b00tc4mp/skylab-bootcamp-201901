@@ -2,15 +2,12 @@ import React, { Fragment } from "react";
 import { withRouter, Link } from "react-router-dom";
 import "./index.sass";
 
-import logic from "../../logic";
-
 const {
     REACT_APP_THUMB: gameCover,
     REACT_APP_NOT_FOUND_IMAGE_URL: NOT_FOUND_IMAGE_URL
 } = process.env;
 
-const Card = ({ key, game, history }) => {
-    console.log(game);
+const Card = ({ game, history }) => {
     return (
         <article className="card">
             <div

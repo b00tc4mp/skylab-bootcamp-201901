@@ -1,6 +1,5 @@
 "use strict";
 
-
 import projectZApi from "../project-z-api";
 
 /**
@@ -59,8 +58,8 @@ const logic = {
             throw Error("password confirmation cannot be empty");
 
         if (password !== passwordConfirmation)
-            throw Error("passwords do not match")
-        
+            throw Error("passwords do not match");
+
         return projectZApi
             .registerUser(
                 username,
@@ -107,7 +106,7 @@ const logic = {
      */
     logOutUser() {
         this.__userApiToken__ = null;
-        sessionStorage.clear()
+        sessionStorage.clear();
     },
 
     retrieveUserInfo() {
@@ -166,11 +165,17 @@ const logic = {
     },
 
     postReview(gameId, title, text, score) {
-        return projectZApi.postReview(this.__userApiToken__, gameId, title, text, score)
+        return projectZApi.postReview(
+            this.__userApiToken__,
+            gameId,
+            title,
+            text,
+            score
+        );
     },
 
     getRandomGame() {
-        return projectZApi.getRandomGame()
+        return projectZApi.getRandomGame();
     },
 
     getPreScore(gameId, gameInfo) {
@@ -179,144 +184,8 @@ const logic = {
 
         if (!gameId.trim().length) throw Error("gameId is empty");
 
-        return projectZApi.getPreScore(this.__userApiToken__, gameId, gameInfo)
+        return projectZApi.getPreScore(this.__userApiToken__, gameId, gameInfo);
     }
-
-    // /**
-    //  * Search artists.
-    //  *
-    //  * @param {string} query
-    //  * @returns {Promise}
-    //  */
-    // searchArtists(query) {
-    //     if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
-
-    //     if (!query.trim().length) throw Error('query is empty')
-
-    //     return musicApi.searchArtists(query)
-    // },
-
-    // /**
-    //  * Retrieves an artist.
-    //  *
-    //  * @param {string} artistId
-    //  */
-    // retrieveArtist(artistId) {
-    //     if (typeof artistId !== 'string') throw TypeError(`${artistId} is not a string`)
-
-    //     if (!artistId.trim().length) throw Error('artistId is empty')
-
-    //     return musicApi.retrieveArtist(artistId)
-    // },
-
-    // /**
-    //  * Toggles a artist from non-favorite to favorite, and viceversa.
-    //  *
-    //  * @param {string} artistId - The id of the artist to toggle in favorites.
-    //  */
-    // toggleFavoriteArtist(artistId) {
-    //     return musicApi.retrieveUser(this.__userApiToken__)
-    //         .then(user => {
-    //             const { favoriteArtists = [] } = user
-
-    //             const index = favoriteArtists.findIndex(_artistId => _artistId === artistId)
-
-    //             if (index < 0) favoriteArtists.push(artistId)
-    //             else favoriteArtists.splice(index, 1)
-
-    //             return musicApi.update(this.__userApiToken__, { favoriteArtists })
-    //         })
-    // },
-
-    // /**
-    //  * Retrieves albums from artist.
-    //  *
-    //  * @param {string} artistId
-    //  */
-    // retrieveAlbums(artistId) {
-    //     if (typeof artistId !== 'string') throw TypeError(`${artistId} is not a string`)
-
-    //     if (!artistId.trim().length) throw Error('artistId is empty')
-
-    //     return musicApi.retrieveAlbums(artistId)
-    // },
-
-    // /**
-    //  * Retrieves an album.
-    //  *
-    //  * @param {string} albumId
-    //  */
-    // retrieveAlbum(albumId) {
-    //     if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
-
-    //     if (!albumId.trim().length) throw Error('albumId is empty')
-
-    //     return musicApi.retrieveAlbum(albumId)
-    // },
-
-    // /**
-    //  * Toggles a album from non-favorite to favorite, and viceversa.
-    //  *
-    //  * @param {string} albumId - The id of the album to toggle in favorites.
-    //  */
-    // toggleFavoriteAlbum(albumId) {
-    //     return musicApi.retrieveUser(this.__userApiToken__)
-    //         .then(user => {
-    //             const { favoriteAlbums = [] } = user
-
-    //             const index = favoriteAlbums.findIndex(_albumId => _albumId === albumId)
-
-    //             if (index < 0) favoriteAlbums.push(albumId)
-    //             else favoriteAlbums.splice(index, 1)
-
-    //             return musicApi.update(this.__userApiToken__, { favoriteAlbums })
-    //         })
-    // },
-
-    // /**
-    //  * Retrieves tracks from album.
-    //  *
-    //  * @param {string} albumId
-    //  */
-    // retrieveTracks(albumId) {
-    //     if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
-
-    //     if (!albumId.trim().length) throw Error('albumId is empty')
-
-    //     return musicApi.retrieveTracks(albumId)
-    // },
-
-    // /**
-    //  * Retrieves track.
-    //  *
-    //  * @param {string} trackId
-    //  */
-    // retrieveTrack(trackId) {
-    //     if (typeof trackId !== 'string') throw TypeError(`${trackId} is not a string`)
-
-    //     if (!trackId.trim().length) throw Error('trackId is empty')
-
-    //     return musicApi.retrieveTrack(trackId)
-    // },
-
-    // /**
-    //  * Toggles a track from non-favorite to favorite, and viceversa.
-    //  *
-    //  * @param {string} trackId - The id of the track to toggle in favorites.
-    //  */
-    // toggleFavoriteTrack(trackId) {
-    //     return musicApi.retrieveUser(this.__userApiToken__)
-    //         .then(user => {
-    //             const { favoriteTracks = [] } = user
-
-    //             const index = favoriteTracks.findIndex(_trackId => _trackId === trackId)
-
-    //             if (index < 0) favoriteTracks.push(trackId)
-    //             else favoriteTracks.splice(index, 1)
-
-    //             return musicApi.update(this.__userApiToken__, { favoriteTracks })
-    //         })
-    // }
 };
 
 export default logic;

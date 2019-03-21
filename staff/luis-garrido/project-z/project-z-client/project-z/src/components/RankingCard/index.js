@@ -2,20 +2,24 @@ import React from "react";
 import { withRouter, Link } from "react-router-dom";
 import "./index.sass";
 
-import logic from "../../logic";
-
-const { REACT_APP_THUMB: gameCover, REACT_APP_NOT_FOUND_IMAGE_URL: NOT_FOUND_IMAGE_URL } = process.env;
+const {
+    REACT_APP_THUMB: gameCover,
+    REACT_APP_NOT_FOUND_IMAGE_URL: NOT_FOUND_IMAGE_URL
+} = process.env;
 
 const RankingCard = ({ index, game, history }) => {
-    
-    const cardClass = index % 2 === 0 
-        ? "ranking-card ranking-card--background-even"
-        : "ranking-card"
+    const cardClass =
+        index % 2 === 0
+            ? "ranking-card ranking-card--background-even"
+            : "ranking-card";
 
     return (
-        <article className={cardClass} onClick={() => history.push(`/game/${game.id}`)}>
+        <article
+            className={cardClass}
+            onClick={() => history.push(`/game/${game.id}`)}
+        >
             <div className="ranking-card__position">
-                <p>{index}</ p>
+                <p>{index}</p>
             </div>
             <div
                 className="ranking-card__image-container"
@@ -43,7 +47,11 @@ const RankingCard = ({ index, game, history }) => {
                     <p>{game.platformName}</p>
                 </div>
             </div>
-            <div><p className="ranking-card__final-score">{game.finalScore && Math.round(game.finalScore * 20)}</p></div>
+            <div>
+                <p className="ranking-card__final-score">
+                    {game.finalScore && Math.round(game.finalScore * 20)}
+                </p>
+            </div>
         </article>
     );
 };

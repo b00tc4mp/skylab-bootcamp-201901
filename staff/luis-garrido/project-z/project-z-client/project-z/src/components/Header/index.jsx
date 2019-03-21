@@ -1,12 +1,11 @@
-import React, { Fragment, useState } from "react";
-import { Route, withRouter, Link } from "react-router-dom";
+import React, { useState } from "react";
+import { withRouter } from "react-router-dom";
 
-import logic from "../../logic";
 import "./index.sass";
 
 // import Feedback from "../Feedback";
 
-const Header = props => {
+const Header = ({ history, searchFocus }) => {
     const [query, setQuery] = useState("");
 
     const handleQueryInput = ({ target: { value: query } }) => {
@@ -17,17 +16,19 @@ const Header = props => {
         event.preventDefault();
         const _query = query;
         setQuery("");
-        props.history.push(`/search/${_query}`);
+        history.push(`/search/${_query}`);
     };
-    
+
     return (
         <div>
             <div className="header header-mobile">
-                    <h1 className="header__title header-mobile__title">PROJECT Z</h1>
-                </div>
+                <h1 className="header__title header-mobile__title">
+                    PROJECT Z
+                </h1>
+            </div>
             <form className="search" onSubmit={handleSearchSubmit}>
                 <input
-                    ref={props.searchFocus}
+                    ref={searchFocus}
                     className="search__input"
                     type="text"
                     name="query"

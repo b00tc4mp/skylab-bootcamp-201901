@@ -1,17 +1,14 @@
 import React, { Fragment, useState } from "react";
-import { Route, withRouter, Link } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { withRouter, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import logic from "../../logic";
 import "./index.sass";
 
-// import Feedback from "../Feedback";
-
-const Login = props => {
+const Login = ({ history }) => {
     const [userData, setUserData] = useState("");
     const [userPassword, setUserPassword] = useState("");
-    const [feedbackLogin, setFeedbackLogin] = useState('')
 
     const handleUserDataInput = ({ target: { value: userData } }) => {
         setUserData(userData);
@@ -22,19 +19,18 @@ const Login = props => {
     };
 
     const notify = message => {
-        toast.dismiss()
-        toast.error(message)
+        toast.dismiss();
+        toast.error(message);
     };
 
     const handleLoginSubmit = event => {
         event.preventDefault();
 
-    
         try {
             logic
                 .loginUser(userData, userPassword)
                 .then(() => {
-                    props.history.push("/");
+                    history.push("/");
                 })
                 .catch(error => {
                     notify(error.message);
@@ -51,7 +47,6 @@ const Login = props => {
                     <h1 className="header__title">LOGIN</h1>
                 </div>
                 <div className="forms">
-                    {feedbackLogin && <h2>{feedbackLogin}</h2>}
                     <form className="login-form" onSubmit={handleLoginSubmit}>
                         <div>
                             <input
@@ -86,10 +81,10 @@ const Login = props => {
                             </button>
                         </div>
                     </form>
-                        <p>
-                            Don't you have an account?{" "}
-                            <Link to="/register">JOIN US!</Link>
-                        </p>
+                    <p>
+                        Don't you have an account?{" "}
+                        <Link to="/register">JOIN US!</Link>
+                    </p>
                 </div>
             </div>
         </Fragment>

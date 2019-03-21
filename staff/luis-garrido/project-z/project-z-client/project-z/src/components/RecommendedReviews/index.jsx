@@ -1,24 +1,17 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import logic from "../../logic";
 
-import RankingCard from "../RankingCard";
 import Review from "../Review";
 
-const RecommendedReviews = props => {
-    const [ranking, setRanking] = useState([]);
+const RecommendedReviews = () => {
     const [recommendations, setRecommendations] = useState([]);
     const [newbieMessage, setNewbieMessage] = useState(null);
 
     useEffect(() => {
-        getRanking();
         logic.isUserLoggedIn && getSimilarUsersReviews();
     }, []);
-
-    const getRanking = async () => {
-        setRanking(await logic.retrieveBestScored("5"));
-    };
 
     const getSimilarUsersReviews = async () => {
         const user = await logic.retrieveUserInfo();
@@ -36,13 +29,11 @@ const RecommendedReviews = props => {
             allUsers
         } = await logic.retrieveSimilarUsersReviews();
 
-        console.log(allUsers);
-        console.log(similarityList);
-
         let _similarUsers = [];
 
         if (user.reviews.length === 0) return "";
-        // for (let i = 0; i < similarityList.length; i++) {
+        if (similarityList.length === 0) return "";
+
         for (let i = 0; i < 10; i++) {
             let similarUsers = allUsers.find(user => {
                 return user.username === similarityList[i].usernameComparing;
@@ -64,8 +55,6 @@ const RecommendedReviews = props => {
             }
         }
 
-        console.log(_recommendations);
-        console.log(user);
         let _filterRecommendations = [];
 
         if (_recommendations.length > 0) {
@@ -80,7 +69,6 @@ const RecommendedReviews = props => {
             });
         }
 
-        console.log(_filterRecommendations);
         let _filterFive = [];
 
         if (_filterRecommendations.length > 0) {
@@ -96,11 +84,9 @@ const RecommendedReviews = props => {
             }
         }
 
-        console.log(_filterFive);
-
         setRecommendations(_filterFive);
     };
-    console.log(recommendations);
+
     return (
         <Fragment>
             <div className="top-landing">
@@ -109,23 +95,25 @@ const RecommendedReviews = props => {
                 </div>
                 <div className="top-landing__results">
                     {recommendations.length ? (
-                        recommendations
-                            // .reverse()
-                            .map((recommendation, index) => {
-                                if (recommendation === undefined) return "";
-                                return (
-                                    <Review
-                                        index={index + 1}
-                                        key={recommendation._id}
-                                        review={recommendation}
-                                        printFrom={"landingPage"}
-                                    />
-                                );
-                            })
+                        recommendations.map((recommendation, index) => {
+                            if (recommendation === undefined) return "";
+                            return (
+                                <Review
+                                    index={index + 1}
+                                    key={recommendation._id}
+                                    review={recommendation}
+                                    printFrom={"landingPage"}
+                                />
+                            );
+                        })
                     ) : (
                         <div className="no-recommendations">
                             <p>No more recommendations for now.</p>
-                            <p> Keep calm and <Link to="/random">RATE GAMES</Link>!</p>
+                            <p>
+                                {" "}
+                                Keep calm and{" "}
+                                <Link to="/random">RATE GAMES</Link>!
+                            </p>
                         </div>
                     )}
                     {newbieMessage && (

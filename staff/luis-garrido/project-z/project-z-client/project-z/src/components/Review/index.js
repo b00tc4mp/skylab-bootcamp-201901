@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { withRouter, Link } from "react-router-dom";
 import "./index.sass";
 
-import logic from "../../logic";
-
 const {
     REACT_APP_THUMB: gameCover,
     REACT_APP_NOT_FOUND_IMAGE_URL: notFoundImage
@@ -13,31 +11,28 @@ const Review = ({ index, history, review, printFrom }) => {
     const [y, setY] = useState("");
     const [m, setM] = useState("");
     const [d, setD] = useState("");
-    const [h, setH] = useState("");
-    const [min, setMin] = useState("");
-    const [s, setS] = useState("");
-    const [printedFrom, setPrintedFrom] = useState("");
+    // const [h, setH] = useState("");
+    // const [min, setMin] = useState("");
+    // const [s, setS] = useState("");
 
     useEffect(() => {
-        setPrintedFrom(printFrom);
-
         const date = new Date(review.date);
 
         setY(date.getFullYear());
         setM(date.getMonth() + 1);
         setD(date.getDate());
 
-        let hour = date.getHours();
-        if (Number(hour) < 10) hour = "0" + hour;
-        setH(hour);
+        // let hour = date.getHours();
+        // if (Number(hour) < 10) hour = "0" + hour;
+        // setH(hour);
 
-        let minutes = date.getMinutes();
-        if (Number(minutes) < 10) minutes = "0" + minutes;
-        setMin(minutes);
+        // let minutes = date.getMinutes();
+        // if (Number(minutes) < 10) minutes = "0" + minutes;
+        // setMin(minutes);
 
-        let seconds = date.getSeconds();
-        if (Number(seconds) < 10) seconds = "0" + seconds;
-        setS(seconds);
+        // let seconds = date.getSeconds();
+        // if (Number(seconds) < 10) seconds = "0" + seconds;
+        // setS(seconds);
     });
 
     const starScores = score => {
@@ -56,8 +51,6 @@ const Review = ({ index, history, review, printFrom }) => {
             ? "review-card review-card--background-even"
             : "review-card";
 
-    // onClick={() => history.push(`/game/${review.game.id}`)}
-    
     return (
         <article className={reviewClass}>
             <div>

@@ -1,12 +1,10 @@
 import React, { Fragment, useState } from "react";
-import { Route, withRouter, Link } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { withRouter, Link } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import logic from "../../logic";
 import "./index.sass";
-
-// import Feedback from "../Feedback";
 
 const Register = props => {
     const [username, setUsername] = useState("");
@@ -15,11 +13,10 @@ const Register = props => {
     const [surname, setSurname] = useState("");
     const [password, setPassword] = useState("");
     const [passwordConfirmation, setPasswordConfirmation] = useState("");
-    const [feedbackRegister, setFeedbackRegister] = useState('')
 
     const notify = message => {
-        toast.dismiss()
-        toast.error(message)
+        toast.dismiss();
+        toast.error(message);
     };
 
     const handleUsername = ({ target: { value: username } }) => {
@@ -78,7 +75,6 @@ const Register = props => {
                 <div className="header">
                     <h1 className="header__title">REGISTER</h1>
                 </div>
-                {feedbackRegister && feedbackRegister}
                 <div className="forms">
                     <form
                         className="register-form"

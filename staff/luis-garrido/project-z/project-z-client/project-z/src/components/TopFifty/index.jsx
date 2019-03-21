@@ -4,16 +4,16 @@ import logic from "../../logic";
 
 import RankingCard from "../RankingCard";
 
-const TopFifty = props => {
+const TopFifty = () => {
     const [ranking, setRanking] = useState([]);
 
     useEffect(() => {
         getRanking();
     }, []);
 
-    const getRanking = async () => setRanking(await logic.retrieveBestScored('50'));
+    const getRanking = async () =>
+        setRanking(await logic.retrieveBestScored("50"));
 
-    console.log(ranking);
     return (
         <Fragment>
             <div className="top-landing">
@@ -22,8 +22,14 @@ const TopFifty = props => {
                 </div>
                 <div className="top-landing__results">
                     {ranking &&
-                        ranking.map((game,index) => {
-                            return <RankingCard index={index+1} key={game.id} game={game} />;
+                        ranking.map((game, index) => {
+                            return (
+                                <RankingCard
+                                    index={index + 1}
+                                    key={game.id}
+                                    game={game}
+                                />
+                            );
                         })}
                 </div>
             </div>

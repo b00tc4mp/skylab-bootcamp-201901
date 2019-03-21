@@ -1,7 +1,7 @@
 import React, { useEffect, useState, Fragment } from "react";
 import { withRouter } from "react-router-dom";
 import Masonry from "react-masonry-component";
-import { ToastContainer, toast } from "react-toastify";
+import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 import "./index.sass";
@@ -10,21 +10,20 @@ import logic from "../../logic";
 
 import Card from "../Card";
 
-const Results = props => {
+const Results = ({ match, history }) => {
     const [results, setResults] = useState([]);
 
     useEffect(() => {
-        searchGames(props.match.params.query);
-    }, [props.match.params.query]);
+        searchGames(match.params.query);
+    }, [match.params.query]);
 
     const searchGames = async query => {
         try {
             logic
                 .searchGames(query)
                 .then(res => setResults(res))
-                .catch(({ message }) => {
-                    // notify("No results found!")
-                    props.history.push('/noresults')
+                .catch(error => {
+                    history.push("/noresults");
                 });
         } catch (error) {
             notify(error.message);
@@ -32,8 +31,8 @@ const Results = props => {
     };
 
     const notify = message => {
-        toast.dismiss()
-        toast.error(message)
+        toast.dismiss();
+        toast.error(message);
     };
 
     const masonryOptions = {
@@ -55,12 +54,10 @@ const Results = props => {
                     disableImagesLoaded={false}
                     updateOnEachImageLoad={false}
                 >
-                    {/* <div className="results"> */}
                     {results &&
                         results.map(game => {
                             return <Card game={game} key={game.id} />;
                         })}
-                    {/* </div> */}
                 </Masonry>
             </div>
         </Fragment>

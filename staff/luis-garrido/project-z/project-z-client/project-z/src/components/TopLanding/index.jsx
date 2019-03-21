@@ -1,11 +1,11 @@
 import React, { Fragment, useState, useEffect } from "react";
-import { withRouter, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 import logic from "../../logic";
 
 import RankingCard from "../RankingCard";
 
-const TopLanding = props => {
+const TopLanding = () => {
     const [ranking, setRanking] = useState([]);
 
     useEffect(() => {
@@ -34,7 +34,7 @@ const TopLanding = props => {
                         })}
                 </div>
             </div>
-            <div className='top-landing__link'>
+            <div className="top-landing__link">
                 <Link to={`/ranking`}>Go to full ranking</Link>
             </div>
         </Fragment>

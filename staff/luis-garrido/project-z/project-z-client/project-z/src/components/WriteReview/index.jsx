@@ -1,12 +1,12 @@
-import React, { Fragment, useState, useEffect } from "react";
-import { Route, withRouter, Link } from "react-router-dom";
+import React, { Fragment, useState } from "react";
+import { withRouter } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import logic from "../../logic";
 import "./index.sass";
 
-// import Feedback from "../Feedback";
-
-const WriteReview = ({ history, gameId, gameInfo, refresh }) => {
+const WriteReview = ({ gameId, refresh }) => {
     const fullStar = "game-review-stars fas fa-star";
     const emptyStar = "game-review-stars far fa-star";
 
@@ -17,17 +17,11 @@ const WriteReview = ({ history, gameId, gameInfo, refresh }) => {
     const [reviewTitle, setReviewTitle] = useState("");
     const [reviewText, setReviewText] = useState("");
     const [reviewScore, setReviewScore] = useState("");
-    // const [preScore, setPreScore] = useState("");
 
-    // useEffect(() => {
-    //     getPreScore();
-    // }, []);
-
-    // const getPreScore = async () => {
-    //     const _preScore = await logic.getPreScore(gameId, gameInfo);
-    //     console.log(_preScore);
-    //     setPreScore(_preScore);
-    // };
+    const notify = message => {
+        toast.dismiss();
+        toast.error(message);
+    };
 
     const [starClass, setStarClass] = useState([
         emptyStar,
@@ -68,10 +62,6 @@ const WriteReview = ({ history, gameId, gameInfo, refresh }) => {
         setReviewText(reviewText);
     };
 
-    // const handleReviewScoreInput = ({ target: { value: reviewScore } }) => {
-    //     setReviewScore(reviewScore);
-    // };
-
     const handleReviewSubmit = event => {
         event.preventDefault();
 
@@ -91,10 +81,10 @@ const WriteReview = ({ history, gameId, gameInfo, refresh }) => {
                     refresh(gameId);
                 })
                 .catch(error => {
-                    console.log(error);
+                    notify(error.message);
                 });
         } catch ({ message }) {
-            console.log(message);
+            notify(message);
         }
     };
 
@@ -134,9 +124,6 @@ const WriteReview = ({ history, gameId, gameInfo, refresh }) => {
                     </div>
                     <button className="review-form__button">Rate!</button>
                 </form>
-                {/* <div>
-                    <h3>Precog data : {preScore.toString()}</h3>
-                </div> */}
             </div>
         </Fragment>
     );

@@ -1,48 +1,46 @@
 "use strict";
 
 import React, { Fragment } from "react";
-import { Route, withRouter, Link } from "react-router-dom";
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { withRouter } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import logic from "../../logic";
 import "./index.sass";
 
-const Aside = props => {
+const Aside = ({ history, searchFocus }) => {
     const getUsernameLogged = async () => {
         const user = await logic.retrieveUserInfo();
-        props.history.push(`/${user.username}`);
+        history.push(`/${user.username}`);
     };
 
     const onSearchClick = () => {
-        props.searchFocus.current.focus();
+        searchFocus.current.focus();
     };
 
     const notify = message => toast(message);
 
     const onProfileClick = () => {
-        if( logic.__userApiToken__ !== null ) {
-            logic.retrieveUserInfo()
-            .then(() => getUsernameLogged())
-            .catch(({ message }) => notify(message))
+        if (logic.__userApiToken__ !== null) {
+            logic
+                .retrieveUserInfo()
+                .then(() => getUsernameLogged())
+                .catch(({ message }) => notify(message));
+        } else {
+            history.push(`/login`);
         }
-        else {
-            props.history.push(`/login`)
-        }
-
-    }
+    };
 
     return (
         <Fragment>
-            <div className="navbar-tablet__logo"
-            onClick={() => props.history.push("/")}>
+            <div
+                className="navbar-tablet__logo"
+                onClick={() => history.push("/")}
+            >
                 <p className="navbar-tablet__logo--project">PROJECT</p>
                 <p className="navbar-tablet__logo--z">Z</p>
             </div>
-            <div
-                className="navbar-tablet__icons"
-                onClick={onProfileClick}
-            >
+            <div className="navbar-tablet__icons" onClick={onProfileClick}>
                 <i className="fas fa-user-ninja" />
             </div>
             <div className="navbar-tablet__icons" onClick={onSearchClick}>
@@ -51,19 +49,19 @@ const Aside = props => {
             <div className="navbar-tablet__icons">
                 <i
                     className="fas fa-random"
-                    onClick={() => props.history.push("/random")}
+                    onClick={() => history.push("/random")}
                 />
             </div>
             <div
                 className="navbar-tablet__icons"
-                onClick={() => props.history.push("/")}
+                onClick={() => history.push("/")}
             >
                 <i className="fas fa-house-damage" />
             </div>
 
             <div
                 className="navbar-tablet__icons"
-                onClick={() => props.history.push("/ranking")}
+                onClick={() => history.push("/ranking")}
             >
                 <i className="fas fa-trophy" />
             </div>

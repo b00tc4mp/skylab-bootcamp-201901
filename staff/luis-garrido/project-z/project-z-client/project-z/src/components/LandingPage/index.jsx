@@ -1,11 +1,11 @@
-import React, { Fragment, useState, useEffect } from "react";
+import React, { Fragment } from "react";
 
 import logic from "../../logic";
 
 import TopLanding from "../TopLanding";
 import RecommendedReviews from "../RecommendedReviews";
 
-const LandingPage = props => {
+const LandingPage = () => {
     return (
         <Fragment>
             <div className="landing-page">

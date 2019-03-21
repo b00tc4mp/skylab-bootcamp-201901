@@ -23,7 +23,6 @@ const projectZApi = {
         admin = false,
         avatar = "10"
     ) {
-       
         validate([
             { key: "admin", value: admin, type: Boolean },
             { key: "username", value: username, type: String },
@@ -39,7 +38,7 @@ const projectZApi = {
                 type: String
             }
         ]);
-        
+
         return fetch(`${this.url}/user`, {
             method: "POST",
             headers: {
@@ -58,9 +57,9 @@ const projectZApi = {
         })
             .then(response => response.json())
             .then(({ error, id }) => {
-                // console.log(id, error);
                 if (error) {
-                    throw Error(error);}
+                    throw Error(error);
+                }
 
                 return id;
             });
@@ -110,7 +109,6 @@ const projectZApi = {
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error);
-                console.log(response);
                 return response;
             });
     },
@@ -202,7 +200,6 @@ const projectZApi = {
     },
 
     postReview(token, gameId, title, text, score) {
-        
         validate([
             { key: "token", value: token, type: String },
             { key: "gameId", value: gameId, type: String },
@@ -210,7 +207,7 @@ const projectZApi = {
             { key: "title", value: title, type: String, optional: true },
             { key: "score", value: score, type: Number }
         ]);
-        
+
         if (score < 0 || score > 5)
             throw Error("score must be between 0 and 5");
 
@@ -232,9 +229,7 @@ const projectZApi = {
     },
 
     retrieveBestScored(limit) {
-        validate([
-            { key: "limit", value: limit, type: String },
-        ])
+        validate([{ key: "limit", value: limit, type: String }]);
 
         return fetch(`${this.url}/ranking/${limit}`)
             .then(response => response.json())
@@ -294,217 +289,6 @@ const projectZApi = {
                 return response;
             });
     }
-
-    // /**
-    //  * Searches artists.
-    //  *
-    //  * @param {string} query - The text to match on artists search.
-    //  * @retuns {Promise} - Resolves with artists, otherwise rejects with error.
-    //  *
-    //  * @throws {TypeError} - On wrong parameters type.
-    //  * @throws {Error} - On empty parameters value.
-    //  */
-    // searchArtists(query) {
-    //     if (typeof query !== 'string') throw TypeError(`${query} is not a string`)
-
-    //     if (!query.trim().length) throw Error('query is empty')
-
-    //     return fetch(`${this.url}/artists?q=${query}`)
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             if (response.error) throw Error(response.error)
-
-    //             return response
-    //         })
-    // },
-
-    // /**
-    //  * Retrieves an artist.
-    //  *
-    //  * @param {string} artistId - The artist to retrieve.
-    //  * @returns {Promise} - Resolves with albums, otherwise rejects with error.
-    //  *
-    //  * @throws {TypeError} - On wrong parameters type.
-    //  * @throws {Error} - On empty parameters value.
-    //  */
-    // retrieveArtist(artistId) {
-    //     if (typeof artistId !== 'string') throw TypeError(`${artistId} is not a string`)
-
-    //     if (!artistId.trim().length) throw Error('artistId is empty')
-
-    //     return fetch(`${this.url}/artists/${artistId}`, {
-    //         headers: {
-    //             authorization: `Bearer ${this.token}`
-    //         }
-    //     })
-    //         .then(response => response.json())
-    // },
-
-    // /**
-    //  * Adds a user comment to an artist.
-    //  *
-    //  * @param {string} token - The access token.
-    //  * @param {string} artistId - The artist id.
-    //  * @param {string} text - The comment text.
-    //  *
-    //  * @throws {TypeError} - On wrong parameters type.
-    //  * @throws {Error} - On empty parameters value.
-    //  */
-    // addCommentToArtist(token, artistId, text) {
-    //     // TODO validate arguments
-
-    //     return fetch(`${this.url}/artist/${artistId}/comment`, {
-    //         method: 'POST',
-    //         headers: {
-    //             authorization: `Bearer ${token}`,
-    //             'content-type': 'application/json'
-    //         },
-    //         body: JSON.stringify({ text })
-    //     })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             if (response.error) throw Error(response.error)
-
-    //             return response.id
-    //         })
-    // },
-
-    // /**
-    //  * Lists comments from an artist.
-    //  *
-    //  * @param {string} token - The access token.
-    //  * @param {string} artistId - The artist id.
-    //  *
-    //  * @throws {TypeError} - On wrong parameters type.
-    //  * @throws {Error} - On empty parameters value.
-    //  */
-    // listCommentsFromArtist(token, artistId) {
-    //     // TODO validate arguments
-
-    //     return fetch(`${this.url}/artist/${artistId}/comment`, {
-    //         method: 'GET',
-    //         headers: {
-    //             authorization: `Bearer ${token}`,
-    //             'content-type': 'application/json'
-    //         }
-    //     })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             if (response.error) throw Error(response.error)
-
-    //             response.forEach(comment => comment.date = new Date(comment.date))
-
-    //             return response
-    //         })
-    // },
-
-    // /**
-    //  * Retrieves albums from artist.
-    //  *
-    //  * @param {string} artistId - The artist to retrieve albums from.
-    //  * @returns {Promise} - Resolves with albums, otherwise rejects with error.
-    //  *
-    //  * @throws {TypeError} - On wrong parameters type.
-    //  * @throws {Error} - On empty parameters value.
-    //  */
-    // retrieveAlbums(artistId) {
-    //     if (typeof artistId !== 'string') throw TypeError(`${artistId} is not a string`)
-
-    //     if (!artistId.trim().length) throw Error('artistId is empty')
-
-    //     return fetch(`${this.url}/artists/${artistId}/albums`, {
-    //         headers: {
-    //             authorization: `Bearer ${this.token}`
-    //         }
-    //     })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             if (response.error) throw Error(response.error)
-
-    //             return response
-    //         })
-    // },
-
-    // /**
-    //  * Retrieves an album.
-    //  *
-    //  * @param {string} albumId - The album to retrieve.
-    //  * @preturns {Promise} - Resolves with tracks, otherwise rejects with error.
-    //  *
-    //  * @throws {TypeError} - On wrong parameters type.
-    //  * @throws {Error} - On empty parameters value.
-    //  */
-    // retrieveAlbum(albumId) {
-    //     if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
-
-    //     if (!albumId.trim().length) throw Error('albumId is empty')
-
-    //     return fetch(`${this.url}/albums/${albumId}`, {
-    //         headers: {
-    //             authorization: `Bearer ${this.token}`
-    //         }
-    //     })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             if (response.error) throw Error(response.error)
-
-    //             return response
-    //         })
-    // },
-
-    // /**
-    //  * Retrieves tracks from album.
-    //  *
-    //  * @param {string} albumId - The album to retrieve tracks from.
-    //  * @preturns {Promise} - Resolves with tracks, otherwise rejects with error.
-    //  *
-    //  * @throws {TypeError} - On wrong parameters type.
-    //  * @throws {Error} - On empty parameters value.
-    //  */
-    // retrieveTracks(albumId) {
-    //     if (typeof albumId !== 'string') throw TypeError(`${albumId} is not a string`)
-
-    //     if (!albumId.trim().length) throw Error('albumId is empty')
-
-    //     return fetch(`${this.url}/albums/${albumId}/tracks`, {
-    //         headers: {
-    //             authorization: `Bearer ${this.token}`
-    //         }
-    //     })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             if (response.error) throw Error(response.error)
-
-    //             return response
-    //         })
-    // },
-
-    // /**
-    //  * Retrieves track.
-    //  *
-    //  * @param {string} trackId - The id of the track to be retrieved.
-    //  * @returns {Promise} Resolves with track, otherwise rejects with error.
-    //  *
-    //  * @throws {TypeError} - On wrong parameters type.
-    //  * @throws {Error} - On empty parameters value.
-    //  */
-    // retrieveTrack(trackId) {
-    //     if (typeof trackId !== 'string') throw TypeError(`${trackId} is not a string`)
-
-    //     if (!trackId.trim().length) throw Error('trackId is empty')
-
-    //     return fetch(`${this.url}/tracks/${trackId}`, {
-    //         headers: {
-    //             authorization: `Bearer ${this.token}`
-    //         }
-    //     })
-    //         .then(response => response.json())
-    //         .then(response => {
-    //             if (response.error) throw Error(response.error)
-
-    //             return response
-    //         })
-    // }
 };
 
 export default projectZApi;
