@@ -37,7 +37,7 @@ class ConversationCard extends Component {
         {
             return interlocutorName && <div onClick={() => contactButton(interlocutorId)} className="conversationCard">
 
-                {/* <img className="ConversationCard__img" src={images[0]}></img> */}
+                <img className="conversationCard__img" src="http://monumentfamilydentistry.com/wp-content/uploads/2015/11/user-placeholder.png"></img>
                 <p className="conversationCard__text" >{interlocutorName}</p>
 
             </div>
