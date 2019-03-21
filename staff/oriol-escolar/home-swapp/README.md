@@ -1,6 +1,6 @@
 # HomeSwapp
 
-## [Documentation](doc/README.md)
+## [Documentation](home-swapp-doc/README.md)
 
 ## [Demo](https://myhouseswapp.surge.sh/#/)
 
