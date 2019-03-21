@@ -16,6 +16,8 @@ App that users can create posts about food content.
 - [x] Infinite Scroll
 - [ ] Implement React Virtual List
 - [ ] Image optimization
+- [ ] Refactor Logic
+- [ ] Change mongoose schemas
 - [ ] Upload profile image
 - [ ] Delete comments
 
