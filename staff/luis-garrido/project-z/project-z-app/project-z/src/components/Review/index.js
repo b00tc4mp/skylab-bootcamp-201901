@@ -44,7 +44,6 @@ const Review = ({ index, history, review, printFrom }) => {
         }
         return stars;
     };
-    console.log(review);
 
     const reviewClass =
         index % 2 === 0

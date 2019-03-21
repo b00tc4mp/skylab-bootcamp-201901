@@ -4,8 +4,14 @@
 
 ## Description
 
-Project Z is the perfect place to keep track of your videogame collection, rate games and receive recommendations based on a **trained AI**.
+Project Z is a videogame database where you can search, rate the games you play, and find videogames recommendations based on users similars to you, and your favorites genres, platforms and developers.
 
+---
+
+## [Documentation](./docs/README.md "Documentation")
+---
+
+## [Demo](https://projectz.surge.sh "PROJECT Z")
 ---
 
 ## Trello board
