@@ -1,12 +1,10 @@
 require('dotenv').config()
 require('isomorphic-fetch')
 
-// const mongoose = require('mongoose')
 const { mongoose } = require('startlab-data')
 const express = require('express')
 const bodyParser = require('body-parser')
 
-// const logic = require('./logic')
 const cors = require('./cors')
 const tokenHelper = require('./token-helper')
 const { tokenVerifierMiddleware } = tokenHelper

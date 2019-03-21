@@ -120,7 +120,7 @@ const logic = {
 
         return skylabApi.checkCode(answer, exerciseId, this.__userApiToken__)
             .then(result => {
-                if (!result.tests.length) throw Error('there was an error checking the answer. Please try again')
+                if (!result.tests.length) throw Error('review your test sintaxis')
                 return { passes: result.passes, failures: result.failures }
             })
     },

@@ -14,7 +14,7 @@ function InvitationItem({ results: {email, status, id}, myKey, onDelete, onSendI
                 </div>
             
                 <div className="itemlist-item__footer message-body">
-                    <button className="itemlist-item__footer-edit button is-small" onClick={() => onSendInvitationEmail(id, email)}>Send email invitation</button>
+                    <button className="itemlist-item__footer-edit button is-small" onClick={() => onSendInvitationEmail(id, email)}>Send email</button>
 
                     <div className="itemlist-item__footer-theme tags has-addons">
                         <span className="tag">Status</span>

@@ -2,7 +2,6 @@
 
 const bcrypt = require('bcrypt')
 const fs = require('fs')
-const vm = require('vm')
 
 var Mocha = require('mocha')
 var path = require('path')
@@ -18,9 +17,16 @@ const logic = {
 
     jwtSecret: null,
 
-    /******************/
-    /** User methods **/
-    /******************/
+    /**
+    * Registers a user and creates the user folder
+    * 
+    * @param {string} name 
+    * @param {string} surname 
+    * @param {string} email 
+    * @param {string} password 
+    * @param {string} passwordConfirm
+    *  
+    */
 
     registerUser(name, surname, email, password, passwordConfirm) {
 
@@ -41,7 +47,7 @@ const logic = {
         if (password !== passwordConfirm) throw Error('passwords do not match')
 
         return this.__isEmailInvited__(email)
-            .then(isInvited => { 
+            .then(isInvited => {
                 if (!isInvited) throw Error('only invited users can registered')
 
                 return User.findOne({ email })
@@ -58,6 +64,12 @@ const logic = {
             })
     },
 
+    /**
+    * Creates the user folder
+    * 
+    * @param {string} userId 
+    */
+
     __createUserFolder__(userId) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -68,6 +80,12 @@ const logic = {
             fs.mkdirSync(directoryToUserFiles)
         }
     },
+
+    /**
+    * Fill historical exercises for students
+    * 
+    * @param {string} userId 
+    */
 
     __fillExercisesToUser__(userId) {
 
@@ -91,6 +109,12 @@ const logic = {
             })
     },
 
+    /**
+    * Checks if an email is invited
+    * 
+    * @param {string} email 
+    */
+
     __isEmailInvited__(email) {
         if (typeof email !== 'string') throw TypeError(email + ' is not a string')
         if (!email.trim().length) throw Error('email cannot be empty')
@@ -101,6 +125,12 @@ const logic = {
                 return (invitation.status === 'sent')
             })
     },
+
+    /**
+    * get user data
+    * 
+    * @param {string} userId 
+    */
 
     retrieveUser(userId) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
@@ -115,6 +145,13 @@ const logic = {
                 return user
             })
     },
+
+    /**
+     * Authenticates user by its credentials.
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     */
 
     authenticateUser(email, password) {
 
@@ -136,9 +173,16 @@ const logic = {
             })
     },
 
-    /********************/
-    /** CRUD exercise ***/
-    /********************/
+    /**
+     * Creates an exercise
+     * 
+     * @param {string} userId 
+     * @param {string} title 
+     * @param {string} summary 
+     * @param {string} test 
+     * @param {number} theme 
+     * @param {number} order 
+     */
 
     createExercise(userId, title, summary, test, theme, order) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
@@ -178,6 +222,13 @@ const logic = {
 
     },
 
+    /**
+     * Retrieves an exercise
+     * 
+     * @param {string} userId 
+     * @param {string} exerciseId 
+     */
+
     retrieveExercise(userId, exerciseId) {
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
@@ -200,6 +251,13 @@ const logic = {
                     })
             })
     },
+
+    /**
+     * Deletes an exercise
+     * 
+     * @param {string} userId 
+     * @param {string} exerciseId 
+     */
 
     deleteExercise(userId, exerciseId) {
 
@@ -230,6 +288,13 @@ const logic = {
                     })
             })
     },
+
+    /**
+     * Updates an exercise
+     * 
+     * @param {string} userId 
+     * @param {object} exercise 
+     */
 
     updateExercise(userId, exercise) {
 
@@ -262,6 +327,13 @@ const logic = {
 
     },
 
+    /**
+     * List exercises
+     * 
+     * @param {string} userId 
+     * @param {object} exercise 
+     */
+
     listExercises(userId) {
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
@@ -281,6 +353,12 @@ const logic = {
             })
     },
 
+    /**
+     * Gets exercises from the user
+     * 
+     * @param {string} userId 
+     */
+
     getExercisesFromUser(userId) {
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
@@ -292,6 +370,14 @@ const logic = {
                 return user.historical
             })
     },
+
+    /**
+     * Update exercise from the user
+     * 
+     * @param {string} userId 
+     * @param {string} historicalId 
+     * @param {string} answer 
+     */
 
     updateExerciseFromUser(userId, historicalId, answer) {
 
@@ -319,9 +405,12 @@ const logic = {
             })
     },
 
-    /***************************/
-    /*** Invitations methods ***/
-    /***************************/
+    /**
+     * Retrieve an invitation
+     * 
+     * @param {string} userId 
+     * @param {string} invitationId 
+     */
 
     retrieveInvitation(userId, invitationId) {
 
@@ -348,6 +437,13 @@ const logic = {
             })
     },
 
+    /**
+     * Creates an invitation
+     * 
+     * @param {string} userId 
+     * @param {string} email 
+     */
+
     createInvitation(userId, email) {
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
@@ -368,6 +464,12 @@ const logic = {
             })
 
     },
+
+    /**
+     * List invitations
+     * 
+     * @param {string} userId 
+     */
 
     listInvitations(userId) {
 
@@ -394,6 +496,13 @@ const logic = {
             })
     },
 
+    /**
+     * Deletes an invitation
+     * 
+     * @param {string} userId 
+     * @param {string} invitationId 
+     */
+
     deleteInvitation(userId, invitationId) {
 
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
@@ -418,6 +527,13 @@ const logic = {
                     })
             })
     },
+
+    /**
+     * Updates an invitation
+     * 
+     * @param {string} userId 
+     * @param {object} invitation
+     */
 
     updateInvitation(userId, invitation) {
 
@@ -444,9 +560,14 @@ const logic = {
 
     },
 
-    /********************/
-    /*** Code methods ***/
-    /********************/
+    /**
+     * checks an answer from the student
+     * 
+     * @param {string} userId 
+     * @param {string} answer
+     * @param {string} exerciseId 
+     * @param {function} callback 
+     */
 
     checkAnswer(userId, answer, exerciseId, callback) {
 
@@ -461,51 +582,42 @@ const logic = {
 
         if (typeof callback !== 'function') throw TypeError(`${callback} is not a function`)
 
-        // const unit = `function target(){${answer}}module.exports = target` // we have to wrapped in a function target
-
-        var MyReporter = require('./reporter')
+        const MyReporter = require('./reporter')
         MyReporter.callback = callback
 
-        // we need to pass from mongo the file where test file is located
-        var exerciseFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`)
-        var exerciseUserFile = path.join(process.cwd(), 'src', 'answer-files', userId, `${exerciseId}.js`)
-
+        const exerciseFile = path.join(process.cwd(), 'src', 'test-files', `${exerciseId}.js`) // test file
+        const exerciseUserFile = path.join(process.cwd(), 'src', 'answer-files', userId, `${exerciseId}.js`) // test with answer file
 
         let testFromFile
-        if (fs.existsSync(exerciseFile)) { // read exerciseFile if exists
+        if (fs.existsSync(exerciseFile)) {
             testFromFile = fs.readFileSync(exerciseFile, 'utf8')
         }
 
-        var dataReplaced = testFromFile.replace(/TARGET/g, answer)
+        const dataReplaced = testFromFile.replace(/TARGET/g, answer)
 
         fs.writeFileSync(exerciseUserFile, dataReplaced, 'utf-8')
 
-        var mocha = new Mocha({ 
-            timeout: 50, 
-            reporter: MyReporter 
-        })
-        var Suite = Mocha.Suite
+        const mocha = new Mocha({ reporter: MyReporter })
+        const Suite = Mocha.Suite
 
-        // mocha.enableTimeouts(true)
-        
-        // /** passing target in mocha context **/
-        // mocha.suite.on(Suite.constants.EVENT_FILE_PRE_REQUIRE, function (context) {
-        //     context.target = ctx.target
-        // })
-
-        delete require.cache[require.resolve(exerciseUserFile)] 
-        // clean cache from mocha "confirmed bug"
-        // https://github.com/mochajs/mocha/issues/1938
-
+        // clean cache "confirmed bug" - https://github.com/mochajs/mocha/issues/1938
+        delete require.cache[require.resolve(exerciseUserFile)]
 
         // Add the test to mocha before run
         mocha.addFile(exerciseUserFile)
 
-        // Run the tests
         mocha.run(function (failures) {
             process.exitCode = failures ? 1 : 0  // exit with non-zero status if there were failures
         })
     },
+
+    /**
+     * change exercise status 
+     * 
+     * @param {string} userId 
+     * @param {string} answer
+     * @param {string} exerciseId 
+     */
 
     __changeStatusExerciseFromUser__(userId, answer, exerciseId) {
 
@@ -535,6 +647,13 @@ const logic = {
             })
     },
 
+    /**
+     * change exercise status 
+     * 
+     * @param {string} userId 
+     * @param {string} invitationId
+     */
+
     __changeStatusInvitation__(userId, invitationId) {
         if (typeof userId !== 'string') throw TypeError(userId + ' is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -552,6 +671,14 @@ const logic = {
                     })
             })
     },
+
+    /**
+     * change exercise status 
+     * 
+     * @param {string} userId 
+     * @param {string} email 
+     * @param {string} invitationId
+     */
 
     sendInvitationEmail(userId, email, invitationId) {
 

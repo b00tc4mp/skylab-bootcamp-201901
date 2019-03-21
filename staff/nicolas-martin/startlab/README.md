@@ -1,8 +1,12 @@
 # STARTLAB
-**Startlab** is an app to App to check the answer to javacript exercises from students
+**Startlab** is an app to verify the minimum knowledge of Javascript required to start in the Skylab Academy. Also can be useful for any academy or teacher interested in create their own javascript exercises for their students.
 
-## [Documentation](doc/README.md)
-## [Live Demo](https://undefined-skylab.surge.sh)
+**Startlab** app use Mocha to run the test created by the admin and check if the answer from the student is correct or not.
+
+**Startlab** students needs an invitation to start the test.
+
+## [Documentation](startlab-doc/README.md)
+## [Live Demo](https://startlab.surge.sh)
 
 ## Available Scripts for development
 

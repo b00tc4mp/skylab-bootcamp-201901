@@ -98,22 +98,6 @@ class ExerciseForm extends Component {
         }
     }
 
-    // handleTestSubmit = event => {
-    //     event.preventDefault()
-    //     // const { state: { answer, id: exerciseId } } = this
-    //     const { state: { answer } } = this
-
-    //     try {
-    //         // logic.checkCode(answer, exerciseId)
-    //         //     .then(({ passes, failures }) => {
-    //         //         this.setState({ passes, failures, checkCode: true })
-    //         //     })
-    //         //     .catch(({ message }) => this.emitFeedback(message, 'error'))
-    //     } catch ({ message }) {
-    //         this.emitFeedback(message, 'error')
-    //     }
-    // }
-
     render() {
         const { state: { pageTitle, title, summary, test, theme },
             handleFormSubmit, handleTitleInput,
@@ -173,32 +157,7 @@ class ExerciseForm extends Component {
 
                     <button className="button is-info" type="submit">Save</button>
                 </form>
-
-                {/* {checkCode && <ResultsTest failures={failures} passes={passes} />} */}
                 <hr />
-
-                {/* <form onSubmit={handleTestSubmit}>
-                    <label className="label" htmlFor="exercise-form__editor">Test an answer</label>
-                    <Editor
-                        className='exercise-form__editor'
-                        value={answer}
-                        onValueChange={answer => this.setState({ answer })}
-                        highlight={answer => highlight(answer, languages.js)}
-                        padding={10}
-                        style={{
-                            fontFamily: '"Fira code", "Fira Mono", monospace',
-                            fontSize: 16,
-                        }}
-                        textareaId='exercise-form__editor'
-                        tabSize={4}
-                        rows="10"
-                        required
-                    />
-
-                    <button className="button is-warning">Send</button>
-                </form> */}
-
-                {/* <AnswerForm manageChange={handleAnswerInput} manageSubmit={handleTestSubmit} previousAnswer={answer} /> */}
             </section>
         )
     }

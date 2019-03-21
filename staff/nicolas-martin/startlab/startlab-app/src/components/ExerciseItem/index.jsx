@@ -7,8 +7,8 @@ function ExerciseItem({ results: {title, order, summary, id, theme}, myKey, onEd
         
             <div className="itemlist-item__header message-header">
             
-                <div className="tags has-addons">
-                    <span className="tag">{title}</span>
+                <div className="itemlist-item__header__title tags has-addons">
+                    <h3>{title}</h3>
                 </div>
 
                 <div className="itemlist-item__header__buttons">
