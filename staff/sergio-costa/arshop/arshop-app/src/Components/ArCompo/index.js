@@ -75,7 +75,7 @@ class ArCompo extends Component {
             Close
             </button>
             <a-scene embedded artoolkit='sourceType: webcam'>
-                <a-entity obj-model={`obj: url(models/avion.obj)`} position="0 0 0" rotation="-90 180 180" scale="0.1 0.1 0.1"></a-entity>
+                <a-entity obj-model={`obj: url(${REACT_APP_API_URL}/object3d/${this.props.productId}.obj)`} position="0 0 0" rotation="-90 180 180" scale="0.1 0.1 0.1"></a-entity>
                 <a-marker-camera preset='hiro'></a-marker-camera>
             </a-scene>
         </section>
