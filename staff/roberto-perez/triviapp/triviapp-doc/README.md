@@ -6,6 +6,11 @@
 [![react version](https://img.shields.io/badge/mongoose-5.4.19-red.svg)](https://www.npmjs.com/package/mongoose/v/5.4.19) 
 
 
+<p align="center">
+<img src="https://media.giphy.com/media/SV09Wp6hvMW7m/giphy.gif" >
+<img src="images/captura.png" style="margin: 0px 10px; 60px 0px">
+</p>
+
 ## Introduction
 
 TriviAPP is a platform that enables the creation of test-type evaluation questionnaires so that users can play in real time.
@@ -54,3 +59,32 @@ Users can:
 ![APP code coverage](images/api-coverage4.png)
 ![APP code coverage](images/api-coverage2.png)
 ![APP code coverage](images/api-coverage3.png)
+
+<p align="center">
+* 
+</p>
+<p align="center">
+* 
+</p>
+<p align="center">
+* 
+</p>
+<p align="center">
+* 
+</p>
+<p align="center">
+* 
+</p>
+<p align="center">
+* 
+</p>
+<p align="center">
+* 
+</p>
+<p align="center">
+* 
+</p>
+
+<p align="center">
+<img src="https://media.giphy.com/media/3oEjHGr1Fhz0kyv8Ig/giphy.gif">
+
