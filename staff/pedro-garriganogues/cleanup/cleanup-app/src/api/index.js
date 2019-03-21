@@ -1,8 +1,8 @@
 const axios = require('axios')
 
 const cleanUpApi = {
-    url: 'http://localhost:8000',
-    // url: 'https://glacial-chamber-34618.herokuapp.com',
+    // url: 'http://localhost:8000',
+    url: 'https://glacial-chamber-34618.herokuapp.com',
 
     registerUser(name, surname, email, password, passwordConfirmation) {
 

@@ -60,7 +60,7 @@ class Order extends Component {
         }
         Toast.fire({
             type: 'success',
-            title: 'Thank you for your purchase'
+            title: 'Thank you for your order'
         })
     }
 
