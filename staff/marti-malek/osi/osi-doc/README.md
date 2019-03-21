@@ -14,13 +14,13 @@ The user also has a clock and a toolbar embedded in desktop. With the toolbar yo
 
 ![Use cases Diagram](images/Use-cases.jpg)
 
-##Technical Description
+## Technical Description
 
-##Blocks
+### Blocks
 
 ![Blocks Diagram](images/Blocks.jpg)
 
-##Data Model
+## Data Model
 
 ![Data model Diagram](images/Data-model.jpg)
 
