@@ -8,7 +8,7 @@ Project Z is a videogame database where you can search, rate the games you play,
 
 ---
 
-## [Documentation](./docs/README.md "Documentation")
+## [Documentation](./project-z-docs/README.md "Documentation")
 ---
 
 ## [Demo](https://projectz.surge.sh "PROJECT Z")
