@@ -1,7 +1,7 @@
 'use strict'
 
 import React, { useState, useEffect } from 'react'
-import { withRouter} from 'react-router-dom'
+import { withRouter } from 'react-router-dom'
 
 import SlideShow from '../SlideShow'
 import BoatInfo from '../BoatInfo'
@@ -71,7 +71,7 @@ function EditProfile(props) {
             setfeedback('')
             setAddBoat(false)
             setBoatIdToEdit('')
-        
+
             setBoats(user.boats)
 
         } catch (error) {
@@ -197,13 +197,13 @@ function EditProfile(props) {
                 {addBoat ? <Boat getBoat={getBoats} initialBoat={null} cancelBoat={() => setAddBoat(false)} /> : <div />}
                 <button onClick={() => setAddBoat(true)} className='profileEdit__addBoat'>Add Boat</button>
 
-                <div>
-                    <h3 className='profileInfo__titleSection'>More...</h3>
-                    <h5>Talents</h5>
+                <h3 className='profileInfo__titleSection'>More...</h3>
+                <div className='profileEdit__more'>
+                    <h5 className='profileEdit__titleSubSection'>Talents</h5>
                     {talents !== null && <Talents getChecks={talents => setTalents(talents)} initialChecks={talents} />}
-                    <h5>Experience</h5>
+                    <h5 className='profileEdit__titleSubSection'>Experience</h5>
                     {experience !== null && <Experience getExperience={experience => setExperience(experience)} initialExperience={experience} />}
-                    <h5>Language</h5>
+                    <h5 className='profileEdit__titleSubSection'>Language</h5>
                     {languages !== null && <Language getLanguages={languages => setLanguages(languages)} initialLanguages={languages} />}
                 </div>
 

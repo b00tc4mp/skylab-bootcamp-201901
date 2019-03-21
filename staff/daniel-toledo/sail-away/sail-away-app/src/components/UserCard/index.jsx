@@ -17,7 +17,7 @@ function UserCard(props) {
     let isFavorite, user
 
     useEffect(() => {
-        getUser()
+        if(logic.isUserLoggedIn) getUser()
 
     }, [])
 
@@ -59,7 +59,7 @@ function UserCard(props) {
                     <div className='user-card__buttons'>
                         <button onClick={() => props.history.push(`/user/${user.id}`)} className='user-card__button'>more</button>
                         <a href={`mailto:${user.email}`} className='user-card__link'>contact</a>
-                        <button onClick={() => toggleFavorite(user.id)} className={`user-card__favorite${isFavorite} fas fa-heart`}></button>
+                        <button onClick={() => toggleFavorite(user.id)} className={`user-card__favorite user-card__favorite${isFavorite} fas fa-heart`}></button>
                     </div>
                 </section>)
             })

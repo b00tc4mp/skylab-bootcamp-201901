@@ -74,7 +74,7 @@ function MapDisplay({ google, markers, seaId }) {
             }
 
         </Map>
-        {feedback ? <Feedback message={feedback} /> : <div />})
+        {feedback ? <Feedback message={feedback} /> : <div />}
         </div>)
 }
 

@@ -18,9 +18,11 @@ function UpdatePictures({ getPictures, boatId }) {
         const newPictures = [...pictures, newPictureBlob]
         setPictures(newPictures)
         getPictures(newPictures)
+        
         try {
+            if (pictures instanceof Blob){
             const result = await logic.updatePicture(pictures, boatId)
-            getPictures(result.pictures)
+            getPictures(result.pictures)}
 
         } catch (error) {
             setfeedback(error.message)

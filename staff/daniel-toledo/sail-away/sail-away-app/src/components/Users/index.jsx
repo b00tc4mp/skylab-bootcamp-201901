@@ -38,6 +38,8 @@ function Users() {
     async function handleSearch() {
         try {
             setfeedback('')
+            setUsers([])
+            debugger
             let findedUsers = await logic.searchUsers(talents, languages)
             findedUsers.length ? setUsers(findedUsers) : setfeedback('No results for this parameters. Try something different :)')
             setLanguages([])
@@ -65,7 +67,7 @@ function Users() {
                     <main className="talents">
                         {
                             [...Array(counter)].map((count, index) =>
-                                <div>
+                                <div key={index}>
                                     <select name="talents" onChange={event => handleChange(event, index)} key={counter} value={talents[index]} className='languages__language'>
                                         <option value={'Select talent'} key={'select talent'}>Select talent</option>
                                         {

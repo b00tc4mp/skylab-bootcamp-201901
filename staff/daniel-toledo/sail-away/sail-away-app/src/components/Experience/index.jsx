@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Link } from 'react-router-dom'
 
+import './index.sass'
 
 function Experience({ getExperience, initialExperience }) {
 
@@ -14,7 +15,7 @@ function Experience({ getExperience, initialExperience }) {
     }
 
     return (<main className="experienceRange">
-        <input onChange={handleExperience} type="range" min="0" max='10000' value={experience}/>
+        <input onChange={handleExperience} className='experienceRange__input' type="range" min="0" max='10000' value={experience}/>
     </main>)
 }
 

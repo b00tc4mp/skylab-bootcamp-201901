@@ -51,11 +51,7 @@ const User = new Schema({
 
     experience: Number,
 
-    // sailingTitles: [String],
-
     languages: [String],
-
-    reviews: [Object],
 
     favoriteJourneys: [String],
 

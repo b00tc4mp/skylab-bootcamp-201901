@@ -36,7 +36,7 @@ function App(props) {
     }
 
     return (<main className="app">
-        <Nav toggleMenu={handleToggleMenu} isOpen={menu} isLogged={logged} isLanding={window.location.hash === '#/'} />
+        <Nav toggleMenu={handleToggleMenu} isOpen={menu} isLogged={logged} />
         <div className='menuApp'>
             <div className={`menu__${menu} ml-auto`}>
                 <Menu isLogged={()=>setLogged(false)}/>

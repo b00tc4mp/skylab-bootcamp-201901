@@ -17,7 +17,8 @@ function JourneyCard(props) {
     let isFavorite
 
     useEffect(() => {
-        getUser()
+        if(logic.isUserLoggedIn) getUser()
+
     }, [])
 
     async function getUser() {
@@ -60,7 +61,7 @@ function JourneyCard(props) {
                         <button onClick={() => props.history.push(`/user/${journey.userId}`)} className='journey-card__button'>capitan</button>
                         {!edit && <button className='journey-card__button'>contact</button>}
                         {edit && < button onClick={() => props.history.push(`/edit-journey/${journey.id}`)} className='journey-card__button'>edit</button>}
-                        <button onClick={() => toggleJourneyFavorite(journey.id)} className={`journey-card__favorite${isFavorite} fas fa-heart`}></button>
+                        <button onClick={() => toggleJourneyFavorite(journey.id)} className={`journey-card__favorite journey-card__favorite${isFavorite} fas fa-heart`}></button>
                     </div>
                 </section>)
             })

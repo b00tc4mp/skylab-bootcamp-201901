@@ -109,12 +109,10 @@ function JourneyCreate(props) {
     async function handleOnSubmit() {
         try {
             let journeyCreated
-            let sailingTitles = []
             let boat = getBoat(boatSelected)
             let datesString=[dates[0].toString().substring(0,15), dates[1].toString().substring(0,15)]
-           
-            if (isEdit) journeyCreated= await logic.updateJourney(id, title, seaIdSelection, route, datesString, description, userId, boat, talents, experience, sailingTitles, languages)
-            else journeyCreated= await logic.generateJourney(title, seaIdSelection, route, dates, description, userId, boat, talents, experience, sailingTitles, languages)
+            if (isEdit) journeyCreated= await logic.updateJourney(id, title, seaIdSelection, route, datesString, description, userId, boat, talents, experience, languages)
+            else journeyCreated= await logic.generateJourney(title, seaIdSelection, route, dates, description, userId, boat, talents, experience, languages)
             setfeedback('')
            
             props.history.push(`/journey/${journeyCreated.id}`)
