@@ -11,13 +11,6 @@ const cloudinary = require('cloudinary').v2;
 
 var fs = require('fs');
 
-// const cloudinary = require('cloudinary');
-// cloudinary.config({
-// 	cloud_name: cloudName,
-// 	api_key: apiKey,
-// 	api_secret: apiSecret,
-// });
-
 exports.upload = (req, res) => {
 	res.status(httpStatus.OK);
 	return res.json(req.image);

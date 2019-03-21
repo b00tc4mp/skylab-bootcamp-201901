@@ -6,18 +6,9 @@ const question = require('../logic/question');
 const { handleResponseError } = require('../routes/routes-helper');
 const { UnauthorizedError } = require('../errors');
 
-/**
- * Load user and append to req.
- * @public
- */
 exports.load = async (req, res, next, id) => {
-	// const {
-	// 	params: { quizId },
-	// } = req;
-
 	try {
-		// const quiz = await  Quiz.get(quizId);
-		const question = await Question.get(id)
+		const question = await Question.get(id);
 		req.locals = { question };
 		return next();
 	} catch (error) {
@@ -25,22 +16,18 @@ exports.load = async (req, res, next, id) => {
 	}
 };
 
-/**
- * Get quiz
- * @public
- */
 exports.get = (req, res) => {
 	const {
 		params: { quizId },
 	} = req;
-	res.json(req.locals.question.normalize())
+	res.json(req.locals.question.normalize());
 };
 
 exports.create = async (req, res, next) => {
 	const {
 		params: { quizId },
 	} = req;
-	
+
 	try {
 		req.body.quiz = quizId;
 		const questionAdd = await question.createQuestion(req.body);
@@ -52,18 +39,17 @@ exports.create = async (req, res, next) => {
 };
 
 exports.update = async (req, res) => {
-	// const {
-	// 	params: { quizId },
-	// } = req;
 	try {
-		const questionUpdated = await question.updateQuestion(req.locals.question, req.body);
+		const questionUpdated = await question.updateQuestion(
+			req.locals.question,
+			req.body,
+		);
 		res.status(httpStatus.OK);
 		return res.json(questionUpdated);
 	} catch (error) {
 		handleResponseError(error, res);
 	}
 };
-
 
 exports.remove = async (req, res, next) => {
 	try {
@@ -72,4 +58,4 @@ exports.remove = async (req, res, next) => {
 	} catch (error) {
 		handleResponseError(error, res);
 	}
-  };
+};

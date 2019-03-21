@@ -8,8 +8,7 @@ const httpStatus = require('http-status');
 const { NotFoundError } = require('triviapp-errors');
 
 /**
- * Answer Schema
- * @private
+ * AnswerGame Schema
  */
 const answerGameSchema = new mongoose.Schema(
 	{
@@ -56,10 +55,10 @@ answerGameSchema.method({
  */
 answerGameSchema.statics = {
 	/**
-	 * Get answer
+	 * Get answer game
 	 *
-	 * @param {ObjectId} id - The objectId of answer.
-	 * @returns {Promise<Answer, Error>}
+	 * @param {ObjectId} id
+	 * @returns {Promise}
 	 */
 	async get(id) {
 		try {
@@ -79,9 +78,11 @@ answerGameSchema.statics = {
 	},
 
 	/**
-	 * Get answers game by gameID & answerID
+	 * Get answers game by ?
 	 *
-	 * @returns {Promise<Quiz[]>}
+	 * @param {Object} options
+	 *
+	 * @returns {Promise}
 	 */
 	async getBy(option) {
 		try {
@@ -95,9 +96,11 @@ answerGameSchema.statics = {
 	},
 
 	/**
-	 * Get answers game by gameID & answerID
+	 * Get answers game
 	 *
-	 * @returns {Promise<Quiz[]>}
+	 * @param {Object} options
+	 *
+	 * @returns {Promise}
 	 */
 	list(options = {}) {
 		return this.find(options)
@@ -107,32 +110,14 @@ answerGameSchema.statics = {
 	},
 
 	/**
-	 * Get answers game by gameID & answerID
+	 * Get answers game by gameID & questionID
 	 *
-	 * @returns {Promise<Quiz[]>}
-	 */
-	// async getAnswersQuestion(option) {
-	// 	return await this.find(option)
-	// 		.populate('user')
-	// 		.populate({
-	// 			path: 'question',
-	// 			model: 'Question',
-	// 			populate: {
-	// 				path: 'answer',
-	// 				model: 'Answer',
-	// 			},
-	// 		})
-	// 		.sort({ createdAt: -1 });
-	// },
-
-	/**
-	 * Get answers game by gameID & answerID
+	 * @param {ObjectId} gameId
+	 * @param {ObjectId} questionId
 	 *
-	 * @returns {Promise<Quiz[]>}
+	 * @returns {Promise}
 	 */
 	async getAnswersQuestion(gameId, questionId) {
-		debugger;
-
 		return await this.aggregate([
 			{ $match: { game: gameId, question: questionId } },
 			{
@@ -144,24 +129,10 @@ answerGameSchema.statics = {
 				},
 			},
 		]);
-
-		// 	// return this.aggregate([
-		// 	// 	{ $match: { 'game': gameId, 'question': questionId } },
-		// 	// 	{
-		// 	// 		$group: {
-		// 	// 			_id: '$answer',
-		// 	// 			count: {
-		// 	// 				$sum: 1,
-		// 	// 			},
-		// 	// 		},
-		// 	// 	},
-		// 	// ]);
 	},
 };
 
-/**
- * @typedef AnswerGame
- */
+
 module.exports = {
 	AnswerGame: mongoose.model('answerGame', answerGameSchema),
 	answerGameSchema,

@@ -1,12 +1,22 @@
+'use sctric';
+
 const { Quiz, Question } = require('triviapp-data');
 const validate = require('triviapp-validation');
 const { AlreadyExistsError, UnauthorizedError } = require('triviapp-errors');
 
-
 module.exports = {
-
+	
+	/**
+	 *
+	 * @param {Object} data
+	 *
+	 * @throws {TypeError} on non-string quiz id, title, time, answer 1, answer 2, answer 3, answer 4
+	 * @throws {ValueError} on empty or blank quiz id, title, time, answer 1, answer 2
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	createQuestion(data) {
-		
 		const {
 			quiz = '',
 			title = '',
@@ -25,20 +35,22 @@ module.exports = {
 			{ key: 'Time', value: time, type: String },
 			{ key: 'Answer 1', value: title1, type: String },
 			{ key: 'Answer 2', value: title2, type: String },
-			{ key: 'Answer 3', value: title3, type: String, optional: true},
+			{ key: 'Answer 3', value: title3, type: String, optional: true },
 			{ key: 'Answer 4', value: title4, type: String, optional: true },
 		]);
 
-		if(
-			(!success1 && !success2 && !success3 && !success4) || 
+		if (
+			(!success1 && !success2 && !success3 && !success4) ||
 			(title3 === '' && title4 === '' && !success1 && !success2)
 		) {
-			throw new Error('Please choose at least one correct answer before continuing.');
+			throw new Error(
+				'Please choose at least one correct answer before continuing.',
+			);
 		}
 
-		if(title3 === '') data.answers[2].success = false;
-		if(title4 === '') data.answers[3].success = false;
-		
+		if (title3 === '') data.answers[2].success = false;
+		if (title4 === '') data.answers[3].success = false;
+
 		return (async data => {
 			const questionModel = new Question(data);
 			const question = await questionModel.save();
@@ -46,13 +58,23 @@ module.exports = {
 			const currentQuiz = await Quiz.get(quiz);
 			currentQuiz.questions.push(question);
 			await currentQuiz.save();
-			
+
 			return question.normalize();
 		})(data);
 	},
 
+	/**
+	 * @param {Object} question
+	 *
+	 * @param {Object} data
+	 *
+	 * @throws {TypeError} on non-string quiz id, title, time, answer 1, answer 2, answer 3, answer 4
+	 * @throws {ValueError} on empty or blank quiz id, title, time, answer 1, answer 2
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	updateQuestion(question, data) {
-		
 		const {
 			title = '',
 			time = '',
@@ -69,20 +91,21 @@ module.exports = {
 			{ key: 'Time', value: time, type: String },
 			{ key: 'Answer 1', value: title1, type: String },
 			{ key: 'Answer 2', value: title2, type: String },
-			{ key: 'Answer 3', value: title3, type: String, optional: true},
+			{ key: 'Answer 3', value: title3, type: String, optional: true },
 			{ key: 'Answer 4', value: title4, type: String, optional: true },
 		]);
 
-		if(
-			(!success1 && !success2 && !success3 && !success4) || 
+		if (
+			(!success1 && !success2 && !success3 && !success4) ||
 			(title3 === '' && title4 === '' && !success1 && !success2)
 		) {
-			throw new Error('Please choose at least one correct answer before continuing.');
+			throw new Error(
+				'Please choose at least one correct answer before continuing.',
+			);
 		}
 
-		if(title3 === '') data.answers[2].success = false;
-		if(title4 === '') data.answers[3].success = false;
-
+		if (title3 === '') data.answers[2].success = false;
+		if (title4 === '') data.answers[3].success = false;
 
 		return (async (question, data) => {
 			const questionUpdated = Object.assign(question, data);
@@ -91,11 +114,18 @@ module.exports = {
 		})(question, data);
 	},
 
+	/**
+	 * @param {Object} question
+	 *
+	 * @throws {TypeError} on non-object question
+	 * @throws {ValueError} on empty or blank question
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	deleteQuestion(question) {
-		validate([
-			{ key: 'Question', value: question, type: Object },
-		]);
-		
+		validate([{ key: 'Question', value: question, type: Object }]);
+
 		return (async () => {
 			return question.remove();
 		})();

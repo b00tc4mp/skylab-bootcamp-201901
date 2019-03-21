@@ -1,3 +1,5 @@
+'use sctric';
+
 const { Game, Question, Quiz, AnswerGame, mongoose } = require('triviapp-data');
 const validate = require('triviapp-validation');
 const {
@@ -13,6 +15,18 @@ var randomize = require('randomatic');
 
 
 module.exports = {
+
+	/**
+	 *
+	 * @param {Object} data
+	 *
+	 * @throws {TypeError} on non-string quiz id, host game
+	 * @throws {ValueError} on empty or blank quiz id, host game
+	 * @throws {Error} on non defined host game or quiz
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	createGame(data) {
 		
 		const { host, quiz } = data;
@@ -47,6 +61,17 @@ module.exports = {
 		})();
 	},
 
+	/**
+	 *
+	 * @param {Object} data
+	 *
+	 * @throws {TypeError} on non-number game code
+	 * @throws {ValueError} on empty or blank game code
+	 * @throws {NotFoundError} on unexisting game
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	joinGame(data) {
 		const { user, gameCode } = data;
 
@@ -72,6 +97,14 @@ module.exports = {
 		})();
 	},
 
+	/**
+	 *
+	 * @param {Object} gamme
+	 *
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	startGame(game) {
 		return (async () => {
 			game.start = true;
@@ -80,6 +113,15 @@ module.exports = {
 		})();
 	},
 
+	/**
+	 *
+	 * @param {Object} game
+	 *
+	 * @throws {Error} on quiz not has yet started
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	gameOver(game) {
 
 		if(!game.start) {
@@ -93,10 +135,22 @@ module.exports = {
 		})();
 	},
 
+	/**
+	 *
+	 * @param {Object} game
+	 * @param {Object} data
+	 *
+	 * @throws {TypeError} on non-number game code
+	 * @throws {ValueError} on empty or blank game code
+	 * @throws {NotFoundError} on unexisting game
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	questionResults(game, data) {
 		return (async () => {
 			const { questionId } = data;
-			debugger;
+			
 			const currentGame = await Game.getBy({ _id: game.id });
 
 			let currentQuestionID;
@@ -135,6 +189,14 @@ module.exports = {
 		})();
 	},
 
+	/**
+	 *
+	 * @param {Object} data
+	 *
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	setNextQuestion(data) {
 		return (async ({ game }) => {
 			currentQuestionIndex = game.quiz.questions.findIndex(
@@ -152,6 +214,14 @@ module.exports = {
 		})(data);
 	},
 
+	/**
+	 *
+	 * @param {Object} data
+	 *
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	getPodium(data) {
 		return (async data => {
 			const answers = await AnswerGame.list({ game: data.game.id });
@@ -168,6 +238,14 @@ module.exports = {
 		})(data);
 	},
 
+	/**
+	 *
+	 * @param {Object} data
+	 *
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	answerQuestion(data) {
 		return (async data => {
 			const { user, gameId, questionId: question, answerId: answer } = data;
@@ -198,6 +276,14 @@ module.exports = {
 		})(data);
 	},
 
+	/**
+	 *
+	 * @param {Object} data
+	 *
+	 * @throws {UnauthorizedError} on access denied due to invalid credentials
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	getScore(data) {
 		return (async data => {
 			const answers = await AnswerGame.list({

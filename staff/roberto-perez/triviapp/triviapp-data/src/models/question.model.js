@@ -11,7 +11,6 @@ const { NotFoundError } = require('triviapp-errors');
 
 /**
  * Question Schema
- * @private
  */
 const questionSchema = new mongoose.Schema(
 	{
@@ -71,31 +70,14 @@ questionSchema.method({
 });
 
 /**
- * Pre middlewares
- */
-// quizSchema.pre('save', async function(next, req) {
-
-// 	if(!this.isModified() === true) {
-// 	}
-
-// 	// try {
-// 	// 	if (!this.isModified()) return;
-// 	// 	const hash = await bcrypt.hash(this.password, 10);
-// 	// 	this.author = hash;
-// 	// } catch (error) {
-// 	// 	return new Error(error);
-// 	// }
-// });
-
-/**
  * Statics
  */
 questionSchema.statics = {
 	/**
 	 * Get question
 	 *
-	 * @param {ObjectId} id - The objectId of question.
-	 * @returns {Promise<Question, Error>}
+	 * @param {ObjectId} id
+	 * @returns {Promise}
 	 */
 	async get(id) {
 		try {
@@ -111,10 +93,6 @@ questionSchema.statics = {
 		}
 	},
 };
-
-/**
- * @typedef Question
- */
 
 module.exports = {
 	Question: mongoose.model('Question', questionSchema),

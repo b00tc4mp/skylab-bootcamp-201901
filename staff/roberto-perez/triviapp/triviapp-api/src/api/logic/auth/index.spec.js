@@ -378,7 +378,7 @@ describe('Auth', () => {
 		});
 
 		it('should return a user', async () => {
-			const user = await auth.retrieveUser(userSaved._id);
+			const user = await auth.retrieveUser(userSaved._id.toString());
 			
 			expect(user).toBeDefined();
 			expect(user.id).toBe(userSaved._id.toString());

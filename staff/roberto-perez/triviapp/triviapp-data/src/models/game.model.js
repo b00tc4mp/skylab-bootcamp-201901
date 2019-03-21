@@ -8,8 +8,7 @@ const httpStatus = require('http-status');
 const { NotFoundError } = require('triviapp-errors');
 
 /**
- * Quiz Schema
- * @private
+ * Game Schema
  */
 const gameSchema = new mongoose.Schema(
 	{
@@ -73,31 +72,14 @@ gameSchema.method({
 });
 
 /**
- * Pre middlewares
- */
-// quizSchema.pre('save', async function(next, req) {
-
-// 	if(!this.isModified() === true) {
-// 	}
-
-// 	// try {
-// 	// 	if (!this.isModified()) return;
-// 	// 	const hash = await bcrypt.hash(this.password, 10);
-// 	// 	this.author = hash;
-// 	// } catch (error) {
-// 	// 	return new Error(error);
-// 	// }
-// });
-
-/**
  * Statics
  */
 gameSchema.statics = {
 	/**
 	 * Get quiz
 	 *
-	 * @param {ObjectId} id - The objectId of quiz.
-	 * @returns {Promise<Quiz, Error>}
+	 * @param {ObjectId} id
+	 * @returns {Promise}
 	 */
 	async get(id) {
 		try {
@@ -130,9 +112,11 @@ gameSchema.statics = {
 	},
 
 	/**
-	 * List quizzes in descending order of 'createdAt' timestamp.
+	 * Get game by code
 	 *
-	 * @returns {Promise<Quiz[]>}
+	 * @param {Number} gameCode
+	 * 
+	 * @returns {Promise}
 	 */
 	async getByCode(gameCode) {
 		try {
@@ -148,6 +132,13 @@ gameSchema.statics = {
 		}
 	},
 
+	/**
+	 * Get game by ?
+	 *
+	 * @param {Object} options
+	 * 
+	 * @returns {Promise}
+	 */
 	async getBy(options) {
 		return this.find(options)
 			.populate('quiz')
@@ -155,17 +146,21 @@ gameSchema.statics = {
 			.exec();
 	},
 
+	/**
+	 * Get game current question
+	 *
+	 * @param {ObjectId} gameId
+	 *
+	 * @returns {Promise}
+	 */
 	async getCurrentQuestion(gameId) {
-		debugger
 		return this.findOne({game: gameId}).select('currentQuestion')
 			.populate('currentQuestion')
 			.exec();
 	},
 };
 
-/**
- * @typedef Game
- */
+
 module.exports = {
 	Game: mongoose.model('Game', gameSchema),
 	gameSchema,

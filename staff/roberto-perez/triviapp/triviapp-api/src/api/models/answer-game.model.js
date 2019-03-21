@@ -82,8 +82,6 @@ answerGameSchema.statics = {
 	},
 
 	async getAnswersQuestion(gameId, questionId) {
-		debugger;
-
 		return await this.aggregate([
 			{ $match: { game: gameId, question: questionId } },
 			{

@@ -7,17 +7,6 @@ const { handleResponseError } = require('../routes/routes-helper');
 const { UnauthorizedError } = require('../errors');
 const { cloudName, apiKey, apiSecret } = require('../../config/vars');
 
-// const cloudinary = require('cloudinary');
-// cloudinary.config({
-// 	cloud_name: cloudName,
-// 	api_key: apiKey,
-// 	api_secret: apiSecret,
-// });
-
-/**
- * Load user and append to req.
- * @public
- */
 exports.load = async (req, res, next, id) => {
 	try {
 		const quiz = await Quiz.get(id);
@@ -28,16 +17,8 @@ exports.load = async (req, res, next, id) => {
 	}
 };
 
-/**
- * Get quiz
- * @public
- */
 exports.get = (req, res) => res.json(req.locals.quiz.normalize());
 
-/**
- * Get quiz list
- * @public
- */
 exports.list = async (req, res) => {
 	const {
 		params: { offset = 0 },
@@ -52,10 +33,6 @@ exports.list = async (req, res) => {
 	}
 };
 
-/**
- * Get quiz list
- * @public
- */
 exports.listByAuthor = async (req, res) => {
 	const {
 		params: { offset = 0 },
@@ -70,11 +47,6 @@ exports.listByAuthor = async (req, res) => {
 	}
 };
 
-
-/**
- * Get quiz list
- * @public
- */
 exports.search = async (req, res) => {
 	const {
 		params: { offset = 0 },
@@ -88,7 +60,6 @@ exports.search = async (req, res) => {
 		handleResponseError(error, res);
 	}
 };
-
 
 exports.create = async (req, res) => {
 	try {
@@ -111,10 +82,6 @@ exports.update = async (req, res) => {
 	}
 };
 
-/**
- * Delete user
- * @public
- */
 exports.remove = async (req, res, next) => {
 	try {
 		const { quiz: quizToDelete } = req.locals;

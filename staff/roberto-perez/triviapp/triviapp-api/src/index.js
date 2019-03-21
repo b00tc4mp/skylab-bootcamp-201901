@@ -22,8 +22,6 @@ io.sockets.on('connection', socket => {
 
 	socket.on('NEW_GAME', room => {
 		// console.log(io.sockets.adapter.rooms)
-		console.log(socket.rooms)
-		console.log(room)
 		console.log('joining room', room);
 		socket.join(room);
 	});

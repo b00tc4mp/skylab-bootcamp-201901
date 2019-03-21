@@ -14,7 +14,6 @@ const roles = ['user', 'admin'];
 
 /**
  * User Schema
- * @private
  */
 const userSchema = new mongoose.Schema(
 	{
@@ -56,9 +55,6 @@ const userSchema = new mongoose.Schema(
 	{ timestamps: true },
 );
 
-/**
- * Pre middlewares
- */
 userSchema.pre('save', async function() {
 	try {
 		if (!this.isModified()) return;
@@ -100,8 +96,8 @@ userSchema.statics = {
 	/**
 	 * Get user
 	 *
-	 * @param {ObjectId} id - The objectId of user.
-	 * @returns {Promise<User, Error>}
+	 * @param {ObjectId} id
+	 * @returns {Promise}
 	 */
 	async get(id) {
 		try {
@@ -123,8 +119,8 @@ userSchema.statics = {
 	/**
 	 * Find user by email and tries to generate a JWT token
 	 *
-	 * @param {ObjectId} id - The objectId of user.
-	 * @returns {Promise<User, UnauthorizedError>}
+	 * @param {ObjectId} id 
+	 * @returns {Promise}
 	 */
 	async findAndGenerateToken(options) {
 		const { email, password } = options;
@@ -149,9 +145,6 @@ userSchema.statics = {
 	},
 };
 
-/**
- * @typedef User
- */
 module.exports = {
 	User: mongoose.model('User', userSchema),
 	userSchema

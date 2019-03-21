@@ -1,8 +1,23 @@
+'use sctric';
+
 const { User } = require('triviapp-data');
 const validate = require('triviapp-validation');
 const { AlreadyExistsError, UnauthorizedError } = require('triviapp-errors');
 
 module.exports = {
+	/**
+	 *
+	 * @param {String} name
+	 * @param {String} surname
+	 * @param {String} email
+	 * @param {String} password
+	 *
+	 * @throws {TypeError} on non-string name, surname, email or password
+	 * @throws {ValueError} on empty or blank name, surname, email or password
+	 * @throws {AlreadyExistsError} on already registered email
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	signupUser(data) {
 		const { name, surname, email, password } = data;
 
@@ -29,6 +44,17 @@ module.exports = {
 		})(data);
 	},
 
+	/**
+	 *
+	 * @param {String} email
+	 * @param {String} password
+	 *
+	 * @throws {TypeError} on non-string email or password
+	 * @throws {ValueError} on empty or blank email or password
+	 * @throws {UnauthorizedError} on invalid username or password
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	loginUser(data) {
 		const { email, password } = data;
 
@@ -47,13 +73,36 @@ module.exports = {
 		})(data);
 	},
 
+	/**
+	 *
+	 * @param {String} userId
+	 *
+	 * @throws {TypeError} on non-string userId
+	 * @throws {ValueError} on empty or blank userId
+	 * @throws {NotFoundError} on non existing user with that userId
+	 *
+	 * @returns {Promise} resolves on correct data rejects on wrong data
+	 */
 	retrieveUser(userId) {
+		validate([{ key: 'User ID', value: userId, type: String }]);
+
 		return (async () => {
 			const user = await User.get(userId);
 			return user.normalize();
 		})();
 	},
 
+	/**
+     * 
+     * @param {String} userId 
+     * @param {Object} data
+     * 
+     * @throws {TypeError} on non-string name, surname, email, image
+     * @throws {ValueError} on empty or blank name, surname, email
+     * @throws {Error} on passwords do not match
+     * 
+     * @returns {Promise} resolves on correct data rejects on wrong data
+     */
 	updateUser(userId, data = {}) {
 		const { name, surname, email, image, password, confirmPassword } = data;
 
@@ -63,7 +112,7 @@ module.exports = {
 		}
 
 		if (!password) {
-			delete data.password;	
+			delete data.password;
 		}
 
 		delete data.confirmPassword;

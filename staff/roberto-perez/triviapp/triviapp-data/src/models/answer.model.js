@@ -5,7 +5,6 @@ const httpStatus = require('http-status');
 
 /**
  * Answer Schema
- * @private
  */
 const answerSchema = new mongoose.Schema(
 	{
@@ -48,8 +47,9 @@ answerSchema.statics = {
 	/**
 	 * Get answer
 	 *
-	 * @param {ObjectId} id - The objectId of answer.
-	 * @returns {Promise<Answer, Error>}
+	 * @param {ObjectId} id 
+	 * 
+	 * @returns {Promise}
 	 */
 	async get(id) {
 		try {
@@ -69,9 +69,7 @@ answerSchema.statics = {
 	},
 };
 
-/**
- * @typedef Answer
- */
+
 module.exports = {
 	Answer: mongoose.model('Answer', answerSchema),
 	answerSchema

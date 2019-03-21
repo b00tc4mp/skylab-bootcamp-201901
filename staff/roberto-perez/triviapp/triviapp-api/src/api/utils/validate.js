@@ -1,5 +1,5 @@
 'use strict';
-const { ValueError } = require('../errors');
+const { ValueError } = require('triviapp-errors');
 
 function validate(params) {
 	params.forEach(({ key, value, type, optional }) => {

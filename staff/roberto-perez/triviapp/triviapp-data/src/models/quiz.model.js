@@ -11,7 +11,6 @@ const { Game } = require('./game.model');
 
 /**
  * Quiz Schema
- * @private
  */
 const quizSchema = new mongoose.Schema(
 	{
@@ -79,8 +78,8 @@ quizSchema.statics = {
 	/**
 	 * Get quiz
 	 *
-	 * @param {ObjectId} id - The objectId of quiz.
-	 * @returns {Promise<Quiz, Error>}
+	 * @param {ObjectId} id
+	 * @returns {Promise}
 	 */
 	async get(id) {
 		try {
@@ -90,7 +89,6 @@ quizSchema.statics = {
 				.exec();
 
 			if (quiz) {
-				// quiz.author = quiz.author.normalize();
 				return quiz;
 			}
 
@@ -103,7 +101,9 @@ quizSchema.statics = {
 	/**
 	 * List quizzes in descending order of 'createdAt' timestamp.
 	 *
-	 * @returns {Promise<Quiz[]>}
+	 * @param {Object} options
+	 *
+	 * @returns {Promise}
 	 */
 	list({ page = 1, perPage = 9 }) {
 		return this.find({ 'questions.0': { $exists: true } })
@@ -115,9 +115,11 @@ quizSchema.statics = {
 	},
 
 	/**
-	 * List quizzes in descending order of 'createdAt' timestamp by author
+	 * List quizzes by author in descending order of 'createdAt' timestamp
 	 *
-	 * @returns {Promise<Quiz[]>}
+	 * @param {Object} options
+	 *
+	 * @returns {Promise>}
 	 */
 	listByAuthor({ page = 1, perPage = 9, authorID }) {
 		return this.find({ author: authorID })
@@ -131,7 +133,9 @@ quizSchema.statics = {
 	/**
 	 * List quizzes in descending order of 'createdAt' timestamp.
 	 *
-	 * @returns {Promise<Quiz[]>}
+	 * @param {Object} options
+	 *
+	 * @returns {Promise}
 	 */
 	search({ page = 1, perPage = 9, query }) {
 		return this.find({ $text: { $search: query }, 'questions.0': { $exists: true } }, { score: { $meta: 'textScore' } })
@@ -145,9 +149,6 @@ quizSchema.statics = {
 	},
 };
 
-/**
- * @typedef Quiz
- */
 module.exports = {
 	Quiz: mongoose.model('Quiz', quizSchema),
 	quizSchema,
