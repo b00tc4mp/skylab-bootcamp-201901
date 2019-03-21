@@ -6,7 +6,6 @@ import british_cat from '../images/british_cat.jpg'
 import tortoise from '../images/tortoise.jpg'
 import tortoise2 from '../images/tortoise2.jpg'
 import tortoise3 from '../images/tortoise3.jpg'
-import microscope from '../images/microscope.jpg'
 import cat from '../images/cat.jpg'
 import british2 from '../images/british2.jpg'
 
@@ -45,9 +44,6 @@ class Carousel extends Component {
           </div>
           <div class="item">
             <img class="d-block w-100" src={akita} alt="" ></img>
-          </div>
-          <div class="item">
-            <img class="d-block w-100" src={microscope} alt="" ></img>
           </div>
         </div>
         <a class="left carousel-control" href="#myCarousel" data-slide="prev">

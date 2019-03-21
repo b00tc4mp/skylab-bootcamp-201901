@@ -1,15 +1,20 @@
 St-James-vet
 
+
 ===================================
 
 ## Documentation
 
-[Documentation](skylab-bootcamp-201901/staff/clara-rufi/stjames_vet/doc.README.md)
-
-https://trello.com/b/wMBAHwza/untitled-board
+[Documentation](./st-james-vet-doc/README.md)
 
 
-[Live Demo]()
+
+[Demo](http://st-james-vet.surge.sh/)
+
+
+
+![cat](./st-james-vet-doc/images/british-cat.jpg)
+
 
 ## Available scripts for development
 

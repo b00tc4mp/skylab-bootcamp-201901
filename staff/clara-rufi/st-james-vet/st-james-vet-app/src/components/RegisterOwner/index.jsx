@@ -17,11 +17,6 @@ class RegisterOwner extends Component {
 
     }
 
-    handleGoLogin = event => {
-        event.preventDefault()
-        this.props.history.push('/login')
-    }
-
     handleGoHome = event => {
         event.preventDefault()
         this.props.history.push('/home')

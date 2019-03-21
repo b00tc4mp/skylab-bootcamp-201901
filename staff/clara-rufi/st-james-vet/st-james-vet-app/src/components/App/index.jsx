@@ -9,7 +9,7 @@ import RegisterPet from '../RegisterPet'
 import EditOwner from '../EditOwner'
 import EditPet from '../EditPet'
 import Visit from '../Visit'
-import VisitOwner from '../Visit_Owner'
+import VisitOwner from '../VisitOwner'
 import Appointments from '../Appointments';
 import logic from '../../logic';
 
