@@ -12,6 +12,7 @@ function AddComment({ postId, refreshComments }) {
     try {
       logic.addComment(postId, text).then(comment => {
         refreshComments(comment.comments);
+        setText("");
       });
     } catch ({ message }) {
       notify(message);
@@ -28,6 +29,7 @@ function AddComment({ postId, refreshComments }) {
         onChange={handleAddComment}
         placeholder="Escribe tu comentario"
         autoFocus={false}
+        value={text}
       />
       <button className="comment-button" onClick={handleOnClick}>
         Publicar
