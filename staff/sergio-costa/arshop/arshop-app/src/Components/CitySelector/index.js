@@ -8,7 +8,7 @@ class CitySelector extends Component {
 
         const { props: { onClickCity } } = this
 
-        onClickCity(e.target.value)
+        onClickCity(e.target.value)//
     }
 
     render() {
