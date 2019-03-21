@@ -39,7 +39,7 @@ See the section about deployment for more information.
 
 To learn React, check out the [React documentation](https://reactjs.org/).
 
-# SINGING-LAB
+# Cleanup
 
 # ![](./images/skylab-coders-logo.png)
 
