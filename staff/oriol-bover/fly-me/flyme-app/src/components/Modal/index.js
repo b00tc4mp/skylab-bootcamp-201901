@@ -3,8 +3,6 @@ import './index.sass'
 
 export default function Modal({ message, onClose, showButtons, onAccept, onCancel }) {
 
-
-
     return (<div className="modal is-active">
         <div className="modal-background"></div>
         <div className="modal-content">

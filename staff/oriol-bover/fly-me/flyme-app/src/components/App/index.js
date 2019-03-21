@@ -7,8 +7,6 @@ import Register from '../Register'
 import Admin from '../Admin';
 
 function App() {
-    const [isDevelopment] = useState(true)
-
     return (<Fragment>
         <Route exact path="/" component={Landing} />
         <Route path="/login" render={props => logic.isUserLoggedIn ? <Redirect to="/admin" /> : <Login history={props.history} />} />

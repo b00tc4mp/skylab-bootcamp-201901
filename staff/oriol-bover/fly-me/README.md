@@ -1,20 +1,11 @@
 # FLY ME
 
-[DOCUMENTATION](#)
+Application that allows the user to control a drone and program it to make specific routes
 
-[Live Demo](#)
+[DOCUMENTATION](doc/README.md)
 
 [Trello](https://trello.com/b/pNvapqFh/fly-me-project)
 
-## DESCRIPTION
-
-Flyme is an application that allows the user to control a drone through the keyboard or also program a flight path to do it automatically.
-
-Your system is designed to be very intuitive and can be used by everyone.
-
-The application allows to learn the most basic notions on which the programming paradigms are based.
-
-With Flyme you can enjoy from the youngest to the oldest.
 
 ## Available Scripts for development
 
