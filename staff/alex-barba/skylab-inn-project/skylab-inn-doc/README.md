@@ -8,6 +8,8 @@ SkyLab Academy: easily match the new Skylabers with the job offers requirements.
 
 Skylabers: easily find out which Skylabers can help or assist them when in need of assistance, or easily get in touch with any of them.
 
+![Introduction](images/introduction.png)
+
 ## Functional description
 
 Admins can:
@@ -27,7 +29,6 @@ Skylabers can:
 
 ### Use Cases
 ![Use Cases](images/use-cases.png)
-
 
 ### Flowcharts
 
