@@ -64,7 +64,7 @@
 	&__info-content {
 		padding: 15px 15px 0 15px;
 		display: grid;
-		grid-template-rows: 1fr 55px;
+		grid-template-rows: auto 55px;
 		grid-template-columns: 100%;
 		min-width: inherit;
 		min-height: 100%;
