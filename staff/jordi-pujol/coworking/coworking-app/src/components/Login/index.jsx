@@ -29,15 +29,31 @@ class Login extends Component {
             if (invitation) {
 
                 return logic.logInUser(email, password)
-                    .then(() => logic.verifyNewUserLink(invitation))
-                    .then(workspaceId => {
-                        return logic.addUserToWorkspace(workspaceId)
+                    .then(() => logic.retrieveUser())
+                    .then(user => {
+                        if (user.workspace) {
+                            this.props.history.push('/home/inbox')
+                        }
+                        else {
+                            return logic.verifyNewUserLink(invitation)
+                                .then(workspaceId => {
+                                    return logic.addUserToWorkspace(workspaceId)
+                                })
+                                .then(() => this.props.history.push('/home/inbox'))
+                        }
                     })
-                    .then(() => this.props.history.push('/home/inbox'))
                     .catch(({ message }) => this.setState({ feedback: message }))
             }
             else {
-                logic.logInUser(email, password)
+                return logic.logInUser(email, password)
+                    .then(() => console.log(2))
+                    .then(() => logic.retrieveUser())
+                    .then(user => {
+                        if (!user.workspace) {
+                            logic.logOutUser()
+                            throw Error('Please login to an existing workspace or create a new one')
+                        }
+                    })
                     .then(() => this.props.history.push('/home/inbox'))
                     .catch(({ message }) => this.setState({ feedback: message }))
             }
@@ -48,7 +64,8 @@ class Login extends Component {
 
     handleGoToRegister = event => {
         event.preventDefault()
-        this.props.history.push('/register')}
+        this.props.history.push('/register')
+    }
 
     handleNewFormSubmit = event => {
         event.preventDefault()

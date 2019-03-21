@@ -11,13 +11,13 @@ class Profile extends Component {
 
         try{
             return logic.retrieveUser()
-                .then(({ name, surname, email, companyName, username, age, time, image }) => {
+                .then(({ name, surname, email, companyName, userName, age, time, image }) => {
                     this.setState({ name })
                     this.setState({ surname })
                     this.setState({ email })
                     this.setState({ companyName })
                     this.setState({ age })
-                    this.setState({ username })
+                    this.setState({ username: userName })
                     this.setState({ time })
                     this.setState({ image })
                 })

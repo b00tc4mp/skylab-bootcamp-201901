@@ -11,16 +11,16 @@ class Service extends Component {
 
         this.setState({ myservice })
 
-        const { props: { servicesFor: { active, user } } } = this
+        const { props: { servicesFor: { active, user, closed } } } = this
 
-        if (!active) this.setState({ color: 'red' })
+        return logic.retrieveUser()
+            .then(({ name }) => {
+                if (name.toString() == user.toString()) this.setState({ color: 'yellow' })
 
-        else {
-            return logic.retrieveUser()
-                .then(({ name }) => {
-                    if (name.toString() !== user.toString()) this.setState({ color: 'blue' })
-                })
-        }
+                else if (!active) this.setState({ color: 'blue' })
+
+                else this.setState({ color: 'red' })
+            })
     }
 
     componentWillReceiveProps() {
