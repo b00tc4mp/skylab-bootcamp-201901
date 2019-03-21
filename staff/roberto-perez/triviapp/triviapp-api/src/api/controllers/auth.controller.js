@@ -6,6 +6,9 @@ const auth = require('../logic/auth');
 const { jwtExpirationInterval } = require('../../config/vars');
 const { handleResponseError } = require('../routes/routes-helper');
 
+/**
+ * Sign Up
+ */
 exports.signup = async (req, res, next) => {
 	try {
 		const id = await auth.signupUser(req.body);
@@ -16,6 +19,9 @@ exports.signup = async (req, res, next) => {
 	}
 };
 
+/**
+ * Log In
+ */
 exports.login = async (req, res, next) => {
 	try {
 		const { user, token } = await auth.loginUser(req.body);
@@ -25,6 +31,9 @@ exports.login = async (req, res, next) => {
 	}
 };
 
+/**
+ * Retrieve user
+ */
 exports.retrieve = async (req, res, next) => {
 	try {
 		const user = await auth.retrieveUser(req.userId);
@@ -34,6 +43,9 @@ exports.retrieve = async (req, res, next) => {
 	}
 };
 
+/**
+ * Update user
+ */
 exports.update = async (req, res, next) => {
 	try {
 		const user = await auth.updateUser(req.userId, req.body);

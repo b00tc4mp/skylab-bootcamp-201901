@@ -6,6 +6,9 @@ const question = require('../logic/question');
 const { handleResponseError } = require('../routes/routes-helper');
 const { UnauthorizedError } = require('../errors');
 
+/**
+ * Load question
+ */
 exports.load = async (req, res, next, id) => {
 	try {
 		const question = await Question.get(id);
@@ -16,6 +19,9 @@ exports.load = async (req, res, next, id) => {
 	}
 };
 
+/**
+ * Get question
+ */
 exports.get = (req, res) => {
 	const {
 		params: { quizId },
@@ -23,6 +29,9 @@ exports.get = (req, res) => {
 	res.json(req.locals.question.normalize());
 };
 
+/**
+ * Create question
+ */
 exports.create = async (req, res, next) => {
 	const {
 		params: { quizId },
@@ -38,6 +47,9 @@ exports.create = async (req, res, next) => {
 	}
 };
 
+/**
+ * Update question
+ */
 exports.update = async (req, res) => {
 	try {
 		const questionUpdated = await question.updateQuestion(
@@ -51,6 +63,9 @@ exports.update = async (req, res) => {
 	}
 };
 
+/**
+ * Remove question
+ */
 exports.remove = async (req, res, next) => {
 	try {
 		await question.deleteQuestion(req.locals.question);

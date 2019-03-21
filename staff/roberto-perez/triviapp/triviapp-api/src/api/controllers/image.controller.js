@@ -11,6 +11,9 @@ const cloudinary = require('cloudinary').v2;
 
 var fs = require('fs');
 
+/**
+ * Upload image
+ */
 exports.upload = (req, res) => {
 	res.status(httpStatus.OK);
 	return res.json(req.image);

@@ -9,6 +9,9 @@ const { UnauthorizedError } = require('../errors');
 const { cloudName, apiKey, apiSecret } = require('../../config/vars');
 const socket = require('../logic/socket');
 
+/**
+ * Load game
+ */
 exports.load = async (req, res, next, id) => {
 	try {
 		const game = await Game.get(id);
@@ -19,8 +22,14 @@ exports.load = async (req, res, next, id) => {
 	}
 };
 
+/**
+ * Get game
+ */
 exports.get = (req, res) => res.json(req.locals.game.normalize());
 
+/**
+ * Create game
+ */
 exports.create = async (req, res) => {
 	try {
 		req.body.host = req.userId;
@@ -32,6 +41,9 @@ exports.create = async (req, res) => {
 	}
 };
 
+/**
+ * Join game
+ */
 exports.joinGame = async (req, res) => {
 	try {
 		const game = await gameLogic.joinGame(req.body);
@@ -44,6 +56,9 @@ exports.joinGame = async (req, res) => {
 	}
 };
 
+/**
+ * Start game
+ */
 exports.startGame = async (req, res) => {
 	try {
 		const game = await gameLogic.startGame(req.locals.game);
@@ -60,6 +75,9 @@ exports.startGame = async (req, res) => {
 	}
 };
 
+/**
+ * Game over
+ */
 exports.gameOver = async (req, res) => {
 	try {
 		const game = await gameLogic.gameOver(req.locals.game);
@@ -72,12 +90,18 @@ exports.gameOver = async (req, res) => {
 	}
 };
 
+/**
+ * Emit question
+ */
 exports.emitQuestion = async (req, res) => {
 	req.app.io.in(`game-${req.locals.game.id}`).emit('showQuestion', true);
 	res.status(httpStatus.OK);
 	return res.json(req.locals.game.id);
 };
 
+/**
+ * Get question results
+ */
 exports.questionResults = async (req, res) => {
 	try {
 		const questionResult = await gameLogic.questionResults(req.locals.game, req.body);
@@ -89,6 +113,9 @@ exports.questionResults = async (req, res) => {
 	}
 };
 
+/**
+ * Nex question
+ */
 exports.setNextQuestion = async (req, res) => {
 	try {
 		const question = await gameLogic.setNextQuestion({ game: req.locals.game });
@@ -103,6 +130,9 @@ exports.setNextQuestion = async (req, res) => {
 	}
 };
 
+/**
+ * Get podium results
+ */
 exports.podium = async (req, res) => {
 	try {
 		const podium = await gameLogic.getPodium({ game: req.locals.game });
@@ -117,12 +147,18 @@ exports.podium = async (req, res) => {
 	}
 };
 
+/**
+ * Emit time out
+ */
 exports.emitTimeOut = async (req, res) => {
 	req.app.io.in(`game-${req.locals.game.id}`).emit('timeOut', true);
 	res.status(httpStatus.OK);
 	return res.json(req.locals.game.id);
 };
 
+/**
+ * Answer question
+ */
 exports.answerQuestion = async (req, res) => {
 	try {
 		req.body.user = req.userId;
@@ -141,6 +177,9 @@ exports.answerQuestion = async (req, res) => {
 	}
 };
 
+/**
+ * Get score
+ */
 exports.score = async (req, res) => {
 	try {
 		req.body.user = req.userId;

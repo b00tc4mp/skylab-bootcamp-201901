@@ -5,6 +5,9 @@ const { Game } = require('triviapp-data');
 const gameLogic = require('../logic/game');
 const { handleResponseError } = require('../routes/routes-helper');
 
+/**
+ * Join game
+ */
 exports.join = async (req, res) => {
 	const {
 		headers: { authorization },

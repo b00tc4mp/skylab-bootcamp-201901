@@ -7,6 +7,9 @@ const { handleResponseError } = require('../routes/routes-helper');
 const { UnauthorizedError } = require('../errors');
 const { cloudName, apiKey, apiSecret } = require('../../config/vars');
 
+/**
+ * Load quiz
+ */
 exports.load = async (req, res, next, id) => {
 	try {
 		const quiz = await Quiz.get(id);
@@ -17,8 +20,14 @@ exports.load = async (req, res, next, id) => {
 	}
 };
 
+/**
+ * Get quiz
+ */
 exports.get = (req, res) => res.json(req.locals.quiz.normalize());
 
+/**
+ * List quizzes
+ */
 exports.list = async (req, res) => {
 	const {
 		params: { offset = 0 },
@@ -33,6 +42,9 @@ exports.list = async (req, res) => {
 	}
 };
 
+/**
+ * List quiz by author
+ */
 exports.listByAuthor = async (req, res) => {
 	const {
 		params: { offset = 0 },
@@ -47,6 +59,9 @@ exports.listByAuthor = async (req, res) => {
 	}
 };
 
+/**
+ * Search quiz
+ */
 exports.search = async (req, res) => {
 	const {
 		params: { offset = 0 },
@@ -61,6 +76,9 @@ exports.search = async (req, res) => {
 	}
 };
 
+/**
+ * Create quiz
+ */
 exports.create = async (req, res) => {
 	try {
 		req.body.author = req.userId;
@@ -72,6 +90,9 @@ exports.create = async (req, res) => {
 	}
 };
 
+/**
+ * Update quiz
+ */
 exports.update = async (req, res) => {
 	try {
 		const quizUpdated = await quiz.updateQuiz(req.locals.quiz, req.body);
@@ -82,6 +103,9 @@ exports.update = async (req, res) => {
 	}
 };
 
+/**
+ * Remove quiz
+ */
 exports.remove = async (req, res, next) => {
 	try {
 		const { quiz: quizToDelete } = req.locals;
