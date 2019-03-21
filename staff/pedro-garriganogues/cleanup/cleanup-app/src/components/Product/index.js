@@ -3,7 +3,7 @@ import logic from '../../logic'
 import './index.css'
 import Swal from 'sweetalert2'
 import 'sweetalert2/src/sweetalert2.scss'
-import { Link } from 'react-router-dom'
+
 
 
 const Toast = Swal.mixin({
