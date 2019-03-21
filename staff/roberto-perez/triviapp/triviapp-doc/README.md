@@ -46,10 +46,10 @@ Users can:
 
 ### Code Coverage
 
-![API Coverage](https://img.shields.io/badge/API%20coverage-98.19%-green.svg)
+![API Coverage](https://img.shields.io/badge/API%20coverage-98.19-green.svg)
 ![API code coverage](images/api-coverage.png)
 
-![APP Coverage](https://img.shields.io/badge/APP%20coverage-87.73%-green.svg)
+![APP Coverage](https://img.shields.io/badge/APP%20coverage-87.73-green.svg)
 ![APP code coverage](images/api-coverage1.png)
 ![APP code coverage](images/api-coverage4.png)
 ![APP code coverage](images/api-coverage2.png)
