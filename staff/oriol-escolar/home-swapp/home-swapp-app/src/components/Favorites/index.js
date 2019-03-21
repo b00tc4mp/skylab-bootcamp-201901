@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import './index.sass';
 import logic from '../../logic'
 import HouseCard from '../HouseCard'
+import Spinner from '../Spinner';
 
 
 class Favorites extends Component {
@@ -55,12 +56,12 @@ class Favorites extends Component {
         const { listMyFavorites, state: { favorites }, props: { updateInfo,retrieveHouse } } = this
 
         return <div className="favorites" >
-            <h1 className="favorites__title">FAVORITES</h1>
+            {favorites && <h1 className="favorites__title">FAVORITES</h1>}
 
 
             <div className="favorites__content">
 
-                {favorites && listMyFavorites(favorites, updateInfo,retrieveHouse)}
+                {favorites ? listMyFavorites(favorites, updateInfo,retrieveHouse): <Spinner></Spinner>}
 
             </div>
 

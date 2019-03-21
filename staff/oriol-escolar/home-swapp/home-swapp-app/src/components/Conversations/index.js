@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import './index.sass';
 import ConversationCard from '../ConversationCard'
-import logic from '../../logic'
+import Spinner from '../Spinner'
+
 
 class Conversations extends Component {
 
@@ -9,6 +10,7 @@ class Conversations extends Component {
 
 
         conversations: null,
+        loading:true
 
 
 
@@ -28,17 +30,21 @@ class Conversations extends Component {
 
     }
 
-   
+
 
 
     listConversations = () => {
 
         const { state: { conversations } } = this
+        if (conversations.length) {
 
-        return conversations.map(conversation => {
-            return <ConversationCard contactButton={this.props.contactButton} interlocutorId={conversation.interlocutor} > </ConversationCard>
-        })
-
+            return conversations.map(conversation => {
+                return <ConversationCard contactButton={this.props.contactButton} interlocutorId={conversation.interlocutor} > </ConversationCard>
+            })
+        }else{
+            return <h2>You have no conversations</h2> 
+        }
+        
 
 
     }
@@ -46,14 +52,14 @@ class Conversations extends Component {
 
     render() {
 
-        const { state: { conversations }, listConversations } = this
+        const { state: { conversations,loading }, listConversations } = this
 
 
-        return  <div className="Conversations">
+        return <div className="Conversations">
 
-                {conversations ? listConversations() : <p> sjkgdsahdjkb</p> }
-                
-            </div>
+            { conversations ? listConversations(): <Spinner></Spinner>}
+
+        </div>
 
 
 

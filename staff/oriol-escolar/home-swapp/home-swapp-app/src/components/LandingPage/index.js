@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import { withRouter } from 'react-router-dom'
-
 import './index.sass';
 
 
@@ -19,10 +18,12 @@ class LandingPage extends Component {
 
     handleFormSubmit = event => {
         event.preventDefault()
-
         const { state: { query }, props: { history } } = this
+        if(query){
+    
+            history.push(`/search/${query}`)
 
-        history.push(`/search/${query}`)
+        }
     }
 
     render() {

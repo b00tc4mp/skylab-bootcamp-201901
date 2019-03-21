@@ -101,7 +101,7 @@ class HouseCard extends Component {
 
             <img className="HouseCard__img" src={images[0]}></img>
             <div className= "Houscard__textWrap">
-                <p className="HouseCard__text HouseCard__text-adress">{adress.country},{adress.city},{adress.street} {adress.number}</p>
+                <p className="HouseCard__text HouseCard__text-adress">{adress.country}, {adress.city}, {adress.street} {adress.number}</p>
                 <p className="HouseCard__text HouseCard__text-info" >Pets allowed: {info.petsAllowed}</p>
                 <p className="HouseCard__text HouseCard__text-info" >Smokers allowed: {info.smokersAllowed  }</p>
                 <p className="HouseCard__text HouseCard__text-info" >Number of beds: {info.numberOfBeds}</p>

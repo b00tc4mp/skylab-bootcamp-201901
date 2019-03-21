@@ -3,6 +3,7 @@ import { withRouter } from 'react-router-dom'
 import './index.sass';
 import logic from '../../logic'
 import HouseCard from '../HouseCard'
+import Spinner from '../Spinner'
 
 
 class SearchResults extends Component {
@@ -11,7 +12,8 @@ class SearchResults extends Component {
     state = {
 
         results: "",
-        favorites: ""
+        favorites: "",
+        loading:true
 
     }
 
@@ -49,8 +51,9 @@ class SearchResults extends Component {
 
 
     async retrieveResults(query) {
-
+        this.setState({loading:true})
         const results = await logic.searchByQuery(query)
+        this.setState({loading:false})
 
         if (results.length)
             this.setState({ results: results })
@@ -85,11 +88,12 @@ class SearchResults extends Component {
 
     render() {
 
-        const { listresults, state: { results }, props: { updateInfo,retrieveHouse } } = this
+        const { listresults, state: { results,loading }, props: { updateInfo,retrieveHouse } } = this
 
 
         return <div className="results" >
-            {results ? <h1 className="results__title">{this.props.match.params.query.toUpperCase()}</h1> : <h1> No results for {this.props.match.params.query.toUpperCase()} </h1>}
+
+            {loading ? <Spinner></Spinner> :(results ? <h1 className="results__title">{this.props.match.params.query.toUpperCase()}</h1> : <h1> No results for {this.props.match.params.query.toUpperCase()} </h1>)}
 
             <div className="results__content">
 

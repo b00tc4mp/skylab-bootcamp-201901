@@ -14,6 +14,7 @@ import DetailedHouse from '../DetailedHouse'
 import Conversations from '../Conversations'
 import Chat from '../Chat'
 import logic from '../../logic'
+import { debug } from 'util';
 
 
 class App extends Component {
@@ -26,10 +27,10 @@ class App extends Component {
     registerFeedback: null,
     createHouseFeedback: null,
     registered: null,
-    conversations: [],
+    conversations: null,
     userChat: null,
-    messages: [],
-    updating: null
+    messages: null,
+    updating: null,
 
 
   }
@@ -118,7 +119,7 @@ class App extends Component {
 
 
   handleLogin = (email, password) => {
-
+    this.setState({loginFeedback:""})
     try {
       return logic.loginUser(email, password)
         .then((token) => {
@@ -207,8 +208,7 @@ class App extends Component {
   handleGoToLogout = () => {
 
     logic.logout();
-    this.setState({ user: null, token: null, userFavs: null, userHouses: null,conversations: [],userChat: null,messages: [],loginFeedback: null,registerFeedback: null,createHouseFeedback: null })
-
+    this.setState({ user: null, token: null, userFavs: null, userHouses: null, conversations: [],userChat: null,messages: [],loginFeedback: null,registerFeedback: null,createHouseFeedback: null })
     this.props.history.push('/');
   }
 

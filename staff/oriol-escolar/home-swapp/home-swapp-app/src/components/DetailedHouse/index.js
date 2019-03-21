@@ -5,6 +5,7 @@ import './index.sass';
 import ImageGallery from 'react-image-gallery';
 
 import logic from '../../logic'
+import Spinner from '../Spinner';
 
 
 class DetailedHouse extends Component {
@@ -81,11 +82,13 @@ class DetailedHouse extends Component {
                     this.setState({ location })
                     
                 })
-                .catch(() => true)
+                .catch(() => this.setState({ thisHouse: [] }))
                 
             })
-            .catch(() => this.setState({ thisHouse: null }))
+            .catch(() => this.setState({ thisHouse: [] }))
             
+            
+        }else{
             
         }
         
@@ -141,9 +144,9 @@ class DetailedHouse extends Component {
         return <div className="detailedHouse" >
 
             <button className="detailedHouse__BackButton" onClick={goBack}>BACK</button>
-            {thisHouse ? true : <h1> House not found</h1>}
+            {thisHouse && thisHouse.owner ? true : (thisHouse ==null ? <Spinner></Spinner> : <h1> House not found</h1>)}
 
-            {thisHouse && <div className="detailedHouse__content">
+            {thisHouse !== null && thisHouse.owner  && <div className="detailedHouse__content">
 
                 <div className='detailedHouse__content-infoBlock'>
                     <div className='detailedHouse__content-infoBlock-1'>

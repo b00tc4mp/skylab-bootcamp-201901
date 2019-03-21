@@ -3,6 +3,8 @@ import './index.sass';
 import logic from '../../logic'
 import HouseCard from '../HouseCard'
 import CreateHouseCard from '../CreateHouseCard'
+import Spinner from '../Spinner';
+
 
 
 class MyHouses extends Component {
@@ -43,29 +45,32 @@ class MyHouses extends Component {
         this.props.onCreateHousePage()
     }
 
-    listMyHouses = (userHouses, updateInfo,retrieveHouse) => {
+    listMyHouses = (userHouses, updateInfo, retrieveHouse) => {
 
-        return userHouses.map(house => {
+        let newArray = userHouses.map(house => {
 
             return <HouseCard house={house} updateInfo={updateInfo} deleteHouseList={this.deleteHouseList} retrieveHouse={retrieveHouse} origin='myHouses' />
         });
+
+        newArray.unshift(<CreateHouseCard onCreateHousePage={this.onCreateHousePage} />)
+
+        return newArray
     }
 
 
 
     render() {
 
-        const { listMyHouses, onCreateHousePage, state: { myHouses }, props: { updateInfo,retrieveHouse } } = this
+        const { listMyHouses, onCreateHousePage, state: { myHouses }, props: { updateInfo, retrieveHouse } } = this
 
 
         return <div className="myHouses" >
-            <h1 className="myHouses__title" >MY HOUSES</h1>
 
             <div className="myHouses__content">
-                <CreateHouseCard onCreateHousePage={onCreateHousePage} />
 
 
-                {myHouses && listMyHouses(myHouses, updateInfo,retrieveHouse)}
+                {myHouses && <h1 className="myHouses__title" >MY HOUSES</h1>}
+                {myHouses ? listMyHouses(myHouses, updateInfo, retrieveHouse) : <Spinner></Spinner>}
 
 
             </div>
