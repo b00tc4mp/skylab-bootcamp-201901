@@ -5,6 +5,10 @@
 The main goal of this app is to achieve people working in the same coworking to know each other better.
 This will make the time they spend in the office more enjoyable as well as increase their potential and efficiency while working as they will receive more help from their office colleagues.
 
+![Use Cases](images/login.jpg)
+
+![Use Cases](images/landing.png)
+
 ## Functional description
 
 Users can:
