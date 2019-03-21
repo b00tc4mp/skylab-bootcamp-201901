@@ -40,6 +40,7 @@
 
 ### Technologies
 
+<div class="table">
 
 Client Side                |  Server Side
 :-------------------------:|:-------------------------:
@@ -47,3 +48,9 @@ Client Side                |  Server Side
 ![](images/logos/html5.png)  |  ![](images/logos/express.svg)
 ![](images/logos/react.png)  |  ![](images/logos/jest.png)
 ![](images/logos/sass.png)  |  ![](images/logos/nodemailer.png)
+
+</div>
+
+.table {
+    width: 70%;
+}
