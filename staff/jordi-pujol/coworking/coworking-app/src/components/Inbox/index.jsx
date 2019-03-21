@@ -66,10 +66,10 @@ class Inbox extends Component {
         const { state: { services, feedback }, handleServiceClick, handleSubmitService, handleSearch, handleViewAll } = this
 
         return (<section className="inbox">
-            <div><i class="fas fa-circle blue"><p>Active</p></i><i class="fas fa-circle red"><p>Inactive</p></i><i class="fas fa-circle purple"><p>My service</p></i></div>
+            <div><i className="fas fa-circle red"><p>Active</p></i><i className="fas fa-circle blue"><p>Inactive</p></i><i className="fas fa-circle purple"><p>My service</p></i></div>
             <Search onSearch={handleSearch} onViewAll={handleViewAll} />
             {services && services.map(service => {
-                if (service.active) {
+                if (!service.closed) {
                     return <Service myservice={null} key={services.id} servicesFor={service} onServiceSelected={handleServiceClick} />
                 }
             }

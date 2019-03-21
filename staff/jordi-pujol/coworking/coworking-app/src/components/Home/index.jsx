@@ -62,7 +62,9 @@ class Home extends Component {
     handleViewTime = () => {
         try {
             logic.retrieveUser()
-                .then(({ time }) => this.setState({ myTime: time }))
+                .then(({ time }) => {
+                    if (time == 0 || time == undefined || time == null) this.setState({myTime: 'still 0'})
+                    else this.setState({ myTime: time })})
                 .then(() => {
                     setTimeout(() => { this.setState({ myTime: null }) }, 5000);
                 })

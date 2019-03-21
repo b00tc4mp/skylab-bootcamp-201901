@@ -26,7 +26,7 @@ class ClosedService extends Component {
                 <p>- {submitedUsers.length} person/s bought your service</p>
             </article>
             <form onSubmit={handleCloseService}>
-                <button>Request submited user/s to accept time</button>
+                <button>accept time and close service</button>
             </form>
         </section>
     }

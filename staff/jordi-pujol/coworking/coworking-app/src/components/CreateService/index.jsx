@@ -42,7 +42,7 @@ class NewService extends Component {
                 <input onChange={handleMaxUsersInput} type="number"></input>
                 <span>Place (default: Not specified):</span>
                 <input onChange={handlePlaceInput}></input>
-                <span>Specify expected time you will spend:</span>
+                <span>Specify expected time you will spend (mins):</span>
                 <input onChange={handleTimeInput} required></input>
                 <button>Create Service</button>
             </form>
