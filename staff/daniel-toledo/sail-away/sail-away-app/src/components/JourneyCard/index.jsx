@@ -14,10 +14,10 @@ function JourneyCard(props) {
     const { journeys, edit } = props
     const [favorites, setFavorites] = useState(null)
     const [feedback, setfeedback] = useState('')
-    let isFavorite
+    let isFavorite, user
 
     useEffect(() => {
-        if(logic.isUserLoggedIn) getUser()
+        if (logic.isUserLoggedIn) getUser()
 
     }, [])
 
@@ -33,8 +33,9 @@ function JourneyCard(props) {
 
     async function toggleJourneyFavorite(journeyId) {
         try {
-            const userUpdated = await logic.toggleJourneyFavorite(journeyId)
-            setFavorites(userUpdated.favoriteJourneys)
+            if (!logic.isUserLoggedIn) props.history.push('/login')
+            else { user = await logic.toggleJourneyFavorite(journeyId) }
+            setFavorites(user.favoriteJourneys)
 
         } catch (error) {
             setfeedback(error.message)
