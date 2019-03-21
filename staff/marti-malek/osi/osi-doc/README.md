@@ -29,7 +29,6 @@ The user also has a clock and a toolbar embedded in desktop. With the toolbar yo
 N / A
 
 ## Technologies
-
 ![Javascript](images/js.jpg)
 ![HTML](images/html.png)
 ![CSS](images/css.png)
