@@ -711,13 +711,7 @@ const logic = {
             jsonFile.children.splice(childToRemoveIndex, 1)
 
             /* Overwrites the father's current @.this.json file with the new one which has the updated children */
-            try {
-                fs.promises.writeFile(jsonPath, JSON.stringify(jsonFile, null, 4), err => {
-                    if (err) throw err
-                })
-            } catch(err) {
-                if (err) throw err
-            }
+            fs.writeFileSync(jsonPath, JSON.stringify(jsonFile, null, 4))
 
             /* Joins to the exact path to the folder to remove */
             const myPath = path.join(resPath, dirPath)
@@ -1226,7 +1220,7 @@ const logic = {
                     let regex = /\w+(?:\.\w+)*$/
                     // let name = path.basename(from)
                     if (from.match(regex)[0] === 'this.json') {
-                    // if (name === 'this.json') {
+                        // if (name === 'this.json') {
                         return '.this.json'
                     } else {
                         return from.match(regex)[0]
