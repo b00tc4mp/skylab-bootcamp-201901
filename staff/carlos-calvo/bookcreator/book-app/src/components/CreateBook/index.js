@@ -14,7 +14,7 @@ class CreateBook extends Component {
     medida2 = 70
 
     state = {
-        title: null,
+        title: '',
         textContent: '',
         imageCover : '',
         step1: true,
@@ -123,7 +123,7 @@ class CreateBook extends Component {
                             <ProgressBar level={this.medida1}></ProgressBar><br/>
                             <div className="inputTitleContainer">
                                 <label className="inputTitleContainer__label" htmlFor="uname"><b>Your books title</b></label>
-                                <input className="inputTitleContainer__title" type="text" value={this.state.email} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required/> <br/>
+                                <input className="inputTitleContainer__title" type="text" value={this.state.title} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required/> <br/>
                             </div>
                             <div className="inputContainer">
                                 <label htmlFor="uname" className="inputContainer__label"><i class="fa fa-cloud-upload">Enter a coverphoto</i></label>

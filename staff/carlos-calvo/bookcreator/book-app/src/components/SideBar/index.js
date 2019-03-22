@@ -4,16 +4,24 @@ import logic from '../../logic'
 import './index.sass'
 class SideBar extends Component {
 
+    state= {checked: false}
+
     logoutUser =() => {
         this.props.logoutUser()
     }
+
+    componentDidMount() {
+        this.props.history.listen(() => this.setState({checked: false}))
+    }
+
+    toggle  = () => this.setState({checked: !this.state.checked})
 
     render() {
         return (
             <Fragment>
                         <div class="sidenav">
                             <label for="toggle">&#9776;</label>
-                            <input type="checkbox" id="toggle"/>
+                            <input type="checkbox" id="toggle" onClick={this.toggle} checked={this.state.checked}/>
                             <div class="sidenav__menu">
                                 <img width = "30px" height="30px" src="https://www.misskatecuttables.com/uploads/shopping_cart/9363/large_books-on-shelf.png"></img>
                                 <Link className="sidenav__text" to="/home/newbook">New Book <i className="fas fa-plus-square"></i></Link>
@@ -28,4 +36,4 @@ class SideBar extends Component {
         )
     }
 }
-export default SideBar;
+export default withRouter(SideBar);
