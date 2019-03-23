@@ -149,8 +149,8 @@ class CreateBook extends Component {
                                 <div className="inputParams"><input type="text" placeholder="You have not inserted a tag for place" disabled/> <br/></div> 
                             }
                             <div className="formButtonContainer">
-                                <button className="btn btn-secondary" onClick={this.backStep}>Back</button>   
-                                <button className="btn btn-info" type="submit" >Go!</button>    
+                                <button className="btn btn-secondary btn--back" onClick={this.backStep}>Back</button>   
+                                <button className="btn btn-info btn--submit" type="submit" >Go!</button>    
                             </div>
                         </div>
                     </form>

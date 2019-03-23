@@ -44,39 +44,22 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         app.use(express.urlencoded({limit: '50mb'}));
 
         router.use(cors()) //Para el Cors, evita el bloqueo del navegador por seguridad cuando hace llamadas a diferentes URLs.
-        
         router.post('/user', jsonBodyParser, registerUser)
-
         router.post('/user/auth', jsonBodyParser, authenticateUser)
-
         router.post('/book/add', [jsonBodyParser, tokenVerifierMiddleware], addBook)
-
         router.put('/user/update', jsonBodyParser, updateUser)
-
         router.get('/user', tokenVerifierMiddleware, retrieveUser)
-
         router.get('/books/retrieve', tokenVerifierMiddleware, retrieveBooks)
-
         router.get('/book/retrieve/:id', [jsonBodyParser, tokenVerifierMiddleware], retrieveBook )
-
         router.delete('/book/delete',[jsonBodyParser, tokenVerifierMiddleware], deleteBook )
-
         router.post('/image/upload',  jsonBodyParser, imageUpload )
-
         router.post('/book/update',[jsonBodyParser, tokenVerifierMiddleware], updateBook)
-
         router.post('/book/addBookToTemplates', jsonBodyParser, addBookToTemplates)
-
         router.get('/book/retrieveTemplates', retrieveTemplates)
-
         router.post('/book/addTemplateToUserBooks',[jsonBodyParser, tokenVerifierMiddleware] , addTemplateToUserBooks)
-
         router.get('/book/getEpub/:id',[jsonBodyParser, tokenVerifierMiddleware] , getEpub)
-
         router.get('/book/retrieveTemplate/:id',jsonBodyParser, retrieveTemplateBook )
-
         app.use('/api', router)
-
         app.listen(port, () => console.log(`${package.name} ${package.version} running on port ${port}`))
     })
     .catch(console.error)

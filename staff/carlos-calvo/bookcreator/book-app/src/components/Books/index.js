@@ -32,7 +32,7 @@ class Books extends Component {
         this.forceUpdate()
     }
 
-    componentDidMount = () =>{
+    componentDidMount = () =>{ //Add the listenner to the screen and 
         this.updateWindowDimensions()
         window.addEventListener('resize', this.updateWindowDimensions);
         if(this.props.bookid){
@@ -60,7 +60,7 @@ class Books extends Component {
 
 
     //personalize content by number of words
-    personalizeContentbywords = (book) => {
+    personalizeContentbywords = (book) => { //Substitute param words and split by num of words.
         if(book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('name')) book.content = book.content.replace(/<name>/g, book.parameters.name)
         if(book  && book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place')) book.content = book.content.replace(/<place>/g, book.parameters.place)
         let texto = book.content
@@ -90,7 +90,7 @@ class Books extends Component {
         this.flipPage.gotoPreviousPage()
         if(this.state.currentPage == 0){
             return  
-        } else {
+        } else { //Hide buttons, so currentPage and pageshown matches in case two consecutive clicks.
             var button = document.getElementsByClassName('advancePage')[0]
             var button1 = document.getElementsByClassName('backPage')[0]
             button.setAttribute('hidden', true)
@@ -108,7 +108,7 @@ class Books extends Component {
         this.flipPage.gotoNextPage()
         if((this.state.currentPage >= (this.state.pages.length))){
             return  
-        } else {
+        } else { //Hide buttons, so currentPage and pageshown matches in case two consecutive clicks.
             var button = document.getElementsByClassName('advancePage')[0]
             var button1 = document.getElementsByClassName('backPage')[0]
             button.setAttribute('hidden', true)
@@ -123,11 +123,11 @@ class Books extends Component {
 
     render = () => {
         return (
-            this.state.width && (this.state.width > 700 && this.state.height > 500) ?
+            this.state.width && (this.state.width > 700 && this.state.height > 500) ? //For Mobile.
                 <Fragment>
                 <div className = "coverright">
                     {<div className="book-container">
-                            {this.flipPage?
+                            {this.flipPage? //Only in case compo is mounted.
                                     <div className="book-container__controls">
                                         {this.state.currentPage !== 0?
                                         <button className="buttonArrow backPage" onClick={()=>{this.backPage()}}><i className="fas fa-arrow-left"></i></button>
@@ -166,9 +166,7 @@ class Books extends Component {
                                     <div className="page2">{this.state.pages[i === 0 ? i + 1: 2*i + 1]}</div>
                                 </div>
                             })}
-
-                            </FlipPage>
-                                    
+                            </FlipPage>            
                         </div>}
                 </div>
                 </Fragment>

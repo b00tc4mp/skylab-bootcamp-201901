@@ -7,13 +7,11 @@ module.exports = (req, res) => {
         logic.deleteBook(id)
             .then(id => res.json( id ))
             .catch(({ message }) => {
-                console.log(message)
                 res.status(409).json({
                     error: message
                 })
             })
     } catch ({ message }) {
-        console.log(message)
         res.status(409).json({
             error: message
         })

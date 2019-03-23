@@ -1,4 +1,4 @@
-import React, {Component, Fragment} from 'react'
+import React, {Component} from 'react'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 import SideBar from '../SideBar'
 import UpdateUser from '../UpdateUser'
@@ -13,7 +13,7 @@ import './index.sass'
 import 'react-toastify/dist/ReactToastify.min.css' 
 import logic from '../../logic'
 
-
+//Component for managing routes once logged
 class Home extends Component {
     state = { bookid: null }
 
@@ -35,7 +35,6 @@ class Home extends Component {
     }
 
 
-    //render={() => logic.isUserLoggedIn ? <Redirect to="/home" />: <Redirect to="/welcome" />}/>
     render() {
         return (
             <div className="bodycontainer">

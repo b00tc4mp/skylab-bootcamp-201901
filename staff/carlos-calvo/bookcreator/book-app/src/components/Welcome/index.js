@@ -31,7 +31,6 @@ class Welcome extends Component {
                     </div>
                 </div>
             </Fragment>
-                <div className="headertitle">Book Creator and Sharing!</div>
                 <div className="ContainerWelcome"> {/*Container*/}
                     <div className="ContainerWelcome-carrousel"> {/*First Line*/}
                         <Carrousel/>

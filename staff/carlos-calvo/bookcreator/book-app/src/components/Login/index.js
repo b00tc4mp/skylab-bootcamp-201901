@@ -1,6 +1,6 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
-import { Route, withRouter, Link } from 'react-router-dom'
+import { withRouter} from 'react-router-dom'
 import Welcome from '../Welcome';
 import Feedback from '../Feedback'
 import logic from '../../logic'

@@ -1,6 +1,5 @@
 import React, {Component, Fragment} from 'react'
 import './index.sass'
-import SideBar from '../SideBar';
 import Feedback from '../Feedback'
 import { toast } from 'react-toastify';
 import logic from '../../logic'

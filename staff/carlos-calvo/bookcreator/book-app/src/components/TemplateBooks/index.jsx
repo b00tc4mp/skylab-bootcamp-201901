@@ -51,9 +51,9 @@ class TemplateBooks extends Component {
     }
 
     render = () => {
-
+        //Filtering by search
         const {state : { books } } = this
-        let booksfiltered = books.filter(book => {
+        let booksfiltered = books.filter(book => { 
                                 if(this.state.search = '') return true
                                 else {
                                     let lowerCasetitle = book.title.toLowerCase()
