@@ -1,22 +1,21 @@
 import React, {Component, Fragment} from 'react';
 import './index.sass'
 import cloudinary from '../../cloudinary'
-import ProgressBar from '../ProgressBar';
 import { toast } from 'react-toastify';
-
 import logic from '../../logic'
+import {ProgressBar} from 'react-bootstrap'
 
 class CreateBook extends Component {
   
     isnameTag = false
     isplaceTag = false
-    medida1 = 33
-    medida2 = 70
+    medida1 = 50
+    medida2 = 100
 
     state = {
         title: '',
         textContent: '',
-        imageCover : '',
+        imageCover : null,
         step1: true,
         messageFeedback: '',
         name: '',
@@ -54,20 +53,6 @@ class CreateBook extends Component {
             this.setState({[name]: files[0]}, () => {})
         }
     }
-
-    // handleFileTextChange = e => {
-    //     let files = e.target.files
-    //     let reader = new FileReader()
-    //     if (files.length) {
-    //         reader.readAsText(files[0], "CP1251")
-    //         reader.onload = (evt) => {
-    //             this.isnameTag = evt.target.result.includes('<name>')
-    //             this.isplaceTag = evt.target.result.includes('<place>')
-    //             this.setState({textContent: evt.target.result }, () => {})
-
-    //         }
-    //     }
-    // }
 
     addBook = (e) => {
         e.preventDefault()
@@ -120,17 +105,17 @@ class CreateBook extends Component {
                         <form onSubmit={this.nextStep}>
                             <div className="formCreateBook_step"><h2>STEP 1 / 2</h2>
                             </div>
-                            <ProgressBar level={this.medida1}></ProgressBar><br/>
+                            <ProgressBar animated now={this.medida1}></ProgressBar><br/>
                             <div className="inputTitleContainer">
                                 <label className="inputTitleContainer__label" htmlFor="uname"><b>Your books title</b></label>
                                 <input className="inputTitleContainer__title" type="text" value={this.state.title} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required/> <br/>
                             </div>
                             <div className="inputContainer">
-                                <label htmlFor="uname" className="inputContainer__label"><i class="fa fa-cloud-upload">Enter a coverphoto</i></label>
-                                <input onChange={this.handleFileChange} id="inputcover" accept=".jpg,.png,.gif,.bmp " name="imageCover" className="inputfile" type="file" required/>
+                                <label htmlFor="uname" className="inputContainer__label"><i className="fa fa-cloud-upload">Enter a coverphoto</i></label>
+                                <input onChange={this.handleFileChange} id="inputcover" accept=".jpg,.png,.gif,.bmp" name="imageCover" className="inputfile" type="file" required/>
                             </div>
                             <div className="inputContainertext">
-                                <textarea className="inputContainertext__textarea" onChange={this.handleTextChange} placeholder="Enter your tagged text here" maxlength="800000" required>
+                                <textarea className="inputContainertext__textarea" onChange={this.handleTextChange} placeholder="Enter your tagged text here" value={this.state.textContent} maxLength="8000000" required>
                                     </textarea>
                             </div>    
                             <div className="formButtonContainer">   
@@ -149,7 +134,7 @@ class CreateBook extends Component {
                     <form onSubmit={this.addBook}>
                         <div className="formCreateBook_step"><h2>STEP 2 / 2</h2>
                         </div>
-                        <ProgressBar level={this.medida2}></ProgressBar><br/>
+                        <ProgressBar animated now={this.medida2}></ProgressBar><br/>
                         <label htmlFor="uname"><b>Your main character is: </b></label>
                         <div>
                             {this.isnameTag  ? 

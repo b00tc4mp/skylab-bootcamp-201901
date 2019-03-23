@@ -69,9 +69,9 @@ class CardTemplate extends Component {
                         </div>
                         <div className="cardBody__buttonContainer">
                             <button onClick={this.loadTemplateBook} className="butt butt--read" data-toggle="tooltip" data-placement="top" title="Read Book"><i className="fas fa-book-reader"></i></button>
-                            <button onClick={this.addTemplateToUserBooks} className="butt butt--addtemplate" data-toggle="tooltip" data-placement="top" title="Add to your books"><i class="fas fa-bookmark"></i></button>
+                            <button onClick={this.addTemplateToUserBooks} className="butt butt--addtemplate" data-toggle="tooltip" data-placement="top" title="Add to your books"><i className="fas fa-bookmark"></i></button>
                             {book.hasOwnProperty('numDownloads') ?
-                                <p>{book.numDownloads}<i class="fas fa-star"></i></p>
+                                <p>{book.numDownloads}<i className="fas fa-star"></i></p>
                                 :
                                 null
                             }

@@ -164,7 +164,7 @@ const logic = {
      * retrieve all books from current user
      */
     retrieveBooks(){
-        if(arguments.length != 0) throw new Error('Too Many args')
+        if(arguments.length !== 0) throw new Error('Too Many args')
 
         return ( async () => {
 

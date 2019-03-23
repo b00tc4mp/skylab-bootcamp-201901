@@ -40,7 +40,7 @@ class Home extends Component {
         return (
             <div className="bodycontainer">
                 <SideBar logoutUser = {this.logoutUser}></SideBar>
-                <Route path="/home" render={() => logic.isUserLoggedIn ? <Redirect to="home/yourbooks" />: <Redirect to="/welcome" />}/>
+                <Route exact path="/home" render={() => logic.isUserLoggedIn ? <Redirect to="home/yourbooks" />: <Redirect to="/welcome" />}/>
                 <Route path="/home/newbook" component = {CreateBook} />
                 <Route exact path="/home/yourbooks" render={() => <YourBooks loadBook={this.loadBook} editBook={this.editBook}/> }/>
                 <Route path="/home/templatebooks" render={() => <TemplateBooks loadTemplateBook = {this.loadTemplateBook}/>} />

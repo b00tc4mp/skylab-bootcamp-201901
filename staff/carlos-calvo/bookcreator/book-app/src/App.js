@@ -20,10 +20,10 @@ class App extends Component {
     return (
       <div className="App">
         <Switch>
-        <Route path exact="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" />: <Redirect to="/welcome" />}/>
-        <Route path="/welcome" render = {() =>logic.isUserLoggedIn ? <Redirect to="/home" /> :<Welcome/> }/>
-        <Route path="/login" render = {() =>logic.isUserLoggedIn ? <Redirect to="/home" /> :<Login updateToken = {this.updateToken}/> }/>
-        <Route path="/register" render = {() =>logic.isUserLoggedIn ? <Redirect to="/home" /> :<Register/> }/>
+        <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Redirect to="/welcome" />}/>
+        <Route path="/welcome" render = {() =>logic.isUserLoggedIn ? <Redirect to="/home" /> : <Welcome/> }/>
+        <Route path="/login" render = {() =>logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login updateToken = {this.updateToken}/> }/>
+        <Route path="/register" render = {() =>logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register/> }/>
         <Route path="/home" render ={() => logic.isUserLoggedIn ? <Home/> : <Redirect to="/welcome" /> }/>
         </Switch>
       </div>

@@ -1,7 +1,8 @@
 'use strict'
 
 const { User, Book, BookTemplate} = require('book-data')
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
+const path = require('path')
 const Epub = require("epub-gen");
 const ObjectID = require('mongodb').ObjectID
 const { AuthError, EmptyError, DuplicateError, MatchingError, NotFoundError } = require('../errors')
@@ -187,12 +188,6 @@ const logic = {
         
 
         return (async () => {
-            //Check that book title does not exist for this user.
-            // const book = await Book.find({ 'userId' : ObjectID(userId), 'title': title })
-            // console.log('*******************************************')
-            // console.log('book found', book)
-            // console.log('lenght', book.length)
-            // if (book.length) throw new DuplicateError(`title already existing`)
             
             //Check that user exists.
             const user = await User.findById(userId)
@@ -411,11 +406,13 @@ const logic = {
             const options ={
                 title: book.title,
                 author: 'Your Book Creator',
-                cover: "https://storage.googleapis.com/gd-wagtail-prod-assets/original_images/evolving_google_identity_share.jpg",
+                cover: book.coverphoto,
                 content: content
             }
-            const a = await new Epub(options, __dirname + "/file.epub")
-            return 'c:/Users/Usuario/Documents/collab/skylab-bootcamp-201901/staff/carlos-calvo/bookcreator/book-api/src/logic/file.epub'
+
+            let reqPath = path.join(__dirname, '../files')
+            const a = await new Epub(options, reqPath + "/file.epub")
+            return  reqPath + "/file.epub"
         })()
     }
 }

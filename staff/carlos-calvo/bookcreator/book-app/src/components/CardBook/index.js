@@ -37,7 +37,9 @@ class CardBook extends Component {
                     }, 5000)
                 })
         } catch (error){
-            console.log(error)
+            toast.error(error.message, {
+                position: toast.POSITION.BOTTOM_LEFT,
+              });
         }
     }
 
@@ -46,9 +48,6 @@ class CardBook extends Component {
             logic.downloadEpub(this.props.bookSelected._id)
                 .then(res => res.blob())
                 .then(blob => {
-                    // const contentDisposition = res.headers.get('Content-Disposition')
-                    // const fileName = /filename[^;=\n]*=((['"]).*?\2|[^;\n]*)/.exec(contentDisposition)[1]
-                    // TODO improve using refs?
                     const url = window.URL.createObjectURL(blob)
                     const fileName = this.props.bookSelected.title
                     const link = document.createElement('a')
@@ -58,7 +57,9 @@ class CardBook extends Component {
                     link.click()
                 })
         } catch (error){
-            console.log(error)
+            toast.error(error.message, {
+                position: toast.POSITION.BOTTOM_LEFT,
+              });
         }
     }
 
@@ -82,9 +83,9 @@ class CardBook extends Component {
                         </div>
                         <div className="cardBody__place">
                             {book.hasOwnProperty('parameters') && book.parameters.hasOwnProperty('place') ? 
-                            <p className="cardBody__text"><i class="fas fa-place-of-worship"></i> {book.parameters.place}</p>
+                            <p className="cardBody__text"><i className="fas fa-place-of-worship"></i> {book.parameters.place}</p>
                                 :
-                            <p className="cardBody__text"><i class="fas fa-place-of-worship"></i> No editable place</p>
+                            <p className="cardBody__text"><i className="fas fa-place-of-worship"></i> No editable place</p>
                             }
                         </div>
                         <div className="cardBody__buttonContainer">
@@ -94,10 +95,10 @@ class CardBook extends Component {
                             {book.hasOwnProperty('isTemplate') && book.isTemplate? 
                             <div></div>
                             :
-                            <button onClick={this.addBookToTemplates} className="butt butt--addtemplate" data-toggle="tooltip" data-placement="top" title="Make this book a public template"><i class="fas fa-share"></i></button>
+                            <button onClick={this.addBookToTemplates} className="butt butt--addtemplate" data-toggle="tooltip" data-placement="top" title="Make this book a public template"><i className="fas fa-share"></i></button>
                             }
                             {/* <button className="butt--gener" onClick={this.downloadEpubfase1}>gen</button> */}
-                            <button onClick={this.downloadEpubfase1} className="butt butt--download" data-toggle="tooltip" data-placement="top" title="Download Epub"><i class="fas fa-file-download" download></i></button>
+                            <button onClick={this.downloadEpubfase1} className="butt butt--download" data-toggle="tooltip" data-placement="top" title="Download Epub"><i className="fas fa-file-download" download></i></button>
                         </div>
                         <div className="containerSpinner"></div>
                     </div>

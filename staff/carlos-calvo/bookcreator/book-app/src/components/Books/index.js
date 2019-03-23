@@ -130,17 +130,17 @@ class Books extends Component {
                             {this.flipPage?
                                     <div className="book-container__controls">
                                         {this.state.currentPage !== 0?
-                                        <button className="buttonArrow backPage" onClick={()=>{this.backPage()}}><i class="fas fa-arrow-left"></i></button>
+                                        <button className="buttonArrow backPage" onClick={()=>{this.backPage()}}><i className="fas fa-arrow-left"></i></button>
                                         :
-                                        <button className="buttonArrow backPage" disabled><i class="fas fa-arrow-left"></i></button>
+                                        <button className="buttonArrow backPage" disabled><i className="fas fa-arrow-left"></i></button>
                                         }
                                         <form>
                                             <input id="range_weight" className ="slider" oninput="range_weight_disp.value = range_weight.value" value={this.state.currentPage} type="range" step="2" onChange={this.goToPage} min="0" max={this.state.pages.length + 2} disabled/>
                                         </form>
                                         {(this.state.currentPage < (this.state.pages.length + 1))?
-                                        <button className="buttonArrow advancePage" onClick={()=>{this.advancePage()}}><i class="fas fa-arrow-right"></i></button>
+                                        <button className="buttonArrow advancePage" onClick={()=>{this.advancePage()}}><i className="fas fa-arrow-right"></i></button>
                                         :
-                                        <button className="buttonArrow advancePage" disabled><i class="fas fa-arrow-right"></i></button>
+                                        <button className="buttonArrow advancePage" disabled><i className="fas fa-arrow-right"></i></button>
                                         }
                                         
                                     </div>

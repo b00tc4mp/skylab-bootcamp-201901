@@ -3,9 +3,10 @@
 import React from 'react'
 import './index.sass'
 
-function ProgressBar( level ) {
+function ProgressBar(level) {
+    const classMod = 'progress-bar w-'.concat(level.level)
     return <div className="progress">
-        <div className={`progress-bar progress-bar-striped bg-info w${level}`} role="progressbar" aria-valuenow={level} aria-valuemin="0" aria-valuemax="100"></div>
+        <div className={classMod} role="progressbar" style="width: 25%" aria-valuenow={level.level} aria-valuemin="0" aria-valuemax="100"></div>
     </div>
 }
 
