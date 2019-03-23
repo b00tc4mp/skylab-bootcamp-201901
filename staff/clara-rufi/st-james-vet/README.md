@@ -1,7 +1,6 @@
-St-James-vet
+# St-James-vet ![Usea cases](./st-james-vet-doc/images/cat.png)
 
-
-===================================
+_______________________________
 
 ## Documentation
 

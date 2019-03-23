@@ -1,6 +1,6 @@
-St-James-vet ![Usea cases](./images/cat.png)
+# St-James-vet ![Usea cases](./images/cat.png)
 
-=================
+___
 
 ## Introduction
 
