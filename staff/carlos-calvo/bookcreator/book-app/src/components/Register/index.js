@@ -67,7 +67,6 @@ class Register extends Component {
                         <button type="submit" className="but but--login">Register</button>
                         <button type="button" className="but but--cancel" onClick={this.goBack}>Cancel</button>
                     </div>
-
                 </form>
             </div>
         </Fragment>

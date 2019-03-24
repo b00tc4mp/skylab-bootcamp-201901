@@ -149,7 +149,7 @@ class Books extends Component {
                             }
                             <FlipPage
                                 ref={(component) => { this.flipPage = component }}
-                                height ={0.77*this.state.height}
+                                height ={0.79*this.state.height}
                                 width ={0.82*this.state.width}
                                 animationDuration = '600'
                                 disableSwipe = 'true'

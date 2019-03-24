@@ -124,9 +124,9 @@ class CreateBook extends Component {
                         </form>
                     </div> 
                     <div className="instructionsContainer">
-                        <p className="typewriter">Tag with &lt;Chapter&gt; so you can split the book into chapters </p>
-                        <p className="typewriter">Tag with &lt;name&gt; so you can personalize the main protagonist </p>
-                        <p className="typewriter">Tag with &lt;place&gt; so you can personalize the main place </p>
+                        <p className="typewriter">Tag with &lt;Chapter&gt; and split the book into chapters </p>
+                        <p className="typewriter">Tag with &lt;name&gt; and personalize the main protagonist </p>
+                        <p className="typewriter">Tag with &lt;place&gt; and personalize the main place </p>
                     </div>
                 </Fragment>
                 :

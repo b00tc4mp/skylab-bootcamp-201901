@@ -37,7 +37,7 @@ class Welcome extends Component {
                     </div>
                 </div>
                 <footer>
-                    <div> Created and designed by Carlos Calvo for Creative Zoo</div>
+                    <div> Created and designed by <b>Carlos Calvo Lopez</b> for <a href="http://creativezoo.pro/">Creative Zoo</a></div>
                     <div><a href="https://github.com/carlosclatg/skylab-bootcamp-201901"><i className="fab fa-github-square fa-lg"></i></a></div>
                 </footer>
         </Fragment>)
