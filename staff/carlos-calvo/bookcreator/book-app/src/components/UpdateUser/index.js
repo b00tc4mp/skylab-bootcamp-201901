@@ -28,7 +28,8 @@ class UpdateUser extends Component {
     }
 
 
-    handleFormSubmit = () => {
+    handleFormSubmit = (event) => {
+        event.preventDefault()
         try {
             this.setState({ loginFeedback: '' })
             logic.updateUser(this.state.name, this.state.surname, this.state.email, this.state.password, this.state.passwordConf)

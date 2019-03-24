@@ -20,6 +20,7 @@ class CreateBook extends Component {
         messageFeedback: '',
         name: '',
         place: '',
+        filename: '',
         images: []
         
     }
@@ -51,6 +52,7 @@ class CreateBook extends Component {
             reader.readAsDataURL(files[0])
             let name = e.target.name
             this.setState({[name]: files[0]}, () => {})
+            this.setState({filename: files[0].name}, () => {})
         }
     }
 
@@ -111,8 +113,8 @@ class CreateBook extends Component {
                                 <input className="inputTitleContainer__title" type="text" value={this.state.title} placeholder="Enter title for the book" name="uname" onChange={this.handleTitleInput} required/> <br/>
                             </div>
                             <div className="inputContainer">
-                                <label htmlFor="uname" className="inputContainer__label"><i className="fa fa-cloud-upload">Enter a coverphoto</i></label>
-                                <input onChange={this.handleFileChange} id="inputcover" accept=".jpg,.png,.gif,.bmp" name="imageCover" className="inputfile" type="file" required/>
+                                <input className="inputContainer__input" onChange={this.handleFileChange} id="inputcover" accept=".jpg,.png,.gif,.bmp" name="imageCover" type="file" required/>
+                                <label>{this.state.filename}</label>
                             </div>
                             <div className="inputContainertext">
                                 <textarea className="inputContainertext__textarea" onChange={this.handleTextChange} placeholder="Enter your tagged text here" value={this.state.textContent} maxLength="8000000" required>
@@ -124,9 +126,9 @@ class CreateBook extends Component {
                         </form>
                     </div> 
                     <div className="instructionsContainer">
-                        <p className="typewriter">Tag with &lt;Chapter&gt; and split the book into chapters </p>
-                        <p className="typewriter">Tag with &lt;name&gt; and personalize the main protagonist </p>
-                        <p className="typewriter">Tag with &lt;place&gt; and personalize the main place </p>
+                        <p className="typewriter">Tag with &lt;Chapter&gt; so you can split the book into chapters </p>
+                        <p className="typewriter">Tag with &lt;name&gt; so you can personalize the main protagonist </p>
+                        <p className="typewriter">Tag with &lt;place&gt; so you can personalize the main place </p>
                     </div>
                 </Fragment>
                 :
