@@ -1,25 +1,93 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
 $c-primary: green;
 $bgc-atom-button: plum;
 $c-accent: red;
 
-.container {
+@mixin meme {
+    position: relative;
+    font-weight: bold;
+    z-index: 9;
+    color: white;
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 1.3rem;
+}
+
+@mixin flexed {
     display: flex;
-    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    @include flexed;
+    flex-direction: column;
+}
+
+.top {
+    @include meme;
+    top: 8.5rem;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
+}
+
+.bottom {
+    @include meme;
+    top: -4rem;
+    text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
 }
 
 .card {
-    width: 50%;
-    height: 50%;
-    margin-right: 1rem;
+    @include flexed;
+    width: 40%;
+    height: 40%;
+    margin-top: 10%;
+}
+
+.card__content {
+    @include flexed;
+    flex-direction: column;
 }
 
 .buttons {
-    display: flex;
+    @include flexed;
     flex-wrap: wrap;
+    margin-top: 0.5rem;
+}
+
+.buttons__contact {
+    margin-right: 1rem;
+}
+
+.progress {
+    @include flexed;
+}
+
+.progress input {
+    margin-right: 0.5rem;
+}
+
+.inputField {
+    margin: 0.5rem
+}
+
+.modal {
+    @include flexed;
+    flex-direction: column;
+}
+
+.modal__buttons {
+    margin-top: 0.5rem;
 }
 
 @import '~@s-ui/react-atom-spinner/lib/index';
 @import '~@s-ui/react-atom-image/lib/index';
 @import '~@s-ui/react-atom-card/lib/index';
 @import '~@schibstedspain/sui-atom-button/lib/index';
+@import '~@s-ui/react-atom-progress-bar/lib/index';
+@import '~@s-ui/react-molecule-modal/lib/index';
+@import '~@s-ui/react-molecule-input-field/lib/index';
 
