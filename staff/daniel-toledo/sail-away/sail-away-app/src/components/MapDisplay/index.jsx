@@ -1,4 +1,4 @@
-'use strict'
+
 
 import React, { useState, useEffect } from 'react'
 import { Map, GoogleApiWrapper, Polyline } from 'google-maps-react'
@@ -6,6 +6,10 @@ import { Map, GoogleApiWrapper, Polyline } from 'google-maps-react'
 import Feedback from '../Feedback'
 
 import logic from '../../logic'
+
+const {
+    env: { GOOGLE_MAPS_ID }
+  } = process
 
 function MapDisplay({ google, markers, seaId }) {
 
@@ -79,5 +83,5 @@ function MapDisplay({ google, markers, seaId }) {
 }
 
 export default GoogleApiWrapper({
-    apiKey: ('AIzaSyAFDTq_HRLGd3dWHf2NLtw8Jv-05efTy7s')
+    apiKey: GOOGLE_MAPS_ID
 })(MapDisplay)
