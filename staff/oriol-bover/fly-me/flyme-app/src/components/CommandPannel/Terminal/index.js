@@ -4,7 +4,7 @@ import './index.sass'
 export default function Terminal({ history }) {
 
     useEffect(() => {
-        console.log('history in terminal', history)
+
     }, [history.join(',')])
 
     return (<div className="columns">

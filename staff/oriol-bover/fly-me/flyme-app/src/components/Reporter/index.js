@@ -15,7 +15,7 @@ export default function Reporter() {
             logic.sendReport({ subject, message })
                 .then(res => {
                     if (res.status) {
-                        setFeedback('Mail send it correctyl')
+                        setFeedback('Mail send it correctly')
                         setSubject('')
                         setMessage('')
                     }
@@ -28,7 +28,7 @@ export default function Reporter() {
 
     return (<section className="section">
         <p>You can report any problem, incident or bug that has occurred during the course of use.</p>
-        {feedback && <Feedback>{feedback}</Feedback>}
+        {feedback && <Feedback message={feedback} />}
         <form className="block reporter" onSubmit={e => handleSubmit(e)} >
             <div className="field">
                 <label className="label">Subject</label>
