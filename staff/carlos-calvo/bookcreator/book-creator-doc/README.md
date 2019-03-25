@@ -10,7 +10,7 @@ Sharing Books: Possibility to create public templates allowing other users to pe
 
 Personalize Books: By tagging name and place, other users can personalize a book with their own characters
 
-![Introduction](images/Cover.png)
+![Introduction](./images/Cover.PNG)
 
 
 ## Functional description
