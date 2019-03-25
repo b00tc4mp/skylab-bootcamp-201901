@@ -29,27 +29,27 @@ Users can:
 * Update Profile
 * Contact
 
-![usecases](./images/use-cases.png)
+![usecases](./images/use-cases.PNG)
 
 ## Technical Description
 
 ### Blocks
-![blocks](./images/blocks.png)
+![blocks](./images/blocks.PNG)
 
 ### Main Components
-![components](./images/components.png)
+![components](./images/components.PNG)
 
 ### Data Model
-![datamodel](./images/datamodel.png)
+![datamodel](./images/datamodel.PNG)
 
 ## Code Coverage
 
 ### ![API Coverage](https://img.shields.io/badge/API_Coverage-93%25-green.svg)
-![API Coverage](./images/Api-code-coverage.png)
+![API Coverage](./images/Api-code-coverage.PNG)
 
 
 ### ![APP Coverage](https://img.shields.io/badge/APP_Coverage-97%25-green.svg)
-![APP Coverage](./images/App-code-coverage.png)
+![APP Coverage](./images/App-code-coverage.PNG)
 
 ## Technologies
 
