@@ -2,4 +2,4 @@
 
 ## [Documentation](book-creator-doc/README.md)
 
-## [Demo]()
+## [Demo](https://yourcreativebookcreator.surge.sh/#/welcome)
