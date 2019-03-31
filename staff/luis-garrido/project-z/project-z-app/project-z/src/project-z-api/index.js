@@ -1,4 +1,4 @@
-"use strict";
+
 
 const {
     AuthError,
@@ -10,8 +10,8 @@ const {
 const validate = require("project-z-validation");
 
 const projectZApi = {
-    // url: "http://localhost:8000/api",
-    url: "https://shielded-hamlet-42041.herokuapp.com/api",
+    url: "http://localhost:8000/api",
+    // url: "https://shielded-hamlet-42041.herokuapp.com/api",
 
     registerUser(
         username,

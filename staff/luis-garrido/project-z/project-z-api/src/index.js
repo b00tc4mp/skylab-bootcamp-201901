@@ -11,6 +11,7 @@ const { mongoose } = require('project-z-data');
 const tokenHelper = require("./token-helper");
 
 const {
+    // env: { MONGODB_URI: DB_URL, PORT, JWT_SECRET },
     env: { DB_URL, PORT, JWT_SECRET },
     argv: [, , port = PORT || 8080]
 } = process;
@@ -24,7 +25,7 @@ mongoose
 
         app.use("/api", router);
 
-        app.listen(port, () =>
+        app.listen(process.env.PORT || port, () =>
             console.log(
                 `${packageDotJson.name} ${packageDotJson.version} running on port ${port}. Welcome!`
             )

@@ -599,8 +599,8 @@ const logic = {
 
     retrieveEuclideanDistance(userReviews, otherUserReviews) {
         validate([
-            { key: "userReviews", value: userReviews, type: Array },
-            { key: "otherUserReviews", value: otherUserReviews, type: Array }
+            { key: "userReviews", value: userReviews, type: Array }
+            // { key: "otherUserReviews", value: otherUserReviews, type: Array }
         ]);
 
         let euclideanDistances = [];
