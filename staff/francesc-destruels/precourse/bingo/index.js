@@ -11,7 +11,6 @@ function generateNumberByTurn(array, choises, picks){
                 choises--;
         }
     }
-
     return array;
 } 
 
