@@ -23,13 +23,13 @@ function bingo() {
         let fila1 = c.p  + filas.f1.join(c.p) + c.p + c.s;
         let fila2 = c.p  + filas.f2.join(c.p) + c.p + c.s;
         let fila3 = c.p  + filas.f3.join(c.p) + c.p + c.s;
-        return fila0 + '\n' + fila1 + '\n' + fila2 + '\n' + fila3
+        return fila0 + '\n' + fila1 + '\n' + fila2 + '\n' + fila3;
     };
     
     let bombo = [ 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
     function newNumber(){
         let ficha = bombo[Math.floor(Math.random()*bombo.length)];
-        bombo.splice(bombo.indexOf(ficha),1)
+        bombo.splice(bombo.indexOf(ficha),1);
         return ficha;
     };
     function arrayCompare (o1, o2, a2){
@@ -37,7 +37,7 @@ function bingo() {
         for(let y in o1){
             for(let i = 0; i < a2.length; i++){
                 if(o1[y][i] === a2[i]){
-                    counter++
+                    counter++;
                 };
             };
             if((counter === a2.length) && !o2[y]){
@@ -52,7 +52,7 @@ function bingo() {
     function linea (){
         for(let y in fxCompare){
             if(fxCompare[y]){
-            line = '¡LÍNEA!\n'
+            line = '¡LÍNEA!\n';
             }
         }
     };
@@ -69,7 +69,7 @@ function bingo() {
             alert('Chao');
             return;
         };
-        Continuar()
+        Continuar();
     };
 
     function Continuar(){
@@ -92,7 +92,7 @@ function bingo() {
         
         for(let y in fxCompare){
             if(fxCompare[y]){
-                counter2++
+                counter2++;
             }
         };
         Bingo ();
