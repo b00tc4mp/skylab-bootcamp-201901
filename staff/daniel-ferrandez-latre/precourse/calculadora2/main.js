@@ -36,7 +36,7 @@
         }
 
         reserOperation() {
-            this.arrayOpertaion = [];
+            this.arrayOperation = [];
             this.operationResult = '';
         }
     }
@@ -56,7 +56,7 @@
 
     window.onclick = e => {
         if(e.target.tagName == "DIV"){
-            document.getElementById("showOperation").innerHTML = calculator.arrayOpertaion.join("");
+            document.getElementById("showOperation").innerHTML = calculator.arrayOperation.join("");
         } else if(e.target.tagName == "CLEAN") {
             calculator.reserOperation();
         } else {
