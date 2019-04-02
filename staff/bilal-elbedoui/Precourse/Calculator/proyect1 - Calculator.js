@@ -36,9 +36,9 @@ function squareRoot(num1,num2){
     }
 }
 
-console.log("PROYECT 1 --> CALCULATOR")
+console.log("PROYECT 1 --> CALCULATOR");
 
-console.log("Enter the number that we are going to work with please:")
+console.log("Enter the number that we are going to work with please:");
 
 
 function calculator(num1,num2){
