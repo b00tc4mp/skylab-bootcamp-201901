@@ -93,11 +93,7 @@ function createFlights(){
         var flightFrom=prompt("Indique origen:");
         var flightCost=parseFloat(prompt("Indique coste:"));
         
-            if (confirm('El vuelo hace escala?')) {
-            var createScale = true;
-            } else {
-            var createScale = false;
-            }
+        var createScale = confirm('El vuelo hace escala?');
 
         flights[flights.length]= {id: flights.length, to: flightTo, from: flightFrom, cost: flightCost, scale: createScale };    
     } 
