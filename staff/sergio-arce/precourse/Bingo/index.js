@@ -60,7 +60,7 @@ function generatesCard() {
 }
 
 // funcion que genera numeros random 
-var arrayNum = []
+var arrayNum = [];
 function getNewNum() {
     if (arrayNum.length === 0) {
         for (var i = 1; i <= 20; i++) { arrayNum.push(i) }
