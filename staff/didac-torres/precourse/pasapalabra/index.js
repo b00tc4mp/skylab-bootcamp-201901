@@ -228,7 +228,7 @@ function checkAnsw2(answ,pos0){
     
         case "pasalacabra":
 
-            alert("JEJE!! Tú también has visto Homozapping eh!! Responde luego la pregunta.")
+            alert("JEJE!! Tú también has visto Homozapping eh!! Responde luego la pregunta.");
             pasAr[pasas]=pasAr[pos0];
             pasas++;
             break;
