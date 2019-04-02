@@ -22,41 +22,41 @@
 // funcion que pide el nombre
 var getName = name => {
     do {
-        var name = prompt("Introduzca su nombre")
+        var name = prompt("Introduzca su nombre");
         if (name == null) { return }
     } while (!isNaN(name))
-    return name = name.trim().toUpperCase()
+    return name = name.trim().toUpperCase();
 }
 // funcion que imprime carton
 var printCard = cardPrint => {
-    console.log(`===== Bingo Card =====`)
+    console.log(`===== Bingo Card =====`);
     cardPrint.forEach(num => {
         if (typeof num === "string") {
-            console.log(`${num}`)
+            console.log(`${num}`);
         } else {
-            console.log(`${num.join(" - ")}`)
+            console.log(`${num.join(" - ")}`);
         }
     })
-    console.log(`======================`)
+    console.log(`======================`);
 }
 
 // funcion q genera numeros aleatorios no repetidos para el carton
-var arrayCard = []
+var arrayCard = [];
 function numCardRandom() {
     if (arrayCard.length === 0) {
         for (var i = 1; i <= 20; i++) { arrayCard.push(i) }
-        arrayCard = arrayCard.sort(function () { return Math.random() - 0.5 })
+        arrayCard = arrayCard.sort(function () { return Math.random() - 0.5 });
     }
-    return arrayCard.shift()
+    return arrayCard.shift();
 }
 
 // funcion que genera el carton
 function generatesCard() {
-    var carton = []
+    var carton = [];
     for (var i = 0; i < 3; i++) {
-        carton.push([numCardRandom(), numCardRandom(), numCardRandom(), numCardRandom(), numCardRandom()])
+        carton.push([numCardRandom(), numCardRandom(), numCardRandom(), numCardRandom(), numCardRandom()]);
     }
-    return carton
+    return carton;
 }
 
 // funcion que genera numeros random 
@@ -64,127 +64,124 @@ var arrayNum = []
 function getNewNum() {
     if (arrayNum.length === 0) {
         for (var i = 1; i <= 20; i++) { arrayNum.push(i) }
-        arrayNum = arrayNum.sort(function () { return Math.random() - 0.5 })
+        arrayNum = arrayNum.sort(function () { return Math.random() - 0.5 });
     }
-    return arrayNum.shift()
+    return arrayNum.shift();
 }
 
 // funcion que genera un nuevo carton
 function newCards(card) {
-    var newCard = true
+    var newCard = true;
     while (newCard) {
-        card = generatesCard()
-        printCard(card)
-        var newCard = confirm(`Te gustaria generar otro carton???`)
+        card = generatesCard();
+        printCard(card);
+        var newCard = confirm(`Te gustaria generar otro carton???`);
         if (!newCard) {
-            return card
+            return card;
         }
-        arrayCard = []
+        arrayCard = [];
     }
 }
 
 // funcion que comprueba si el el numero se encuentra en el carton y si hay linea confirma turno 
 function checkNumberInCard(checkCards, turnConfirm, shiftsnumber) {
 
-    var linea = false
+    var linea = false;
 
     while (!linea || turnConfirm) {
 
         if (turnConfirm) {
 
-            var numRandom = getNewNum()
-            alert(`Se genero la bola # ${numRandom}`)
-            console.log(`*******  ${numRandom}  *********`)
+            var numRandom = getNewNum();
+            alert(`Se genero la bola # ${numRandom}`);
+            console.log(`*******  ${numRandom}  *********`);
 
-            shiftsnumber++
+            shiftsnumber++;
             checkCards = checkCards.map(function (card) {
                 if (card.join("") === "XXXXX") {
-                    linea = true
-                    return "     Linea!!!   "
+                    linea = true;
+                    return "     Linea!!!   ";
                 }
                 return card.map(function (num) {
                     if (num == numRandom) {
-                        return "X"
+                        return "X";
                     } else {
-                        return num
+                        return num;
                     }
                 })
             })
-            printCard(checkCards)
-            linea = checkCards.some(card => card.join("") === "XXXXX")
+            printCard(checkCards);
+            linea = checkCards.some(card => card.join("") === "XXXXX");
             if (linea) {
-                alert(`     BINGO!!!   `)
+                alert(`     BINGO!!!   `);
                 checkCards = checkCards.map(function (card) {
                     if (card.join("") === "XXXXX") {
-                        linea = true
-                        return "     Linea!!!   "
+                        linea = true;
+                        return "     Linea!!!   ";
                     }
                     return card.map(function (num) {
                         if (num == numRandom) {
-                            return "X"
+                            return "X";
                         } else {
-
-
-                            return num
+                            return num;
                         }
                     })
                 })
-                return [checkCards, shiftsnumber]
-                // return checkCards // is ok
+                return [checkCards, shiftsnumber];
             }
 
         } else {
-            console.log('Chiaooooo!!!!')
-            return alert(`Chiaoooo!!!!`)
+            console.log('Chiaooooo!!!!');
+            return alert(`Chiaoooo!!!!`);
         }
-        var turnConfirm = confirm(`Nuevo turno \nDeseas sacar una nueva bola???`)
+        var turnConfirm = confirm(`Nuevo turno \nDeseas sacar una nueva bola???`);
     }
-    return
+    return;
 }
 
 function newGame() {
-    bingoGame()
+    bingoGame();
 }
 
-var rankingUsers = []
+var rankingUsers = [];
 
 // funcion orderar ranking
 function rankingOrder(ranking) {
-    return ranking.sort((a, b) => { return (a.numberShifts - b.numberShifts) })
+    return ranking.sort((a, b) => { return (a.numberShifts - b.numberShifts) });
 }
 
 // funcion imprimir ranking
 function printRanking(ranking) {
-    var num = 1
-    console.log(`========= Ranking ===============`)
-    Object.keys(ranking).forEach(key => console.log(`${num++}º - Position ${ranking[key].name} - Turns ${ranking[key].numberShifts}`))
-    console.log(`=================================`)
+    var num = 1;
+    console.log(`========= Ranking ===============`);
+    Object.keys(ranking).forEach(key => console.log(`${num++}º - Position ${ranking[key].name} - Turns ${ranking[key].numberShifts}`));
+    console.log(`=================================`);
 }
 
 // funcion principal
 function bingoGame() {
-    var name = getName()
-    var numberShifts = 0
+    var name = getName();
+    var numberShifts = 0;
     if (name == null) { return alert(`Ciao!!!`) }
-    alert(`${name}\nBienvenido al juego Bingo\nGeneramos su carton!!!`)
-    var getCards = []
-    var cardboardBingo = newCards(getCards)
-    console.log(`Ok elegiste este carton!!!`)
-    printCard(cardboardBingo)
-    alert('Reglas del Juego\nSi el numero se encuentra en el carton se tachara con una "X"\nSi completas la linea, completaras el Bingo.\nEntre menos turnos para completar el bingo,\nte posicionaras en primer lugar!!!!')
-    var confirmTurn = confirm(`Empezamos el juego desea generar la primera bola???`)
-    var bingoCard = checkNumberInCard(cardboardBingo, confirmTurn, numberShifts)
-    console.log("     BINGO!!!    ")
-    printCard(bingoCard[0])
-    numberShifts = bingoCard[1]
-    rankingUsers.push({ name, numberShifts })
-    var _newGame = confirm('Desea volver a jugar???')
+    alert(`${name}\nBienvenido al juego Bingo\nGeneramos su carton!!!`);
+    var getCards = [];
+    var cardboardBingo = newCards(getCards);
+    console.log(`Ok elegiste este carton!!!`);
+    printCard(cardboardBingo);
+    alert('Reglas del Juego\nSi el numero se encuentra en el carton se tachara con una "X"\nSi completas la linea, completaras el Bingo.\nEntre menos turnos para completar el bingo,\nte posicionaras en primer lugar!!!!');
+    var confirmTurn = confirm(`Empezamos el juego desea generar la primera bola???`);
+    var bingoCard = checkNumberInCard(cardboardBingo, confirmTurn, numberShifts);
+    console.log("     BINGO!!!    ");
+    printCard(bingoCard[0]);
+    numberShifts = bingoCard[1];
+    rankingUsers.push({ name, numberShifts });
+    var _newGame = confirm('Desea volver a jugar???');
     if (_newGame) {
-        newGame()
+        newGame();
     } else {
-        var _rankingOrder = rankingOrder(rankingUsers)
-        printRanking(_rankingOrder)
-        return console.log(`Chiaooo!!!`)
+        var _rankingOrder = rankingOrder(rankingUsers);
+        printRanking(_rankingOrder);
+        return console.log(`Chiaooo!!!`);
     }
 
 }
