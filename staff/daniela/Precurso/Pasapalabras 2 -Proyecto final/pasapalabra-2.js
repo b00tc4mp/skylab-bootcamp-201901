@@ -153,7 +153,7 @@ $btnAnswer.addEventListener("click", function(){
         playersResults.push({player: userName, score: numOfRightAnswer}) 
         rankingPlayers = sortRanking(playersResults)
 
-        $questions.innerHTML =  userName + ", has llegado al final del juego. <br><br>" + "<strong>Ranking de jugadores:</strong><br>" + rankingPlayers + "<br>"
+        $questions.innerHTML =  "<p>" + userName + ", has llegado al final del juego.</p>" + "<p><strong>Ranking de jugadores:</strong></p>" + rankingPlayers
 
         // jugar otra vez
         $btnPlayAgain.style.display = "block"
@@ -190,10 +190,12 @@ function sortRanking(rankingPlayers){
     sortedRankingList = rankingPlayers.sort(function(a, b){
         return b.score - a.score
     })
+
     for (ranking of sortedRankingList){
-        playersRankingList += ranking.player + " " + ranking.score + " <br>"
+        playersRankingList += "<li>" + ranking.player + " " + ranking.score + " </li>"
     }
-    return playersRankingList
+
+    return "<ol>" + playersRankingList + "</ol>"
 }
 
 
