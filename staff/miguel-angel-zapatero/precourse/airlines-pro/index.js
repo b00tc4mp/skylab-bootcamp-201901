@@ -47,7 +47,8 @@ function showAvgCost(data) {
     data.forEach(function(flight){
         sum += flight.cost; 
     });
-    return 'El coste medio de los vuelos es ' + (sum / data.length).toFixed(2) + '€';
+    const average = (sum / data.length).toFixed(2);
+    return `El coste medio de los vuelos es ${average} €`;
 }
 
 function showScaleFlights(data) {
