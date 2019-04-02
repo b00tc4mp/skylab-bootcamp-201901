@@ -3,6 +3,11 @@
 ![](https://www.americafirst.com/content/dam/calcxml/mortgage-calculator.jpg)
 _________________
 
+## Intro:
+
+simple calculator trough prom window and console.
+
+___
 ## How it works:
 
 through prompt windows, first enter how many operators do you want to insert. then insert as many uoperators as you decided in the firs steps.
