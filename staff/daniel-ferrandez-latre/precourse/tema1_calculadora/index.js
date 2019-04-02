@@ -106,10 +106,10 @@ function operateUserInput() {
 function operationPicker() {
     var inputPickOperation = arguments[0];
     if(RegExIsSquareRoot.test(inputPickOperation)) {
-        console.log('+ Processing square root...');
+        console.log('+ Making square root...');
         return false;
     } else if (RegExIsOperation.test(inputPickOperation)) {
-        console.log('+ Porcessing operation...');
+        console.log('+ Making operation...');
         return true;
     }
 }
