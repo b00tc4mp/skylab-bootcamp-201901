@@ -42,11 +42,11 @@ getAnswer();
 function startGame(){
     
     
-    disableButton(true, "start")
+    disableButton(true, "start");
     disableButton(false, "response");
-    disableButton(false, "continue")
-    disableButton(false, "stop")
-    disableAnswer(false)
+    disableButton(false, "continue");
+    disableButton(false, "stop");
+    disableAnswer(false);
     flag=true;
     flagCount=false;
     count=0;
@@ -55,9 +55,9 @@ function startGame(){
     resetStatus();
     username++
     players.push({name:username, wordsAnswered:0, wordsFailed:0, wordsWithoutAnswer:0});
-    document.getElementById('answer').value=""
-    document.getElementById('answer').focus()
-    document.getElementById('display').value=""
+    document.getElementById('answer').value="";
+    document.getElementById('answer').focus();
+    document.getElementById('display').value="";
     showQuestion();
 
     var countdown = setInterval(function() {
@@ -88,10 +88,10 @@ function getAnswer(){
 
         document.getElementById("response").addEventListener("click",  function(){
             
-        resp=document.getElementById('answer').value 
+        resp=document.getElementById('answer').value;
         resp=resp.toLowerCase();
-        document.getElementById('answer').value=""
-        document.getElementById('answer').focus()
+        document.getElementById('answer').value="";
+        document.getElementById('answer').focus();
         
         if(resp===questions[count].answer){
             setStatus(questions[count].letter, 1);
@@ -113,10 +113,10 @@ function getAnswer(){
         var key = e.which || e.keyCode;
 
 	    if (key === 13) {
-            resp=document.getElementById('answer').value 
+            resp=document.getElementById('answer').value; 
             resp=resp.toLowerCase();
-            document.getElementById('answer').value=""
-            document.getElementById('answer').focus()
+            document.getElementById('answer').value="";
+            document.getElementById('answer').focus();
             
             if(resp===questions[count].answer){
                 setStatus(questions[count].letter, 1);
@@ -149,7 +149,7 @@ function continueWithIt(){
     }
 
     document.getElementById('answer').value=""
-    document.getElementById('answer').focus()
+    document.getElementById('answer').focus();
  
     return showQuestion();
     
@@ -169,11 +169,11 @@ function stop(){
     saveInfoGamer(username);
     showInfoCurrentGamer(username);
     ranking();
-    disableButton(true, "continue")
+    disableButton(true, "continue");
     disableButton(true, "response");
-    disableButton(true, "stop")
-    disableAnswer(true)
-    disableButton(false, "start")
+    disableButton(true, "stop");
+    disableAnswer(true);
+    disableButton(false, "start");
     return 
 }
 
@@ -217,7 +217,7 @@ function saveInfoGamer(username){
         if(e.name==username){
             e.wordsFailed=countWordsFailed;
             e.wordsAnswered=countWordsAnswered;
-            e.wordsWithoutAnswer=countWordsWithoutAnswer
+            e.wordsWithoutAnswer=countWordsWithoutAnswer;
         }
     });
     return
@@ -243,12 +243,12 @@ function newCount(){
 function resetStatus(){
     
     questions.forEach(function(m){
-        m.status=0;
-       let lett=m.letter
+       m.status=0;
+       let lett=m.letter;
        document.getElementById(lett).style.background = '#084B8A';
     });
-    document.getElementById('answer').value=""
-    document.getElementById('answer').focus()
+    document.getElementById('answer').value="";
+    document.getElementById('answer').focus();
     return
 }
 
