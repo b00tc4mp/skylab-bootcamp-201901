@@ -9,13 +9,13 @@ function changecard(check){ //replaces XX in the matched numbers of the card
 function printcard(card,roll,message){  //Create a concatenated string with the info to screen
     var print="                  "+roll+"         TURN:"+turn+"    SCORE:"+score+"\n";
     if(message==="matched"){
-        print+="                        MATCH!\n"
+        print+="                        MATCH!\n";
     }
     if(message==="line"){
-        print+="                        LINE!!\n"
+        print+="                        LINE!!\n";
     }
     if(message==="bingo"               ){
-        print+="                        BINGO!!\n"
+        print+="                        BINGO!!\n";
     }
     print+="               ╔══╦══╦══╦══╦══╗\n";
     for(var i = 0;i < card.length ;){
@@ -23,7 +23,7 @@ function printcard(card,roll,message){  //Create a concatenated string with the 
         if(i+5<card.length){print += "\n               ╠══╬══╬══╬══╬══╣\n"}
         i+=5;
     }
-    print+="\n               ╚══╩══╩══╩══╩══╝"
+    print+="\n               ╚══╩══╩══╩══╩══╝";
     return print;
 }
 function Play(bingoCard,xwin,ywin){ //rolls numbers, checks lines, manage scores and calls function to screen results
@@ -40,8 +40,8 @@ function Play(bingoCard,xwin,ywin){ //rolls numbers, checks lines, manage scores
             for( var y=0 ; y<5 ; y++ ){
                 if( bingoCard[i].number.toString() === bingo[y].toString() ){
                     bingoCard[i].matched = true;
-                    message="matched"
-                    score+=100
+                    message="matched";
+                    score+=100;
                 }
             }
         }
@@ -49,16 +49,16 @@ function Play(bingoCard,xwin,ywin){ //rolls numbers, checks lines, manage scores
     for(var i=0 ; i < bingoCard.length;){
         if(bingoCard[i].matched && bingoCard[i+1].matched && bingoCard[i+2].matched && bingoCard[i+3].matched && bingoCard[i+4].matched && xwin[i]===false && message!=='line'){
             xwin[i]=true;
-            message="line"
-            score+=500
+            message="line";
+            score+=500;
         }
         i+=5;
     }
     for(var i=0; i < 5 ; i++ ){
         if(bingoCard[i].matched && bingoCard[i+5].matched && bingoCard[i+10].matched && ywin[i]===false && message!=='line'){
             ywin[i]=true;
-            message="line"
-            score+=500
+            message="line";
+            score+=500;
         }
     }
     for( var i = 0 ; i < bingoCard.length ; i++ ){ //check if board is completed in order to be printed
@@ -108,7 +108,7 @@ function rankingorder(){ // to order rank an returns scores to screen
         }else{
             comparison=-1;
         }
-        return comparison
+        return comparison;
     }
     var scoretext="";
     if(globalscores.length>0){
@@ -118,7 +118,7 @@ function rankingorder(){ // to order rank an returns scores to screen
         }
         return scoretext;
     }else{
-        return "NO SCORES"
+        return "NO SCORES";
     }
     
 }
@@ -135,20 +135,20 @@ function Bingo(){
             var bingoCard = ramdomnumbers = [];
             rolls=[];
             do{
-                name=prompt("please enter your name :D")
+                name=prompt("please enter your name :D");
             }while(name===undefined)
             while(bingoCard.length<15){
-                bingoCard.push({ number: 0, matched: false })
+                bingoCard.push({ number: 0, matched: false });
             }
             ramdomnumbers=randomizer(bingoCard,false);
             rolls=[];
             for(var i=0;i<bingoCard.length;i++){
-                bingoCard[i].number=ramdomnumbers[i]
+                bingoCard[i].number=ramdomnumbers[i];
             }
             while(!confirm("                YOUR CARD IS:"+printcard(bingoCard,"")+"\n do like it? 'Accept' to continue, 'Cancel' to pick another card")){
                 ramdomnumbers=randomizer(bingoCard,false);
                 for(var i=0;i<bingoCard.length;i++){
-                    bingoCard[i].number=ramdomnumbers[i]
+                    bingoCard[i].number=ramdomnumbers[i];
                 }
             }
             do{
@@ -166,7 +166,7 @@ function Bingo(){
                             ywin[i]=true;
                         }
                     }
-                    loop=!wingame(bingoCard)
+                    loop=!wingame(bingoCard);
                 }else{
                     return 0;
                 }    

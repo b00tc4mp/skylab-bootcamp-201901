@@ -12,7 +12,7 @@ function init(){
                     resultado.textContent ="Sqrt of "+nums[0]+": "+result[0]; 
                 }
                 else{
-                    resultado.textContent ="NEGATIVE ROOT"
+                    resultado.textContent ="NEGATIVE ROOT";
                 }
             }else{
                 for (var i=1; i < nums.length; i++) {

@@ -6,7 +6,7 @@ function challenge(question){
 function play(answer,letter){
     if(letter.answer.toUpperCase()===answer.toUpperCase()){
         score++;
-        (score===1)?alert("Correcto +1!, Tienes "+score+" punto en el marcador!") : alert("Correcto +1!, Tienes "+score+" puntos en el marcador!")
+        (score===1)?alert("Correcto +1!, Tienes "+score+" punto en el marcador!") : alert("Correcto +1!, Tienes "+score+" puntos en el marcador!");
         return true;
     }else{
         alert("Incorrecto!, Vamos no te rindas!")
@@ -24,7 +24,7 @@ function rankingorder(){ // to order rank an returns scores to screen
         }else{
             comparison=-1;
         }
-        return comparison
+        return comparison;
     }
     var scoretext="Puntuaciones: \n\n";
     if(globalscores.length>0){
@@ -34,7 +34,7 @@ function rankingorder(){ // to order rank an returns scores to screen
         }
         return scoretext;
     }else{
-        return "NO SCORES"
+        return "NO SCORES";
     }
     
 }
@@ -42,7 +42,7 @@ function rankingorder(){ // to order rank an returns scores to screen
 
 function game(){
     score=0;
-    var name=prompt("Por favor introduce tu nombre: ")
+    var name=prompt("Por favor introduce tu nombre: ");
     var finish=randomquest=0;
     var questions = [ //Multiples preguntas por letra, se pueden añadir al grupo y el programa escoge una al azar
         [
@@ -93,34 +93,34 @@ function game(){
                     return false;
                 }else{
                     if(!(answer.toUpperCase()==="PASAPALABRA")){
-                        play(answer,questions[i][randomquest])
+                        play(answer,questions[i][randomquest]);
                         for(var y=0;y<questions[i].length;y++){
                             questions[i][y].status=1;
                         }
                         finish++;
                     }else{
-                        alert("PASAPALABRA! ---->")
+                        alert("PASAPALABRA! ---->");
                     }
                 }
             }
         }
-    }while(finish!==questions.length)
+    }while(finish!==questions.length);
     "GENIAL! Completaste el pasapalabra!!"
     globalscores.push({ points: score, player: name })
     return true;
 }
 
 function pasapalabra(){
-    var finished
-    alert("Bienvenidos al Pasapalabra, Podras superarlo?")
+    var finished;
+    alert("Bienvenidos al Pasapalabra, Podras superarlo?");
     do{
         finished=game();
         if(finished === false){
             alert("Tu puntuacion es "+score+" del pasalabra sin terminar!");
         }else{
-            alert(rankingorder())
+            alert(rankingorder());
         }
-    }while(confirm("Quieres jugar otra vez?"))
+    }while(confirm("Quieres jugar otra vez?"));
 
 }
 

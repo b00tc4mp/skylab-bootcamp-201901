@@ -53,13 +53,12 @@ function numbers(){
             option = prompt("Another number? Yes: type 'y' No: type other key ");
             switch(option){
                 case "y" :
-                    i++
+                    i++;
                     break;
                             //Output => sum1, subs1, mult1, div1, sum2, subs2, mult2, div2...                
                 default:
                     alert("...processing");
-                    return data
-                    break;
+                    return data;
             }
         }
     }   

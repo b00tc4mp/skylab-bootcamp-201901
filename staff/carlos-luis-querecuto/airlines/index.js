@@ -7,7 +7,7 @@ function flightsDisplay(flights,name){
         (flights[i].scale)? (modal+=" With scale/s \n",flightsws++) : modal+=" No scale \n"  ;
         average += flights[i].cost;
         if((flights.length-i)===5){
-            modal += "LAST FLIGHTS: \n\n"
+            modal += "LAST FLIGHTS: \n\n";
         };
     }
     modal+= "\n Average price for today is: "+(average/flights.length).toFixed(3)+"\n Flights with Scales: "+flightsws;
@@ -17,15 +17,15 @@ function dataHandler(flights) {
     var modal = "";
     for(var i = 0; i<flights.length;i++){
         modal +="ID: "+flights[i].id+" to: "+ flights[i].to+" from: "+flights[i].from+"  | Price: "+flights[i].cost;
-        (flights[i].scale)? (modal+=" With scale/s \n",flightsws++) : modal+=" No scale \n"  ;
+        (flights[i].scale)? (modal+=" With scale/s \n",flightsws++) : modal+=" No scale \n";
     }
     return modal;
 }
 function admin(name,flights) {
     var loop = true;
-    var op , todo, sorted;
+    var op , todo;
     var newflight = [
-        { id: 00, to: '', from: '', cost: 0, scale: false }
+        { id: 00, to: '', from: '', cost: 0, scale: false };
     ]
     while(loop){
         op=prompt("Hi Admin "+name+" you can modify the DB with the following commands\n\n - 'create' : you cand add more flights to DB \n - 'delete' : you can errase flights from DB \n - 'exit : exit application ");
@@ -55,7 +55,7 @@ function admin(name,flights) {
         }
         if(op==="exit"){
             alert("See ya admin "+name+"!");
-            return 0
+            return 0;
         }    
     }
 }
@@ -91,7 +91,7 @@ function user(name,flights){
     }
 }
 function skylabAirlines() {
-    var name, userBuy;
+    var name;
     var flights = [
         { id: 00, to: 'Bilbao', from: 'Barcelona', cost: 1600, scale: false },
         { id: 01, to: 'New York', from: 'Barcelona', cost: 700, scale: false },
@@ -108,7 +108,7 @@ function skylabAirlines() {
     name=prompt("Welcome to SkylabAirlines Service, What's your name?");
     confirm(flightsDisplay(flights,name));
     if(prompt("If youre admin, please type 'ADMIN', if not type a key to continue as a user")==='ADMIN'){
-        admin(name,flights)
+        admin(name,flights);
     }else{
         userBuy=user(name,flights);
     }

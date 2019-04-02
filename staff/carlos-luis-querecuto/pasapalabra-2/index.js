@@ -26,7 +26,7 @@ function init(){
             letters[i].letra.style["animation-duration"] = "2s";
             letters[i].letra.style["animation-fill-mode"] = "forwards";
             //letters[i].letra.style["color"] = "red";
-            board.textContent="Incorrecto!, Vamos no te rindas!"
+            board.textContent="Incorrecto!, Vamos no te rindas!";
         }
         userinput.innerHTML = '<input class="button" id="continue" type="button" value="CONTINUAR">';
         document.getElementById('continue').onclick = function(){
@@ -46,7 +46,7 @@ function init(){
             }else{
                 comparison=-1;
             }
-            return comparison
+            return comparison;
         }
         var scoretext="Puntuaciones: \r\n";
         if(globalscores.length>0){
@@ -56,7 +56,7 @@ function init(){
             }
             return scoretext;
         }else{
-            return "Sin puntaciones \r\n Juega y registra tu puntaje!"
+            return "Sin puntaciones \r\n Juega y registra tu puntaje!";
         }
         
     }
@@ -75,7 +75,7 @@ function init(){
         userinput.innerHTML = '<input id="res" type="text"><br><input  class="button" id="ressub" type="button" value="VERIFICAR">';
         document.getElementById('ressub').onclick = function(){
             answ=document.getElementById('res').value;      
-            verifyansw()
+            verifyansw();
         }
     }
 
@@ -84,13 +84,13 @@ function init(){
             return false;
         }else{
             if(!(answ.toUpperCase()==="PASAPALABRA")){
-                play(answ,questions[index][randomquest],index)
+                play(answ,questions[index][randomquest],index);
             }else{
                 board.textContent="PASAPALABRA! ---->"
                 userinput.innerHTML = '<input  class="button" id="continue" type="button" value="CONTINUAR">';
                 document.getElementById('continue').onclick = function(){
-                    index++
-                    verify()     
+                    index++;
+                    verify();
                 }
             }
         }         
@@ -101,7 +101,7 @@ function init(){
             if(questions[i][0].status===0){
                 index=i;
                 randomquest=Math.floor(Math.random() * questions[index].length);
-                board.textContent=challenge(questions[index][randomquest],index)
+                board.textContent=challenge(questions[index][randomquest],index);
                 answerquest();
                 break;
             }
@@ -110,14 +110,14 @@ function init(){
     }
     
     function verify(){
-        var end = true
+        var end = true;
         for(var i=0;i<questions.length;i++){
             if(questions[i][0].status===0){
                 end=false;
             }   
         }
         if(end){
-            board.textContent="HAS CULMINADO EL PASAPALABRA"
+            board.textContent="HAS CULMINADO EL PASAPALABRA";
             globalscores.push({ points: score, player: playername });
             userinput.innerHTML = '<input  class="button" id="continue" type="button" value="Al INICIO">';
             document.getElementById('continue').onclick = function(){
@@ -127,7 +127,7 @@ function init(){
             if(index>=questions.length){
                 index=0;
             }
-            answertext()
+            answertext();
         }
     }
 
@@ -151,8 +151,8 @@ function init(){
         score=0;
         playername="";
         scoreheight+=30;
-        board.textContent="Bienvenidos al Pasapalabra, Podras superarlo?"
-        userinput.innerHTML = '<button  class="button" id="jugar">JUGAR</button><br/><textarea rows="4" cols="50" id="scoretable" disabled>'
+        board.textContent="Bienvenidos al Pasapalabra, Podras superarlo?";
+        userinput.innerHTML = '<button  class="button" id="jugar">JUGAR</button><br/><textarea rows="4" cols="50" id="scoretable" disabled>';
 s
         document.getElementById("scoretable").value = rankingorder();
         document.getElementById("jugar").onclick = () => name();
@@ -203,7 +203,7 @@ s
         [{ letter: "x", answer: "botox", status: 0, question: "CONTIENE LA X. Toxina bacteriana utilizada en cirujía estética"}],
         [{ letter: "y", answer: "peyote", status: 0, question: "CONTIENE LA Y. Pequeño cáctus conocido por sus alcaloides psicoactivos utilizado de forma ritual y medicinal por indígenas americanos"}],
         [{ letter: "z", answer: "zen", status: 0, question: "CON LA Z. Escuela de budismo que busca la experiencia de la sabiduría más allá del discurso racional"}],
-    ]
+    ];
     
     var letters = [
         {letra:document.getElementById('a')},
@@ -233,10 +233,9 @@ s
         {letra:document.getElementById('x')},
         {letra:document.getElementById('y')},
         {letra:document.getElementById('z')},
-    ]
-    var scoreheight=0;
-    var userinput = document.getElementById('userinput')
-    var board = document.getElementById('board script')
+    ];
+    var userinput = document.getElementById('userinput');
+    var board = document.getElementById('board script');
     var globalscores = [];
     var score;
     var playername = "";
