@@ -36,48 +36,48 @@ var flights = [
   function SkylabAirlines() {
     var name = getName();
     if (name === undefined) { return }
-    alert(`${name.trim().toUpperCase()}\nSkylab Airlines!!! le da la bienvenida!!! ✈✈✈`)
+    alert(`${name.trim().toUpperCase()}\nSkylab Airlines!!! le da la bienvenida!!! ✈✈✈`);
     
     // mostramos al usuario todos los vuelos sin scala
-    alert(`Estos son los vuelos sin escala para el dia de hoy!!!`)
-    console.log(`=========================== Non-stop Flights ===========================`)
+    alert(`Estos son los vuelos sin escala para el dia de hoy!!!`);
+    console.log(`=========================== Non-stop Flights ===========================`);
     // vuelos sin escala
-    var _nonStopFlights = nonStopFlights(flights)
+    var _nonStopFlights = nonStopFlights(flights);
     // imprimimos los vuelos sin escala
-    printFlights(_nonStopFlights)
+    printFlights(_nonStopFlights);
     
     //promedio de precios total de vuelos 
-    var _averageFlights = averageFlights(flights)
-    alert(`Este es el promedio de precios de los vuelos ${_averageFlights}€`)
-    console.log(`=====================  Average price flights ${_averageFlights}€ =======================`)
+    var _averageFlights = averageFlights(flights);
+    alert(`Este es el promedio de precios de los vuelos ${_averageFlights}€`);
+    console.log(`=====================  Average price flights ${_averageFlights}€ =======================`);
     
     // mostramos al usuario todos los vuelos que tienen escala
-    alert(`Acontinuacion le mostramos todos los vuelos que tienen alguna escala`)
-    console.log(`========================= Flights Whith Scale ===========================`)
+    alert(`Acontinuacion le mostramos todos los vuelos que tienen alguna escala`);
+    console.log(`========================= Flights Whith Scale ===========================`);
     // vuelos con escala
-    var _flightsWhithScale = flightsWhithScale(flights)
+    var _flightsWhithScale = flightsWhithScale(flights);
     // imprimimos los vuelos con escala
-    printFlights(_flightsWhithScale)
+    printFlights(_flightsWhithScale);
     
     // mostramos al usuario los últimos 5 vuelos del día
-    alert(`Estos son los ultimos 5 vuelos del dia!!!`)
+    alert(`Estos son los ultimos 5 vuelos del dia!!!`);
     // almacenamos los ultimos 5 vuelos
-    var _lastFlightsDay = lastFlightsDay(flights, 5)
-    console.log(`======================== Last Flights of the day  ========================`)
+    var _lastFlightsDay = lastFlightsDay(flights, 5);
+    console.log(`======================== Last Flights of the day  ========================`);
     // imprimimos los 5 ultimos vuelos 
-    printFlights(_lastFlightsDay)
+    printFlights(_lastFlightsDay);
     
-    alert(`${name} gracias por volar con Skylab Airlines!!!`)
-    return console.log(`${name} gracias por volar con Skylab Airlines!!!`)
+    alert(`${name} gracias por volar con Skylab Airlines!!!`);
+    return console.log(`${name} gracias por volar con Skylab Airlines!!!`);
   }
   
   // funcion que pide el nombre
   var getName = name => {
     do {
-      var name = prompt(`Introduzca su nombre`)
+      var name = prompt(`Introduzca su nombre`);
       if (name === null) { return }
-    } while (!isNaN(name))
-    return name
+    } while (!isNaN(name));
+    return name;
   }
   
   // funcion q imprime vuelos
@@ -85,21 +85,21 @@ var flights = [
     flightsPrint.forEach(function (obj) {
       console.log(`ID: ${obj.id} - Origen: ${obj.from} - Destino: ${obj.to} - Coste: ${obj.cost} - Escala ${obj.scale}`);
     });
-    console.log(`=========================================================================`)
+    console.log(`=========================================================================`);
   }
   
   // funcion vuelos sin escala
   function nonStopFlights(flights) {
     // filtramos todos los vuelos sin escala 
-    return flights.filter(flight => flight.scale == false)
+    return flights.filter(flight => flight.scale == false);
   }
   
   // funcion promedio de precio
   function averageFlights(flights) {
   // almacenamos en un array todos los precios con map y luego lo sumamos con reduce 
-    var accPriceFlights = flights.map(flight => flight.cost).reduce((acc, cost) => acc + cost)
+    var accPriceFlights = flights.map(flight => flight.cost).reduce((acc, cost) => acc + cost);
     // retornamos el promedio de precio
-    return accPriceFlights / flights.length
+    return accPriceFlights / flights.length;
   }
   
   // funcion vuelos con escala
