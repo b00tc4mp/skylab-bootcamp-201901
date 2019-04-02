@@ -2,6 +2,6 @@
 
 Travel Agency simulator
 
-## Functional description
+### Challenge description
 
-TODO:
+https://github.com/SkylabCoders/precourse/blob/master/projects/project2.md
