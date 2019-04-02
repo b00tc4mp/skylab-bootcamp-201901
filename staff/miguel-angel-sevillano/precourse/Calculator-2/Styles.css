@@ -1,0 +1,63 @@
+.info button:hover{
+    background-color: #3e8e41;
+
+}
+.info tr button{
+    display:inline-flex; /*para tener los botones pegados entre si */
+    background-color: #4CAF50; /* color fondo boton */
+    border: 2px solid green; /* color borde */
+    color: white; /* color texto */
+    text-shadow: 2px 0 0 green;
+    font-size: 30px;
+    cursor: pointer; /* puntero mano*/
+    padding:10px 30px; /* tamaño boton*/
+    border-radius: 20%; /*para hacer los botones redondos*/
+    
+    
+}
+.info tr input{
+    border: 3px solid green;
+    background-color: rgb(105, 160, 107);
+    color:white;
+    padding: 10px;
+    font-size: 30px;
+    width: 350px;
+   
+
+}
+.info{
+    margin-left:620px;
+    margin-top:100px;
+}
+.show{
+    display:block;
+    font-size: 30px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: antiquewhite;
+    border:solid 4px burlywood;
+    color:brown;
+    margin-top:20px; 
+    
+    
+}
+.show td{
+   height:50px;
+   
+ }
+h1{
+    margin-left:520px;
+    font-size: 50px;
+    font-family: initial;
+    color:green;
+    
+    
+    
+}
+h4{
+    margin-left:650px;
+    font-size:35px;
+    opacity: 0.5;
+    color:rgb(107, 150, 65);
+    
+    
+}

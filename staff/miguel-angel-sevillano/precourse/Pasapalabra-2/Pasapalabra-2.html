@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pasapalabra time!</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body bgcolor="Skyblue">
+    <h1 id="logo">Pasapalabra Game</h1>
+    <table style="width: 65%" class="round">
+        
+        <tr>
+            <th id="U" style="position: absolute; top: 450px; left: 30px">U</th>
+            <th id="V" style="position: absolute; top: 360px ;left:60px;">V</th>
+            <th id="W" style="position: absolute; top: 280px;left:100px">W</th>
+            <th id="X" style="position: absolute; top: 220px;left:170px">X</th>
+            <th id="Y" style="position: absolute; top: 160px;left:240px">Y</th>
+            <th id="Z" style="position: absolute; top: 110px;left:330px">Z</th>
+            <th id="A" style="position: absolute; top: 100px;left:420px">A</th>
+            <th id="B" style="position: absolute; top: 110px;left:500px" >B</th>
+            <th id="C" style="position: absolute; top: 140px;left:575px">C</th>
+            <th id="D" style="position: absolute; top: 200px;left:645px" >D</th>
+            <th id="E" style="position: absolute; top: 270px;left:705px">E</th>
+            <th id="F" style="position: absolute; top: 340px ;left:755px;">F</th>
+            <th id="G" style="position: absolute; top: 430px; left: 775px">G</th>
+        </tr>
+        <tr>
+            <th id="H" style="position: absolute; bottom: 370px; left: 790px">H</th>
+            <th id="I" style="position: absolute; bottom: 285px ;left:785px;">I</th>
+            <th id="J" style="position: absolute; bottom: 210px;left:750px">J</th>
+            <th id="K" style="position: absolute; bottom: 140px;left:700px">K</th>
+            <th id="L" style="position: absolute; bottom: 90px;left:640px">L</th>
+            <th id="M" style="position: absolute; bottom: 60px;left:560px">M</th>
+            <th id="N" style="position: absolute; bottom: 30px;left:480px">N</th>
+            <th id="Ñ" style="position: absolute; bottom: 20px;left:390px">Ñ</th>
+            <th id="O" style="position: absolute; bottom: 40px;left:300px">O</th>
+            <th id="P" style="position: absolute; bottom: 90px;left:240px">P</th>
+            <th id="Q" style="position: absolute; bottom: 130px;left:170px">Q</th>
+            <th id="R" style="position: absolute; bottom: 180px;left:110px">R</th>
+            <th id="S" style="position: absolute; bottom: 270px;left:70px">S</th>
+            <th id="T" style="position: absolute; bottom: 350px;left:30px">T</th>
+            
+        </tr>
+    </table>
+
+   <p id="showValue" style="position: absolute; bottom:400px;left:300px ;" ></p>
+    
+   <div class="infoJuego">
+       <p><strong>Bienvenido a Pasapalabra el juego mas famoso de la TV</strong></p>
+       
+       <p>Acierta todas las preguntas pra ganar el juego</p>
+       <br>
+       <label><strong>Jugador:</strong></label>
+       <output id="nombreJugador" style="color: white"></output>
+       <br>
+       <br>
+       <label><strong>Aciertos:</strong></label>
+       <output id="aciertos" style="color: white" ></output>
+       <br>
+       <br>
+       <label><strong>Fallos</strong></label>
+       <output id="fallos" style="color: white"></output>
+       <br>
+       <br>
+       <button class="botones" onclick="wordGame()">Juego Nuevo</button>
+       <button class="botones" onclick="endGame()">Finalizar</button>
+   </div>
+   <div class="respuesta">
+       <label><strong>Pregunta:</strong> </label>
+       <p id="showPregunta" style="height: 40px; font-size: 30px"; ></p>
+       <br>
+       <label><strong>Respuesta:</strong></label>
+       <input Style="width: 100%; font-size: 20px; height: 50px; "  id="Respuesta">
+        <br>
+        <br>
+       <button id="Responder" class="botones" onclick="wordCheck()">Responder</button>
+       <button  id="Pasapalabra"class="botones" onclick="nextWord()">Pasapalabra</button>
+   </div>
+
+    
+
+
+
+    <script type="text/javascript" src="main.js"></script>    
+</body>
+</html>
