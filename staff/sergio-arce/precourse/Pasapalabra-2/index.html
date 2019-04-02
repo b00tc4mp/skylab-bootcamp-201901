@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.4/css/bulma.min.css">
+    <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+    <main id="container">
+
+        <div id="display-0">
+
+            <div id ="display-instructions">
+                <div class="inputName">
+                    <p class="title is-2">Skylab Pasapalabra</p>
+                    <input class="input" id="nameInput"  placeholder="User Name">
+                    <button class="button is-primary" type="submit" onclick="showGame()">Start</button>
+                    <p id="error"></p>  
+                </div>
+                <div class="divInstructions">
+                    <p class="title is-2">INSTRUCTIONS</p>
+                    <p>
+                        Bienvenido al famoso juego de la tv Pasapalabra <br>
+                        version Skylab!!! <br>
+                        Introduce tu nombre para registrarte en el Ranking <br>
+                        Al pulsar el boton Start Game : <br>
+                        - Se iniciara el contador <br>
+                        - Se activara la letra de color azul con su respectiva pregunta <br>
+                        Respuesta correcta color verde <br>
+                        Respuesta erronea color rojo <br>
+                        Tienes 180 segundos para responder todas la pregunstas </br>
+                        Pulsa el boton pasapalabra para responder luego </br>
+                        Para salir del juego pulsa el boton End Game </br>
+                        Suerte!!! </br>
+                    </p>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="display-1" class="hide">
+
+            <div class="divTimer">
+                <p class="letters">TIME</p>
+                <p id="timer" value="timer"></p>
+            </div>
+
+            <div class="divQuestion">
+                <p class="letters">QUESTION</p>
+                <p id="activeQuestion"></p>
+            </div>
+
+            <div class="divAnswer">
+                <input class="input" placeholder="Introduzca su respuesta" id="answerInput" />
+                <button class="button is-info" onclick="answerInput()" id=""> RESPONDER </button>
+                <button class="button is-warning" onclick="nextPasapalabra()"> PASAPALABRA </button>
+            </div>
+
+            <div class="divLetters" id="styleDivLetters">
+                <div class="letter-a circulo" id="activeLetter-a"><p>A</p></div>
+                <div class="letter-b circulo" id="activeLetter-b"><p>B</p></div>
+                <div class="letter-c circulo" id="activeLetter-c"><p>C</p></div>
+                <div class="letter-d circulo" id="activeLetter-d"><p>D</p></div>
+                <div class="letter-e circulo" id="activeLetter-e"><p>E</p></div>
+                <div class="letter-f circulo" id="activeLetter-f"><p>F</p></div>
+                <div class="letter-g circulo" id="activeLetter-g"><p>G</p></div>
+                <div class="letter-h circulo" id="activeLetter-h"><p>H</p></div>
+                <div class="letter-i circulo" id="activeLetter-i"><p>I</p></div>
+                <div class="letter-j circulo" id="activeLetter-j"><p>J</p></div>
+                <div class="letter-k circulo" id="activeLetter-k"><p>K</p></div>
+                <div class="letter-l circulo" id="activeLetter-l"><p>L</p></div>
+                <div class="letter-m circulo" id="activeLetter-m"><p>M</p></div>
+                <div class="letter-n circulo" id="activeLetter-n"><p>N</p></div>
+                <div class="letter-ñ circulo" id="activeLetter-ñ"><p>Ñ</p></div>
+                <div class="letter-o circulo" id="activeLetter-o"><p>O</p></div>
+                <div class="letter-p circulo" id="activeLetter-p"><p>P</p></div>
+                <div class="letter-q circulo" id="activeLetter-q"><p>Q</p></div>
+                <div class="letter-r circulo" id="activeLetter-r"><p>R</p></div>
+                <div class="letter-s circulo" id="activeLetter-s"><p>S</p></div>
+                <div class="letter-t circulo" id="activeLetter-t"><p>T</p></div>
+                <div class="letter-u circulo" id="activeLetter-u"><p>U</p></div>
+                <div class="letter-v circulo" id="activeLetter-v"><p>V</p></div>
+                <div class="letter-w circulo" id="activeLetter-w"><p>W</p></div>
+                <div class="letter-x circulo" id="activeLetter-x"><p>X</p></div>
+                <div class="letter-y circulo" id="activeLetter-y"><p>Y</p></div>
+                <div class="letter-z circulo" id="activeLetter-z"><p>Z</p></div>
+                <div class="divPasapalabra"><p>PASAPALABRA</p></div> 
+                <div class="status">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th><p class="letters">HITS</p></th> <th><p class="letters">FAIL</p></th>
+                            </tr>
+                            <tr>
+                            <td id="hits"></td> <td id="fail"></td>
+                            </tr>
+                        </thead>
+                    </table>
+                </div>
+                <div class="endGame">
+                    <button class="button is-primary" type="submit" onclick="startGame()">Start Game</button> <button class="button is-danger" type="submit" onclick="endGame()">End Game</button>
+                </div> 
+            </div>
+
+        </div>
+
+        <div id="display-2" class="hide">
+
+            <div id="ranking-container">
+                <p class="title is-2">RANKING</p>
+                <table>
+                    <thead>
+                        <tr>
+                            <th><p>NAME</p></th> <th><p>HITS</p></th> <th><p>FAIL</p></th> <th> <p>PASAPALABRA</p></th> <th><p>TIME</p></th>
+                        </tr>
+                        <tr>
+                            <td id="_name"></td> <td id="_hits"></td> <td id="_fail"></td> <td id="_next"></td> <td id="_time"></td> 
+                        </tr>
+                        <tr>
+                            <td id="_name-1"></td> <td id="_hits-1"></td> <td id="_fail-1"></td> <td id="_next-1"></td> <td id="_time-1"></td> 
+                        </tr>
+                    </thead>
+                </table>
+            </div>
+            <div class="inicio">
+                <button class="button is-primary" type="submit" onclick="instructionsGame()">Home</button>
+            </div> 
+        </div>
+
+    </main>
+
+    
+    <script src="index.js"></script>
+</body>
+
+</html>
