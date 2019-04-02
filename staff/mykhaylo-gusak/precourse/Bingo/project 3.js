@@ -229,10 +229,10 @@ function comparation (turn) {
 	if (confirmNumber(user.gameInfo.table[turn-1]) === true){
 
 		if (user.carton.indexOf(user.gameInfo.table[turn-1]) === -1 ) {
-			alert('WRONG!You have not this number!Pay more attenton!')
+			alert('WRONG!You have not this number!Pay more attenton!');
 		} else {
 			user.carton[user.carton.indexOf(user.gameInfo.table[turn-1])] = 'X';
-			alert('Well done! Lets keep going to the victory!')
+			alert('Well done! Lets keep going to the victory!');
 		}
 
 	} else if (user.carton.indexOf(user.gameInfo.table[turn-1]) != -1){
