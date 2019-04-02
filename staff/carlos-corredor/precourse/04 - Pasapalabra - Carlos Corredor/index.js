@@ -130,7 +130,7 @@ function pasapalabra(){
                 if(q === null){
                     alert('Chao');
                     if(ranking.length){
-                        alert('Ranking\n' + ranking.join('\n'))
+                        alert('Ranking\n' + ranking.join('\n'));
                     };
                     return
                 }
@@ -140,13 +140,13 @@ function pasapalabra(){
                         alert(questions[i].answer + '\nCorrecto, has ganado 1 punto!');
                         correctLetters.push(questions[i].letter);
                         if(pasaLetters.indexOf(questions[i].letter) !== -1){
-                            pasaLetters.splice(pasaLetters.indexOf(questions[i].letter),1)
+                            pasaLetters.splice(pasaLetters.indexOf(questions[i].letter),1);
                         }
                     } else {
                         alert('Respuesta incorrecta');
                         incorrectLetters.push(questions[i].letter);
                         if(pasaLetters.indexOf(questions[i].letter) !== -1){
-                            pasaLetters.splice(pasaLetters.indexOf(questions[i].letter),1)
+                            pasaLetters.splice(pasaLetters.indexOf(questions[i].letter),1);
                         }
                     }
                 } else {
@@ -156,7 +156,7 @@ function pasapalabra(){
                 }
             }
         };
-        estatus()
+        estatus();
     };
     bienvenidos();
 };

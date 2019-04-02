@@ -1,4 +1,4 @@
-alert('Introduce dos valores para calcular la suma, resta, multiplicación y división entre ellos. En caso de introducir sólo un número, la calculadora devolverá la raíz cuadrada de dicho número')
+alert('Introduce dos valores para calcular la suma, resta, multiplicación y división entre ellos. En caso de introducir sólo un número, la calculadora devolverá la raíz cuadrada de dicho número');
 let num1 = (prompt('Introduce un número'));
 let num2 = (prompt('Introduce otro número'));
 if(num1 === '' || num1 === null){
@@ -13,8 +13,8 @@ if(num2 === '' || num2 === null){
 };
 let results = [];
 let equal = '='; // Para ser cambiado por "equivalente a" (≡) cuando el divisor sea cero y el resultado sea equivalente a infinito.
-const error1 = 'The parameters must be numbers'
-const error2 = 'The parameter must be greater or equal to zero'
+const error1 = 'The parameters must be numbers';
+const error2 = 'The parameter must be greater or equal to zero';
 const round1 = function (r){
    return Math.round(r*1000)/1000
 };
@@ -29,7 +29,7 @@ const mul = function (n1, n2){
 };
 const div = function (n1, n2){
     if (n2 === 0){
-        return '∞'
+        return '∞';
     };
     return round1(n1 / n2);
 };
