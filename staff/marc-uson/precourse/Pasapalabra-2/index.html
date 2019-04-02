@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles/style.css">
+    <title>Pasapalabra</title>
+
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+
+</head>
+<body>
+    <div class="container">
+    
+        <ul class="circle">
+            <li id="n" class="letter">N</li>
+            <li id="m" class="letter">M</li>
+            <li id="l" class="letter">L</li>
+            <li id="k" class="letter">K</li>
+            <li id="j" class="letter">J</li>
+            <li id="i" class="letter">I</li>
+            <li id="h" class="letter">H</li>
+            <li id="g" class="letter">G</li>
+            <li id="f" class="letter">F</li>
+            <li id="e" class="letter">E</li>
+            <li id="d" class="letter">D</li>
+            <li id="c" class="letter">C</li>
+            <li id="b" class="letter">B</li>
+            <li id="a" class="letter">A</li>
+            <li id="z" class="letter">Z</li>
+            <li id="y" class="letter">Y</li>
+            <li id="x" class="letter">X</li>
+            <li id="w" class="letter">W</li>
+            <li id="v" class="letter">V</li>
+            <li id="u" class="letter">U</li>
+            <li id="t" class="letter">T</li>
+            <li id="s" class="letter">S</li>
+            <li id="r" class="letter">R</li>
+            <li id="q" class="letter">Q</li>
+            <li id="p" class="letter">P</li>
+            <li id="o" class="letter">O</li>
+            <li id="ñ" class="letter">Ñ</li> 
+        </ul>
+
+        <div id="avatar">
+            <img id="avatarImage" src="styles/avatar.png" alt="avatar"> 
+            <h5 id="message"><br>bienvenido!<br>Pulsa jugar para empezar.</h5>           
+        </div>
+
+        <div id="scoreboard">
+            <p id="timer">00</p>
+            <p id="points">00</p>
+        </div>
+    
+        <div class="controls">
+            <h1 class="title" id="mainTitle">PASAPALABRA</h1>
+            <p id="start" onclick="startGame()">Jugar!</p>
+            <p id="rules"><a href="help.html" target="_blank" style="text-decoration: none">Instrucciones</a></p>
+            <p id="question"></p>
+            <p id="textanswer">respuesta:</p>
+            <input id="answer" type="text" onkeydown="submitAnswer(event)">
+        </div>
+
+       <div class="ranking">
+            <h3 id="rankTitle">Ranking:</h3>
+            <p id="usersRank"></p>
+       </div>
+           
+    </div>
+     
+    <script type="text/javascript" src="script/script.js" ></script>
+</body>
+</html>
