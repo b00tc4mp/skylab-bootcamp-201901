@@ -24,9 +24,7 @@ function dataHandler(flights) {
 function admin(name,flights) {
     var loop = true;
     var op , todo;
-    var newflight = [
-        { id: 00, to: '', from: '', cost: 0, scale: false };
-    ]
+    var newflight = { id: 00, to: '', from: '', cost: 0, scale: false };
     while(loop){
         op=prompt("Hi Admin "+name+" you can modify the DB with the following commands\n\n - 'create' : you cand add more flights to DB \n - 'delete' : you can errase flights from DB \n - 'exit : exit application ");
         if(op==="create"){
@@ -39,7 +37,7 @@ function admin(name,flights) {
                 flights.push(newflight);
                 alert("flight added Successfully! \n"+dataHandler(flights));
             }else{
-                alert("Max quantity of Flights allowed are 15!")
+                alert("Max quantity of Flights allowed are 15!");
             }
             
         }
