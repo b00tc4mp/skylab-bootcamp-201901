@@ -6,6 +6,7 @@ var number2 ='';
 
 
 
+
 function insert(num) {
   
   if ((num === '-' && idScreen.value === "0") || (num === "/" && idScreen.value === "0") || (num === "*" && idScreen.value === "0") || (num === "+" && idScreen.value === "0")) {
