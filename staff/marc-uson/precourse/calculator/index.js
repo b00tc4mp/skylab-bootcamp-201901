@@ -17,7 +17,7 @@ do {
     switch (question){
         case 'y':
             question = prompt("How many operators?");
-            setCalculator(question, operatorsArray)
+            setCalculator(question, operatorsArray);
         
         case 'n':
             break;

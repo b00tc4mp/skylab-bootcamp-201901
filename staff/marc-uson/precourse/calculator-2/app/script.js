@@ -40,7 +40,7 @@ function checkLast(){
     if (lastButton == "+" || lastButton == "-" || lastButton == "*" || lastButton == "/"){ // marcamos si habiamos pulsado boton de opreacion en el pulsado anterior
         lastOperate = true;
     } else{
-        lastOperate = false 
+        lastOperate = false; 
     }
     if(button == "+" || button == "-" || button == "*" || button == "/"){ //marcamos si hemos pulsado boton de operacion
         operate = true;

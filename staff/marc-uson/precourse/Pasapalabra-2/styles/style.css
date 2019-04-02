@@ -13,7 +13,7 @@ body {
 }
 
 .container{
-	background-color: rgb(44, 107, 158);
+    background-color: rgb(44, 107, 158);
     height: 600px;
     width: 1350px;
 	margin: 0;
@@ -63,8 +63,8 @@ body {
     border-radius: 50%;
     box-shadow: 4px 4px 4px  rgb(50, 57, 65);
     font-size: 24px;
-	height: 36px;
-	width: 36px;
+    height: 36px;
+    width: 36px;
     text-align: center;
     line-height: 36px;
     vertical-align: middle;    	

@@ -25,7 +25,7 @@ function bingo(){
 
         var play = window.confirm("Let's start " + userName + ", this is your cardboard:\n\n" + showCarboard(cardboard) + "\n\n Do you wanna spin the bingo roller?");
 
-        if(play == false){turns = range + 1}; //con esto forzamos que el jugador tenga 0 puntos si no ha terminado el carton. Con zero puntos no entrara en el ranking.
+        if(play == false)turns = range + 1; //con esto forzamos que el jugador tenga 0 puntos si no ha terminado el carton. Con zero puntos no entrara en el ranking.
 
         while(play == true){
             turns += 1;
@@ -199,7 +199,7 @@ function checkBingo(cardboard){                 //funcion para comprobar si tene
     var numbersPicked = 0;
     var play = true;
 
-    cardboard.forEach(item => {if(item.matched == true) numbersPicked += 1})
+    cardboard.forEach(item => {if(item.matched == true) numbersPicked += 1});
 
     //window.alert("you have " + numbersPicked + " numbers picked.");
 

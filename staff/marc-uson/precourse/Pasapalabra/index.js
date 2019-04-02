@@ -39,7 +39,7 @@ function pasapalabra(){
     var endGame = false;
     var userName = getUserName();
 
-    while (play ==true){
+    while (play){
 
         questions.forEach(element => {
             if(element.status == 0){
@@ -48,7 +48,7 @@ function pasapalabra(){
                     randomNum = checkPasapalabra(pasapalabra, element.letter);
                 }else{randomNum = getRandomNum(3)}
 
-                if (endGame == false){ answer = prompt(element.question[randomNum])}
+                if (endGame == false) answer = prompt(element.question[randomNum]);
                 if(answer != null && endGame == false){
                     answer = answer.toLowerCase();
                 }
@@ -59,13 +59,13 @@ function pasapalabra(){
             }  
         });
 
-        if (answered == questions.length){
+        if (answered === questions.length){
             enterRanking(ranking, userName, points);
             play = window.confirm("Fin del juego " + userName + " has has acertado " + points + " letras.\nHas fallado " + (questions.length - points) + " letras.\n Este es el ranking actual: \n" + showRanking(ranking) + "\nQuieres volver a jugar?");
-        }else if(endGame == true){
+        }else if(endGame){
             play = window.confirm("Fin del juego " + userName + " has has acertado " + points + " letras.\nAl finalizar antes de tiempo no entras en el ranquing.\n Este es el ranking actual: \n" + showRanking(ranking) + "\nQuieres volver a jugar?");
         }
-        if(play == true && answered == questions.length || endGame == true){
+        if(play && answered == questions.length || endGame){
             answer = "";
             answered = 0 ;
             points = 0;
