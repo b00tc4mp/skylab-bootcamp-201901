@@ -1,11 +1,18 @@
-// Crea un array con todos los numeros de 1 al 90 ordenados aleatoriamente. Cada turno se mira el siguiente.
-function generateNumberByTurn(){
-    allNumbers = [];
-    while (allNumbers.length < 90){
-        if (allNumbers.includes(number = Math.floor(Math.random()*(91-1)+1)) === false){
-                allNumbers.push(number);
+// Introduce en la array tantos numeros como choises en un rango como picks) 
+function generateNumberByTurn(array, choises, picks){
+
+    while (choises > 0){
+
+        let i = Math.floor(Math.random() * (picks -1) +1);
+
+        //if (!i in array){
+        if(!array.includes(i)){
+                array.push(i);
+                choises--;
         }
     }
+
+    return array;
 } 
 
 //Pregunta el nombre.
@@ -105,7 +112,7 @@ function checkLines(){
 }   
 // Global variables:
 
-let allNumbers;
+let allNumbers = [];
 let actualBall;
 let turn = 0;
 let bingoCard = [];
@@ -118,7 +125,7 @@ let nextBall = true;
 // Función principal.
 function bingo(){
      
-    generateNumberByTurn();
+    generateNumberByTurn(allNumbers, 90, 90);
     let name = askName();
     cardNumbersGenerator();
 
