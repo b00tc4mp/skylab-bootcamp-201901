@@ -163,7 +163,7 @@ debugger
                 Operation.num2 = arrayOperationMultDivResult[i + 1];
                 Operation.operator = arrayOperationMultDivResult[i];
                 arrayOperationMultDivResult.splice(i - 1, 3, Operation.doSingleOperation());
-                i = i - 2;
+                i -=2;
             } 
         }
     } else {
