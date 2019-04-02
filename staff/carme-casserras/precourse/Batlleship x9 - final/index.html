@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="Style/style.css" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Acme" rel="stylesheet">
+       
+    </head>
+    <body>
+        <header id="turno" style="display:none">
+            <img id="ordinador" src="Style/laptop.png" width="12%">
+            <img id="jugador" src="Style/popeye.png" width="10%">
+        </header>
+        <div id="start" onclick="this.style.display='none'; document.getElementsByClassName('ship')[0].style.display='flex'; document.getElementsByClassName('container1')[0].style.display='grid'; document.getElementById('reloa').style.display='flex';">B  A  T  T  L  E  S  H  I  P<br><img src="Style/vaixell.png" width="50%"><br><img src="Style/play.png" width="80px" height="auto">
+        </div>
+        <div class="container">
+            <div class="ship" style="display:none">
+                <p id="info">1. Seleccionar horizontal/vertical<br>2. Coger el barco por la punta izquierda<br>(si es horizontal), o punta superior(si es vertical)</p>
+                <div id="posicio">
+                    <button id="h" onclick="boto()">HORIZONTAL</button>
+                    <button id="v" onclick="boto()">VERTICAL</button>
+                </div>
+                <div id="imag" ondragover="allowDrop(event)">
+                    <img id="carrier"  src="Style/carr.png" width="150" draggable="true" ondragstart="drag(event)">
+                    <img id="battleship" src="Style/batt.png" width="120" draggable="true" ondragstart="drag(event)">
+                    <img id="cruiser" src="Style/crui.png"  width="90" draggable="true" ondragstart="drag(event)">
+                    <img id="submarine" src="Style/sub.png" width="60" draggable="true" ondragstart="drag(event)">
+                    <img id="destroyer1" src="Style/dest.png" width="30" draggable="true" ondragstart="drag(event)">
+                    <img id="destroyer2" src="Style/dest.png" width="30" draggable="true" ondragstart="drag(event)">
+                </div>
+            </div>
+            <div class="container1" ondrop="drop(event)" ondragover="allowDrop(event)" style="display:none">
+                <!-- Files = primer / Columnes = segon -->                        
+                <div class='aigua' id="fc11"></div>
+                <div class='aigua' id="fc12"></div>
+                <div class='aigua' id="fc13"></div>
+                <div class='aigua' id="fc14"></div>
+                <div class='aigua' id="fc15"></div>
+                <div class='aigua' id="fc16"></div>
+                <div class='aigua' id="fc17"></div>
+                <div class='aigua' id="fc18"></div>
+                <div class='aigua' id="fc19"></div>
+                <div class='aigua' id="fc21"></div>
+                <div class='aigua' id="fc22"></div>
+                <div class='aigua' id="fc23"></div>
+                <div class='aigua' id="fc24"></div>
+                <div class='aigua' id="fc25"></div>
+                <div class='aigua' id="fc26"></div>
+                <div class='aigua' id="fc27"></div>
+                <div class='aigua' id="fc28"></div>
+                <div class='aigua' id="fc29"></div>
+                <div class='aigua' id="fc31"></div>
+                <div class='aigua' id="fc32"></div>
+                <div class='aigua' id="fc33"></div>
+                <div class='aigua' id="fc34"></div>
+                <div class='aigua' id="fc35"></div>
+                <div class='aigua' id="fc36"></div>
+                <div class='aigua' id="fc37"></div>
+                <div class='aigua' id="fc38"></div>
+                <div class='aigua' id="fc39"></div>
+                <div class='aigua' id="fc41"></div>
+                <div class='aigua' id="fc42"></div>
+                <div class='aigua' id="fc43"></div>
+                <div class='aigua' id="fc44"></div>
+                <div class='aigua' id="fc45"></div>
+                <div class='aigua' id="fc46"></div>
+                <div class='aigua' id="fc47"></div>
+                <div class='aigua' id="fc48"></div>
+                <div class='aigua' id="fc49"></div>
+                <div class='aigua' id="fc51"></div>
+                <div class='aigua' id="fc52"></div>
+                <div class='aigua' id="fc53"></div>
+                <div class='aigua' id="fc54"></div>
+                <div class='aigua' id="fc55"></div>
+                <div class='aigua' id="fc56"></div>
+                <div class='aigua' id="fc57"></div>
+                <div class='aigua' id="fc58"></div>
+                <div class='aigua' id="fc59"></div>
+                <div class='aigua' id="fc61"></div>
+                <div class='aigua' id="fc62"></div>
+                <div class='aigua' id="fc63"></div>
+                <div class='aigua' id="fc64"></div>
+                <div class='aigua' id="fc65"></div>
+                <div class='aigua' id="fc66"></div>
+                <div class='aigua' id="fc67"></div>
+                <div class='aigua' id="fc68"></div>
+                <div class='aigua' id="fc69"></div>
+                <div class='aigua' id="fc71"></div>
+                <div class='aigua' id="fc72"></div>
+                <div class='aigua' id="fc73"></div>
+                <div class='aigua' id="fc74"></div>
+                <div class='aigua' id="fc75"></div>
+                <div class='aigua' id="fc76"></div>
+                <div class='aigua' id="fc77"></div>
+                <div class='aigua' id="fc78"></div>
+                <div class='aigua' id="fc79"></div>
+                <div class='aigua' id="fc81"></div>
+                <div class='aigua' id="fc82"></div>
+                <div class='aigua' id="fc83"></div>
+                <div class='aigua' id="fc84"></div>
+                <div class='aigua' id="fc85"></div>
+                <div class='aigua' id="fc86"></div>
+                <div class='aigua' id="fc87"></div>
+                <div class='aigua' id="fc88"></div>
+                <div class='aigua' id="fc89"></div>
+                <div class='aigua' id="fc91"></div>
+                <div class='aigua' id="fc92"></div>
+                <div class='aigua' id="fc93"></div>
+                <div class='aigua' id="fc94"></div>
+                <div class='aigua' id="fc95"></div>
+                <div class='aigua' id="fc96"></div>
+                <div class='aigua' id="fc97"></div>
+                <div class='aigua' id="fc98"></div>
+                <div class='aigua' id="fc99"></div>                 
+            </div>
+            <div class="container2" style="display:none">
+                <!-- Files = lletres / Columnes = nombre  -->
+                <div class='aigua' id="rc11"></div>
+                <div class='aigua' id="rc12"></div>
+                <div class='aigua' id="rc13"></div>
+                <div class='aigua' id="rc14"></div>
+                <div class='aigua' id="rc15"></div>
+                <div class='aigua' id="rc16"></div>
+                <div class='aigua' id="rc17"></div>
+                <div class='aigua' id="rc18"></div>
+                <div class='aigua' id="rc19"></div>
+                <div class='aigua' id="rc21"></div>
+                <div class='aigua' id="rc22"></div>
+                <div class='aigua' id="rc23"></div>
+                <div class='aigua' id="rc24"></div>
+                <div class='aigua' id="rc25"></div>
+                <div class='aigua' id="rc26"></div>
+                <div class='aigua' id="rc27"></div>
+                <div class='aigua' id="rc28"></div>
+                <div class='aigua' id="rc29"></div>
+                <div class='aigua' id="rc31"></div>
+                <div class='aigua' id="rc32"></div>
+                <div class='aigua' id="rc33"></div>
+                <div class='aigua' id="rc34"></div>
+                <div class='aigua' id="rc35"></div>
+                <div class='aigua' id="rc36"></div>
+                <div class='aigua' id="rc37"></div>
+                <div class='aigua' id="rc38"></div>
+                <div class='aigua' id="rc39"></div>
+                <div class='aigua' id="rc41"></div>
+                <div class='aigua' id="rc42"></div>
+                <div class='aigua' id="rc43"></div>
+                <div class='aigua' id="rc44"></div>
+                <div class='aigua' id="rc45"></div>
+                <div class='aigua' id="rc46"></div>
+                <div class='aigua' id="rc47"></div>
+                <div class='aigua' id="rc48"></div>
+                <div class='aigua' id="rc49"></div>
+                <div class='aigua' id="rc51"></div>
+                <div class='aigua' id="rc52"></div>
+                <div class='aigua' id="rc53"></div>
+                <div class='aigua' id="rc54"></div>
+                <div class='aigua' id="rc55"></div>
+                <div class='aigua' id="rc56"></div>
+                <div class='aigua' id="rc57"></div>
+                <div class='aigua' id="rc58"></div>
+                <div class='aigua' id="rc59"></div>
+                <div class='aigua' id="rc61"></div>
+                <div class='aigua' id="rc62"></div>
+                <div class='aigua' id="rc63"></div>
+                <div class='aigua' id="rc64"></div>
+                <div class='aigua' id="rc65"></div>
+                <div class='aigua' id="rc66"></div>
+                <div class='aigua' id="rc67"></div>
+                <div class='aigua' id="rc68"></div>
+                <div class='aigua' id="rc69"></div>
+                <div class='aigua' id="rc71"></div>
+                <div class='aigua' id="rc72"></div>
+                <div class='aigua' id="rc73"></div>
+                <div class='aigua' id="rc74"></div>
+                <div class='aigua' id="rc75"></div>
+                <div class='aigua' id="rc76"></div>
+                <div class='aigua' id="rc77"></div>
+                <div class='aigua' id="rc78"></div>
+                <div class='aigua' id="rc79"></div>
+                <div class='aigua' id="rc81"></div>
+                <div class='aigua' id="rc82"></div>
+                <div class='aigua' id="rc83"></div>
+                <div class='aigua' id="rc84"></div>
+                <div class='aigua' id="rc85"></div>
+                <div class='aigua' id="rc86"></div>
+                <div class='aigua' id="rc87"></div>
+                <div class='aigua' id="rc88"></div>
+                <div class='aigua' id="rc89"></div>
+                <div class='aigua' id="rc91"></div>
+                <div class='aigua' id="rc92"></div>
+                <div class='aigua' id="rc93"></div>
+                <div class='aigua' id="rc94"></div>
+                <div class='aigua' id="rc95"></div>
+                <div class='aigua' id="rc96"></div>
+                <div class='aigua' id="rc97"></div>
+                <div class='aigua' id="rc98"></div>
+                <div class='aigua' id="rc99"></div>
+            </div>
+        </div>
+        <div class="varis">
+            <img  id="reloa" style="display:none" src ="Style/reload.gif" onclick="reloa()">
+            <div id="error" type="text"></div>
+        </div>
+        <div id="winner" type="text"></div>
+    </body>
+    <script type="text/javascript" src="main.js" ></script>        
+</html>

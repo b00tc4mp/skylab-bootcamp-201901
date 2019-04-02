@@ -1,0 +1,117 @@
+*{
+    font-family: 'Acme', sans-serif;
+    font-size: 30px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;   
+    align-content: center;
+    align-items: center;
+   }
+
+#start {
+    display: flex;
+    height: 300px;
+    font-size: 70px;
+    color: red;
+    align-items: center;
+   
+}
+
+#start >span {
+    font-size: 70px;
+    color: blue;
+}
+
+.container {
+    width: 400px;
+    height: 400px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    grid-gap: 5px;
+    justify-content: space-evenly;
+    align-content: center;    
+    justify-items: center;
+    padding-right: 20px;
+    padding-left: 20px;
+    border-style: solid;
+    border-color: black;
+    border-radius: 25px;
+    background: rgb(173, 232, 255);
+}
+
+.container > div {
+    width: 50px;
+    height: 50px;
+    border: 2px solid black;
+    border-radius: 50%;
+    justify-items: stretch;
+    align-items: stretch;
+    background: white;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-evenly;
+    align-items: center;
+    width: 444px;
+    height: 80px;
+    border: 2px solid black;
+    border-radius: 25px;
+    background: rgb(222, 247, 237);
+    }
+
+.color {
+    display: flex;
+    flex-direction: row;
+    width: 500px;
+    height: 60px;
+    justify-content: space-evenly;
+    align-items: center;
+    margin-top: 5px;
+}
+
+#newgame {
+    border-radius: 50px;
+    width: 35px;    
+    height: 35px;
+    justify-items: center;
+    outline: none;
+    
+}
+
+#newgame:hover {
+    transform: translateY(2px);
+}
+
+ #red {
+    width: 50px;
+    height: 50px;
+    border: 2px solid black;
+    border-radius: 50%;
+    justify-items: stretch;
+    align-items: stretch;
+    background: red;
+ }
+
+ #blue {
+    width: 50px;
+    height: 50px;
+    border: 2px solid black;
+    border-radius: 50%;
+    justify-items: stretch;
+    align-items: stretch;
+    background: blue;
+ }
+
+ #winner {
+    display: flex;
+    width: 444px;
+    height: 30px;
+    margin-bottom: 3px;
+    margin-top: 3px;
+    justify-content: center;
+    align-items: center;
+ }

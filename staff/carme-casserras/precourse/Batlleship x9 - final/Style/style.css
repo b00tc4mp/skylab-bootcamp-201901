@@ -1,0 +1,173 @@
+* {
+    font-family: 'Acme', sans-serif;
+    font-size: 15px;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: 550px;
+    align-content: center;
+    align-items: center;
+    justify-content: space-evenly;
+    justify-items: center;
+    background-image: url("fondo.jpg");
+}
+
+#turno {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    justify-items: center;
+    align-items: center;
+    align-content: center;
+    width: 700px;
+    height: 70px;
+}
+
+#turno > img {
+    display: inline-block;
+    justify-content: center;
+    align-content: center;
+    text-align: center;
+    align-items: center;
+    vertical-align: middle;
+    justify-items: center;
+}
+
+#start {
+    display: flex;
+    flex-direction: column;
+    height: 550px;
+    font-size: 70px;
+    color:black;
+    align-items: center;   
+    margin-top: 70px;
+}
+#info{
+    text-align: justify;
+    font-size: 15px;
+}
+
+.container {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    justify-items: center;
+    align-items: center;
+    vertical-align: middle;
+}
+
+.ship {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;
+    justify-content: center;
+    width: 350px;
+    height: auto;
+}
+
+#posicio {
+    display: flex;
+    flex-direction: column;
+    width: 200px;
+    align-items: center;
+    height: 100px;
+    justify-content: center;  
+}
+
+#posicio > button {
+    display: flex;
+    height: 25px;
+    margin: 10px;
+    border-radius: 7px;
+    outline: none;
+}
+
+#imag {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    align-items: center;   
+}
+
+#imag > img {
+    display: flex;
+    align-content: center; 
+}
+
+.container1, .container2 {
+    width: 304px;
+    height: 304px;
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-gap: 2px;
+    justify-content: center;
+    align-content: center;    
+    justify-items: center;
+    vertical-align: middle;    
+    border: 2px solid black;
+}
+
+.container2 {
+    margin-left: 50px;
+}
+
+.container1 > div {   
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    justify-items: center;
+    align-items: center;
+    text-align: center;
+}
+
+.container2 > div {
+    width: 30px;
+    height: 30px;
+    border: 1px solid black;
+    justify-items: center;
+    align-content: center;     
+    align-items: center;
+    text-align: center;
+    vertical-align: middle;
+}
+.varis {
+    display: flex;
+    flex-direction: row;
+    width: 700px;
+    justify-content: space-around;
+}
+
+#reloa {
+    border-radius: 50px;
+    width: 50px;    
+    height: 50px;
+    justify-items: left;
+    outline: none;    
+}
+
+#reloa:hover {
+    transform: translateY(2px);
+}
+#error {
+    display: flex;
+    width: 150px;
+    height: 50px;
+    border: 2px;
+    font-size: 15px;
+    text-align: left;
+    align-items: center;
+}
+
+#winner {
+    display: flex;
+    width: 150px;
+    height: 50px;
+    border: 2px;
+    font-size: 25px;
+    text-align: center;
+    align-items: center;
+}
