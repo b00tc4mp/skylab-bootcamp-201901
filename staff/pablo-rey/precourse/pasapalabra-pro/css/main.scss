@@ -2,16 +2,16 @@ $donut-diameter: 500px;
 $player-diameter: $donut-diameter + 100px;
 $letter-diameter: 50px;
 $num-letters: 28;
-$start-angle: -90deg - (360deg / $num-letters) / 2 ;
+$start-angle: -90deg - (360deg / $num-letters) / 2;
 
-$primary: #2780E3;
+$primary: #2780e3;
 $secondary: #373a3c;
-$success:#3FB618;
-$info:#9954BB;
-$warning:#FF7518;
-$danger:#FF0039;
-$light:#f8f9fa;
-$dark:#373a3c;
+$success: #3fb618;
+$info: #9954bb;
+$warning: #ff7518;
+$danger: #ff0039;
+$light: #f8f9fa;
+$dark: #373a3c;
 
 .player {
   width: $player-diameter;
@@ -28,7 +28,7 @@ $dark:#373a3c;
   align-content: center;
   border-radius: 15px;
   border: 2px solid $secondary;
-  transform: translate($player-diameter * 0.25, $player-diameter * .25) ;
+  transform: translate($player-diameter * 0.25, $player-diameter * 0.25);
 }
 
 .timer {
@@ -40,7 +40,7 @@ $dark:#373a3c;
   background-color: $light;
   border-radius: 15px;
   border: 2px solid $secondary;
-  transform: translate($player-diameter * .35, $player-diameter * .4) ;
+  transform: translate($player-diameter * 0.35, $player-diameter * 0.4);
 }
 
 .donut {
@@ -64,25 +64,35 @@ $dark:#373a3c;
   text-align: center;
   text-justify: center;
   justify-content: center;
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   font-weight: 600;
   font-size: 2rem;
-  margin: $letter-diameter / 2;  
+  margin: $letter-diameter / 2;
 }
 
 @for $i from 1 to $num-letters {
   .donut div:nth-child(#{$i}) {
-    transform: rotate($start-angle + $i * 360deg / ($num-letters - 1)) translate($donut-diameter / 2) translate(0px) rotate(-($start-angle + $i * 360deg / ($num-letters - 1))); 
-    animation-name: letterActive; 
-    animation-duration: 2s; 
-    animation-iteration-count: 0;   
+    transform: rotate($start-angle + $i * 360deg / ($num-letters - 1))
+      translate($donut-diameter / 2)
+      translate(0px)
+      rotate(-($start-angle + $i * 360deg / ($num-letters - 1)));
+    animation-name: letterActive;
+    animation-duration: 2s;
+    animation-iteration-count: 0;
   }
 }
 
 @keyframes letterActive {
-  0% { background-color: $primary; }
-  50% { background-color: $light; color:$dark; }
-  100% { background-color: $primary; }
+  0% {
+    background-color: $primary;
+  }
+  50% {
+    background-color: $light;
+    color: $dark;
+  }
+  100% {
+    background-color: $primary;
+  }
 }
 
 h1 {
@@ -96,7 +106,7 @@ h1 {
   border: 3px solid $secondary;
   border-radius: 50%;
   text-align: center;
-  transform: translateX(30px)
+  transform: translateX(30px);
 }
 
 #question-letter-text {
@@ -106,7 +116,7 @@ h1 {
 }
 
 #modal-end-game-body {
-  background-image: url('../img/fireworks-1758_640.jpg');
+  background-image: url("../img/fireworks-1758_640.jpg");
   height: 480px;
 }
 

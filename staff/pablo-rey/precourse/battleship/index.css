@@ -64,7 +64,6 @@ main {
 
 #ships-vertical {
   display: flex;
-  /* align-items: center; */
   justify-content: center;
   flex-direction: row;
 }
