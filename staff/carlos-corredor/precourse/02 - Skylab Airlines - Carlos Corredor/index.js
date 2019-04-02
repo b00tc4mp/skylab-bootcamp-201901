@@ -21,7 +21,7 @@ function skylabAirlines () {
         for (let i = 0; i < flights.length; i++ ){
             flights[i].scale ?
             alert(`El vuelo con origen: ${flights[i].from}, y destino: ${flights[i].to} tiene un coste de ${flights[i].cost}€ con escalas.`):
-            alert(`El vuelo con origen: ${flights[i].from}, y destino: ${flights[i].to} tiene un coste de ${flights[i].cost}€ y no realiza ninguna escala.`)
+            alert(`El vuelo con origen: ${flights[i].from}, y destino: ${flights[i].to} tiene un coste de ${flights[i].cost}€ y no realiza ninguna escala.`);
         };
         var costArr = [];
         for (let i = 0; i < flights.length; i++ ){
@@ -41,9 +41,9 @@ function skylabAirlines () {
             counter++;
         };
         if (!counter){
-            alert('Los vuelos no realizan escalas')
+            alert('Los vuelos no realizan escalas');
         } else if (counter === 1){
-            alert(`Hay un vuelo con escalas`)
+            alert(`Hay un vuelo con escalas`);
         } else {
             alert(`Hay ${counter} vuelos con escalas`);
         };
