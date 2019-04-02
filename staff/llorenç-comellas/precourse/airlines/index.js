@@ -28,39 +28,39 @@ var flights = [
 
 function airlines(){
 
-    let name = prompt('Com et dius?')
-    console.log('Hola ' + name + '. Aquests son els vols disponibles per avui:')
+    let name = prompt('Com et dius?');
+    console.log('Hola ' + name + '. Aquests son els vols disponibles per avui:');
 
-    let showFlights = ''
-    let showScale = ''
-    let costMitja = 0
-    let trueScale = ''
-    let lastFlights = ''
+    let showFlights = '';
+    let showScale = '';
+    let costMitja = 0;
+    let trueScale = '';
+    let lastFlights = '';
     
 
     for(i=0;i< flights.length; i++){
         if(flights[i].scale === false){
-            showScale = 'no realitza escala'
+            showScale = 'no realitza escala';
         }else{
-            showScale = 'realitza escala'
+            showScale = 'realitza escala';
         }
        showFlights += 'El vol amb origen: ' + flights[i].from + ' i destinació: ' + flights[i].to + ' te un cost de ' + flights[i].cost + '€' + ' i ' + showScale + '\n'
         
-        costMitja += flights[i].cost / flights.length
+        costMitja += flights[i].cost / flights.length ;
 
         if(flights[i].scale === true){
-            trueScale +=  'El vol amb origen: ' + flights[i].from + ' i destinació: ' + flights[i].to + '\n'
+            trueScale +=  'El vol amb origen: ' + flights[i].from + ' i destinació: ' + flights[i].to + '\n' ;
         }
     
     }
     for(j=6;j< flights.length; j++){
-        lastFlights += flights[j].to + '\n'
+        lastFlights += flights[j].to + '\n';
     }
 
-    console.log(showFlights) 
-    console.log('El cost mitjà dels vols es de: ' + costMitja.toFixed(2) + '€')
-    console.log('Els vols amb escala son: ' + '\n' + trueScale)
-    console.log('La destinació dels últims cinc vols son:' + '\n' + lastFlights)
+    console.log(showFlights);
+    console.log('El cost mitjà dels vols es de: ' + costMitja.toFixed(2) + '€');
+    console.log('Els vols amb escala son: ' + '\n' + trueScale);
+    console.log('La destinació dels últims cinc vols son:' + '\n' + lastFlights);
    
 }
 
