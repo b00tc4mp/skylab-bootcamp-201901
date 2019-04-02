@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<head>
+    <meta charset='UTF-8'>
+    <link href="https://fonts.googleapis.com/css?family=Raleway:200,400,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="./pasapalabra-2.css" />
+    <title></title>
+</head>
+
+<body>
+    <section class="container-pasapalabra">
+        <div class="container" id="step-instructions">
+            <div class="content">
+                <h2 class="title">Basado en el éxitoso concurso de televisión Pasapalabra de Telecinco, las normas son
+                    muy sencillas:</h2>
+                <ul>
+                    <li>Se mostraran unas definiciones por pantalla y el usuario deberá responder con la palabra a la
+                        que corresponden. El usuario tiene la opción de decir "Pasapalabra" y dejar esa definición para
+                        más adelante.</li>
+                    <li>El programa es sensible a las acentuaciones, así que se debe introducir la palabra sin tilde.
+                    </li>
+                </ul>
+                <div class="btn-start-section">
+                    <button class="btn" id="btn-startPlaying">¡Quiero jugar!</button>
+                </div>
+            </div>
+        </div>
+
+
+        
+        <div class="container hidden" id="step-username">
+                <div class="content" id="userNameSection">
+                    <h1>Antes de empezar, dinos tu nombre</h1>
+                    <label for="name"> nickname: </label>
+                    <input type="text" id="userName" name="name">
+                    <button class="btn" id= "btnUserName">¡EMPEZAR!</button>
+                </div>
+        </div>
+
+
+        <div class="container hidden" id="step-game">
+            <div class="content" id="questionsAndAnswers">
+                <input type="text" id="userAnswer" name="userAnswer">
+                <button class="btn" id="btn-answer">Contestar</button>
+                <button class="btn" id="btn-pasapalabra">Pasapalabra</button>
+                <div id="questions"></div>
+                <div id="letters"></div>
+
+                <button class="btn" id="btn-playAgain">Play again!</button>
+            </div>
+        </div>
+    </section>
+</body>
+<script src="pasapalabra-2.js"></script>
+
+</html>
