@@ -53,11 +53,11 @@ function endGame() {
 }
 
 var questions = questions1
-var name = ''
+var name = '';
 function showGame() {
   name = document.getElementById('nameInput').value
   if (name !== "") {
-    user.name = name
+    user.name = name;
     clearRegisters()
     // ocultamos pantalla 0
     document.getElementById('display-0').classList.add('hide')
@@ -66,39 +66,39 @@ function showGame() {
     // ocultar pantalla 2
     document.getElementById('display-2').classList.add('hide')
 
-    document.getElementById('activeQuestion').innerHTML = ''
+    document.getElementById('activeQuestion').innerHTML = '';
     document.getElementById('timer').innerHTML = second
-    document.getElementById('hits').innerHTML = 0
-    document.getElementById('fail').innerHTML = 0
+    document.getElementById('hits').innerHTML = 0;
+    document.getElementById('fail').innerHTML = 0;
   } else {
-    document.getElementById('error').innerHTML = "El nombre no puede estar vacio!!!"
+    document.getElementById('error').innerHTML = "El nombre no puede estar vacio!!!";
   }
 }
 
 function clearRegisters() {
-  hits = 0
-  next = 0
-  fail = 0
-  second = 180
+  hits = 0;
+  next = 0;
+  fail = 0;
+  second = 180;
   questions.filter(question => document.getElementById('activeLetter-' + question.letter).classList.remove('activeLetter'))
   questions.filter(question => document.getElementById('activeLetter-' + question.letter).classList.remove('correctAnswer'))
   questions.filter(question => document.getElementById('activeLetter-' + question.letter).classList.remove('incorrectAnswer'))
   questions.filter(question => question.status = 0)
-  document.getElementById('error').innerHTML = ''
-  document.getElementById('nameInput').value = ''
-  questions = questions1
+  document.getElementById('error').innerHTML = '';
+  document.getElementById('nameInput').value = '';
+  questions = questions1;
 
 }
 
-var time = 0
-var id = 0
-var second = 180
+var time = 0;
+var id = 0;
+var second = 180;
 function startGame() {
   if (second < 180){ return }
   clearRegisters()
   showQuestion()
   id = setInterval(function () {
-    document.getElementById('timer').innerHTML = second
+    document.getElementById('timer').innerHTML = second;
     if (second == 0) {
       endGame()
       clearInterval(id)
@@ -118,7 +118,7 @@ function initTimer(){
     var questionActive = document.getElementById('activeQuestion').innerHTML
       if (questionActive == ''){
         alert('Para iniciar el juego presiona el boton Start Game')
-        document.getElementById('answerInput').value = ''
+        document.getElementById('answerInput').value = '';
         return true
       }
 }
@@ -129,12 +129,12 @@ function answerInput() {
     var numberQuestions = questions.filter(question => question.status == 0).length
     questions = questions.filter(question => question.status == 0)
     if (numberQuestions !== 0) {
-      var answerQuestion = questions[0].answer
-      var letter = questions[0].letter
+      var answerQuestion = questions[0].answer;
+      var letter = questions[0].letter;
       var answerIn = document.getElementById('answerInput').value.toLowerCase().trim()
       if (answerIn == answerQuestion) {
         hits++
-        questions[0].status = 1
+        questions[0].status = 1;
         document.getElementById('hits').innerHTML = hits;
         document.getElementById('activeLetter-' + letter).classList.add('correctAnswer')
         document.getElementById('activeLetter-' + letter).classList.remove('activeLetter')
@@ -149,9 +149,9 @@ function answerInput() {
           questions.push(questions.shift())
         }
         if (questions.filter(question => question.status === 0).length === 0) { endGame() }
-      document.getElementById('answerInput').value = ""
-      document.getElementById('activeQuestion').innerHTML = questions[0].question
-      letter = questions[0].letter
+      document.getElementById('answerInput').value = "";
+      document.getElementById('activeQuestion').innerHTML = questions[0].question;
+      letter = questions[0].letter;
       document.getElementById('activeLetter-' + letter).classList.add('activeLetter')
     }
   }
@@ -160,24 +160,24 @@ function answerInput() {
 function nextPasapalabra() {
   if ( initTimer() ) { return }
   next++
-  var letter = questions[0].letter
+  var letter = questions[0].letter;
   document.getElementById('activeLetter-' + letter).classList.remove('activeLetter')
   questions.push(questions.shift())
   questions = questions.filter(question => question.status == 0) 
   document.getElementById('activeQuestion').innerHTML = questions[0].question
-  letter = questions[0].letter
+  letter = questions[0].letter;
   document.getElementById('activeLetter-' + letter).classList.add('activeLetter')
-  document.getElementById('answerInput').value = ""
+  document.getElementById('answerInput').value = "";
 }
 
-let hits = 0
-let next = 0
-let fail = 0
+let hits = 0;
+let next = 0;
+let fail = 0;
 
 function showRanking() {
   document.getElementById('_name').innerHTML = name;
-  document.getElementById('_hits').innerHTML = hits
-  document.getElementById('_fail').innerHTML = fail
+  document.getElementById('_hits').innerHTML = hits;
+  document.getElementById('_fail').innerHTML = fail;
   document.getElementById('_next').innerHTML = next;
   document.getElementById('_time').innerHTML = time;
   player.push(user)
