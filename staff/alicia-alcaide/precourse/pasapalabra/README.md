@@ -1,3 +1,3 @@
-# PASAPALABRA
+# Pasapalabra 
 
-Juego de Pasapalabra por consola basado en el programa de televisión.
+Console Pasapalabra Game

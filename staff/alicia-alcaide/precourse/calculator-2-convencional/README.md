@@ -1,3 +1,3 @@
-# Calculadora convencional HTML
+# Calculator
 
-Calculadora sencilla, basada en la de windows.
+Simple web calculator, inspired in Windows calculator.

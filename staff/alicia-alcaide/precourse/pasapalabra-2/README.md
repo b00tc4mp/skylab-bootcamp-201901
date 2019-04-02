@@ -1,3 +1,7 @@
 # PASAPALABRA Web
 
-Juego de Pasapalabra versión web basado en el programa de televisión.
+Web Pasapalabra Game
+
+![](images/pasapalabra.jpg)
+
+![](images/pasapalabra2.jpg)

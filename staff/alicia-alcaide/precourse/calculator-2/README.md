@@ -1,5 +1,5 @@
-# Calculadora HTML
+# Calculator
 
-Calculadora sencilla, entrando dos números hace la suma, resta, multiplicación y división. Si sólo se entra un número se hace la raiz cuadrada.
+Simple Web calculator (with two numbers)
 
 ![](\images\calculator1.JPG)

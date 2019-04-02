@@ -1,3 +1,3 @@
-# Calculadora PRO
+# Calculator
 
-Calculadora sencilla, entrando n números hace la suma, resta, multiplicación y división. Si sólo se entra un número se hace la raiz cuadrada.
+Simple Console calculator (with n numbers)

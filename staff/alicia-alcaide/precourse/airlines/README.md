@@ -1,11 +1,7 @@
 # Airlines 🛩
 
+Travel Agency simulator
 
-Gestionar vuelos de una aerolinea.
+## Functional description
 
-Primero visualiza los vuelos y luego...
-
-Si es ADMIN podrá crear nuevos vuelos y borrarlos
-Si es USER hará una búsqueda por precio.
-
-![](\images\airlines.jpg)
+TODO:
