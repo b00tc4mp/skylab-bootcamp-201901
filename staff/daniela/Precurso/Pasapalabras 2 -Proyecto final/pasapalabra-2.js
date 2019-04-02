@@ -1,5 +1,3 @@
-
-
 var pasapalabrasGame = [
     { letter: "a", answer: "abducir", status: 0, question: "CON LA A. Dicho de una supuesta criatura extraterrestre: Apoderarse de alguien"},
     { letter: "b", answer: "bingo", status: 0, question: "CON LA B. Juego que ha sacado de quicio a todos los 'Skylabers' en las sesiones de precurso"},
@@ -54,13 +52,19 @@ let $letters = document.querySelector("#letters")
 let $btnPlayAgain = document.querySelector("#btn-playAgain")
 
 
-//Variables globales
+// Variables globales
 
 let userName;
 let actualIndex = 0;
 let numOfRightAnswer = 0;
 let numOfWrongAnswer = 0;
 let playersResults = [];
+
+// Constants
+const STATUS_KO = -1
+const STATUS_NOT_ANSWERED = 0
+const STATUS_OK = 1
+const QUESTION_NOT_FOUND = -1
 
 
 //"Primer clic "quiero jugar" te dirige a la sección del nombre
@@ -98,9 +102,9 @@ function updateLetters(){
     pasapalabrasGame.forEach(function(letterInfo){
         let className = "letter"
         console.log(letterInfo.status)
-        if (letterInfo.status === 1){
+        if (letterInfo.status === STATUS_OK){
             className += " rightAnswer"  
-        } else if(letterInfo.status === -1){
+        } else if(letterInfo.status === STATUS_KO){
             className += " wrongAnswer"
         }
         $letters.innerHTML += "<div class='" + className + "'>" + letterInfo.letter + "</div>"         
@@ -109,22 +113,21 @@ function updateLetters(){
 
 
 // Get next Question cuando hacen click en contestar o pasapalabra
-
-function getNextQuestion(){
-    let listOfQuestion = pasapalabrasGame.slice(actualIndex)
-    console.log(listOfQuestion)
-    let nextQuestion = listOfQuestion.find(letterInfo => letterInfo.status === 0)
+function getNextQuestion() {
+    let nextQuestionIndex = pasapalabrasGame.findIndex((letterInfo, index) => letterInfo.status === STATUS_NOT_ANSWERED && index >= actualIndex);
     
-    if (nextQuestion){
-            actualIndex = pasapalabrasGame.findIndex(letterInfo => letterInfo.letter === nextQuestion.letter)
-            console.log(actualIndex)
-           return nextQuestion.question
-    } else {
-        actualIndex = pasapalabrasGame.findIndex(letterInfo => letterInfo.status === 0)
-        nextQuestion = pasapalabrasGame[actualIndex].question
-            return nextQuestion
+    if (nextQuestionIndex === QUESTION_NOT_FOUND) {
+        nextQuestionIndex = pasapalabrasGame.findIndex(letterInfo => letterInfo.status === STATUS_NOT_ANSWERED);
     }
+
+    actualIndex = nextQuestionIndex;
+    return pasapalabrasGame[actualIndex].question;
 }
+
+
+
+
+
 
 
 // check Answers 
@@ -132,11 +135,11 @@ $btnAnswer.addEventListener("click", function(){
     console.log(pasapalabrasGame[actualIndex].answer)
 
     if (pasapalabrasGame[actualIndex].answer === $userAnswer.value){
-        pasapalabrasGame[actualIndex].status = 1
+        pasapalabrasGame[actualIndex].status = STATUS_OK
         numOfRightAnswer++
 
     } else {
-        pasapalabrasGame[actualIndex].status = -1
+        pasapalabrasGame[actualIndex].status = STATUS_KO
         numOfWrongAnswer++
     }
 
@@ -156,7 +159,7 @@ $btnAnswer.addEventListener("click", function(){
         $btnPlayAgain.style.display = "block"
     } else {
         $userAnswer.value = ""
-        actualIndex ++
+        actualIndex++
         updateLetters()
         $questions.innerHTML = getNextQuestion()
     }
@@ -205,6 +208,6 @@ $btnPlayAgain.addEventListener("click", function(){
     numOfWrongAnswer = 0;
 
     for (letterInfo of pasapalabrasGame){
-        letterInfo.status = 0
+        letterInfo.status = STATUS_NOT_ANSWERED
     }
 }) 
