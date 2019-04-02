@@ -17,7 +17,7 @@ function skylabAirlines () {
     if(!user){
         alert('Hasta luego');
     } else {
-        alert(`Hello ${name}, Welcome to Skylab Airlines`);
+        alert(`Hello ${user}, Welcome to Skylab Airlines`);
         for (let i = 0; i < flights.length; i++ ){
             flights[i].scale ?
             alert(`El vuelo con origen: ${flights[i].from}, y destino: ${flights[i].to} tiene un coste de ${flights[i].cost}€ con escalas.`):
