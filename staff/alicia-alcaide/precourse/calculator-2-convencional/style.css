@@ -1,0 +1,42 @@
+
+body {
+    font-family: 'Roboto', sans-serif;
+    padding: 0;
+    margin: 0 auto;
+}
+
+.calculator {
+    border: 3px solid #003850;
+    background-color: #3b3a3a;
+}
+
+.calculator td {
+    padding: 8px;
+}
+
+.boxValue {
+    background-color: white; 
+    color: #009ee2;
+    border: 2px solid #003850;
+    width: 260px; 
+    height: 52px; 
+    font-size: 28px; 
+    line-height: 52px; 
+    text-align: right;
+}   
+
+.boxButton {
+    width: 48px; 
+    border: 2px solid #003850; 
+    font-size: 24px; 
+    color: white;
+    background-color: #009ee2;
+}
+
+.boxButton:hover {
+    background-color: #a0c5d4;
+}
+
+.double {
+    width: 122px; 
+}
