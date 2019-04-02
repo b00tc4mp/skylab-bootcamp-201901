@@ -20,10 +20,14 @@ const calculator = (...newArgs) => {
     const multiply = newArgs.reduce((a, b) => a * b);
     const division = newArgs.reduce((a, b) => a / b);
 
-    results.push(`The summatory of ${newArgs} is: ${summatory % 1 !== 0 ? summatory.toFixed(3) : summatory},`);
-    results.push(`the subtraction of ${newArgs} is: ${subtract % 1 !== 0 ? subtract.toFixed(3) : subtract},`);
-    results.push(`the multiply of ${newArgs} is: ${multiply % 1 !== 0 ? multiply.toFixed(3) : multiply},`);
-    results.push(`finally the division of ${newArgs} is: ${division % 1 !== 0 ? division.toFixed(3) : division}.`);
+    const floatValue = (operand) => {
+      return operand % 1 !== 0 ? operand.toFixed(3) : operand;
+    }
+
+    results.push(`The summatory of ${newArgs} is: ${floatValue(summatory)},`);
+    results.push(`the subtraction of ${newArgs} is: ${floatValue(subtract)},`);
+    results.push(`the multiply of ${newArgs} is: ${floatValue(multiply)},`);
+    results.push(`finally the division of ${newArgs} is: ${floatValue(division)}.`);
 
     console.log(results.join(' '));
   }
