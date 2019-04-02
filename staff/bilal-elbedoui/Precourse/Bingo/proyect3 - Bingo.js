@@ -3,7 +3,7 @@ function bingo(){
 
     var carton=paperGenerator();
     var newcarton=paperGenerator();
-    var randomNumbers=[]
+    var randomNumbers=[];
     
     function askForName(){
         var player=prompt("Enter your name please!!");
