@@ -61,14 +61,16 @@ function yesScales(){// que vuelos tienen escala
   flights.forEach(function(obj){
        
        if(obj.scale === true){
-        flightScale.push('The flight from:',obj.from,'with destination to:',obj.to);
-        obj.scale ='YES';
-      }
-        else if(obj.scale === false){
-          obj.scale ='NO';
+          flightScale.push('The flight from:',obj.from,'with destination to:',obj.to);
+          obj.scale ='YES';
         }
-      })
-    flightScale = flightScale.join('\n ');
+        
+        else if(obj.scale === false){
+           obj.scale ='NO';
+        }
+  }
+  )
+  flightScale = flightScale.join('\n ');
 }
  
   function flightsOfDay(){// todos los vuelos del dia

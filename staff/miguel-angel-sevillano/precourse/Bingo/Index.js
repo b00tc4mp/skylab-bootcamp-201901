@@ -67,20 +67,22 @@ function showBoard(){
 }
 
 function noBingo(){//nos sirve para confirmar que nosotros no hemos tachado ningun numero y por tanto otro judor si lo habra hecho
+    
     if (l1ck === false && l2ck === false && l3ck === false){
+
         nBingo++
         turn++
         l1ck = false;
-            l2ck = false;
-            l3ck = false;
-        
+        l2ck = false;
+        l3ck = false;
     }
-        else{
-            l1ck = false;
-            l2ck = false;
-            l3ck = false;
+    else{
+            
+        l1ck = false;
+        l2ck = false;
+        l3ck = false;
 
-        }
+    }
     
 }
 
