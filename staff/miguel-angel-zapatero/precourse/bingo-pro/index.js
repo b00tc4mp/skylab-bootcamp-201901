@@ -106,7 +106,7 @@ function checkLine(card) {
 // Función para comprobar si el cartón está completo.
 function checkBingo(card) {
     return card.some(function(elem){
-        return elem.mathed === false
+        return elem.mathed === false;
     });
 }
 
@@ -152,7 +152,7 @@ function showSystemPoints() {
 
 // Función para crear ranking
 function makeRanking(name, num) {
-    return {userName: name, points: num}
+    return {userName: name, points: num};
 }
 
 // Función para mostrar ranking

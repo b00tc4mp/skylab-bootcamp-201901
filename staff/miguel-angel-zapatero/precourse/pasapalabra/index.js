@@ -57,7 +57,7 @@ function passQuestions(data) {
 
 // Función para crear ranking
 function makeRanking(name, num) {
-    return {playerName: name, points: num}
+    return {playerName: name, points: num};
 }
 
 // Función para mostrar ranking

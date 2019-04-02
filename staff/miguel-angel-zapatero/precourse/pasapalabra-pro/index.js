@@ -96,7 +96,7 @@ function playAgain(data) {
 }
 
 function showResult(player, data){
-    return `${player}: ${goodAnswers(data)} correcta/s - ${badAnswers(data)} fallada/s` 
+    return `${player}: ${goodAnswers(data)} correcta/s - ${badAnswers(data)} fallada/s`;
 }
 
 function pasapalabra(data) {

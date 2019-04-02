@@ -94,7 +94,7 @@ function checkLine(card) {
 // Función para comprobar si el cartón está completo.
 function checkBingo(card) {
     return card.some(function(elem){
-        return elem.mathed === false
+        return elem.mathed === false;
     });
 }
 

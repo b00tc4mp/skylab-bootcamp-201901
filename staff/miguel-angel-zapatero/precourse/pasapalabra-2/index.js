@@ -80,7 +80,7 @@ function createRanking (data) {
 function addRanking (name, good, bad) {
     let points = (good * 10) - (bad * 5);
     if (points > 0) {
-        return {playerName: name, puntos: points, correctas: good, falladas: bad}
+        return {playerName: name, puntos: points, correctas: good, falladas: bad};
     }
 }
 
