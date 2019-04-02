@@ -33,7 +33,7 @@ function pasapalabra(){
     const regla1 = '1) Por cada letra del abecedario se te realizará una pregunta';
     const regla2 = '2) Si contestas de manera correcta se te otorgará un punto por cada pregunta acertada';
     const regla3 = '3) Si no deseas contestar aún una pregunta, puedes dejarla pasar para la siguiente ronda copiando la palabra "pasapalabra"';
-    const regla4 = '4) Si deseas abandonar el juego en algún momento presiona "cancelar" pero no se registrará tu record'
+    const regla4 = '4) Si deseas abandonar el juego en algún momento presiona "cancelar" pero no se registrará tu record';
     let correctLetters = [];
     let incorrectLetters = [];
     let pasaLetters = [];
@@ -47,10 +47,10 @@ function pasapalabra(){
                 if(ranking.length){
                     alert('Chao');
                     alert('Ranking\n' + ranking.join('\n'));
-                    return
+                    return;
                 };
                 alert('Chao');
-                return
+                return;
             } else {
                 alert(`Hola ${user}, las reglas del juego son las siguientes:\n${regla1}\n${regla2}\n${regla3}\n${regla4}`)
             };
@@ -58,7 +58,7 @@ function pasapalabra(){
             incorrectLetters = [];
             pasaLetters = [];
             for(let i = 0; i < questions.length; i++){
-                questions[i].status = 0
+                questions[i].status = 0;
             };
             juego();
     };
@@ -74,9 +74,9 @@ function pasapalabra(){
         ranking = [];
         for(let i = 0; i < arr.length; i++){
             if(arr[i][1] === 1){
-                ranking.push(`${arr[i][0]}: ${arr[i][1]} punto`)
+                ranking.push(`${arr[i][0]}: ${arr[i][1]} punto`);
             } else {
-                ranking.push(`${arr[i][0]}: ${arr[i][1]} puntos`)
+                ranking.push(`${arr[i][0]}: ${arr[i][1]} puntos`);
             }
         };
     }
@@ -86,11 +86,11 @@ function pasapalabra(){
         for(let i = questions.length; i > -1; i--){
             for(j = 0; j < arr.length; j++){
                 if(arr[j][1] === i){
-                    ordenados.push(arr[j])
+                    ordenados.push(arr[j]);
                 }
             }
         };
-        listUser(ordenados)
+        listUser(ordenados);
     }
 
     function estatus(){
@@ -105,22 +105,22 @@ function pasapalabra(){
         };
         if(pasaLetters.length){
             juego();
-            return
+            return;
         };
         insertUser(user, correctLetters.length);
         if(correctLetters.length === 1){
-            newGame = confirm(`${user} has respondido acertadamente ${correctLetters.length} pregunta y de manera incorrecta ${incorrectLetters.length} preguntas\nTu puntuación final es ${correctLetters.length}\n¿Volver  a jugar?`)
+            newGame = confirm(`${user} has respondido acertadamente ${correctLetters.length} pregunta y de manera incorrecta ${incorrectLetters.length} preguntas\nTu puntuación final es ${correctLetters.length}\n¿Volver  a jugar?`);
         } else if (incorrectLetters.length === 1){
-            newGame = confirm(`${user} has respondido acertadamente ${correctLetters.length} preguntas y de manera incorrecta ${incorrectLetters.length} pregunta\nTu puntuación final es ${correctLetters.length}\n¿Volver  a jugar?`)
+            newGame = confirm(`${user} has respondido acertadamente ${correctLetters.length} preguntas y de manera incorrecta ${incorrectLetters.length} pregunta\nTu puntuación final es ${correctLetters.length}\n¿Volver  a jugar?`);
         } else {
-            newGame = confirm(`${user} has respondido acertadamente ${correctLetters.length} preguntas y de manera incorrecta ${incorrectLetters.length} preguntas\nTu puntuación final es ${correctLetters.length}\n¿Volver  a jugar?`)
+            newGame = confirm(`${user} has respondido acertadamente ${correctLetters.length} preguntas y de manera incorrecta ${incorrectLetters.length} preguntas\nTu puntuación final es ${correctLetters.length}\n¿Volver  a jugar?`);
         };
         if(newGame){
             bienvenidos();
         } else{
             alert('Chao');
             alert('Ranking\n' + ranking.join('\n'));
-            return
+            return;
         };
     }
     function juego(){
@@ -132,7 +132,7 @@ function pasapalabra(){
                     if(ranking.length){
                         alert('Ranking\n' + ranking.join('\n'));
                     };
-                    return
+                    return;
                 }
                 if(!(q.toUpperCase() === 'PASAPALABRA')){
                     questions[i].status = 1;
