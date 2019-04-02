@@ -46,7 +46,7 @@ function calculator(num1,num2){
     if (typeof num1 ==='number' && typeof num2==='number'){
         if(num1 && num2){
           
-            console.log([sum(num1,num2), substraction(num1,num2), multiplication(num1,num2), division(num1,num2)])
+            console.log([sum(num1,num2), substraction(num1,num2), multiplication(num1,num2), division(num1,num2)]);
         
         }else{          
         
@@ -55,7 +55,7 @@ function calculator(num1,num2){
         }             
     }else{
       
-            console.log("Enter Integer number please")
+            console.log("Enter Integer number please");
     
     }
 }
