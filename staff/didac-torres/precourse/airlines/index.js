@@ -25,7 +25,9 @@ function userAcces(){
         return true;
     }
     else
+    {
         return false;
+    }
 }
 
 function showFlights(){
