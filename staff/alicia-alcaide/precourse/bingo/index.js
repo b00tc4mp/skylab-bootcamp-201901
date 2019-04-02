@@ -90,9 +90,9 @@ function matchNumInCard(number, bingoCard) {
     var posicion = findNumInCard(number, bingoCard);
     if (posicion.row >= 0 && posicion.col >= 0) {
         bingoCard[posicion.row][posicion.col].matched = true;
-        return true
+        return true;
     } else {
-        return false
+        return false;
     };
 };
 
