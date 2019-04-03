@@ -99,7 +99,7 @@ $btnUserName.addEventListener("click", function(){
 
 function updateLetters(){
     $letters.innerHTML = ""
-    pasapalabrasGame.forEach(function(letterInfo){
+    pasapalabrasGame.forEach((letterInfo) => {
         let className = "letter"
         console.log(letterInfo.status)
         if (letterInfo.status === STATUS_OK){
