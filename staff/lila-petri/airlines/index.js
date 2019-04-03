@@ -16,14 +16,14 @@ var flights = [
 function airlines(){
    let userName=askUserName();
    alert(`Hi ${userName}, \nWelcome to Skylab Airlines! \nPlease see the flights recommended for you.`);
-   console.log(`***************************************************************************************`);
+   console.log(`*`.repeat(87));
    showFlights(flights);
-   console.log(`***************************************************************************************`);
+   console.log(`*`.repeat(87));
    let avg=average();
    console.log(`The average of our flights is ${avg}€  `);
-   console.log(`***************************************************************************************`);
+   console.log(`*`.repeat(87));
    withStop();
-   console.log(`***************************************************************************************`);
+   console.log(`*`.repeat(87));
    console.log('Last flights of the day are:');
    lastFlights();
    let prof=askProfileUser();
@@ -90,9 +90,9 @@ function lastFlights(){
 function askProfileUser(){
 
     let profile=prompt('Please tell us if you are ADMIN or USER');
-    if(profile=='ADMIN'|| profile=='admin' || profile=='Admin'){
+    if(profile.toLowerCase() === 'admin') {
         showOptionsAdmin();
-    }else if(profile=='USER'|| profile=='user'|| profile=='User'){
+    }else if(profile.toLowerCase() === 'user'){
         showOptionsUser();
     }else{
         alert('Sorry, we have not recognized your profile.')
