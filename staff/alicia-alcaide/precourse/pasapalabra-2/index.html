@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Pasapalabra</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+</head>
+<body>
+    <header>
+        <h1>PASAPALABRA</h1>
+    </header>
+    <section class="container">
+        <div class="board">
+            <ul class="letters-board">
+                <li class="letter circle" id="a">A</li>
+                <li class="letter circle" id="b">B</li>
+                <li class="letter circle" id="c">C</li>
+                <li class="letter circle" id="d">D</li>
+                <li class="letter circle" id="e">E</li>
+                <li class="letter circle" id="f">F</li>
+                <li class="letter circle" id="g">G</li>
+                <li class="letter circle" id="h">H</li>
+                <li class="letter circle" id="i">I</li>
+                <li class="letter circle" id="j">J</li>
+                <li class="letter circle" id="k">K</li>
+                <li class="letter circle" id="l">L</li>
+                <li class="letter circle" id="m">M</li>
+                <li class="letter circle" id="n">N</li>
+                <li class="letter circle" id="ñ">Ñ</li>
+                <li class="letter circle" id="o">O</li>
+                <li class="letter circle" id="p">P</li>
+                <li class="letter circle" id="q">Q</li>
+                <li class="letter circle" id="r">R</li>
+                <li class="letter circle" id="s">S</li>
+                <li class="letter circle" id="t">T</li>
+                <li class="letter circle" id="u">U</li>
+                <li class="letter circle" id="v">V</li>
+                <li class="letter circle" id="w">W</li>
+                <li class="letter circle" id="x">X</li>
+                <li class="letter circle" id="y">Y</li>
+                <li class="letter circle" id="z">Z</li>
+            </ul>
+            <ul id="scoreboard">
+                <li class="score">Contadores: </li>
+                <li class="score circle" id="correct">99</li>
+                <li class="score circle" id="mistake">99</li>        
+            </ul>
+        </div>
+        <div class="board info-board">
+            <section class="welcome-game-board" id="welcome-board">
+                <h2>BIENVENIDO AL JUEGO!</h2>
+                <div>
+                  <p>Para cada letra, se mostrará una definición por pantalla y tendrás que responder con la palabra a la que 
+                     corresponde.</p>
+                  <p>Tienes la opción de decir Pasapalabra y dejar esa definición para mas adelante.</p>
+                  <p>Las palabras se deben introducir sin acentos.</p>
+                  <p>Puedes utilizar la tecla ENTER para validar la palabra y SPACE para pasapalabra.</p>
+                </div>
+                <input type="button" class="butt big-button" id="start-game" onclick="startGame()" value="JUGAR">
+            </section>
+            <section class="welcome-game-board" id="game-board">
+                <p id="question">Aquí irá la presunta</p>
+                <div>
+                  <input id="user-answer" type="text" placeholder="Introduce tu respuesta" autofocus>
+                  <input type="button" class="butt small-button" id="validate" onclick="validateAnswer()" value="Validar">
+                  <input type="button" class="butt small-button" id="pasapalabra" onclick="pasapalabra()" value="Pasapalabra">
+                </div>
+                <input type="button" class="butt big-button" id="finish" onclick="finishGame()" value="Salir">
+            </section>
+            <section id="finish-board">
+                <div><h2>FINAL DE PARTIDA!</h2></div>
+                <p>Has conseguido <span id="result">result</span> aciertos</p>
+                <input type="button" class="butt big-button" id="start-game-again" onclick="startGame()" value="Jugar de nuevo"> 
+            </section>
+        </div>    
+    </section>
+    <footer>
+        <h5>Made by Alicia Alcaide</h5>
+    </footer>
+
+    <script src="main.js"> </script>    
+</body>
+</html>
