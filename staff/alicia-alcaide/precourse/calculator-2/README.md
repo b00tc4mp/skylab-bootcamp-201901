@@ -2,4 +2,4 @@
 
 Simple Web calculator (with two numbers)
 
-![](.\images\calculator1.JPG)
+![](./images/calculator1.JPG)
