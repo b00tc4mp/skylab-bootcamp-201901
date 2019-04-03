@@ -1,0 +1,43 @@
+*{
+    font-family: 'Oswald', sans-serif;
+    margin: 0;
+    padding:0;
+}
+
+
+.calculator{
+    margin: 180px auto;
+    width:20%;
+    height: 300px;
+    background-color: #00bfb2;
+    text-align:center;
+}
+#num1, #num2{
+    width:80px;
+    height:30px;
+    margin:5px 0;
+    font-size:20px;
+    text-align:center;
+}
+#results{
+   list-style: none;
+   margin: 10px 0;
+   background-color: white;;
+   font-size:20px;
+   border:2px solid #00bfb2;
+}
+
+#buton{
+    width: 85px;
+    height: 35px;
+    border-radius:2px;
+    background-color:#FF5500;
+    border:1px solid white;
+    font-size: 20px;
+    color:white;
+}
+
+#buton:hover{
+    background-color:#B23C00;
+    transition: all 0.5s ease-in;
+}
