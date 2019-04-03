@@ -1,0 +1,139 @@
+* {
+    box-sizing: border-box;
+}
+
+p {
+    text-align: center;
+}
+
+.relative {
+    position: relative;
+    text-align: center;
+}
+
+.centered {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+
+.splitLeft {
+    height: 80%;
+    width: 40%;
+    position: fixed;
+    z-index: 0;
+    top: 0;
+    overflow: hidden;
+    padding-top: 20px;    
+    left: 0;
+    background-color: #3665b8;
+}
+
+.size {
+    width: 180px; 
+    height: 180px;
+}
+
+.circle{
+    border-radius: 50%;
+}
+
+.telecirco {    
+    padding-top: 29%;
+    padding-left: 37.5%;
+
+}
+
+.letter {
+    position: absolute;
+    top: 6%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.sphere {
+    position: absolute;
+    height: 2.5em;
+    width: 2.5em;
+    border-radius: 50%;
+    border: 1px black solid;
+    text-align: center;
+    color: #b9b9b9;
+    background: #02458d;
+    font-size: 100%;    
+    margin: 2%;
+}
+
+.square {
+    position: absolute;
+    height: 2em;
+    width: 2.5em;
+    border: 1px black solid;
+    text-align: center;
+    color: #b9b9b9;
+    background: #02458d;
+    font-size: 100%;    
+    margin: 2%;
+    top: 87%; 
+    left: 10%
+}
+
+.timer {
+    top: 77%; 
+    left: 10%;
+}
+
+.splitRight {
+    height: 80%;
+    width: 60%;
+    position: fixed;
+    z-index: 2;
+    overflow-y: visible;
+    top: 0;
+    padding-top: 20px;    
+    right: 0;
+    background-color: #3665b8;
+}
+
+.avatar {
+    width:128px;
+    height:128px;
+}
+
+.max {
+    max-width: 20em;
+    max-height: 20em;
+}
+
+.bottom {
+    height: 20%;
+    width: 100%;
+    position: fixed;
+    overflow: visible;
+    z-index: 1;
+    background-color: #3665b8;
+    bottom: 0;
+    left: 0;
+}
+
+.basic {
+    background-color: yellow;
+}
+
+
+.ranking {
+    height: 60%;
+    width: 40%;
+    top: 20%;
+    left: 35%;
+    position: absolute;
+    z-index: 3;
+    background-color: #3665b8;
+    border: 5px solid white ;
+}
+
+

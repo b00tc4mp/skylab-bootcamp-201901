@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Calculator</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+<body>
+    <table id="calculator">
+        <form name="calc">
+            <tr>
+                <td class="screen" name="screen" colspan="4" >
+                    <output type="botton" id="result" name="result" value=""></output>
+                </td> 
+            </tr>
+            <tr class="lines" name="firstLine">
+                <td class="number" name="seven">
+                    <input type="button" value="7"  class="btn num"  onclick="calculator(`7`)">     
+                </td> 
+
+                <td class="number" name="eight">
+                    <input type="button" value="8" class="btn num"  onclick="calculator(`8`)">
+                </td> 
+
+                <td class="number" name="nine">
+                    <input type="button" value="9" class="btn num" onclick="calculator(`9`)">
+                </td> 
+
+                <td class="operator" name="equal">
+                    <input type="button" value="=" class="btn op" onclick="results()">
+                </td> 
+            </tr>
+            <tr class="lines" name="secondLine">
+                <td class="number" name="four">
+                    <input type="button" value="4" class="btn num" onclick="calculator(`4`)">
+                </td> 
+
+                <td class="number" name="five">
+                    <input type="button" value="5" class="btn num" onclick="calculator(`5`)">
+                </td> 
+
+                <td class="number" name="six">
+                    <input type="button" value="6" class="btn num" onclick="calculator(`6`)">
+                </td> 
+
+                <td class="operator" name="plus">
+                    <input type="button" value="+" class="btn op" onclick="calculator(`+`)">
+                </td> 
+            </tr>
+
+            <tr class="lines" name="thirdLine">
+                <td class="number" name="one">
+                    <input type="button" value="1" class="btn num" onclick="calculator(`1`)">
+                </td> 
+
+                <td class="number" name="two">
+                    <input type="button" value="2" class="btn num" onclick="calculator(`2`)">
+                </td> 
+
+                <td class="number" name="three">
+                    <input type="button" value="3" class="btn num" onclick="calculator(`3`)">
+                </td> 
+
+                <td class="operator" name="minus">
+                    <input type="button" value="-" class="btn op" onclick="calculator(`-`)">
+                </td> 
+            </tr>
+
+            <tr class="lines" name="fourthLine">
+                <td class="operator" name="ac">
+                    <input type="button" value="AC" class="btn res" onclick="erase()">
+                </td> 
+
+                <td class="number" name="zero">
+                    <input type="button" value="0" class="btn num" onclick="calculator(`0`)">
+                </td> 
+
+                <td class="operator" name="div">
+                    <input type="button" value="/" class="btn op" onclick="calculator(`/`)">
+                </td> 
+
+                <td class="operator" name="times">
+                    <input type="button" value="X" class="btn op" onclick="calculator(`*`)">
+                </td> 
+            </tr>
+        </form>
+    </table>  
+<script type="text/javascript" src="./index.js"></script> 
+</body>
+</html>

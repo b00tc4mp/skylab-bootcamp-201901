@@ -1,0 +1,260 @@
+* {
+    box-sizing: border-box;
+}
+
+p {
+    text-align: center;
+    font-size: 2.5vh; 
+}
+
+h1 {
+    font-size: 6vh; 
+}
+
+h3 {
+    font-size: 4vh; 
+}
+
+table{
+    border: 3px solid black;
+    background-color: cornflowerblue;
+    overflow: hidden;
+    padding: 0;
+}
+
+
+th, td {
+    border: 2px solid black;
+    border-radius: 50%;
+    overflow: hidden;
+    background-color: white;
+    padding: 0;
+    margin: 0;
+}
+
+.relative {
+    position: relative;
+    text-align: center;
+}
+
+.centered {
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.splitLeft {
+    height: 80%;
+    width: 20%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow: hidden;
+    padding-top: 20px;    
+    left: 0;
+    background-color: blanchedalmond;
+}
+
+
+.splitCenter {
+    height: 80%;
+    width: 60%;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    overflow: hidden;
+    padding-top: 20px;    
+    left: 20%;
+    background-color: blanchedalmond;
+}
+.play {
+    position: absolute;
+    background-color: rgba(96, 250, 250, 0.959);
+    border: 5px solid red;
+    z-index: 2001;
+    top: 60%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    display: inline-block;
+    min-width: 50%;
+    min-height: 50%;
+}
+
+.intro{
+    position: relative;
+    margin: 0%;
+    size: 5%;
+}
+
+.userOne {
+    text-align: center; 
+    border: 2px solid black; 
+    padding: 2%;
+    margin-left: 5%;
+    margin-top: 35%
+}
+
+.userTwo {
+    text-align: center; 
+    border: 2px solid black; 
+    padding: 2%;
+    margin-right: 5%;
+    margin-top: 35%
+}
+
+.startButton {
+    position: relative;
+    margin-bottom: 2%;
+    color: rgb(81, 6, 116);
+    background-color: beige;
+    display: inline-block;
+}
+
+.invisible{
+    background:transparent; 
+    border:none;
+    padding: 0;
+    outline: none;
+
+}
+
+.toPick {
+    position: absolute;
+}
+
+.column10{
+    position: absolute;
+    top: 19%;
+    left: 15.50%;
+    height: 80%;
+    width: 10%;
+    z-index: 2000;
+}
+.column20{
+    position: absolute;
+    top: 19%;
+    left: 25.50%;
+    height: 80%;
+    width: 9.80%;
+    z-index: 2000;
+}
+.column30{
+    position: absolute;
+    top: 19%;
+    left: 35.25%;
+    height: 80%;
+    width: 9.80%;
+    z-index: 2000;
+}
+
+.column40{
+    position: absolute;
+    top: 19%;
+    left: 45%;
+    height: 80%;
+    width: 9.80%;
+    z-index: 2000;
+}
+
+.column50{
+    position: absolute;
+    top: 19%;
+    left: 54.75%;
+    height: 80%;
+    width: 9.80%;
+    z-index: 2000;
+}
+
+.column60{
+    position: absolute;
+    top: 19%;
+    left: 64.50%;
+    height: 80%;
+    width: 9.80%;
+    z-index: 2000;
+}
+
+.column70{
+    position: absolute;
+    top: 19%;
+    left: 74.25%;
+    height: 80%;
+    width: 10%;
+    z-index: 2000;
+}
+.gameRow {
+    height:20%;
+    width: 20%;
+}
+
+.splitRight {
+    height: 80%;
+    width: 20%;
+    position: fixed;
+    z-index: 1;
+    overflow-y: visible;
+    top: 0;
+    padding-top: 20px;    
+    right: 0;
+    background-color:blanchedalmond;
+}
+
+.bottom {
+    height: 20%;
+    width: 100%;
+    position: fixed;
+    overflow: visible;
+    z-index: 1;
+    background-color: blanchedalmond;
+    bottom: 0;
+    left: 0;
+}
+
+.centerBottom {
+    position: absolute;
+    height: 50%;
+    width: 100%;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
+
+.bottomButtons {
+    margin-top: 2%;
+    position: relative;
+    background-color:yellow;
+}
+
+
+.size {
+    height: 75%;
+    width: 70%;
+}
+
+.playerOne {
+    background-color: blue;
+    padding: 0;
+    margin: 0;
+    height: 200%;
+    width: 200%;
+}
+
+.playerTwo {
+    background-color: red;
+    padding: 0;
+    margin: 0;
+    height: 200%;
+    width: 200%;
+}
+
+.winner {
+    position: absolute;
+    top: 30%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+}
