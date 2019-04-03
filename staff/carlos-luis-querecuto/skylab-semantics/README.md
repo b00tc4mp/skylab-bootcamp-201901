@@ -1126,7 +1126,9 @@
             strong
             a
 
-##COMUNIDAD
+
+## COMUNIDAD
+
 
         main
             article
