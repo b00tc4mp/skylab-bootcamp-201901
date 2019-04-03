@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Pasapalabra</title>
+    <!-- Import Google fonts -->
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <!-- Main css -->
+    <link rel="stylesheet" type="text/css" media="screen" href="index.css">
+    <!--Let browser know website is optimized for mobile-->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+</head>
+<body onkeydown="bindingKeys(event)">
+    <main>
+        <h1 class="red-text">PASAPALABRA</h1>
+        <div id="message" class=""></div>
+        <div id="msgtime" class="select" hidden></div>
+        <div id="inputname">
+            <div class="playergrid">
+                <input type="text" name="name" id="name" placeholder="Player Name...">
+                <button class="btn" id="play">START GAME</button>
+            </div>
+        </div>
+        <div id="inputanswer" hidden>
+            <div class="answergrid" >
+                <div class="item1" id="question"><p></p></div>
+                <div class="item2" id="ronda"><p>Ronda 1</p></div>  
+                <input class="item3" type="text" name="answer" id="answer">
+                <div class="tooltip">
+                    <button class="item4 btn" id='ok'>OK</button>
+                    <span class="tooltiptext">Press Intro Key</span>
+                </div>
+                <div class="tooltip">
+                    <button class="item5 btn" id='pass'>PASAPALABRA</button>
+                    <span class="tooltiptext">Press Left Ctrl Key</span>                    
+                </div>
+            </div>
+        </div>
+        <div id="playagain" hidden>
+            <div class="againgrid">
+                <button class="btn" id="again">PLAY AGAIN</button>
+                <button class="btn" id="cancel">NEW PLAYER</button>
+            </div>
+        </div>      
+    </main>
+    <footer>
+        <div id="ranking">
+            <h2>RANKING</h2>
+            <div class="rankgrid">
+                <div class="ranktitles">Posición</div>
+                <div class="ranktitles">Player Name</div>
+                <div class="ranktitles">Puntos</div>
+                <div class="ranktitles">Correctas</div>
+                <div class="ranktitles">Falladas</div>
+            </div>
+        </div>
+        <div class="footer"><p>Final Project SkylabCoders Pre-course</p></div>
+    </footer>
+    <!-- Main JavaScript -->
+    <script type="text/javascript" src="./PRO/index.js"></script>
+</body>
+</html>
