@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link
+      href="https://stackpath.bootstrapcdn.com/bootswatch/4.1.3/cosmo/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-3Ivskwia8Fui5tbQi+RW4DgTkJ8d+hW7mLe7Yk89ibmD9482VECh0WFof8kIEjwI"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/main.css" />
+    <title>Pasapalabra</title>
+  </head>
+  <body>
+    <div class="modal fade" id="modal-init-setup" role="dialog" data-toggle="modal" data-backdrop="false" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header bg-primary text-white">
+            <div class="modal-title">
+              Datos de los jugadores
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8">
+                  <div class="form-row">
+                    <div class="form-group col-sm-8">
+                      <label for="intro-name-player1">Jugador 1</label>
+                      <input type="text" class="form-control col-sm-12" id="intro-name-player1" placeholder="Nombre" required />
+                      <div class="invalid-feedback">
+                        Pon el nombre del jugador 1
+                      </div>
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <label for="intro-time-player1">Tiempo</label>
+                      <input type="number" class="form-control col-sm-6" id="intro-time-player1" placeholder="Segundos" required />
+                      <div class="invalid-feedback">
+                        Pon el tiempo para el jugador 1. Mayor de 10 segundos
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-row">
+                    <div class="form-group col-sm-8">
+                      <label for="intro-name-player2">Jugador 2</label>
+                      <input type="text" class="form-control col-sm-12" id="intro-name-player2" placeholder="Nombre" required />
+                      <div class="invalid-feedback">
+                        Pon el nombre del jugador 2
+                      </div>
+                    </div>
+                    <div class="form-group col-sm-4">
+                      <label for="intro-time-player2">Tiempo</label>
+                      <input type="number" class="form-control col-sm-6" id="intro-time-player2" placeholder="Segundos" required />
+                      <div class="invalid-feedback">
+                        Pon el tiempo para el jugador 2. Mayor de 10 segundos
+                      </div>
+                    </div>
+                  </div>
+                  <div class="form-group form-check">
+                    <input type="checkbox" class="form-check-input" id="includePhilosophyQuestions" />
+                    <label class="form-check-label" for="includePhilosophyQuestions">Incluir preguntas de filosofía</label>
+                  </div>                  
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button class="btn btn-primary" onclick="startGame()" >
+              Empezar
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="modal fade" id="modal-end-game" role="dialog">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header bg-success text-white">
+            <div class="modal-title">
+              ¡Ya tenemos resultado!
+            </div>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+          </div>
+          <div class="modal-body" id="modal-end-game-body">
+            <div class="container-fluid">
+              <div class="row">
+                <div class="col-4 text-white">
+                  <h1 id="end-game-header">Holas</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="col-8">
+                <div id="end-game-text"></div>
+              </div>
+            </div>          
+            </div>            
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="row mb-4">
+        <div class="col-sm-1">
+            <button type="button" class="btn btn-sm bg-white" data-toggle="popover" data-placement="bottom" title="2018-12-27 Pablo Javier Rey Sobral" data-content="Pasapalabra page for SkyLab Coders precourse. Second page with HTML,CSS and Bootstrap."><i class="fas fa-info-circle fa-2x mt-1 text-info"></i></button>            
+        </div>
+        <div class="col-10 text-"><h1>PASAPALABRA</h1></div>
+      </div>
+      <div class="row" id="intro">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <p>Pasapalabra es un concurso de televisión español emitido desde el 10 de julio de 2000 en diferentes cadenas. Originalmente se emitía a través del canal Antena 3, donde permaneció hasta 2006, cuando el programa dejó de emitirse. Un año después, en 2007, el programa regresaría en Telecinco, que lo emite desde entonces.2​ Está basado en el formato original británico «The Alphabet Game»,3​ y en él, dos concursantes intentan acumular segundos en varias pruebas con palabras, que servirán para tener más tiempo para contestar a todas las definiciones de la prueba final, llamada «el rosco».</p>
+          <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#modal-init-setup">
+              Introducir los datos de los jugadores
+            </button>
+        </div>
+      </div>
+      <div class="row" id="main-screen" hidden>
+        <div class="col-sm-6">
+          <div class="player" id="container-player1">
+            <header id="name-player1">-</header>
+            <span class="timer" id="timer-player1"></span>
+            <div class="donut">
+              <div class="letter" id="letter-player1-a">A</div>
+              <div class="letter" id="letter-player1-b">B</div>
+              <div class="letter" id="letter-player1-c">C</div>
+              <div class="letter" id="letter-player1-d">D</div>
+              <div class="letter" id="letter-player1-e">E</div>
+              <div class="letter" id="letter-player1-f">F</div>
+              <div class="letter" id="letter-player1-g">G</div>
+              <div class="letter" id="letter-player1-h">H</div>
+              <div class="letter" id="letter-player1-i">I</div>
+              <div class="letter" id="letter-player1-j">J</div>
+              <div class="letter" id="letter-player1-k">K</div>
+              <div class="letter" id="letter-player1-l">L</div>
+              <div class="letter" id="letter-player1-m">M</div>
+              <div class="letter" id="letter-player1-n">N</div>
+              <div class="letter" id="letter-player1-nh">Ñ</div>
+              <div class="letter" id="letter-player1-o">O</div>
+              <div class="letter" id="letter-player1-p">P</div>
+              <div class="letter" id="letter-player1-q">Q</div>
+              <div class="letter" id="letter-player1-r">R</div>
+              <div class="letter" id="letter-player1-s">S</div>
+              <div class="letter" id="letter-player1-t">T</div>
+              <div class="letter" id="letter-player1-u">U</div>
+              <div class="letter" id="letter-player1-v">V</div>
+              <div class="letter" id="letter-player1-w">W</div>
+              <div class="letter" id="letter-player1-x">X</div>
+              <div class="letter" id="letter-player1-y">Y</div>
+              <div class="letter" id="letter-player1-z">Z</div>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6">
+          <div class="player" id="container-player2">
+            <header id="name-player2">-</header>
+            <span class="timer" id="timer-player2"></span>
+            <div class="donut">
+              <div class="letter" id="letter-player2-a">A</div>
+              <div class="letter" id="letter-player2-b">B</div>
+              <div class="letter" id="letter-player2-c">C</div>
+              <div class="letter" id="letter-player2-d">D</div>
+              <div class="letter" id="letter-player2-e">E</div>
+              <div class="letter" id="letter-player2-f">F</div>
+              <div class="letter" id="letter-player2-g">G</div>
+              <div class="letter" id="letter-player2-h">H</div>
+              <div class="letter" id="letter-player2-i">I</div>
+              <div class="letter" id="letter-player2-j">J</div>
+              <div class="letter" id="letter-player2-k">K</div>
+              <div class="letter" id="letter-player2-l">L</div>
+              <div class="letter" id="letter-player2-m">M</div>
+              <div class="letter" id="letter-player2-n">N</div>
+              <div class="letter" id="letter-player2-nh">Ñ</div>
+              <div class="letter" id="letter-player2-o">O</div>
+              <div class="letter" id="letter-player2-p">P</div>
+              <div class="letter" id="letter-player2-q">Q</div>
+              <div class="letter" id="letter-player2-r">R</div>
+              <div class="letter" id="letter-player2-s">S</div>
+              <div class="letter" id="letter-player2-t">T</div>
+              <div class="letter" id="letter-player2-u">U</div>
+              <div class="letter" id="letter-player2-v">V</div>
+              <div class="letter" id="letter-player2-w">W</div>
+              <div class="letter" id="letter-player2-x">X</div>
+              <div class="letter" id="letter-player2-y">Y</div>
+              <div class="letter" id="letter-player2-z">Z</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" id="question-container" hidden>
+        <div class="col-sm-1"></div>
+        <div class="col-sm-2">
+          <div id="question-letter-container">
+            <div
+              class="bg-primary border-secondary"
+              id="question-letter-circle"
+            >
+              <span id="question-letter-text">A</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-7">
+          <div class="card text-black">
+            <div class="card-header bg-secondary text-white">Pregunta</div>
+            <div class="card-body">
+              <p id="question-text">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit.
+                Molestiae, atque!
+              </p>
+              <input
+                class="form-control"
+                id="answer-text"
+                placeholder="Respuesta"
+                onkeypress="onKeyPress(event)"
+              />
+              <br />
+              <div id="answer-control-container">
+                <div id="answer-control">
+                  <button
+                    class="btn btn-outline-primary"
+                    id="answer-send"
+                    onclick="answering()"
+                  >
+                    Responder
+                  </button>
+                  <button
+                    class="btn btn-outline-secondary"
+                    id="answer-pasapalabra"
+                    onclick="answering('pasapalabra')"
+                  >
+                    Pasapalabra
+                  </button>
+                  <button
+                    class="btn btn-outline-warning"
+                    id="answer-end"
+                    onclick="answering('end')"
+                  >
+                    Conceder la partida
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row" id="confirm-card" hidden>
+        <div class='col-sm-2'></div>
+        <div class="col-sm-8">
+          <div class="card">
+            <div class="card-body" id="confirm-wait">
+              <h5 class="card-title" id="confirm-title">Título</h5>
+              <p class="card-text" id="confirm-text">
+                With supporting text below as a natural lead-in to additional
+                content.
+              </p>
+              <button
+                class="btn btn-primary"
+                id="confirm-wait-yes"
+                onclick="confirmContinue()"
+              >
+                Pulsa para continuar
+              </button>
+              <button class="btn btn-warning" id="confirm-wait-concede" onclick="confirmContinue('end')">
+                Pulsa para conceder
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script
+      src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+      integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.6/umd/popper.min.js"
+      integrity="sha384-wHAiFfRlMFy6i5SRaxvfOCifBUQy1xHdJ/yoi7FRNXMRBu5WHdZYu1hA6ZOblgut"
+      crossorigin="anonymous"
+    ></script>
+    <script
+      src="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/js/bootstrap.min.js"
+      integrity="sha384-B0UglyR+jN6CkvvICOB2joaf5I4l3gm9GU6Hc1og6Ls7i6U/mkkaduKaBhlAXv9k"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+    </script>
+    <script src="./src/pasapalabra.js"></script>
+    <script src="./src/questions.js"></script>
+    <script src="./src/main.js"></script>
+  </body>
+</html>
