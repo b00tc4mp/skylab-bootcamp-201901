@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CALCULATOR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="styles/style.css">
+    <link href="https://fonts.googleapis.com/css?family=ZCOOL+QingKe+HuangYou" rel="stylesheet">
+    
+</head>
+<body>
+    <div class='heading'>
+        <h1 id="title">CALCULATOR-2</h1>
+    </div>
+    <div class="calculator">
+        <div class="screen">
+            <h5 id = "operation">0</h5>
+            <h1 id="result">0</h1>
+        </div>
+        <div class="buttons">
+            <div class="button clear" id="C" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="clearFunction('C')">C</div>
+            <div class="button clear" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="clearFunction('AC')">AC</div>
+            <div class="button divide oper" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('/')">÷</div>
+            <div class="button seven" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('7')">7</div>
+            <div class="button eight " onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('8')">8</div>
+            <div class="button nine" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('9')">9</div>
+            <div class="button mult oper" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('*')">x</div>
+            <div class="button four" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('4')">4</div>  
+            <div class="button five" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('5')">5</div>
+            <div class="button six" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('6')">6</div>
+            <div class="button subs oper" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('-')">-</div>
+            <div class="button one" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('1')">1</div>                
+            <div class="button two " onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('2')">2</div>
+            <div class="button tree" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('3')">3</div>
+            <div class="button sum oper" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('+')">+</div>
+            <div class="button zero" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('0')">0</div>
+            <div class="button decimal" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('.')">.</div>
+            <div class="button equal oper" onmousedown="clicked(this)" onmouseup="unclicked(this)" onclick="calc('=')">=</div>
+        </div>
+    </div>
+    <script src="app/script.js"></script>
+</body>
+</html>

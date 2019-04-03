@@ -1,0 +1,111 @@
+*{
+    user-select: none;
+}
+
+@font-face{
+    font-family:'digital-font';
+    src: url(7segment.ttf);
+}
+
+html {
+    display: table;
+    margin: 20px auto;
+}
+
+body {
+    display: table-cell;
+    vertical-align: middle;
+    background-color: steelblue;   
+}
+
+#title{
+    font-family: 'ZCOOL QingKe HuangYou';
+    font-size: 60px;
+    text-shadow: 4px 4px 5px gray;
+    text-align: center;
+}
+
+.calculator{
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    height: auto;
+    padding: 5px;
+    border-radius: 5px;
+    box-shadow: 5px 5px 10px 5px rgb(48, 55, 63);
+    background-color: rgb(108, 124, 139);
+    align-items: center;
+}
+
+.screen{
+    display: block;
+    background-color: rgb(95, 93, 92);
+    height: 100px;
+    width: 350px;
+    padding: 10px;
+    box-shadow: inset 0px 0px 5px rgb(26, 30, 34);
+}
+
+#result{
+    padding: 6px 5px;
+    margin: 20px 0px 0px;
+    text-align: right;
+    font-size: 56px; 
+    font-family: 'digital-font';
+    color: whitesmoke;
+}
+
+#operation{
+    margin: 2px;
+    text-align: left;
+    font-size: 18px; 
+    font-family: 'digital-font';
+    color: whitesmoke;
+}
+
+.buttons{
+    display: grid;
+    grid-template: repeat(5, 1fr) / repeat(4, 1fr);
+    grid-gap: 6px;
+    justify-items: center;
+    justify-content: center;
+    margin: 0;
+    padding: 8px;
+}
+
+.button{
+    background-color: rgb(228, 228, 81);
+    color: rgb(36, 36, 36);
+    border: 1px solid whitesmoke;
+    box-shadow: 2px 2px lightgray;
+    width: 80px;
+    height: 50px;
+    font-size: 46px;
+    border-radius: 5px;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: bold;
+    text-align: center;
+    vertical-align: middle;
+    line-height: 50px;
+}
+
+.clear{
+    background-color: rgb(212, 72, 72);
+    color: rgb(236, 236, 236);
+}
+
+#C{
+   grid-column: 1 / span 2;  
+   width: 168px;
+   
+}
+
+.sum{
+    grid-row: 4 / span 2;
+    grid-column: 4;
+    height: 108px;
+    line-height: 108px;
+}
+.oper {
+    background-color: rgb(243, 168, 77);
+} 
