@@ -1,0 +1,252 @@
+#Skylab Semantics
+
+##INICIO
+
+html
+    head
+        title
+    body
+        p
+        a
+        button
+    button
+    main
+        section
+    footer
+        address
+            img
+            a
+        ul
+            li
+                a
+        
+##CURSO
+
+html
+    head
+        title
+    body
+        p
+        a
+        header
+        form
+        nav
+            h1 
+            ul
+    main
+        article
+    footer
+        address
+        ul
+
+##PROFESORADO
+
+html
+    head
+        title
+    body
+        button
+        header
+            h1
+                a
+                    img
+            ul
+                li
+                    a
+            form
+            button 
+        form
+        nav
+            h1
+            ul
+        main 
+            article
+                h1
+        footer
+            address
+                img
+                a
+                br
+                a
+            ul
+                li
+                    a   
+##¿POR QUE?
+
+html
+    head
+        title
+    body
+        header
+            h1
+            ul
+                li
+                    strong
+                li
+                    a
+            form
+            p
+                a
+            button
+        form
+            input
+        nav
+            h1
+        ul
+            li
+                a
+        main
+            article
+                h1
+        section
+            h3
+        h3
+        article
+        article
+            ul
+                li
+                    a
+        article
+            h1
+        article
+            a
+                img
+            h1
+                a
+            p
+        p
+            strong
+        p
+        footer
+            address
+                img
+                a
+            ul
+            br
+            a
+        ul
+            li
+                a
+
+#EMPRESAS
+
+html
+    head
+        title
+    body
+        header
+            h1
+                a
+            ul
+                li
+                    a
+            form
+                p
+                    a   
+            button
+            button
+                img
+        form
+        nav
+            h1
+            ul
+                li
+        main
+            article
+                h1
+                section
+        footer
+            address
+                img
+                a
+                br
+                a
+            ul
+                li
+                    a   
+##COMUNIDAD
+html
+    head
+        title
+    body
+        button
+    header
+        h1
+            a
+        ul
+            li
+                a
+        form
+            input
+        button
+            img
+    form
+        input
+    nav
+        h1
+        ul
+            li
+                strong
+            li
+                a
+    main
+        article
+            h1
+            section
+        footer
+            address
+                img
+                a
+                br
+                a
+            ul
+                li
+                    a
+                
+##CONTACTO
+html
+    head
+        title
+    body
+        p
+        a
+        button
+        button
+        header
+            h1
+                a
+        ul
+            li
+                strong
+            li
+                a
+        form
+            p
+                a
+        button
+            img
+        form
+            input
+        nav
+            h1
+            ul
+                li
+                    a
+        main
+            article
+                h1
+        footer
+            address
+                img
+                a
+                br 
+                a
+            ul
+                li
+                    a
+            
+
+        
+
+
+        
