@@ -464,22 +464,14 @@ head
 body
   noscript
   script
-  div
-    div
-      div
-        div
-          div
             p
               a
               button
           button
-    div
       header
         h
           a
             img
-          span
-        div
         ul
           li
             strong
@@ -488,23 +480,14 @@ body
             a
           li
             a
-        div
           form
             input
-            span
-        div
-          div
-            div
               p
                 a
-        div
           button
             img
-    div
-      div
         form
           input
-          span
       nav
         h
         ul
@@ -531,23 +514,9 @@ body
     main
       article
         h
-        div
-          div
-            div
-              div
-                div
                   h
-                  div
-                    div
                       p
-                    span
-                div
-                  div
-            div
-              div
-                div
                   h3
-                  div
                     p
                       strong
                     blockquote
@@ -555,18 +524,14 @@ body
                         br
                     p
                       a
-                div
                   h3
-                  div
                     p
                       strong
                     p
                       strong
                     ul
                       li
-                div
                   h3
-                  div
                     h5
                     p
                     blockquote
@@ -577,96 +542,54 @@ body
                       a
             section
               h
-              div
-                div
-                  div
-                    div
                       h3
                       p
                         a
-                    div
-            div
-              div
-                div
                   h4
-                  div
                     p
                       a
                     p
-                div
                   h4
-                  div
                     p
-                      span
                         a
-            div
-              div
-                div
-                  div
                     ul
                       li
                         img
-                  div
                     h4
-                      span
                     p
                       strong
                       a
-            div
               h3
-              div
-                div
                   article
-                    div
                       ul
                         li
-                          div
                             a
                               img
-                            div
                               a
-                                div
-                                  span
-                                    span
-                                  span
                           p
                             a
-                              span
                           p
                             a
                   article
                     ul
-                      div
                       li
                         a
                           img
-                      div
                         a
                           img
-                        div
                           a
-                      div
                   article
-                    div
                       a
                         img
                     h
                       a
-                    div
                       p
-              div
                 p
-                  span
                     a
-    div
       footer
         address
           img
           a
-          div
-            span
-          span
-            span
           br
           a
         ul
@@ -685,51 +608,21 @@ body
               a
           li
             a
-        div
-          div
-            div
-              div
-                div
-                  div
-                    div
                       p
                         a
-                          span
-                            span
-                  div
-                    div
+                      
                       p
                         a
-                  div
-                    div
                       p
                         a
-              div
-                div
-                  div
-                    div
-                      div
                         a
-                          span
                             p
-                              span
-                      div
                         a
-                          span
                             p
-                              span
-                      div
                         a
-                          span
                             p
-                              span
-                      div
                         a
-                          span
                             p
-                              span
-                  div
-                    div
                       p
                         a
   script
@@ -760,22 +653,14 @@ html
    body
      noscript
      script
-     div
-       div
-         div
-           div
-             div
                p
                  a
                  button
              button
-       div
          header
            h
              a
                img
-             span
-           div
            ul
              li
                strong
@@ -784,23 +669,15 @@ html
                a
              li
                a
-           div
+             
              form
                input
-               span
-           div
-             div
-               div
                  p
                    a
-           div
              button
                img
-       div
-         div
            form
              input
-             span
          nav
            h
            ul
@@ -827,113 +704,49 @@ html
        main
          article
            h
-           div
-             div
-               div
-                 div
-                   div
                      h
-                     div
-                       div
                          p
-                       span
-                   div
-                     div
-               div
-                 div
-                   div
                      h
                      form
-                       div
                          button
-                       div
                          fieldset
-                           div
-                             div
-                               div
                                  label
-                                   span
                                  input
-                             div
-                               div
                                  label
-                                   span
                                  input
-                             div
-                               div
                                  label
-                                   span
                                  input
-                             div
-                               div
                                  label
-                                   span
                                  input
-                             div
-                               div
                                  label
-                                   span
                                  textarea
-                             div
-                               div
                                  label
-                                   span
                                  input
-                             div
-                               div
                                  label
-                                   span
                                  input
-                             div
-                               div
                                  label
-                                   span
                                  input
                          fieldset
-                           div
-                             div
-                               div
-                                 div
-                                   div
-                                     div
-                                       div
                                          iframe
                                        textarea
                          fieldset
-                           div
-                             div
-                               div
-                                 div
                                    input
                                  label
-                                   span
                                      a
-                       div
                          button
-                   div
-                     div
-                       div
                          h
-                         div
                            p
                              a
-                       div
                          h
-                         div
                            p
                              a
                                strong
                            p
                              a
-       div
          footer
            address
              img
              a
-             div
-               span
-             span
-               span
              br
              a
            ul
@@ -952,51 +765,20 @@ html
              li
                strong
                  a
-           div
-             div
-               div
-                 div
-                   div
-                     div
-                       div
                          p
                            a
-                             span
-                               span
-                     div
-                       div
                          p
                            a
-                     div
-                       div
                          p
                            a
-                 div
-                   div
-                     div
-                       div
-                         div
                            a
-                             span
                                p
-                                 span
-                         div
                            a
-                             span
                                p
-                                 span
-                         div
                            a
-                             span
                                p
-                                 span
-                         div
                            a
-                             span
                                p
-                                 span
-                     div
-                       div
                          p
                            a
      script
@@ -1005,8 +787,6 @@ html
      noscript
      script
      noscript
-     div
-       div
          iframe
      script
 
