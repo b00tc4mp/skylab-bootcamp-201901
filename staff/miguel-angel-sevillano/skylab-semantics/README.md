@@ -587,20 +587,17 @@ body
                 p
                     a
             
-
-
-        
-    
-
-    footer
-        addressimga
+ footer
+        address
+            img
+                a
         
         ul
             li
                 a
             li 
                 strong
-                    a
+                        a
             li
                 a
             li
@@ -622,8 +619,221 @@ body
             a
     
     img /
-    img /
-    img /
+    
+#PORQUE
+
+html
+  head
+    title
+  body
+    p
+      button
+        header
+          h1
+            a
+              img
+          ul
+            li
+              a
+            li
+              strong
+                    a
+            li
+                a
+            form
+              input 
+            p
+              a
+          form
+            input
+        nav
+          h1
+          ul
+            li
+              a
+            li
+              a
+              ul
+                li
+                  a
+                li
+                  a
+            li
+              a
+            li
+              strong
+                a
+            li
+                a
+            li
+              a
+            li
+              a                
+        main 
+          article
+            h1
+            h1          
+            p       
+              section
+                h3
+                  strong
+                ul
+                  li
+                    img
+                p
+                  br /
+                  br /
+                ul 
+                  li
+                    img
+                p
+                  br /
+                  br / 
+                ul
+                  li
+                    img
+                p
+                  br /  
+                ul
+                  li
+                    img
+                p
+                  br /  
+                p
+                p
+                  strong
+                p
+                p   
+            h3     
+            ul 
+              li         
+            h4
+            p
+            p
+            ul
+              li
+              img
+            h4
+            p
+            p       
+            ul
+              li
+                img
+            h4
+            p
+            p
+            ul 
+              li
+                img
+            
+            h4
+            p
+            p     
+            h3   
+            ul
+              li
+            ul
+                li
+            a
+              ul
+                li
+            a
+                ul
+                  li
+            a
+                ul
+                  li
+            h3
+            p
+            h4
+            p
+            p
+            p
+            h4
+            p
+            p
+            p
+            p      
+            h4
+              p
+              p
+              p
+            h4
+              p
+              p
+              p
+            h4
+                p
+            ul
+              li
+              li
+              li
+              li
+            p           
+            h4
+              p
+              p
+                a
+            h4
+                p
+                p
+                  a     
+            ul
+              li
+                strong
+              li
+                a
+              li
+                a   
+              h3
+              article
+              article
+                ul
+              article
+                  img    
+                h1
+                  a
+                  p
+          footer
+          address
+            img
+              a
+            br
+              a
+          ul
+            li
+              a
+            li
+              a
+            li
+              a
+            li
+              a
+            li
+              strong
+                    a
+            li
+              a
+            li
+              a
+            p
+              a
+            p
+              a
+            p
+              a
+            a
+              p
+            a 
+              p
+            a
+              p
+            a 
+              p      
+            p
+              a
+        img
+       
 
 
 
@@ -1020,4 +1230,101 @@ html
 
         img
 
+##CONTACTO
+
+html
+
+head
+    title
+        no
+            img
+
+body
+    no
+        p
+            a
+    button
+
+    header
+    h1
+        a
+         img
+
+        ul
+        li
+            stronga
+        li
+            a
+        li
+            a
+        form
+            input
+
+                p
+                a
+
+         form
+            input
+        nav
+        h1
+        ul
+            li
+                a
+                a
+                ul
+                    li
+                        a
+                    li
+                        a
+                    li
+                        a
+                    li
+                        a
+                    li
+                        a
+                    li
+                        a
+                    li
+                ul
+        strong
+            a
+    main
+article
+                                                                                                                                  fieldset
+                                                                                                                                        label
+                                                                                                                                            input
+                                                                                                                                        label
+    
+                                                                                                                                    textarea
+            label
+                input
+            label
+                input
+           
+
+fieldset
+            
+    button
+
+        h4
+            p
+                a
        
+        strong
+            p
+                a
+    footer
+        address
+            img
+                a
+                br
+                a
+                 ul
+                    li
+                        a
+                    li
+                                                    
+            p
+                a
+                                                                                  
+                                                                                    
