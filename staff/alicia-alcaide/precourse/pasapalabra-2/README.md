@@ -2,6 +2,6 @@
 
 Web Pasapalabra Game
 
-![](images/pasapalabra.jpg)
+![pasapalabra](images/pasapalabra.jpg)
 
-![](images/pasapalabra2.jpg)
+![pasapalabra](images/pasapalabra2.jpg)
