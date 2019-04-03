@@ -112,22 +112,8 @@ Html
             span
                 p
                     span
-    ```
-
-## CURSOS
 ```
-Html
-body
-    p
-        a
-        button
-    p
-    a
-        i
-    header
-    ```
-
-## EMPRESAS
+## CURSOS
 ```
 Html
 body
@@ -178,3 +164,346 @@ body
             h3
             h4
                 strong
+        footer
+                address
+                    img
+                    a
+                    br
+                    a
+                ul
+                    li
+                        strong
+                            a
+                p
+                    a
+                        span
+                            span
+                p 
+                    a
+                a
+                    span
+                        p
+                            span
+    
+```
+## PROFESORADO
+```
+html
+    
+h4
+    p
+        blockquote>
+            p
+                p
+            br
+blockquote
+    p
+    h4
+       p
+       a
+        p
+        a
+    h4
+        blockquote
+            p
+            p
+                img
+           span
+           a
+        footer
+                address
+                    img
+                    a
+                    br
+                    a
+                ul
+                    li
+                        strong
+                            a
+                p
+                    a
+                        span
+                            span
+                p 
+                    a
+                a
+                    span
+                        p
+                            span
+```   
+### POR QUE
+```
+html 
+    header
+        h1
+            a
+        img
+            ul
+                li
+        strong
+            a
+            li
+                a
+            li
+                a
+   form
+    input
+   p
+    a
+  nav
+   ul
+    li
+     a
+    p 
+        ul 
+            li
+        ul
+            li
+        ul 
+            li
+    p
+ 
+        footer
+                address
+                    img
+                    a
+                    br
+                    a
+                ul
+                    li
+                        strong
+                            a
+                p
+                    a
+                        span
+                            span
+                p 
+                    a
+                a
+                    span
+                        p
+                            span
+```
+### EMPRESA
+
+```
+html
+ head
+  title
+ body
+  p
+   a
+  header
+   h1
+    a
+     img
+   ul
+    li
+     strong
+      a
+    li
+     a
+    li
+     a
+   form
+    input
+   p
+    a
+  nav
+   ul
+    li
+     a
+main
+article
+	 h1
+	 section               
+	     h1
+	     h2
+	     p
+	     h3
+	     p
+	     a 
+	         img
+	 section
+	     h1
+	     h3
+	     p
+	 ul
+	     li
+	         img
+
+        footer
+                address
+                    img
+                    a
+                    br
+                    a
+                ul
+                    li
+                        strong
+                            a
+                p
+                    a
+                        span
+                            span
+                p 
+                    a
+                a
+                    span
+                        p
+                            span
+```
+## COMUNIDAD
+
+``` 
+html
+ head
+  title
+ body
+  p
+   a
+  header
+   h1
+    a
+     img
+   ul
+    li
+     strong
+      a
+    li
+     a
+    li
+     a
+   form
+    input
+   p
+    a
+  nav
+   ul
+    li
+     a
+main
+  article
+    h1
+        h1
+            p
+                h3
+                p
+                  strong
+                  h3
+                p
+                  strong
+                ul
+                  li
+                  
+            h3
+              
+                p
+                  strong
+        section
+          h1
+                h3
+                p
+                  h4
+                    p
+                      h4
+              p
+              ul
+                  li
+              
+                h4
+                  p
+                    strong
+                      h3
+              article
+              article
+                ul
+                  h1
+                  p
+                footer
+                address
+                    img
+                    a
+                    br
+                    a
+                ul
+                    li
+                        strong
+                            a
+                p
+                    a
+                        span
+                            span
+                p 
+                    a
+                a
+                    span
+                        p
+                            span
+
+```
+## CONTACTO
+
+```
+html
+ head
+  title
+ body
+  p
+   a
+  header
+   h1
+    a
+     img
+   ul
+    li
+     strong
+      a
+    li
+     a
+    li
+     a
+   form
+    input
+   p
+    a
+  nav
+   ul
+    li
+     a
+main
+article
+     h1
+     h4
+     form
+         button
+         fieldset
+             label
+             input
+             label
+             textarea
+         button
+     h4
+     p
+     a
+     footer
+                address
+                    img
+                    a
+                    br
+                    a
+                ul
+                    li
+                        strong
+                            a
+                p
+                    a
+                        span
+                            span
+                p 
+                    a
+                a
+                    span
+                        p
+                            span
+```
