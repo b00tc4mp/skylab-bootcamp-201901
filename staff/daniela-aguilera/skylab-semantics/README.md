@@ -10,17 +10,55 @@ html
         a
         button
     button
+    header
+        h1
+            a
+        ul
+            li
+                strong
+                    a
+        form
+            input
+        p  
+            a
+        button
+        button
+            img
+    form
+        input
+    nav 
+        h1
+        ul
+            li
+                strong                
     main
         section
+            h1
+            ul
+            h3
+                a
+            p
+                strong
+            article
+                ul
+                    li
+                        a
+                        p
+            p
+                a
     footer
         address
             img
             a
+            br
+            a
         ul
             li
                 a
-        
-##CURSO
+            li
+                strong
+            
+##CURSOS
 
 html
     head
@@ -29,15 +67,40 @@ html
         p
         a
         header
+            h1
+            ul
+                li
+                    strong
+                        a
+                li
+                    a
+            form
+                input
+            p
+            a
+            button
+            button
+                img
         form
+            input
         nav
             h1 
             ul
+                li
+                    a
     main
         article
+            h1
     footer
         address
+            img
+                a
+            ul
+            br
+            a
         ul
+            li
+                a
 
 ##PROFESORADO
 
@@ -54,14 +117,30 @@ html
                 li
                     a
             form
+                input
+            p
+            a
             button 
+            button
+                img
         form
+            input
         nav
             h1
             ul
+                li
+                    a
         main 
             article
                 h1
+                h1
+                section
+                    h1
+                    p
+                        strong
+                    h4
+                    blockquote
+                        p
         footer
             address
                 img
