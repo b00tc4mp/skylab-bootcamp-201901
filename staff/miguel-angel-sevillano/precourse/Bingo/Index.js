@@ -68,7 +68,7 @@ function showBoard(){
 
 function noBingo(){//nos sirve para confirmar que nosotros no hemos tachado ningun numero y por tanto otro judor si lo habra hecho
     
-    if (l1ck === false && l2ck === false && l3ck === false){
+    if (!l1ck && !l2ck && !l3ck ){
 
         nBingo++
         turn++
@@ -144,10 +144,10 @@ if(bingo === 15){
 
     alert('Felicidades! has echo BINGO en: '+turn+' turnos!')
     next = confirm('Quieres volver a jugar?')
-        if(next === true){
+        if(next){
             bingoGame();
         }
-    else if(end === false){
+    else {
         alert ('Esperamos volerte a ver pronto!')
         end = true;
     }
@@ -157,10 +157,10 @@ if(nBingo === 15){
     nBingo1= true
     alert('Lo sentimos pero otro jugador a cantado Bingo')
     next = confirm('Quieres volver a jugar?')
-if(next === true){
+if(next){
     bingoGame();
 }
-    else if(end === false){
+    else {
         alert ('Esperamos volerte a ver pronto!')
         end= true
     }
@@ -174,10 +174,10 @@ if(bingo<15 && nBingo1=== false){
     alert(fila1Show+'\n'+fila2Show+'\n'+fila3Show+'\n')
     next =confirm('Quieres continuar ? ')
 }
-if(next === true && nBingo1 === false){
+if(next && !nBingo1){
     gameStart();
 }
-else if(end === false){
+else if(!end){
   alert ('Esperamos volerte a ver pronto!')
   end = true
 }

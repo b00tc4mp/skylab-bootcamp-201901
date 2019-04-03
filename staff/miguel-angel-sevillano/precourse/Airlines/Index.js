@@ -25,14 +25,9 @@
   var lastFlights =[];
   var dayFlights =[];
 
-Welcome();
-avCost();
-lastDestinations();
-yesScales();
-flightsOfDay();
-userAlert();
+
   
-function Welcome(){//mensaje de bienvenida
+function welcome(){//mensaje de bienvenida
   alert('This is SkylabArilines');
     var name = prompt('Whats your name?');
     alert('Welcome '+name);
@@ -49,7 +44,7 @@ function avCost(){//calcula el coste medio de todos los billetes
 function lastDestinations(){//los destinos de los ultimos 5 vuelos
   
   flights.forEach(function(obj){
-  if(obj.id > 5 ){
+    if(obj.id > 5 ){
     lastFlights.push(obj.to);
   }
 })
@@ -60,14 +55,14 @@ function yesScales(){// que vuelos tienen escala
 
   flights.forEach(function(obj){
        
-       if(obj.scale === true){
-          flightScale.push('The flight from:',obj.from,'with destination to:',obj.to);
-          obj.scale ='YES';
-        }
+    if(obj.scale){
+      flightScale.push('The flight from:',obj.from,'with destination to:',obj.to);
+      obj.scale ='YES';
+    }
         
-        else if(obj.scale === false){
-           obj.scale ='NO';
-        }
+    else{
+      obj.scale ='NO';
+    }
   }
   )
   flightScale = flightScale.join('\n ');
@@ -88,7 +83,12 @@ function userAlert(){//muestra los mensajes con los datos al usuario
 }
 
     
-    
+welcome();
+avCost();
+lastDestinations();
+yesScales();
+flightsOfDay();
+userAlert();
     
   
  
