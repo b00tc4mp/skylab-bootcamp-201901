@@ -1,0 +1,1 @@
+Juego de 4 en raya con dos jugadores y un mismo tablero
