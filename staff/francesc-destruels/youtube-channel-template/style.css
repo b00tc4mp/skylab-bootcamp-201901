@@ -1,0 +1,497 @@
+body {
+    margin: 0;
+    height: 100vh;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+a {
+    text-decoration: none;
+    color: black; 
+    background-color: none; 
+    margin: 0;
+    padding: 0;
+}
+
+/* Main GRID */
+.primaryGrid {  
+    display: grid; 
+    grid-template: repeat(12, 1fr) / repeat(12, 1fr); 
+    height:100%; 
+    background-color: #2196F3;    
+}
+
+.youtubeHeader {
+    grid-area: 1 / 1 / 1 / span 12;
+    background-color: blue;    
+}
+
+.userNav {
+    grid-area: 2 / 1 / span 2 / span 12;
+    background-color:green; 
+}
+
+.userHeader {
+    grid-area: 4 / 1 / 4 / span 12;
+    background-color:rgb(238, 236, 236);      
+}
+
+.linkNavGrid {
+    grid-area: 5 / 1 / 5 / span 12;
+    background-color:rgb(238, 236, 236);    
+}
+
+.videos {
+    grid-area: 6 / 1 / span 13 / span 12;
+    background-color: rgb(245, 243, 243);    
+}
+
+.computerSide {
+    display: none;
+}
+
+.links  {
+    display:none;
+}
+
+/* Youtube Grid */
+
+.youtubeGrid {
+    display: grid; 
+    grid-template-columns: 1fr 4fr 1fr 1fr;
+    background-color: red; 
+    height: 100%;
+    width: 100%;   
+}
+
+.y1 {
+    position: relative;
+    font-size: 4em; 
+    color: white; 
+    grid-column-start: 1; 
+    justify-self: center; 
+    align-self: center;
+}
+
+.y2 {
+    grid-column-start: 2; 
+    justify-self: start; 
+    align-self: center;
+    color: white;
+    font-size: 1.5em;
+}
+
+.y3 {
+    position: relative;
+    font-size: 1.5em; 
+    color: white; 
+    grid-column-start: 3; 
+    justify-self: center; 
+    align-self: center;
+
+}
+
+.y4 {
+    position: relative;
+    font-size: 1.5em; 
+    color: white; 
+    grid-column-start: 4; 
+    justify-self: center; 
+    align-self: center;
+}
+
+/* Nav GRID */
+
+.imgN1 {
+    border-radius: 50%;
+    height: 50%;
+    width: 50%;
+    min-height: 50px;
+    min-width: 50px;
+    max-height: 100px;
+    max-width: 100px;
+    transform: translate(+30%, -50%);
+    margin: 0;
+}
+
+.textN {
+    font-size: 1.5em;
+}
+
+/* Links NAv Grid */
+
+.lnGrid {
+    display: grid; 
+    grid-template-columns: 2fr 2fr 2fr 1fr;
+    height: 100%;
+    width: 100%;  
+}
+
+.ln1 {
+    position: relative;
+    grid-column-start: 1;
+    font-size: 1.25em;
+    justify-self: center; 
+    align-self: center;
+}
+
+.ln2 {
+    grid-column-start: 2;
+    font-size: 1.25em;
+    justify-self: center; 
+    align-self: center;
+    position: relative;
+}
+
+.ln3 {
+    grid-column-start: 3;
+    font-size: 1.25em;
+    justify-self: center; 
+    align-self: center;
+    position: relative;
+}
+
+.ln4 {
+    grid-column-start: 4;
+    font-size: 1.25em; 
+    color:black; 
+    justify-self: center; 
+    align-self: center;
+
+}
+
+/* video GRID */
+.videoGrid {
+    display: grid; 
+    position: relative;
+    grid-template: repeat(6, 1fr) / 1fr 1fr 1fr;
+    height: 100%;
+    width: 100%;
+    overflow: scroll;  
+}
+
+.v1, .v2, .v3, .v4, .v5, .v6 {
+    min-width: 200px;
+    max-width: 300px;
+    min-height: 100px;
+    max-height: 200px;
+    width: 20%;
+    height: 20%;
+    margin: 5%;
+    margin-bottom: 0;
+    margin-left: 10%
+}
+
+.v1 {
+    grid-row: 1;
+    grid-column: 1;
+}
+
+.v2 {
+    grid-row: 2;
+    grid-column: 1;
+}
+
+.v3 {
+    grid-row: 3;
+    grid-column: 1;
+}
+
+.v4 {
+    grid-row: 4;
+    grid-column: 1;
+}
+
+.v5 {
+    grid-row: 5;
+    grid-column: 1;
+}
+
+.v6 {
+    grid-row: 6;
+    grid-column: 1;
+}
+
+.t1, .t2, .t3, .t4, .t5, .t6 {
+    justify-self: start;
+}
+
+.t1 {
+    grid-row: 1;
+    grid-column: 2;
+}
+
+.t2 {
+    grid-row: 2;
+    grid-column: 2;
+}
+
+.t3 {
+    grid-row: 3;
+    grid-column: 2;
+}
+
+.t4 {
+    grid-row: 4;
+    grid-column: 2;
+}
+
+.t5 {
+    grid-row: 5;
+    grid-column: 2;
+}
+
+.t6 {
+    grid-row: 6;
+    grid-column: 2;
+}
+
+.i1, .i2, .i3, .i4, .i5, .i6 {
+    font-size: 1.25em; 
+    color:black; 
+    justify-self: center; 
+    align-self: center;
+}
+
+.i1 {
+    grid-row: 1;
+    grid-column: 3;
+}
+
+.i2{
+    grid-row: 2;
+    grid-column: 3;
+}
+
+.i3{
+    grid-row: 3;
+    grid-column: 3;
+}
+
+.i4{
+    grid-row: 4;
+    grid-column: 3;
+}
+
+.i5{
+    grid-row: 5;
+    grid-column: 3;
+}
+
+.i6{    
+    grid-row: 6;
+    grid-column: 3;
+}
+
+/* Main GRID */
+
+@media only screen and (min-width: 768px) {
+    /* For table */
+    .computerSide {
+        display: inline;
+        grid-area: 2 / 1 / span 13 / span 2;
+        background-color: red;
+    }
+
+    .compGrid {
+        display: grid; 
+        grid-template-columns: 1fr;
+    }
+
+    .compEl {
+        justify-self: center;
+        align-self: center;
+        font-size: 1.5em;
+    }
+
+    .userNav {
+        grid-area: 2 / 3 /span 2 / span 12;   
+    }
+
+    .userHeader {
+        grid-area: 4 / 3 / 4 / span 12;    
+    }
+    
+    .linkNavGrid {
+        grid-area: 5 / 3 / 5 / span 12;  
+    }
+
+    .videos {
+        grid-area: 6 / 3 / span 13 / span 12; 
+    }
+
+    .videoGrid {
+        display: grid; 
+        grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr 1fr;
+        height: 100%;
+        width: 100%;
+        overflow: scroll;  
+    }
+
+    .v1, .v2, .v3, .v4, .v5, .v6 {
+        min-width: 250px;
+        max-width: 300px;
+        min-height: 200px;
+        max-height: 300px;
+        width: 20%;
+        height: 20%;
+        margin: 5%;
+        margin-bottom: 0;
+        margin-left: 5%
+    }
+    
+    .v1 {
+        grid-row: 1;
+        grid-column: 1;
+    }
+    
+    .v2 {
+        grid-row: 1;
+        grid-column: 2;
+    }
+    
+    .v3 {
+        grid-row: 1;
+        grid-column: 3;
+    }
+    
+    .v4 {
+        grid-row: 3;
+        grid-column: 1;
+    }
+    
+    .v5 {
+        grid-row: 3;
+        grid-column: 2;
+    }
+    
+    .v6 {
+        grid-row: 3;
+        grid-column: 3;
+    }
+    
+    .t1, .t2, .t3, .t4, .t5, .t6 {
+        justify-self: start;
+        margin-left: 5%;
+
+    }
+    
+    .t1 {
+        grid-row: 2;
+        grid-column: 1;
+    }
+    
+    .t2 {
+        grid-row: 2;
+        grid-column: 2;
+    }
+    
+    .t3 {
+        grid-row: 2;
+        grid-column: 3;
+    }
+    
+    .t4 {
+        grid-row: 4;
+        grid-column: 1;
+    }
+    
+    .t5 {
+        grid-row: 4;
+        grid-column: 2;
+    }
+    
+    .t6 {
+        grid-row: 4;
+        grid-column: 3;
+    }
+
+    .i1, .i2, .i3, .i4, .i5, .i6 {
+        visibility: hidden;
+    }
+
+    .y1 {
+        font-size: 3.5em; 
+    }
+
+    .y3, .y4 {
+        font-size: 2.5em; 
+    }
+
+    .y2 {
+        font-size: 2.5em;
+    }
+
+}
+
+@media only screen and (min-width: 1366px) {
+    /* For PC */
+    .youtubeGrid {
+        background-color: white;    
+    }
+
+    .computerSide {
+        grid-area: 2 / 1 / span 12 / span 2;
+        background-color: rgb(226, 225, 225);
+    }    
+    
+    .userNav {
+        grid-area: 2 / 3 /span 2 / span 10;
+    }
+
+    .userHeader {
+        grid-area: 4 / 3 / span 2 / span 10;   
+    }
+
+    .linkNavGrid {
+        grid-area: 5 / 3 / 5 / span 12;   
+    }
+
+    .videos {
+        grid-area: 6 / 3 / span 12 / span 8;   
+    }
+
+    .links {
+        grid-area: 6 / 11 / span 12 / span 12;
+        background-color: rgb(226, 225, 225);  
+        display: inline;  
+    }
+
+    .linksGrind {
+        display: grid; 
+        grid-template: 1fr 1fr;
+    }
+
+    .lg1 {
+        grid-column-start: 2;
+        justify-self: start;
+        align-self: center;
+    }
+
+    .linksPics {
+        height: 20%;
+        width: 20%p;
+        grid-column-start: 1;
+        justify-self: end;
+        align-self: center;
+    }
+
+    .y1 {
+        font-size: 3em; 
+        color: red;
+    }
+    
+    .y3, .y4 {
+        font-size: 2em; 
+        color: rgb(53, 52, 52);
+    }
+
+    .y2 {
+        font-size: 2.5em;
+        color: black;
+    }
+
+}
+
