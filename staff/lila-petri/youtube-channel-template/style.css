@@ -1,6 +1,7 @@
 body {
   margin: 0;
   width: 100%;
+  overflow-x: hidden;
   font-family: 'Roboto', sans-serif;
 }
 
@@ -9,18 +10,21 @@ body {
   grid-template-columns: 40px 1fr 40px 40px;
   height: 48px;  
   background-color: #e62117;
+  padding:0 8px;
 }
 
 .header-logo {
   width: 40px;
   height: 40px;
-  padding: 4px;
+  padding: 0 4px;
+  margin-top: 4px;
   fill: white;
 }
 
 .header-title {
   color: white;
-  padding: 8px;
+  padding: 4px 8px;
+  margin-left: 4px; 
 }
 
 .header-search,
@@ -38,7 +42,9 @@ body {
 }
 
 .presentation-banner {
-  height: 62px;
+  /*height: 62px;*/
+  min-height: 16.5vw;
+  width: 100%;
 }
 
 .presentation-photo {
@@ -166,4 +172,16 @@ h1 {
 }
 .presentation-menu__item-desktop{
     display:none;
+}
+@media (min-width: 700px) { 
+    .presentation-menu__item-desktop{
+       /* display:none; */
+    }
+    .tabs-header__video svg {
+        position: relative;
+        top: 10px;
+        height: 24px;
+        width: 24px;
+      }
+    
 }
