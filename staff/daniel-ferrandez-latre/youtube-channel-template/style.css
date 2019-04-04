@@ -1,0 +1,80 @@
+body{
+    margin: 0;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
+
+/****HEADER****/
+header{
+    width: 100%vh;
+    height: 300px;
+    border: 1px solid black;
+}
+
+#container{
+    width: 100%;
+    display:flex;
+    flex-direction: column;
+}
+/***TOP HEAD***/
+#top-head{
+    background-color: red;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+/****DERECHA TOP HEAD***/
+#channel-name{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    
+}
+
+#logo{
+    
+    width: 40px;
+    height: 40px;
+    fill: white;
+    stroke: none;
+    margin-left: 5px;
+}
+
+#channel-name > p {
+    color: white;
+    margin-left: 5px;
+}
+
+/****IZQUIERDA TOP HEAD***/
+
+#options{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+#search{
+    width: 30px;
+    height: 30px;
+    fill: white;
+    stroke: none;
+    margin-left: 5px;
+}
+
+#menu{
+    width: 30px;
+    height: 30px;
+    fill: white;
+    stroke: none;
+    margin-left: 5px;
+}
+
+/**** PARTE CENTRAL HEADER ****/
+
+#channel-picture{
+    width: 100%;
+    height: 100px;
+    background-image: url("https://i.dailymail.co.uk/i/pix/2011/07/08/article-2012253-0CED322900000578-478_964x630.jpg");
+    background-image: no-repeat;
+    background-image: center;
+}
