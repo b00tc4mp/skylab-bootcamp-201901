@@ -3,6 +3,7 @@ body{
     font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 
+
 /****HEADER****/
 header{
     width: 100%vh;
@@ -74,7 +75,93 @@ header{
 #channel-picture{
     width: 100%;
     height: 100px;
+   
     background-image: url("https://i.dailymail.co.uk/i/pix/2011/07/08/article-2012253-0CED322900000578-478_964x630.jpg");
     background-image: no-repeat;
     background-image: center;
+    background-position: center;
+    background-size: cover;
+    background-position:25% 10%;
+}
+
+/*** DESCRIPTION AND SUBSCRIBE ***/
+
+#description-subcribe{
+    margin-top: 30px;
+    margin-left: 30px;
+    height: 70px;
+}
+
+#subcribe{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    width: 140px;
+    height: 30px;
+}
+
+#subscribe-button{
+    width: 20px;
+    height: 20px;
+    fill: red;
+    stroke: none;
+    margin-left: 5px;
+
+}
+
+#description-subcribe > h3 {
+    margin: 0px;
+    font-size: 10pt;
+    font-weight: normal;
+    margin-left: 5px;
+}
+
+#subscribe-action{
+    font-size: 10pt;
+}
+
+#num-subscriptors{
+    font-size: 10pt;
+}
+
+#options-nav{
+    display: flex;
+    flex-direction: row
+   
+}
+
+#options-nav nav{
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+#options-nav nav ul {
+    padding: 0;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-content: space-around;
+}
+
+#options-nav nav ul li {
+    list-style: none;
+    margin-left: 15%;
+
+}
+
+#options-nav nav ul li:hover {
+    list-style: none;
+    margin-left: 15%;
+
+}
+
+/**** FIN HEADER ****/
+
+/*** MAIN  ***/
+
+#prelude{
+    width: 100%;
 }
