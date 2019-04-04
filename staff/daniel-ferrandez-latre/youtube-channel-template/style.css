@@ -75,13 +75,12 @@ header{
 #channel-picture{
     width: 100%;
     height: 100px;
-   
-    background-image: url("https://i.dailymail.co.uk/i/pix/2011/07/08/article-2012253-0CED322900000578-478_964x630.jpg");
+    background-image: url(https://i.dailymail.co.uk/i/pix/2011/07/08/article-2012253-0CED322900000578-478_964x630.jpg);
     background-image: no-repeat;
     background-image: center;
     background-position: center;
     background-size: cover;
-    background-position:25% 10%;
+    background-position: 25% 10%;
 }
 
 .circleBase {
@@ -187,4 +186,8 @@ header{
 
 #prelude{
     width: 100%;
+}
+
+#secundary-picture{
+    font-size: 10pt;
 }
