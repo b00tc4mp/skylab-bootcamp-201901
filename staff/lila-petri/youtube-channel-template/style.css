@@ -1,0 +1,160 @@
+body {
+  margin: 0;  
+  font-family: 'Roboto', sans-serif;
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 40px 1fr 40px 40px;
+  height: 48px;  
+  background-color: #e62117;
+}
+
+.header-logo {
+  width: 40px;
+  height: 40px;
+  padding: 4px;
+  fill: white;
+}
+
+.header-title {
+  color: white;
+  padding: 8px;
+}
+
+.header-search,
+.header-menu {
+  width: 24px;
+  height: 24px;
+  padding: 8px;
+  fill: white;
+
+}
+
+.presentation {
+  width: 100%;
+  height: 150px;
+}
+
+.presentation-banner {
+  height: 62px;
+}
+
+.presentation-photo {
+  position: relative;
+  width: 55px;
+  height: 55px;
+  border-radius: 50%;
+  top: -27px;
+  left: 15px;
+}
+
+.presentation-subscribe {
+  position: relative;
+  top: -50px;
+  left: 50px;
+}
+
+.presentation-subscribe svg {
+  height: 17px;
+  width: 17px;
+  padding: 4px;
+  fill: #e62117;
+}
+
+.presentation-subscribe h1,
+.presentation-subscribe__suscribers 
+ {
+  font-size: 1.4rem;
+}
+
+.presentation-subscribe__link {
+  color: #e62117;
+}
+
+.presentation-subscribe__suscribers {
+  color: darkgray;
+}
+
+h1 {
+  font-size: 16px;
+}
+
+.featured {
+  margin-top: 8px;
+  box-shadow: 0 4px 2px -2px rgba(0,0,0,0.2);
+}
+
+.featured h3 {
+  font-size: 14px;
+}
+
+.featured-image{
+    width: 100%;
+}
+
+.presentation-menu {
+  display: flex;
+  height: 50px;
+  align-items: center;
+  justify-content: flex-start;
+  box-shadow: 0 4px 2px -2px rgba(0,0,0,0.2);
+}
+
+.presentation-menu__dropbutton {
+  justify-self: flex-end;
+}
+
+.presentation-menu__dropbutton svg {
+  width: 24px;
+  height: 24px;
+  padding: 8px;
+}
+.presentation-menu__item {
+  font-size: 14px;
+  padding: 8px;
+  color: #111111;
+}
+
+.tabs {
+  box-shadow: 0 4px 2px -2px rgba(0,0,0,0.2);
+}
+
+.tabs-header__video {
+  display: grid;
+  grid-template-columns: 5fr 4fr 1fr;
+}
+
+.tabs-header__video-description {
+  margin-left: 10px;
+}
+
+.tags-header__video-image {
+  width: 100%;
+  padding: 4px;
+}
+
+.tabs-header__video-description h4 {
+  margin-block-start: 0;
+  margin-block-end: 0.3rem;
+}
+.tabs-header__video-description div {
+  color: darkgray;
+}
+
+.tabs-header__video svg {
+  position: relative;
+  top: 10px;
+}
+
+.tabs-footer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tabs-footer svg {
+  width: 24px;
+  height: 24px;
+  padding: 8px;
+}
