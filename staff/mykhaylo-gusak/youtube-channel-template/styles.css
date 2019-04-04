@@ -1,0 +1,208 @@
+body {
+    margin: 0;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    font-family: 'Open Sans', sans-serif;
+    
+}
+
+h1,h2,h3,h4,h5,p {
+    margin: 0;
+    font-weight:normal;
+}
+
+/* HEADER STYLE */
+
+header {
+    background-color: red;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.header_logo {
+    display: flex;
+    align-items: center;
+    width: 200px;
+
+}
+
+.logo_yt {
+    font-size: 35px;
+    color: white;
+    margin-left:10px;
+    width: 50px;
+    
+}
+
+
+.header_navegation {
+    display: flex;
+    align-items: center;
+    width: 60px;
+    justify-content: space-between;
+    margin-right:30px;
+}
+
+.header_navegation div i {
+    align-items: center;    
+    font-size: 17px;
+    color: white;
+}
+
+.user_canal_name {
+    color: white;
+    font-size: 10px;
+}
+
+/* USER CANAL HEADER STYLE */
+
+.user_img_canal {
+    height: 65px;
+    background-image: url("https://picsum.photos/700/65");
+}
+
+.user_canal_description {
+    height: 55px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+    margin-top:30px;
+}
+
+
+.user_canal_name_2 {
+
+
+}
+
+.user_suscription {
+    display: flex;
+    margin-top:5px;
+
+}
+
+.user_suscription i {
+    /* width: 20px; */
+    color:#606060;
+    font-size: 20px;
+}
+
+.user_suscription p {
+    width: 60px;
+    font-size: 14px;
+    margin-left:5px;
+    color:#606060;
+}
+
+.user_photo_canal {
+    width: 55px;
+    height: 55px;
+    border-radius:50%;
+    background-color: black;
+    position: absolute;
+    top:90px;
+    left:30px;
+}
+
+
+
+/* CANAL SECTIONS STYLES */
+
+
+
+.user_canal_sections {
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    box-shadow: 0 4px 2px -2px #7D7D7D;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user_canal_sections p {
+    padding: 10px 17px 10px 17px;
+    font-size: 14px;
+}
+
+.user_canal_sections i {
+    padding: 10px 20px 10px 20px;
+    font-size: 15px;
+}
+
+/* VIDEOS STYLE */
+
+
+main {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.section_video_title  {
+    padding-bottom:10px;
+    font-size:13px;
+
+}
+
+article {
+    display: flex;
+    flex-direction: row;
+    margin-bottom:10px;
+}
+
+
+.publication_video_preview {
+    width: 150px;
+    height: 100px;
+    background-color: pink;
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.publication_video_info {
+    padding-left: 10px; 
+    weight:130px;
+    
+
+}
+
+.publication_video_views p, .publication_video_time p {
+    margin-top:5px;
+    font-size:11px;
+    color:grey;
+}
+
+.publication_video_title h5 {
+    font-size: 15px;
+}
+
+.publication_video_options {
+    height: 100%;
+    
+}
+.publication_video_options i {
+    padding-top:20px;
+    padding-right:10px;
+    
+}
+
+
+/* SECTION VIDEOS MORE ARROW */
+
+
+
+.section_video_more {
+    display: flex;
+    justify-content: center;
+    height: 30px;
+    box-shadow: 0px 1px 0px 0px rgba(171,171,171,1);
+
+}
+
+
+
+
+
