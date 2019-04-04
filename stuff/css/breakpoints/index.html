@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        body {
+            margin: 0;
+            height: 100vh;
+        }
+
+        header,
+        aside,
+        main,
+        footer {
+            border: 1px solid black;
+            box-sizing: border-box;
+        }
+
+        header,
+        footer {
+            height: 10%;
+        }
+
+        aside,
+        main {
+            border-collapse: collapse;
+        }
+
+        aside {
+            height: 20%;
+        }
+
+        main {
+            height: 60%;
+        }
+
+        @media only screen and (min-width: 768px) {
+
+            aside,
+            main {
+                display: inline-block;
+                height: 80%;
+            }
+
+            aside {
+                width: 25%;
+                float: left;
+            }
+
+            main {
+                width: 75%;
+                float: right;
+            }
+
+            footer {
+                clear: both;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header>header</header>
+    <main>
+        main
+    </main>
+    <aside>aside</aside>
+    <footer>footer</footer>
+</body>
+
+</html>
