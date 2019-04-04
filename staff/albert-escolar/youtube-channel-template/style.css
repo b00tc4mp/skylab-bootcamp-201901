@@ -1,0 +1,130 @@
+
+body{
+    background-color: whitesmoke;
+    padding:0px;
+    margin:0px;
+}
+
+button{
+    background-color:transparent;
+    border:none; 
+    cursor: pointer;
+}
+
+.searchbar{
+    display: flex;
+    color: white;
+    background-color: red;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items:baseline;
+    border:none;
+    padding: 0px 10px;
+    
+}
+
+.searchbar-sidebuttons>button>i{
+    color:white;
+    display:flex;
+    justify-content: flex-end;
+}
+
+.banner-image{
+    width:100%;
+}
+
+.user-image{
+    display: absolute;
+    background-color:transparent;
+    padding: 0px 30px;
+    border-radius: 50%;
+    width: 60px;
+    height:auto;
+}
+
+
+.banner-info {
+    padding: 10px 20px;
+    background-color:white;
+    color:black;
+}
+
+
+.subs-count{
+    display:flex;
+    
+}
+
+.subs-count>button{
+
+    color:red;
+}
+.subs-count>p{
+
+    color:grey;
+}
+
+.navigators-menu{
+    padding:0px 10px;
+    background-color: white;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: red solid;
+    
+}
+.navigators-menu>a{
+    color:black;
+    text-decoration: none;
+    padding: 10px 20px;
+    
+}
+
+.main-video-display{
+    color: grey;
+    padding: 10px 10px;
+    border: lightgrey solid 1px;
+    border-top:none;
+    border-right: none;
+    border-left:none;
+    
+}
+
+
+.main-video-display>img{
+    width:100%;
+}
+
+.musicvideo-section{
+    color:grey;
+}
+
+.video-article{
+    display:flex;
+    margin-bottom: 5px;
+    
+}
+
+.video-article-title{
+margin:0px;
+}
+
+.video-article-content>p{
+color: grey;
+margin:0px;
+}
+
+.video-article>button{
+    display:flex;
+
+}
+
+.video-article>button>img{
+    padding-right: 10px;
+    width:25%;
+}
+
+.video-article-button{
+margin-bottom: 60px;
+margin-right: 20px;
+font-size: 1rem;
+}
