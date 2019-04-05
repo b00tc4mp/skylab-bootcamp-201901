@@ -17,6 +17,16 @@ a {
     padding: 0;
 }
 
+.h100w100 {
+    height: 100%;
+    width: 100%; 
+}
+
+.jcsc {
+    justify-self: center; 
+    align-self: center;
+}
+
 /* Main GRID */
 .primaryGrid {  
     display: grid; 
@@ -26,13 +36,11 @@ a {
 }
 
 .youtubeHeader {
-    grid-area: 1 / 1 / 1 / span 12;
-    background-color: blue;    
+    grid-area: 1 / 1 / 1 / span 12;   
 }
 
 .userNav {
     grid-area: 2 / 1 / span 2 / span 12;
-    background-color:green; 
 }
 
 .userHeader {
@@ -64,8 +72,6 @@ a {
     display: grid; 
     grid-template-columns: 1fr 4fr 1fr 1fr;
     background-color: red; 
-    height: 100%;
-    width: 100%;   
 }
 
 .y1 {
@@ -73,8 +79,6 @@ a {
     font-size: 4em; 
     color: white; 
     grid-column-start: 1; 
-    justify-self: center; 
-    align-self: center;
 }
 
 .y2 {
@@ -90,9 +94,6 @@ a {
     font-size: 1.5em; 
     color: white; 
     grid-column-start: 3; 
-    justify-self: center; 
-    align-self: center;
-
 }
 
 .y4 {
@@ -100,8 +101,6 @@ a {
     font-size: 1.5em; 
     color: white; 
     grid-column-start: 4; 
-    justify-self: center; 
-    align-self: center;
 }
 
 /* Nav GRID */
@@ -120,38 +119,31 @@ a {
 
 .textN {
     font-size: 1.5em;
+    margin-bottom: 1px;
 }
 
 /* Links NAv Grid */
 
 .lnGrid {
     display: grid; 
-    grid-template-columns: 2fr 2fr 2fr 1fr;
-    height: 100%;
-    width: 100%;  
+    grid-template-columns: 2fr 2fr 2fr 1fr; 
 }
 
 .ln1 {
     position: relative;
     grid-column-start: 1;
     font-size: 1.25em;
-    justify-self: center; 
-    align-self: center;
 }
 
 .ln2 {
     grid-column-start: 2;
     font-size: 1.25em;
-    justify-self: center; 
-    align-self: center;
     position: relative;
 }
 
 .ln3 {
     grid-column-start: 3;
     font-size: 1.25em;
-    justify-self: center; 
-    align-self: center;
     position: relative;
 }
 
@@ -159,9 +151,6 @@ a {
     grid-column-start: 4;
     font-size: 1.25em; 
     color:black; 
-    justify-self: center; 
-    align-self: center;
-
 }
 
 /* video GRID */
@@ -169,8 +158,6 @@ a {
     display: grid; 
     position: relative;
     grid-template: repeat(6, 1fr) / 1fr 1fr 1fr;
-    height: 100%;
-    width: 100%;
     overflow: scroll;  
 }
 
@@ -479,7 +466,7 @@ a {
 
     .v1, .v2, .v3, .v4, .v5, .v6 {
         width: 90%;
-        height: 80%;
+        height: 110%;
         margin: 5%;
         margin-bottom: 0;
         margin-left: 5%
