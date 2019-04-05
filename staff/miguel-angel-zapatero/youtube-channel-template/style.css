@@ -100,6 +100,11 @@ a > i {
     padding: 25px 10px 15px 10px;
 }
 
+.navmenu ul li > a {
+    color: #333333;
+    text-decoration: none; 
+}
+
 .navmenu ul li:first-child {
     border-bottom: 2px solid #f44336;
 }
@@ -219,13 +224,6 @@ header > h1 {
         padding: 20px 15px;
     }
 
-    /* .logo {
-        font-size: 2rem;
-        text-decoration: none;
-        color: #333333;
-        padding: 0 50px 0 30px;
-    } */
-
     .logo-img {
         width: 100px;
         padding: 0 50px 0 30px;
@@ -277,15 +275,14 @@ header > h1 {
 
     .navmenu {
         padding: 0 10%;
-        overflow: hidden;
+        position: -webkit-sticky;
+        position: sticky;
+        top: 0;
+        background-color: white;
     }
 
     .navmenu ul {
         justify-content: space-around;
-        overflow: hidden;
-        position: sticky;
-        top: 0;
-        background-color: bisque;
     }
 
     .navmenu ul li {
