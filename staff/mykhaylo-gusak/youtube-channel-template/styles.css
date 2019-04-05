@@ -150,11 +150,12 @@ article {
     display: flex;
     flex-direction: row;
     margin-bottom:10px;
+    flex-basis: 100%;
 }
 
 
 .publication_video_preview {
-    width: 150px;
+    width: 160px;
     height: 100px;
     background-color: pink;
     display: flex;
@@ -164,14 +165,20 @@ article {
 
 .publication_video_info {
     padding-left: 10px; 
-    weight:130px;
+    flex-basis:100%;
     
 
 }
 
-.publication_video_views p, .publication_video_time p {
+.publication_video_views {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.publication_video_views p {
     margin-top:5px;
-    font-size:11px;
+    font-size:13px;
     color:grey;
 }
 
@@ -181,12 +188,18 @@ article {
 
 .publication_video_options {
     height: 100%;
+    align-content: space-between;
     
 }
 .publication_video_options i {
     padding-top:20px;
     padding-right:10px;
     
+}
+
+.publication_video_views {
+    /* display: flex; */
+
 }
 
 
