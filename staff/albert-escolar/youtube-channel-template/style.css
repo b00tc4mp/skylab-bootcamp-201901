@@ -3,6 +3,7 @@ body{
     background-color: whitesmoke;
     padding:0px;
     margin:0px;
+    font-family: 'Roboto', sans-serif;
 }
 
 button{
@@ -15,18 +16,35 @@ button{
     display: flex;
     color: white;
     background-color: red;
-    flex-direction: row;
-    justify-content: space-between;
-    align-items:baseline;
+    flex-direction: row;    
     border:none;
-    padding: 0px 10px;
+    align-items: center;        
+    padding: 3px 10px;
     
 }
+
+.searchbar>i{
+    font-size: 40px;
+}
+
+.searchbar>h2{
+    margin: 12px 0px;
+    padding: 0px 0px 0px 10px;
+    display:flex;
+    flex-grow:1;
+    font-size:15px;
+}
+
 
 .searchbar-sidebuttons>button>i{
     color:white;
     display:flex;
-    justify-content: flex-end;
+    font-size: 18px;
+    padding-right:10px;
+}
+
+.banner{
+    background-color: white;
 }
 
 .banner-image{
@@ -34,34 +52,53 @@ button{
 }
 
 .user-image{
-    display: absolute;
+    transform: translateY(-50%);
     background-color:transparent;
-    padding: 0px 30px;
+    margin-left: 15px;
     border-radius: 50%;
-    width: 60px;
-    height:auto;
+    width: 55px;
+    height:55px;
+    position: absolute;
 }
 
 
 .banner-info {
-    padding: 10px 20px;
+    padding: 0px 20px 0px 40px;
     background-color:white;
     color:black;
 }
 
+.banner-info>h1 {
+    margin-top: 30px; 
+    margin-bottom: 0px;
+    font-size: 18px;
+}
+
+
 
 .subs-count{
     display:flex;
-    
 }
 
 .subs-count>button{
-
+    padding-left: 0px;
     color:red;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+
+
+}
+.subs-count>button>i{
+    padding-left: 0px;
+    color:red;
+    font-size: 22px;
+    margin-right: 10px;
 }
 .subs-count>p{
 
     color:grey;
+    font-size: 13px;
 }
 
 .navigators-menu{
@@ -70,23 +107,36 @@ button{
     display: flex;
     justify-content: space-between;
     border-bottom: red solid;
+    font-size: 14px;
     
 }
+
+.navigators-menu>i{
+    margin-right:7px;
+    margin-top:10px;
+}
+
 .navigators-menu>a{
     color:black;
     text-decoration: none;
-    padding: 10px 20px;
+    padding: 10px 20px 15px 20px;
     
 }
 
 .main-video-display{
-    color: grey;
-    padding: 10px 10px;
+    padding: 10px 10px 0px 10px;
     border: lightgrey solid 1px;
     border-top:none;
     border-right: none;
     border-left:none;
-    
+    margin: 0px 5px;
+}
+
+
+.main-video-display>h4{
+    font-size:13px;
+    margin:10px 0px;
+
 }
 
 
@@ -95,22 +145,29 @@ button{
 }
 
 .musicvideo-section{
-    color:grey;
+margin-left: 15px;
+font-size: 13px;
+margin-bottom: 5px;
+margin-top: 15px;
 }
 
 .video-article{
     display:flex;
     margin-bottom: 5px;
-    
+    margin-left: 10px;
+
 }
 
 .video-article-title{
 margin:0px;
+font-size: 13px;
 }
 
 .video-article-content>p{
 color: grey;
 margin:0px;
+font-size: 12px;
+display:flex;
 }
 
 .video-article>button{
@@ -120,11 +177,15 @@ margin:0px;
 
 .video-article>button>img{
     padding-right: 10px;
-    width:25%;
+    width:35%;
+    height: 75%;
 }
 
 .video-article-button{
+padding:0;
+margin-top:0px;
 margin-bottom: 60px;
 margin-right: 20px;
-font-size: 1rem;
+font-size: 14px;
+display:flex;
 }
