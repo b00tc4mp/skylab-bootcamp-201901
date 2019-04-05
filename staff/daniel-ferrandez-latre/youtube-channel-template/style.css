@@ -8,7 +8,13 @@ body{
 header{
     width: 100%vh;
     height: 300px;
-    border: 1px solid black;
+    -moz-box-shadow: 0 0 5px 5px #888;
+-webkit-box-shadow: 0 0 5px 5px#888;
+box-shadow: 0 0 3px 1px #888;
+/*
+    border-bottom: 1px solid black;
+    border-width: 3px;
+*/
 }
 
 #container{
@@ -92,8 +98,8 @@ header{
     background-size: cover;
     background-position:25% 10%;
     border-radius: 50%;
-    margin-left: 10%;
-    margin-top: 65px;
+    margin-left: 36px;
+    margin-top: 80px;
     z-index: 1;
 }
 
@@ -184,10 +190,45 @@ header{
 
 /*** MAIN  ***/
 
+main{
+    
+    display: flex;
+    justify-content: center 
+}
+
+/***IMAGE ON THE MIDDLE***/
+
 #prelude{
     width: 100%;
+    margin-top: 10px;
+    height: 210px;
+    border-bottom: 1px solid rgb(128, 128, 128, 0.5);
 }
 
 #secundary-picture{
     font-size: 10pt;
+    width: 100%;
+    height: 190px;
+    background-image: url(https://cdn-images-1.medium.com/max/2600/1*QS59aHuIEgJoIogixOJ32w.jpeg);
+    background-image: no-repeat;
+    background-image: center;
+    background-position: center;
+    background-size: cover;
+    background-position: 50% 0%;
 }
+
+#prelude > p{
+    font-style: normal;
+    color: grey;
+    font-size: 2vw;
+
+}
+
+/****  END IMAGE O THE MIDDLE ***/
+
+/*** VIDEO LISTS ***/
+
+
+
+
+/*** END VIDEO LISTS ***/
