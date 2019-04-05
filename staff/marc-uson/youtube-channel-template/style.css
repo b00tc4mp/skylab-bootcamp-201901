@@ -13,6 +13,7 @@
         texto de articles no se recorta 
         responsivamente. (js?¿)
 
+        
  */
  
  
@@ -58,15 +59,49 @@ button{
     height: 20%;
 }
 
-.main-header{
-    display: flex;
+.main-header-mobile{
     box-sizing: border-box;
     width: 100%;
     height: 48px;
-    box-shadow: 0px 2px 2px lightgray;
+    border-bottom: 1px solid white;
+    box-shadow: 1px 1px 1px lightgray;
     justify-content: space-between; 
     align-items: center;
     vertical-align: middle;
+}
+
+.yt-header-logo{
+    height: 16px;
+    width: 70px;
+}
+
+.menu-btn-dsktp{
+    padding: 0 24px;
+    color: slategray;
+    font-size: 18px;
+}
+
+.main-header-dsktp{
+    height: 50px;
+    align-items: center;
+    border-bottom: 1px solid white;
+    box-shadow: 1px 1px 1px lightgray;
+}
+
+.search-input-dsktp{
+    border: 1px solid lightgray;
+    height: 24px;
+    width: 360px;
+    margin: 0 0 0 76px;
+}
+
+.search-btn-dsktp{
+    border: 1px solid lightgray;
+    color: gray;
+    background-color: whitesmoke;
+    font-size: 12px;
+    height: 28px;
+    width: 60px;
 }
 
 .channel-header{
@@ -81,10 +116,7 @@ button{
 }
 
 .profile-img{
-    width: 54px;
-    position: absolute;
-    left: 16px;
-    top: 91px;
+    padding: 0 50px;
 }
 
 #subscribe-logo{
@@ -195,4 +227,42 @@ article{
     padding: 8px 16px;
     text-align: left;
     vertical-align: top;
+}
+
+
+@media (min-width: 768px){
+    .main-header-mobile{
+        display: none;
+    }
+    .main-header-dsktp{
+        display: flex;
+    }
+    .profile-img{
+        width: 75px;
+        height: 75px;
+        margin: 15px 44px;
+        
+    }
+    .low-header{
+        display: flex;
+        flex-flow: row;
+        margin: 0;
+    }
+}
+
+@media (max-width: 768px){
+
+    .main-header-mobile{
+        display: flex;
+    }
+    .main-header-dsktp{
+        display: none;
+    }
+    .profile-img{
+        width: 54px;
+        margin: -100px -30px -25px;
+    }
+    .low-header{
+        margin: -15px 0;
+    }
 }
