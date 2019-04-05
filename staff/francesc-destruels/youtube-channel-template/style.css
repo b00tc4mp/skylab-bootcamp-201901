@@ -28,33 +28,46 @@ a {
 }
 
 /* Main GRID */
-.primaryGrid {  
+.container {  
     display: grid; 
-    grid-template: repeat(12, 1fr) / repeat(12, 1fr); 
+    grid-template: repeat(2, 70px) 80px repeat(9, 1fr) / repeat(12, 1fr);
+    grid-template-areas:
+        "h h h h h h h h h h h h"
+        "u u u u u u u u u u u u"
+        "j j j j j j j j j j j j"
+        "n n n n n n n n n n n n"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"; 
     height:100%; 
     background-color: #2196F3;    
 }
 
 .youtubeHeader {
-    grid-area: 1 / 1 / 1 / span 12;   
+    grid-area: h;   
 }
 
 .userNav {
-    grid-area: 2 / 1 / span 2 / span 12;
+    grid-area: u;
 }
 
 .userHeader {
-    grid-area: 4 / 1 / 4 / span 12;
+    grid-area: j;
     background-color:rgb(238, 236, 236);      
 }
 
 .linkNavGrid {
-    grid-area: 5 / 1 / 5 / span 12;
+    grid-area: n;
     background-color:rgb(238, 236, 236);    
 }
 
 .videos {
-    grid-area: 6 / 1 / span 13 / span 12;
+    grid-area: v;
     background-color: rgb(245, 243, 243);    
 }
 
@@ -107,12 +120,8 @@ a {
 
 .imgN1 {
     border-radius: 50%;
-    height: 50%;
-    width: 50%;
-    min-height: 50px;
-    min-width: 50px;
-    max-height: 100px;
-    max-width: 100px;
+    height: 70px;
+    width: 70px;
     transform: translate(+30%, -50%);
     margin: 0;
 }
@@ -157,7 +166,14 @@ a {
 .videoGrid {
     display: grid; 
     position: relative;
-    grid-template: repeat(6, 1fr) / 1fr 1fr 1fr;
+    grid-template: repeat(6, 1fr) / 1fr 1.5fr 1fr;
+    grid-template-areas: 
+        "a0 b0 c0"
+        "a1 b1 c1"
+        "a2 b2 c2"
+        "a3 b3 c3"
+        "a4 b4 c4"
+        "a5 b5 c5";
     overflow: scroll;  
 }
 
@@ -174,33 +190,27 @@ a {
 }
 
 .v1 {
-    grid-row: 1;
-    grid-column: 1;
+    grid-area: a0;
 }
 
 .v2 {
-    grid-row: 2;
-    grid-column: 1;
+    grid-area: a1;
 }
 
 .v3 {
-    grid-row: 3;
-    grid-column: 1;
+    grid-area: a2;
 }
 
 .v4 {
-    grid-row: 4;
-    grid-column: 1;
+    grid-area: a3;
 }
 
 .v5 {
-    grid-row: 5;
-    grid-column: 1;
+    grid-area: a4;
 }
 
 .v6 {
-    grid-row: 6;
-    grid-column: 1;
+    grid-area: a5;
 }
 
 .t1, .t2, .t3, .t4, .t5, .t6 {
@@ -208,33 +218,27 @@ a {
 }
 
 .t1 {
-    grid-row: 1;
-    grid-column: 2;
+    grid-area: b0;
 }
 
 .t2 {
-    grid-row: 2;
-    grid-column: 2;
+    grid-area: b1;
 }
 
 .t3 {
-    grid-row: 3;
-    grid-column: 2;
+    grid-area: b2;
 }
 
 .t4 {
-    grid-row: 4;
-    grid-column: 2;
+    grid-area: b3;
 }
 
 .t5 {
-    grid-row: 5;
-    grid-column: 2;
+    grid-area: b4;
 }
 
 .t6 {
-    grid-row: 6;
-    grid-column: 2;
+    grid-area: b5;
 }
 
 .i1, .i2, .i3, .i4, .i5, .i6 {
@@ -245,42 +249,54 @@ a {
 }
 
 .i1 {
-    grid-row: 1;
-    grid-column: 3;
+    grid-area: c0;
 }
 
 .i2{
-    grid-row: 2;
-    grid-column: 3;
+    grid-area: c1;
 }
 
 .i3{
-    grid-row: 3;
-    grid-column: 3;
+    grid-area: c2;
 }
 
 .i4{
-    grid-row: 4;
-    grid-column: 3;
+    grid-area: c3;
 }
 
 .i5{
-    grid-row: 5;
-    grid-column: 3;
+    grid-area: c4;
 }
 
 .i6{    
-    grid-row: 6;
-    grid-column: 3;
+    grid-area: c5;
 }
 
 /* Main GRID */
 
 @media only screen and (min-width: 768px) {
     /* For table */
+    .container {  
+        grid-template: repeat(2, 80px) 90px repeat(9, 1fr) / repeat(12, 1fr);
+        grid-template-areas:
+            "h h h h h h h h h h h h"
+            "c c u u u u u u u u u u"
+            "c c u u u u u u u u u u"
+            "c c j j j j j j j j j j"
+            "c c n n n n n n n n n n"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v";  
+    }
+
+
     .computerSide {
         display: inline;
-        grid-area: 2 / 1 / span 13 / span 2;
+        grid-area: c;
         background-color: red;
     }
 
@@ -295,28 +311,14 @@ a {
         font-size: 1.25em;
     }
 
-    .userNav {
-        grid-area: 2 / 3 /span 2 / span 12;   
-    }
-
-    .userHeader {
-        grid-area: 4 / 3 / 4 / span 12;    
-    }
-    
-    .linkNavGrid {
-        grid-area: 5 / 3 / 5 / span 12;  
-    }
-
-    .videos {
-        grid-area: 6 / 3 / span 13 / span 12; 
-    }
-
     .videoGrid {
+        grid-template: repeat(2, 1.5fr 1fr) / repeat(3, 1fr);
         display: grid; 
-        grid-template: repeat(2, 1.5fr 1fr) / 1fr 1fr 1fr;
-        height: 100%;
-        width: 100%;
-        overflow: scroll;  
+        grid-template-areas: 
+        "a0 a1 a2"
+        "b0 b1 b2"
+        "a3 a4 a5"
+        "b4 b5 b6"; 
     }
 
     .v1, .v2, .v3, .v4, .v5, .v6 {
@@ -326,58 +328,12 @@ a {
         margin-bottom: 0;
         margin-left: 3%
     }
-    
-    .v1 {
-        grid-row: 1;
-        grid-column: 1;
-    }
-    
-    .v2 {
-        grid-row: 1;
-        grid-column: 2;
-    }
-    
-    .v3 {
-        grid-row: 1;
-        grid-column: 3;
-    }
-    
-    .v4 {
-        grid-row: 3;
-        grid-column: 1;
-    }
-    
-    .v5 {
-        grid-row: 3;
-        grid-column: 2;
-    }
-    
-    .v6 {
-        grid-row: 3;
-        grid-column: 3;
-    }
-    
+
     .t1, .t2, .t3, .t4, .t5, .t6 {
         font-size: 150%;
-        justify-self: start;
         margin-left: 5%;
     }
-    
-    .t1 {
-        grid-row: 2;
-        grid-column: 1;
-    }
-    
-    .t2 {
-        grid-row: 2;
-        grid-column: 2;
-    }
-    
-    .t3 {
-        grid-row: 2;
-        grid-column: 3;
-    }
-    
+
     .t4 {
         grid-row: 4;
         grid-column: 1;
@@ -393,8 +349,8 @@ a {
         grid-column: 3;
     }
 
-    .i1, .i2, .i3, .i4, .i5, .i6 {
-        visibility: hidden;
+    .fa-ellipsis-v {
+        opacity: 0;
     }
 
     .y1 {
@@ -413,12 +369,29 @@ a {
 
 @media only screen and (min-width: 1024px) {
     /* For PC */
+
+    .container {  
+        grid-template: repeat(2, 100px) 110px repeat(9, 1fr) / repeat(12, 1fr);
+        grid-template-areas:
+            "h h h h h h h h h h h h"
+            "c c u u u u u u u u u u"
+            "c c u u u u u u u u u u"
+            "c c j j j j j j j j j j"
+            "c c n n n n n n n n n n"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l";  
+    }
+
     .youtubeGrid {
         background-color: white;    
     }
 
     .computerSide {
-        grid-area: 2 / 1 / span 12 / span 2;
         background-color: rgb(226, 225, 225);
     }    
 
@@ -428,24 +401,8 @@ a {
         font-size: 1.5em;
     }
     
-    .userNav {
-        grid-area: 2 / 3 /span 2 / span 10;
-    }
-
-    .userHeader {
-        grid-area: 4 / 3 / span 2 / span 10;   
-    }
-
-    .linkNavGrid {
-        grid-area: 5 / 3 / 5 / span 12;   
-    }
-
-    .videos {
-        grid-area: 6 / 3 / span 12 / span 8;   
-    }
-
     .links {
-        grid-area: 6 / 11 / span 12 / span 12;
+        grid-area: l;
         background-color: rgb(226, 225, 225);  
         display: inline;  
     }
