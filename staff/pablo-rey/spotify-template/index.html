@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+      integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <title>Spotify</title>
+  </head>
+  <body>
+    <nav class="nav">
+      <div class="brand">
+        <i class="fab fa-spotify brand__icon"></i>
+        <h1 class="brand__name">Spotify</h1>
+      </div>
+      <ul class="folders">
+        <li class="folder">
+          <a href="#" class="folder__link">
+            <i class="fas fa-home nav__icon"></i>
+            <span class="folder__description">inicio</span>
+          </a>
+        </li>
+        <li class="folder">
+          <a href="#" class="folder__link">
+            <i class="fas fa-search nav__icon"></i>
+            <span class="folder__description">buscar</span>
+          </a>
+        </li>
+        <li class="folder">
+          <a href="#" class="folder__link">
+            <svg
+              class="nav__icon-svg"
+              viewBox="0 0 512 512"
+              width="24"
+              height="24"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <path
+                d="M291.301 81.778l166.349 373.587-19.301 8.635-166.349-373.587zM64 463.746v-384h21.334v384h-21.334zM192 463.746v-384h21.334v384h-21.334z"
+                fill="currentColor"
+              ></path>
+            </svg>
+            <span class="folder__description">tu biblioteca</span>
+          </a>
+        </li>
+      </ul>
+      <ul class="recently-played">
+        <h2 class="recently-played__title">recently played</h2>
+        <li class="recently-played__item">
+          <div class="recently-played__item-title">This is Calle 13</div>
+          <div class="recently-played__item-type">Salsa</div>
+        </li>
+        <li class="recently-played__item">
+          <div class="recently-played__item-title">This is Calle 13</div>
+          <div class="recently-played__item-type">Salsa</div>
+        </li>
+        <li class="recently-played__item">
+          <div class="recently-played__item-title">This is Calle 13</div>
+          <div class="recently-played__item-type">Salsa</div>
+        </li>
+        <li class="recently-played__item">
+          <div class="recently-played__item-title">This is Calle 13</div>
+          <div class="recently-played__item-type">Salsa</div>
+        </li>
+        <li class="recently-played__item">
+          <div class="recently-played__item-title">This is Calle 13</div>
+          <div class="recently-played__item-type">Salsa</div>
+        </li>
+      </ul>
+      <div class="install-app">
+          <i class="far fa-arrow-alt-circle-down nav__icon"></i>
+          <span class="install-app__description">Install app</span>
+      </div>
+      <div class="user-info">
+          <i class="fas fa-user nav__icon"></i>
+          <span class="user-info__name">oblongo</span>
+      </div>
+    </nav>
+    <main class="playlist-container">
+      <div class="portrait"></div>
+      <div class="playlist"></div>
+    </main>
+    <footer class="playing-bar"></footer>
+  </body>
+</html>
