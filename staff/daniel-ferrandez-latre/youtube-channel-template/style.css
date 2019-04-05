@@ -230,7 +230,10 @@ main{
 /*** VIDEO LISTS ***/
 
 #video-lists{
+display: grid;
 
 }
+
+
 
 /*** END VIDEO LISTS ***/
