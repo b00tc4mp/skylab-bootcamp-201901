@@ -1,0 +1,415 @@
+* {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+.header {
+    border-bottom: 1px solid #cccccc;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, .2);
+}
+ 
+.topmenu {
+    display: flex;
+    align-items: center;
+    align-content: stretch;
+    background-color: #f44336;
+    color: white;
+    padding: 8px 10px;
+}
+
+.topmenu h3 {
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 0 10px;
+}
+
+.topmenu a > i {
+    color: white;
+}
+
+.buttons, .navmenu ul li:last-child {
+    position: absolute;
+    right: 10px;
+}
+
+.buttons a {
+    padding: 10px;
+}
+
+.topmenu .fa-youtube {
+    font-size: 2rem;
+}
+
+.youtuber h2{
+    font-size: 1rem;
+    font-weight: 400;
+    padding: 5px 45px;
+} 
+
+.youtuber a {
+    text-decoration: none;
+    font-size: 0.9rem;
+    color: #f44336;
+    padding: 0 45px;
+}
+
+.youtuber a > i {
+    color: #f44336;
+    font-size: 1.3rem;
+}
+
+.banner {
+    width: 100%;
+    height: 70px;
+}
+
+.user {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    padding: 0 15px;
+    transform: translateY(-50%);
+    margin-bottom: -35px;
+}
+
+.subscribe {
+    display: flex;
+    align-items: center;
+}
+
+.subscribe i.fa-youtube {
+    margin-right: 5px;
+}
+
+a > i {
+    color: #333333;
+}
+
+.navmenu {
+    font-size: 0.9rem;
+}
+
+.navmenu ul {
+    display: flex;
+    flex-flow: row;
+}
+
+.navmenu ul li{
+    list-style: none;
+    padding: 25px 10px 15px 10px;
+}
+
+.navmenu ul li:first-child {
+    border-bottom: 2px solid #f44336;
+}
+
+main {
+    box-sizing: border-box;
+}
+
+article {
+    padding: 10px;
+    border-bottom: 1px solid #cccccc;
+}
+
+.intro {
+    display: none;
+}
+
+header > h1 {
+    font-size: 1rem;
+    font-weight: 400;
+    padding-bottom: 10px;
+}
+
+.videos {
+    display: grid;
+    grid-template-columns: 200px 1fr 0.3fr;
+    grid-template-areas: 
+        "a b d"
+        "a c d";
+    grid-gap: 0 8px;
+    padding-bottom: 10px;
+}
+
+.item-a {
+    grid-area: a;
+    width: 100%;
+}
+
+.item-b {
+    grid-area: b;
+}   
+
+.item-b h2 {
+    font-size: 1rem;
+    font-weight: 400;
+    color: #444444;
+}
+
+.item-c {
+    grid-area: c;
+    font-size: 0.75rem;
+    color: #777777;
+}
+
+.item-d {
+    grid-area: d;
+    text-align: center;
+    padding-top: 10px;
+}
+
+.down-button {
+    text-align: center;
+}
+
+@media (max-width: 600px) {
+    .name p {
+        display: none;
+    }
+
+    .mainmenu {
+        display: none;
+    }
+}
+
+
+@media (min-width: 600px) and (max-width: 768px) {
+    
+    .mainmenu {
+        display: none;
+    }
+
+    .banner {
+        height: 120px;
+    }
+
+    .user {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        padding: 0 15px;
+        transform: translateY(-50%);
+        margin-bottom: -35px;
+    }
+
+    .name p {
+        display: none;
+    }
+}
+
+@media (min-width: 768px) {
+    .header {
+        border: none;
+        box-shadow: none;
+        overflow: hidden;
+    }
+    
+    .topmenu {
+        display: none;
+    }
+    
+    .mainmenu {
+        display: flex;
+        align-items: center;
+        align-content: space-between;
+        background-color: white;
+        color: #444444;
+        padding: 20px 15px;
+    }
+
+    /* .logo {
+        font-size: 2rem;
+        text-decoration: none;
+        color: #333333;
+        padding: 0 50px 0 30px;
+    } */
+
+    .logo-img {
+        width: 100px;
+        padding: 0 50px 0 30px;
+    }
+
+    .mainmenu .fa-bars {
+        font-size: 1.5rem;
+    }
+
+    .mainmenu .fa-youtube {
+        font-size: 2rem;
+        color: #f44336;
+    }
+
+    .buscar {
+        border: 1px solid #777777;
+        padding: 5px;
+        border-radius: 3px;
+    }
+
+    .buscar input {
+        border: none;
+        padding: 5px 10px;
+        font-size: 1rem;
+    }
+
+    .buscar a {
+        border-left: 1px solid #777777;
+        padding: 10px 25px;
+    }
+
+    .article {
+        padding: 20% 10px;
+    }
+
+    .user {
+        width: 100px;
+        height: 100px;
+        border-radius: 50%;
+        padding: 0 15px;
+        transform: translateY(0%);
+    }
+
+    .wrapper {
+        display: flex;
+        align-items: center;
+        padding: 20px 10%;
+    }
+
+    .navmenu {
+        padding: 0 10%;
+        overflow: hidden;
+    }
+
+    .navmenu ul {
+        justify-content: space-around;
+        overflow: hidden;
+        position: sticky;
+        top: 0;
+        background-color: bisque;
+    }
+
+    .navmenu ul li {
+        padding: 15px 20px;
+    }
+
+    .navmenu ul li:first-child {
+        border-bottom: 3px solid #444444;
+    }
+
+    .navmenu ul li:last-child {
+        position: relative;
+    }
+
+    .name {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .name > div {
+        padding-top: 30px;
+        padding-left: 20px;
+    }
+
+    .name h2 {
+        font-size: 2rem;
+        font-weight: 400;
+        padding: 0;
+    }
+
+    .name h2 > span {
+        font-size: 1rem;
+        font-weight: 400;
+    }
+
+    .name p {
+        display: inline-flex;
+    }
+    
+    .youtuber a {
+        text-decoration: none;
+        font-size: 0.9rem;
+        color: white;
+        padding: 10px 20px;
+        background-color: #f44336;
+        border-radius: 3px;
+        position: absolute;
+        margin-top: 20px;
+        right: 10%;
+    }
+    
+    .youtuber a > i {
+        display: none;
+    }
+
+    .banner {
+        height: 200px;
+    }
+
+    main {
+        padding: 0 10%;
+    }
+
+    .intro {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-areas: 
+            "a1 b1"
+            "a1 c1"
+            "a1 d1"
+            "a1 e1";
+        grid-gap: 0 20px;
+        padding: 20px 0;
+    }
+
+    .item-a1 {
+        grid-area: a1;
+        width: 100%;
+    }
+    .item-b1 {
+        grid-area: b1; 
+    }
+    .item-c1 {
+        grid-area: c1; 
+        color: #777777
+    }
+    .item-d1 {
+        grid-area: d1;
+        color: #333333;
+    }
+    .item-e1 {
+        grid-area: e1; 
+    }
+
+    .intro > a {
+        text-decoration: none;
+        color: #333333;
+    }
+
+    .intro > a h2 {
+        font-size: 1.3rem;
+        font-weight: 400;
+    }
+
+    .wrapper2 {
+        display: flex;
+    }
+    
+    .videos {
+        display: inline-block;
+        padding: 5px;
+    }
+
+    .item-a {
+        width: 100%;
+        height: 100px;
+    }
+
+    .item-d {
+        display: none;
+    }
+
+    .down-button a:first-child {
+        display: none;
+    }
+}
