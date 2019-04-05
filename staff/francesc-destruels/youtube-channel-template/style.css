@@ -468,10 +468,11 @@ a {
 
     .linksPics {
         height: 20%;
-        width: 20%p;
+        width: 80%;
         grid-column-start: 1;
         justify-self: end;
         align-self: center;
+        margin-left: 15%;
     }
 
     .v1, .v2, .v3, .v4, .v5, .v6 {
