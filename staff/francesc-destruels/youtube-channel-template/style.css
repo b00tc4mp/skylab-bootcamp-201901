@@ -371,13 +371,13 @@ a {
     /* For PC */
 
     .container {  
-        grid-template: repeat(2, 100px) 110px repeat(9, 1fr) / repeat(12, 1fr);
+        grid-template: 90px 110px repeat(10, 1fr) / repeat(12, 1fr);
         grid-template-areas:
             "h h h h h h h h h h h h"
             "c c u u u u u u u u u u"
-            "c c u u u u u u u u u u"
             "c c j j j j j j j j j j"
             "c c n n n n n n n n n n"
+            "c c v v v v v v v v l l"
             "c c v v v v v v v v l l"
             "c c v v v v v v v v l l"
             "c c v v v v v v v v l l"
