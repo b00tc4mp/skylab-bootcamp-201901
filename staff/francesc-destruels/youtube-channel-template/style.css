@@ -324,17 +324,17 @@ a {
 
     .videoGrid {
         display: grid; 
-        grid-template: 1fr 1fr 1fr 1fr / 1fr 1fr 1fr;
+        grid-template: 1fr 1fr / 1fr 1fr 1fr;
         height: 100%;
         width: 100%;
         overflow: scroll;  
     }
 
     .v1, .v2, .v3, .v4, .v5, .v6 {
-        min-width: 250px;
-        max-width: 300px;
-        min-height: 200px;
-        max-height: 300px;
+        min-width: 175px;
+        max-width: 225px;
+        min-height: 150px;
+        max-height: 200px;
         width: 20%;
         height: 20%;
         margin: 5%;
@@ -426,7 +426,7 @@ a {
 
 }
 
-@media only screen and (min-width: 1366px) {
+@media only screen and (min-width: 1024px) {
     /* For PC */
     .youtubeGrid {
         background-color: white;    
@@ -478,6 +478,18 @@ a {
         align-self: center;
     }
 
+    .v1, .v2, .v3, .v4, .v5, .v6 {
+        min-width: 200px;
+        max-width: 250px;
+        min-height: 200px;
+        max-height: 300px;
+        width: 20%;
+        height: 20%;
+        margin: 5%;
+        margin-bottom: 0;
+        margin-left: 5%
+    }
+    
     .y1 {
         font-size: 3em; 
         color: red;
