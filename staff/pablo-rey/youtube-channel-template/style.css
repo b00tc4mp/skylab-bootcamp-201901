@@ -48,13 +48,11 @@ body {
 }
 
 .presentation-banner {
-  /*height: 62px;*/
   min-height: 16.5vw;
   width: 100%;
 }
 
 #presentation-banner__img {
-  /*height: 62px;*/
   min-height: 16.5vw;
   width: 100%;
 }
@@ -66,22 +64,17 @@ body {
   border-radius: 50%;
   left: 27.5px;
   top: -27.5px;
-  /* left: 15px; */
 }
 
 .presentation-subscribe {
   position: relative;
   height: 100px;
-  /* position: relative; */
-  /* top: -50px; */
-  /* left: 50px; */
 }
 .presentation-subscribe__info {
   height: 62px;
   margin-left: 5rem;
 }
 .presentation-subscribe__info-action {
-  /* display: flex; */
   width: 100%;
   align-items: center;
   justify-content: center;
@@ -100,7 +93,6 @@ body {
 .presentation-subscribe__logo svg {
   height: 1.4rem;
   width: 1.4rem;
-  /* padding: 0.4rem; */
   fill: #e62117;
 }
 
@@ -110,7 +102,7 @@ body {
   padding: 0.4rem;
 }
 
-.presentation-subscribe__suscribers {
+.presentation-subscribe__subscribers {
   color: darkgray;
   padding: 0.4rem;
 }
@@ -137,11 +129,14 @@ body {
   padding: 8px;
   color: #111111;
 }
+.presentation-menu__item-desktop{
+  display:none;
+}
 
-/* .presentation-menu__item:hover,
+.presentation-menu__item:hover,
 .presentation-menu__item:active {
   border-bottom: 1px solid #e62117;
-} */
+}
 
 .featured {
   margin-top: 8px;
@@ -156,7 +151,6 @@ body {
     width: 100%;
 }
 
-
 .tabs {
   box-shadow: 0 4px 2px -2px rgba(0,0,0,0.2);
   margin-top: 20px;
@@ -165,6 +159,7 @@ body {
 .tabs-header {
   font-size: 14px;
   text-transform: uppercase;
+  padding: 10px;
 }
 
 .tabs-header__video {
@@ -206,16 +201,8 @@ body {
   height: 24px;
   padding: 8px;
 }
-.presentation-menu__item-desktop{
-    display:none;
-}
 
 @media (min-width: 700px) { 
-    /*.presentation-menu__item-desktop{
-        display:none; 
-    }*/
-
-    
     .tabs-header__video svg {
       position: relative;
       top: 10px;
@@ -241,7 +228,7 @@ body {
     }
 
     .presentation-menu {
-        /* height: 160px; */
+        height: 60px;
         justify-content: space-around;
         align-items: flex-end;
     }
