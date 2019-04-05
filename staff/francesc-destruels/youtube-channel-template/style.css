@@ -292,7 +292,7 @@ a {
     .compEl {
         justify-self: center;
         align-self: center;
-        font-size: 1.5em;
+        font-size: 1.25em;
     }
 
     .userNav {
@@ -421,6 +421,12 @@ a {
         grid-area: 2 / 1 / span 12 / span 2;
         background-color: rgb(226, 225, 225);
     }    
+
+    .compEl {
+        justify-self: center;
+        align-self: center;
+        font-size: 1.5em;
+    }
     
     .userNav {
         grid-area: 2 / 3 /span 2 / span 10;
