@@ -52,6 +52,7 @@ a {
 
 .coverImg {
     width: 100%; 
+    z-index: 2;
 }
 
 .subscribers {
@@ -142,11 +143,12 @@ a {
     flex-direction: row;
 }
 
-
+.featured-channels {
+    display: none;
+}
 
 @media only screen and (min-width: 768px){
     .video {
-        justify-content: normal; 
         justify-content: space-between;
     }
 
@@ -162,5 +164,63 @@ a {
         margin-top: 10px;
         padding: 10px;
         padding-left: 0;
+    }
+}
+
+
+
+@media only screen and (min-width: 1180px){
+    .uploaded-videos {
+        flex-direction: row;
+        justify-content: space-around;
+    }
+    .video-preview-img{
+        width: 210px;
+    }
+
+    .black-arrow-box {
+        display:none;
+    }
+
+    .container-btn-dot {
+        display: none;
+    }
+    .video {
+        width: 210px;
+
+    }
+    .container-video-preview {
+        flex-direction: column;
+    }
+    .featured-channels{
+        display: flex;
+        color: #495057;
+
+        flex-direction: column;
+        width: 187px;
+    }
+    .featured-title {
+        font-size: 14px;
+        font-weight: 700;
+        margin-bottom: 13px;
+    }
+
+    .profile-pic {
+        background-color: #ff0000;
+        height: 20px;
+        width: 20px;
+        border-radius: 50%;
+        margin-right: 5px;
+    }
+    .pic-and-name {
+        display:flex;
+        flex-direction: row;
+    }
+    .container-channel {
+        margin-bottom: 15px;
+    }
+    .container-channel p {
+        margin-top: 6px;
+        padding-left: 4px;
     }
 }
