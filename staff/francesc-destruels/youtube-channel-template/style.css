@@ -324,22 +324,18 @@ a {
 
     .videoGrid {
         display: grid; 
-        grid-template: 1fr 1fr / 1fr 1fr 1fr;
+        grid-template: repeat(2, 1.5fr 1fr) / 1fr 1fr 1fr;
         height: 100%;
         width: 100%;
         overflow: scroll;  
     }
 
     .v1, .v2, .v3, .v4, .v5, .v6 {
-        min-width: 175px;
-        max-width: 225px;
-        min-height: 150px;
-        max-height: 200px;
-        width: 20%;
-        height: 20%;
-        margin: 5%;
+        width: 85%;
+        height: 80%;
+        margin: 3%;
         margin-bottom: 0;
-        margin-left: 5%
+        margin-left: 3%
     }
     
     .v1 {
@@ -373,9 +369,9 @@ a {
     }
     
     .t1, .t2, .t3, .t4, .t5, .t6 {
+        font-size: 150%;
         justify-self: start;
         margin-left: 5%;
-
     }
     
     .t1 {
@@ -479,12 +475,8 @@ a {
     }
 
     .v1, .v2, .v3, .v4, .v5, .v6 {
-        min-width: 200px;
-        max-width: 250px;
-        min-height: 200px;
-        max-height: 300px;
-        width: 20%;
-        height: 20%;
+        width: 90%;
+        height: 80%;
         margin: 5%;
         margin-bottom: 0;
         margin-left: 5%
