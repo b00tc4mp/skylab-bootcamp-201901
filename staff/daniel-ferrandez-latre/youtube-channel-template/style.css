@@ -193,6 +193,7 @@ box-shadow: 0 0 3px 1px #888;
 main{
     
     display: flex;
+    flex-direction: row;
     justify-content: center 
 }
 
@@ -228,7 +229,8 @@ main{
 
 /*** VIDEO LISTS ***/
 
+#video-lists{
 
-
+}
 
 /*** END VIDEO LISTS ***/
