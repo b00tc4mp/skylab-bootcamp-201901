@@ -9,10 +9,12 @@ html, body {
   margin: 0;
   padding: 0;
   font-family: Montserrat;
+  font-size: 14px;
 }
 
 .nav {
   width: 260px;
+  height: 100%;
   background-color: #111;
   color: #b3b3b3;
   padding: 24px 0px 5px 0px;
@@ -47,12 +49,12 @@ html, body {
 .folders {
   text-decoration: none;
   list-style-type: none;
-  padding-left: 20px;
+  padding: 0;
 }
 
 .folder {
   margin: 10px 0px;
-  padding-left: 0px;
+  padding-left: 20px;
 }
 .folder:hover {
   color: white;
@@ -81,6 +83,7 @@ html, body {
   text-decoration: none;
   list-style-type: none;
   padding-left: 20px;
+  margin-top: 2rem;
 }
 .recently-played__title {
   text-transform: uppercase;
@@ -108,11 +111,51 @@ html, body {
   border-bottom: 1px solid #b3b3b3;
 }
 
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  font-size: 0.5rem;
+  color: #b3b3b3;
+}
+.progress__icon {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+}
+.progress__bar-container {
+  position: relative;
+  width: 70%;
+  height: 4px;
+  margin: 0.5rem;
+  border-radius: 2px;
+  background-color: #b3b3b3;
+}
+.progress__bar {
+  position: absolute;
+  height: 3px;
+  border-radius: 2px;
+  background-color: white;
+}
+.progress__dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: -2px;
+  left: 40%;
+  border-radius: 50%;
+  background-color: white;
+}
+
 .playing-bar {
   background-color: #262c3d;
   width: 100%;
   height: 90px;
   padding-left: 20px;
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  bottom: 0px;
 }
 
 .now-playing {
@@ -120,13 +163,69 @@ html, body {
   list-style-type: none;
   padding-left: 20px;
   display: flex;
-  flex-direction: column;
+  width: 25%;
+  align-items: center;
 }
 .now-playing__cover {
   width: 56px;
   height: 56px;
   background-size: cover;
   background-position: 50%;
+}
+.now-playing__description {
+  margin-left: 1.5rem;
+  margin-right: 3rem;
+}
+.now-playing__description-title {
+  text-decoration: none;
+  display: block;
+  color: white;
+}
+.now-playing__description-artist {
+  text-decoration: none;
+  display: block;
+  color: #b3b3b3;
+}
+.now-playing__action {
+  color: #b3b3b3;
+}
+
+.play-controls {
+  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.play-controls__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.play-controls__control {
+  color: #b3b3b3;
+  font-size: 1.4rem;
+  margin: 0.5rem;
+}
+.play-controls__play {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #b3b3b3;
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0.5rem 1rem 0.5rem 1rem;
+}
+.play-controls__play:hover {
+  border: 1px solid white;
+}
+
+.play-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
 }
 
 /*# sourceMappingURL=style.css.map */

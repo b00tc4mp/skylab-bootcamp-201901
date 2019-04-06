@@ -30,13 +30,13 @@
         </li>
         <li class="folder">
           <a href="#" class="folder__link">
-              <div class="folder__link-icon-container">
-                  <i class="fas fa-search nav__icon"></i>
-                  </div>
+            <div class="folder__link-icon-container">
+              <i class="fas fa-search nav__icon"></i>
+            </div>
             <span class="folder__description">buscar</span>
           </a>
         </li>
-        <li class="folder">          
+        <li class="folder">
           <a href="#" class="folder__link">
             <div class="folder__link-icon-container">
               <svg
@@ -51,7 +51,7 @@
                   fill="currentColor"
                 ></path>
               </svg>
-            </div>            
+            </div>
             <span class="folder__description">tu biblioteca</span>
           </a>
         </li>
@@ -80,12 +80,12 @@
         </li>
       </ul>
       <div class="install-app">
-          <i class="far fa-arrow-alt-circle-down nav__icon"></i>
-          <span class="install-app__description">Install app</span>
+        <i class="far fa-arrow-alt-circle-down nav__icon"></i>
+        <span class="install-app__description">Install app</span>
       </div>
       <div class="user-info">
-          <i class="fas fa-user nav__icon"></i>
-          <span class="user-info__name">oblongo</span>
+        <i class="fas fa-user nav__icon"></i>
+        <span class="user-info__name">oblongo</span>
       </div>
     </nav>
     <main class="playlist-container">
@@ -94,16 +94,50 @@
     </main>
     <footer class="playing-bar">
       <div class="now-playing">
-        <div class="now-playing__cover" class="cover-art-image cover-art-image-loaded" style="background-image: url(&quot;https://i.scdn.co/image/b03e20ee525d84ecde359a62ff438945d28c5f97&quot;);"></div>
-        </div>
+        <div
+          class="now-playing__cover"
+          style='background-image: url("https://i.scdn.co/image/b03e20ee525d84ecde359a62ff438945d28c5f97");'
+        ></div>
         <div class="now-playing__description">
           <a href="" class="now-playing__description-title">La Hormiguita</a>
-          <a href="" class="now-playing__description-artist">Juan Luis Guerra</a>
+          <a href="" class="now-playing__description-artist"
+            >Juan Luis Guerra</a
+          >
         </div>
-        <div class="now-playing__action"></div>
+        <div class="now-playing__action">
+          <i class="fas fa-plus nav__icon"></i>
+        </div>
       </div>
-      <div class="play-controls"></div>
-      <div class="play-options"><i class="fas fa-plus nav__icon"></i></div>
+      <div class="play-controls">
+        <div class="play-controls__controls">
+          <i class="fas fa-random play-controls__control"></i>
+          <i class="fas fa-step-forward play-controls__control"></i>
+          <div class="play-controls__play">
+            <i class="fas fa-play play-controls__control"></i>
+          </div>
+          <i class="fas fa-step-backward play-controls__control"></i>
+          <i class="fas fa-redo play-controls__control"></i>
+        </div>
+        <div class="progress">
+          <span class="progress__current">1:30</span>
+          <span class="progress__bar-container">
+            <span class="progress__bar" style="width: 40%"></span>
+            <span class="progress__dot" style="left: 40%"></span>
+          </span>
+          <span class="progress__total">4:00</span>
+        </div>
+      </div>
+      <div class="play-options">
+        <div class="progress">
+          <i class="fas fa-stream progress__icon"></i>
+          <i class="fas fa-satellite-dish progress__icon"></i>
+          <i class="fas fa-volume-up progress__icon"></i>
+          <span class="progress__bar-container">
+            <span class="progress__bar" style="width: 70%"></span>
+            <span class="progress__dot" style="left: 70%"></span>
+          </span>
+        </div>
+      </div>
     </footer>
   </body>
 </html>
