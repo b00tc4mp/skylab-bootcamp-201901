@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600");
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
 * {
   box-sizing: border-box;
 }
@@ -14,7 +14,11 @@ html, body {
 
 body {
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
 }
 
 .nav {
@@ -106,7 +110,7 @@ body {
 .install-app, .user-info {
   text-align: center;
   font-size: 24px;
-  font-weight: bold;
+  font-weight: 600;
   padding: 10px;
   margin-left: 20px;
   margin-right: 20px;
@@ -159,8 +163,6 @@ body {
   padding-left: 20px;
   display: flex;
   justify-content: space-between;
-  position: absolute;
-  bottom: 0px;
 }
 
 .now-playing {
@@ -266,10 +268,79 @@ body {
   visibility: visible;
 }
 
+.section__item-portrait, .section__item-cover {
+  width: 190px;
+  height: 190px;
+  background-size: cover;
+  background-position: 50%;
+}
+
+.section {
+  display: block;
+  margin: 1rem;
+}
+.section__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 1.5rem 2rem;
+}
+.section__title-text {
+  font-size: 2.5rem;
+  color: #b3b3b3;
+  margin: 0;
+}
+.section__title-link {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: #b3b3b3;
+  text-decoration: none;
+  padding-right: 2rem;
+}
+.section__title-link:hover {
+  color: white;
+  cursor: pointer;
+}
+.section__container {
+  display: flex;
+  flex-wrap: wrap;
+}
+.section__item {
+  padding: 0.6rem 0.6rem 1rem 0.6rem;
+  width: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.section__item-title {
+  font-size: 1.4rem;
+  font-weight: bolder;
+  text-align: center;
+  color: #b3b3b3;
+  padding: 0.5rem 0 0.5rem 0;
+}
+.section__item-detail {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #b3b3b3;
+  padding: 0 0.5rem 0 0.5rem;
+}
+.section__item-cover-text {
+  font-size: 1.8rem;
+  font-weight: bolder;
+  text-align: right;
+  padding-right: 1rem;
+}
+.section__item-portrait {
+  border-radius: 50%;
+}
+
 .content {
   width: 100%;
-  height: 100%;
+  height: calc(100vh - 90px);
   background-color: #111;
+  overflow-y: scroll;
 }
 
 /*# sourceMappingURL=style.css.map */

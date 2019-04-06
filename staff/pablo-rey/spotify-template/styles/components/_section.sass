@@ -1,0 +1,72 @@
+%cover
+  width: 190px
+  height: 190px
+  background-size: cover
+  background-position: 50%
+  
+.section
+  display: block
+  margin: 1rem
+
+  &__title    
+    display: flex
+    align-items: center
+    justify-content: space-between
+    margin: 0 0 1.5rem 2rem
+
+
+    &-text
+      font-size: 2.5rem
+      color: $secondary
+      margin: 0
+
+    &-link
+      font-size: 1.2rem
+      text-transform: uppercase
+      color: $secondary
+      text-decoration: none
+      padding-right: 2rem
+
+      &:hover
+        color: $selected
+        cursor: pointer
+
+
+  &__container
+    display: flex
+    flex-wrap: wrap
+
+  &__item
+    padding: 0.6rem 0.6rem 1rem 0.6rem
+    width: 230px
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+
+    &-title
+      font-size: 1.4rem
+      font-weight: bolder
+      text-align: center
+      color: $secondary
+      padding: 0.5rem 0 0.5rem 0
+
+    &-detail      
+      font-size: 0.8rem
+      text-align: center
+      color: $secondary
+      padding: 0 0.5rem 0 0.5rem
+
+    &-cover
+      @extend %cover
+
+      &-text
+        font-size: 1.8rem
+        font-weight: bolder
+        text-align: right
+        padding-right: 1rem
+
+    &-portrait
+      @extend %cover
+      border-radius: 50%
+
