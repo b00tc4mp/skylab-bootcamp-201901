@@ -21,6 +21,11 @@ body {
   display: flex;
 }
 
+.options__item-text:hover, .play-controls__control:hover, .install-app:hover, .user-info:hover, .folder:hover {
+  color: white;
+  transition: 0.6s;
+}
+
 .nav {
   width: 260px;
   background-color: #111;
@@ -44,6 +49,7 @@ body {
   display: flex;
   align-items: center;
   justify-content: flex-start;
+  cursor: pointer;
 }
 .brand__icon {
   font-size: 32px;
@@ -65,10 +71,6 @@ body {
   margin: 10px 0px;
   padding-left: 20px;
 }
-.folder:hover {
-  color: white;
-  border-left: 3px solid #1db954;
-}
 .folder__link {
   color: #b3b3b3;
   text-decoration: none;
@@ -86,6 +88,9 @@ body {
   text-align: left;
   text-transform: capitalize;
   padding-left: 1rem;
+}
+.folder:hover {
+  border-left: 3px solid #1db954;
 }
 
 .recently-played {
@@ -115,7 +120,6 @@ body {
   margin-left: 1.5rem;
   margin-right: 1.5rem;
 }
-
 .install-app {
   border-bottom: 1px solid #b3b3b3;
 }
@@ -124,9 +128,14 @@ body {
   .recently-played,
 .brand__name,
 .install-app,
-.user-info,
+.user-info__name,
 .folder__description {
     display: none;
+  }
+
+  .user-info__icon {
+    border-top: 1px solid #b3b3b3;
+    padding-top: 1.5rem;
   }
 
   .nav {

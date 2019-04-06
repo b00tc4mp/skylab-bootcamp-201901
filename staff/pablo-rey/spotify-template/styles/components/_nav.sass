@@ -10,7 +10,7 @@
     font-size: 24px
     padding: 3px
     min-width: 28px
-    min-height: 28px
+    min-height: 28px  
 
   &__icon-svg
     width: 24px
@@ -21,6 +21,7 @@
   display: flex
   align-items: center
   justify-content: flex-start
+  cursor: pointer
 
   &__icon
     font-size: 32px
@@ -40,10 +41,6 @@
   margin: 10px 0px
   padding-left: 20px
 
-  &:hover
-    color: $selected
-    border-left: 3px solid $primary
-
   &__link
     color: $secondary
     text-decoration: none
@@ -61,6 +58,10 @@
     text-align: left
     text-transform: capitalize
     padding-left: 1rem
+
+  &:hover
+    @extend %hover-selected
+    border-left: 3px solid $primary
 
 .recently-played
   text-decoration: none
@@ -88,6 +89,9 @@
   margin-left: 1.5rem
   margin-right: 1.5rem
 
+  &:hover
+    @extend %hover-selected
+
 .install-app
   border-bottom: 1px solid $secondary
 
@@ -95,9 +99,13 @@
   .recently-played, 
   .brand__name, 
   .install-app,
-  .user-info,
+  .user-info__name,
   .folder__description
     display: none
+
+  .user-info__icon
+    border-top: 1px solid $secondary
+    padding-top: 1.5rem
 
   .nav
     width: 70px
