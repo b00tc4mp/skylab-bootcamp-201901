@@ -29,14 +29,14 @@ body {
   display: inline-block;
 }
 .nav__icon {
-  font-size: 20px;
+  font-size: 24px;
   padding: 3px;
-  min-width: 20px;
-  min-height: 20px;
+  min-width: 28px;
+  min-height: 28px;
 }
 .nav__icon-svg {
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
 }
 
 .brand {
@@ -85,7 +85,7 @@ body {
 .folder__description {
   text-align: left;
   text-transform: capitalize;
-  padding-left: 0.5rem;
+  padding-left: 1rem;
 }
 
 .recently-played {
@@ -109,17 +109,30 @@ body {
 
 .install-app, .user-info {
   text-align: center;
-  font-size: 24px;
+  font-size: 20px;
   font-weight: 600;
-  padding: 10px;
-  margin-left: 20px;
-  margin-right: 20px;
+  padding: 1rem 0 1rem 0;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
 }
 
 .install-app {
   border-bottom: 1px solid #b3b3b3;
 }
 
+@media (max-width: 720px) {
+  .recently-played,
+.brand__name,
+.install-app,
+.user-info,
+.folder__description {
+    display: none;
+  }
+
+  .nav {
+    width: 70px;
+  }
+}
 .progress {
   display: flex;
   align-items: center;
@@ -304,10 +317,12 @@ body {
 .section__container {
   display: flex;
   flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
 }
 .section__item {
-  padding: 0.6rem 0.6rem 1rem 0.6rem;
-  width: 230px;
+  margin: 1rem;
+  width: 20%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -336,6 +351,30 @@ body {
   border-radius: 50%;
 }
 
+@media (max-width: 1100px) {
+  .section__item {
+    width: 25%;
+  }
+}
+@media (max-width: 950px) {
+  .section__item {
+    width: 30%;
+  }
+
+  .content__options {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .section__item {
+    width: 40%;
+  }
+}
+@media (max-width: 580px) {
+  .section__item {
+    margin: 20%;
+  }
+}
 .content {
   width: 100%;
   height: calc(100vh - 90px);

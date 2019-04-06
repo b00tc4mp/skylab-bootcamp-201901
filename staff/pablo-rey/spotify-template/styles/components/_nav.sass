@@ -7,14 +7,14 @@
   display: inline-block
 
   &__icon
-    font-size: 20px
+    font-size: 24px
     padding: 3px
-    min-width: 20px
-    min-height: 20px
+    min-width: 28px
+    min-height: 28px
 
   &__icon-svg
-    width: 20px
-    height: 20px
+    width: 24px
+    height: 24px
 
 .brand
   padding: 0px 0px 18px 24px
@@ -60,7 +60,7 @@
   &__description
     text-align: left
     text-transform: capitalize
-    padding-left: 0.5rem
+    padding-left: 1rem
 
 .recently-played
   text-decoration: none
@@ -82,11 +82,22 @@
 
 .install-app, .user-info
   text-align: center
-  font-size: 24px
+  font-size: 20px
   font-weight: 600
-  padding: 10px
-  margin-left: 20px
-  margin-right: 20px
+  padding: 1rem 0 1rem 0
+  margin-left: 1.5rem
+  margin-right: 1.5rem
 
 .install-app
   border-bottom: 1px solid $secondary
+
+@media (max-width: 720px)
+  .recently-played, 
+  .brand__name, 
+  .install-app,
+  .user-info,
+  .folder__description
+    display: none
+
+  .nav
+    width: 70px
