@@ -7,7 +7,7 @@ body {
 
 .root {
   height: 100%;
-  background-color: black;
+  background-color: #181818;
   margin: 0px;
   padding: 20px;
   display: flex;
@@ -16,9 +16,11 @@ body {
 }
 
 .button {
-  background-color: green;
+  background-color: #00EE65;
   color: white;
-  border-radius: 1rem;
+  font-weight: bold;
+  font-size: 1rem;
+  border-radius: 2rem;
   border: 0px;
   padding: 1rem;
   width: 200px;
