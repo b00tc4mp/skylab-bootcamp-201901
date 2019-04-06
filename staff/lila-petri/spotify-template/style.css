@@ -1,5 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Varela+Round");
-body {
+.page {
+  text-align: center;
   margin: 0;
   background-color: black;
   padding: 0;
@@ -7,15 +8,15 @@ body {
   font-family: "Varela Round", sans-serif;
 }
 
-.page {
-  text-align: center;
+.logo {
+  display: block;
+  align-self: center;
 }
-
-.spotify-logo svg {
-  width: 125px;
-  height: 38px;
-  padding: 20px;
-  margin-top: 4px;
+.logo__svg {
+  width: 7.8em;
+  height: 2.4em;
+  padding: 1.2em;
+  margin-top: 0.2em;
   fill: white;
 }
 
@@ -68,7 +69,7 @@ body {
   margin: 0;
 }
 
-.item--img {
+.item__img {
   width: 172px;
   height: 172px;
   margin: 0;
@@ -85,11 +86,10 @@ body {
   display: block;
   margin-block-end: 2em;
   margin-block-start: 0;
-  margin-inline-start: 0px;
-  margin-inline-end: 0px;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
 }
-
-p.legal a {
+.legal__info {
   color: #fff;
   opacity: 0.5;
   display: inline-block;
@@ -113,7 +113,7 @@ p.legal a {
     margin: 0;
   }
 
-  .item--img {
+  .item__img {
     width: 230px;
     height: 230px;
   }
@@ -133,7 +133,7 @@ p.legal a {
     margin: 0;
   }
 
-  .item--img {
+  .item__img {
     width: 194.5px;
     height: 194.5px;
   }

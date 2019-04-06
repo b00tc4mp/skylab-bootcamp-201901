@@ -5,22 +5,26 @@ $button-color-back: #2ebd59
 $color-logo: white
 $title-color-font: #eee
 $legal-color-font: #fff
-body 
+   
+.page
+    text-align: center
     margin: 0
     background-color: $back-color
     padding: 0
     box-sizing: border-box
     font-family: 'Varela Round', sans-serif
 
-.page
-    text-align: center
-
-.spotify-logo svg 
-    width: 125px
-    height: 38px
-    padding: 20px
-    margin-top: 4px
-    fill: $color-logo
+.logo
+    
+    display: block
+    align-self: center
+        
+    &__svg
+        width: 7.8em
+        height: 2.4em
+        padding: 1.2em
+        margin-top: 0.2em
+        fill: $color-logo
 
 .wrapper
     padding-left: 1em
@@ -67,7 +71,7 @@ body
         font-weight: bold
         margin: 0
 
-.item--img 
+.item__img 
     width: 172px
     height: 172px
     margin: 0
@@ -81,16 +85,16 @@ body
     display: block
     margin-block-end: 2em
     margin-block-start: 0
-    margin-inline-start: 0px
-    margin-inline-end: 0px
+    margin-inline-start: 0
+    margin-inline-end: 0
 
-p.legal a 
-    color: $legal-color-font
-    opacity: .5
-    display: inline-block
-    font-size: .7em
-    margin-bottom: .5em
-    margin-top: .5em
+    &__info
+        color: $legal-color-font
+        opacity: .5
+        display: inline-block
+        font-size: .7em
+        margin-bottom: .5em
+        margin-top: .5em
 
 
 
@@ -107,7 +111,7 @@ p.legal a
         height: 230px
         margin: 0
 
-    .item--img 
+    .item__img 
         width: 230px
         height: 230px
         
@@ -125,6 +129,7 @@ p.legal a
         height: 195.5px
         margin: 0
 
-    .item--img 
+    .item__img 
         width: 194.5px
         height: 194.5px
+

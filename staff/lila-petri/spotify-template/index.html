@@ -9,14 +9,14 @@
     <link rel="stylesheet" href="style.css">
     <link rel="icon" href="https://open.scdn.co/static/images/favicon.png ">
   </head>
-  <body>
-    <container class="page">
+  <body class="page">
+
       <header class="panel">
-        <div class="spotify-logo">
-          <svg viewBox="0 0 1000 300" width="100%" height="100%">
+        <div class="logo">
+          <svg class="logo__svg" viewBox="0 0 1000 300" width="100%" height="100%">
             <path
-              d="M8 147C8 65 73 0 155 0s148 65 148 147-66 148-148 148S8 229 8 147zm202 69c10 6 20-10 10-16-39-24-88-30-144-17-12 3-7 21 5 18 51-12 94-6 129 15zm15-40c13 8 25-11 12-19-46-28-112-36-166-20-14 4-7 26 7 22 47-14 107-7 147 17zM71 113c45-14 124-10 172 18 15 9 29-15 14-24-55-33-142-36-194-20-17 5-9 31 8 26zm308 4c0 9 4 13 30 19 31 8 44 19 44 40 0 25-19 42-49 42-21 0-40-8-56-22-1-1-1-1 0-2l14-17c1-1 1-1 2 0 14 12 26 17 41 17 13 0 22-6 22-15 0-8-5-13-29-19-29-7-45-16-45-41 0-24 19-40 47-40 19 0 35 5 49 16 1 1 1 2 0 3l-13 17c0 1-1 2-2 1-12-9-23-14-35-14s-20 7-20 15zm109 9c9-10 19-15 32-15 24 0 48 18 48 53s-24 54-48 54c-13 0-23-5-32-15v41c0 1-1 2-2 2h-22c-1 0-2-1-2-2V115c0-1 1-2 2-2h22c1 0 2 1 2 2v11zm27 69c16 0 27-13 27-31s-11-30-27-30-27 13-27 30 11 31 27 31zm60-30c0-30 24-54 55-54s55 23 55 53-24 54-55 54-55-23-55-53zm27-1c0 17 12 31 28 31 17 0 29-12 29-30 0-17-13-31-29-31s-28 12-28 30zm128 54c-20 0-31-10-31-31v-51h-11c-1 0-1-1-1-2v-19c0-1 0-2 1-2h11V87c0-1 1-1 2-1h23c1 0 2 0 2 1v26h25c1 0 1 1 1 2v19c0 1 0 2-1 2h-25v47c0 7 3 11 10 11 3 0 16-4 16-2v19c0 5-17 7-22 7zM865 78v19c0 3-12-1-15-1-8 0-12 5-12 14v3h39c1 0 2 0 2 1l27 70 24-70c0-1 1-1 2-1h23c1 0 2 1 2 2l-40 103c-8 21-17 29-34 29-3 0-27-4-25-9l7-17c0-1 2-2 3-1 4 2 8 4 12 4 5 0 9-2 13-10l-33-78h-21v78c0 1-1 2-2 2h-23c-1 0-1-1-1-2v-78h-11c-1 0-2-1-2-2v-20c0-1 1-1 2-1h11v-5c0-22 11-34 32-34 7 0 20 1 20 4zm-100 35h23c1 0 1 1 1 2v99c0 1 0 2-1 2h-23c-1 0-2-1-2-2v-99c0-1 1-2 2-2zm-5-29c0-9 7-16 16-16s17 7 17 16-8 16-17 16-16-7-16-16zm200 45c0-9 7-16 16-16s17 7 17 16-8 16-17 16-16-7-16-16zm2 0c0 8 6 14 14 14s15-6 15-14-7-15-15-15-14 7-14 15zm23 8h-4l-4-6h-4v6h-3v-17h7c4 0 7 2 7 5s-2 4-4 5zm-12-14v5h4c2 0 4-1 4-3s-2-2-4-2h-4z"
-            ></path>
+              d="M8 147C8 65 73 0 155 0s148 65 148 147-66 148-148 148S8 229 8 147zm202 69c10 6 20-10 10-16-39-24-88-30-144-17-12 3-7 21 5 18 51-12 94-6 129 15zm15-40c13 8 25-11 12-19-46-28-112-36-166-20-14 4-7 26 7 22 47-14 107-7 147 17zM71 113c45-14 124-10 172 18 15 9 29-15 14-24-55-33-142-36-194-20-17 5-9 31 8 26zm308 4c0 9 4 13 30 19 31 8 44 19 44 40 0 25-19 42-49 42-21 0-40-8-56-22-1-1-1-1 0-2l14-17c1-1 1-1 2 0 14 12 26 17 41 17 13 0 22-6 22-15 0-8-5-13-29-19-29-7-45-16-45-41 0-24 19-40 47-40 19 0 35 5 49 16 1 1 1 2 0 3l-13 17c0 1-1 2-2 1-12-9-23-14-35-14s-20 7-20 15zm109 9c9-10 19-15 32-15 24 0 48 18 48 53s-24 54-48 54c-13 0-23-5-32-15v41c0 1-1 2-2 2h-22c-1 0-2-1-2-2V115c0-1 1-2 2-2h22c1 0 2 1 2 2v11zm27 69c16 0 27-13 27-31s-11-30-27-30-27 13-27 30 11 31 27 31zm60-30c0-30 24-54 55-54s55 23 55 53-24 54-55 54-55-23-55-53zm27-1c0 17 12 31 28 31 17 0 29-12 29-30 0-17-13-31-29-31s-28 12-28 30zm128 54c-20 0-31-10-31-31v-51h-11c-1 0-1-1-1-2v-19c0-1 0-2 1-2h11V87c0-1 1-1 2-1h23c1 0 2 0 2 1v26h25c1 0 1 1 1 2v19c0 1 0 2-1 2h-25v47c0 7 3 11 10 11 3 0 16-4 16-2v19c0 5-17 7-22 7zM865 78v19c0 3-12-1-15-1-8 0-12 5-12 14v3h39c1 0 2 0 2 1l27 70 24-70c0-1 1-1 2-1h23c1 0 2 1 2 2l-40 103c-8 21-17 29-34 29-3 0-27-4-25-9l7-17c0-1 2-2 3-1 4 2 8 4 12 4 5 0 9-2 13-10l-33-78h-21v78c0 1-1 2-2 2h-23c-1 0-1-1-1-2v-78h-11c-1 0-2-1-2-2v-20c0-1 1-1 2-1h11v-5c0-22 11-34 32-34 7 0 20 1 20 4zm-100 35h23c1 0 1 1 1 2v99c0 1 0 2-1 2h-23c-1 0-2-1-2-2v-99c0-1 1-2 2-2zm-5-29c0-9 7-16 16-16s17 7 17 16-8 16-17 16-16-7-16-16zm200 45c0-9 7-16 16-16s17 7 17 16-8 16-17 16-16-7-16-16zm2 0c0 8 6 14 14 14s15-6 15-14-7-15-15-15-14 7-14 15zm23 8h-4l-4-6h-4v6h-3v-17h7c4 0 7 2 7 5s-2 4-4 5zm-12-14v5h4c2 0 4-1 4-3s-2-2-4-2h-4z">
+            </path>
           </svg>
         </div>
         <div class="wrapper">
@@ -31,14 +31,14 @@
               <h3 class="grid__title">¡Que empieza el finde!</h3>
           </div>
           <div class="grid">            
-                 <div class="item"> <img class="item--img" src="https://pl.scdn.co/images/pl/default/d7af9f7c24012f4c6ff617d0c48ad65931544c43" alt="Novedades Viernes España"></div>
-                 <div class="item"> <img class="item--img" src="https://i.scdn.co/image/15257888e3e25c93e436ecdc3368a5fa8184e14e" alt="Release Radar"></div>
-                 <div class="item"> <img class="item--img" src="https://pl.scdn.co/images/pl/default/f1decf6e2cbe10d9fbc236904f96bba99aa1bc02" alt="Baila Reggaeton"></div>
-                 <div class="item"> <img class="item--img" src="https://pl.scdn.co/images/pl/default/fd41be265eb83c8dc8b69b1d1f939dd8515cbc32" alt="¡Finde!"></div>
-                 <div class="item"> <img class="item--img" src="https://pl.scdn.co/images/pl/default/3196b5ad702ac6e66d43d955cc8c6fd74ebe7da5" alt="Trapeo"></div>
-                 <div class="item"> <img class="item--img" src="https://pl.scdn.co/images/pl/default/d7cf6e65f88149e56f32312558ec02332495df0b" alt="De Camino"></div>
-                 <div class="item"> <img class="item--img" src="https://pl.scdn.co/images/pl/default/489c047090d5691837316bf5ca282e408ce9886f" alt="Feelin' Good"></div>
-                 <div class="item"> <img class="item--img" src="https://pl.scdn.co/images/pl/default/009dceb42ea54d534ca4bbba59445f18c202cd8f" alt="Pop Internacional"></div>
+                 <div class="item"> <img class="item__img" src="https://pl.scdn.co/images/pl/default/d7af9f7c24012f4c6ff617d0c48ad65931544c43" alt="Novedades Viernes España"></div>
+                 <div class="item"> <img class="item__img" src="https://i.scdn.co/image/15257888e3e25c93e436ecdc3368a5fa8184e14e" alt="Release Radar"></div>
+                 <div class="item"> <img class="item__img" src="https://pl.scdn.co/images/pl/default/f1decf6e2cbe10d9fbc236904f96bba99aa1bc02" alt="Baila Reggaeton"></div>
+                 <div class="item"> <img class="item__img" src="https://pl.scdn.co/images/pl/default/fd41be265eb83c8dc8b69b1d1f939dd8515cbc32" alt="¡Finde!"></div>
+                 <div class="item"> <img class="item__img" src="https://pl.scdn.co/images/pl/default/3196b5ad702ac6e66d43d955cc8c6fd74ebe7da5" alt="Trapeo"></div>
+                 <div class="item"> <img class="item__img" src="https://pl.scdn.co/images/pl/default/d7cf6e65f88149e56f32312558ec02332495df0b" alt="De Camino"></div>
+                 <div class="item"> <img class="item__img" src="https://pl.scdn.co/images/pl/default/489c047090d5691837316bf5ca282e408ce9886f" alt="Feelin' Good"></div>
+                 <div class="item"> <img class="item__img" src="https://pl.scdn.co/images/pl/default/009dceb42ea54d534ca4bbba59445f18c202cd8f" alt="Pop Internacional"></div>
           </div>
         </section>
         <section>
@@ -46,14 +46,14 @@
                 <h3 class="grid__title">Géneros y estados de ánimo</h3>
             </div>
             <div class="grid">            
-                   <div class="item"> <img class="item--img" src="https://t.scdn.co/media/derived/pop-274x274_447148649685019f5e2a03a39e78ba52_0_0_274_274.jpg" alt="Pop"></div>
-                   <div class="item"> <img class="item--img" src="https://t.scdn.co/media/original/mood-274x274_976986a31ac8c49794cbdc7246fd5ad7_274x274.jpg" alt="Estado de ánimo"></div>
-                   <div class="item"> <img class="item--img" src="https:////t.scdn.co/media/derived/latin-274x274_befbbd1fbb8e045491576e317cb16cdf_0_0_274_274.jpg" alt="Latina"></div>
-                   <div class="item"> <img class="item--img" src="https://t.scdn.co/media/derived/chill-274x274_4c46374f007813dd10b37e8d8fd35b4b_0_0_274_274.jpg" alt="Relax!"></div>
-                   <div class="item"> <img class="item--img" src="https://t.scdn.co/media/original/hip-274_0a661854d61e29eace5fe63f73495e68_274x274.jpg" alt="Hip Hop"></div>
-                   <div class="item"> <img class="item--img" src="https:////t.scdn.co/media/original/genre-images-square-274x274_5e50d72b846a198fcd2ca9b3aef5f0c8_274x274.jpg" alt="Concentración"></div>
-                   <div class="item"> <img class="item--img" src="https://t.scdn.co/media/derived/rock_9ce79e0a4ef901bbd10494f5b855d3cc_0_0_274_274.jpg" alt="Rock"></div>
-                   <div class="item"> <img class="item--img" src="https://t.scdn.co/media/links/workout-274x274.jpg" alt="Ejercicio"></div>
+                   <div class="item"> <img class="item__img" src="https://t.scdn.co/media/derived/pop-274x274_447148649685019f5e2a03a39e78ba52_0_0_274_274.jpg" alt="Pop"></div>
+                   <div class="item"> <img class="item__img" src="https://t.scdn.co/media/original/mood-274x274_976986a31ac8c49794cbdc7246fd5ad7_274x274.jpg" alt="Estado de ánimo"></div>
+                   <div class="item"> <img class="item__img" src="https:////t.scdn.co/media/derived/latin-274x274_befbbd1fbb8e045491576e317cb16cdf_0_0_274_274.jpg" alt="Latina"></div>
+                   <div class="item"> <img class="item__img" src="https://t.scdn.co/media/derived/chill-274x274_4c46374f007813dd10b37e8d8fd35b4b_0_0_274_274.jpg" alt="Relax!"></div>
+                   <div class="item"> <img class="item__img" src="https://t.scdn.co/media/original/hip-274_0a661854d61e29eace5fe63f73495e68_274x274.jpg" alt="Hip Hop"></div>
+                   <div class="item"> <img class="item__img" src="https:////t.scdn.co/media/original/genre-images-square-274x274_5e50d72b846a198fcd2ca9b3aef5f0c8_274x274.jpg" alt="Concentración"></div>
+                   <div class="item"> <img class="item__img" src="https://t.scdn.co/media/derived/rock_9ce79e0a4ef901bbd10494f5b855d3cc_0_0_274_274.jpg" alt="Rock"></div>
+                   <div class="item"> <img class="item__img" src="https://t.scdn.co/media/links/workout-274x274.jpg" alt="Ejercicio"></div>
             </div>
         </section>
         <footer class="panel">
@@ -62,21 +62,20 @@
                   <span>Ver en Spotify</span>
                 </button>
             </div>
-            <div class="spotify-logo">
-                <svg viewBox="0 0 1000 300" width="100%" height="100%">
+            <div class="logo">
+                <svg class="logo__svg" viewBox="0 0 1000 300" width="100%" height="100%">
                   <path
                     d="M8 147C8 65 73 0 155 0s148 65 148 147-66 148-148 148S8 229 8 147zm202 69c10 6 20-10 10-16-39-24-88-30-144-17-12 3-7 21 5 18 51-12 94-6 129 15zm15-40c13 8 25-11 12-19-46-28-112-36-166-20-14 4-7 26 7 22 47-14 107-7 147 17zM71 113c45-14 124-10 172 18 15 9 29-15 14-24-55-33-142-36-194-20-17 5-9 31 8 26zm308 4c0 9 4 13 30 19 31 8 44 19 44 40 0 25-19 42-49 42-21 0-40-8-56-22-1-1-1-1 0-2l14-17c1-1 1-1 2 0 14 12 26 17 41 17 13 0 22-6 22-15 0-8-5-13-29-19-29-7-45-16-45-41 0-24 19-40 47-40 19 0 35 5 49 16 1 1 1 2 0 3l-13 17c0 1-1 2-2 1-12-9-23-14-35-14s-20 7-20 15zm109 9c9-10 19-15 32-15 24 0 48 18 48 53s-24 54-48 54c-13 0-23-5-32-15v41c0 1-1 2-2 2h-22c-1 0-2-1-2-2V115c0-1 1-2 2-2h22c1 0 2 1 2 2v11zm27 69c16 0 27-13 27-31s-11-30-27-30-27 13-27 30 11 31 27 31zm60-30c0-30 24-54 55-54s55 23 55 53-24 54-55 54-55-23-55-53zm27-1c0 17 12 31 28 31 17 0 29-12 29-30 0-17-13-31-29-31s-28 12-28 30zm128 54c-20 0-31-10-31-31v-51h-11c-1 0-1-1-1-2v-19c0-1 0-2 1-2h11V87c0-1 1-1 2-1h23c1 0 2 0 2 1v26h25c1 0 1 1 1 2v19c0 1 0 2-1 2h-25v47c0 7 3 11 10 11 3 0 16-4 16-2v19c0 5-17 7-22 7zM865 78v19c0 3-12-1-15-1-8 0-12 5-12 14v3h39c1 0 2 0 2 1l27 70 24-70c0-1 1-1 2-1h23c1 0 2 1 2 2l-40 103c-8 21-17 29-34 29-3 0-27-4-25-9l7-17c0-1 2-2 3-1 4 2 8 4 12 4 5 0 9-2 13-10l-33-78h-21v78c0 1-1 2-2 2h-23c-1 0-1-1-1-2v-78h-11c-1 0-2-1-2-2v-20c0-1 1-1 2-1h11v-5c0-22 11-34 32-34 7 0 20 1 20 4zm-100 35h23c1 0 1 1 1 2v99c0 1 0 2-1 2h-23c-1 0-2-1-2-2v-99c0-1 1-2 2-2zm-5-29c0-9 7-16 16-16s17 7 17 16-8 16-17 16-16-7-16-16zm200 45c0-9 7-16 16-16s17 7 17 16-8 16-17 16-16-7-16-16zm2 0c0 8 6 14 14 14s15-6 15-14-7-15-15-15-14 7-14 15zm23 8h-4l-4-6h-4v6h-3v-17h7c4 0 7 2 7 5s-2 4-4 5zm-12-14v5h4c2 0 4-1 4-3s-2-2-4-2h-4z"
                   ></path>
                 </svg>
               </div>
               <p class="legal">
-                <a href="https://www.spotify.com/legal/">Información legal</a><br>
-                <a href="https://www.spotify.com/legal/privacy-policy/">Privacidad</a><br>
-                <a href="https://www.spotify.com/legal/cookies-policy/">Cookies</a><br>
-                <a href="https://www.spotify.com/legal/privacy-policy/#s3">Acerca de los anuncios</a>
+                <a class="legal__info"href="https://www.spotify.com/legal/">Información legal</a><br>
+                <a class="legal__info"href="https://www.spotify.com/legal/privacy-policy/">Privacidad</a><br>
+                <a class="legal__info"href="https://www.spotify.com/legal/cookies-policy/">Cookies</a><br>
+                <a class="legal__info"href="https://www.spotify.com/legal/privacy-policy/#s3">Acerca de los anuncios</a>
               </p>
         </footer>
       </div>
-    </container>
   </body>
 </html>
