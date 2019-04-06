@@ -1,0 +1,123 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+body {
+  display: flex;
+  flex-flow: column;
+  justify-items: center;
+  justify-content: center;
+  font-family: Montserrat, sans-serif;
+  color: white;
+  background-color: black;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.main {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  justify-items: center;
+  padding: 40px 0 0 0;
+}
+
+.logo-mbl {
+  height: 44px;
+  width: 146px;
+  margin: 40px 0 10px 0;
+}
+
+.header-mbl {
+  display: flex;
+  flex-flow: column;
+  justify-content: space-between;
+  align-items: center;
+  height: 160px;
+  padding: 0;
+  margin: 0;
+}
+
+.footer {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  padding: 20px;
+}
+.footer__options {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  margin: 6px 0 20px;
+  color: gray;
+  font-size: 14px;
+  font-weight: bold;
+}
+.footer__options > p {
+  margin: 5px;
+}
+
+.article {
+  display: flex;
+  flex-flow: column;
+  width: 100%;
+  align-items: center;
+  padding: 0;
+  margin: 20px 0 50px 0;
+}
+.article__title {
+  font-size: 32px;
+  width: 100%;
+  text-align: center;
+  margin: 0 0 20px;
+}
+.article__albums {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  justify-content: center;
+}
+.article__album {
+  width: 190px;
+  height: 190px;
+  margin: 0;
+  padding: 0;
+}
+@media (max-width: 375px) {
+  .article__album {
+    width: 160px;
+    height: 160px;
+  }
+}
+@media (max-width: 360px) {
+  .article__album {
+    width: 140px;
+    height: 140px;
+  }
+}
+@media (min-width: 1024px) {
+  .article__album {
+    width: 240px;
+    height: 240px;
+  }
+}
+
+.button-mbl {
+  display: flex;
+  flex-flow: column;
+  background-color: #1DB954;
+  width: 280px;
+  height: 48px;
+  border-radius: 25px;
+  align-items: center;
+  justify-content: center;
+}
+.button-mbl > a {
+  text-decoration: none;
+  font-family: Montserrat, sans-serif;
+  font-size: 15px;
+  color: white;
+}
+
+/*# sourceMappingURL=style.css.map */
