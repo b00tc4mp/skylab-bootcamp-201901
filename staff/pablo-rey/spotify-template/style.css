@@ -47,17 +47,86 @@ html, body {
 .folders {
   text-decoration: none;
   list-style-type: none;
+  padding-left: 20px;
 }
 
 .folder {
   margin: 10px 0px;
+  padding-left: 0px;
+}
+.folder:hover {
+  color: white;
+  border-left: 3px solid #1db954;
 }
 .folder__link {
   color: #b3b3b3;
   text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+.folder__link-icon-container {
+  display: flex;
+  justify-content: center;
+  width: 24px;
+  margin: 0;
+  padding: 0;
 }
 .folder__description {
+  text-align: left;
   text-transform: capitalize;
+  padding-left: 0.5rem;
+}
+
+.recently-played {
+  text-decoration: none;
+  list-style-type: none;
+  padding-left: 20px;
+}
+.recently-played__title {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+.recently-played__item {
+  font-size: 0.8rem;
+  padding-bottom: 10px;
+}
+.recently-played__item-type {
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.install-app, .user-info {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 10px;
+  margin-left: 20px;
+  margin-right: 20px;
+}
+
+.install-app {
+  border-bottom: 1px solid #b3b3b3;
+}
+
+.playing-bar {
+  background-color: #262c3d;
+  width: 100%;
+  height: 90px;
+  padding-left: 20px;
+}
+
+.now-playing {
+  text-decoration: none;
+  list-style-type: none;
+  padding-left: 20px;
+  display: flex;
+  flex-direction: column;
+}
+.now-playing__cover {
+  width: 56px;
+  height: 56px;
+  background-size: cover;
+  background-position: 50%;
 }
 
 /*# sourceMappingURL=style.css.map */

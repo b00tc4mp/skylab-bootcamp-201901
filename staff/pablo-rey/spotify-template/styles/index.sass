@@ -1,0 +1,38 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600')
+
+$primary: #1db954
+$secondary: #b3b3b3
+$selected: white
+$background-nav: #111
+$background-playing-bar:#262c3d
+
+*
+  box-sizing: border-box
+
+html, body
+  width: 100%
+  height: 100%
+  margin: 0
+  padding: 0
+  font-family: Montserrat
+ 
+@import '_nav'
+
+.playing-bar
+  background-color: $background-playing-bar
+  width: 100%
+  height: 90px
+  padding-left: 20px
+
+.now-playing
+  text-decoration: none
+  list-style-type: none
+  padding-left: 20px
+  display: flex
+  flex-direction: column
+
+  &__cover
+    width: 56px
+    height: 56px    
+    background-size: cover
+    background-position: 50%

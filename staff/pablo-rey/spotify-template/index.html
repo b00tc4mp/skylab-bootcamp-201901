@@ -22,30 +22,36 @@
       <ul class="folders">
         <li class="folder">
           <a href="#" class="folder__link">
-            <i class="fas fa-home nav__icon"></i>
+            <div class="folder__link-icon-container">
+              <i class="fas fa-home nav__icon"></i>
+            </div>
             <span class="folder__description">inicio</span>
           </a>
         </li>
         <li class="folder">
           <a href="#" class="folder__link">
-            <i class="fas fa-search nav__icon"></i>
+              <div class="folder__link-icon-container">
+                  <i class="fas fa-search nav__icon"></i>
+                  </div>
             <span class="folder__description">buscar</span>
           </a>
         </li>
-        <li class="folder">
+        <li class="folder">          
           <a href="#" class="folder__link">
-            <svg
-              class="nav__icon-svg"
-              viewBox="0 0 512 512"
-              width="24"
-              height="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M291.301 81.778l166.349 373.587-19.301 8.635-166.349-373.587zM64 463.746v-384h21.334v384h-21.334zM192 463.746v-384h21.334v384h-21.334z"
-                fill="currentColor"
-              ></path>
-            </svg>
+            <div class="folder__link-icon-container">
+              <svg
+                class="nav__icon-svg"
+                viewBox="0 0 512 512"
+                width="24"
+                height="24"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  d="M291.301 81.778l166.349 373.587-19.301 8.635-166.349-373.587zM64 463.746v-384h21.334v384h-21.334zM192 463.746v-384h21.334v384h-21.334z"
+                  fill="currentColor"
+                ></path>
+              </svg>
+            </div>            
             <span class="folder__description">tu biblioteca</span>
           </a>
         </li>
@@ -86,6 +92,18 @@
       <div class="portrait"></div>
       <div class="playlist"></div>
     </main>
-    <footer class="playing-bar"></footer>
+    <footer class="playing-bar">
+      <div class="now-playing">
+        <div class="now-playing__cover" class="cover-art-image cover-art-image-loaded" style="background-image: url(&quot;https://i.scdn.co/image/b03e20ee525d84ecde359a62ff438945d28c5f97&quot;);"></div>
+        </div>
+        <div class="now-playing__description">
+          <a href="" class="now-playing__description-title">La Hormiguita</a>
+          <a href="" class="now-playing__description-artist">Juan Luis Guerra</a>
+        </div>
+        <div class="now-playing__action"></div>
+      </div>
+      <div class="play-controls"></div>
+      <div class="play-options"><i class="fas fa-plus nav__icon"></i></div>
+    </footer>
   </body>
 </html>

@@ -1,0 +1,89 @@
+.nav
+  width: 260px
+  background-color: $background-nav
+  color: $secondary
+  padding: 24px 0px 5px 0px
+
+  &__icon
+    font-size: 20px
+    padding: 3px
+    min-width: 20px
+    min-height: 20px
+
+  &__icon-svg
+    width: 20px
+    height: 20px
+
+.brand
+  padding: 0px 0px 18px 24px
+  display: flex
+  align-items: center
+  justify-content: flex-start
+
+  &__icon
+    font-size: 32px
+
+  &__name
+    font-size: 26px
+    display: inline
+    margin: 0
+    padding-left: 0.5rem
+
+.folders
+  text-decoration: none
+  list-style-type: none
+  padding-left: 20px
+
+.folder 
+  margin: 10px 0px
+  padding-left: 0px
+
+  &:hover
+    color: $selected
+    border-left: 3px solid $primary
+
+  &__link
+    color: $secondary
+    text-decoration: none
+    display: flex
+    align-items: center
+
+    &-icon-container
+      display: flex
+      justify-content: center
+      width: 24px
+      margin: 0
+      padding: 0
+
+  &__description
+    text-align: left
+    text-transform: capitalize
+    padding-left: 0.5rem
+
+.recently-played
+  text-decoration: none
+  list-style-type: none
+  padding-left: 20px
+
+  &__title
+    text-transform: uppercase
+    font-size: .8rem
+
+  &__item
+    font-size: .8rem
+    padding-bottom: 10px
+
+    &-type
+      text-transform: uppercase
+      margin-top: 3px
+
+.install-app, .user-info
+  text-align: center
+  font-size: 24px
+  font-weight: bold
+  padding: 10px
+  margin-left: 20px
+  margin-right: 20px
+
+.install-app
+  border-bottom: 1px solid $secondary
