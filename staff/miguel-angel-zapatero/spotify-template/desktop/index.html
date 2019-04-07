@@ -9,120 +9,148 @@
     <link rel="stylesheet" href="style.css">
     <title>Spotify</title>
 </head>
-<body>
-    <aside class="aside">
+<body class="grid">
+    <section class="aside">
         <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_White.png" alt="logo" class="logo">
+        <i class="fab fa-spotify"></i>
         <nav class="aside-nav">
-            <a href="#" class="aside-nav__item">Inicio</a>
-            <a href="#" class="aside-nav__item">Buscar</a>
-            <a href="#" class="aside-nav__item">Tu biblioteca</a>
+            <a href="#" class="aside-nav__item">
+                <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M448 463.746h-149.333v-149.333h-85.334v149.333h-149.333v-315.428l192-111.746 192 110.984v316.19z" fill="currentColor"></path></svg><span>Inicio</span>
+            </a>
+            <a href="#" class="aside-nav__item">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M349.714 347.937l93.714 109.969-16.254 13.969-93.969-109.969q-48.508 36.825-109.207 36.825-36.826 0-70.476-14.349t-57.905-38.603-38.603-57.905-14.349-70.476 14.349-70.476 38.603-57.905 57.905-38.603 70.476-14.349 70.476 14.349 57.905 38.603 38.603 57.905 14.349 70.476q0 37.841-14.73 71.619t-40.889 58.921zM224 377.397q43.428 0 80.254-21.461t58.286-58.286 21.461-80.254-21.461-80.254-58.286-58.285-80.254-21.46-80.254 21.46-58.285 58.285-21.46 80.254 21.46 80.254 58.285 58.286 80.254 21.461z" fill="currentColor" fill-rule="evenodd"></path></svg><span>Buscar</span>
+                </a>
+            <a href="#" class="aside-nav__item">
+                    <svg viewBox="0 0 512 512" xmlns="http://www.w3.org/2000/svg"><path d="M291.301 81.778l166.349 373.587-19.301 8.635-166.349-373.587zM64 463.746v-384h21.334v384h-21.334zM192 463.746v-384h21.334v384h-21.334z" fill="currentColor"></path></svg><span>Tu biblioteca</span>
+                </a>
         </nav>
-        <a href="#" class="button button--white">REGISTRARTE</a>
-        <a href="#" class="button button--black">INICIAR SESIÓN</a>
-        <p>Cookies | Privacidad</p>
-    </aside>
-    <header class="header">
-        <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_White.png" alt="logo" class="logo">
-        <a href="#" class="button">VER EN SPOTIFY</a>
-    </header>
+        <section class="aside__btns">
+            <a href="#" class="button">REGISTRARTE</a>
+            <a href="#" class="button button--black">INICIAR SESIÓN</a>
+        </section>
+        <section class="privacy">
+            <a href="#" class="privacy__item">Cookies</a>
+            <p>|</p>
+            <a href="#" class="privacy__item">Privacidad</a>
+        </section>
+    </section>
     <main class="main">
         <nav class="main-nav">
-            <a href="#" class="">SELECCIONADOS</a>
-            <a href="#" class="">PODCASTS</a>
-            <a href="#" class="">GÉNEROS Y ESTADOS DE ÁNIMO</a>
-            <a href="#" class="">NOVEDADES</a>
-            <a href="#" class="">DESCUBRIR</a>
+            <a href="#" class="main-nav__item">SELECCIONADOS</a>
+            <a href="#" class="main-nav__item">PODCASTS<span></span></a>
+            <a href="#" class="main-nav__item">GÉNEROS Y ESTADOS DE ÁNIMO</a>
+            <a href="#" class="main-nav__item">NOVEDADES</a>
+            <a href="#" class="main-nav__item">DESCUBRIR</a>
         </nav>
         <section class="pannel">
             <header>
-                <h1 class="pannel__title">Los planes son mejores con música</h1>
+                <h1 class="pannel__title">The Best Podcasts</h1>
+                <a href="#">VER MÁS</a>
             </header>
             <section class="pannel__items">
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fab fa-spotify"></i></a>
-                    <img src="https://via.placeholder.com/200/2196f3" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/2196f3" alt="photo" class="item__img">
+                    <p class="item__text">What the Front Podcast - Skylab edition</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fab fa-spotify"></i></a>
-                    <img src="https://via.placeholder.com/200/009688" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/009688" alt="photo" class="item__img">
+                    <p class="item__text">LA RESISTENCIA de David Broncano</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fab fa-spotify"></i></a>
-                    <img src="https://via.placeholder.com/200/ffeb3b" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/ffeb3b" alt="photo" class="item__img">
+                    <p class="item__text">W Podcast</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fab fa-spotify"></i></a>
-                    <img src="https://via.placeholder.com/200/f44336" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/f44336" alt="photo" class="item__img">
+                    <p class="item__text">W Podcast</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fab fa-spotify"></i></a>
-                    <img src="https://via.placeholder.com/200/2196f3" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/2196f3" alt="photo" class="item__img">
+                    <p class="item__text">Hasta las manos</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fab fa-spotify"></i></a>
-                    <img src="https://via.placeholder.com/200/009688" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/009688" alt="photo" class="item__img">
+                    <p class="item__text">Entiende tu mente</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fab fa-spotify"></i></a>
-                    <img src="https://via.placeholder.com/200/ffeb3b" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/ffeb3b" alt="photo" class="item__img">
+                    <p class="item__text">TED en español</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fab fa-spotify"></i></a>
-                    <img src="https://via.placeholder.com/200/f44336" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/f44336" alt="photo" class="item__img">
+                    <p class="item__text">El Podcast de los Sueños</p>
                 </div>
             </section>
         </section>
         <section class="pannel">
             <header>
-                <h1 class="pannel__title">Géneros y estados de ánimo</h1>
+                <h1 class="pannel__title">Categorías</h1>
+                <a href="#">VER MÁS</a>
             </header>
             <section class="pannel__items">
                 <div class="item">
                     <a href="#" class="item__btn item--big"><i class="fas fa-music"></i></a>
-                    <img src="https://via.placeholder.com/200/2196f3" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/2196f3" alt="photo" class="item__img">
+                    <p class="item__text">Podcast más escuchados</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fas fa-drum"></i></a>
-                    <img src="https://via.placeholder.com/200/009688" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/009688" alt="photo" class="item__img">
+                    <p class="item__text">Historias</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fas fa-podcast"></i></a>
-                    <img src="https://via.placeholder.com/200/ffeb3b" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/ffeb3b" alt="photo" class="item__img">
+                    <p class="item__text">Educativo</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fas fa-headphones-alt"></i></a>
-                    <img src="https://via.placeholder.com/200/f44336" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/f44336" alt="photo" class="item__img">
+                    <p class="item__text">Música</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fas fa-guitar"></i></a>
-                    <img src="https://via.placeholder.com/200/2196f3" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/2196f3" alt="photo" class="item__img">
+                    <p class="item__text">Salud y estilo de vida</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fas fa-compact-disc"></i></a>
-                    <img src="https://via.placeholder.com/200/009688" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/009688" alt="photo" class="item__img">
+                    <p class="item__text">Juego</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fas fa-volume-up"></i></a>
-                    <img src="https://via.placeholder.com/200/ffeb3b" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/ffeb3b" alt="photo" class="item__img">
+                    <p class="item__text">Tecnología y negocios</p>
                 </div>
                 <div class="item">
                     <a href="#" class="item__btn"><i class="fas fa-sliders-h"></i></a>
-                    <img src="https://via.placeholder.com/200/f44336" alt="photo" class="item__img">
+                    <img src="https://via.placeholder.com/300/f44336" alt="photo" class="item__img">
+                    <p class="item__text">Deportes y ocio</p>
                 </div>
             </section>
         </section>
     </main>
     <footer class="footer">
-        <header class="header">
-            <a href="#" class="button">VIEW ON SPOTIFY</a>
-            <img src="https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_CMYK_White.png" alt="logo" class="logo--big">
-        </header>
-        <nav class="footer-nav">
-            <a href="#" class="footer-nav__item">Información Legal</a>
-            <a href="#" class="footer-nav__item">Privacidad</a>
-            <a href="#" class="footer-nav__item">Cookies</a>
-            <a href="#" class="footer-nav__item">Acerca de los anuncios</a>
-        </nav>
+        <section class="banner">
+            <div>
+                <header>
+                    <h2 class="banner__title">MUESTRA DE SPOTIFY</h2>
+                </header>
+                <p class="banner__text">Regístrate para disfrutar de canciones y podcasts sin límites, con anuncios ocasionales. No hace falta tarjeta de crédito</p>
+            </div>
+            <a href="#" class="banner__btn">REGISTRATE GRATIS</a>
+        </section>
+        <section class="play-controls">
+        </section>
     </footer>
 </body>
 </html>
