@@ -78,3 +78,35 @@
   align-items: center
   justify-content: center
   width: 25%
+
+@media (max-width: 900px)
+  .play-controls
+    width: 30%
+
+  .now-playing
+    width: 30%
+
+    &__description
+      margin-right: 1rem
+      font-size: 0.8rem
+      // overflow: hidden
+
+      &-artist
+        // text-overflow: ellipsis
+        white-space: nowrap
+
+@media (max-width: 768px)
+  .play-options
+    width: 40%
+
+  .now-playing
+    &__description
+      margin-right: 3rem
+
+    &__cover
+      display: none
+
+@media (max-width: 700px)
+  .now-playing
+    &__action
+      visibility: hidden

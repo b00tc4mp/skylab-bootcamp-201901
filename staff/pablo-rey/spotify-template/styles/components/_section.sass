@@ -36,7 +36,9 @@
     display: flex
     flex-wrap: wrap
     align-items: center
-    justify-content: space-around    
+    justify-content: space-around
+    margin-left: 10%
+    margin-right: 10%
 
   &__item
     margin: 1rem
@@ -74,8 +76,16 @@
       height: 170px
       border-radius: 50%
 
+@media (max-width: 1300px)
+  .section
+    &__container
+      margin: 0
+
 @media (max-width: 1100px)
   .section
+    &__container
+      margin: 10%
+
     &__item:nth-child(4),
     &__item:nth-child(5),
     &__item:nth-child(6),
@@ -86,6 +96,8 @@
 
 @media (max-width: 950px)
   .section
+    &__container
+      margin: 0
 
   .content__options
     display: none
