@@ -13,11 +13,6 @@ $button-color-white: $color-white
 $button-color-black: $back-color
 $button-color-grey: $color
 
-// $item-color: #2196f3
-// $item-color-teal: #009688
-// $item-color-yellow: #ffeb3b
-// $item-color-red: #f44336
-
 $break-small: 380px
 $break-medium: 768px
 $break-large: 992px
@@ -105,10 +100,10 @@ body
             text-align: left
     &__items
         display: grid
-        grid-template-columns: 1fr 1fr
+        grid-template-columns: repeat(2, 1fr)
         grid-template-rows: auto
         @media screen and (min-width: $break-medium)  and (max-width: $break-large)
-            grid-template-columns: 1fr 1fr 1fr 1fr
+            grid-template-columns: repeat(4, 1fr)
         @media screen and (min-width: $break-large)
             display: flex
 
@@ -123,10 +118,6 @@ body
         position: absolute
         opacity: .3
         padding: .5em
-    // &--big
-    //     opacity: 1
-    //     font-size: 4em
-    //     padding: 40% 50%
 
 .footer-nav
     @extend %display-flex
