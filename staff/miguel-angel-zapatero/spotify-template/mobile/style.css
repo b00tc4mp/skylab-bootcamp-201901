@@ -1,0 +1,142 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
+.footer-nav, .main, .aside, .header {
+  display: flex;
+  flex-direction: column;
+}
+
+.footer-nav__item, .item__btn, .button {
+  display: inline-block;
+  text-decoration: none;
+}
+
+* {
+  padding: 0;
+  margin: 0;
+}
+
+html {
+  font-family: Roboto, sans-serif;
+  font-size: 62.5%;
+  background-color: black;
+}
+
+body {
+  font-size: 1.6em;
+  padding: 0 1em;
+}
+
+.header {
+  align-items: center;
+  justify-content: space-around;
+  height: 12em;
+}
+
+.aside {
+  float: left;
+  height: 100vh;
+  margin-left: -1em;
+  background-color: green;
+  padding: 1em;
+}
+
+.main {
+  align-items: stretch;
+}
+
+.footer {
+  padding: 1em 0;
+}
+
+.logo {
+  width: 8em;
+}
+.logo--big {
+  width: 10em;
+}
+
+.button {
+  letter-spacing: 0.1em;
+  color: white;
+  text-align: center;
+  background-color: #4caf50;
+  border-radius: 2em;
+  padding: 1em 4em;
+}
+.button--gray {
+  background-color: black;
+}
+.button--white {
+  background-color: white;
+  color: black;
+  font-size: 0.7em;
+  padding: 0.7em 3em;
+}
+.button--black {
+  background-color: black;
+  border: 0.1em solid white;
+  font-size: 0.7em;
+  padding: 0.7em 3em;
+}
+@media screen and (max-width: 380px) {
+  .button {
+    padding: 1em 2em;
+    font-size: 0.8em;
+  }
+}
+
+.pannel {
+  padding-top: 1em;
+  height: 100%;
+}
+.pannel__title {
+  color: white;
+  font-size: 2em;
+  text-align: center;
+  padding: 0.5em 0;
+}
+@media screen and (min-width: 992px) {
+  .pannel__title {
+    text-align: left;
+  }
+}
+.pannel__items {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: auto;
+}
+@media screen and (min-width: 768px) and (max-width: 992px) {
+  .pannel__items {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+@media screen and (min-width: 992px) {
+  .pannel__items {
+    display: flex;
+  }
+}
+
+.item {
+  position: relative;
+}
+.item__img {
+  display: block;
+  width: 100%;
+}
+.item__btn {
+  color: white;
+  position: absolute;
+  opacity: 0.3;
+  padding: 0.5em;
+}
+
+.footer-nav {
+  align-items: center;
+  padding-bottom: 1em;
+}
+.footer-nav__item {
+  font-size: 0.8em;
+  color: #757575;
+  padding: 0.5em 0;
+}
+
+/*# sourceMappingURL=style.css.map */
