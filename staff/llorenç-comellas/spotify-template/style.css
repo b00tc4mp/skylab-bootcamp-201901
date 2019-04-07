@@ -117,6 +117,7 @@ body {
   .desktop .main {
     grid-area: main;
     background-image: linear-gradient(to right bottom, #314268, black), linear-gradient(transparent, black 70%);
+    overflow: scroll;
   }
   .desktop .play {
     grid-area: play;
@@ -238,15 +239,7 @@ body {
   }
   .main__nav li:first-child {
     opacity: 1;
-  }
-  .main__nav hr {
-    height: 1px;
-    width: 30px;
-    background-color: #2ebd59;
-    border: 1px solid #2ebd59;
-    position: absolute;
-    top: 50px;
-    left: 30%;
+    border-bottom: 2px solid #2ebd59;
   }
 
   .main {
@@ -272,6 +265,10 @@ body {
   }
   .main__collage__item p {
     font-size: 13px;
+  }
+
+  #img-round {
+    border-radius: 50%;
   }
 }
 

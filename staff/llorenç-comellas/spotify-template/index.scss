@@ -136,6 +136,7 @@ body{
         .main{
             grid-area:main;
             background-image:$back-image;
+            overflow: scroll;
         }
         .play{
             grid-area: play;
@@ -260,15 +261,7 @@ body{
         }
         li:first-child{
             opacity:1;
-        }
-        hr{
-            height: 1px;
-            width: 30px;
-            background-color: $back-color-button;
-            border: 1px solid $back-color-button;
-            position: absolute;
-            top:50px;
-            left:30%;
+            border-bottom: 2px solid $back-color-button;
         }
     }
     .main{
@@ -293,5 +286,8 @@ body{
             font-size:13px;
            
         }
+    }  
+    #img-round{
+        border-radius:50%;
     }
 }
