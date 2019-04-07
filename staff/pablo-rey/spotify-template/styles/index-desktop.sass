@@ -1,11 +1,5 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,800')
-
-$primary: #1db954
-$secondary: #b3b3b3
-$selected: white
-$background-nav: #111
-$background-content: #111
-$background-playing-bar:#262c3d
+@import '_colors'
 
 *
   box-sizing: border-box
@@ -26,6 +20,6 @@ body
   display: flex
 
 @import '_utils'
-@import 'components/_nav'
-@import 'components/_playing-bar'
-@import 'components/_content'
+@import 'components/desktop/_nav'
+@import 'components/desktop/_playing-bar'
+@import 'components/desktop/_content'

@@ -26,6 +26,31 @@ body {
   transition: 0.6s;
 }
 
+.brand__name--large, .brand__name {
+  font-size: 26px;
+  display: inline;
+  margin: 0;
+  padding-left: 0.5rem;
+}
+
+.brand {
+  padding: 9px 0px 9px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  color: #b3b3b3;
+}
+.brand__icon {
+  font-size: 32px;
+}
+.brand__icon--large {
+  font-size: 50px;
+}
+.brand__name--large {
+  font-size: 40px;
+}
+
 .nav {
   width: 260px;
   background-color: #111;
@@ -42,23 +67,6 @@ body {
 .nav__icon-svg {
   width: 24px;
   height: 24px;
-}
-
-.brand {
-  padding: 0px 0px 18px 24px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  cursor: pointer;
-}
-.brand__icon {
-  font-size: 32px;
-}
-.brand__name {
-  font-size: 26px;
-  display: inline;
-  margin: 0;
-  padding-left: 0.5rem;
 }
 
 .folders {
@@ -345,6 +353,9 @@ body {
   color: #b3b3b3;
   margin: 0;
 }
+.section__title-text--center {
+  justify-content: center;
+}
 .section__title-link {
   font-size: 1.2rem;
   text-transform: uppercase;
@@ -436,4 +447,4 @@ body {
   overflow-y: scroll;
 }
 
-/*# sourceMappingURL=style.css.map */
+/*# sourceMappingURL=style-desktop.css.map */
