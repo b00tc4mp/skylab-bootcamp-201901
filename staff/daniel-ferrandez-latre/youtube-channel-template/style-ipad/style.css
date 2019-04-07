@@ -10,7 +10,7 @@ body{
 
 /****HEADER****/
 header{
-    width: 100%vh;
+    width: 100vw;
     height: 360px;
     -moz-box-shadow: 0 0 5px 5px #888;
 -webkit-box-shadow: 0 0 5px 5px#888;
@@ -225,7 +225,7 @@ box-shadow: 0 0 3px 1px #888;
 #prelude{
     width: 100%;
     margin-top: 10px;
-    margin-left: 20px;
+    
     height: 230px;
     border-bottom: 1px solid rgb(128, 128, 128, 0.5);
     
@@ -235,9 +235,9 @@ box-shadow: 0 0 3px 1px #888;
 #secundary-picture{
 
     font-size: 10pt;
-    width: 95%;
+    width: 100%;
     height: 190px;
-    
+   
     background-image: url(https://cdn-images-1.medium.com/max/2600/1*QS59aHuIEgJoIogixOJ32w.jpeg);
     background-image: no-repeat;
     background-image: center;
