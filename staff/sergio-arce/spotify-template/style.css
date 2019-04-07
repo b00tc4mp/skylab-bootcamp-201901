@@ -5,6 +5,7 @@
 
 main {
   background-color: #222326;
+  padding: 10px 10px;
 }
 
 .header {
@@ -12,10 +13,12 @@ main {
   padding: 30px 30px;
 }
 .header__logo {
-  width: 30%;
+  width: 74%;
+  padding: 10px;
+  margin: 10px;
 }
 .header__button {
-  background-color: #1bcb5a;
+  background-color: #2ebd59;
   color: white;
   padding: 10px 28px;
   border-radius: 20px;
@@ -24,6 +27,7 @@ main {
 
 .start {
   color: #FFFFFF;
+  text-align: center;
 }
 
 .container {
@@ -37,6 +41,19 @@ main {
 .container__items > img {
   width: 100%;
   display: block;
+}
+
+.footer {
+  display: flex;
+  flex-direction: column;
+  justify-items: center;
+  align-items: center;
+}
+
+a {
+  text-decoration: none;
+  color: #ffffff;
+  padding: 10px;
 }
 
 /*# sourceMappingURL=style.css.map */
