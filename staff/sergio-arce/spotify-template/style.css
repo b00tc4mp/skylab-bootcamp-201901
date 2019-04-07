@@ -1,0 +1,42 @@
+* {
+  margin: 0;
+  padding: 0;
+}
+
+main {
+  background-color: #222326;
+}
+
+.header {
+  display: grid;
+  padding: 30px 30px;
+}
+.header__logo {
+  width: 30%;
+}
+.header__button {
+  background-color: #1bcb5a;
+  color: white;
+  padding: 10px 28px;
+  border-radius: 20px;
+  border-color: #2a9e53;
+}
+
+.start {
+  color: #FFFFFF;
+  text-align: center;
+}
+.container {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  padding: 10px;
+}
+.container__items {
+  background-color: #000000;
+}
+.container__items > img {
+  width: 100%;
+  display: block;
+}
+
+/*# sourceMappingURL=style.css.map */
