@@ -31,7 +31,7 @@ body a:hover {
   color: #c8c8c8;
 }
 
-.container aside .spotify-logo {
+.container aside nav .spotify-logo {
   padding: 24px;
   display: flex;
   height: 40px;
@@ -39,12 +39,12 @@ body a:hover {
   width: 100%;
 }
 
-.container aside .spotify-logo svg {
+.container aside nav .spotify-logo svg {
   height: 36px;
   width: 112px;
 }
 
-.container aside .menu {
+.container aside nav .menu {
   display: none;
 }
 
@@ -155,8 +155,9 @@ body a:hover {
   }
   .container aside nav .spotify-logo {
     display: block;
-    padding-left: 24px;
-    padding-bottom: 18px;
+    padding: 0 0 18px 24px;
+    width: auto;
+    height: auto;
   }
   .container aside nav .spotify-logo svg {
     height: 40px;

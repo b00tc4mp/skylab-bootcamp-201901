@@ -41,21 +41,23 @@ body {
 
 .container {
   aside {
-    .spotify-logo {
-      padding: 24px;
-      display: flex;
-      height: 40px;
-      justify-content: center;
-      width: 100%;
+    nav {
+      .spotify-logo {
+        padding: 24px;
+        display: flex;
+        height: 40px;
+        justify-content: center;
+        width: 100%;
 
-      svg {
-        height: 36px;
-        width: 112px;
+        svg {
+          height: 36px;
+          width: 112px;
+        }
       }
-    }
 
-    .menu {
-      display: none;
+      .menu {
+        display: none;
+      }
     }
   }
 
@@ -203,8 +205,9 @@ body {
 
         .spotify-logo {
           display: block;
-          padding-left: 24px;
-          padding-bottom: 18px;
+          padding: 0 0 18px 24px;
+          width: auto;
+          height: auto;
 
           svg {
             height: 40px;
