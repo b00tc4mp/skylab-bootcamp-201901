@@ -61,7 +61,6 @@ header {
 
 .user_img_canal {
     height: 75px;
-    background-image: url("https://picsum.photos/1800/100");
     z-index: 2;
 }
 
@@ -240,31 +239,24 @@ article {
 }
 
 
-
-/* TABLET VERSION ......................................... */
-
-@media (min-width: 1024px) { 
-
-    body {
-        /* background-color: pink; */
-    }
-
-
-
-
-
-
-
-
-
-
-
- }
-
 /* DESKTOP VERSION ....................................... */
 
-@media (min-width: 1024px) { 
+@media ( min-width: 1024px) { 
 
+    .user_canal_name > h2 {
+        color: black;
+        margin-left: 10px
+
+        
+    }
+
+    .logo_yt > i{
+        font-size: 35px;
+        color:red;
+        margin-left:10px;
+        width: 50px;
+        
+    }
 
 
     .user_canal_sections {
@@ -307,6 +299,7 @@ article {
         align-content: flex-start; */
         /* flex-flow: row wrap; */
         flex-wrap: nowrap;
+        overflow: auto
 
     }
     
@@ -340,6 +333,19 @@ article {
         height: 160px;
         /* background-color: red; */
     }
+
+    .publication_video_preview > img {
+        width: 100%
+        /* background-color: red; */
+    }
+    
+    .video_container {
+        width: 1000px;
+        display: flex;
+        flex-direction: column;
+
+    }
+
 
     .publication_video_options {
         display: none;
@@ -482,23 +488,7 @@ article {
 
 
 
-
-
-
-
-
-
-
-
-
-
  }
 
 
 
- @media (min-width: 1024px) { 
-
-
-
-
- }
