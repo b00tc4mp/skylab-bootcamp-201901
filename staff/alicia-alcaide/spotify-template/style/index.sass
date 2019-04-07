@@ -1,0 +1,87 @@
+@import config
+
+
+html 
+    box-sizing: border-box
+    width: 100%
+
+*,
+*::before,
+*::after 
+    margin: 0
+    padding: 0
+
+body
+    font-family: $font
+    font-size: 10px    
+    
+
+.main-container
+    height: 100vh
+    width:  100vw
+    display: grid
+    grid-template-areas: "sidebar view" "footer footer"
+    grid-template-columns: 1.2fr 3.8fr
+    grid-template-rows: 1fr 8%
+    background-image: linear-gradient(to right bottom, rgb(65, 78, 88), rgb(0, 0, 0)), linear-gradient(transparent, rgb(0, 0, 0) 70%)
+
+
+
+.main-container__sidebar
+    grid-area: sidebar
+    background-color: $sidebar-background-color
+    color: $text-color
+    border-right: 1px solid $border-color
+
+    
+.main-container__view
+    grid-area: view
+
+    
+
+.main-container__footer
+    grid-area: footer
+    background-color: $footer-background-color
+    border-top: 1px solid $border-color
+
+
+@import components/nav.sass
+@import components/footer.sass
+@import components/view.sass
+
+
+@media only screen and (min-device-width : 768px)
+    //tablet portrait
+    body
+        font-size: 20px
+
+@media only screen and (min-device-width : 990px)
+    //tablet landscape
+    body
+        font-size: 22px        
+
+    .grid__item--see-in-tablet
+        display: block    
+
+@media only screen and (min-device-width : 1200px)
+    //laptop
+    body
+        font-size: 18px        
+
+    .grid__item--see-in-tablet
+        display: block    
+
+    .grid__item--see-in-laptop
+        display: block    
+    
+    .view-nav__items
+        margin: .25em
+    
+    .view__grid
+        margin: .5em 1em
+
+    .grid-container-header__title
+        padding: .5em .5em
+
+    .main-container
+        grid-template-rows: 1fr 10%
