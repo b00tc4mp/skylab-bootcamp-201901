@@ -6,10 +6,29 @@
     font-weight: 700
     padding: 13px 25px
 
+    &--full-width
+        width: 100%
+
+    &--with-separation
+        margin-bottom: $separation-base
+
     &--green
         background-color: $btn-primary-background-color
         &:hover, &:focus
             background-color: $btn-primary-background-color-action
-    
+
+    &--white
+        background-color: $btn-secondary-background-color
+        color: $btn-secondary-color
+
+    &--transparent
+        border: 2px solid $btn-transparent-color
+        background-color: transparent
+        color: $btn-transparent-color
+
     &--separated
         margin: 32px 0
+
+    &--hidden-desktop
+        @media(min-width: 1024px) // desktop
+            display: none

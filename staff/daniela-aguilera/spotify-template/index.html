@@ -12,109 +12,182 @@
 </head>
 
 <body>
-    <header>
-        <div class="logo">
-            <i class="fab fa-spotify logo__icon"></i>
-            <p class="logo__name">Spotify</p>
-        </div>
-        <div class="container container--centered">
-            <button class="btn btn--green">VER EN SPOTIFY</button>
-        </div>
-    </header>
-    <section>
-        <div class="container container--centered">
-            <h3 class="title">Un finde sin música no es un finde</h3>
-        </div>
-        <div class="grid">
-            <div class="grid__item"><img class="img img--full"
-                    src="https://hips.hearstapps.com/es.h-cdn.co/hares/images/cultura/ocio/portadas-de-discos-y-de-albums-de-musica-mas-importantes-del-s.xx/lp1-fka-twings-2014/4247787-1-esl-ES/lp1-fka-twings-2014.jpg" />
+    <section class="container container--row">
+        <!-- left nav only desktop  -->
+        <nav class="container__nav container__nav--only-desktop">
+            <div class="logo">
+                <i class="fab fa-spotify logo__icon"></i>
+                <p class="logo__name">Spotify</p>
             </div>
-            <div class="grid__item"><img class="img img--full"
-                    src="https://www.efeeme.com/wp-content/uploads/2017/01/art-record-covers-07-01-17.jpg" /></div>
-            <div class="grid__item"><img class="img img--full"
-                    src="http://www.risasinmas.com/wp-content/uploads/2013/07/norberto-de-freitas.jpg" /></div>
-            <div class="grid__item"><img class="img img--full"
-                    src="http://img.europapress.es/fotoweb/fotonoticia_20151217131658-854039_800.jpg" /></div>
-            <div class="grid__item"><img class="img img--full"
-                    src="https://los40es00.epimg.net/los40/imagenes/2016/10/20/album/1476974044_548008_1477035087_album_normal.jpg" />
-            </div>
-            <div class="grid__item"><img class="img img--full"
-                    src="http://yofuiaegb.com/wp-content/uploads/2014/05/portada.jpg" /></div>
-            <div class="grid__item"><img class="img img--full"
-                    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOjHU4xjbDcTY-Ur3hZQYaucqFSi0CuvAalOVzH6W1YM6FVtlDIw" />
-            </div>
-            <div class="grid__item"><img class="img img--full"
-                    src="https://st-listas.20minutos.es/images/2011-01/269579/2824003_640px.jpg?1496244737" /></div>
-    </section>
-    <section>
-        <div class="container container--centered">
-            <h3 class="title">Géneros y estados de ánimo</h3>
-        </div>
-        <div class="grid">
-            <div class="grid__item grid__item--covered">
-                <img class="img img--full" src="https://i.scdn.co/image/8949664f5e3ed2079853622b3177c77d4e4c0aee" />
-                <div class="cover">
-                    <i class="fas fa-drum cover__icon"></i>
-                </div>
-            </div>
-            <div class="grid__item grid__item--covered"><img class="img img--full"
-                    src="https://i.scdn.co/image/a483d1092a6467976552c6454d1390c33b6575b3" />
-                <div class="cover">
-                    <i class="fas fa-smile-wink cover__icon"></i>
-                </div>
-            </div>
-            <div class="grid__item grid__item--covered"><img class="img img--full"
-                    src="https://s-media-cache-ak0.pinimg.com/564x/c5/9e/14/c59e1430b356b41e9921d10825e79eeb.jpg" />
-                <div class="cover">
-                    <i class="far fa-sad-cry cover__icon"></i> 
-                </div>
-            </div>
-            <div class="grid__item grid__item--covered"><img class="img img--full"
-                    src="https://i.scdn.co/image/ce5787ccbbe31f2db8bde4e76a5ec6233bb059b1" />
-                <div class="cover">
-                    <i class="fas fa-briefcase cover__icon"></i> 
-                </div>
-            </div>
-            <div class="grid__item grid__item--covered"><img class="img img--full"
-                    src="https://i.scdn.co/image/2aff88b0944abdf3b90c9986d133c6c0d153268d" />
-                <div class="cover">
-                    <i class="far fa-kiss cover__icon"></i> 
-                </div>
-            </div>
-            <div class="grid__item grid__item--covered"><img class="img img--full"
-                    src="http://www.cetep.cl/web/wp-content/uploads/2015/11/escuchar-musica.jpg" />
-                <div class="cover">
-                    <i class="fas fa-grimace cover__icon"></i> 
-                </div>
-            </div>
-            <div class="grid__item grid__item--covered"><img class="img img--full"
-                    src="https://previews.123rf.com/images/elenarolau/elenarolau1611/elenarolau161100052/67679926-invierno-fondo-de-la-acuarela-cuadrada-con-el-chapoteo-de-la-nieve-que-cae-la-textura-%C3%A1spera-de-spray-.jpg" />
-                <div class="cover">
-                    <i class="fas fa-heart cover__icon"></i> 
-                </div>
-            </div>
-            <div class="grid__item grid__item--covered"><img class="img img--full"
-                    src="http://nosolosobres.com/WebRoot/StoreES3/Shops/ec8495/577C/CD29/5F9D/6AD6/5A91/52DF/D016/454F/crema_cuadrado_1.jpg" />
-                <div class="cover">
-                    <i class="fas fa-heartbeat cover__icon"></i> 
-                </div>
-            </div>
-    </section>
+            <!-- links del nav  -->
+            <section class="lateral-nav">
+                <a class="lateral-nav__link lateral-nav__link--active" href="#">
+                    <i class="fas fa-book-reader lateral-nav__icon"></i>
+                    Inicio
+                </a>
+                <a class="lateral-nav__link" href="#">
+                    <i class="fas fa-glasses lateral-nav__icon"></i>
+                    Buscar
+                </a>
+                <a class="lateral-nav__link" href="#">
+                    <i class="fas fa-book lateral-nav__icon"></i>
+                    Tu biblioteca
+                </a>
+            </section>
+            <!-- buttons -->
+            <div class="container__cta">
+                
+                    <button class="btn btn--white btn--full-width btn--with-separation">REGISTRATE</button>
 
-    <div class="container container--centered">
-        <button class="btn btn--green btn--separated">VER EN SPOTIFY</button>
-    </div>
+                    <button class="btn btn--transparent btn--full-width">INICIAR SESIÓN</button>
 
-    <div class="logo logo--big">
-        <i class="fab fa-spotify logo__icon"></i>
-        <p class="logo__name">Spotify</p>
-    </div>
-    <nav class="footer-menu">
-        <a class="footer-menu__link" href="#">Información legal</a>
-        <a class="footer-menu__link" href="#">Privacidad</a>
-        <a class="footer-menu__link" href="#">Cookies</a>
-        <a class="footer-menu__link" href="#">Acerca de los anuncios</a>
-    </nav>
+            </div>
+
+        </nav>
+
+        <section class="container__elements">
+            <!--imágenes de discos -->
+            <nav class="header-menu">
+                <a class="header-menu__link" href="#">SELECCIONADOS</a>
+                <a class="header-menu__link" href="#">PODCASTS</a>
+                <a class="header-menu__link" href="#">GÉNEROS Y ESTADOS DE ÁNIMO</a>
+                <a class="header-menu__link" href="#">NOVEDADES</a>
+                <a class="header-menu__link" href="#">DESCUBRIR</a>
+            </nav>
+            <header>
+                <div class="logo logo--hidden-desktop">
+                    <i class="fab fa-spotify logo__icon"></i>
+                    <p class="logo__name">Spotify</p>
+                </div>
+                <div class="container container--centered">
+                    <button class="btn btn--green btn--hidden-desktop">VER EN SPOTIFY</button>
+                </div>
+            </header>
+            <section>
+                <div class="container container--centered">
+                    <h3 class="title">Un finde sin música no es un finde</h3>
+                </div>
+                <div class="grid">
+                    <div class="grid__item"><img class="img img--full"
+                            src="https://hips.hearstapps.com/es.h-cdn.co/hares/images/cultura/ocio/portadas-de-discos-y-de-albums-de-musica-mas-importantes-del-s.xx/lp1-fka-twings-2014/4247787-1-esl-ES/lp1-fka-twings-2014.jpg" />
+                    </div>
+                    <div class="grid__item"><img class="img img--full"
+                            src="https://www.efeeme.com/wp-content/uploads/2017/01/art-record-covers-07-01-17.jpg" />
+                    </div>
+                    <div class="grid__item"><img class="img img--full"
+                            src="http://www.risasinmas.com/wp-content/uploads/2013/07/norberto-de-freitas.jpg" /></div>
+                    <div class="grid__item"><img class="img img--full"
+                            src="http://img.europapress.es/fotoweb/fotonoticia_20151217131658-854039_800.jpg" /></div>
+                    <div class="grid__item"><img class="img img--full"
+                            src="https://los40es00.epimg.net/los40/imagenes/2016/10/20/album/1476974044_548008_1477035087_album_normal.jpg" />
+                    </div>
+                    <div class="grid__item"><img class="img img--full"
+                            src="http://yofuiaegb.com/wp-content/uploads/2014/05/portada.jpg" /></div>
+                    <div class="grid__item"><img class="img img--full"
+                            src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQOjHU4xjbDcTY-Ur3hZQYaucqFSi0CuvAalOVzH6W1YM6FVtlDIw" />
+                    </div>
+                    <div class="grid__item"><img class="img img--full"
+                            src="https://st-listas.20minutos.es/images/2011-01/269579/2824003_640px.jpg?1496244737" />
+                    </div>
+            </section>
+            <section>
+                <div class="container container--centered">
+                    <h3 class="title">Géneros y estados de ánimo</h3>
+                </div>
+                <div class="grid">
+                    <div class="grid__item grid__item--covered">
+                        <img class="img img--full"
+                            src="https://i.scdn.co/image/8949664f5e3ed2079853622b3177c77d4e4c0aee" />
+                        <div class="cover">
+                            <i class="fas fa-drum cover__icon"></i>
+                        </div>
+                    </div>
+                    <div class="grid__item grid__item--covered"><img class="img img--full"
+                            src="https://i.scdn.co/image/a483d1092a6467976552c6454d1390c33b6575b3" />
+                        <div class="cover">
+                            <i class="fas fa-smile-wink cover__icon"></i>
+                        </div>
+                    </div>
+                    <div class="grid__item grid__item--covered"><img class="img img--full"
+                            src="https://s-media-cache-ak0.pinimg.com/564x/c5/9e/14/c59e1430b356b41e9921d10825e79eeb.jpg" />
+                        <div class="cover">
+                            <i class="far fa-sad-cry cover__icon"></i>
+                        </div>
+                    </div>
+                    <div class="grid__item grid__item--covered"><img class="img img--full"
+                            src="https://i.scdn.co/image/ce5787ccbbe31f2db8bde4e76a5ec6233bb059b1" />
+                        <div class="cover">
+                            <i class="fas fa-briefcase cover__icon"></i>
+                        </div>
+                    </div>
+                    <div class="grid__item grid__item--covered"><img class="img img--full"
+                            src="https://i.scdn.co/image/2aff88b0944abdf3b90c9986d133c6c0d153268d" />
+                        <div class="cover">
+                            <i class="far fa-kiss cover__icon"></i>
+                        </div>
+                    </div>
+                    <div class="grid__item grid__item--covered"><img class="img img--full"
+                            src="http://www.cetep.cl/web/wp-content/uploads/2015/11/escuchar-musica.jpg" />
+                        <div class="cover">
+                            <i class="fas fa-grimace cover__icon"></i>
+                        </div>
+                    </div>
+                    <div class="grid__item grid__item--covered"><img class="img img--full"
+                            src="https://previews.123rf.com/images/elenarolau/elenarolau1611/elenarolau161100052/67679926-invierno-fondo-de-la-acuarela-cuadrada-con-el-chapoteo-de-la-nieve-que-cae-la-textura-%C3%A1spera-de-spray-.jpg" />
+                        <div class="cover">
+                            <i class="fas fa-heart cover__icon"></i>
+                        </div>
+                    </div>
+                    <div class="grid__item grid__item--covered"><img class="img img--full"
+                            src="http://nosolosobres.com/WebRoot/StoreES3/Shops/ec8495/577C/CD29/5F9D/6AD6/5A91/52DF/D016/454F/crema_cuadrado_1.jpg" />
+                        <div class="cover">
+                            <i class="fas fa-heartbeat cover__icon"></i>
+                        </div>
+                    </div>
+            </section>
+
+            <div class="container container--centered">
+                <button class="btn btn--green btn--separated btn--hidden-desktop">VER EN SPOTIFY</button>
+            </div>
+
+            <div class="logo logo--big logo--hidden-desktop">
+                <i class="fab fa-spotify logo__icon"></i>
+                <p class="logo__name">Spotify</p>
+            </div>
+            <!-- menu del footer en ipad y móvil -->
+            <nav class="footer-menu footer-menu--hidden-desktop">
+                <a class="footer-menu__link" href="#">Información legal</a>
+                <a class="footer-menu__link" href="#">Privacidad</a>
+                <a class="footer-menu__link" href="#">Cookies</a>
+                <a class="footer-menu__link" href="#">Acerca de los anuncios</a>
+            </nav>
+        </section>
+    </section>
+    <!-- barra fixed del player en desktop -->
+    <footer class="fixed-content fixed-content--only-desktop">
+        <div class="banner">
+            <div class="banner__content">
+                <h1 class="banner__title">MUESTRA DE SPOTIFY</h1>
+                <p class="banner__text">Regístrate para disfrutar de canciones y podcasts sin límites, con anuncios
+                    ocasionales. No hace falta tarjeta de crédito.</p>
+            </div>
+            <div class="banner__cta">
+                <button class="btn btn--white">Registrarte gratis</button>
+            </div>
+        </div>
+        <div class="playing-bar">
+            <div class="playing-bar__center">
+                <div class="playing-bar__elements">
+                    <i class="fas fa-sliders-h playing-bar__icon"></i>
+                    <i class="fas fa-arrow-left playing-bar__icon"></i>
+                    <i class="fas fa-play playing-bar__icon"></i>
+                    <i class="fas fa-arrow-right playing-bar__icon"></i>
+                    <i class="fas fa-volume-mute playing-bar__icon"></i>
+                </div>
+                <div class="playing-bar__timeline"></div>
+            </div>
+        </div>
+    </footer>
 </body>
 
 </html>
