@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
-.footer-nav, .main, .aside, .header {
+.footer-nav, .main, .header {
   display: flex;
   flex-direction: column;
 }
@@ -29,14 +29,6 @@ body {
   align-items: center;
   justify-content: space-around;
   height: 12em;
-}
-
-.aside {
-  float: left;
-  height: 100vh;
-  margin-left: -1em;
-  background-color: green;
-  padding: 1em;
 }
 
 .main {
@@ -107,11 +99,6 @@ body {
 @media screen and (min-width: 768px) and (max-width: 992px) {
   .pannel__items {
     grid-template-columns: repeat(4, 1fr);
-  }
-}
-@media screen and (min-width: 992px) {
-  .pannel__items {
-    display: flex;
   }
 }
 

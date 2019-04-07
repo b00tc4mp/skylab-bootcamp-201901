@@ -44,14 +44,6 @@ body
     justify-content: space-around
     height: 12em
 
-.aside
-    float: left
-    height: 100vh
-    margin-left: -1em
-    @extend %display-flex
-    background-color: green
-    padding: 1em
-
 .main
     @extend %display-flex
     align-items: stretch
@@ -104,8 +96,6 @@ body
         grid-template-rows: auto
         @media screen and (min-width: $break-medium)  and (max-width: $break-large)
             grid-template-columns: repeat(4, 1fr)
-        @media screen and (min-width: $break-large)
-            display: flex
 
 .item
     position: relative
