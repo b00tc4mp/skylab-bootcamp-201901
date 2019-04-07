@@ -4,24 +4,62 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
     <link rel="stylesheet" href="style/style.css">
-    <title>Spotify</title>
+    <link rel="icon" href="https://open.scdn.co/static/images/favicon.png ">
+    <title>Browse - Featured</title>
 </head>
 <body>
     
-    <!-- <header class="headernav">
-        <a href="" class="headernav__button">SELECCIONADOS</a>
-        <a href="" class="headernav__button">PODCASTS</a>
-        <a href="" class="headernav__button">LISTAS DE ÉXITOS</a>
-        <a href="" class="headernav__button">GENEROS Y ESTADOS DE ANIMO</a>
-        <a href="" class="headernav__button">NOVEDADES</a>
-        <a href="" class="headernav__button">DESCUBRIR</a>
-    </header> -->
     <header class="header-mbl">
-        <img class="logo-mbl" src="images/Spotify_Logo_white.png" alt="logo">
+        <img class="logo" src="images/Spotify_Logo_white.png" alt="logo">
         <span class="button-mbl"><a href="">VIEW ON SPOTIFY</a></span>
     </header>
+
+    <aside class="aside">
+        <img class="logo" src="images/Spotify_Logo_white.png" alt="logo">
+        <section class="aside__buttons">
+            <a class="aside__buttons__home" href="">
+                <i class="fas fa-home"></i>
+                <p class="aside__butons__text">Inicio</p>
+            </a>
+            <a class="aside_buttons__search" href="">
+                <i class="fas fa-search"></i>
+                <p class="aside__butons__text">Buscar</p>
+            </a>
+            <a class="asside__buttons__mymusic" href="">
+                <i class="fas fa-book-open"></i>
+                <p class="aside__butons__text">Tu biblioteca</p>
+            </a>
+        </section>
+        <section class="aside__recently">
+            <p>ESCUCHADOS RECIENTEMENTE</p>
+            <p>Hip to the Hop<br>PLAYLIST</p>
+            <p>Artistas Españoles<br>PLAYLIST</p>
+            <p>Hip Hop Concentration<br>PLAYLIST </p>
+        </section>
+        <div class="aside__bottom">
+            <section class="aside__install-app">
+                    <i class="fas fa-arrow-circle-down"></i>
+                    <p>Instalar app</p>
+                </section>
+                <section class="aside__profile">
+                    <i class="fas fa-user-circle"></i>
+                    <p>Usuario</p>
+            </section>
+        </div>
+
+    </aside>
+    
     <main class="main">
+        <header class="headernav">
+            <a href="" class="headernav__button">SELECCIONADOS</a>
+            <a href="" class="headernav__button">PODCASTS</a>
+            <a href="" class="headernav__button">LISTAS DE ÉXITOS</a>
+            <a href="" class="headernav__button">GENEROS Y ESTADOS DE ANIMO</a>
+            <a href="" class="headernav__button">NOVEDADES</a>
+            <a href="" class="headernav__button">DESCUBRIR</a>
+        </header>
         <article class="article">
             <h2 class="article__title">Hecho para Markus</h2>
             <div class="article__albums">
@@ -61,17 +99,48 @@
                 <img class="article__album" src="images/album4.png" alt="albumimg">
             </div>
         </article>
-        
     </main>
-    <footer class="footer">
+
+    <footer class="footer-mbl">
         <span class="button-mbl"><a href="">VIEW ON SPOTIFY</a></span>
-        <img class="logo-mbl" src="images/Spotify_Logo_white.png" alt="logo">
-        <section class="footer__options">
+        <img class="logo" src="images/Spotify_Logo_white.png" alt="logo">
+        <section class="footer-mbl__options">
             <p>Legal</p>
             <p>privacy</p>
             <p>Cookies</p>
             <p>About Ads</p>
         </section>
     </footer>
+    <footer class="footer">
+        <section class="nowplaying">
+            <img src="images/album1.png" alt="" class="nowplaying__cover">
+            <div class="nowplaying__title">
+                <p class="nowplaying__title-song">SONG NAME</p>
+                <p class="nowplaying__title-artist">Artist Name</p>
+            </div>
+            <div class="nowplaying__add">+</div>
+        </section>
+        <section class="player">
+            <div class="player__controls">
+                    <i class="fas fa-random"></i>
+                    <i class="fas fa-step-backward"></i>
+                    <i class="far fa-play-circle"></i>
+                    <i class="fas fa-step-forward"></i>
+                    <i class="fas fa-redo"></i>
+            </div>
+            <div class="player__bar">
+                <p>0:00</p>
+                <p class="player__bar--bar">bar</p>
+                <p>4:00</p>
+            </div>
+        </section>
+        <section class="volume-control">
+                <i class="fas fa-list"></i>
+                <i class="fas fa-desktop"></i>
+                <i class="fas fa-volume-up"></i>
+                <p class="volume-control--bar">bar</p>
+        </section>
+    </footer>
+
 </body>
 </html>

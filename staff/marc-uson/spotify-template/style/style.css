@@ -2,28 +2,45 @@
 body {
   display: flex;
   flex-flow: column;
-  justify-items: center;
   justify-content: center;
   font-family: Montserrat, sans-serif;
   color: white;
   background-color: black;
   margin: 0;
   padding: 0;
-  width: 100%;
+}
+@media (min-width: 1280px) {
+  body {
+    background-image: linear-gradient(to top left, black, darkslategray);
+  }
 }
 
 .main {
   display: flex;
   flex-flow: column;
+  box-sizing: border-box;
   justify-content: center;
   justify-items: center;
   padding: 40px 0 0 0;
 }
+@media (min-width: 1280px) {
+  .main {
+    margin: 0 0 0 17vw;
+    width: 83vw;
+  }
+}
 
-.logo-mbl {
+.logo {
   height: 44px;
   width: 146px;
-  margin: 40px 0 10px 0;
+  margin: 40px 0 20px 0;
+}
+@media (min-width: 1280px) {
+  .logo {
+    height: 40px;
+    width: 133px;
+    margin: 25px 0 15px 25px;
+  }
 }
 
 .header-mbl {
@@ -35,14 +52,120 @@ body {
   padding: 0;
   margin: 0;
 }
+@media (min-width: 1280px) {
+  .header-mbl {
+    display: none;
+  }
+}
 
-.footer {
+.headernav {
+  display: none;
+  padding: 0 60px;
+  margin: 0 0 20px 0;
+  box-sizing: border-box;
+}
+@media (min-width: 1280px) {
+  .headernav {
+    display: flex;
+    flex-flow: row;
+    justify-content: space-around;
+  }
+}
+.headernav__button {
+  text-decoration: none;
+  color: gray;
+  font-size: 12px;
+}
+
+.aside {
+  display: none;
+  background-color: black;
+  height: 85vh;
+  width: 17vw;
+}
+@media (min-width: 1280px) {
+  .aside {
+    display: flex;
+    position: fixed;
+    top: 0px;
+    left: 0px;
+    flex-flow: column;
+    justify-content: space-between;
+  }
+}
+.aside__buttons {
+  display: flex;
+  flex-flow: column;
+  padding: 0;
+  margin: 5px 0 10px;
+}
+.aside__buttons > a {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  padding: 0 20px;
+  color: darkgray;
+}
+.aside__buttons > a > i {
+  font-size: 24px;
+  margin: 0 15px 0 0;
+}
+.aside__buttons > a > p {
+  font-size: 14px;
+  font-weight: bold;
+  margin: 12px 0;
+}
+.aside__buttons__home {
+  border-left: 4px solid green;
+}
+.aside__buttons__home > i, .aside__buttons__home > p {
+  color: white;
+}
+.aside__buttons__search {
+  border-left: 4px solid black;
+}
+.aside__buttons__mymusic {
+  border-left: 4px solid black;
+}
+.aside__recently {
+  margin: 0px 20px;
+}
+.aside__recently > p {
+  font-size: 12px;
+  color: darkgray;
+}
+.aside__install-app {
+  display: flex;
+  color: darkgray;
+  align-items: center;
+  margin: 0 20px;
+  border-bottom: 1px solid gray;
+}
+.aside__install-app > p {
+  padding: 0 15px;
+  font-size: 12px;
+}
+.aside__profile {
+  display: flex;
+  color: darkgray;
+  align-items: center;
+  margin: 0 20px;
+}
+.aside__profile > p {
+  padding: 0 15px;
+  font-size: 12px;
+}
+.aside__bottom {
+  margin: 0 0 20px;
+}
+
+.footer-mbl {
   display: flex;
   flex-flow: column;
   align-items: center;
   padding: 20px;
 }
-.footer__options {
+.footer-mbl__options {
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -51,8 +174,113 @@ body {
   font-size: 14px;
   font-weight: bold;
 }
-.footer__options > p {
+.footer-mbl__options > p {
   margin: 5px;
+}
+@media (min-width: 1280px) {
+  .footer-mbl {
+    display: none;
+  }
+}
+
+.footer {
+  display: none;
+  position: fixed;
+  box-sizing: border-box;
+  bottom: 0;
+  left: 0;
+  background-color: darkslategray;
+  width: 100vw;
+  height: 15vh;
+  border-top: 1px solid black;
+}
+@media (min-width: 1280px) {
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-content: center;
+  }
+}
+
+.nowplaying {
+  display: flex;
+  align-items: center;
+  width: 25vw;
+}
+.nowplaying__cover {
+  padding: 20px;
+  width: 10vh;
+  height: 10vh;
+}
+.nowplaying__title > p {
+  font-size: 12px;
+  margin: 0;
+}
+.nowplaying__title-artist {
+  color: lightgray;
+}
+.nowplaying__add {
+  font-size: 24px;
+  font-weight: lighter;
+  padding: 40px;
+}
+
+.player {
+  display: flex;
+  flex-flow: column;
+  padding: 40px;
+  width: 50vw;
+  justify-content: center;
+}
+.player__controls {
+  display: flex;
+  flex-flow: row;
+  width: 50vw;
+  justify-content: center;
+  align-items: center;
+  font-weight: 100;
+}
+.player__controls > i {
+  padding: 20px 20px 0px;
+}
+.player__controls > .fa-play-circle {
+  font-size: 36px;
+}
+.player__bar {
+  display: flex;
+  flex-flow: row;
+  justify-content: center;
+  align-items: center;
+  font-size: 12px;
+}
+.player__bar--bar {
+  font-size: 4px;
+  color: gray;
+  background-color: gray;
+  line-height: 4px;
+  width: 30vw;
+  margin: 10px;
+  border-radius: 2px;
+}
+
+.volume-control {
+  display: flex;
+  flex-flow: row;
+  width: 50vh;
+  padding: 20px;
+  justify-content: center;
+  align-items: center;
+}
+.volume-control > i {
+  padding: 10px;
+}
+.volume-control--bar {
+  font-size: 4px;
+  color: gray;
+  background-color: gray;
+  line-height: 4px;
+  width: 6vw;
+  border-radius: 2px;
 }
 
 .article {
@@ -61,13 +289,30 @@ body {
   width: 100%;
   align-items: center;
   padding: 0;
-  margin: 20px 0 50px 0;
+  margin: 20px;
+}
+@media (min-width: 1280px) {
+  .article {
+    box-sizing: border-box;
+    padding: 0 0 0 20px;
+    align-items: flex-start;
+    width: 83vw;
+    margin: 20px 0 50px 0;
+  }
 }
 .article__title {
   font-size: 32px;
   width: 100%;
   text-align: center;
-  margin: 0 0 20px;
+  margin: 0 0 10px 0;
+}
+@media (min-width: 1280px) {
+  .article__title {
+    text-align: left;
+    box-sizing: border-box;
+    width: 83vw;
+    padding: 0 0 10px 10px;
+  }
 }
 .article__albums {
   display: flex;
@@ -78,11 +323,23 @@ body {
   padding: 0;
   justify-content: center;
 }
+@media (min-width: 1280px) {
+  .article__albums {
+    box-sizing: border-box;
+    justify-content: left;
+    width: 83vw;
+  }
+}
 .article__album {
   width: 190px;
   height: 190px;
   margin: 0;
-  padding: 0;
+}
+@media (max-width: 360px) {
+  .article__album {
+    width: 100px;
+    height: 100px;
+  }
 }
 @media (max-width: 375px) {
   .article__album {
@@ -90,16 +347,29 @@ body {
     height: 160px;
   }
 }
-@media (max-width: 360px) {
+@media (min-width: 640px) and (max-width: 765px) {
   .article__album {
-    width: 140px;
-    height: 140px;
+    width: 150px;
+    height: 150px;
+  }
+}
+@media (min-width: 766px) and (max-width: 1023px) {
+  .article__album {
+    width: 180px;
+    height: 180px;
   }
 }
 @media (min-width: 1024px) {
   .article__album {
     width: 240px;
     height: 240px;
+  }
+}
+@media (min-width: 1280px) {
+  .article__album {
+    width: 160px;
+    height: 160px;
+    padding: 10px;
   }
 }
 

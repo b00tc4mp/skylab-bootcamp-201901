@@ -1,0 +1,77 @@
+.aside
+    display: none
+    background-color: black
+    height: $aside-height
+    width: $aside-width
+
+    @include for-desktop
+        display: flex
+        position: fixed
+        top: 0px
+        left: 0px
+        flex-flow: column
+        justify-content: space-between
+        
+
+    &__buttons
+        display: flex
+        flex-flow: column
+        padding: 0
+        margin: 5px 0 10px
+        > a
+            display: flex   
+            align-items: center
+            text-decoration: none
+            padding: 0 20px
+            color: darkgray
+            
+            > i
+                font-size: 24px
+                margin: 0 15px 0 0
+            > p
+                font-size: 14px
+                font-weight: bold
+                margin: 12px 0
+
+        &__home
+            border-left: 4px solid green
+            >i, >p
+                color: white
+
+        &__search
+            border-left: 4px solid black
+
+        &__mymusic
+            border-left: 4px solid black
+            
+    &__recently
+        margin: 0px 20px
+        > p
+            font-size: 12px
+            color: darkgray
+    
+    &__install-app
+        display: flex
+        color: darkgray
+        align-items: center
+        margin: 0 20px
+        border-bottom: 1px solid gray
+
+        > p
+            padding: 0 15px
+            font-size: 12px
+    
+    &__profile
+        display: flex
+        color: darkgray
+        align-items: center
+        margin: 0 20px
+
+        > p
+            padding: 0 15px
+            font-size: 12px
+
+    &__bottom
+        margin: 0 0 20px
+
+                
