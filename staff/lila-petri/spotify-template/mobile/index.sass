@@ -13,6 +13,7 @@ $legal-color-font: #fff
     padding: 0
     box-sizing: border-box
     font-family: 'Varela Round', sans-serif
+ 
 
 .logo
     
@@ -25,7 +26,13 @@ $legal-color-font: #fff
         padding: 1.2em
         margin-top: 0.2em
         fill: $color-logo
+.nav-bar
+    display: none
 
+.now-playing-bar
+    display: none
+.rest
+    display: none
 .wrapper
     padding-left: 1em
     padding-right: 1em
@@ -56,12 +63,12 @@ $legal-color-font: #fff
     background-color: $button-color-back
 
 .grid
-    display: flex
-    flex-wrap: wrap
-    flex-flow: row wrap
-    justify-content: center
-    align-items: stretch
-
+    padding-left: 1em
+    padding-right: 1em
+    &__items
+        display: grid
+        grid-template-columns: 1fr 1fr
+        
     &__title
         color: $title-color-font
         padding-bottom: .5em
@@ -72,11 +79,9 @@ $legal-color-font: #fff
         margin: 0
 
 .item__img 
-    width: 172px
-    height: 172px
+    width: 100%
     margin: 0
-    flex: 1
-    flex-basis: 25%
+    display: block
 
 .panel
     width: 100%
@@ -95,41 +100,21 @@ $legal-color-font: #fff
         font-size: .7em
         margin-bottom: .5em
         margin-top: .5em
+        text-decoration: none
+        
 
-
-
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape)
+@media only screen and (min-width : 768px) 
     .btn 
         width: 247.17px
         height: 44px
 
-    .item
-        flex: 0 0 25%
-        justify-content: space-around
-        align-content: stretch
-        width: 230px
-        height: 230px
-        margin: 0
+    .grid
+        &__items
+            grid-template-columns: repeat(4, 1fr)
+            padding: .5em
 
-    .item__img 
-        width: 230px
-        height: 230px
+    
+      
+
         
     
-@media only screen and (min-width : 321px) and (orientation : landscape)
-    .btn 
-        width: 247.17px
-        height: 44px
-
-    .item
-        flex: 0 0 25%
-        justify-content: space-around
-        align-content: stretch
-        width: 195.5px
-        height: 195.5px
-        margin: 0
-
-    .item__img 
-        width: 194.5px
-        height: 194.5px
-
