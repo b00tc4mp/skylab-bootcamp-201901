@@ -1,0 +1,140 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto:300,400,500,700')
+
+$font: Roboto, sans-serif
+$font-size: 1.6em
+
+$color: #757575
+$color-white: white
+
+$back-color: black
+
+$button-color: #4caf50
+$button-color-white: $color-white
+$button-color-black: $back-color
+$button-color-grey: $color
+
+// $item-color: #2196f3
+// $item-color-teal: #009688
+// $item-color-yellow: #ffeb3b
+// $item-color-red: #f44336
+
+$break-small: 380px
+$break-medium: 768px
+$break-large: 992px
+
+%display-flex
+    display: flex
+    flex-direction: column
+
+%display-link
+    display: inline-block
+    text-decoration: none
+
+*
+    padding: 0
+    margin: 0
+
+html
+    font-family: $font
+    font-size: 62.5%
+    background-color: $back-color
+
+body
+    font-size: $font-size
+    padding: 0 1em
+
+.header
+    @extend %display-flex
+    align-items: center
+    justify-content: space-around
+    height: 12em
+
+.aside
+    float: left
+    height: 100vh
+    margin-left: -1em
+    @extend %display-flex
+    background-color: green
+    padding: 1em
+
+.main
+    @extend %display-flex
+    align-items: stretch
+
+.footer
+    padding: 1em 0
+
+.logo
+    width: 8em
+    &--big
+        width: 10em
+
+.button
+    @extend %display-link
+    letter-spacing: .1em
+    color: $color-white
+    text-align: center
+    background-color: $button-color
+    border-radius: 2em
+    padding: 1em 4em
+    &--gray
+        background-color: $button-color-black
+    &--white
+        background-color: $button-color-white
+        color: $back-color
+        font-size: .7em
+        padding: .7em 3em
+    &--black
+        background-color: $button-color-black
+        border: .1em solid $color-white
+        font-size: .7em
+        padding: .7em 3em
+    @media screen and (max-width: $break-small)
+        padding: 1em 2em
+        font-size: .8em
+
+.pannel
+    padding-top: 1em
+    height: 100%
+    &__title
+        color: $color-white
+        font-size: 2em
+        text-align: center
+        padding: .5em 0
+        @media screen and (min-width: $break-large)
+            text-align: left
+    &__items
+        display: grid
+        grid-template-columns: 1fr 1fr
+        grid-template-rows: auto
+        @media screen and (min-width: $break-medium)  and (max-width: $break-large)
+            grid-template-columns: 1fr 1fr 1fr 1fr
+        @media screen and (min-width: $break-large)
+            display: flex
+
+.item
+    position: relative
+    &__img
+        display: block
+        width: 100%
+    &__btn
+        @extend %display-link
+        color: $color-white
+        position: absolute
+        opacity: .3
+        padding: .5em
+    // &--big
+    //     opacity: 1
+    //     font-size: 4em
+    //     padding: 40% 50%
+
+.footer-nav
+    @extend %display-flex
+    align-items: center
+    padding-bottom: 1em
+    &__item
+        @extend %display-link
+        font-size: .8em
+        color: $color
+        padding: .5em 0
+
