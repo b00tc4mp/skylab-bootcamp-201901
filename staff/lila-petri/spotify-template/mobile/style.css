@@ -20,18 +20,6 @@
   fill: white;
 }
 
-.nav-bar {
-  display: none;
-}
-
-.now-playing-bar {
-  display: none;
-}
-
-.rest {
-  display: none;
-}
-
 .wrapper {
   padding-left: 1em;
   padding-right: 1em;

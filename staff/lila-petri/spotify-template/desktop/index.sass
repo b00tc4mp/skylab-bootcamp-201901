@@ -1,0 +1,83 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round')
+$back-color: #070707
+$color-logo: white
+$color-now-playing-bar: #2d2e30
+$color-navbar: grey
+$color-main: linear-gradient(to right, #47585b 0%, #242c2d 25%)
+$color-font-navbar: #b3b3b3
+
+.page
+    
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+    font-family: 'Varela Round', sans-serif
+    
+    
+.navbar
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    padding: 1.2em
+    height: calc(100% - 90px)
+    position: fixed
+    z-index: 1
+    top: 0
+    left: 0
+    width: 15em
+    overflow-x: hidden
+    
+    &__logo
+        display: block
+        align-self: center   
+        &--config
+            width: 10em
+            height: 5em
+            padding: 1.2em
+            margin-top: 0.2em
+            fill: $color-logo
+    &--color
+        background-color: $back-color
+    &--font-size
+        font-size: 8px
+.navegation
+    display: flex
+    flex-direction: column
+    align-content: flex-end
+    &__item
+        padding: .5em
+.img
+    width: 2em
+    height: 2em
+    padding: 0
+    margin-top: 0
+    fill: $color-logo
+.text
+    font-size: 12px
+    &--color
+        color: $color-font-navbar
+    &--color-inicio
+        color: $color-logo
+    &--margin
+        margin: 0
+.main
+    margin-left: 200px
+    height: 100vh
+    width: 100%
+    padding: 2em
+   
+    &--color
+         background: $color-main
+.now-playing-bar
+    height: 90px
+    padding: 0 16px
+    background-color: $color-now-playing-bar
+    position: fixed
+    bottom: 0
+    z-index: 2
+    width: 100%
+    
+.avatar
+    width: 3em
+    height: 3em
+    border-radius: 50%
