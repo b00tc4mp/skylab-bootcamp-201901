@@ -1,0 +1,215 @@
+
+@media (min-width: $breakpoint-desktop) 
+
+
+    body
+        position: relative
+        
+
+    .logo__title
+        display: none
+
+    .container__mobile-first
+        display: none
+                 
+    
+
+    .container-desktop
+        height: 100%
+
+        &__navigation
+            display: grid
+            grid-template: "N M" 1fr / 60px auto
+            height: 100%
+
+        
+    .interface
+        grid-area: N
+        background-color: $background-color
+
+
+        &__nav
+            display: flex
+            flex-direction: column
+
+            &-link
+                display: flex
+                flex: 0 0 100%
+                padding: 0 20px
+                height: 40px
+                align-items: center
+                
+        
+
+                &-text
+                    margin-left:16px
+                    font-size: 14px
+                    color: $font-color
+                    
+                    &--off
+                        display: none
+
+            &-icon
+                font-size: 20px
+                color: $font-color
+
+    // MUSIC
+    
+    .music
+        background-color: $background-music
+        grid-area: M
+        padding: 0 32px
+        flex-direction: column
+        overflow: auto
+
+
+        &__navigation
+            margin: 20px 0
+            display: flex
+            width: 100%
+            justify-content: space-between
+            height: 46px
+
+            &-text
+                display: flex
+                justify-content: center
+                color: white
+
+            
+        &__list
+            font-size: 2.25em
+            color: $font-color-title
+            // text-align: center
+            display: flex
+            flex-direction: column
+
+            &-header
+                flex-basis: 100%
+                height: 20px
+                display: flex
+                align-items: center
+                margin-bottom: 30px
+
+                &-text
+                    font-size: 36px
+                    color: $font-color-title
+
+            &-container
+                display: flex
+                margin-bottom: 40px
+                flex-wrap: wrap
+
+            &-album
+                width: 170px
+                display: flex
+                flex-direction: column
+                flex-wrap: wrap
+                padding: 0 8px
+
+
+
+                &-img
+                    width: 100%
+                    height: 170px
+                    box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.75)
+
+                    & > img
+                        width: 100%
+                    
+                
+
+                &-title
+                    width: 100%
+                    height: 20px
+                    margin-top: 10px
+                    margin-bottom: 20px
+
+                    &-text
+                        font-size: 14px
+                        text-align: center
+
+    // PLAYER
+
+    .player-container
+        background-color: #282828
+        position: absolute
+        height: 90px
+        width: 100%
+        left: 0
+        bottom: 0
+    
+    .player
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        height: 100%
+        align-items: center
+
+        &__current-song
+            width: 230px
+
+        &__player
+            height: 60px
+            width: 50%
+
+
+            &-buttons
+                display: flex
+                justify-content: center
+                margin-bottom: 11px
+
+            &-buttons > i
+                color: $player-buttons-color
+                padding: 0 5px
+            
+            &-timing
+                display: flex
+                align-items: center
+                justify-content: space-between
+
+
+                &-text
+                    font-size: 13px
+                    color: $font-color
+                    margin: 0 10px
+
+                &-line
+                    width: 100%
+                    height: 2px
+                    border-radius: 1px
+                    background-color: $timing-line-color
+
+        &__volum
+            height: 32px
+            width: 180px
+            display: flex
+            align-items: center
+            margin-right:20px
+
+            &-icon
+                margin-left:10px
+                color: $font-color
+
+
+            &-line
+                width: 100px
+                height: 4px
+                border-radius: 2px
+                background-color: $timing-volum-line-color
+                margin-left:10px
+  
+@media (min-width: $breakpoint-desktop2) 
+        
+    .container-desktop__navigation
+        display: grid
+        grid-template: "N M" 1fr / 230px auto
+        height: 100%
+
+    .logo__title
+        display: block
+
+    .interface__nav-link-text--off
+        display: block
+
+
+         

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        div {
+            min-width: 100px;
+            min-height: 100px;
+            border: 1px solid black;
+            padding: 50px;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="2">2
+        <div id="1">1
+            <div id="0" _onclick="helloWorld();">0</div>
+        </div>
+    </div>
+
+    <script>
+        function helloWorld() { console.log('Hello, World!'); }
+
+        var elem0 = document.getElementById('0');
+
+        // elem0.onclick = helloWorld;
+
+        // elem0.addEventListener('click', helloWorld);
+
+        elem0.addEventListener('click', function (event) {
+            console.log(0);
+
+            // event.stopPropagation();
+        }, !true);
+
+        var elem1 = document.getElementById('1');
+
+        // elem1.addEventListener('click', helloWorld);
+
+        elem1.addEventListener('click', function (event) {
+            console.log(1);
+
+            // event.stopPropagation();
+        }, !true);
+
+        var elem2 = document.getElementById('2');
+
+        elem2.addEventListener('click', function () {
+            console.log(2);
+        }, true);
+    </script>
+</body>
+
+</html>

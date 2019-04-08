@@ -1,0 +1,28 @@
+.button
+    width: 12em
+    height: 3em
+    margin-top: 0.5em
+    margin-bottom: 1em
+    border: 1px solid #1ed761
+    border-radius: 25em
+    color: white
+    background-color: #1db954
+
+    &:focus
+        outline: 0
+    
+    &:hover
+        background-color: #1ed760
+        transform: scale(1.10)
+
+@media only screen and (min-width: 768px)
+    .button
+        transform: scale(2)
+        margin-top: 2.5em
+
+        &:focus
+            outline: 0
+    
+        &:hover
+            background-color: #1ed760
+            transform: scale(2.10)
