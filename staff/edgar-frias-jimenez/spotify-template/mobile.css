@@ -41,47 +41,47 @@
   align-items: center;
 }
 
-.container .main-content .playlist-container .playlist__item {
+.container .main-content .playlist-container .playlist-item {
   width: 50%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
-.container .main-content .playlist-container .playlist__item__image {
+.container .main-content .playlist-container .playlist-item__image {
   background-color: peachpuff;
   height: 170px;
 }
 
-.container .main-content .playlist-container .playlist__item__title, .container .main-content .playlist-container .playlist__item__subtitle {
+.container .main-content .playlist-container .playlist-item__title, .container .main-content .playlist-container .playlist-item__subtitle {
   display: none;
 }
 
-.container .main-content .playlist-container .playlist__item:nth-of-type(2) .playlist__item__image {
+.container .main-content .playlist-container .playlist-item:nth-of-type(2) .playlist-item__image {
   background-color: blueviolet;
 }
 
-.container .main-content .playlist-container .playlist__item:nth-of-type(3) .playlist__item__image {
+.container .main-content .playlist-container .playlist-item:nth-of-type(3) .playlist-item__image {
   background-color: cornflowerblue;
 }
 
-.container .main-content .playlist-container .playlist__item:nth-of-type(4) .playlist__item__image {
+.container .main-content .playlist-container .playlist-item:nth-of-type(4) .playlist-item__image {
   background-color: crimson;
 }
 
-.container .main-content .playlist-container .playlist__item:nth-of-type(5) .playlist__item__image {
+.container .main-content .playlist-container .playlist-item:nth-of-type(5) .playlist-item__image {
   background-color: mistyrose;
 }
 
-.container .main-content .playlist-container .playlist__item:nth-of-type(6) .playlist__item__image {
+.container .main-content .playlist-container .playlist-item:nth-of-type(6) .playlist-item__image {
   background-color: mediumspringgreen;
 }
 
-.container .main-content .playlist-container .playlist__item:nth-of-type(7) .playlist__item__image {
+.container .main-content .playlist-container .playlist-item:nth-of-type(7) .playlist-item__image {
   background-color: olive;
 }
 
-.container .main-content .playlist-container .playlist__item:nth-of-type(8) .playlist__item__image {
+.container .main-content .playlist-container .playlist-item:nth-of-type(8) .playlist-item__image {
   background-color: slateblue;
 }
 

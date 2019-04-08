@@ -174,7 +174,7 @@
           justify-content: flex-start;
           align-items: center;
 
-          &__item {
+          &-item {
             display: flex;
             flex-direction: column;
             justify-content: center;
@@ -241,13 +241,13 @@
         display: flex;
         width: 30%;
 
-        .disco__icon {
+        .disco-icon {
           background-color: $blue;
           width: 60px;
           height: 60px;
         }
 
-        .song__name {
+        .song-name {
           display: flex;
           flex-direction: column;
           justify-content: center;
@@ -257,7 +257,7 @@
           line-height: 20px;
           font-weight: bold;
 
-          .artist__name {
+          .artist-name {
             font-size: 12px;
             line-height: 16px;
             font-weight: normal;

@@ -49,7 +49,7 @@
         justify-content: flex-start;
         align-items: center;
 
-        &__item {
+        &-item {
           width: 50%;
           display: flex;
           flex-direction: column;
@@ -66,43 +66,43 @@
           }
 
           &:nth-of-type(2) {
-            .playlist__item__image {
+            .playlist-item__image {
               background-color: blueviolet;
             }
           }
 
           &:nth-of-type(3) {
-            .playlist__item__image {
+            .playlist-item__image {
               background-color: cornflowerblue;
             }
           }
 
           &:nth-of-type(4) {
-            .playlist__item__image {
+            .playlist-item__image {
               background-color: crimson;
             }
           }
 
           &:nth-of-type(5) {
-            .playlist__item__image {
+            .playlist-item__image {
               background-color: mistyrose;
             }
           }
 
           &:nth-of-type(6) {
-            .playlist__item__image {
+            .playlist-item__image {
               background-color: mediumspringgreen;
             }
           }
 
           &:nth-of-type(7) {
-            .playlist__item__image {
+            .playlist-item__image {
               background-color: olive;
             }
           }
 
           &:nth-of-type(8) {
-            .playlist__item__image {
+            .playlist-item__image {
               background-color: slateblue;
             }
           }
