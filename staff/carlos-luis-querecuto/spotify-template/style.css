@@ -67,22 +67,6 @@
   align-items: center;
 }
 
-.menu-links {
-  text-decoration: none;
-  font-family: "Roboto", sans-serif;
-  font-size: 14px;
-  margin: 10px;
-  color: gray;
-}
-.menu-links--main {
-  text-decoration: none;
-  font-family: "Roboto", sans-serif;
-  font-size: 15px;
-  margin: 20px;
-  color: white;
-  display: inline-block;
-}
-
 .button__mobile {
   margin: 30px;
   background-color: #2ebd59;
