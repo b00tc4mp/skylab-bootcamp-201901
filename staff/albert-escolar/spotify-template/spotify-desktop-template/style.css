@@ -31,7 +31,7 @@ body {
   border-bottom: white solid;
   border-bottom-length: 50px;
 }
-.musicPlayer__middleSection__topButtons > i {
+.musicPlayer__middleSection-topButtons > i {
   margin: 0px 10px 30px 10px;
   font-size: 20px;
 }
@@ -85,21 +85,21 @@ body {
 .mainDisplay__sectionContainer {
   width: 90%;
 }
-.mainDisplay__sectionContainer__topSection {
+.mainDisplay__sectionContainer-topSection {
   display: flex;
   color: white;
   justify-content: space-between;
   align-items: center;
 }
-.mainDisplay__sectionContainer__topSection__title {
+.mainDisplay__sectionContainer-topSection-title {
   font-size: 40px;
   font-weight: bolder;
 }
-.mainDisplay__sectionContainer__albumCollectionDisplayer {
+.mainDisplay__sectionContainer-albumCollectionDisplayer {
   display: flex;
   flex-flow: row wrap;
 }
-.mainDisplay__sectionContainer__albumCollectionDisplayer__item {
+.mainDisplay__sectionContainer-albumCollectionDisplayer-item {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -108,7 +108,7 @@ body {
   font-weight: bold;
   margin: 10px;
 }
-.mainDisplay__sectionContainer__albumCollectionDisplayer__item > img {
+.mainDisplay__sectionContainer-albumCollectionDisplayer-item > img {
   height: 250px;
   width: 250px;
 }

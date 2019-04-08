@@ -54,12 +54,12 @@ body {
   justify-items: center;
   flex-flow: row wrap;
 }
-.displayArea__albumSection__albumItem {
+.displayArea__albumSection-albumItem {
   color: white;
   position: relative;
   text-align: center;
 }
-.displayArea__albumSection__albumItem__title {
+.displayArea__albumSection-albumItem-title {
   position: absolute;
   top: 20%;
   left: 50%;
@@ -69,7 +69,7 @@ body {
   font-weight: bold;
   font-size: 1.5rem;
 }
-.displayArea__albumSection__albumItem__image {
+.displayArea__albumSection-albumItem-image {
   width: 150px;
   height: 100%;
 }
