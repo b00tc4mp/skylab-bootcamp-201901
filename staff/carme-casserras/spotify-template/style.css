@@ -47,19 +47,18 @@ body {
   }
 }
 
-.disk {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  overflow-x: hidden;
-}
-
 .disk__title {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   padding: 0.5em;
 }
 
+.disk {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow-x: hidden;
+}
 .disk__sentence {
   width: 11em;
   font-size: 1.5em;
@@ -83,6 +82,8 @@ body {
 }
 .disk__title > div > img {
   width: 100%;
+  margin: 0;
+  display: block;
   z-index: -1;
   opacity: 0.2;
 }

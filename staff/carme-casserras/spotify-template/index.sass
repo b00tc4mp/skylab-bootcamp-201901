@@ -41,12 +41,6 @@ body
         width: 25%
         height: 25%
 
-%disk-share
-    display: flex
-    flex-direction: column
-    align-items: center
-    overflow-x: hidden
-
 %disk__title-share
     display: grid
     grid-template-columns: repeat(2, 1fr)
@@ -54,7 +48,11 @@ body
     padding: .5em
 
 .disk
-    @extend %disk-share
+    display: flex
+    flex-direction: column
+    align-items: center
+    overflow-x: hidden
+    
     
     &__sentence   
         width: 11em
@@ -66,30 +64,31 @@ body
     &__title
         @extend %disk__title-share
         /* For tablets: */
+       
         @media screen and (min-width: 700px) 
             grid-template-columns: repeat(4, 1fr)
 
-    &__title > img                
-        width: $width  
-            
-    &__title > div
-        position: relative
-        
+        & > img                
+            width: $width  
+                
+        & > div
+            position: relative
 
-    &__title > div > img
-        width: $width    
-        margin: 0
-        display: block
-        // padding: .5em
-        z-index: -1
-        opacity: .2
+        & > div > img
+            width: $width    
+            margin: 0
+            display: block
+            // padding: .5em
+            z-index: -1
+            opacity: .2
 
-    &__title > div > i
-        position: absolute
-        font-size: 3em
-        color: white
-        left: 40% 
-        top: 40%
+        & > div > i
+            position: absolute
+            font-size: 3em
+            color: white
+            left: 40% 
+            top: 40%
+
         
 footer
     @extend %head-footer-share    
