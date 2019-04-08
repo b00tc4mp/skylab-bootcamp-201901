@@ -1,9 +1,22 @@
 @import url("https://fonts.googleapis.com/css?family=Varela+Round");
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background: linear-gradient(to right, #47585b 0%, #242c2d 25%);
+}
+
 .page {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   font-family: "Varela Round", sans-serif;
+  overflow: hidden;
+}
+
+.p {
+  margin: 0;
 }
 
 .navbar {
@@ -16,8 +29,8 @@
   z-index: 1;
   top: 0;
   left: 0;
-  width: 15em;
-  overflow-x: hidden;
+  width: 160px;
+  overflow: hidden;
 }
 .navbar__logo {
   display: block;
@@ -41,6 +54,7 @@
   display: flex;
   flex-direction: column;
   align-content: flex-end;
+  padding: 1em;
 }
 .navegation__item {
   padding: 0.5em;
@@ -68,13 +82,10 @@
 }
 
 .main {
-  margin-left: 200px;
+  margin-left: 15vw;
   height: 100vh;
-  width: 100%;
   padding: 2em;
-}
-.main--color {
-  background: linear-gradient(to right, #47585b 0%, #242c2d 25%);
+  width: calc(100vw - 160px);
 }
 
 .now-playing-bar {
