@@ -2,14 +2,15 @@
 @import url("https://fonts.googleapis.com/css?family=Heebo:800");
 .navbar {
   display: flex;
-  flex-direction: column;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
+  flex-direction: column;
 }
 .navbar__logo {
   margin-top: 30px;
+  margin: 10px;
   fill: white;
-  width: 180px;
+  width: 140px;
 }
 
 .music-list {
@@ -73,6 +74,14 @@
   margin: 10px;
   color: gray;
 }
+.menu-links--main {
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  margin: 20px;
+  color: white;
+  display: inline-block;
+}
 
 .button__mobile {
   margin: 30px;
@@ -86,6 +95,66 @@
   text-decoration: none;
   display: inline-block;
 }
+.button__mobile--register {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: white;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  border-radius: 20px;
+  color: gray;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+.button__mobile--register:hover {
+  background-color: gray;
+  color: white;
+}
+.button__mobile--login {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: black;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  border-radius: 20px;
+  color: white;
+  border: 2px solid white;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+.button__mobile--login:hover {
+  border: 2px solid gray;
+}
+
+.menu-links {
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  margin: 10px;
+  color: gray;
+}
+.menu-links--main {
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  margin: 20px;
+  color: #d1d1d1;
+  display: inline-block;
+}
+
+.menu-links--main:hover {
+  color: white;
+  margin-bottom: 18px;
+  border-bottom: 2px solid #2ebd59;
+}
 
 .sidebar {
   width: 20vw;
@@ -98,25 +167,139 @@
 }
 .sidebar__option {
   color: white;
+  font-family: "Roboto";
+  font-size: 14px;
 }
 .sidebar__icon {
   margin: 15px;
   fill: white;
-  width: 40px;
+  width: 30px;
 }
 
 .sidebar__items {
+  text-decoration: none;
   display: flex;
   justify-content: center;
   align-items: center;
   justify-items: center;
 }
 
+.sidebar__option:hover {
+  color: gray;
+}
+
 .mediaplayer {
   background-color: #181818;
-  display: flex;
-  height: 12vh;
   width: 100vw;
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.playerbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.playerbuttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-around;
+}
+.playerbuttons__button {
+  background-color: transparent;
+  border: none;
+  color: gray;
+  padding: 0.5vw 1.5vh;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0.5vw;
+  cursor: pointer;
+}
+.playerbuttons__button--play {
+  background-color: transparent;
+  border: 1px solid gray;
+  border-radius: 50%;
+  color: gray;
+  padding: 0.5vw 1.5vh;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0.5vw;
+  cursor: pointer;
+}
+.playerbuttons__button--volume {
+  background-color: transparent;
+  border: none;
+  color: gray;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.songduration {
+  font-family: "Roboto";
+  color: gray;
+  padding: 0.5vw 0.8vh;
+  text-align: center;
+  font-size: 0.8vw;
+  margin: 0.4vw 0.2vh;
+}
+
+.artist {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.artist__photo {
+  width: 20%;
+  margin: 5px;
+  border: 1px solid gray;
+}
+.artist__name {
+  font-family: "Roboto";
+  color: grey;
+}
+
+.volume {
+  margin-right: 3vw;
+  background-color: gray;
+  display: block;
+  width: 12vw;
+  height: 0.4vh;
+}
+
+.volumebar {
+  margin-left: 5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.songprog {
+  background-color: gray;
+  display: block;
+  width: 50vw;
+  height: 0.4vh;
+}
+
+.navbardesktop {
+  margin: 30px;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-items: center;
 }
 
 .--toggle {
@@ -142,7 +325,14 @@
     overflow: auto;
   }
 
+  .--desktopalign {
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 50px;
+  }
+
   .--multidevice {
+    height: 85vh;
     display: flex;
     align-items: flex-start;
     flex-direction: row;
@@ -150,7 +340,8 @@
 
   .link-image {
     display: block;
-    width: 120px;
+    width: 170px;
+    margin: 5px;
   }
 }
 .webplayer {
