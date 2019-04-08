@@ -1,0 +1,454 @@
+body {
+    margin: 0;
+    height: 100vh;
+    font-family: 'Roboto', sans-serif;
+}
+
+* {
+    box-sizing: border-box;
+
+}
+
+a {
+    text-decoration: none;
+    color: black; 
+    background-color: none; 
+    margin: 0;
+    padding: 0;
+}
+
+.h100w100 {
+    height: 100%;
+    width: 100%; 
+}
+
+.jcsc {
+    justify-self: center; 
+    align-self: center;
+}
+
+/* Main GRID */
+.container {  
+    display: grid; 
+    grid-template: repeat(2, 70px) 80px repeat(9, 1fr) / repeat(12, 1fr);
+    grid-template-areas:
+        "h h h h h h h h h h h h"
+        "u u u u u u u u u u u u"
+        "j j j j j j j j j j j j"
+        "n n n n n n n n n n n n"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"
+        "v v v v v v v v v v v v"; 
+    height:100%; 
+    background-color: #2196F3;    
+}
+
+.youtubeHeader {
+    grid-area: h;   
+}
+
+.userNav {
+    grid-area: u;
+}
+
+.userHeader {
+    grid-area: j;
+    background-color:rgb(238, 236, 236);      
+}
+
+.linkNavGrid {
+    grid-area: n;
+    background-color:rgb(238, 236, 236);    
+}
+
+.videos {
+    grid-area: v;
+    background-color: rgb(245, 243, 243);    
+}
+
+.computerSide {
+    display: none;
+}
+
+.links  {
+    display:none;
+}
+
+/* Youtube Grid */
+
+.youtubeGrid {
+    display: grid; 
+    grid-template-columns: 1fr 4fr 1fr 1fr;
+    background-color: red; 
+}
+
+.y1 {
+    position: relative;
+    font-size: 4em; 
+    color: white; 
+    grid-column-start: 1; 
+}
+
+.y2 {
+    grid-column-start: 2; 
+    justify-self: start; 
+    align-self: center;
+    color: white;
+    font-size: 1.5em;
+}
+
+.y3 {
+    position: relative;
+    font-size: 1.5em; 
+    color: white; 
+    grid-column-start: 3; 
+}
+
+.y4 {
+    position: relative;
+    font-size: 1.5em; 
+    color: white; 
+    grid-column-start: 4; 
+}
+
+/* Nav GRID */
+
+.imgN1 {
+    border-radius: 50%;
+    height: 70px;
+    width: 70px;
+    transform: translate(+30%, -50%);
+    margin: 0;
+}
+
+.textN {
+    font-size: 1.5em;
+    margin-bottom: 1px;
+}
+
+/* Links NAv Grid */
+
+.lnGrid {
+    display: grid; 
+    grid-template-columns: 2fr 2fr 2fr 1fr; 
+}
+
+.ln1 {
+    position: relative;
+    grid-column-start: 1;
+    font-size: 1.25em;
+}
+
+.ln2 {
+    grid-column-start: 2;
+    font-size: 1.25em;
+    position: relative;
+}
+
+.ln3 {
+    grid-column-start: 3;
+    font-size: 1.25em;
+    position: relative;
+}
+
+.ln4 {
+    grid-column-start: 4;
+    font-size: 1.25em; 
+    color:black; 
+}
+
+/* video GRID */
+.videoGrid {
+    display: grid; 
+    position: relative;
+    grid-template: repeat(6, 1fr) / 1fr 1.5fr 1fr;
+    grid-template-areas: 
+        "a0 b0 c0"
+        "a1 b1 c1"
+        "a2 b2 c2"
+        "a3 b3 c3"
+        "a4 b4 c4"
+        "a5 b5 c5";
+    overflow: scroll;  
+}
+
+.v1, .v2, .v3, .v4, .v5, .v6 {
+    min-width: 200px;
+    max-width: 300px;
+    min-height: 100px;
+    max-height: 200px;
+    width: 20%;
+    height: 20%;
+    margin: 5%;
+    margin-bottom: 0;
+    margin-left: 10%
+}
+
+.v1 {
+    grid-area: a0;
+}
+
+.v2 {
+    grid-area: a1;
+}
+
+.v3 {
+    grid-area: a2;
+}
+
+.v4 {
+    grid-area: a3;
+}
+
+.v5 {
+    grid-area: a4;
+}
+
+.v6 {
+    grid-area: a5;
+}
+
+.t1, .t2, .t3, .t4, .t5, .t6 {
+    justify-self: start;
+}
+
+.t1 {
+    grid-area: b0;
+}
+
+.t2 {
+    grid-area: b1;
+}
+
+.t3 {
+    grid-area: b2;
+}
+
+.t4 {
+    grid-area: b3;
+}
+
+.t5 {
+    grid-area: b4;
+}
+
+.t6 {
+    grid-area: b5;
+}
+
+.i1, .i2, .i3, .i4, .i5, .i6 {
+    font-size: 1.25em; 
+    color:black; 
+    justify-self: center; 
+    align-self: center;
+}
+
+.i1 {
+    grid-area: c0;
+}
+
+.i2{
+    grid-area: c1;
+}
+
+.i3{
+    grid-area: c2;
+}
+
+.i4{
+    grid-area: c3;
+}
+
+.i5{
+    grid-area: c4;
+}
+
+.i6{    
+    grid-area: c5;
+}
+
+/* Main GRID */
+
+@media only screen and (min-width: 768px) {
+    /* For table */
+    .container {  
+        grid-template: repeat(2, 80px) 90px repeat(9, 1fr) / repeat(12, 1fr);
+        grid-template-areas:
+            "h h h h h h h h h h h h"
+            "c c u u u u u u u u u u"
+            "c c u u u u u u u u u u"
+            "c c j j j j j j j j j j"
+            "c c n n n n n n n n n n"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v"
+            "c c v v v v v v v v v v";  
+    }
+
+
+    .computerSide {
+        display: inline;
+        grid-area: c;
+        background-color: red;
+    }
+
+    .compGrid {
+        display: grid; 
+        grid-template-columns: 1fr;
+    }
+
+    .compEl {
+        justify-self: center;
+        align-self: center;
+        font-size: 1.25em;
+    }
+
+    .videoGrid {
+        grid-template: repeat(2, 1.5fr 1fr) / repeat(3, 1fr);
+        display: grid; 
+        grid-template-areas: 
+        "a0 a1 a2"
+        "b0 b1 b2"
+        "a3 a4 a5"
+        "b4 b5 b6"; 
+    }
+
+    .v1, .v2, .v3, .v4, .v5, .v6 {
+        width: 85%;
+        height: 80%;
+        margin: 3%;
+        margin-bottom: 0;
+        margin-left: 3%
+    }
+
+    .t1, .t2, .t3, .t4, .t5, .t6 {
+        font-size: 150%;
+        margin-left: 5%;
+    }
+
+    .t4 {
+        grid-row: 4;
+        grid-column: 1;
+    }
+    
+    .t5 {
+        grid-row: 4;
+        grid-column: 2;
+    }
+    
+    .t6 {
+        grid-row: 4;
+        grid-column: 3;
+    }
+
+    .fa-ellipsis-v {
+        opacity: 0;
+    }
+
+    .y1 {
+        font-size: 3.5em; 
+    }
+
+    .y3, .y4 {
+        font-size: 2.5em; 
+    }
+
+    .y2 {
+        font-size: 2.5em;
+    }
+
+}
+
+@media only screen and (min-width: 1024px) {
+    /* For PC */
+
+    .container {  
+        grid-template: 90px 110px repeat(10, 1fr) / repeat(12, 1fr);
+        grid-template-areas:
+            "h h h h h h h h h h h h"
+            "c c u u u u u u u u u u"
+            "c c j j j j j j j j j j"
+            "c c n n n n n n n n n n"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l"
+            "c c v v v v v v v v l l";  
+    }
+
+    .youtubeGrid {
+        background-color: white;    
+    }
+
+    .computerSide {
+        background-color: rgb(226, 225, 225);
+    }    
+
+    .compEl {
+        justify-self: center;
+        align-self: center;
+        font-size: 1.5em;
+    }
+    
+    .links {
+        grid-area: l;
+        background-color: rgb(226, 225, 225);  
+        display: inline;  
+    }
+
+    .linksGrind {
+        display: grid; 
+        grid-template: 1fr 1fr;
+    }
+
+    .lg1 {
+        grid-column-start: 2;
+        justify-self: start;
+        align-self: center;
+    }
+
+    .linksPics {
+        height: 20%;
+        width: 80%;
+        grid-column-start: 1;
+        justify-self: end;
+        align-self: center;
+        margin-left: 15%;
+    }
+
+    .v1, .v2, .v3, .v4, .v5, .v6 {
+        width: 90%;
+        height: 110%;
+        margin: 5%;
+        margin-bottom: 0;
+        margin-left: 5%
+    }
+    
+    .y1 {
+        font-size: 3em; 
+        color: red;
+    }
+    
+    .y3, .y4 {
+        font-size: 2em; 
+        color: rgb(53, 52, 52);
+    }
+
+    .y2 {
+        font-size: 2.5em;
+        color: black;
+    }
+
+}
+

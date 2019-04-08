@@ -1,0 +1,17 @@
+.grid
+    display: flex
+    flex-direction: row
+    flex-wrap: wrap
+    padding-left: $separation-base 
+    padding-right: $separation-base
+    width: 100%
+
+    &__item
+        width: 50%
+        @media(min-width: 768px) // tablet
+            width: 25%
+        // @media(min-width: 1024px) // desktop
+        //     width: 50%
+
+        &--covered
+            position: relative

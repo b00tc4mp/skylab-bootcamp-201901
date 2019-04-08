@@ -1,0 +1,26 @@
+%brand__name--base
+  font-size: 26px
+  display: inline
+  margin: 0
+  padding-left: 0.5rem
+
+.brand
+  padding: 9px 0px 9px 24px
+  display: flex
+  align-items: center
+  justify-content: flex-start
+  cursor: pointer
+  color: $secondary
+
+  &__icon
+    font-size: 32px
+
+  &__icon--large
+    font-size: 50px
+
+  &__name
+    @extend %brand__name--base
+
+  &__name--large
+    @extend %brand__name--base
+    font-size: 40px
