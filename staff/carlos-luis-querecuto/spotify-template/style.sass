@@ -1,0 +1,22 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto')
+@import url('https://fonts.googleapis.com/css?family=Heebo:800')
+
+@import "./components/navbar"
+@import "./components/categories"
+@import "./components/footer"
+@import "./components/button"
+
+@import "./components/desktop/sidebar"
+@import "./components/desktop/mediaplayer"
+@import "desktopmodifier"
+
+
+.webplayer
+    margin: 0
+    background-color: #141414
+
+@media (min-width: 1200px)
+    .webplayer
+        background-image: linear-gradient(to right bottom, rgb(98, 75, 55), rgb(0, 0, 0)), linear-gradient(transparent, rgb(0, 0, 0) 70%)
+        display: flex
+        flex-direction: column
