@@ -50,15 +50,37 @@ body
 @import components/view.sass
 
 
+@media only screen and (min-device-width : 720px)
+    //big mobile
+    body
+        font-size: 20px
+
+    .link__name--see-in-mobile
+        display: block
+
+
+
 @media only screen and (min-device-width : 768px)
     //tablet portrait
     body
         font-size: 20px
 
+    .link__icon--small
+        font-size: 1em
+
+
+
 @media only screen and (min-device-width : 990px)
     //tablet landscape
     body
         font-size: 22px        
+
+    .link__name--see-in-mobile
+        display: block
+
+    .link__icon--small
+        font-size: 1em
+
 
     .grid__item--see-in-tablet
         display: block    
@@ -67,6 +89,12 @@ body
     //laptop
     body
         font-size: 18px        
+
+    .link__name--see-in-mobile
+        display: block
+
+    .link__icon--small
+        font-size: 1em
 
     .grid__item--see-in-tablet
         display: block    
