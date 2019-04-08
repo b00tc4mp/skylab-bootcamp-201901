@@ -1,3 +1,19 @@
+* {
+  margin: 0;
+}
 
+.main-container {
+  background-color: black;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+}
+
+.header {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+}
 
 /*# sourceMappingURL=style.css.map */
