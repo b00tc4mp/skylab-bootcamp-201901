@@ -17,10 +17,10 @@
 html {
   font-family: Roboto, sans-serif;
   font-size: 62.5%;
-  background-color: black;
 }
 
 body {
+  background-color: black;
   font-size: 1.6em;
   padding: 0 1em;
 }
@@ -32,7 +32,7 @@ body {
 }
 
 .main {
-  align-items: stretch;
+  align-items: center;
 }
 
 .footer {
@@ -54,6 +54,12 @@ body {
   border-radius: 2em;
   padding: 1em 4em;
 }
+@media screen and (max-width: 380px) {
+  .button {
+    padding: 1em 2em;
+    font-size: 0.8em;
+  }
+}
 .button--gray {
   background-color: black;
 }
@@ -69,16 +75,11 @@ body {
   font-size: 0.7em;
   padding: 0.7em 3em;
 }
-@media screen and (max-width: 380px) {
-  .button {
-    padding: 1em 2em;
-    font-size: 0.8em;
-  }
-}
 
 .pannel {
   padding-top: 1em;
   height: 100%;
+  max-width: 992px;
 }
 .pannel__title {
   color: white;
@@ -96,6 +97,7 @@ body {
     grid-template-columns: repeat(4, 1fr);
   }
 }
+
 .item {
   position: relative;
 }
