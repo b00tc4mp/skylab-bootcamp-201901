@@ -183,7 +183,7 @@ body {
   align-content: center;
 }
 
-.view-nav__items {
+.main-container__view-nav-items {
   width: 90%;
   display: inline-flex;
   flex-direction: row;
@@ -193,12 +193,12 @@ body {
   margin: 1em;
 }
 
-.view-nav-items__item {
+.main-container__view-nav-items-item {
   list-style-type: none;
   padding-top: 0.5em;
 }
 
-.view-nav-item__link {
+.main-container__view-nav-items-item-link {
   text-decoration: none;
   font-weight: bold;
   color: #b3b3b3;
@@ -206,11 +206,11 @@ body {
   padding: 1.5em;
 }
 
-.view-nav-item__link:hover {
+.main-container__view-nav-items-item-link:hover {
   color: #fff;
 }
 
-.view-nav-item__link--selected {
+.main-container__view-nav-items-item-link--selected {
   padding: 0.5em;
   color: #fff;
   border-bottom: 0.3em solid #1db954;
