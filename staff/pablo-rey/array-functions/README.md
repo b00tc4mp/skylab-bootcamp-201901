@@ -19,11 +19,12 @@ each function in a file (for-each.js, every.js...)
 * includes +
 * indexOf +
 * join +
-* lastIndexOf
-* map
-* reduce
-* reduceRight
-* reverse
-* some
-* sort
-* splice
+* lastIndexOf +
+* map +
+* reduce +
+* reduceRight +
+* reverse +
+* slice +
+* some +
+* sort + (Not standard comparison in MDN)
+* splice +

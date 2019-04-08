@@ -4,7 +4,7 @@
  * @param {Array} array 
  * @param {*} value 
  * 
- * @returns {Boolean} True if the array includes the value
+ * @returns {boolean} True if the array includes the value
  */
 function includes (array, value) {
     for (var i = 0; i < array.length; i++ ) {

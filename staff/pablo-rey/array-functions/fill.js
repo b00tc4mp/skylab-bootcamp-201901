@@ -4,7 +4,7 @@
  * @param {Array} array 
  * @param {*} value 
  * @param {number} start Index to start. Default 0
- * @param {number} end End index (not included). Default the length of arrayt
+ * @param {number} end End index (not included). Default the length of array
  */
 function fill (array, value, start, end) {
   var i = start || 0;

@@ -4,7 +4,7 @@
  * @param {Array} array 
  * @param {Function} callbackfn 
  * 
- * @returns New array with the value returned by the callback for each element
+ * @returns {Array} New array with the value returned by the callback for each element
  */
 function map (array, callbackfn) {
   var result = [];
