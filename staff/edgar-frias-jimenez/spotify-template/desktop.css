@@ -166,15 +166,15 @@
     display: block;
     opacity: .6;
   }
-  .container .main-content .playlist-container--artists .playlist__item {
+  .container .main-content .playlist-container--artists .playlist-item {
     width: 220px;
   }
-  .container .main-content .playlist-container--artists .playlist__item__image {
+  .container .main-content .playlist-container--artists .playlist-item__image {
     border-radius: 50%;
     width: auto;
     padding-top: 100%;
   }
-  .container .main-content .playlist-container--artists .playlist__item__subtitle {
+  .container .main-content .playlist-container--artists .playlist-item__subtitle {
     display: none;
   }
   .container .player {
