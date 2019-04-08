@@ -47,6 +47,7 @@ body
 .main
     @extend %display-flex
     align-items: stretch
+    // align-items: center
 
 .footer
     padding: 1em 0
@@ -88,14 +89,15 @@ body
         font-size: 2em
         text-align: center
         padding: .5em 0
-        @media screen and (min-width: $break-large)
-            text-align: left
     &__items
         display: grid
         grid-template-columns: repeat(2, 1fr)
         grid-template-rows: auto
-        @media screen and (min-width: $break-medium)  and (max-width: $break-large)
+        // justify-items: stretch
+        @media screen and (min-width: $break-medium)
             grid-template-columns: repeat(4, 1fr)
+    @media screen and (min-width: $break-large)
+        // max-width: $break-large
 
 .item
     position: relative

@@ -86,22 +86,16 @@ body {
   text-align: center;
   padding: 0.5em 0;
 }
-@media screen and (min-width: 992px) {
-  .pannel__title {
-    text-align: left;
-  }
-}
 .pannel__items {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: auto;
 }
-@media screen and (min-width: 768px) and (max-width: 992px) {
+@media screen and (min-width: 768px) {
   .pannel__items {
     grid-template-columns: repeat(4, 1fr);
   }
 }
-
 .item {
   position: relative;
 }
