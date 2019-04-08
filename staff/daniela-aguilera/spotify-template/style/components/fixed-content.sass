@@ -1,0 +1,13 @@
+.fixed-content
+    background-color: #181818
+    position: fixed
+    width: 100%
+    bottom: 0
+    z-index: 1
+    flex-direction: column
+
+    &--only-desktop
+        display: none
+        @media(min-width: 1024px) // desktop
+            display: flex
+          

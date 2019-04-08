@@ -1,0 +1,34 @@
+.footer-menu 
+    display: flex
+    flex-direction: column
+    align-items: center
+    padding-bottom: $separation-base * 2
+
+    &__link
+        text-decoration: none
+        color: $footer-menu-link-color
+        margin-top: 10px
+        font-size: 13px
+
+    &--hidden-desktop
+        @media(min-width: 1024px) // desktop
+            display: none
+
+.header-menu
+    display: none
+    @media(min-width: 1024px) // desktop
+        display: flex
+        flex-direction: row
+    
+    &__link
+        color: gray
+        text-decoration: none
+        letter-spacing: 1px
+        margin: 10px
+        padding: 5px 10px
+        justify-content: center
+        flex-grow: 1
+        &:hover, &:focus
+            color: white
+
+        
