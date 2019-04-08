@@ -10,82 +10,406 @@
       integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf"
       crossorigin="anonymous"
     />
-    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="style-desktop.css" />
     <title>Spotify</title>
   </head>
   <body>
-    <nav class="nav">
-      <div class="brand">
-        <i class="fab fa-spotify brand__icon"></i>
-        <h1 class="brand__name">Spotify</h1>
-      </div>
-      <ul class="folders">
-        <li class="folder">
-          <a href="#" class="folder__link">
-            <i class="fas fa-home nav__icon"></i>
-            <span class="folder__description">inicio</span>
-          </a>
-        </li>
-        <li class="folder">
-          <a href="#" class="folder__link">
-            <i class="fas fa-search nav__icon"></i>
-            <span class="folder__description">buscar</span>
-          </a>
-        </li>
-        <li class="folder">
-          <a href="#" class="folder__link">
-            <svg
-              class="nav__icon-svg"
-              viewBox="0 0 512 512"
-              width="24"
-              height="24"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M291.301 81.778l166.349 373.587-19.301 8.635-166.349-373.587zM64 463.746v-384h21.334v384h-21.334zM192 463.746v-384h21.334v384h-21.334z"
-                fill="currentColor"
-              ></path>
-            </svg>
-            <span class="folder__description">tu biblioteca</span>
-          </a>
-        </li>
-      </ul>
-      <ul class="recently-played">
-        <h2 class="recently-played__title">recently played</h2>
-        <li class="recently-played__item">
-          <div class="recently-played__item-title">This is Calle 13</div>
-          <div class="recently-played__item-type">Salsa</div>
-        </li>
-        <li class="recently-played__item">
-          <div class="recently-played__item-title">This is Calle 13</div>
-          <div class="recently-played__item-type">Salsa</div>
-        </li>
-        <li class="recently-played__item">
-          <div class="recently-played__item-title">This is Calle 13</div>
-          <div class="recently-played__item-type">Salsa</div>
-        </li>
-        <li class="recently-played__item">
-          <div class="recently-played__item-title">This is Calle 13</div>
-          <div class="recently-played__item-type">Salsa</div>
-        </li>
-        <li class="recently-played__item">
-          <div class="recently-played__item-title">This is Calle 13</div>
-          <div class="recently-played__item-type">Salsa</div>
-        </li>
-      </ul>
-      <div class="install-app">
+    <div class="container">
+      <nav class="nav">
+        <div class="brand">
+          <i class="fab fa-spotify brand__icon"></i>
+          <h1 class="brand__name">Spotify</h1>
+        </div>
+        <ul class="folders">
+          <li class="folder">
+            <a href="#" class="folder__link">
+              <div class="folder__link-icon-container">
+                <i class="fas fa-home nav__icon"></i>
+              </div>
+              <span class="folder__description">inicio</span>
+            </a>
+          </li>
+          <li class="folder">
+            <a href="#" class="folder__link">
+              <div class="folder__link-icon-container">
+                <i class="fas fa-search nav__icon"></i>
+              </div>
+              <span class="folder__description">buscar</span>
+            </a>
+          </li>
+          <li class="folder">
+            <a href="#" class="folder__link">
+              <div class="folder__link-icon-container">
+                <svg
+                  class="nav__icon-svg"
+                  viewBox="0 0 512 512"
+                  width="24"
+                  height="24"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M291.301 81.778l166.349 373.587-19.301 8.635-166.349-373.587zM64 463.746v-384h21.334v384h-21.334zM192 463.746v-384h21.334v384h-21.334z"
+                    fill="currentColor"
+                  ></path>
+                </svg>
+              </div>
+              <span class="folder__description">tu biblioteca</span>
+            </a>
+          </li>
+        </ul>
+        <ul class="recently-played">
+          <h2 class="recently-played__title">recently played</h2>
+          <li class="recently-played__item">
+            <div class="recently-played__item-title">This is Calle 13</div>
+            <div class="recently-played__item-type">Salsa</div>
+          </li>
+          <li class="recently-played__item">
+            <div class="recently-played__item-title">This is Calle 13</div>
+            <div class="recently-played__item-type">Salsa</div>
+          </li>
+          <li class="recently-played__item">
+            <div class="recently-played__item-title">This is Calle 13</div>
+            <div class="recently-played__item-type">Salsa</div>
+          </li>
+          <li class="recently-played__item">
+            <div class="recently-played__item-title">This is Calle 13</div>
+            <div class="recently-played__item-type">Salsa</div>
+          </li>
+          <li class="recently-played__item">
+            <div class="recently-played__item-title">This is Calle 13</div>
+            <div class="recently-played__item-type">Salsa</div>
+          </li>
+        </ul>
+        <div class="install-app">
           <i class="far fa-arrow-alt-circle-down nav__icon"></i>
           <span class="install-app__description">Install app</span>
-      </div>
-      <div class="user-info">
-          <i class="fas fa-user nav__icon"></i>
+        </div>
+        <div class="user-info">
+          <i class="fas fa-user nav__icon user-info__icon"></i>
           <span class="user-info__name">oblongo</span>
+        </div>
+      </nav>
+      <main class="content">
+        <nav class="options content__options">
+          <span class="options__item">
+            <div class="options__item-text">selection</div>
+            <div class="options__item-select options__item-selected"></div>
+          </span>
+          <span class="options__item">
+            <div class="options__item-text">podcast</div>
+            <div class="options__item-select"></div>
+          </span>
+          <span class="options__item">
+            <div class="options__item-text">hits list</div>
+            <div class="options__item-select"></div>
+          </span>
+          <span class="options__item">
+            <div class="options__item-text">genders & mood lists</div>
+            <div class="options__item-select"></div>
+          </span>
+          <span class="options__item">
+            <div class="options__item-text">new releases</div>
+            <div class="options__item-select"></div>
+          </span>
+          <span class="options__item">
+            <div class="options__item-text">discover</div>
+            <div class="options__item-select"></div>
+          </span>
+        </nav>
+        <section class="section">
+          <div class="section__title">
+            <h2 class="section__title-text">Hecho para oblongo0</h2>
+            <a href="#" class="section__title-link">ver más...</a>
+          </div>
+          <div class="section__container">
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+              <div class="section__item-detail">
+                Juan Luis Guerra 4.40, Héctor lavoe, MArc Anthony y más
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+              <div class="section__item-detail">
+                Juan Luis Guerra 4.40, Héctor lavoe, MArc Anthony y más
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+              <div class="section__item-detail">
+                Juan Luis Guerra 4.40, Héctor lavoe, MArc Anthony y más
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+              <div class="section__item-detail">
+                Juan Luis Guerra 4.40, Héctor lavoe, MArc Anthony y más
+              </div>
+            </div>
+
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+              <div class="section__item-detail">
+                Juan Luis Guerra 4.40, Héctor lavoe, MArc Anthony y más
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+              <div class="section__item-detail">
+                Juan Luis Guerra 4.40, Héctor lavoe, MArc Anthony y más
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+              <div class="section__item-detail">
+                Juan Luis Guerra 4.40, Héctor lavoe, MArc Anthony y más
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+              <div class="section__item-detail">
+                Juan Luis Guerra 4.40, Héctor lavoe, MArc Anthony y más
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="section__title">
+            <h2 class="section__title-text">Recently played</h2>
+          </div>
+          <div class="section__container">
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/a2ec08fe69ecec2748fbc764aede8f1b03ae8f88)"
+              ></div>
+              <div class="section__item-title">
+                Johan Sebastian Bach
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/a2ec08fe69ecec2748fbc764aede8f1b03ae8f88)"
+              ></div>
+              <div class="section__item-title">
+                Johan Sebastian Bach
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/a2ec08fe69ecec2748fbc764aede8f1b03ae8f88)"
+              ></div>
+              <div class="section__item-title">
+                Johan Sebastian Bach
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-cover"
+                style="background-image: url(https://dailymix-images.scdn.co/v1/img/15a92d68b10031e9886d218df827089f40594b5f/1/es/large)"
+              ></div>
+              <div class="section__item-title">
+                Daily Mix 1
+              </div>
+            </div>
+          </div>
+        </section>
+        <section class="section">
+          <div class="section__title">
+            <h2 class="section__title-text">Más como Ed Sheeran</h2>
+          </div>
+          <div class="section__container">
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/a82822ab211cbe28a0a1dbcb16902a1a8a2ea791)"
+              ></div>
+              <div class="section__item-title">
+                Sam Smith
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/c615c713cd01150ab49ef7847774c6d08176a22b)"
+              ></div>
+              <div class="section__item-title">
+                Miley Cirrus
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/8a8d2665b3e1c5cfa9592a3c27a23d3d664efef2)"
+              ></div>
+              <div class="section__item-title">
+                Sia
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/a82822ab211cbe28a0a1dbcb16902a1a8a2ea791)"
+              ></div>
+              <div class="section__item-title">
+                Sam Smith
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/c615c713cd01150ab49ef7847774c6d08176a22b)"
+              ></div>
+              <div class="section__item-title">
+                Miley Cirrus
+              </div>
+            </div>
+
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/a82822ab211cbe28a0a1dbcb16902a1a8a2ea791)"
+              ></div>
+              <div class="section__item-title">
+                Sam Smith
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/c615c713cd01150ab49ef7847774c6d08176a22b)"
+              ></div>
+              <div class="section__item-title">
+                Miley Cirrus
+              </div>
+            </div>
+            <div class="section__item">
+              <div
+                class="section__item-portrait"
+                style="background-image: url(https://i.scdn.co/image/8a8d2665b3e1c5cfa9592a3c27a23d3d664efef2)"
+              ></div>
+              <div class="section__item-title">
+                Sia
+              </div>
+            </div>
+          </div>
+        </section>
+      </main>
+    </div>
+    <footer class="playing-bar">
+      <div class="now-playing">
+        <div
+          class="now-playing__cover"
+          style='background-image: url("https://i.scdn.co/image/b03e20ee525d84ecde359a62ff438945d28c5f97");'
+        ></div>
+        <div class="now-playing__description">
+          <a href="" class="now-playing__description-title">La Hormiguita</a>
+          <a href="" class="now-playing__description-artist"
+            >Juan Luis Guerra</a
+          >
+        </div>
+        <div class="now-playing__action">
+          <i class="fas fa-plus nav__icon"></i>
+        </div>
       </div>
-    </nav>
-    <main class="playlist-container">
-      <div class="portrait"></div>
-      <div class="playlist"></div>
-    </main>
-    <footer class="playing-bar"></footer>
+      <div class="play-controls">
+        <div class="play-controls__controls">
+          <i class="fas fa-random play-controls__control"></i>
+          <i class="fas fa-step-forward play-controls__control"></i>
+          <div class="play-controls__play">
+            <i class="fas fa-play play-controls__control"></i>
+          </div>
+          <i class="fas fa-step-backward play-controls__control"></i>
+          <i class="fas fa-redo play-controls__control"></i>
+        </div>
+        <div class="progress">
+          <span class="progress__current">1:30</span>
+          <span class="progress__bar-container">
+            <span class="progress__bar" style="width: 40%"></span>
+            <span class="progress__dot" style="left: 40%"></span>
+          </span>
+          <span class="progress__total">4:00</span>
+        </div>
+      </div>
+      <div class="play-options">
+        <div class="progress">
+          <i class="fas fa-stream progress__icon"></i>
+          <i class="fas fa-satellite-dish progress__icon"></i>
+          <i class="fas fa-volume-up progress__icon"></i>
+          <span class="progress__bar-container">
+            <span class="progress__bar" style="width: 70%"></span>
+            <span class="progress__dot" style="left: 70%"></span>
+          </span>
+        </div>
+      </div>
+    </footer>
   </body>
 </html>

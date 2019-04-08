@@ -1,0 +1,14 @@
+@media all and  (min-width: 768px) {
+  .container {
+    .main-content {
+      .playlist-container {
+        .playlist {
+          &__item {
+            width: 25%;
+          }
+        }
+
+      }
+    }
+  }
+}

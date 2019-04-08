@@ -1,0 +1,117 @@
+%cover
+  width: 190px
+  height: 190px
+  background-size: cover
+  background-position: 50%
+  
+.section
+  display: block
+  margin: 2rem 1rem 1rem 1rem
+
+  &__title    
+    display: flex
+    align-items: center
+    justify-content: space-between
+    margin: 0 0 1.5rem 2rem
+
+
+    &-text
+      font-size: 2rem
+      color: $secondary
+      margin: 0
+
+      &--center
+        justify-content: center
+
+    &-link
+      font-size: 1.2rem
+      text-transform: uppercase
+      color: $secondary
+      text-decoration: none
+      padding-right: 2rem
+
+      &:hover
+        color: $selected
+        cursor: pointer
+
+
+  &__container
+    display: flex
+    flex-wrap: wrap
+    align-items: center
+    justify-content: space-around
+    margin-left: 10%
+    margin-right: 10%
+
+  &__item
+    margin: 1rem
+    width: 20%
+    display: flex
+    flex-direction: column
+    align-items: center
+    justify-content: center
+
+    &-title
+      font-size: 1.1rem
+      font-weight: bolder
+      text-align: center
+      color: $secondary
+      padding: 0.5rem 0 0.5rem 0
+
+    &-detail      
+      font-size: 0.8rem
+      text-align: center
+      color: $secondary
+      padding: 0 0.5rem 0 0.5rem
+
+    &-cover
+      @extend %cover
+
+      &-text
+        font-size: 1.8rem
+        font-weight: bolder
+        text-align: right
+        padding-right: 1rem
+
+    &-portrait
+      @extend %cover
+      width: 170px
+      height: 170px
+      border-radius: 50%
+
+@media (max-width: 1300px)
+  .section
+    &__container
+      margin: 0
+
+@media (max-width: 1100px)
+  .section
+    &__container
+      margin: 10%
+
+    &__item:nth-child(4),
+    &__item:nth-child(5),
+    &__item:nth-child(6),
+    &__item:nth-child(7),
+    &__item:nth-child(8)
+      display: none
+
+
+@media (max-width: 950px)
+  .section
+    &__container
+      margin: 0
+
+  .content__options
+    display: none
+
+    
+@media (max-width: 850px)
+  .section
+    &__item:nth-child(3)
+      display: none      
+
+@media (max-width: 580px)
+  .section
+    &__item
+      width: 20%
