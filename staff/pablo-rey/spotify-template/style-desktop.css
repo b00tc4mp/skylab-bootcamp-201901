@@ -1,0 +1,450 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat:400,600,800");
+* {
+  box-sizing: border-box;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  font-family: Montserrat;
+  font-size: 14px;
+}
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+.container {
+  display: flex;
+}
+
+.options__item-text:hover, .play-controls__control:hover, .install-app:hover, .user-info:hover, .folder:hover {
+  color: white;
+  transition: 0.6s;
+}
+
+.brand__name--large, .brand__name {
+  font-size: 26px;
+  display: inline;
+  margin: 0;
+  padding-left: 0.5rem;
+}
+
+.brand {
+  padding: 9px 0px 9px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  cursor: pointer;
+  color: #b3b3b3;
+}
+.brand__icon {
+  font-size: 32px;
+}
+.brand__icon--large {
+  font-size: 50px;
+}
+.brand__name--large {
+  font-size: 40px;
+}
+
+.nav {
+  width: 260px;
+  background-color: #111;
+  color: #b3b3b3;
+  padding: 24px 0px 5px 0px;
+  display: inline-block;
+}
+.nav__icon {
+  font-size: 24px;
+  padding: 3px;
+  min-width: 28px;
+  min-height: 28px;
+}
+.nav__icon-svg {
+  width: 24px;
+  height: 24px;
+}
+
+.folders {
+  text-decoration: none;
+  list-style-type: none;
+  padding: 0;
+}
+
+.folder {
+  margin: 10px 0px;
+  padding-left: 20px;
+}
+.folder__link {
+  color: #b3b3b3;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+}
+.folder__link-icon-container {
+  display: flex;
+  justify-content: center;
+  width: 24px;
+  margin: 0;
+  padding: 0;
+}
+.folder__description {
+  text-align: left;
+  text-transform: capitalize;
+  padding-left: 1rem;
+}
+.folder:hover {
+  border-left: 3px solid #1db954;
+}
+
+.recently-played {
+  text-decoration: none;
+  list-style-type: none;
+  padding-left: 20px;
+  margin-top: 2rem;
+}
+.recently-played__title {
+  text-transform: uppercase;
+  font-size: 0.8rem;
+}
+.recently-played__item {
+  font-size: 0.8rem;
+  padding-bottom: 10px;
+}
+.recently-played__item-type {
+  text-transform: uppercase;
+  margin-top: 3px;
+}
+
+.install-app, .user-info {
+  text-align: center;
+  font-size: 20px;
+  font-weight: 600;
+  padding: 1rem 0 1rem 0;
+  margin-left: 1.5rem;
+  margin-right: 1.5rem;
+}
+.install-app {
+  border-bottom: 1px solid #b3b3b3;
+}
+
+@media (max-width: 720px) {
+  .recently-played,
+.brand__name,
+.install-app,
+.user-info__name,
+.folder__description {
+    display: none;
+  }
+
+  .user-info__icon {
+    border-top: 1px solid #b3b3b3;
+    padding-top: 1.5rem;
+  }
+
+  .nav {
+    width: 70px;
+  }
+}
+.progress {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 70%;
+  font-size: 0.5rem;
+  color: #b3b3b3;
+}
+.progress__icon {
+  font-size: 1.2rem;
+  padding: 0.5rem;
+}
+.progress__bar-container {
+  position: relative;
+  width: 70%;
+  height: 4px;
+  margin: 0.5rem;
+  border-radius: 2px;
+  background-color: #b3b3b3;
+}
+.progress__bar {
+  position: absolute;
+  height: 3px;
+  border-radius: 2px;
+  background-color: white;
+}
+.progress__dot {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  top: -2px;
+  left: 40%;
+  border-radius: 50%;
+  background-color: white;
+}
+
+.playing-bar {
+  background-color: #262c3d;
+  width: 100%;
+  height: 90px;
+  padding-left: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.now-playing {
+  text-decoration: none;
+  list-style-type: none;
+  padding-left: 20px;
+  display: flex;
+  width: 35%;
+  align-items: center;
+}
+.now-playing__cover {
+  width: 56px;
+  height: 56px;
+  background-size: cover;
+  background-position: 50%;
+}
+.now-playing__description {
+  margin-left: 1.5rem;
+  margin-right: 3rem;
+}
+.now-playing__description-title {
+  text-decoration: none;
+  display: block;
+  margin-bottom: 0.3rem;
+  color: white;
+}
+.now-playing__description-artist {
+  text-decoration: none;
+  display: block;
+  color: #b3b3b3;
+}
+.now-playing__action {
+  color: #b3b3b3;
+}
+
+.play-controls {
+  width: 40%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.play-controls__controls {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.play-controls__control {
+  color: #b3b3b3;
+  font-size: 1.4rem;
+  margin: 0.5rem;
+}
+.play-controls__play {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  border: 1px solid #b3b3b3;
+  border-radius: 50%;
+  width: 3.5rem;
+  height: 3.5rem;
+  margin: 0.5rem 1rem 0.5rem 1rem;
+}
+.play-controls__play:hover {
+  border: 1px solid white;
+}
+
+.play-options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25%;
+}
+
+@media (max-width: 900px) {
+  .play-controls {
+    width: 30%;
+  }
+
+  .now-playing {
+    width: 30%;
+  }
+  .now-playing__description {
+    margin-right: 1rem;
+    font-size: 0.8rem;
+  }
+  .now-playing__description-artist {
+    white-space: nowrap;
+  }
+}
+@media (max-width: 768px) {
+  .play-options {
+    width: 40%;
+  }
+
+  .now-playing__description {
+    margin-right: 3rem;
+  }
+  .now-playing__cover {
+    display: none;
+  }
+}
+@media (max-width: 700px) {
+  .now-playing__action {
+    visibility: hidden;
+  }
+}
+.options {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  padding: 1rem 4rem 1rem 4rem;
+}
+.options__item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 0.6rem 1.2rem 0.6rem 1.2rem;
+}
+.options__item-text {
+  text-transform: uppercase;
+  font-size: 0.9rem;
+  font-weight: bold;
+  color: #b3b3b3;
+  padding-bottom: 0.2rem;
+}
+.options__item-select {
+  width: 40%;
+  background-color: #1db954;
+  height: 4px;
+  border-radius: 2px;
+  visibility: hidden;
+}
+.options__item-selected {
+  visibility: visible;
+}
+
+.section__item-portrait, .section__item-cover {
+  width: 190px;
+  height: 190px;
+  background-size: cover;
+  background-position: 50%;
+}
+
+.section {
+  display: block;
+  margin: 2rem 1rem 1rem 1rem;
+}
+.section__title {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin: 0 0 1.5rem 2rem;
+}
+.section__title-text {
+  font-size: 2rem;
+  color: #b3b3b3;
+  margin: 0;
+}
+.section__title-text--center {
+  justify-content: center;
+}
+.section__title-link {
+  font-size: 1.2rem;
+  text-transform: uppercase;
+  color: #b3b3b3;
+  text-decoration: none;
+  padding-right: 2rem;
+}
+.section__title-link:hover {
+  color: white;
+  cursor: pointer;
+}
+.section__container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-around;
+  margin-left: 10%;
+  margin-right: 10%;
+}
+.section__item {
+  margin: 1rem;
+  width: 20%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.section__item-title {
+  font-size: 1.1rem;
+  font-weight: bolder;
+  text-align: center;
+  color: #b3b3b3;
+  padding: 0.5rem 0 0.5rem 0;
+}
+.section__item-detail {
+  font-size: 0.8rem;
+  text-align: center;
+  color: #b3b3b3;
+  padding: 0 0.5rem 0 0.5rem;
+}
+.section__item-cover-text {
+  font-size: 1.8rem;
+  font-weight: bolder;
+  text-align: right;
+  padding-right: 1rem;
+}
+.section__item-portrait {
+  width: 170px;
+  height: 170px;
+  border-radius: 50%;
+}
+
+@media (max-width: 1300px) {
+  .section__container {
+    margin: 0;
+  }
+}
+@media (max-width: 1100px) {
+  .section__container {
+    margin: 10%;
+  }
+  .section__item:nth-child(4), .section__item:nth-child(5), .section__item:nth-child(6), .section__item:nth-child(7), .section__item:nth-child(8) {
+    display: none;
+  }
+}
+@media (max-width: 950px) {
+  .section__container {
+    margin: 0;
+  }
+
+  .content__options {
+    display: none;
+  }
+}
+@media (max-width: 850px) {
+  .section__item:nth-child(3) {
+    display: none;
+  }
+}
+@media (max-width: 580px) {
+  .section__item {
+    width: 20%;
+  }
+}
+.content {
+  width: 100%;
+  height: calc(100vh - 90px);
+  background-color: #111;
+  overflow-y: scroll;
+}
+
+/*# sourceMappingURL=style-desktop.css.map */
