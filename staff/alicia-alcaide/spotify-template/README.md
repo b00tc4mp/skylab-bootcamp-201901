@@ -14,12 +14,12 @@ A Spotify template with HTML and SASS (applying BEM)
 
 ### Mobile version
 
-![mobile](./images/Mobile.jpg)
+![mobile](./images/Mobile.JPG)
 
 ### Tablet version
 
-![tablet](./images/Tablet.jpg)
+![tablet](./images/Tablet.JPG)
 
 ### Laptop version
 
-![laptop](./images/Laptop.jpg)
+![laptop](./images/Laptop.JPG)
