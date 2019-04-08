@@ -1,0 +1,30 @@
+.playing-bar
+    height: 90px
+    display: flex
+    flex-direction: column
+    padding: 0 16px
+    align-items: center
+    justify-content: center
+    margin-bottom: 50px
+
+    &__center
+        width: 320px
+
+    &__elements
+        width: 100%
+        display: flex
+        flex-direction: row
+        align-items: center
+        justify-content: center
+
+    &__icon
+        color: $playing-bar-icon-color
+        padding: 30px
+        &:hover
+          color: $playing-bar-icon-color-action
+
+    &__timeline
+        background: white
+        height: 2px
+        width: 100%
+

@@ -1,0 +1,26 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat:400,600,800')
+@import '_colors'
+$secondary: white
+
+*
+  box-sizing: border-box
+
+html, body
+  width: 100%
+  height: 100%
+  margin: 0
+  padding: 0
+  font-family: Montserrat
+  font-size: 14px
+  background-color: $background-nav
+ 
+body
+  display: flex
+  flex-direction: column
+
+
+@import '_utils'
+@import 'components/mobile/_header'
+@import 'components/_brand'
+@import 'components/mobile/_content'
+@import 'components/mobile/_info-legal'
