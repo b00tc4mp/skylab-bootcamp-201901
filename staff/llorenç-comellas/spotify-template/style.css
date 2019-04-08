@@ -258,12 +258,12 @@ body {
     width: 100%;
   }
 
-  .main__collage__item {
+  .main__collage-item {
     margin-right: 20px;
     width: 15%;
     text-align: center;
   }
-  .main__collage__item p {
+  .main__collage-item p {
     font-size: 13px;
   }
 
