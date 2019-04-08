@@ -1,5 +1,5 @@
 @import url("https://fonts.googleapis.com/css?family=Roboto:300,400,500,700");
-.main-nav__item:nth-child(2), .main, .aside__btns, .aside-nav {
+.player-controls__buttons, .main-nav__item:nth-child(2), .main, .aside__btns, .aside-nav {
   display: flex;
   flex-direction: column;
 }
@@ -9,7 +9,7 @@
   text-decoration: none;
 }
 
-.item__text:hover, .pannel > header > a:hover, .main-nav__item:hover, .main-nav__item:nth-child(2), .privacy__item:hover, .aside-nav__item:hover, .aside-nav__item:first-child {
+.player-controls button:hover, .item__text:hover, .pannel > header > a:hover, .main-nav__item:hover, .main-nav__item:nth-child(2), .privacy__item:hover, .aside-nav__item:hover, .aside-nav__item:first-child {
   color: white;
   opacity: 1;
 }
@@ -126,8 +126,8 @@ body {
 
 .main {
   background-image: linear-gradient(to bottom right, #00695c, black);
-  margin: 0 0 10em 15em;
-  padding: 3em;
+  margin: 0 0 5em 15em;
+  padding: 3em 3em 5em 3em;
   align-items: stretch;
 }
 @media screen and (max-width: 768px) {
@@ -269,9 +269,64 @@ body {
   font-size: 1em;
 }
 
-.play-controls {
-  padding: 3em 0;
+.player-controls {
+  display: grid;
+  grid-template-columns: 1fr 10em;
+  grid-template-rows: 1fr;
   background-color: #232323;
+  padding: 0.4em 0 1em;
+}
+.player-controls__buttons {
+  align-items: center;
+}
+.player-controls__buttons > div {
+  display: flex;
+  align-items: center;
+  padding: 0.5em;
+}
+.player-controls__volume {
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding-right: 0.5em;
+}
+.player-controls__volume > span {
+  display: inline-block;
+  padding: 0.15em;
+  margin: 0 0.5em;
+  width: 5em;
+  border-radius: 0.2em;
+  background-color: white;
+  opacity: 0.7;
+}
+.player-controls button {
+  border: 0;
+  background-color: transparent;
+  color: white;
+  padding: 0.3em 0.8em;
+  font-size: 1em;
+  opacity: 0.5;
+}
+.player-controls button:nth-child(3) {
+  font-size: 2.1em;
+  padding: 0 0.3em;
+}
+.progress-bar {
+  vertical-align: center;
+  color: white;
+  font-size: 0.7em;
+}
+.progress-bar > p {
+  opacity: 0.5;
+}
+.progress-bar span {
+  display: inline-block;
+  padding: 0.2em;
+  margin: 0 0.5em;
+  width: 30em;
+  border-radius: 0.2em;
+  background-color: white;
+  opacity: 0.2;
 }
 
 /*# sourceMappingURL=style.css.map */
