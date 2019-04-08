@@ -1,0 +1,6 @@
+@media all and (min-width: 768px) {
+  .container .main-content .playlist-container .playlist__item {
+    width: 25%;
+  }
+}
+/*# sourceMappingURL=tablet.css.map */
