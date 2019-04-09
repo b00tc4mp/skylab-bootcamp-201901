@@ -1,0 +1,124 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat')
+
+$spotify-black: #181818
+$spotify-green: #00EE65
+$spotify-gray: #2C2C2C
+   
+body
+    font-family: 'Montserrat', sans-serif
+    margin: 0px
+    padding: 0px
+    background-image: url("https://images.wallpaperscraft.com/image/gradient_spots_texture_129927_1920x1080.jpg")
+    background-attachment: fixed
+    
+.root
+    display: flex
+    height: 100%
+    margin: 0px
+
+
+.musicPlayer
+    display: flex
+    justify-content: center
+    align-items: center
+    background-color: $spotify-gray
+    color: white
+    position: fixed
+    bottom: 0
+    height: 13%
+    width: 100%
+
+        
+    &__middleSection
+        display: flex
+        width: 40%
+        justify-content: center
+        border-bottom: white solid
+        border-bottom-length: 50px
+
+        &-topButtons>i
+            margin: 0px 10px 30px 10px  
+            font-size: 20px
+            
+
+
+        
+
+
+
+
+
+.sideBar
+    display: flex
+    justify-content: left
+    align-items: center
+    position: fixed
+    flex-direction: column
+    color: white
+    background-color: $spotify-black
+    width: 15%
+    height: 87%
+    
+    &__spotifyLogo
+        width: 70%
+        height: auto
+        margin-top: 15%
+        margin-bottom: 10%
+    
+    &__menu
+        color: lightgray
+        border-bottom: lightgray solid 0.5px
+        
+
+.mainDisplay
+    display: flex
+    width:90%
+    position: relative
+    margin-left: 15%
+    margin-bottom: 10%
+    z-index: -1
+    flex-flow: row wrap
+    justify-content: center
+    // background-color: orange 
+
+    &__topNav
+        display: flex 
+        margin-top: 3%
+        justify-content: center
+        text-transform: uppercase
+        margin-bottom: 30px
+    &__topNav>p
+        display: flex
+        margin: 15px
+        font-size: 14px
+        color: white
+        font-weight: bolder
+
+    &__sectionContainer
+        width: 90%
+        
+
+        &-topSection
+            display: flex
+            color: white
+            justify-content: space-between
+            align-items: center
+            
+            &-title
+                font-size: 40px
+                font-weight: bolder
+        
+        &-albumCollectionDisplayer
+            display: flex
+            flex-flow: row wrap
+            &-item
+                display: flex
+                flex-direction: column
+                align-items: center
+                color: white
+                font-size: 18px
+                font-weight: bold
+                margin: 10px
+            &-item>img
+                height: 250px 
+                width: 250px
