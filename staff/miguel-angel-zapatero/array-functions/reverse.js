@@ -14,7 +14,7 @@ function reverse(arr) {
     }
     
     for(var i = 0; i < arr.length; i++) {
-        newArr[i] = arr[(arr.length-1) - i];
+        arr[i] = newArr[i];
     }
     
     return arr;
