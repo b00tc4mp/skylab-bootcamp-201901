@@ -24,6 +24,7 @@ each function in a file (for-each.js, every.js...)
 * reduce +
 * reduceRight +
 * reverse +
+* shift +
 * slice +
 * some +
 * sort + (Not standard comparison in MDN)
