@@ -11,7 +11,7 @@ console.log(sort(a));
 
 console.log('case 2');
 
-a=['a', 'd', 'c', 'b', 1];
+a=['a', 'd', 2, 'c', 'b', 1];
 
 console.log(sort(a));
 //1,a,b,c,d
