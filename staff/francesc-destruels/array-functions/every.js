@@ -6,7 +6,10 @@
  * @returns {boolean} True if all values match the expression, otherwise false.
  */
 
-var every = function (array, callback) {
+var every = (function (array, callback) {
+    "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
     var i = 0;
 
     while (i < array.length) {
@@ -18,4 +21,4 @@ var every = function (array, callback) {
     }
 
     return true;
-}
+});

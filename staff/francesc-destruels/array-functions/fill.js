@@ -7,7 +7,10 @@
  * @param {number} lastposition  the last index to be filled
  */
 
-var fill = function(arraytofill, filling, firstposition, lastposition) {
+var fill = (function(arraytofill, filling, firstposition, lastposition) {
+    "use strict";
+    if (!(arraytofill instanceof Array)) throw TypeError(array + ' is not an array');
+    
     var i = 0, j, newarray = [];
 
     if (firstposition !== undefined  && firstposition >= 0) {
@@ -40,4 +43,4 @@ var fill = function(arraytofill, filling, firstposition, lastposition) {
         }
     }
     return newarray;
-}
+});

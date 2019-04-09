@@ -6,8 +6,11 @@
  */
 
 
-var join = function(array, separator){
-    var i; ensurestring = separator.toString(), newString = "";
+var join= (function(array, separator){
+    "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+
+    var i, ensurestring = separator.toString(), newString = "";
 
     for (i = 0; i < array.length; i++){
         if (i + 1 < array.length){
@@ -17,4 +20,4 @@ var join = function(array, separator){
         }
     }
     return newString
-}
+});

@@ -6,22 +6,23 @@
  * @param {number} initial number to initialize
  */
 
-function reduce(array, callback, initial) {
-  var i, acc, initial, newArray = [];
+var reduce = (function(array, callback, initial) {
+  "use strict";
+  if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+
+  var i, acc = [], initial, newArray = [];
 
     if (initial === undefined){
-      acc = array[0];
+      acc[0] = array[0];
       for (i = 1; i < array.length ; i++){
-        acc = callback(acc, array[i]);
+        acc[0] = callback(acc[0], array[i]);
       }
     } else {
-      acc = initial;
+      acc[0] = initial;
       for (i = 0; i < array.length; i++){
-        acc = callback(acc, array[i]);
+        acc[0] = callback(acc[0], array[i]);
       }
     }
-    newArray[0] = acc;
+    newArray[0] = acc[0];
     return newArray
-}
-
-var array3 =  [1, 3, 3]
+});

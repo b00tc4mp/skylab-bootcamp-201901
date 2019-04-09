@@ -5,7 +5,10 @@
  * @param {function} callback function to proces each element.
  */
 
-function map(array, callback){
+ var map = (function(array, callback){
+    "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
     var i, newArray = [];
 
     for (i = 0; i < array.length; i++){
@@ -13,4 +16,4 @@ function map(array, callback){
     }
 
     return newArray;
-}
+});

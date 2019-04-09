@@ -9,5 +9,5 @@ console.log(reduce(array3, function(acc, value){return acc + value}));
 
 console.log('case 2');
 
-console.log(reduce(array3, function(acc, value){return acc + value}, 2), 9);
+console.log(reduce(array3, function(acc, value){return acc + value}, 2));
 //30

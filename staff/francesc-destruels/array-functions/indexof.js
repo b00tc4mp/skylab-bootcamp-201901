@@ -6,7 +6,10 @@
  * @param {number} index first value to start looking
  */
 
-var indexof = function(array, searchElement, startingIndex){
+var indexof = (function(array, searchElement, startingIndex){
+    "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+
     var i, j = -1;
 
         if (startingIndex === undefined){
@@ -23,4 +26,4 @@ var indexof = function(array, searchElement, startingIndex){
             }
         }
         return j;
-}
+});

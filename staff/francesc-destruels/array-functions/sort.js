@@ -6,7 +6,10 @@
  * 
  */
 
-function sort (array) {
+var sort = (function(array) {
+    "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+
     var i,j, emptyarray = [], k = 0, q = 0, z, repeated = false;
 
     emptyarray.length = array.length;
@@ -44,4 +47,4 @@ function sort (array) {
     }
 
     return array;
-}
+});

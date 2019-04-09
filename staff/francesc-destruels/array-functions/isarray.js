@@ -5,8 +5,9 @@
  */
 
 
-var isarray = function (value){
+var isarray = (function (value){
+    "use strict";
     if (value instanceof Array) return true;
 
     return false;
-}
+})

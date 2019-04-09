@@ -5,22 +5,24 @@
  * @param {number} initial number to initialize
  */
 
-function reduceright(array, callback, initial) {
-    var i, acc, initial, newArray = [];
+var reduceright = (function(array, callback, initial) {
+  "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
+    var i, acc = [], initial, newArray = [];
   
       if (initial === undefined){
-        acc = array[array.length -1];
+        acc[0] = array[array.length -1];
         for (i = array.length -2; i >= 0; i--){
-          acc = callback(acc, array[i]);
+          acc[0] = callback(acc[0], array[i]);
         }
       } else {
         acc = initial;
         for (i = array.length -1; i >= 0; i--){
-          acc = callback(acc, array[i]);
+          acc[0] = callback(acc[0], array[i]);
         }
       }
-      newArray[0] = acc;
+      newArray[0] = acc[0];
       return newArray
-  }
+  });
   
-  var array3 =  [1, 3, 3]

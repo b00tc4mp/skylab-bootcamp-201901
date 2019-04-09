@@ -5,7 +5,8 @@
  *@param {arguments} array all the arrays to iterate.
  */
 
-var concat = function ()  {
+var concat = (function ()  {
+    "use strict";
     var i, j, k = 0, newarray = [];
 
     for (i = 0; i < arguments.length; i++){
@@ -15,4 +16,4 @@ var concat = function ()  {
         }
     }
     return newarray;
-}
+});

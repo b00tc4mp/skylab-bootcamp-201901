@@ -5,8 +5,11 @@
  * @param {element} searchElement vale to look for index
  */
 
-var lastindexof = function(array, searchElement){
-    var i; j = -1;
+var lastindexof = (function(array, searchElement){
+    "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+
+    var i, j = -1;
 
         for (i = 0; i <array.length; i++){
             if (array[i] === searchElement){
@@ -14,4 +17,4 @@ var lastindexof = function(array, searchElement){
             }
         }
     return j;
-}
+});

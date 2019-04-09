@@ -5,7 +5,10 @@
  * @param {number} to up to where to cut from from
  */
 
-var slice = function (array, from, to){
+var slice = (function(array, from, to){
+    "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
     var i, newArray=[], k = 0;
       
     if (from !== undefined){
@@ -26,4 +29,4 @@ var slice = function (array, from, to){
         console.log("At least you need to introduce from where")
     }
   
-}
+});

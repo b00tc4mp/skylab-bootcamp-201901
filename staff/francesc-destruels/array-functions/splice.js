@@ -1,6 +1,17 @@
 
+/**
+ * The function changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.
+ * 
+ * @param {array} array 
+ * @param {number} origin 
+ * @param {number} erase 
+ * @param {number} add 
+ */
 
-var splice = function(array, origin, erase, add){
+var splice = (function(array, origin, erase, add){
+    "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
     var i, j = erase, newArray = [];
 
     if (erase === 0){
@@ -27,4 +38,4 @@ var splice = function(array, origin, erase, add){
     }
     array = newArray;
     return array;
-}
+});

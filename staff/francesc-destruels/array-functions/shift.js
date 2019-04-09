@@ -7,7 +7,9 @@
  */
 
 
-function shift(array){
+var shift = (function(array){
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
     var i, newArray= array[0]; copy=[];
 
     for (var i = 1; i < array.length; i++) {
@@ -21,4 +23,4 @@ function shift(array){
     }
 
     return newArray;
-}
+});

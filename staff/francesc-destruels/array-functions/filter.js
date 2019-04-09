@@ -5,8 +5,9 @@
  * @param {function} callback function to apply;
  */
 
-
-function filter(array, callback){
+var filter = (function(array, callback){
+    "use strict";
+    
     var i, newArray = [], j = 0;
 
     for (i = 0; i < array.length; i++){
@@ -16,4 +17,4 @@ function filter(array, callback){
         }
     }
     return newArray;
-}
+});

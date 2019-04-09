@@ -6,7 +6,10 @@
  * @param {function} callback function to proces the array
  */
 
-function some(array, callback){
+var some = (function(array, callback){
+    "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
     var i;
 
     for (i = 0; i < array.length; i++){
@@ -16,4 +19,4 @@ function some(array, callback){
     }
 
     return false;
-}
+});
