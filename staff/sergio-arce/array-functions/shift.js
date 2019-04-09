@@ -1,6 +1,6 @@
 /**
- * joins all the elements of a matrix (or an object similar to an array)
- * in a string and returns this string.
+ *removes the first element of the array and returns that element. 
+ *This method modifies the length of the array.
  *
  * @param {Array} arr - The array to work
  * 
@@ -8,9 +8,7 @@
  * returns that removed element. This method changes the length of the array.
  */
 
-function shift(arr, callback) {
-    // ...
-}
+function shift(arr) { return arr[0]; }
 
 //haz la llamada
 var arr = [1, 2, 3, 4]

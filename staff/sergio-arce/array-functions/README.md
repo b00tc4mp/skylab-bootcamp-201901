@@ -2,7 +2,7 @@
 <!-- Array.prototype.concat()---Didac -->
 <!-- Array.prototype.every()** -->
 Array.prototype.filter()---Sergio
-<!-- Array.prototype.forEach()** -->
+Array.prototype.forEach()**
 Array.prototype.indexOf()---Didac
 Array.prototype.join()---Sergio
 Array.prototype.lastIndexOf()---Didac

@@ -1,5 +1,6 @@
 /**
- * Abstraction of join
+ *joins all the elements of a matrix (or an object similar to an array)
+ * in a string and returns this string.
  * 
  * @param {Array} arr - The array to join
  * @param {String} sep - The separator

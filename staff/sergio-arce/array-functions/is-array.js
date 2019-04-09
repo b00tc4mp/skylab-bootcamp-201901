@@ -1,8 +1,7 @@
 /**
  * Iterates an array and evaluates an expression on each of its values.
  * 
- * @param {Array} array a.
- * @param {Function} callback .obj
+ * @param {Array} array
  */
 function isArray(obj) {
     return obj instanceof Array;
