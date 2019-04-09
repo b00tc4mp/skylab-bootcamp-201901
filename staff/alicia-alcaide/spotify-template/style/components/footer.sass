@@ -1,0 +1,54 @@
+.play-controls
+    width: 100%
+    height: 100%
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-content: center
+
+
+.play-controls__controls 
+    display: flex
+    align-items: center
+    justify-content: center
+
+
+.controls__control 
+    color: $text-color
+    font-size: 1em
+    margin: .5em
+
+.play-controls__play 
+    display: inline-flex
+    justify-content: center
+    align-items: center
+    border: .5px solid $text-color
+    border-radius: 50%
+    width: 1.5em
+    height: 1.5em
+    margin: .5em 1em .5em 1em
+
+
+.play-controls__play:hover 
+    border: .5px solid $resalted-text-color
+
+
+.play-controls__progress
+    display: flex
+    flex-direction: row
+    align-items: center
+    justify-content: center
+    width: 100%
+    font-size: .5em
+    color: $text-color
+
+
+.progress__bar
+    width: 25%
+    height: 4px
+    margin: .5rem
+    border-radius: 2px
+    background-color: $text-color
+
+.progress__current
+    color: $text-color

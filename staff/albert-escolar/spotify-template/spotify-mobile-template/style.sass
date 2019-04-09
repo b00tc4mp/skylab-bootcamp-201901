@@ -1,0 +1,80 @@
+
+@import url('https://fonts.googleapis.com/css?family=Montserrat')
+
+$spotify-black: #181818
+$spotify-green: #00EE65
+
+body
+    font-family: 'Montserrat', sans-serif
+    margin: 0px
+    padding: 0px
+    
+.root
+    height: 100%
+    background-color: $spotify-black
+    margin: 0px
+    padding: 20px
+    display: flex
+    flex-flow: column wrap
+    align-items: center
+
+
+.button
+    background-color: $spotify-green
+    color: white
+    font-weight: bold
+    font-size: 1rem
+    border-radius: 2rem
+    border: 0px
+    padding: 1rem
+    width: 200px
+    margin: 20px
+
+.logo
+    background-image: url("https://storage.googleapis.com/pr-newsroom-wp/1/2018/11/Spotify_Logo_RGB_White.png")
+    background-size: contain
+    background-repeat: no-repeat
+    width: 150px
+    height: 50px
+    margin: 0
+
+.displayArea
+    display: block
+    align-items: center
+    justify-content: center
+    width: 100%
+    &__title
+        width: 100%
+        color: white
+        text-align: center
+    &__albumSection
+        display: flex
+        width: 100%
+        justify-content: center
+        justify-items: center
+        flex-flow: row wrap
+        &-albumItem
+            color: white
+            position: relative
+            text-align: center
+                                  
+            &-title
+                position: absolute
+                top: 20% 
+                left: 50%
+                margin: 0px
+                transform: translate(-50%, -50%)
+                text-transform: capitalize
+                font-weight: bold
+                font-size: 1.5rem
+            &-image
+                width: 150px
+                height: 100%
+
+.footer
+    display: flex
+    flex-flow: column wrap
+    color: gray
+    text-align: center
+    margin-top: 50px
+    align-items: center
