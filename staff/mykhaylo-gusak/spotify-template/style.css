@@ -1,0 +1,312 @@
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro:700");
+@media (min-width: 1024px) {
+  body {
+    position: relative;
+  }
+
+  .logo__title {
+    display: none;
+  }
+
+  .container__mobile-first {
+    display: none;
+  }
+
+  .container-desktop {
+    height: 100%;
+  }
+  .container-desktop__navigation {
+    display: grid;
+    grid-template: "N M" 1fr/60px auto;
+    height: 100%;
+  }
+
+  .interface {
+    grid-area: N;
+    background-color: #070F0D;
+  }
+  .interface__nav {
+    display: flex;
+    flex-direction: column;
+  }
+  .interface__nav-link {
+    display: flex;
+    flex: 0 0 100%;
+    padding: 0 20px;
+    height: 40px;
+    align-items: center;
+  }
+  .interface__nav-link-text {
+    margin-left: 16px;
+    font-size: 14px;
+    color: white;
+  }
+  .interface__nav-link-text--off {
+    display: none;
+  }
+  .interface__nav-icon {
+    font-size: 20px;
+    color: white;
+  }
+
+  .music {
+    background-color: #2A5C51;
+    grid-area: M;
+    padding: 0 32px;
+    flex-direction: column;
+    overflow: auto;
+  }
+  .music__navigation {
+    margin: 20px 0;
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    height: 46px;
+  }
+  .music__navigation-text {
+    display: flex;
+    justify-content: center;
+    color: white;
+  }
+  .music__list {
+    font-size: 2.25em;
+    color: white;
+    display: flex;
+    flex-direction: column;
+  }
+  .music__list-header {
+    flex-basis: 100%;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    margin-bottom: 30px;
+  }
+  .music__list-header-text {
+    font-size: 36px;
+    color: white;
+  }
+  .music__list-container {
+    display: flex;
+    margin-bottom: 40px;
+    flex-wrap: wrap;
+  }
+  .music__list-album {
+    width: 170px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    padding: 0 8px;
+  }
+  .music__list-album-img {
+    width: 100%;
+    height: 170px;
+    box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.75);
+  }
+  .music__list-album-img > img {
+    width: 100%;
+  }
+  .music__list-album-title {
+    width: 100%;
+    height: 20px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  .music__list-album-title-text {
+    font-size: 14px;
+    text-align: center;
+  }
+
+  .player-container {
+    background-color: #282828;
+    position: absolute;
+    height: 90px;
+    width: 100%;
+    left: 0;
+    bottom: 0;
+  }
+
+  .player {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    height: 100%;
+    align-items: center;
+  }
+  .player__current-song {
+    width: 230px;
+  }
+  .player__player {
+    height: 60px;
+    width: 50%;
+  }
+  .player__player-buttons {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 11px;
+  }
+  .player__player-buttons > i {
+    color: white;
+    padding: 0 5px;
+  }
+  .player__player-timing {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .player__player-timing-text {
+    font-size: 13px;
+    color: white;
+    margin: 0 10px;
+  }
+  .player__player-timing-line {
+    width: 100%;
+    height: 2px;
+    border-radius: 1px;
+    background-color: grey;
+  }
+  .player__volum {
+    height: 32px;
+    width: 180px;
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+  }
+  .player__volum-icon {
+    margin-left: 10px;
+    color: white;
+  }
+  .player__volum-line {
+    width: 100px;
+    height: 4px;
+    border-radius: 2px;
+    background-color: lightgrey;
+    margin-left: 10px;
+  }
+}
+@media (min-width: 1200px) {
+  .container-desktop__navigation {
+    display: grid;
+    grid-template: "N M" 1fr/230px auto;
+    height: 100%;
+  }
+
+  .logo__title {
+    display: block;
+  }
+
+  .interface__nav-link-text--off {
+    display: block;
+  }
+}
+.content--center {
+  display: flex;
+  justify-content: center;
+}
+
+.content--align {
+  align-content: center;
+}
+
+h1, h2, h3, h4, h5, p {
+  margin: 0;
+  padding: 0;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  background-color: #070F0D;
+  font-family: "Source Sans Pro", sans-serif;
+  position: relative;
+}
+
+.container-desktop {
+  display: none;
+}
+
+.container__mobile-first {
+  grid-template: "H" 1fr "P" 1fr "F" 1fr;
+  padding: 0 17px;
+}
+
+.logo {
+  height: 45px;
+  color: white;
+}
+.logo__logo {
+  color: white;
+  align-content: center;
+  font-size: 39px;
+}
+.logo__title {
+  color: white;
+  font-size: 25px;
+}
+.logo--padding-extra {
+  padding: 27px;
+}
+
+.button__button {
+  background-color: #1DB954;
+  width: 240px;
+  height: 44px;
+  border: 0;
+  border-radius: 30px;
+  color: white;
+  font-size: 0.82em;
+  font-weight: 500;
+  letter-spacing: 2px;
+}
+.button--margin-extra {
+  margin: 25px 0;
+}
+
+.title-sub__title {
+  font-size: 2.25em;
+  color: white;
+  padding-top: 68px;
+  padding-bottom: 17px;
+  text-align: center;
+}
+
+.pannel {
+  grid-area: P;
+  display: flex;
+  flex-wrap: wrap;
+}
+.pannel__sub-pannel {
+  flex: 1 0 50%;
+}
+.pannel__sub-pannel-img {
+  width: 100%;
+  height: 100%;
+}
+
+.footer {
+  grid-area: F;
+  padding: 40px 0;
+}
+.footer__legal {
+  text-align: center;
+}
+.footer__legal-link {
+  color: grey;
+  margin-top: 13px;
+  font-size: 0.8em;
+  text-decoration: none;
+  font-weight: normal;
+}
+
+@media (min-width: 700px) {
+  .pannel__sub-pannel {
+    flex: 1 0 25%;
+  }
+}
+@media (min-width: 1024px) {
+  .container-desktop {
+    display: block;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */

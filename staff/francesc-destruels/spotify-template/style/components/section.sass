@@ -1,0 +1,106 @@
+.section
+    display: flex
+    height: 100%
+
+    &__div
+        display: inline-flex
+        flex-direction: column
+        line-height: 1.25em
+
+    &__title
+        color: white
+        align-self: center
+        
+    &__content
+        display: grid
+        grid-template-columns: repeat(4, 1fr) 
+        align-self: center
+        margin-bottom: 0.5em
+        width: 99%
+
+    &__content--big
+        display: grid
+        grid-template-columns: repeat(2, 1fr) 
+        align-self: center
+        margin-bottom: 0.5em
+        width: 99%
+
+    &__img
+        border: 0
+        padding: 0
+        margin: 0
+        width: 100%
+        
+    &__img--big
+        border: 0
+        padding: 0
+        margin: 0
+        width: 100%   
+
+    &__img:hover
+        opacity: 0.5
+        transform: scale(1.5)
+        
+    &__img--big:hover
+        opacity: 0.5
+        transform: scale(1.2)
+
+    &__img--hidden
+        display: none
+
+    &--hidden
+        display: none
+
+@media only screen and (min-width: 768px)
+    .section  
+        &__content
+            width: 90% 
+
+        &__content--big
+            width: 90% 
+
+        &__title
+            line-height: 1em
+            font-size: 3em
+
+        &__img:hover
+            opacity: 1
+            transform: scale(1.1)
+        
+        &__img--big:hover
+            opacity: 1
+            transform: scale(1.05)
+
+        &__img--hidden
+            display: inline
+
+        &--hidden
+            display: inline
+            
+
+@media only screen and (min-width: 1366px)
+    .section 
+
+        &__content
+            grid-template-columns: repeat(6, 1fr)
+            
+
+        &__content--big
+            grid-template-columns: repeat(6, 1fr) 
+
+        &__title
+            line-height: 1em
+            font-size: 2em
+            align-self: start
+            padding-left: 1em
+        
+        &__title:hover
+            transform: scale(1.05)
+
+        &__img:hover
+            opacity: 1
+            transform: scale(1.1)
+        
+        &__img--big:hover
+            opacity: 1
+            transform: scale(1.05)

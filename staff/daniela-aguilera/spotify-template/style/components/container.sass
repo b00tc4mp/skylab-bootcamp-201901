@@ -1,0 +1,35 @@
+.container
+    display: flex
+    &__cta
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        margin: $separation-base
+
+    &--centered
+        justify-content: center
+    &--row
+        flex-direction: row
+
+    &__nav
+        display: none
+        flex: 0 0 230px
+
+        &--only-desktop
+            @media(min-width: 1024px) // desktop
+                display: flex
+                flex-direction: column
+
+    &__elements
+        @media(min-width: 1024px) 
+            padding-bottom: 270px
+
+
+.title 
+    color: white
+    font-weight: bold
+    font-size: 28px
+    text-align: center
+    margin-left: $separation-base
+    margin-right: $separation-base
