@@ -7,7 +7,10 @@
  * @returns {boolean} True if all values match the expression, otherwise false.
  */
 function every(array, callback) {
-    for (var i = 0; i < array.length; i++)
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+    
+    for (var i =    0; i < array.length; i++)
         if (!callback(array[i])) return false;
 
     return true;

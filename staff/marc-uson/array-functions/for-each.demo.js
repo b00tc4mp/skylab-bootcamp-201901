@@ -14,9 +14,12 @@ console.log('case 2');
 forEach(a, function(v) { console.log(v + 1); });
 // 2
 // 3
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 // 4
 =======
+=======
+>>>>>>> Stashed changes
 // 4
 
 console.log('case 3');
@@ -37,5 +40,9 @@ try {
     console.error('should not reach this point');
 } catch(error) {
     console.error(error.message);
+<<<<<<< Updated upstream
 }
 >>>>>>> develop
+=======
+}
+>>>>>>> Stashed changes

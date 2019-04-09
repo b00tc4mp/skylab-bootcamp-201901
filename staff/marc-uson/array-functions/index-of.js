@@ -6,14 +6,20 @@
  * @param {Number} fromIndex 
  */
 
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 function IndexOf(array,element, fromIndex){
 =======
+=======
+>>>>>>> Stashed changes
 function IndexOf(array, element, fromIndex){
     if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
     if((typeof fromIndex !== 'number')&&(fromIndex !== undefined)) throw TypeError(index + ' is not a number');
 
+<<<<<<< Updated upstream
 >>>>>>> develop
+=======
+>>>>>>> Stashed changes
     var i = fromIndex === undefined ? 0 : fromIndex;
     for(var j = i; j < array.length; j++)
         if (element === array[j]) return j;

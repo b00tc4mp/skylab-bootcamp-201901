@@ -9,10 +9,13 @@ console.log(IndexOf(a, 10));
 
 console.log('case 2');
 
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 console.log(IndexOf(a, 30));
 //-1
 =======
+=======
+>>>>>>> Stashed changes
 console.log(IndexOf(a, 1, 1));
 //-1
 
@@ -34,5 +37,9 @@ try {
     console.error('should not reach this point');
 } catch (error) {
     console.error(error.message);
+<<<<<<< Updated upstream
 }
 >>>>>>> develop
+=======
+}
+>>>>>>> Stashed changes
