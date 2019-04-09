@@ -1,0 +1,22 @@
+.main-nav
+    display: flex
+    justify-content: center    
+    flex-wrap: wrap
+    &__item
+        @extend %display-link
+        font-size: $main-font-size
+        white-space: nowrap
+        color: #e0e0e0
+        opacity: .7
+        padding: 1em 2em
+        &:nth-child(2)
+            @extend %display-flex
+            align-items: center
+            @extend %hover-link
+        & > span
+            display: inline-block
+            height: 3px
+            width: 2em
+            border-bottom: 2px solid $color-btn-select
+        &:hover
+            @extend %hover-link
