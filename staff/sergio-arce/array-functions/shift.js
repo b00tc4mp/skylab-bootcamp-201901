@@ -9,7 +9,3 @@
  */
 
 function shift(arr) { return arr[0]; }
-
-//haz la llamada
-var arr = [1, 2, 3, 4]
-shift(arr) // 1
