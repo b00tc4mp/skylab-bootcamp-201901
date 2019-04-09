@@ -1,5 +1,11 @@
 
-var a=[2,3,4,5]
+/**this function iterates over an array , taking the arguments to compare a number from an index start and end position
+ * 
+ * @param {*} array the array you want to iterate
+ * @param {*} item  the number you want to check if its inside the array
+ * @param {*} start the index position you want to start
+ * @param {*} end the index position you want to end
+ */
 
 function fill(array,item,start,end){
     
@@ -27,5 +33,3 @@ function fill(array,item,start,end){
 
 
 
-fill(a,3,0,3)
-console.log(a)

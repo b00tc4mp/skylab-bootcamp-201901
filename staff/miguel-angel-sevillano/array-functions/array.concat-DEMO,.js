@@ -1,10 +1,8 @@
 
-/**
- * This function merge two or more arrays and returns a new aarray
- * 
- */
+var a=[1,2,3,4]
+var b=[5,6,7,8]
 
-var concat = function ()  {
+function concat ()  {
     var i, j, k = 0, newarray = [];
  
     for (i = 0; i < arguments.length; i++){
@@ -15,3 +13,5 @@ var concat = function ()  {
     }
     return newarray;
  }
+
+ console.log(concat(a,b))
