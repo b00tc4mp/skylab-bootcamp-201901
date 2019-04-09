@@ -11,7 +11,7 @@ function sort (array, comparefn) {
 	if (arguments.length > 1 && !(callbackfn instanceof Function)) throw new TypeError("undefined is not a function");
 
   var compare = comparefn || compareDefault;
-  for (var i = array.length - 2; i >= 0; i--) {
+  for (var i = array.length - 1; i >= 0; i--) {
     for (var j = 0; j < i; j++ ) {
       if (compare(array[j], array[j+1])) {
         var temp = array[j];
@@ -24,5 +24,5 @@ function sort (array, comparefn) {
 }
 
 function compareDefault(a, b) {
-  return a > b;
+  return String(a) > String(b);
 }
