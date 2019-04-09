@@ -3,7 +3,7 @@
 }
 
 .main-container {
-  background-color: black;
+  background-color: red;
   display: flex;
   justify-content: center;
   flex-direction: column;
@@ -18,14 +18,8 @@
 
 .spoty-home {
   width: 100%;
-  padding: 10px;
+  padding: 100px;
   background-color: white;
-}
-
-.spoty-home__logo {
-  width: 100px;
-  fill: white;
-  stroke: none;
 }
 
 /*# sourceMappingURL=style.css.map */
