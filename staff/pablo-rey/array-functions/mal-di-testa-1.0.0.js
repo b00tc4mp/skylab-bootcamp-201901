@@ -35,5 +35,14 @@ function test(title, callback) {
  * @param {*} expected The expected value.
  */
 function expect(actual, expected) {
-    if (actual !== expected) throw Error('expected ' + actual + ' to be ' + expected);
+    if (actual instanceof Array && expected instanceof Array) {
+        if (actual.length !== expected.length) {
+            throw Error('expected and actual results are arrays with diferent lengths');
+        }
+        for (var index in expected) {
+            if (expect(actual[index], expected[index])) {
+                throw Error('expected ' + expected[index] + ' at index ' + index + '; received ' + actual[index]);
+            }
+        }
+    } else if (actual !== expected) throw Error('expected ' + actual + ' to be ' + expected);
 }

@@ -11,7 +11,7 @@ function every(array, callbackfn, _this) {
 	if (!(callbackfn instanceof Function)) throw new TypeError("undefined is not a function");
         
     for (var k = 0; k < array.length; k++) {
-        if (callbackfn.call(_this, array[k])) {
+        if (!callbackfn.call(_this, array[k])) {
             return false;
         }
     }

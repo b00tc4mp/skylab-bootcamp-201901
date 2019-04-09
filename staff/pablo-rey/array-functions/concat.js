@@ -7,7 +7,7 @@
  * @return {Array} All elements of array1 and array2
  */
 
-function concat (...arguments) {
+function concat () {
   var result = [];
   for (var a = 0; a < arguments.length; a++) {
     var elem = arguments[a];

@@ -8,6 +8,7 @@
  */
 function fill (array, value, start, end) {
   if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+
   var relativeStart = parseInt(start);
   if (isNaN(relativeStart)) {
     relativeStart = 0;
