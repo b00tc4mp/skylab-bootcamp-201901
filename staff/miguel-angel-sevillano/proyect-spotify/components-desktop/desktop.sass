@@ -1,0 +1,19 @@
+
+@media only screen and (min-width: 1400px) 
+    .desktop
+        display: grid 
+        grid-template-columns: 12% 88%
+        grid-template-rows: 88vh 12vh
+        grid-template-areas: "aside main main " "footer footer footer"
+        background-color: red
+        background-image: linear-gradient(to bottom right,#FF4500,#060200)
+        &__aside
+            grid-area: aside
+            background-color: rgba(0,0,0,0.8)
+            overflow: hidden
+        &__mian
+            grid-area: main
+        &__footer
+            background-color: #282828
+            grid-area: footer
+        
