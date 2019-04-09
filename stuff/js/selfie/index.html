@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <script>
+        var v = 1;
+
+        (function() {
+            var v = 2;
+
+            console.log(v);
+        })();
+
+        console.log(v);
+    </script> -->
+
+    <div id="123">hola mundo</div>
+
+    <script>
+        var $ = (function () {
+            'use strict';
+
+            function $(id) {
+                return document.getElementById(id);
+            }
+
+            function quote(string) {
+                return '"' + string + '"';
+            }
+
+            function dash(string) {
+                return string.split('').join('-');
+            }
+
+            $.quote = quote;
+            $.dash = dash;
+
+            return $;
+        })();
+
+        console.log($('123'));
+
+        console.log($.quote('hello world'));
+
+        console.log($.dash('hello world'));
+    </script>
+
+    <script>
+        (function (window) {
+            'use strict';
+
+            function $(id) {
+                return document.getElementById(id);
+            }
+
+            function quote(string) {
+                return '"' + string + '"';
+            }
+
+            function dash(string) {
+                return string.split('').join('-');
+            }
+
+            $.quote = quote;
+            $.dash = dash;
+
+            window.$ = $;
+        })(window);
+
+        console.log($('123'));
+
+        console.log($.quote('hello world'));
+
+        console.log($.dash('hello world'));
+    </script>
+</body>
+
+</html>

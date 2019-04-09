@@ -1,0 +1,33 @@
+.--toggle
+    display: none
+    
+.--hidemobile
+    display: flex
+
+@media (min-width: 1200px)
+    .--toggle
+        display: flex
+
+    .--hidemobile
+        display: none
+
+    .landing
+        height: 85vh
+        width: 100vw
+        overflow: auto
+
+    .--desktopalign
+        justify-content: flex-start
+        align-items: flex-start
+        margin-left: 50px
+    
+    .--multidevice
+        height: 85vh
+        display: flex
+        align-items: flex-start
+        flex-direction: row 
+
+    .link-image
+        display: block
+        width: 170px
+        margin: 5px
