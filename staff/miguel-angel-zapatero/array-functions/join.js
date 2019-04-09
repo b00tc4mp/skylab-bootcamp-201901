@@ -4,7 +4,7 @@ function join(arr, separator) {
         result += arr[i];
         if(separator && arr.length > 1 && i < arr.length-1) {
             result += separator;
-        } else if(!separator && i < arr.length-1) {
+        } else if(separator === undefined && i < arr.length-1) {
             result += ',';
         }
     }
