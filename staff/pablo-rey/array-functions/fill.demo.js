@@ -15,3 +15,24 @@ console.log(fill(array1, 5, 1));
 console.log("Case 3");
 console.log(fill(array1, 6));
 // expected output: [6, 6, 6, 6, 6, 6]
+
+
+console.log('Error case 1 - No params');
+
+try {
+  fill();
+  console.error("Validation failed");
+} catch (error) {
+  console.log(error)
+}
+// Expected > TypeError: array param is not an array
+
+console.log('Error case 2 - Not an array');
+
+try {
+  fill(1);
+  console.error("Validation failed");
+} catch (error) {
+  console.log(error)
+}
+// Expected > TypeError: array param is not an array

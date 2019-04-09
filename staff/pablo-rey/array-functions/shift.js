@@ -6,10 +6,13 @@
  * @returns {*} The element removed
  */
 function shift(array) {
+  if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+
+  var len = array.length;
   var result = array[0];
-  for(i = 0; i < array.length - 1; i++) {
+  for(i = 0; i < len - 1; i++) {
     array[i] = array[i+1];
   }
-  array.length = array.length - 1;  
+  array.length = len - 1;  
   return result;
 }

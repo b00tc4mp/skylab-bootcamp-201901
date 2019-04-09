@@ -6,11 +6,14 @@
  * 
  * @returns {Array} New array with all values that evaluation function returns true
  */
-function filter (array, callbackfn) {
+function filter (array, callbackfn, _this) {
+	if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+	if (!(callbackfn instanceof Function)) throw new TypeError("undefined is not a function");
+
   var result = [];
-  for (var i = 0; i < array.length; i++) {
-    if (callbackfn(array[i], i, array)) {
-      result[result.length] = array[i];    
+  for (var k = 0; k < array.length; k++) {
+    if (callbackfn.call(_this, array[k], k, array)) {
+      result[result.length] = array[k];    
     }    
   }
   return result;

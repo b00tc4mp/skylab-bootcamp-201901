@@ -8,14 +8,19 @@
  * @returns {*} the last value of the reduction
  */
 function reduceRight (array, callbackfn, initialValue) {
+	if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+	if (!(callbackfn instanceof Function)) throw new TypeError("undefined is not a function");
+
   var start = array.length - 1;
-  var acc = initialValue;
-  if (typeof initialValue === "undefined") {
-    acc = array[start];
-    start = start - 1;
+  var accumulator;
+  if (arguments > 2) {
+    accumulator = initialValue
+  } else {
+    accumulator = array[start];
+    start = start - 1;    
   }
-  for (var i=start; i >= 0; i--) {
-    acc = callbackfn(acc, array[i], i, array);
+  for (var k=start; k >= 0; k--) {
+    accumulator = callbackfn(accumulator, array[k], k, array);
   }
-  return acc;
+  return accumulator;
 }

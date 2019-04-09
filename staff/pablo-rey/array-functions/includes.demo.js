@@ -19,3 +19,23 @@ console.log(includes(pets, 'cat'));
 console.log("Case 2");
 console.log(includes(pets, 'at'));
 // expected output: false
+
+console.log('Error case 1 - No params');
+
+try {
+  includes();
+  console.error("Validation failed");
+} catch (error) {
+  console.log(error)
+}
+// Expected > TypeError: array param is not an array
+
+console.log('Error case 2 - Not an array');
+
+try {
+  includes(1);
+  console.error("Validation failed");
+} catch (error) {
+  console.log(error)
+}
+// Expected > TypeError: array param is not an array

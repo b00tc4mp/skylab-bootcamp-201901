@@ -7,6 +7,9 @@
  * @returns {boolean} True if at least one value match the expression, otherwise false.
  */
 function some(array, callback) {
+	if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+	if (!(callbackfn instanceof Function)) throw new TypeError("undefined is not a function");
+
     for (var i = 0; i < array.length; i++) {
         if (callback(array[i], i, array))  {
             return true;

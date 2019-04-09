@@ -9,8 +9,10 @@
  * @returns {Array} Modified array
  */
 function splice (array, start, deleteCount) {
+	if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+
   var result = [];
-  for (var i = 0; i < min(start, array.length); i++) {
+  for (var i = 0; i < Math.min(start, array.length); i++) {
     result[result.length] = array[i];
   }
   for (var i = 3; i < arguments.length; i++) {
@@ -26,6 +28,3 @@ function splice (array, start, deleteCount) {
   return result;
 }
 
-function min (a, b) {
-  return a < b ? a : b;
-}

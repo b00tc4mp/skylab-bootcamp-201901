@@ -7,6 +7,9 @@
  */
 
 function sort (array, comparefn) {
+	if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+	if (arguments.length > 1 && !(callbackfn instanceof Function)) throw new TypeError("undefined is not a function");
+
   var compare = comparefn || compareDefault;
   for (var i = array.length - 2; i >= 0; i--) {
     for (var j = 0; j < i; j++ ) {

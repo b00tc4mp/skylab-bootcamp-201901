@@ -8,8 +8,10 @@
  * @returns {number} Index of first occurrence. -1 if not present
  */
 function indexOf(array, value, start) {
-  for (var i = start || 0; i < array.length; i++) {
-    if (array[i] === value) return i;
+	if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+
+  for (var k = parseInt(start) || 0; k < array.length; k++) {
+    if (array[k] === value) return k;
   }
   return -1;
 }

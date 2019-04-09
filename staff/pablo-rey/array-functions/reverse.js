@@ -6,10 +6,14 @@
  * @returns {Array} The original array with all elements in reverse order
  */
 function reverse(array) {
-  for (var i = 0; i < array.length / 2; i++) {
-    var temp = array[i];
-    array[i] = array[array.length - 1 - i] ;
-    array[array.length - 1 - i] = temp;
+	if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+
+  var len = array.length;
+  for (var k = 0; k < len / 2; k++) {
+    var j = len - 1 - k;
+    var temp = array[k];
+    array[k] = array[j] ;
+    array[j] = temp;
   }
   return array;
 }

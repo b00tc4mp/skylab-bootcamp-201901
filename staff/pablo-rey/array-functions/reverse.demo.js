@@ -12,3 +12,24 @@ console.log('reversed: ', reversed);
 the original array */ 
 console.log('array1: ', array1);
 // expected output: Array ['three', 'two', 'one']
+
+
+console.log('Error case 1 - No params');
+
+try {
+  reverse();
+  console.error("Validation failed");
+} catch (error) {
+  console.log(error)
+}
+// Expected > TypeError: array param is not an array
+
+console.log('Error case 2 - Not an array');
+
+try {
+  reverse(1);
+  console.error("Validation failed");
+} catch (error) {
+  console.log(error)
+}
+// Expected > TypeError: array param is not an array

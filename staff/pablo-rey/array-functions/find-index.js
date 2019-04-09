@@ -6,8 +6,12 @@
  * 
  * @returns {number} Index of first occurrence
  */
-function findIndex (array, callbackfn) {
-  for (var i = 0; i < array.length;  i++) {
-    if (callbackfn(array[i], i, array)) return i;
+function findIndex (array, callbackfn, _this) {
+	if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+	if (!(callbackfn instanceof Function)) throw new TypeError("undefined is not a function");
+
+  for (var k = 0; k < array.length;  k++) {
+    if (callbackfn.call(_this, array[k], k, array)) return k;
   }
+  return -1;
 }

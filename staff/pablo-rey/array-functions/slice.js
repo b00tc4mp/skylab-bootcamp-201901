@@ -8,6 +8,8 @@
  * @returns {Array} new array with elements between start and end(not included)
  */
 function slice (array, begin, end) {
+	if (!(array instanceof Array)) throw new TypeError("array param is not an array");
+
   var start = begin || 0;
   var last = end || array.length;
   var result = [];
