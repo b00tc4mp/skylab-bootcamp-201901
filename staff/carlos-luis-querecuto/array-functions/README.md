@@ -1,0 +1,8 @@
+Array.prototype.reduce()
+Array.prototype.reduceRight()
+Array.prototype.reverse()
+Array.prototype.shift()
+Array.prototype.slice()
+Array.prototype.some()
+Array.prototype.sort()
+Array.prototype.splice()
