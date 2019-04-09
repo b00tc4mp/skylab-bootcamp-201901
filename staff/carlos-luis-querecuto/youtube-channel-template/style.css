@@ -1,0 +1,322 @@
+@import url('https://fonts.googleapis.com/css?family=Montserrat');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu');
+body{
+    margin: 0;
+    overflow: hidden;
+}
+
+html, body {
+    height: 100%;
+  }
+
+h1,h2,h3,h4,h5{
+    font-family: 'Ubuntu', sans-serif;
+    color: gray;
+}
+
+p,time{
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    color: gray;
+}
+
+a{
+    font-family: 'Montserrat', sans-serif;
+    text-decoration: none;
+    color: gray;
+}
+
+main{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+}
+
+nav > a{
+    font-size: 14px;
+    margin: 5px;
+}
+
+#menu{
+    height: 30px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-around;
+    margin:5px;
+}
+
+#fullogo{
+    display:none;
+}
+
+#navigator{
+    background-color: #e62117ed;
+    height: 8vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+}
+
+.toggle{
+    display: none;
+}
+
+#banner{
+    width: 100%;
+    height: 10vh;
+    background-color: darkred;
+}
+
+#videoblock{
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+    align-items: center;
+    overflow-y: auto;
+    height: calc(100vh - 250px);
+}
+
+.usernamenav{
+    display: inline-block;
+    color: white;
+}
+
+.videoimage{
+    height: 130px;
+    width: 200px;
+}
+
+.videoitem{
+    box-sizing: border-box;
+    padding: 5px;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+
+h5,h4,p {
+    margin: 2px;
+}
+
+.textdes   {
+    margin: 0;
+    padding: 10px;
+}
+
+#username{
+    padding-top: 0;
+    margin-left: 20px;
+}
+
+.useritems{
+    margin: 0;
+    padding-left: 8px;
+    margin-bottom: 0px;
+}
+
+#suscribe{
+    padding-left: 5px;
+    padding-right:  5px;
+    color: red;
+    font-family: helvetica;
+    text-decoration: none;
+    text-transform: uppercase;    
+}
+
+#user{
+    margin: 0;
+    height: 30px;
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+#userblock{
+    background-color: white;
+    border-bottom: 5px solid lightgray;
+}
+
+input[type="text"] {
+    width: 40vw;
+    border: 2px solid #aaa;
+    border-radius: 4px;
+    margin: 10px;
+    outline: none;
+    padding: 8px;
+    box-sizing: border-box;
+    transition: 0.3s;
+  }
+  
+
+#logo{
+    height: 40px;
+    width: 40px;
+    fill: white;
+}
+
+
+.phototop{
+    width: 6vh;
+    border-radius: 50%;
+    border: 5px solid white;
+    padding: 5px;
+}
+
+#icons{
+    height: 30px;
+    width: 30px;
+    fill: white;
+    padding: 5px;
+}
+
+
+
+#photo{
+    position: relative  ;
+    bottom: 30px;
+    left: 30px;
+    margin: 0;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    border: 5px solid white;
+}
+.multidevice{
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    flex-direction: row;
+}
+
+.iconsflex{
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: row;
+}
+
+.desktopsidebar{
+    display: none;
+}
+
+.desktop{
+    display: none;
+}
+
+#tools{
+    padding: 15px;
+    margin-right: 30px;
+}
+svg{
+    height: 100vw;
+    width: 100vw;
+}
+
+.channelphoto{
+    fill: darkgray;
+    padding: 5px;
+    margin-left: 3px;
+    height: 15px;
+    width: 15px;
+}
+
+.channel{
+    margin: 0;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.sidebarlink{
+    padding: 40px;
+    padding-bottom: 15px;
+    padding-top: 15px;
+
+}
+
+@media screen and (min-width: 768px) {
+    #banner{
+        width: 100%;
+        height: 13vh;
+        background-color: gray;
+    }
+    .toggle{
+        display: none;
+    }
+
+    .nomobile{
+        display: none;
+    }
+
+    .sidebaritems{
+        background-color: lightgray;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+        border-bottom: 1px solid gray;
+    }
+
+    .sidebarchannels{
+        background-color: white;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+   
+    }
+
+    .sidebaritem{
+        background-color: lightgray;
+        display: flex;
+        justify-content: center;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .desktop{
+        display: flex;
+    }
+
+    #logo{
+        display: none;
+    }
+    #fullogo{
+        display:flex;
+        width: 100px;
+        height: 140px;
+    }
+    
+    .desktopsidebar{
+        height: 100%;
+        display: flex;
+    }
+
+    #icons{
+        fill: gray;
+    }
+
+    #navigator{
+        background-color: white;
+        height: 9vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: row-reverse;
+    }
+}
+
+@media screen and (min-width: 1064px){
+    .toggle{
+        display: block;
+    }
+}
