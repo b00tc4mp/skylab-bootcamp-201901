@@ -1,5 +1,5 @@
 /**
- * Return a new array mapped by callback fuction instuctions
+ * Return combine all elements into an Array in one
  * 
  * @param {Array} array The array to iterate.
  * 
@@ -18,8 +18,7 @@ function reduce(array, callback) {
                 result = callback(array[i], array[i + 1]);
                 arrayResult[arrayResult.length] = result;
             }
-            arrayResult[arrayResult.length] = callback(arrayResult[arrayResult.length], array[i]);
-                
+            arrayResult[arrayResult.length] = callback(arrayResult[arrayResult.length], array[i]);     
         }
         return arrayResult[arrayResult.length];
     }

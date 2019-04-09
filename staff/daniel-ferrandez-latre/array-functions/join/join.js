@@ -14,7 +14,11 @@ function join(array, srtElement) {
             }
         }
             for(var i = 0; i < array.length; i++) {
-                strJoin += array[i] + srtElement;
+                if (i < array.length - 1) {
+                    strJoin += array[i] + srtElement;
+                } else {
+                    strJoin += array[i];
+                }
         }
         return strJoin;
     } else {

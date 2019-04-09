@@ -7,5 +7,5 @@ console.log('case 1');
 console.log(reduce(array, function(lastValue, currentValue) {
         return lastValue + currentValue;
 }));
-// Array map
+// Array reduce
 
