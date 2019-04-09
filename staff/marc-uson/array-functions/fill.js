@@ -8,25 +8,9 @@
  */
 
 function fill(array, value,from ,to){
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
     if ((typeof from !== 'number') && (from !== undefined)) throw TypeError(from + ' is not a number');
     if ((typeof to !== 'number') && (to !== undefined)) throw TypeError(to + ' is not a number');
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> develop
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     var end = to === undefined ? array.length : to;
     var start = from === undefined ? 0 : from;
 

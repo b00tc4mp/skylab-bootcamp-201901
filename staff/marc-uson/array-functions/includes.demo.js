@@ -10,15 +10,6 @@ console.log(Includes(a, 10));
 console.log('case 2');
 
 console.log(Includes(a, 'a'));
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-//false
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
 //false
 
 console.log('case 3');
@@ -39,13 +30,4 @@ try {
     console.error('should not reach this point');
 } catch (error) {
     console.error(error.message);
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 }
->>>>>>> develop
-=======
-}
->>>>>>> Stashed changes
-=======
-}
->>>>>>> Stashed changes

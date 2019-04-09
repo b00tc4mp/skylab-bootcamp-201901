@@ -8,9 +8,12 @@
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 function IndexOf(array,element, fromIndex){
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======
@@ -21,7 +24,10 @@ function IndexOf(array, element, fromIndex){
 
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>> develop
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 =======

@@ -6,24 +6,9 @@
  */
 
 function filter(array, callback){
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-=======
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
     if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
-
->>>>>>> develop
-=======
-    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
-    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
-
->>>>>>> Stashed changes
-=======
-    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
-    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
-
->>>>>>> Stashed changes
+    
     var newArr = [];
     var j = 0;
     for(var i = 0; i < array.length; i++){

@@ -6,25 +6,9 @@
  */
 
 function concat(...arrays){
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-=======
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     for(var x = 0; x < arrays.length; x++){
         if (!(arrays[x] instanceof Array)) throw TypeError(array[i] + ' is not an array');
     }
-
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
->>>>>>> develop
-=======
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
     var newArray = [];
     var k = 0;
     for(var i = 0; i < arrays.length; i++){

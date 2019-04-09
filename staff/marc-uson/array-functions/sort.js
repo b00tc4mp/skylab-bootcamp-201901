@@ -8,11 +8,15 @@
 function sort(array){
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
     debugger
 =======
     
 >>>>>>> develop
+=======
+    
+>>>>>>> Stashed changes
 =======
     
 >>>>>>> Stashed changes

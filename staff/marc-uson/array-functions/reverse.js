@@ -13,12 +13,18 @@ function reverse(array){
     }
 <<<<<<< Updated upstream
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 =======
     for(var x = 0; x < newArr.length; x++){
         array[x] = newArr[x];
     }
 >>>>>>> develop
+=======
+    for(var x = 0; x < newArr.length; x++){
+        array[x] = newArr[x];
+    }
+>>>>>>> Stashed changes
 =======
     for(var x = 0; x < newArr.length; x++){
         array[x] = newArr[x];
