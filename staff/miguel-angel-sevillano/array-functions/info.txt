@@ -1,0 +1,11 @@
+
+
+
+
+
+
+
+Array.prototype.reverse()
+Array.prototype.shift()
+Array.prototype.slice()
+Array.prototype.sort()

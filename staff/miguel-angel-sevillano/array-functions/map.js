@@ -5,6 +5,11 @@
  * @param {*} value the vaue you want to pass by
  */
 
+
+
+
+var test =[2,4,6,8]
+
 function map(array,callback,value){
   
   var newArray=[],acc,item;
@@ -25,3 +30,5 @@ function map(array,callback,value){
        }
        return newArray;
   }
+
+map(test,function(array,acc){return acc+array})

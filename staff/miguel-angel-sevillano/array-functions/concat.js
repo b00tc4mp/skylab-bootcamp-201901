@@ -5,7 +5,7 @@
  *
  */
 
-var concat = function ()  {
+function concat ()  {
     var i, j, k = 0, newarray = [];
  
     for (i = 0; i < arguments.length; i++){
