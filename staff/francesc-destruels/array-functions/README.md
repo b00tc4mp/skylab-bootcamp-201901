@@ -1,7 +1,7 @@
 #Array Functions
 
 ## Recreate array methods
-    Array.isArray()*
+    Array.isArray()*  /Test Done/
     Array.prototype.concat()* /Test Done/
     Array.prototype.every()* /Test Done/
     Array.proptotype.fill()* /Test Done/
