@@ -11,5 +11,11 @@ function reverse(array){
         newArr[j] = array[i] ; 
         j++;
     }
+<<<<<<< HEAD
+=======
+    for(var x = 0; x < newArr.length; x++){
+        array[x] = newArr[x];
+    }
+>>>>>>> develop
     return newArr;
 }

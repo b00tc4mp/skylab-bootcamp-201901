@@ -1,0 +1,45 @@
+.aside
+    position: fixed
+    width: 15em
+    height: 100%
+    color: $color
+    &-nav
+        @extend %display-flex
+        padding-bottom: 1em
+        &__item
+            @extend %display-link
+            display: flex
+            align-items: center
+            color: $color-grey
+            opacity: .7
+            font-size: $main-font-size
+            padding: .4em 0
+            border-left: 0.3em solid black
+            margin-bottom: .5em
+            &:first-child
+                border-left: 0.3em solid $color-btn-select
+                @extend %hover-link
+            & > svg
+                padding: 0 1.5em
+                width: 1.7em
+                height: 1.7em
+            &:hover
+                @extend %hover-link
+            & > span
+                @media screen and (max-width: $break-small)
+                    display: none
+    &__btns
+        @extend %display-flex
+        align-items: center
+        justify-content: space-around
+        height: 6em
+        @media screen and (max-width: $break-small)
+            display: none
+    & > i
+        font-size: 2.5em
+        padding: 0.5em
+        @media screen and (min-width: $break-small)
+            display: none
+
+    @media screen and (max-width: $break-small)
+        width: 5em

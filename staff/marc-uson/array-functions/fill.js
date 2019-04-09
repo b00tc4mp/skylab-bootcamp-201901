@@ -8,6 +8,13 @@
  */
 
 function fill(array, value,from ,to){
+<<<<<<< HEAD
+=======
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if ((typeof from !== 'number') && (from !== undefined)) throw TypeError(from + ' is not a number');
+    if ((typeof to !== 'number') && (to !== undefined)) throw TypeError(to + ' is not a number');
+
+>>>>>>> develop
     var end = to === undefined ? array.length : to;
     var start = from === undefined ? 0 : from;
 

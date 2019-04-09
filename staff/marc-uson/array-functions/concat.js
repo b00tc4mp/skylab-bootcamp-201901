@@ -6,6 +6,13 @@
  */
 
 function concat(...arrays){
+<<<<<<< HEAD
+=======
+    for(var x = 0; x < arrays.length; x++){
+        if (!(arrays[x] instanceof Array)) throw TypeError(array[i] + ' is not an array');
+    }
+
+>>>>>>> develop
     var newArray = [];
     var k = 0;
     for(var i = 0; i < arrays.length; i++){

@@ -6,7 +6,11 @@
  */
 
 function sort(array){
+<<<<<<< HEAD
     debugger
+=======
+    
+>>>>>>> develop
     for(var i= 0; i < array.length; i++){
         var a = array[i];
         var b = array[i+1];
