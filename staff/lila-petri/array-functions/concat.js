@@ -9,7 +9,7 @@ function concat(array, array2) {
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
     if (!(array2 instanceof Array)) throw TypeError(array2 + ' is not an array');
    
-    var ind=array.length-1;
+    var ind=array.length;
     for(var i=0; i<array2.length; i++){
         array[i+ind]=array2[i];
     }
