@@ -1,0 +1,97 @@
+.mediaplayer
+    background-color: #181818
+    width: 100vw
+    height: 15vh
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: row
+
+.playerbar
+    display: flex
+    justify-content: center
+    align-items: center
+    flex-direction: column
+
+.playerbuttons
+    display: flex
+    justify-content: center
+    align-items: center
+    justify-content: space-around
+
+    &__button
+        background-color: transparent
+        border: none
+        color: gray
+        padding: 0.5vw 1.5vh
+        text-align: center
+        text-decoration: none
+        display: inline-block
+        font-size: 16px
+        margin: 0.5vw
+        cursor: pointer
+
+        &--play
+            background-color: transparent
+            border: 1px solid gray
+            border-radius: 50%
+            color: gray
+            padding: 0.5vw 1.5vh
+            text-align: center
+            text-decoration: none
+            display: inline-block
+            font-size: 16px
+            margin: 0.5vw
+            cursor: pointer
+
+        &--volume
+            background-color: transparent
+            border: none
+            color: gray
+            text-align: center
+            text-decoration: none
+            display: inline-block
+            font-size: 16px
+            cursor: pointer
+
+.songduration
+    font-family: 'Roboto'
+    color: gray
+    padding: 0.5vw 0.8vh
+    text-align: center
+    font-size: 0.8vw
+    margin: 0.4vw 0.2vh
+
+.artist
+    display: flex
+    justify-content: flex-start
+    align-items: flex-end
+
+    &__photo
+        width: 20%   
+        margin: 5px 
+        border: 1px solid gray
+
+    &__name
+        font-family: 'Roboto'
+        color: grey
+       
+
+.volume
+    margin-right: 3vw
+    background-color: gray
+    display: block
+    width: 12vw
+    height: 0.4vh
+
+.volumebar
+    margin-left: 5vw
+    display: flex
+    justify-content: center
+    align-items: center
+
+.songprog
+    background-color: gray
+    display: block
+    width: 50vw
+    height: 0.4vh
