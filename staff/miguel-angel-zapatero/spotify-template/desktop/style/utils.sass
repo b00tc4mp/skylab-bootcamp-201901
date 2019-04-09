@@ -1,0 +1,29 @@
+%display-flex
+    display: flex
+    flex-direction: column
+
+%display-link
+    display: inline-block
+    text-decoration: none
+
+%hover-link
+    color: $color
+    opacity: 1
+
+%button
+    @extend %display-link
+    letter-spacing: .1em
+    text-align: center
+    border-radius: 2em
+    white-space: nowrap
+
+%span
+    display: inline-block
+    margin: 0 .5em
+    border-radius: .2em
+    background-color: $color
+
+=btn($size, $backcolor, $width, $height)    
+    font-size: $size
+    background-color: $backcolor
+    padding: $width $height

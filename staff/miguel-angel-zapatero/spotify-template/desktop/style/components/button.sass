@@ -1,0 +1,11 @@
+.button
+    @extend %button
+    +btn(.75em, $button-color-white, .7em, 3em)
+    color: black
+    width: 10em
+    &--black
+        background-color: $button-color-black
+        border: .1em solid $color
+        color: $color
+    &:hover
+        font-size: .8em
