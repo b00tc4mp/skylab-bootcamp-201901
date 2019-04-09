@@ -1,13 +1,9 @@
 console.log('DEMO', 'sort');
 
-var a = [1, 2, 3, 4, 5, 6];
+var a = ["casa", "cava", "piso", "kiko"];
 
 console.log('case 1');
 
-console.log(sort());
-//
+console.log(sort(a));
+// 
 
-console.log('case 2');
-
-console.log(sort());
-//
