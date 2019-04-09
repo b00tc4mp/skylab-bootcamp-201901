@@ -1,0 +1,344 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+@import url("https://fonts.googleapis.com/css?family=Heebo:800");
+.navbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+.navbar__logo {
+  margin-top: 30px;
+  margin: 10px;
+  fill: white;
+  width: 140px;
+}
+
+.music-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  margin-top: 50px;
+}
+.music-list__title {
+  text-align: center;
+  font-size: 35px;
+  font-family: "Heebo", sans-serif;
+  margin: 10px;
+  color: white;
+}
+.music-list__items {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.link-image {
+  display: flex;
+  width: 180px;
+}
+
+@media (min-width: 1024px) {
+  .link-image {
+    display: flex;
+    width: 250px;
+  }
+}
+.categories {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.footer {
+  padding-bottom: 50px;
+  flex-direction: column;
+  justify-content: center;
+}
+.footer__logo {
+  margin-top: 30px;
+  fill: white;
+  width: 180px;
+}
+.footer__menu {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button__mobile {
+  margin: 30px;
+  background-color: #2ebd59;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  border-radius: 20px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+.button__mobile--register {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: white;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  border-radius: 20px;
+  color: gray;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+.button__mobile--register:hover {
+  background-color: gray;
+  color: white;
+}
+.button__mobile--login {
+  margin-top: 5px;
+  margin-bottom: 5px;
+  background-color: black;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 12px;
+  border-radius: 20px;
+  color: white;
+  border: 2px solid white;
+  width: 200px;
+  height: 40px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+.button__mobile--login:hover {
+  border: 2px solid gray;
+}
+
+.menu-links {
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 14px;
+  margin: 10px;
+  color: gray;
+}
+.menu-links--main {
+  text-decoration: none;
+  font-family: "Roboto", sans-serif;
+  font-size: 15px;
+  margin: 20px;
+  color: #d1d1d1;
+  display: inline-block;
+}
+
+.menu-links--main:hover {
+  color: white;
+  margin-bottom: 18px;
+  border-bottom: 2px solid #2ebd59;
+}
+
+.sidebar {
+  width: 20vw;
+  background-image: linear-gradient(to right bottom, #121212, black), linear-gradient(transparent, black 70%);
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  flex-direction: column;
+  padding: 10px;
+}
+.sidebar__option {
+  color: white;
+  font-family: "Roboto";
+  font-size: 14px;
+}
+.sidebar__icon {
+  margin: 15px;
+  fill: white;
+  width: 30px;
+}
+
+.sidebar__items {
+  text-decoration: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-items: center;
+}
+
+.sidebar__option:hover {
+  color: gray;
+}
+
+.mediaplayer {
+  background-color: #181818;
+  width: 100vw;
+  height: 15vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+}
+
+.playerbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.playerbuttons {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  justify-content: space-around;
+}
+.playerbuttons__button {
+  background-color: transparent;
+  border: none;
+  color: gray;
+  padding: 0.5vw 1.5vh;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0.5vw;
+  cursor: pointer;
+}
+.playerbuttons__button--play {
+  background-color: transparent;
+  border: 1px solid gray;
+  border-radius: 50%;
+  color: gray;
+  padding: 0.5vw 1.5vh;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0.5vw;
+  cursor: pointer;
+}
+.playerbuttons__button--volume {
+  background-color: transparent;
+  border: none;
+  color: gray;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.songduration {
+  font-family: "Roboto";
+  color: gray;
+  padding: 0.5vw 0.8vh;
+  text-align: center;
+  font-size: 0.8vw;
+  margin: 0.4vw 0.2vh;
+}
+
+.artist {
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-end;
+}
+.artist__photo {
+  width: 20%;
+  margin: 5px;
+  border: 1px solid gray;
+}
+.artist__name {
+  font-family: "Roboto";
+  color: grey;
+}
+
+.volume {
+  margin-right: 3vw;
+  background-color: gray;
+  display: block;
+  width: 12vw;
+  height: 0.4vh;
+}
+
+.volumebar {
+  margin-left: 5vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.songprog {
+  background-color: gray;
+  display: block;
+  width: 50vw;
+  height: 0.4vh;
+}
+
+.navbardesktop {
+  margin: 30px;
+  margin-bottom: 0;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  justify-items: center;
+}
+
+.--toggle {
+  display: none;
+}
+
+.--hidemobile {
+  display: flex;
+}
+
+@media (min-width: 1200px) {
+  .--toggle {
+    display: flex;
+  }
+
+  .--hidemobile {
+    display: none;
+  }
+
+  .landing {
+    height: 85vh;
+    width: 100vw;
+    overflow: auto;
+  }
+
+  .--desktopalign {
+    justify-content: flex-start;
+    align-items: flex-start;
+    margin-left: 50px;
+  }
+
+  .--multidevice {
+    height: 85vh;
+    display: flex;
+    align-items: flex-start;
+    flex-direction: row;
+  }
+
+  .link-image {
+    display: block;
+    width: 170px;
+    margin: 5px;
+  }
+}
+.webplayer {
+  margin: 0;
+  background-color: #141414;
+}
+
+@media (min-width: 1200px) {
+  .webplayer {
+    background-image: linear-gradient(to right bottom, #624b37, black), linear-gradient(transparent, black 70%);
+    display: flex;
+    flex-direction: column;
+  }
+}
+
+/*# sourceMappingURL=style.css.map */
