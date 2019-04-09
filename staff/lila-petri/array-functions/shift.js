@@ -3,21 +3,22 @@
  * @param {*} arr 
  */
 
-function shift(arr){
-    var element;
-    for(i=0;i<arr.length-1;i++)
-            if(i==0){
-                element=arr[i]
-                for(j=i;j<arr.length-1;j++)
-                    arr[j]=arr[j+1] 
-            }
-            new_arr=[];
-            for(i=0;i<arr.length-1;i++)
-                new_arr[i]=arr[i]
-        arr=new_arr
-        console.log(arr)
-    return element;
+
+
+function shift(array){
+  var el=array[0];
+  for(i=1;i<array.length;i++){
+      array[i-1]=array[i];
+  }
+  array.length=array.length-1;
+  return el;
+    
 }
 
+console.log('DEMO', 'shift');
+
+array=[1,2,3,4,5,6]
+console.log(shift(array));
+console.log(array);
 
 

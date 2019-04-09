@@ -11,13 +11,13 @@ Array.prototype.indexOf()
 Array.prototype.join()
 Array.prototype.lastIndexOf()
 Array.prototype.map()
-Array.prototype.reduce() me falta
-Array.prototype.reduceRight() me falta
+Array.prototype.reduce()
+Array.prototype.reduceRight()
 Array.prototype.reverse()
 Array.prototype.shift() 
 Array.prototype.slice() me falta
 Array.prototype.some()
-Array.prototype.sort()
+Array.prototype.sort() me falta
 Array.prototype.splice()
 `````
 
