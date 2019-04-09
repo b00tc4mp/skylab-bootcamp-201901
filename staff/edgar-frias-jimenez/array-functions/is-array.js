@@ -7,5 +7,7 @@
  */
 
 function isArray(element) {
+  if (element === undefined) throw new TypeError(element + ': you have to provide a valid element');
+
   return element instanceof Array ? true : false;
 }

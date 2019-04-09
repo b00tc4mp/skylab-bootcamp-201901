@@ -9,6 +9,9 @@
  */
 
 function filter(array, callback) {
+  if (!(array instanceof Array)) throw TypeError(array + ': is not an array');
+  if (typeof callback !== 'function') throw new TypeError(callback + ': is not a function');
+
   var newArray = [];
 
   for (var i = 0; i < array.length; i++) {

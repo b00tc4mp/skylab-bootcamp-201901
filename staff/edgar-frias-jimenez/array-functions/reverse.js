@@ -13,5 +13,9 @@ function reverse(array) {
     newArray[newArray.length] = array[i];
   }
 
-  console.log('Array reversed:', newArray);
+  for(var i = 0; i < newArray.length; i++) {
+    array[i] = newArray[i];
+  }
+
+  console.log('Array reversed:', array);
 }

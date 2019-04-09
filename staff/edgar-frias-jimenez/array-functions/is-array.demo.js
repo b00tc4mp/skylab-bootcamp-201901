@@ -13,3 +13,13 @@ console.log('var b = {foo: 123};', isArray(b));
 
 console.log('var c = "foobar";', isArray(c));
 // expected output: false
+
+// Void value
+console.log('If void value');
+try {
+  isArray();
+
+  console.error('should not reach this point');
+} catch(error) {
+  console.error(error.message);
+}

@@ -2,11 +2,11 @@
 
 Here are the implemented methods:
 
-- **Array.isArray()**
-- **Array.prototype.concat()**
-- **Array.prototype.every()**
-- **Array.prototype.filter()**
-- **Array.prototype.forEach()**
+- **Array.isArray() with error handling**
+- **Array.prototype.concat() with error handling**
+- **Array.prototype.every() with error handling**
+- **Array.prototype.filter() with error handling**
+- **Array.prototype.forEach() with error handling**
 - **Array.prototype.indexOf()**
 - Array.prototype.join()
 - **Array.prototype.lastIndexOf()**
