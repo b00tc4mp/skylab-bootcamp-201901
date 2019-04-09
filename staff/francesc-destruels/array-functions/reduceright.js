@@ -6,9 +6,11 @@
  */
 
 var reduceright = (function(array, callback, initial) {
-  "use strict";
+    "use strict";
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
-    
+    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+    if (isNaN(initial) && initial !== undefined ) throw TypeError(initial + ' is not a starting value');
+
     var i, acc = [], initial, newArray = [];
   
       if (initial === undefined){
@@ -17,7 +19,7 @@ var reduceright = (function(array, callback, initial) {
           acc[0] = callback(acc[0], array[i]);
         }
       } else {
-        acc = initial;
+        acc[0] = initial;
         for (i = array.length -1; i >= 0; i--){
           acc[0] = callback(acc[0], array[i]);
         }

@@ -8,6 +8,8 @@
 var slice = (function(array, from, to){
     "use strict";
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if (isNaN(from)) throw TypeError(from + ' is not a valid array index value');
+    if (isNaN(to) && to !== undefined) throw TypeError(firstposition + ' is not a valid array index value');
     
     var i, newArray=[], k = 0;
       

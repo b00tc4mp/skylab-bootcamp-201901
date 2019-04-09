@@ -7,6 +7,8 @@
 
 var filter = (function(array, callback){
     "use strict";
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
     
     var i, newArray = [], j = 0;
 

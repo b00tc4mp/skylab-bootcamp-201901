@@ -1,7 +1,7 @@
 console.log('DEMO', 'join');
 
 var a = [6, 6, 6];
-var b = ["calle", 2, "`puerta", 4];
+var b = ["calle", 2, "puerta", 4];
 var c = ["solo", 2, 3];
 
 
@@ -12,10 +12,10 @@ console.log(join(a, ""));
 
 console.log('case 2');
 
-console.log(b, " ");
+console.log(join(b, " "));
 // "calle 2 puerta 4"
 
 console.log('case 3');
 
-console.log(c, "/");
+console.log(join(c, "/"));
 // "solo/2/3"

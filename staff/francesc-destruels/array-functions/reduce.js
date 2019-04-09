@@ -9,6 +9,8 @@
 var reduce = (function(array, callback, initial) {
   "use strict";
   if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+  if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+  if (isNaN(initial) && initial !== undefined ) throw TypeError(initial + ' is not a starting value');
 
   var i, acc = [], initial, newArray = [];
 

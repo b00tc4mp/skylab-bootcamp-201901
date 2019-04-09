@@ -5,12 +5,14 @@
  * @param {array} array 
  * @param {number} origin 
  * @param {number} erase 
- * @param {number} add 
+ * @param {*} add 
  */
 
 var splice = (function(array, origin, erase, add){
     "use strict";
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if (isNaN(origin)) throw TypeError(firstposition + ' is not a valid array index value');
+    if (isNaN(erase || erase !== undefined) ) throw TypeError(firstposition + ' is not a valid array index value');
     
     var i, j = erase, newArray = [];
 

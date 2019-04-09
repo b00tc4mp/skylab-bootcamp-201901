@@ -10,6 +10,9 @@
 var fill = (function(arraytofill, filling, firstposition, lastposition) {
     "use strict";
     if (!(arraytofill instanceof Array)) throw TypeError(array + ' is not an array');
+    if (isNaN(filling)) throw TypeError(firstposition + ' is not a valid array index value');
+    if (firstposition < 0) throw TypeError(firstposition + ' is not a valid array index value');
+    if (lastposition === 0 || lastposition > arraytofill.length -1) throw TypeError(lastposition + ' is not a valid array last index value');
     
     var i = 0, j, newarray = [];
 
