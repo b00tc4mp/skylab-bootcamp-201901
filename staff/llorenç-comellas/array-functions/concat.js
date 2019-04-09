@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  *  Method is used to merge two or more arrays. This method does not change the existing arrays, but instead returns a new array.
  * 
@@ -8,6 +10,7 @@
 
 
 function concat(...args){
+  if(!(args instanceof Array)) throw TypeError(args + ' is not an array');
   var results = []
   var j = 0;
   for (var i = 0; i<args.length;i++){
@@ -17,7 +20,7 @@ function concat(...args){
     }
       
   }
-  console.log(results)
+  return results
 
 }
 

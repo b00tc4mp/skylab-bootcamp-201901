@@ -1,5 +1,3 @@
-'use strict';
-
 /**
  * Iterates an array and evaluates an expression on each of its values, returning true if all of them match it. Otherwise returns false.
  * 

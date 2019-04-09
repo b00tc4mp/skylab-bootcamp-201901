@@ -1,5 +1,5 @@
 
-
+'use strict';
 
 function filter(array, callback) {
     var j = 0;
