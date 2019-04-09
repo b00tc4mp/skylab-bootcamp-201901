@@ -10,10 +10,13 @@ console.log(IndexOf(a, 10));
 console.log('case 2');
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 console.log(IndexOf(a, 30));
 //-1
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 console.log(IndexOf(a, 1, 1));
@@ -38,8 +41,12 @@ try {
 } catch (error) {
     console.error(error.message);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 >>>>>>> develop
+=======
+}
+>>>>>>> Stashed changes
 =======
 }
 >>>>>>> Stashed changes

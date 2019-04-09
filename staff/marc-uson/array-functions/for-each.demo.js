@@ -15,9 +15,12 @@ forEach(a, function(v) { console.log(v + 1); });
 // 2
 // 3
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 // 4
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 // 4
@@ -41,8 +44,12 @@ try {
 } catch(error) {
     console.error(error.message);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 >>>>>>> develop
+=======
+}
+>>>>>>> Stashed changes
 =======
 }
 >>>>>>> Stashed changes

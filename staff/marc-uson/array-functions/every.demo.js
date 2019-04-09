@@ -1,6 +1,7 @@
 console.log('\n\nDEMO', 'every');
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 var a = [1, 2, 3];
 
@@ -21,15 +22,25 @@ console.log('case 1');
 
 console.log(every(array, function(v) { return v > 0; }));
 >>>>>>> Stashed changes
+=======
+var array = [1, 2, 3];
+
+console.log('case 1');
+
+console.log(every(array, function(v) { return v > 0; }));
+>>>>>>> Stashed changes
 // true
 
 console.log('case 2');
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 console.log(every(a, function(v) { return v < 2; }));
 // false
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 console.log(every(array, function(v) { return v < 2; }));
@@ -54,8 +65,12 @@ try {
 } catch(error) {
     console.error(error.message);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 >>>>>>> develop
+=======
+}
+>>>>>>> Stashed changes
 =======
 }
 >>>>>>> Stashed changes

@@ -7,9 +7,12 @@
  */
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 function IndexOf(array,element, fromIndex){
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 function IndexOf(array, element, fromIndex){
@@ -17,7 +20,10 @@ function IndexOf(array, element, fromIndex){
     if((typeof fromIndex !== 'number')&&(fromIndex !== undefined)) throw TypeError(index + ' is not a number');
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>> develop
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     var i = fromIndex === undefined ? 0 : fromIndex;

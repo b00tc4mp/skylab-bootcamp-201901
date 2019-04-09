@@ -6,10 +6,13 @@
  */
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 function Includes(array, value){
     for(var i = 0; i < array.length; i++)  if(array[i] === value) return true;
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 function Includes(array, value, index){
@@ -19,7 +22,10 @@ function Includes(array, value, index){
     var i = (index === undefined) ? 0 : index;
     for( i; i < array.length; i++)  if(array[i] === value) return true;
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>> develop
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 

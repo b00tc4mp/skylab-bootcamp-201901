@@ -7,8 +7,11 @@
 
 function concat(...arrays){
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     for(var x = 0; x < arrays.length; x++){
@@ -16,7 +19,10 @@ function concat(...arrays){
     }
 
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 >>>>>>> develop
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
     var newArray = [];

@@ -11,9 +11,12 @@ console.log('case 2');
 
 console.log(filter(a, function(v) { return v > 2 ? true : false; }))
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 // [3]
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 // [3]
@@ -37,8 +40,12 @@ try {
 } catch(error) {
     console.error(error.message);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 >>>>>>> develop
+=======
+}
+>>>>>>> Stashed changes
 =======
 }
 >>>>>>> Stashed changes

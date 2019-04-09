@@ -11,9 +11,12 @@ console.log('case 2');
 
 console.log(Includes(a, 'a'));
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 //false
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 //false
@@ -37,8 +40,12 @@ try {
 } catch (error) {
     console.error(error.message);
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 >>>>>>> develop
+=======
+}
+>>>>>>> Stashed changes
 =======
 }
 >>>>>>> Stashed changes

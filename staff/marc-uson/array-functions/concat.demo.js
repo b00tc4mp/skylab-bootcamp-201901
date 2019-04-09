@@ -12,8 +12,11 @@ console.log('case 2');
 console.log(concat([1, 2, 3], [4, 5, 6], ['a', 'b', 'c']));
 //[1, 2, 3, 4, 5, 6, 'a', 'b'. 'c']
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 <<<<<<< HEAD
 =======
+=======
+>>>>>>> Stashed changes
 =======
 >>>>>>> Stashed changes
 
@@ -36,8 +39,12 @@ try {
 } catch (error) {
     console.error(error.message)
 <<<<<<< Updated upstream
+<<<<<<< Updated upstream
 }
 >>>>>>> develop
+=======
+}
+>>>>>>> Stashed changes
 =======
 }
 >>>>>>> Stashed changes
