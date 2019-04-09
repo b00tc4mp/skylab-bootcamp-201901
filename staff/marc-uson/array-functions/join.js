@@ -6,6 +6,8 @@
  */
 
 function join(array, element){
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
     var separator = element === undefined ? ',' : element;
     var string = '';
     for(var i = 0; i< array.length; i++) string += array[i]+separator;

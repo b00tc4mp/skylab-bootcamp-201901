@@ -26,7 +26,7 @@ try {
 console.log('case 4');
 
 try {
-    every(array);
+    every(a);
 
     console.error('should not reach this point');
 } catch(error) {

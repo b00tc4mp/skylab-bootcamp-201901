@@ -8,10 +8,17 @@
 
 
 function slice(array, begin, end){
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    
+    if((begin !== undefined)&&(typeof begin == 'number')){
+        i = begin;
+    }else{
+        i = 0;
+    }
     var newArr = [];
     var j = 0;
     var z = (end === undefined) ? array.length : end;
-    for(i=begin; i < z; i++){
+    for(i; i < z; i++){
         newArr[j] = array[i];
         j++
     }

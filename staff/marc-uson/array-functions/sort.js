@@ -6,23 +6,8 @@
  */
 
 function sort(array){
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
-<<<<<<< HEAD
-    debugger
-=======
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
     
->>>>>>> develop
-=======
-    
->>>>>>> Stashed changes
-=======
-    
->>>>>>> Stashed changes
-=======
-    
->>>>>>> Stashed changes
     for(var i= 0; i < array.length; i++){
         var a = array[i];
         var b = array[i+1];

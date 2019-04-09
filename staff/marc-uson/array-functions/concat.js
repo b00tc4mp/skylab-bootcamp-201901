@@ -7,7 +7,7 @@
 
 function concat(...arrays){
     for(var x = 0; x < arrays.length; x++){
-        if (!(arrays[x] instanceof Array)) throw TypeError(array[i] + ' is not an array');
+        if (!(arrays[x] instanceof Array)) throw TypeError(arrays[x] + ' is not an array');
     }
     var newArray = [];
     var k = 0;

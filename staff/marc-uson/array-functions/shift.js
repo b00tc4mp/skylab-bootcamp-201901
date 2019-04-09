@@ -5,6 +5,8 @@
  */
 
 function shift(array){
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+
     var newArr = [];
     var element;
     for(var i = 1; i < array.length; i++)newArr[i-1] = array[i];

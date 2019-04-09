@@ -7,6 +7,10 @@
  */
 
 function reduce(array, callback, start){
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+    if ((start !== undefined) && (typeof start !=='number')) throw new TypeError(start + 'is not a number');
+    
     var x = 0;
     if (start === undefined){
         var result = array[0];
