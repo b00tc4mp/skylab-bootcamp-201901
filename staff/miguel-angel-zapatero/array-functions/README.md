@@ -22,7 +22,7 @@ Function | Description
 *reverse* | reverses an array in place. The first array element becomes the last, and the last array element becomes the first.
 *shift** |
 *slice** |
-*some** |
+*some* | tests whether at least one element in the array passes the test implemented by the provided function. This method returns false for any condition put on an empty array.
 *sort** | sorts the elements of an array in place and returns the array.
 *splice** |
 
