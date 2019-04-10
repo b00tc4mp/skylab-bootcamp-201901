@@ -10,8 +10,8 @@ Array.prototype.map()//CALLBACK//
 Array.prototype.reduce()//CALLBACK//
 Array.prototype.reduceRight()//CALLBACK//
 Array.prototype.reverse()---------
-Array.prototype.shift()
+Array.prototype.shift()---------
 Array.prototype.slice()
-Array.prototype.some()//CALLBACK//
+Array.prototype.some()//CALLBACK//EL MES CABRON
 Array.prototype.sort()
 Array.prototype.splice()

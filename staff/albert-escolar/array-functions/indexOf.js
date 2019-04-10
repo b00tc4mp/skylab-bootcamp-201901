@@ -1,3 +1,4 @@
+'use strict'
 /**
  * Iterates an array and checks if the search element is in the array or not.
  * If it is in the array it returns the index, if not it returns -1.
@@ -7,7 +8,9 @@
  * @return {i}  True if all value is an array, otherwise false.
  */
  function indexOf(searchElement, arr){
-    for(i=0;i<arr.length;i++){
+
+    if(!(arr instanceof Array)) throw TypeError (arr+' is not an array');
+    for(var i=0;i<arr.length;i++){
         if(searchElement===arr[i]){
             return i
         }

@@ -1,3 +1,4 @@
+'use strict'
 /**
  * Iterates a value and checks if its an array or not.
  * 
@@ -7,9 +8,5 @@
  */
 
 function isArray(value){
-    if(value instanceof Array){
-        return true;
-    }else{
-        return false;
-    }
+    return value instanceof Array;
 }
