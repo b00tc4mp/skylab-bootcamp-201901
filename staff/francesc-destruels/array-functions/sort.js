@@ -10,32 +10,17 @@ var sort = (function(array) {
     "use strict";
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
 
-    var i,j,k, emptyarray = [undefined];
+    var i,j,k,z;
     
     for (i = 0; i < array.length; i++){
-        if (emptyarray[0] = undefined){
-            emptyarray[0] = array[i];
-            continue;
-        }
-
-        for (j = 0; 0 < emptyarray.length; j++;){
-            if (array[j + 1] >= emptyarray[j]){
-                emptyarray[j +1] = array[j +1];
-                
-            } else if (array[j +1] < emptyarray[j]){
-                for (k = j; k > j; k++){
-                    if (j === 1){
-                        emptyarray[1] = emptyarray[0];
-                        
-                    }
-                }
+        for (j = 0; j < array.length -i -1; j++){
+            k = array[j];
+            z = array[j+1];
+            if (k > z){
+                array[j] = z;
+                array[z] = k;
             }
         }
-
-
-    }
-    for (i = 0; i < array.length; i++){
-        array[i] = emptyarray[i];
     }
 
     return array;

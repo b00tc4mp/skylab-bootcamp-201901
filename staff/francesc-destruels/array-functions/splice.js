@@ -8,36 +8,49 @@
  * @param {*} add 
  */
 
-var splice = (function(array, origin, erase, add){
+var splice = (function (array, start, todelete, item) {
     "use strict";
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
-    if (isNaN(origin)) throw TypeError(firstposition + ' is not a valid array index value');
-    if (isNaN(erase || erase !== undefined) ) throw TypeError(firstposition + ' is not a valid array index value');
-    
-    var i, j = erase, newArray = [];
+    if (isNaN(start) && start === undefined ) throw TypeError(start + ' is not a starting value');
+    if (todelete > (array.length - start) || todelete === undefined) { todelete = array.length - start };
 
-    if (erase === 0){
-           for (i = 0; i <= array.length; i++){
-               if (i < origin){
-                   newArray[i] = array[i];
-               } else if (i = origin){
-                   newArray[i] = add;
-               } else {
-                   newArray[i] = array[i-1];
-               }
-           }
-       }else if (erase > 0 && erase < array.length){
-            for (i = 0; i < (array.length + (erase -1)); i++){
-                if (i < origin){
-                    newArray[i] = array[i];
-                } else if (i = origin){
-                    newArray[i] = add;
-                    i += (erase -1);
-                } else {
-                newArray[i-(erase -1)] = array[i];
-                }
-            }
+    var items = [], initial = [], end = [], items = [], tempArr = [], i, k = 0;
+
+    //add the items for the arguments in items array;
+    if (arguments.length > 3) {
+        for (var i = 3; i < arguments.length; i++) {
+            items[items.length] = arguments[i];
+        }
     }
-    array = newArray;
+
+    //Start of the new
+    for (i = 0; i < start; i++) {
+        initial[i] = array[i]
+    };
+
+    //end of the new
+    for (i = (start + todelete); i < array.length; i++) {
+        end[k] = array[i]
+        k++;
+    };
+
+
+    //Put all argumnets into an array 
+    for (i = 0; i < initial.length; i++) {
+        tempArr[tempArr.length] = initial[i];
+    }
+    for (i = 0; i < items.length; i++) {
+        tempArr[tempArr.length] = items[i];
+    }
+    for (i = 0; i < end.length; i++) {
+        tempArr[tempArr.length] = end[i];
+    }
+
+    array.length = tempArr.length;
+
+    for (i = 0; i < tempArr.length; i++) {
+        array[i] = tempArr[i];
+    }
+
     return array;
 });

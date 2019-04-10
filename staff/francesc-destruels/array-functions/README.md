@@ -17,7 +17,7 @@
     Array.prototype.shift()* /Test Done/
     Array.prototype.slice()*  /Test Done/
     Array.prototype.some()* /Test Done/
-    Array.prototype.sort()---
+    Array.prototype.sort()* /Test Done/
     Array.prototype.splice()---
     Array.prototype.isarray()* /Test Done/
     Array.prototype.pop()* /Test Done/
