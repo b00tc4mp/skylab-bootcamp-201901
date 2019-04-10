@@ -7,10 +7,10 @@
  * 
  * @index {int} index of element if found, otherwise -1 will be given
  */
-function indexOf(array,element,start){
-    start = start || 0;
+function indexOf(array,element,number){
+    number = number || 0;
     var index=-1
-    for (var i = start; i < array.length; i++){
+    for (var i = number; i < array.length; i++){
         if(element===array[i]) {
             index=i
             break
