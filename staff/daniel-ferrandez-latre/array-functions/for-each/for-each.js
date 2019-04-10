@@ -4,7 +4,15 @@
  * @param {Array} array The array to iterate.
  * @param {Function} callback The expression to evaluate.
  */
+
 function forEach(array, callback) {
-	for (var i = 0; i < array.length; i++)
-		callback(array[i], i);
+	var index = 0;
+	fore(array,callback,index)
+	function fore(array, callback, index){
+		var i=index;
+		if(array.length > i){
+			callback(array[i], i)
+			fore(array, callback, index+1);
+		}
+	}
 }

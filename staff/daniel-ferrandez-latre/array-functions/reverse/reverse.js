@@ -5,12 +5,13 @@
  * 
  */
 function reverse(array) {
-    var j = 0;
+    var j = array.length - 1;
     var auxValue;
-    for(var i = array.length - 1; i > -1; i--) {
-        auxValue = array[i];
-        array[j] = auxValue;
-        j++;
+    for(var i = 0; i < array.length / 2; i++) {
+        auxValue = array[j];
+        array[j] = array[i];
+        array[i] = auxValue;
+       j--;
     }
 }
 
