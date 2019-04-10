@@ -1,25 +1,25 @@
 'use strict';
 
-suite("slice", function () {
+describe("slice", function () {
   function initialValue () {
     return ['ant', 'bison', 'camel', 'duck', 'elephant'];
   }
 
-  test("should return a copy of same array, not the original one ", function () {
+  it("should return a copy of same array, not the original one ", function () {
     var array = initialValue();
 
     var result = slice(array);
-    expect(result, initialValue());
-    expect(array, initialValue());
+    expect(result, initialValue(), true);
+    expect(array, initialValue(), true);
     expect(array === result, false);
   })
 
-  test("should return all elements behind the position given", function () {
+  it("should return all elements behind the position given", function () {
     var array = initialValue();
     var expected = ["camel", "duck", "elephant"];
 
-    expect(slice(array, 2), expected);
-    expect(array, initialValue());
+    expect(slice(array, 2), expected, true);
+    expect(array, initialValue(), true);
   })
 
   common_throwError_array(slice);

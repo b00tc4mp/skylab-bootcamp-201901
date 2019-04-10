@@ -1,6 +1,6 @@
 'use strict';
 
-suite("reduce", function () {
+describe("reduce", function () {
   function initialArray() {
     return [1, 2, 3, 4];
   }
@@ -9,18 +9,18 @@ suite("reduce", function () {
     return acc + value; 
   }
 
-  test("should sum all items in the array", function () {
+  it("should sum all items in the array", function () {
     var array = initialArray();
     
     expect(reduce(array, reducer), 10);
-    expect(array, initialArray());    
+    expect(array, initialArray(), true);
   })
 
-  test("should sum all items in the array with initial value", function () {
+  it("should sum all items in the array with initial value", function () {
     var array = initialArray();
     
     expect(reduce(array, reducer, 5), 10);
-    expect(array, initialArray());    
+    expect(array, initialArray(), true);    
   })
 
   common_throwError_array(reduce);

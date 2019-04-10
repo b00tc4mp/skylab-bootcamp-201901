@@ -12,7 +12,7 @@ function shift(array) {
 
   var len = array.length;
   var result = array[0];
-  for(i = 0; i < len - 1; i++) {
+  for(var i = 0; i < len - 1; i++) {
     array[i] = array[i+1];
   }
   array.length = len - 1;  

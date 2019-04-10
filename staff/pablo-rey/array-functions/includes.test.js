@@ -1,6 +1,6 @@
 'use strict';
 
-suite("includes", function () {
+describe("includes", function () {
   function initialArray1() {
     return [1, 2, 3];
   }
@@ -8,22 +8,22 @@ suite("includes", function () {
     return ['cat', 'dog', 'bat'];
   }
 
-  test("should return true if includes a present element", function () {
+  it("should return true if includes a present element", function () {
     var array = initialArray1();
     expect(includes(array, 2), true);
-    expect(array, initialArray1());
+    expect(array, initialArray1(), true);
   })
 
-  test("should return true if includes a present element", function () {
+  it("should return true if includes a present element", function () {
     var array = initialArrayPets();
     expect(includes(array, 'cat'), true);
-    expect(array, initialArrayPets());
+    expect(array, initialArrayPets(), true);
   });
 
-  test("should return false if not includes a exact coincidence", function () {
+  it("should return false if not includes a exact coincidence", function () {
     var array = initialArrayPets();
     expect(includes(array, 'at'), false);
-    expect(array, initialArrayPets());
+    expect(array, initialArrayPets(), true);
   });
 
   common_throwError_array(includes);

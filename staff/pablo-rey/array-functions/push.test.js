@@ -1,24 +1,24 @@
 'use strict';
 
-suite("push", function () {
+describe("push", function () {
   function initialArray() {
     return [1,2,3,4];
   }
 
-  test("push a single element", function () {
+  it("push a single element", function () {
     var array = initialArray();
     var expected = [1,2,3,4,5];
 
     push(array, 5);
-    expect(array, expected);
+    expect(array, expected, true);
   }); 
 
-  test("push multiple elements", function () {
+  it("push multiple elements", function () {
     var array = initialArray();
     var expected = [1,2,3,4,5,6,7];
 
     push(array, 5, 6, 7);
-    expect(array, expected);
+    expect(array, expected, true);
   });
 
   common_throwError_array(push);

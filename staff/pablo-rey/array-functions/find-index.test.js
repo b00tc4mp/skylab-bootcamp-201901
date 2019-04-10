@@ -1,15 +1,15 @@
 'use strict';
 
-suite("findIndex", function () {
+describe("findIndex", function () {
   function initialArray() {
     return [5, 12, 8, 130, 44];
   }
 
-  test("should return first element that fulfill condition", function () {
+  it("should return first element that fulfill condition", function () {
     var array = initialArray();
     var expected = 3;
     expect(findIndex(array, function (element) { return element > 13; }), expected);
-    expect(array, initialArray());
+    expect(array, initialArray(), true);
   })
 
   common_throwError_array(findIndex);

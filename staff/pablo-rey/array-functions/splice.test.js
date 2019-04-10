@@ -1,6 +1,6 @@
 'use strict';
 
-suite("splice", function () {
+describe("splice", function () {
   function initialArray1() {
     return ['Jan', 'March', 'April', 'June'];
   }
@@ -9,20 +9,20 @@ suite("splice", function () {
     return ['Jan', 'Feb', 'March', 'April', 'June'];
   }  
 
-  test("should inserts at 1st index position", function() {
+  it("should inserts at 1st index position", function() {
     var array = initialArray1();
     var expected = ['Jan', 'Feb', 'March', 'April', 'June'];
 
     splice(array, 1, 0, 'Feb');
-    expect(array, expected);
+    expect(array, expected, true);
   });
 
-  test("should replaces 1 element at 4th index", function() {
+  it("should replaces 1 element at 4th index", function() {
     var array = initialArray2();
     var expected = ['Jan', 'Feb', 'March', 'April', 'May'];
 
     splice(array, 4, 1, 'May');
-    expect(array, expected);
+    expect(array, expected, true);
   });
 
   common_throwError_array(splice);

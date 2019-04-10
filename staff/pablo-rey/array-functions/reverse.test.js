@@ -1,16 +1,16 @@
 'use strict';
 
-suite("reverse", function () {
+describe("reverse", function () {
   function initialArray() {
     return ['one', 'two', 'three'];
   }
 
-  test("should sum all items in the array", function () {
+  it("should sum all items in the array", function () {
     var array = initialArray();
     var expected = ['three', 'two', 'one'];
     
     reverse(array);
-    expect(array, expected);
+    expect(array, expected, true);
   })
 
   common_throwError_array(reverse);

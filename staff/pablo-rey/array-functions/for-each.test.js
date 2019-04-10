@@ -1,17 +1,17 @@
 "use strict";
 
-suite('forEach', function () {
+describe('forEach', function () {
   function initialArray() {
     return [1,2,3];
   }
 
-  test('should iterate an array without altering it', function () {
+  it('should iterate an array without altering it', function () {
     var array = initialArray();
     var result = [];
     forEach(array, function (v, i) { result[i] = v; })
 
-    expect(initialArray(), result);
-    expect(array, initialArray());
+    expect(initialArray(), result, true);
+    expect(array, initialArray(), true);
   });
 
   common_throwError_array(forEach);
