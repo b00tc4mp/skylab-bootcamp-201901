@@ -1,15 +1,15 @@
 /**
- * Gives you an element product of your array and a given callback
+ * Gives you an element product of your array and a given callback (right to left)
  * 
  * @param {Array} array The array to operate
  * @param {Expresion} callback The expression to evalute with each element of the array
  * 
  * @return {element} a new element made with array and callback
  */
-function reduce(array,callback,inicial){
+function reduceright(array,callback,inicial){
     var redu;
     (typeof inicial === 'undefined')? redu = array[0] : redu = inicial;
-    for (var i = 1; i < array.length; i++){
+    for (var i = array.length; i > 1; i--){
         (typeof inicial === 'undefined')? redu=callback(redu,array[i]) : redu=callback(redu,array[i])
     }
     return redu;

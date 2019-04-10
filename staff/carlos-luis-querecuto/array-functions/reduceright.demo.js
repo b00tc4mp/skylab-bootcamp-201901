@@ -1,4 +1,4 @@
-console.log('DEMO', 'Reduce');
+console.log('DEMO', 'ReduceRight');
 
 console.log('case 1');
 
