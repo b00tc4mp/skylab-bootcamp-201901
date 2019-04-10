@@ -1,7 +1,7 @@
 'use strict';
 
-suite('concat', function () {
-    test('should concatenate the arrays passed as arguments', function () {
+describe('concat', function () {
+    it('should concatenate the arrays passed as arguments', function () {
 
         var array1 = [1, 2, 3];
         var array2 = [4, 5, 6];
@@ -15,7 +15,7 @@ suite('concat', function () {
 
     });
 
-    test('should failed when not passed any arguments', function () {
+    it('should failed when not passed any arguments', function () {
         try {
             concat();
             throw Error('Should not have succeded');
@@ -24,7 +24,7 @@ suite('concat', function () {
         }
     })
 
-    test('should failed when passed an undefined', function () {
+    it('should failed when passed an undefined', function () {
         try {
             concat(undefined);
             throw Error('Should not have succeded');

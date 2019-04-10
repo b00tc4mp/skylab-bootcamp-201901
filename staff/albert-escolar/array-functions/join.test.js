@@ -1,7 +1,7 @@
 'use strict'
 
-suite('join', function () {
-    test('should join two arrays into a string', function () {
+describe('join', function () {
+    it('should join two arrays into a string', function () {
 
         var array1 = [1, 2, 3];
         var expected = "1,2,3";
@@ -12,7 +12,7 @@ suite('join', function () {
         expect(result, expected);
     })
 
-    test('should fail when not passed an array', function () {
+    it('should fail when not passed an array', function () {
 
         try {
             join()

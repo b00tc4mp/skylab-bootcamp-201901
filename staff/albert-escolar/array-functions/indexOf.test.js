@@ -1,7 +1,7 @@
 'use strict'
 
-suite('idexOf', function () {
-    test('should return index of an element in an array', function () {
+describe('idexOf', function () {
+    it('should return index of an element in an array', function () {
 
         var array = [1, 2, 3];
         var expected = 0;
@@ -11,7 +11,7 @@ suite('idexOf', function () {
 
     })
 
-    test('should return -1 if the element is not found in the array', function () {
+    it('should return -1 if the element is not found in the array', function () {
 
         var array = [1, 2, 3];
         var expected = -1;
@@ -21,7 +21,7 @@ suite('idexOf', function () {
 
     })
 
-    test('should fail when not passed an array', function () {
+    it('should fail when not passed an array', function () {
         var notArray = 2;
 
         try {
@@ -34,7 +34,7 @@ suite('idexOf', function () {
     })
 
 
-    test('shoul fail when array is undefined', function () {
+    it('shoul fail when array is undefined', function () {
         var undefinedArray = undefined;
         try {
             indexOf('cat',undefinedArray);

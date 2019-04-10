@@ -13,5 +13,3 @@ function lastIndexOf(elementSearched, array) {
     } return -1
 }
 
-
-console.log(lastIndexOf(elementSearched, array));

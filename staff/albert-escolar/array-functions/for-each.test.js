@@ -1,7 +1,7 @@
 'use strict';
 
-suite('forEach', function () {
-    test('should itearate an array without altering it', function () {
+describe('forEach', function () {
+    it('should itearate an array without altering it', function () {
         var array = [1, 2, 3];
 
         var result = []
@@ -11,18 +11,14 @@ suite('forEach', function () {
         // 1 2
         // 2 3
 
-        for (var i in array) {
-            expect(result[i], array[i]);
-        }
+        expect(result, array, true);
 
-        var check = [1, 2, 3];
+        var expected = { 0: 1, 1: 2, 2: 3 };
 
-        for (var i in check) {
-            expect(check[i], array[i]);
-        }
+        expect(array, expected, true);
     });
 
-    test('should break on undefined array', function () {
+    it('should break on undefined array', function () {
         try {
             forEach();
 
@@ -32,7 +28,7 @@ suite('forEach', function () {
         }
     });
 
-    test('should break on undefined callback', function () {
+    it('should break on undefined callback', function () {
         var array = [1, 2, 3];
 
         try {
@@ -40,7 +36,7 @@ suite('forEach', function () {
 
             throw Error('should not reach this point');
         } catch (error) {
-            expect(error.message, 'undefined is not a function');
+            expect(error.message, 'callback is not a function');
         }
     });
 

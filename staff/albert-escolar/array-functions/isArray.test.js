@@ -1,7 +1,7 @@
 'use strict'
 
-suite('isArray', function () {
-    test('should return true when passed an array', function () {
+describe('isArray', function () {
+    it('should return true when passed an array', function () {
         var array = [1, 2, 3];
         var expected = true;
         var result = Boolean;
@@ -12,7 +12,7 @@ suite('isArray', function () {
 
     }); 
 
-    test('should return false when not passed an array', function(){
+    it('should return false when not passed an array', function(){
         var notArray = 2;
         var expected = false;
         var result;
