@@ -14,5 +14,5 @@ function push (array) {
   for (var k = 1; k < arguments.length; k++) {
     array[array.length] = arguments[k];
   }
-  return arguments.length - 1;
+  return array.length;
 }
