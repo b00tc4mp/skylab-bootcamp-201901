@@ -1,14 +1,14 @@
 suite("sort", function () {
   function initialArrayString() {
-    return ["Dec", "Feb", "Jan", "March"];
-  }
+    return ['March', 'Jan', 'Feb', 'Dec'];
+  };
   function initialArrayNumbers() {
     return [1, 30, 4, 21, 100000];
   }
 
   test("should sort original array of strings", function() {
     var array = initialArrayString();
-    var expected = ['March', 'Jan', 'Feb', 'Dec'];
+    var expected = ["Dec", "Feb", "Jan", "March"]
 
     sort(array);
     expect(array, expected);
