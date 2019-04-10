@@ -9,10 +9,12 @@
 function reverse(array) {
   var newArray = [];
 
+  // helper array to flip the original array
   for( var i = array.length-1; i >= 0; i--) {
     newArray[newArray.length] = array[i];
   }
 
+  // here you overwrite the original array values
   for(var i = 0; i < newArray.length; i++) {
     array[i] = newArray[i];
   }

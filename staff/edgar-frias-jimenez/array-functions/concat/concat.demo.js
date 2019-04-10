@@ -13,7 +13,7 @@ console.log(concat(array1, array2));
 // expected output: Array ["a", "b", "c", "d", "e", "f"]
 
 // In case one value is void
-console.log('If on value is void: concat(array1)');
+console.log('If one value is void: concat(array1)');
 try {
   concat(array1);
 

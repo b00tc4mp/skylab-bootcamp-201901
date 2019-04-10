@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  *
  * A function that returns the first index that corresponds with the position in the array of the given value.
@@ -9,6 +11,12 @@
  */
 
 function indexOf(array, element) {
+  if (array === undefined) throw TypeError(array + ' is not an array');
+  if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+
+  if (element === undefined) throw TypeError(element + ' is not a valid element');
+  if (typeof element !== 'number') throw TypeError(element + ' is not a valid element');
+
   var helperVal = 0;
   for(var i = 0; i < array.length; i++) {
     if(array[i] === element) {

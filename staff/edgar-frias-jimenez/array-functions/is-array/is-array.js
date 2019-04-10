@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Function that evaluates if the parameter passed is an Array or not.
  *
@@ -7,7 +9,7 @@
  */
 
 function isArray(element) {
-  if (element === undefined) throw new TypeError(element + ': you have to provide a valid element');
+  if (element === undefined) throw TypeError(element + ' is not an array');
 
-  return element instanceof Array ? true : false;
+  return (element instanceof Array) ? true : false;
 }
