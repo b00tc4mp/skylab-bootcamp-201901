@@ -2,8 +2,8 @@
 
 
 
-suite('concat', function() {
-    test('should break on undefined', function () {
+describe('concat', function() {
+    it('should break on undefined', function () {
 
         try{
             concat();
@@ -14,7 +14,7 @@ suite('concat', function() {
         }
     })
 
-    test('Should break on not an array',function (){
+    it('Should break on not an array',function (){
         try{
             concat("c");
 
@@ -23,7 +23,7 @@ suite('concat', function() {
             expect(error.message,'not an array');
         }
     })
-    test('shoud return an concated array',function(){
+    it('shoud return an concated array',function(){
 
         var a =[1,2,3,4];
         var b =[5,6];

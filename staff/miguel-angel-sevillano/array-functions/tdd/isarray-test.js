@@ -2,8 +2,8 @@
 
 
 
-suite('isArray', function() {
-    test('should break on undefined', function () {
+describe('isArray', function() {
+    it('should break on undefined', function () {
         
         try{
             isArray();
@@ -14,7 +14,7 @@ suite('isArray', function() {
         }
  
     })
-    test('shoud return true if item is array', function (){
+    it('shoud return true if item is array', function (){
 
         var array = [1,2,3,4]
         var expected = Boolean

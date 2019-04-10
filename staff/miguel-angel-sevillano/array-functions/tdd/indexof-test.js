@@ -2,8 +2,8 @@
 
 
 
-suite('index_of', function() {
-    test('should break on not an array', function () {
+describe('index_of', function() {
+    it('should break on not an array', function () {
         
         try{
             index_Of();
@@ -14,7 +14,7 @@ suite('index_of', function() {
         }   
         
     })
-    test('should break on not a number', function () {
+    it('should break on not a number', function () {
         var a=[2,4,6,8,6]
         
         try{
@@ -27,7 +27,7 @@ suite('index_of', function() {
            
     })
 
-    test('should return the index of an item in array',function(){
+    it('should return the index of an item in array',function(){
         var a =[1,2,3,4]
         var item =3;
         var actual=0;

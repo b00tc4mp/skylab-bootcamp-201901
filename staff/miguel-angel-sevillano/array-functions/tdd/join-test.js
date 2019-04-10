@@ -2,8 +2,8 @@
 
 
 
-suite('join', function() {
-    test('should break on not an array', function () {
+describe('join', function() {
+    it('should break on not an array', function () {
         
         try{
             join();
@@ -13,7 +13,7 @@ suite('join', function() {
             expect(error.message,'is not an array');
         }      
     })
-    test('should break if dont join the item in to the arrar',function(){
+    it('should break if dont join the item in to the arrar',function(){
 
         var a=[1,2,3,4,5]
         var item ='='
