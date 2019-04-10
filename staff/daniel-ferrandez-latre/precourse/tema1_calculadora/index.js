@@ -152,7 +152,7 @@ function getStrToNumberArray() {
 }
 
 function operateMultiplicationDivision(){
-debugger
+
     var arrayOperationMultDivResult = arguments[0];
     var isMultDiv = false;
     if(arrayOperationMultDivResult.includes('*', '/')){
