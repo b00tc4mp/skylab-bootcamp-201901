@@ -1,7 +1,7 @@
 'use strict';
 
-suite('map', function () {
-    test('GOOD implementation', function () {
+describe('map', function () {
+    it('GOOD implementation', function () {
         var numbers = [1, 5, 10, 15];
         var result = []
         var expectedResult = [2, 10, 20, 30]
@@ -22,7 +22,7 @@ suite('map', function () {
          }
     });
 
-    test('should break on undefined array', function () {
+    it('should break on undefined array', function () {
         try {
             map();
 
@@ -32,7 +32,7 @@ suite('map', function () {
         }
     });
 
-    test('should break when dont receive a callback', function () {
+    it('should break when dont receive a callback', function () {
         try {
             map([2,4,5], "9");
 

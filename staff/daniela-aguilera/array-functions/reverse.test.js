@@ -1,7 +1,7 @@
 'use strict';
 
-suite("reverse", function(){
-    test("reverse the direction of the elements, GOOD implementation", function(){
+describe("reverse", function(){
+    it("reverse the direction of the elements, GOOD implementation", function(){
         let array = ["Aguilera", "Daniela"]
         let expectedResult = ["Daniela", "Aguilera"]
         let result = [];
@@ -12,7 +12,7 @@ suite("reverse", function(){
            expect(result[i], expectedResult[i]);
        }        
     })
-    test("Should break on undefined array", function(){
+    it("Should break on undefined array", function(){
         try {
             let notArray = 8;
             reverse(notArray)

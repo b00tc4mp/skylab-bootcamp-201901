@@ -1,6 +1,5 @@
-'use stric'
+'use stric';
 /**
- * 
  * @param {*} array 
  * @param {*} searchElement 
  * @returns the index of the element that you are looking for

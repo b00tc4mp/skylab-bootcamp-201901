@@ -1,4 +1,4 @@
-'use stric'
+'use stric';
 console.log('DEMO', 'index of');
 var listOfNumbers = [1,2,3,4,5,6,7];
 var number = 2;

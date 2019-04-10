@@ -1,3 +1,4 @@
+'use strict';
 /**
  *  method reverses an array in place. The first array element becomes the last, and the last array element becomes the first.
  * 
@@ -5,9 +6,6 @@
  *  
  * @returns {Array} The reversed array.
  */
-
-let array = ["Aguilera", "Daniela"]
-
 function reverse(array) {
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
     var index = 0
@@ -18,12 +16,3 @@ function reverse(array) {
     }
     return reverseArray
 }
-
-
-console.log(reverse(array))
-
-
-
-
-
-

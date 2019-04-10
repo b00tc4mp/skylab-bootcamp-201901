@@ -1,4 +1,4 @@
-'use stric'
+'use stric';
 console.log('DEMO', 'contact');
 
 var letters1 = ["h", "h", "y"];

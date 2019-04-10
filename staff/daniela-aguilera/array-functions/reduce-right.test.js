@@ -1,14 +1,14 @@
-'use strict';
+'use strict'
 
-describe('reduce', function () {
+describe('reduceRight', function () {
 
     it('Should works good!', function () {
 
         var letters = ['A', 'B', 'C'];
-        var result = '';
-        var check = 'ABC';
+        var result = ''; // 'CBA'
+        var check = 'CBA';
 
-       result = reduce(letters, function (vacio, valorActual) {
+       result = reduceRight(letters, function (vacio, valorActual) {
 
             return vacio + valorActual;
 
@@ -22,7 +22,7 @@ describe('reduce', function () {
 
     it('should break on undefined array', function () {
         try {
-            reduce();
+            reduceRight();
 
             throw Error('should not reach this point');
         } catch (error) {
@@ -34,7 +34,7 @@ describe('reduce', function () {
         var letters = ['A', 'B', 'C'];
 
         try {
-            reduce(letters);
+            reduceRight(letters);
 
             throw Error('should not reach this point');
         } catch (error) {
