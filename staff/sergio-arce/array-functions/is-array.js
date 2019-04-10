@@ -3,8 +3,13 @@
  * 
  * @param {Array} array
  */
-function isArray(obj) {
-    return obj instanceof Array;
+function isArray(arr) {
+
+    if ((typeof arr === 'undefined')) throw TypeError(`is undefined`);
+    else{
+        return arr instanceof Array;
+    } 
+    
 }
 
 

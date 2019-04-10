@@ -13,3 +13,18 @@ function forEach(array, callback) {
 	for (var i = 0; i < array.length; i++)
 		callback(array[i], i);
 }
+
+
+
+
+
+
+// hacer recursividad
+
+var arr = [1, 2, 3];
+
+function forEach(array, callback) {
+	var i = 0;
+	var index = arr.length 
+	callbach(arr[i]) 
+}
