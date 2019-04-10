@@ -11,13 +11,13 @@ Here are the implemented methods:
 - **Array.prototype.join() with error tests**
 - **Array.prototype.lastIndexOf() with error tests**
 - **Array.prototype.map() with error tests**
-- Array.prototype.pop()
-- Array.prototype.push()
-- **Array.prototype.reduce()**
-- **Array.prototype.reduceRight()**
-- **Array.prototype.reverse()**
+- **Array.prototype.pop() with error tests**
+- **Array.prototype.push() with error tests**
+- **Array.prototype.reduce() with error tests**
+- **Array.prototype.reduceRight() with error tests**
+- **Array.prototype.reverse() with error tests**
 - Array.prototype.shift()
 - Array.prototype.slice()
-- **Array.prototype.some()**
+- **Array.prototype.some() with error tests**
 - Array.prototype.sort()
 - Array.prototype.splice()

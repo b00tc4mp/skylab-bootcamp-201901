@@ -11,7 +11,9 @@
 function pop(array) {
   if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
 
-  array.length = array.length-1;
+  if (array.length) {
+    array.length-=1;
 
-  return array;
+    return array;
+  }
 }

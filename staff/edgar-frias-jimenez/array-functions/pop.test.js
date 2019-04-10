@@ -9,6 +9,14 @@ describe('pop', function(){
     expect(result, expected, true);
   });
 
+  it('should return undefined on empty array', function() {
+      var array = [];
+      var value = pop(array);
+
+      expect(array.length, 0);
+      expect(value, undefined);
+  });
+
   it('will break if the array provided is undefined', function(){
     try {
       pop();

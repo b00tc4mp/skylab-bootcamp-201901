@@ -9,6 +9,8 @@
  */
 
 function reverse(array) {
+  if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+
   var newArray = [];
 
   // helper array to flip the original array
@@ -21,5 +23,5 @@ function reverse(array) {
     array[i] = newArray[i];
   }
 
-  console.log('Array reversed:', array);
+  return array;
 }

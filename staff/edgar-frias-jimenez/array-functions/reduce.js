@@ -5,26 +5,29 @@
  * Function that applies a callback into an accumulator. Then it returns a unique value.
  *
  * @param {Array} array The array that will be transform and reduced.
- * @param {Function} callback Function that will transform each array value.
- * @param {[Value]} valorInicial If passed, it will be the first item to transform.
+ * @param {function} callback Function that will transform each array value.
+ * @param {[Value]} initialValue Optional - If passed, it will be the first item to transform.
  *
- * @returns {Value} The product of the callback over the accumulator.
+ * @returns The product of the callback over the accumulator.
  */
 
-function reduce(array, callback, valorInicial) {
-  var i = 1;
-  var valorAnterior = array[0];
-  var valorActual = array[1];
+function reduce(array, callback, initialValue) {
+  if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+  if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
 
-  if (valorInicial) {
+  var i = 1;
+  var prevValue = array[0];
+  var currentValue = array[1];
+
+  if (initialValue) {
     i = 0;
-    valorAnterior = valorInicial;
+    prevValue = initialValue;
   }
 
   for (i; i < array.length; i++) {
-    valorActual = array[i];
-    valorAnterior = callback(valorAnterior, valorActual);
+    currentValue = array[i];
+    prevValue = callback(prevValue, currentValue);
   }
 
-  return valorAnterior;
+  return prevValue;
 }
