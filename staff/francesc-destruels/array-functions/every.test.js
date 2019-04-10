@@ -4,8 +4,14 @@ suite('every', function () {
         var array =  [5, 2, 6];
 
         var result = every(array, function (v) { return v > 0; });
+        
+        try {
+            every();
 
-        expect(result, true);
+            throw Error('should not reach this point');
+        } catch (error) {
+            expect(result, true);
+        }
     });
 
 
@@ -14,7 +20,13 @@ suite('every', function () {
 
         var result = every(array, function (v) { return v < 2;});
 
-        expect(result, false);
+        try {
+            every();
+
+            throw Error('should not reach this point');
+        } catch (error) {
+            expect(result, false);
+        }
     });
 
     test('should break on undefined array', function () {

@@ -20,8 +20,6 @@ suite('slice', function () {
 
 
     test('should break because of undefined array', function () {
-        var a = [1, 2, 3, 4, 5, 6];
-
         try {
           slice();
 

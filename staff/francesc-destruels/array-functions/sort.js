@@ -10,38 +10,30 @@ var sort = (function(array) {
     "use strict";
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
 
-    var i,j, emptyarray = [], k = 0, q = 0, z, repeated = false;
-
-    emptyarray.length = array.length;
-
-    for (i = emptyarray.length -1; i >= 0; i--){
-        emptyarray[i] = undefined;
-    }
+    var i,j,k, emptyarray = [undefined];
     
-    for (i = 0; i < array.length; i++) {
-        for (j = 0; j < array.length; j++) {
-            if (array[i] >= array[j] && repeated === false){
-                k++;
-                repeated = true;
-            } else if (array[i] >= array[j] && repeated === true){
-                q++;
+    for (i = 0; i < array.length; i++){
+        if (emptyarray[0] = undefined){
+            emptyarray[0] = array[i];
+            continue;
+        }
+
+        for (j = 0; 0 < emptyarray.length; j++;){
+            if (array[j + 1] >= emptyarray[j]){
+                emptyarray[j +1] = array[j +1];
+                
+            } else if (array[j +1] < emptyarray[j]){
+                for (k = j; k > j; k++){
+                    if (j === 1){
+                        emptyarray[1] = emptyarray[0];
+                        
+                    }
+                }
             }
         }
 
-        if (emptyarray[k -1] === undefined && q === 0){
-            emptyarray[k -1] = array[i];
-        } else {
-            for (z = (k -1) + q; z <= q; z++){
-                if (emptyarray[k-1+z] === undefined){
-                    emptyarray[k-1+z] = array[i];
-                }
-            }
-        }    
 
-        k = 0;
-        repeated = false;
     }
-
     for (i = 0; i < array.length; i++){
         array[i] = emptyarray[i];
     }

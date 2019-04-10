@@ -7,6 +7,8 @@
 
 var concat = (function ()  {
     "use strict";
+    if (arguments.length = 0) throw TypeError("introduce at least 1 argument");
+    
     var i, j, k = 0, newarray = [];
 
     for (i = 0; i < arguments.length; i++){

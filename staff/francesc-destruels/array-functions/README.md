@@ -20,3 +20,5 @@
     Array.prototype.sort()---
     Array.prototype.splice()---
     Array.prototype.isarray()* /Test Done/
+    Array.prototype.pop()* /Test Done/
+    Array.prototype.push()* /Test Done/
