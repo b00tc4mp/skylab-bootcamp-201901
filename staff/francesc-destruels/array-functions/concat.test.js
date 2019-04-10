@@ -9,7 +9,7 @@ describe('concat', function () {
 
         var expected = ["The","world","is", "a","fuckin*","hell", 6, 6, 6,];
         
-        expect(result, expected, false);
+        expect(result, expected, true);
     });
 
     it('should return an array with all items concadenated', function () {
@@ -20,28 +20,6 @@ describe('concat', function () {
 
         var result = concat(array1, array3);
 
-            expect(result, answer, true);
-    });
-
-
-    it('should itearate an array without altering it', function () {
-        var array = [1, 2, 3];
-
-        var result = []
-
-        forEach(array, function (v, i) { result[i] = v; });
-        // 0 1
-        // 1 2
-        // 2 3
-
-        for (var i in array) {
-            expect(result[i], array[i]);
-        }
-
-        var check = [1, 2, 3];
-
-        for (var i in check) {
-            expect(check[i], array[i]);
-        }
+        expect(result, answer, true);
     });
 });

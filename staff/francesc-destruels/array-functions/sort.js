@@ -13,15 +13,14 @@ var sort = (function(array) {
     var i,j,k,z;
     
     for (i = 0; i < array.length; i++){
-        for (j = 0; j < array.length -i -1; j++){
+        for (j = 0; j < array.length -i; j++){
             k = array[j];
             z = array[j+1];
             if (k > z){
                 array[j] = z;
-                array[z] = k;
+                array[j+1] = k;
             }
         }
     }
-
     return array;
 });

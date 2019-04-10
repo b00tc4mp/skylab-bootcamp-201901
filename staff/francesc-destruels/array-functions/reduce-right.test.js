@@ -5,16 +5,16 @@ describe('reduceright', function () {
 
         var result = reduceright(a, function(acc, value){return acc + value});
 
-        expect(result.toString, answer.toString);
+        expect(result, answer, true);
     });
 
     it('should add each element starting by the last index', function () {
-        var answer = [30];
+        var answer = [23];
         var a = [1, 2, 3, 4, 5, 6];
 
         var result = reduceright(a, function(acc, value){return acc + value}, 2);
 
-        expect(result.toString, answer.toString);
+        expect(result, answer, true);
     });
 
     it('should break on undefined callback', function () {

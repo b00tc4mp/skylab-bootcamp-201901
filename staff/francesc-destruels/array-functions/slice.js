@@ -30,5 +30,4 @@ var slice = (function(array, from, to){
     } else {
         console.log("At least you need to introduce from where")
     }
-  
 });

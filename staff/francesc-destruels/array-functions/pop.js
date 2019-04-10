@@ -8,6 +8,11 @@ var pop = (function(array){
     "use strict";
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
 
-    array.length--;
-    return array;
+    if (array.length) {
+        var value = array[array.length - 1];
+
+        array.length--;
+
+        return value;
+    }
 });

@@ -6,11 +6,11 @@ describe('sort', function () {
         var a = [1, 2, 3, 4, 5];
 
         try {
-            var result = sort(a);
+            sort(a);
 
             throw Error('should not reach this point');
         } catch (error) {
-            expect(result, answer, true);
+            expect(a, answer, true);
         }
     });
 
@@ -30,11 +30,11 @@ describe('sort', function () {
         var a = [1, 3, 5, 4, 6];
 
         try {
-            var result = sort(a);
+            sort(a);
 
             throw Error('should not reach this point');
         } catch (error) {
-            expect(result, answer, true);
+            expect(a, answer, true);
         }
     });
 

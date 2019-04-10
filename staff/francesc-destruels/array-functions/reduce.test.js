@@ -9,7 +9,7 @@ describe('reduce', function () {
     });
 
     it('should add add all elements plus 2', function () {
-        var answer = [30];
+        var answer = [23];
         var a = [1, 2, 3, 4, 5, 6];
 
         var result = reduce(a, function(acc, value){return acc + value}, 2);

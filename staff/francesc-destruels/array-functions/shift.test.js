@@ -15,7 +15,7 @@ describe('shift', function () {
 
         var result = shift(a);
 
-        expect(result, answer, true);
+        expect(a, answer, true);
     });
 
 

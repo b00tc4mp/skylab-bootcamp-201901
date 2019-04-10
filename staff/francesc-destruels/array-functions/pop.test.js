@@ -1,16 +1,12 @@
 describe('pop', function () {
-    it('Should return the array with the new index', function () {
-        var answer = [1, 2];
-        var a = [1, 2, 3];
-        
-        try {
-            var result = pop(a);
+    it('should return undefined on empty array', function() {
+        var array = [];
 
-        throw Error('should not reach this point');
-    } catch (error) {
+        var value = pop(array);
 
-        expect(result, answer, true);
-    }
+        expect(array.length, 0);
+
+        expect(value, undefined);
     });
 
     it('should break because of undefined array', function () {

@@ -8,19 +8,15 @@
 
 var concat = (function ()  {
     "use strict";
-    if (arguments.length = 0) throw TypeError("introduce at least 1 argument");
+    if (arguments.length <= 1) throw TypeError("introduce at least 2 argument");
     
-    var i, j, k = 0, newarray = [];
+    var i, j, newarray = [];
 
     for (i = 0; i < arguments.length; i++){
         for (j = 0; j < arguments[i].length; j++){
-            newarray[k] = arguments[i][j];
-            k++;
+            newarray[newarray.length] = arguments[i][j];
         }
     }
-    
-    for (i = 0; i < newarray.length; i++){
-        result[i] = newarray[i];
-    }
 
+    return newarray
 });
