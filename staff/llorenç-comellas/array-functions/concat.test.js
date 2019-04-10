@@ -1,8 +1,8 @@
 'use strict';
 
 
-suite('concat', function () {
-    test('should add array1 and array2', function () {
+describe('concat', function () {
+    it('should add array1 and array2', function () {
         var array1 = [1, 2, 3];
         var array2 = [4, 5, 6];
         
@@ -14,7 +14,7 @@ suite('concat', function () {
         expect(result.toString(), expected.toString());
     });
 
-    test('should break on undefined array', function () {
+    it('should break on undefined array', function () {
         try {
             concat(undefined);
 
@@ -23,7 +23,7 @@ suite('concat', function () {
             expect(error.message, 'undefined is not an array');
         }
     });
-    test('No arguments recevied', function () {
+    it('No arguments recevied', function () {
         try {
             concat();
 

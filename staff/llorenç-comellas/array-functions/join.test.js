@@ -1,7 +1,7 @@
 'use strict';
 
-suite('join', function () {
-    test('should join elements of array', function () {
+describe('join', function () {
+    it('should join elements of array', function () {
         var array = ['fire', 'wind', 'rain'];
         var expected = 'fire,wind,rain';
         var result = join(array, ',');
@@ -10,7 +10,7 @@ suite('join', function () {
 
     });
 
-    test('should fail when not pass and array', function () {
+    it('should fail when not pass and array', function () {
         try {
             join();
             throw Error('should not reach this point');

@@ -1,7 +1,7 @@
 'use strict';
 
-suite('indexOf', function() {
-    test('should return index of element', function(){
+describe('indexOf', function() {
+    it('should return index of element', function(){
         var array =['hello','world'];
         var result = indexOf(array,'hello')
         var expected = 0;
@@ -10,7 +10,7 @@ suite('indexOf', function() {
 
     });
 
-    test('should return -1', function(){
+    it('should return -1', function(){
         var array = ['hello','world'];
         var result = indexOf(array,'animal');
         var expected = -1;
@@ -19,7 +19,7 @@ suite('indexOf', function() {
 
     });
 
-    test('should fail when not pass and array', function(){
+    it('should fail when not pass and array', function(){
         
         try{
             indexOf();
