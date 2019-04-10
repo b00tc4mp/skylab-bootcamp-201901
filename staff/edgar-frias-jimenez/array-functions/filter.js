@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  *
  * Function that filters an array with a provided callback, and then returns a new array in results.

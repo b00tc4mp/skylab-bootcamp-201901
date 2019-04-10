@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Iterates an array an evaluates if a number match with the given function. Otherwise it returns false.
  *

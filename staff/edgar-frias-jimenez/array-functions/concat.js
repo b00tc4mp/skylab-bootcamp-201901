@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Function that lets you concatenate an array inside another array
  *

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  *
  * Function that applies a callback into an accumulator from right to left. Then it returns a unique value.

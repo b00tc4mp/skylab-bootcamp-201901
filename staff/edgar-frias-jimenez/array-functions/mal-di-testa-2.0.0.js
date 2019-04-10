@@ -30,7 +30,7 @@ console.log(icon);
 
 /**
  * Runs a test suite.
- *
+ * 
  * @param {string} description The suite description.
  * @param {function} callback The suite expression to evaluate.
  */
@@ -42,7 +42,7 @@ function describe(description, callback) {
 
 /**
  * Runs a unit test case.
- *
+ * 
  * @param {string} description The test case description.
  * @param {function} callback The test case expression to evaluate.
  */
@@ -58,7 +58,7 @@ function it(description, callback) {
 
 /**
  * Checks wether a condition is satisfied, otherwise throws an error.
- *
+ * 
  * @param {*} actual The actual value to check agains the expected value.
  * @param {*} expected The expected value.
  */

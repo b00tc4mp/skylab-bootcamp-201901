@@ -1,3 +1,6 @@
+'use strict';
+
+
 /**
  * Iterates an array and evaluates an expression on each of its values.
  *
@@ -26,7 +29,14 @@ function forEach(array, callback) {
 				forEach(index)
 			}
 		}
-
 		forEach(0);
 	}
+
+	// Alternative version:
+	// array.length && (function forEach(index) {
+	// 	callback(array[index], index);
+
+	// 	if (++index < array.length)
+	// 		forEach(index);
+	// })(0);
 }

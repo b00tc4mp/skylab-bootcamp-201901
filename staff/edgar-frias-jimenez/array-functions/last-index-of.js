@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  *
  * Function that search an element inside an array and if its in it then returns its last position, otherwise it will returns -1.
@@ -8,6 +10,9 @@
  * @returns {Number} It will returns the last position in which you find the given element.
  */
 function lastIndexOf(array, element) {
+  if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+  if (element === undefined) throw TypeError(element + ' is not a valid element');
+
   var helperVal = 0;
 
   for(var i = array.length-1; i >= 0; i--) {

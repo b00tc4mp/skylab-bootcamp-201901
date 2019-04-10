@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Function that given an array it will returns a new array reversed.
  *
