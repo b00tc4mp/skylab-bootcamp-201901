@@ -1,3 +1,5 @@
+'use strict';
+
 console.log("DEMO", "filter");
 
 var words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];

@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'forEach');
 
 var a = [1, 2, 3];

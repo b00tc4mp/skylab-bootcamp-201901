@@ -1,3 +1,5 @@
+'use strict';
+
 var months = ['March', 'Jan', 'Feb', 'Dec'];
 months.sort();
 console.log(months);

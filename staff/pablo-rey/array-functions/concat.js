@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Returns a new array with all elements of array1 and array2
  * 

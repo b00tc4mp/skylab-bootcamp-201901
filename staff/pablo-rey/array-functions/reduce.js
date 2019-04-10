@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Apply the callback reducer to each element. Returns the last value
  * 

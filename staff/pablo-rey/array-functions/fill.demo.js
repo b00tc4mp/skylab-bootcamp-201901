@@ -1,3 +1,5 @@
+'use strict';
+
 console.log("DEMO", "fill");
 
 var array1 = [1, 2, 3, 4,5,6];

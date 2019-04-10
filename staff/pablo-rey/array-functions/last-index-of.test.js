@@ -1,3 +1,5 @@
+'use strict';
+
 suite("lastIndexOf", function() {
   function initialArray () {
     return ['Dodo', 'Tiger', 'Penguin', 'Dodo'];    

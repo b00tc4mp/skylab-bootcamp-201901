@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'indexOf');
 
 var beasts = ['ant', 'bison', 'camel', 'duck', 'bison'];

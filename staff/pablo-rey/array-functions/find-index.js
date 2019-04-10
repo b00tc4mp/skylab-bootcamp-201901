@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Returns the index of the first element that fill the condition in callback function
  * 

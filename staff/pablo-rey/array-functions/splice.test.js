@@ -1,3 +1,5 @@
+'use strict';
+
 suite("splice", function () {
   function initialArray1() {
     return ['Jan', 'March', 'April', 'June'];

@@ -1,3 +1,5 @@
+'use strict';
+
 function common_throwError_array(functionToTest) {
   test("should break when you not pass an array", function() {
     try {

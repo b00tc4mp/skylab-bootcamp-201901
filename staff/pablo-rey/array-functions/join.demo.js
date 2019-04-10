@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'join');
 
 var elements = ['Fire', 'Wind', 'Rain'];

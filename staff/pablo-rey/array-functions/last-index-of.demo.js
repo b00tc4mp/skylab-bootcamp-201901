@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'lastIndexOf');
 
 var animals = ['Dodo', 'Tiger', 'Penguin', 'Dodo'];

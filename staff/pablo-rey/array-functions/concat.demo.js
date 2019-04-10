@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'concat');
 
 var a = ["a", "b", "c"]

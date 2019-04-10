@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Removes the first element of an array and returns it
  * 

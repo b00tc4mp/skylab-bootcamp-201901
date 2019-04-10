@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'every');
 
 var a = [1, 2, 3];

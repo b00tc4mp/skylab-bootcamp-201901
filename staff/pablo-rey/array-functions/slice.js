@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Returns a new array with elements between start and end(not included)
  * 

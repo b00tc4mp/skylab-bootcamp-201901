@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Modifies the array given to replace the values from start to end indexes
  * 

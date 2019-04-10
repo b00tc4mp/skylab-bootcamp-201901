@@ -1,3 +1,5 @@
+'use strict';
+
 suite("reduce", function () {
   function initialArray() {
     return [1, 2, 3, 4];

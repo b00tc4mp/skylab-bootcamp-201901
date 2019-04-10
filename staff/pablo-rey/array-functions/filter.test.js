@@ -1,3 +1,5 @@
+'use strict';
+
 suite("filter", function () {
   function initialValue() {
     return ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present']

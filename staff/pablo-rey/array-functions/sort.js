@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 
  * Sort in place the array. If no compare function, the default comparison is the standar comparison > not MDN documentation UTF16)

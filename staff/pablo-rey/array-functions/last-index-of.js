@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Returns the index of last occurrence where the element is equal to the given value. Otherwise -1
  * 

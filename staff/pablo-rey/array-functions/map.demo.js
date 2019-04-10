@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'map');
 
 var array1 = [1, 4, 9, 16];

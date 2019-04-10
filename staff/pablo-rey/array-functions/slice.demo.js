@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'slice');
 
 var animals = ['ant', 'bison', 'camel', 'duck', 'elephant'];

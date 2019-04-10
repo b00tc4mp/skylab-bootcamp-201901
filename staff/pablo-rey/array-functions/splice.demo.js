@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'splice');
 
 var months = ['Jan', 'March', 'April', 'June'];

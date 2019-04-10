@@ -1,3 +1,5 @@
+'use strict';
+
 suite("reverse", function () {
   function initialArray() {
     return ['one', 'two', 'three'];

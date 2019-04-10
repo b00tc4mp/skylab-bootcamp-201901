@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Concatenate all elements  in a string separated by the separator
  * 

@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Returns true if the array includes the value
  * 

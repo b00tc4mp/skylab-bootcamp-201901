@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'shift');
 
 var array1 = [1, 2, 3];

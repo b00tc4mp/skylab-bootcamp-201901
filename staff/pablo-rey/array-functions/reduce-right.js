@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Apply the callback reducer to each element backwards begging from the end of array. Returns the last value
  * 

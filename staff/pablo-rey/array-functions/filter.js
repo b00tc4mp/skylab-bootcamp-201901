@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Returns a new array with all values where the evaluation returns true
  * 

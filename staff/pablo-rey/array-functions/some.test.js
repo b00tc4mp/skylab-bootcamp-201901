@@ -1,3 +1,5 @@
+'use strict';
+
 suite("some", function() {
   function initialArray() {
     return [1, 2, 3, 4, 5];

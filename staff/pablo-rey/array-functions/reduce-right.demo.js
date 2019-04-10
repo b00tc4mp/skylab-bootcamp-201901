@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'reduceRight');
 
 var reducer2 = function (accumulator, currentValue) {

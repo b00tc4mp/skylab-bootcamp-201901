@@ -1,3 +1,5 @@
+'use strict';
+
 suite("slice", function () {
   function initialValue () {
     return ['ant', 'bison', 'camel', 'duck', 'elephant'];

@@ -1,3 +1,5 @@
+'use strict';
+
 console.log("DEMO", "findIndex");
 
 var array1 = [5, 12, 8, 130, 44];

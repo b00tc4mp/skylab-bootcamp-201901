@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'reverse');
 
 var array1 = ['one', 'two', 'three'];

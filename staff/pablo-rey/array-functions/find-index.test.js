@@ -1,3 +1,5 @@
+'use strict';
+
 suite("findIndex", function () {
   function initialArray() {
     return [5, 12, 8, 130, 44];

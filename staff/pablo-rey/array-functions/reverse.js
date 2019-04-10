@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Modifies the array with all elements in reverse order
  * 

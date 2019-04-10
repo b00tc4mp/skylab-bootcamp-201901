@@ -1,3 +1,5 @@
+'use strict';
+
 suite("map", function () {
   function initialValue () {
     return [1, 4, 9, 16];

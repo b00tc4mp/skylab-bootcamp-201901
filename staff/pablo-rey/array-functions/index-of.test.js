@@ -1,3 +1,5 @@
+'use strict';
+
 suite("indexOf", function () {
   function initialArray() {
     return ['ant', 'bison', 'camel', 'duck', 'bison'];

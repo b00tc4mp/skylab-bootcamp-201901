@@ -1,3 +1,5 @@
+'use strict';
+
 suite("sort", function () {
   function initialArrayString() {
     return ['March', 'Jan', 'Feb', 'Dec'];

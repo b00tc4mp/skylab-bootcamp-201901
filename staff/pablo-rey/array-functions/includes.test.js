@@ -1,3 +1,5 @@
+'use strict';
+
 suite("includes", function () {
   function initialArray1() {
     return [1, 2, 3];

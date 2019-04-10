@@ -1,3 +1,5 @@
+'use strict';
+
 console.log('DEMO', 'some');
 
 var array = [1, 2, 3, 4, 5];

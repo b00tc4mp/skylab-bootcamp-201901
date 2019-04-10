@@ -1,3 +1,5 @@
+'use strict';
+
 suite("reduceRight", function () {
   function initialArray () {
     return [[0, 1], [2, 3], [4, 5]];    

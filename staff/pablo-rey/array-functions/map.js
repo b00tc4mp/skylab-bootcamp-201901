@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Returns New array with the value returned by the callback for each element
  * 

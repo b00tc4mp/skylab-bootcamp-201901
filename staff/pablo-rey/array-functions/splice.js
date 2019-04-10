@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Chop the original array from start in deleteCount number of elements, Add in that hole item1, item2... 
  * 
