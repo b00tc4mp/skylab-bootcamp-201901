@@ -66,7 +66,7 @@ describe('slice', function() {
             var array = ['cat', 'dog'];
             slice(array, 2, 'a');
             throw Error('should not reach hits point');
-        } catch {
+        } catch (error){
             expect(error.message, 'a is not a number');
         }
     });

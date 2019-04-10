@@ -12,7 +12,7 @@
 function slice(arr, start, end) {
     if(!(arr instanceof Array)) throw TypeError(arr + ' is not an array');
     if(typeof start !== 'number' && start !== undefined) throw TypeError(start + ' is not a number');
-    if(typeof end !== 'number' && end !== undefined) throw TypeError(start + ' is not a number');
+    if(typeof end !== 'number' && end !== undefined) throw TypeError(end + ' is not a number');
 
     var newArr = [];
     if (start === undefined) start = 0;
