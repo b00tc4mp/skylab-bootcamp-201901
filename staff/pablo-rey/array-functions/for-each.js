@@ -19,8 +19,10 @@ function forEach(array, callbackfn, _this) {
 
 function simFor (cap, callbackfn, next) {
 	var i = next || 0;
-	callbackfn(i);
-	if (i < cap-1) simFor(cap, callbackfn, i + 1)
+	if (i < cap) {
+		callbackfn(i);
+		simFor(cap, callbackfn, i + 1);
+	}
 }
 
 // function forEach(array, callbackfn, _this) {
