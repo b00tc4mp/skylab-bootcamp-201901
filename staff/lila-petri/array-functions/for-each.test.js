@@ -1,47 +1,39 @@
-'use strict';
+"use strict";
 
-suite('forEach', function () {
-    test('should itearate an array without altering it', function () {
-        var array = [1, 2, 3];
-
-        var result = []
-
-        forEach(array, function (v, i) { result[i] = v; });
-        // 0 1
-        // 1 2
-        // 2 3
-
-        for (var i in array) {
-            expect(result[i], array[i]);
-        }
-
-        var check = [1, 2, 3];
-
-        for (var i in check) {
-            expect(check[i], array[i]);
-        }
+describe("forEach", function() {
+  it("should itearate an array without altering it", function() {
+    var array = [1, 2, 3];
+    var result = [];
+    forEach(array, function(v, i) {
+      result[i] = v;
     });
 
-    test('should break on undefined array', function () {
-        try {
-            forEach();
+    expect(result, array, true);
 
-            throw Error('should not reach this point');
-        } catch (error) {
-            expect(error.message, 'undefined is not an array');
-        }
-    });
+    var check = [1, 2, 3];
 
-    test('should break on undefined callback', function () {
-        var array = [1, 2, 3];
+    expect(check, array, true);
+  });
 
-        try {
-            forEach(array);
+  it("should break on undefined array", function() {
+    try {
+      forEach();
 
-            throw Error('should not reach this point');
-        } catch (error) {
-            expect(error.message, 'undefined is not a function');
-        }
-    });
+      throw Error("should not reach this point");
+    } catch (error) {
+      expect(error.message, "undefined is not an array", false);
+    }
+  });
 
+  it("should break on undefined callback", function() {
+    var array = [1, 2, 3];
+
+    try {
+      forEach(array);
+
+      throw Error("should not reach this point");
+    } catch (error) {
+      expect(error.message, "undefined is not a function", false);
+    }
+  });
 });

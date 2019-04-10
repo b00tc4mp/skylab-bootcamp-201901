@@ -1,8 +1,8 @@
 'use strict'
 
-suite('concat', function(){
+describe('concat', function(){
 
-    test('Should create a new array from two arrays ', function(){
+    it('Should create a new array from two arrays ', function(){
         var array=[1,2,3];
         var array2=[4,5,6];
         var result=concat(array, array2);
@@ -15,7 +15,7 @@ suite('concat', function(){
         }
     });
 
-    test('Should break with undefined arguments', function(){
+    it('Should break with undefined arguments', function(){
        
         try{
             concat();
@@ -27,7 +27,7 @@ suite('concat', function(){
         }
 
     });
-    test('should break with one undefined argument', function(){
+    it('should break with one undefined argument', function(){
         var array=[1,2,3];
        
         try{
@@ -41,7 +41,7 @@ suite('concat', function(){
         }
     });
 
-    test('Should break with the first argument as a String ', function(){
+    it('Should break with the first argument as a String ', function(){
         var array=[1,2,3];
 
         try{
@@ -55,7 +55,7 @@ suite('concat', function(){
 
     });
 
-    test('Should break with the second argument as a String', function(){
+    it('Should break with the second argument as a String', function(){
         var array=[1,2,3];
 
         try{
@@ -68,7 +68,7 @@ suite('concat', function(){
         }
     });
 
-    test('Should break with both arguments as a string', function(){
+    it('Should break with both arguments as a string', function(){
 
         try{
             concat('string', 'string');
@@ -80,7 +80,7 @@ suite('concat', function(){
 
     });
 
-    test('Should break with firt argument as a number', function(){
+    it('Should break with firt argument as a number', function(){
         var array=[1,2,3];
 
         try{
