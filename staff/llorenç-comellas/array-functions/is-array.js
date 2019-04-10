@@ -8,6 +8,5 @@
  */
 
 function isArray(element){
-    if(element instanceof Array) return true;
-    return false;
+    return element instanceof Array;
 }

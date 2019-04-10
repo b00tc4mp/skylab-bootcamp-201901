@@ -10,7 +10,11 @@
 
 
 function concat(...args){
-  if(!(args instanceof Array)) throw TypeError(args + ' is not an array');
+  if(!args.length) throw TypeError('No arguments recivied')
+  for(var i =0; i < args.length;i++){
+    if(!(args[i] instanceof Array)) throw TypeError(args[i] + ' is not an array');
+  }
+  
   var results = []
   var j = 0;
   for (var i = 0; i<args.length;i++){
