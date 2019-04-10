@@ -6,25 +6,34 @@
  * @param {Array} array The array to iterate.
  * @param {Function} callback The expression to evaluate.
  */
+// function forEach(array, callback) {
+// 	if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+// 	if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+
+// 	for (var i = 0; i < array.length; i++)
+// 		callback(array[i], i);
+// }
+
+// TODO make it recursive (without using for or while loops)
 function forEach(array, callback) {
 	if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
 	if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
 
-	for (var i = 0; i < array.length; i++)
-		callback(array[i], i);
-}
+	// if (array.length > 0) {
+	// 	function forEach(index) {
+	// 		callback(array[index], index);
 
+	// 		if (++index < array.length)
+	// 			forEach(index);
+	// 	}
 
+	// 	forEach(0);
+	// }
 
+	array.length && (function forEach(index) {
+		callback(array[index], index);
 
-
-
-// hacer recursividad
-
-var arr = [1, 2, 3];
-
-function forEach(array, callback) {
-	var i = 0;
-	var index = arr.length 
-	callbach(arr[i]) 
+		if (++index < array.length)
+			forEach(index);
+	})(0);
 }

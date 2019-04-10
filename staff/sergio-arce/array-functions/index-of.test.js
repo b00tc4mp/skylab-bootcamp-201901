@@ -1,7 +1,7 @@
 'use strict';
 
-suite('indexOf', function () {
-    test('should return index of firts item matching condition', function () {
+describe('indexOf', function () {
+    it('should return index of firts item matching condition', function () {
         var array = [1, 2, 3];
 
         var elem1 = 1;
@@ -13,7 +13,7 @@ suite('indexOf', function () {
         expect(result, exp);
     });
 
-    test('should return -1 if item not matching condition', function () {
+    it('should return -1 if item not matching condition', function () {
 
         var array = [3, 4, 6];
 
@@ -26,7 +26,7 @@ suite('indexOf', function () {
         expect(result, exp);
     });
 
-    test('should return -1 if item not matching condition', function () {
+    it('should return -1 if item not matching condition', function () {
 
         var array = [3, 7, 6];
 
@@ -39,7 +39,7 @@ suite('indexOf', function () {
 
 
 
-    test('should break on undefined array', function () {
+    it('should break on undefined array', function () {
 
         try {
             indexOf();

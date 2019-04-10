@@ -1,3 +1,22 @@
+'use strict';
+
+describe('filter', function(){
+
+    it('description', function(){
+        var num = [1, 2, 3, 4];
+        var elem = 3
+        var result = filter(elem)
+        expect(  )
+    }); 
+    
+});
+
+
+
+
+
+
+
 console.log('DEMO', 'filter');
 
 var num = [1, 2, 3, 4];

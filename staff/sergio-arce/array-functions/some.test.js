@@ -1,7 +1,7 @@
 'use strict';
 
-suite('some', function(){
-    test('normal case', function(){
+describe('some', function(){
+    it('normal case', function(){
 
         var arr = [1, 2, 3, 4];
         var expectedResult = true;
@@ -13,7 +13,7 @@ suite('some', function(){
         expect(result, expectedResult);
     });
 
-    test('error callback', function(){
+    it('error callback', function(){
 
         var arr = [1, 2, 3, 4];
 
@@ -28,8 +28,8 @@ suite('some', function(){
         }
 
     });
-
-    test('error array', function(){
+    
+    it('error array', function(){
 
         var arr = 'string';
 
