@@ -1,12 +1,12 @@
 'use strict';
 
 /**
- * Runs a test suite.
+ * Runs a test describe.
  * 
- * @param {string} title The suite title.
- * @param {function} callback The suite expression to evaluate.
+ * @param {string} title The describe title.
+ * @param {function} callback The describe expression to evaluate.
  */
-function suite(title, callback) {
+function describe(title, callback) {
     console.log('TEST', title);
 
     callback();

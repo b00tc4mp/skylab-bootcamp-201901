@@ -10,7 +10,9 @@ function join(array, element){
     
     var separator = element === undefined ? ',' : element;
     var string = '';
-    for(var i = 0; i< array.length; i++) string += array[i]+separator;
+    for(var i = 0; i< array.length-1; i++) string += array[i]+separator;
+
+    string += array[array.length - 1];
     
     return string;
 }

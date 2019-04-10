@@ -1,7 +1,7 @@
 'use strict';
 
-suite('concat', function(){
-    test('should return an array concatening the two arrays given', function(){
+describe('concat', function(){
+    it('should return an array concatening the two arrays given', function(){
         var array1 = [1, 2, 3];
         var array2 = [4, 5, 6];
 
@@ -9,7 +9,7 @@ suite('concat', function(){
         expect(String(result),'1,2,3,4,5,6' );
     });
     
-    test('should return an array concatening the two arrays given', function(){
+    it('should return an array concatening the two arrays given', function(){
         var array1 = [1, 2, 3];
         var array2 = ['a', 'b', 'c'];
 
@@ -17,7 +17,7 @@ suite('concat', function(){
         expect(String(result),'1,2,3,a,b,c' );
     });
 
-    test('should return error cause first parameter is not an Array', function(){
+    it('should return error cause first parameter is not an Array', function(){
         var array1 = 3;
         var array2 = [];
         try {
@@ -29,7 +29,7 @@ suite('concat', function(){
     
     });
 
-    test('should return error cause third parameter is not an array', function(){
+    it('should return error cause third parameter is not an array', function(){
         var array1 = [1];
         var array2 = [2];
         var array3 = 'a';

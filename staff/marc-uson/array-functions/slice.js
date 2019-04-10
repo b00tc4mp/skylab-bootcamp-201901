@@ -9,6 +9,8 @@
 
 function slice(array, begin, end){
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if ((begin !== undefined) && (typeof begin !=='number')) throw new TypeError(begin + 'is not a number');
+    if ((end !== undefined) && (typeof end !=='number')) throw new TypeError(end + 'is not a number');
     
     if((begin !== undefined)&&(typeof begin == 'number')){
         i = begin;

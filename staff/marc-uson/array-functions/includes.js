@@ -3,6 +3,7 @@
  * 
  * @param {Array} array 
  * @param {any} value 
+ * @param {number} index
  */
 
 function Includes(array, value, index){

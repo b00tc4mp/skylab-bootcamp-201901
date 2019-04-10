@@ -1,15 +1,15 @@
 console.log('\n\nDEMO', 'IndexOf');
 
-var a = [1, 2, 5, 10, 20];
+var array = [1, 2, 5, 10, 20];
 
 console.log('case 1');
 
-console.log(indexOf(a, 10));
+console.log(indexOf(array, 10));
 //3
 
 console.log('case 2');
 
-console.log(indexOf(a, 1, 1));
+console.log(indexOf(array, 1, 1));
 //-1
 
 console.log('case 3');
@@ -25,7 +25,7 @@ try {
 console.log('case 4');
 
 try {
-    indexOf(a, 10, 'a');
+    indexOf(array, 10, 'a');
 
     console.error('should not reach this point');
 } catch (error) {

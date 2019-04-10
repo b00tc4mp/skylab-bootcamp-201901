@@ -1,7 +1,7 @@
 'use strict';
 
-suite('findIndex', function(){
-    test('should return the value of the first index of the array that matches the given condition', function(){
+describe('findIndex', function(){
+    it('should return the value of the first index of the array that matches the given condition', function(){
         var array = [1, 2, 5, 10, 20];
         var result = findIndex(array, function(v){return v > 3 ? true : false});
 
@@ -9,7 +9,7 @@ suite('findIndex', function(){
 
     });
 
-    test('should return the value of the first index of the array that matches the given condition', function(){
+    it('should return the value of the first index of the array that matches the given condition', function(){
         var array = [1, 2, 5, 10, 20];
         var result = findIndex(array, function(v){return v > 20 ? true : false});
 
@@ -17,7 +17,7 @@ suite('findIndex', function(){
 
     });
 
-    test('should break cause the first parameter is not an array', function(){
+    it('should break cause the first parameter is not an array', function(){
         try {
             findIndex();
 
@@ -27,7 +27,7 @@ suite('findIndex', function(){
         }
     });
     
-    test('should break cause the first parameter is not an array', function(){
+    it('should break cause the first parameter is not an array', function(){
         var array = [1, 2, 5, 10, 20];
         
         try {

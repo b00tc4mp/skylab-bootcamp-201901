@@ -8,7 +8,7 @@
 
 function indexOf(array, element, fromIndex){
     if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
-    if((typeof fromIndex !== 'number')&&(fromIndex !== undefined)) throw TypeError(index + ' is not a number');
+    if((typeof fromIndex !== 'number')&&(fromIndex !== undefined)) throw TypeError(fromIndex + ' is not a number');
 
     var i = fromIndex === undefined ? 0 : fromIndex;
     for(var j = i; j < array.length; j++)

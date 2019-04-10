@@ -1,7 +1,7 @@
 'use strict';
 
-suite('fill', function(){
-    test('should return the array full of the given value', function(){
+describe('fill', function(){
+    it('should return the array full of the given value', function(){
         var array = [1, 2, 3, 4, 5];
         var value = 'b'
 
@@ -10,7 +10,7 @@ suite('fill', function(){
         expect(String(result), 'b,b,b,b,b');
     });
 
-    test('should return the elements in the array defined from index to end changed the given value', function(){
+    it('should return the elements in the array defined from index to end changed the given value', function(){
         var array = [1, 2, 3, 4, 5];
         var value = 'b'
         var index = 2;
@@ -21,7 +21,7 @@ suite('fill', function(){
         expect(String(result), '1,2,b,b,5');
     });
 
-    test('should break because the value of index is not a number', function(){
+    it('should break because the value of index is not a number', function(){
         var array = [1, 2, 3, 4, 5];
         var value = 'b'
         var index = 'a';
@@ -35,7 +35,7 @@ suite('fill', function(){
         }
     });
 
-    test('should break because end is not a number', function(){
+    it('should break because end is not a number', function(){
         var array = [1, 2, 3, 4, 5];
         var value = 'b'
         var index = 4;
