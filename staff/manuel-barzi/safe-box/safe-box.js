@@ -3,7 +3,7 @@
 /**
  * Keeps any secret safe, unnaccessible from any scope where its run.
  * 
- * @param {string} password The accessing password.
+ * @param {*} password The accessing password.
  * @param {*} secretOrNewPassword The secret to keep safe or the new password to update.
  * @param {[boolean]} changePassword If true indicates second argument is a new password and must be updated.
  */
