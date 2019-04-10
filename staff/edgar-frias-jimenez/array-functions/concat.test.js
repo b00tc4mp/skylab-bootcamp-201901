@@ -1,7 +1,7 @@
 'use strict';
 
-suite('concat', function(){
-  test('Two arrays should merge into one', function(){
+describe('concat', function(){
+  it('should merge two arrays into one', function(){
     var array1 = ['a', 'b', 'c'];
     var array2 = ['d', 'e', 'f'];
 
@@ -11,7 +11,7 @@ suite('concat', function(){
     expect(concated.toString(), results.toString());
   });
 
-  test('If one value provided is void', function() {
+  it('will breaks if one value provided is void', function() {
     var array1 = ['a', 'b', 'c'];
 
     try {
@@ -23,7 +23,7 @@ suite('concat', function(){
     }
   });
 
-  test('If one array is undefined', function(){
+  it('will breaks if one array is undefined', function(){
     var array1 = ['a', 'b', 'c'];
     var array3;
 
@@ -36,7 +36,7 @@ suite('concat', function(){
     }
   });
 
-  test('If one array is undefined', function(){
+  it('will breaks if one array is undefined', function(){
     var array1 = ['a', 'b', 'c'];
     var array4 = 'hola';
 

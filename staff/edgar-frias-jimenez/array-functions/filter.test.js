@@ -1,7 +1,7 @@
 'use strict';
 
-suite('filter', function(){
-  test('Returns a new array with the content filtered', function(){
+describe('filter', function(){
+  it('returns a new array with the content filtered', function(){
     var words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
 
     var result = filter(words, word => word.length > 6);
@@ -10,7 +10,7 @@ suite('filter', function(){
     expect(result.toString(), desired.toString());
   });
 
-  test('It will break if the entered element is not a valid array', function(){
+  it('will break if the entered element is not a valid array', function(){
     var element = 'hola';
     var callback = function isBigEnough(elemento) {
       return elemento >= 10;
@@ -24,7 +24,7 @@ suite('filter', function(){
     }
   });
 
-  test('It will break if the callback entered is not a function', function(){
+  it('will break if the callback entered is not a function', function(){
     var words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
     var callback = 'hola';
 
