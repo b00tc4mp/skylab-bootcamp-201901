@@ -1,7 +1,7 @@
 'use strict';
 
-suite('forEach', function () {
-    test('should itearate an array without altering it', function () {
+describe('forEach', function () {
+    it('should itearate an array without altering it', function () {
         var array = [1, 2, 3];
 
         var result = []
@@ -22,7 +22,7 @@ suite('forEach', function () {
         }
     });
 
-    test('should break on undefined array', function () {
+    it('should break on undefined array', function () {
         try {
             forEach();
 
@@ -32,7 +32,7 @@ suite('forEach', function () {
         }
     });
 
-    test('should break on undefined callback', function () {
+    it('should break on undefined callback', function () {
         var array = [1, 2, 3];
 
         try {

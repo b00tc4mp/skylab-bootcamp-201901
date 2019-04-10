@@ -1,6 +1,6 @@
 
-suite('filter', function () {
-    test('should fill the array with the value given', function () {
+describe('filter', function () {
+    it('should fill the array with the value given', function () {
         var answer = ["carrot", "tomato", "minishcap", "alloyd"];
         var a = ["hair","carrot","tomato","sun","minishcap","alloyd"];
 
@@ -9,16 +9,16 @@ suite('filter', function () {
         expect(result.toString, answer.toString);
     });
 
-    test('should fill the array with the value given starting on the given index', function () {
+    it('should fill the array with the value given starting on the given index', function () {
         var answer = ["minishcap"];
         var a = ["hair","carrot","tomato","sun","minishcap","alloyd"];
 
         var result = filter(a, function(v){return v.length -2 > 5});
 
-        expect(result.toString, answer.toString);
+        expect(result, answer, true);
     });
 
-    test('should break on undefined callback', function () {
+    it('should break on undefined callback', function () {
         var a = ["hair","carrot","tomato","sun","minishcap","alloyd"];
 
         try {

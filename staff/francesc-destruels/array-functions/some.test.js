@@ -1,6 +1,6 @@
 
-suite('some', function () {
-    test('Should return true', function () {
+describe('some', function () {
+    it('Should return true', function () {
         var a = [1, 2, 3, 4, 5, 6];
 
         var result = some(a, function(v){return v === 1});
@@ -9,7 +9,7 @@ suite('some', function () {
     });
 
 
-    test('should return false', function () {
+    it('should return false', function () {
         var answer = [1, 5, 6];
         var a = [1, 2, 3, 4, 5, 6];
 
@@ -19,7 +19,7 @@ suite('some', function () {
     });
 
 
-    test('should break because of undefined array', function () {
+    it('should break because of undefined array', function () {
         try {
           some();
 

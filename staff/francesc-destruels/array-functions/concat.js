@@ -2,7 +2,8 @@
 /**
  * This function will take as many arrays as arguments as wished and it will write a new one with all the items in order of introduction.
  * 
- *@param {arguments} array all the arrays to iterate.
+ * @param {arguments} array all the arrays to iterate.
+ * 
  */
 
 var concat = (function ()  {
@@ -17,5 +18,9 @@ var concat = (function ()  {
             k++;
         }
     }
-    return newarray;
+    
+    for (i = 0; i < newarray.length; i++){
+        result[i] = newarray[i];
+    }
+
 });

@@ -10,5 +10,5 @@ var push = (function(array,newElement){
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
 
     array[array.length] = newElement;
-    return array;
+    return array.length;
 });

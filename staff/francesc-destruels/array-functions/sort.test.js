@@ -1,7 +1,7 @@
+'use strict';
 
-suite('sort', function () {
-
-    test('Should return true', function () {
+describe('sort', function () {
+    it('Should return the same array', function () {
         var answer = [1, 2, 3, 4, 5];
         var a = [1, 2, 3, 4, 5];
 
@@ -10,12 +10,12 @@ suite('sort', function () {
 
             throw Error('should not reach this point');
         } catch (error) {
-            expect(result.toString, answer.toString);
+            expect(result, answer, true);
         }
     });
 
 
-    test('should return false', function () {
+    it('should an error', function () {
         try {
             sort();
 
@@ -25,8 +25,7 @@ suite('sort', function () {
         }
     });
 
-
-    test('Should return true', function () {
+    it('Should return it ordenated', function () {
         var answer = [1, 3, 4, 5, 6];
         var a = [1, 3, 5, 4, 6];
 
@@ -35,7 +34,7 @@ suite('sort', function () {
 
             throw Error('should not reach this point');
         } catch (error) {
-            expect(result.toString, answer.toString);
+            expect(result, answer, true);
         }
     });
 

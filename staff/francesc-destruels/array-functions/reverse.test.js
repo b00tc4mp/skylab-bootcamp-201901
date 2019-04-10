@@ -1,14 +1,14 @@
-suite('reverse', function () {
-    test('should add each element starting by the last index', function () {
+describe('reverse', function () {
+    it('should add each element starting by the last index', function () {
         var answer = [3, 2, 1];
         var a = [1, 2, 3];
 
         var result = reverse(a);
 
-        expect(result.toString, answer.toString);
+        expect(result, answer, true);
     });
 
-    test('should break because of undefined array', function () {
+    it('should break because of undefined array', function () {
         var a = [1, 2, 3, 4, 5, 6];
 
         try {

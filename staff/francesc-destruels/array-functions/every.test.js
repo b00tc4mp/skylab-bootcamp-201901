@@ -1,6 +1,6 @@
 
-suite('every', function () {
-    test('should return true on all items matching condition', function () {
+describe('every', function () {
+    it('should return true on all items matching condition', function () {
         var array =  [5, 2, 6];
 
         var result = every(array, function (v) { return v > 0; });
@@ -15,7 +15,7 @@ suite('every', function () {
     });
 
 
-    test('should return false on any of the items not matching the condition', function () {
+    it('should return false on any of the items not matching the condition', function () {
         var array =  [5, 2, 6];
 
         var result = every(array, function (v) { return v < 2;});
@@ -29,7 +29,7 @@ suite('every', function () {
         }
     });
 
-    test('should break on undefined array', function () {
+    it('should break on undefined array', function () {
         try {
             every();
 
@@ -39,7 +39,7 @@ suite('every', function () {
         }
     });
 
-    test('should break on undefined callback', function () {
+    it('should break on undefined callback', function () {
         var array = [5, 2, 6];
 
         try {

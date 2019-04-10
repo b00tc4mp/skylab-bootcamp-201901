@@ -1,5 +1,5 @@
-suite('reduceright', function () {
-    test('should add each element starting by the last index', function () {
+describe('reduceright', function () {
+    it('should add each element starting by the last index', function () {
         var answer = [21];
         var a = [1, 2, 3, 4, 5, 6];
 
@@ -8,7 +8,7 @@ suite('reduceright', function () {
         expect(result.toString, answer.toString);
     });
 
-    test('should add each element starting by the last index', function () {
+    it('should add each element starting by the last index', function () {
         var answer = [30];
         var a = [1, 2, 3, 4, 5, 6];
 
@@ -17,7 +17,7 @@ suite('reduceright', function () {
         expect(result.toString, answer.toString);
     });
 
-    test('should break on undefined callback', function () {
+    it('should break on undefined callback', function () {
         var a = [1, 2, 3, 4, 5, 6];
 
         try {

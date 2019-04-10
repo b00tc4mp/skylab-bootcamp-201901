@@ -1,5 +1,5 @@
-suite('isarray', function () {
-    test('should return true because it is an array', function () {
+describe('isarray', function () {
+    it('should return true because it is an array', function () {
         var a = [1, 2, 1, 3, 1];
 
         var result = isarray(a);
@@ -7,7 +7,7 @@ suite('isarray', function () {
         expect(result, true);
     });
 
-    test('should return false because it is not an array', function () {
+    it('should return false because it is not an array', function () {
         var a = 3;
 
         var result = isarray(a);

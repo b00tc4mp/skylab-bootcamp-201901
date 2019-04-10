@@ -1,5 +1,5 @@
-suite('pop', function () {
-    test('Should return the array with the new index', function () {
+describe('pop', function () {
+    it('Should return the array with the new index', function () {
         var answer = [1, 2];
         var a = [1, 2, 3];
         
@@ -8,11 +8,12 @@ suite('pop', function () {
 
         throw Error('should not reach this point');
     } catch (error) {
-        expect(result.toString, answer.toString);
+
+        expect(result, answer, true);
     }
     });
 
-    test('should break because of undefined array', function () {
+    it('should break because of undefined array', function () {
         try {
             pop();
 

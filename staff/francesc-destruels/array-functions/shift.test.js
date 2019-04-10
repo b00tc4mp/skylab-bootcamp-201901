@@ -1,5 +1,5 @@
-suite('shift', function () {
-    test('Should return the substracted element from the original array', function () {
+describe('shift', function () {
+    it('Should return the substracted element from the original array', function () {
         var answer = 1;
         var a = [1, 2, 3];
 
@@ -9,17 +9,17 @@ suite('shift', function () {
     });
 
 
-    test('should add each element starting by the last index', function () {
+    it('should add each element starting by the last index', function () {
         var answer = [2, 3];
         var a = [1, 2, 3];
 
         var result = shift(a);
 
-        expect(a.toString, answer.toString);
+        expect(result, answer, true);
     });
 
 
-    test('should break because of undefined array', function () {
+    it('should break because of undefined array', function () {
         var a = [1, 2, 3, 4, 5, 6];
 
         try {

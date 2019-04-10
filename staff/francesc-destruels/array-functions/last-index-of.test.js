@@ -1,5 +1,5 @@
-suite('lastindexof', function () {
-    test('should return the last index for matching elements', function () {
+describe('lastindexof', function () {
+    it('should return the last index for matching elements', function () {
         var answer = 9;
         var a = [1, 2, 3, 4, 3, 6, 7, 8, 4, 3];;
 
@@ -8,7 +8,7 @@ suite('lastindexof', function () {
         expect(result, answer);
     });
 
-    test('should return the last index for matching elements', function () {
+    it('should return the last index for matching elements', function () {
         var answer = -1;
         var a = ["hola", "adios", "perro"];
 
