@@ -1,6 +1,6 @@
 'use strict';
 
-describe('reduce', function() {
+describe('reduceRight', function() {
     it('should return the multiplication of all the array\'s values', function() {
         var array = [1, 10, 25];
 

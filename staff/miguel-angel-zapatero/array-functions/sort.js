@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Iterate an array to change its order values from min to max changing the original array.
  * 
@@ -5,7 +7,8 @@
  */
 
  function sort(arr) {
-    
+    if(!(arr instanceof Array)) throw TypeError(arr + ' is not an array');
+
     for(var i = 0; i < arr.length; i++) {
         var a = arr[i];
         var b = arr[i+1];

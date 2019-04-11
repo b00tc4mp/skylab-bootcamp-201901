@@ -17,16 +17,18 @@ Function | Description
 *join* | creates and returns a new string by concatenating all of the elements in an array, separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.
 *lastIndexOf* | returns the last index at which a given element can be found in the array, or **-1** if it is not present. The array is searched backwards, starting at **fromIndex**.
 *map* | creates a new array with the results of calling a provided function on every element in the calling array.
-*pop** |
-*push** |
+*pop* | removes the last element from an array and returns that element. This method changes the length of the array.
+*push* | adds one or more elements to the end of an array and returns the new length of the array.
 *reduce* | executes a reducer function (that you provide) on each member of the array resulting in a single output value.
 *reduceRight* | applies a function against an accumulator and each value of the array (from right-to-left) to reduce it to a single value.
-*reverse** | reverses an array in place. The first array element becomes the last, and the last array element becomes the first.
-*shift** |
+*reverse* | reverses an array in place. The first array element becomes the last, and the last array element becomes the first.
+*shift** | removes the first element from an array and returns that removed element. This method changes the length of the array.
 *slice* | returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included). The original array will not be modified.
 *some* | tests whether at least one element in the array passes the test implemented by the provided function. This method returns false for any condition put on an empty array.
-*sort** | sorts the elements of an array in place and returns the array.
-*splice** |
+*sort* | sorts the elements of an array in place and returns the array.
+*splice** | changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.
+
+
 
 >(*) ME FALTA DOCUMENTAR LA FUNCIÓN O TESTEAR!
 

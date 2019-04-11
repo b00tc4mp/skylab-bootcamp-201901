@@ -6,10 +6,9 @@ describe('slice', function() {
 
         var result = slice(array, 1, 3);
 
-        var check = ['bison', 'camel'];
-        for (var i = 0; i < check.length; i++) {
-             expect(result[i], check[i]);
-        }
+        var expected = ['bison', 'camel'];
+        
+        expect(result, expected,true);
     });
 
     it('should return an sliced array with start index negative', function() {
@@ -17,10 +16,9 @@ describe('slice', function() {
 
         var result = slice(array, -2);
 
-        var check = ['duck', 'elephant'];
-        for (var i = 0; i < check.length; i++) {
-            expect(result[i], check[i]);
-        }
+        var expected = ['duck', 'elephant'];
+        
+        expect(result, expected, true);
     });
 
     it('should return an sliced array with end index negative', function() {
@@ -28,10 +26,9 @@ describe('slice', function() {
 
         var result = slice(array, 2, -1);
 
-        var check = ['camel', 'duck'];
-        for (var i = 0; i< check.length; i++) {
-            expect(result[i], check[i]);
-        }
+        var expected = ['camel', 'duck'];
+       
+        expect(result, expected, true);
     });
     
     it('should return an empty array', function() {
