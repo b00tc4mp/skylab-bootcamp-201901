@@ -7,7 +7,7 @@ console.log('%c expect', 'font-weight: bold; font-size: 50px; color: red; text-s
  * 
  * @param {*} actual The actual value to check agains the expected value.
  * @param {*} expected The expected value.
- * @param {boolean} [deep] Indicates wether the interal check comparison must be deep or not (in case of arrays or objects).
+ * @param {boolean} [deep] Indicates wether the comparison must be deep or not (in case of arrays or objects).
  */
 function expect(actual, expected, deep) {
     if (!deep) {
