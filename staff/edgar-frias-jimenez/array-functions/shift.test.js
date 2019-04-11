@@ -3,7 +3,6 @@
 describe('shift', function(){
   it('should return the first element by extracting it from the array modifying its length', function(){
     var array = [1, 2, 3, 4, 5];
-    // var expected = [2, 3, 4, 5];
     var expected = array[0];
     var result = shift(array);
 

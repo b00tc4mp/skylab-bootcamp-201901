@@ -11,10 +11,14 @@
 function shift(array) {
   if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
 
+  var returnedEelement = array[0];
   var arrayHelper = array;
 
   for (var i = 0; i < array.length; i++) {
-
+    array[i] = arrayHelper[i+1];
   }
 
+  array.length = array.length-1;
+
+  return returnedEelement;
 }
