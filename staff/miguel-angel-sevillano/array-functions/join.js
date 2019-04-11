@@ -1,37 +1,39 @@
-
+'use strict'
 /**This function join each element of an array passed by applaying arguments 
  * 
  * @param {*} array the array you want to pass by
- * @param {*} item  without item it returns all the array with items separated by "," with(' ') will join all , with('-')
- * will separate each item by -
+ * @param {*} item  without item it returns all the array with items separated by "," , with item it add the item between
  */
 
-function join(array,item){
+function join(array, item){
+
+    if(!(array instanceof Array)) throw TypeError('is not an array');
+    
     var temp="";
 
-if(item === undefined){
-    for(let i=0;i<array.length;i++){
-         temp += array[i]
-         if(i<array.length-1){
-             temp+=","
-         }
-         
+    if(item === undefined){
+        for(let i=0;i<array.length;i++){
+            temp += array[i]
+            if(i<array.length-1){
+                temp+=","
+            }
+            
+        }
     }
-}
-if(item === ' '){
-    for(let i=0;i<array.length;i++){
-         temp += array[i]
-         
+    else if (item === ' '){
+        for(let i=0;i<array.length;i++){
+            temp += array[i]
+            
+        }
     }
-}
-if(item === '-'){
-    for(let i=0;i<array.length;i++){
-         temp += array[i]
-         if(i<array.length-1){
-             temp+="-"
-         }
-         
+    else{
+        for(let i=0;i<array.length;i++){
+            temp += array[i]
+            if(i<array.length-1){
+                temp +=item
+            }
+            
+        }
     }
-}
-    console.log(temp)
+    return temp
 }

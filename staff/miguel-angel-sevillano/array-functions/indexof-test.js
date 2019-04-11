@@ -3,7 +3,7 @@
 
 
 describe('index_of', function() {
-    it('should break on not an array', function () {
+    it('should break if its not an array', function () {
         
         try{
             index_Of();
@@ -14,7 +14,7 @@ describe('index_of', function() {
         }   
         
     })
-    it('should break on not a number', function () {
+    it('should break if its not a number', function () {
         var a=[2,4,6,8,6]
         
         try{

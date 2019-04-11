@@ -1,13 +1,12 @@
-
+'use strict'
 /**
  * This function checks if the argument passed is an array or not
- * @param (item) function will do an instanceof the item 
- * @returns a boolean true if tis and array false if not
+ * @param {Array} item The array to check
  */
 
-
-
 function isArray(item){
+
+    if(item === undefined )throw TypeError('its undefined');
     if(item instanceof Array){
         return true
     }

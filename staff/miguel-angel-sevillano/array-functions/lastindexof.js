@@ -1,14 +1,23 @@
+'use strict'
+/**this function returns the last index where the item passed by is
+ * 
+ * @param {array} array The array you want to iterate
+ * @param {*} item The item you want to know the idex
+ * 
+ */
 
 
 
-var array=[2,4,5,5,3]
 
 
-function lastindex(array,item,start){
+function lastindex(array,item,index){
+    if(!(array instanceof Array)) throw TypeError('its not an array');
+    if(typeof item !== 'number') throw new TypeError ('its not a number');
+    
     var temp=undefined
-
-    if(start === undefined){
-        for(let i=0;i<array.length;i++){
+    
+    if(index === undefined){
+        for(var i=0;i<array.length-1;i++){
             if(array[i] == item){
                 temp = i
             }
@@ -17,13 +26,13 @@ function lastindex(array,item,start){
             return temp
         }
         else{
-            return-1
+            return false
         }
     }
     else{
-        for(let j=start;j<array.lenght;j++){
-            if(array[i] == item){
-                temp= i;
+        for(var j=index;j<array.length;j++){
+            if(array[j] == item){
+                temp = j;
             }
         
         }
@@ -31,7 +40,7 @@ function lastindex(array,item,start){
             return temp
         }
         else{
-            return-1
+            return false
         }
     }
 
@@ -39,4 +48,3 @@ function lastindex(array,item,start){
 
 }
 
-lastindex(array,5)

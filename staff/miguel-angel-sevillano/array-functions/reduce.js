@@ -7,6 +7,9 @@
 
 
 function reduce(array,callback,item){
+    if (!(array instanceof Array)) throw TypeError(array + ' its not an array');
+	if (typeof callback !== 'function') throw new TypeError(callback + ' its not a function');
+
     var i,acc,newArray =[];
 
 

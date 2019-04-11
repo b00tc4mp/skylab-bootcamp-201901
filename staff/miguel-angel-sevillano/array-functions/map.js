@@ -8,9 +8,10 @@
 
 
 
-var test =[2,4,6,8]
-
 function map(array,callback,value){
+  if(!(array instanceof Array))throw TypeError('its not an array')
+  if (typeof callback !== 'function') throw new TypeError('is not a function');
+
   
   var newArray=[],acc,item;
   acc=value;
@@ -31,4 +32,3 @@ function map(array,callback,value){
        return newArray;
   }
 
-map(test,function(array,acc){return acc+array})

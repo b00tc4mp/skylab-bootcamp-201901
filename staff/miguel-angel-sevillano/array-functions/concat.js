@@ -1,11 +1,14 @@
 
 /**
  *This function merge two or more arrays and returns a new aarray
- *@returns array 
+ *@returns Array with values of merged arrays
  *
  */
-
-function concat ()  {
+function concat()  {
+    if(arguments.length == 0)throw TypeError('undefined');
+    if(!(arguments[0] instanceof Array))throw TypeError('not an array');
+    
+    
     var i, j, k = 0, newarray = [];
  
     for (i = 0; i < arguments.length; i++){
@@ -16,3 +19,4 @@ function concat ()  {
     }
     return newarray;
  }
+ 
