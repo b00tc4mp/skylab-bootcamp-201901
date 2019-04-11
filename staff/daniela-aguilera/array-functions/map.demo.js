@@ -8,7 +8,7 @@ function callback (el) {
 }
 
 console.log('case 1');
-console.log(map(numbers, callback))
+console.log(map(numbers, callback));
 
 
 
