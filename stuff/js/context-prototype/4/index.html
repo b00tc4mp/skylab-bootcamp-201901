@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function Person(hello) {
+            this.hello = hello;
+        }
+
+        Person.prototype.salute = salute;
+
+        function salute(name) {
+            console.log(this.hello + ', ' + name + '!');
+        }
+
+        var anita = new Person('hello');
+
+        var peter = new Person('hola');
+
+        anita.salute('mark');
+        // peter.salute('mark');
+        peter.salute.call(anita, 'mark');
+
+        // console.log(anita.salute === peter.salute);
+
+        var mark = new Person('hallo');
+
+        mark.salute('anita');
+
+        // console.log(anita instanceof Person);
+        // console.log(mark instanceof Person);
+
+        // console.log(anita instanceof Object);
+        // console.log(mark instanceof Object);
+    </script>
+</body>
+
+</html>
