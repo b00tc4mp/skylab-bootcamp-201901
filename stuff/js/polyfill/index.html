@@ -1,0 +1,13 @@
+<script>
+    if (typeof Array.prototype.random === 'undefined')
+        Array.prototype.random = function () {
+            var randomIndex = Math.floor(Math.random() * this.length);
+
+            return this[randomIndex];
+        };
+
+        var a = [1, 2, 3, 4, 5];
+
+        for (var i = 0; i < 10; i++)
+            console.log(a.random());
+</script>
