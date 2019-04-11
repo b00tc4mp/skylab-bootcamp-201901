@@ -10,7 +10,7 @@ describe('forEach', function () {
         // 0 1
         // 1 2
         // 2 3
-
+        
         expect(result, array, true);
 
         var expected = { 0: 1, 1: 2, 2: 3 };
