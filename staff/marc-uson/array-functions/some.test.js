@@ -24,7 +24,7 @@ describe('some', function(){
             var result = some(array, function(){});
             throw Error('should not reach this point');
         } catch (error) {
-            expect(result, 'undefined is not an array');
+            expect(error.message, 'undefined is not an array');
         }
 
     });
@@ -37,7 +37,7 @@ describe('some', function(){
             
             throw Error('should not reach this point');
         } catch (error) {
-            expect(result, 'undefined is not an array');
+            expect(error.message, 'undefined is not a function');
         }
 
     });
