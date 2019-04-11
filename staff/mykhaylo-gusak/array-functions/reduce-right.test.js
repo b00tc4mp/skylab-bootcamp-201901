@@ -1,8 +1,8 @@
-'use strict'
+'use strict';
 
-suite('reduceRight', function () {
+describe('reduceRight', function () {
 
-    test('Should works good!', function () {
+    it('Should works good!', function () {
 
         var letters = ['A', 'B', 'C'];
         var result = ''; // 'CBA'
@@ -20,7 +20,7 @@ suite('reduceRight', function () {
         
     });
 
-    test('should break on undefined array', function () {
+    it('should break on undefined array', function () {
         try {
             reduceRight();
 
@@ -30,7 +30,7 @@ suite('reduceRight', function () {
         }
     });
 
-    test('should break on undefined callback', function () {
+    it('should break on undefined callback', function () {
         var letters = ['A', 'B', 'C'];
 
         try {

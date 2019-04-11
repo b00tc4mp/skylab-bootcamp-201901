@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * 
  * Method creates a new array with all elements that pass the test implemented by the provided function.
@@ -9,27 +11,10 @@
  * @returns {Array} A new array with the elements that pass the test. If no elements pass the test, an empty array will be returned.
  */
 
+function filter(array, callback) {
 
-
-// Callback
-
-function moreThan6 (element, index) {
-
-  if (element.length > 6) {
-    return true
-
-  } else {
-    return false
-  }
-
-}
-
-// Function
-function filter (array, callback) {
-
-
-  if (!(array instanceof Array)) throw TypeError(array + ' is not an Array.');
-  if (!(typeof callback === 'function')) throw TypeError(callback + ' is not an function.');
+  if (!(array instanceof Array)) throw TypeError(array + ' is not an array.');
+  if (!(typeof callback === 'function')) throw TypeError(callback + ' is not a function.');
 
   var n = 0;
   var newArray = [];
@@ -45,10 +30,7 @@ function filter (array, callback) {
     }
 
   }
-  return newArray
+  return newArray;
 
 }
-
-
-
 

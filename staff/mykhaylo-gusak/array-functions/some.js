@@ -1,39 +1,21 @@
-var words = ['spray', 'limit', 'elite', 'exuberant', 'destruction', 'present'];
+'use strict';
+/**
+ * The some() method tests whether at least one element in the array passes the test implemented by the provided function.
+ * @param {function} callback 
+ * @param {Array} array 
+ * @returns {boolean} 
+ */
 
+function some(array, callback){
+    
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
 
-function morethan6(element, index) {
+    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
 
-  if (element.length > 6) {
-    return true
-
-  } else {
+      for (var i = 0; i < array.length; i++){
+        if (callback(array[i], i) === true){
+            return true
+        }  
+     }  
     return false
   }
-
-}
-
-function some(array, callback) {
-
-
-
-  for (var i = 0; i < array.length; i++) {
-
-    if (callback(array[i], i) === true) {
-
-
-      return true
-
-    }
-
-
-  }
-
-
-  return false
-
-}
-
-console.log(some(words, morethan6)) // length < 6 // ['spray', 'limit', 'elite']
-
-
-

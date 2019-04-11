@@ -1,7 +1,7 @@
-'use strick'
+'use strick';
 
-suite ('map', function () {
-    test('Should works good!', function (){
+describe ('map', function () {
+    it('Should works good!', function (){
 
         var numbers = [1, 2, 3];
         var result = []; // [2,4,6]
@@ -24,7 +24,7 @@ suite ('map', function () {
 
 
     });
-    test('Should break on undefined', function (){
+    it('Should break on undefined', function (){
         try {
 
             map();
@@ -40,7 +40,7 @@ suite ('map', function () {
 
 
     });
-    test('should break on undefined callback', function () {
+    it('should break on undefined callback', function () {
         var array = [1, 2, 3];
 
         try {

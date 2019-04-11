@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Iterates an array and evaluates an expression on each of its values.
  * 
@@ -10,39 +12,28 @@
 
 // 	for (var i = 0; i < array.length; i++)
 // 		callback(array[i], i);
-// }\\\
+// }
 
-
-
-var result = [];
-var numbers = [1, 2, 3, 4, 5, 6];
-var n = 0;
-var newArray = [];
-
-function forEach(array,callback) {
-
+// TODO make it recursive (without using for or while loops)
+function forEach(array, callback) {
 	if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
 	if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
 
-	if (n <= array.length - 1) {
+	// if (array.length > 0) {
+	// 	function forEach(index) {
+	// 		callback(array[index], index);
 
-		newArray[n] = callback(array[n]);
-        n++;
-		forEach(array,0);
-		
-	};
-  
-	return newArray;
+	// 		if (++index < array.length)
+	// 			forEach(index);
+	// 	}
 
+	// 	forEach(0);
+	// }
 
-};
+	array.length && (function forEach(index) {
+		callback(array[index], index);
 
-
-
-
-
-
-result = forEach(numbers,);
-
-console.log(result);
-
+		if (++index < array.length)
+			forEach(index);
+	})(0);
+}

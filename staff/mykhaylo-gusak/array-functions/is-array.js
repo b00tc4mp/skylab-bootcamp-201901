@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Method determines whether the passed value is an Array.
  * 
@@ -6,9 +8,11 @@
  * @returns {boolean} true if the value is an Array; otherwise, false.
  */
 
-function isArray(value) {
+function isArray(array) {
+
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array.');
   
-    if (value instanceof Array) {
+    if (array instanceof Array) {
         return true
     } else {
         return false

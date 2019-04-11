@@ -1,20 +1,31 @@
 'use strict';
 
-describe('_forEach', function () {
+describe('forEach', function () {
     it('should itearate an array without altering it', function () {
         var array = [1, 2, 3];
 
-        var result = [] // [1,2,3]
-        
-        var check = [1, 2, 3];
+        var result = []
 
         forEach(array, function (v, i) { result[i] = v; });
-        //  1
-        //  2
-        //  3
-    
-        expect(result, check);
+        // 0 1
+        // 1 2
+        // 2 3
 
+        expect(result, array, true);
+
+        var expected = { 0: 1, 1: 2, 2: 3 };
+
+        expect(array, expected, true);
+    });
+
+    it('should do nothing if array has not content', function() {
+        var array = [];
+
+        var result = []
+
+        forEach(array, function (v, i) { result[i] = v; });
+
+        expect(result.length, 0);
     });
 
     it('should break on undefined array', function () {

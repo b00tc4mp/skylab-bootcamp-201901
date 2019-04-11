@@ -1,8 +1,8 @@
 'use strict'
 
-suite('reduce', function () {
+describe('reduce', function () {
 
-    test('Should works good!', function () {
+    it('Should works good!', function () {
 
         var letters = ['A', 'B', 'C'];
         var result = '';
@@ -20,7 +20,7 @@ suite('reduce', function () {
         
     });
 
-    test('should break on undefined array', function () {
+    it('should break on undefined array', function () {
         try {
             reduce();
 
@@ -30,7 +30,7 @@ suite('reduce', function () {
         }
     });
 
-    test('should break on undefined callback', function () {
+    it('should break on undefined callback', function () {
         var letters = ['A', 'B', 'C'];
 
         try {

@@ -1,4 +1,4 @@
-'use stric'
+'use stric';
 
 /**
  * method creates and returns a new string by concatenating all of the elements in an array (or an array-like object), separated by commas or a specified separator string. If the array has only one item, then that item will be returned without using the separator.
@@ -10,14 +10,19 @@
 
 function join(array, separator) {
 
-  if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+  if (!(array instanceof Array)) throw TypeError(array + ' is not an array.');
   if (typeof separator === 'function') throw new TypeError(separator + ' is a function');
 
   var newString = '';
 
   for (var i = 0; i < array.length; i++) {
-    newString = newString + array[i] + separator
-    
+
+    if (i < array.length - 1) {
+      newString = newString + array[i] + separator;
+    } else {
+      newString = newString + array[i];
+    }
+
   }
 
   return newString
