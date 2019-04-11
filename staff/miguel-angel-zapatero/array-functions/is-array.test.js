@@ -1,6 +1,6 @@
 'use strict';
 
-describe('is-array', function() {
+describe('isArray', function() {
     it('should return true', function() {
         var array = [1, 2, 3];
         
