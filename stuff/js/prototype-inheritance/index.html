@@ -1,0 +1,63 @@
+<script>
+    function Being(genesis) { // type: sexual, asexual
+        this.genesis = genesis;
+        this.alive = true;
+        this.birth = new Date;
+    }
+
+    Being.prototype.isAlive = function () {
+        return this.alive;
+    }
+
+    function Animal(genesis, diet, habitat) {
+        Being.call(this, genesis);
+
+        this.diet = diet;
+        this.habitat = habitat;
+    }
+
+    Animal.prototype = Object.create(Being.prototype);
+    Animal.prototype.constructor = Animal;
+
+    Animal.prototype.breath = function () {
+        if (this.isAlive()) console.log('sss sss sss');
+        else throw Error('hey, i am dead!');
+    };
+
+    Animal.prototype.reproduce = function () {
+        return new Animal(this.genesis, this.diet, this.habitat);
+    };
+
+    function Vegetable() {
+
+    }
+
+    function Genderable(gender, diet, habitat) {
+        Animal.call(this, 'sexual', diet, habitat);
+
+        this.gender = gender; // female, male
+    }
+
+    Genderable.prototype = Object.create(Animal.prototype);
+    Genderable.prototype.constructor = Genderable;
+
+    Genderable.prototype.reproduce = function (genderable) {
+        if (genderable.gender !== this.gender) {
+            console.log('Oooh Oooh Ooooooh');
+
+            var gender = Math.random() >= 0.5 ? 'female' : 'male';
+
+            return new Genderable(gender, this.diet, this.habitat);
+        } else throw Error('cannot reproduce with you! :(');
+    };
+
+    function Primate(gender) {
+        Genderable.call(this, gender, 'omnivore', 'terrestrial');
+    }
+
+    function Human(gender, name) {
+        Primate.call(this, gender);
+
+        this.name = name;
+    }
+</script>
