@@ -1,10 +1,10 @@
 'use strict';
 
-describe('reduceRight', function(){
+describe('reduce', function(){
     it('should return 29', function(){
         var array = [1, 2, 5, 1, 20];
 
-        var result = reduceRight(array, function(anterior, actual){ return anterior + actual});
+        var result = reduce(array, function(anterior, actual){ return anterior + actual});
 
         expect(result, 29);
     });
@@ -12,15 +12,15 @@ describe('reduceRight', function(){
     it('should return Aabcde', function(){
         var array = ['a', 'b', 'c', 'd', 'e'];
 
-        var result = reduceRight(array, function(anterior, actual){ return anterior + actual});
+        var result = reduce(array, function(anterior, actual){ return anterior + actual});
 
-        expect(result, 'edcba');
+        expect(result, 'abcde');
     });
     it('should break on undefined is not an array', function(){
         var array = undefined;
 
         try {
-            reduceRight(array, function(){});
+            reduce(array, function(){});
 
             throw Error('should not reach this point');
         } catch (error) {
@@ -32,7 +32,7 @@ describe('reduceRight', function(){
         var array = [];
 
         try {
-            reduceRight(array);
+            reduce(array);
 
             throw Error('should not reach this point');
         } catch (error) {
@@ -44,7 +44,7 @@ describe('reduceRight', function(){
         var array = [];
 
         try {
-            reduceRight(array, function(){}, 'a');
+            reduce(array, function(){}, 'a');
 
             throw Error('should not reach this point');
         } catch (error) {

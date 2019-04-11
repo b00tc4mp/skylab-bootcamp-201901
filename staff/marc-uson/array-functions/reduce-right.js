@@ -9,7 +9,7 @@
 function reduceRight(array, callback, start){
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
     if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
-    if ((start !== undefined) && (typeof start !=='number')) throw new TypeError(start + 'is not a number');
+    if ((start !== undefined) && (typeof start !=='number')) throw new TypeError(start + ' is not a number');
 
     var x = array.length-1;
     if (start === undefined){

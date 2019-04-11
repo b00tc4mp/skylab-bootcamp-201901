@@ -11,5 +11,10 @@ function shift(array){
     var element;
     for(var i = 1; i < array.length; i++)newArr[i-1] = array[i];
     element = array[0];
-    return [element, newArr];
+    array.length = newArr.length;
+
+    for(var j = 0; j < newArr.length; j++){
+        array[j]=newArr[j];
+    }
+    return element;
 }
