@@ -6,13 +6,11 @@ describe('concat', function(){
         var array=[1,2,3];
         var array2=[4,5,6];
         var result=concat(array, array2);
-        var check=[1,2,3,4,5,6];
+        var expected=[1,2,3,4,5,6];
         
-        for(var i in result){
-
-            expect(result[i], check[i]);
+        expect(expected, result, true);
        
-        }
+        
     });
 
     it('Should fail with undefined arguments', function(){

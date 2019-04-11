@@ -21,6 +21,15 @@ describe('join', function(){
         expect(expected,result)
 
     });
+    it('Should return an empty string in case of empty array', function(){
+        var array=[];
+        var result;
+        var expected=''
+        result=join(array);
+
+        expect(expected,result)
+
+    });
 
     it("should fail on undefined array", function() {
         try {

@@ -10,8 +10,9 @@ function filter(array, callback) {
     var newarray=[];
     for (var i = 0; i < array.length; i++){
         if(callback(array[i], i, array)){
-            newarray[i]=array[i]
+            newarray[newarray.length]=array[i]
         }
     }
     return newarray;
 }
+
