@@ -12,7 +12,7 @@ describe('reduce', function () {
 
     });
 
-    it('should ok', function () {
+    it('should executes a reducer function on each member of the array with a initial value', function () {
         var array = [1, 2, 3, 4];
         var expected = 13;
         var initialValue = 3;

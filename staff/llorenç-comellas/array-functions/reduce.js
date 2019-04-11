@@ -5,18 +5,22 @@
  * @param {Array} array 
  * @param {Function} callback 
  */
-function reduce(array, callback,initialValue) {
-    if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
-    if(typeof callback !== 'function') throw TypeError(callback + ' is not a function');
+function reduce(array, callback, initialValue) {
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if (typeof callback !== 'function') throw TypeError(callback + ' is not a function');
     var acc = array[0];
-    
-    for (var i =1; i<array.length; i++){
-        acc = callback(acc,array[i]);
-
+    if (initialValue) {
+        acc = initialValue;
+        var a = 0;
+    }else{
+        a = 1;
     }
-    return acc;
+    for (var i = a; i < array.length; i++) {
+        acc = callback(acc, array[i]);
 
-}
+    } return acc;
+};
+
 
 
 
