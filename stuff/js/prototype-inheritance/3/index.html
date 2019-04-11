@@ -22,12 +22,12 @@
 
                 var gender = Math.random() >= 0.5 ? 'female' : 'male';
 
-                return this.create.apply(this, [gender, this.habitat].concat(Array.prototype.slice.call(arguments, 1)));
+                return this.constructor.create.apply(null, [gender, this.habitat].concat(Array.prototype.slice.call(arguments, 1)));
             } else throw Error('cannot reproduce with you! :(');
         else throw Error('cannot reproduct with a being of another type');
     };
 
-    Being.prototype.create = function (gender, habitat) {
+    Being.create = function (gender, habitat) {
         return new Being(gender, habitat);
     };
 
@@ -60,7 +60,7 @@
     Human.prototype = Object.create(Primate.prototype);
     Human.prototype.constructor = Human;
 
-    Human.prototype.create = function (gender, habitat, femaleName, maleName) {
+    Human.create = function (gender, habitat, femaleName, maleName) {
         var name = gender === 'female' ? femaleName : maleName;
 
         return new Human(gender, name);
