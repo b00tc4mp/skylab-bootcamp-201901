@@ -15,7 +15,7 @@ describe("forEach", function() {
     expect(check, array, true);
   });
 
-  it("should break on undefined array", function() {
+  it("should fail on undefined array", function() {
     try {
       forEach();
 
@@ -25,7 +25,7 @@ describe("forEach", function() {
     }
   });
 
-  it("should break on undefined callback", function() {
+  it("should fail on undefined callback", function() {
     var array = [1, 2, 3];
 
     try {

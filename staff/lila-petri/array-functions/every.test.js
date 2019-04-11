@@ -18,7 +18,7 @@ describe('every', function () {
         expect(result, false);
     });
 
-    it('should break on undefined array', function () {
+    it('should fail on undefined array', function () {
         try {
             every();
 
@@ -28,7 +28,7 @@ describe('every', function () {
         }
     });
 
-    it('should break on undefined callback', function () {
+    it('should fail on undefined callback', function () {
         var array = [1, 2, 3];
 
         try {

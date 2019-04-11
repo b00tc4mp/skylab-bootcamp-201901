@@ -6,6 +6,8 @@
  */
 
 function reduceRight(array, callback){
+    if(!(array instanceof Array)) throw TypeError(array + ' is not an array')
+    if(typeof callback !== 'function') throw TypeError (callback+' is not a function')
     var accumulated=array[array.length-1] 
     for (var i = array.length-2; i >-1; i--){
       accumulated=(callback(accumulated, array[i]))

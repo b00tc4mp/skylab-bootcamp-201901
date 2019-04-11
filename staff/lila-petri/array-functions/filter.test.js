@@ -13,7 +13,7 @@ describe('filter',function(){
         expect(array, check, true); 
     });
 
-    it('Should break on undefined arguments', function(){
+    it('Should fail on undefined arguments', function(){
         try{
             filter();
             throw Error('should not reach this point');
@@ -21,6 +21,55 @@ describe('filter',function(){
             expect(error.message,'undefined is not an array');
         }
     });
-  
+
+    it('Should fail if the first argument is not an array', function(){
+        
+        try{
+            filter('string', function(v) { return v < 2; });
+            throw Error('should not reach this point');
+        }catch(error){
+            expect(error.message,'string is not an array');
+        }
+    });
+
+    it('Should fail if the second argument is not a function', function(){
+        
+        try{
+            filter([1,2,3], [1,2,3]);
+            throw Error('should not reach this point');
+        }catch(error){
+            expect(error.message,'1,2,3 is not a function');
+        }
+    });
+
+    it('Should fail if the first argument null', function(){
+        
+        try{
+            filter(null, function(v) { return v < 2; });
+            throw Error('should not reach this point');
+        }catch(error){
+            expect(error.message,'null is not an array');
+        }
+    });
+
+    it('Should fail if the second argument is null', function(){
+        
+        try{
+            filter([1,2,3], null);
+            throw Error('should not reach this point');
+        }catch(error){
+            expect(error.message,'null is not a function');
+        }
+    });
+
+    it('Should fail if arguments are in incorrect order', function(){
+        
+        try{
+            filter(function(v) { return v < 2; }, [1,2,3]);
+            throw Error('should not reach this point');
+        }catch(error){
+            expect(error.message,'function(v) { return v < 2; } is not an array');
+        }
+    });
 
 });

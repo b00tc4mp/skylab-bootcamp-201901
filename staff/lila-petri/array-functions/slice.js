@@ -1,24 +1,31 @@
 /**
+ * Returns a copy of a part of the array within a new array 
+ * @param {Array} array Array to copy 
+ * @param {Number} index initial position since start the copy
+ * @param {Number} end end position to copy
  * 
- * @param {Array} arr 
- * @param {*} index 
- * @param {*} end 
+ * @returns {Array} the new array form the origin one
  */
-function slice(arr, index, end){
-   if (end==undefined){
-       end=arr.length;
+function slice(array, index, end){
+    if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if(index>array.length-1){ return []}
+    if (index===undefined){
+        index=0;
+    }
+    if (end===undefined){
+       end=array.length;
    }
-    for(i=0;i<end;i++)
-            if(i==index){
+    for(i=0;i<end;i++){
+            if(i===index){
                 var new_arr=[];
                 count=0;
                 for(j=i;j<end;j++){
-                    new_arr[count]=arr[j];
+                    new_arr[count]=array[j];
                     count++;
                 }
                 return new_arr;
             }
+        }
+
 }
 
-a=[1,2,3,4,5,6]
-console.log(slice(a, 2, 4))

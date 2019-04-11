@@ -15,7 +15,7 @@ describe('concat', function(){
         }
     });
 
-    it('Should break with undefined arguments', function(){
+    it('Should fail with undefined arguments', function(){
        
         try{
             concat();
@@ -27,7 +27,7 @@ describe('concat', function(){
         }
 
     });
-    it('should break with one undefined argument', function(){
+    it('should fail with one undefined argument', function(){
         var array=[1,2,3];
        
         try{
@@ -41,7 +41,7 @@ describe('concat', function(){
         }
     });
 
-    it('Should break with the first argument as a String ', function(){
+    it('Should fail with the first argument as a String ', function(){
         var array=[1,2,3];
 
         try{
@@ -55,7 +55,7 @@ describe('concat', function(){
 
     });
 
-    it('Should break with the second argument as a String', function(){
+    it('Should fail with the second argument as a String', function(){
         var array=[1,2,3];
 
         try{
@@ -68,7 +68,7 @@ describe('concat', function(){
         }
     });
 
-    it('Should break with both arguments as a string', function(){
+    it('Should fail with both arguments as a string', function(){
 
         try{
             concat('string', 'string');
@@ -80,7 +80,7 @@ describe('concat', function(){
 
     });
 
-    it('Should break with firt argument as a number', function(){
+    it('Should fail with firt argument as a number', function(){
         var array=[1,2,3];
 
         try{

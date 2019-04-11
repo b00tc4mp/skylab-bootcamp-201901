@@ -1,13 +1,22 @@
 /**
  * Join all the elements of the array
  * @param {Array} array 
- * @param {Element} bookmark 
+ * @param {Element} separator 
  */
-function join(array, bookmark){
-    var value=""
-    for (var i = 0; i < array.length; i++){
-       value+=array[i]+bookmark
-    }
-  return value
-}
+function join(array, separator){
+  if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+      var value=""
+      var i=0;
+     do{
+       if (arguments.length<2){
+         value+=array[i]+',';
+        }else{
+          value+=array[i]+separator;
+        }
+        i++;
+      }while(i<array.length-1)
+      value+=array[i];
+    return value
+  }
+
 

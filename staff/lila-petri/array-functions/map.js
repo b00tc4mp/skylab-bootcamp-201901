@@ -2,6 +2,8 @@
  * Ceate a new array with the results of the function called
  * @param {Array} array 
  * @param {Function} callback 
+ * 
+ * @returns {Array} array
  */
 function map(array, callback) {
 
