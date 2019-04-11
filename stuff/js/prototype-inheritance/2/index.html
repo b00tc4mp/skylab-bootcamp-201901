@@ -1,0 +1,85 @@
+<script>
+    function Being(gender, habitat) {
+        this.gender = gender; // female, male, undefined
+        this.habitat = habitat;
+        this.alive = true;
+        this.birth = new Date;
+    }
+
+    Being.prototype.isAlive = function () {
+        return this.alive;
+    }
+
+    Being.prototype.breath = function () {
+        if (this.isAlive()) console.log('sss sss sss');
+        else throw Error('hey, i am dead!');
+    };
+
+    Being.prototype.reproduce = function (being) {
+        if (being.constructor === this.constructor)
+            if (being.gender !== this.gender) {
+                console.log('Oooh Oooh Ooooooh');
+
+                var gender = Math.random() >= 0.5 ? 'female' : 'male';
+
+                return this.create.apply(this, [gender, this.habitat].concat(Array.prototype.slice.call(arguments, 2)));
+            } else throw Error('cannot reproduce with you! :(');
+        else throw Error('cannot reproduct with a being of another type');
+    };
+
+    Being.prototype.create = function (gender, habitat) {
+        return new Being(gender, habitat);
+    };
+
+    function Animal(gender, habitat, diet) {
+        Being.call(this, gender, habitat);
+
+        this.diet = diet;
+    }
+
+    Animal.prototype = Object.create(Being.prototype);
+    Animal.prototype.constructor = Animal;
+
+    function Vegetable(gender, habitat) {
+        Being.call(this, gender, habitat);
+    }
+
+    function Primate(gender) {
+        Animal.call(this, gender, 'terrestrial', 'omnivore');
+    }
+
+    Primate.prototype = Object.create(Animal.prototype);
+    Primate.prototype.constructor = Primate;
+
+    function Human(gender, name) {
+        Primate.call(this, gender);
+
+        this.name = name;
+    }
+
+    Human.prototype = Object.create(Primate.prototype);
+    Human.prototype.constructor = Human;
+
+    Human.prototype.create = function (gender, femaleName, maleName) {
+        var name = gender === 'female' ? femaleName : maleName;
+
+        return new Human(gender, name);
+    };
+</script>
+
+<script>
+    var heFish = new Being('male', 'water');
+    var sheFish = new Being('female', 'water');
+
+    var fishChild = heFish.reproduce(sheFish);
+
+    console.log(fishChild);
+
+    var anita = new Human('female', 'Anita');
+    var peter = new Human('male', 'Peter');
+
+    var humanChild = anita.reproduce(peter, 'Paca', 'Paco');
+    // var humanChild = anita.reproduce(heFish, 'Paca', 'Paco'); // WHAT!? ok, now fails...
+
+    console.log(humanChild);
+</script>
