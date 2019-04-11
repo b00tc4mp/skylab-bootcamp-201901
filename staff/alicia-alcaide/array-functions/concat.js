@@ -11,17 +11,9 @@
 
 function concat() {
 
-
   var newArray = [];
-  
+  var i=0
 
-
-  for (var i=0; i<arguments[0].length; i++) {
-
-    newArray[i] = arguments[0][i];
-    
-  }
-  
   for (var j=1; j <arguments.length; j++) {
     for (var k=0; k < arguments[j].length; k++) {
         newArray[i] = arguments[j][k];
