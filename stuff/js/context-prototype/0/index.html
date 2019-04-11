@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <script>
+        var o = { salutation: 'hello'};
+
+        var p = o;
+
+        o.salute = function(name) {
+            return this.salutation + ', ' + name + '!';
+        };
+
+        o = {};
+        
+        console.log(p.salute('peter'));
+        // hello, peter!
+    </script> -->
+    <!-- <script>
+        var o = {}, p = [];
+
+        function what() {
+            function why() {
+                console.log('why', this);
+            }
+
+            o.why = why;
+
+            why();
+
+            o.why();
+
+            why.apply(p);
+
+            // console.log('what', this);
+        }
+
+        what();
+    </script> -->
+    <script>
+        var anita = { 
+            hello: 'hello',
+            salute: function(name) {
+                console.log(this.hello + ', ' + name + '!');
+            }
+        };
+
+        var peter = {
+            hello: 'hola',
+            salute: function(name) {
+                console.log(this.hello + ', ' + name + '!');
+            }
+        };
+
+        anita.salute('mark');
+        // peter.salute('mark');
+        peter.salute.call(anita, 'mark');
+    </script>
+</body>
+
+</html>
