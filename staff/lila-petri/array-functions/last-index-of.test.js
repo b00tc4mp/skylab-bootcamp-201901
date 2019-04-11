@@ -52,16 +52,16 @@ describe('lastIndexOf', function(){
 
     });
 
-    it('Should fail if the first argument is not an array', function(){
+    it('Should fail on undefined array', function(){
        
         try{
             
-            lastIndexOf('string');
+            lastIndexOf();
             throw Error ('should not reach this point');
 
         }catch(error){
             
-            expect(error.message, 'string is not an array');
+            expect(error.message, 'undefined is not an array');
 
         }
 
