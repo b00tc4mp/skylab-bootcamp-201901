@@ -8,8 +8,8 @@
  */
 function splice(array, index, deleteElement, element){
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
-    if (typeof index !=='number') throw new TypeError(index + 'is not a number');
-    if (typeof deleteElement !=='number') throw new TypeError(deleteElement + 'is not a number');
+    if (typeof index !=='number') throw new TypeError(index + ' is not a number');
+    if (typeof deleteElement !=='number') throw new TypeError(deleteElement + ' is not a number');
 
     x = (index == undefined) ? 0 : index;
 

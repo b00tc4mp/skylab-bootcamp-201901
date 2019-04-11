@@ -1,21 +1,21 @@
 'use strict';
 
 describe('splice', function(){
-    it('should return 1 and array modified [2,5,1,20]', function(){
+    it('should return an array modified [1, a, 5, 1, 20]', function(){
         var array = [1, 2, 5, 1, 20];
 
-        splice(array, 1, 0, 'a');
+        var result = splice(array, 1, 0, 'a');
 
-        expect(array, [1, 'a', 5, 1, 20], true);
+        expect(result, [1, 'a', 5, 1, 20], true);
 
     });
+    
+    it('should return an array modified [a,b,1]', function(){
+        var array =['a', 'b', 'c', 'd', 'e'];
 
-    it('should return a and array modified [b,c,d,e]', function(){
-        var array = ['a', 'd', 2, 'c', 'b', 1];
+        var result = splice(array, 2, 3, 1);
 
-        splice(array);
-
-        expect(array, [1, 2, 'a','b', 'c', 'd'], true);
+        expect(result, ['a','b', 1], true);
     });
 
     it('should break on undefined is not an array', function(){
@@ -29,24 +29,28 @@ describe('splice', function(){
             expect(error.message, 'undefined is not an array');
         }
     });
+
+    it('should break on a is not  number', function(){
+        var array = [];
+
+        try {
+            splice(array,'a');
+
+            throw Error('should not reach this point');
+        } catch (error) {
+            expect(error.message, 'a is not a number');
+        }
+    });
+
+    it('should break on a is not  number', function(){
+        var array = [];
+
+        try {
+            splice(array, 0, 'a');
+
+            throw Error('should not reach this point');
+        } catch (error) {
+            expect(error.message, 'a is not a number');
+        }
+    });
 });
-
-
-
-console.log('\n\nDEMO', 'splice');
-
-var a = [1, 2, 5, 1, 20];
-
-console.log('case 1');
-
-
-console.log(splice(a, 1, 0, 'a'));
-//1,'a',5,1,20
-
-
-console.log('case 2');
-
-a=['a', 'b', 'c', 'd', 'e'];
-
-console.log(splice(a, 2, 3, 1));
-//'a','b',1
