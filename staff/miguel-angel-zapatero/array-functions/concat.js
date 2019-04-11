@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Iterate diferents arrays to concatenate the values into a new array.
  * 
@@ -11,7 +13,7 @@ function concat() {
     var result = [];
     var i = 0;
     for(item of args) {
-        if (!isArray(item)) {
+        if (!(item instanceof Array)) {
             result[i] = item;
             i++;
         } else {

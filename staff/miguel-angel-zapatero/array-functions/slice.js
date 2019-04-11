@@ -4,8 +4,8 @@
  * Returns a shallow copy of a portion of an array into a new array
  * 
  * @param {Array} arr The array to slice.
- * @param {Number} start The start index of the array.
- * @param {Number} end The final index of the array.
+ * @param {[Number]} start The start index of the array.
+ * @param {[Number]} end The final index of the array.
  * 
  * @returns {Array} New Array. Empty if start is greater than the length of the array.
  */

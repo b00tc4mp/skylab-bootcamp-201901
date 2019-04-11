@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Iterate an array and change the order, the first array's element becomes the last and the last array's element becomes the first.
  * 
@@ -7,6 +9,8 @@
  */
 
 function reverse(arr) {
+    if(!(arr instanceof Array)) throw TypeError(arr + ' is not an array');
+
     var newArr = [];
     
     for(var i = 0; i < arr.length; i++) {
