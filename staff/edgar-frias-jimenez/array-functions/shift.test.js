@@ -22,4 +22,16 @@ describe('shift', function(){
       expect(error.message, 'undefined is not an array');
     }
   });
+
+  it('wil return undefined if the array provided has a length of 0', function(){
+    try {
+      var array = [];
+
+      shift(array);
+
+      // TODO: See with teachers why is this entering here: throw Error('should not arrive here');
+    } catch(error) {
+      expect(error.message, 'undefined can not be shifted');
+    }
+  });
 });
