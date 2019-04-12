@@ -1,10 +1,8 @@
 'use strict';
 
 describe('hooray', function () {
-
     describe('constructor', function () {
         it('should construct an empty hooray when no arguments', function () {
-
             var hooray = new Hooray;
 
             expect(hooray.length, 0);
@@ -35,54 +33,37 @@ describe('hooray', function () {
         });
     });
 
-    // .......................................................................................................... PUSH
     describe('push', function () {
-        it('should add a value at the end of an array', function () {
-            var hooray = new Horray(1, 2, 3);
+        it('should add a value at the end of an hooray', function () {
+            var hooray = new Hooray(1, 2, 3);
 
             var length = hooray.push(4);
 
-            expect(array.length, 4);
-            expect(length, array.length);
-            expect(hooray, {0:1,1:2,2:3,3:4,length:4}, true);
+            expect(hooray.length, 4);
+            expect(length, hooray.length);
+            expect(hooray, { 0: 1, 1: 2, 2: 3, 3: 4, length: 4 }, true);
         });
 
-        it('should add multiple values at the end of an array in order', function () {
-            var array = [1, 2, 3];
+        it('should add multiple values at the end of an hooray in order', function () {
+            var hooray = new Hooray(1, 2, 3);
 
-            var length = push(array, 4, 5);
+            var length = hooray.push(4, 5);
 
-            expect(array.length, 5);
-
-            expect(length, array.length);
-
-            expect(array, [1, 2, 3, 4, 5], true);
+            expect(hooray.length, 5);
+            expect(length, hooray.length);
+            expect(hooray, { 0: 1, 1: 2, 2: 3, 3: 4, 4: 5, length: 5 }, true);
         });
 
-        it('should not add a non-provided value at the end of an array', function () {
-            var array = [1, 2, 3];
+        it('should not add a non-provided value at the end of an hooray', function () {
+            var hooray = new Hooray(1, 2, 3);
 
-            var length = push(array);
+            var length = hooray.push();
 
-            expect(array.length, 3);
-
-            expect(length, array.length);
-
-            expect(array, [1, 2, 3], true);
-        });
-
-        it('should break on undefined array', function () {
-            try {
-                push();
-
-                throw Error('should not arrive here');
-            } catch (error) {
-                expect(error.message, 'undefined is not an array');
-            }
+            expect(hooray.length, 3);
+            expect(length, hooray.length);
+            expect(hooray, { 0: 1, 1: 2, 2: 3, length: 3 }, true);
         });
     });
-
-
 
     describe('forEach', function () {
         it('should itearate an hooray without altering it', function () {
@@ -90,14 +71,14 @@ describe('hooray', function () {
 
             var result = new Hooray;
 
-            hooray.forEach(function (v, i) { result.poush(v); });
+            hooray.forEach(function (v, i) { result.push(v); });
             // 0 1
             // 1 2
             // 2 3
 
             expect(result, hooray, true);
 
-            var expected = { 0: 1, 1: 2, 2: 3 };
+            var expected = { 0: 1, 1: 2, 2: 3, length: 3 };
 
             expect(hooray, expected, true);
         });
@@ -107,7 +88,7 @@ describe('hooray', function () {
 
             var result = new Hooray;
 
-            hooray.forEach(function (v, i) { result[i] = v; });
+            hooray.forEach(function (v, i) { result.push(v); });
 
             expect(result.length, 0);
         });
@@ -124,38 +105,4 @@ describe('hooray', function () {
             }
         });
     });
-
-    describe('concat', function () {
-
-
-
-
-
-
-    });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 });
