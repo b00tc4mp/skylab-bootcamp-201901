@@ -1,5 +1,4 @@
 Array.prototype.reduceRight()
-Array.prototype.slice()
+
 Array.prototype.some()
 Array.prototype.sort()
-Array.prototype.splice()
