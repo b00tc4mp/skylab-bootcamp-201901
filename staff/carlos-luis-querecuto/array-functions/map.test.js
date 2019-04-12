@@ -1,7 +1,6 @@
 'use strict';
 
-describe('forEach', function () {
-
+describe('Map', function () {
     it('should break on undefined array', function () {
         try {
             forEach();
@@ -23,5 +22,4 @@ describe('forEach', function () {
             expect(error.message, 'undefined is not a function');
         }
     });
-
 });

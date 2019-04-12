@@ -1,10 +1,9 @@
 'use strict';
 
-describe('slice', function () {
-
+describe('Map', function () {
     it('should break on undefined array', function () {
         try {
-            slice();
+            forEach();
 
             throw Error('should not reach this point');
         } catch (error) {
@@ -12,6 +11,3 @@ describe('slice', function () {
         }
     });
 });
-
-
-

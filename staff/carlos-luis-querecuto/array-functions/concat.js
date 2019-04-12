@@ -7,8 +7,8 @@
  * 
  */
 function concat(array1, array2) {
-    if (!(array1 instanceof Array) || !(array1 instanceof Array)) throw TypeError(array1 + ' is not an array');
-    if (!(array2 instanceof Array) || !(array2 instanceof Array)) throw TypeError(array2 + ' is not an array');
+    if (!(array1 instanceof Array)) throw TypeError(array1 + ' is not an array');
+    if (!(array2 instanceof Array)) throw TypeError(array2 + ' is not an array');
     var array3= [];
 	for (var i = 0; i < (array1.length); i++) {
         array3[i]=array1[i];

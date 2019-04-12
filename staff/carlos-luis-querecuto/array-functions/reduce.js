@@ -7,6 +7,9 @@
  * @return {element} a new element made with array and callback
  */
 function reduce(array,callback,inicial){
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+	if (typeof inicial === 'undefined') throw new TypeError(inicial + ' is not an initial parameter');
     var redu;
     (typeof inicial === 'undefined')? redu = array[0] : redu = inicial;
     for (var i = 1; i < array.length; i++){

@@ -1,6 +1,6 @@
 'use strict';
 
-description('every', function () {
+describe('every', function () {
     it('should return true on all items matching condition', function () {
         var array = [1, 2, 3];
 

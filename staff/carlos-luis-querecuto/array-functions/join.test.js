@@ -1,10 +1,9 @@
 'use strict';
 
-describe('forEach', function () {
-
+describe('Join', function () {
     it('should break on undefined array', function () {
         try {
-            forEach();
+            join();
 
             throw Error('should not reach this point');
         } catch (error) {
@@ -12,16 +11,15 @@ describe('forEach', function () {
         }
     });
 
-    it('should break on undefined callback', function () {
+    it('should break on undefined separator', function () {
         var array = [1, 2, 3];
 
         try {
-            forEach(array);
+            join(array);
 
             throw Error('should not reach this point');
         } catch (error) {
-            expect(error.message, 'undefined is not a function');
+            expect(error.message, 'undefined is not a string');
         }
     });
-
 });

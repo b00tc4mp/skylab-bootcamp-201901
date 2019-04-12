@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * search for an element and gives you the index, if nor -1 will be given
  * 
@@ -7,12 +9,14 @@
  * @return {string} your array fitted in a string
  */
 function join(array,separate){
-    var separator
-    (separate==='undefined' || separate===null)? separator=',': separator=separate
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+    if (typeof separate !== 'String') throw new TypeError(separate + ' is not a string');
+    var separator;
+    (separate==='undefined' || separate===null)? separator=',': separator=separate;
     var string='';
     for (var i = 0; i < array.length; i++){
-        string+=array[i]
-        if(i+1<array.length) string+=separator
+        string+=array[i];
+        if(i+1<array.length) string+=separator;
     }
     return string;
 }

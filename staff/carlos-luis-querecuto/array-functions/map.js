@@ -1,3 +1,5 @@
+'use strict';
+
 /**
  * Gives you a new array made of elements that were modified each one by your callback
  * 
@@ -7,7 +9,9 @@
  * @return {array} a new array made of modified elements
  */
 function map(array,callback){
-    var array2= []
+    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+	if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+    var array2= [];
     for (var i = 0; i < array.length; i++){
         array2[i]=callback(array[i])
     }

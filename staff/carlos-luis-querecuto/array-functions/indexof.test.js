@@ -1,6 +1,6 @@
 'use strict';
-suite('indexof', function () {
-    test('should break on undefined array1', function () {
+describe('indexOf', function () {
+    it('should break on undefined array1', function () {
         var array1;
         var array2 = ['a', 'b', 'c'];
         
@@ -13,7 +13,7 @@ suite('indexof', function () {
         }
     });
 
-    test('should break on undefined array2', function () {
+    it('should break on undefined array2', function () {
         var array1 = ['a', 'b', 'c'];
         var array2;
         
