@@ -12,13 +12,14 @@ function sort(array, compareFunction) {
 
     var newArray = [];
 
-    if (typeof compareFunction === 'function') throw TypeError(compareFunction + ' is not a function.');
+    // if (typeof compareFunction === 'function') throw TypeError(compareFunction + ' is not a function.');
 
-    compareFunction(anterior, siguiente){
 
-        for (var i = 0; i < array.length; i++) {
+    for (var i = 0; i < array.length; i++) {
 
-            if (i < array.length - 1) {
+        for (var j = 0; j < array.length; j++) {
+
+            if (j < array.length - 1) {
 
                 if (array[i] > array[i + 1]) {
 
@@ -30,20 +31,15 @@ function sort(array, compareFunction) {
 
                 }
             }
+            array = newArray;
+            newArray = [];
         }
+
 
     }
 
+    compareFunction();
+
 }
-
-
-
-
-
-
-
-
-
-
 
 console.log(numbers); // [1,11,2,3,4,5];

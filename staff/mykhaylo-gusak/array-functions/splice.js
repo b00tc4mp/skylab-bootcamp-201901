@@ -11,8 +11,6 @@
  * 
  * @return An array containing the deleted elements. If only one element is removed, an array of one element is returned. If no elements are removed, an empty array is returned.
  */
-var numbers = [1, 2, 3, 4, 5, 6, 7];
-
 
 function splice(array, inicio, eliminar, agregar1, agregar2) {
 
@@ -26,28 +24,36 @@ function splice(array, inicio, eliminar, agregar1, agregar2) {
 
     for (var i = 0; i < array.length; i++) {
 
-
         if (i < inicio) {
 
             newArray[n++] = array[i];
 
-        } else if (elim > 0) {
+        } else if (elim >= 0) {
 
-            if (elim-- > 1) {
+            if (elim === 0) {
 
-                if (elim-- === 1) {
-                    newArray[n++] = array[i];
+                newArray[n++] = array[i];
 
-                    if (elim == 0) {
 
-                        if ( agregar1 != 0) {
-                            newArray[n++] = agregar1;
-                            agregar1 = 0;
-                        }
-                        if (agregar2 != 0) {
-                            newArray[n++] = agregar2;
-                            agregar2 = 0;
-                        }
+                if (agregar1 != 0) {
+
+                    newArray[n++] = agregar1;
+                    agregar1 = 0;
+
+                    if (agregar2 != 0) {
+                        newArray[n++] = agregar2;
+                        agregar2 = 0;
+                    }
+                }
+
+            } else if (elim-- === 1) {
+
+                if (agregar1 != 0) {
+                    newArray[n++] = agregar1;
+                    agregar1 = 0;
+                    if (agregar2 != 0) {
+                        newArray[n++] = agregar2;
+                        agregar2 = 0;
                     }
                 }
             }
@@ -62,4 +68,3 @@ function splice(array, inicio, eliminar, agregar1, agregar2) {
     return newArray;
 }
 
-console.log(splice(numbers, 2, 1, 'A', 'B'));
