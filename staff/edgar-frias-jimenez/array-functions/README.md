@@ -19,5 +19,5 @@ Here are the implemented methods:
 - **Array.prototype.shift() with error tests**
 - Array.prototype.slice()
 - **Array.prototype.some() with error tests**
-- Array.prototype.sort()
+- **Array.prototype.sort() with error tests**
 - Array.prototype.splice()

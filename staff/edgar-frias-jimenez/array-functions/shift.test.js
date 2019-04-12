@@ -13,6 +13,13 @@ describe('shift', function(){
     expect(array, expected2, true);
   });
 
+  it('wil return undefined if the array provided has a length of 0', function(){
+    var result = shift([]);
+    var expected = undefined;
+
+    expect(result, expected);
+  });
+
   it('will break if the array provided is undefined', function(){
     try {
       shift();
@@ -20,18 +27,6 @@ describe('shift', function(){
       throw Error('should not arrive here');
     } catch(error) {
       expect(error.message, 'undefined is not an array');
-    }
-  });
-
-  it('wil return undefined if the array provided has a length of 0', function(){
-    try {
-      var array = [];
-
-      shift(array);
-
-      // TODO: See with teachers why is this entering here: throw Error('should not arrive here');
-    } catch(error) {
-      expect(error.message, 'undefined can not be shifted');
     }
   });
 });

@@ -24,5 +24,5 @@ function shift(array) {
     return returnedEelement;
   }
 
-  return undefined;
+  return;
 }
