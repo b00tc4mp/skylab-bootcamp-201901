@@ -22,11 +22,11 @@ Function | Description
 *reduce* | executes a reducer function (that you provide) on each member of the array resulting in a single output value.
 *reduceRight* | applies a function against an accumulator and each value of the array (from right-to-left) to reduce it to a single value.
 *reverse* | reverses an array in place. The first array element becomes the last, and the last array element becomes the first.
-*shift** | removes the first element from an array and returns that removed element. This method changes the length of the array.
+*shift* | removes the first element from an array and returns that removed element. This method changes the length of the array.
 *slice* | returns a shallow copy of a portion of an array into a new array object selected from begin to end (end not included). The original array will not be modified.
 *some* | tests whether at least one element in the array passes the test implemented by the provided function. This method returns false for any condition put on an empty array.
 *sort* | sorts the elements of an array in place and returns the array.
-*splice** | changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.
+*splice* | changes the contents of an array by removing or replacing existing elements and/or adding new elements in place.
 
 
 
