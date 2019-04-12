@@ -277,30 +277,30 @@ Hooray.prototype.every = function (callback) {
 //     return newArray;
 // };
 
-// //POP
-// /**It will introduce a new index with the value given
-//  * 
-//  * @param {array} array array tpo work on
-//  *
-//  */
+//POP
+/**It will erase the last index 
+ *
+ */
 
-// Hooray.prototype.pop = function(array){
-//     "use strict";
-//     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+Hooray.prototype.pop = function(){
 
-//     if (array.length) {
-//         var value = array[array.length - 1];
+	var value = new Hooray();
 
-//         array.length--;
+    if (this.length > 0) {
+        value[0] = this[this.length - 1];
+		delete this[this -1];
+		this.length = this.length-1;
 
-//         return value;
-//     }
-// };
+        return value[0];
+    } else {
+		return undefined;
+	}
+};
 
 ///PUSH
 /**It will introduce a new index with the value given
  * 
- * @param {array} array array tpo work on
+ *
  * @param {*} newElement element to add at the end of the array
  */
 
@@ -374,94 +374,94 @@ Hooray.prototype.push = function(value){
 //       return newArray
 //   };
 
-// //REVERSE
-// /**
-//  * This will reverse the elemets of a given array
-//  * 
-//  * @param {array} array array to iterate
-//  */
+//REVERSE
+/**
+ * This will reverse the elemets of a given array
+ * 
+ * @param {array} array array to iterate
+ */
 
-// Hooray.prototype.reverse = function(array){
-//     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+Hooray.prototype.reverse = function(){
 
-//     var i, newArray = [], j = 0;
+	var i, newhorray = new Hooray(), j = 0;
+	
+	newhorray.length = this.length;
 
-//     for (i = array.length -1; i >= 0; i--){
-//         newArray[j] = array[i];
-//         j++;
-//     }
+    for (i = this.length -1; i >= 0; i--){
+        newhorray[j] = this[i];
+        j++;
+    }
 
-//     for (i = array.length -1; i >= 0; i--){
-//         array[i] = newArray[i];
-//     }
+    for (i = this.length -1; i >= 0; i--){
+        this[i] = newhorray[i];
+    }
 
-//     return array;
-// };
+    return this;
+};
 
-// //SHIFT
-// /**
-//  * Return an array with the first value of the original array hile modifing the original to erase the element.
-//  * 
-//  * @param {array} array 
-//  * @return {array} newArray 
-//  */
+//SHIFT
+/**
+ * Return an array with the first value of the original array hile modifing the original to erase the element.
+ * 
+ * @return {array} newArray 
+ */
 
-// Hooray.prototype.shift = function(array){
-//     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+Hooray.prototype.shift = function(){
+
+	var i, newHooray = new Hooray(), copy= new Hooray();
+	
+	newHooray[0] = this[0];
+
+    for (var i = 1; i < this.length -1; i++) {
+		copy[copy.length] = this[i];
+    }
+
+    for (var i = 0; i < copy.length; i++) {
+        this[i] = copy[i];
+	}
+	
+	this.length = copy.length;
+
+    return newHooray[0];
+};
+
+//SLICE
+/**
+ * It will create a new array after eliminating the choosed index of the original array-
+ * @param {number} from from (or whichone if this argument is given) where to cut
+ * @param {number} to up to where to cut from from
+ */
+
+Hooray.prototype.slice = function(from, to){
+    if (isNaN(from)) throw TypeError(from + ' is not a valid array index value');
+    if (isNaN(to) && to !== undefined) throw TypeError(firstposition + ' is not a valid array index value');
     
-//     var i, newArray= array[0]; copy=[];
-
-//     for (var i = 1; i < array.length; i++) {
-//         copy[copy.length] = array[i];
-//     }
-
-//     array.length = copy.length;
-
-//     for (var i = 0; i < copy.length; i++) {
-//         array[i] = copy[i];
-//     }
-
-//     return newArray;
-// };
-
-// //SLICE
-// /**
-//  * It will create a new array after eliminating the choosed index of the original array-
-//  * @param {array} array array to iterate
-//  * @param {number} from from (or whichone if this argument is given) where to cut
-//  * @param {number} to up to where to cut from from
-//  */
-
-// Hooray.prototype.slice = function(array, from, to){
-//     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
-//     if (isNaN(from)) throw TypeError(from + ' is not a valid array index value');
-//     if (isNaN(to) && to !== undefined) throw TypeError(firstposition + ' is not a valid array index value');
-    
-//     var i, newArray=[], k = 0;
-      
-//     if (from !== undefined){
-//         if(to !== undefined && to >= from && to < array.length){
-//             for (i = from; i <= to; i++){
-//                 newArray[k] = array[i];
-//                 k++;
-//             }
-//             return newArray
-//         } else {
-//             for (i = from; i < array.length; i++){
-//                 newArray[k] = array[i];
-//                 k++;
-//             }
-//             return newArray
-//         }
-//     } else {
-//         console.log("At least you need to introduce from where")
-//     }
-// };
+	var i, newHooray = new Hooray(), k = 0;
+	
+	newHooray.length = this.length +1 - (to + from);  
+	
+    if (from !== undefined){
+        if(to !== undefined && to >= from && to < this.length){
+            for (i = from; i <= to; i++){
+                newHooray[k] = this[i];
+                k++;
+            }
+            return newHooray;
+        } else {
+            for (i = from; i < this.length; i++){
+                this[k] = this[i];
+                k++;
+			}
+            return newHooray
+        }
+    } else {
+        console.log("At least you need to introduce from where")
+    }
+};
 
 //SOME
 /**
  * The some() method tests whether at least one element in the array passes the test implemented by the provided function.
- * @param {array} array array to iterate
  * @param {function} callback function to proces the array
  */
 
@@ -479,28 +479,26 @@ Hooray.prototype.some = function(callback){
     return false;
 };
 
-// //SORT
-// /**
-//  * The sort() method sorts the elements of an array in place and returns the array
-//  * 
-//  * @param {array} Array to iterate.
-//  * 
-//  */
-// Hooray.prototype.sort = function() {
-//     var i,j,k,z;
+//SORT
+/**
+ * The sort() method sorts the elements of an array in place and returns the array
+ * 
+ */
+Hooray.prototype.sort = function() {
+	var i,j,k,z;
     
-//     for (i = 0; i < this.length; i++){
-//         for (j = 0; j < array.this -i; j++){
-//             k = this[j];
-//             z = this[j+1];
-//             if (k > z){
-//                 this[j] = z;
-//                	this[j+1] = k;
-//             }
-//         }
-//     }
-//     return this;
-// };
+    for (i = 0; i < this.length; i++){
+        for (j = 0; j < this.length -i; j++){
+            k = this[j];
+            z = this[j+1];
+            if (k > z){
+                this[j] = z;
+                this[j+1] = k;
+            }
+        }
+    }
+    return this;
+};
 
 // //SPLICE
 // /**
