@@ -435,6 +435,114 @@ describe("reduce", function () {
     })
     
     common_throwError_callback(Hooray.prototype.reduce);
-    
 })
+
+describe("shift", function () {
+  function initialValue() {
+    return new Hooray(1, 2, 3);
+  }
+
+  it("should return the element deleted and change original hooray", function () {
+    var hooray = initialValue();
+    var expectedReturn = 1;
+    var expectedHooray = {0: 2, 1:3, length: 2};
+        
+    expect(hooray.shift(), expectedReturn);
+    expect(hooray, expectedHooray, true);
+  })
+
+});
+
+describe("some", function() {
+  function initialValue() {
+    return new Hooray(1, 2, 3, 4, 5);
+  }
+
+  it("should return true when all fulfill the condition", function() {
+    var hooray = initialValue();
+
+    expect(hooray.some(function(element) { return element % 2 === 0; }), true);
+    expect(hooray, initialValue(), true);
+  });
+
+  it("should return false when all elements not fulfills the condition", function() {
+    var hooray = initialValue();
+
+    expect(hooray.some(function (value) { return value > 10; }), false);
+    expect(hooray, initialValue(), true);
+  });
+
+  common_throwError_callback(Hooray.prototype.some);
+
+});
+
+describe("sort", function () {
+  function initialHoorayStrings() {
+    return new Hooray('March', 'Jan', 'Feb', 'Dec');
+  };
+  function initialHoorayNumbers() {
+    return new Hooray(1, 30, 4, 21, 100000);
+  }
+
+  it("should sort original hooray of strings", function() {
+    var hooray = initialHoorayStrings();
+    var expected = {0:"Dec", 1:"Feb", 2:"Jan", 3:"March", length:4}
+
+    hooray.sort();
+    expect(hooray, expected, true);
+  });
+
+  it("should sort original hooray of strings", function() {
+    var hooray = initialHoorayNumbers();
+    var expected = {0:1, 1:100000, 2:21, 3:30, 4:4, length:5};
+
+    hooray.sort();
+    expect(hooray, expected, true);
+  });
+
+  it("should sort numbers in right why with proper compare function", function() {
+    var hooray = initialHoorayNumbers();
+    var expected = {0:1, 1:4, 2:21, 3:30, 4:100000, length:5};
+
+    hooray.sort(function (a,b) { return a > b;});
+    expect(hooray, expected, true);
+  });
+
+})
+
+describe("splice", function () {
+  function initialValue1() {
+    return new Hooray('Jan', 'March', 'April', 'June');
+  }
+
+  function initialValue2() {
+    return new Hooray('Jan', 'Feb', 'March', 'April', 'June');
+  }  
+
+  it("should inserts at 1st index position", function() {
+    var hooray = initialValue1();
+    var expected = {0:'Jan', 1:'Feb', 2:'March', 3:'April', 4:'June', length: 5};
+
+    hooray.splice(1, 0, 'Feb');
+    expect(hooray, expected, true);
+  });
+
+  it("should replaces 1 element at 4th index", function() {
+    var hooray = initialValue2();
+    var expected = {0:'Jan', 1:'Feb', 2:'March', 3:'April', 4:'May', length: 5};
+
+    hooray.splice(4, 1, 'May');
+    expect(hooray, expected, true);
+  });
+
+})
+
+
+
+
+
+
+
+
+
 });
