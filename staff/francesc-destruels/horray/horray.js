@@ -4,27 +4,21 @@
  * 
  */
 function Hooray() {
+    var first = arguments[0];
 
-	if (arguments.length > 2){
+    if (arguments.length === 1 && typeof first === 'number')
+        if (parseInt(first) !== first) throw RangeError('Invalid hooray');
+        else return this.length = first;
 
-    	for (var i = 0; i < arguments.length; i++) {
-			this[i] = arguments[i];	
-		}
-		this.length = arguments.length;
-
-	} else if (arguments.length === 1){ 
-		if (typeof arguments[0] === "number"){
-			this.length = arguments[0];
-		}else {
-			this[0] = arguments[0];
-			this.length = 1;
-		}
-
-	} else {
-		this.length = 0;
-	}
+    for (var i = 0; i < arguments.length; i++) this[i] = arguments[i];
+	this.length = arguments.length;
 }
 
+Hooray.isHooray = function(value){
+	if (value instanceof Hooray) return true;
+
+	return false;
+}
 //FOREACH
 /**
  * Iterates the current hooray and evaluates an expression on each of its values.
@@ -141,27 +135,29 @@ Hooray.prototype.every = function (callback) {
 //    return newarray;
 // };
 
-// //FILTER
-// /**
-//  * The filter() method creates a new array with all elements that pass the test implemented by the provided function.
-//  * @param {array} array array to iterate
-//  * @param {function} callback function to apply;
-//  */
+//FILTER
+/**
+ * The filter() method creates a new array with all elements that pass the test implemented by the provided function.
+ *
+ * @param {function} callback function to apply;
+ */
 
-// Hooray.prototype.filter = function(array, callback){
-//     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
-//     if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+Hooray.prototype.filter = function(callback){
+    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
     
-//     var i, newArray = [], j = 0;
+	var i, newhorray= new Hooray(), j = 0;
+	
+	self = this;
 
-//     for (i = 0; i < array.length; i++){
-//         if (callback(array[i])){
-//             newArray[j] = array[i];
-//             j++
-//         }
-//     }
-//     return newArray;
-// };
+    for (i = 0; i < this.length; i++){
+        if (callback(self[i])){
+            newhorray[j] = this[i];
+            j++
+        }
+	}
+	newhorray.length = j;
+    return newhorray;
+};
 
 // //INDEX OF
 // /**It will look for an element on an array, it will retur -1 if it is not present or the value of the last index presented.
@@ -196,18 +192,14 @@ Hooray.prototype.every = function (callback) {
 //         return j;
 // };
 
-// //ISHORRAY
-// /**
-//  * It checks if a determinate value is an isntance of array or not
-//  * @param {any} value value to check;
-//  */
+//ISHORRAY
+/**
+ * It checks if a determinate value is an isntance of array or not
+ * @param {any} value value to check;
+ */
 
 
-// Hooray.prototype.ishorray = function (value){
-//     "use strict";
-//     if (value instanceof Hooray) return true;
-
-//     return false;
+// Hooray.prototype.ishorray = 
 // };
 
 // //JOIN
@@ -236,46 +228,44 @@ Hooray.prototype.every = function (callback) {
 //     return newString
 // };
 
-// //LAST INDEX OF
-// /**It will look for an element on an array, it will retur -1 if it is not present or the value of the last index presented.
-//  * 
-//  * @param {array} array array to iterate
-//  * @param {element} searchElement vale to look for index
-//  */
+//LAST INDEX OF
+/**It will look for an element on an array, it will retur -1 if it is not present or the value of the last index presented.
+ * 
+ * 
+ * @param {element} searchElement vale to look for index
+ */
 
-// Hooray.prototype.lastindexof = function(array, searchElement){
-//     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
+Hooray.prototype.lastindexof = function(searchElement){
+    var i, j = -1;
 
-//     var i, j = -1;
+        for (i = 0; i <this.length; i++){
+            if (this[i] === searchElement){
+                j = i;
+            }
+        }
+    return j;
+};
 
-//         for (i = 0; i <array.length; i++){
-//             if (array[i] === searchElement){
-//                 j = i;
-//             }
-//         }
-//     return j;
-// };
+//MAP
+/**It will create a new array with an iteration of the original after passing for the callback fuction.
+ * 
+ * @param {array} array array to iterate
+ * @param {function} callback function to proces each element.
+ */
 
-// //MAP
-// /**It will create a new array with an iteration of the original after passing for the callback fuction.
-//  * 
-//  * @param {array} array array to iterate
-//  * @param {function} callback function to proces each element.
-//  */
-
-// Hooray.prototype.map = function(array, callback){
-//     "use strict";
-//     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
-//     if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+Hooray.prototype.map = function(callback){
+    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
     
-//     var i, newArray = [];
+	var i, newhorray = new Hooray();
+	var self = this;
 
-//     for (i = 0; i < array.length; i++){
-//         newArray[i] = callback(array[i]);
-//     }
+    for (i = 0; i < this.length; i++){
+        newhorray[i] = callback(self[i]);
+    }
 
-//     return newArray;
-// };
+	newhorray.length = this.length;
+    return newhorray;
+};
 
 //POP
 /**It will erase the last index 

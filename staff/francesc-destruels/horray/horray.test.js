@@ -105,7 +105,7 @@ describe('hooray', function () {
         });
     });
 
-    // EVERY
+    //EVERY
     describe('every', function () {
         it('should return true on all items matching condition', function () {
             var hooray = new Hooray(5, 2, 6);
@@ -203,64 +203,159 @@ describe('hooray', function () {
         true && it('Should return the substracted element from the original array', function () {
             var answer = 1;
             var hooray = new Hooray(1, 2, 3);
-    
+
             var result = hooray.shift();
-    
+
             expect(result).toBe(answer);
         });
-    
-    
+
+
         !true && it('should add each element starting by the last index', function () {
             var answer = new Hooray(2, 3, 4);
             var hooray = new Hooray(1, 2, 3, 4);
 
             hooray.shift()
-    
+
             expect(JSON.stringify(hooray)).toBe(JSON.stringify(answer)); // No me la devuelve la cortada.
         });
-    });  
+    });
 
     //REVERSE
     describe('reverse', function () {
         true && it('should add each element starting by the last index', function () {
             var answer = new Hooray(3, 2, 1);
             var hooray = new Hooray(1, 2, 3);
-    
+
             var result = hooray.reverse();
-    
+
             expect(JSON.stringify(result)).toBe(JSON.stringify(answer));
         });
 
         true && it('should add each element starting by the last index', function () {
             var answer = new Hooray(6, 7, 1);
             var hooray = new Hooray(1, 7, 6);
-    
+
             var result = hooray.reverse();
-    
+
             expect(JSON.stringify(result)).toBe(JSON.stringify(answer));
         });
     });
 
     //POP
     describe('pop', function () {
-        true && it('should return undefined on empty horray', function() {
+        true && it('should return undefined on empty horray', function () {
             var hooray = new Hooray();
-    
+
             var value = hooray.pop();
-    
+
             expect(hooray.length).toBe(0);
-    
+
             expect(value).toBe(undefined);
         });
 
-        true && it('should return undefined on empty horray', function() {
+        true && it('should return the array shortened and the value of the last index', function () {
             var hooray = new Hooray(2, 3);
-    
+
             var value = hooray.pop();
-    
+
             expect(hooray.length).toBe(1);
-    
+
             expect(value).toBe(3);
+        });
+    });
+
+    //FILTER
+    describe('filter', function () {
+        true && it('should fill the array with the value given', function () {
+            var answer = new Hooray("carrot", "tomato", "minishcap", "alloyd");
+            var hooray = new Hooray("hair", "carrot", "tomato", "sun", "minishcap", "alloyd");
+
+            var result = hooray.filter(function (v) { return v.length > 5 });
+
+            expect(JSON.stringify(result)).toBe(JSON.stringify(answer));
+        });
+
+        !true && it('should fill the array with the value given starting on the given index', function () {
+            var answer = new Hooray("minishcap");
+            var hooray = new Hooray("hair", "carrot", "tomato", "sun", "minishcap", "alloyd");
+
+            var result = filter(a, function (v) { return v.length - 2 > 5 });
+
+            expect(JSON.stringify(result)).toBe(JSON.stringify(answer));
+        });
+
+        true && it('should break on undefined callback', function () {
+            var hooray = new Hooray(1, 2, 3);
+
+            expect(function () { hooray.filter() }).toThrowError();
+        });
+    });
+
+    //MAP
+    describe('map', function () {
+        true && it('should break on undefined callback', function () {
+            var hooray = new Hooray(1, 2, 3);
+
+            expect(function () { hooray.map() }).toThrowError();
+        });
+
+        true && it('should multiply every element for three', function () {
+            var answer = new Hooray(3, 6, 9, 12, 15, 18);
+            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
+
+            var result = hooray.map(function (v) { return v * 3 });
+
+            expect(JSON.stringify(result)).toBe(JSON.stringify(answer));
+        });
+
+        true && it('should add 5 to each element', function () {
+            var answer = new Hooray(6, 7, 8, 9, 10, 11);
+            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
+
+            var result = hooray.map(function (v) { return v + 5 });
+
+            expect(JSON.stringify(result)).toBe(JSON.stringify(answer));
+        });
+
+    });
+
+    //LAST INDEX OF
+    describe('lastindexof', function () {
+        true && it('should return the last index for matching elements', function () {
+            var answer = 9;
+            var hooray = new Hooray(1, 2, 3, 4, 3, 6, 7, 8, 4, 3);
+    
+            var result = hooray.lastindexof(3);
+    
+            expect(JSON.stringify(result)).toBe(JSON.stringify(answer));
+        });
+    
+        true && it('should return -1 becuase no matching', function () {
+            var answer = -1;
+            var hooray = new Hooray("hola", "adios", "perro");
+    
+            var result = hooray.lastindexof("gato");
+    
+            expect(result).toBe(answer);
+        });
+    });  
+    
+    //IS HOORAY
+    describe('ishooray', function () {
+        true && it('should return true because it is a hooray', function () {
+            var hooray = new Hooray (1, 2, 1, 3, 1);
+    
+            var result = Hooray.isHooray(hooray);
+    
+            expect(result).toBeTruthy();
+        });
+    
+        true && it('should return false because it is not a hooray', function () {
+            var a = 3;
+    
+            var result = Hooray.isHooray(a);
+    
+            expect(result).toBeFalsy();
         });
     });  
     
