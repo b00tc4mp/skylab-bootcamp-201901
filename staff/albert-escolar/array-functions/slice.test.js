@@ -21,19 +21,7 @@ describe('slice',function(){
 
         expect(result, expected, true);
 
-    })
+    });
 
 
-    it('should return an array only giving it a negative start',function(){
-
-        var array = [1,2,3,4];
-        var expected = [1,2,3];
-        var result = slice(array,-2);
-
-        expect(result, expected, true);
-        
-    })
-
-
-
-})
+});

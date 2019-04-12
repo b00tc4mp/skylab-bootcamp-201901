@@ -11,7 +11,7 @@ Array.prototype.reduce()//CALLBACK//--------
 Array.prototype.reduceRight()//CALLBACK//--------
 Array.prototype.reverse()---------
 Array.prototype.shift()---------
-Array.prototype.slice()Muerte
+Array.prototype.slice()Muerte-------
 Array.prototype.some()//CALLBACK//ELS MES CABRONS
 Array.prototype.sort()Muerte//ELS MES CABRONS
 Array.prototype.splice()Muerte------
