@@ -24,7 +24,6 @@ describe('every', function () {
 
             throw Error('should not reach this point');
         } catch (error) {
-            console.log(error.message)
             expect(error.message, 'undefined is not an array');
         }
     });

@@ -40,5 +40,15 @@ describe('concat', function () {
         }
     });
 
+    it('should break on undefined array', function () {
+        try {
+            concat();
+            throw Error('should not reach this point');
+        } catch (error) {
+            console.log(error.message)
+            expect(error.message, 'undefined is not an array');
+        }
+    });
+
 
 });
