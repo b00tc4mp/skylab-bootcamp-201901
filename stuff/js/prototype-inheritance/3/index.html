@@ -40,6 +40,10 @@
     Animal.prototype = Object.create(Being.prototype);
     Animal.prototype.constructor = Animal;
 
+    Animal.create = function(gender, habitat, diet) {
+        return new Animal(gender, habitat, diet);
+    }
+
     function Vegetable(gender, habitat) {
         Being.call(this, gender, habitat);
     }
@@ -50,6 +54,10 @@
 
     Primate.prototype = Object.create(Animal.prototype);
     Primate.prototype.constructor = Primate;
+
+    Primate.create = function(gender) {
+        return new Primate(gender);
+    }
 
     function Human(gender, name) {
         Primate.call(this, gender);
@@ -68,18 +76,31 @@
 </script>
 
 <script>
-    var heFish = new Being('male', 'water');
-    var sheFish = new Being('female', 'water');
+    var heAlien = new Being('male', 'space');
+    var sheAlien = new Being('female', 'space');
 
-    var fishChild = heFish.reproduce(sheFish);
+    var childAlien = heAlien.reproduce(sheAlien);
 
-    console.log(fishChild);
+    console.log(childAlien);
+
+    var heAnimal = new Animal('male', 'water', 'herbivorous');
+    var sheAnimal = new Animal('female', 'water', 'herbivorous');
+
+    var childAnimal = heAnimal.reproduce(sheAnimal, 'herbivorous');
+
+    console.log(childAnimal);
+
+    var hePrimate = new Primate('male', 'terrestrial');
+    var shePrimate = new Primate('female', 'terrestrial');
+
+    var childPrimate = hePrimate.reproduce(shePrimate);
+
+    console.log(childPrimate);
 
     var anita = new Human('female', 'Anita');
     var peter = new Human('male', 'Peter');
 
-    var humanChild = anita.reproduce(peter, 'Paca', 'Paco');
-    // var humanChild = anita.reproduce(heFish, 'Paca', 'Paco'); // WHAT!? ok, now fails...
+    var childHuman = anita.reproduce(peter, 'Paca', 'Paco');
 
-    console.log(humanChild);
+    console.log(childHuman);
 </script>
