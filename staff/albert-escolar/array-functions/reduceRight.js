@@ -1,4 +1,4 @@
-
+'use strict'
 function reduce(array, callback, initialValue) {
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
     var valorAnterior = array[array.length-1];
@@ -8,7 +8,7 @@ function reduce(array, callback, initialValue) {
     }else{
         a = array.length-2;
     }
-    for (var i = a; i > array.length; i--) {
+    for (var i = a; i >= 0; i--) {
         valorAnterior = callback(valorAnterior, array[i]);
 
     } return valorAnterior;

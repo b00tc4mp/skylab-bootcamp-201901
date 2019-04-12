@@ -8,7 +8,7 @@ Array.prototype.join()-----------
 Array.prototype.lastIndexOf()----------
 Array.prototype.map()//CALLBACK//-----------
 Array.prototype.reduce()//CALLBACK//--------
-Array.prototype.reduceRight()//CALLBACK//
+Array.prototype.reduceRight()//CALLBACK//--------
 Array.prototype.reverse()---------
 Array.prototype.shift()---------
 Array.prototype.slice()Muerte
