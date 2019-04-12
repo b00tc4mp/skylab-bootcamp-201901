@@ -3,11 +3,11 @@
 describe('map', function () {
     it('GOOD implementation', function () {
         var numbers = [1, 5, 10, 15];
-        var result = []
+        var result = [];
         var expectedResult = [2, 10, 20, 30]
         result = map(numbers, function(num){
             return num * 2;
-        })
+        });
         //  2
         // 10
         // 20
