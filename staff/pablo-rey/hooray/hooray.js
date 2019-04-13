@@ -377,7 +377,7 @@ Hooray.prototype.sort = function (comparefn) {
   var compare = comparefn || function (a, b) { return String(a) > String(b); };
   for (var i = this.length - 1; i >= 0; i--) {
     for (var j = 0; j < i; j++ ) {
-      if (compare(this[j], this[j+1])) {
+      if (compare(this[j], this[j+1]) > 0) {
         var temp = this[j];
         this[j] = this[j+1];
         this[j+1] = temp;

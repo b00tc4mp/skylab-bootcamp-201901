@@ -13,14 +13,26 @@ function common_throwError_callback(functionToTest) {
   });
 }
 
+function common_doNothingIfNoContent(functionToTest) {
+  it("should do nothing if hooray has not content", function() {
+    var hooray = new Hooray();
+
+    var functionWrapper = { dummyFn () {} }
+    var spyCallback = spyOn(functionWrapper, "dummyFn");
+    functionToTest.call(hooray,functionWrapper.dummyFn);
+
+    expect(spyCallback).not.toHaveBeenCalled();
+  });
+}
+
 function newEmptyHooray() {
   return new Hooray();
 }
 
 function newHorrayFromArray(array) {
-  var horray = new Hooray;
-  Hooray.apply(horray, array);
-  return horray;
+  var hooray = new Hooray;
+  Hooray.apply(hooray, array);
+  return hooray;
 }
 
 function randomObject(length, deep) {
@@ -34,7 +46,7 @@ function randomObject(length, deep) {
 }
 
 function createRandomDefaultFn(maxType) {
-    var type = Math.floor(Math.random() * maxType);
+    var type = (typeof maxType !== "undefined") ? maxType : Math.floor(Math.random() * 3) ;
     switch (type) {
       case 0:
         return Math.floor(Math.random() * 10000);
@@ -50,7 +62,7 @@ function createRandomDefaultFn(maxType) {
 }
 
 function randomArray(length, createElementfn) {  
-  if (!length) length = Math.floor(Math.random() * 20 + 2);
+  if (!length) length = Math.floor(Math.random() * 100 + 2);
   createElementfn = createElementfn || createRandomDefaultFn;
   var result = [];
   for (var k = 0; k < length; k++) {
@@ -282,6 +294,7 @@ describe("hooray", function() {
       expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
+    common_doNothingIfNoContent(Hooray.prototype.every);
     common_throwError_callback(Hooray.prototype.every);
   });
 
@@ -359,6 +372,7 @@ describe("hooray", function() {
       expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
+    common_doNothingIfNoContent(Hooray.prototype.filter);
     common_throwError_callback(Hooray.prototype.filter);
   });
 
@@ -386,6 +400,7 @@ describe("hooray", function() {
       expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
+    common_doNothingIfNoContent(Hooray.prototype.findIndex);
     common_throwError_callback(Hooray.prototype.findIndex);
   });
 
@@ -413,6 +428,7 @@ describe("hooray", function() {
       expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
+    common_doNothingIfNoContent(Hooray.prototype.find);
     common_throwError_callback(Hooray.prototype.find);
   });
 
@@ -439,16 +455,7 @@ describe("hooray", function() {
       expect(resultHooray.length).toBe(resultArray.length);
     });
 
-    it("should do nothing if hooray has not content", function() {
-      var hooray = new Hooray();
-
-      var functionWrapper = { forEachHooray () {} }
-      var spyCallback = spyOn(functionWrapper, "forEachHooray");
-      hooray.forEach(functionWrapper.forEachHooray);
-
-      expect(spyCallback).not.toHaveBeenCalled();
-    });
-
+    common_doNothingIfNoContent(Hooray.prototype.forEach);
     common_throwError_callback(Hooray.prototype.forEach);
   });
 
@@ -492,276 +499,380 @@ describe("hooray", function() {
 
       expect(hooray.includes("0")).toBeFalsy();
     });
+
   });
 
   describe("indexOf", function() {
-    function initialValue() {
-      return new Hooray("ant", "bison", "camel", "duck", "bison");
-    }
+    var array;
+    var hooray;
+    var itemToSearch;
+    var positionOfItem;
+    
+    beforeEach(function () {
+      array = randomArray(null, function () { return Math.ceil(Math.random() * 1000 + 1);});
+      hooray = newHorrayFromArray(array);
+      positionOfItem = Math.floor(2 + (Math.random() * array.length - 2));
+      itemToSearch = array[positionOfItem];
+    });
+
+    afterEach(function() {
+      array = undefined;
+      hooray = undefined;
+      positionOfItem = undefined;
+      itemToSearch = undefined;      
+    });        
 
     it("should return the index of first ocurrence", function() {
-      var hooray = initialValue();
+      var expected = array.indexOf(itemToSearch);
 
-      expect(hooray.indexOf("bison")).toBe(1);
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+      expect(hooray.indexOf(itemToSearch)).toBe(expected);
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
     it("should return the index of ocurrence behind fromIndex", function() {
-      var hooray = initialValue();
+      var fromIndex = Math.floor(Math.random() * positionOfItem);
+      array[fromIndex - Math.floor(Math.random() * fromIndex)] = itemToSearch;
+      hooray = newHorrayFromArray(array);
+      var expected = array.indexOf(itemToSearch, fromIndex + 1);
 
-      expect(hooray.indexOf("bison", 2)).toBe(4);
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+      expect(hooray.indexOf(itemToSearch, fromIndex + 1)).toBe(expected);
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
     it("should return -1 if no coincidence", function() {
-      var hooray = initialValue();
-
-      expect(hooray.indexOf("giraffe")).toBe(-1);
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+      expect(hooray.indexOf(-100)).toBe(-1);
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
   });
 
   describe("join", function() {
-    function initialValue() {
-      return new Hooray("Fire", "Wind", "Rain");
-    }
+    var array;
+    var hooray;
+    
+    beforeEach(function () {
+      array = randomArray();
+      hooray = newHorrayFromArray(array);
+    });
+
+    afterEach(function() {
+      array = undefined;
+      hooray = undefined;
+    });
 
     it("should return a string with elements merged with a comma", function() {
-      var hooray = initialValue();
-
-      expect(hooray.join()).toBe("Fire,Wind,Rain");
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+      expect(hooray.join()).toBe(array.join());
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
     it("should return a string with elements merged without space", function() {
-      var hooray = initialValue();
-
-      expect(hooray.join("")).toBe("FireWindRain");
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+      expect(hooray.join("")).toBe(array.join(""));
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
     it("should return a string with elements merged with a separator", function() {
-      var hooray = initialValue();
-
-      expect(hooray.join("-")).toBe("Fire-Wind-Rain");
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+      expect(hooray.join("-")).toBe(array.join("-"));
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
   });
 
   describe("lastIndexOf", function() {
-    function initialValue() {
-      return new Hooray("Dodo", "Tiger", "Penguin", "Dodo");
-    }
+    var array;
+    var hooray;
+    var itemToSearch;
+    var positionOfItem;
+    
+    beforeEach(function () {
+      array = randomArray(100, function () { return Math.ceil(Math.random() * 1000 + 1);});
+      hooray = newHorrayFromArray(array);
+      positionOfItem = Math.floor(10 + (Math.random() * array.length - 10));
+      itemToSearch = array[positionOfItem];
+    });
+
+    afterEach(function() {
+      array = undefined;
+      hooray = undefined;
+      positionOfItem = undefined;
+      itemToSearch = undefined;      
+    });        
 
     it("should return last element equal", function() {
-      var hooray = initialValue();
+      var expected = array.lastIndexOf(itemToSearch);
 
-      expect(hooray.lastIndexOf("Dodo")).toBe(3);
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+      expect(hooray.lastIndexOf(itemToSearch)).toBe(expected);
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
     it("should return last element equal behind position given", function() {
-      var hooray = initialValue();
+      var fromIndex = Math.floor(Math.random() * positionOfItem);
+      array[fromIndex - Math.floor(Math.random() * fromIndex)] = itemToSearch;
+      hooray = newHorrayFromArray(array);
+      var expected = array.lastIndexOf(itemToSearch, positionOfItem - 1);
 
-      expect(hooray.lastIndexOf("Dodo", 2)).toBe(0);
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+      expect(hooray.lastIndexOf(itemToSearch, positionOfItem - 1)).toBe(expected);
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
   });
 
   describe("map", function() {
-    function initialValue() {
-      return new Hooray(1, 4, 9, 16);
-    }
-    it("should return elements value doubled", function() {
-      var hooray = initialValue();
-      var expected = { 0: 2, 1: 8, 2: 18, 3: 32, length: 4 };
-
-      expect(
-        hooray.map(function(v) {
-          return v * 2;
-        }),
-        expected,
-        true
-      );
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+    var array;
+    var hooray;
+    
+    beforeEach(function () {
+      array = randomArray(undefined, function () { return Math.ceil(Math.random() * 1000 + 1);});
+      hooray = newHorrayFromArray(array);
     });
 
+    afterEach(function() {
+      array = undefined;
+      hooray = undefined;
+    });        
+
+    it("should return elements value doubled", function() {
+      var doubleFn = function (v) { return v * 2; };
+      var expected = resultObjectFromArray(array.map(doubleFn));
+
+      expect(hooray.map(doubleFn)).toEqual(jasmine.objectContaining(expected));
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
+    });
+
+    common_doNothingIfNoContent(Hooray.prototype.map);
     common_throwError_callback(Hooray.prototype.map);
   });
 
   describe("pop", function() {
-    function initialValue() {
-      return new Hooray(1, 2, 3, 4);
-    }
+    var array;
+    var hooray;
+    
+    beforeEach(function () {
+      array = randomArray(undefined, function () { return Math.ceil(Math.random() * 1000 + 1);});
+      hooray = newHorrayFromArray(array);
+    });
+
+    afterEach(function() {
+      array = undefined;
+      hooray = undefined;
+    });   
 
     it("pop a single element", function() {
-      var hooray = initialValue();
-      var expectedHooray = { 0: 1, 1: 2, 2: 3, length: 3 };
-      var expectedReturn = 4;
+      var expectedReturn = array.pop();
+      var expected = resultObjectFromArray(array);
 
-      expect(hooray.pop()).toBe(expectedReturn);
-      expect(hooray).toEqual(jasmine.objectContaining(expectedHooray));
+      expect(hooray.pop()).toBe(expectedReturn);      
+      expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
   });
 
   describe("reduceRight", function() {
-    function initialValue() {
-      return new Hooray([0, 1], [2, 3], [4, 5]);
-    }
-
-    it("should plain an horray of arrays in reverse order", function() {
-      var hooray = initialValue();
-      var expected = [4, 5, 2, 3, 0, 1];
-
-      expect(hooray.reduceRight(function(acc, value) {return acc.concat(value);}, []))
-        .toEqual(expected);
-      //   expect(hooray, initialValue(), true);
+    var array;
+    var hooray;
+    
+    beforeEach(function () {
+      array = randomArray(undefined, function () { return String(Math.ceil(Math.random() * 1000 + 1));});
+      hooray = newHorrayFromArray(array);
     });
 
+    afterEach(function() {
+      array = undefined;
+      hooray = undefined;
+    });
+
+    function joinReducer(acc, value) {
+      acc = acc + value;
+    }
+
+    it("should reduce a hooray in reverse order", function() {
+      var expected = array.reduceRight(joinReducer);
+
+      expect(hooray.reduceRight(joinReducer)).toBe(expected);
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
+    });
+
+    common_doNothingIfNoContent(Hooray.prototype.map);
     common_throwError_callback(Hooray.prototype.reduceRight);
   });
 
   describe("reduce", function() {
-    function initialValue() {
-      return new Hooray(1, 2, 3, 4);
-    }
-
-    function reducer(acc, value) {
-      return acc + value;
-    }
-
-    it("should sum all items in the hooray", function() {
-      var hooray = initialValue();
-
-      expect(hooray.reduce(reducer)).toBe(10);
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+    var array;
+    var hooray;
+    
+    beforeEach(function () {
+      array = randomArray(undefined, function () { return String(Math.ceil(Math.random() * 1000 + 1));});
+      hooray = newHorrayFromArray(array);
     });
 
-    it("should sum all items in the hooray with initial value", function() {
-      var hooray = initialValue();
-
-      expect(hooray.reduce(reducer, 5)).toBe(10);
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+    afterEach(function() {
+      array = undefined;
+      hooray = undefined;
     });
 
+    function joinReducer(acc, value) {
+      acc = acc + value;
+    }
+
+    it("should reduce all items in the hooray", function() {
+      var expected = array.reduce(joinReducer);
+      expect(hooray.reduce(joinReducer)).toBe(expected);
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
+    });
+
+    it("should reduce all items in the hooray with initial value", function() {
+      var inititalValue = String(createRandomDefaultFn(3));
+      var expected = array.reduce(joinReducer, inititalValue);
+
+      expect(hooray.reduce(joinReducer, inititalValue)).toBe(expected);
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
+    });
+
+    common_doNothingIfNoContent(Hooray.prototype.map);
     common_throwError_callback(Hooray.prototype.reduce);
   });
 
   describe("shift", function() {
-    function initialValue() {
-      return new Hooray(1, 2, 3);
-    }
+    var array;
+    var hooray;
+    
+    beforeEach(function () {
+      array = randomArray(undefined, function () { return String(Math.ceil(Math.random() * 1000 + 1));});
+      hooray = newHorrayFromArray(array);
+    });
+
+    afterEach(function() {
+      array = undefined;
+      hooray = undefined;
+    });
 
     it("should return the element deleted and change original hooray", function() {
-      var hooray = initialValue();
-      var expectedReturn = 1;
-      var expectedHooray = { 0: 2, 1: 3, length: 2 };
+      var expectedReturn = array.shift();
+      var expected = resultObjectFromArray(array);
 
       expect(hooray.shift()).toBe(expectedReturn);
-      expect(hooray).toEqual(jasmine.objectContaining(expectedHooray));
+      expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
   });
 
   describe("some", function() {
-    function initialValue() {
-      return new Hooray(1, 2, 3, 4, 5);
-    }
+    var array;
+    var hooray;
+
+    beforeEach(function() {
+      array = randomArray(null, function () { return Math.ceil(Math.random() * 1000);});
+      hooray = newHorrayFromArray(array);
+    });
+
+    afterEach(function() {
+      array = undefined;
+      hooray = undefined;
+    })
 
     it("should return true when all fulfill the condition", function() {
-      var hooray = initialValue();
-
-      expect(
-        hooray.some(function(element) {
-          return element % 2 === 0;
-        })).toBeTruthy();
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+      var oneRandomItemPresent = array[Math.floor(Math.random() * array.length)];
+      var someFn = function (v) { return v === oneRandomItemPresent; };
+      expect(hooray.some(someFn)).toBeTruthy();
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
     it("should return false when all elements not fulfills the condition", function() {
-      var hooray = initialValue();
-
-      expect(
-        hooray.some(function(value) {
-          return value > 10;
-        })).toBeFalsy();
-      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
+      var someFn = function (v) { return v > 1000; };
+      expect(hooray.some(someFn)).toBeFalsy();
+      expect(hooray).toEqual(jasmine.objectContaining(resultObjectFromArray(array)));
     });
 
+    common_doNothingIfNoContent(Hooray.prototype.map);
     common_throwError_callback(Hooray.prototype.some);
   });
 
   describe("sort", function() {
-    function initialHoorayStrings() {
-      return new Hooray("March", "Jan", "Feb", "Dec");
-    }
-    function initialHoorayNumbers() {
-      return new Hooray(1, 30, 4, 21, 100000);
-    }
-
     it("should sort original hooray of strings", function() {
-      var hooray = initialHoorayStrings();
-      var expected = { 0: "Dec", 1: "Feb", 2: "Jan", 3: "March", length: 4 };
+      var array = randomArray(undefined, function () { return String(Math.ceil(Math.random() * 1000 + 1));});
+      var hooray = newHorrayFromArray(array);
+      array.sort();
+      var expected = resultObjectFromArray(array);
 
       hooray.sort();
       expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
 
     it("should sort original hooray of strings", function() {
-      var hooray = initialHoorayNumbers();
-      var expected = { 0: 1, 1: 100000, 2: 21, 3: 30, 4: 4, length: 5 };
+      var array = randomArray(undefined, function () { return Math.ceil(Math.random() * 1000 + 1);});
+      var hooray = newHorrayFromArray(array);
+      array.sort();
+      var expected = resultObjectFromArray(array);
 
       hooray.sort();
       expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
 
     it("should sort numbers in right why with proper compare function", function() {
-      var hooray = initialHoorayNumbers();
-      var expected = { 0: 1, 1: 4, 2: 21, 3: 30, 4: 100000, length: 5 };
+      var array = randomArray(undefined, function () { return Math.ceil(Math.random() * 1000 + 1);});
+      var hooray = newHorrayFromArray(array);
+      var sortFn = function(a, b) { return a - b; }; 
 
-      hooray.sort(function(a, b) {
-        return a > b;
-      });
+      array.sort(sortFn);
+      var expected = resultObjectFromArray(array);
+
+      hooray.sort(sortFn);
       expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
   });
 
   describe("splice", function() {
-    function initialValue1() {
-      return new Hooray("Jan", "March", "April", "June");
-    }
+    var array;
+    var hooray;
+    var someStart;
+    var someDeleteCount;
+    var someItemsToAdd;
+    var singleItem;
+    
+    beforeEach(function () {
+      array = randomArray(undefined, function () { return String(Math.ceil(Math.random() * 1000 + 1));});
+      hooray = newHorrayFromArray(array);
+      someStart = Math.floor(array.length * Math.random());
+      someDeleteCount = Math.floor(Math.random() * (array.length - someStart));
+      someItemsToAdd = randomArray(undefined, function () { return String(Math.ceil(Math.random() * 1000 + 1));});
+      singleItem = String(createRandomDefaultFn(3));
+    });
 
-    function initialValue2() {
-      return new Hooray("Jan", "Feb", "March", "April", "June");
-    }
+    afterEach(function() {
+      array = undefined;
+      hooray = undefined;
+      someStart = undefined;
+      someDeleteCount = undefined;
+      someItemsToAdd = undefined;
+      singleItem = undefined;
+    });
 
-    it("should inserts at 1st index position", function() {
-      var hooray = initialValue1();
-      var expected = {
-        0: "Jan",
-        1: "Feb",
-        2: "March",
-        3: "April",
-        4: "June",
-        length: 5
-      };
+    it("should inserts 1 item at 1st index position", function() {      
+      array.splice(1, 0, singleItem);
+      var expected = resultObjectFromArray(array)
 
-      hooray.splice(1, 0, "Feb");
+      hooray.splice(1, 0, singleItem);
       expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
 
-    it("should replaces 1 element at 4th index", function() {
-      var hooray = initialValue2();
-      var expected = {
-        0: "Jan",
-        1: "Feb",
-        2: "March",
-        3: "April",
-        4: "May",
-        length: 5
-      };
+    it("should replaces 1 element at some index", function() {
+      array.splice(someStart, 0, singleItem);
+      var expected = resultObjectFromArray(array)
 
-      hooray.splice(4, 1, "May");
+      hooray.splice(someStart, 0, singleItem);
       expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
+
+    it("should replaces several elements at some index no deleting items", function() {
+      var args = [someStart, 0].concat(someItemsToAdd);
+      Array.prototype.splice.apply(array, args);
+      var expected = resultObjectFromArray(array)
+
+      Hooray.prototype.splice.apply(hooray, args);
+      expect(hooray).toEqual(jasmine.objectContaining(expected));
+    });
+
+    it("should replaces several elements at some index deleting items", function() {
+      var args = [someStart, someDeleteCount].concat(someItemsToAdd);
+      Array.prototype.splice.apply(array, args);
+      var expected = resultObjectFromArray(array)
+
+      Hooray.prototype.splice.apply(hooray, args);
+      expect(hooray).toEqual(jasmine.objectContaining(expected));
+    });    
   });
 });
