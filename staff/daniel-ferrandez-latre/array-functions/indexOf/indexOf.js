@@ -9,7 +9,16 @@
  *  @param {index} Index Optional parameter, that you can star from that position of the array
  * 
  */
+
 function indexOf(array, element, index) {
+    if(arguments.length === 0) {
+        throw TypeError(' no arguments are passed.');
+    } else if(!(arguments[0] instanceof Array)) {
+        throw TypeError(array + ' first arguments is not an array');
+    } else if (arguments.length > 2 && isNaN(arguments[2])){
+        throw new TypeError(index + ' is not a number');
+    }
+
     var starIndex = 0;
     if(index >= array.length) {
         return -1;
@@ -26,5 +35,4 @@ function indexOf(array, element, index) {
         }
     }
     return -1;
-    
 }

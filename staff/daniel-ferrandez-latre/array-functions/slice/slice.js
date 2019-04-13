@@ -8,27 +8,20 @@
  *  @param {Number} indexEnd Takes of the first position of the array and rearrenge it into current state
  * 
  */
-function slice(array, indexStart, indexEnd) {
-    var arraySlicedEnd = [];
-    var arraySlicedStart = [];
-    for(var i in array) {
-        arraySlicedEnd[arraySlicedEnd.length] = array[i];
+function slice(array, indexStart) {
+    if(arguments.length === 0) {
+        throw TypeError(' no arguments are passed.');
+    } else if(!(arguments[0] instanceof Array)) {
+        throw TypeError(array + ' is not an array.');
     }
+
+    var arraySliced = [];
     if(indexStart > array.length) return [];
 
-    if(typeof indexStart !== 'undefined') {
-        if(indexStart < 0) {
-            arraySlicedEnd.length = (arraySlicedEnd - 1) - indexStart;
-            return arraySlicedEnd; 
-        }
-        if(indexStart >= 0) {
-            for(var i = indexStart; i > array.length; i++) {
-                arraySlicedStart[arraySlicedStart.length] = array[i];
-            }
-            return arraySlicedStart;
-        }
-    } 
+    for(var i = indexStart; i < array.length; i++) {
+        arraySliced[arraySliced.length] = array[i];
+    }
 
-
+    return arraySliced;
 }
 

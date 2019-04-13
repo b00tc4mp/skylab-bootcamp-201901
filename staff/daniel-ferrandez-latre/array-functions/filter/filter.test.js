@@ -24,10 +24,18 @@ describe('filter', function () {
         }
     });
 
+    it('should break when no arguments are passed', function () {
+        try{ 
+            filter();
+            throw Error('should not reach this point');
+        } catch(error) {
+            expect(error.message,' no arguments are passed.');
+        }
+    });
+
     it('should break on undefined array', function () {
         try{
-            var f = function (v) { return v > 5};
-            var strP = 'f'; 
+            var f = function (v) { return v > 5}; 
             filter(function (v) { return v > 5});
             throw Error('should not reach this point');
         } catch(error) {
@@ -35,13 +43,17 @@ describe('filter', function () {
         }
     });
 
-    it('should break on undefined array', function () {
+    it('should break on undefined callback', function () {
         try{
-            filter();
+            var array = [1, 2, 3];
+            var num = 5;
+            filter(array, num);
             throw Error('should not reach this point');
         } catch(error) {
-            expect(error.message, 'missing all arguments have to be passed');
+            expect(error.message, num + ' is not a function');
         }
     });
+
+    
 
 });

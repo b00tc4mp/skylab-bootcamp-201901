@@ -7,21 +7,21 @@
  * 
 
  */
-function reduce(array, callback) {
-    var resultTotal = 0;
-    
-    if(array !== null && array !== undefined) {
-        var result = 0;
-        var arrayResult = []
-        for(var i = 0; i < array.length; i++) {
-            if(i == 0){
-                result = callback(array[i], array[i + 1]);
-                arrayResult[arrayResult.length] = result;
-            }
-            arrayResult[arrayResult.length] = callback(arrayResult[arrayResult.length], array[i]);     
-        }
-        return arrayResult[arrayResult.length];
+function reduce(array, callback, value) {
+    if(arguments.length === 0) {
+        throw TypeError(' no arguments are passed.');
+    } else if(!(arguments[0] instanceof Array)) {
+        throw TypeError(array + ' is not an array.');
+    } else if( arguments.length > 1 && !(arguments[1] instanceof Function)){
+        throw new TypeError(callback + ' is not a function');
     }
-    return resultTotal;
+        var result = value || array[0];
+        var index = typeof value !== 'undefined' ? 0 : 1;
+
+        for(var i = index; i < array.length; i++) {
+                result = callback(result, array[i]);
+        }
+        return result;
+    
 }
    

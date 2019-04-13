@@ -5,6 +5,13 @@
  * 
  */
 function shift(array) {
+    if(arguments.length === 0) {
+        throw TypeError(' no arguments are passed.');
+    } else if(!(arguments[0] instanceof Array)) {
+        throw TypeError(' is not an array.');
+    } else if( arguments.length > 1){
+        throw new TypeError(' to many arguments passed');
+    }
     var firstPossVal = array[0];
     var auxVal;
     
