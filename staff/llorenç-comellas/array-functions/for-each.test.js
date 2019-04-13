@@ -4,7 +4,7 @@ describe('forEach', function () {
     it('should itearate an array without altering it', function () {
         var array = [1, 2, 3];
 
-        var result = []
+        var result = [];
 
         forEach(array, function (v, i) { result[i] = v; });
         // 0 1
@@ -21,7 +21,7 @@ describe('forEach', function () {
     it('should do nothing if array has not content', function() {
         var array = [];
 
-        var result = []
+        var result = [];
 
         forEach(array, function (v, i) { result[i] = v; });
 

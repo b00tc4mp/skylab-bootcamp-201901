@@ -2,8 +2,8 @@
 
 /**
  * Reverses an array in place. The first array element becomes the last, and the last array element becomes the first.
- * @param {Array} array 
- * @return {Array} 
+ * @param {Array} array array to iterate
+ * 
  */
 
 function reverse(array){
@@ -15,7 +15,7 @@ function reverse(array){
         j++;
     }
     for(var i =array.length-1; i>=0; i--){
-        array[i] = arrayReverse[i]
+        array[i] = arrayReverse[i];
     }
      
      return array;

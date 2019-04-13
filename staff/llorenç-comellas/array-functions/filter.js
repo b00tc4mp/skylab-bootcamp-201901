@@ -4,8 +4,8 @@
 /**
  * method creates a new array with all elements that pass the test implemented by the provided function.
  * 
- * @param {Array} array 
- * @param {Function} callback 
+ * @param {Array} array array to iterate
+ * @param {Function} callback to test each element of the array.
  */
 function filter(array, callback) {
    if(!(array instanceof Array)) throw TypeError(array + ' is not an array');

@@ -10,7 +10,7 @@ describe('indexOf', function() {
 
     });
 
-    it('should return -1', function(){
+    it('should return -1 when the element is not in the array', function(){
         var array = ['hello','world'];
         var result = indexOf(array,'animal');
         var expected = -1;

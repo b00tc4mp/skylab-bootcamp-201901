@@ -12,12 +12,12 @@ describe('splice', function () {
     });
     it('should return the delate elements with a negative number', function () {
         var array = ['Jan', 'Feb', 'Mar'];
-        var result = splice(array, -1)
-        var expected = ['Mar']
-        var expected2 = ['Jan', 'Feb']
+        var result = splice(array, -1);
+        var expected = ['Mar'];
+    
 
         expect(result, expected, true);
-        // expect(result,expected2,true);
+        
     });
     it('should fail when not pass an array', function(){
         try{

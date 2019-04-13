@@ -16,7 +16,7 @@ describe('reduce right', function () {
         var array = [1, 2, 3, 4];
         var expected = 13;
         var initialValue = 3;
-        var result = reduceRight(array,function (acc, currentValue,) {
+        var result = reduceRight(array,function (acc, currentValue) {
             return acc + currentValue;
         }, initialValue);
         expect(result, expected);

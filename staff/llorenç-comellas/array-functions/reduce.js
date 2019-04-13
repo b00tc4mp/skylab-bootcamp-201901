@@ -2,8 +2,9 @@
 
 /**
  * executes a reducer function (that you provide) on each member of the array resulting in a single output value.
- * @param {Array} array 
- * @param {Function} callback 
+ * @param {Array} array array to iterate
+ * @param {Function} callback Function to execute on each element in the array,
+ * @param {Number} initialValue Value to use as the first argument to the first call of the callback
  */
 function reduce(array, callback, initialValue) {
     if (!(array instanceof Array)) throw TypeError(array + ' is not an array');

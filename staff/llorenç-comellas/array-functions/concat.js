@@ -15,7 +15,7 @@ function concat(...args){
     if(!(args[i] instanceof Array)) throw TypeError(args[i] + ' is not an array');
   }
   
-  var results = []
+  var results = [];
   var j = 0;
   for (var i = 0; i<args.length;i++){
     for(var k =0; k<args[i].length;k++){
@@ -24,7 +24,7 @@ function concat(...args){
     }
       
   }
-  return results
+  return results;
 
 }
 

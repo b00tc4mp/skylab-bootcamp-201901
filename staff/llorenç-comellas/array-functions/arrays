@@ -1,4 +1,0 @@
-Array.prototype.reduceRight()
-
-Array.prototype.some()
-Array.prototype.sort()

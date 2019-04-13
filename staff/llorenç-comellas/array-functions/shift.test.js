@@ -11,10 +11,10 @@ describe('shift',function(){
 
     it('should fail when not pass an array',function(){
        try{
-            shift()
+            shift();
            throw Error('should not reach this point');
        }catch (error){
-        expect(error.message, 'undefined is not an array')
+        expect(error.message, 'undefined is not an array');
        }
     });
 });

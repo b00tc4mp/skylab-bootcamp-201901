@@ -3,7 +3,6 @@
  * 
  * @param {element} value The value to be checked
  * 
- *
  * @returns {boolean} true if the value is an Array; otherwise, false..
  */
 
