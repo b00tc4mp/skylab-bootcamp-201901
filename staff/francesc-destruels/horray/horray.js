@@ -156,10 +156,8 @@ Hooray.prototype.filter = function (callback) {
 
     var i, newhorray = new Hooray();
 
-    self = this;
-
     for (i = 0; i < this.length; i++) {
-        if (callback(self[i])) {
+        if (callback(this[i])) {
             newhorray[newhorray.length++] = this[i];
         }
     }
@@ -250,10 +248,9 @@ Hooray.prototype.map = function (callback) {
     if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
 
     var i, newhorray = new Hooray();
-    var self = this;
 
     for (i = 0; i < this.length; i++) {
-        newhorray[i] = callback(self[i]);
+        newhorray[i] = callback(this[i]);
     }
 
     newhorray.length = this.length;
@@ -308,17 +305,17 @@ Hooray.prototype.reduce = function (callback, initial) {
     if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
     if (isNaN(initial) && initial !== undefined) throw TypeError(initial + ' is not a starting value');
 
-    var i, acc = 0, self = this;
+    var i, acc = 0;
 
     if (initial === undefined) {
         acc = this[0];
         for (i = 1; i < this.length; i++) {
-            acc = callback(acc, self[i]);
+            acc = callback(acc, this[i]);
         }
     } else {
         acc = initial;
         for (i = 0; i < this.length; i++) {
-            acc = callback(acc, self[i]);
+            acc = callback(acc, this[i]);
         }
     }
     return acc;
@@ -335,17 +332,17 @@ Hooray.prototype.reduceright = function (callback, initial) {
     if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
     if (isNaN(initial) && initial !== undefined) throw TypeError(initial + ' is not a starting value');
 
-    var i, acc = 0, self = this;
+    var i, acc = 0;
 
     if (initial === undefined) {
         acc = this[this.length - 1];
         for (i = this.length - 2; i >= 0; i--) {
-            acc = callback(acc, self[i]);
+            acc = callback(acc, this[i]);
         }
     } else {
         acc = initial;
         for (i = this.length - 1; i >= 0; i--) {
-            acc = callback(acc, self[i]);
+            acc = callback(acc, this[i]);
         }
     }
 

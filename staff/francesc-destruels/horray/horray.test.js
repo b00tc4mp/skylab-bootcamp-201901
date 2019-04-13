@@ -66,7 +66,7 @@ describe('hooray', function () {
 
             expect(hooray.length).toBe(3);
             expect(length).toBe(hooray.length);
-            expect(hooray).toEqual(jasmine.({ 0: 1, 1: 2, 2: 3, length: 3 }));
+            expect(hooray).toEqual(jasmine.objectContaining({ 0: 1, 1: 2, 2: 3, length: 3 }));
         });
     });
 
