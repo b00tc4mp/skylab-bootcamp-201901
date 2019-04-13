@@ -1,22 +1,16 @@
 "use strict";
 function common_throwError_callback(functionToTest) {
-  xit("should break when you not pass a callback function", function() {
-    expect(functionToTest.call(new Hooray())).toThrowError(Error, "undefined is not a function");
+  it("should break when you not pass a callback function", function() {
+  expect(function() { return functionToTest.call(new Hooray())}).toThrowError(Error, "undefined is not a function");
   });  
 
-  xit("should break when you pass a callback that is not function", function() {
-    expect(functionToTest.call(new Hooray(),1)).toThrowError(Error, "undefined is not a function");
-    // try {
-    //   functionToTest.call(new Hooray(),1);
-    //   throw Error("not error thrown");
-    // } catch (error) {
-    //   expect(error.message, "undefined is not a function");
-    // }
+  it("should break when you pass a callback that is not function", function() {
+    expect(function() { return functionToTest.call(new Hooray(),1)}).toThrowError(Error, "undefined is not a function");
   });     
 }
 
 describe("hooray", function() {
-describe("constructor", function() {
+  describe("constructor", function() {
     it("should construct an empty hooray when no arguments", function() {
       var hooray = new Hooray();
 
@@ -143,13 +137,10 @@ describe("constructor", function() {
       var result = hooray.every(function(v) {
         return v > 1;
       });
-      expect(result, false);
+      expect(result).toBeFalsy();
       expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
     });
 
-    it("should break when you not pass a callback function", function() {
-      expect(initialValue().every).toThrowError(Error, "undefined is not a function");
-    });  
     common_throwError_callback(Hooray.prototype.every);
   });
 
@@ -163,7 +154,7 @@ describe("constructor", function() {
       var expected = { 0: 1, 1: 2, 2: 0, 3: 0, 4: 5, 5: 6, length: 6 };
 
       var result = hooray.fill(0, 2, 4);
-      expect(result, expected, true);
+      expect(result).toEqual(jasmine.objectContaining(expected));
     });
 
     it("should modified hooray affect from selected position to end", function() {
@@ -171,7 +162,7 @@ describe("constructor", function() {
       var expected = { 0: 1, 1: 5, 2: 5, 3: 5, 4: 5, 5: 5, length: 6 };
 
       var result = hooray.fill(5, 1);
-      expect(result, expected, true);
+      expect(result).toEqual(jasmine.objectContaining(expected));
     });
 
     it("should fill all hooray with the value", function() {
@@ -179,7 +170,7 @@ describe("constructor", function() {
       var expected = { 0: 6, 1: 6, 2: 6, 3: 6, 4: 6, 5: 6, length: 6 };
 
       var result = hooray.fill(6);
-      expect(result, expected, true);
+      expect(result).toEqual(jasmine.objectContaining(expected));
     });
 
   });
@@ -192,8 +183,8 @@ describe("constructor", function() {
     it("should show only return elements that fulfill condition", function() {
       var words = initialValue();
       var expected = {0:"exuberant", 1:"destruction", 2:"present", length:3};
-      expect(words.filter(function (word) { return word.length > 6; }), expected, true);
-      expect(words, initialValue(), true);
+      expect(words.filter(function (word) { return word.length > 6; })).toEqual(jasmine.objectContaining(expected));
+      expect(words).toEqual(jasmine.objectContaining(initialValue()));
     })
   
     common_throwError_callback(Hooray.prototype.filter);
@@ -207,8 +198,8 @@ describe("constructor", function() {
     it("should return first element that fulfill condition", function () {
       var hooray = initialValue();
       var expected = 3;
-      expect(hooray.findIndex(function (element) { return element > 13; }), expected);
-      expect(hooray, initialValue(), true);
+      expect(hooray.findIndex(function (element) { return element > 13; })).toBe(expected);
+      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
     })
   
     common_throwError_callback(Hooray.prototype.findIndex);
@@ -223,57 +214,43 @@ describe("constructor", function() {
     it("should return first element that fulfill condition", function () {
       var hooray = initialValue();
       var expected = 130;
-      expect(hooray.find(function (element) { return element > 13; }), expected);
-      expect(hooray, initialValue(), true);
+      expect(hooray.find(function (element) { return element > 13; })).toBe(expected);
+      expect(hooray).toEqual(jasmine.objectContaining(initialValue()));
     })
   
-    common_throwError_callback(Hooray.prototype.find)
+    common_throwError_callback(Hooray.prototype.find);
   
   })  
 
   describe("forEach", function() {
-    it("should itearate an hooray without altering it", function() {
+    it("should iterate an hooray without altering it", function() {
       var hooray = new Hooray(1, 2, 3);
-
       var result = new Hooray();
 
       hooray.forEach(function(v, i) {
         result.push(v);
       });
-      // 0 1
-      // 1 2
-      // 2 3
 
-      expect(result, hooray, true);
+      expect(result).toEqual(jasmine.objectContaining(hooray));
 
       var expected = { 0: 1, 1: 2, 2: 3, length: 3 };
 
-      expect(hooray, expected, true);
+      expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
 
     it("should do nothing if hooray has not content", function() {
       var hooray = new Hooray();
-
       var result = new Hooray();
 
       hooray.forEach(function(v, i) {
         result.push(v);
       });
 
-      expect(result.length, 0);
+      expect(result.length).toBe(0);
     });
 
-    it("should break on undefined callback", function() {
-      var hooray = new Hooray(1, 2, 3);
+    common_throwError_callback(Hooray.prototype.forEach)
 
-      try {
-        hooray.forEach();
-
-        throw Error("should not reach this point");
-      } catch (error) {
-        expect(error.message, "undefined is not a function");
-      }
-    });
   });
   
   describe("includes", function () {
