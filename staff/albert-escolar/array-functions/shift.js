@@ -1,5 +1,10 @@
 'use strict'
-
+/**Removes the first element from an array and returns that removed element.
+ * 
+ * @param {array} array The array to iterate
+ * 
+ * @returns {extractedIndex} The extracted index of the array.
+ */
 
 function shift(array) {
     var extractedIndex = [];

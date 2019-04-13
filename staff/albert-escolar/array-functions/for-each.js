@@ -5,6 +5,8 @@
  * 
  * @param {Array} array The array to iterate.
  * @param {Function} callback The expression to evaluate.
+ * 
+ * @returns {newArray} returns the resultant array.
  */
 // function forEach(array, callback) {
 // 	if (!(array instanceof Array)) throw TypeError(array + ' is not an array');

@@ -1,6 +1,12 @@
 
 'use strict'
 
+/**Reverses an array.The first array element becomes the last, and the last array element becomes the first.
+ * 
+ * @param {array} array The array to iterate
+ * 
+ * @returns {array} Returns the reversed array.
+ */
 
 function reverse(array){
     var inverseArray = []

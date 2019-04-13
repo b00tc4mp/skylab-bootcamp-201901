@@ -1,4 +1,11 @@
 'use strict'
+/** Creates a new array with the results of calling a provided function on every element in the calling array.
+ * 
+ * @param {Array} array The array to iterate
+ * @param {function} callback The expression to evaluate.
+ * 
+ * @returns {newArray} Returns the resulting array.
+ */
 
 
 function map(array, callback) {

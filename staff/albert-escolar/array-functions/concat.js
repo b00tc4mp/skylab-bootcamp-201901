@@ -1,10 +1,9 @@
 'use strict'
-/**
- * Merges X arrays into a new array.
+/**used to merge two or more arrays. 
+ * This method does not change the existing arrays, but instead returns a new array.
  * 
- * @param {Array} args  The array to merge.
- * 
- * @returns {Array} The result of merging X arrays.
+ * @param  {...any} args The arguments to be iterated on.
+ * @returns {resultArray} returns the new array with the resulting concatenation.
  */
 
 function concat(...args) {
