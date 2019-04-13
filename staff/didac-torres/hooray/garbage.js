@@ -1,49 +1,70 @@
-function splice(array, start, end, value) {
-    if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
-    if ((typeof start !== 'number' && start !== undefined)) throw TypeError(start + ' is not a number');
-    if ((typeof start !== 'number' && start !== undefined)) throw TypeError(end + ' is not an number');
+'use strict';
 
-    var arrayStart = [];
-    var arrayEnd = [];
-    var arrElem = [];
-    var arrayDelete = [];
-    var args = Array.from(arguments);
+describe('slice', function () {
+    !true && it('should return an sliced hooray', function () {
+        var hooray = new Hooray('ant', 'bison', 'camel', 'duck', 'elephant');
 
-    if (args.length > 3) {
-        for (var i = 3; i < args.length; i++) {
-            arrElem[arrElem.length] = args[i];
-        };
-    }
+        var result = hooray.slice(1, 3);
 
-    if (start < 0) {
-        start = array.length + start;
-    }
-    if (!end || end >= array.length - start) {
-        end = array.length;
-    }
-    if (end <= 0) end = start;
+        var expected = new Hooray('bison', 'camel');
 
-    for (var i = 0; i < start; i++) {
-        arrayStart[arrayStart.length] = array[i];
-    }
+        expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
+    });
 
-    for (var i = start; i < end; i++) {
-        arrayDelete[arrayDelete.length] = array[i];
-    }
+    !true && it('should return an sliced hooray with start index negative', function () {
+        var hooray = new Hooray('ant', 'bison', 'camel', 'duck', 'elephant');
 
-    for (var i = end; i < array.length; i++) {
-        arrayEnd[arrayEnd.length] = array[i];
-    }
+        var result = hooray.slice(-2);
 
-    array.length = 0;
-    var totalArr = [arrayStart, arrElem, arrayEnd];
-    for (var i = 0; i < totalArr.length; i++) {
-        if (totalArr[i].length !== 0) {
-            for (var j = 0; j < totalArr[i].length; j++) {
-                array[array.length] = totalArr[i][j];
-            }
+        var expected = new Hooray('duck', 'elephant');
+
+        expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
+    });
+
+    !true && it('should return an sliced hooray with end index negative', function () {
+        var hooray = new Hooray('ant', 'bison', 'camel', 'duck', 'elephant');
+
+        var result = hooray.slice(2, -1);
+
+        var expected = new Hooray('camel', 'duck');
+
+        expect(JSON.stringify(result)).toBe(JSON.stringify(expected));
+    });
+
+    !true && it('should return an empty hooray', function () {
+        var hooray = new Hooray('ant', 'bison', 'camel', 'duck', 'elephant');
+
+        var result = hooray.slice(9);
+
+        expect(result.length).toBe(0);
+    });
+
+    !true && it('should break on undefined hooray', function () {
+        try {
+            hooray.slice();
+            throw Error('should not reach this point');
+        } catch (error) {
+            expect(error.message).toBe('undefined is not an hooray')
         }
-    }
+    });
 
-    return arrayDelete;
-} 
+    !true && it('should break when start index is not a number and undefined', function () {
+        try {
+            var hooray = new Hooray('cat', 'dog', 'dino');
+            hooray.slice('a');
+            throw Error('should not reach this point');
+        } catch (error) {
+            expect(error.message).toBe('a is not a number');
+        }
+    });
+
+    !true && it('should break when end index is not a number and undefined', function () {
+        try {
+            var hooray = new Hooray('cat', 'dog');
+            hooray.slice(2, 'a');
+            throw Error('should not reach hits point');
+        } catch (error) {
+            expect(error.message).toBe('a is not a number');
+        }
+    });
+});
