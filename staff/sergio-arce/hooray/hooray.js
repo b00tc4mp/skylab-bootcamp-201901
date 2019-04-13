@@ -23,7 +23,6 @@ Hooray.prototype.forEach = function(callback) {
 	if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
 
     var self = this;
-
 	this.length && (function forEach(index) {
 		callback(self[index], index);
 
@@ -50,7 +49,6 @@ Hooray.prototype.push = function (value) {
     return this.length;
 }
 
-
 /**
  * Retrieves the last value of an array, decrementing its length by 1.
  *
@@ -71,6 +69,8 @@ Hooray.prototype.pop = function () {
     }
 }
 
+
+
 Hooray.prototype.indexOf = function (item) {
 	var pos = 0;
 	var self = this;
@@ -81,3 +81,20 @@ Hooray.prototype.indexOf = function (item) {
     }
 	return -1
 }
+
+
+
+Hooray.prototype.some = function(array, callback){
+
+    if (!(array instanceof Array)) throw new TypeError(array + ' is not an array');
+    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+
+    for(var i = 0; i < array.length; i++) if (callback(array[i])) return true;
+
+    return false;
+
+} 
+
+
+
+
