@@ -5,19 +5,11 @@ describe('filter', function(){
     it('should return new array with all the elements that fulfill the condition implemented by the given function', function(){
         var array = [1, 2, 3, 4];
         var result = filter(array, function(v){return v > 2})
-
-        expect(  );
+        var exp = [3, 4];
+        expect(result, exp);
     });
     
 });
-
-
-
-
-
-
-
-
 
 
 
