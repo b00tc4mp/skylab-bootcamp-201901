@@ -116,7 +116,7 @@ describe('hooray', function () {
 
             expect(value, 3);
 
-            expect(hooray, {0: 1, 1: 2, length: 2}, true);
+            expect(hooray, { 0: 1, 1: 2, length: 2 }, true);
         });
 
         it('should return undefined on empty hooray', function () {
@@ -130,4 +130,92 @@ describe('hooray', function () {
         });
 
     });
+
+    describe('indexOf', function () {
+        it('should return index of firts item matching condition', function () {
+            var hooray = new Hooray(1, 2, 3);
+
+            var elem1 = 1;
+
+            var exp = 0;
+
+            var result = hooray.indexOf(elem1);
+
+            expect(result, exp);
+        });
+
+        it('should return -1 if item not matching condition', function () {
+
+            var hooray = new Hooray(3, 4, 6);
+
+            var elem1 = 2;
+
+            var exp = -1;
+
+            var result = hooray.indexOf(elem1);
+
+            expect(result, exp);
+        });
+
+        it('should return -1 if item is undefined', function () {
+
+            var hooray = new Hooray(3, 7, 6);
+
+            var exp = -1;
+
+            var result = hooray.indexOf();
+
+            expect(result, exp);
+        });
+
+    });
+
+    describe('is-hooray', function () {
+
+        it('should return true if is an hooray', function () {
+
+            var hooray = new Hooray(1, 2, 4);
+
+            var result = Hooray.isHooray(hooray);
+
+            expect(result, true);
+
+        });
+
+        it('should return false if is not an hooray', function () {
+
+            var elem = 3;
+
+            var result = Hooray.isHooray(elem);
+
+            expect(result, false);
+
+        });
+
+    });
+    describe('sort', function () {
+        it('should return an sort hooray', function () {
+            var hooray = new Hooray(2, 1, 7, 9, 6, 5, 1);
+
+            var result = hooray.sort();
+
+            var expected = { 0: 1, 1: 1, 2: 2, 3: 5, 4: 6, 5: 7, 6: 9, length: 7 };
+            expect(result, expected, true)
+        });
+
+    });
+
+
+    describe('splice', function () {
+
+        it('should remove or replace existing elements and/or adding new elements ', function () {
+            var hooray = new Hooray('Jan', 'March', 'April', 'June');
+
+            var result = hooray.splice(1, 0, 'Feb');
+
+            expect(result, {0:'Jan', 1:'Feb', 2:'March', 3:'April', 4:'June', length:5},true);
+        });
+
+    });
+
 });
