@@ -12,9 +12,12 @@ function concat(...arrays){
     var newArray = [];
     var k = 0;
     for(var i = 0; i < arrays.length; i++){
-        for(var j = 0; j < arrays[i].length; j++) {
-            newArray[k] = arrays[i][j];
-            k++
+        if(arrays[i] instanceof Array){
+            for(var j = 0; j < arrays[i].length; j++) {
+                newArray[newArray.length] = arrays[i][j];
+            }
+        } else{
+            newArray[newArray.length] = arrays[i];
         }
     }
     return newArray;
