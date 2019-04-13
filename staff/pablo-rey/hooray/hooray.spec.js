@@ -25,39 +25,21 @@ function common_doNothingIfNoContent(functionToTest) {
   });
 }
 
-function newEmptyHooray() {
-  return new Hooray();
-}
-
 function newHorrayFromArray(array) {
   var hooray = new Hooray;
   Hooray.apply(hooray, array);
   return hooray;
 }
 
-function randomObject(length, deep) {
-  var array = randomArray(length, deep);
-  var result = {};
-  for (var k = 0; k < array.length; k++) {
-    var key = Math.random() < 0.5 ? k : String(k);
-    result[key] = array[key];
-  }
-  return result;
-}
-
 function createRandomDefaultFn(maxType) {
     var type = (typeof maxType !== "undefined") ? maxType : Math.floor(Math.random() * 3) ;
     switch (type) {
       case 0:
-        return Math.floor(Math.random() * 10000);
-      case 1:
         return Math.random() * 10000;
+      case 1:
+        return Math.floor(Math.random() * 10000);
       case 2:
         return String(Math.random() * 10000);
-      case 3:
-        return randomArray();
-      case 4:
-        return randomObject();
     }
 }
 
@@ -83,7 +65,7 @@ function resultObjectFromArray(array) {
 describe("hooray", function() {
   describe("constructor", function() {
     it("should construct an empty hooray when no arguments", function() {
-      var hooray = newEmptyHooray();
+      var hooray = new Hooray();
 
       expect(hooray.length).toBe(0);
       expect(Object.keys(hooray).length).toBe(1);
@@ -484,19 +466,16 @@ describe("hooray", function() {
 
     it("should return true if includes a present element (numbers)", function() {
       initialHoorayNumbers();
-
       expect(hooray.includes(randomElement)).toBeTruthy();
     });
 
     it("should return true if includes a present element (string)", function() {
       initialHoorayStrings();
-
       expect(hooray.includes(randomElement)).toBeTruthy();
     });
 
     it("should return false if not includes a exact coincidence", function() {
       initialHoorayStrings();
-
       expect(hooray.includes("0")).toBeFalsy();
     });
 
