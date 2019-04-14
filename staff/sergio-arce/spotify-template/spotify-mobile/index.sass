@@ -1,80 +1,17 @@
+@import utils
+@import components/header.sass
+@import components/start.sass
+@import components/moods.sass
+@import components/footer.sass
+    
+    
 *
     margin: 0
     padding:0    
     box-sizing: border-box
-// //general
    
 main
     background-color: #222326
-    padding: 10px 10px
+    padding: 10px 10px      
 
-//header
-.header
-    display: grid
-    padding: 30px 30px
-    width: 100% 
-    &__logo
-        width: 74%
-        padding: 10px
-        margin: 10px
-    &__button
-        background-color: #2ebd59
-        color: white
-        padding: 10px 28px
-        border-radius: 20px
-        border-color: #2a9e53
 
-//start
-.start
-    text-align: center
-    &__title
-        color: #FFFFFF
-    &__grid
-        display: grid
-        grid-template-columns: 1fr 1fr
-        padding: 10px
-        &-items
-            background-color: #000000
-            &>img    
-                width: 100%
-                display: block       
-// moods
-.moods
-    text-align: center
-    &__title
-        color: #FFFFFF
-    &__grid
-        display: grid
-        grid-template-columns: 1fr 1fr
-        padding: 10px
-        &-items
-            background-color: #000000
-            &>img    
-                width: 100%
-                display: block    
-
-//footer
-.footer
-    display: grid
-    padding: 30px 30px
-    width: 100% 
-    &__button
-        background-color: #2ebd59
-        color: #ffffff
-        padding: 10px 28px
-        border-radius: 20px
-        border-color: #2a9e53
-    &__logo
-        width: 74%
-        padding: 10px
-        margin: 10px
-    &__menu
-        width: 74%
-        padding: 10px
-        margin: 10px auto
-        min-height: 170px
-        list-style: none
-        text-align: center
-        &-item a 
-            color: #ffffff
-            text-decoration: none
