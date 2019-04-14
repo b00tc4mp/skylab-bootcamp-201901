@@ -17,7 +17,7 @@ describe('concat', function(){
     try {
       concat(array1);
 
-      console.log("You shouldn't get to this point");
+      throw Error("You shouldn't get to this point");
     } catch(error) {
       expect(error.message, 'undefined is not an array');
     }
@@ -30,7 +30,7 @@ describe('concat', function(){
     try {
       concat(array3, array1);
 
-      console.log("You shouldn't get to this point");
+      throw Error("You shouldn't get to this point");
     } catch(error) {
       expect(error.message, 'undefined is not an array');
     }

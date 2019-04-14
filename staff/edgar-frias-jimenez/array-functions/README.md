@@ -20,4 +20,4 @@ Here are the implemented methods:
 - Array.prototype.slice()
 - **Array.prototype.some() with error tests**
 - **Array.prototype.sort() with error tests**
-- Array.prototype.splice()
+- **Array.prototype.splice() with error tests**
