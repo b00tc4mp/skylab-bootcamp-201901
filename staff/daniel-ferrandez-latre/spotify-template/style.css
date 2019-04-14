@@ -1,31 +1,85 @@
-* {
+@import url("https://fonts.googleapis.com/css?family=Roboto");
+.web-app {
   margin: 0;
+  background-color: #141414;
 }
 
 .main-container {
-  background-color: black;
+  padding-top: 20px;
   display: flex;
-  justify-content: center;
   flex-direction: column;
-  align-content: center;
+  justify-content: center;
+  align-items: center;
 }
 
-.header {
+.header-container {
   display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.spoty-icons {
+  width: 10em;
+  fill: white;
+}
+
+.button-mobile {
+  margin: 30px;
+  background-color: #2ebd59;
+  border: none;
+  font-family: "Roboto", sans-serif;
+  border-radius: 20px;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+
+.song-image {
+  width: 100px;
+}
+
+.show-mix {
+  display: flex;
+  flex-direction: column;
   justify-content: center;
   align-content: center;
+  flex-wrap: wrap;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
-.spoty-home {
-  width: 100%;
-  padding: 10px;
-  background-color: white;
+.title-mix {
+  text-align: center;
+  color: white;
+  font-family: "Roboto", sans-serif;
+  font-size: 12pt;
 }
 
-.spoty-home__logo {
-  width: 100px;
-  fill: white;
-  stroke: none;
+.song-list {
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-content: center;
+  flex-wrap: wrap;
+}
+
+.song-item {
+  margin: 0;
+}
+
+.song-image {
+  width: 150px;
+}
+
+@media (min-width: 1020px) {
+  .song-image {
+    width: 220px;
+  }
 }
 
 /*# sourceMappingURL=style.css.map */
