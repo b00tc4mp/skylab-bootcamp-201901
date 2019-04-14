@@ -29,10 +29,10 @@ describe('concat', function() {
         var b =[5,6];
         var actual =[];
         var expected =[1,2,3,4,5,6]
-        actual = concat(a,b)
+        actual = concat(a,b);
 
         for(var i =0; i<actual.length; i++){
-            expect(actual[i],expected[i])
+            expect(actual[i],expected[i]);
         }
     })
 
