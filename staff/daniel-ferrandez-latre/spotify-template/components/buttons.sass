@@ -1,18 +1,28 @@
 .spoty-icons
     width: 10em
     fill: white
+    &--header
+        width: 7em
+    &--footer
+        width: 10em
 
-.button-mobile
-   margin: 30px
-   background-color: #2ebd59
-   border: none
-   font-family: 'Roboto', sans-serif
-   border-radius: 20px
-   color: white
-   padding: 15px 32px
-   text-align: center
-   text-decoration: none
-   display: inline-block
+.button-show-spoty
+    width: 180px
+    background-color: #2ebd59
+    border: none
+    font-family: 'Roboto', sans-serif
+    border-radius: 40px
+    color: white
+    padding: 15px 32px
+    text-align: center
+    text-decoration: none
+    display: inline-block
+
+    &--after-main
+         +button-margin-top-bottom(15px, 30px)
+
+    &--header
+        +button-margin-top-bottom(30px, 50px)
 
 .song-image
     width: 100px
