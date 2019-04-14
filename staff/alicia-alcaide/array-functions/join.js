@@ -2,7 +2,7 @@
  * Concatenate all elements  in a string separated by the separator
  * 
  * @param {Array}  array 
- * @param {string} separator Optional. Inserted between each element. Default: empty
+ * @param {[string]} separator Inserted between each element. Default: empty
  * 
  * @returns {string} All elements concatenated with the separator between
  */

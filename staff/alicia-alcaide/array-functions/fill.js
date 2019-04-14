@@ -15,7 +15,7 @@ function fill (array, value, start, end) {
 
   if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
   if (typeof value !== 'string' && typeof value !== 'number') throw TypeError(value + ' is not a number or string');
-  if (typeof start !== 'number')  throw TypeError(start + '(start) is not a number');
+  if (typeof start !== 'number')  throw TypeError(start + ' is not a number');
   if (typeof end !== 'undefined' && typeof end !== 'number') throw TypeError(end + ' is not a number');
   
   var posStart = start || 0;

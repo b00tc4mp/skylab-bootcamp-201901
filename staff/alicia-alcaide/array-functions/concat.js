@@ -12,12 +12,10 @@
 function concat() {
 
   var newArray = [];
-  var i=0
-
-  for (var j=1; j <arguments.length; j++) {
+  
+  for (var j=0; j <arguments.length; j++) {
     for (var k=0; k < arguments[j].length; k++) {
-        newArray[i] = arguments[j][k];
-        i++;
+        newArray[newArray.length] = arguments[j][k];
     }
   }
   

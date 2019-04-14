@@ -48,7 +48,7 @@ describe('fill', function () {
             throw Error('should not reach this point');            
 
         } catch (error) {
-            expect();
+            expect(error.message, (start + ' is not a number'));
         }
         
     });
@@ -67,13 +67,10 @@ describe('fill', function () {
             throw Error('should not reach this point');            
 
         } catch (error) {
-            expect();
+            expect(error.message, (end + ' is not a number'));
         }
         
     });
-
-
-
 
 });
 
