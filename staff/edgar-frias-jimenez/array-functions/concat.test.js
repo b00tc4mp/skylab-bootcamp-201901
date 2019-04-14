@@ -35,17 +35,4 @@ describe('concat', function(){
       expect(error.message, 'undefined is not an array');
     }
   });
-
-  it('will breaks if one array is undefined', function(){
-    var array1 = ['a', 'b', 'c'];
-    var array4 = 'hola';
-
-    try {
-      concat(array1, array4);
-
-      console.log("You shouldn't get to this point");
-    } catch(error) {
-      expect(error.message, array4 + ' is not an array');
-    }
-  });
 });

@@ -13,12 +13,19 @@ function concat(arrayA, arrayB) {
   if (!(arrayA instanceof Array)) throw TypeError(arrayA + ' is not an array');
   if (arrayA === undefined) throw new TypeError(arrayA + ' invalid element');
 
-  if (!(arrayB instanceof Array)) throw TypeError(arrayB + ' is not an array');
-  if (arrayB === undefined) throw new TypeError(arrayB + ' invalid element');
+  var arrayResult = [];
 
-  for(var i = 0; i < arrayB.length; i++) {
-    arrayA[arrayA.length] = arrayB[i];
+  for (var i = 0; i < arguments.length; i++) {
+    var element = arguments[i];
+
+    if (element instanceof Array) {
+      for(var j = 0; j < element.length; j++) {
+        arrayResult[arrayResult.length] = element[j];
+      }
+    } else {
+      arrayResult[arrayResult.length] = element;
+    }
   }
 
-  return arrayA;
+  return arrayResult;
 }
