@@ -2,6 +2,8 @@
 /**
  *
  * Function that changes the content of an array by deleting/adding new elements.
+ * 
+ * Disclaimer: This function has the dependency of reverse and concat functions, it won't work without them
  *
  * @param {Array} array The given array to change.
  * @param {number} startCount Number to indicate where to start modifying the array.
