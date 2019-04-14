@@ -11,6 +11,8 @@
  */
 
 function join(arr, sep) {
+    if (!(arr instanceof Array)) throw TypeError(`${arr} is not an array`);
+
     var result = '';
     if (sep === undefined) {
         sep = ',';

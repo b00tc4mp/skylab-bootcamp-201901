@@ -1,21 +1,20 @@
 'use strict';
 
 describe('reverse', function(){
-    it('should return...', function(){
+
+
+    it('should return an array reverse', function(){
         var array = [1, 2, 3, 4];
         var result = reverse(array);
         var exp = [4, 3, 2, 1];
 
-        expect(result, exp); 
+        for (var i = 0; i < result.length; i++)
+            expect(result[i], exp[i]); 
 
     });
 
-    it('message', function() {
+    it('should throw an error when arr not an array ', function() {
 
-        
-
-
-        
         try {
             reverse()
             
@@ -23,7 +22,7 @@ describe('reverse', function(){
             
         } catch (error) {
             
-            expect(error.message, "..........");
+            expect(error.message, `${undefined} is not an array`);
             
         }
        

@@ -2,17 +2,16 @@
 
 describe('shift', function() {
 
-    it('menssage', function() {
+    it('should return the first element', function() {
         var array = [1, 2, 3];
-        var resutl = shift(array);
+        var result = shift(array);
         var exp = 1;
         
         expect(result, exp); 
 
     });
 
-
-    it('menssage', function(){
+    it('should throw an error when result is undefined', function(){
 
         try {
             shift();
@@ -20,7 +19,7 @@ describe('shift', function() {
             throw Error('should not reach this point');
         } catch (error) {
             
-            expect(error.message, "result is not defined");
+            expect(error.message, `${undefined} is not an array`);
         }
 
     }); 
@@ -28,30 +27,3 @@ describe('shift', function() {
     
 });
 
-
-
-
-
-
-
-
-
-
-
-console.log('DEMO', 'shift');
-
-var a = [1, 2, 3];
-
-console.log('case 1');
-
-console.log(shift(a));
-// 1
-
-
-
-console.log('case 2');
-
-var miPescado = ['payaso', 'mandarín', 'cirujano'];
-
-console.log(shift(miPescado));
-// payaso

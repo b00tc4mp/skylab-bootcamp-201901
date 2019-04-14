@@ -1,11 +1,13 @@
 'use strict';
 
+
+
 describe('join', function(){
     it('should return ', function(){
         var array = ['Fire', 'Wind', 'Rain'];
         var result = join(array);
         var exp = "Fire,Wind,Rain";
-
+ 
         expect(result, exp);
     });
 
@@ -25,8 +27,10 @@ describe('join', function(){
 // me da error en la consola
             throw Error('should not reach this point');
         } catch (error) {
-            expect(erro.message, "erro is not defined");
+            expect(error.message, `${undefined} is not an array`);
         }
     });
 });
+
+
 

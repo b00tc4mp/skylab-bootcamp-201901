@@ -16,4 +16,4 @@ function push(array, value) {
             array[array.length] = arguments[i];
 
     return array.length;
-}
+}                                           

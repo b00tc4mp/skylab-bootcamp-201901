@@ -1,7 +1,8 @@
 'use strict';
 
 /**
- * Iterates an array and evaluates an expression on each of its values, returning true if all of them match it. Otherwise returns false.
+ * Iterates an array and evaluates an expression on each of its values, 
+ * returning true if all of them match it. Otherwise returns false.
  * 
  * @param {Array} array The array to iterate.
  * @param {Function} callback The expression to evalute.

@@ -13,6 +13,8 @@ describe('indexOf', function () {
         expect(result, exp);
     });
 
+
+    
     it('should return -1 if item not matching condition', function () {
 
         var array = [3, 4, 6];
@@ -46,7 +48,8 @@ describe('indexOf', function () {
 
             throw Error('should not reach this point');
         } catch (error) {
-            expect(error.message, "Cannot read property 'length' of undefined");
+
+            expect(error.message, `${undefined} is not an array`);
         }
     });
 
