@@ -18,7 +18,7 @@ body
     padding: 0
     box-sizing: border-box
     font-family: 'Varela Round', sans-serif
-    overflow: hidden
+    overflow-x: hidden
 .p
     margin: 0   
     
@@ -32,22 +32,22 @@ body
     z-index: 1
     top: 0
     left: 0
-    width: 160px
+    width: 190px
     overflow: hidden
     
     &__logo
         display: block
         align-self: center   
         &--config
-            width: 10em
-            height: 5em
+            width: 12em
+            height: 7em
             padding: 1.2em
             margin-top: 0.2em
             fill: $color-logo
     &--color
         background-color: $back-color
     &--font-size
-        font-size: 8px
+        font-size: 12px
 .navegation
     display: flex
     flex-direction: column
@@ -55,6 +55,10 @@ body
     padding: 1em
     &__item
         padding: .5em
+        display: flex
+        flex-direction: row
+        align-items: center
+
 .img
     width: 2em
     height: 2em
@@ -63,6 +67,7 @@ body
     fill: $color-logo
 .text
     font-size: 12px
+    margin: 0
     &--color
         color: $color-font-navbar
     &--color-inicio
@@ -71,29 +76,83 @@ body
         margin: 0
 .main
     margin-left: 15vw
-    height: 100vh
+    height: calc(100vh -190px)
     padding: 2em
-    width: calc(100vw - 160px)
-    diplay: flex
-    flex-direction: row
-    flex-wrap: nowrap
-    justify-content: flex-start
-    &__header
+    width: calc(100vw - 190px)
+    display: flex
+    flex-direction: column
+    justify-content: center
+    overflow-y: scroll
+    &__options
+        display: flex
+        align-items: center
+        justify-content: center
+        flex-wrap: wrap
+        padding: 1rem 4rem 1rem 4rem
+.menu
+    &__item
+        padding: 1em
+        font-size: 14px
+        &--text-color
+            color: $color-font-navbar
+        &--text-color-selected
+            color: $color-logo
+
+.section
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+    align-items: flex-start 
+    &__item
+        display: block
+        text-align: center
+        padding: 1em
+
+    &__title
+        padding: 1em
+        font-size: 14px
+        color: $color-font-navbar
         display: flex
         flex-direction: row
+        justify-content: space-between
+        align-items: baseline
+        width: 100%
+    &__title-text
+        color: $color-logo
+        font-size: 30px
+    &__item-detail
+        color: $color-font-navbar
+        font-size: 14px
+        text-align: center
+        padding: 0 0.5rem 0 0.5rem
+        width: 190px
+
+    &__title-link
+        display: none
+    &__container
+        display: flex
         flex-wrap: wrap
-        justify-content: space-evenly
-    &__section
-        &--behaivor
-            display: flex
-            flex-direction: row
-            justify-content: center
-            align-items: center
-.item__img 
-    width: 12vw
-    height: 12vw
-    margin: 0
-    
+        align-content: flex-start
+        width: 90%
+    &__item-img
+        width: 190px
+        height: 190px
+        background-size: cover
+        background-position: 50%
+        &--circle
+            border-radius: 50%
+    &__item-title
+        color: $color-logo
+        padding: .5em
+        
+.avatar
+    width: 3em
+    height: 3em
+    border-radius: 50%
+    padding: .5em
+
+            
+
 
 .now-playing-bar
     height: 90px
@@ -103,8 +162,32 @@ body
     bottom: 0
     z-index: 2
     width: 100%
-    
-.avatar
-    width: 3em
-    height: 3em
-    border-radius: 50%
+    display: flex
+    flex-direction: row  
+    justify-content: space-between
+.options
+    &__items
+        &--selected
+            width: 40%
+            background-color: #1db954
+            height: 4px
+            border-radius: 2px
+            display: block
+
+.now-playing-bar
+    display: flex
+    flex-direction: row
+    &__listening
+        width: 3em
+        height: 3em
+        padding: .5em
+
+@media only screen and (max-width : 768px) 
+    .section
+        &__title-link
+            display: show
+            text-transform: uppercase
+            padding: 1em
+            font-size: 14px
+            color: $color-font-navbar
+            text-decoration: none
