@@ -398,7 +398,9 @@ Hooray.prototype.sort = function (comparefn) {
  */
 Hooray.prototype.splice = function (start, deleteCount) {
   var len = this.length;
-  var actualStart = start < 0 ? Math.max(len+start,0) : Math.min(start, len);
+  var start = parseInt(start) || 0;
+  var deleteCount = parseInt(deleteCount) || 0;
+  var actualStart = start < 0 ? Math.max(len + start,0) : Math.min(start, len);
   var actualDeleteCount = Math.min(Math.max(deleteCount,0), len - actualStart);
 
   var returnResult = new Hooray();
