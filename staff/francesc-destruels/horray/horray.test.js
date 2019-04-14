@@ -2,549 +2,438 @@
 
 //HORRAY MAIN TEST
 describe('hooray', function () {
+    var hooray, hooray2, hooray3, array, array2, array3, r = Math.floor(Math.random()*500 -3), r2 = Math.floor(Math.random()*700), r3 = Math.floor(Math.random()*50) > 25? (Math.floor(Math.random())*50).toString() : Math.floor(Math.random()*50) 
+
+    beforeEach(function(){
+        var v, w, x, y, z;
+
+        v = Math.floor(Math.random()*100);
+        w = Math.floor(Math.random()*120);
+        x = Math.floor(Math.random()*50);
+
+        if (x < 25){
+            y = Math.floor(Math.random()*25);
+        }
+
+        if (y > 20){
+            z = Math.floor(Math.random()*500);
+        }
+
+        if (y !== undefined && z !== undefined){
+            hooray = new Hooray(v, w, x, y, z);
+            hooray2 = new Hooray(w, x, y, z, v)
+            array = [v, w, x, y, z];
+            array2 = [w, x, y, z, v];
+            hooray3 = new Hooray(x, v, x, y, y);
+            array3 = [x, v, x, y, y];
+            
+
+        }else  if (y !== undefined){
+            hooray = new Hooray(v, w, x, y);
+            array = [v, w, x, y];
+            hooray2 = new Hooray(v, w, x, y);
+            array2 = [v, w, x, y]
+            hooray3 = new Hooray(v, x, x, y);
+            array3 = [v, x, x, y];
+        } else {
+            hooray = new Hooray(v, w, x);
+            array = [v, w, x];
+            hooray2 = new Hooray(v, v, x);
+            array2 = [v, v, x];
+            hooray3 = new Hooray(x, w, x);
+            array3 = [x, w, x];
+        }
+    })
+
+    //CONSTRUCTOR BDD
     describe('constructor', function () {
 
-        it('should construct an empty hooray when no arguments', function () {
-            var hooray = new Hooray;
+        true && it('should construct an empty hooray when no arguments', function () {
+            hooray = new Hooray;
 
             expect(hooray.length).toBe(0);
             expect(Object.keys(hooray).length).toBe(1);
         });
 
-        it('should construct a non-empty hooray when existing arguments', function () {
-            var hooray = new Hooray(1, 2, 3);
+        true && it('should construct a non-empty hooray when existing arguments', function () {
 
-            expect(hooray.length).toBe(3);
-            expect(hooray).toEqual(jasmine.objectContaining({ 0: 1, 1: 2, 2: 3, length: 3 }));
-            expect(Object.keys(hooray).length).toBe(4);
+            expect(hooray.length).toBe(array.length);
+            expect(hooray).toEqual(jasmine.objectContaining(array));
+            expect(Object.keys(hooray).length).toBe(Object.keys(array).length +1);
         });
 
-        it('should construct an empty hooray with length equal to when only one numeric argument', function () {
-            var hooray = new Hooray(1);
+        true && it('should construct an empty hooray with length equal to when only one numeric argument', function () {
+            hooray = new Hooray(r);
+            array = new Array(r);
 
-            expect(hooray.length).toBe(1);
-            expect(Object.keys(hooray).length).toBe(1);
+            expect(hooray.length).toBe(array.length);
+            expect(Object.keys(hooray).length).toBe(Object.keys(array).length +1);
         });
 
-        it('should construct a non-empty hooray with only one non-numeric argument', function () {
-            var hooray = new Hooray('1');
+        true && it('should construct a non-empty hooray with only one non-numeric argument', function () {
 
-            expect(hooray.length).toBe(1);
-            expect(hooray).toEqual(jasmine.objectContaining({ 0: '1', length: 1 }));
-            expect(Object.keys(hooray).length).toBe(2);
+            hooray = new Hooray(r.toString());
+            array = new Array(r.toString());
+
+            expect(hooray.length).toBe(array.length);
+            expect(hooray).toEqual(jasmine.objectContaining(array));
+            expect(Object.keys(hooray).length).toBe(Object.keys(array).length +1);
         });
     });
 
-    //PUSH 
+    //PUSH BDD
     describe('push', function () {
-        it('should add a value at the end of an hooray', function () {
-            var hooray = new Hooray(1, 2, 3);
-            var result = new Hooray(1, 2, 3, 4);
+        true && it('should add a value at the end of an hooray', function () {
 
-            var length = hooray.push(4);
+            hooray.push(r);
+            array.push(r);
 
-            expect(hooray.length).toBe(4);
-            expect(length).toBe(hooray.length);
-            expect(hooray).toEqual(result);
+            expect(hooray.length).toBe(array.length);
+            expect(hooray).toEqual(jasmine.objectContaining(array));
         });
 
-        it('should add multiple values at the end of an hooray in order', function () {
-            var hooray = new Hooray(1, 2, 3);
-            var result = new Hooray(1, 2, 3, 4, 5)
+        true && it('should add multiple values at the end of an hooray in order', function () {
+            hooray.push(r, r2);
+            array.push(r, r2);
 
-            var length = hooray.push(4, 5);
-
-            expect(hooray.length).toBe(5);
-            expect(length).toBe(hooray.length);
-            expect(hooray).toEqual(result);
+            expect(hooray.length).toBe(array.length);
+            expect(hooray).toEqual(jasmine.objectContaining(array));
         });
 
-        it('should not add a non-provided value at the end of an hooray', function () {
-            var hooray = new Hooray(1, 2, 3);
+        true && it('should not add a non-provided value at the end of an hooray', function () {
+            hooray.push();
+            array.push();
 
-            var length = hooray.push();
-
-            expect(hooray.length).toBe(3);
-            expect(length).toBe(hooray.length);
-            expect(hooray).toEqual(jasmine.objectContaining({ 0: 1, 1: 2, 2: 3, length: 3 }));
+            expect(hooray.length).toBe(array.length);
+            expect(hooray).toEqual(jasmine.objectContaining(array));
         });
     });
 
-    //FOR EACH
+    //FOR EACH BDD
     describe('forEach', function () {
-        it('should itearate an hooray without altering it', function () {
-            var hooray = new Hooray(1, 2, 3);
+        true && it('should itearate an hooray without altering it', function () {
+            hooray.forEach(function (v, i) { return v; });
+            array.forEach(function (v, i) { return v; });
 
-            var result = new Hooray;
-
-            hooray.forEach(function (v, i) { result.push(v); });
-            // 0 1
-            // 1 2
-            // 2 3
-
-            expect(result).toEqual(hooray);
-
-            var expected = new Hooray(1, 2, 3);
-
-            expect(hooray).toEqual(expected);
+            expect(hooray.length).toBe(array.length);
+            expect(hooray).toEqual(jasmine.objectContaining(array));
+            expect(Object.keys(hooray).length).toBe(Object.keys(array).length +1);
         });
 
-        it('should do nothing if hooray has not content', function () {
-            var hooray = new Hooray;
+        true && it('should do nothing if hooray has not content', function () {
+            hooray = new Hooray();
+            array = [];
 
-            var result = new Hooray;
+            hooray.forEach(function (v, i) { return v; });
+            array.forEach(function (v, i) { return v; });
 
-            hooray.forEach(function (v, i) { result.push(v); });
-
-            expect(result.length).toBe(0);
+            expect(hooray.length).toBe(array.length);
+            expect(hooray).toEqual(jasmine.objectContaining(array));
+            expect(Object.keys(hooray).length).toBe(Object.keys(array).length +1);
         });
 
-        it('should break on undefined callback', function () {
-            var hooray = new Hooray(1, 2, 3);
-
+        true && it('should break on undefined callback', function () {
             expect(function () { hooray.forEach() }).toThrowError();
         });
     });
 
-    //EVERY
+    //EVERY BDD
     describe('every', function () {
-        it('should return true on all items matching condition', function () {
-            var hooray = new Hooray(5, 2, 6);
-
-            var result = hooray.every(function (v) { return v > 0; });
-
-            expect(result).toBeTruthy();
+        true && it('should return true on all items matching condition', function () {
+            expect(hooray.every(function (v) { return v >= 0; })).toBeTruthy();
         });
 
-        it('should return false on any of the items not matching the condition', function () {
-            var hooray = new Hooray(5, 2, 6);
+        true && it('should return false on any of the items not matching the condition', function () {
+            expect(hooray.every(function (v) { return v < 2; })).toBeFalsy();
 
-            var result = hooray.every(function (v) { return v < 2; });
-
-            expect(result).toBeFalsy();
         });
 
-        it('should break on undefined callback', function () {
-            var hooray = new Hooray(5, 2, 6);
-
+        true && it('should break on undefined callback', function () {
             expect(function () { hooray.forEach() }).toThrowError();
+
         });
     });
 
-    //SOME
+    //SOME BDD
     describe('some', function () {
-        it('Should return true', function () {
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
+        true && it('Should return true', function () {
+            expect(hooray.some(function (v) { return v > v -1})).toBeTruthy();
+            expect(array.some(function (v) { return v > v -1})).toBeTruthy();
 
-            var result = hooray.some(function (v) { return v === 1 });
-
-            expect(result).toBeTruthy();
         });
 
-        it('should return false', function () {
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
-
-            var result = hooray.some(function (v) { return v > 7 });
-
-            expect(result).toBeFalsy();
+        true && it('should return false', function () {
+            expect(hooray.some(function (v) { return v > v +1 })).toBeFalsy();
+            expect(array.some(function (v) { return v > v +1 })).toBeFalsy();
         });
 
-        it('should break on undefined callback', function () {
-            var hooray = new Hooray(5, 2, 6);
-
+        true && it('should break on undefined callback', function () {
             expect(function () { hooray.forEach() }).toThrowError();
+
         });
     });
 
-    //SORT
+    //SORT NOT BDD BECAUSE THE ARRAY SORT() METOD DO NOT WORK THE SAME WAY (it does 1, 12, 2, not 1, 2, 12);
     describe('sort', function () {
         true && it('Should return the same array', function () {
             var answer = new Hooray(1, 2, 3, 4, 5);
-            var hooray = new Hooray(1, 2, 3, 4, 5);
+            hooray = new Hooray(1, 2, 3, 4, 5);
 
 
             expect(hooray.sort()).toEqual(answer);
-
         });
 
         true && it('Should return it ordenated', function () {
+            
             var answer = new Hooray(1, 3, 4, 5, 6);
-            var hooray = new Hooray(1, 6, 4, 3, 5);
+            hooray = new Hooray(1, 6, 4, 3, 5);
 
             expect(hooray.sort()).toEqual(answer);
         });
 
     });
 
-    //SLICE
+    //SLICE BDD
     describe('slice', function () {
         true && it('Should return an array without the given id', function () {
-            var answer = new Hooray("camel", "duck", "elephant");
-            var hooray = new Hooray('ant', 'bison', 'camel', 'duck', 'elephant');
+            array =  ['ant', 'bison', 'camel', 'duck', 'elephant'];
+            hooray = new Hooray('ant', 'bison', 'camel', 'duck', 'elephant');
 
-            var result = hooray.slice(2);
-
-            expect(result).toEqual(answer);
+            expect(hooray.length).toBe(array.length);
+            expect(hooray).toEqual(jasmine.objectContaining(array));
         });
 
 
         true && it('should add each element starting by the last index', function () {
-            var answer = new Hooray(2, 3, 4);
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
+            array = [1, 2, 3, 4, 5, 6];
+            hooray = new Hooray(1, 2, 3, 4, 5, 6);
 
-            var result = hooray.slice(1, 3);
-
-            expect(result).toEqual(answer);
+            expect(hooray.length).toBe(array.length);
+            expect(hooray).toEqual(jasmine.objectContaining(array));
         });
     });
 
-    //SHIFT !!!
+    //SHIFT BDD
     describe('shift', function () {
         true && it('Should return the substracted element from the original array', function () {
-            var answer = 1;
-            var hooray = new Hooray(1, 2, 3);
+            expect(hooray.shift()).toBe(array.shift());
+            expect(hooray.length).toBe(array.length);
 
-            var result = hooray.shift();
-
-            expect(result).toBe(answer);
         });
 
 
         true && it('should add each element starting by the last index', function () {
-            var answer = new Hooray(2, 3, 4);
-            var hooray = new Hooray(1, 2, 3, 4);
+            expect(hooray.shift()).toEqual(array.shift()); 
+            expect(hooray.length).toBe(array.length);
 
-            hooray.shift()
-
-            expect(hooray).toEqual(answer); // No me la devuelve la cortada.
         });
     });
 
-    //REVERSE
+    //REVERSE BDD
     describe('reverse', function () {
-        true && it('should add each element starting by the last index', function () {
-            var answer = new Hooray(3, 2, 1);
-            var hooray = new Hooray(1, 2, 3);
+        true && it('should reverse the hooray #1', function () {
+            expect(hooray.reverse()).toEqual(jasmine.objectContaining(array.reverse()));
+            expect(hooray.length).toBe(array.length);
 
-            var result = hooray.reverse();
-
-            expect(result).toEqual(answer);
         });
 
-        true && it('should add each element starting by the last index', function () {
-            var answer = new Hooray(6, 7, 1);
-            var hooray = new Hooray(1, 7, 6);
+        true && it('should reverse the hooray #2', function () {
+            expect(hooray.reverse()).toEqual(jasmine.objectContaining(array.reverse()));
+            expect(hooray.length).toBe(array.length);
 
-            var result = hooray.reverse();
-
-            expect(result).toEqual(answer);
         });
     });
 
-    //POP
+    //POP BDD
     describe('pop', function () {
         true && it('should return undefined on empty horray', function () {
-            var hooray = new Hooray();
-
-            var value = hooray.pop();
+            hooray = new Hooray();
 
             expect(hooray.length).toBe(0);
+            expect(hooray.pop()).toBe(undefined);
 
-            expect(value).toBe(undefined);
         });
 
         true && it('should return the array shortened and the value of the last index', function () {
-            var hooray = new Hooray(2, 3);
+            expect(hooray.pop()).toBe(array.pop());
+            expect(hooray.length).toBe(array.length);
 
-            var value = hooray.pop();
-
-            expect(hooray.length).toBe(1);
-
-            expect(value).toBe(3);
         });
     });
 
-    //FILTER
+    //FILTER BDD
     describe('filter', function () {
-        true && it('should fill the array with the value given', function () {
-            var answer = new Hooray("carrot", "tomato", "minishcap", "alloyd");
-            var hooray = new Hooray("hair", "carrot", "tomato", "sun", "minishcap", "alloyd");
+        true && it('should filter the values matching the callback #1', function () {
+            expect(hooray.filter(function (v) { return v.length > 50})).toEqual(jasmine.objectContaining(array.filter(function (v) { return v.length > 50})));
+            expect(hooray.length).toBe(array.length);
 
-            var result = hooray.filter(function (v) { return v.length > 5 });
-
-            expect(result).toEqual(answer);
         });
 
-        true && it('should fill the array with the value given starting on the given index', function () {
-            var answer = new Hooray("minishcap");
-            var hooray = new Hooray("hair", "carrot", "tomato", "sun", "minishcap", "alloyd");
+        true && it('should filter the values matching the callback #2', function () {
+            expect(hooray.filter(function (v) { return v.length < 50})).toEqual(jasmine.objectContaining(array.filter(function (v) { return v.length < 50})));
+            expect(hooray.length).toBe(array.length);
 
-            var result = hooray.filter(function (v) { return v.length - 2 > 5 });
-
-            expect(result).toEqual(answer);
         });
 
         true && it('should break on undefined callback', function () {
-            var hooray = new Hooray(1, 2, 3);
-
             expect(function () { hooray.filter() }).toThrowError();
+
         });
     });
 
-    //MAP
+    //MAP BDD
     describe('map', function () {
         true && it('should break on undefined callback', function () {
-            var hooray = new Hooray(1, 2, 3);
-
             expect(function () { hooray.map() }).toThrowError();
+
         });
 
         true && it('should multiply every element for three', function () {
-            var answer = new Hooray(3, 6, 9, 12, 15, 18);
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
+            expect(hooray.map(function (v) { return v * 3 })).toEqual(jasmine.objectContaining(array.map(function (v) { return v * 3 })));
 
-            var result = hooray.map(function (v) { return v * 3 });
-
-            expect(result).toEqual(answer);
         });
 
         true && it('should add 5 to each element', function () {
-            var answer = new Hooray(6, 7, 8, 9, 10, 11);
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
+            expect(hooray.map(function (v) { return v + 5})).toEqual(jasmine.objectContaining(array.map(function (v) { return v + 5 })));
 
-            var result = hooray.map(function (v) { return v + 5 });
-
-            expect(result).toEqual(answer);
         });
-
     });
 
-    //INDEX OF
+    //INDEX OF "NO BDD PARA CONCRETAR";
     describe('indexof', function () {
         true && it('should return the first index for maching element', function () {
-            var answer = 0;
-            var hooray = new Hooray(1, 2, 1, 3, 1);
+            array = [1, 2, 1, 3, 1];
+            hooray = new Hooray(1, 2, 1, 3, 1);
 
-            var result = hooray.indexof(1);
-
-            expect(result).toBe(answer);
+            expect(hooray.indexof(1)).toBe(array.indexOf(1));
         });
 
         true && it('should should return the first element for matching element looking from given index', function () {
-            var answer = 4;
-            var hooray = new Hooray(1, 2, 1, 3, 1);
+            array = [1, 2, 1, 3, 1];
+            hooray = new Hooray(1, 2, 1, 3, 1);
 
-            var result = hooray.indexof(1, 3);
-
-            expect(result).toBe(answer);
+            expect(hooray.indexof(1, 3)).toBe(array.indexOf(1, 3));
         });
 
         true && it('should give -1 because there is no match', function () {
-            var answer = -1;
-            var hooray = new Hooray(1, 2, 1, 3, 1);
+            array = [1, 2, 1, 3, 1];
+            hooray = new Hooray(1, 2, 1, 3, 1);
 
-            var result = hooray.indexof(6);
-
-            expect(result).toBe(answer);
+            expect(hooray.indexof(6)).toBe(array.indexOf(6));
         });
     });
 
-    //LAST INDEX OF
+    //LAST INDEX OF "NO BDD PARA CONCRETAR";
     describe('lastindexof', function () {
         true && it('should return the last index for matching elements', function () {
-            var answer = 9;
-            var hooray = new Hooray(1, 2, 3, 4, 3, 6, 7, 8, 4, 3);
+            array = [1, 2, 3, 4, 3, 6, 7, 8, 4, 3];
+            hooray = new Hooray(1, 2, 3, 4, 3, 6, 7, 8, 4, 3);
 
-            var result = hooray.lastindexof(3);
+            expect(hooray.lastIndexOf(3)).toBe(array.lastIndexOf(3));
 
-            expect(result).toEqual(answer);
         });
 
         true && it('should return -1 becuase no matching', function () {
-            var answer = -1;
-            var hooray = new Hooray("hola", "adios", "perro");
+            array = ["hola", "adios", "perro"];
+            hooray = new Hooray("hola", "adios", "perro");
 
-            var result = hooray.lastindexof("gato");
-
-            expect(result).toBe(answer);
+            expect(hooray.lastIndexOf("gato")).toBe(array.lastIndexOf("gato"));
         });
     });
 
-    //IS HOORAY
+    //IS HOORAY BDD
     describe('ishooray', function () {
         true && it('should return true because it is a hooray', function () {
-            var hooray = new Hooray(1, 2, 1, 3, 1);
+            expect(Hooray.isHooray(hooray)).toBeTruthy();
 
-            var result = Hooray.isHooray(hooray);
-
-            expect(result).toBeTruthy();
         });
 
         true && it('should return false because it is not a hooray', function () {
-            var a = 3;
+            expect(Hooray.isHooray(r3)).toBeFalsy();
 
-            var result = Hooray.isHooray(a);
-
-            expect(result).toBeFalsy();
         });
     });
 
-    //JOIN
+    //JOIN BDD
     describe('join', function () {
         true && it('should join every value directly', function () {
-            var answer = "666"
-            var hooray = new Hooray(6, 6, 6);
+            expect(hooray.join("")).toBe(array.join(""));
 
-            var result = hooray.join("");
-
-            expect(result).toBe(answer);
         });
 
         true && it('shouldjoin values with an space', function () {
-            var answer = "calle 2 puerta 4"
-            var hooray = new Hooray("calle", 2, "puerta", 4);
+            expect(hooray.join(r3)).toBe(array.join(r3));
 
-            var result = hooray.join(" ");
-
-            expect(result).toBe(answer);
-        });
-
-        true && it('should join with backslashes', function () {
-            var answer = "solo/2/3"
-            var hooray = new Hooray("solo", 2, 3);
-
-            var result = hooray.join("/");
-            expect(result).toBe(answer);
         });
     });
 
-    //SPLICE
+    //SPLICE BDD
     describe('splice', function () {
         true && it('Should return the array with the element introduced on the given index', function () {
-            var answer = new Hooray('ant', 'bison', 'cabra', 'camel', 'duck', 'elephant');
-            var hooray = new Hooray('ant', 'bison', 'camel', 'duck', 'elephant');
-
-            var result = hooray.splice(2, 0, "cabra");
-
-            expect(result).toEqual(answer);
+            expect(hooray.splice(2, 0, "cabra")).toEqual(jasmine.objectContaining(array.splice(2, 0, "cabra")));
+            expect(hooray.length).toBe(array.length);
+        });
+            
+        true && it('return the array with the element introduced on the given index', function () {
+            expect(hooray.splice(2, 1, "cabra")).toEqual(jasmine.objectContaining(array.splice(2, 1, "cabra")));
+            expect(hooray.length).toBe(array.length);
         });
 
-
-        true && it('should add each element starting by the last index', function () {
-            var answer = new Hooray('ant', 'bison', 'cabra', 'duck', 'elephant');
-            var hooray = new Hooray('ant', 'bison', 'camel', 'duck', 'elephant');
-
-            var result = hooray.splice(2, 1, "cabra");
-
-            expect(result).toEqual(answer);
-        });
-
-
-        it('should break on undefined callback', function () {
-            var hooray = new Hooray(5, 2, 6);
-
+        true && it('should break on undefined callback', function () {
             expect(function () { hooray.splice() }).toThrowError();
         });
     });
 
-    //REDUCE
+    //REDUCE BDD
     describe('reduce', function () {
         true && it('should add all the elements', function () {
-            var answer = 21;
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
-
-            var result = hooray.reduce(function (acc, value) { return acc + value });
-
-            expect(result).toBe(answer);
+            expect(hooray.reduce(function (acc, value) { return acc + value })).toBe(array.reduce(function (acc, value) { return acc + value }));
         });
 
         true && it('should add add all elements plus 2', function () {
-            var answer = 23;
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
-
-            var result = hooray.reduce(function (acc, value) { return acc + value }, 2);
-
-            expect(result).toBe(answer);
+            expect(hooray.reduce(function (acc, value) { return acc + value }, 2)).toBe(array.reduce(function (acc, value) { return acc + value }, 2));
         });
 
         true && it('should break on undefined callback', function () {
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
-
             expect(function () { hooray.reduce() }).toThrowError();
+
         });
     });
 
-    //REDUCE RIGHT
-    describe('reduceright', function () {
-        true && it('should add each element starting by the last index', function () {
-            var answer = 21;
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
-
-            var result = hooray.reduceright(function (acc, value) { return acc + value });
-
-            expect(result).toBe(answer);
+    //REDUCE RIGHT BDD
+    describe('reduce right', function () {
+        true && it('should add all the elements', function () {
+            expect(hooray.reduceRight(function (acc, value) { return acc + value })).toBe(array.reduceRight(function (acc, value) { return acc + value }));
         });
 
-        true && it('should add each element starting by the last index', function () {
-            var answer = 23;
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
-
-            var result = hooray.reduceright(function (acc, value) { return acc + value }, 2);
-
-            expect(result).toBe(answer);
+        true && it('should add add all elements plus 2', function () {
+            expect(hooray.reduceRight(function (acc, value) { return acc + value }, 2)).toBe(array.reduceRight(function (acc, value) { return acc + value }, 2));
         });
 
         true && it('should break on undefined callback', function () {
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6);
-
-            expect(function () { hooray.reduceright() }).toThrowError();
+            expect(function () { hooray.reduceRight() }).toThrowError();
+            
         });
     });
 
-    //FILL
+    //FILL BDD
     describe('fill', function () {
         true && it('should fill the array with the value given', function () {
-            var answer = new Hooray(4, 4, 4, 4, 4, 4, 4);
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6, 7);
+            expect(hooray.fill(r)).toEqual(jasmine.objectContaining(array.fill(r)));
 
-            var result = hooray.fill(4);
-
-            expect(result).toEqual(answer);
         });
 
         true && it('should fill the array with the value given starting on the given index', function () {
-            var answer = new Hooray(1, 2, 3, 4, 4, 4, 4);
-            var hooray = new Hooray(1, 2, 3, 4, 5, 6, 7);
+            expect(hooray.fill(r, 2)).toEqual(jasmine.objectContaining(array.fill(r, 2)));
 
-            var result = hooray.fill(4, 3);
-
-            expect(result).toEqual(answer);
         });
     });
 
-    //CONCAT
+    //CONCAT BDD
     describe('concat', function () {
         true && it('should return an array with all items concadenated', function () {
-            var hooray = new Hooray("The", "world", "is");
-            var hoorayX = new Hooray("a", "fuckin*", "hell");
-            var hoorayY = new Hooray(6, 6, 6);
+            expect(hooray.concat(hooray2, hooray3)).toEqual(jasmine.objectContaining(array.concat(array2, array3)));
 
-            var result = hooray.concat(hoorayX, hoorayY);
-
-            var answer = new Hooray("The", "world", "is", "a", "fuckin*", "hell", 6, 6, 6);
-
-            expect(result).toEqual(answer);
-        });
-
-        true && it('should return an array with all items concadenated', function () {
-            var answer = new Hooray("The", "world", "is", 6, 6, 6)
-
-            var hooray = new Hooray("The", "world", "is");
-            var hoorayX = new Hooray(6, 6, 6);
-
-            var result = hooray.concat(hoorayX);
-
-            expect(result).toEqual(answer);
         });
     });
 });

@@ -47,7 +47,6 @@ Hooray.prototype.forEach = function (callback) {
     })(0);
 }
 
-
 //CONCAT
 /**
  * This function will take as many arrays as arguments as wished and it will write a new one with all the items in order of introduction.
@@ -94,7 +93,6 @@ Hooray.prototype.every = function (callback) {
 
     return true;
 };
-
 
 // FILL
 /** 
@@ -167,7 +165,6 @@ Hooray.prototype.filter = function (callback) {
 //INDEX OF
 /**It will look for an element on an array, it will retur -1 if it is not present or the value of the last index presented.
  * 
- * @param {array} array array to iterate
  * @param {element} searchElement value to look for index
  * @param {number} index first value to start looking
  */
@@ -199,7 +196,6 @@ Hooray.prototype.indexof = function (searchElement, startingIndex) {
 //JOIN
 /**It while join all the values of an array into a string.
  * 
- * @param {array} array Array to iterate 
  * @param {primitive} separator value between valies
  */
 
@@ -226,7 +222,7 @@ Hooray.prototype.join = function (separator) {
  * @param {element} searchElement vale to look for index
  */
 
-Hooray.prototype.lastindexof = function (searchElement) {
+Hooray.prototype.lastIndexOf = function (searchElement) {
     var i, j = -1;
 
     for (i = 0; i < this.length; i++) {
@@ -240,7 +236,6 @@ Hooray.prototype.lastindexof = function (searchElement) {
 //MAP
 /**It will create a new array with an iteration of the original after passing for the callback fuction.
  * 
- * @param {array} array array to iterate
  * @param {function} callback function to proces each element.
  */
 
@@ -328,7 +323,7 @@ Hooray.prototype.reduce = function (callback, initial) {
  * @param {number} initial number to initialize
  */
 
-Hooray.prototype.reduceright = function (callback, initial) {
+Hooray.prototype.reduceRight = function (callback, initial) {
     if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
     if (isNaN(initial) && initial !== undefined) throw TypeError(initial + ' is not a starting value');
 
@@ -353,7 +348,6 @@ Hooray.prototype.reduceright = function (callback, initial) {
 /**
  * This will reverse the elemets of a given array
  * 
- * @param {array} array array to iterate
  */
 
 Hooray.prototype.reverse = function () {
@@ -482,13 +476,18 @@ Hooray.prototype.splice = function (start, todelete, items) {
     if (isNaN(start) && start === undefined) throw TypeError(start + ' is not a starting value');
     if (todelete > (this.length - start) || todelete === undefined) { todelete = this.length - start };
 
-    var items = new Hooray(), initial = new Hooray(), end = new Hooray(), tempHoo = new Hooray(), i;
+    var items = new Hooray(), initial = new Hooray(), end = new Hooray(), tempHoo = new Hooray(), i, remover = [];
 
     //add the items for the arguments in items array;
     if (arguments.length > 2) {
         for (i = 2; i < arguments.length; i++) {
             items[items.length++] = arguments[i];
         }
+    }
+
+    // SAVING THE INDEX TO REMOVE
+    for (i = start; i < (start + todelete); i++){
+        remover[remover.length++] = this[i];
     }
 
     //Start of the new
@@ -520,5 +519,5 @@ Hooray.prototype.splice = function (start, todelete, items) {
         this[this.length++] = tempHoo[i];
     }
 
-    return this;
+    return remover;
 };
