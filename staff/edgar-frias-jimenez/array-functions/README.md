@@ -17,7 +17,7 @@ Here are the implemented methods:
 - **Array.prototype.reduceRight() with error tests**
 - **Array.prototype.reverse() with error tests**
 - **Array.prototype.shift() with error tests**
-- Array.prototype.slice()
+- **Array.prototype.slice() with error tests**
 - **Array.prototype.some() with error tests**
 - **Array.prototype.sort() with error tests**
 - **Array.prototype.splice() with error tests**
