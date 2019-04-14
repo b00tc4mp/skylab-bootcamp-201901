@@ -798,6 +798,7 @@ describe("hooray", function() {
     var array;
     var hooray;
     var someStart;
+    var actualStart;
     var someDeleteCount;
     var someItemsToAdd;
     var singleItem;
@@ -805,8 +806,10 @@ describe("hooray", function() {
     beforeEach(function () {
       array = randomArray(undefined, function () { return String(Math.ceil(Math.random() * 1000 + 1));});
       hooray = newHorrayFromArray(array);
-      someStart = Math.floor(array.length * Math.random());
-      someDeleteCount = Math.floor(Math.random() * (array.length - someStart));
+      var len = array.length;
+      var start = Math.floor(len * Math.random()) * (Math.random() < 0.5 ? 1 : -1);
+      someStart = start < 0 ? Math.max(len + start,0) : Math.min(start, len);
+      someDeleteCount = Math.floor(Math.random() * (len - someStart));
       someItemsToAdd = randomArray(undefined, function () { return String(Math.ceil(Math.random() * 1000 + 1));});
       singleItem = String(createRandomDefaultFn(3));
     });
@@ -815,42 +818,56 @@ describe("hooray", function() {
       array = undefined;
       hooray = undefined;
       someStart = undefined;
+      actualStart = undefined;
       someDeleteCount = undefined;
       someItemsToAdd = undefined;
       singleItem = undefined;
     });
 
     it("should inserts 1 item at 1st index position", function() {      
-      array.splice(1, 0, singleItem);
-      var expected = resultObjectFromArray(array)
+      var arrayReturnedValue = array.splice(1, 0, singleItem);
+      var expectedReturn = resultObjectFromArray(arrayReturnedValue)
+      var expected = resultObjectFromArray(array);
 
-      hooray.splice(1, 0, singleItem);
+      var hoorayReturnedValue = hooray.splice(1, 0, singleItem);
+      expect(hoorayReturnedValue).toEqual(jasmine.objectContaining(expectedReturn));
+      expect(arrayReturnedValue.length).toBe(arrayReturnedValue.length);
       expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
 
-    it("should replaces 1 element at some index", function() {
-      array.splice(someStart, 0, singleItem);
-      var expected = resultObjectFromArray(array)
+    it("should replaces 1 element at some index(positive or negative)", function() {
+      var arrayReturnedValue = array.splice(someStart, 0, singleItem);
+      var expectedReturn = resultObjectFromArray(arrayReturnedValue)
+      var expected = resultObjectFromArray(array);
 
-      hooray.splice(someStart, 0, singleItem);
+      var hoorayReturnedValue = hooray.splice(someStart, 0, singleItem);
+      expect(hoorayReturnedValue).toEqual(jasmine.objectContaining(expectedReturn));
+      expect(arrayReturnedValue.length).toBe(arrayReturnedValue.length);
       expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
 
-    it("should replaces several elements at some index no deleting items", function() {
+    it("should replaces several elements at some index(positive or negative) no deleting items", function() {
       var args = [someStart, 0].concat(someItemsToAdd);
-      Array.prototype.splice.apply(array, args);
-      var expected = resultObjectFromArray(array)
+      var arrayReturnedValue = Array.prototype.splice.apply(array, args);
+      var expectedReturn = resultObjectFromArray(arrayReturnedValue)
+      var expected = resultObjectFromArray(array);
 
-      Hooray.prototype.splice.apply(hooray, args);
+      var hoorayReturnedValue = Hooray.prototype.splice.apply(hooray, args);
+      expect(hoorayReturnedValue).toEqual(jasmine.objectContaining(expectedReturn));
+      expect(arrayReturnedValue.length).toBe(arrayReturnedValue.length);
       expect(hooray).toEqual(jasmine.objectContaining(expected));
     });
 
-    it("should replaces several elements at some index deleting items", function() {
+    it("should replaces several elements at some index(positive or negative) deleting items", function() {
       var args = [someStart, someDeleteCount].concat(someItemsToAdd);
-      Array.prototype.splice.apply(array, args);
-      var expected = resultObjectFromArray(array)
 
-      Hooray.prototype.splice.apply(hooray, args);
+      var arrayReturnedValue = Array.prototype.splice.apply(array, args);
+      var expectedReturn = resultObjectFromArray(arrayReturnedValue)
+      var expected = resultObjectFromArray(array);
+
+      var hoorayReturnedValue = Hooray.prototype.splice.apply(hooray, args);
+      expect(hoorayReturnedValue).toEqual(jasmine.objectContaining(expectedReturn));
+      expect(arrayReturnedValue.length).toBe(arrayReturnedValue.length);
       expect(hooray).toEqual(jasmine.objectContaining(expected));
     });    
   });

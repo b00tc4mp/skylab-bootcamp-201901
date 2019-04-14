@@ -397,14 +397,23 @@ Hooray.prototype.sort = function (comparefn) {
  * @returns {Hooray} Modified hooray
  */
 Hooray.prototype.splice = function (start, deleteCount) {
+  var len = this.length;
+  var actualStart = start < 0 ? Math.max(len+start,0) : Math.min(start, len);
+  var actualDeleteCount = Math.min(Math.max(deleteCount,0), len - actualStart);
+
+  var returnResult = new Hooray();
+  for (var k=0; k < actualDeleteCount; k++) {
+    returnResult.push(this[actualStart+k]);
+  }
+
   var result = new Hooray();
-  for (var i = 0; i < Math.min(start, this.length); i++) {
+  for (var i = 0; i < Math.min(actualStart, len); i++) {
     result.push(this[i]);
   }
   for (var i = 2; i < arguments.length; i++) {
     result.push(arguments[i]);
   }
-  for (var i = start + deleteCount; i < this.length; i++) {
+  for (var i = actualStart + deleteCount; i < len; i++) {
     result.push(this[i])
   }
 
@@ -415,9 +424,10 @@ Hooray.prototype.splice = function (start, deleteCount) {
       this.pop()
     }
   }
+
   for (var i = 0; i < this.length; i++) {
     this[i] = result[i]; 
   }
-  return this;
+  return returnResult;
 }
 
