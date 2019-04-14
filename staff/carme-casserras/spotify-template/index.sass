@@ -1,0 +1,106 @@
+
+$color: white
+$width: 100%
+%head-footer-share
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    
+body
+    background: black
+    width: 100%
+    height: 100%
+    margin: 0
+    padding: 0
+    font-family: Arial, Helvetica, sans-serif    
+
+.head
+    @extend %head-footer-share
+    // height: 100px
+    padding-top: 1em  
+    
+#spotify-logo
+    width: 40%
+    height: 40%   
+    margin-bottom: 1.5em
+      /* For tablets: */
+    @media screen and (min-width: 700px) 
+        width: 20%
+        height: 20%
+
+.button
+    border-radius: 1.2em
+    background: rgb(43, 199, 90)  
+    margin-top: 25px
+    padding: .5em 2em
+    color: $color
+    border: 0
+     /* For tablets: */
+    @media screen and (min-width: 700px) 
+        width: 25%
+        height: 25%
+
+%disk__title-share
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    //position: relative
+    padding: .5em
+
+.disk
+    display: flex
+    flex-direction: column
+    align-items: center
+    overflow-x: hidden
+    
+    
+    &__sentence   
+        width: 11em
+        font-size: 1.5em
+        font-weight: bold
+        color: $color
+        text-align: center
+
+    &__title
+        @extend %disk__title-share
+        /* For tablets: */
+       
+        @media screen and (min-width: 700px) 
+            grid-template-columns: repeat(4, 1fr)
+
+        & > img                
+            width: $width  
+                
+        & > div
+            position: relative
+
+        & > div > img
+            width: $width    
+            margin: 0
+            display: block
+            // padding: .5em
+            z-index: -1
+            opacity: .2
+
+        & > div > i
+            position: absolute
+            font-size: 3em
+            color: white
+            left: 40% 
+            top: 40%
+
+        
+footer
+    @extend %head-footer-share    
+    text-align: center
+    font-size: .7em
+    color: $color
+    margin: 2em
+
+footer > p    
+    opacity: .7
+    margin: .5em
+     
+
+
+        
