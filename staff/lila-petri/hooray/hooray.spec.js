@@ -84,7 +84,7 @@ describe("hooray", function() {
 
         var result = new Hooray();
 
-        hooray.forEach(function(v, i) {
+        hooray.forEach(function(v) {
           result.push(v);
         });
 
@@ -356,34 +356,14 @@ describe("hooray", function() {
       });
   });
   describe("shift", function() {
-    true && it("Should return the first element form the hooray", function() {
+    true && it("Should return the first element form the hooray and modify the lenght of the obejet", function() {
         var hooray = new Hooray("a", "b", "c");
         var result = new Hooray();
         var expected = "a";
         var expectedHorray = new Hooray("b", "c");
         result = hooray.shift();
         expect(expected).toBe(result);
-        // expect(expectedHorray).toEqual(jasmine.objectContaining(hooray));
-      });
-
-    !true && it("Should return undefine in case of empty array", function() {
-        var array = [];
-        var result;
-        var expected = undefined;
-
-        result = shift(array);
-
-        expect(expected, result);
-      });
-
-    !true && it("should fail on undefined array", function() {
-        try {
-          shift();
-
-          throw Error("should not reach this point");
-        } catch (error) {
-          expect(error.message, "undefined is not an array");
-        }
+        expect(expectedHorray).toEqual(jasmine.objectContaining(hooray));
       });
   });
   describe("some", function() {
@@ -517,17 +497,100 @@ describe("hooray", function() {
 
 });
 
-// describe('reverse', function(){
-//     !true && it('Should return an array with all its elements reversed.', function(){
-//         var hooray= new Hooray(1,2,3);
-//         var expected=new Horray(3,2,1);
-//         var result=new Hooray;
-//         result=hooray.reverse();
+describe('reverse', function(){
+    true && it('Should return an array with all its elements reversed.', function(){
+       
+        var hooray= new Hooray(1,2,3,4);
+        var expected=new Hooray(4,3,2,1);
+        var result=new Hooray;
+        result=hooray.reverse();
 
-//         expect(expected).toEqual(jasmine.objectContaining(result));
+        expect(expected).toEqual(jasmine.objectContaining(result));
 
-//     });
+    });
+});
+describe('slice', function(){
+  true && it('Should return a copy of the array form index to the end index', function(){
+      var hooray= new Hooray(1,2,3,4,5,6);
+      var index=2;
+      var indexEnd=4;
+      var result= new Hooray;
+      var expected= new Hooray(3,4);
+      var expectedArray= new Hooray(1,2,3,4,5,6);
+      result=hooray.slice(index, indexEnd);
+      expect(expected).toEqual(jasmine.objectContaining(result));
+      expect(expectedArray).toEqual(jasmine.objectContaining(hooray));
+  });
 
-// });
+  true && it("should return a copy of the same horrya on undefined arguments", function() {
+      var hooray= new Hooray(1,2,3);
+      var expected= new Hooray(1,2,3);
+      var result= new Hooray;
+      result=hooray.slice();
+      expect(expected).toEqual(jasmine.objectContaining(result));
 
+    });
+  });
+  describe('splice', function(){
+    true && it('Should return the array without an specific element', function(){
+      var hooray=new Hooray(1,2,3,4,5);
+      var index=3;
+      var expected=new Hooray(1,2,3,5);
+      var result= new Hooray;
+      result=hooray.splice(index);
+
+      expect(expected).toEqual(jasmine.objectContaining(result));
+
+    });
+    true && it('Should modify the array with the new elements', function(){
+      var hooray=new Hooray(1,2,3,4,5);
+      var index=3;
+      var expected=new Hooray(1,2,3,'a','b');
+      var result= new Hooray;
+      var deleteCount=2;
+      result=hooray.splice(index,deleteCount,'a','b');
+
+      expect(expected).toEqual(jasmine.objectContaining(result));
+
+    });
+    
+    true && it('Should fail on undefined arguments', function(){
+      var hooray=new Hooray(1,2,3,4,5);
+        try{
+          debugger
+          hooray.splice();
+            throw Error ('should not reach this point');
+
+        }catch(error){
+            
+            expect(error.message).toBe('You have to send at least start index');
+
+        }
+
+    });
+
+  });
+  describe('sort', function(){
+    true && it('Should order elemnts the hooray ', function(){
+        var hooray=new Hooray(5,2,1,3,5,1);
+        var expected=new Hooray(1,1,2,3,5,5);
+        var result= new Hooray;
+        result=hooray.sort();
+
+        expect(expected).toEqual(jasmine.objectContaining(result));
+
+    });
+
+    true && it('Should return the same array if it an empty array', function(){
+       
+        var hooray=new Hooray;
+        var expected=new Hooray;
+        var result= new Hooray;
+        result=hooray.sort();
+
+        expect(expected).toEqual(jasmine.objectContaining(result));
+
+    });
+
+});
 });

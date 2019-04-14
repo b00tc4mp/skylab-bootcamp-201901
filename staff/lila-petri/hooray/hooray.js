@@ -67,8 +67,7 @@ Hooray.prototype.concat = function(hooray) {
     newhorray.push(arguments[0][i]);
   }
   return newhorray;
-};
-
+}
 /**
  * Iterates an hooray and evaluates an expression on each of its values, returning true if all of them match it. Otherwise returns false.
  *
@@ -84,7 +83,7 @@ Hooray.prototype.every = function(callback) {
     if (!callback(this[i])) return false;
 
   return true;
-};
+}
 /**
  * Iterates an hooray and get a new hooray form the original hooray
  * @param {Hooray} hooray
@@ -102,7 +101,7 @@ Hooray.prototype.filter = function(callback) {
     }
   }
   return hooray;
-};
+}
 
 /** Given an hooray and a value, the function returns the index where is the value inside the hooray
  * If the value is not on the array the function returns -1
@@ -121,7 +120,7 @@ Hooray.prototype.indexOf = function(searchElement) {
     }
   }
   return -1;
-};
+}
 
 /**
  * This method verify if the param is an hooray
@@ -131,11 +130,11 @@ Hooray.prototype.indexOf = function(searchElement) {
 
 Hooray.prototype.isArray = function() {
   return this instanceof Hooray;
-};
+}
 
 Hooray.isHooray = function(obj) {
   return obj.constructor === Hooray;
-};
+}
 /**
  * Join all the elements of the hooray
  * @param {Hooray} hooray
@@ -156,7 +155,7 @@ Hooray.prototype.join = function(separator) {
     value += this[i];
   }
   return value;
-};
+}
 /**
  * Ceate a new hooray with the results of the function called
  * @param {Hooray} horray to evaluate
@@ -173,27 +172,26 @@ Hooray.prototype.map = function(callback) {
   }
 
   return newarray;
-};
+}
 /**
  * Retunr the first element of the hooray and move the rest of the elements on the hooray to the correct position
  * @param {Hooray} array
  *
  * @returns {Element} first element of the array
  */
-
 Hooray.prototype.shift = function() {
-  if (this.length > 0) {
-    var values = Object.values(this);
-    var el = values[0];
-    var keys = Object.keys(this);
-    var key = keys[0];
-    delete this[key];
-    for (var i = 0; i < this.length; i++) {
-      this[i] = this[i - 1];
-    }
-    return el;
+
+  var firstItem = this[0];
+
+  for (var i=1; i < this.length; i++) {
+      this[i-1] = this[i];
   }
-};
+  delete this[this.length - 1]
+  this.length = this.length - 1;
+
+  return firstItem;
+  
+}
 /**
  * Iterates an array and check if at least one element of the array meets the condition implemented by the function
  * @param {Hooray} hooray  to check
@@ -210,7 +208,7 @@ Hooray.prototype.some = function(callback) {
     }
   }
   return flag;
-};
+}
 
 /**
  * Returns the last index at which a given element can be found in the hooray, or -1 if it is not present.
@@ -235,7 +233,6 @@ Hooray.prototype.lastIndexOf = function(searchElement, fromIndex) {
       indexStart = fromIndex;
     }
   }
-
   for (var i = indexStart; i >= 0; i--) {
     if (this[i] === searchElement) {
       return i;
@@ -252,8 +249,7 @@ Hooray.prototype.lastIndexOf = function(searchElement, fromIndex) {
  */
 
 Hooray.prototype.reduce = function(callback) {
-  if (typeof callback !== "function")
-    throw TypeError(callback + " is not a function");
+  if (typeof callback !== "function") throw TypeError(callback + " is not a function");
   var accumulated = this[0];
   for (var i = 1; i < this.length; i++) {
     accumulated = callback(accumulated, this[i]);
@@ -282,24 +278,118 @@ Hooray.prototype.reduceRight= function(callback){
  * 
  * @returns the horray with all elements reverted
  */
-// Hooray.prototype.reverse= function(){
-//     var hooray2=new Hooray;
-//     for (var i = this.length-1 ; i >= 0; i--){
-//         hooray2.push(this[i])
-        
-//     }
-//     return this=hooray2;
+Hooray.prototype.reverse= function(){
+    var hooray2=new Hooray;
+    for (var j=0; j<this.length;j++){
+      hooray2.push(this[j]);
+    }
+    var count=0;
+    for (var i = hooray2.length-1 ; i >= 0; i--){
+      this[count]=hooray2[i];  
+      count++;
+    }
+    
+    return this
+  }
+/**
+ * Returns a copy of a part of the horray within a new horray 
+ * @param {Hooray} horray horray to copy 
+ * @param {Number} index initial position since start the copy
+ * @param {Number} end end position to copy
+ * 
+ * @returns {Hooray} the new hooray form the origin one
+ */
 
-// }
-// function reverse(array){
-//     if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
-//     count=0;
-//     array2=[];
-//     for (var i = array.length-1 ; i >= 0; i--){
-//         array2[count]=array[i];
-//         count++
-//     }
-//    return array=array2;
-// }
+Hooray.prototype.slice = function(index, end){
+  var newHorray=new Hooray;
+    if(index>this.length-1) return newHorray 
+    if (index===undefined){
+        index=0;
+    }
+    if (end===undefined){
+        end=this.length;
+    }
+    for(var i=0;i<end;i++){
+            if(i===index){
+                for(var j=i;j<end;j++){
+                  newHorray.push(this[j]);
+                }
+                return newHorray;
+            }
+        }
+}
 
+/**
+ *  Changes the contents of an hoorar by removing or replacing existing elements and/or adding new elements 
+ * 
+ * @param {Hooray} hooray    Array to iterate
+ * @param {number} start   Index to start of cutting
+ * @param {number} deleteCount number of elements to delete
+ * @param {any} item1, item2,... All items to add instead of chopped elements 
+ * 
+ * @returns {Hooray} Modified array
+ */
+Hooray.prototype.splice= function(start, deleteCount){
+  if(start === undefined)throw Error ('You have to send at least start index')
+  var result = new Hooray;
+  for (var i = 0; i < Math.min(start, this.length); i++) {
+    result.push(this[i]);
+  }
+  for (var i = 2; i < arguments.length; i++) {
+    result.push(arguments[i]);
+  }
+  if(deleteCount===undefined) deleteCount=1;
+  for (var i = start + deleteCount; i < this.length; i++) {
+    result.push(this[i]);
+  }
+  this.length = result.length;
+  for (var i = 0; i < this.length; i++) {
+    this[i] = result[i]; 
+  }
+  return result;
+
+}
+
+/**
+ * Returns a hooray ordered
+ * @param {Hooray} array to order
+ * 
+ * @returns {Horray} Hooray ordered 
+ */
+Hooray.prototype.sort= function(){
+  if(this.length===0) return this;
+  var done = false;
+  while (!done) {
+    done = true;
+    for (var i = 1; i < this.length; i += 1) {
+      if (this[i - 1] > this[i]) {
+        done = false;
+        var tmp = this[i - 1];
+        this[i - 1] = this[i];
+        this[i] = tmp;
+      }
+    }
+  }
+
+  return this;
+
+}
+// function sort(array) {
+//   if(!(array instanceof Array)) throw TypeError(array + ' is not an array');
+//   if(array.length===0) return []
+//   var done = false;
+//   while (!done) {
+//     done = true;
+//     for (var i = 1; i < array.length; i += 1) {
+//       if (array[i - 1] > array[i]) {
+//         done = false;
+//         var tmp = array[i - 1];
+//         array[i - 1] = array[i];
+//         array[i] = tmp;
+//       }
+//     }
+//   }
+
+//   return array;
+// }
 
