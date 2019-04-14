@@ -1,45 +1,33 @@
 'use strict';
 
-
-
-
 describe('reverse', function(){
     it('should return...', function(){
         var array = [1, 2, 3, 4];
         var result = reverse(array);
         var exp = [4, 3, 2, 1];
 
-
-
         expect(result, exp); 
 
     });
 
-    // it('shoul ..', function(){
-    //     var array = [1, 2, 3, 4];
+    it('message', function() {
 
-
-    //     expect(result,);
-
-    // });
-
-
-
-    // it('shoul...........', function(){
+        
 
 
         
-    //     try {
-    //         reverse()
+        try {
+            reverse()
             
-    //         throw Error('should not reach this point');
+            throw Error('should not reach this point');
             
-    //     } catch (error) {
+        } catch (error) {
             
-    //         expect(error.message, ".....");
+            expect(error.message, "..........");
             
-    //     }
-    // });
+        }
+       
+    });
         
 });
 

@@ -8,6 +8,7 @@ function isArray(arr) {
     if ((typeof arr === 'undefined')) throw TypeError(`is undefined`);
     else{
         return arr instanceof Array;
+        
     } 
     
 }

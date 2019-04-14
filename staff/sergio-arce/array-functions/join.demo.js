@@ -1,25 +1,32 @@
-console.log('DEMO', 'join');
+'use strict';
 
-var elements = ['Fire', 'Wind', 'Rain'];
+describe('join', function(){
+    it('should return ', function(){
+        var array = ['Fire', 'Wind', 'Rain'];
+        var result = join(array);
+        var exp = "Fire,Wind,Rain";
 
-
-console.log('case 1');
-
-console.log(join(elements));
-// "Fire,Wind,Rain";
-
-
-
-console.log('case 2');
-
-console.log(join(elements, ' / '));
-
-// "Fire / Wind / Rain";
+        expect(result, exp);
+    });
 
 
+    it('menssage', function(){
+        var array = ['Fire', 'Wind', 'Rain'];
+        var result = join(array, ' / ');
+        var exp = "Fire / Wind / Rain";
 
-console.log('case 3');
+        expect(result, exp); 
+    });
 
-console.log(join(elements, ' - '));
+    it('should ', function(){
 
-// "Fire - Wind - Rain";
+        try {
+            join();
+// me da error en la consola
+            throw Error('should not reach this point');
+        } catch (error) {
+            expect(erro.message, "erro is not defined");
+        }
+    });
+});
+
