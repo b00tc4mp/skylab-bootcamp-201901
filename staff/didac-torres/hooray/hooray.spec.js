@@ -426,4 +426,82 @@ describe('hooray', function () {
             }
         });
     });
+    describe('Map', function () {
+        true && it('should break on undefined callback', function () {
+            var hooray = new Hooray(1, 2, 3);
+
+            try {
+                hooray.map();
+
+                throw Error('should not reach this point');
+            } catch (error) {
+                expect(error.message).toBe('undefined is not a function');
+            }
+        });
+
+        true && it('should work as an array map', function () {
+            var hooray = new Hooray(1, 5, 10, 15);
+            var expected = new Hooray(2, 10, 20, 30);
+            var mapped = hooray.map(function (x) {
+                return x * 2;
+            });
+            expect(JSON.stringify(mapped)).toBe(JSON.stringify(expected));
+        });
+    });
+
+    describe('Shift', function () {
+        true && it('should work as an array shift', function () {
+            var hooray = new Hooray('angel', 'payaso', 'mandarín', 'cirujano');
+            var eliminado = hooray.shift();
+            expect(eliminado).toBe('angel');
+        });
+    });
+    describe('LastindexOf', function () {
+        true && it('should return index of first item matching condition', function () {
+            var hooray = new Hooray(1, 2, 3);
+
+            var elem1 = 1;
+
+            var exp = 0;
+
+            var result = hooray.lastindexOf(elem1);
+
+            expect(result).toBe(exp);
+        });
+
+        true && it('should return -1 if item not matching condition', function () {
+
+            var hooray = new Hooray(3, 4, 6);
+
+            var elem1 = 2;
+
+            var exp = -1;
+
+            var result = hooray.lastindexOf(elem1);
+
+            expect(result).toBe(exp);
+        });
+
+        true && it('should return -1 if item is undefined', function () {
+
+            var hooray = new Hooray(3, 7, 6);
+
+            var exp = -1;
+
+            var result = hooray.lastindexOf();
+
+            expect(result).toBe(exp);
+        });
+
+    });
+    describe('join', function () {
+        true && it('should join elements of array', function () {
+            var hooray = new Hooray('good', 'BOY', 'cat');
+            var expected = 'good,BOY,cat';
+            var result = hooray.join(',');
+
+            expect(result).toBe(expected);
+
+        });
+    });
 });

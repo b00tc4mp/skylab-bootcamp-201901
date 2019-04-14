@@ -151,39 +151,39 @@ Hooray.prototype.filter = function (callback) {
 	return hooray2;
 }
 
-Hooray.prototype.some =function (callback) {
-    if (!(this instanceof Hooray)) throw TypeError("horray param is not an horray");
-    if (!(callback instanceof Function)) throw TypeError("undefined is not a function");
+Hooray.prototype.some = function (callback) {
+	if (!(this instanceof Hooray)) throw TypeError("horray param is not an horray");
+	if (!(callback instanceof Function)) throw TypeError("undefined is not a function");
 
-    for (var i = 0; i < this.length; i++) {
-        if (callback(this[i], i))  {
-            return true;
-        }
-    }
-    return false;
+	for (var i = 0; i < this.length; i++) {
+		if (callback(this[i], i)) {
+			return true;
+		}
+	}
+	return false;
 }
-Hooray.prototype.reduce = function(callback,inicial){
-    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
-    var redu;
-    (typeof inicial === 'undefined')? redu = this[0] : redu = inicial;
-    for (var i = 1; i < this.length; i++){
-        (typeof inicial === 'undefined')? redu=callback(redu,this[i]) : redu=callback(redu,this[i])
-    }
-    return redu;
+Hooray.prototype.reduce = function (callback, inicial) {
+	if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+	var redu;
+	(typeof inicial === 'undefined') ? redu = this[0] : redu = inicial;
+	for (var i = 1; i < this.length; i++) {
+		(typeof inicial === 'undefined') ? redu = callback(redu, this[i]) : redu = callback(redu, this[i])
+	}
+	return redu;
 }
-Hooray.prototype.reduceright = function(callback,inicial){
-    if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
-    var redu;
-    (typeof inicial === 'undefined')? redu = this[this.length-1] : redu = inicial;
-    for (var i = this.length-2; i > 0; i--){
-        (typeof inicial === 'undefined')? redu=callback(redu,this[i]) : redu=callback(redu,this[i])
-    }
-    return redu;
+Hooray.prototype.reduceright = function (callback, inicial) {
+	if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+	var redu;
+	(typeof inicial === 'undefined') ? redu = this[this.length - 1] : redu = inicial;
+	for (var i = this.length - 2; i > 0; i--) {
+		(typeof inicial === 'undefined') ? redu = callback(redu, this[i]) : redu = callback(redu, this[i])
+	}
+	return redu;
 }
-Hooray.prototype.slice = function(start,stop){
-    if(!(this instanceof Hooray)) throw TypeError(this + ' is not an hooray');
-	if(typeof start !== 'number' && start !== undefined) throw TypeError(start + ' is not a number');
-	if(typeof stop !== 'number' && stop !== undefined) throw TypeError(stop + ' is not a number');
+Hooray.prototype.slice = function (start, stop) {
+	if (!(this instanceof Hooray)) throw TypeError(this + ' is not an hooray');
+	if (typeof start !== 'number' && start !== undefined) throw TypeError(start + ' is not a number');
+	if (typeof stop !== 'number' && stop !== undefined) throw TypeError(stop + ' is not a number');
 
 	var nHoor = new Hooray();
 
@@ -191,10 +191,52 @@ Hooray.prototype.slice = function(start,stop){
 	if (stop === undefined || stop > this.lenght) stop = this.length;
 	if (start < 0) start = this.length + start;
 	if (stop < 0) stop = this.length + stop;
-	if(start > this.length) return nHoor;
+	if (start > this.length) return nHoor;
 	for (var i = start; i < stop; i++) {
 		nHoor[nHoor.length++] = this[i];
 	}
 	return nHoor;
 }
+Hooray.prototype.map = function (callback) {
+	if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+	var hooray2 = new Hooray();
+	for (var i = 0; i < this.length; i++) {
+		hooray2.push(callback(this[i]))
+	}
+	return hooray2;
+}
+Hooray.prototype.shift = function () {
+	var stack = new Hooray();
+	var element = this[0]
+	for (var i = 0; i < this.length - 1; i++) {
+		stack.push(this[i + 1]);
+		this[i] = this[i + 1]
+	}
+	delete (this[this.length - 1])
+	this.length--
+	return element;
+}
+Hooray.prototype.lastindexOf = function (item) {
+	var self = this;
+	for (var i = self.length-1; i >= 0; i--) {
+		if (item === self[i]) {
+			return i
+		}
+	}
+	return -1
+}
+
+Hooray.prototype.join = function(sep) {
+    if (!(this instanceof Hooray)) throw TypeError(this + ' is not an hooray');
+
+    var result = '';
+    for (var i = 0; i < this.length; i++) {
+        result += this[i];
+        if (i < this.length - 1) {
+            result += sep;
+        }
+    }
+    return result;
+}
+
 
