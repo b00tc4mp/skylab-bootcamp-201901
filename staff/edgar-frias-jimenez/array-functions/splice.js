@@ -1,6 +1,15 @@
 'use strict';
-
-// TODO: DOCUMENT THIS: This function has the dependency of reverse and concat functions
+/**
+ *
+ * Function that changes the content of an array by deleting/adding new elements.
+ *
+ * @param {Array} array The given array to change.
+ * @param {number} startCount Number to indicate where to start modifying the array.
+ * @param {numer} deleteCount Number to indicate how much elements to delete.
+ * @param {*} elements If you want to add more elements put them here.
+ *
+ * @returns The given array modified.
+ */
 
 function splice(array, startCount, deleteCount) {
   if (!(array instanceof Array)) throw TypeError(array + ' is not an array');
