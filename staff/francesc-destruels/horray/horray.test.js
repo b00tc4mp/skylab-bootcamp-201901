@@ -35,6 +35,7 @@ describe('hooray', function () {
             array2 = [v, w, x, y]
             hooray3 = new Hooray(v, x, x, y);
             array3 = [v, x, x, y];
+            
         } else {
             hooray = new Hooray(v, w, x);
             array = [v, w, x];
