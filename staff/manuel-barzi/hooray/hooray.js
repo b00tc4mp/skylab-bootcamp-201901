@@ -37,12 +37,23 @@ Hooray.prototype.push = function (value) {
 Hooray.prototype.forEach = function (callback) {
     if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
 
-    var self = this;
+    // var self = this;
 
-    this.length && (function forEach(index) {
-        callback(self[index], index);
+    // this.length && (function forEach(index) {
+    //     callback(self[index], index);
 
-        if (++index < self.length)
+    //     if (++index < self.length)
+    //         forEach(index);
+    // })(0);
+
+    // OR alternative with binding
+
+    var forEach;
+
+    this.length && (forEach = function(index) {
+        callback(this[index], index);
+
+        if (++index < this.length)
             forEach(index);
-    })(0);
+    }.bind(this))(0);
 }
