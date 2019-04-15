@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Concats two arrays in one
  * 

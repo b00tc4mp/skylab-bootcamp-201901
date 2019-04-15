@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Join all element inside an array or and arraylike object together on a String
  * 

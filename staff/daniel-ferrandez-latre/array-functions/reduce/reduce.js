@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Return combine all elements into an Array in one
  * 

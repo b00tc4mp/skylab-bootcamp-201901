@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Return a new array with the filtered results
  * 

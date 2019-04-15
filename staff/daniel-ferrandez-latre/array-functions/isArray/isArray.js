@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Check wheter the param entered is an Array or not
  * 

@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Return a new array mapped by callback fuction instuctions
  * 

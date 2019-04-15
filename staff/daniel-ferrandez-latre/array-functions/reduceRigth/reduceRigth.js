@@ -1,3 +1,4 @@
+'use strict';
 /**
  * Convine all element into an array depending the instruction is passad by
  * 
