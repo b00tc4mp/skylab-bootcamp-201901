@@ -88,7 +88,7 @@ body {
 .main {
   margin-left: 15vw;
   height: calc(100vh -190px);
-  padding: 2em;
+  padding: 0 0 0 2em;
   width: calc(100vw - 190px);
   display: flex;
   flex-direction: column;
@@ -201,10 +201,26 @@ body {
   display: flex;
   flex-direction: row;
 }
+.now-playing-bar__left {
+  display: flex;
+  flex-direction: column;
+}
 .now-playing-bar__listening {
   width: 3em;
   height: 3em;
   padding: 0.5em;
+}
+.now-playing-bar__center {
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  width: 3em;
+  height: 3em;
+}
+.now-playing-bar__pannel-control {
+  display: flex;
+  flex-direction: raw;
+  width: 200px;
 }
 
 @media only screen and (max-width: 768px) {

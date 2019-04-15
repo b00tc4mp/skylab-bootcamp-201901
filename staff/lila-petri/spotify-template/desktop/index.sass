@@ -77,7 +77,7 @@ body
 .main
     margin-left: 15vw
     height: calc(100vh -190px)
-    padding: 2em
+    padding: 0 0 0 2em
     width: calc(100vw - 190px)
     display: flex
     flex-direction: column
@@ -153,7 +153,6 @@ body
 
             
 
-
 .now-playing-bar
     height: 90px
     padding: 0 16px
@@ -177,10 +176,23 @@ body
 .now-playing-bar
     display: flex
     flex-direction: row
+    &__left
+        display: flex
+        flex-direction: column
     &__listening
         width: 3em
         height: 3em
         padding: .5em
+    &__center
+        display: flex
+        flex-direction: row
+        align-content: center
+        width: 3em
+        height: 3em
+    &__pannel-control
+        display: flex
+        flex-direction: raw
+        width: 200px 
 
 @media only screen and (max-width : 768px) 
     .section
