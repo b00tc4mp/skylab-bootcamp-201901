@@ -2,16 +2,33 @@
 
 // presentation logic
 
-var form = document.getElementsByTagName('form')[1];
+var forms = document.getElementsByTagName('form');
 
-onSignUp(form, register);
+var language = 'ga';
 
-var form2 = document.getElementsByTagName('form')[2];
+var literals = i18n.signUp[language];
 
-onSignUp(form2, registerAdmin);
+var signUp = new SignUp(forms[1]); 
+signUp.onSubmit(register);
+signUp.title = literals.title;
+signUp.name = literals.name;
+signUp.surname = literals.surname;
+signUp.email = literals.email;
+signUp.password = literals.password;
 
-var titles = document.getElementsByTagName('h2');
+var signUpAdmin = new SignUp(forms[2]); 
+signUpAdmin.onSubmit(registerAdmin);
+signUpAdmin.title = literals.title + ' Admin';
+signUpAdmin.name = literals.name;
+signUpAdmin.surname = literals.surname;
+signUpAdmin.email = literals.email;
+signUpAdmin.password = literals.password;
 
-titles[0].innerText = i18n.signUp.ga.title;
-titles[1].innerText = i18n.signUp.ga.title + ' Admin';
+var signUpSuperAdmin = new SignUp(forms[3]); 
+signUpSuperAdmin.onSubmit(registerSuperAdmin);
+signUpSuperAdmin.title = literals.title + ' Super Admin';
+signUpSuperAdmin.name = literals.name;
+signUpSuperAdmin.surname = literals.surname;
+signUpSuperAdmin.email = literals.email;
+signUpSuperAdmin.password = literals.password;
 
