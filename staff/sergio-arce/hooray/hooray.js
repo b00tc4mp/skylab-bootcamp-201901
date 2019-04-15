@@ -9,10 +9,9 @@ function Hooray() {
         this.length = arguments[0];
     } else {
         for (var i = 0; i < arguments.length; i++) this[i] = arguments[i];
-        this.length = arguments.length;
+            this.length = arguments.length;
     }
 }
-
 
 /**
  * Iterates the current hooray and evaluates an expression on each of its values.
@@ -30,9 +29,6 @@ Hooray.prototype.forEach = function(callback) {
 			forEach(index);
 	})(0);
 }
-
-
-
 
 /**
 * Adds a value at the end of an hooray, incrementing its length by 1.

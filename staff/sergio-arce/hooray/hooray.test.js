@@ -43,7 +43,7 @@ describe('hooray', function () {
             // 0 1
             // 1 2
             // 2 3
-
+            
             expect(result, hooray, true);
 
             var expected = { 0: 1, 1: 2, 2: 3 };
