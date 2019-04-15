@@ -21,7 +21,6 @@ body
     overflow-x: hidden
 .p
     margin: 0   
-    
 .navbar
     display: flex
     flex-direction: column
@@ -37,13 +36,16 @@ body
     
     &__logo
         display: block
-        align-self: center   
-        &--config
+        align-self: center 
+        font-size: 10px  
+        &--large
             width: 12em
             height: 7em
             padding: 1.2em
             margin-top: 0.2em
             fill: $color-logo
+        &--small
+            display: none
     &--color
         background-color: $back-color
     &--font-size
@@ -53,6 +55,7 @@ body
     flex-direction: column
     align-content: flex-end
     padding: 1em
+    font-size: 12px
     &__item
         padding: .5em
         display: flex
@@ -76,7 +79,6 @@ body
         margin: 0
 .main
     margin-left: 15vw
-    height: calc(100vh -190px)
     padding: 0 0 0 2em
     width: calc(100vw - 190px)
     display: flex
@@ -102,7 +104,7 @@ body
     display: flex
     flex-direction: column
     justify-content: space-around
-    align-items: flex-start 
+    align-items: center 
     &__item
         display: block
         text-align: center
@@ -151,8 +153,6 @@ body
     border-radius: 50%
     padding: .5em
 
-            
-
 .now-playing-bar
     height: 90px
     padding: 0 16px
@@ -162,23 +162,14 @@ body
     z-index: 2
     width: 100%
     display: flex
-    flex-direction: row  
-    justify-content: space-between
-.options
-    &__items
-        &--selected
-            width: 40%
-            background-color: #1db954
-            height: 4px
-            border-radius: 2px
-            display: block
-
-.now-playing-bar
-    display: flex
     flex-direction: row
+    justify-content: space-between
+    align-items: baseline
     &__left
         display: flex
-        flex-direction: column
+        flex-direction: row
+        align-content: center
+        width: 33%
     &__listening
         width: 3em
         height: 3em
@@ -187,19 +178,58 @@ body
         display: flex
         flex-direction: row
         align-content: center
-        width: 3em
-        height: 3em
+        width: 33%
     &__pannel-control
         display: flex
         flex-direction: raw
-        width: 200px 
+        align-items: stretch
+        justify-content: space-around
+        width: 100%
+        padding: 1.5em
+    &__pannel-control-item
+        padding: .5em
+        font-size: 20px
+    &__right
+        display: flex
+        flex-direction: row
+        align-content: flex-end
+        justify-content: flex-end
+        width: 33%
+        
+
+.fas
+    color: $color-font-navbar
+    
+.fas:hover
+    color: $color-logo
+
 
 @media only screen and (max-width : 768px) 
     .section
         &__title-link
-            display: show
+            display: inline
             text-transform: uppercase
             padding: 1em
             font-size: 14px
             color: $color-font-navbar
             text-decoration: none
+    .navbar
+        width: 70px 
+        &__logo
+            &--large
+                display: none
+            &--small
+                display: inline
+                height: 5em
+                padding: 1.2em
+                margin-top: 0.2em
+                fill: $color-logo
+        &__footer
+            display: none
+    .navegation
+        &--hidden
+            display: none
+    .text
+        display: none
+    .img
+        font-size: 12px
