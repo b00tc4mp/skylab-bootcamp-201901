@@ -1,6 +1,6 @@
 'use strict';
 
-function SignUpOk(section, onNavigateToLogin) {
+function RegisterOk(section, onNavigateToLogin) {
     Component.call(this, section);
 
     var link = this.container.children[0];
@@ -12,5 +12,5 @@ function SignUpOk(section, onNavigateToLogin) {
     });
 }
 
-SignUpOk.prototype = Object.create(Component.prototype);
-SignUpOk.prototype.constructor = SignUpOk;
+RegisterOk.prototype = Object.create(Component.prototype);
+RegisterOk.prototype.constructor = RegisterOk;
