@@ -1,49 +1,76 @@
 "use strict";
 
-var defaultLanguage = "en";
+var languageSelected = "en";
 
 var select = document.getElementsByTagName("select")[0];
 var languageSelector = new LanguageSelector(select, function(language) {
-  signUp.language = language;
-  signIn.language = language;
+  languageSelected = language;
+
+  landing.language = language;
+  register.language = language;
+  login.language = language;
 });
+
+var sections = document.getElementsByTagName("section");
+
+var landing = new Landing(
+  sections[0],
+  i18n.landing,
+  function() {
+    landing.visible = false;
+    register.visible = true;
+  },
+  function() {
+    landing.visible = false;
+    login.visible = true;
+  }
+);
 
 var forms = document.getElementsByTagName("form");
 
-var signUp = new SignUp(
+var register = new Register(
   forms[0],
   function(name, surname, email, password) {
     logic.register(name, surname, email, password);
 
-    signUp.visible = false;
-    signUpOk.visible = true;
+    register.visible = false;
+    registerOk.visible = true;
   },
-  i18n.signUp,
-  defaultLanguage
+  i18n.register,
+  languageSelected
 );
+register.visible = false;
 
-var signIn = new SignIn(
+var login = new Login(
   forms[1],
   function(email, password) {
-    logic.login(email, password);
+    try {
+      logic.login(email, password);
 
-    signIn.visible = false;
-    home.visible = true;
+      login.visible = false;
+      home.visible = true;
+    } catch (error) {
+      login.error = i18n.errors[languageSelected][error.code];
+    }
   },
-  i18n.signIn,
-  defaultLanguage
+  i18n.login,
+  languageSelected,
+  function() {
+    this.__feedback__.visible = false;
+  }
 );
-signIn.visible = false;
+login.visible = false;
 
-var sections = document.getElementsByTagName("section");
-
-var signUpOk = new SignUpOk(sections[0], function() {
-  signUpOk.visible = false;
-  signIn.visible = true;
+var registerOk = new RegisterOk(sections[1], function() {
+  registerOk.visible = false;
+  login.visible = true;
 });
-signUpOk.visible = false;
+registerOk.visible = false;
 
 var main = document.getElementsByTagName("main")[0];
-
-var home = new Home(main);
+var home = new Home(main, i18n.home, function() {
+  logic.logout();
+  home.visible = false;
+  landing.visible = true;
+});
 home.visible = false;

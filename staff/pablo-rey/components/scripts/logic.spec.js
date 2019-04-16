@@ -53,6 +53,40 @@ describe('logic', function () {
             expect(logic.__accessTime__ / 1000).toBeCloseTo(Date.now() / 1000, 1);
         });
 
+        it('should fail on wrong email (unexisting user)', function(){
+            // expect(function() {
+            //     logic.login('pepitogrillo@gmail.com', password);
+            // }).toThrowError(Error, 'wrong credentials');
+
+            var _error;
+
+            try {
+                logic.login('pepitogrillo@gmail.com', password);
+            } catch(error) {
+                _error = error;
+            }
+
+            expect(_error).toBeDefined();
+            expect(_error.code).toBe(1);
+        });
+
+        it('should fail on wrong password (existing user)', function(){
+            // expect(function() {
+            //     logic.login(email, '456');
+            // }).toThrowError(Error, 'wrong credentials');
+
+            var _error;
+
+            try {
+                logic.login(email, '456');
+            } catch(error) {
+                _error = error;
+            }
+
+            expect(_error).toBeDefined();
+            expect(_error.code).toBe(1);
+        });
+
         // TODO fail cases
     });
 });

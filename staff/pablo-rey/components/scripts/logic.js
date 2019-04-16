@@ -1,34 +1,57 @@
-'use strict';
+"use strict";
+
 
 var logic = {
-    register: function (name, surname, email, password) {
-        if (typeof name !== 'string') throw TypeError(name + ' is not a valid name');
-        // TODO add more validations
+    register: function(name, surname, email, password) {
+    name = typeof name === "string" ? name.trim() : null;
+    if (!name) throwError(2, "name not provided");
+    
+    surname = typeof surname === "string" ? surname.trim() : null;
+    if (!surname) throwError(3, "surname not provided");
+    
+    email = typeof email === "string" ? email.trim() : null;
+    if (!email) throwError(4, "email not provided");
+    
+    password = typeof password === "string" ? password.trim() : null;
+    if (!password) throwError(5, "password not provided");
+    
+    if (users.find(function (user) { return user.email === email;})) throwError(5, "email already registered");
+    
+    users.push({
+        name: name,
+        surname: surname,
+        email: email,
+        password: password
+    });
+},
 
-        // TODO verify user does not exists already, otherwise error 'user already exists'
+login: function(email, password) {
+    email = typeof email === "string" ? email.trim() : null;
+    if (!email) throwError(4, "email not provided");
+    
+    password = typeof password === "string" ? password.trim() : null;
+    if (!password) throwError(5, "password not provided");
+    
+    var user = users.find(function(user) {
+        return user.email === email;
+    });
+    
+    if (!user) throwError(1, "wrong credentials");
+    
+    if (user.password === password) {
+        this.__userEmail__ = email;
+        this.__accessTime__ = Date.now();
+    } else throwError(1, "wrong credentials");
+},
 
-        users.push({
-            name: name,
-            surname: surname,
-            email: email,
-            password: password
-        });
-    },
+logout: function() {
+    this.__userEmail__ = null;
+    this.__accessTime__ = null;
+}
+};
 
-    login: function (email, password) {
-        email = email || String(email).trim();
-        password = password || String(password).trim();
-        if (!email) throw Error('no email provided');
-        if (!password) throw Error('no password provided');
-
-        var user = users.find(function(user) { return user.email === email });
-
-        if (!user) throw Error('wrong credentials');
-        if (user.password === password) {
-            this.__userEmail__ = email;
-            this.__accessTime__ = Date.now();
-        } else {
-            throw Error('wrong credentials');
-        }
-    }
+function  throwError(code, message) {
+    var err = Error (message);
+    err.code = code;
+    throw err;
 }
