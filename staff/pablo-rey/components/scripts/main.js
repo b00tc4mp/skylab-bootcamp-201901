@@ -1,32 +1,49 @@
-'use strict';
+"use strict";
 
-var defaultLanguage = 'en';
+var defaultLanguage = "en";
 
-var select = document.getElementsByTagName('select')[0];
-var languageSelector = new LanguageSelector(select, function (language) {
-    signUp.language = language;
-    signIn.language = language;
+var select = document.getElementsByTagName("select")[0];
+var languageSelector = new LanguageSelector(select, function(language) {
+  signUp.language = language;
+  signIn.language = language;
 });
 
-var forms = document.getElementsByTagName('form');
+var forms = document.getElementsByTagName("form");
 
-var signUp = new SignUp(forms[0], function(name, surname, email, password) {
+var signUp = new SignUp(
+  forms[0],
+  function(name, surname, email, password) {
     logic.register(name, surname, email, password);
 
     signUp.visible = false;
     signUpOk.visible = true;
-}, i18n.signUp, defaultLanguage);
+  },
+  i18n.signUp,
+  defaultLanguage
+);
 
-var signIn = new SignIn(forms[1], logic.login, i18n.signIn, defaultLanguage);
+var signIn = new SignIn(
+  forms[1],
+  function(email, password) {
+    logic.login(email, password);
+
+    signIn.visible = false;
+    home.visible = true;
+  },
+  i18n.signIn,
+  defaultLanguage
+);
 signIn.visible = false;
 
-var sections = document.getElementsByTagName('section');
+var sections = document.getElementsByTagName("section");
 
 var signUpOk = new SignUpOk(sections[0], function() {
-    signUpOk.visible = false;
-    signIn.visible = true;
+  signUpOk.visible = false;
+  signIn.visible = true;
 });
 signUpOk.visible = false;
 
+var main = document.getElementsByTagName("main")[0];
 
-
+var home = new Home(main);
+home.visible = false;
