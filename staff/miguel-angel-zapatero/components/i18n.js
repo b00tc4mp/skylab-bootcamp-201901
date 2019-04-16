@@ -1,4 +1,34 @@
 var i18n = {
+    signUp: {
+        en: {
+            title: 'Sign up',
+            name: 'Name',
+            surname: 'Surname',
+            email: 'E-mail',
+            password: 'Password'
+        },
+        es: {
+            title: 'Registro',
+            name: 'Nombre',
+            surname: 'Apellido',
+            email: 'E-milio',
+            password: 'Contraseña'
+        },
+        ca: {
+            title: 'Registre',
+            name: 'Nom',
+            surname: 'Cognom',
+            email: 'E-mil·li',
+            password: 'Contrasenya'
+        },
+        ga: {
+            title: 'Rexistro',
+            name: 'Nome',
+            surname: 'Apelido',
+            email: 'E-miliño',
+            password: 'Contrasinal'
+        }
+    },
     signIn: {
         en: {
             title: 'Sign In',
@@ -11,12 +41,12 @@ var i18n = {
             password: 'Contraseña'
         },
         ca: {
-            title: 'Inici de sesió',
+            title: 'Inici de sessió',
             email: 'E-mil·li',
             password: 'Contrasenya'
         },
         ga: {
-            title: 'Inicio de sesión',
+            title: 'Inicio da sesion',
             email: 'E-miliño',
             password: 'Contrasinal'
         }
