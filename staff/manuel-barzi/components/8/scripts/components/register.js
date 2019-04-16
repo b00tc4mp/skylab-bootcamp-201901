@@ -1,15 +1,15 @@
 'use strict';
 
 /**
- * Sign-in.
+ * Register form.
  * 
  * @param {*} form 
- * @param {Function} onSignIn The callback invoked on sign-in.
+ * @param {Funcion} onRegister The callback invoked on register.
  * @param {*} literals 
  * @param {*} defaultLanguage 
- * @param {Function} onLanguageChange The callback invoked on language change.
+ * @param {*} onLanguageChange The callback invoked on language change.
  */
-function SignIn(form, onSignIn, literals, defaultLanguage, onLanguageChange) {
+function Register(form, onRegister, literals, defaultLanguage, onLanguageChange) {
     Component.call(this, form);
 
     this.__literals__ = literals;
@@ -17,31 +17,34 @@ function SignIn(form, onSignIn, literals, defaultLanguage, onLanguageChange) {
 
     this.language = defaultLanguage;
 
-    this.onSignIn = onSignIn;
+    this.onRegister = onRegister;
 }
 
-SignIn.prototype = Object.create(Component.prototype);
-SignIn.prototype.constructor = SignIn;
+Register.prototype = Object.create(Component.prototype);
+Register.prototype.constructor = Register;
 
-Object.defineProperty(SignIn.prototype, 'onSignIn', {
+Object.defineProperty(Register.prototype, 'onRegister', {
     set: function (callback) {
         this.container.addEventListener('submit', function (event) {
             event.preventDefault();
 
+            var name = this.name.value;
+            var surname = this.surname.value;
             var email = this.email.value;
             var password = this.password.value;
 
-            callback(email, password);
+            callback(name, surname, email, password);
         });
     }
 });
 
-Object.defineProperty(SignIn.prototype, 'language', {
+Object.defineProperty(Register.prototype, 'language', {
     set: function (language) {
         var literals = this.__literals__[language];
 
         this.container.children[0].innerText = literals.title;
-
+        this.container.name.placeholder = literals.name;
+        this.container.surname.placeholder = literals.surname;
         this.container.email.placeholder = literals.email;
         this.container.password.placeholder = literals.password;
 
