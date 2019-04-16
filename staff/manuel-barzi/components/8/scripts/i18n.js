@@ -1,7 +1,29 @@
 var i18n = {
-    signUp: {
+    landing: {
         en: {
-            title: 'Sign up',
+            register: 'Register',
+            or: 'or',
+            login: 'Login'
+        },
+        es: {
+            register: 'Regístrate',
+            or: 'o',
+            login: 'Inicia sesión'
+        },
+        ca: {
+            register: 'Registra\'t',
+            or: 'o',
+            login: 'Inicia sessió'
+        },
+        ga: {
+            register: 'Rexistrese',
+            or: 'ou',
+            login: 'Inicia sesión'
+        }
+    },
+    register: {
+        en: {
+            title: 'Register',
             name: 'Name',
             surname: 'Surname',
             email: 'E-mail',
@@ -35,9 +57,9 @@ var i18n = {
         ca: 'Gestor',
         ga: 'Administrador'
     },
-    signIn: {
+    login: {
         en: {
-            title: 'Sign in',
+            title: 'Login',
             email: 'E-mail',
             password: 'Password'
         },
@@ -47,14 +69,28 @@ var i18n = {
             password: 'Contraseña'
         },
         ca: {
-            title: 'Inici de sessió',            
+            title: 'Inici de sessió',
             email: 'E-mil·li',
             password: 'Contrasenya'
         },
         ga: {
-            title: 'Inicio da sesión',            
+            title: 'Inicio da sesión',
             email: 'E-miliño',
             password: 'Contrasinal'
+        }
+    },
+    errors: {
+        en: {
+            1: 'wrong credentials'
+        },
+        es: {
+            1: 'credenciales incorrectas'
+        },
+        ca: {
+            1: 'credencials incorrectes'
+        },
+        ga: {
+            1: 'credenciales incorrectas'
         }
     }
 };
