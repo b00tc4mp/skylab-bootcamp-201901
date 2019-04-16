@@ -20,11 +20,23 @@ var logic = {
 
         var user = users.find(function(user) { return user.email === email });
 
-        // TODO validate user found, otherwise error 'wrong credentials'
+        if (!user) {
+            var error = Error('wrong credentials')
+
+            error.code = 1;
+
+            throw error;
+        };
 
         if (user.password === password) {
             this.__userEmail__ = email;
             this.__accessTime__ = Date.now();
-        } // TODO else throw error 'wrong credentials'
+        } else {
+            var error = Error('wrong credentials')
+
+            error.code = 1;
+
+            throw error;
+        };
     }
 }
