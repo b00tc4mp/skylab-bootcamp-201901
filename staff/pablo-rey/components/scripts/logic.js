@@ -16,15 +16,19 @@ var logic = {
     },
 
     login: function (email, password) {
-        // TODO validate input data
+        email = email || String(email).trim();
+        password = password || String(password).trim();
+        if (!email) throw Error('no email provided');
+        if (!password) throw Error('no password provided');
 
         var user = users.find(function(user) { return user.email === email });
 
-        // TODO validate user found, otherwise error 'wrong credentials'
-
+        if (!user) throw Error('wrong credentials');
         if (user.password === password) {
             this.__userEmail__ = email;
             this.__accessTime__ = Date.now();
-        } // TODO else throw error 'wrong credentials'
+        } else {
+            throw Error('wrong credentials');
+        }
     }
 }
