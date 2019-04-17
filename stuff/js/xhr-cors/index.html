@@ -1,0 +1,53 @@
+<!-- <script>
+    // running this script in https://www.google.es console works, but from other domain (e.g. https://wwww.skylabcoders.com) it does not, because of CORS.
+    var xhr = new XMLHttpRequest;
+
+    xhr.open('GET', 'https://www.google.es/search?q=hola+mundo'); // ASYNC
+    // xhr.open('GET', 'https://www.google.es/search?q=hola+mundo', false); // SYNC
+
+    xhr.addEventListener('load', function () {
+        console.log(this.responseText);
+    });
+
+    xhr.send();
+
+    console.log('after xhr');
+</script> -->
+
+<script>
+    function searchDucklings(query, callback) {
+        var xhr = new XMLHttpRequest;
+
+        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
+
+        xhr.addEventListener('load', function () {
+            callback(JSON.parse(this.responseText));
+        });
+
+        xhr.send();
+    }
+
+    searchDucklings('yellow', function (ducks) {
+        console.log(ducks);
+    });
+
+    console.log('after search');
+
+    function retrieveDucklingDetail(id, callback) {
+        var xhr = new XMLHttpRequest;
+
+        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
+
+        xhr.addEventListener('load', function () {
+            callback(JSON.parse(this.responseText));
+        });
+
+        xhr.send();
+    }
+
+    retrieveDucklingDetail('5c3853aebd1bde8520e66e11', function (duck) {
+        console.log(duck);
+    });
+
+    console.log('after retrieve detail');
+</script>
