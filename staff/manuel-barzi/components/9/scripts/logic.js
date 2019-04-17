@@ -56,7 +56,7 @@ var logic = {
 
     retrieveDucklingDetail: function(id, callback) {
         // TODO validate inputs
-        
+
         var xhr = new XMLHttpRequest;
 
         xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
