@@ -1,9 +1,10 @@
 'use strict';
 
-function List (container, itemComponentConstructor) {
+function List (container, itemComponentConstructor, onSelect) {
   Component.call(this, container);
   this.__items__ = null;
   this.__itemComponentConstructor__ = itemComponentConstructor;
+  this.__onSelect__ = onSelect;
   this.refresh();
 }
 
@@ -18,7 +19,7 @@ List.prototype.refresh = function () {
   this.container.innerHTML = "";
   var self = this;
   this.__items__.forEach(function (item) {
-    new self.__itemComponentConstructor__(self.container, item);
+    new self.__itemComponentConstructor__(self.container, item, self.__onSelect__);
   });
 }
 

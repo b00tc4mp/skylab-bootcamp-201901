@@ -13,9 +13,13 @@ function Home(container, literals, initialLanguage, onLogOut) {
   var searchFormTag = container.children[2];
 
   var listDucksContainer = container.children[3];
-  var listDucks = new List(listDucksContainer, CardDuck);
+  var listDucks = new List(listDucksContainer, CardDuck, function(duck) {
+    // onSelect
+    duckDetail.duck = duck
+    duckDetail.visible = true;
+    listDucks.visible = false;
+  });
 
-  //form, onSearch, literals, defaultLanguage
   this.__searchForm__ = new SearchForm(
     searchFormTag,
     function(text) {
@@ -27,6 +31,16 @@ function Home(container, literals, initialLanguage, onLogOut) {
     initialLanguage
   );
 
+  var duckDetailTag = container.children[4];
+  var duckDetail = new DuckDetail(duckDetailTag, function() {
+    // onBack;
+    listDucks.visible = true;
+    duckDetail.visible = false;
+  }, function () {
+    // onBuy
+    console.log("buy");
+  }, literals, initialLanguage);
+
 }
 
 Home.prototype = Object.create(Component.prototype);
@@ -36,5 +50,6 @@ Object.defineProperty(Home.prototype, "language", {
   set: function(language) {
     this.__logOut__.language = language;
     this.__searchForm__.language = language;
+    this.__duckDetail__.language = language;
   }
 });

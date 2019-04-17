@@ -1,5 +1,12 @@
 'use strict';
 
+/**
+ * 
+ * @param {*} form 
+ * @param {*} onSearch 
+ * @param {*} literals 
+ * @param {*} defaultLanguage 
+ */
 function SearchForm(form, onSearch, literals, defaultLanguage) {
   Component.call(this, form);
 
