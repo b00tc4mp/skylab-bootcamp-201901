@@ -3,19 +3,10 @@
 var logic = {
     register: function (name, surname, email, password) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a valid name');
-
-        var exists = users.some(function(user) { return user.email === email });
-
-        if(!exists) {
-            users.push({
-                name: name,
-                surname: surname,
-                email: email,
-                password: password
-            });
-        } else throw Error('invalid registry');
+        // TODO add more validations
 
         // TODO verify user does not exists already, otherwise error 'user already exists'
+
         users.push({
             name: name,
             surname: surname,
@@ -27,7 +18,7 @@ var logic = {
     login: function (email, password) {
         // TODO validate input data
 
-        var user = users.find(function(user) { return user.email === email });
+        var user = users.find(function (user) { return user.email === email });
 
         if (!user) {
             var error = Error('wrong credentials')
@@ -47,5 +38,37 @@ var logic = {
 
             throw error;
         };
+    },
+
+    searchDucks: function (query, callback) {
+        if (typeof query === 'undefined') throw TypeError(query + ' is not defined');
+        if (typeof callback === 'undefined') throw TypeError(callback + ' is not defined');
+        if (!(callback instanceof Function)) throw TypeError(callback + ' is not a valid function');
+
+        var xhr = new XMLHttpRequest;
+
+        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
+
+        xhr.addEventListener('load', function () {
+            callback(JSON.parse(this.responseText));
+        });
+
+        xhr.send();
+    },
+
+    retrieveDucklingDetail: function(id, callback) {
+        if (typeof id === 'undefined') throw TypeError(id + ' is not defined');
+        if (typeof callback === 'undefined') throw TypeError(callback + ' is not defined');
+        if (!(callback instanceof Function)) throw TypeError(callback + ' is not a valid function');
+
+        var xhr = new XMLHttpRequest;
+
+        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
+
+        xhr.addEventListener('load', function () {
+            callback(JSON.parse(this.responseText));
+        });
+
+        xhr.send();
     }
 }

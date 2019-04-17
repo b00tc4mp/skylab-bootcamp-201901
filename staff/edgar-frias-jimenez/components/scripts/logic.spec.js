@@ -89,4 +89,64 @@ describe('logic', function () {
 
         // TODO fail cases
     });
+
+    describe('search ducks', function() {
+        it('should succeed on correct query', function(done) {
+            logic.searchDucks('yellow', function(ducks) {
+                expect(ducks).toBeDefined();
+                expect(ducks instanceof Array).toBeTruthy();
+                expect(ducks.length).toBe(13);
+
+                done();
+            });
+        });
+
+        it('should fail on undefined argument', function () {
+            expect(function () {
+                logic.searchDucks(undefined);
+            }).toThrowError(TypeError, 'undefined is not defined');
+        });
+
+        it('should fail on undefined callback', function () {
+            expect(function () {
+                logic.searchDucks('yellow');
+            }).toThrowError(TypeError, 'undefined is not defined');
+        });
+
+        it('should fail if callback is not a function', function () {
+            expect(function () {
+                logic.searchDucks('yellow', 'hola');
+            }).toThrowError(TypeError, 'hola is not a valid function');
+        });
+    });
+
+    describe('searh details of each duck', function() {
+        it('should succeed on search a duck item', function(done) {
+            logic.retrieveDucklingDetail('5c3853aebd1bde8520e66e15', function(duck) {
+                expect(duck).toBeDefined();
+                expect(duck instanceof Object).toBeTruthy();
+                expect(duck.id).toBe('5c3853aebd1bde8520e66e15');
+
+                done();
+            });
+        });
+
+        it('should fail on undefined id', function () {
+            expect(function () {
+                logic.retrieveDucklingDetail(undefined);
+            }).toThrowError(TypeError, 'undefined is not defined');
+        });
+
+        it('should fail on undefined callback', function () {
+            expect(function () {
+                logic.retrieveDucklingDetail('5c3853aebd1bde8520e66e15');
+            }).toThrowError(TypeError, 'undefined is not defined');
+        });
+
+        it('should fail if callback is not a function', function () {
+            expect(function () {
+                logic.retrieveDucklingDetail('5c3853aebd1bde8520e66e15', 'hola');
+            }).toThrowError(TypeError, 'hola is not a valid function');
+        });
+    });
 });
