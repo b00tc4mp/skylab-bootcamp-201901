@@ -29,7 +29,7 @@ var signUpSuperAdmin = new SignUp(forms[3], registerSuperAdmin, i18n.signUp, def
 
     this.__form__.children[0].innerText += ' Super ' + admin;
 });
-
+debugger
 var signIn= new SignIn(forms[4], login, i18n.signIn, defaultLanguage);
 
 var signInAdmin = new SignIn(forms[5], loginAdmin, i18n.signIn, defaultLanguage, function (language) {
