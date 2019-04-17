@@ -1,0 +1,49 @@
+<!-- <script>
+    var timeout = setTimeout(function () {
+        console.log('timeout end');
+    }, 1000);
+
+    console.log('continue after timeout');
+
+    var time = Date.now();
+    while (Date.now() - time < 2000);
+    console.log('while end');
+
+    console.log('continue after while');
+
+    //clearTimeout(timeout);
+</script> -->
+
+<!-- <script>
+    var interval = setInterval(function () {
+        console.log('interval');
+    }, 10);
+
+    console.log('continue after interval');
+
+    var time = Date.now();
+    while (Date.now() - time < 2000);
+    console.log('while end');
+
+    console.log('continue after while');
+
+    //clearInterval(interval);
+</script> -->
+
+<script>
+    var interval = setInterval(function () {
+        console.log('interval');
+    }, 10);
+
+    console.log('continue after interval');
+
+    var timeout = setTimeout(function () {
+        console.log('timeout end');
+
+        clearInterval(interval);
+    }, 1000);
+
+    console.log('continue after timeout');
+
+    //clearTimeout(timeout);
+</script>
