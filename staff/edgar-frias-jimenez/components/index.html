@@ -9,21 +9,20 @@
 </head>
 
 <body>
-    <form>
-        <input type="text" name="query" id="query">
-        <button>Search</button>
-    </form>
-
-    <select>
+    <select class="language-selector">
         <option value="en">English</option>
         <option value="es">Español</option>
         <option value="ca">Català</option>
         <option value="ga">Galego</option>
     </select>
 
-    <form>
-        <h2>Sign Up</h2>
+    <section class="landing">
+        <a href="">Register</a> <span>or</span> <a href="">Login</a>.
+    </section>
 
+    <form class="registry-form">
+        <h2>Register</h2>
+        <a href="">Go back</a>
         <ul>
             <li><input type="text" name="name" placeholder="name"></li>
             <li><input type="text" name="surname" placeholder="surname"></li>
@@ -31,77 +30,43 @@
             <li><input type="password" name="password" placeholder="password"></li>
         </ul>
 
-        <button>Sign Up</button>
+        <button>Register</button>
     </form>
 
-    <form>
-        <h2>Sign Up</h2>
-
-        <ul>
-            <li><input type="text" name="name" placeholder="name"></li>
-            <li><input type="text" name="surname" placeholder="surname"></li>
-            <li><input type="text" name="email" placeholder="email"></li>
-            <li><input type="password" name="password" placeholder="password"></li>
-        </ul>
-
-        <button>Sign Up</button>
-    </form>
-
-
-    <form>
-        <h2>Sign Up</h2>
-
-        <ul>
-            <li><input type="text" name="name" placeholder="name"></li>
-            <li><input type="text" name="surname" placeholder="surname"></li>
-            <li><input type="text" name="email" placeholder="email"></li>
-            <li><input type="password" name="password" placeholder="password"></li>
-        </ul>
-
-        <button>Sign Up</button>
-    </form>
-
-    <hr>
-
-    <form>
-        <h2>Log in</h2>
-
+    <form class="login-form">
+        <h2>Login</h2>
+        <a href="">Go back</a>
         <ul>
             <li><input type="text" name="email" placeholder="email"></li>
             <li><input type="password" name="password" placeholder="password"></li>
         </ul>
 
-        <button>Log in</button>
+        <button>Login</button>
+
+        <p>Error!</p>
     </form>
 
-    <form>
-        <h2>Log in</h2>
+    <section class="register-success">
+        User successfully registered, you can proceed to <a href="">Login</a>.
+    </section>
 
-        <ul>
-            <li><input type="text" name="email" placeholder="email"></li>
-            <li><input type="password" name="password" placeholder="password"></li>
-        </ul>
+    <main>
+        <a href="">Logout</a>
+        <h1>Hello, World!</h1>
+    </main>
 
-        <button>Log in</button>
-    </form>
-
-    <form>
-        <h2>Log in</h2>
-
-        <ul>
-            <li><input type="text" name="email" placeholder="email"></li>
-            <li><input type="password" name="password" placeholder="password"></li>
-        </ul>
-
-        <button>Log in</button>
-    </form>
-
-    <script src="sign-up.js"></script>
-    <script src="log-in.js"></script>
-    <script src="language-selector.js"></script>
-    <script src="logic.js"></script>
-    <script src="i18n.js"></script>
-    <script src="main.js"></script>
+    <script src="scripts/components/component.js"></script>
+    <script src="scripts/components/feedback.js"></script>
+    <script src="scripts/components/language-selector.js"></script>
+    <script src="scripts/components/landing.js"></script>
+    <script src="scripts/components/register.js"></script>
+    <script src="scripts/components/register-ok.js"></script>
+    <script src="scripts/components/login.js"></script>
+    <script src="scripts/components/home.js"></script>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/logic.js"></script>
+    <script src="scripts/i18n.js"></script>
+    <script src="scripts/main.js"></script>
 </body>
 
 </html>
