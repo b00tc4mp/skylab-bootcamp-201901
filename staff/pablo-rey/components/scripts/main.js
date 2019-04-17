@@ -9,6 +9,7 @@ var languageSelector = new LanguageSelector(select, function(language) {
   landing.language = language;
   register.language = language;
   login.language = language;
+  home.language = language;
 });
 
 var sections = document.getElementsByTagName("section");
@@ -68,7 +69,7 @@ var registerOk = new RegisterOk(sections[1], function() {
 registerOk.visible = false;
 
 var main = document.getElementsByTagName("main")[0];
-var home = new Home(main, i18n.home, function() {
+var home = new Home(main, i18n.home, languageSelected, function() {
   logic.logout();
   home.visible = false;
   landing.visible = true;
