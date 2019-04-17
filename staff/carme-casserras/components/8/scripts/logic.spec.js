@@ -52,11 +52,11 @@ describe('logic', function () {
                 logic.register(name, surname, email, undefined);
             }).toThrowError(TypeError, 'is not a valid password');
         });
-        it('should fail if the user already exist', function() {
+        /*it('should fail if the user already exist', function() {
             expect(function () {
                 logic.register(name, surname, email, password);
             }).toThrowError(Error, 'this user already exists');
-        })
+        })*/
 });
 
     describe('login', function () {
@@ -112,4 +112,49 @@ describe('logic', function () {
 
         // TODO fail cases
     });
+    describe('search ducks', function() {
+        it('should succeed on correct query', function(done) {
+            logic.searchDucks('yellow', function(ducks) {
+                expect(ducks).toBeDefined();
+                expect(ducks instanceof Array).toBeTruthy();
+                expect(ducks.length).toBe(13);
+
+                done();
+            });
+
+            // TODO fail cases
+        });
+
+
+        it('should fail undefined argument', function() {
+
+                expect(function () {
+                    logic.searchDucks(undefined, function(ducks){});
+                }).toThrowError(TypeError, 'undefined is not a valid argument');
+        });
+
+        it('should fail undefined function', function() {
+                expect(function () {
+                    logic.searchDucks('yellow');
+                }).toThrowError(TypeError, 'undefined is not a valid function');
+        });
+
+        it('should fail on invalid function', function() {
+                expect(function () {
+                    logic.searchDucks('yellow', 'pato');
+                }).toThrowError(TypeError, 'pato is not a valid function');
+        });
+
+        it('should fail when no arguments are passed', function() {
+                expect(function () {
+                    logic.searchDucks();
+                }).toThrowError(TypeError, 'undefined is not a valid argument');
+        });
+
+
+
+
+
+    });
+
 });

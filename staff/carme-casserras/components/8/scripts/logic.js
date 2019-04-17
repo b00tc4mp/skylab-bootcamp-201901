@@ -23,11 +23,11 @@ var logic = {
             throw error;
         };
       
-         if (users.email === email) {
+        /* if (users.email === email) {
             error = Error('this user already exists')
             error.code = 6;
             throw error;
-         } 
+         } */
 
         // TODO verify user does not exists already, otherwise error 'user already exists'
 
@@ -67,6 +67,36 @@ var logic = {
     logOut: function() {
         this.__userEmail__ = null;
         this.__accessTime__ = null;
+    },
+
+    searchDucks: function (query, callback) {
+        // TODO validate inputs
+        if(typeof query === 'undefined' ) throw TypeError(query + ' is not a valid argument'); 
+        if(typeof callback === 'undefined' || typeof callback !== 'function' ) throw TypeError(callback + ' is not a valid function'); 
+
+        var xhr = new XMLHttpRequest;
+
+        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
+
+        xhr.addEventListener('load', function () {
+            callback(JSON.parse(this.responseText));
+        });
+
+        xhr.send();
+    },
+
+    retrieveDucklingDetail: function(id, callback) {
+        // TODO validate inputs
+        
+        var xhr = new XMLHttpRequest;
+
+        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
+
+        xhr.addEventListener('load', function () {
+            callback(JSON.parse(this.responseText));
+        });
+
+        xhr.send();
     }
-    
+
 }
