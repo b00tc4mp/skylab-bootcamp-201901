@@ -96,13 +96,12 @@ describe("logic", function() {
         expect(ducks).toBeDefined();
         expect(ducks instanceof Array).toBeTruthy();
         expect(ducks.length).toBe(13);
-
         done();
       });
     });
 
     it("should break if query is undefined", function(done) {
-      expect(function () { logic.searchDucks(undefined, function() { })}).toThrowError(Error, "undefined is not a valid query");
+      expect(function () { logic.searchDucks(undefined)}).toThrowError(Error, "undefined is not a valid query");
     });
 
     it('should break if invalid callback is provided', function() {

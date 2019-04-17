@@ -13,14 +13,14 @@ function Home(container, literals, initialLanguage, onLogOut) {
   var searchFormTag = container.children[2];
 
   var listDucksContainer = container.children[3];
-  var listDucks = new ListDucks(listDucksContainer);
+  var listDucks = new List(listDucksContainer, CardDuck);
 
   //form, onSearch, literals, defaultLanguage
   this.__searchForm__ = new SearchForm(
     searchFormTag,
     function(text) {
         logic.searchDucks (text, function (ducks) {
-            listDucks.ducks = ducks;
+            listDucks.items = ducks;
         })
     },
     literals,

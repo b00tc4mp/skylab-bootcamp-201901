@@ -19,7 +19,7 @@ CardDuck.prototype.refresh = function () {
     this.container.innerHTML = "<p>No duck</p>";
     return ;  
   }
-  this.container.innerHTML = '<img style="width:100px; height:100px;" src="' + this.__duck__.imageUrl + '">' + "<p>" + this.__duck__.title + "</p>";
+  this.container.innerHTML = '<li><img style="width:100px; height:100px;" src="' + this.__duck__.imageUrl + '">' + "<p>" + this.__duck__.title + "</p></li>";
 }
 
 Object.defineProperty(CardDuck.prototype, "duck", {
