@@ -1,0 +1,68 @@
+<!-- <script>
+	//var person = { name: null };
+
+	//person.name = 'Peter';
+
+	//console.log(person.name);
+
+	var person = { __name__: null };
+
+	Object.defineProperty(person, 'name', {
+		set: function (name) {
+			this.__name__ = name.toUpperCase();
+		},
+
+		get: function () {
+			return '"' + this.__name__ + '"';
+		}
+	});
+
+	person.name = 'Peter';
+
+	console.log(person.name);
+</script> -->
+
+<!-- <script>
+	function Person(name) {
+		this.__name__ = name;
+	}
+
+	var person = new Person('Annita');
+
+	Object.defineProperty(person, 'name', {
+		get: function() { return this.__name__; }
+	});
+
+	console.log(person.name);
+	// Annita
+
+	person.name = 'Peter';
+
+	console.log(person.name);
+	// Annita
+</script> -->
+
+<script>
+		function Person(name) {
+			this.__name__ = name;
+		}
+
+		Object.defineProperty(Person.prototype, 'name', {
+			get: function() { return this.__name__; }
+		});
+	
+		var person = new Person('Annita');
+	
+		console.log(person.name);
+		// Annita
+	
+		person.name = 'Peter';
+	
+		console.log(person.name);
+		// Annita
+
+		var person2 = new Person('Michael');
+
+		console.log(person2.name);
+		// Michael
+	</script>

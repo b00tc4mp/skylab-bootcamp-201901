@@ -1,0 +1,34 @@
+<script>
+function salute(name) {
+	//console.log(this.name + ': hello, ' + name + '!');
+	return this.name + ': hello, ' + name + '!';
+}
+
+var anna = { name: 'Anna' };
+
+//anna.salute = salute;
+
+//var salute2 = salute.bind(anna)
+
+function bind(func, ctx) {
+	return function() {
+		return func.apply(ctx, arguments)
+    }
+}
+
+var salute2 = bind(salute, anna);
+
+//salute2('Peter');
+//salute('Peter');
+console.log(salute2('Peter'));
+
+var peter = { name: 'Peter' }
+
+//var salute3 = bind(salute2, peter);
+//var salute3 = salute2.bind(peter);
+
+var salute3 = bind(salute, peter);
+
+//salute3('Anna');
+console.log(salute3('Anna'));
+</script>

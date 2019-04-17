@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+</head>
+
+<body>
+	<form>
+		<!-- <input type="text" name="username" id="username">
+		<input type="password" name="password" id="password"> -->
+		<input type="text" name="username">
+		<input type="password" name="password">
+		<button>Login</button>
+	</form>
+
+	<script>
+		var form = document.getElementsByTagName('form')[0];
+
+		// form.addEventListener('submit', function (event) {
+		// 	event.preventDefault();
+
+		// 	console.log(this);
+		// });
+
+		var inputs = document.getElementsByTagName('input');
+
+		var username = inputs[0];
+		var password = inputs[1];
+
+		// var context = {
+		// 	username: username,
+		// 	password: password
+		// };
+
+		// var callback = function (event) {
+		// 	event.preventDefault();
+
+		// 	// console.log(this[0].value, this[1].value);
+		// 	console.log(this.username.value, this.password.value);
+		// 	// }.bind(form);
+		// }.bind(context);
+
+		// form.addEventListener('submit', callback);
+
+		form.addEventListener('submit', function (event) {
+			event.preventDefault();
+
+			console.log(this.username.value, this.password.value);
+			// });
+		}.bind({
+			username: username,
+			password: password
+		}));
+	</script>
+</body>
+
+</html>
