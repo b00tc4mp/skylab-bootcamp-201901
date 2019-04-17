@@ -1,15 +1,15 @@
 'use strict';
 
 /**
- * Register form.
+ * Login form.
  * 
  * @param {*} form 
- * @param {Funcion} onRegister The callback invoked on register.
+ * @param {Function} onLogin The callback invoked on login.
  * @param {*} literals 
  * @param {*} defaultLanguage 
- * @param {*} onLanguageChange The callback invoked on language change.
+ * @param {Function} onLanguageChange The callback invoked on language change.
  */
-function Register(form, onRegister, literals, defaultLanguage, onLanguageChange) {
+function Login(form, onLogin, literals, defaultLanguage, onLanguageChange) {
     Component.call(this, form);
 
     this.__literals__ = literals;
@@ -21,48 +21,41 @@ function Register(form, onRegister, literals, defaultLanguage, onLanguageChange)
 
     this.language = defaultLanguage;
 
-    this.onRegister = onRegister;
+    this.onLogin = onLogin;
 }
 
-Register.prototype = Object.create(Component.prototype);
-Register.prototype.constructor = Register;
+Login.prototype = Object.create(Component.prototype);
+Login.prototype.constructor = Login;
 
-Object.defineProperty(Register.prototype, 'onRegister', {
+Object.defineProperty(Login.prototype, 'onLogin', {
     set: function (callback) {
         this.container.addEventListener('submit', function (event) {
             event.preventDefault();
 
-            var name = this.name.value;
-            var surname = this.surname.value;
             var email = this.email.value;
             var password = this.password.value;
-            var confirmpassword = this.confirmpassword.value;
 
-            callback(name, surname, email, password, confirmpassword);
+            callback(email, password);
         });
     }
 });
 
-Object.defineProperty(Register.prototype, 'language', {
+Object.defineProperty(Login.prototype, 'language', {
     set: function (language) {
         var literals = this.__literals__[language];
 
         this.container.children[0].innerText = literals.title;
-        this.container.name.placeholder = literals.name;
-        this.container.surname.placeholder = literals.surname;
+
         this.container.email.placeholder = literals.email;
         this.container.password.placeholder = literals.password;
-        this.container.confirmpassword.placeholder = literals.password;
 
         this.container.children[2].innerText = literals.title;
 
-        if (this.__onLanguageChange__) this.__onLanguageChange__(language);
+        if (this.__onLanguageChange__) this.__onLanguageChange__();
     }
 });
 
-
-//PONER ESTO MEJOR EN COMPONENTS?¿
-Object.defineProperty(Register.prototype, 'error', {
+Object.defineProperty(Login.prototype, 'error', {
     set: function(error) {
         this.__feedback__.message = error;
         this.__feedback__.visible = true;
