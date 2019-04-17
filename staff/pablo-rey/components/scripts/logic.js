@@ -51,6 +51,35 @@ var logic = {
   logout: function() {
     this.__userEmail__ = null;
     this.__accessTime__ = null;
+  },
+
+  searchDucks: function(query, callback) {
+    if (typeof query === 'undefined') throw Error('undefined is not a valid query');
+    if (!callback instanceof Function) throw Error('callback is not a function');
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", "https://duckling-api.herokuapp.com/api/search?q=" + query);
+
+    xhr.addEventListener("load", function() {
+      callback(JSON.parse(this.responseText));
+    });
+
+    xhr.send();
+  },
+
+  retrieveDucklingDetail: function(id, callback) {
+    // TODO validate inputs
+
+    var xhr = new XMLHttpRequest();
+
+    xhr.open("GET", "https://duckling-api.herokuapp.com/api/ducks/" + id);
+
+    xhr.addEventListener("load", function() {
+      callback(JSON.parse(this.responseText));
+    });
+
+    xhr.send();
   }
 };
 

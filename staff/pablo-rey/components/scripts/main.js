@@ -74,4 +74,4 @@ var home = new Home(main, i18n.home, languageSelected, function() {
   home.visible = false;
   landing.visible = true;
 });
-home.visible = false;
+home.visible = true;
