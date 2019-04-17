@@ -147,4 +147,23 @@ describe('logic', function () {
 
         });
     });
+    describe('search ducks', function() {
+        it('should succeed on correct query', function(done) {
+            logic.searchDucks('yellow', function(ducks) {
+                expect(ducks).toBeDefined();
+                expect(ducks instanceof Array).toBeTruthy();
+                expect(ducks.length).toBe(13);
+
+                done();
+            });
+        });
+        it('should fail on undefined arguments', function() {
+            expect(function(){logic.searchDucks()}).toThrowError(Error, 'undefined is not a valid queryparam');
+        });
+    });
+    describe('retrive duck', function(){
+        it('should succeed on correct id', function(){
+
+        });
+    });
 });
