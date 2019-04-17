@@ -2,45 +2,44 @@
 
 function Home(container, literals, initialLanguage, onLogOut) {
   Component.call(this, container);
+  
   this.__literals__ = literals;
 
-  var logoutButton = container.children[0];
-  this.__logOut__ = new LogOut(logoutButton, literals, function() {
+  this.__logOut__ = new LogOut(this.getChild('.home__logout'), literals, function() {
     onLogOut();
   });
   this.__logOut__.language = initialLanguage;
 
-  var searchFormTag = container.children[2];
-
-  var listDucksContainer = container.children[3];
-  var listDucks = new List(listDucksContainer, CardDuck, function(duck) {
+  this.__listDucks__ = new List(this.getChild('.duck-list'), CardDuck, function(duck) {
     // onSelect
-    duckDetail.duck = duck
-    duckDetail.visible = true;
-    listDucks.visible = false;
-  });
+    var self = this;
+    this.__duckDetail__.showDuck(duck, function () {
+      // loading finish
+      self.__duckDetail__.visible = true;
+      self.__listDucks__.visible = false;
+    })
+  }.bind(this));
 
   this.__searchForm__ = new SearchForm(
-    searchFormTag,
+    this.getChild('.home__search'),
     function(text) {
         logic.searchDucks (text, function (ducks) {
-            listDucks.items = ducks;
-        })
-    },
+            this.__listDucks__.items = ducks;
+        }.bind(this))
+    }.bind(this),
     literals,
     initialLanguage
   );
 
-  var duckDetailTag = container.children[4];
-  var duckDetail = new DuckDetail(duckDetailTag, function() {
+  this.__duckDetail__ = new DuckDetail(this.getChild('.duck-detail'), function() {
     // onBack;
-    listDucks.visible = true;
-    duckDetail.visible = false;
-  }, function () {
+    this.__listDucks__.visible = true;
+    this.__duckDetail__.visible = false;
+  }.bind(this), function () {
     // onBuy
     console.log("buy");
-  }, literals, initialLanguage);
-
+  }.bind(this), literals, initialLanguage);
+  this.__duckDetail__.visible = false;
 }
 
 Home.prototype = Object.create(Component.prototype);

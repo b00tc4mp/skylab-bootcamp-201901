@@ -3,11 +3,7 @@
 function CardDuck (parent, duck, onSelect) {
   this.__parent__ = parent
   this.__duck__ = duck;
-  var container =  document.createElement('li');
-  container.setAttribute("data-id", this.__duck__.id);
-  container.style.width ="25%";
-  container.style.height = "300px"
-  Component.call(this, container);
+  Component.call(this, document.createElement('li'));
   this.__parent__.insertAdjacentElement('beforeend', this.container);
   this.refresh();
   this.onSelect = onSelect;
@@ -27,8 +23,6 @@ CardDuck.prototype.refresh = function () {
   this.container.appendChild(h3);
 
   var img = document.createElement('img');
-  img.style.width = "100px";
-  img.style.height = "100px";
   img.src = this.__duck__.imageUrl;
 
   var priceTag = document.createElement('span');
@@ -44,13 +38,11 @@ Object.defineProperty(CardDuck.prototype, "duck", {
   }
 });
 
-
 Object.defineProperty(CardDuck.prototype, "onSelect", {
   set: function(callback) {
-    var self = this;
     this.container.addEventListener("click", function(event) {
       event.preventDefault();
-      callback(self.__duck__);
-    });
+      callback(this.__duck__);
+    }.bind(this));
   }
 });

@@ -11,9 +11,7 @@ function SearchForm(form, onSearch, literals, defaultLanguage) {
   Component.call(this, form);
 
   this.__literals__ = literals;
-
   this.language = defaultLanguage;
-
   this.onSearch = onSearch;
 }
 
@@ -34,7 +32,7 @@ Object.defineProperty(SearchForm.prototype, "language", {
   set: function(language) {
     var literals = this.__literals__[language];
 
-    this.container.children[1].innerText = literals.buttonText;
+    this.getChild('.home__search-button').innerText = literals.buttonText;
 
     if (this.__onLanguageChange__) this.__onLanguageChange__(language);
   }
