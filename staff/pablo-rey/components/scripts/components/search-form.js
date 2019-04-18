@@ -1,8 +1,8 @@
 "use strict";
 
 class SearchForm extends Component {
-  constructor(form, onSearch, literals, defaultLanguage) {
-    super(form);
+  constructor({ container, onSearch, literals, defaultLanguage }) {
+    super(container);
 
     this.__literals__ = literals;
     this.language = defaultLanguage;
@@ -10,53 +10,15 @@ class SearchForm extends Component {
   }
 
   set onSearch(callback) {
-    this.container.addEventListener("submit", function (event) {
+    this.container.addEventListener("submit", event => {
       event.preventDefault();
-      callback(this.elements.searchText.value);
+      callback(this.container.elements.searchText.value);
     });
   }
 
   set language(language) {
-    var literals = this.__literals__[language];
+    const literals = this.__literals__[language];
     this.getChild(".home__search-button").innerText = literals.buttonText;
     if (this.__onLanguageChange__) this.__onLanguageChange__(language);
   }
 }
-
-// /**
-//  *
-//  * @param {*} form
-//  * @param {*} onSearch
-//  * @param {*} literals
-//  * @param {*} defaultLanguage
-//  */
-// function SearchForm(form, onSearch, literals, defaultLanguage) {
-//   Component.call(this, form);
-
-//   this.__literals__ = literals;
-//   this.language = defaultLanguage;
-//   this.onSearch = onSearch;
-// }
-
-// SearchForm.prototype = Object.create(Component.prototype);
-// SearchForm.prototype.constructor = SearchForm;
-
-// Object.defineProperty(SearchForm.prototype, "onSearch", {
-//   set: function(callback) {
-//     this.container.addEventListener("submit", function(event) {
-//       event.preventDefault();
-
-//       callback(this[0].value);
-//     });
-//   }
-// });
-
-// Object.defineProperty(SearchForm.prototype, "language", {
-//   set: function(language) {
-//     var literals = this.__literals__[language];
-
-//     this.getChild('.home__search-button').innerText = literals.buttonText;
-
-//     if (this.__onLanguageChange__) this.__onLanguageChange__(language);
-//   }
-// });
