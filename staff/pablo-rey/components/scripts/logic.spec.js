@@ -32,7 +32,7 @@ describe("logic", function() {
     it("should fail on undefined name", function() {
       expect(function() {
         logic.register(undefined, surname, email, password);
-      }).toThrowError(TypeError, "undefined is not a valid name");
+      }).toThrowError(Error, "name not provided");
     });
   });
 
@@ -100,8 +100,11 @@ describe("logic", function() {
       });
     });
 
-    it("should break if query is undefined", function(done) {
-      expect(function () { logic.searchDucks(undefined)}).toThrowError(Error, "undefined is not a valid query");
+    it("should break if query is undefined", function() {
+      expect(function (done) { 
+        logic.searchDucks(undefined);
+        done();
+      }).toThrowError(Error, "undefined is not a valid query");
     });
 
     it('should break if invalid callback is provided', function() {

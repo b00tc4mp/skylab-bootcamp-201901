@@ -14,7 +14,7 @@ Component.prototype.getChild = function (classname) {
 
 Object.defineProperty(Component.prototype, "visible", {
   set: function(visible) {
-    this.container.style.display = visible ? "block" : "none";
+    this.container.style.display = visible ? "" : "none";
   }
 });
 

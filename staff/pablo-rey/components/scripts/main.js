@@ -74,4 +74,4 @@ var home = new Home(document.getElementsByClassName("home")[0], i18n.home, langu
   home.visible = false;
   landing.visible = true;
 });
-home.visible = false;
+home.visible = true;

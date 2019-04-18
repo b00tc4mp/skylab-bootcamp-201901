@@ -55,30 +55,45 @@ var logic = {
 
   searchDucks: function(query, callback) {
     if (typeof query === 'undefined') throw Error('undefined is not a valid query');
-    if (!callback instanceof Function) throw Error('callback is not a function');
+    if (!(callback instanceof Function)) throw Error('callback is not a function');
 
     var xhr = new XMLHttpRequest();
 
     xhr.open("GET", "https://duckling-api.herokuapp.com/api/search?q=" + query);
 
     xhr.addEventListener("load", function() {
-      callback(JSON.parse(this.responseText));
+      callback(JSON.parse(this.responseText).map(function(item) {
+        return {
+          id: item.id,
+          title: item.title,
+          imageUrl: item.imageUrl,
+          price: item.price,
+        };
+      }));
     });
 
     xhr.send();
   },
 
   retrieveDuckDetail: function(id, callback) {
-    // TODO validate inputs
+    if (typeof id === 'undefined') throw Error('undefined is not a valid id');
+    if (!(callback instanceof Function)) throw Error('callback is not a function');
 
     var xhr = new XMLHttpRequest();
 
     xhr.open("GET", "https://duckling-api.herokuapp.com/api/ducks/" + id);
 
     xhr.addEventListener("load", function() {
-      callback(JSON.parse(this.responseText));
-    });
-
+      var result = JSON.parse(this.responseText);
+      callback({
+          id: result.id,
+          title: result.title,
+          imageUrl: result.imageUrl,
+          price: result.price,
+          description: result.description,
+        });
+      });
+    
     xhr.send();
   }
 };

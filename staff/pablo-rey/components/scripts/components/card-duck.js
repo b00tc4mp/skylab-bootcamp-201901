@@ -3,8 +3,12 @@
 function CardDuck (parent, duck, onSelect) {
   this.__parent__ = parent
   this.__duck__ = duck;
+  this.baseClass = "duck-item";
+  
   Component.call(this, document.createElement('li'));
+  this.container.classList.add(this.baseClass);
   this.__parent__.insertAdjacentElement('beforeend', this.container);
+
   this.refresh();
   this.onSelect = onSelect;
 }
@@ -17,19 +21,24 @@ CardDuck.prototype.refresh = function () {
     this.container.innerHTML = "<p>No duck</p>";
     return ;  
   }
-
-  var h3 = document.createElement('h3');
-  h3.innerText = this.__duck__.title;
-  this.container.appendChild(h3);
-
+  
   var img = document.createElement('img');
   img.src = this.__duck__.imageUrl;
+  img.classList.add(this.baseClass + '__image');
+  
+  this.container.appendChild(img);
+  
+  var h3 = document.createElement('h3');
+  h3.innerText = this.__duck__.title;
+  h3.classList.add(this.baseClass + '__title');
+
+  this.container.appendChild(h3);
 
   var priceTag = document.createElement('span');
   priceTag.innerText = this.__duck__.price;
+  priceTag.classList.add(this.baseClass + '__price');
   this.container.appendChild(priceTag);
 
-  this.container.appendChild(img);  
 }
 
 Object.defineProperty(CardDuck.prototype, "duck", {
