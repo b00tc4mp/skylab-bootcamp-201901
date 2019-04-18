@@ -1,23 +1,36 @@
-'use strict';
+"use strict";
 
-/**
- * 
- * @param {HTMLElement} select 
- * @param {Function} callback 
- */
-function LanguageSelector(select, callback) {
-    Component.call(this, select);
+class LanguageSelector extends Component {
+  constructor(select, onChange) {
+    super(select);
+    this.onChange = onChange;
+  }
 
-    this.onChange = callback;
+  set onChange(callback) {
+    this.container.addEventListener("change", event => {
+      callback(event.target.value);
+    });
+  }
 }
 
-LanguageSelector.prototype = Object.create(Component.prototype);
-LanguageSelector.prototype.constructor = LanguageSelector;
+// /**
+//  *
+//  * @param {HTMLElement} select
+//  * @param {Function} callback
+//  */
+// function LanguageSelector(select, callback) {
+//     Component.call(this, select);
 
-Object.defineProperty(LanguageSelector.prototype, 'onChange', {
-    set: function (callback) {
-        this.container.addEventListener('change', function (event) {
-            callback(event.target.value);
-        });
-    }
-});
+//     this.onChange = callback;
+// }
+
+// LanguageSelector.prototype = Object.create(Component.prototype);
+// LanguageSelector.prototype.constructor = LanguageSelector;
+
+// Object.defineProperty(LanguageSelector.prototype, 'onChange', {
+//     set: function (callback) {
+//         this.container.addEventListener('change', function (event) {
+//             callback(event.target.value);
+//         });
+//     }
+// });

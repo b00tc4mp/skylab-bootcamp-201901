@@ -1,20 +1,37 @@
 "use strict";
 
-function Component(container) {
-  this.container = container;
+class Component {
+  constructor (container) {
+    this.container = container;
+  }
+
+  getChild (classname) {
+    if (classname[0] === ".") {
+      var col = this.container.getElementsByClassName(classname.slice(1));
+      if (col.length !== 1) return col;
+      else return col[0];
+    }
+  }
+  
+  set visible(visible) { this.container.style.display = visible ? "" : "none"; }
+
 }
 
-Component.prototype.getChild = function (classname) {
-  if (classname[0] === ".") {
-    var col = this.container.getElementsByClassName(classname.slice(1));
-    if (col.length !== 1) return col;
-    else return col[0];
-  }
-}
+// function Component(container) {
+//   this.container = container;
+// }
 
-Object.defineProperty(Component.prototype, "visible", {
-  set: function(visible) {
-    this.container.style.display = visible ? "" : "none";
-  }
-});
+// Component.prototype.getChild = function (classname) {
+//   if (classname[0] === ".") {
+//     var col = this.container.getElementsByClassName(classname.slice(1));
+//     if (col.length !== 1) return col;
+//     else return col[0];
+//   }
+// }
+
+// Object.defineProperty(Component.prototype, "visible", {
+//   set: function(visible) {
+//     this.container.style.display = visible ? "" : "none";
+//   }
+// });
 

@@ -1,33 +1,60 @@
-'use strict';
-
-function Landing(section, literals, onNavigateToRegister, onNavigateToLogin) {
-    Component.call(this, section);
-
+"use strict";
+class Landing extends Component {
+  constructor(section, literals, onNavigateToRegister, onNavigateToLogin) {
+    super(section);
     this.__literals__ = literals;
 
-    this.getChild(".landing__register").addEventListener('click', function(event) {
-        event.preventDefault();
+    this.getChild(".landing__register").addEventListener("click", event => {
+      event.preventDefault();
 
-        onNavigateToRegister();
+      onNavigateToRegister();
     });
 
-    this.getChild(".landing__login").addEventListener('click', function(event) {
-        event.preventDefault();
+    this.getChild(".landing__login").addEventListener("click", function(event) {
+      event.preventDefault();
 
-        onNavigateToLogin();
+      onNavigateToLogin();
     });
+  }
+
+  set language(language) {
+    var literals = this.__literals__[language];
+
+    var children = this.container.children;
+    this.getChild(".landing__register").innerText = literals.register;
+    this.getChild(".landing__middleText").innerText = literals.or;
+    this.getChild(".landing__login").innerText = literals.login;
+  }
 }
 
-Landing.prototype = Object.create(Component.prototype);
-Landing.prototype.constructor = Landing;
+// function Landing(section, literals, onNavigateToRegister, onNavigateToLogin) {
+//     Component.call(this, section);
 
-Object.defineProperty(Landing.prototype, 'language', {
-    set: function (language) {
-        var literals = this.__literals__[language];
+//     this.__literals__ = literals;
 
-        var children = this.container.children;
-        this.getChild(".landing__register").innerText = literals.register;
-        this.getChild(".landing__middleText").innerText = literals.or;
-        this.getChild(".landing__login").innerText = literals.login;
-    }
-});
+//     this.getChild(".landing__register").addEventListener('click', function(event) {
+//         event.preventDefault();
+
+//         onNavigateToRegister();
+//     });
+
+//     this.getChild(".landing__login").addEventListener('click', function(event) {
+//         event.preventDefault();
+
+//         onNavigateToLogin();
+//     });
+// }
+
+// Landing.prototype = Object.create(Component.prototype);
+// Landing.prototype.constructor = Landing;
+
+// Object.defineProperty(Landing.prototype, 'language', {
+//     set: function (language) {
+//         var literals = this.__literals__[language];
+
+//         var children = this.container.children;
+//         this.getChild(".landing__register").innerText = literals.register;
+//         this.getChild(".landing__middleText").innerText = literals.or;
+//         this.getChild(".landing__login").innerText = literals.login;
+//     }
+// });
