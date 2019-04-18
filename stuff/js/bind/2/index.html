@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<style>
+		form {
+			border: 1px solid black;
+			padding: 10px;
+		}
+	</style>
+</head>
+
+<body>
+	<form>
+		<input type="text">
+		<input type="text">
+		<button>Inline</button>
+	</form>
+
+	<form>
+		<input type="text">
+		<button>UpperCase</button>
+	</form>
+
+	<script>
+		var forms = document.getElementsByTagName('form');
+
+		var inline = forms[0];
+		var word1 = inline[0];
+		var word2 = inline[1];
+
+		var uppercase = forms[1];
+		var line = uppercase[0];
+
+		var ctx = {
+			word1: word1,
+			word2: word2,
+			line: line
+		};
+		
+		inline.addEventListener('submit', function(event) {
+			event.preventDefault();
+
+			this.line.value = this.word1.value + ' ' + this.word2.value;
+		}.bind(ctx));
+
+		uppercase.addEventListener('submit', function(event) {
+			event.preventDefault();
+
+			console.log(this.line.value.toUpperCase());
+		}.bind(ctx));
+	</script>
+</body>
+
+</html>

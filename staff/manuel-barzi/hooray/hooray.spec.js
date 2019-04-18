@@ -66,7 +66,7 @@ describe('hooray', function () {
     });
 
     describe('forEach', function () {
-        !true && it('should itearate an hooray without altering it', function () {
+        true && it('should itearate an hooray without altering it', function () {
             var hooray = new Hooray(1, 2, 3);
 
             var result = new Hooray;
@@ -80,7 +80,7 @@ describe('hooray', function () {
 
             var expected = { 0: 1, 1: 2, 2: 3, length: 3 };
 
-            expect(hooray, expected, true);
+            expect(hooray).toEqual(jasmine.objectContaining(expected));
         });
 
         !true && it('should do nothing if hooray has not content', function () {
