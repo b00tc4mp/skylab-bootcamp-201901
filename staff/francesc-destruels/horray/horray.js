@@ -174,22 +174,14 @@ Hooray.prototype.indexof = function (searchElement, startingIndex) {
         if (startingIndex < 0 || startingIndex > this.length - 1) throw TypeError(startingIndex + ' is not a valid array last index value');
     }
 
-    var i, j = -1;
+    var i = startingIndex === undefined ? 0 : startingIndex, j = -1;
 
-    if (startingIndex === undefined) {
-        for (i = 0; i < this.length; i++) {
+        for (i; i < this.length; i++) {
             if (this[i] === searchElement) {
                 return i;
             }
-        }
-    } else {
-        for (i = startingIndex; i < this.length; i++) {
-            if (this[i] === searchElement) {
-                return i;
-            }
-        }
-    }
-
+        };
+        
     return j;
 };
 
