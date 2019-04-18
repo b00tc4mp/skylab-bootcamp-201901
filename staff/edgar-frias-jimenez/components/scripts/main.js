@@ -52,7 +52,29 @@ var registerOk = new RegisterOk(registrySuccess, function () {
 registerOk.visible = false;
 
 var main = document.getElementsByTagName('main')[0];
-var home = new Home(main);
-home.visible = false;
+var home = new Home(main, function(query) {
+    logic.searchDucks(query, function(ducks) {
+        home.results = ducks.map(function(duck) {
+            return {
+                id: duck.id,
+                title: duck.title,
+                image: duck.imageUrl,
+                price: duck.price
+            }
+        });
+    });
+}, function(id) {
+    logic.retrieveDucklingDetail(id, function(duck) {
+        home.item = {
+            title: duck.title,
+            image: duck.image,
+            price: duck.price,
+            link: duck.link,
+            description: duck.description,
+            id: duck.id
+        };
+    });
+});
+// home.visible = false;
 
 
