@@ -9,32 +9,32 @@ Item.prototype.constructor = Item;
 
 Object.defineProperty(Item.prototype, 'item', { // title, image, price, link, description, id
   set: function(item) {
-    item.forEach(function(property) {
-      var section = document.createElement('section');
-      section.setAttribute('data-id', property.id);
+    this.container.innerHTML = '';
 
-      var title = document.createElement('h1');
-      title.innerText = property.title;
-      section.appendChild(title);
+    var section = document.createElement('section');
+    section.setAttribute('data-id', item.id);
 
-      var img = document.createElement('img');
-      img.src = property.image;
-      img.style.width = '500px';
-      section.appendChild(img);
+    var title = document.createElement('h1');
+    title.innerText = item.title;
+    section.appendChild(title);
 
-      var price = document.createElement('span');
-      price.innerText = property.price;
-      section.appendChild(price);
+    var img = document.createElement('img');
+    img.src = item.image;
+    img.style.width = '500px';
+    section.appendChild(img);
 
-      var link = document.createElement('a');
-      link.innerText = property.link;
-      section.appendChild(link);
+    var price = document.createElement('span');
+    price.innerText = item.price;
+    section.appendChild(price);
 
-      var description = document.createElement('p');
-      description.innerText = property.description;
-      section.appendChild(description);
+    var link = document.createElement('a');
+    link.innerText = item.link;
+    section.appendChild(link);
 
-      this.container.appendChild(section);
-    }.bind(this));
+    var description = document.createElement('p');
+    description.innerText = item.description;
+    section.appendChild(description);
+
+    this.container.appendChild(section);
   }
 });

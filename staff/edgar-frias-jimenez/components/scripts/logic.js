@@ -40,6 +40,26 @@ var logic = {
         };
     },
 
+    retrieveUser: function (email) {
+        // TODO validate input
+
+        var user = users.find(function (user) { return user.email === email });
+
+        if (!user) {
+            var error = Error('user not found with email ' + email)
+
+            error.code = 2;
+
+            throw error;
+        }
+
+        return {
+            name: user.name,
+            surname: user.surname,
+            email: user.email
+        };
+    },
+
     searchDucks: function (query, callback) {
         if (typeof query === 'undefined') throw TypeError(query + ' is not defined');
         if (typeof callback === 'undefined') throw TypeError(callback + ' is not defined');

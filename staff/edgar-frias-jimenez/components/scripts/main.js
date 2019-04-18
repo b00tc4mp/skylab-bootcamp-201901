@@ -35,6 +35,8 @@ var login = new Login(loginForm, function (email, password) {
         logic.login(email, password);
 
         login.visible = false;
+        var user = logic.retrieveUser(email);
+        home.name = user.name;
         home.visible = true;
     } catch (error) {
         login.error = i18n.errors[languageSelected][error.code];
@@ -67,7 +69,7 @@ var home = new Home(main, function(query) {
     logic.retrieveDucklingDetail(id, function(duck) {
         home.item = {
             title: duck.title,
-            image: duck.image,
+            image: duck.imageUrl,
             price: duck.price,
             link: duck.link,
             description: duck.description,
@@ -75,6 +77,6 @@ var home = new Home(main, function(query) {
         };
     });
 });
-// home.visible = false;
+home.visible = false;
 
 

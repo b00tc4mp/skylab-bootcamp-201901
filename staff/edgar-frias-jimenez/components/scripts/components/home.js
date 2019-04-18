@@ -14,7 +14,6 @@ function Home(container, onSearch, itemClick) {
 
     var itemSection = this.container.children[3];
     var item = new Item(itemSection);
-    // this.__results__.visible = false;
     this.__item__ = item;
     this.__item__.visible = false;
 }
@@ -26,6 +25,7 @@ Object.defineProperty(Home.prototype, 'results', {
     set: function(results) {
         this.__results__.visible = false;
         this.__results__.items = results;
+        this.__results__.visible = true;
     }
 });
 
@@ -33,5 +33,14 @@ Object.defineProperty(Home.prototype, 'item', {
     set: function(item) {
         this.__results__.visible = false;
         this.__item__.item = item;
+        this.__item__.visible = true;
+    }
+});
+
+Object.defineProperty(Home.prototype, 'name', {
+    set: function (name) {
+        var h1 = this.container.children[0];
+
+        h1.innerText = 'Hello, ' + name + '!';
     }
 });
