@@ -21,8 +21,10 @@ function Register(
   this.__literals__ = literals;
   this.__onLanguageChange__ = onLanguageChange;
 
-  this.language = defaultLanguage;
+  this.__feedback__ = new Feedback( this.getChild(".register__error"));
+  this.__feedback__.visible = false;
 
+  this.language = defaultLanguage;
   this.onRegister = onRegister;
 }
 
@@ -48,14 +50,21 @@ Object.defineProperty(Register.prototype, "language", {
   set: function(language) {
     var literals = this.__literals__[language];
 
-    this.container.children[0].innerText = literals.title;
+    this.getChild(".register__title").innerText = literals.title;
     this.container.name.placeholder = literals.name;
     this.container.surname.placeholder = literals.surname;
     this.container.email.placeholder = literals.email;
     this.container.password.placeholder = literals.password;
 
-    this.container.children[2].innerText = literals.title;
+    this.getChild(".register__button").innerText = literals.title;
 
     if (this.__onLanguageChange__) this.__onLanguageChange__(language);
+  }
+});
+
+Object.defineProperty(Register.prototype, "error", {
+  set: function(error) {
+    this.__feedback__.message = error;
+    this.__feedback__.visible = true;
   }
 });

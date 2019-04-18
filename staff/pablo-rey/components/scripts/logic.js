@@ -68,7 +68,7 @@ var logic = {
     xhr.send();
   },
 
-  retrieveDucklingDetail: function(id, callback) {
+  retrieveDuckDetail: function(id, callback) {
     // TODO validate inputs
 
     var xhr = new XMLHttpRequest();

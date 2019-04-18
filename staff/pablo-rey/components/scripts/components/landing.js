@@ -5,15 +5,13 @@ function Landing(section, literals, onNavigateToRegister, onNavigateToLogin) {
 
     this.__literals__ = literals;
 
-    var links = this.container.children;
-
-    links[0].addEventListener('click', function(event) {
+    this.getChild(".landing__register").addEventListener('click', function(event) {
         event.preventDefault();
 
         onNavigateToRegister();
     });
 
-    links[2].addEventListener('click', function(event) {
+    this.getChild(".landing__login").addEventListener('click', function(event) {
         event.preventDefault();
 
         onNavigateToLogin();
@@ -28,8 +26,8 @@ Object.defineProperty(Landing.prototype, 'language', {
         var literals = this.__literals__[language];
 
         var children = this.container.children;
-        children[0].innerText = literals.register;
-        children[1].innerText = literals.or;
-        children[2].innerText = literals.login;
+        this.getChild(".landing__register").innerText = literals.register;
+        this.getChild(".landing__middleText").innerText = literals.or;
+        this.getChild(".landing__login").innerText = literals.login;
     }
 });

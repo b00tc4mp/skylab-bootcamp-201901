@@ -1,71 +1,83 @@
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./style.css">
+    <title>Duck ecommerce</title>
+  </head>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
-</head>
-
-<body>
-    <select>
-        <option value="en">English</option>
-        <option value="es">Español</option>
-        <option value="ca">Català</option>
-        <option value="ga">Galego</option>
+  <body>
+    <select class="language">
+      <option value="en">English</option>
+      <option value="es">Español</option>
+      <option value="ca">Català</option>
+      <option value="ga">Galego</option>
     </select>
 
-    <section>
-            <a href="">Register</a> <span>or</span> <a href="">Login</a>.
+    <section class="landing">
+      <a class="landing__register" href="">Register</a> <span class="landing__middleText">or</span> <a class="landing__login" href="">Login</a>.
     </section>
 
-    <form>
-        <h2>Register</h2>
 
-        <ul>
-            <li><input type="text" name="name" placeholder="name"></li>
-            <li><input type="text" name="surname" placeholder="surname"></li>
-            <li><input type="text" name="email" placeholder="email"></li>
-            <li><input type="password" name="password" placeholder="password"></li>
-        </ul>
 
-        <button>Register</button>
+    <form class="register">
+      <h2 class="register__title">Register</h2>
+
+      <div class="register__error">
+          <p class="register__error-message">Error!</p>
+      </div>
+
+      <ul class="register__inputs">
+        <li><input class="register__input" type="text" name="name" placeholder="name" /></li>
+        <li><input class="register__input" type="text" name="surname" placeholder="surname" /></li>
+        <li><input class="register__input" type="text" name="email" placeholder="email" /></li>
+        <li>
+          <input class="register__input" type="password" name="password" placeholder="password" />
+        </li>
+      </ul>
+
+      <button class="register__button">Register</button>
     </form>
 
-    <form>
-        <h2>Login</h2>
+    <form class="login">
+      <h2 class="login__title">Login</h2>
 
-        <ul>
-            <li><input type="text" name="email" placeholder="email"></li>
-            <li><input type="password" name="password" placeholder="password"></li>
-        </ul>
+      <div class="login__error">
+          <p class="login__error-message">Error!</p>
+      </div>
 
-        <button>Login</button>
+      <ul class="login__inputs">
+        <li><input class="login__input" type="text" name="email" placeholder="email" /></li>
+        <li>
+          <input class="login__input" type="password" name="password" placeholder="password" />
+        </li>
+      </ul>
 
-        <p>Error!</p>
+      <button class="login__button">Login</button>
     </form>
 
-    <section>
-        User successfully registered, you can proceed to <a href="">Login</a>.
+    <section class="registerSuccessful">
+      User successfully registered, you can proceed to <a href="">Login</a>.
     </section>
 
-    <main>
-        <button>Logout</button>
-        <h1>Hello, World!</h1>
-        <form>
-            <input type="text" name="searchText">
-            <button>Search</button>            
-        </form>
-        <ul style="display:flex; flex-direction:row; flex-wrap: wrap;"></ul>
-        <section>
-            <h3>Titulo</h3>
-            <img src="">
-            <span>Precio</span>
-            <p>description</p>
-            <a>Back</a>
-            <a>Buy</a>
-        </section>
+    <main class="home">
+      <button class="home__logout">Logout</button>
+      <h1 class="home__title">Hello, World!</h1>
+      <form class="home__search">
+        <input class="home__search-input" type="text" name="searchText" />
+        <button class="home__search-button">Search</button>
+      </form>
+      <ul class="duck-list"></ul>
+      <section class="duck-detail">
+        <h3 class="duck-detail__title">Titulo</h3>
+        <img class="duck-detail__image" src="" />
+        <span class="duck-detail__price">Precio</span>
+        <p class="duck-detail__description">description</p>
+        <a class="duck-detail__back">Back</a>
+        <button class="duck-detail__buy">Buy</button>
+      </section>
     </main>
 
     <script src="scripts/components/component.js"></script>
@@ -85,6 +97,5 @@
     <script src="scripts/logic.js"></script>
     <script src="scripts/i18n.js"></script>
     <script src="scripts/main.js"></script>
-</body>
-
+  </body>
 </html>
