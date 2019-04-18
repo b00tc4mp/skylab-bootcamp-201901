@@ -1,40 +1,35 @@
-'use strict';
+'use strict'
 
-function Results(ul, onItem) {
-    Component.call(this, ul);
+class Results extends Component {
+    constructor (ul, onItem) {
+        super(ul)
 
-    this.__onItem__ = onItem;
-}
-
-Results.prototype = Object.create(Component.prototype);
-Results.prototype.constructor = Results;
-
-Object.defineProperty(Results.prototype, 'items', {
-    set: function(items) {
-        this.container.innerHTML = '';
-        (this.container.firstElementChild);
-        items.forEach(function(item) { // id, title, image, price
-            var li = document.createElement('li');
-            li.setAttribute('data-id', item.id);
-            
-            var h3 = document.createElement('h3');
-            h3.innerText = item.title;
-            li.appendChild(h3);
-           
-            var img = document.createElement('img');
-            img.src = item.image;
-            li.appendChild(img);
-
-            var span = document.createElement('span');
-            span.innerText = item.price;
-            li.appendChild(span);
-
-            this.container.appendChild(li);
-
-            li.addEventListener('click', function(){
-                this.__onItem__(item.id);
-                // this.visible = false;
-            }.bind(this));
-        }.bind(this));
+        this.__onItem__ = onItem
     }
-});
+    set items (items) {
+        this.container.innerHTML = ''
+        (this.container.firstElementChild)
+        items.forEach(item => {
+            let li = document.createElement('li')
+            li.setAttribute('data-id', item.id)
+            
+            let h3 = document.createElement('h3')
+            h3.innerText = item.title
+            li.appendChild(h3)
+           
+            let img = document.createElement('img')
+            img.src = item.image
+            li.appendChild(img)
+    
+            let span = document.createElement('span')
+            span.innerText = item.price
+            li.appendChild(span)
+    
+            this.container.appendChild(li)
+    
+            li.addEventListener('click', () => {
+                this.__onItem__(item.id)
+            })
+        })
+    }
+}

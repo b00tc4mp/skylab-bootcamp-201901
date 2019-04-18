@@ -20,7 +20,6 @@ var landing = new Landing(sections[0], i18n.landing, languageSelected, function(
     landing.visible = false;
     login.visible = true;
 }, );
-landing.visible = false //ESTO QUITAR
 
 var forms = document.getElementsByTagName('form');
 
@@ -81,6 +80,6 @@ var home = new Home(main, function(query){
     home.visible = false;
     landing.visible = true;
 });
-// home.visible = false;
+home.visible = false;
 
 
