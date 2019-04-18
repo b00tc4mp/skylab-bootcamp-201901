@@ -1,7 +1,7 @@
 'use strict';
 
 var logic = {
-    validate: function (email) {
+    __validateEmail__: function (email) {
         var re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
         
         return re.test(String(email).toLowerCase());
@@ -19,7 +19,7 @@ var logic = {
             error.code = 3;
             throw error;
         }
-        if (!logic.validate(email)) {
+        if (!logic.__validateEmail__(email)) {
             var error = Error('not a valid email');
             error.code = 4;
             throw error;
@@ -74,5 +74,32 @@ var logic = {
             error.code = 1;
             throw error;
         };
+    },
+    searchDucks: function (query, callback) {
+        // TODO validate inputs
+
+        var xhr = new XMLHttpRequest;
+
+        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
+
+        xhr.addEventListener('load', function () {
+            callback(JSON.parse(this.responseText));
+        });
+
+        xhr.send();
+    },
+
+    retrieveDucklingDetail: function(id, callback) {
+        // TODO validate inputs
+
+        var xhr = new XMLHttpRequest;
+
+        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
+
+        xhr.addEventListener('load', function () {
+            callback(JSON.parse(this.responseText));
+        });
+
+        xhr.send();
     }
 }
