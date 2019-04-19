@@ -40,6 +40,26 @@ var logic = {
         };
     },
 
+    retrieveUser: function (email) {
+        // TODO validate input
+
+        var user = users.find(function (user) { return user.email === email });
+
+        if (!user) {
+            var error = Error('user not found with email ' + email)
+
+            error.code = 2;
+
+            throw error;
+        }
+
+        return {
+            name: user.name,
+            surname: user.surname,
+            email: user.email
+        };
+    },
+
     searchDucks: function (query, callback) {
         // TODO validate inputs
 
@@ -54,9 +74,9 @@ var logic = {
         xhr.send();
     },
 
-    retrieveDucklingDetail: function(id, callback) {
+    retrieveDuckDetail: function (id, callback) {
         // TODO validate inputs
-        
+
         var xhr = new XMLHttpRequest;
 
         xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
