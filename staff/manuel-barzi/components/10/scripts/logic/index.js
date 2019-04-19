@@ -1,7 +1,7 @@
 'use strict'
 
 const logic = {
-    register: function (name, surname, email, password) {
+    registerUser(name, surname, email, password) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a valid name')
         // TODO add more validations
 
@@ -15,7 +15,7 @@ const logic = {
         })
     },
 
-    login: function (email, password) {
+    loginUser(email, password) {
         // TODO validate input data
 
         const user = users.find(user => user.email === email)
@@ -40,7 +40,7 @@ const logic = {
         }
     },
 
-    retrieveUser: function () {
+    retrieveUser() {
         // TODO validate input
 
         const user = users.find(user => user.email === this.__userEmail__)
@@ -60,14 +60,14 @@ const logic = {
         }
     },
 
-    searchDucks: function (query, callback) {
+    searchDucks(query, callback) {
         // TODO validate inputs
 
         // TODO handle api errors
         duckApi.searchDucks(query, callback)
     },
 
-    retrieveDuck: function (id, callback) {
+    retrieveDuck(id, callback) {
         // TODO validate inputs
 
         // TODO handle api errors

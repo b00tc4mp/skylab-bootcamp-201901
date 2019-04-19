@@ -25,7 +25,7 @@ const landing = new Landing(sections[0], i18n.landing, function() {
 const forms = document.getElementsByTagName('form')
 
 const register = new Register(forms[0], function (name, surname, email, password) {
-    logic.register(name, surname, email, password)
+    logic.registerUser(name, surname, email, password)
 
     register.visible = false
     registerOk.visible = true
@@ -34,7 +34,7 @@ register.visible = false
 
 const login = new Login(forms[1], function (email, password) {
     try {
-        logic.login(email, password)
+        logic.loginUser(email, password)
 
         login.visible = false
         const user = logic.retrieveUser(email)
