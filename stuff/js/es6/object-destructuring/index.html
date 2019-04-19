@@ -1,0 +1,14 @@
+<script>
+    const o = {
+        a: 1, b: 2, c: 3, d: {
+            e: [{
+            }, {
+                f: function () { console.log('lo conseguiste') }
+            }]
+        }
+    }
+
+    const { d: { e: [, { f: fun }] } } = o
+
+    fun()
+</script>
