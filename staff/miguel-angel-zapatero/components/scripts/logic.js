@@ -1,4 +1,4 @@
-'use strict';
+'use strict'
 
 var logic = {
     __validateEmail__: function (email) {
@@ -75,6 +75,7 @@ var logic = {
             throw error;
         };
     },
+
     searchDucks: function (query, callback) {
         // TODO validate inputs
 

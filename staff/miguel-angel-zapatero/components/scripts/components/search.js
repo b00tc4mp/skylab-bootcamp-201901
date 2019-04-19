@@ -7,7 +7,7 @@ class Search extends Component {
         this.onSearch = onSearch
     }
     set onSearch (callback) {
-        this.container.addEventListener('submit', event => {
+        this.container.addEventListener('submit', function(event) {
             event.preventDefault();
     
             let query = this.query.value

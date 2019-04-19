@@ -25,7 +25,7 @@ class Login extends Component {
         this.onLogin = onLogin
     }
     set onLogin (callback) {
-        this.container.addEventListener('submit', event => {
+        this.container.addEventListener('submit', function(event) {
             event.preventDefault()
     
             let email = this.email.value;

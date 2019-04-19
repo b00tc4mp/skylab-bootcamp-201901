@@ -1,3 +1,8 @@
-'use strict';
+'use strict'
 
-var users = [];
+const users = [{
+    "name": "Miguel Angel",
+    "surname": "Zapatero",
+    "email": "m.zapes@gmail.com",
+    "password": "123"
+}];

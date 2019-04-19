@@ -8,7 +8,6 @@ class Results extends Component {
     }
     set items (items) {
         this.container.innerHTML = ''
-        (this.container.firstElementChild)
         items.forEach(item => {
             let li = document.createElement('li')
             li.setAttribute('data-id', item.id)

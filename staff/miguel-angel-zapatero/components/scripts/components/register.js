@@ -25,7 +25,7 @@ class Register extends Component {
         this.onRegister = onRegister
     }
     set onRegister (callback) {
-        this.container.addEventListener('submit', event => {
+        this.container.addEventListener('submit', function(event) {
             event.preventDefault()
     
             let name = this.name.value
