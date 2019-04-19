@@ -1,210 +1,345 @@
-'use strict'
+"use strict";
 
-describe('logic', () => {
-    describe('users', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        let email
-        const password = '123'
+describe("logic", () => {
+  describe("users logic", () => {
+    describe("register", () => {
+      const name = "test";
+      const surname = "test";
+      let email;
+      let password;
 
-        beforeEach(() => email = `manuelbarzi-${Math.random()}@gmail.com`)
+      beforeEach(() => {
+        const randomUsernameSuffix = Number(Math.random() * 10 ** 10).toString(
+          35
+        );
+        email = `test-${randomUsernameSuffix}@gmail.com`;
+        password = Number(Math.random() * 10 ** 20).toString(35);
+      });
 
-        describe('register', () => {
-            it('should succeed on correct user data', done => {
-                logic.registerUser(name, surname, email, password, function (error) {
-                    expect(error).toBeUndefined()
+      it("should succeed on correct user data", done => {
+        logic.registerUser(name, surname, email, password, function(error) {
+          expect(error).toBeUndefined();
+          done();
+        });
+      });
 
-                    done()
-                })
-            })
+      describe("on already existing user", () => {
+        beforeEach(done =>
+          logic.registerUser(name, surname, email, password, done)
+        );
 
-            describe('on already existing user', () => {
-                beforeEach(done => logic.registerUser(name, surname, email, password, done))
+        it("should fail on retrying to register", done => {
+          logic.registerUser(name, surname, email, password, function(error) {
+            expect(error).toBeDefined();
+            expect(error instanceof Error).toBeTruthy();
 
-                it('should fail on retrying to register', done => {
-                    logic.registerUser(name, surname, email, password, function (error) {
-                        expect(error).toBeDefined()
-                        expect(error instanceof Error).toBeTruthy()
+            expect(error.message).toBe(
+              `user with username \"${email}\" already exists`
+            );
 
-                        expect(error.message).toBe(`user with username \"${email}\" already exists`)
+            done();
+          });
+        });
+      });
 
-                        done()
-                    })
-                })
-            })
+      describe("fail tests", () => {
+        describe("fails for name", () => {
+          it("should fail on undefined name", () => {
+            const name = undefined;
 
-            it('should fail on undefined name', () => {
-                const name = undefined
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(RequirementError, `name is not optional`);
+          });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(RequirementError, `name is not optional`)
-            })
+          it("should fail on null name", () => {
+            const name = null;
 
-            it('should fail on null name', () => {
-                const name = null
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(RequirementError, `name is not optional`);
+          });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(RequirementError, `name is not optional`)
-            })
+          it("should fail on empty name", () => {
+            const name = "";
 
-            it('should fail on empty name', () => {
-                const name = ''
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(ValueError, "name is empty");
+          });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(ValueError, 'name is empty')
-            })
+          it("should fail on blank name", () => {
+            const name = " \t    \n";
 
-            it('should fail on blank name', () => {
-                const name = ' \t    \n'
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(ValueError, "name is empty");
+          });
+        });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(ValueError, 'name is empty')
-            })
+        describe("fails for surname", () => {
+          it("should fail on undefined surname", () => {
+            const surname = undefined;
 
-            it('should fail on undefined surname', () => {
-                const surname = undefined
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(RequirementError, `surname is not optional`);
+          });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(RequirementError, `surname is not optional`)
-            })
+          it("should fail on null surname", () => {
+            const surname = null;
 
-            it('should fail on null surname', () => {
-                const surname = null
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(RequirementError, `surname is not optional`);
+          });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(RequirementError, `surname is not optional`)
-            })
+          it("should fail on empty surname", () => {
+            const surname = "";
 
-            it('should fail on empty surname', () => {
-                const surname = ''
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(ValueError, "surname is empty");
+          });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(ValueError, 'surname is empty')
-            })
+          it("should fail on blank surname", () => {
+            const surname = " \t    \n";
 
-            it('should fail on blank surname', () => {
-                const surname = ' \t    \n'
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(ValueError, "surname is empty");
+          });
+        });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(ValueError, 'surname is empty')
-            })
+        describe("fails for email", () => {
+          it("should fail on undefined email", () => {
+            const email = undefined;
 
-            it('should fail on undefined email', () => {
-                const email = undefined
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(RequirementError, `email is not optional`);
+          });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(RequirementError, `email is not optional`)
-            })
+          it("should fail on null email", () => {
+            const email = null;
 
-            it('should fail on null email', () => {
-                const email = null
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(RequirementError, `email is not optional`);
+          });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(RequirementError, `email is not optional`)
-            })
+          it("should fail on empty email", () => {
+            const email = "";
 
-            it('should fail on empty email', () => {
-                const email = ''
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(ValueError, "email is empty");
+          });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(ValueError, 'email is empty')
-            })
+          it("should fail on blank email", () => {
+            const email = " \t    \n";
 
-            it('should fail on blank email', () => {
-                const email = ' \t    \n'
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(ValueError, "email is empty");
+          });
 
-                expect(() => logic.registerUser(name, surname, email, password, () => { })).toThrowError(ValueError, 'email is empty')
-            })
+          it("should fail on non-email email", () => {
+            const nonEmail = "non-email";
+            expect(() =>
+              logic.registerUser(name, surname, nonEmail, password, () => {})
+            ).toThrowError(FormatError, `${nonEmail} is not an e-mail`);
+          });
+        });
 
-            it('should fail on non-email email', () => {
-                const nonEmail = 'non-email'
+        describe("fails for password", () => {
+          it("should fail on undefined password", () => {
+            const password = undefined;
 
-                expect(() => logic.registerUser(name, surname, nonEmail, password, () => { })).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
-            })
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(RequirementError, `password is not optional`);
+          });
 
-            // TODO password fail cases
+          it("should fail on null password", () => {
+            const password = null;
+
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(RequirementError, `password is not optional`);
+          });
+
+          it("should fail on empty password", () => {
+            const password = "";
+
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(ValueError, "password is empty");
+          });
+
+          it("should fail on blank password", () => {
+            const password = " \t    \n";
+
+            expect(() =>
+              logic.registerUser(name, surname, email, password, () => {})
+            ).toThrowError(ValueError, "password is empty");
+          });
+        });
+
+        it("should fail if no callback", () => {
+          expect(() => { logic.registerUser(name, surname,email, password); }).toThrowError(RequirementError, `undefined is not optional`);
         })
+      });
+    });
 
-        describe('login', () => {
-            beforeEach(() => {
-                users.push({
-                    name: name,
-                    surname: surname,
-                    email: email,
-                    password: password
-                })
-            })
+    describe("login", () => {
+      const name = "test";
+      const surname = "test";
+      let email;
+      let password;
 
-            it('should succeed on correct data', () => {
-                logic.loginUser(email, password)
+      beforeAll(done => {
+        const randomUsernameSuffix = Number(Math.random() * 10 ** 10).toString(
+          35
+        );
+        email = `test-${randomUsernameSuffix}@gmail.com`;
+        password = Number(Math.random() * 10 ** 20).toString(35);
+        logic.registerUser(name, surname, email, password, (response) => {
+          done();
+        });
+      });
 
-                expect(logic.__userEmail__).toBe(email)
-                expect(logic.__accessTime__ / 1000).toBeCloseTo(Date.now() / 1000, 1)
-            })
+      beforeEach(() => {
+        logic.__userId__ = undefined;
+        logic.__token__ = undefined;
+      });
 
-            it('should fail on wrong email (unexisting user)', () => {
-                // expect(()=> {
-                //     logic.login('pepitogrillo@gmail.com', password)
-                // }).toThrowError(Error, 'wrong credentials')
+      it("should succeed on correct user data", done => {
+        logic.loginUser(email, password, response => {
+          expect(typeof response).toBe('undefined');
+          expect(typeof logic.__userId__ ).toBe("string");
+          expect(typeof logic.__token__).toBe("string");
+          done();
+        });
+      });
 
-                let _error
+      describe("should fail on wrong data", () => {
+        it("should fail on wrong username", done => {
+          const randomUsernameSuffix = Number(Math.random() * 10 ** 10).toString(
+            35
+          );
+          const wrongEmail = `test-sdd-${randomUsernameSuffix}@gmail.com`;
 
-                try {
-                    logic.login('pepitogrillo@gmail.com', password)
-                } catch (error) {
-                    _error = error
-                }
+          logic.loginUser(wrongEmail, password, response => {
+            expect(response.status).toBe("KO");
+            expect(response.error).toBe(`user with username "${wrongEmail}" does not exist`);
+            done();
+          });
+        });
 
-                expect(_error).toBeDefined()
-                // expect(_error.code).toBe(1)
-            })
+        it("should fail on wrong password", done => {
+          const wrongPassword = "456";
 
-            it('should fail on wrong password (existing user)', () => {
-                // expect(()=> {
-                //     logic.login(email, '456')
-                // }).toThrowError(Error, 'wrong credentials')
+          logic.loginUser(email, wrongPassword, response => {
+            expect(response.status).toBe("KO");
+            expect(response.error).toBe("username and/or password wrong");
+            done();
+          });
+        });
+      });
 
-                let _error
+      describe("fail tests", () => {
+        describe("fails for email", () => {
+          it("should fail on undefined email", () => {
+            const email = undefined;
 
-                try {
-                    logic.login(email, '456')
-                } catch (error) {
-                    _error = error
-                }
+            expect(() =>
+              logic.loginUser(email, password, () => {})
+            ).toThrowError(RequirementError, `email is not optional`);
+          });
 
-                expect(_error).toBeDefined()
-                // expect(_error.code).toBe(1)
-            })
+          it("should fail on null email", () => {
+            const email = null;
 
-            // TODO fail cases
+            expect(() =>
+              logic.loginUser(email, password, () => {})
+            ).toThrowError(RequirementError, `email is not optional`);
+          });
+
+          it("should fail on empty email", () => {
+            const email = "";
+
+            expect(() =>
+              logic.loginUser(email, password, () => {})
+            ).toThrowError(ValueError, "email is empty");
+          });
+
+          it("should fail on blank email", () => {
+            const email = " \t    \n";
+
+            expect(() =>
+              logic.loginUser(email, password, () => {})
+            ).toThrowError(ValueError, "email is empty");
+          });
+        });
+
+        describe("fails for password", () => {
+          it("should fail on undefined password", () => {
+            const password = undefined;
+
+            expect(() =>
+              logic.loginUser(email, password, () => {})
+            ).toThrowError(RequirementError, `password is not optional`);
+          });
+
+          it("should fail on null password", () => {
+            const password = null;
+
+            expect(() =>
+              logic.loginUser(email, password, () => {})
+            ).toThrowError(RequirementError, `password is not optional`);
+          });
+
+          it("should fail on empty password", () => {
+            const password = "";
+
+            expect(() =>
+              logic.loginUser(email, password, () => {})
+            ).toThrowError(ValueError, "password is empty");
+          });
+
+          it("should fail on blank password", () => {
+            const password = " \t    \n";
+
+            expect(() =>
+              logic.loginUser(email, password, () => {})
+            ).toThrowError(ValueError, "password is empty");
+          });
+        });
+
+        it("should fail if no callback", () => {
+          expect(() => { logic.loginUser(email, password); }).toThrowError(RequirementError, `undefined is not optional`);
         })
+      });
+    });
 
-        describe('retrieve user', () => {
-            beforeEach(() => {
-                users.push({
-                    name: name,
-                    surname: surname,
-                    email: email,
-                    password: password
-                })
+    describe("retrieve user", () => {
+    });
+  });
 
-                logic.__userEmail__ = email
-            })
+  describe("ducks", () => {
+    describe("search ducks", () => {
+      it("should succeed on correct query", done => {
+        logic.searchDucks("yellow", ducks => {
+          expect(ducks).toBeDefined();
+          expect(ducks instanceof Array).toBeTruthy();
+          expect(ducks.length).toBe(13);
 
-            it('should succeed on existing user and corect email', () => {
-                const user = logic.retrieveUser()
+          done();
+        });
 
-                expect(user).toBeDefined()
-                expect(user.name).toBe(name)
-                expect(user.surname).toBe(surname)
-                expect(user.email).toBe(email)
-                expect(user.password).toBeUndefined()
-            })
-        })
-    })
-
-    describe('ducks', () => {
-        describe('search ducks', () => {
-            it('should succeed on correct query', (done) => {
-                logic.searchDucks('yellow', (ducks) => {
-                    expect(ducks).toBeDefined()
-                    expect(ducks instanceof Array).toBeTruthy()
-                    expect(ducks.length).toBe(13)
-
-                    done()
-                })
-
-                // TODO fail cases
-            })
-        })
-    })
-})
+        // TODO fail cases
+      });
+    });
+  });
+});

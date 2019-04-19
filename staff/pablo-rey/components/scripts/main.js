@@ -15,8 +15,7 @@ const languageSelector = new LanguageSelector({
   },
 });
 
-
-const logOut= new LogOut({
+const logOut = new LogOut({
   element: document.getElementsByClassName("nav__logout")[0],
   literals: i18n.logout,
   initialLanguage: languageSelected,
@@ -25,7 +24,7 @@ const logOut= new LogOut({
     home.visible = false;
     landing.visible = true;
     logout.visible = false;
-  }
+  },
 });
 
 const landing = new Landing({
@@ -48,11 +47,16 @@ const register = new Register({
   defaultLanguage: languageSelected,
   onRegister(name, surname, email, password) {
     try {
-      logic.register(name, surname, email, password);
-      register.visible = false;
-      registerOk.visible = true;
+      logic.registerUser(name, surname, email, password, response => {
+        if (!response) {
+          register.visible = false;
+          registerOk.visible = true;
+        } else {
+          register.error = response.message;
+        }
+      });
     } catch (error) {
-      register.error = i18n.errors[languageSelected][error.code];
+      register.error = error.message;
     }
   },
 });
@@ -62,12 +66,17 @@ const login = new Login({
   container: document.getElementsByClassName("login")[0],
   onLogin(email, password) {
     try {
-      logic.login(email, password);
+      logic.loginUser(email, password, (response) => {
+        if (!response) {
+          login.visible = false;
+          home.visible = true;
+        } else {
+          login.error = response.error;
+        }
+      });
 
-      login.visible = false;
-      home.visible = true;
     } catch (error) {
-      login.error = i18n.errors[languageSelected][error.code];
+      login.error = error.message;
     }
   },
   literals: i18n.login,

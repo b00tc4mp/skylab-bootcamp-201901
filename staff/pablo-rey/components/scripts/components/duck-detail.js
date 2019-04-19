@@ -14,7 +14,7 @@ class DuckDetail extends Component {
   }
 
   showDuck (duck, done) {
-    logic.retrieveDuckDetail(duck.id, duckDetail => {
+    logic.retrieveDuck(duck.id, duckDetail => {
       this.getChild(".duck-detail__title").innerText = duckDetail.title;
       this.getChild(".duck-detail__image").src = duckDetail.imageUrl;
       this.getChild(".duck-detail__price").innerText = duckDetail.price;

@@ -1,6 +1,6 @@
 "use strict";
 
-fdescribe("user api", () => {
+describe("user api", () => {
   describe("create", () => {
     const name = "test";
     const surname = "test";
@@ -191,7 +191,7 @@ fdescribe("user api", () => {
     });
   });
 
-  fdescribe("authenticate", () => {
+  describe("authenticate", () => {
     const name = "test";
     const surname = "test";
     let username;
@@ -296,17 +296,6 @@ fdescribe("user api", () => {
         ).toThrowError(ValueError, "password is empty");
       });
     });
-
-    describe("fails if no callback", () => {
-      it("should succeed on correct user data", done => {
-        userApi.authenticate(username, password, (response)  => {
-          expect(response.status).toBe("OK");
-          expect(typeof response.data.id).toBe("string");
-          expect(typeof response.data. token).toBe("string");
-          done();
-        });
-      });
-    })
 
   });
 
