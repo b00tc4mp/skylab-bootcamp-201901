@@ -1,26 +1,76 @@
 "use strict";
 
 const userApi = {
-  __url__: "https://skylabcoders.herokuapp.com/api/user",
+  __url__: "https://skylabcoders.herokuapp.com/api",
 
-  __call__(method, path, callback, body, auth) {
+  __call__(path, method, body, callback) {
+    validate.arguments([
+      { name: "path", value: path, type: "string", notEmpty: true },
+      { name: "method", value: method, type: "string", notEmpty: true },
+      {
+        name: "body",
+        value: body,
+        type: "object",
+        notEmpty: true,
+        optional: true
+      },
+      { value: callback, type: "function" }
+    ]);
+
     const xhr = new XMLHttpRequest();
-    xhr.open(method, `${this.__url__}${path}`);
+
+    xhr.open(method, `${this.__url__}/${path}`);
+
     xhr.addEventListener("load", function() {
-      const result = JSON.parse(this.responseText);
-      callback(result);
+      callback(JSON.parse(this.responseText));
     });
-    if (method === 'GET' && !!body) throw Error('cannot send body in GET request');
-    if (body) {
-      xhr.setRequestHeader("Content-Type", "application/json");
-      xhr.send(JSON.stringify(body));
+
+    if (method === "GET") {
+      if (body) throw Error("cannot send body in GET request");
+      else xhr.send();
     } else {
-      xhr.send();
+      if (body) {
+        xhr.setRequestHeader("content-type", "application/json");
+        xhr.send(JSON.stringify(body));
+      } else xhr.send();
     }
   },
 
-  register(userData, callback) {
-    const path = "";
-    this.__call__('POST', path, callback, userData);
+  create(name, surname, username, password, callback) {
+    validate.arguments([
+      { name: "name", value: name, type: "string", notEmpty: true },
+      { name: "surname", value: surname, type: "string", notEmpty: true },
+      { name: "username", value: username, type: "string", notEmpty: true },
+      { name: "password", value: password, type: "string", notEmpty: true },
+      { value: callback, type: "function" }
+    ]);
+
+    // TODO validate inputs
+
+    this.__call__(
+      "/user",
+      "POST",
+      { name, surname, username, password },
+      callback
+    );
+  },
+
+  authenticate(username, password, callback) {
+    validate.arguments([
+      { name: "username", value: username, type: "string", notEmpty: true },
+      { name: "password", value: password, type: "string", notEmpty: true },
+      { value: callback, type: "function" }
+    ]);
+
+    this.__call__(
+      "/auth",
+      "POST",
+      { username, password },
+      callback
+    );
+  },
+
+  retrieve(id, token, callback) {
+    // TODO
   }
 };

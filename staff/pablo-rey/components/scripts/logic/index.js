@@ -1,103 +1,79 @@
-"use strict";
+'use strict'
 
 const logic = {
-  register(name, surname, email, password) {
-    name = typeof name === "string" ? name.trim() : null;
-    if (!name) throwError(2, "name not provided");
+    registerUser(name, surname, email, password, callback) {
+        validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true },
+            { value: callback, type: 'function' }
+        ])
 
-    surname = typeof surname === "string" ? surname.trim() : null;
-    if (!surname) throwError(3, "surname not provided");
+        validate.email(email)
 
-    email = typeof email === "string" ? email.trim() : null;
-    if (!email) throwError(4, "email not provided");
+        userApi.create(name, surname, email, password, function(response) {
+            if (response.status === 'OK') callback()
+            else callback(Error(response.error))
+        })
+    },
 
-    password = typeof password === "string" ? password.trim() : null;
-    if (!password) throwError(5, "password not provided");
+    loginUser(email, password) {
+        // TODO validate input data
 
-    if (
-      users.find(function(user) {
-        return user.email === email;
-      })
-    )
-      throwError(5, "email already registered");
+        const user = users.find(user => user.email === email)
 
-    users.push({
-      name: name,
-      surname: surname,
-      email: email,
-      password: password
-    });
-  },
+        if (!user) {
+            const error = Error('wrong credentials')
 
-  login(email, password) {
-    email = typeof email === "string" ? email.trim() : null;
-    if (!email) throwError(4, "email not provided");
+            error.code = 1
 
-    password = typeof password === "string" ? password.trim() : null;
-    if (!password) throwError(5, "password not provided");
+            throw error
+        }
 
-    const user = users.find(user => user.email === email);
+        if (user.password === password) {
+            this.__userEmail__ = email
+            this.__accessTime__ = Date.now()
+        } else {
+            const error = Error('wrong credentials')
 
-    if (!user) throwError(1, "wrong credentials");
+            error.code = 1
 
-    if (user.password === password) {
-      this.__userName__ = user.name;
-      this.__userEmail__ = email;
-      this.__accessTime__ = Date.now();
-    } else throwError(1, "wrong credentials");
-  },
+            throw error
+        }
+    },
 
-  logout() {
-    this.__userName__ = null;
-    this.__userEmail__ = null;
-    this.__accessTime__ = null;
-  },
+    retrieveUser() {
+        // TODO validate input
 
-  searchDucks(query, callback) {
-    if (typeof query === "undefined")
-      throw Error("undefined is not a valid query");
-    if (!(callback instanceof Function))
-      throw Error("callback is not a function");
+        const user = users.find(user => user.email === this.__userEmail__)
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://duckling-api.herokuapp.com/api/search?q=" + query);
-    xhr.addEventListener("load", function() {
-      const result = JSON.parse(this.responseText);
-      callback(result.map(item =>  {
-        return (          {
-            id: item.id,
-            title: item.title,
-            imageUrl: item.imageUrl,
-            price: item.price
-          });
-        }));
-    });
-    xhr.send();
-  },
+        if (!user) {
+            const error = Error('user not found with email ' + email)
 
-  retrieveDuckDetail(id, callback) {
-    if (typeof id === "undefined") throw Error("undefined is not a valid id");
-    if (!(callback instanceof Function))
-      throw Error("callback is not a function");
+            error.code = 2
 
-    const xhr = new XMLHttpRequest();
-    xhr.open("GET", "https://duckling-api.herokuapp.com/api/ducks/" + id);
-    xhr.addEventListener("load", function() {
-      const result = JSON.parse(this.responseText);
-      callback({
-        id: result.id,
-        title: result.title,
-        imageUrl: result.imageUrl,
-        price: result.price,
-        description: result.description
-      });
-    });
-    xhr.send();
-  }
-};
+            throw error
+        }
 
-function throwError(code, message) {
-  const err = Error(message);
-  err.code = code;
-  throw err;
+        return {
+            name: user.name,
+            surname: user.surname,
+            email: user.email
+        }
+    },
+
+    searchDucks(query, callback) {
+        // TODO validate inputs
+
+        // TODO handle api errors
+        duckApi.searchDucks(query, callback)
+    },
+
+    retrieveDuck(id, callback) {
+        // TODO validate inputs
+
+        // TODO handle api errors
+        duckApi.retrieveDuck(id, callback)
+    }
 }

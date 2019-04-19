@@ -1,3 +1,8 @@
-'use strict';
+'use strict'
 
-const users = [];
+const users = [{
+    name: 'Peter',
+    surname: 'Seller',
+    email: 'peterseller@gmail.com',
+    password: '123'
+}]
