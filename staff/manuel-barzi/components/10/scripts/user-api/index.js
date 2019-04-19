@@ -39,8 +39,6 @@ const userApi = {
             { value: callback, type: 'function' }
         ])
 
-        validate.email(username)
-
         // TODO validate inputs
 
         this.__call__('/user', 'POST', { name, surname, username, password }, callback)
