@@ -8,7 +8,7 @@ describe('user api', () => {
 
     beforeEach(() => username = `manuelbarzi-${Math.random()}@gmail.com`)
 
-    describe('register', () => {
+    describe('create', () => {
         it('should succeed on correct user data', done => {
             userApi.create(name, surname, username, password, function (response) {
                 expect(response).toBeDefined()
@@ -111,14 +111,12 @@ describe('user api', () => {
 
             expect(() => userApi.create(name, surname, username, password, () => { })).toThrowError(ValueError, 'username is empty')
         })
-        
-        it('should fail on non-email username', () => {
-            const nonEmail = 'non-email'
-
-            expect(() => userApi.create(name, surname, nonEmail, password, () => { })).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
-        })
 
         // TODO password fail cases
+    })
+
+    describe('authenticate', () => {
+        // blah blah blah
     })
 
     describe('update', () => {

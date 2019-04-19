@@ -25,10 +25,12 @@ const landing = new Landing(sections[0], i18n.landing, function() {
 const forms = document.getElementsByTagName('form')
 
 const register = new Register(forms[0], function (name, surname, email, password) {
-    logic.registerUser(name, surname, email, password)
+    logic.registerUser(name, surname, email, password, function(error) {
+        if (error) return alert(error.message)
 
-    register.visible = false
-    registerOk.visible = true
+        register.visible = false
+        registerOk.visible = true
+    })
 }, i18n.register, languageSelected)
 register.visible = false
 
