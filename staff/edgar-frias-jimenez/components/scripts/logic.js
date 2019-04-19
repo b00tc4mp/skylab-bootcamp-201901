@@ -1,7 +1,7 @@
 'use strict';
 
-var logic = {
-    register: function (name, surname, email, password) {
+const logic = {
+    register: function(name, surname, email, password) {
         if (typeof name !== 'string') throw TypeError(name + ' is not a valid name');
         // TODO add more validations
 
@@ -15,13 +15,13 @@ var logic = {
         });
     },
 
-    login: function (email, password) {
+    login: function(email, password) {
         // TODO validate input data
 
-        var user = users.find(function (user) { return user.email === email });
+        const user = users.find(function (user) { return user.email === email });
 
         if (!user) {
-            var error = Error('wrong credentials')
+            const error = Error('wrong credentials')
 
             error.code = 1;
 
@@ -32,7 +32,7 @@ var logic = {
             this.__userEmail__ = email;
             this.__accessTime__ = Date.now();
         } else {
-            var error = Error('wrong credentials')
+            const error = Error('wrong credentials')
 
             error.code = 1;
 
@@ -43,10 +43,10 @@ var logic = {
     retrieveUser: function (email) {
         // TODO validate input
 
-        var user = users.find(function (user) { return user.email === email });
+        const user = users.find(function (user) { return user.email === email });
 
         if (!user) {
-            var error = Error('user not found with email ' + email)
+            const error = Error('user not found with email ' + email)
 
             error.code = 2;
 
@@ -65,7 +65,7 @@ var logic = {
         if (typeof callback === 'undefined') throw TypeError(callback + ' is not defined');
         if (!(callback instanceof Function)) throw TypeError(callback + ' is not a valid function');
 
-        var xhr = new XMLHttpRequest;
+        const xhr = new XMLHttpRequest;
 
         xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
 
@@ -76,12 +76,12 @@ var logic = {
         xhr.send();
     },
 
-    retrieveDucklingDetail: function(id, callback) {
+    retrieveDucklingDetail: function (id, callback) {
         if (typeof id === 'undefined') throw TypeError(id + ' is not defined');
         if (typeof callback === 'undefined') throw TypeError(callback + ' is not defined');
         if (!(callback instanceof Function)) throw TypeError(callback + ' is not a valid function');
 
-        var xhr = new XMLHttpRequest;
+        const xhr = new XMLHttpRequest;
 
         xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
 

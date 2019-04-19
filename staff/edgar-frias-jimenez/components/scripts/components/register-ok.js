@@ -1,16 +1,15 @@
 'use strict';
 
-function RegisterOk(section, onNavigateToLogin) {
-    Component.call(this, section);
+class RegisterOk extends Component {
+    constructor(section, onNavigateToLogin) {
+        super(section);
 
-    var link = this.container.children[0];
+        const link = this.container.children[0];
 
-    link.addEventListener('click', function(event) {
-        event.preventDefault();
+        link.addEventListener('click', event => {
+            event.preventDefault();
 
-        onNavigateToLogin();
-    });
+            onNavigateToLogin();
+        });
+    }
 }
-
-RegisterOk.prototype = Object.create(Component.prototype);
-RegisterOk.prototype.constructor = RegisterOk;

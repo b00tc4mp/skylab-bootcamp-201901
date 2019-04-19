@@ -1,44 +1,44 @@
 'use strict';
 
-describe('logic', function () {
-    var name = 'Peter';
-    var surname = 'Seller';
-    var email = 'peterseller@gmail.com';
-    var password = '123';
+describe('logic', () => {
+    const name = 'Peter';
+    const surname = 'Seller';
+    const email = 'peterseller@gmail.com';
+    const password = '123';
 
-    beforeEach(function () {
+    beforeEach(() => {
         users.length = 0;
     });
 
-    describe('users', function () {
-        describe('register', function () {
-            it('should succeed on correct data', function () {
-                var user = {
+    describe('users', () => {
+        describe('register', () => {
+            it('should succeed on correct data', () => {
+                const user = {
                     name: name,
                     surname: surname,
                     email: email,
                     password: password
                 };
 
-                var currentUsersCount = users.length;
+                const currentUsersCount = users.length;
 
                 logic.register(name, surname, email, password);
 
                 expect(users.length).toBe(currentUsersCount + 1);
 
-                var lastUser = users[users.length - 1];
+                const lastUser = users[users.length - 1];
                 expect(lastUser).toEqual(user);
             });
 
-            it('should fail on undefined name', function () {
-                expect(function () {
+            it('should fail on undefined name', () => {
+                expect(() => {
                     logic.register(undefined, surname, email, password);
                 }).toThrowError(TypeError, 'undefined is not a valid name');
             });
         });
 
-        describe('login', function () {
-            beforeEach(function () {
+        describe('login', () => {
+            beforeEach(() => {
                 users.push({
                     name: name,
                     surname: surname,
@@ -47,19 +47,19 @@ describe('logic', function () {
                 });
             });
 
-            it('should succeed on correct data', function () {
+            it('should succeed on correct data', () => {
                 logic.login(email, password);
 
                 expect(logic.__userEmail__).toBe(email);
                 expect(logic.__accessTime__ / 1000).toBeCloseTo(Date.now() / 1000, 1);
             });
 
-            it('should fail on wrong email (unexisting user)', function(){
+            it('should fail on wrong email (unexisting user)', () => {
                 // expect(function() {
                 //     logic.login('pepitogrillo@gmail.com', password);
                 // }).toThrowError(Error, 'wrong credentials');
 
-                var _error;
+                const _error;
 
                 try {
                     logic.login('pepitogrillo@gmail.com', password);
@@ -71,12 +71,12 @@ describe('logic', function () {
                 expect(_error.code).toBe(1);
             });
 
-            it('should fail on wrong password (existing user)', function(){
+            it('should fail on wrong password (existing user)', () => {
                 // expect(function() {
                 //     logic.login(email, '456');
                 // }).toThrowError(Error, 'wrong credentials');
 
-                var _error;
+                const _error;
 
                 try {
                     logic.login(email, '456');
@@ -89,8 +89,8 @@ describe('logic', function () {
             });
         });
 
-        describe('retrieve user', function() {
-            beforeEach(function () {
+        describe('retrieve user', () => {
+            beforeEach(() => {
                 users.push({
                     name: name,
                     surname: surname,
@@ -99,8 +99,8 @@ describe('logic', function () {
                 });
             });
 
-            it('should succeed on existing user and corect email', function() {
-                var user = logic.retrieveUser(email);
+            it('should succeed on existing user and corect email', () => {
+                const user = logic.retrieveUser(email);
 
                 expect(user).toBeDefined();
                 expect(user.name).toBe(name);
@@ -111,10 +111,10 @@ describe('logic', function () {
         })
     });
 
-    describe('ducks', function() {
-        describe('search ducks', function() {
-            it('should succeed on correct query', function(done) {
-                logic.searchDucks('yellow', function(ducks) {
+    describe('ducks', () => {
+        describe('search ducks', () => {
+            it('should succeed on correct query', done => {
+                logic.searchDucks('yellow', ducks => {
                     expect(ducks).toBeDefined();
                     expect(ducks instanceof Array).toBeTruthy();
                     expect(ducks.length).toBe(13);
@@ -123,28 +123,28 @@ describe('logic', function () {
                 });
             });
 
-            it('should fail on undefined argument', function () {
-                expect(function () {
+            it('should fail on undefined argument', () => {
+                expect(() => {
                     logic.searchDucks(undefined);
                 }).toThrowError(TypeError, 'undefined is not defined');
             });
 
-            it('should fail on undefined callback', function () {
-                expect(function () {
+            it('should fail on undefined callback', () => {
+                expect(() => {
                     logic.searchDucks('yellow');
                 }).toThrowError(TypeError, 'undefined is not defined');
             });
 
-            it('should fail if callback is not a function', function () {
-                expect(function () {
+            it('should fail if callback is not a function', () => {
+                expect(() => {
                     logic.searchDucks('yellow', 'hola');
                 }).toThrowError(TypeError, 'hola is not a valid function');
             });
         });
 
-        describe('searh details of each duck', function() {
-            it('should succeed on search a duck item', function(done) {
-                logic.retrieveDucklingDetail('5c3853aebd1bde8520e66e15', function(duck) {
+        describe('searh details of each duck', () => {
+            it('should succeed on search a duck item', done => {
+                logic.retrieveDucklingDetail('5c3853aebd1bde8520e66e15', duck => {
                     expect(duck).toBeDefined();
                     expect(duck instanceof Object).toBeTruthy();
                     expect(duck.id).toBe('5c3853aebd1bde8520e66e15');
@@ -153,20 +153,20 @@ describe('logic', function () {
                 });
             });
 
-            it('should fail on undefined id', function () {
-                expect(function () {
+            it('should fail on undefined id', () => {
+                expect(() => {
                     logic.retrieveDucklingDetail(undefined);
                 }).toThrowError(TypeError, 'undefined is not defined');
             });
 
-            it('should fail on undefined callback', function () {
-                expect(function () {
+            it('should fail on undefined callback', () => {
+                expect(() => {
                     logic.retrieveDucklingDetail('5c3853aebd1bde8520e66e15');
                 }).toThrowError(TypeError, 'undefined is not defined');
             });
 
-            it('should fail if callback is not a function', function () {
-                expect(function () {
+            it('should fail if callback is not a function', () => {
+                expect(() => {
                     logic.retrieveDucklingDetail('5c3853aebd1bde8520e66e15', 'hola');
                 }).toThrowError(TypeError, 'hola is not a valid function');
             });

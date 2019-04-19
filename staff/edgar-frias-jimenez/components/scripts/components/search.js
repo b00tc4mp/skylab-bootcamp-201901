@@ -1,22 +1,18 @@
 'use strict';
 
-function Search(container, onSearch) {
-    Component.call(this, container);
+class Search extends Component {
+    constructor(container, onSearch) {
+        super(container);
+        this.onSearch = onSearch;
+    }
 
-    this.onSearch = onSearch;
-}
-
-Search.prototype = Object.create(Component.prototype);
-Search.prototype.constructor = Search;
-
-Object.defineProperty(Search.prototype, 'onSearch', {
-    set: function(callback) {
+    set onSearch(callback) {
         this.container.addEventListener('submit', function(event) {
             event.preventDefault();
 
-            var query = this.query.value;
+            const query = this.query.value;
 
             callback(query);
         });
     }
-});
+}
