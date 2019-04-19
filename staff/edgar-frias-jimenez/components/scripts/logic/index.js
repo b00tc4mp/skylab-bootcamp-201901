@@ -61,34 +61,10 @@ const logic = {
     },
 
     searchDucks: function (query, callback) {
-        if (typeof query === 'undefined') throw TypeError(query + ' is not defined');
-        if (typeof callback === 'undefined') throw TypeError(callback + ' is not defined');
-        if (!(callback instanceof Function)) throw TypeError(callback + ' is not a valid function');
-
-        const xhr = new XMLHttpRequest;
-
-        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
-
-        xhr.addEventListener('load', function () {
-            callback(JSON.parse(this.responseText));
-        });
-
-        xhr.send();
+        duckApi.searchDucks(query, callback);
     },
 
-    retrieveDucklingDetail: function (id, callback) {
-        if (typeof id === 'undefined') throw TypeError(id + ' is not defined');
-        if (typeof callback === 'undefined') throw TypeError(callback + ' is not defined');
-        if (!(callback instanceof Function)) throw TypeError(callback + ' is not a valid function');
-
-        const xhr = new XMLHttpRequest;
-
-        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
-
-        xhr.addEventListener('load', function () {
-            callback(JSON.parse(this.responseText));
-        });
-
-        xhr.send();
+    retrieveDuck: function (id, callback) {
+        duckApi.retrieveDuck(id, callback);
     }
 }

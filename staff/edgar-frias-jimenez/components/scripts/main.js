@@ -65,8 +65,8 @@ const home = new Home(main, function(query) {
             }
         });
     });
-}, id => {
-    logic.retrieveDucklingDetail(id, function (duck) {
+}, function (id) {
+    logic.retrieveDuck(id, function (duck) {
         home.item = {
             title: duck.title,
             image: duck.imageUrl,

@@ -1,3 +1,8 @@
 'use strict';
 
-let users = [];
+let users = [{
+  name: 'n',
+  surname: 's',
+  email: 'e',
+  password: 'p'
+}];
