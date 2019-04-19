@@ -1,21 +1,24 @@
 'use strict'
 
 const logic = {
-    register: function (name, surname, email, password) {
-        if (typeof name !== 'string') throw TypeError(name + ' is not a valid name')
-        // TODO add more validations
+    registerUser(name, surname, email, password, callback) {
+        validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true },
+            { value: callback, type: 'function' }
+        ])
 
-        // TODO verify user does not exists already, otherwise error 'user already exists'
+        validate.email(email)
 
-        users.push({
-            name: name,
-            surname: surname,
-            email: email,
-            password: password
+        userApi.create(name, surname, email, password, function(response) {
+            if (response.status === 'OK') callback()
+            else callback(Error(response.error))
         })
     },
 
-    login: function (email, password) {
+    loginUser(email, password) {
         // TODO validate input data
 
         const user = users.find(user => user.email === email)
@@ -40,7 +43,7 @@ const logic = {
         }
     },
 
-    retrieveUser: function () {
+    retrieveUser() {
         // TODO validate input
 
         const user = users.find(user => user.email === this.__userEmail__)
@@ -60,14 +63,14 @@ const logic = {
         }
     },
 
-    searchDucks: function (query, callback) {
+    searchDucks(query, callback) {
         // TODO validate inputs
 
         // TODO handle api errors
         duckApi.searchDucks(query, callback)
     },
 
-    retrieveDuck: function (id, callback) {
+    retrieveDuck(id, callback) {
         // TODO validate inputs
 
         // TODO handle api errors
