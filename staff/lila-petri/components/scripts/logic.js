@@ -1,13 +1,13 @@
 'use strict';
 
 var logic = {
-    register: function (name, surname, email, password) {
+    register: (name, surname, email, password)=> {
         if (typeof name !== 'string') throw TypeError(name + ' is not a valid name');
         if (typeof surname !== 'string') throw TypeError(surname + ' is not a valid surname');
         if (typeof email !== 'string') throw TypeError(email + ' is not a valid email');
         if (typeof password !== 'string') throw TypeError(password + ' is not a valid password');
 
-        var user = users.some(function(user) { return user.email === email });
+        var user = users.some((user) => user.email === email );
         if (user) {
             var error = Error('user already registered')
 
@@ -24,11 +24,11 @@ var logic = {
         });
     },
 
-    login: function (email, password) {
+    login: (email, password)=> {
         if (typeof email !== 'string') throw TypeError(email + ' is not a valid email');
         if (typeof password !== 'string') throw TypeError(password + ' is not a valid password');
 
-        var user = users.find(function(user) { return user.email === email });
+        var user = users.find((user)=> user.email === email );
 
         if (!user) {
             var error = Error('wrong credentials')
@@ -62,7 +62,7 @@ var logic = {
 
         xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
 
-        xhr.addEventListener('load', function () {
+        xhr.addEventListener('load', function(){
             callback(JSON.parse(this.responseText));
         });
 
@@ -76,7 +76,7 @@ var logic = {
 
         xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
 
-        xhr.addEventListener('load', function () {
+        xhr.addEventListener('load', function(){
             callback(JSON.parse(this.responseText));
         });
 

@@ -58,13 +58,31 @@ var registerOk = new RegisterOk(sections[1], function () {
 registerOk.visible = false;
 
 var main = document.getElementsByTagName('main')[0];
-var home = new Home(main);
-home.visible = false;
 
-var logout= new LoginOut(main, function(){
+var home = new Home(main, function(query) {
+    logic.searchDucks(query, function(ducks) {
+        home.results = ducks.map(function(duck) {
+            return {
+                id: duck.id,
+                title: duck.title,
+                image: duck.imageUrl,
+                price: duck.price
+            }
+        });
+    });
+}, function(id){
+    logic.retrieveDucklingDetail(id, function(ducks){
+        home.details={
+            title: ducks.title,
+            image: ducks.imageUrl,
+            price: ducks.price,
+            description: ducks.description
+        }
+    });
+}, function(){
     logic.logout();
     home.visible=false;
     landing.visible=true;
 });
-
+home.visible = false;
 
