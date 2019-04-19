@@ -60,4 +60,9 @@ class Home extends Component {
     this.__searchForm__.language = language;
     this.__duckDetail__.language = language;
   }
+
+  set visible(isVisible) {
+    super.visible = isVisible;
+    this.getChild(".home__title").innerText = `Hello, ${logic.__userName__}`;
+  }
 }

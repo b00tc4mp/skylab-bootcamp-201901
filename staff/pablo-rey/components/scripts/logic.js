@@ -41,12 +41,14 @@ const logic = {
     if (!user) throwError(1, "wrong credentials");
 
     if (user.password === password) {
+      this.__userName__ = user.name;
       this.__userEmail__ = email;
       this.__accessTime__ = Date.now();
     } else throwError(1, "wrong credentials");
   },
 
   logout() {
+    this.__userName__ = null;
     this.__userEmail__ = null;
     this.__accessTime__ = null;
   },

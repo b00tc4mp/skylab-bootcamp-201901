@@ -17,7 +17,7 @@ class List extends Component {
     this.container.innerHTML = "";
     this.__items__.forEach(item => {
       new this.__itemComponentConstructor__({
-        container: this.container,
+        parent: this.container,
         duck: item,
         onSelect: this.__onSelect__
        });
