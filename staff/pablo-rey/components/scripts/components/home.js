@@ -1,19 +1,10 @@
 "use strict";
 
 class Home extends Component {
-  constructor({ container, literals, initialLanguage, onLogOut }) {
+  constructor({ container, literals, initialLanguage }) {
     super(container);
 
     this.__literals__ = literals;
-
-    this.__logOut__ = new LogOut({
-      element: this.getChild(".home__logout"),
-      literals,
-      onLogOut() {
-        onLogOut();
-      },
-    });
-    this.__logOut__.language = initialLanguage;
 
     this.__listDucks__ = new List({
       container: this.getChild(".duck-list"),
@@ -56,7 +47,6 @@ class Home extends Component {
   }
 
   set language(language) {
-    this.__logOut__.language = language;
     this.__searchForm__.language = language;
     this.__duckDetail__.language = language;
   }

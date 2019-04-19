@@ -3,6 +3,9 @@
 $primary: skyblue
 $secondary: gray
 $warning: orange
+
+$background-primary: white
+$background-secondary: lightgray
   
 *
   box-sizing: border-box
@@ -15,7 +18,39 @@ html, body
   font-family: 'Raleway', sans-serif
 
 .nav
-  
+  display: flex
+  align-items: center
+  justify-content: space-between
+  height: 40px
+  background-color: $background-secondary
+  color: $primary
+
+  &__logout
+    background-color: transparent
+    border: 0
+    text-decoration: underline
+    cursor: pointer
+    margin: 0 5%
+
+.language
+  margin: 0 5%
+  width: 35%
+  background-color: $background-secondary
+  font-size: 18px
+
+.landing
+  bottom: 0
+  &__image
+    width: 100%
+    margin: 0
+
+  &__actions
+    display: flex
+    flex-direction: column
+    align-items: center
+    background-color: $primary
+    margin: 0
+    text-align: center   
 
 .btn
   margin: 1rem

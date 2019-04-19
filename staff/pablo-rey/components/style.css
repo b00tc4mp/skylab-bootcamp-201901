@@ -11,6 +11,45 @@ html, body {
   font-family: "Raleway", sans-serif;
 }
 
+.nav {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 40px;
+  background-color: lightgray;
+  color: skyblue;
+}
+.nav__logout {
+  background-color: transparent;
+  border: 0;
+  text-decoration: underline;
+  cursor: pointer;
+  margin: 0 5%;
+}
+
+.language {
+  margin: 0 5%;
+  width: 35%;
+  background-color: lightgray;
+  font-size: 18px;
+}
+
+.landing {
+  bottom: 0;
+}
+.landing__image {
+  width: 100%;
+  margin: 0;
+}
+.landing__actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: skyblue;
+  margin: 0;
+  text-align: center;
+}
+
 .btn {
   margin: 1rem;
   padding: 1rem 3rem;

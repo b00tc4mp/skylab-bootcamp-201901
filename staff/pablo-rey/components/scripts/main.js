@@ -11,7 +11,21 @@ const languageSelector = new LanguageSelector({
     register.language = language;
     login.language = language;
     home.language = language;
+    logOut.language = language;
   },
+});
+
+
+const logOut= new LogOut({
+  element: document.getElementsByClassName("nav__logout")[0],
+  literals: i18n.logout,
+  initialLanguage: languageSelected,
+  onLogOut() {
+    logic.logout();
+    home.visible = false;
+    landing.visible = true;
+    logout.visible = false;
+  }
 });
 
 const landing = new Landing({
@@ -77,10 +91,5 @@ const home = new Home({
   container: document.getElementsByClassName("home")[0],
   literals: i18n.home,
   initialLanguage: languageSelected,
-  onLogOut() {
-    logic.logout();
-    home.visible = false;
-    landing.visible = true;
-  },
 });
 home.visible = false;

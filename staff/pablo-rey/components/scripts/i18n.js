@@ -1,4 +1,18 @@
 const i18n = {
+  logout: {
+    en: {
+      logout: "Log Out"
+    },
+    es: {
+      logout: "Desconectarse"
+    },
+    ca: {
+      logout: "Desconectarse"
+    },
+    ga: {
+      logout: "Desconectarse"
+    },
+  },
   landing: {
     en: {
       register: "Register",
