@@ -14,4 +14,6 @@ describe('duck api', () => {
             // TODO fail cases
         })
     })
+
+    // TODO test retrieve duck
 })
