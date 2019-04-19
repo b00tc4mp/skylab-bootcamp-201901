@@ -55,31 +55,16 @@ var logic = {
 
     },
     searchDucks: function (query, callback) {
-        if(typeof query=== 'undefined') throw TypeError (query + ' is not a valid queryparam');
-        if (typeof callback !== 'function') throw new TypeError(callback + ' is not a function');
+        // TODO validate inputs
 
-        var xhr = new XMLHttpRequest;
-
-        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/search?q=' + query);
-
-        xhr.addEventListener('load', function(){
-            callback(JSON.parse(this.responseText));
-        });
-
-        xhr.send();
+        // TODO handle api errors
+        duckApi.searchDucks(query, callback)
     },
 
-    retrieveDucklingDetail: function(id, callback) {
+    retrieveDuck: function (id, callback) {
         // TODO validate inputs
-        
-        var xhr = new XMLHttpRequest;
 
-        xhr.open('GET', 'https://duckling-api.herokuapp.com/api/ducks/' + id);
-
-        xhr.addEventListener('load', function(){
-            callback(JSON.parse(this.responseText));
-        });
-
-        xhr.send();
+        // TODO handle api errors
+        duckApi.retrieveDuck(id, callback)
     }
 }
