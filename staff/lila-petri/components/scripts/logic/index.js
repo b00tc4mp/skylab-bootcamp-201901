@@ -1,67 +1,70 @@
-'use strict';
+'use strict'
 
-var logic = {
-    register: (name, surname, email, password)=> {
-        if (typeof name !== 'string') throw TypeError(name + ' is not a valid name');
-        if (typeof surname !== 'string') throw TypeError(surname + ' is not a valid surname');
-        if (typeof email !== 'string') throw TypeError(email + ' is not a valid email');
-        if (typeof password !== 'string') throw TypeError(password + ' is not a valid password');
+const logic = {
+    registerUser(name, surname, email, password, callback) {
+        validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true },
+            { value: callback, type: 'function' }
+        ])
 
-        var user = users.some((user) => user.email === email );
-        if (user) {
-            var error = Error('user already registered')
+        validate.email(email)
 
-            error.code = 1;
-
-            throw error;
-        };
-
-        users.push({
-            name: name,
-            surname: surname,
-            email: email,
-            password: password
-        });
+        userApi.create(name, surname, email, password, function(response) {
+            if (response.status === 'OK') callback()
+            else callback(Error(response.error))
+        })
     },
 
-    login: (email, password)=> {
-        if (typeof email !== 'string') throw TypeError(email + ' is not a valid email');
-        if (typeof password !== 'string') throw TypeError(password + ' is not a valid password');
+    loginUser(email, password, callback) {
+        validate.arguments([
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true },
+            { value: callback, type: 'function' }
+        ])
 
-        var user = users.find((user)=> user.email === email );
+        validate.email(email)
+
+        userApi.authenticate(email, password, function(response){
+            if (response.status === 'OK') callback()
+            else callback(Error(response.error))
+
+            // const { data: { id, token } } = response
+            // const __id__=id
+            // const __token__=token
+        })
+    },
+
+    retrieveUser() {
+        // TODO validate input
+
+        const user = users.find(user => user.email === this.__userEmail__)
 
         if (!user) {
-            var error = Error('wrong credentials')
+            const error = Error('user not found with email ' + email)
 
-            error.code = 1;
+            error.code = 2
 
-            throw error;
-        };
+            throw error
+        }
 
-        if (user.password === password) {
-            this.__userEmail__ = email;
-            this.__accessTime__ = Date.now();
-        } else {
-            var error = Error('wrong credentials')
-
-            error.code = 1;
-
-            throw error;
-        };
+        return {
+            name: user.name,
+            surname: user.surname,
+            email: user.email
+        }
     },
-    logout: function(){
-        this.__userEmail__=null;
-        this.__accessTime__=null; 
 
-    },
-    searchDucks: function (query, callback) {
+    searchDucks(query, callback) {
         // TODO validate inputs
 
         // TODO handle api errors
         duckApi.searchDucks(query, callback)
     },
 
-    retrieveDuck: function (id, callback) {
+    retrieveDuck(id, callback) {
         // TODO validate inputs
 
         // TODO handle api errors

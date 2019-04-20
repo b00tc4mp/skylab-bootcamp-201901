@@ -1,9 +1,9 @@
 'use strict';
 
-var languageSelected = 'en';
+const languageSelected = 'en';
 
-var select = document.getElementsByTagName('select')[0];
-var languageSelector = new LanguageSelector(select, function (language) {
+const select = document.getElementsByTagName('select')[0];
+const languageSelector = new LanguageSelector(select, function (language) {
     languageSelected = language;
 
     landing.language = language;
@@ -11,9 +11,9 @@ var languageSelector = new LanguageSelector(select, function (language) {
     login.language = language;
 });
 
-var sections = document.getElementsByTagName('section');
+const sections = document.getElementsByTagName('section');
 
-var landing = new Landing(sections[0], i18n.landing, function() {
+const landing = new Landing(sections[0], i18n.landing, function() {
     landing.visible = false;
     register.visible = true;
 }, function() {
@@ -21,45 +21,41 @@ var landing = new Landing(sections[0], i18n.landing, function() {
     login.visible = true;
 });
 
-var forms = document.getElementsByTagName('form');
+const forms = document.getElementsByTagName('form');
 
-var register = new Register(forms[0], function (name, surname, email, password) {
+const register = new Register(forms[0], function (name, surname, email, password) {
+    logic.registerUser(name, surname, email, password, function(error) {
+        if (error) return alert(error.message)
+
+        register.visible = false
+        registerOk.visible = true
+    })
+}, i18n.register, languageSelected)
+register.visible = false
+
+const login = new Login(forms[1], function (email, password) {
     
-    try{
-        logic.register(name, surname, email, password);
-        register.visible = false;
-        registerOk.visible = true;
-        
-    }catch(error){
+        logic.loginUser(email, password, function(error){
+            if (error) return alert(error.message)
 
-    } 
-
-}, i18n.register, languageSelected);
-register.visible = false;
-
-var login = new Login(forms[1], function (email, password) {
-    try {
-        logic.login(email, password);
-
-        login.visible = false;
-        home.visible = true;
-    } catch (error) {
-        login.error = i18n.errors[languageSelected][error.code];
-    }
+            login.visible = false;
+            home.visible = true;
+            //login.error = i18n.errors[languageSelected][error.code];
+        });
 }, i18n.login, languageSelected, function() {
     this.__feedback__.visible = false;
 });
 login.visible = false;
 
-var registerOk = new RegisterOk(sections[1], function () {
+const registerOk = new RegisterOk(sections[1], function () {
     registerOk.visible = false;
     login.visible = true;
 });
 registerOk.visible = false;
 
-var main = document.getElementsByTagName('main')[0];
+const main = document.getElementsByTagName('main')[0];
 
-var home = new Home(main, function(query) {
+const home = new Home(main, function(query) {
     logic.searchDucks(query, function(ducks) {
         home.results = ducks.map(function(duck) {
             return {
@@ -71,7 +67,8 @@ var home = new Home(main, function(query) {
         });
     });
 }, function(id){
-    logic.retrieveDucklingDetail(id, function(ducks){
+    logic.retrieveDuck(id, function(ducks){
+        debugger
         home.details={
             title: ducks.title,
             image: ducks.imageUrl,

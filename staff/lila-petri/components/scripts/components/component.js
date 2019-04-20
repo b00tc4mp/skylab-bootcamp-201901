@@ -5,6 +5,6 @@ class Component {
     this.container = container;
   }
   set visible(visible) {
-    this.container.style.display = visible ? "block" : "none";
+    this.container.style.display = visible ? "flex" : "none";
   }
 }

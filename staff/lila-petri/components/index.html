@@ -5,7 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Document</title>
+    <title>Ducks</title>
+    <link type="text/css" rel="stylesheet" href="style.css">
+    <link rel="icon" href="http://images.clipartpanda.com/icon-clipart-115138-clip_art_clipart_coloring_book_colouring-555px.png ">
 </head>
 
 <body>
@@ -20,28 +22,28 @@
             <a href="">Register</a> <span>or</span> <a href="">Login</a>.
     </section>
 
-    <form>
-        <h2>Register</h2>
+    <form class="container">
+        <h2 class="container__title">Register</h2>
 
-        <ul>
-            <li><input type="text" name="name" placeholder="name"></li>
-            <li><input type="text" name="surname" placeholder="surname"></li>
-            <li><input type="text" name="email" placeholder="email"></li>
-            <li><input type="password" name="password" placeholder="password"></li>
+        <ul class="container__list">
+            <li class="container__item"><input type="text" name="name" placeholder="name"></li>
+            <li class="container__item"><input type="text" name="surname" placeholder="surname"></li>
+            <li class="container__item"><input type="text" name="email" placeholder="email"></li>
+            <li class="container__item"><input type="password" name="password" placeholder="password"></li>
         </ul>
 
-        <button>Register</button>
+        <button class="container__button">Register</button>
     </form>
 
-    <form>
-        <h2>Login</h2>
+    <form class="container">
+        <h2 class="container__title">Login</h2>
 
-        <ul>
-            <li><input type="text" name="email" placeholder="email"></li>
-            <li><input type="password" name="password" placeholder="password"></li>
+        <ul class="container__list">
+            <li class="container__item"><input type="text" name="email" placeholder="email"></li>
+            <li class="container__item"><input type="password" name="password" placeholder="password"></li>
         </ul>
 
-        <button>Login</button>
+        <button class="container__button">Login</button>
 
         <p>Error!</p>
     </form>
@@ -50,18 +52,25 @@
         User successfully registered, you can proceed to <a href="">Login</a>.
     </section>
 
-    <main>
-        <h1>Hello, World!</h1>
-        <form>
+    <main class="container">
+        <h1 class="container__title">Hello, World!</h1>
+        <form class="container__search">
             <input type="text" name="query">
-            <button>Search</button>
+            <button class="container__search-button">Search</button>
         </form>
 
-        <ul></ul>
-        <section></section>
-        
-        <button>Logout</button>
+        <ul class="ducks"></ul>
+        <section class="ducks__detail">
+                <h2>Detail</h2>
+                <img>
+                <span></span>
+                <p></p>
+        </section>
+        <div>
+        <button class="container__button">Logout</button>
+        </div>
     </main>
+
 
     <script src="scripts/components/component.js"></script>
     <script src="scripts/components/feedback.js"></script>
@@ -69,14 +78,16 @@
     <script src="scripts/components/landing.js"></script>
     <script src="scripts/components/register.js"></script>
     <script src="scripts/components/register-ok.js"></script>
-    <script src="scripts/components/logout.js"></script>
     <script src="scripts/components/login.js"></script>
-    <script src="scripts/components/detail.js"></script>
     <script src="scripts/components/search.js"></script>
     <script src="scripts/components/results.js"></script>
+    <script src="scripts/components/detail.js"></script>
     <script src="scripts/components/home.js"></script>
+    <script src="scripts/validate.js"></script>
     <script src="scripts/data.js"></script>
-    <script src="scripts/logic.js"></script>
+    <script src="scripts/duck-api/index.js"></script>
+    <script src="scripts/user-api/index.js"></script>
+    <script src="scripts/logic/index.js"></script>
     <script src="scripts/i18n.js"></script>
     <script src="scripts/main.js"></script>
 </body>
