@@ -1,70 +1,79 @@
-'use strict';
+'use strict'
 
 const logic = {
-    register: function(name, surname, email, password) {
-        if (typeof name !== 'string') throw TypeError(name + ' is not a valid name');
-        // TODO add more validations
+    registerUser(name, surname, email, password, callback) {
+        validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true },
+            { value: callback, type: 'function' }
+        ])
 
-        // TODO verify user does not exists already, otherwise error 'user already exists'
+        validate.email(email)
 
-        users.push({
-            name: name,
-            surname: surname,
-            email: email,
-            password: password
-        });
+        userApi.create(name, surname, email, password, function(response) {
+            if (response.status === 'OK') callback()
+            else callback(Error(response.error))
+        })
     },
 
-    login: function(email, password) {
+    loginUser(email, password) {
         // TODO validate input data
 
-        const user = users.find(function (user) { return user.email === email });
+        const user = users.find(user => user.email === email)
 
         if (!user) {
             const error = Error('wrong credentials')
 
-            error.code = 1;
+            error.code = 1
 
-            throw error;
-        };
+            throw error
+        }
 
         if (user.password === password) {
-            this.__userEmail__ = email;
-            this.__accessTime__ = Date.now();
+            this.__userEmail__ = email
+            this.__accessTime__ = Date.now()
         } else {
             const error = Error('wrong credentials')
 
-            error.code = 1;
+            error.code = 1
 
-            throw error;
-        };
+            throw error
+        }
     },
 
-    retrieveUser: function (email) {
+    retrieveUser() {
         // TODO validate input
 
-        const user = users.find(function (user) { return user.email === email });
+        const user = users.find(user => user.email === this.__userEmail__)
 
         if (!user) {
             const error = Error('user not found with email ' + email)
 
-            error.code = 2;
+            error.code = 2
 
-            throw error;
+            throw error
         }
 
         return {
             name: user.name,
             surname: user.surname,
             email: user.email
-        };
+        }
     },
 
-    searchDucks: function (query, callback) {
-        duckApi.searchDucks(query, callback);
+    searchDucks(query, callback) {
+        // TODO validate inputs
+
+        // TODO handle api errors
+        duckApi.searchDucks(query, callback)
     },
 
-    retrieveDuck: function (id, callback) {
-        duckApi.retrieveDuck(id, callback);
+    retrieveDuck(id, callback) {
+        // TODO validate inputs
+
+        // TODO handle api errors
+        duckApi.retrieveDuck(id, callback)
     }
 }
