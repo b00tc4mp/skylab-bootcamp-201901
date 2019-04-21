@@ -49,7 +49,9 @@ const logic = {
         const { data: { id: userId, token }} = response;
         this.__userId__ = userId;
         this.__token__ = token,
-        callback();
+        this.retrieveUser(() => {
+          callback();
+        });
       }
     });
   },

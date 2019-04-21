@@ -53,6 +53,6 @@ class Home extends Component {
 
   set visible(isVisible) {
     super.visible = isVisible;
-    this.getChild(".home__title").innerText = `Hello, ${logic.__userName__}`;
+    this.getChild(".home__title").innerText = `Hello, ${logic.__user__.name}`;
   }
 }
