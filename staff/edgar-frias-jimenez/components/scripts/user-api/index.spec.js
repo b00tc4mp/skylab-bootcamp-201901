@@ -142,9 +142,8 @@ describe('user api', () => {
     })
 
     describe('authenticate', () => {
+        beforeEach(done => userApi.create(name, surname, username, password, done))
         it('should succeed on correct user data', done => {
-            const username = 'user@mail.com'
-            const password = '123'
             userApi.authenticate(username, password, function (response) {
                 expect(response).toBeDefined()
 
@@ -219,7 +218,235 @@ describe('user api', () => {
         })
     })
 
-    describe('update', () => {
-        // blah blah blah
+    describe('retrieve', () => {
+        beforeEach(done => userApi.create(name, surname, username, password, done))
+
+        it('should retrieve entire user data', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { id, token } } = response
+
+                userApi.retrieve(id, token, function(response) {
+                    expect(response).toBeDefined()
+
+                    const { status, data: { name, surname, username, id } } = response
+
+                    expect(status).toBe('OK')
+
+                    expect(typeof name).toBe('string')
+                    expect(name.length).toBeGreaterThan(0)
+
+                    expect(typeof surname).toBe('string')
+                    expect(surname.length).toBeGreaterThan(0)
+
+                    expect(typeof username).toBe('string')
+                    expect(username.length).toBeGreaterThan(0)
+
+                    expect(typeof id).toBe('string')
+                    expect(id.length).toBeGreaterThan(0)
+
+                    done()
+                })
+            })
+        })
+
+        // Id
+        it('should fail on undefined id', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { token } } = response
+                const id = undefined
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(RequirementError, `id is not optional`)
+
+                done()
+            })
+        })
+
+        it('should fail on null id', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { token } } = response
+                const id = null
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(RequirementError, `id is not optional`)
+
+                done()
+            })
+        })
+
+        it('should fail on empty id', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { token } } = response
+                const id = ''
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(ValueError, `id is empty`)
+
+                done()
+            })
+        })
+
+        it('should fail on blank id', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { token } } = response
+                const id = ' \t    \n'
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(ValueError, `id is empty`)
+
+                done()
+            })
+        })
+
+        // Token
+        it('should fail on undefined token', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { id } } = response
+                const token = undefined
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(RequirementError, `token is not optional`)
+
+                done()
+            })
+        })
+
+        it('should fail on null token', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { id } } = response
+                const token = null
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(RequirementError, `token is not optional`)
+
+                done()
+            })
+        })
+
+        it('should fail on empty token', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { id } } = response
+                const token = ''
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(ValueError, `token is empty`)
+
+                done()
+            })
+        })
+
+        it('should fail on blank token', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { id } } = response
+                const token = ' \t    \n'
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(ValueError, `token is empty`)
+
+                done()
+            })
+        })
+    })
+
+    describe('delete', () => {
+        beforeEach(done => userApi.create(name, surname, username, password, done))
+
+        it('should delete entire user data', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { id, token } } = response
+
+                userApi.delete(username, password, id, token, function(response) {
+                    expect(response).toBeDefined()
+
+                    const { status } = response
+
+                    expect(status).toBe('OK')
+
+                    done()
+                })
+            })
+        })
+/*
+        // Id
+        it('should fail on undefined id', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { token } } = response
+                const id = undefined
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(RequirementError, `id is not optional`)
+
+                done()
+            })
+        })
+
+        it('should fail on null id', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { token } } = response
+                const id = null
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(RequirementError, `id is not optional`)
+
+                done()
+            })
+        })
+
+        it('should fail on empty id', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { token } } = response
+                const id = ''
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(ValueError, `id is empty`)
+
+                done()
+            })
+        })
+
+        it('should fail on blank id', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { token } } = response
+                const id = ' \t    \n'
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(ValueError, `id is empty`)
+
+                done()
+            })
+        })
+
+        // Token
+        it('should fail on undefined token', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { id } } = response
+                const token = undefined
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(RequirementError, `token is not optional`)
+
+                done()
+            })
+        })
+
+        it('should fail on null token', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { id } } = response
+                const token = null
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(RequirementError, `token is not optional`)
+
+                done()
+            })
+        })
+
+        it('should fail on empty token', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { id } } = response
+                const token = ''
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(ValueError, `token is empty`)
+
+                done()
+            })
+        })
+
+        it('should fail on blank token', done => {
+            userApi.authenticate(username, password, function (response) {
+                const { data: { id } } = response
+                const token = ' \t    \n'
+
+                expect(() => userApi.retrieve(id, token, () => { })).toThrowError(ValueError, `token is empty`)
+
+                done()
+            })
+        })*/
     })
 })
