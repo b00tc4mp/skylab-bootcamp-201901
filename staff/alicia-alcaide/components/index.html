@@ -16,8 +16,12 @@
         <option value="ga">Galego</option>
     </select>
 
+    <section>
+            <a href="">Register</a> <span>or</span> <a href="">Login</a>.
+    </section>
+
     <form>
-        <h2>Sign Up</h2>
+        <h2>Register</h2>
 
         <ul>
             <li><input type="text" name="name" placeholder="name"></li>
@@ -26,36 +30,72 @@
             <li><input type="password" name="password" placeholder="password"></li>
         </ul>
 
-        <button>Sign Up</button>
+        <button>Register</button>
+        <p>Error!</p>
     </form>
 
+
+    <section>
+        User successfully registered, you can proceed to <a href="">Login</a>.
+    </section>
+
+    
     <form>
-        <h2>Sign In</h2>
+        <h2>Login</h2>
 
         <ul>
             <li><input type="text" name="email" placeholder="email"></li>
             <li><input type="password" name="password" placeholder="password"></li>
         </ul>
 
-        <button>Sign Up</button>
+        <button>Login</button>
+
+        <p>Error!</p>
     </form>
 
-    <section>
-        User successfully registered, you can proceed to <a href="">Login</a>.
-    </section>
 
     <main>
-        <h1>Welcome!!!</h1>
+        <h1>Hello, User!</h1>
+
+        <button>Log out!</button>
+        
+        <form>
+            <input type="text" name="query">
+            <button>Search</button>
+        </form>
+
+        <ul></ul>
+
+        <section>
+            <h2>Duck Detail</h2>
+            <img>
+            <span></span>
+            <p></p>
+        </section>
+
+        <p>Error!</p>
     </main>
 
+    <script src="scripts/errors.js"></script>
+    <script src="scripts/validate.js"></script>
+
     <script src="scripts/components/component.js"></script>
+    <script src="scripts/components/feedback.js"></script>
     <script src="scripts/components/language-selector.js"></script>
-    <script src="scripts/components/sign-up.js"></script>
-    <script src="scripts/components/sign-in.js"></script>
-    <script src="scripts/components/sign-up-ok.js"></script>
+    <script src="scripts/components/landing.js"></script>
+    <script src="scripts/components/register.js"></script>
+    <script src="scripts/components/register-ok.js"></script>
+    <script src="scripts/components/login.js"></script>
+    <script src="scripts/components/search.js"></script>
+    <script src="scripts/components/results.js"></script>
+    <script src="scripts/components/detail.js"></script>
     <script src="scripts/components/home.js"></script>
-    <script src="scripts/data.js"></script>
-    <script src="scripts/logic.js"></script>
+
+    <script src="scripts/duck-api/index.js"></script>
+    <script src="scripts/user-api/index.js"></script>
+
+    <script src="scripts/logic/index.js"></script>
+
     <script src="scripts/i18n.js"></script>
     <script src="scripts/main.js"></script>
 </body>
