@@ -1,5 +1,13 @@
 "use strict";
 
+function randomString(length = 20) {
+  return Number(Math.random() * 10 ** length).toString(35);
+}
+
+function generateRandomEmail() {
+  return `test-${randomString()}@mail.com`;
+}
+
 describe("logic", () => {
   describe("users logic", () => {
     describe("register", () => {
@@ -9,11 +17,8 @@ describe("logic", () => {
       let password;
 
       beforeEach(() => {
-        const randomUsernameSuffix = Number(Math.random() * 10 ** 10).toString(
-          35
-        );
-        email = `test-${randomUsernameSuffix}@gmail.com`;
-        password = Number(Math.random() * 10 ** 20).toString(35);
+        email = generateRandomEmail();
+        password = randomString();
       });
 
       it("should succeed on correct user data", done => {
@@ -187,8 +192,10 @@ describe("logic", () => {
         });
 
         it("should fail if no callback", () => {
-          expect(() => { logic.registerUser(name, surname,email, password); }).toThrowError(RequirementError, `undefined is not optional`);
-        })
+          expect(() => {
+            logic.registerUser(name, surname, email, password);
+          }).toThrowError(RequirementError, `undefined is not optional`);
+        });
       });
     });
 
@@ -199,12 +206,9 @@ describe("logic", () => {
       let password;
 
       beforeAll(done => {
-        const randomUsernameSuffix = Number(Math.random() * 10 ** 10).toString(
-          35
-        );
-        email = `test-${randomUsernameSuffix}@gmail.com`;
-        password = Number(Math.random() * 10 ** 20).toString(35);
-        logic.registerUser(name, surname, email, password, (response) => {
+        email = generateRandomEmail();
+        password = randomString();
+        logic.registerUser(name, surname, email, password, response => {
           done();
         });
       });
@@ -216,8 +220,8 @@ describe("logic", () => {
 
       it("should succeed on correct user data", done => {
         logic.loginUser(email, password, response => {
-          expect(typeof response).toBe('undefined');
-          expect(typeof logic.__userId__ ).toBe("string");
+          expect(typeof response).toBe("undefined");
+          expect(typeof logic.__userId__).toBe("string");
           expect(typeof logic.__token__).toBe("string");
           done();
         });
@@ -225,20 +229,19 @@ describe("logic", () => {
 
       describe("should fail on wrong data", () => {
         it("should fail on wrong username", done => {
-          const randomUsernameSuffix = Number(Math.random() * 10 ** 10).toString(
-            35
-          );
-          const wrongEmail = `test-sdd-${randomUsernameSuffix}@gmail.com`;
+          const wrongEmail = generateRandomEmail();
 
           logic.loginUser(wrongEmail, password, response => {
             expect(response.status).toBe("KO");
-            expect(response.error).toBe(`user with username "${wrongEmail}" does not exist`);
+            expect(response.error).toBe(
+              `user with username "${wrongEmail}" does not exist`
+            );
             done();
           });
         });
 
         it("should fail on wrong password", done => {
-          const wrongPassword = "456";
+          const wrongPassword = randomString();
 
           logic.loginUser(email, wrongPassword, response => {
             expect(response.status).toBe("KO");
@@ -318,12 +321,46 @@ describe("logic", () => {
         });
 
         it("should fail if no callback", () => {
-          expect(() => { logic.loginUser(email, password); }).toThrowError(RequirementError, `undefined is not optional`);
-        })
+          expect(() => {
+            logic.loginUser(email, password);
+          }).toThrowError(RequirementError, `undefined is not optional`);
+        });
       });
     });
 
     describe("retrieve user", () => {
+      const name = "test";
+      const surname = "test";
+      let email;
+      let password;
+
+      beforeEach(done => {
+        email = generateRandomEmail();
+        password = randomString();
+        logic.registerUser(name, surname, email, password, () => {
+          logic.loginUser(email, password, (response) => {
+            done();
+          });
+        });
+      });
+
+      it("should retreive correct data for user id", done => {
+        logic.retrieveUser(() => {
+          expect(logic.__user__.name).toBe(name);
+          expect(logic.__user__.surname).toBe(surname);
+          expect(logic.__user__.email).toBe(email);
+          done();
+        });
+      });
+
+      describe("fail tests", () => {
+
+        it("should fail if no callback", () => {
+          expect(() => {
+            logic.retrieveUser();
+          }).toThrowError(RequirementError, `undefined is not optional`);
+        });
+      });      
     });
   });
 
@@ -334,7 +371,6 @@ describe("logic", () => {
           expect(ducks).toBeDefined();
           expect(ducks instanceof Array).toBeTruthy();
           expect(ducks.length).toBe(13);
-
           done();
         });
 

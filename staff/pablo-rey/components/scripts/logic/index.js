@@ -1,6 +1,14 @@
 "use strict";
 
 const logic = {
+  /**
+   * 
+   * @param {string} name 
+   * @param {string} surname 
+   * @param {string} email 
+   * @param {string} password 
+   * @param {Function} callback 
+   */
   registerUser(name, surname, email, password, callback) {
     validate.arguments([
       { name: "name", value: name, type: "string", notEmpty: true },
@@ -18,6 +26,12 @@ const logic = {
     });
   },
 
+  /**
+   * 
+   * @param {string} email 
+   * @param {string} password 
+   * @param {Function} callback 
+   */
   loginUser(email, password, callback) {
     validate.arguments([
       { name: "email", value: email, type: "string", notEmpty: true },
@@ -40,24 +54,27 @@ const logic = {
     });
   },
 
-  retrieveUser() {
-    // TODO validate input
+  /**
+   * 
+   * @param {string} id 
+   * @param {string} token 
+   * @param {Function} callback 
+   */
+  retrieveUser(callback) {
+    validate.arguments([
+      { value: callback, type: "function" },
+    ]);
 
-    const user = users.find(user => user.email === this.__userEmail__);
-
-    if (!user) {
-      const error = Error("user not found with email " + email);
-
-      error.code = 2;
-
-      throw error;
-    }
-
-    return {
-      name: user.name,
-      surname: user.surname,
-      email: user.email,
-    };
+    userApi.retrieve(logic.__userId__, logic.__token__, (response) => {
+      if (response.status === "OK") {
+        this.__user__ = {
+          name: response.data.name,
+          surname: response.data.surname,
+          email: response.data.username,    
+        };
+        callback();
+      } else callback(response);
+    })
   },
 
   searchDucks(query, callback) {

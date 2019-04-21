@@ -3,7 +3,7 @@
 const userApi = {
   __url__: "https://skylabcoders.herokuapp.com/api",
 
-  __call__(path, method, body, callback) {
+  __call__( { path, method, body, token, callback } ) {
     validate.arguments([
       { name: "path", value: path, type: "string", notEmpty: true },
       { name: "method", value: method, type: "string", notEmpty: true },
@@ -25,6 +25,8 @@ const userApi = {
       callback(JSON.parse(this.responseText));
     });
 
+    if (token) xhr.setRequestHeader("Authorization", "Bearer " + token);
+
     if (method === "GET") {
       if (body) throw Error("cannot send body in GET request");
       else xhr.send();
@@ -36,6 +38,14 @@ const userApi = {
     }
   },
 
+  /**
+   * 
+   * @param {string} name 
+   * @param {string} surname 
+   * @param {string} username 
+   * @param {string} password 
+   * @param {Function} callback 
+   */
   create(name, surname, username, password, callback) {
     validate.arguments([
       { name: "name", value: name, type: "string", notEmpty: true },
@@ -47,14 +57,20 @@ const userApi = {
 
     // TODO validate inputs
 
-    this.__call__(
-      "/user",
-      "POST",
-      { name, surname, username, password },
+    this.__call__( {
+      path: "/user",
+      method: "POST",
+      body: { name, surname, username, password },
       callback
-    );
+    });
   },
 
+  /**
+   * 
+   * @param {string} username 
+   * @param {string} password 
+   * @param {Function} callback 
+   */
   authenticate(username, password, callback) {
     validate.arguments([
       { name: "username", value: username, type: "string", notEmpty: true },
@@ -62,15 +78,32 @@ const userApi = {
       { value: callback, type: "function" }
     ]);
 
-    this.__call__(
-      "/auth",
-      "POST",
-      { username, password },
+    this.__call__({
+      path: "/auth",
+      method: "POST",
+      body: { username, password },
       callback
-    );
+    });
   },
 
-  retrieve(id, token, callback) {
-    // TODO
+  /**
+   * 
+   * @param {string} userId 
+   * @param {string} token 
+   * @param {Function} callback 
+   */
+  retrieve(userId, token, callback) {
+    validate.arguments([
+      { name: "userId", value: userId, type: "string", notEmpty: true },
+      { name: "token", value: token, type: "string", notEmpty: true },
+      { value: callback, type: "function" }
+    ]);
+
+    this.__call__({
+      path: "/user/" + userId,
+      method: "GET",
+      token,
+      callback
+    });    
   }
 };
