@@ -328,35 +328,39 @@ Hooray.prototype.slice = function (valorinicial, valorfinal){
  */
 
 Hooray.prototype.splice = function (inicio, eliminar) {
-    // if (!(typeof inicio === 'number')) throw TypeError(inicio + ' is not a number');
-    var spliceHooray = new Hooray()
+    if (!(typeof inicio === 'number')) throw TypeError(inicio + ' is not a number');
+    if (!(typeof eliminar === 'number')) throw TypeError(eliminar + ' is not a number');
 
-    for (var i = 0; i < this.length; i++) {
-        if (i < inicio || i >= inicio + eliminar) {
-            spliceHooray.push(this[i])
-        }
-        
-        if(arguments.length > 2 && inicio === i){
-            for (var a = 2; a < arguments.length; a++) {
-                spliceHooray.push(arguments[a])
-            }
-        }
+    var end = inicio + eliminar
+
+    var before = new Hooray()
+    var spliced = new Hooray()
+    var after = new Hooray()
+
+    for (var i = 0; i < this.length; i++ ){
+        if( i < inicio ){ before.push( this[i] ); }
+        if( i >= inicio && i < end ){ spliced.push( this[i] ); }
+        if( i >= end ){ after.push( this[i] ); }      
     }
 
-    var length = this.length
-    if (spliceHooray.length > this.length) {
-        length = spliceHooray.length
+    for (var j = 2; j < arguments.length; j++ ){
+        before.push( arguments[j] );
     }
 
-    for (var p = 0; p < length; p++){
-        if (p >= spliceHooray.length) {
-            delete(this[p])
+    var newHooray = before.concat(after)
+
+    var length = Math.max(this.length, newHooray.length)
+    var newLength = 0
+    for(i = 0; i < length; i++ ){
+        if( newHooray.length > i ){
+         this[i] = newHooray[i];
+         newLength++
         } else {
-            this[p] = spliceHooray[p]
+         this.pop();
         }
     }
 
-    this.length = spliceHooray.length;
+    this.length = newLength
 
     return this
 }
@@ -382,10 +386,7 @@ Hooray.prototype.sort = function (callback) {
             } else {
                 break
             }
-            // console.log('sortedNum', sorted[j])
         }
-
-        // debugger
         sorted.splice(indexToInsert, 0, this[i])
     }
 

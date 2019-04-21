@@ -422,6 +422,7 @@ describe('hooray', function () {
             expect(result).toBe(expectedResult);
         });
     });
+
     describe('splice', function () {
         it('should delete some elements and add anothers', function () {
             var numbers = new Hooray(1, 2, 3, 4, 5, 6);
