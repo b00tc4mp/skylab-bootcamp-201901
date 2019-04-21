@@ -7,7 +7,12 @@ describe('logic', () => {
         let email
         const password = '123'
 
-        beforeEach(() => email = `manuelbarzi-${Math.random()}@gmail.com`)
+        beforeEach(() => {
+            email = `manuelbarzi-${Math.random()}@gmail.com`
+
+            logic.__userId__ = null
+            logic.__userToken__ = null
+        })
 
         describe('register', () => {
             it('should succeed on correct user data', done => {
@@ -24,7 +29,7 @@ describe('logic', () => {
                 it('should fail on retrying to register', done => {
                     logic.registerUser(name, surname, email, password, function (error) {
                         expect(error).toBeDefined()
-                        expect(error instanceof Error).toBeTruthy()
+                        expect(error instanceof LogicError).toBeTruthy()
 
                         expect(error.message).toBe(`user with username \"${email}\" already exists`)
 
@@ -115,79 +120,90 @@ describe('logic', () => {
         })
 
         describe('login', () => {
-            beforeEach(() => {
-                users.push({
-                    name: name,
-                    surname: surname,
-                    email: email,
-                    password: password
+            let id
+
+            beforeEach(done => userApi.create(name, surname, email, password, function (error, response) {
+                id = response.data.id
+
+                done()
+            }))
+
+            it('should succeed on correct user credential', done => {
+                logic.loginUser(email, password, function (error) {
+                    expect(error).toBeUndefined()
+
+                    const { __userId__, __userToken__ } = logic
+
+                    expect(typeof __userId__).toBe('string')
+                    expect(__userId__.length).toBeGreaterThan(0)
+                    expect(__userId__).toBe(id)
+
+                    expect(typeof __userToken__).toBe('string')
+                    expect(__userToken__.length).toBeGreaterThan(0)
+
+                    const [, payloadB64,] = __userToken__.split('.')
+                    const payloadJson = atob(payloadB64)
+                    const payload = JSON.parse(payloadJson)
+
+                    expect(payload.id).toBe(id)
+
+                    done()
                 })
             })
 
-            it('should succeed on correct data', () => {
-                logic.loginUser(email, password)
+            it('should fail on non-existing user', done => {
+                logic.loginUser(email = 'unexisting-user@mail.com', password, function (error) {
+                    expect(error).toBeDefined()
+                    expect(error instanceof LogicError).toBeTruthy()
+                    
+                    expect(error.message).toBe(`user with username \"${email}\" does not exist`)
 
-                expect(logic.__userEmail__).toBe(email)
-                expect(logic.__accessTime__ / 1000).toBeCloseTo(Date.now() / 1000, 1)
+                    done()
+                })
             })
-
-            it('should fail on wrong email (unexisting user)', () => {
-                // expect(()=> {
-                //     logic.login('pepitogrillo@gmail.com', password)
-                // }).toThrowError(Error, 'wrong credentials')
-
-                let _error
-
-                try {
-                    logic.login('pepitogrillo@gmail.com', password)
-                } catch (error) {
-                    _error = error
-                }
-
-                expect(_error).toBeDefined()
-                // expect(_error.code).toBe(1)
-            })
-
-            it('should fail on wrong password (existing user)', () => {
-                // expect(()=> {
-                //     logic.login(email, '456')
-                // }).toThrowError(Error, 'wrong credentials')
-
-                let _error
-
-                try {
-                    logic.login(email, '456')
-                } catch (error) {
-                    _error = error
-                }
-
-                expect(_error).toBeDefined()
-                // expect(_error.code).toBe(1)
-            })
-
-            // TODO fail cases
         })
 
-        describe('retrieve user', () => {
-            beforeEach(() => {
-                users.push({
-                    name: name,
-                    surname: surname,
-                    email: email,
-                    password: password
+        describe('retrieve', () => {
+            let id, token
+    
+            beforeEach(done => userApi.create(name, surname, email, password, function (error, response) {
+                id = response.data.id
+    
+                userApi.authenticate(email, password, function (error, response) {
+                    token = response.data.token
+
+                    logic.__userId__ = id
+                    logic.__userToken__ = token
+    
+                    done()
                 })
+            }))
+    
+            it('should succeed on correct user id and token', done => {
+                logic.retrieveUser(function (error, user) {
+                    expect(error).toBeUndefined()
 
-                logic.__userEmail__ = email
+                    expect(user.id).toBeUndefined()
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    expect(user.email).toBe(email)
+                    expect(user.password).toBeUndefined()
+    
+                    done()
+                })
             })
+    
+            it('should fail on incorrect user id', done => {
+                logic.__userId__ = '5cb9998f2e59ee0009eac02c'
+    
+                logic.retrieveUser(function (error) {
+                    expect(error).toBeDefined()
+                    expect(error instanceof LogicError).toBeTruthy()
 
-            it('should succeed on existing user and corect email', () => {
-                const user = logic.retrieveUser()
-
-                expect(user).toBeDefined()
-                expect(user.name).toBe(name)
-                expect(user.surname).toBe(surname)
-                expect(user.email).toBe(email)
-                expect(user.password).toBeUndefined()
+                    expect(error.message).toBe(`token id \"${id}\" does not match user \"${logic.__userId__}\"`)
+    
+                    done()
+                })
             })
         })
     })

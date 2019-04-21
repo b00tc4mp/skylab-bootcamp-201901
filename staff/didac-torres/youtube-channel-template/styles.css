@@ -1,0 +1,262 @@
+* {
+    margin: 0;}
+
+
+body {
+    height: 100vh;
+}
+
+.topbar {
+    display: grid;
+    padding: 5px;
+    gap: 5px;
+    grid-template-columns: 1fr 7fr 1fr 1fr;
+    width: 100%;
+    height: 8%;
+    background-color: #e62117;
+    align-items: center;
+}
+
+.banner {
+    display: grid;
+    grid-template-columns: 1fr;
+    width: 100%;
+    height: 10%;
+}
+
+.img {
+    width: 100%;
+    max-height: 100%;
+}
+
+.profile {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
+    width: 100%;
+    height: 10%;
+    grid-template-areas:
+        "a . b b b . . ."
+        "a . c . . . . ."
+        ". . c e . d d ."
+        ". . c . . . . .";
+}
+
+.item-1 {
+    align-self: center;
+    grid-area: a;
+}
+
+.item-2 {
+    align-self: center;
+    grid-area: b;
+}
+
+.item-3 {
+    align-self: center;
+    grid-area: c;
+}
+
+.item-4 {
+    align-self: center;
+    grid-area: d;
+}
+
+.item-5 {
+    align-self: center;
+    grid-area: e;
+}
+
+.userphoto {
+    position: relative;
+    bottom: 45%;
+    left: 20%;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.navbar {
+    display: grid;
+    padding-left: 5px;
+    grid-template-columns: 30% 30% 30% 10%;
+    grid-template-rows: 2fr 1fr 1fr;
+    width: 100%;
+    height: 5%;
+    grid-template-areas: 
+    ". . . d"
+    "a b c ."
+    ". . . ."
+}
+
+.trailer {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 4fr 1fr;
+    width: 100%;
+    height: 25%;
+}
+
+.galeria {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 1fr 1px 1fr 1px 1fr 1px;
+    width: 100%;
+}
+
+.albumes {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: 8% 1fr 1fr 1fr;
+}
+
+.item-a {
+    padding: 2px;
+    grid-area: video;
+}
+
+.item-b {
+    align-self: end;
+    grid-area: titulo;
+}
+
+.item-c {
+    align-self: start;
+    grid-area: autor;
+}
+
+.item-d {
+    align-self: start;
+    grid-area: vista;
+}
+
+.item-e {
+    align-self: center;
+    grid-area: menuvid;
+}
+
+.album1,
+.album2,
+.album3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 2fr 1fr;
+    grid-template-rows: 1fr 1fr 1fr 1fr;
+    grid-template-areas:
+        "video video video titulo menuvid"
+        "video video video autor ."
+        "video video video vista ."
+        "video video video . .";
+}
+
+#topmenu {
+    width: 30px;
+    height: 30px;
+    fill: white;
+    stroke: none;
+}
+
+#searchicon {
+    width: 30px;
+    height: 30px;
+    fill: white;
+    stroke: none;
+}
+
+#namechan {
+    font-size: 16px;
+    color: white;
+}
+
+#chaname {
+    font-size: 16px;
+    color: black;
+}
+
+#ytlogo {
+    width: 35px;
+    height: 35px;
+    fill: white;
+    stroke: none;
+}
+
+#susbutton {
+    width: 35px;
+    height: 35px;
+    fill: #e62117;
+    stroke: none;
+}
+
+#susb {
+    font-size: 12px;
+    color: #e62117;
+}
+
+#numfollow {
+    font-size: 10px;
+    color: hsla(0, 0%, 6.7%, .6);
+}
+
+#navi {
+    font-size: 16px;
+    color: hsla(0, 0%, 6.7%, .6);
+}
+
+#navicon {
+    width: 100%;
+    height: 35px;
+    fill: hsla(0, 0%, 6.7%, .6);
+    stroke: none;
+}
+#titvideo {
+    font-size: 16px;
+    color: hsla(0, 0%, 6.7%, .6);
+}
+#morevid {
+    width: 35px;
+    height: 35px;
+    fill: hsla(0, 0%, 6.7%, .6);
+    stroke: none;
+}
+#videotext{
+        font-size: 10px;
+        color: hsla(0, 0%, 6.7%, .6);
+    
+}
+
+/* * {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.topnavbar {
+    height: 100px;
+    display: grid;
+    background-color: red;
+    grid-template-columns: 1fr 3fr 1fr;
+    padding: 10px;
+    column-gap: 10px;
+
+}
+
+.userprof {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.userprof-item {
+    text-align: center;
+}
+
+.userbanner {
+    width: 100%;
+    height: 180px;
+}
+
+.userphoto {
+    position: relative;
+    bottom: 120px;
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+} */
