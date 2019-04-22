@@ -170,6 +170,16 @@ body
         flex-direction: row
         align-content: center
         width: 33%
+    &__description
+        display: flex
+        flex-direction: column
+        padding: .5em
+    &__description-title
+        text-decoration: none
+        color: $color-navbar
+    &__description-artist
+        text-decoration: none
+        color: $color-navbar
     &__listening
         width: 3em
         height: 3em
@@ -220,7 +230,7 @@ body
                 display: none
             &--small
                 display: inline
-                height: 5em
+                height:  5em
                 padding: 1.2em
                 margin-top: 0.2em
                 fill: $color-logo
@@ -228,8 +238,11 @@ body
             display: none
     .navegation
         &--hidden
-            display: none
+            display: none 
     .text
         display: none
-    .img
-        font-size: 12px
+    .now-playing-bar
+        &__left
+            display: none
+    
+        

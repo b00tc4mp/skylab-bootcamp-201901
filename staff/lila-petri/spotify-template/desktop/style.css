@@ -199,6 +199,19 @@ body {
   align-content: center;
   width: 33%;
 }
+.now-playing-bar__description {
+  display: flex;
+  flex-direction: column;
+  padding: 0.5em;
+}
+.now-playing-bar__description-title {
+  text-decoration: none;
+  color: grey;
+}
+.now-playing-bar__description-artist {
+  text-decoration: none;
+  color: grey;
+}
 .now-playing-bar__listening {
   width: 3em;
   height: 3em;
@@ -273,8 +286,8 @@ body {
     display: none;
   }
 
-  .img {
-    font-size: 12px;
+  .now-playing-bar__left {
+    display: none;
   }
 }
 
