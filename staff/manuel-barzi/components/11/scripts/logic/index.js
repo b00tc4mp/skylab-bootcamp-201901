@@ -77,6 +77,15 @@ const logic = {
         })
     },
 
+    logoutUser() {
+        // this.__userId__ = null
+        // this.__userToken__ = null
+
+        // OR fully remove all key values from session storage
+        sessionStorage.clear()
+    },
+
+
     searchDucks(query, callback) {
         // TODO validate inputs
 

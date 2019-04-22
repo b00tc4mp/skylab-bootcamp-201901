@@ -1,21 +1,24 @@
 'use strict'
 
 class Home extends Component {
-    constructor(container, onSearch, onDetail) {
+    constructor(container, onSearch, onDetail, onLogout) {
         super(container)
 
-        const form = this.container.children[1]
+        const form = this.container.querySelector('form')
         new Search(form, onSearch)
 
-        const ul = this.container.children[2]
+        const ul = this.container.querySelector('ul')
         const results = new Results(ul, onDetail)
         this.__results__ = results
         this.__results__.visible = false
 
-        const section = this.container.children[3]
+        const section = this.container.querySelector('section')
         const detail = new Detail(section)
         this.__detail__ = detail
         this.__detail__.visible = false
+
+        const button = this.container.querySelector('button')
+        button.onclick = onLogout
     }
 
     set results(results) {
