@@ -1,0 +1,253 @@
+/* html{
+    height: 100%;
+} */
+
+body {
+    margin: 0;
+    padding: initial;
+    height: 100vh;
+    background: white;
+   }
+
+/* div {
+    border: 1px solid yellowgreen;
+} */
+
+header {
+    height: 7%;
+    /* border: 1px solid black; */
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #D12020;
+}
+
+.left-h {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-start;
+    align-items: center;
+    
+    
+}
+
+.right-h {
+    display: flex;
+    flex-direction: row;
+    align-content: flex-end;
+    align-items: center;
+    justify-content: space-between;
+    
+    
+}
+
+.h-header {
+    color: white;
+    font: 1em sans-serif;
+}
+
+.button-header {
+    background: #D12020;
+    border: #D12020;
+}
+
+.subh {
+    min-height: 10%;
+    /* border: 1px solid black; */
+}
+
+/* .isubh {
+    background-image: url(https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSQAl4pZwgIEa_wfQS62qXAidzxfFB71gjWKiScotEj2rhZI3NE);
+    min-height: 100px;
+} */
+
+.logo {
+       border-radius: 50%;
+       transform: translateY(-95px) translateX(10px)
+}
+
+.subh2 {
+    height: 50px;
+}
+
+.subh2-suscribe {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: initial;
+    padding-left: 30px;
+    height: 10px;
+}
+
+.subh2-suscribe-button {
+    background: white;
+    display: flex;
+    align-items: center;
+    border: none;
+}
+
+.text-l {
+    font: 1em sans-serif;
+    padding-top: 0.5em;
+    padding-left: 2em;
+    font-size: 1.1em
+}
+.text-s {
+    font: 1em sans-serif;
+    color: #D12020;
+}
+
+.text-s-info {
+    font: 1em sans-serif;
+    color: #86707D;
+    font-size: 0.9em;
+    font-stretch: condensed;
+}
+
+main {
+    min-height: 80%;
+    /* border: 1px solid red; */
+}
+
+main, header {
+    border-collapse: collapse;
+}
+
+.navsh {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    padding: 20px;
+    font: 0.9em sans-serif;
+    font-stretch: condensed;
+    border-block-end: 4px solid lightgrey;
+    height: 10px;
+}
+
+a.nounderline:visited, a.nounderline:link, a.nounderline:active {
+    text-decoration: black;
+    color: black;
+}
+
+.ainicio {
+    border-bottom: 2px solid #D12020;
+    padding-bottom: 30px;
+}
+
+.principal-i {
+    font: 0.9em sans-serif;
+    font-weight: 400;
+    font-stretch: condensed;
+}
+
+.main-sections {
+    padding: 1em;
+    border-top: 1px solid lightgray
+}
+
+.videos-sections {
+    display: flex; 
+    justify-content: space-between;
+}
+
+.v-and-description {
+    display: inline-flex;
+}
+
+.responsive-image {
+    height: auto;
+    width: 100%;
+}
+
+img.responsive-image.list-videos {
+    /* height: auto; */
+    max-width: 150px;
+    width: 100%;
+
+}
+
+.text-i {
+    font: 0.75em sans-serif;
+    font-weight: 500;
+    color: #86707D;
+    padding-left: 1em;
+    
+}
+
+.title-i {
+    font: 1.1em sans-serif;
+    font-weight: 400;
+    color: black
+    
+}
+
+.v-dot-menu {
+    display: flex;
+    align-items: flex-start;
+    padding-top: 1em;
+}
+
+/* a.nounderline.ainicio {
+    text-decoration: underline;
+} */
+
+@media only screen and (min-width: 768px) {
+    body {
+        margin: 0;
+        height: 100vh;
+        background-color: yellowgreen;
+       }
+    
+    div {
+        border: 1px solid yellowgreen;
+    }
+    
+    header {
+        min-height: 20%;
+        border: 1px solid black;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        align-items: center;
+        background-color: white
+    }
+    
+    .subh {
+        min-height: 20%;
+        border: 1px solid black;
+        
+    }
+    
+    .isubh {
+        background-image: url(https://yt3.ggpht.com/JPWrmLpvj620gBgC7AB7fwMDXTQ3sJHFLXbz4BZkL_alFm_nA1tKmUzsSpY0DsnyMNbH58kkMew=w2560-fcrop64=1,00005a57ffffa5a8-nd-c0xffffffff-rj-k-no);
+        min-height: 100px;
+        background-position-x: center;
+
+    }
+    
+    main {
+        min-height: 80%;
+        border: 1px solid red;
+    }
+    
+    main, header {
+        border-collapse: collapse;
+    }
+        
+    .navsh {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        padding: 20px;
+    }
+    
+    a.nounderline:visited, a.nounderline:link, a.nounderline:active {
+        text-decoration: black;
+        color: black;
+    }
+    
+    a.nounderline.ainicio {
+        text-decoration: underline;
+    }
+}

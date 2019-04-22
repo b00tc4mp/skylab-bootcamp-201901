@@ -17,3 +17,21 @@ class RequirementError extends Error {
         super(message)
     }
 }
+
+class ConnectionError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
+class TimeoutError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
+class LogicError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
