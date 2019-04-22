@@ -32,8 +32,6 @@ class Home extends Component{
             this.__details__.visible = true;
         }     
         set name(name) {
-            // const literals = this.__literals__[language]
-            // this.container.children[0].innerText = literals.title + ' ' + name + '!'
             this.container.children[0].innerText = `Hello, ${name}`
             
         }
