@@ -1,9 +1,31 @@
 'use strict'
 
 const logic = {
-    __userId__: null,
-    __userToken__: null,
-    
+    // es5 like
+    // __userId__: null,
+    // __userToken__: null,
+
+    //es6
+    set __userId__(id) {
+        sessionStorage.userId = id
+    },
+
+    get __userId__() {
+        return normalize.undefinedOrNull(sessionStorage.userId)
+    },
+
+    set __userToken__(token) {
+        sessionStorage.userToken = token
+    },
+
+    get __userToken__() {
+        return normalize.undefinedOrNull(sessionStorage.userToken)
+    },
+
+    get isUserLoggedIn() {
+        return !!(this.__userId__ && this.__userToken__)
+    },
+
     registerUser(name, surname, email, password, callback) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -34,7 +56,7 @@ const logic = {
         userApi.authenticate(email, password, (error, response) => {
             if (error) callback(error)
             else if (response.status === 'OK') {
-                const { data: { id, token }} = response
+                const { data: { id, token } } = response
 
                 this.__userId__ = id
                 this.__userToken__ = token
@@ -48,7 +70,7 @@ const logic = {
         userApi.retrieve(this.__userId__, this.__userToken__, (error, response) => {
             if (error) callback(error)
             else if (response.status === 'OK') {
-                const { data: {name, surname, username: email } } = response
+                const { data: { name, surname, username: email } } = response
 
                 callback(undefined, { name, surname, email })
             } else callback(new LogicError(response.error))
@@ -69,3 +91,25 @@ const logic = {
         duckApi.retrieveDuck(id, callback)
     }
 }
+
+// es5 like
+
+// Object.defineProperty(logic, '__userId__', {
+//     set: function(id) {
+//         sessionStorage.userId = id
+//     },
+
+//     get: function() {
+//         return sessionStorage.userId
+//     }
+// })
+
+// Object.defineProperty(logic, '__userToken__', {
+//     set: function(token) {
+//         sessionStorage.userToken = token
+//     },
+
+//     get: function() {
+//         return sessionStorage.userToken
+//     }
+// })
