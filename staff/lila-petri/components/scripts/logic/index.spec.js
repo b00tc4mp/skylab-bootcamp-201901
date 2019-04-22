@@ -120,8 +120,9 @@ describe('logic', () => {
                 
             })
             it('should succeed on correct data', done => {
-                logic.loginUser(email, password, function (error) {
-                    expect(error).toBeUndefined()
+                logic.loginUser(email, password, function (response) {
+                     console.log(response)   
+                    expect(response).toBeDefined();
 
                     done()
                 })
@@ -155,7 +156,7 @@ describe('logic', () => {
 
                 expect(() => logic.loginUser(nonEmail, password, () => { })).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
             })
-            it('should fail on no registed email', () => {
+            !true && it('should fail on no registed email', () => {
                 const email = 'some-no-registered@gmail.com'
 
                 expect(() => logic.loginUser( email, password, () => { })).toThrowError(RequirementError, `email is not optional`)
@@ -187,26 +188,27 @@ describe('logic', () => {
             
         })
 
-        describe('retrieve user', () => {
-            beforeEach(() => {
-                users.push({
-                    name: name,
-                    surname: surname,
-                    email: email,
-                    password: password
+        describe('retrieve', () => {
+            let id
+            let token
+            beforeEach(done => {
+                logic.registerUser(name, surname, email, password, ()=> {
+                    logic.loginUser(email, password, response =>{
+                            id=response.data.id
+                            token=response.data.token
+                            done()
+                    })
                 })
-
-                logic.__userEmail__ = email
             })
 
-            it('should succeed on existing user and corect email', () => {
-                const user = logic.retrieveUser()
+            it('should succeed on existing user and correct email', done => {
+                logic.retrieveUser(id, token, response=>{
+                    expect(response).toBeDefined();
+                    expect(response.name).toBe(name)
+                    
+                    done()
+                })
 
-                expect(user).toBeDefined()
-                expect(user.name).toBe(name)
-                expect(user.surname).toBe(surname)
-                expect(user.email).toBe(email)
-                expect(user.password).toBeUndefined()
             })
         })
     })

@@ -1,6 +1,8 @@
 class Home extends Component{
-    constructor(container, onSearch, onDetail, onLogout) {
+    constructor(container, onSearch, onDetail, onLogout, literals) {
     super(container);
+        
+       this.__literals__ = literals;
 
         const form = this.container.children[1];
         new Search(form, onSearch);
@@ -28,6 +30,12 @@ class Home extends Component{
             this.__results__.visible = false;
             this.__details__.items = details;
             this.__details__.visible = true;
+        }     
+        set name(name) {
+            // const literals = this.__literals__[language]
+            // this.container.children[0].innerText = literals.title + ' ' + name + '!'
+            this.container.children[0].innerText = `Hello, ${name}`
+            
         }
 }
 

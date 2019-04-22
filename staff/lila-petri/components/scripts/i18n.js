@@ -92,5 +92,19 @@ const i18n = {
         ga: {
             1: 'credenciales incorrectas'
         }
+    },
+    home: {
+        en: {
+            title: 'Welcome'
+        },
+        es: {
+            title: 'Bienvenido'
+        },
+        ca: {
+            title: 'Benvingut'
+        },
+        ga: {
+            title: 'Benvido'
+        }
     }
 };

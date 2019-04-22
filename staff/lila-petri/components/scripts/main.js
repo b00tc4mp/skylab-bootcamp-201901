@@ -35,12 +35,20 @@ register.visible = false
 
 const login = new Login(forms[1], function (email, password) {
     
-        logic.loginUser(email, password, function(error){
-            if (error) return alert(error.message)
+        logic.loginUser(email, password, function(response){
+            if(response.status==='OK'){
+                logic.retrieveUser(response.data.id, response.data.token, function(user){
+                    home.name=user.name
+                    login.visible = false;
+                    home.visible = true;
+                    console.log(home.name)
+                })
+            }else return alert(error.message)
 
-            login.visible = false;
-            home.visible = true;
             //login.error = i18n.errors[languageSelected][error.code];
+            //const user = logic.retrieveUser(response)
+        // home.name = user.name
+        // home.visible = true
         });
 }, i18n.login, languageSelected, function() {
     this.__feedback__.visible = false;
@@ -80,6 +88,7 @@ const home = new Home(main, function(query) {
     logic.logout();
     home.visible=false;
     landing.visible=true;
-});
+    logout.visible=false
+},i18n.home);
 home.visible = false;
 
