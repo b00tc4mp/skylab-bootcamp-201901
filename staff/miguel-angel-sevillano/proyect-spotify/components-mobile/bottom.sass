@@ -1,0 +1,34 @@
+
+.bottom
+    display: flex
+    flex-direction: column
+    align-items: center
+    background-color: $bkg-color
+    color: $text-color
+   
+    &__logo
+        margin-bottom: 20px
+        margin-top: 70px
+        width: 150px
+    &__button
+        background-color: #1DB954
+        margin-top: 30px
+        padding: 15px
+        padding-left: 25px
+        padding-right: 25px
+        font-size: 0.8em
+        border-radius: 25px
+    &__info
+        font-family: $font
+        color: grey
+        font-size: 0.9em
+        padding: 5px
+    &__space
+        font-family: $font
+        color: grey
+        font-size: 0.9em
+        margin-bottom: 40px
+
+@media only screen and (min-width: 1024px)
+    .bottom
+        display: none

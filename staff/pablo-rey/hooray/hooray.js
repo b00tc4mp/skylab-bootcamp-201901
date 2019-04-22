@@ -168,15 +168,15 @@ Hooray.prototype.find = function (callbackfn, _this) {
  *
  * @param {Function} callback The expression to evaluate.
  */
-Hooray.prototype.forEach = function(callback) {
-  if (typeof callback !== "function")
-    throw new TypeError(callback + " is not a function");
+Hooray.prototype.forEach = function(callbackfn) {
+	if (!(callbackfn instanceof Function)) throw new TypeError("undefined is not a function");
+
 
   var self = this;
 
   this.length &&
     (function forEach(index) {
-      callback(self[index], index);
+      callbackfn(self[index], index);
 
       if (++index < self.length) forEach(index);
     })(0);
@@ -330,3 +330,106 @@ Hooray.prototype.reduce = function (callbackfn, initialValue) {
   }
   return accumulator;
 }
+
+/**
+ * Removes the first element of an array and returns it
+ * 
+ * @returns {*} The element removed
+ */
+Hooray.prototype.shift = function() {
+  var len = this.length;
+  var result = this[0];
+  for(var i = 0; i < len - 1; i++) {
+    this[i] = this[i+1];
+  }
+  this.pop();
+  return result;
+}
+
+/**
+ * Iterates an hooray and evaluates an expression on each of its values, returning true if any of them match it. Otherwise returns false.
+ * 
+ * @param {Function} callbackfn The expression to evaluate.
+ * 
+ * @returns {boolean} True if at least one value match the expression, otherwise false.
+ */
+Hooray.prototype.some = function (callbackfn) {
+	if (!(callbackfn instanceof Function)) throw new TypeError("undefined is not a function");
+
+    for (var i = 0; i < this.length; i++) {
+        if (callbackfn(this[i], i, this))  {
+            return true;
+        }
+    }
+    return false;
+}
+
+/**
+ * 
+ * Sort in place the array. If no compare function, the default comparison is the standar comparison > not MDN documentation UTF16)
+ * 
+ * @param {Function} comparefn function to compare (a,b) 
+ */
+
+Hooray.prototype.sort = function (comparefn) {
+	if (arguments.length > 0 && !(comparefn instanceof Function)) throw new TypeError("undefined is not a function");
+
+  var compare = comparefn || function (a, b) { return String(a) > String(b); };
+  for (var i = this.length - 1; i >= 0; i--) {
+    for (var j = 0; j < i; j++ ) {
+      if (compare(this[j], this[j+1]) > 0) {
+        var temp = this[j];
+        this[j] = this[j+1];
+        this[j+1] = temp;
+      }
+    }
+  }
+  return this;
+}
+
+/**
+ * Chop the original hooray from start in deleteCount number of elements, Add in that hole item1, item2... 
+ * 
+ * @param {number} start start of cutting
+ * @param {number} deleteCount number of elements to delete
+ * @param {any} item1, item2,... All items to add instead of chopped elements 
+ * 
+ * @returns {Hooray} Modified hooray
+ */
+Hooray.prototype.splice = function (start, deleteCount) {
+  var len = this.length;
+  var start = parseInt(start) || 0;
+  var deleteCount = parseInt(deleteCount) || 0;
+  var actualStart = start < 0 ? Math.max(len + start,0) : Math.min(start, len);
+  var actualDeleteCount = Math.min(Math.max(deleteCount,0), len - actualStart);
+
+  var returnResult = new Hooray();
+  for (var k=0; k < actualDeleteCount; k++) {
+    returnResult.push(this[actualStart+k]);
+  }
+
+  var result = new Hooray();
+  for (var i = 0; i < Math.min(actualStart, len); i++) {
+    result.push(this[i]);
+  }
+  for (var i = 2; i < arguments.length; i++) {
+    result.push(arguments[i]);
+  }
+  for (var i = actualStart + deleteCount; i < len; i++) {
+    result.push(this[i])
+  }
+
+  while (this.length !== result.length) {
+    if (this.length < result.length) {
+      this.push(null);
+    } else {
+      this.pop()
+    }
+  }
+
+  for (var i = 0; i < this.length; i++) {
+    this[i] = result[i]; 
+  }
+  return returnResult;
+}
+
