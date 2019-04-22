@@ -51,8 +51,8 @@ class Home extends Component {
     this.__duckDetail__.language = language;
   }
 
-  set visible(isVisible) {
-    super.visible = isVisible;
-    this.getChild(".home__title").innerText = `Hello, ${logic.__user__.name}`;
+  set name (name) {
+    this.getChild(".home__title").innerText = (name) ? `Hello, ${name}` : '';
   }
+
 }

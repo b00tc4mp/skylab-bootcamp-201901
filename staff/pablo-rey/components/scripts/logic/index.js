@@ -56,6 +56,7 @@ const logic = {
     });
   },
 
+
   /**
    * 
    * @param {string} id 
@@ -69,16 +70,25 @@ const logic = {
 
     userApi.retrieve(logic.__userId__, logic.__token__, (response) => {
       if (response.status === "OK") {
-        this.__user__ = {
-          name: response.data.name,
-          surname: response.data.surname,
-          email: response.data.username,    
-        };
-        callback();
+        const { name, surname, username: email } = response.data;
+        callback({ name, surname, email });
       } else callback(response);
     })
   },
 
+  logout() {
+    this.__userId__ = null;
+    this.__token__ = null;
+  },
+
+  get isLogged () { return !!(this.__userId__ && this.__token__);},
+
+  get __userId__() { return normalize.undefinedOrNull(sessionStorage.__userId__)},
+  set __userId__(id) { sessionStorage.__userId__ = id },
+
+  get __token__() { return normalize.undefinedOrNull(sessionStorage.__token__)},
+  set __token__(token) { sessionStorage.__token__ = token },
+  
   searchDucks(query, callback) {
     // TODO validate inputs
 
@@ -92,4 +102,5 @@ const logic = {
     // TODO handle api errors
     duckApi.retrieveDuck(id, callback);
   },
+
 };

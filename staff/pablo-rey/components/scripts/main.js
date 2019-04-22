@@ -21,9 +21,7 @@ const logOut = new LogOut({
   initialLanguage: languageSelected,
   onLogOut() {
     logic.logout();
-    home.visible = false;
-    landing.visible = true;
-    logout.visible = false;
+    viewState();
   },
 });
 
@@ -39,7 +37,6 @@ const landing = new Landing({
     login.visible = true;
   },
 });
-landing.visible = true;
 
 const register = new Register({
   container: document.getElementsByClassName("register")[0],
@@ -68,8 +65,12 @@ const login = new Login({
     try {
       logic.loginUser(email, password, (response) => {
         if (!response) {
+          home.name = "";
+          logic.retrieveUser((user) => {
+            home.name = user.name;
+          })
+          viewState();
           login.visible = false;
-          home.visible = true;
         } else {
           login.error = response.error;
         }
@@ -101,4 +102,11 @@ const home = new Home({
   literals: i18n.home,
   initialLanguage: languageSelected,
 });
-home.visible = false;
+
+function viewState() {
+  home.visible = logic.isLogged;
+  landing.visible = !logic.isLogged;
+  logOut.visible = logic.isLogged
+}
+
+viewState();
