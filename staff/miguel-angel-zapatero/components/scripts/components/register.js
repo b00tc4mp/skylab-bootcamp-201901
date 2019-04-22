@@ -45,7 +45,7 @@ class Register extends Component {
         this.container.surname.placeholder = literals.surname
         this.container.email.placeholder = literals.email
         this.container.password.placeholder = literals.password
-        this.container.confirmpassword.placeholder = literals.password
+        this.container.confirmpassword.placeholder = literals.confirmpassword
     
         this.container.children[2].innerText = literals.title
     

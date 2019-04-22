@@ -27,28 +27,32 @@ var i18n = {
             name: 'Name',
             surname: 'Surname',
             email: 'E-mail',
-            password: 'Password'
+            password: 'Password',
+            confirmpassword: 'Repeat password'
         },
         es: {
             title: 'Registro',
             name: 'Nombre',
             surname: 'Apellido',
             email: 'E-milio',
-            password: 'Contraseña'
+            password: 'Contraseña',
+            confirmpassword: 'Repetir contraseña'
         },
         ca: {
             title: 'Registre',
             name: 'Nom',
             surname: 'Cognom',
             email: 'E-mil·li',
-            password: 'Contrasenya'
+            password: 'Contrasenya',
+            confirmpassword: 'Repetir contrasenya'
         },
         ga: {
             title: 'Rexistro',
             name: 'Nome',
             surname: 'Apelido',
             email: 'E-miliño',
-            password: 'Contrasinal'
+            password: 'Contrasinal',
+            confirmpassword: 'Repetir contrasinal'
         }
     },
     admin: {

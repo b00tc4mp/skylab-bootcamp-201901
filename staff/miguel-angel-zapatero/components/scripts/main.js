@@ -1,49 +1,54 @@
-'use strict';
+'use strict'
 
-var languageSelected = 'en';
+let languageSelected = 'en'
 
-var select = document.getElementsByTagName('select')[0];
-var languageSelector = new LanguageSelector(select, function (language) {
-    languageSelected = language;
+const select = document.getElementsByTagName('select')[0]
+const languageSelector = new LanguageSelector(select, function (language) {
+    languageSelected = language
 
-    landing.language = language;
-    register.language = language;
-    login.language = language;
-});
+    landing.language = language
+    register.language = language
+    login.language = language
+})
 
-var sections = document.getElementsByTagName('section');
+const sections = document.getElementsByTagName('section')
 
-var landing = new Landing(sections[0], i18n.landing, languageSelected, function() {
-    landing.visible = false;
-    register.visible = true;
+const landing = new Landing(sections[0], i18n.landing, languageSelected, function() {
+    landing.visible = false
+    register.visible = true
 }, function() {
-    landing.visible = false;
-    login.visible = true;
-}, );
+    landing.visible = false
+    login.visible = true
+})
 
-var forms = document.getElementsByTagName('form');
+const forms = document.getElementsByTagName('form');
 
-var register = new Register(forms[0], function (name, surname, email, password, confirmpassword) {
-    try {
-        logic.register(name, surname, email, password, confirmpassword);
-    
-        register.visible = false;
-        registerOk.visible = true;
-    } catch (error) {
-        register.error = i18n.errors[languageSelected][error.code];
-    }
+const register = new Register(forms[0], function (name, surname, email, password, confirmpassword) {
+    logic.registerUser(name, surname, email, password, confirmpassword, function(error) {
+        if (error) return register.error = error.message
+
+        register.visible = false
+        registerOk.visible = true
+    })
 }, i18n.register, languageSelected);
 register.visible = false;
 
 var login = new Login(forms[1], function (email, password) {
     try {
-        logic.login(email, password);
+        logic.loginUser(email, password, function(error) {
+            // if (error) return login.error = i18n.errors[languageSelected][error.code]
+            if (error) return login.error = error.message
 
-        login.visible = false;
-        home.visible = true;
+            logic.retrieveUser(function(error, user) {
+                if (error) return login.error = error.message
+                home.name = user.name
+                login.visible = false
+                home.visible = true
+            })    
+        })
     } catch (error) {
-        login.error = i18n.errors[languageSelected][error.code];
-    }
+        login.error = i18n.errors[languageSelected][error.code]            
+    }    
 }, i18n.login, languageSelected, function() {
     this.__feedback__.visible = false;
 });
@@ -68,7 +73,7 @@ var home = new Home(main, function(query){
         });
     });
 }, function(duckId){
-    logic.retrieveDucklingDetail(duckId, function(duck) {
+    logic.retrieveDuck(duckId, function(duck) {
         home.detail = {
             title: duck.title,
             image: duck.imageUrl,

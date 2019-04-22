@@ -4,20 +4,20 @@ class Home extends Component {
     constructor (container, onSearch, onDetail, onLogout) {
         super(container)
 
-        let form = this.container.children[1]
+        const form = this.container.children[1]
         new Search(form, onSearch)
 
-        let ul = this.container.children[2]
-        let results = new Results(ul, onDetail)
+        const ul = this.container.children[2]
+        const results = new Results(ul, onDetail)
         this.__results__ = results
 
-        let section = this.container.children[3]
-        let detail = new Detail(section)
+        const section = this.container.children[3]
+        const detail = new Detail(section)
         this.__detail__ = detail
 
         this.__detail__.visible = false
 
-        let links = this.container.children[4]
+        const links = this.container.children[4]
         links.addEventListener('click', event => {
             event.preventDefault()
 
@@ -33,5 +33,11 @@ class Home extends Component {
         this.__results__.visible = false
         this.__detail__.item = detail
         this.__detail__.visible = true
+    }
+
+    set name (name) {
+        const h1 = this.container.children[0]
+
+        h1.innerText = `Hello, ${name}!`
     }
 }
