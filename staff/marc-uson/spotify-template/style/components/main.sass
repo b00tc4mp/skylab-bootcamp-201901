@@ -1,0 +1,39 @@
+body
+    display: flex
+    flex-flow: column
+    // justify-items: center
+    justify-content: center
+    font-family: $font
+    color: white
+    background-color: $back-color-mbl
+    margin: 0
+    padding: 0
+
+    @include for-desktop
+        background-image: $back-color-desk
+        
+
+
+.main
+    display: flex
+    flex-flow: column
+    box-sizing: border-box
+    justify-content: center
+    justify-items: center
+    padding: 40px 0 0 0
+
+
+    @include for-desktop
+        margin: 0 0 0 $aside-width
+        width: $main-width
+
+
+.logo
+    height: 44px
+    width: 146px
+    margin: 40px 0 20px 0
+
+    @include for-desktop
+        height: 40px
+        width: 133px
+        margin: 25px 0 15px 25px

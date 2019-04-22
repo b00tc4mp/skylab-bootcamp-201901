@@ -1,0 +1,25 @@
+//variables
+$tablet-width: 769px
+$desktop-width: 1024px
+
+
+// media querie en CSS:
+// cómo se haría con CSS?
+    
+// @media (min-width: 769px) and (max-width: 1024px) {
+//     .footer{
+//         background-color: red;
+//     }
+//     .menu {
+//         display: none;
+//     }
+// }
+
+//mixins
+@mixin tablet 
+    @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width})
+        @content
+
+@mixin desktop
+    @media (min-width: #{$desktop-width})
+        @content
