@@ -1,0 +1,18 @@
+.register {
+
+    padding: 20px 0;
+    margin: 7%;
+    border: 1px solid black;
+    display: flex;
+    justify-content: center;
+    border-radius: 5px;
+}
+
+
+.decoration{
+    color: black;
+    text-decoration: none;
+    text-emphasis-color: black;
+}
+
+

@@ -1,0 +1,128 @@
+.leaderboard {
+  // display: none;
+  position: relative;
+  width: 100%;
+  background: linear-gradient(to bottom, #3a404d, #181c26);
+  border-radius: 10px;
+  z-index: 1;
+  overflow: hidden;
+  box-shadow: 0 7px 30px rgba(62, 9, 11, 0.3);
+
+  &__title {
+    font-size: 18px;
+    color: #e1e1e1;
+    padding: 2.4rem 1.3rem 1.8rem;
+    margin: 0;
+
+    & .trophy {
+      width: 25px;
+      height: 26px;
+      position: relative;
+      margin-right: 6px;
+      vertical-align: baseline;
+      color: #ffa602;
+    }
+  }
+
+  &__list {
+    counter-reset: leaderboard;
+    margin: 0;
+    padding: 0;
+    @include respond-above(xs) {
+      // max-height: 423px;
+      // overflow-x: hidden;
+    }
+  }
+
+  &__item {
+    position: relative;
+    z-index: 1;
+    font-size: 14px;
+    counter-increment: leaderboard;
+    padding: 18px 18px 18px 60px;
+    backface-visibility: hidden;
+    transform: translateZ(0) scale(1, 1);
+    background: #fff;
+    display: flex;
+    justify-content: space-between;
+    font-weight: 400;
+    border-bottom: 1px solid #e4e4e4;
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 0px;
+      top: 0px;
+      width: 0;
+      height: 0;
+      border-style: solid;
+      border-width: 20px 20px 0px 0px;
+      border-color: transparent;
+    }
+
+    &:nth-child(1) {
+      &::after {
+        border-color: #ffd33f transparent transparent transparent;
+      }
+    }
+    &:nth-child(2) {
+      &::after {
+        border-color: #ccc transparent transparent transparent;
+      }
+    }
+    &:nth-child(3) {
+      &::after {
+        border-color: #cd7f32 transparent transparent transparent;
+      }
+    }
+    &:last-child {
+      // border-radius: 0 0 10px 10px;
+      // border-bottom: 0;
+    }
+
+    &::before {
+      content: counter(leaderboard);
+      position: absolute;
+      z-index: 2;
+      top: 15px;
+      left: 15px;
+      min-width: 30px;
+      height: 20px;
+      color: #ffffff;
+      background: #383e4b;
+      border-radius: 20px;
+      text-align: center;
+      font-size: 11px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  }
+
+  &_player {
+    position: absolute;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    padding: 1.8rem 1.8rem 1.8rem 5rem;
+    margin: 0;
+    background: none;
+    color: #fff;
+
+    &::after {
+      left: auto;
+      right: -9px;
+      border-left: none;
+      border-right: 10px solid transparent;
+    }
+  }
+
+  &__points {
+    position: relative;
+    z-index: 2;
+    text-align: right;
+    font-size: 1em;
+  }
+}
