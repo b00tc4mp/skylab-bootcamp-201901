@@ -1,6 +1,9 @@
 'use strict'
 
 const logic = {
+    __userId__: null,
+    __userToken__: null,
+
     registerUser(name, surname, email, password, callback) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -28,24 +31,22 @@ const logic = {
         validate.email(email)
 
         userApi.authenticate(email, password, (response)=>{
+            
             if (response.status=='OK'){
-                this.__id__=response.data.id
-                this.__token__= response.data.token
-                callback(response) 
+                const { data: { id, token }} = response
+
+                this.__userId__ = id
+                this.__userToken__ = token
+
+                callback() 
             }else callback(Error(response.error))
 
         })
     },
 
-    retrieveUser(id, token, callback) {
-        // TODO validate input
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { value: callback, type: 'function' }
-        ])
+    retrieveUser(callback) {
 
-        userApi.retrieve(id, token, function(response){
+        userApi.retrieve(this.__userId__, this.__userToken__, (response)=>{
             if (response.status === 'OK'){
                 
                     const user = {
@@ -53,26 +54,11 @@ const logic = {
                         surname: response.data.surname,
                         email: response.data.email
                     }
-             callback(user)
+            callback(user)
            
             } else callback(Error(response.error))
         })
 
-        // const user = users.find(user => user.email === this.__userEmail__)
-
-        // if (!user) {
-        //     const error = Error('user not found with email ' + email)
-
-        //     error.code = 2
-
-        //     throw error
-        // }
-
-        // return {
-        //     name: user.name,
-        //     surname: user.surname,
-        //     email: user.email
-        // }
     },
 
     searchDucks(query, callback) {

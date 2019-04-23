@@ -116,13 +116,33 @@ describe('logic', () => {
         })
 
         describe('login', () => {
-            beforeEach((done) => {logic.registerUser(name, surname, email, password,done)
-                
-            })
-            it('should succeed on correct data', done => {
-                logic.loginUser(email, password, function (response) {
-                     console.log(response)   
-                    expect(response).toBeDefined();
+            let id
+
+            beforeEach(done => userApi.create(name, surname, email, password, function (response) {
+                id = response.data.id
+
+                done()
+            }))
+
+           
+            it('should succeed on correct user credential', done => {
+                logic.loginUser(email, password, function (error) {
+                    expect(error).toBeUndefined()
+
+                    const { __userId__, __userToken__ } = logic
+
+                    expect(typeof __userId__).toBe('string')
+                    expect(__userId__.length).toBeGreaterThan(0)
+                    expect(__userId__).toBe(id)
+
+                    expect(typeof __userToken__).toBe('string')
+                    expect(__userToken__.length).toBeGreaterThan(0)
+
+                    const [, payloadB64,] = __userToken__.split('.')
+                    const payloadJson = atob(payloadB64)
+                    const payload = JSON.parse(payloadJson)
+
+                    expect(payload.id).toBe(id)
 
                     done()
                 })
@@ -189,23 +209,28 @@ describe('logic', () => {
         })
 
         describe('retrieve', () => {
+            
             let id
             let token
-            beforeEach(done => {
-                logic.registerUser(name, surname, email, password, ()=> {
-                    logic.loginUser(email, password, response =>{
+            beforeEach( done => {
+                userApi.create(name, surname, email, password, ()=>{
+                    userApi.authenticate(email, password, response =>{
                             id=response.data.id
-                            token=response.data.token
+                            token= response.data.token
+                            logic.__userId__ = id
+                            logic.__userToken__ = token
                             done()
                     })
                 })
             })
 
             it('should succeed on existing user and correct email', done => {
-                logic.retrieveUser(id, token, response=>{
-                    expect(response).toBeDefined();
-                    expect(response.name).toBe(name)
+                logic.retrieveUser(user=>{
                     
+                    expect(user.name).toBe(name)
+                    expect(user.surname).toBe(surname)
+                    //expect(user.email).toBe(email)
+                    expect(user.password).toBeUndefined()
                     done()
                 })
 

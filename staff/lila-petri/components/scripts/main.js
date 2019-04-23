@@ -35,20 +35,17 @@ register.visible = false
 
 const login = new Login(forms[1], function (email, password) {
     
-        logic.loginUser(email, password, function(response){
-            if(response.status==='OK'){
-                logic.retrieveUser(response.data.id, response.data.token, function(user){
+        logic.loginUser(email, password, function(error){
+            if(error)return alert(error.message)
+
+            logic.retrieveUser(function(user){
+                    if(error)return alert(error.message)
+
                     home.name=user.name
                     login.visible = false;
                     home.visible = true;
                     console.log(home.name)
                 })
-            }else return alert(error.message)
-
-            //login.error = i18n.errors[languageSelected][error.code];
-            //const user = logic.retrieveUser(response)
-        // home.name = user.name
-        // home.visible = true
         });
 }, i18n.login, languageSelected, function() {
     this.__feedback__.visible = false;

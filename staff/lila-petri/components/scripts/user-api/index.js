@@ -19,6 +19,7 @@ const userApi = {
         xhr.addEventListener('load', function () {
             callback(JSON.parse(this.responseText))
         })
+
         if(token)xhr.setRequestHeader('Authorization', 'Bearer '+token)
 
         if (method === 'GET') {
@@ -61,6 +62,6 @@ const userApi = {
             { name: 'token', value: token, type: 'string', notEmpty: true },
             { value: callback, type: 'function' }
         ])
-        this.__call__(`/user/${id}`, 'GET', null, token, callback)
+        this.__call__(`/user/${id}`, 'GET', undefined, token, callback)
     }
 }

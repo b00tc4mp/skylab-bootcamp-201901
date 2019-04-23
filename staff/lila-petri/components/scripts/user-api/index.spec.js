@@ -15,9 +15,7 @@ describe("user api", () => {
     it("should succeed on correct user data", done => {
       userApi.create(name, surname, username, password, function(response) {
         expect(response).toBeDefined();
-
         const {status,data: { id }} = response;
-
         expect(status).toBe("OK");
         expect(typeof id).toBe("string");
         expect(id.length).toBeGreaterThan(0);
@@ -32,7 +30,7 @@ describe("user api", () => {
       );
 
       it("should fail on retrying to register", done => {
-        userApi.create(name, surname, username, password, function(response) {
+        userApi.create(name, surname, username, password, function( response) {
           expect(response).toBeDefined();
 
           const { status, error } = response;
@@ -152,6 +150,7 @@ describe("user api", () => {
     let username;
     const password = "123";
 
+
     beforeEach(done => {
       username = `marialilapetri-${Math.random()}@gmail.com`;
       userApi.create(name, surname, username, password, done);
@@ -159,20 +158,25 @@ describe("user api", () => {
 
     it("should succeed on correct user data", done => {
       userApi.authenticate(username, password, (response)=> {
-        expect(response).toBeDefined();
-        const {
-          status,
-          data: { id, token }
-        } = response;
-        expect(status).toBe("OK");
-        expect(typeof id).toBe("string");
-        expect(id.length).toBeGreaterThan(0);
-        expect(typeof token).toBe("string");
-        expect(token.length).toBeGreaterThan(0);
 
-        done();
-      });
-    });
+                expect(response).toBeDefined()
+
+                const { status, data } = response
+
+                expect(status).toBe('OK')
+                expect(data).toBeDefined()
+
+                const { id, token } = data
+
+                expect(typeof id).toBe('string')
+                expect(id.length).toBeGreaterThan(0)
+                //expect(id).toBe(_id)
+
+                expect(typeof token).toBe('string')
+                expect(token.length).toBeGreaterThan(0)
+        done()
+      })
+    })
 
    it('should return differet tokens on differents request', done=>{
         userApi.authenticate(username, password, (responseOne)=>{
@@ -215,14 +219,14 @@ describe("user api", () => {
         });
       })
     it("should fail on incorrect password", done => {
-    const password = '1234'
-    userApi.authenticate(username, password, function(response) {
-        expect(response).toBeDefined();
-        const { status, error } = response;
-        expect(status).toBe("KO")
-        expect(error).toBe(`username and/or password wrong`)
-        done()
-    })
+        const password = '1234'
+        userApi.authenticate(username, password, function(response) {
+          expect(response).toBeDefined();
+          const { status, error: _error } = response
+          expect(status).toBe("KO")
+          expect(_error).toBe(`username and/or password wrong`)
+          done()
+        })
     })
 
     it("should fail on empty username", () => {
