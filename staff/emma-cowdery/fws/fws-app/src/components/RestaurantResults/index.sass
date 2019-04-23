@@ -1,0 +1,39 @@
+@import '../../utils.sass'
+
+.restaurant-results
+  position: absolute
+  top: 4em
+  left: 0
+  bottom: 0
+  right: 0
+  display: grid
+  grid-template-columns: 1fr
+
+  &__restaurant
+    margin: 1em
+    box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+    border-radius: 1em
+    
+@media (min-width: 768px)
+  .restaurant-results
+    grid-template-columns: 1fr 1fr
+
+    &__restaurant
+      margin: 2em
+
+@media (min-width: 1200px)
+  .restaurant-results
+    grid-template-columns: repeat(3, 1fr)
+    margin: 2em
+    margin-left: 4em
+    margin-right: 4em
+
+    &__restaurant
+      margin-top: 4em
+      margin-bottom: 4em
+
+    &__restaurant:hover
+      margin: 0
+      height: 76%
+      transition: 0.4s
+
