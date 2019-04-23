@@ -105,5 +105,23 @@ const userApi = {
       token,
       callback
     });    
+  },
+
+  update(userId, token, fields, callback) {
+    validate.arguments([
+      { name: "userId", value: userId, type: "string", notEmpty: true },
+      { name: "token", value: token, type: "string", notEmpty: true },
+      { name: "fields", value: fields, type: "object", notEmpty: true },
+      { value: callback, type: "function" }
+    ]);
+
+    this.__call__({
+      path: "/user/" + userId,
+      method: "PUT",
+      body: fields,
+      token,
+      callback
+    })
+
   }
 };

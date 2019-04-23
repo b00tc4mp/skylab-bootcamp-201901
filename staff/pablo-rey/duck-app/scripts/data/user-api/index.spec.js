@@ -1,7 +1,7 @@
 "use strict";
 
 function randomString(length = 20) {
-  return Number(Math.random() * 10 ** length).toString(35)
+  return Number(Math.random() * 10 ** length).toString(35);
 }
 
 function generateRandomEmail() {
@@ -207,7 +207,7 @@ describe("user api", () => {
             userApi.create(name, surname, username, password, 1);
           }).toThrowError(TypeError, `undefined 1 is not a function`);
         });
-      });      
+      });
     });
   });
 
@@ -265,13 +265,14 @@ describe("user api", () => {
       it("should fail on wrong username", done => {
         const wrongUsername = generateRandomEmail();
 
-        userApi.authenticate(wrongUsername, password , response => {
+        userApi.authenticate(wrongUsername, password, response => {
           expect(response.status).toBe("KO");
-          expect(response.error).toBe(`user with username "${wrongUsername}" does not exist`);
+          expect(response.error).toBe(
+            `user with username "${wrongUsername}" does not exist`
+          );
           done();
         });
       });
-
     });
 
     describe("fails on parameters", () => {
@@ -516,6 +517,33 @@ describe("user api", () => {
   });
 
   describe("update", () => {
-    // TODO:
+    const name = "test";
+    const surname = "test";
+    let username;
+    const password = randomString();
+    let id;
+    let token;
+
+    beforeAll(done => {
+      username = generateRandomEmail();
+      userApi.create(name, surname, username, password, response => {
+        userApi.authenticate(username, password, ({ data }) => {
+          id = data.id;
+          token = data.token;
+        });
+      });
+    });
+
+    fit("should succeed on correct user data", done => {
+      const randomText = randomString();
+      const fields = { testField: randomText };
+      userApi.update(id, token, fields, response => {
+        expect(response.status).toBe('OK');
+        userApi.retrieve(id, token,  ({ data: user })=> {
+          expect(user).toContain(fields);
+          done();
+        });
+      });
+    });
   });
 });

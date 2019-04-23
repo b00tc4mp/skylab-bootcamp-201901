@@ -223,9 +223,6 @@ describe("logic", () => {
           expect(typeof response).toBe("undefined");
           expect(typeof logic.__userId__).toBe("string");
           expect(typeof logic.__token__).toBe("string");
-          expect(logic.__user__.name).toBe(name);
-          expect(logic.__user__.surname).toBe(surname);
-          expect(logic.__user__.email).toBe(email);
           done();
         });
       });
@@ -348,10 +345,10 @@ describe("logic", () => {
       });
 
       it("should retreive correct data for user id", done => {
-        logic.retrieveUser(() => {
-          expect(logic.__user__.name).toBe(name);
-          expect(logic.__user__.surname).toBe(surname);
-          expect(logic.__user__.email).toBe(email);
+        logic.retrieveUser((user) => {
+          expect(user.name).toBe(name);
+          expect(user.surname).toBe(surname);
+          expect(user.email).toBe(email);
           done();
         });
       });
