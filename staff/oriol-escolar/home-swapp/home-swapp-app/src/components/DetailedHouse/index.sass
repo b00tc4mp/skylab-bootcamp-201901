@@ -1,0 +1,81 @@
+@import "node_modules/react-image-gallery/styles/scss/image-gallery.scss"
+
+.image-gallery-right-nav:hover 
+    background-color: rgba(0,0,0,0)
+    color: #CCB096
+.image-gallery-left-nav:hover 
+    z-index: 0
+.image-gallery-left-nav:hover 
+    background-color: rgba(0,0,0,0)
+    color: #CCB096
+.image-gallery-fullscreen-button
+    display: none
+.image-gallery-play-button:hover
+    background-color: rgba(0,0,0,0)
+    color: #CCB096
+
+.image-gallery-image
+    height: 400px
+    width: 700px
+    z-index: 100000
+    @media (min-width: 360px ) and (max-width: 768px )
+        width: 290px
+        height: 200px
+        margin-right: 
+
+.black
+    color: black
+    font-weight: normal
+.image
+    width: 800px    
+    @media (min-width: 360px ) and (max-width: 768px )
+        width: 90%
+.detailedHouse
+    text-align: left
+    display: flex
+    flex-flow: column wrap
+    align-items: center
+    max-width: 100%
+    @media (min-width: 360px ) and (max-width: 768px )
+        display: inline-block
+
+    &__BackButton
+        align-self: flex-start
+        margin-left: 320px
+        margin-bottom: 100px
+        @media (min-width: 360px ) and (max-width: 768px )
+            margin-left: 5% 
+
+
+    &__content-infoBlock
+        display: flex
+        flex-flow: row wrap
+        margin-left: 50px
+        @media (min-width: 360px ) and (max-width: 768px )
+            margin-left: 10% 
+        &-1
+            text-transform: capitalize  
+            margin-left: 50px
+            @media (min-width: 360px ) and (max-width: 768px )
+                margin-left: 0px
+
+
+            &__Contact
+                margin-top: 50px
+                margin-bottom: 50px
+                @media (min-width: 360px ) and (max-width: 768px )
+                    margin: 0px
+                    margin-top: 50px
+
+
+        &-2
+            text-align: left
+            margin-left: 50px
+            margin-top: 50px
+            width: 700px
+            text-overflow: hidden
+            @media (min-width: 360px ) and (max-width: 768px )
+                margin: 0px
+                margin-top: 20px
+                margin-bottom: 30px
+
