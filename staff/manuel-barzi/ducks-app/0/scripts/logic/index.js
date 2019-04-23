@@ -1,11 +1,6 @@
 'use strict'
 
 const logic = {
-    // es5 like
-    // __userId__: null,
-    // __userToken__: null,
-
-    //es6
     set __userId__(id) {
         sessionStorage.userId = id
     },
@@ -100,25 +95,3 @@ const logic = {
         duckApi.retrieveDuck(id, callback)
     }
 }
-
-// es5 like
-
-// Object.defineProperty(logic, '__userId__', {
-//     set: function(id) {
-//         sessionStorage.userId = id
-//     },
-
-//     get: function() {
-//         return sessionStorage.userId
-//     }
-// })
-
-// Object.defineProperty(logic, '__userToken__', {
-//     set: function(token) {
-//         sessionStorage.userToken = token
-//     },
-
-//     get: function() {
-//         return sessionStorage.userToken
-//     }
-// })
