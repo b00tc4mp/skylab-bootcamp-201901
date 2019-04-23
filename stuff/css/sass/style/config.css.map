@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,OAAO,CAAC,oDAAI",
+    "sources": [
+        "config.sass"
+    ],
+    "names": [],
+    "file": "config.css"
+}
