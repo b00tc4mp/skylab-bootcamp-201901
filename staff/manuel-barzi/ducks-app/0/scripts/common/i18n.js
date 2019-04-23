@@ -1,26 +1,4 @@
 const i18n = {
-    landing: {
-        en: {
-            register: 'Register',
-            or: 'or',
-            login: 'Login'
-        },
-        es: {
-            register: 'Regístrate',
-            or: 'o',
-            login: 'Inicia sesión'
-        },
-        ca: {
-            register: 'Registra\'t',
-            or: 'o',
-            login: 'Inicia sessió'
-        },
-        ga: {
-            register: 'Rexistrese',
-            or: 'ou',
-            login: 'Inicia sesión'
-        }
-    },
     register: {
         en: {
             title: 'Register',
@@ -56,28 +34,6 @@ const i18n = {
         es: 'Administrador',
         ca: 'Gestor',
         ga: 'Administrador'
-    },
-    login: {
-        en: {
-            title: 'Login',
-            email: 'E-mail',
-            password: 'Password'
-        },
-        es: {
-            title: 'Iniciar sesión',
-            email: 'E-milio',
-            password: 'Contraseña'
-        },
-        ca: {
-            title: 'Inici de sessió',
-            email: 'E-mil·li',
-            password: 'Contrasenya'
-        },
-        ga: {
-            title: 'Inicio da sesión',
-            email: 'E-miliño',
-            password: 'Contrasinal'
-        }
     },
     errors: {
         en: {
