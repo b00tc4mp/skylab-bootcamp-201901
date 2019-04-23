@@ -1,0 +1,11 @@
+.day {
+    border: 1px solid gray;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+.current-month-day {
+    border: 1px solid blue;
+    border-radius: 1em;
+    padding: 1em;
+}
