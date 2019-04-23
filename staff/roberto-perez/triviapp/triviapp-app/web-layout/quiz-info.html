@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>quiz</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="search__content">
+        <input
+          class="search__input"
+          type="search"
+          placeholder="Search..."
+          value=""
+        />
+        <button class="search__button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <aside class="sidebar">
+        <div class="sidebar__scrolling-content">
+          <div class="sidebar__scrolling-content-scroll">
+            <nav class="nav">
+              <ul class="nav__menu">
+                <li class="nav__menu-item">
+                  <a href="#" class="nav__menu-link">
+                    Home
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="header">
+          <div class="header__content-left">
+            <div class="header__menu">
+              <div class="nav-bars">
+                <span class="nav-bars__bar"></span>
+              </div>
+              MENU
+            </div>
+          </div>
+          <div class="header__content-right">
+            <div class="header__search">
+              <button class="header__search-button toggle-search">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <div class="header__logo">
+              <h1 class="header__logo-title">QUI<span>Z</span></h1>
+            </div>
+
+            <a class="btn__link header__btn-create black" href="#"
+              ><i class="fas fa-gamepad btn__link-icon"></i> Join game</a
+            >
+
+            <a class="btn__link header__btn-create black" href="#"
+              ><i class="fas fa-plus btn__link-icon"></i> Create</a
+            >
+
+            <div class="header__profile">
+              <div class="user-profile">
+                <button class="user-profile__button">
+                  <img
+                    src="https://lh3.googleusercontent.com/-0kr9v-5o9RM/AAAAAAAAAAI/AAAAAAAAAAA/ACHi3rcc3TZ7vPev4bzJ8FioZBz6Qs7Rpw/s64-c-mo/photo.jpg"
+                    class="user-profile__image"
+                    alt=""
+                  />
+                </button>
+
+                <div class="user-dropdown">
+                  <div class="user-dropdown__details">
+                    <ul>
+                      <li class="user-dropdown__username">
+                        <strong>robert-z</strong>
+                      </li>
+                      <li class="user-dropdown__email">
+                        robert-z@hotmail.es
+                      </li>
+                    </ul>
+                  </div>
+                  <div class="user-dropdown__items">
+                    <a href="#" class="user-dropdown__list-item">
+                      <i class="fas fa-cog"></i> Settings
+                    </a>
+                    <a href="#" class="user-dropdown__list-item">
+                      <i class="fas fa-sign-out-alt"></i> Log out
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div class="content">
+          <div class="container">
+            <section class="quiz-details">
+              <div class="quiz-details__content">
+                <div class="quiz-details-header">
+                  <div class="quiz-details-header__image">
+                    <figure class="quiz-details-header__figure">
+                      <img
+                        src="https://assets.awwwards.com/awards/media/cache/optimize/submissions/2019/02/5c5f0480554d4130295365.jpg"
+                        alt=""
+                        class="quiz__image"
+                      />
+                    </figure>
+                  </div>
+                  <div class="quiz-details-header__info">
+                    <header>
+                      <h3 class="quiz-details-header__title">
+                        Preguntas de programación
+                      </h3>
+                    </header>
+
+                    <div class="quiz-details-header__action-buttons-wrapper">
+                      <div class="quiz-details-header__action-buttons-group">
+                        <button
+                          class="btn__link btn__link--green green quiz-details-header__action-buttons-play"
+                        >
+                          Play
+                        </button>
+                      </div>
+                      <div class="quiz-details-header__action-buttons-group">
+                        <button
+                          class="quiz-details-header__action-buttons-favorite"
+                        >
+                          <i class="far fa-star"></i>
+                        </button>
+                      </div>
+                    </div>
+
+                    <div class="quiz-details-header__pescription">
+                      Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                      Nam est libero, blandit et purus vitae, aliquet elementum
+                      ex. Donec imperdiet ultrices mauris et lobortis. Phasellus
+                      eget diam sit amet nunc mollis eleifend in ac felis.
+                      Suspendisse interdum, magna at pharetra posuere, lorem ex
+                      finibus odio, a posuere lacus ex luctus ex. Ut facilisis
+                      leo vel tellus tincidunt sagittis.
+                    </div>
+
+                    <ul class="quiz-details-header__statistics">
+                      <li><span class="strong">55</span> favorites</li>
+                      <li><span class="strong">15k</span> plays</li>
+                      <li><span class="strong">23.5k</span> players</li>
+                    </ul>
+                    <footer class="quiz-footer">
+                      by
+                      <a href="#" rel="author" class="quiz__author">robertz</a>
+                    </footer>
+                  </div>
+                </div>
+              </div>
+              <div class="quiz-details__questions">
+                <header>
+                  <h4 class="quiz-details__questions-title">Questions (3)</h4>
+                </header>
+
+                <div class="question-detail">
+                  <div class="question-detail__wrap">
+                    <div class="question-detail__text">
+                      <span class="question-detail__number">Q1: </span
+                      ><span
+                        >Which "cotton" clouds are known as
+                        <b>fair weather</b> clouds?</span
+                      >
+                    </div>
+                    <div
+                      class="question-detail__answers question-detail__answers--open"
+                    >
+                      <ul class="question-detail__answers-list">
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--red"
+                            ></span>
+                            Answer 1
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--blue"
+                            ></span>
+                            Answer 2
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--true"
+                          >
+                            <i class="fas fa-check"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--green"
+                            ></span>
+                            Answer 3
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--yellow"
+                            ></span>
+                            Answer 4
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="question-detail">
+                  <div class="question-detail__wrap">
+                    <div class="question-detail__text">
+                      <span class="question-detail__number">Q2: </span
+                      ><span
+                        >Which "cotton" clouds are known as
+                        <b>fair weather</b> clouds?</span
+                      >
+                    </div>
+                    <div class="question-detail__answers">
+                      <ul class="question-detail__answers-list">
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--red"
+                            ></span>
+                            Answer 1
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--blue"
+                            ></span>
+                            Answer 2
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--true"
+                          >
+                            <i class="fas fa-check"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--green"
+                            ></span>
+                            Answer 3
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--yellow"
+                            ></span>
+                            Answer 4
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="question-detail">
+                  <div class="question-detail__wrap">
+                    <div class="question-detail__text">
+                      <span class="question-detail__number">Q3: </span
+                      ><span
+                        >Which "cotton" clouds are known as
+                        <b>fair weather</b> clouds?</span
+                      >
+                    </div>
+                    <div class="question-detail__answers">
+                      <ul class="question-detail__answers-list">
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--red"
+                            ></span>
+                            Answer 1
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--blue"
+                            ></span>
+                            Answer 2
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--true"
+                          >
+                            <i class="fas fa-check"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--green"
+                            ></span>
+                            Answer 3
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--yellow"
+                            ></span>
+                            Answer 4
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="question-detail">
+                  <div class="question-detail__wrap">
+                    <div class="question-detail__text">
+                      <span class="question-detail__number">Q4: </span
+                      ><span
+                        >Which "cotton" clouds are known as
+                        <b>fair weather</b> clouds?</span
+                      >
+                    </div>
+                    <div class="question-detail__answers">
+                      <ul class="question-detail__answers-list">
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--red"
+                            ></span>
+                            Answer 1
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--blue"
+                            ></span>
+                            Answer 2
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--true"
+                          >
+                            <i class="fas fa-check"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--green"
+                            ></span>
+                            Answer 3
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                        <li class="question-detail__answers-item">
+                          <div class="question-detail__answer">
+                            <span
+                              class="question-detail__answer-color question-detail__answer-color--yellow"
+                            ></span>
+                            Answer 4
+                          </div>
+                          <div
+                            class="question-detail__choice question-detail__choice--false"
+                          >
+                            <i class="fas fa-times"></i>
+                          </div>
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </section>
+          </div>
+
+          <footer class="footer">
+            <div class="container">
+              <div class="build">
+                Build with <i class="fas fa-heart"></i> by
+                <a
+                  href="https://github.com/robert-z"
+                  class="build__author black"
+                  >robert-z</a
+                >
+              </div>
+            </div>
+          </footer>
+        </div>
+      </main>
+    </div>
+    <script src="js/menu.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/user-profile.js"></script>
+  </body>
+</html>
