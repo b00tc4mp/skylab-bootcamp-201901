@@ -1,0 +1,248 @@
+@import url('https://fonts.googleapis.com/css?family=Varela+Round')
+$back-color: #070707
+$color-logo: white
+$color-now-playing-bar: #2d2e30
+$color-navbar: grey
+$color-main: linear-gradient(to right, #47585b 0%, #242c2d 25%)
+$color-font-navbar: #b3b3b3
+
+*
+    box-sizing: border-box
+
+body
+    background: $color-main
+
+.page
+    
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+    font-family: 'Varela Round', sans-serif
+    overflow-x: hidden
+.p
+    margin: 0   
+.navbar
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    padding: 1.2em
+    height: calc(100% - 90px)
+    position: fixed
+    z-index: 1
+    top: 0
+    left: 0
+    width: 190px
+    overflow: hidden
+    
+    &__logo
+        display: block
+        align-self: center 
+        font-size: 10px  
+        &--large
+            width: 12em
+            height: 7em
+            padding: 1.2em
+            margin-top: 0.2em
+            fill: $color-logo
+        &--small
+            display: none
+    &--color
+        background-color: $back-color
+    &--font-size
+        font-size: 12px
+.navegation
+    display: flex
+    flex-direction: column
+    align-content: flex-end
+    padding: 1em
+    font-size: 12px
+    &__item
+        padding: .5em
+        display: flex
+        flex-direction: row
+        align-items: center
+
+.img
+    width: 2em
+    height: 2em
+    padding: 0
+    margin-top: 0
+    fill: $color-logo
+.text
+    font-size: 12px
+    margin: 0
+    &--color
+        color: $color-font-navbar
+    &--color-inicio
+        color: $color-logo
+    &--margin
+        margin: 0
+.main
+    margin-left: 15vw
+    padding: 0 0 0 2em
+    width: calc(100vw - 190px)
+    display: flex
+    flex-direction: column
+    justify-content: center
+    overflow-y: scroll
+    &__options
+        display: flex
+        align-items: center
+        justify-content: center
+        flex-wrap: wrap
+        padding: 1rem 4rem 1rem 4rem
+.menu
+    &__item
+        padding: 1em
+        font-size: 14px
+        &--text-color
+            color: $color-font-navbar
+        &--text-color-selected
+            color: $color-logo
+
+.section
+    display: flex
+    flex-direction: column
+    justify-content: space-around
+    align-items: center 
+    &__item
+        display: block
+        text-align: center
+        padding: 1em
+
+    &__title
+        padding: 1em
+        font-size: 14px
+        color: $color-font-navbar
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: baseline
+        width: 100%
+    &__title-text
+        color: $color-logo
+        font-size: 30px
+    &__item-detail
+        color: $color-font-navbar
+        font-size: 14px
+        text-align: center
+        padding: 0 0.5rem 0 0.5rem
+        width: 190px
+
+    &__title-link
+        display: none
+    &__container
+        display: flex
+        flex-wrap: wrap
+        align-content: flex-start
+        width: 90%
+    &__item-img
+        width: 190px
+        height: 190px
+        background-size: cover
+        background-position: 50%
+        &--circle
+            border-radius: 50%
+    &__item-title
+        color: $color-logo
+        padding: .5em
+        
+.avatar
+    width: 3em
+    height: 3em
+    border-radius: 50%
+    padding: .5em
+
+.now-playing-bar
+    height: 90px
+    padding: 0 16px
+    background-color: $color-now-playing-bar
+    position: fixed
+    bottom: 0
+    z-index: 2
+    width: 100%
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    align-items: baseline
+    &__left
+        display: flex
+        flex-direction: row
+        align-content: center
+        width: 33%
+    &__description
+        display: flex
+        flex-direction: column
+        padding: .5em
+    &__description-title
+        text-decoration: none
+        color: $color-navbar
+    &__description-artist
+        text-decoration: none
+        color: $color-navbar
+    &__listening
+        width: 3em
+        height: 3em
+        padding: .5em
+    &__center
+        display: flex
+        flex-direction: row
+        align-content: center
+        width: 33%
+    &__pannel-control
+        display: flex
+        flex-direction: raw
+        align-items: stretch
+        justify-content: space-around
+        width: 100%
+        padding: 1.5em
+    &__pannel-control-item
+        padding: .5em
+        font-size: 20px
+    &__right
+        display: flex
+        flex-direction: row
+        align-content: flex-end
+        justify-content: flex-end
+        width: 33%
+        
+
+.fas
+    color: $color-font-navbar
+    
+.fas:hover
+    color: $color-logo
+
+
+@media only screen and (max-width : 768px) 
+    .section
+        &__title-link
+            display: inline
+            text-transform: uppercase
+            padding: 1em
+            font-size: 14px
+            color: $color-font-navbar
+            text-decoration: none
+    .navbar
+        width: 70px 
+        &__logo
+            &--large
+                display: none
+            &--small
+                display: inline
+                height:  5em
+                padding: 1.2em
+                margin-top: 0.2em
+                fill: $color-logo
+        &__footer
+            display: none
+    .navegation
+        &--hidden
+            display: none 
+    .text
+        display: none
+    .now-playing-bar
+        &__left
+            display: none
+    
+        
