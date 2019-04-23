@@ -1,6 +1,6 @@
 @import url("https://fonts.googleapis.com/css?family=Montserrat");
 body {
-  font-family: "Montserrat", sans-serif;
+  font-family: 'Montserrat', sans-serif;
   margin: 0px;
   padding: 0px;
 }
@@ -10,9 +10,16 @@ body {
   background-color: #181818;
   margin: 0px;
   padding: 20px;
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-flow: column wrap;
-  align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column wrap;
+          flex-flow: column wrap;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 
 .button {
@@ -38,49 +45,72 @@ body {
 
 .displayArea {
   display: block;
-  align-items: center;
-  justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   width: 100%;
 }
+
 .displayArea__title {
   width: 100%;
   color: white;
   text-align: center;
 }
+
 .displayArea__albumSection {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
   width: 100%;
-  justify-content: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
   justify-items: center;
-  flex-flow: row wrap;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: row wrap;
+          flex-flow: row wrap;
 }
+
 .displayArea__albumSection-albumItem {
   color: white;
   position: relative;
   text-align: center;
 }
+
 .displayArea__albumSection-albumItem-title {
   position: absolute;
   top: 20%;
   left: 50%;
   margin: 0px;
-  transform: translate(-50%, -50%);
+  -webkit-transform: translate(-50%, -50%);
+          transform: translate(-50%, -50%);
   text-transform: capitalize;
   font-weight: bold;
   font-size: 1.5rem;
 }
+
 .displayArea__albumSection-albumItem-image {
   width: 150px;
   height: 100%;
 }
 
 .footer {
+  display: -webkit-box;
+  display: -ms-flexbox;
   display: flex;
-  flex-flow: column wrap;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-flow: column wrap;
+          flex-flow: column wrap;
   color: gray;
   text-align: center;
   margin-top: 50px;
-  align-items: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
-
 /*# sourceMappingURL=style.css.map */

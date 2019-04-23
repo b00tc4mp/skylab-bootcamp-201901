@@ -1,0 +1,35 @@
+@media only screen and (min-width: 1400px) {
+  .desktop {
+    display: -ms-grid;
+    display: grid;
+    -ms-grid-columns: 12% 88%;
+        grid-template-columns: 12% 88%;
+    -ms-grid-rows: 88vh 12vh;
+        grid-template-rows: 88vh 12vh;
+        grid-template-areas: "aside main main " "footer footer footer";
+    background-color: red;
+    background-image: -webkit-gradient(linear, left top, right bottom, from(#FF4500), to(#060200));
+    background-image: linear-gradient(to bottom right, #FF4500, #060200);
+  }
+  .desktop__aside {
+    -ms-grid-row: 1;
+    -ms-grid-column: 1;
+    grid-area: aside;
+    background-color: rgba(0, 0, 0, 0.8);
+    overflow: hidden;
+  }
+  .desktop__mian {
+    -ms-grid-row: 1;
+    -ms-grid-column: 2;
+    -ms-grid-column-span: 2;
+    grid-area: main;
+  }
+  .desktop__footer {
+    background-color: #282828;
+    -ms-grid-row: 2;
+    -ms-grid-column: 1;
+    -ms-grid-column-span: 3;
+    grid-area: footer;
+  }
+}
+/*# sourceMappingURL=desktop.css.map */

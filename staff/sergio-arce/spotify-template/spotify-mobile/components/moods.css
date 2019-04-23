@@ -1,0 +1,25 @@
+.moods {
+  text-align: center;
+}
+
+.moods__title {
+  color: #FFFFFF;
+}
+
+.moods__grid {
+  display: -ms-grid;
+  display: grid;
+  -ms-grid-columns: 1fr 1fr;
+      grid-template-columns: 1fr 1fr;
+  padding: 10px;
+}
+
+.moods__grid-items {
+  background-color: #000000;
+}
+
+.moods__grid-items > img {
+  width: 100%;
+  display: block;
+}
+/*# sourceMappingURL=moods.css.map */

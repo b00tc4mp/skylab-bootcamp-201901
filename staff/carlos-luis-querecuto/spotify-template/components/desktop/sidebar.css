@@ -1,0 +1,50 @@
+.sidebar {
+  width: 20vw;
+  background-image: -webkit-gradient(linear, left top, right bottom, from(#121212), to(black)), -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(70%, black));
+  background-image: linear-gradient(to right bottom, #121212, black), linear-gradient(transparent, black 70%);
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: start;
+      -ms-flex-align: start;
+          align-items: flex-start;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  padding: 10px;
+}
+
+.sidebar__option {
+  color: white;
+  font-family: 'Roboto';
+  font-size: 14px;
+}
+
+.sidebar__icon {
+  margin: 15px;
+  fill: white;
+  width: 30px;
+}
+
+.sidebar__items {
+  text-decoration: none;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  justify-items: center;
+}
+
+.sidebar__option:hover {
+  color: gray;
+}
+/*# sourceMappingURL=sidebar.css.map */

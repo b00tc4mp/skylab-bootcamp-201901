@@ -1,0 +1,147 @@
+.mediaplayer {
+  background-color: #181818;
+  width: 100vw;
+  height: 15vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: horizontal;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: row;
+          flex-direction: row;
+}
+
+.playerbar {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+
+.playerbuttons {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -ms-flex-pack: distribute;
+      justify-content: space-around;
+}
+
+.playerbuttons__button {
+  background-color: transparent;
+  border: none;
+  color: gray;
+  padding: 0.5vw 1.5vh;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0.5vw;
+  cursor: pointer;
+}
+
+.playerbuttons__button--play {
+  background-color: transparent;
+  border: 1px solid gray;
+  border-radius: 50%;
+  color: gray;
+  padding: 0.5vw 1.5vh;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 0.5vw;
+  cursor: pointer;
+}
+
+.playerbuttons__button--volume {
+  background-color: transparent;
+  border: none;
+  color: gray;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.songduration {
+  font-family: 'Roboto';
+  color: gray;
+  padding: 0.5vw 0.8vh;
+  text-align: center;
+  font-size: 0.8vw;
+  margin: 0.4vw 0.2vh;
+}
+
+.artist {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: start;
+      -ms-flex-pack: start;
+          justify-content: flex-start;
+  -webkit-box-align: end;
+      -ms-flex-align: end;
+          align-items: flex-end;
+}
+
+.artist__photo {
+  width: 20%;
+  margin: 5px;
+  border: 1px solid gray;
+}
+
+.artist__name {
+  font-family: 'Roboto';
+  color: grey;
+}
+
+.volume {
+  margin-right: 3vw;
+  background-color: gray;
+  display: block;
+  width: 12vw;
+  height: 0.4vh;
+}
+
+.volumebar {
+  margin-left: 5vw;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+
+.songprog {
+  background-color: gray;
+  display: block;
+  width: 50vw;
+  height: 0.4vh;
+}
+/*# sourceMappingURL=mediaplayer.css.map */

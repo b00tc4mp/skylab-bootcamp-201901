@@ -1,9 +1,12 @@
 @media all and (min-width: 1200px) {
   body {
+    background: -webkit-gradient(linear, left top, right bottom, from(#336466), to(black)), -webkit-gradient(linear, left top, left bottom, from(transparent), color-stop(70%, black));
     background: linear-gradient(to right bottom, #336466, black), linear-gradient(transparent, black 70%);
     overflow: hidden;
   }
   .container {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     height: calc(100vh - 90px);
     overflow-y: auto;
@@ -15,8 +18,15 @@
     width: 230px;
     background-color: rgba(0, 0, 0, 0.8);
     height: 100%;
-    flex-direction: column;
-    flex: 1;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-flex: 1;
+        -ms-flex: 1;
+            flex: 1;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     position: fixed;
     top: 0;
@@ -32,12 +42,21 @@
     width: 131px;
   }
   .container aside nav .menu {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
   }
   .container aside nav .menu__item {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
     list-style: none;
     padding: 0 24px;
     height: 40px;
@@ -45,9 +64,12 @@
   .container aside nav .menu__item a {
     color: white;
     text-decoration: none;
+    -webkit-transition-property: color;
     transition-property: color;
-    transition-duration: .2s;
-    transition-timing-function: linear;
+    -webkit-transition-duration: .2s;
+            transition-duration: .2s;
+    -webkit-transition-timing-function: linear;
+            transition-timing-function: linear;
     color: #b3b3b3;
   }
   .container aside nav .menu__item a:focus, .container aside nav .menu__item a:hover {
@@ -73,10 +95,19 @@
     color: white;
   }
   .container .content {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    flex-grow: 1;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: row;
+            flex-direction: row;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-flex: 1;
+        -ms-flex-positive: 1;
+            flex-grow: 1;
   }
   .container .content__container {
     padding: 0 32px;
@@ -103,6 +134,7 @@
     position: relative;
     margin: 10px;
     padding: 5px 10px;
+    -webkit-transition: opacity .2s linear;
     transition: opacity .2s linear;
   }
   .container header ul li:hover {
@@ -121,9 +153,15 @@
     margin-left: -15px;
   }
   .container .main-content .playlist-container .playlist__title {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
-    justify-content: space-between;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
+    -webkit-box-pack: justify;
+        -ms-flex-pack: justify;
+            justify-content: space-between;
     font-size: 36px;
     line-height: 44px;
     margin: 24px 0;
@@ -137,15 +175,31 @@
     text-decoration: none;
   }
   .container .main-content .playlist-container .playlist {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-flow: row wrap;
-    justify-content: flex-start;
-    align-items: center;
+    -webkit-box-orient: horizontal;
+    -webkit-box-direction: normal;
+        -ms-flex-flow: row wrap;
+            flex-flow: row wrap;
+    -webkit-box-pack: start;
+        -ms-flex-pack: start;
+            justify-content: flex-start;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
   .container .main-content .playlist-container .playlist-item {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     padding: 0 8px;
     width: auto;
   }
@@ -185,10 +239,16 @@
     height: 90px;
     width: 100%;
     padding: 0 16px;
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    align-items: center;
+    -webkit-box-align: center;
+        -ms-flex-align: center;
+            align-items: center;
   }
   .container .player__artist {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
     width: 30%;
   }
@@ -198,9 +258,16 @@
     height: 60px;
   }
   .container .player__artist .song-name {
+    display: -webkit-box;
+    display: -ms-flexbox;
     display: flex;
-    flex-direction: column;
-    justify-content: center;
+    -webkit-box-orient: vertical;
+    -webkit-box-direction: normal;
+        -ms-flex-direction: column;
+            flex-direction: column;
+    -webkit-box-pack: center;
+        -ms-flex-pack: center;
+            justify-content: center;
     margin: 0 14px;
     color: white;
     font-size: 14px;

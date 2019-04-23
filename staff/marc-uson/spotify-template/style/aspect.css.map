@@ -1,0 +1,9 @@
+{
+    "version": 3,
+    "mappings": "AAAA,OAAO,CAAC,yDAAI",
+    "sources": [
+        "aspect.sass"
+    ],
+    "names": [],
+    "file": "aspect.css"
+}
