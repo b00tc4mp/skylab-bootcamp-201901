@@ -10,38 +10,44 @@ describe('user api', () => {
 
     describe('create', () => {
         it('should succeed on correct user data', done => {
-            userApi.create(name, surname, username, password, function (error, response) {
-                expect(error).toBeUndefined()
-                expect(response).toBeDefined()
-
-                const { status, data } = response
-
-                expect(status).toBe('OK')
-                expect(data).toBeDefined()
-
-                const { id } = data
-                expect(typeof id).toBe('string')
-                expect(id.length).toBeGreaterThan(0)
-
-                done()
-            })
-        })
-
-        describe('on already existing user', () => {
-            beforeEach(done => userApi.create(name, surname, username, password, done))
-
-            it('should fail on retrying to register', done => {
-                userApi.create(name, surname, username, password, function (error, response) {
-                    expect(error).toBeUndefined()
+            userApi.create(name, surname, username, password)
+                .then(response => {
                     expect(response).toBeDefined()
 
-                    const { status, error: _error } = response
+                    const { status, data } = response
 
-                    expect(status).toBe('KO')
-                    expect(_error).toBe(`user with username \"${username}\" already exists`)
+                    expect(status).toBe('OK')
+                    expect(data).toBeDefined()
+
+                    const { id } = data
+                    expect(typeof id).toBe('string')
+                    expect(id.length).toBeGreaterThan(0)
 
                     done()
                 })
+                .catch(done)
+        })
+
+        describe('on already existing user', () => {
+            beforeEach(done =>
+                userApi.create(name, surname, username, password)
+                    .then(() => done())
+                    .catch(done)
+            )
+
+            it('should fail on retrying to register', done => {
+                userApi.create(name, surname, username, password)
+                    .then(response => {
+                        expect(response).toBeDefined()
+
+                        const { status, error: _error } = response
+
+                        expect(status).toBe('KO')
+                        expect(_error).toBe(`user with username \"${username}\" already exists`)
+
+                        done()
+                    })
+                    .catch(done)
             })
         })
 
@@ -123,101 +129,120 @@ describe('user api', () => {
     describe('authenticate', () => {
         let _id
 
-        beforeEach(done => userApi.create(name, surname, username, password, function (error, response) {
-            _id = response.data.id
+        beforeEach(done =>
+            userApi.create(name, surname, username, password)
+                .then(response => {
+                    _id = response.data.id
 
-            done()
-        }))
+                    done()
+                })
+                .catch(done)
+        )
 
         it('should succeed on correct user credential', done => {
-            userApi.authenticate(username, password, function (error, response) {
-                expect(error).toBeUndefined()
-                expect(response).toBeDefined()
+            userApi.authenticate(username, password)
+                .then(response => {
+                    expect(response).toBeDefined()
 
-                const { status, data } = response
+                    const { status, data } = response
 
-                expect(status).toBe('OK')
-                expect(data).toBeDefined()
+                    expect(status).toBe('OK')
+                    expect(data).toBeDefined()
 
-                const { id, token } = data
+                    const { id, token } = data
 
-                expect(typeof id).toBe('string')
-                expect(id.length).toBeGreaterThan(0)
-                expect(id).toBe(_id)
+                    expect(typeof id).toBe('string')
+                    expect(id.length).toBeGreaterThan(0)
+                    expect(id).toBe(_id)
 
-                expect(typeof token).toBe('string')
-                expect(token.length).toBeGreaterThan(0)
+                    expect(typeof token).toBe('string')
+                    expect(token.length).toBeGreaterThan(0)
 
-                const [,payloadB64,] = token.split('.')
-                const payloadJson = atob(payloadB64)
-                const payload = JSON.parse(payloadJson)
+                    const [, payloadB64,] = token.split('.')
+                    const payloadJson = atob(payloadB64)
+                    const payload = JSON.parse(payloadJson)
 
-                expect(payload.id).toBe(id)
+                    expect(payload.id).toBe(id)
 
-                done()
-            })
+                    done()
+                })
+                .catch(done)
         })
 
         it('should fail on non-existing user', done => {
-            userApi.authenticate(username = 'unexisting-user@mail.com', password, function (error, response) {
-                expect(error).toBeUndefined()
-                expect(response).toBeDefined()
+            userApi.authenticate(username = 'unexisting-user@mail.com', password)
+                .then(response => {
+                    expect(response).toBeDefined()
 
-                const { status, error: _error } = response
+                    const { status, error: _error } = response
 
-                expect(status).toBe('KO')
-                expect(_error).toBe(`user with username \"${username}\" does not exist`)
+                    expect(status).toBe('KO')
+                    expect(_error).toBe(`user with username \"${username}\" does not exist`)
 
-                done()
-            })
+                    done()
+                })
+                .catch(done)
         })
     })
 
     describe('retrieve', () => {
         let _id, token
 
-        beforeEach(done => userApi.create(name, surname, username, password, function (error, response) {
-            _id = response.data.id
+        beforeEach(done =>
+            userApi.create(name, surname, username, password)
+                .then(response => {
+                    _id = response.data.id
 
-            userApi.authenticate(username, password, function (error, response) {
-                token = response.data.token
+                    // userApi.authenticate(username, password)
+                    //     .then(response => {
+                    //         token = response.data.token
 
-                done()
-            })
-        }))
+                    //         done()
+                    //     })
+                    //     .catch(done)
+
+                    return userApi.authenticate(username, password)
+                        .then(response => {
+                            token = response.data.token
+
+                            done()
+                        })
+                })
+                .catch(done)
+        )
 
         it('should succeed on correct user id and token', done => {
-            userApi.retrieve(_id, token, function (error, response) {
-                expect(error).toBeUndefined()
+            userApi.retrieve(_id, token)
+                .then(response => {
+                    const { status, data } = response
 
-                const { status, data } = response
+                    expect(status).toBe('OK')
+                    expect(data).toBeDefined()
 
-                expect(status).toBe('OK')
-                expect(data).toBeDefined()
+                    expect(data.id).toBe(_id)
+                    expect(data.name).toBe(name)
+                    expect(data.surname).toBe(surname)
+                    expect(data.username).toBe(username)
+                    expect(data.password).toBeUndefined()
 
-                expect(data.id).toBe(_id)
-                expect(data.name).toBe(name)
-                expect(data.surname).toBe(surname)
-                expect(data.username).toBe(username)
-                expect(data.password).toBeUndefined()
-
-                done()
-            })
+                    done()
+                })
+                .catch(done)
         })
 
         it('should fail on incorrect user id', done => {
             const wrongId = '5cb9998f2e59ee0009eac02c'
 
-            userApi.retrieve(wrongId, token, function (error, response) {
-                expect(error).toBeUndefined()
+            userApi.retrieve(wrongId, token)
+                .then(response => {
+                    const { status, error: _error } = response
 
-                const { status, error: _error } = response
+                    expect(status).toBe('KO')
+                    expect(_error).toBe(`token id \"${_id}\" does not match user \"${wrongId}\"`)
 
-                expect(status).toBe('KO')
-                expect(_error).toBe(`token id \"${_id}\" does not match user \"${wrongId}\"`)
-
-                done()
-            })
+                    done()
+                })
+                .catch(done)
         })
     })
 
@@ -231,14 +256,15 @@ describe('user api', () => {
         })
 
         it('should fail on wrong api url', done => {
-            userApi.create(name, surname, username, password, function (error, response) {
-                expect(error).toBeDefined()
-                expect(error instanceof ConnectionError).toBeTruthy()
-                expect(error.message).toBe('cannot connect')
-                expect(response).toBeUndefined()
+            userApi.create(name, surname, username, password)
+                .then(() => done(Error('should not reach this point')))
+                .catch(error => {
+                    expect(error).toBeDefined()
+                    expect(error instanceof ConnectionError).toBeTruthy()
+                    expect(error.message).toBe('cannot connect')
 
-                done()
-            })
+                    done()
+                })
         })
 
         afterEach(() => userApi.__url__ = url)
@@ -250,14 +276,15 @@ describe('user api', () => {
         beforeEach(() => userApi.__timeout__ = timeout)
 
         it('should fail on too long wait', done => {
-            userApi.create(name, surname, username, password, function (error, response) {
-                expect(error).toBeDefined()
-                expect(error instanceof TimeoutError).toBeTruthy()
-                expect(error.message).toBe(`time out, exceeded limit of ${timeout}ms`)
-                expect(response).toBeUndefined()
+            userApi.create(name, surname, username, password)
+                .then(() => done(Error('should not reach this point')))
+                .catch(error => {
+                    expect(error).toBeDefined()
+                    expect(error instanceof TimeoutError).toBeTruthy()
+                    expect(error.message).toBe(`time out, exceeded limit of ${timeout}ms`)
 
-                done()
-            })
+                    done()
+                })
         })
 
         afterEach(() => userApi.__timeout__ = 0)

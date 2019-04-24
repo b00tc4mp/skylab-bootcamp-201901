@@ -21,55 +21,51 @@ const logic = {
         return !!(this.__userId__ && this.__userToken__)
     },
 
-    registerUser(name, surname, email, password, callback) {
+    registerUser(name, surname, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
             { name: 'surname', value: surname, type: 'string', notEmpty: true },
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true },
-            { value: callback, type: 'function' }
         ])
 
         validate.email(email)
 
-        userApi.create(name, surname, email, password, function (error, response) {
-            if (error) callback(error)
-            else if (response.status === 'OK') callback()
-            else callback(new LogicError(response.error))
-        })
+        return userApi.create(name, surname, email, password)
+            .then(response => {
+                if (response.status === 'OK') return
+                else throw new LogicError(response.error)
+            })
     },
 
-    loginUser(email, password, callback) {
+    loginUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true },
-            { value: callback, type: 'function' }
         ])
 
         validate.email(email)
 
-        userApi.authenticate(email, password, (error, response) => {
-            if (error) callback(error)
-            else if (response.status === 'OK') {
-                const { data: { id, token } } = response
+        return userApi.authenticate(email, password)
+            .then(response => {
+                if (response.status === 'OK') {
+                    const { data: { id, token } } = response
 
-                this.__userId__ = id
-                this.__userToken__ = token
-
-                callback()
-            } else callback(new LogicError(response.error))
-        })
+                    this.__userId__ = id
+                    this.__userToken__ = token
+                } else throw new LogicError(response.error)
+            })
     },
 
-    retrieveUser(callback) {
-        userApi.retrieve(this.__userId__, this.__userToken__, (error, response) => {
-            if (error) callback(error)
-            else if (response.status === 'OK') {
-                const { data: { name, surname, username: email } } = response
-
-                callback(undefined, { name, surname, email })
-            } else callback(new LogicError(response.error))
-        })
+    retrieveUser() {
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                if (response.status === 'OK') {
+                    const { data: { name, surname, username: email } } = response
+    
+                    return { name, surname, email }
+                } else throw new LogicError(response.error)
+            })
     },
 
     logoutUser() {
@@ -81,17 +77,21 @@ const logic = {
     },
 
 
-    searchDucks(query, callback) {
-        // TODO validate inputs
+    searchDucks(query) {
+        validate.arguments([
+            { name: 'query', value: query, type: 'string' },
+        ])
 
-        // TODO handle api errors
-        duckApi.searchDucks(query, callback)
+        return duckApi.searchDucks(query)
+            .then(ducks => ducks)
     },
 
-    retrieveDuck(id, callback) {
-        // TODO validate inputs
+    retrieveDuck(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string' },
+        ])
 
-        // TODO handle api errors
-        duckApi.retrieveDuck(id, callback)
+        return duckApi.retrieveDuck(id)
+            .then(duck => duck)
     }
 }

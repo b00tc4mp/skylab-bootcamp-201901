@@ -16,18 +16,24 @@ describe('logic', () => {
 
         describe('register', () => {
             it('should succeed on correct user data', done => {
-                logic.registerUser(name, surname, email, password, function (error) {
-                    expect(error).toBeUndefined()
-
+                logic.registerUser(name, surname, email, password)
+                .then(response => {
+                    expect(response).toBeUndefined()
                     done()
                 })
+                .catch(done) 
             })
 
             describe('on already existing user', () => {
-                beforeEach(done => logic.registerUser(name, surname, email, password, done))
+                beforeEach(done => logic.registerUser(name, surname, email, password)
+                    .then(()=>done())
+                    .catch(done)
+                )
 
                 it('should fail on retrying to register', done => {
-                    logic.registerUser(name, surname, email, password, function (error) {
+                    logic.registerUser(name, surname, email, password)
+                        .then(() => done(Error('should not reach this point')))
+                        .catch(error => {
                         expect(error).toBeDefined()
                         expect(error instanceof LogicError).toBeTruthy()
 
@@ -122,16 +128,18 @@ describe('logic', () => {
         describe('login', () => {
             let id
 
-            beforeEach(done => userApi.create(name, surname, email, password, function (error, response) {
-                id = response.data.id
-
-                done()
-            }))
+            beforeEach(done =>
+                userApi.create(name, surname, email, password)
+                    .then(response => {
+                        id = response.data.id
+                        done()
+                    })
+                    .catch(done)
+            )
 
             it('should succeed on correct user credential', done => {
-                logic.loginUser(email, password, function (error) {
-                    expect(error).toBeUndefined()
-
+                logic.loginUser(email, password)
+                .then( () => {
                     const { __userId__, __userToken__ } = logic
 
                     expect(typeof __userId__).toBe('string')
@@ -151,14 +159,17 @@ describe('logic', () => {
 
                     done()
                 })
+                .catch(done)
             })
 
             it('should fail on non-existing user', done => {
-                logic.loginUser(email = 'unexisting-user@mail.com', password, function (error) {
-                    expect(error).toBeDefined()
-                    expect(error instanceof LogicError).toBeTruthy()
-                    
-                    expect(error.message).toBe(`user with username \"${email}\" does not exist`)
+                logic.loginUser(email = 'unexisting-user@mail.com', password)
+                .then(() => done(Error('should not reach this point')))
+                .catch(response => {
+                    expect(response).toBeDefined()
+                    expect(response instanceof LogicError).toBeTruthy()
+
+                    expect(response.message).toBe(`user with username \"${email}\" does not exist`)
 
                     done()
                 })
@@ -167,43 +178,50 @@ describe('logic', () => {
 
         describe('retrieve', () => {
             let id, token
-    
-            beforeEach(done => userApi.create(name, surname, email, password, function (error, response) {
-                id = response.data.id
-    
-                userApi.authenticate(email, password, function (error, response) {
-                    token = response.data.token
 
-                    logic.__userId__ = id
-                    logic.__userToken__ = token
-    
-                    done()
-                })
-            }))
-    
+            beforeEach(done =>
+                userApi.create(name, surname, email, password)
+                    .then(response => {
+                        id = response.data.id
+
+                        return userApi.authenticate(email, password)
+                            .then(response => {
+                                token = response.data.token
+
+                                logic.__userId__ = id
+                                logic.__userToken__ = token
+
+                                done()
+                            })
+                    })
+                    .catch(done)
+            )
+
             it('should succeed on correct user id and token', done => {
-                logic.retrieveUser(function (error, user) {
-                    expect(error).toBeUndefined()
-
+                logic.retrieveUser()
+                .then(user => {
                     expect(user.id).toBeUndefined()
                     expect(user.name).toBe(name)
                     expect(user.surname).toBe(surname)
                     expect(user.email).toBe(email)
                     expect(user.password).toBeUndefined()
-    
+
                     done()
                 })
+                .catch(done)
             })
-    
+
             it('should fail on incorrect user id', done => {
                 logic.__userId__ = '5cb9998f2e59ee0009eac02c'
-    
-                logic.retrieveUser(function (error) {
+
+                logic.retrieveUser()
+                .then(() => done(Error('should not reach this point')))
+                .catch(error => {
                     expect(error).toBeDefined()
                     expect(error instanceof LogicError).toBeTruthy()
 
                     expect(error.message).toBe(`token id \"${id}\" does not match user \"${logic.__userId__}\"`)
-    
+
                     done()
                 })
             })
@@ -212,17 +230,62 @@ describe('logic', () => {
 
     describe('ducks', () => {
         describe('search ducks', () => {
-            it('should succeed on correct query', (done) => {
-                logic.searchDucks('yellow', (ducks) => {
+            let query = 'yellow'
+
+            fit('should succeed on correct query', (done) => {
+                logic.searchDucks(query)
+                .then(ducks => {
                     expect(ducks).toBeDefined()
                     expect(ducks instanceof Array).toBeTruthy()
                     expect(ducks.length).toBe(13)
 
                     done()
                 })
+                .catch(done)
+            })
 
-                // TODO fail cases
+            fit('should fail on incorrect query', (done) => {
+                query = 'asdfasdfasdf'
+                logic.searchDucks(query)
+                .then(() => done(Error('should not reach this point')))
+                .catch(error => {
+                    //ERROR 400 BAD REQUEST
+                    expect(error).toBeDefined()
+                    expect(error.error).toBe(`There are not results for this query: ${query}`)
+
+                    done()
+                })
             })
         })
+    })
+
+    describe('duck', () => {
+        describe('retrieve duck', () => {
+            let id = '5c3853aebd1bde8520e66e11'
+
+            fit('should succeed on correct id', (done) => {
+                logic.retrieveDuck(id)
+                .then(duck => {
+                    expect(duck).toBeDefined()
+                    expect(duck instanceof Object).toBeTruthy()
+
+                    done()
+                })
+                .catch(done)
+            })
+
+            fit('should fail on incorrect id', (done) => {
+                id = '222222'
+                logic.retrieveDuck(id)
+                .then(() => done(Error('should not reach this point')))
+                .catch(error => {
+                    //ERROR 400 BAD REQUEST
+                    expect(error).toBeDefined()
+                    expect(error.error).toBe(`"Cast to ObjectId failed for value \"${id}\" at path \"_id\" for model \"Duck\""`)
+
+                    done()
+                })
+            })
+        }) 
     })
 })

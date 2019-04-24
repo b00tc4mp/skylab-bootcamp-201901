@@ -1,32 +1,30 @@
-const RegisterOk = (() => {
-    const literals = {
-        en: {
-            msg: 'User successfully registered, you can proceed to',
-            link: 'Login',
-        },
-        es: {
-            msg: 'Usuario registrado, puedes proceder a',
-            link: 'Iniciar sesión',
-        },
-        ca: {
-            msg: 'Usuari registrat, pots procedir a',
-            link: 'Inici sesió',
-        },
-        ga: {
-            msg: 'Usuariño registriño, puedes proceder a',
-            link: 'Inicio da sesión',
-        }   
+const i18nRegisterOK = {
+    en: {
+        successProceedTo: 'User successfully registered, you can proceed to',
+        login: 'Login'
+    },
+    es: {
+        successProceedTo: '[TODO es] User successfully registered, you can proceed to',
+        login: 'Iniciar sesión'
+    },
+    ca: {
+        successProceedTo: '[TODO ca] User successfully registered, you can proceed to',
+        login: 'Inici de sessió'
+    },
+    ga: {
+        successProceedTo: '[TODO ga] User successfully registered, you can proceed to',
+        login: 'Inicio da sesión'
     }
+}
 
-    return function({ lang, onLogin }) {
+function RegisterOk(props) {
+    const literals = i18nRegisterOK[props.lang]
 
-        const { msg, link } = literals[lang]
+    return <>
+        {literals.successProceedTo} <a href="" onClick={e => {
+            e.preventDefault()
 
-        return <section>
-            {msg} <a href="" onClick={e => {
-                e.preventDefault()
-                onLogin()
-            }}>{link}</a>.
-        </section>
-    }
-})()
+            props.onLogin()
+        }}>{literals.login}</a>.
+    </>
+}

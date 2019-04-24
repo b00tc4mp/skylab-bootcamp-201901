@@ -23,11 +23,10 @@ const Landing = (() => {
     }
 
     return function ({ lang, onRegister, onLogin }) {
-        
         const { register, or, login } = literals[lang]
 
-        return <section onClick={ e => e.preventDefault()}>
-            <a href="" onClick={ () => onRegister()}>{register}</a> <span>{or}</span> <a href="" onClick={ () => onLogin()}>{login}</a>
+        return <section onClick={e => e.preventDefault()}>
+            <a href="" onClick={() => onRegister()}>{register}</a> <span>{or}</span> <a href="" onClick={() => onLogin()}>{login}</a>.
         </section>
     }
 })()

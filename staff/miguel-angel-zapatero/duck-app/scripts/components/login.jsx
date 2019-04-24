@@ -1,5 +1,4 @@
-const Login = (() => {
-    const literals = {
+const i18nLogin = {
     en: {
         title: 'Login',
         email: 'E-mail',
@@ -22,24 +21,27 @@ const Login = (() => {
     }
 }
 
-return function({ lang, onLogin, error }) {
-    const { title, email, password } = literals[lang]
+function Login(props) {
+    const { lang } = props
 
-    function handleSubmit(event) {
-        event.preventDefault()
+    const literals = i18nLogin[lang]
 
-        const username = event.target.username.value
-        const password = event.target.password.value
+    function handleSubmit(e) {
+        e.preventDefault()
 
-        onLogin(username, password)
+        const username = e.target.username.value
+        const password = e.target.password.value
+
+        props.onLogin(username, password)
     }
 
-    return <form onSubmit={handleSubmit}>
-        <h2>{title}</h2>
-        <input type="text" name="username" placeholder={email} />
-        <input type="password" name= "password" placeholder={password} />
-        <button>{title}</button>
-        <span>{error}</span>
-    </form>
-    }
-})()
+    return <>
+        <h2>{literals.title}</h2>
+        <form onSubmit={handleSubmit}>
+            <input type="text" name="username" placeholder={literals.email} />
+            <input type="password" name="password" placeholder={literals.password} />
+            <button>{literals.title}</button>
+            <span>{props.error}</span>
+        </form>
+    </>
+}

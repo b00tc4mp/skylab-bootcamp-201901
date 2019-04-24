@@ -1,54 +1,42 @@
-const { Component } = React
+const { Component, /* Fragment */ } = React
 
 class App extends Component {
-    state = {lang: i18n.language, visible: logic.isUserLoggedIn? 'home' : 'landing', name: null, error: null}
+    state = { lang: i18n.language, visible: logic.isUserLoggedIn ? 'home' : 'landing', error: null, name: null }
 
-    handleLanguageChange = lang => {
-        this.setState({ lang : i18n.language = lang }) //NOTE setter runs first, getter runs after (i18n)
-    }
+    handleLanguageChange = lang => this.setState({ lang: i18n.language = lang }) // NOTE setter runs first, getter runs after (i18n)
 
-    handleLoginNavigation = () => {
-        this.setState({visible: 'login'})
-    }
+    handleRegisterNavigation = () => this.setState({ visible: 'register' })
 
-    handleRegisterNavigation = () => {
-        this.setState({visible: 'register'})
-    }
+    handleLoginNavigation = () => this.setState({ visible: 'login' })
 
-    handleLogin = (email, password) => {
+    handleLogin = (username, password) => {
         try {
-            logic.loginUser(email, password, error => {
-                if (error) return this.setState({ error: error.message})
-
-                logic.retrieveUser((error, user) => {
-                    if (error) return this.setState({ error: error.message})
-
-                    this.setState({ visible: 'home', name: user.name, error: null })
+            logic.loginUser(username, password)
+            .then(() => {
+                logic.retrieveUser() 
+                .then((user) => {  //este segundo then viene del retrieveUser!
+                    this.setState({ visible: 'home', name: user.name, error: null })  
                 })
-
             })
-        } catch (error) {
-            this.setState({ error: error.message })
+            .catch(error => this.setState({ error: error.message }))
+        } catch ({ message }) {
+            this.setState({ error: message })
         }
     }
 
     componentDidMount() {
-        logic.isUserLoggedIn && logic.retrieveUser((error, user) => {
-            if (error) return this.setState({ error: error.message })
-
-            this.setState({ name: user.name })
-        })
+        logic.isUserLoggedIn && logic.retrieveUser()
+        .then(() => this.setState({ name: user.name }))
+        .catch(error => this.setState({ error: error.message }))
     }
 
-    handleRegister = (name, surname, email, password) => {
+    handleRegister = (name, surname, username, password) => {
         try {
-            logic.registerUser(name, surname, email, password, (error) => {
-                if (error) return this.setState({ error: error.message})
-
-                this.setState({ visible: 'register-ok', error: null})
-            })
-        } catch(error) {
-            return this.setState({ error: error.message })
+            logic.registerUser(name, surname, username, password)
+                .then(() => this.setState({ visible: 'register-ok', error: null }))
+                .catch(error => this.setState({ error: error.message }))
+        } catch ({ message }) {
+            this.setState({ error: message })
         }
     }
 
@@ -59,28 +47,30 @@ class App extends Component {
     }
 
     render() {
-        const { 
-            state: {lang, visible, error, name},
+        const {
+            state: { lang, visible, error, name },
             handleLanguageChange,
-            handleLoginNavigation,
             handleRegisterNavigation,
+            handleLoginNavigation,
             handleLogin,
             handleRegister,
             handleLogout
         } = this
 
+        // return <Fragment>
         return <>
-            <LanguageSelector onLanguageChange={handleLanguageChange} lang={lang}/>
-            
-            {visible === 'landing' && <Landing lang={lang} onLogin={handleLoginNavigation} onRegister={handleRegisterNavigation} />}
-            
-            {visible === 'login' && <Login onLogin={handleLogin} lang={lang}/>}
+            <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} />
 
-            {visible === 'register' && <Register onRegister={handleRegister} lang={lang} error={error}/>}
+            {visible === 'landing' && <Landing lang={lang} onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />}
 
-            {visible === 'register-ok' &&  <RegisterOk onLogin={handleLoginNavigation} lang={lang}/>} 
+            {visible === 'register' && <Register lang={lang} onRegister={handleRegister} error={error} />}
 
-            {visible === 'home' && <Home lang={lang} name={name} onLogout={handleLogout}/>}
+            {visible === 'register-ok' && <RegisterOk lang={lang} onLogin={handleLoginNavigation} />}
+
+            {visible === 'login' && <Login lang={lang} onLogin={handleLogin} error={error} />}
+
+            {visible === 'home' && <Home lang={lang} name={name} onLogout={handleLogout} />}
         </>
+        // </Fragment>
     }
 }

@@ -3,29 +3,27 @@
 const duckApi = {
     __url__: 'https://duckling-api.herokuapp.com/api',
 
-    __call__(path, callback) {
-        // TODO validate inputs
+    searchDucks(query) {
+        validate.arguments([
+            { name: 'query', value: query, type: 'string' }
+        ])
+        
+        // return call(`${this.__url__}/search?q=${query}`)
+        //     .then(response => JSON.parse(response))
 
-        const xhr = new XMLHttpRequest
-
-        xhr.open('GET', `${this.__url__}/${path}`)
-
-        xhr.addEventListener('load', function () {
-            callback(JSON.parse(this.responseText))
-        })
-
-        xhr.send()
+        return fetch(`${this.__url__}/search?q=${query}`)
+            .then(response => response.json())
     },
 
-    searchDucks(query, callback) {
-        // TODO validate inputs
+    retrieveDuck(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string' }
+        ])
 
-        this.__call__(`search?q=${query}`, callback)
-    },
+        // return call(`${this.__url__}/ducks/${id}`)
+        //     .then(response => JSON.parse(response))
 
-    retrieveDuck(id, callback) {
-        // TODO validate inputs
-
-        this.__call__(`ducks/${id}`, callback)
+        return fetch(`${this.__url__}/ducks/${id}`)
+            .then(response => response.json())
     }
 }

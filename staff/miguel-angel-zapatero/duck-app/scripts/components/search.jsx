@@ -1,30 +1,29 @@
 const Search = (() => {
     const literals = {
         en: {
-            search: 'Search'          
+            search: 'Search'   
         },
         es: {
-            search: 'Buscar'          
+            search: 'Buscar'   
         },
         ca: {
-            search: 'Cerca'          
+            search: 'Cerca'   
         },
         ga: {
-            search: 'Buscariño'          
+            search: 'Buscar'   
         }
     }
 
-    return function({ lang, onSearch }) {
-        
+    return function({lang, onSearch}) {
         const { search } = literals[lang]
 
-        function handleSubmit(e) {
+        return <form onSubmit={e => {
             e.preventDefault()
-            onSearch(e.target.query.value) 
-        }
 
+            const query = e.target.query.value
 
-        return <form onSubmit={handleSubmit}>
+            onSearch(query)
+        }}>
             <input type="text" name="query"/>
             <button>{search}</button>
         </form>
