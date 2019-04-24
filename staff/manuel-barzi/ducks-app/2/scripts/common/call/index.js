@@ -1,4 +1,13 @@
 
+/**
+ * Makes an HTTP call.
+ * 
+ * @param {*} url 
+ * @param {*} callback 
+ * @param {*} options 
+ * 
+ * @version 2.0.0
+ */
 function call(url, callback, options = {}) {
     const { method = 'GET', headers, body, timeout = 0 } = options
 

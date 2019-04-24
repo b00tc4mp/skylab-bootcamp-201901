@@ -1,4 +1,16 @@
 
+/**
+ * Makes an HTTP call.
+ * 
+ * @param {*} url 
+ * @param {*} method 
+ * @param {*} headers 
+ * @param {*} body 
+ * @param {*} callback 
+ * @param {*} timeout 
+ * 
+ * @version 1.0.0
+ */
 function call(url, method = 'GET', headers, body, callback, timeout = 0) {
     validate.arguments([
         { name: 'url', value: url, type: 'string', notEmpty: true },
