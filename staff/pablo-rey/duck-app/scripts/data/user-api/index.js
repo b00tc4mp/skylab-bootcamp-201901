@@ -107,6 +107,13 @@ const userApi = {
     });    
   },
 
+  /**
+   * 
+   * @param {string} userId 
+   * @param {string} token 
+   * @param {Object} fields 
+   * @param {Function} callback 
+   */
   update(userId, token, fields, callback) {
     validate.arguments([
       { name: "userId", value: userId, type: "string", notEmpty: true },

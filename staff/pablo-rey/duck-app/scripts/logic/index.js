@@ -76,6 +76,17 @@ const logic = {
     })
   },
 
+  updateUser(fieldsToUpdate, callback) {
+    validate.arguments([
+      { name: "fieldsToUpdate", value: fieldsToUpdate, type: "object", notEmpty: true },
+      { value: callback, type: "function" },
+    ]);
+
+    userApi.update(logic.__userId__, logic.__token__, fieldsToUpdate, (response) =>{
+
+    })
+  },
+
   logout() {
     this.__userId__ = null;
     this.__token__ = null;

@@ -530,6 +530,7 @@ describe("user api", () => {
         userApi.authenticate(username, password, ({ data }) => {
           id = data.id;
           token = data.token;
+          done();
         });
       });
     });
@@ -540,8 +541,26 @@ describe("user api", () => {
       userApi.update(id, token, fields, response => {
         expect(response.status).toBe('OK');
         userApi.retrieve(id, token,  ({ data: user })=> {
-          expect(user).toContain(fields);
+          expect(user).toEqual(jasmine.objectContaining(fields));
           done();
+        });
+      });
+    });
+
+    fit("should succeed on delete a field user data", done => {
+      const randomText = randomString();
+      const fields = { testField: randomText };
+      userApi.update(id, token, fields, response => {
+        expect(response.status).toBe('OK');
+        userApi.retrieve(id, token,  ({ data: user })=> {
+          expect(user).toEqual(jasmine.objectContaining(fields));
+          userApi.update(id, token, {testField: null}, response => {
+            expect(response.status).toBe('OK');
+            userApi.retrieve(id, token,  ({ data: user })=> {
+              expect(user['testField']).toBeUndefined();
+              done();
+            });
+          });
         });
       });
     });
