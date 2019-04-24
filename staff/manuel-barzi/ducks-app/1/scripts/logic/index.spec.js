@@ -213,7 +213,9 @@ describe('logic', () => {
     describe('ducks', () => {
         describe('search ducks', () => {
             it('should succeed on correct query', (done) => {
-                logic.searchDucks('yellow', (ducks) => {
+                logic.searchDucks('yellow', (error, ducks) => {
+                    expect(error).toBeUndefined()
+
                     expect(ducks).toBeDefined()
                     expect(ducks instanceof Array).toBeTruthy()
                     expect(ducks.length).toBe(13)
