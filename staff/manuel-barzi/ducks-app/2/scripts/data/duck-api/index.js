@@ -9,7 +9,7 @@ const duckApi = {
             { name: 'callback', value: callback, type: 'function' }
         ])
 
-        call(`${this.__url__}/search?q=${query}`, 'GET', undefined, undefined, (error, response) => {
+        call(`${this.__url__}/search?q=${query}`, (error, response) => {
             if (error) return callback(error)
 
             const ducks = JSON.parse(response)
@@ -24,7 +24,7 @@ const duckApi = {
             { name: 'callback', value: callback, type: 'function' }
         ])
 
-        call(`${this.__url__}/ducks/${id}`, 'GET', undefined, undefined, (error, response) => {
+        call(`${this.__url__}/ducks/${id}`, (error, response) => {
             if (error) return callback(error)
 
             const duck = JSON.parse(response)

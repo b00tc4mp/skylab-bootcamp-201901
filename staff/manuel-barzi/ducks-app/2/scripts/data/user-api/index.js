@@ -13,11 +13,16 @@ const userApi = {
             { name: 'callback', value: callback, type: 'function' }
         ])
 
-        call(`${this.__url__}/user`, 'POST', { 'Content-Type': 'application/json' }, JSON.stringify({ name, surname, username, password }), (error, response) => {
+        call(`${this.__url__}/user`, (error, response) => {
             if (error) return callback(error)
 
             callback(undefined, JSON.parse(response))
-        }, this.__timeout__)
+        }, {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ name, surname, username, password }),
+                timeout: this.__timeout__
+            })
     },
 
     authenticate(username, password, callback) {
@@ -27,11 +32,16 @@ const userApi = {
             { name: 'callback', value: callback, type: 'function' }
         ])
 
-        call(`${this.__url__}/auth`, 'POST', { 'Content-Type': 'application/json' }, JSON.stringify({ username, password }), (error, response) => {
+        call(`${this.__url__}/auth`, (error, response) => {
             if (error) return callback(error)
 
             callback(undefined, JSON.parse(response))
-        }, this.__timeout__)
+        }, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ username, password }),
+            timeout: this.__timeout__
+        })
     },
 
     retrieve(id, token, callback) {
@@ -41,10 +51,13 @@ const userApi = {
             { name: 'callback', value: callback, type: 'function' }
         ])
 
-        call(`${this.__url__}/user/${id}`, 'GET', { Authorization: `Bearer ${token}` }, undefined, (error, response) => {
+        call(`${this.__url__}/user/${id}`, (error, response) => {
             if (error) return callback(error)
 
             callback(undefined, JSON.parse(response))
-        }, this.__timeout__)
+        }, {
+            headers: { Authorization: `Bearer ${token}` },
+            timeout: this.__timeout__
+        })
     }
 }
