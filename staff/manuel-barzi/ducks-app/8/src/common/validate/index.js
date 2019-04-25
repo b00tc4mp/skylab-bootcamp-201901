@@ -6,7 +6,11 @@ const validate = {
             if (value != undefined) {
                 if (typeof value !== type) throw TypeError(`${name} ${value} is not a ${type}`)
 
-                if (notEmpty) if (type === 'string') if (!value.trim().length) throw new ValueError(`${name} is empty`)
+                if (notEmpty)
+                    if (type === 'string') {
+                        if (!value.trim().length) throw new ValueError(`${name} is empty`)
+                    } else if (type === 'object')
+                        if (!Object.keys(value).length) throw new ValueError(`${name} is empty`)
             } else if (!optional) throw new RequirementError(`${name} is not optional`)
         })
     },
