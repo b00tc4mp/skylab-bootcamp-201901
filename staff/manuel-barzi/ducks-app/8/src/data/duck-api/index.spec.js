@@ -1,4 +1,4 @@
-'use strict'
+import duckApi from '.'
 
 describe('duck api', () => {
     describe('search ducks', () => {
