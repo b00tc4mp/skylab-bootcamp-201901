@@ -1,5 +1,3 @@
-'use strict'
-
-describe('errors', () => {
+xdescribe('errors', () => {
     // TODO
 })

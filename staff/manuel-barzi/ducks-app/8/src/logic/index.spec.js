@@ -1,4 +1,6 @@
-'use strict'
+import logic from '.'
+import { LogicError, RequirementError, ValueError, FormatError } from '../common/errors'
+import userApi from '../data/user-api'
 
 describe('logic', () => {
     describe('users', () => {
@@ -120,7 +122,7 @@ describe('logic', () => {
             let id
 
             beforeEach(() =>
-                userApi.create(name, surname, email, password)
+                userApi.create(email, password, { name, surname })
                     .then(response => id = response.data.id)
             )
 
@@ -162,7 +164,7 @@ describe('logic', () => {
             let id, token
 
             beforeEach(() =>
-                userApi.create(name, surname, email, password)
+                userApi.create(email, password, { name, surname })
                     .then(response => {
                         id = response.data.id
 

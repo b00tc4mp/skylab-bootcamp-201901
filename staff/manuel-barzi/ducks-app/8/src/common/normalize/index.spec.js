@@ -1,5 +1,3 @@
-'use strict'
-
-describe('normalize', () => {
+xdescribe('normalize', () => {
     // TODO
 })
