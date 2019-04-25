@@ -244,16 +244,16 @@ describe('logic', () => {
                 .catch(done)
             })
 
-            fit('should fail on incorrect query', (done) => {
+            fit('should fail on incorrect query', () => {
                 query = 'asdfasdfasdf'
-                logic.searchDucks(query)
-                .then(() => done(Error('should not reach this point')))
+                return logic.searchDucks(query)
+                .then(() => {
+                    throw Error('should not reach this point')
+                })
                 .catch(error => {
                     //ERROR 400 BAD REQUEST
                     expect(error).toBeDefined()
                     expect(error.error).toBe(`There are not results for this query: ${query}`)
-
-                    done()
                 })
             })
         })
