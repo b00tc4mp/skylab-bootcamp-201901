@@ -36,7 +36,7 @@ const logic = {
 
         validate.email(email)
 
-        return userApi.create(name, surname, email, password)
+        return userApi.create(email, password, { name, surname })
             .then(response => {
                 if (response.status === 'OK') return
 
@@ -97,6 +97,14 @@ const logic = {
         ])
 
         return duckApi.retrieveDuck(id)
+    },
+
+    toggleFavDuck(id) {
+        // TODO
+    },
+
+    retrieveFavDucks() {
+        // TODO
     }
 }
 
