@@ -1,7 +1,8 @@
 import React from 'react'
 import literals from './literals'
+import './index.sass'
 
-function Register({lang, onRegister, error}) {
+function Register({ lang, onRegister, error }) {
     const { title, name, surname, email, password } = literals[lang]
 
     function handleSubmit(e) {
@@ -17,7 +18,7 @@ function Register({lang, onRegister, error}) {
         onRegister(name, surname, username, password)
     }
 
-    return <>
+    return <section className="register">
         <h2>{title}</h2>
         <form onSubmit={handleSubmit}>
             <input type="text" name="name" placeholder={name} />
@@ -27,7 +28,7 @@ function Register({lang, onRegister, error}) {
             <button>{title}</button>
             <span>{error}</span>
         </form>
-    </>
+    </section>
 }
 
 export default Register
