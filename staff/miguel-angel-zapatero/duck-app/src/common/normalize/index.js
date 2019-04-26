@@ -1,3 +1,5 @@
+'use strict'
+
 const normalize = {
     undefinedOrNull(value) {
         if (value === 'null') return null
