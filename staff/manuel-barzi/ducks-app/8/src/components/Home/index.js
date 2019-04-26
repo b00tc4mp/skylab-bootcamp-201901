@@ -4,6 +4,7 @@ import logic from '../../logic'
 import Search from '../Search'
 import Results from '../Results'
 import Detail from '../Detail'
+import './index.sass'
 
 class Home extends Component {
     state = { error: null, ducks: [], duck: null, favs: [] }
@@ -42,7 +43,7 @@ class Home extends Component {
 
         const { hello, logout } = literals[lang]
 
-        return <main>
+        return <main className="home">
             <h1>{hello}, {name}!</h1>
             <button onClick={onLogout}>{logout}</button>
             <Search lang={lang} onSearch={handleSearch} />
