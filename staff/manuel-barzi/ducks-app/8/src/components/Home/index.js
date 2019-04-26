@@ -6,12 +6,12 @@ import Results from '../Results'
 import Detail from '../Detail'
 
 class Home extends Component {
-    state = { error: null, ducks: [], duck: null }
+    state = { error: null, ducks: [], duck: null, favs: [] }
 
     handleSearch = query =>
-        logic.searchDucks(query)
-            .then(ducks =>
-                this.setState({ duck: null, ducks: ducks.map(({ id, title, imageUrl: image, price }) => ({ id, title, image, price })) })
+        Promise.all([logic.searchDucks(query), logic.retrieveFavDucks()])
+            .then(([ducks, favs]) =>
+                this.setState({ duck: null, ducks: ducks.map(({ id, title, imageUrl: image, price }) => ({ id, title, image, price })), favs })
             )
             .catch(error =>
                 this.setState({ error: error.message })
@@ -26,11 +26,17 @@ class Home extends Component {
                 this.setState({ error: error.message })
             )
 
+    handleFav = id =>
+        logic.toggleFavDuck(id)
+            .then(() => logic.retrieveFavDucks())
+            .then(favs => this.setState({ favs }))
+
     render() {
         const {
             handleSearch,
             handleRetrieve,
-            state: { ducks, duck },
+            handleFav,
+            state: { ducks, duck, favs },
             props: { lang, name, onLogout }
         } = this
 
@@ -40,7 +46,7 @@ class Home extends Component {
             <h1>{hello}, {name}!</h1>
             <button onClick={onLogout}>{logout}</button>
             <Search lang={lang} onSearch={handleSearch} />
-            {!duck && <Results items={ducks} onItem={handleRetrieve} />}
+            {!duck && <Results items={ducks} onItem={handleRetrieve} onFav={handleFav} favs={favs} />}
             {duck && <Detail item={duck} />}
         </main>
     }
