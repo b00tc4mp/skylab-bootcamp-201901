@@ -1,0 +1,4 @@
+members:
+- francesc
+- sergio
+- mihail
