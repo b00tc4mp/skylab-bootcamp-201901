@@ -235,7 +235,6 @@ describe('user api', () => {
                     expect(data.username).toBe(username)
                     expect(data.password).toBeUndefined()
 
-                    expect(data.array).toBeDefined()
                     expect(data.array).toEqual(_data.array)
                     expect(data.hello).toBe(_data.hello)
                     expect(data.object).toEqual(_data.object)
@@ -276,7 +275,6 @@ describe('user api', () => {
                     expect(data.username).toBe(username)
                     expect(data.password).toBeUndefined()
 
-                    expect(data.array).toBeDefined()
                     expect(data.array).toEqual(_data.array)
                     expect(data.hello).toBe(_data.hello)
                     expect(data.object).toEqual(_data.object)
