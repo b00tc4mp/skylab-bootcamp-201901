@@ -4,14 +4,18 @@ import userApi from '../data/user-api'
 import recipeApi from '../data/recipe-api';
 
 describe('logic', () => {
-    xdescribe('users', () => {
+    describe('users', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         let email
+        let confirmEmail
         const password = '123'
+        const confirmPassword = '123'
+        const confirmAge = true
+        const confirmConditions = true
 
         beforeEach(() => {
-            email = `manuelbarzi-${Math.random()}@gmail.com`
+            confirmEmail = email = `manuelbarzi-${Math.random()}@gmail.com`
 
             logic.__userId__ = null
             logic.__userToken__ = null
@@ -19,12 +23,12 @@ describe('logic', () => {
 
         describe('register user', () => {
             it('should succeed on correct user data', () =>
-                logic.registerUser(name, surname, email, password)
+                logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)
                     .then(response => expect(response).toBeUndefined())
             )
 
             describe('on already existing user', () => {
-                beforeEach(() => logic.registerUser(name, surname, email, password))
+                beforeEach(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions))
 
                 it('should fail on retrying to register', () =>
                     logic.registerUser(name, surname, email, password)
@@ -41,49 +45,49 @@ describe('logic', () => {
             it('should fail on undefined name', () => {
                 const name = undefined
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `name is not optional`)
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(RequirementError, `name is not optional`)
             })
 
             it('should fail on null name', () => {
                 const name = null
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `name is not optional`)
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(RequirementError, `name is not optional`)
             })
 
             it('should fail on empty name', () => {
                 const name = ''
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'name is empty')
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(ValueError, 'name is empty')
             })
 
             it('should fail on blank name', () => {
                 const name = ' \t    \n'
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'name is empty')
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(ValueError, 'name is empty')
             })
 
             it('should fail on undefined surname', () => {
                 const surname = undefined
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `surname is not optional`)
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(RequirementError, `surname is not optional`)
             })
 
             it('should fail on null surname', () => {
                 const surname = null
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `surname is not optional`)
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(RequirementError, `surname is not optional`)
             })
 
             it('should fail on empty surname', () => {
                 const surname = ''
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'surname is empty')
+                expect(() => logic.registerUser(logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions))).toThrowError(ValueError, 'surname is empty')
             })
 
             it('should fail on blank surname', () => {
                 const surname = ' \t    \n'
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'surname is empty')
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(ValueError, 'surname is empty')
             })
 
             it('should fail on undefined email', () => {
@@ -95,25 +99,25 @@ describe('logic', () => {
             it('should fail on null email', () => {
                 const email = null
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `email is not optional`)
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(RequirementError, `email is not optional`)
             })
 
             it('should fail on empty email', () => {
                 const email = ''
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'email is empty')
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(ValueError, 'email is empty')
             })
 
             it('should fail on blank email', () => {
                 const email = ' \t    \n'
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'email is empty')
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(ValueError, 'email is empty')
             })
 
             it('should fail on non-email email', () => {
                 const nonEmail = 'non-email'
 
-                expect(() => logic.registerUser(name, surname, nonEmail, password)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
+                expect(() => logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
             })
 
             // TODO password fail cases
@@ -313,35 +317,37 @@ describe('logic', () => {
     describe('recipes', () => {
         describe('search recipes', () => {
             it('should succeed on correct query and selector', () =>
-                logic.searchRecipes('tomato', 'filter.php?i=')
+                logic.searchRecipes('tomato','filter.php?i=')
                     .then(recipes => {
                         expect(recipes).toBeDefined()
                         expect(recipes instanceof Object).toBeTruthy()
-                        // expect(ducks.length).toBe(13)
+                        //expect(recipes.length).toBe(13)
                     })
 
                 // TODO other cases
             )
         })
-        describe('random recipes', () => {
-            it('should succeed', () =>
-                logic.retrieveRandomRecipes()
-                    .then(recipes => {
-                        expect(recipes).toBeDefined()
-                        expect(recipes instanceof Object).toBeTruthy()
-                        // expect(ducks.length).toBe(13)
-                    })
 
-                // TODO other cases
-            )
-        })
-        describe('retrieve recipes', () => {
+        describe('search recipes', () => {
             it('should succeed on correct query and selector', () =>
-                logic.retrieveRecipe('52772')
+                logic.retriveRandomRecipes()
                     .then(recipes => {
                         expect(recipes).toBeDefined()
                         expect(recipes instanceof Object).toBeTruthy()
-                        // expect(ducks.length).toBe(13)
+                        //expect(recipes.length).toBe(13)
+                    })
+
+                // TODO other cases
+            )
+        })
+
+        describe('search recipes', () => {
+            it('should succeed on correct query and selector', () =>
+                logic.retrieveRecipe("52772")
+                    .then(recipes => {
+                        expect(recipes).toBeDefined()
+                        expect(recipes instanceof Object).toBeTruthy()
+                        //expect(recipes.length).toBe(13)
                     })
 
                 // TODO other cases
