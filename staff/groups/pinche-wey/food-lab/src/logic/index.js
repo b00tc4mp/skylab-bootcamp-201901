@@ -40,6 +40,7 @@ const logic = {
 
         validate.email(email)
 
+        if (password.length < 6) throw new RequirementError('Password too short!')
         if (password !== confirmPassword) throw new RequirementError('Password do not match!')
         if (email !== confirmEmail) throw new RequirementError('Email do not match!')
         if (!confirmAge) throw new RequirementError('Age is not confirmed!')
@@ -52,6 +53,7 @@ const logic = {
                 throw new LogicError(response.error)
             })
     },
+
 
     loginUser(email, password) {
         validate.arguments([
@@ -109,52 +111,52 @@ const logic = {
     },
 
     retrieveRandomRecipes() {
-        return recipeApi.searchRecipes('', 'random.php')
+        return recipeApi.searchRecipes("", 'random.php')
     },
 
-    toggleFavDuck(id) {
-        validate.arguments([
-            { name: 'id', value: id, type: 'string' }
-        ])
+    // toggleFavDuck(id) {
+    //     validate.arguments([
+    //         { name: 'id', value: id, type: 'string' }
+    //     ])
 
-        return userApi.retrieve(this.__userId__, this.__userToken__)
-            .then(response => {
-                const { status, data } = response
+    //     return userApi.retrieve(this.__userId__, this.__userToken__)
+    //         .then(response => {
+    //             const { status, data } = response
 
-                if (status === 'OK') {
-                    const { favs = [] } = data // NOTE if data.favs === undefined then favs = []
+    //             if (status === 'OK') {
+    //                 const { favs = [] } = data // NOTE if data.favs === undefined then favs = []
 
-                    const index = favs.indexOf(id)
+    //                 const index = favs.indexOf(id)
 
-                    if (index < 0) favs.push(id)
-                    else favs.splice(index, 1)
+    //                 if (index < 0) favs.push(id)
+    //                 else favs.splice(index, 1)
 
-                    return userApi.update(this.__userId__, this.__userToken__, { favs })
-                        .then(() => { })
-                }
+    //                 return userApi.update(this.__userId__, this.__userToken__, { favs })
+    //                     .then(() => { })
+    //             }
 
-                throw new LogicError(response.error)
-            })
-    },
+    //             throw new LogicError(response.error)
+    //         })
+    // },
 
-    retrieveFavDucks() {
-        return userApi.retrieve(this.__userId__, this.__userToken__)
-            .then(response => {
-                const { status, data } = response
+    // retrieveFavDucks() {
+    //     return userApi.retrieve(this.__userId__, this.__userToken__)
+    //         .then(response => {
+    //             const { status, data } = response
 
-                if (status === 'OK') {
-                    const { favs = [] } = data
+    //             if (status === 'OK') {
+    //                 const { favs = [] } = data
 
-                    if (favs.length) {
-                        const calls = favs.map(fav => duckApi.retrieveDuck(fav))
+    //                 if (favs.length) {
+    //                     const calls = favs.map(fav => duckApi.retrieveDuck(fav))
 
-                        return Promise.all(calls)
-                    } else return favs
-                }
+    //                     return Promise.all(calls)
+    //                 } else return favs
+    //             }
 
-                throw new LogicError(response.error)
-            })
-    }
+    //             throw new LogicError(response.error)
+    //         })
+    // }
 }
 
 export default logic
