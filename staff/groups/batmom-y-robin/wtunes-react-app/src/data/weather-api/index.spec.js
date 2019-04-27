@@ -2,7 +2,7 @@ import weatherApi from '.'
 import {ValueError, RequirementError } from '../../common/errors'
 
 describe('weather api', () => {
-    const city = 'Barcelona'
+    let city = 'Barcelona'
 
     describe('retrieve', () => {
         it('should succeed on correct city', () =>
@@ -14,23 +14,42 @@ describe('weather api', () => {
                     expect(name).toBeDefined()
                     expect(name).toBe('Barcelona')
                     expect(main).toBeDefined()
-                    expect(typeof main).toBe('String')
+                    expect(typeof main).toBe('string')
                     expect(description).toBeDefined()
-                    expect(typeof description).toBe('String')
+                    expect(typeof description).toBe('string')
                     expect(icon).toBeDefined()
                     expect(typeof icon).toBe('string')
                 })
         )
+
+        it('should succeed on correct city', () =>{
+            city = 'Paris'
+            weatherApi.retrieve(city)
+            .then(response => {
+                expect(response).toBeDefined()
+                
+                const {weather:[{main, description, icon}], name } = response
+                expect(name).toBeDefined()
+                expect(name).toBe('Paris')
+                expect(main).toBeDefined()
+                expect(typeof main).toBe('string')
+                expect(description).toBeDefined()
+                expect(typeof description).toBe('string')
+                expect(icon).toBeDefined()
+                expect(typeof icon).toBe('string')
+            })
+        })
 
         it('should fail on timeout', () =>{
             weatherApi.__timeout__ = 1
             weatherApi.retrieve(city)
             .then(response => {
                 expect(response).toBeUndefined()
+                return new Error('should not reach this point')
             })
             .catch(error => {
                 weatherApi.__timeout__= 0
-                expect(error).toThrowError('timeout error')
+                expect(error).toThrowError(Error, `time out, exceeded limit of ${weatherApi.__timeout__}ms`)
             })
         })
 

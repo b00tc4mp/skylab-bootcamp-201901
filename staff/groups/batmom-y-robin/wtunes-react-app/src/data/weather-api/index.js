@@ -11,7 +11,7 @@ const weatherApi = {
             { name: 'city', value: city, type: 'string', notEmpty: true},
         ])
 
-        return call(`${this.__url__}${city}&appid=${__appid__}`, {
+        return call(`${this.__url__}${city}&appid=${this.__appid__}`, {
             headers: { 'Content-Type': 'application/json' },
             timeout: this.__timeout__
         })
