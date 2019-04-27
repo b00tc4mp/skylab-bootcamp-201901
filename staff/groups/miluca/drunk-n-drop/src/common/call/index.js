@@ -21,7 +21,6 @@ function call(url, options = {}) {
         { name: 'timeout', value: timeout, type: 'number', notEmpty: true, optional: true },
     ])
 
-
     validate.url(url)
 
     let signal
