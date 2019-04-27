@@ -1,8 +1,8 @@
 import normalize from '../common/normalize'
 import validate from '../common/validate'
 import userApi from '../data/user-api'
-import duckApi from '../data/duck-api'
-import { LogicError } from '../common/errors'
+import recipeApi from '../data/recipe-api'
+import { LogicError, RequirementError } from '../common/errors'
 
 
 const logic = {
@@ -26,15 +26,24 @@ const logic = {
         return !!(this.__userId__ && this.__userToken__)
     },
 
-    registerUser(name, surname, email, password) {
+    registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
             { name: 'surname', value: surname, type: 'string', notEmpty: true },
             { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true }
+            { name: 'confirmEmail', value: confirmEmail, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true },
+            { name: 'confirmPassword', value: confirmPassword, type: 'string', notEmpty: true },
+            { name: 'confirmAge', value: confirmAge, type: 'boolean', notEmpty: true },
+            { name: 'confirmConditions', value: confirmConditions, type: 'boolean', notEmpty: true },
         ])
 
         validate.email(email)
+
+        if (password !== confirmPassword) throw new RequirementError('Password do not match!')
+        if (email !== confirmEmail) throw new RequirementError('Email do not match!')
+        if (!confirmAge) throw new RequirementError('Age is not confirmed!')
+        if (!confirmConditions) throw new RequirementError('Conditions are not confirmed')
 
         return userApi.create(email, password, { name, surname })
             .then(response => {
@@ -82,21 +91,25 @@ const logic = {
         sessionStorage.clear()
     },
 
-
-    searchDucks(query) {
+    searchRecipes(query, selector) {
         validate.arguments([
-            { name: 'query', value: query, type: 'string' }
+            { name: 'query', value: query, type: 'string' },
+            { name: 'selector', value: selector, type: 'string' }
         ])
 
-        return duckApi.searchDucks(query)
+        return recipeApi.searchRecipes(query, selector)
     },
 
-    retrieveDuck(id) {
+    retrieveRecipe(id) {
         validate.arguments([
             { name: 'id', value: id, type: 'string' }
         ])
 
-        return duckApi.retrieveDuck(id)
+        return recipeApi.retrieveRecipe(id)
+    },
+
+    retrieveRandomRecipes() {
+        return recipeApi.searchRecipes('', 'random.php')
     },
 
     toggleFavDuck(id) {

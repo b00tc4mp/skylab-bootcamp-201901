@@ -1,10 +1,10 @@
 import logic from '.'
 import { LogicError, RequirementError, ValueError, FormatError } from '../common/errors'
 import userApi from '../data/user-api'
-import duckApi from '../data/duck-api';
+import recipeApi from '../data/recipe-api';
 
 describe('logic', () => {
-    describe('users', () => {
+    xdescribe('users', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         let email
@@ -310,14 +310,38 @@ describe('logic', () => {
         })
     })
 
-    describe('ducks', () => {
-        describe('search ducks', () => {
-            it('should succeed on correct query', () =>
-                logic.searchDucks('yellow')
-                    .then(ducks => {
-                        expect(ducks).toBeDefined()
-                        expect(ducks instanceof Array).toBeTruthy()
-                        expect(ducks.length).toBe(13)
+    describe('recipes', () => {
+        describe('search recipes', () => {
+            it('should succeed on correct query and selector', () =>
+                logic.searchRecipes('tomato', 'filter.php?i=')
+                    .then(recipes => {
+                        expect(recipes).toBeDefined()
+                        expect(recipes instanceof Object).toBeTruthy()
+                        // expect(ducks.length).toBe(13)
+                    })
+
+                // TODO other cases
+            )
+        })
+        describe('random recipes', () => {
+            it('should succeed', () =>
+                logic.retrieveRandomRecipes()
+                    .then(recipes => {
+                        expect(recipes).toBeDefined()
+                        expect(recipes instanceof Object).toBeTruthy()
+                        // expect(ducks.length).toBe(13)
+                    })
+
+                // TODO other cases
+            )
+        })
+        describe('retrieve recipes', () => {
+            it('should succeed on correct query and selector', () =>
+                logic.retrieveRecipe('52772')
+                    .then(recipes => {
+                        expect(recipes).toBeDefined()
+                        expect(recipes instanceof Object).toBeTruthy()
+                        // expect(ducks.length).toBe(13)
                     })
 
                 // TODO other cases
