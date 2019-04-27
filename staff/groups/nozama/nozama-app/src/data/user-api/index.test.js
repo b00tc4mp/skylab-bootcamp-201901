@@ -268,72 +268,37 @@ describe ("user-api", () => {
         });
     });
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
-
-
-
-
-
-
-
+    describe("fail param", () => {
+      let id, token;
+
+      beforeAll(() => 
+        userApi.create(username, password, {...otherFields})
+         .then(() => userApi.auth(username, password))
+         .then((res) => {
+           id = res.data.id;
+           token = res.data.token;
+         })
+      )
+
+      it("must return a promise", () => 
+        expect(userApi.retrieve(id, token) instanceof Promise).toBeTruthy()
+      );
+
+      it("fails if no id", () => 
+        expect(() => userApi.retrieve(undefined, token))
+          .toThrowError(RequirementError, `undefined is not optional`)
+      );
+
+      it("fails if no token", () => 
+        expect(() => userApi.retrieve(id, undefined))
+          .toThrowError(RequirementError, `undefined is not optional`)
+      );
+
+      it("fails if extra data is not an object", () => 
+      expect(() => userApi.create(username, password, 1))
+        .toThrowError(TypeError, `undefined is not optional`)
+      );
+    })
   });
 
   describe('updateAndCheckDeleted', () => {
@@ -390,6 +355,106 @@ describe ("user-api", () => {
         })
     });
 
+    describe("fail param", () => {
+      let id, token;
+
+      beforeAll(() => 
+        userApi.create(username, password, {...otherFields})
+         .then(() => userApi.auth(username, password))
+         .then((res) => {
+           id = res.data.id;
+           token = res.data.token;
+         })
+      )
+
+      it("must return a promise", () => 
+        expect(userApi.retrieve(id, token) instanceof Promise).toBeTruthy()
+      );
+
+      it("fails if no id", () => 
+        expect(() => userApi.retrieve(undefined, token))
+          .toThrowError(RequirementError, `undefined is not optional`)
+      );
+
+      it("fails if no token", () => 
+        expect(() => userApi.retrieve(id, undefined))
+          .toThrowError(RequirementError, `undefined is not optional`)
+      );
+
+      it("fails if extra data is not an object", () => 
+      expect(() => userApi.create(username, password, 1))
+        .toThrowError(TypeError, `undefined is not optional`)
+      );
+    })
+
   });
 
+  describe('delete', () => {
+    let username, password, otherFields;
+    
+    beforeEach(() => {
+      username = randomString();
+      password = randomString();
+    });
+    
+    it("should retrieve on correct user data", () => { 
+      let id, token;
+      return userApi.create(username, password)
+        .then(() => userApi.auth(username, password))
+        .then((res) => {
+          const { data } = res;
+          id = data.id;
+          token = data.token
+        })
+        .then(() => userApi.delete(id, token, username, password))
+        .then(({ status }) => expect(status).toBe('OK'))          
+        .then(() => userApi.retrieve(id, token))
+        .then(({status, error}) => {
+          expect(status).toBe('KO');
+          expect(error).toBe(`user with id "${id}" does not exist`)
+        })
+        .then(() => userApi.auth(username, password))
+        .then(({status, error}) => {
+          expect(status).toBe('KO');
+          expect(error).toBe(`user with username "${username}" does not exist`)
+        });
+    });
+
+    describe("fail param", () => {
+      let id, token;
+
+      beforeAll(() => 
+        userApi.create(username, password, {...otherFields})
+         .then(() => userApi.auth(username, password))
+         .then((res) => {
+           id = res.data.id;
+           token = res.data.token;
+         })
+      )
+
+      it("must return a promise", () => 
+        expect(userApi.retrieve(id, token) instanceof Promise).toBeTruthy()
+      );
+
+      it("fails if no id", () => 
+        expect(() => userApi.retrieve(undefined, token))
+          .toThrowError(RequirementError, `undefined is not optional`)
+      );
+
+      it("fails if no token", () => 
+        expect(() => userApi.retrieve(id, undefined))
+          .toThrowError(RequirementError, `undefined is not optional`)
+      );
+
+      it("fails if no username", () => 
+      expect(() => userApi.auth(undefined, password, {}))
+        .toThrowError(RequirementError, `undefined is not optional`)
+      );
+
+      it("fails if no password", () => 
+        expect(() => userApi.auth(username, undefined, {}))
+          .toThrowError(RequirementError, `undefined is not optional`)
+      );
+    })
+  })
 });

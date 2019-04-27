@@ -50,6 +50,7 @@ const userApi = {
           }).then(res => res.json())
     },
 
+
     update(id, token, data) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -75,27 +76,47 @@ const userApi = {
         { name: 'user', value: user, type: 'object' }
       ])
       
-      let userRetrieved;
-
       return userApi.retrieve(id, token)
         .then(res => {
           if (res.status !== 'OK') 
             throw new ValueError('unexpected KO retrieving user data')
-          userRetrieved = res.data;
-          const deletedKeys = [];
+          const userRetrieved = res.data;
+          const keysToDelete = {};
           for (let key in userRetrieved) {
-            if (key !== 'password') {
-              if (typeof user[key] === 'undefined') deletedKeys.push(key);
-            }
+            if (!['password','id','username'].includes(key) 
+                && (typeof user[key] === 'undefined')) 
+                {
+                  keysToDelete[key] = null;
+                }
           }
-          return Promise.all(deletedKeys.map(key => userApi.update(id,token,{[key]: null})))
+          return userApi.update(id,token, keysToDelete);
         })
-        .then((responseAll) => {
-          if (responseAll.some(resOne => resOne.status !== 'OK')) 
+        .then((res) => {
+          if (res.status !== 'OK') 
             throw new ValueError('unexpected KO deleting fields');
           return userApi.update(id, token, user);
         })
+    },
+
+    delete(id, token, username, password){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true },
+            { name: 'username', value: username, type: 'string', notEmpty: true }
+          ])
+
+          return fetch(`${this.__url__}/user/${id}`, {
+              method: 'DELETE',
+              body: JSON.stringify({username, password}),
+              headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+              }
+          })
+          .then((res) => res.json())
     }
+
 }
 
 export default userApi
