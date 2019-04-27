@@ -8,7 +8,7 @@ import { ConnectionError, TimeoutError } from '../errors'
  * @param {*} callback 
  * @param {*} options 
  * 
- * @version 4.0.0
+ * @version 1.0.0
  */
 function call(url, options = {}) {
     const { method = 'GET', headers, body, timeout = 0 } = options
