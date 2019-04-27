@@ -17,14 +17,9 @@ class Home extends Component {
                 this.setState({ error: error.message })
             )
 
-    handleRetrieve = id =>
-        logic.retrieveDuck(id)
-            .then(({ title, imageUrl: image, description, price }) =>
-                this.setState({ duck: { title, image, description, price } })
-            )
-            .catch(error =>
-                this.setState({ error: error.message })
-            )
+    handleRetrieve = id => logic.retrieveDuck(id)
+                .then(({ id, title, imageUrl: image, description, price}) => this.setState({duck: { id, title, image, description, price }}))
+                .catch(error => this.setState({ error: error.message}))
 
     handleFav = id =>
         logic.toggleFavDuck(id)
@@ -41,13 +36,13 @@ class Home extends Component {
         } = this
 
         const { hello, logout } = literals[lang]
-
+        
         return <main>
             <h1>{hello}, {name}!</h1>
             <button onClick={onLogout}>{logout}</button>
             <Search lang={lang} onSearch={handleSearch} />
             {!duck && <Results items={ducks} onItem={handleRetrieve} onFav={handleFav} favs={favs} />}
-            {duck && <Detail item={duck} />}
+            {duck && <Detail item={duck} onFav={handleFav} favs={favs} />}
         </main>
     }
 }
