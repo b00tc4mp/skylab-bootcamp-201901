@@ -23,7 +23,7 @@ function Register ({lang, onRegister, error }) {
     return <section>
             <h2>{title}</h2>
             <form onSubmit = {handleSubmit}>
-                <input type="text" name="name" placeholder={name}/>
+                <input type="text" name="name" placeholder={name} autoFocus/>
                 <input type="text" name="surname" placeholder={surname}/>
                 <input type="email" name="username" placeholder={email}/>
                 <input type="password" name="password" placeholder={password}/>

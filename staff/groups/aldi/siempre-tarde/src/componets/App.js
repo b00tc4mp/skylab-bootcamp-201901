@@ -4,6 +4,7 @@ import LanguageSelector from './LanguageSelector'
 import Landing from './Landing'
 import Register from './Register'
 import Login from './Login'
+import logic from '../logic'
 
 
 
@@ -12,15 +13,45 @@ class App extends Component {
 
     handleLanguageChange = lang => this.setState({ lang: i18n.language = lang })
 
-
     
+    handleRegister = (name, surname, username, password, password2) => {
+        try {
+            logic.registerUser(name, surname, username, password, password2)
+                .then(() =>
+                    this.setState({ error: null })
+                )
+                .catch(error =>
+                    this.setState({ error: error.message })
+                )
+        } catch ({ message }) {
+            this.setState({ error: message })
+        }
+    }
+
+    handleLogin = (username, password) => {
+        try {
+            logic.loginUser(username, password)
+                .then(() =>
+                    logic.retrieveUser()
+                )
+                .then(user => {
+                    this.setState({ error: null })
+                })
+                .catch(error =>
+                    this.setState({ error: error.message })
+                )
+        } catch ({ message }) {
+            this.setState({ error: message })
+        }
+    }
 
 
     render() {
         const {
-            state: { lang },
+            state: { lang, error },
             handleLanguageChange,
-            error
+            handleLogin,
+            handleRegister
         } = this
 
 
@@ -30,9 +61,10 @@ class App extends Component {
             
             <Landing lang={lang} onRegister={()=>console.log('A')} onLogin={()=>console.log('B')}/>
             
-            <Register lang={lang} onRegister={()=>console.log('C')} error={error} />
+            <Register lang={lang} onRegister={handleRegister} error={error} />
 
-            <Login lang={lang} onLogin={()=>console.log('D')} error={error} />
+            <Login lang={lang} onLogin={handleLogin} error={error} />
+            
 
 
         </>

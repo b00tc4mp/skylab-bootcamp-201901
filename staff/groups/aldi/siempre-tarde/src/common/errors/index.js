@@ -36,11 +36,18 @@ class LogicError extends Error {
     }
 }
 
+class PasswordError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
 export {
     ValueError,
     FormatError,
     RequirementError,
     ConnectionError,
     TimeoutError,
-    LogicError
+    LogicError,
+    PasswordError
 }

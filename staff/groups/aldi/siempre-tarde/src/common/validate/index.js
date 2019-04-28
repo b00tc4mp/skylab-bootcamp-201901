@@ -3,7 +3,7 @@ import { ValueError, RequirementError, FormatError } from '../errors'
 const validate = {
     arguments(args) {
         args.forEach(({ name, value, type, notEmpty, optional }) => {
-            if (value != undefined) {
+            if (value !== undefined) {
                 if (typeof value !== type) throw TypeError(`${name} ${value} is not a ${type}`)
 
                 if (notEmpty)
