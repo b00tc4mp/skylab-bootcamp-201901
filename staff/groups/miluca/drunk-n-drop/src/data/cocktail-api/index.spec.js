@@ -24,29 +24,29 @@ describe('Cocktail-Api', () => {
 
         })
     })
-
+    
     describe('search by Alcoholics', () => {
-
+        
         it('should succed on correct query with alcohol', () =>{
-    
+            
             cocktailApi.searchByAlcoholics('Alcoholic')
-                .then(({drinks}) => {
-                    expect(drinks).toBeDefined()
-                    expect(drinks instanceof Array).toBeTruthy()
-                    expect(drinks.length).toBeGreaterThan(0)
-                })
-
+            .then(({drinks}) => {
+                expect(drinks).toBeDefined()
+                expect(drinks instanceof Array).toBeTruthy()
+                expect(drinks.length).toBeGreaterThan(0)
+            })
+            
         })
-    
+        
         it('should return empty result on unexisting alcohol query ', () => {
-
+            
             cocktailApi.searchByAlcoholics('ghyd')
-                .then(({drinks}) => {
-                    xpect(drinks).toBeDefined()
-                    expect(drinks.length).toBe(0)
-    
-                })
-
+            .then(({drinks}) => {
+                xpect(drinks).toBeDefined()
+                expect(drinks.length).toBe(0)
+                
+            })
+            
         })
     })
 })
