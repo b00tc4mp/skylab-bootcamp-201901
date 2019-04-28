@@ -161,6 +161,80 @@ describe('user api', () => {
                     expect(_error).toBe(`token id \"${_id}\" does not match user \"${wrongId}\"`)
                 })
         })
+    })
+    describe('update', () => {
+        let _id, token, _data
+
+
+        beforeEach(() => {
+            _data = { test: 'hello world' }
+
+            return userApi.create(username, password)
+                .then(response => {
+                    _id = response.data.id
+
+                    return userApi.authenticate(username, password)
+                })
+                .then(response => token = response.data.token)
+
+        })
+
+        fit('should succed on correct data', () =>
+            userApi.update(_id, token, _data)
+                .then(response => {
+                    const { status, data } = response
+
+                    expect(status).toBe('OK')
+                    expect(data).toBeUndefined()
+                })
+
+                .then(() => userApi.retrieve(_id, token))
+                .then(response => {
+                    const { status, data } = response
+                    expect(status).toBe('OK')
+                    expect(data).toBeDefined()
+
+                    expect(data.id).toBe(_id)
+                    expect(data.username).toBe(username)
+
+                    expect(data.test).toEqual(_data.test)
+                })
+        )
+        it('should succeed on data re-updating', () =>
+            userApi.update(_id, token, _data)
+                .then(response => {
+                    const { status, data } = response
+
+                    expect(status).toBe('OK')
+                    expect(data).toBeUndefined()
+        
+                })
+                .then(() =>{
+                    _data.test = 'Hola Mundo'
+
+
+                    return userApi.update(_id, token, _data)
+
+                })
+                .then(response => {
+                    const {status , data} = response
+
+                    expect(status).toBe('OK')
+                    expect(data).toBeUndefined()
+                })
+                .then(() => userApi.retrieve(_id , token))
+                .then(response =>{
+                    const {status , data} = response
+
+                    expect(status).toBe('OK')
+                    expect(data).toBeDefined()
+                    expect(data.id).toBe(_id)
+
+                    expect(data.test).toBe(_data.test)
+                })
+
+        )
+        
     })  
 })
 
