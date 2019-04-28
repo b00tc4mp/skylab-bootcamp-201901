@@ -40,19 +40,6 @@ describe('weather api', () => {
             })
         })
 
-        it('should fail on timeout', () =>{
-            weatherApi.__timeout__ = 1
-            weatherApi.retrieve(city)
-            .then(response => {
-                expect(response).toBeUndefined()
-                return new Error('should not reach this point')
-            })
-            .catch(error => {
-                weatherApi.__timeout__= 0
-                expect(error).toThrowError(Error, `time out, exceeded limit of ${weatherApi.__timeout__}ms`)
-            })
-        })
-
         it('should fail on city not found', () => {
             weatherApi.retrieve(city)
             .then(response => {
