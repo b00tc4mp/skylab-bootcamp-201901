@@ -144,7 +144,9 @@ describe('user api', () => {
                 })
         })
         it('should fail on incorrect token', ()=>{
+
             const wrongtoken='wrong-token'
+
             userApi.retrieve(_id,wrongtoken)
                 .then( response => {
                     const {status, error: _error} = response 
@@ -153,8 +155,10 @@ describe('user api', () => {
                 })
         })
         it('should fail on incorrect id', ()=>{
-            const wrongid='5cb9998f2e59ee0009eac02c-wrong-id'
-            userApi.retrieve(wrongid,token)
+
+            const wrongId='5cb9998f2e59ee0009eac02c-wrong-id'
+
+            userApi.retrieve(wrongId,token)
                 .then( response => {
                     const {status, error: _error} = response
                     expect(status).toBe('KO')
@@ -179,7 +183,7 @@ describe('user api', () => {
 
         })
 
-        fit('should succed on correct data', () =>
+        it('should succed on correct data', () =>
             userApi.update(_id, token, _data)
                 .then(response => {
                     const { status, data } = response

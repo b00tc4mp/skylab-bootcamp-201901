@@ -19,7 +19,6 @@ const cocktailApi = {
             .then(response => response.json())
         },
 
-
         searchCocktail(query) {
             validate.arguments([
                 {name: 'query', value: query, type: 'string'}
@@ -46,6 +45,7 @@ const cocktailApi = {
             return call(`${this.__url__}/filter.php?a=${query}`)
             .then(response => response.json())
         },   
+        
         searchByGlass(query) {
             validate.arguments([
                 {name: 'query', value: query, type: 'string'}
