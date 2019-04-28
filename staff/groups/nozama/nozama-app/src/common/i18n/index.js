@@ -1,11 +1,11 @@
 const i18n = {
-    set language(lang) {
-        localStorage.lang = lang
-    },
+  set language(lang) {
+    localStorage.lang = lang;
+  },
 
-    get language() {
-        return localStorage.lang || 'en'
-    }
-}
+  get language() {
+    return localStorage.lang || 'en';
+  },
+};
 
-export default i18n
+export default i18n;

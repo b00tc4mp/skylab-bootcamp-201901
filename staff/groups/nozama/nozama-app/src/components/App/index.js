@@ -1,10 +1,10 @@
-import React from "react";
-import { Container, Button, Form, FormGroup, Label, Input } from "reactstrap";
+import React from 'react';
+import { Container, Button, Form, FormGroup, Label, Input } from 'reactstrap';
 
 function App() {
   function somethingForTest(e) {
     e.preventDefault();
-    console.log("Holitas");
+    console.log('Holitas');
   }
 
   return (
@@ -20,12 +20,7 @@ function App() {
         </FormGroup>
         <FormGroup>
           <Label for="password">Password</Label>
-          <Input
-            type="password"
-            name="password"
-            id="password"
-            placeholder="Password"
-          />
+          <Input type="password" name="password" id="password" placeholder="Password" />
         </FormGroup>
       </Form>
       <Button>Submit</Button>

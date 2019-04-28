@@ -1,12 +1,12 @@
-'use strict'
+'use strict';
 
 const normalize = {
-    undefinedOrNull(value) {
-        if (value === 'null') return null
-        if (value === 'undefined') return undefined
-    
-        return value
-    }
-}
+  undefinedOrNull(value) {
+    if (value === 'null') return null;
+    if (value === 'undefined') return undefined;
 
-export default normalize
+    return value;
+  },
+};
+
+export default normalize;
