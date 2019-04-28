@@ -1,6 +1,5 @@
-import userApi from '../user-api/index-create'
-import { TimeoutError, ConnectionError, ValueError, RequirementError } from '../../common/errors'
-
+import userApi from '../user-api/index'
+import { ValueError, RequirementError } from '../../common/errors'
 
 describe('user api', () => {
     const name = 'miluca'    
@@ -12,11 +11,11 @@ describe('user api', () => {
     beforeEach(() => username = `holamundo-${Math.random()}@gmail.com`)
 
     describe('create', () => {
-        debugger
         it ('Should succeed on  correct data', () =>
             userApi.create(username, password, {name, favorites, creations})
                 .then(response => {
                     expect(response).toBeDefined()
+
                     const {status, data} = response
                     expect(status).toBe('OK')
                     expect(data).toBeDefined()
@@ -28,6 +27,7 @@ describe('user api', () => {
         )
 
         describe('on already existing user', () => {
+
             beforeEach(() => userApi.create(username, password, {name, favorites, creations}))
 
             it('Should fail on retrying to register', () => 
@@ -58,7 +58,6 @@ describe('user api', () => {
                 const username = '\r   \n'
                 expect(() => userApi.create(username, password, {name, favorites, creations})).toThrowError(ValueError, `username is empty`)
             })
-
             it('Should fail on undefined password', () => {
                 const password = undefined
                 expect(() => userApi.create(username, password, {name, favorites, creations})).toThrowError(RequirementError, `password is not optional`)
@@ -75,9 +74,93 @@ describe('user api', () => {
                 const password = '\r   \n'
                 expect(() => userApi.create(username, password, {name, favorites, creations})).toThrowError(ValueError, `password is empty`)
             })
-
-
         })
     })
+
+    describe("authenticate", () => {
+        let _id
+        beforeEach(()=>
+        userApi.create(username,password,{name})
+            .then(response => _id = response.data.id)
+        )
+        it('should succed on correct user credentials',() =>
+        
+            userApi.authenticate(username,password)
+                .then(response => {
+                    expect(response).toBeDefined()
+
+                    const { status , data } = response
+
+                    expect(status).toBe('OK')
+                    expect(data).toBeDefined()
+
+                    const {id , token } = data
+
+                    expect(typeof id).toBe('string')
+                    expect(id.length).toBeGreaterThan(0)
+                    expect(id).toBe(_id)
+
+                    expect(typeof token).toBe('string')
+                    expect(token.length).toBeGreaterThan(0)
+
+                    const [,payloadB64,] = token.split('.')
+                    const payloadJson = atob(payloadB64)
+                    const payload = JSON.parse(payloadJson) 
+                    expect(payload.id).toBe(id)
+                })
+        )
+        it('should fail on non-existing user', () =>
+                userApi.authenticate(username = 'testwrong@gmail.com', password)
+                .then(response =>{
+                        expect(response).toBeDefined()
+
+                        const{ status , error: _error} = response
+
+                        expect(status).toBe('KO')
+                        expect(_error).toBe(`user with username \"${username}\" does not exist`)
+                })
+        )
+    })
+    describe('retrieve',() =>{
+        let _id,token
+        beforeEach(() =>
+            userApi.create(username, password, { name, favorites, creations })
+                .then(response => {
+                    _id = response.data.id
+
+                    return userApi.authenticate(username, password)
+                })
+                .then(response => token = response.data.token)
+        )
+
+        it('should succeed on correct id and token', () =>  {
+             userApi.retrieve(_id,token)
+                .then( response => {
+                    const {status, data} = response
+                    expect(status).toBe('OK')
+                    expect(data).toBeDefined()
+                    expect(data.username).toBeDefined()
+                    expect(data.password).toBeUndefined()
+                })
+        })
+        it('should fail on incorrect token', ()=>{
+            const wrongtoken='wrong-token'
+            userApi.retrieve(_id,wrongtoken)
+                .then( response => {
+                    const {status, error: _error} = response 
+                    expect(status).toBe('KO')
+                    expect(_error).toBe('invalid token')
+                })
+        })
+        it('should fail on incorrect id', ()=>{
+            const wrongid='5cb9998f2e59ee0009eac02c-wrong-id'
+            userApi.retrieve(wrongid,token)
+                .then( response => {
+                    const {status, error: _error} = response
+                    expect(status).toBe('KO')
+                    expect(_error).toBe(`token id \"${_id}\" does not match user \"${wrongId}\"`)
+                })
+        })
+    })  
 })
 
