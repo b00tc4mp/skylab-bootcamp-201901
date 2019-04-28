@@ -3,6 +3,7 @@ import i18n from '../common/i18n'
 import LanguageSelector from './LanguageSelector'
 import Landing from './Landing'
 import Register from './Register'
+import Login from './Login'
 
 
 
@@ -30,6 +31,8 @@ class App extends Component {
             <Landing lang={lang} onRegister={()=>console.log('A')} onLogin={()=>console.log('B')}/>
             
             <Register lang={lang} onRegister={()=>console.log('C')} error={error} />
+
+            <Login lang={lang} onLogin={()=>console.log('D')} error={error} />
 
 
         </>
