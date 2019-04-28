@@ -49,20 +49,27 @@ describe('user-api', () => {
 
       it('fails if no username', () =>
         expect(() => userApi.create(undefined, password, {})).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+          new RequirementError(`username is not optional`)
+        ));
+
+      it('fails if username is blank', () =>
+        expect(() => userApi.create('  \t\n', password, {})).toThrowError(
+          Error(`username is empty`)
         ));
 
       it('fails if no password', () =>
         expect(() => userApi.create(username, undefined, {})).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+          new RequirementError(`password is not optional`)
+        ));
+
+      it('fails if password is blank', () =>
+        expect(() => userApi.create(username, '  \t\n', {})).toThrowError(
+          Error(`password is empty`)
         ));
 
       it('fails if extra data is not an object', () =>
         expect(() => userApi.create(username, password, 1)).toThrowError(
-          TypeError,
-          `undefined is not optional`
+          TypeError(`data 1 is not a object`)
         ));
     });
   });
@@ -125,14 +132,22 @@ describe('user-api', () => {
 
       it('fails if no username', () =>
         expect(() => userApi.auth(undefined, password, {})).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+          new RequirementError(`username is not optional`)
+        ));
+
+      it('fails if username is blank', () =>
+        expect(() => userApi.auth('  \t\n', password, {})).toThrowError(
+          Error(`username is empty`)
         ));
 
       it('fails if no password', () =>
         expect(() => userApi.auth(username, undefined, {})).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+          new RequirementError(`password is not optional`)
+        ));
+
+      it('fails if password is blank', () =>
+        expect(() => userApi.auth(username, '  \t\n', {})).toThrowError(
+          Error(`password is empty`)
         ));
     });
   });
@@ -187,15 +202,18 @@ describe('user-api', () => {
 
       it('fails if no id', () =>
         expect(() => userApi.retrieve(undefined, token)).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+          new RequirementError(`id is not optional`)
         ));
+      it('fails if id is blank', () =>
+        expect(() => userApi.retrieve('  \t\n', token)).toThrowError(Error(`id is empty`)));
 
       it('fails if no token', () =>
         expect(() => userApi.retrieve(id, undefined)).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+          new RequirementError(`token is not optional`)
         ));
+
+      it('fails if token is blank', () =>
+        expect(() => userApi.retrieve(id, '  \t\n')).toThrowError(Error(`token is empty`)));
     });
   });
 
@@ -267,6 +285,39 @@ describe('user-api', () => {
         });
     });
 
+    it('should write new fields when correct id and token passed', () => {
+      let id, token;
+      return userApi
+        .create(username, password, {
+          ...otherFields,
+        })
+        .then(() => userApi.auth(username, password))
+        .then(res => {
+          const { data } = res;
+          id = data.id;
+          token = data.token;
+
+          const newFieldsLength = Math.random() * (10 - 1) + 1;
+
+          for (let i = 0; i < newFieldsLength; i++) otherFields[randomString()] = randomString();
+
+          return userApi.update(id, token, otherFields);
+        })
+        .then(res => expect(res.status).toBe('OK'))
+        .then(() => userApi.retrieve(id, token))
+        .then(res => {
+          expect(res).toBeDefined();
+          expect(res.status).toBe('OK');
+          expect(res.data).toBeDefined();
+          expect(res.data).toEqual({
+            ...otherFields,
+            username,
+            id,
+            app: 'nozama',
+          });
+        });
+    });
+
     describe('fail param', () => {
       let id, token;
 
@@ -281,24 +332,31 @@ describe('user-api', () => {
       );
 
       it('must return a promise', () =>
-        expect(userApi.retrieve(id, token) instanceof Promise).toBeTruthy());
+        expect(userApi.update(id, token, {}) instanceof Promise).toBeTruthy());
 
-      it('fails if no id', () =>
-        expect(() => userApi.retrieve(undefined, token)).toThrowError(
-          RequirementError,
-          `undefined is not optional`
-        ));
+      it('fails if no id', () => {
+        expect(() =>
+          userApi
+            .update(undefined, token, {})
+            .toThrowError(new RequirementError(`id is not optional`))
+        );
+      });
+
+      it('fails if id is blank', () =>
+        expect(() => userApi.update('  \t\n', token, {})).toThrowError(Error(`id is empty`)));
 
       it('fails if no token', () =>
-        expect(() => userApi.retrieve(id, undefined)).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+        expect(() => userApi.update(id, undefined, {})).toThrowError(
+          new RequirementError(`token is not optional`)
         ));
 
+      it('fails if token is blank', () => {
+        expect(() => userApi.update(id, '  \t\n', {}).toThrowError(Error(`id is empty`)));
+      });
+
       it('fails if extra data is not an object', () =>
-        expect(() => userApi.create(username, password, 1)).toThrowError(
-          TypeError,
-          `undefined is not optional`
+        expect(() => userApi.update(id, token, 1)).toThrowError(
+          TypeError(`data 1 is not a object`)
         ));
     });
   });
@@ -360,7 +418,7 @@ describe('user-api', () => {
     });
 
     describe('fail param', () => {
-      let id, token;
+      let id, token, user;
 
       beforeAll(() =>
         userApi
@@ -370,27 +428,37 @@ describe('user-api', () => {
             id = res.data.id;
             token = res.data.token;
           })
+          .then(() => userApi.retrieve(id, token))
+          .then(res => (user = res.data))
       );
 
       it('must return a promise', () =>
-        expect(userApi.retrieve(id, token) instanceof Promise).toBeTruthy());
+        expect(userApi.updateAndCheckDeleted(id, token, user) instanceof Promise).toBeTruthy());
 
       it('fails if no id', () =>
-        expect(() => userApi.retrieve(undefined, token)).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+        expect(() => userApi.updateAndCheckDeleted(undefined, token, user)).toThrowError(
+          new RequirementError(`id is not optional`)
         ));
+
+      it('fails if token is blank', () => {
+        expect(() =>
+          userApi.updateAndCheckDeleted(id, '  \t\n', user).toThrowError(Error(`id is empty`))
+        );
+      });
 
       it('fails if no token', () =>
-        expect(() => userApi.retrieve(id, undefined)).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+        expect(() => userApi.updateAndCheckDeleted(id, undefined, user)).toThrowError(
+          new RequirementError(`token is not optional`)
         ));
 
-      it('fails if extra data is not an object', () =>
-        expect(() => userApi.create(username, password, 1)).toThrowError(
-          TypeError,
-          `undefined is not optional`
+      it('fails if user is not an object', () =>
+        expect(() => userApi.updateAndCheckDeleted(username, password, 1)).toThrowError(
+          TypeError(`user 1 is not a object`)
+        ));
+
+      it('fails if no/null id in username', () =>
+        expect(() => userApi.updateAndCheckDeleted(id, token, { user, id: null })).toThrow(
+          new RequirementError(`user.id is not optional`)
         ));
     });
   });
@@ -441,30 +509,45 @@ describe('user-api', () => {
       );
 
       it('must return a promise', () =>
-        expect(userApi.retrieve(id, token) instanceof Promise).toBeTruthy());
+        expect(userApi.delete(id, token, username, password) instanceof Promise).toBeTruthy());
 
       it('fails if no id', () =>
-        expect(() => userApi.retrieve(undefined, token)).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+        expect(() => userApi.delete(undefined, token, username, password)).toThrowError(
+          new RequirementError(`id is not optional`)
+        ));
+
+      it('fails if blank id', () =>
+        expect(() => userApi.delete('  \t\n', token, username, password)).toThrowError(
+          new RequirementError(`id is empty`)
         ));
 
       it('fails if no token', () =>
-        expect(() => userApi.retrieve(id, undefined)).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+        expect(() => userApi.delete(id, undefined, username, password)).toThrowError(
+          new RequirementError(`token is not optional`)
         ));
 
+      it('fails if blank token', () =>
+        expect(() => userApi.delete(id, '  \t\n', username, password)).toThrowError(
+          new RequirementError(`token is empty`)
+        ));
       it('fails if no username', () =>
-        expect(() => userApi.auth(undefined, password, {})).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+        expect(() => userApi.delete(id, token, undefined, password)).toThrowError(
+          new RequirementError(`username is not optional`)
+        ));
+
+      it('fails if blank username', () =>
+        expect(() => userApi.delete(id, token, '  \t\n', password)).toThrowError(
+          new RequirementError(`username is empty`)
         ));
 
       it('fails if no password', () =>
-        expect(() => userApi.auth(username, undefined, {})).toThrowError(
-          RequirementError,
-          `undefined is not optional`
+        expect(() => userApi.delete(id, token, username, undefined)).toThrowError(
+          new RequirementError(`password is not optional`)
+        ));
+
+      it('fails if blank password', () =>
+        expect(() => userApi.delete(id, token, username, '  \t\n')).toThrowError(
+          new RequirementError(`password is empty`)
         ));
     });
   });

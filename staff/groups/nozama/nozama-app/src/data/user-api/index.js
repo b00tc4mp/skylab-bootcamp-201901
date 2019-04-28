@@ -72,6 +72,8 @@ const userApi = {
       { name: 'id', value: id, type: 'string', notEmpty: true },
       { name: 'token', value: token, type: 'string', notEmpty: true },
       { name: 'user', value: user, type: 'object' },
+      { name: 'user.id', value: user.id, type: 'string', notEmpty: true },
+      { name: 'user.username', value: user.username, type: 'string', notEmpty: true },
     ]);
 
     return userApi
