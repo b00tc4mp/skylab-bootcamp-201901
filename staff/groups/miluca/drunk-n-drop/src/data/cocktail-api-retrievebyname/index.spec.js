@@ -10,11 +10,12 @@ describe('cocktail api', () => {
                     expect(cocktail instanceof Object).toBeTruthy()
                     expect(cocktail.drinks.length).toBe(1)
                     
+                    
                 }) 
         )
 
         it('Should fail on empty search', () => {            
-            expect(() => cocktailApiSearchByName.searchCocktail('').toThrowError(ValueError, `username is empty`))
+            expect(() => cocktailApiSearchByName.searchCocktail('').toThrowError(ValueError, `search is empty`))
                       
         })        
     })
