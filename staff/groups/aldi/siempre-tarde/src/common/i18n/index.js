@@ -4,7 +4,7 @@ const i18n = {
     },
 
     get language() {
-        return localStorage.lang || 'en'
+        return localStorage.lang || 'ca'
     }
 }
 
