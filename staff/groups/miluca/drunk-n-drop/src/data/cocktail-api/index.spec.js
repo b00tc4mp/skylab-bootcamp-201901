@@ -4,7 +4,7 @@ import cocktailApi from '../cocktail-api/index'
 describe('Cocktail-Api', () => {
     describe('search by ingredient', () => {
     
-        it('should succed on correct query', () =>
+        it('should succed on correct query', () =>{
     
             cocktailApi.searchByingredient('Lime')
                 .then(drinks => {
@@ -12,7 +12,7 @@ describe('Cocktail-Api', () => {
                     expect(drinks.drinks instanceof Array).toBeTruthy()
                     expect(drinks.drinks.length).toBeGreaterThan(0)
                 })
-        )
+        })
         
         it('should return empty result on unexisting drink ', () => {
     
@@ -49,10 +49,40 @@ describe('Cocktail-Api', () => {
             
         })
     })
+    
+    describe('search by name', () => {
+        
+        it('Shoudl succeed on correct query', () =>{
+        cocktailApi.searchCocktail('Gin Rickey')
+        .then(response=> {
+            expect(response).toBeDefined()
+            expect(response instanceof Object).toBeTruthy()
+            expect(response.drinks.length).toBe(1)
+            
+            }) 
+        })
+        
+        it('Should fail on empty search', () => {            
+            expect(() => cocktailApi.searchCocktail('').toThrowError(ValueError, `search is empty`))
+            
+        })        
+    })
+    
+    describe('search by category' , () =>{
+        
+        it('should succed on correct query' , () => {
+            cocktailApi.searchByCategory('Ordinary_Drink')
+            .then(response => {
+                expect(response).toBeDefined()
+                expect(response.drinks.length).toBeGreaterThan(0)
+            })
+        })
+    })
 })
 
-
-
-
-
-
+    
+    
+    
+    
+    
+    
