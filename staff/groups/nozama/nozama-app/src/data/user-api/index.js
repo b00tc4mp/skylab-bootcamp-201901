@@ -1,20 +1,42 @@
 import validate from '../../common/validate';
-import { ValueError } from '../../common/errors';
+import {
+  ValueError
+} from '../../common/errors';
 
 const userApi = {
   __url__: 'https://skylabcoders.herokuapp.com/api',
   __app__: 'nozama',
 
   create(username, password, data = {}) {
-    validate.arguments([
-      { name: 'username', value: username, type: 'string', notEmpty: true },
-      { name: 'password', value: password, type: 'string', notEmpty: true },
-      { name: 'data', value: data, type: 'object' },
+    validate.arguments([{
+        name: 'username',
+        value: username,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'password',
+        value: password,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'data',
+        value: data,
+        type: 'object'
+      },
     ]);
-    const { __app__: app } = this;
+    const {
+      __app__: app
+    } = this;
     return fetch(`${this.__url__}/user`, {
       method: 'POST',
-      body: JSON.stringify({ username, password, ...data, app }),
+      body: JSON.stringify({
+        username,
+        password,
+        ...data,
+        app
+      }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -22,14 +44,26 @@ const userApi = {
   },
 
   auth(username, password) {
-    validate.arguments([
-      { name: 'username', value: username, type: 'string', notEmpty: true },
-      { name: 'password', value: password, type: 'string', notEmpty: true },
+    validate.arguments([{
+        name: 'username',
+        value: username,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'password',
+        value: password,
+        type: 'string',
+        notEmpty: true
+      },
     ]);
 
     return fetch(`${this.__url__}/auth`, {
       method: 'POST',
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({
+        username,
+        password
+      }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -37,29 +71,57 @@ const userApi = {
   },
 
   retrieve(id, token) {
-    validate.arguments([
-      { name: 'id', value: id, type: 'string', notEmpty: true },
-      { name: 'token', value: token, type: 'string', notEmpty: true },
+    validate.arguments([{
+        name: 'id',
+        value: id,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'token',
+        value: token,
+        type: 'string',
+        notEmpty: true
+      },
     ]);
 
     return fetch(`${this.__url__}/user/${id}`, {
-      method: 'GET',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    }).then(res => res.json());
+        method: 'GET',
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }).then(res => res.json())
+      .then(res => {
+        delete res.data.app;
+        return res;
+      });
   },
 
   update(id, token, data) {
-    validate.arguments([
-      { name: 'id', value: id, type: 'string', notEmpty: true },
-      { name: 'token', value: token, type: 'string', notEmpty: true },
-      { name: 'data', value: data, type: 'object' },
+    validate.arguments([{
+        name: 'id',
+        value: id,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'token',
+        value: token,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'data',
+        value: data,
+        type: 'object'
+      },
     ]);
 
     return fetch(`${this.__url__}/user/${id}`, {
       method: 'PUT',
-      body: JSON.stringify({ ...data }),
+      body: JSON.stringify({
+        ...data
+      }),
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,
@@ -68,12 +130,35 @@ const userApi = {
   },
 
   updateAndCheckDeleted(id, token, user) {
-    validate.arguments([
-      { name: 'id', value: id, type: 'string', notEmpty: true },
-      { name: 'token', value: token, type: 'string', notEmpty: true },
-      { name: 'user', value: user, type: 'object' },
-      { name: 'user.id', value: user.id, type: 'string', notEmpty: true },
-      { name: 'user.username', value: user.username, type: 'string', notEmpty: true },
+    validate.arguments([{
+        name: 'id',
+        value: id,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'token',
+        value: token,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'user',
+        value: user,
+        type: 'object'
+      },
+      {
+        name: 'user.id',
+        value: user.id,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'user.username',
+        value: user.username,
+        type: 'string',
+        notEmpty: true
+      },
     ]);
 
     return userApi
@@ -96,16 +181,38 @@ const userApi = {
   },
 
   delete(id, token, username, password) {
-    validate.arguments([
-      { name: 'id', value: id, type: 'string', notEmpty: true },
-      { name: 'token', value: token, type: 'string', notEmpty: true },
-      { name: 'password', value: password, type: 'string', notEmpty: true },
-      { name: 'username', value: username, type: 'string', notEmpty: true },
+    validate.arguments([{
+        name: 'id',
+        value: id,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'token',
+        value: token,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'password',
+        value: password,
+        type: 'string',
+        notEmpty: true
+      },
+      {
+        name: 'username',
+        value: username,
+        type: 'string',
+        notEmpty: true
+      },
     ]);
 
     return fetch(`${this.__url__}/user/${id}`, {
       method: 'DELETE',
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({
+        username,
+        password
+      }),
       headers: {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${token}`,

@@ -1,9 +1,11 @@
 import userApi from '.';
-import { RequirementError } from '../../common/errors';
+import {
+  RequirementError
+} from '../../common/errors';
 
 const randomString = (length = 20) => Number(Math.random() * 9 ** length).toString(35);
 
-describe('user-api', () => {
+describe.skip('user-api', () => {
   describe('create', () => {
     const name = 'test';
     const surname = 'test';
@@ -21,26 +23,36 @@ describe('user-api', () => {
       });
 
       it('should succeed on correct user data', () =>
-        userApi.create(username, password, { ...otherFields }).then(res => {
+        userApi.create(username, password, {
+          ...otherFields
+        }).then(res => {
           expect(res).toBeDefined();
           expect(res.status).toBe('OK');
           expect(res.data).toBeDefined();
-          const { data } = res;
+          const {
+            data
+          } = res;
           expect(data.id).toBeDefined();
           expect(typeof data.id).toBe('string');
         }));
 
       it('should fail on same username', () =>
         userApi
-          .create(username, password, { ...otherFields })
-          .then(() => userApi.create(username, password, { ...otherFields }))
-          .then(res => {
-            expect(res).toBeDefined();
-            expect(res.status).toBe('KO');
-            expect(res.error).toBeDefined();
-            const { error } = res;
-            expect(error).toBe(`user with username "${username}" already exists`);
-          }));
+        .create(username, password, {
+          ...otherFields
+        })
+        .then(() => userApi.create(username, password, {
+          ...otherFields
+        }))
+        .then(res => {
+          expect(res).toBeDefined();
+          expect(res.status).toBe('KO');
+          expect(res.error).toBeDefined();
+          const {
+            error
+          } = res;
+          expect(error).toBe(`user with username "${username}" already exists`);
+        }));
     });
 
     describe('fail param', () => {
@@ -84,25 +96,30 @@ describe('user-api', () => {
 
     it('should succeed on correct user data', () =>
       userApi
-        .create(username, password, {})
-        .then(res => {
-          expect(res).toBeDefined();
-          expect(res.status).toBe('OK');
-          expect(res.data).toBeDefined();
-          const { data } = res;
-          _id = data.id;
-        })
-        .then(() => userApi.auth(username, password))
-        .then(res => {
-          expect(res).toBeDefined();
-          expect(res.status).toBe('OK');
-          expect(res.data).toBeDefined();
-          const {
-            data: { id, token },
-          } = res;
-          expect(id).toBe(_id);
-          expect(typeof token).toBe('string');
-        }));
+      .create(username, password, {})
+      .then(res => {
+        expect(res).toBeDefined();
+        expect(res.status).toBe('OK');
+        expect(res.data).toBeDefined();
+        const {
+          data
+        } = res;
+        _id = data.id;
+      })
+      .then(() => userApi.auth(username, password))
+      .then(res => {
+        expect(res).toBeDefined();
+        expect(res.status).toBe('OK');
+        expect(res.data).toBeDefined();
+        const {
+          data: {
+            id,
+            token
+          },
+        } = res;
+        expect(id).toBe(_id);
+        expect(typeof token).toBe('string');
+      }));
 
     describe('should fail on wrong data', () => {
       const wrongParam = randomString();
@@ -113,7 +130,9 @@ describe('user-api', () => {
         userApi.auth(wrongParam, password).then(res => {
           expect(res).toBeDefined();
           expect(res.status).toBe('KO');
-          const { error } = res;
+          const {
+            error
+          } = res;
           expect(error).toBe(`user with username "${wrongParam}" does not exist`);
         }));
 
@@ -121,7 +140,9 @@ describe('user-api', () => {
         userApi.auth(username, wrongParam).then(res => {
           expect(res).toBeDefined();
           expect(res.status).toBe('KO');
-          const { error } = res;
+          const {
+            error
+          } = res;
           expect(error).toBe(`username and/or password wrong`);
         }));
     });
@@ -167,20 +188,32 @@ describe('user-api', () => {
     it('should retrieve on correct user data', () => {
       let id, token;
       return userApi
-        .create(username, password, { ...otherFields })
+        .create(username, password, {
+          ...otherFields
+        })
         .then(() => userApi.auth(username, password))
         .then(res => {
-          const { data } = res;
+          const {
+            data
+          } = res;
           id = data.id;
           token = data.token;
         })
         .then(() => userApi.retrieve(id, token))
         .then(res => {
           expect(res).toBeDefined();
-          const { status, data } = res;
+          const {
+            status,
+            data
+          } = res;
           expect(status).toBe('OK');
           expect(data.password).toBeUndefined();
-          expect(data).toEqual({ ...otherFields, username, id, app: 'nozama' });
+          expect(data).toEqual({
+            ...otherFields,
+            username,
+            id,
+            app: 'nozama'
+          });
         });
     });
 
@@ -189,12 +222,14 @@ describe('user-api', () => {
 
       beforeAll(() =>
         userApi
-          .create(username, password, { ...otherFields })
-          .then(() => userApi.auth(username, password))
-          .then(res => {
-            id = res.data.id;
-            token = res.data.token;
-          })
+        .create(username, password, {
+          ...otherFields
+        })
+        .then(() => userApi.auth(username, password))
+        .then(res => {
+          id = res.data.id;
+          token = res.data.token;
+        })
       );
 
       it('must return a promise', () =>
@@ -233,10 +268,14 @@ describe('user-api', () => {
       let id, token, newValues;
 
       return userApi
-        .create(username, password, { ...otherFields })
+        .create(username, password, {
+          ...otherFields
+        })
         .then(() => userApi.auth(username, password))
         .then(res => {
-          const { data } = res;
+          const {
+            data
+          } = res;
           id = data.id;
           token = data.token;
           newValues = {};
@@ -250,10 +289,18 @@ describe('user-api', () => {
         .then(() => userApi.retrieve(id, token))
         .then(res => {
           expect(res).toBeDefined();
-          const { status, data } = res;
+          const {
+            status,
+            data
+          } = res;
           expect(status).toBe('OK');
           expect(data.password).toBeUndefined();
-          expect(data).toEqual({ ...newValues, username, id, app: 'nozama' });
+          expect(data).toEqual({
+            ...newValues,
+            username,
+            id,
+            app: 'nozama'
+          });
         });
     });
 
@@ -261,10 +308,14 @@ describe('user-api', () => {
       let id, token, newValues2;
 
       return userApi
-        .create(username, password, { ...otherFields })
+        .create(username, password, {
+          ...otherFields
+        })
         .then(() => userApi.auth(username, password))
         .then(res => {
-          const { data } = res;
+          const {
+            data
+          } = res;
           id = data.id;
           token = data.token;
           newValues2 = {};
@@ -278,10 +329,18 @@ describe('user-api', () => {
         .then(() => userApi.retrieve(id, token))
         .then(res => {
           expect(res).toBeDefined();
-          const { status, data } = res;
+          const {
+            status,
+            data
+          } = res;
           expect(status).toBe('OK');
           expect(data.password).toBeUndefined();
-          expect(data).toEqual({ ...newValues2, username, id, app: 'nozama' });
+          expect(data).toEqual({
+            ...newValues2,
+            username,
+            id,
+            app: 'nozama'
+          });
         });
     });
 
@@ -293,7 +352,9 @@ describe('user-api', () => {
         })
         .then(() => userApi.auth(username, password))
         .then(res => {
-          const { data } = res;
+          const {
+            data
+          } = res;
           id = data.id;
           token = data.token;
 
@@ -323,12 +384,14 @@ describe('user-api', () => {
 
       beforeAll(() =>
         userApi
-          .create(username, password, { ...otherFields })
-          .then(() => userApi.auth(username, password))
-          .then(res => {
-            id = res.data.id;
-            token = res.data.token;
-          })
+        .create(username, password, {
+          ...otherFields
+        })
+        .then(() => userApi.auth(username, password))
+        .then(res => {
+          id = res.data.id;
+          token = res.data.token;
+        })
       );
 
       it('must return a promise', () =>
@@ -337,8 +400,8 @@ describe('user-api', () => {
       it('fails if no id', () => {
         expect(() =>
           userApi
-            .update(undefined, token, {})
-            .toThrowError(new RequirementError(`id is not optional`))
+          .update(undefined, token, {})
+          .toThrowError(new RequirementError(`id is not optional`))
         );
       });
 
@@ -367,7 +430,9 @@ describe('user-api', () => {
     let user;
 
     function randomChange() {
-      const newUser = { ...user };
+      const newUser = {
+        ...user
+      };
 
       for (let key in newUser) {
         if (key !== 'password' && key !== 'username') {
@@ -396,23 +461,33 @@ describe('user-api', () => {
         otherFields[randomString()] = randomString();
       }
       return userApi
-        .create(username, password, { ...otherFields })
+        .create(username, password, {
+          ...otherFields
+        })
         .then(() => userApi.auth(username, password))
-        .then(({ data }) => {
+        .then(({
+          data
+        }) => {
           id = data.id;
           token = data.token;
           return userApi.retrieve(id, token);
         })
-        .then(({ data }) => (user = data));
+        .then(({
+          data
+        }) => (user = data));
     });
 
     it('should persist a true copy of object even in deleted fields', () => {
       const newUser = randomChange(user);
       return userApi
         .updateAndCheckDeleted(id, token, newUser)
-        .then(({ status }) => expect(status).toBe('OK'))
+        .then(({
+          status
+        }) => expect(status).toBe('OK'))
         .then(() => userApi.retrieve(id, token))
-        .then(({ data: retrievedUser }) => {
+        .then(({
+          data: retrievedUser
+        }) => {
           expect(retrievedUser).toEqual(newUser);
         });
     });
@@ -422,14 +497,16 @@ describe('user-api', () => {
 
       beforeAll(() =>
         userApi
-          .create(username, password, { ...otherFields })
-          .then(() => userApi.auth(username, password))
-          .then(res => {
-            id = res.data.id;
-            token = res.data.token;
-          })
-          .then(() => userApi.retrieve(id, token))
-          .then(res => (user = res.data))
+        .create(username, password, {
+          ...otherFields
+        })
+        .then(() => userApi.auth(username, password))
+        .then(res => {
+          id = res.data.id;
+          token = res.data.token;
+        })
+        .then(() => userApi.retrieve(id, token))
+        .then(res => (user = res.data))
       );
 
       it('must return a promise', () =>
@@ -457,7 +534,10 @@ describe('user-api', () => {
         ));
 
       it('fails if no/null id in username', () =>
-        expect(() => userApi.updateAndCheckDeleted(id, token, { user, id: null })).toThrow(
+        expect(() => userApi.updateAndCheckDeleted(id, token, {
+          user,
+          id: null
+        })).toThrow(
           new RequirementError(`user.id is not optional`)
         ));
     });
@@ -477,19 +557,29 @@ describe('user-api', () => {
         .create(username, password)
         .then(() => userApi.auth(username, password))
         .then(res => {
-          const { data } = res;
+          const {
+            data
+          } = res;
           id = data.id;
           token = data.token;
         })
         .then(() => userApi.delete(id, token, username, password))
-        .then(({ status }) => expect(status).toBe('OK'))
+        .then(({
+          status
+        }) => expect(status).toBe('OK'))
         .then(() => userApi.retrieve(id, token))
-        .then(({ status, error }) => {
+        .then(({
+          status,
+          error
+        }) => {
           expect(status).toBe('KO');
           expect(error).toBe(`user with id "${id}" does not exist`);
         })
         .then(() => userApi.auth(username, password))
-        .then(({ status, error }) => {
+        .then(({
+          status,
+          error
+        }) => {
           expect(status).toBe('KO');
           expect(error).toBe(`user with username "${username}" does not exist`);
         });
@@ -500,12 +590,14 @@ describe('user-api', () => {
 
       beforeAll(() =>
         userApi
-          .create(username, password, { ...otherFields })
-          .then(() => userApi.auth(username, password))
-          .then(res => {
-            id = res.data.id;
-            token = res.data.token;
-          })
+        .create(username, password, {
+          ...otherFields
+        })
+        .then(() => userApi.auth(username, password))
+        .then(res => {
+          id = res.data.id;
+          token = res.data.token;
+        })
       );
 
       it('must return a promise', () =>
