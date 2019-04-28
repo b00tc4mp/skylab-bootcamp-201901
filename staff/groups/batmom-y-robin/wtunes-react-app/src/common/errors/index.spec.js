@@ -1,3 +1,3 @@
 xdescribe('errors', () => {
-    // TODO
+    it('should pass', ()=> expect(true).toBeTruthy())
 })

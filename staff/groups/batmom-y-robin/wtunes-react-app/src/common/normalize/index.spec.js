@@ -1,3 +1,3 @@
 xdescribe('normalize', () => {
-    // TODO
+    it('should pass', ()=> expect(true).toBeTruthy())
 })
