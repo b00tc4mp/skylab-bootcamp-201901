@@ -7,7 +7,7 @@ import { ConnectionError, TimeoutError } from '../errors'
  * @param {*} url 
  * @param {*} callback 
  * @param {*} options 
- * 
+
  * @version 1.0.0
  */
 function call(url, options = {}) {
