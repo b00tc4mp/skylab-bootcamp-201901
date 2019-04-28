@@ -8,7 +8,7 @@ const weatherApi = {
 
     retrieve(city) {
         validate.arguments([
-            { name: 'city', value: city, type: 'string', notEmpty: true},
+            { name: 'city', value: city, type: 'string', notEmpty: true }
         ])
 
         return call(`${this.__url__}?q=${city}&appid=${this.__appid__}`, {

@@ -27,7 +27,7 @@ describe('weather api', () => {
             weatherApi.retrieve(city)
             .then(response => {
                 expect(response).toBeDefined()
-                
+
                 const {weather:[{main, description, icon}], name } = response
                 expect(name).toBeDefined()
                 expect(name).toBe('Paris')
@@ -41,16 +41,17 @@ describe('weather api', () => {
         })
 
         it('should fail on city not found', () => {
+            city = 'abcde'
             weatherApi.retrieve(city)
             .then(response => {
                 expect(response).toBeDefined()
                 const {cod, message} = response
                 expect(cod).toBeDefined()
                 expect(typeof cod).toBe('string')
-                expect(cod).toBe('400')
+                expect(cod).toBe('404')
                 expect(message).toBeDefined()
                 expect(typeof message).toBe('string')
-                expect(message).toBe('Nothing to geocode')
+                expect(message).toBe('city not found')
             })
         })
 
