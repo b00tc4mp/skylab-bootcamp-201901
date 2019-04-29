@@ -2,8 +2,11 @@ import React from 'react';
 
 import { Button, Form, FormGroup, Label, Input, FormText, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
+import logic from "../../logic";
+import { withRouter } from "react-router-dom";
 
-export default class Register extends React.Component {
+class Register extends React.Component {
+
   state = {
     name: '',
     surname: '',
@@ -15,10 +18,17 @@ export default class Register extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
+  handleSubmit = e => {
+    e.preventDefault()
+    const {name, surname, email, password} = this.state
+    logic.registerUser(email, password, name, surname)
+    this.props.history.push('/login')
+  }
+
   render() {
     return (
       <Container>
-        <Form>
+        <Form onSubmit={this.handleSubmit} >
           <FormGroup>
             <Label for="name">Name</Label>
             <Input
@@ -74,3 +84,5 @@ export default class Register extends React.Component {
     );
   }
 }
+
+export default withRouter(Register)

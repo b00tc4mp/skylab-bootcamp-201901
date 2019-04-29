@@ -1,6 +1,8 @@
 import userApi from '../data/user-api';
 import validate from '../common/validate';
-import { LogicError } from '../common/errors';
+import {
+  LogicError
+} from '../common/errors';
 
 const logic = {
   __userId__: null,
@@ -20,9 +22,15 @@ const logic = {
     logic.__userToken__ = _token;
   },
 
+  get isLoggedIn() {
+    return logic.__isLogged__;
+  },
+  set isLoggedIn(_isLoggedIn) {
+    logic.__isLoggedIn__ = _isLoggedIn;
+  },
+
   registerUser(email, password, name, surname) {
-    validate.arguments([
-      {
+    validate.arguments([{
         name: 'email',
         value: email,
         type: 'string',
@@ -61,8 +69,7 @@ const logic = {
   },
 
   loginUser(email, password) {
-    validate.arguments([
-      {
+    validate.arguments([{
         name: 'email',
         value: email,
         type: 'string',
@@ -87,8 +94,7 @@ const logic = {
   },
 
   updateUser(dataUser) {
-    validate.arguments([
-      {
+    validate.arguments([{
         name: 'dataUser',
         value: dataUser,
         type: 'object',
