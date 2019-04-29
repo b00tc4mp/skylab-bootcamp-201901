@@ -20,7 +20,7 @@ function Login ({lang, onLogin, error }) {
     return <section>
         <h2>{title}</h2>
         <form onSubmit= {handleSubmit}>
-            <input type="email" name="username" placeholder={email}/>
+            <input type="email" name="username" placeholder={email} autoFocus/>
             <input type="password" name="password" placeholder={password}/>
             <input type="submit" value={title}/>
             <input type="reset" value={reset}/>
