@@ -27,6 +27,28 @@ const logic = {
         return !!(this.__userId__ && this.__userToken__)
     },
 
+
+    registerUser(name, email, password) {
+        validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true }
+        ])
+
+        validate.email(email)
+
+        return userApi.create(email, password, { name })
+            .then(response => {
+                if (response.status === 'OK') return
+
+                throw new LogicError(response.error)
+            })
+    },
+
+    logoutUser() {
+        sessionStorage.clear()
+    },
+
     loginUser(email, password) {
         validate.arguments([
             {name: 'email', value: email, type: 'string', notEmpty: true},
