@@ -40,8 +40,8 @@ describe('logic', () => {
 
                             expect(error.message).toBe(`user with username \"${email}\" already exists`)
                         })
-                    )
-                })
+                )
+            })
 
             it('should fail on undefined name', () => {
                 const name = undefined
@@ -119,6 +119,17 @@ describe('logic', () => {
                 const password = ' \t    \n'
 
                 expect(() => logic.registerUser(name, email, password)).toThrowError(ValueError, 'password is empty')
+            })
+
+        })
+
+        describe('user log-out', () => {
+            
+            it('should clear session storage after log out', () => {
+
+                logic.logoutUser()
+                expect(sessionStorage.length).toBe(0);
+
             })
 
         })

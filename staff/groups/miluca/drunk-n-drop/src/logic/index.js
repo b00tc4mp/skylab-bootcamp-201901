@@ -45,6 +45,10 @@ const logic = {
             })
     },
 
+    logoutUser() {
+        sessionStorage.clear()
+    },
+
 
 
 }
