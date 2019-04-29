@@ -3,35 +3,35 @@ import logic from '../logic'
 //import CitySelector from './CitySelector'
 import Landing from './Landing'
 //import Register from './Register'
-//import Login from './Login'
+import Login from './Login'
 //import Home from './Home'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 
 class App extends Component {
     state = { city: null, visible: null, error: null, name: null }
 
-    //handleCityChange = lang => this.setState({ city: selectedCity})
+    //handleCityChange = city => this.setState({ city: selectedCity})
 
     handleRegisterNavigation = () => this.props.history.push('/register')
 
     handleLoginNavigation = () => this.props.history.push('/login')
 
-    // handleLogin = (username, password) => {
-    //     try {
-    //         logic.loginUser(username, password)
-    //             .then(() =>
-    //                 logic.retrieveUser()
-    //             )
-    //             .then(({ name }) => {
-    //                 this.setState({ name, error: null }, () => this.props.history.push('/home'))
-    //             })
-    //             .catch(error =>
-    //                 this.setState({ error: error.message })
-    //             )
-    //     } catch ({ message }) {
-    //         this.setState({ error: message })
-    //     }
-    // }
+    handleLogin = (username, password) => {
+        try {
+            logic.loginUser(username, password)
+                .then(() =>
+                    logic.retrieveUser()
+                )
+                .then(({ name }) => {
+                    this.setState({ name, error: null })
+                })
+                .catch(error =>
+                    this.setState({ error: error.message })
+                )
+        } catch ({ message }) {
+            this.setState({ error: message })
+        }
+    }
 
     componentDidMount() {
         // logic.isUserLoggedIn &&
@@ -64,9 +64,9 @@ class App extends Component {
     //     this.props.history.push('/')
     // }
 
-    // componentDidUpdate(prevProps) {
-    //     if (this.props.location !== prevProps.location) this.setState({ visible: null })
-    // }
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) this.setState({ visible: null })
+    }
 
     render() {
         const {
@@ -74,7 +74,7 @@ class App extends Component {
             // handleCityChange,
             handleRegisterNavigation,
             handleLoginNavigation,
-            // handleLogin,
+            handleLogin,
             // handleRegister,
             // handleLogout
         } = this
@@ -87,13 +87,13 @@ class App extends Component {
                         visible !== 'register-ok' ?
                         <Register lang={lang} onRegister={handleRegister} error={error} /> :
                         <RegisterOk lang={lang} onLogin={handleLoginNavigation} />
-                    } />
+                    } /> */}
 
-                    <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
+                    <Route path="/login" render={() => logic.isUserLoggedIn ? console.log('HOME REDIRECT') : <Login onLogin={handleLogin} error={error} />} />
 
-                    <Route path="/home" render={() => logic.isUserLoggedIn ? <Home lang={lang} name={name} onLogout={handleLogout} /> : <Redirect to="/" />} />
+                    {/* <Route path="/home" render={() => logic.isUserLoggedIn ? <Home lang={lang} name={name} onLogout={handleLogout} /> : <Redirect to="/" />} /> */}
 
-                <Redirect to="/" /> */}
+                <Redirect to="/" />
                 </Switch>
         </>
     }
