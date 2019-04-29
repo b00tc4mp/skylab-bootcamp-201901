@@ -1,5 +1,4 @@
-'use strict'
-
+/* eslint-disable no-useless-constructor */
 class ValueError extends Error {
     constructor(message) {
         super(message)
@@ -41,6 +40,11 @@ class PasswordError extends Error {
         super(message)
     }
 }
+class NotFoundError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
 
 export {
     ValueError,
@@ -49,5 +53,6 @@ export {
     ConnectionError,
     TimeoutError,
     LogicError,
-    PasswordError
+    PasswordError,
+    NotFoundError
 }

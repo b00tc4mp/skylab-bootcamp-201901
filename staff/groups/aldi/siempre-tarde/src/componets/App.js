@@ -9,11 +9,11 @@ import logic from '../logic'
 
 
 class App extends Component {
-    state = { lang: i18n.language}
+    state = { lang: i18n.language }
 
     handleLanguageChange = lang => this.setState({ lang: i18n.language = lang })
 
-    
+
     handleRegister = (name, surname, username, password, password2) => {
         try {
             logic.registerUser(name, surname, username, password, password2)
@@ -58,13 +58,13 @@ class App extends Component {
 
         return <>
             <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} />
-            
-            <Landing lang={lang} onRegister={()=>console.log('A')} onLogin={()=>console.log('B')}/>
-            
+
+            <Landing lang={lang} onRegister={() => console.log('A')} onLogin={() => console.log('B')} />
+
             <Register lang={lang} onRegister={handleRegister} error={error} />
 
             <Login lang={lang} onLogin={handleLogin} error={error} />
-            
+
 
 
         </>
