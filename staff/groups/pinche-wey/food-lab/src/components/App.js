@@ -1,17 +1,15 @@
 import React, { Component } from 'react'
 import logic from '../logic'
-import i18n from '../common/i18n'
-import LanguageSelector from './LanguageSelector'
 import Landing from './Landing'
 import Register from './Register'
 import RegisterOk from './RegisterOk'
 import Login from './Login'
+import Search from './Search'
 import Home from './Home'
+import './index.sass'
 
 class App extends Component {
-    state = { lang: i18n.language, visible: logic.isUserLoggedIn ? 'home' : 'landing', error: null, name: null }
-
-    handleLanguageChange = lang => this.setState({ lang: i18n.language = lang }) // NOTE setter runs first, getter runs after (i18n)
+    state = { visible: logic.isUserLoggedIn ? 'home' : 'landing', error: null, name: null, results: null }
 
     handleRegisterNavigation = () => this.setState({ visible: 'register' })
 
@@ -45,9 +43,9 @@ class App extends Component {
                 )
     }
 
-    handleRegister = (name, surname, username, password) => {
+    handleRegister = (name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions) => {
         try {
-            logic.registerUser(name, surname, username, password)
+            logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)
                 .then(() =>
                     this.setState({ visible: 'register-ok', error: null })
                 )
@@ -65,32 +63,46 @@ class App extends Component {
         this.setState({ visible: 'landing' })
     }
 
+    handleSearch = (query, selector) =>
+    logic.searchRecipes(query, selector)
+        .then((recipes) =>
+            this.setState({ results: recipes })
+        )
+        .catch(error =>
+            this.setState({ error: error.message })
+        )
+
     render() {
         const {
-            state: { lang, visible, error, name },
-            handleLanguageChange,
+            state: { visible, error, name, results },
             handleRegisterNavigation,
             handleLoginNavigation,
+            handleSearch,
             handleLogin,
             handleRegister,
             handleLogout
         } = this
 
-        // return <Fragment>
         return <>
-            <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} />
+            <header className="header">
+                <h1>FOODLAB</h1>
+                <div className="app__searcher">
+                    <Search onSearch={handleSearch} />
+                </div>
+                {visible !== 'landing' && <button onClick={handleLogout}> {visible === 'home' ? 'LogOut' : 'Return'}</button>}
+            </header>
 
-            {visible === 'landing' && <Landing lang={lang} onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />}
+            {visible === 'landing' && <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />}
 
-            {visible === 'register' && <Register lang={lang} onRegister={handleRegister} error={error} />}
+            {visible === 'register' && <Register onRegister={handleRegister} error={error} />}
 
-            {visible === 'register-ok' && <RegisterOk lang={lang} onLogin={handleLoginNavigation} />}
+            {visible === 'register-ok' && <RegisterOk onLogin={handleLoginNavigation} />}
 
-            {visible === 'login' && <Login lang={lang} onLogin={handleLogin} error={error} />}
+            {visible === 'login' && <Login onLogin={handleLogin} error={error} />}
 
-            {visible === 'home' && <Home lang={lang} name={name} onLogout={handleLogout} />}
+            {visible === 'home' && <Home results={results} name={name} onLogout={handleLogout} />}
         </>
-        // </Fragment>
+
     }
 }
 

@@ -61,8 +61,6 @@ const logic = {
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
-        validate.email(email)
-
         return userApi.authenticate(email, password)
             .then(response => {
                 if (response.status === 'OK') {
@@ -86,10 +84,6 @@ const logic = {
     },
 
     logoutUser() {
-        // this.__userId__ = null
-        // this.__userToken__ = null
-
-        // OR fully remove all key values from session storage
         sessionStorage.clear()
     },
 
@@ -114,49 +108,84 @@ const logic = {
         return recipeApi.searchRecipes("", 'random.php')
     },
 
-    // toggleFavDuck(id) {
-    //     validate.arguments([
-    //         { name: 'id', value: id, type: 'string' }
-    //     ])
+    updateBook(id, _done) { // Para hace favorito una receta , quitarla y para pasarla a hecha
+        validate.arguments([
+            { name: 'id', value: id, type: 'string' },
+            { name: 'done', value: _done, type: 'boolean', optional: true }
+        ])
 
-    //     return userApi.retrieve(this.__userId__, this.__userToken__)
-    //         .then(response => {
-    //             const { status, data } = response
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                const { status, data } = response
+                const { wanted = [], done = [], notes = [], forks = [] } = data
 
-    //             if (status === 'OK') {
-    //                 const { favs = [] } = data // NOTE if data.favs === undefined then favs = []
+                if (status === 'OK' && !_done) { //Esto sirve de toggle para Wanted
+                    const indexWanted = wanted.indexOf(id)
+                    const indexDone = done.indexOf(id)
 
-    //                 const index = favs.indexOf(id)
+                    if (indexWanted < 0 && indexDone < 0) wanted.push(id)
+                    else if (indexDone < 0) wanted.splice(indexWanted, 1)
 
-    //                 if (index < 0) favs.push(id)
-    //                 else favs.splice(index, 1)
+                    return userApi.update(this.__userId__, this.__userToken__, { wanted })
+                        .then(() => { })
 
-    //                 return userApi.update(this.__userId__, this.__userToken__, { favs })
-    //                     .then(() => { })
-    //             }
+                } else if (status === 'OK') { //Esto sirve para pasarlo de wanted a done y añadirle una nota 
+                    const indexWanted = wanted.indexOf(id)
 
-    //             throw new LogicError(response.error)
-    //         })
-    // },
+                    if (indexWanted > -1) {
+                        wanted.splice(indexWanted, 1)
+                        done.push(id)
+                        notes.push("")
+                        forks.push(0)
 
-    // retrieveFavDucks() {
-    //     return userApi.retrieve(this.__userId__, this.__userToken__)
-    //         .then(response => {
-    //             const { status, data } = response
 
-    //             if (status === 'OK') {
-    //                 const { favs = [] } = data
+                        return userApi.update(this.__userId__, this.__userToken__, { wanted, done, notes, forks })
+                            .then(() => { })
 
-    //                 if (favs.length) {
-    //                     const calls = favs.map(fav => duckApi.retrieveDuck(fav))
+                    } else throw new RequirementError("To mark it as done it has to be on the waiting list")
 
-    //                     return Promise.all(calls)
-    //                 } else return favs
-    //             }
+                }
 
-    //             throw new LogicError(response.error)
-    //         })
-    // }
+                throw new LogicError(response.error)
+            })
+
+    },
+
+    retrieveBook(print) {
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                const { status, data } = response
+
+                if (status === 'OK') {
+                    const { wanted = [], done = [], notes = [], forks = [] } = data
+
+                    if (!print) return [wanted, done, notes, forks]
+
+                    let calls
+
+                    if (print[0] === wanted[0]) calls = wanted.map(recipe => recipeApi.retrieveRecipe(recipe))
+                    else if (print[0] === done[0]) calls = done.map(recipe => recipeApi.retrieveRecipe(recipe))
+                    else throw new RequirementError("You should send Wanted or Done as a argument")
+
+                    return Promise.all(calls)
+                        .then(printing => {
+
+                            const toshow = printing.map(({ meals }) => meals)
+                            return toshow
+                        })
+
+                } else throw new LogicError(response.error)
+            })
+    },
+
+    updatingNotes(index, changes, notes) {
+
+        notes[index] = changes
+
+        return userApi.update(this.__userId__, this.__userToken__, { notes })
+            .then(() => { })
+    }
+
 }
 
 export default logic

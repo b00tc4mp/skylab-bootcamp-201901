@@ -1,0 +1,21 @@
+@import ./utils
+@import ./config
+
+
+.header
+    display: grid
+    grid-template-columns: 40%, 20&, 20%
+    +round-border(.1em, solid, $color, .5em)
+    min-height: 5em
+
+.header > button 
+    margin: 1em
+    grid-column: 3
+    width: 20%
+    height: 50%
+    justify-self: end
+    align-self: center
+
+.header > h1 
+    grid-column: 2
+    justify-self: center
