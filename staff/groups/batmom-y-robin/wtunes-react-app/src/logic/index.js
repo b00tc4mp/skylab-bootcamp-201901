@@ -64,6 +64,9 @@ const logic = {
                 } else throw new LogicError(response.error)
             })
     },
+    logoutUser() {
+        sessionStorage.clear()
+    },
 
     retrieveUserPreferences (){
         return userApi.retrieve(this.__userId__, this.__userToken__)
