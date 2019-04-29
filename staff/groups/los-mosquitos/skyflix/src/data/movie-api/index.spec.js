@@ -18,10 +18,10 @@ describe('movie api', () => {
         )
 
         it('should succed on correct query whitout results', () =>
-            movieApi.searchMovies(' ')
+            movieApi.searchMovies('asdfasdfasdf')
                 .then(movies => {
                     const { page, total_results, total_pages, results } = movies
-
+                    
                     expect(page).toBeDefined()
                     expect(total_results).toBeDefined()
                     expect(total_pages).toBeDefined()
@@ -29,33 +29,31 @@ describe('movie api', () => {
                     expect(results.length).toBe(0)
                 })
         )
-
         it('should fail if the field is empty ', () =>
             movieApi.searchMovies('')
-                .then(() => { throw Error('should not reach this point') })
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error.errors).toBe("query must be provided")
+                .then((response) => { 
+                    expect(response).toBeDefined()
+                    expect(response.errors[0]).toBe('query must be provided')
                 })
         )
     })
 
     describe('retrieve movie', () => {
-        const id = '550'
+        const id = 550
 
         it('should succed on correct id', () =>
             movieApi.retrieveMovie(id)
                 .then(movie => {
                     expect(movie).toBeDefined()
-                    expect(movie.id).toBe('550')
+                    expect(movie.id).toBe(id)
                 })
         )
 
         it('should fail on invalid id', () =>
-            movieApi.retrieveMovie()
-                .then(() => { throw Error('shouldnot reach this point') })
-                .catch(error => {
-                    expect(error.status_message).toBe('The resource you requested could not be found.')
+            movieApi.retrieveMovie(6868768)
+                .then(response => {
+                    expect(response).toBeDefined()
+                    expect(response.status_message).toBe('The resource you requested could not be found.')
                 })
         )
     })
@@ -70,19 +68,17 @@ describe('movie api', () => {
 
         it('should fail on searchMovies', () =>
             movieApi.searchMovies('avenger')
-                .then(() => { throw Error('shouldnot reach this point') })
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error.status_message).toBe("Invalid API key: You must be granted a valid key.")
+                .then(response => {
+                    expect(response).toBeDefined()
+                    expect(response.status_message).toBe('Invalid API key: You must be granted a valid key.')
                 })
         )
 
         it('should fail on retrieveMovies', () =>
-            movieApi.retriveMovie(5)
-                .then(() => { throw Error('shouldnot reach this point') })
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error.status_message).toBe("Invalid API key: You must be granted a valid key.")
+            movieApi.retrieveMovie(5)
+                .then(response => {
+                    expect(response).toBeDefined()
+                    expect(response.status_message).toBe('Invalid API key: You must be granted a valid key.')
                 })
         )
 
