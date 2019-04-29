@@ -49,8 +49,26 @@ const logic = {
         sessionStorage.clear()
     },
 
+    loginUser(email, password) {
+        validate.arguments([
+            {name: 'email', value: email, type: 'string', notEmpty: true},
+            {name: 'password', value: password, type: 'string', notEmpty: true}
+        ])
 
-
+        validate.email(email)
+    
+        return userApi.authenticate(email, password) 
+            .then(response => {
+            
+                if (response.status === 'OK') {
+            
+                    const { data: { id, token } } = response
+                    
+                    this.__userId__ = id
+                    this.__userToken__ = token
+                } else throw new LogicError(response.error)
+            })
+    }
 }
 
 export default logic
