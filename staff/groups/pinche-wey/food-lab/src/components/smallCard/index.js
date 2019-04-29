@@ -1,7 +1,7 @@
-import React from 'react'
+// import React from 'react'
 
-function SmallCard (){
+// function SmallCard (){
     
-}
+// }
 
-export default SmallCard
+// export default SmallCard
