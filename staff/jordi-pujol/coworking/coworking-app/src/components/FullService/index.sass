@@ -1,0 +1,109 @@
+.fullservice
+    display: block /* Hidden by default */
+    position: fixed /* Stay in place */
+    z-index: 1 /* Sit on top */
+    padding-top: 100px /* Location of the box */
+    left: 0
+    top: 0
+    width: 100% /* Full width */
+    height: 100% /* Full height */
+    overflow: auto /* Enable scroll if needed */
+    background-color: rgb(0,0,0) /* Fallback color */
+    background-color: rgba(0,0,0,0.4) /* Black w/ opacity */
+
+    div
+        display: flex
+        flex-direction: column
+        width: 80%
+        padding-top: 1em
+    
+        .fas.fa-window-close
+            width: 100%
+            justify-content: flex-end
+
+        .fas.fa-window-close:hover
+            cursor: pointer
+
+    .fullservice__content
+        background-color: #40676E
+        padding: 1em
+        border: 1px solid #888
+        color: white
+        display: flex
+        flex-direction: column
+        margin: 0 auto
+        margin-bottom: 10em
+
+        &--title
+
+        div
+            padding-top: 0em
+        
+        &--info
+
+        .full__content--comments
+            display: flex
+
+        &--item
+            padding-top: 0.5em
+
+        .fullservice__button
+            justify-content: center
+            margin-top: 1em
+            border-radius: 5px
+            min-width: 90%
+            height: 2em
+            border: none
+            color: #fff
+            font-size: 15px
+            cursor: pointer
+            background-color: #408E61
+            font-weight: 600
+            font-family: 'Ubuntu', sans-serif
+            margin-bottom: 1em
+            border: 1px solid #40676E
+
+.full-service__button
+    justify-content: center
+    margin-top: 1em
+    border-radius: 5px
+    min-width: 90%
+    height: 2em
+    border: none
+    color: #fff
+    font-size: 15px
+    cursor: pointer
+    background-color: #71A596
+    font-weight: 600
+    font-family: 'Ubuntu', sans-serif
+    margin-bottom: 1em
+    border: 1px solid #40676E
+
+.comments__title
+    // color: black
+    
+@media (min-width: 700px)
+
+    .fullservice__content
+        max-width: 80%
+        display: flex
+        justify-self: center
+
+    .full__content--info, .full__content--comments
+        display: flex
+        margin: 0 auto
+
+    .fullservice__button
+        justify-content: center
+        margin-top: 1em
+        border-radius: 5px
+        min-width: 10%
+        height: 2em
+        font-size: 16px
+
+@media (min-width: 1000px)
+
+    .fullservice__content
+        max-width: 50%
+        display: flex
+        justify-self: center

@@ -1,0 +1,109 @@
+.current-quiz {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+
+  &__wrapper {
+    display: flex;
+    flex: 1 1 100%;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  &__countdown {
+    // flex-basis: 20rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+
+    width: 25%;
+
+    &-digit {
+      font-size: 3em;
+      background: #333333;
+      border-radius: 50%;
+      padding: 2rem;
+      font-weight: 900;
+      color: #fff;
+    }
+  }
+
+  &__answers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+    flex-direction: column;
+
+    width: 25%;
+
+    &-number {
+      font-size: 3em;
+      font-weight: 900;
+    }
+  }
+
+  &__image-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1.5rem;
+  }
+
+  &__statistic-results {
+    display: flex;
+    justify-content: center;
+    width: 50%;
+    padding: 2rem 0px;
+  }
+
+  &__image {
+    max-width: 100%;
+  }
+
+  &__details {
+    display: flex;
+    flex: 1;
+    flex-direction: row;
+
+    flex: 7;
+  }
+
+  &__choices {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    margin: 0.625rem 0;
+    padding: 0.3125rem;
+    flex-wrap: wrap;
+
+    flex: 3;
+  }
+
+  &__item {
+    flex: 1 1 calc(50% - 2 * 0.3125rem);
+    justify-content: flex-start;
+    width: calc(50% - 2 * 0.3125rem);
+    height: calc(50% - 0.3125rem);
+    margin: 0.3125rem;
+    padding: 1em;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    border-radius: 6px;
+
+    &--red {
+      background: #e21b3c;
+    }
+    &--blue {
+      background: #1368ce;
+    }
+    &--green {
+      background: #26890d;
+    }
+    &--yellow {
+      background: #ffa601;
+    }
+  }
+}

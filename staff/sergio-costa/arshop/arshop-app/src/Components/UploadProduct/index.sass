@@ -1,0 +1,166 @@
+.uploadProduct
+    margin-left: 0.4em
+    margin-right: 0.4em 
+    height: 100vh
+
+    &__header
+        display: flex
+        flex-direction: row
+
+    &__title
+        margin: 0 auto
+        font-size: 1.3em
+    
+    &__logo
+        font-size: 1.7em
+        color: grey
+        cursor: pointer
+
+.form
+    margin-top: 4em
+    display: flex
+    flex-direction: column
+
+    &__inputrow
+        display: flex
+        flex-direction: column
+        margin-top: 1em
+
+    &__uploaders
+        display: flex
+        justify-content: space-around
+
+    &__label--input
+        color: lightgrey
+        font-size: 1.2em
+        margin-top: 0.8em
+
+    &__input
+        width: 100%
+        border: 0
+        font-size: 1.2em
+        // padding-top: 10px 
+        border-bottom: 1px solid #f5ebeb
+        border-bottom: 1px solid lightgrey
+        outline: none
+
+    &__list
+        display: flex
+        list-style-type: none
+        margin-top: 0.5em
+
+    &__img
+        margin-top: 2em
+
+    &__btn
+        position: absolute
+        bottom: 10px
+        width: 96%
+        background-color: #ff9b71
+        font-size: 1.3em
+        padding: 10px
+        border: none
+        border-radius: 20px
+        margin-top: 20px
+        color: white
+        outline: none
+        cursor: pointer
+        
+
+.form__label
+    display: inline-block
+    width: 100px
+    height: 50px
+    text-align: center
+    border: 1px solid #ddd
+    line-height: 50px
+    cursor: pointer
+
+.upload
+    position: relative
+    display: inline-block
+    align-self: center
+
+.upload label
+    color: #5F626A
+    cursor: pointer
+    width: 5em
+    height: 5em
+    position: relative
+    display: block
+    border: 3px dashed #5F626A
+    border-radius: 10px
+    overflow: hidden
+    transition: background ease .5s
+    pointer-events: none
+    display: flex
+
+.input-file
+    opacity: 0
+    position: absolute
+    width: 100%
+    height: 100%
+    cursor: pointer
+
+.add-image
+    display: block
+    width: 100%
+    text-align: center
+    font-size: 11px
+    font-family: sans-serif
+    align-self: center
+
+@keyframes donut-spin
+  0%
+    transform: rotate(0deg)
+  
+  100%
+    transform: rotate(360deg)
+  
+.upload__donut
+    display: inline-block
+    border: 4px solid rgba(0, 0, 0, 0.1)
+    border-left-color: #ff9b71
+    border-radius: 50%
+    width: 30px
+    height: 30px
+    animation: donut-spin 1.2s linear infinite
+
+.upload__donutcontainer
+    display: flex
+    justify-items: center
+    justify-content: center
+
+@media screen and (min-width: 768px) and (min-height: 1024px)
+
+    .form
+        padding: 5em
+
+        &__uploaders
+            margin-top: 5em
+
+        &__btn
+            width: 80%
+
+
+@media screen and (min-width: 800px)
+
+    .uploadProduct
+        margin-right: 8em
+        margin-left: 8em
+
+    .form__button
+        display: flex
+        justify-content: flex-end
+        margin-top: 3em
+
+    .form__btn
+        position: relative
+        width: 10em
+        align-self: center
+
+@media screen and (min-width: 1000px)
+
+    .uploadProduct
+        margin-right: 15em
+        margin-left: 15em

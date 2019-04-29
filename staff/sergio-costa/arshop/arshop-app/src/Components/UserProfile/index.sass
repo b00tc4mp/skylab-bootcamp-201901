@@ -1,0 +1,113 @@
+.profile
+    // background-color: red
+
+    &__header
+        display: flex
+        flex-direction: column
+
+    &__icons
+        display: flex
+        justify-content: space-between
+        margin-top: 0.5em
+
+        &--back
+            font-size: 1.9em
+            margin-left: 0.5em
+            color: black
+
+        &--edit
+            font-size: 1.5em
+            margin-right: 0.5em
+            color: black
+
+    &__user
+        display: flex
+        justify-content: space-around
+        border-bottom: 1px solid lightgrey 
+        padding-bottom: 1em
+
+        &--text
+            align-self: center
+            font-size: 1.7em
+
+        &--img
+            width: 5em
+            height: 5em
+
+    &__file
+        display: flex
+        flex-direction: column
+
+    &__nav
+        display: flex
+        border-bottom: 1px solid lightgrey
+
+    &__link
+        display: flex
+        flex-direction: column
+        width: 50%
+        padding: 0.5em
+        text-decoration: none
+
+        &--text
+            font-size: 1.2em
+            align-self: center
+            color: black
+
+        &--number
+            font-size: 1.7em
+            align-self: center
+            color: black
+
+.bordergreen
+    border-bottom: 4px solid #ff9b71
+
+.personal-image
+  text-align: center
+
+.personal-image input[type="file"]
+  display: none
+
+.personal-figure
+  position: relative
+  width: 6em
+  height: 6em
+
+.personal-avatar
+  cursor: pointer
+  width: 6em
+  height: 6em
+  box-sizing: border-box
+  border-radius: 100%
+  border: 2px solid transparent
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.2)
+  transition: all ease-in-out .3s
+
+.personal-avatar:hover
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.5)
+
+@keyframes bouncing-loader
+  to
+    opacity: 0.1
+    transform: translate3d(0, -1rem, 0)
+  
+
+.bouncing-loader
+  display: flex
+  justify-content: center
+
+.bouncing-loader > div
+  width: 1rem
+  height: 1rem
+  margin: 3rem 0.2rem
+  background: #ff9b71
+  border-radius: 50%
+  animation: bouncing-loader 0.6s infinite alternate
+
+.bouncing-loader > div:nth-child(2)
+  animation-delay: 0.2s
+
+.bouncing-loader > div:nth-child(3)
+  animation-delay: 0.4s
+
+

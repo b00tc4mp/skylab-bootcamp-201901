@@ -1,0 +1,152 @@
+=flexin($display, $direction, $align)
+  display: $display
+  flex-direction: $direction
+  align-items: $align
+
+.register
+  display: grid
+  grid-template-rows: 50% 35% 65%
+  grid-template-columns: 1
+  min-height: 100%
+
+  &_content
+    padding: 2em
+    grid-row-start: 1
+    grid-row-end: 3
+    background: #fff
+    +flexin(flex, column, center)
+
+
+    &-form
+      +flexin(flex, column, center)
+      justify-content: space-around
+      height: 100%
+
+      input
+        font-size: 16px
+        border: none
+        border-bottom: 1px solid rgba(0,0,0,0.4)
+        outline: none
+
+      button
+        margin: 0 auto
+        border-radius: 5px
+        width: 18em
+        height: 2em
+        border: none
+        color: #fff
+        font-size: 15px
+        cursor: pointer
+        background-color: #408E61
+        font-weight: 600
+        font-family: 'Ubuntu', sans-serif
+
+      span
+        padding-top: 0.5em
+
+    .submit
+      margin: 0 auto
+      border-radius: 5px
+      width: 18em
+      height: 2em
+      border: none
+      color: #fff
+      font-size: 15px
+      cursor: pointer
+      background-color: #40676E
+      font-weight: 600
+      font-family: 'Ubuntu', sans-serif
+
+  h2
+    padding-bottom: 1em
+
+  &_subcontent
+    grid-column-start: 1
+    grid-column-end: 1
+    grid-row-start: 3
+    grid-row-end: 4
+    display: flex
+    background-image: linear-gradient(#71A596, #40676E)
+    background-size: cover
+    +flexin(flex, column, center)
+    
+        
+    h2
+      padding-bottom: 1em
+
+    div
+      +flexin(flex, column, center)
+      padding: 4em 3em
+
+    button
+      margin: 0 auto
+      border-radius: 5px
+      width: 18em
+      height: 2em
+      border: none
+      font-size: 15px
+      cursor: pointer
+      background-color: #ACD1B6
+      font-weight: 600
+      font-family: 'Ubuntu', sans-serif
+
+@media (min-width: 800px)
+  
+  .register
+    display: grid
+    grid-template-columns: 60% 40%
+    grid-template-rows: 100%
+    height: 30rem
+    width: 60rem
+    padding: 10% 25%
+    justify-content: space-around
+
+
+    &_content
+      padding-top: 2em
+      grid-column-start: 1
+      grid-column-end: 2
+      grid-row-start: 1
+      grid-row-end: 2
+      background: #fff
+      +flexin(flex, column, center)
+
+
+      // &-form
+      //   +flexin(flex, column, center)
+      //   justify-content: space-around
+      //   height: 70%
+
+      //   input
+      //     font-size: 16px
+      //     border: none
+      //     border-bottom: 1px solid rgba(0,0,0,0.4)
+      //     outline: none
+
+      //   button
+      //     margin: 0 auto
+      //     border-radius: 30px
+      //     width: 8em
+      //     height: 2em
+      //     border: none
+      //     color: #fff
+      //     font-size: 15px
+      //     cursor: pointer
+      //     background-image: linear-gradient(#2C9200, #1C440B)
+
+      //   button:hover 
+      //     background-image: linear-gradient(skyblue, #360BE5)
+
+
+    &_subcontent
+      grid-column-start: 2
+      grid-column-end: 3
+      grid-row-start: 1
+      grid-row-end: 2
+      display: flex
+      +flexin(flex, column, center)
+
+
+      div
+        +flexin(flex, column, center)
+        padding: 4em 3em
