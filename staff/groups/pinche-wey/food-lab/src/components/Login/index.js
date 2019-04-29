@@ -1,25 +1,23 @@
 import React from 'react'
-import literals from './literals'
 import './index.sass'
 
-function Login({ lang, onLogin, error }) {
-    const { title, email, password } = literals[lang]
+function Login({ onLogin, error }) {
+    
+    function handleSubmit(event) {
+        event.preventDefault()
 
-    function handleSubmit(e) {
-        e.preventDefault()
-
-        const username = e.target.username.value
-        const password = e.target.password.value
+        const username = event.target.username.value
+        const password = event.target.password.value
 
         onLogin(username, password)
     }
 
     return <section className="login">
-        <h2>{title}</h2>
+        <h2>Login</h2>
         <form onSubmit={handleSubmit}>
-            <input type="text" name="username" placeholder={email} />
-            <input type="password" name="password" placeholder={password} />
-            <button>{title}</button>
+            <input type="text" name="username" placeholder="username" required />
+            <input type="password" name="password" placeholder="password" required />
+            <button>Login</button>
             <span>{error}</span>
         </form>
     </section>
