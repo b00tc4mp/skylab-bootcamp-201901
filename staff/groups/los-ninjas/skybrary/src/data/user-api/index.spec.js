@@ -68,8 +68,6 @@ describe('user api', () => {
 
             expect(() => userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })).toThrowError(ValueError, 'username is empty')
         })
-
-        // TODO password fail cases
     })
 
     describe('authenticate', () => {
@@ -120,8 +118,6 @@ describe('user api', () => {
         )
     })
 
-    //aqui
-
     describe('retrieve', () => {
         let _id, token
 
@@ -163,7 +159,6 @@ describe('user api', () => {
         })
     })
 
-    //aca
     describe('when api url fails', () => {
         let url
 
