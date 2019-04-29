@@ -15,7 +15,7 @@ const movieApi = {
         validate.arguments([
             { name: 'query', value: query, type: 'string' }
         ])
-        const search = ''.concat(this.__url__, 'search/movie?api_key=', this.__APIKEY1__, '&query=', query)
+        const search = ''.concat(this.__url__, '/search/movie?api_key=', this.__APIKEY1__, '&query=', query)
         return call(search)
             .then(response => response.json())
     },
@@ -27,10 +27,10 @@ const movieApi = {
      */
     retrieveMovie(id) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string' }
+            { name: 'id', value: id, type: 'number' }
         ])
 
-        const search = ''.concat(this.__url__, '/movie/', id, '/?api_key=', this.__APIKEY1__)
+        const search = ''.concat(this.__url__, '/movie/', id, '?api_key=', this.__APIKEY1__)
         return call(search)
             .then(response => response.json())
     },
