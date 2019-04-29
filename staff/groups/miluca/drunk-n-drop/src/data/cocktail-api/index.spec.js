@@ -101,6 +101,17 @@ describe('Cocktail-Api', () => {
             })
         })
     })
+
+    describe('search by multi Ingedient' , () =>{
+        
+        it('should succed on correct query' , () => {
+            cocktailApi.searchByMultiIngredient('Lime,Gin')
+            .then(response => {
+                expect(response).toBeDefined()
+                expect(response.drinks.length).toBeGreaterThan(0)
+            })
+        })
+    })
 })
 
     
