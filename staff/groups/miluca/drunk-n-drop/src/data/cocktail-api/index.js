@@ -2,10 +2,6 @@ import validate from '../../common/validate'
 import call from '../../common/call'
 
 
-//8673533 API KEY
-
-
-
 
 const cocktailApi = {
 
