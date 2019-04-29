@@ -1,41 +1,38 @@
 import validate from '../../common/validate';
-import {
-  ValueError
-} from '../../common/errors';
+import { ValueError } from '../../common/errors';
 
 const userApi = {
   __url__: 'https://skylabcoders.herokuapp.com/api',
   __app__: 'nozama',
 
   create(username, password, data = {}) {
-    validate.arguments([{
+    validate.arguments([
+      {
         name: 'username',
         value: username,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'password',
         value: password,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'data',
         value: data,
-        type: 'object'
+        type: 'object',
       },
     ]);
-    const {
-      __app__: app
-    } = this;
+    const { __app__: app } = this;
     return fetch(`${this.__url__}/user`, {
       method: 'POST',
       body: JSON.stringify({
         username,
         password,
         ...data,
-        app
+        app,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -44,17 +41,18 @@ const userApi = {
   },
 
   auth(username, password) {
-    validate.arguments([{
+    validate.arguments([
+      {
         name: 'username',
         value: username,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'password',
         value: password,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
     ]);
 
@@ -62,7 +60,7 @@ const userApi = {
       method: 'POST',
       body: JSON.stringify({
         username,
-        password
+        password,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -71,56 +69,59 @@ const userApi = {
   },
 
   retrieve(id, token) {
-    validate.arguments([{
+    validate.arguments([
+      {
         name: 'id',
         value: id,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'token',
         value: token,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
     ]);
 
     return fetch(`${this.__url__}/user/${id}`, {
-        method: 'GET',
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }).then(res => res.json())
+      method: 'GET',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then(res => res.json())
       .then(res => {
-        delete res.data.app;
+        if (res.data) delete res.data.app;
         return res;
       });
   },
 
   update(id, token, data) {
-    validate.arguments([{
+    validate.arguments([
+      {
         name: 'id',
         value: id,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'token',
         value: token,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'data',
         value: data,
-        type: 'object'
+        type: 'object',
       },
     ]);
 
     return fetch(`${this.__url__}/user/${id}`, {
       method: 'PUT',
       body: JSON.stringify({
-        ...data
+        ...data,
       }),
       headers: {
         'Content-Type': 'application/json',
@@ -130,34 +131,35 @@ const userApi = {
   },
 
   updateAndCheckDeleted(id, token, user) {
-    validate.arguments([{
+    validate.arguments([
+      {
         name: 'id',
         value: id,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'token',
         value: token,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'user',
         value: user,
-        type: 'object'
+        type: 'object',
       },
       {
         name: 'user.id',
         value: user.id,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'user.username',
         value: user.username,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
     ]);
 
@@ -181,29 +183,30 @@ const userApi = {
   },
 
   delete(id, token, username, password) {
-    validate.arguments([{
+    validate.arguments([
+      {
         name: 'id',
         value: id,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'token',
         value: token,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'password',
         value: password,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
       {
         name: 'username',
         value: username,
         type: 'string',
-        notEmpty: true
+        notEmpty: true,
       },
     ]);
 
@@ -211,7 +214,7 @@ const userApi = {
       method: 'DELETE',
       body: JSON.stringify({
         username,
-        password
+        password,
       }),
       headers: {
         'Content-Type': 'application/json',
