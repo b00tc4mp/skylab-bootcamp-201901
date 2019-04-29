@@ -1,7 +1,9 @@
 import normalize from '../common/normalize'
 import validate from '../common/validate'
 import userApi from '../data/user-api'
-import { LogicError } from '../common/errors'
+import weatherApi from "../data/weather-api";
+import itunesApi from "../data/itunes-api";
+import { LogicError, ValueError } from '../common/errors'
 
 const logic = {
 
@@ -24,6 +26,7 @@ const logic = {
     get isUserLoggedIn() {
         return !!(this.__userId__ && this.__userToken__)
     },
+
     registerUser(name, surname, email, password, city){
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -42,6 +45,7 @@ const logic = {
                 else throw new LogicError(response.error)
             })
     },
+
     loginUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
@@ -60,6 +64,19 @@ const logic = {
                 } else throw new LogicError(response.error)
             })
     },
+
+    retrieveUserPreferences (){
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                const { status, data } = response
+
+                if (status === 'OK') {
+                    const { preferences } = data
+                    return preferences
+                }else throw new LogicError(response.error)
+            })
+    },
+
     updateUserPreferences(preferences){
         validate.arguments([
             { name: 'preferences', value: preferences, type: 'object', notEmpty: true }
@@ -70,6 +87,7 @@ const logic = {
                 else throw new LogicError(response.error)
             })
     },
+
     updateUserCity(city){
         validate.arguments([
             { name: 'city', value: city, type: 'string', notEmpty: true }
@@ -78,6 +96,45 @@ const logic = {
             .then(response =>{
                 if(response.status==='OK')return
                 else throw new LogicError(response.error)
+            })
+    },
+
+    retrieveWeather(city){
+
+        validate.arguments([
+            { name: 'city', value: city, type: 'string', notEmpty: true},
+        ])
+
+        return weatherApi.retrieve(city)
+            .then(response => {
+                if (!response.message){
+                    const {weather:[{main, icon}], name} = response
+                    return [ name, main, icon]
+                }
+                else throw new ValueError(response.message)
+            })
+    },
+
+    searchMusic(query){
+        validate.arguments([
+            { name: 'query', value: query, type: 'string', notEmpty: true},
+        ])
+        const limit = 20
+        return itunesApi.searchMusic(query, 'music', limit)
+        .then(response => {
+                let resultsArr = []
+                const {results} = response
+                if (results.length > 0){
+                    results.map(element => {
+                        const{trackName, previewUrl, artworkUrl100 } = element
+                        resultsArr.push({
+                            trackName,
+                            previewUrl,
+                            artWork: artworkUrl100
+                        })
+                    })
+                    return resultsArr
+                }else throw new Error ('no results found')
             })
     }
 }
