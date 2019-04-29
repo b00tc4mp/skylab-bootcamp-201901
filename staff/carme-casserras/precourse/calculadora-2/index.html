@@ -1,0 +1,48 @@
+<!DOCTYPE <!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title></title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="styles/style.css" rel="stylesheet">        
+    </head>
+    <body>
+        <div class="container">
+            <div class="screen">  
+                <p id="result"></p>        
+            </div>
+            <div>
+                <img id="logo" src="styles/carme.png" width="35%">
+            </div>
+            <div class="delete">
+                <img id="sol" src="styles/solar.jpg" width="65%" height="38px">
+                <button id="del" onclick="delet('')">C</button>
+            </div>
+            <div class="line">
+                <button onclick="calc(7)">7</button>
+                <button onclick="calc(8)">8</button>
+                <button onclick="calc(9)">9</button>
+                <button class="oper" onclick="calc('/')">/</button>
+            </div>
+            <div class="line">
+                <button onclick="calc(4)">4</button>
+                <button onclick="calc(5)">5</button>
+                <button onclick="calc(6)">6</button>
+                <button class="oper" onclick="calc('*')">x</button>
+            </div>
+            <div class="line">
+                <button onclick="calc(1)">1</button>
+                <button onclick="calc(2)">2</button>
+                <button onclick="calc(3)">3</button>
+                <button class="oper" onclick="calc('-')">-</button>
+            </div>
+            <div class="line">
+                <button onclick="calc(0)">0</button>
+                <button onclick="calc('.')">,</button>
+                <button class="oper" onclick="calc('=')">=</button>
+                <button class="oper" onclick="calc('+')">+</button>
+            </div>
+        </div>    
+    </body>
+    <script type="text/javascript" src="main.js"></script>
+</html>

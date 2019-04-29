@@ -1,0 +1,38 @@
+<!-- <script>
+    //new Promise(function(resolve, reject) {
+    //	resolve(0)
+    //})
+    Promise.resolve(0)
+        .then(val => ++val)
+        .then(val => ++val)
+        .then(val => { throw val })
+        .then(val => ++val)
+        .then(val => ++val)
+        .then(val => console.log(val))
+        .catch(val => {
+            console.error(val)
+
+            return ++val
+            //throw ++val
+        })
+        .then(val => console.log(val))
+        .catch(val => console.error(val))
+        //.then(() => Promise.resolve(10))
+        .then(() => Promise.resolve(10).then(val => { throw ++val }))
+        .then(console.log)
+        .catch(console.error)
+</script> -->
+
+<script>
+    fetch('https://duckling-api.herokuapp.com/api/search?q=white')
+        .then(res => res.json())
+        .then(ducks => ducks.map(({ id }) => fetch(`https://duckling-api.herokuapp.com/api/ducks/${id}`).then(res => res.json())))
+        //.then(ducks => ducks.map(({id}) => fetch(`https://${Math.random() > 0.5? 'FORCE-ERROR-':''}duckling-api.herokuapp.com/api/ducks/${id}`).then(res => res.json())))
+        //.then(fetchs => Promise.all(fetchs))
+        //.then(fetchs => Promise.all(fetchs.reverse()))
+        //.then(fetchs => fetchs.map(_fetch => _fetch.then(console.log).catch(console.error)))
+        .then(fetchs => Promise.all(fetchs))
+        .then(details => console.log(details))
+        //.catch(console.error)
+        //.then(console.log)
+</script>

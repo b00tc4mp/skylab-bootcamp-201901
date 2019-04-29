@@ -1,0 +1,1 @@
+Proyecto donde se juega al bingo. El bombo y el cartón es random. Se premia cuando han salido todos los números de una línea o los del carton entero

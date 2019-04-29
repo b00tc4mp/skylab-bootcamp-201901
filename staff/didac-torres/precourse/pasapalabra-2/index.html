@@ -1,0 +1,71 @@
+<!DOCTYPE HTML>
+<html lang="es">
+<head>
+  <title>SkylabPalabra - The Game</title>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Juego pasapalabra precurso Skylab Coders Academy">
+  <meta name="author" content="Didac Torres">
+
+	<link href='http://fonts.googleapis.com/css?family=Amatic+SC:400,700' rel='stylesheet' type='text/css'>
+	<link rel="stylesheet" type="text/css" href="index.css">
+
+</head>
+<body>
+	<div id="rosco">
+		<label>SkylabPalabra</label>
+		<p></p>	
+		<span id="a" class="dot">A</span>
+		<span id="b" class="dot">B</span>
+		<span id="c" class="dot">C</span>
+		<span id="d" class="dot">D</span>
+		<span id="e" class="dot">E</span>
+		<span id="f" class="dot">F</span>
+		<span id="g" class="dot">G</span>
+		<span id="h" class="dot">H</span>
+		<span id="i" class="dot">I</span>
+		<span id="j" class="dot">J</span>
+		<span id="k" class="dot">K</span>
+		<span id="l" class="dot">L</span>
+		<span id="m" class="dot">M</span>
+		<span id="n" class="dot">N</span>
+		<span id="ñ" class="dot">&ntilde</span>
+		<span id="o" class="dot">O</span>
+		<span id="p" class="dot">P</span>
+		<span id="q" class="dot">Q</span>
+		<span id="r" class="dot">R</span>
+		<span id="s" class="dot">S</span>
+		<span id="t" class="dot">T</span>
+		<span id="u" class="dot">U</span>
+		<span id="v" class="dot">V</span>
+		<span id="w" class="dot">W</span>
+		<span id="x" class="dot">X</span>
+		<span id="y" class="dot">Y</span>
+		<span id="z" class="dot">Z</span>
+	</div>
+
+	<div id="info">
+		<label>BIENVENIDO AL JUEGO</label>
+	</div>
+	<div id="startb">
+		<input type="button" id="start" onclick="invisible('startb');invisible('info');visible('answb');visible('rosco');runGame()" value="START"><br>
+	</div>
+	<div id="answb">
+  			<label id="pregunta">PREGUNTA</label>
+  			<p></p>
+  			<input id="answcont" type="text">
+  			<p></p>
+			<p>
+				<input type="button" id="answ" onclick="checkAnsw()" value="ENVIAR"><br>
+				<input type="button" id="pasp" onclick="pasQuestion()" value="PASAR"><br>
+			  	<input type="button" id="end" onclick="jackpot(false)" value="SALIR"><br>
+			</p>
+	</div>
+	<footer>
+		<p>Made by <a href="#">Didac Torres</a></p>
+	</footer>	
+	
+	<script src="index.js"> </script>
+
+</body>
+</html>

@@ -1,0 +1,55 @@
+<script>
+    var counter = {
+        reset: function (initial) {
+            this.__count__ = initial;
+        },
+
+        count: function () {
+            this.__count__++;
+        },
+
+        value: function () {
+            return 1; //this.__count__;
+        }
+    };
+
+    console.log('TEST counter');
+
+    // tdd
+
+    console.log('tdd');
+
+    counter.reset(0);
+    counter.count();
+
+    var value = counter.value();
+
+    if (value === 1) ok('should count')
+    else ko('should count', 'expected 1 but got ' + value);
+
+    // bdd
+
+    console.log('bdd');
+
+    var initial = Math.floor(1000 * Math.random());
+
+    counter.reset(initial);
+    counter.count();
+
+    var value = counter.value();
+
+    var expected = initial + 1;
+
+    if (value === expected) ok('should count')
+    else ko('should count', 'expected ' + expected + ' but got ' + value);
+
+    // testing utils
+
+    function ok(testCase) {
+        console.log('%c CASE ' + testCase, 'color: green');
+    }
+
+    function ko(testCase, message) {
+        console.error(' CASE ' + testCase + ' ' + message);
+    }
+</script>

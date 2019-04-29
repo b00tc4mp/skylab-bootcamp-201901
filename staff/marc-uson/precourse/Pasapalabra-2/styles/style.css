@@ -1,0 +1,260 @@
+* {
+    font-family: 'Roboto', sans-serif;
+    color:  rgb(216, 216, 216);
+}
+
+html {
+    display: table;
+    margin: auto;
+}
+
+body {
+    background-color: rgb(41, 79, 110);
+}
+
+.container{
+    background-color: rgb(44, 107, 158);
+    height: 600px;
+    width: 1350px;
+	margin: 0;
+    padding: 0; 
+    border-radius: 50px;
+    box-shadow: 5px 5px 5px rgb(50, 57, 65);
+    user-select: none;
+    align-content: center;
+}
+
+#avatar{
+    position: absolute;
+    top: 45px;
+    left: 45px;
+}
+#avatarImage{
+    position: absolute;
+    top: 105px;
+    left: 105px;
+    padding: auto;
+    margin: auto;
+    width: 300px;
+    height: 300px;
+}
+#message{
+    position: absolute;
+    top: 130px;
+    left: 131px;
+    background-color:steelblue;
+    border-color: rgb(216, 216, 216);
+    border-style: solid;
+    border-radius: 5%;
+    box-shadow: 4px 4px 4px  rgb(50, 57, 65);
+    font-size: 18px;
+	height: 140px;
+    width: 240px;
+    padding: 28px 0px;
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;    	
+}
+
+.letter{
+    background-color:steelblue;
+    border-color: rgb(216, 216, 216);
+    border-style: solid;
+    border-radius: 50%;
+    box-shadow: 4px 4px 4px  rgb(50, 57, 65);
+    font-size: 24px;
+    height: 36px;
+    width: 36px;
+    text-align: center;
+    line-height: 36px;
+    vertical-align: middle;    	
+}
+
+ul {
+    position: absolute;
+    top: 280px; 
+    left: 280px; 
+    list-style-type: none;
+    margin: 0 ;
+    padding: 0;
+}
+
+li.letter {
+    position: absolute;
+}
+
+#scoreboard{
+    position: absolute;
+    top: 450px;
+    left: 40px;
+    font-size: 24px;
+}
+
+#timer{
+    background-color:steelblue;
+    margin: 10px;
+    padding: 0;
+    height: 60px;
+    width: 60px;
+    border: solid;
+    border-radius: 50%;
+    border-color: rgb(216, 216, 216);
+    box-shadow: 4px 4px 4px  rgb(50, 57, 65);
+    text-align: center;
+    line-height: 60px;
+    vertical-align: middle;
+}
+
+#points{
+    background-color:steelblue;
+    margin: 10px;
+    padding: 0;
+    height: 40px;
+    width: 80px;
+    border: solid;
+    border-color: rgb(216, 216, 216);
+    box-shadow: 4px 4px 4px  rgb(50, 57, 65);
+    text-align: center;
+    line-height: 40px;
+    vertical-align: middle;
+}
+
+.controls{
+    position: absolute;
+    top: 30px;
+    left: 600px;
+    display: grid;
+    grid-column: 1fr 1fr 1fr;
+    grid-row: repeat(1fr, 5);
+    align-self: center;
+    grid-gap: 4px;
+    justify-items: center;
+    justify-content: center;
+    -ms-grid-column-align: center;
+}
+
+.title{
+    padding: 0;
+    text-shadow: 2px 2px 1px rgb(50, 57, 65);
+    text-align: center;
+}
+
+#mainTitle{
+    font-size: 64px;
+    width: 750px;
+    margin: 20px 0px;
+    grid-column: 1 / span 3;
+}
+
+#rules{
+    background-color:steelblue;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    height: 60px;
+    width: 180px;
+    border: solid;
+    border-color: rgb(216, 216, 216);
+    text-align: center;
+    line-height: 60px;
+    vertical-align: middle;
+    grid-column: 2;
+    grid-row: 2;
+}
+#start{
+    background-color: green;
+    margin: 0;
+    padding: 0;
+    font-size: 24px;
+    height: 60px;
+    width: 180px;
+    border: solid;
+    border-color: rgb(216, 216, 216);
+    text-align: center;
+    line-height: 60px;
+    vertical-align: middle;
+    grid-column: 1;
+    grid-row: 2;
+}
+
+#question{
+    background-color:steelblue;
+    margin: 10px;
+    padding: 5px;
+    font-size: 18px;
+    height: 160px;
+    width: 400px;
+    border: solid;
+    border-color: rgb(216, 216, 216);
+    text-align: center;
+    line-height: 20px;
+    vertical-align: middle;
+    grid-column: 1 / span 2;
+    grid-row: 3;
+}
+
+#textanswer{
+    grid-column: 1;
+    grid-row: 4;
+    padding: 0px 14px;
+    margin: 20px 0px 0px;
+    justify-self: left;
+}
+
+#answer{
+    background-color:steelblue;
+    margin: 10px;
+    padding: 0;
+    font-size: 18px;
+    height: 60px;
+    width: 400px;
+    border: solid;
+    border-color: rgb(216, 216, 216);
+    text-align: center;
+    line-height: 60px;
+    vertical-align: middle;
+    grid-column: 1 / span 2;
+    grid-row: 5;
+}
+.ranking{
+    position: absolute;
+    top: 145px;
+    left: 1050px;
+    font-size: 24px;
+}
+
+#rankTitle{
+    margin: 0;
+    padding: 5px;
+    font-size: 24px;
+    text-shadow: 2px 2px 1px rgb(50, 57, 65);
+}
+
+#usersRank{
+    background-color: steelblue;
+    border: solid;
+    border-color: rgb(216, 216, 216);
+    height: 330px;
+    width: 260px; 
+    padding: 10px;
+    margin: 0;
+    text-align: right;
+}
+
+#helpWindow{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 5px auto;
+    padding: 40px 0;
+    max-height: 400px;
+    max-width: 650px;
+}
+
+#helpTitle{
+    padding: 10px 10px 0 10px;
+    font-size: 44px;
+}
+li.help{
+    padding: 5px
+}

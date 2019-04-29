@@ -1,0 +1,58 @@
+*{
+   font-family: 'Oswald', sans-serif;
+   margin: 0 auto;
+   padding:0;
+   text-align:center;
+}
+
+#results{
+   text-align: right;
+   font-size: 40px;
+   padding: 0 15px;
+   height: 70px;
+   background-color: rgb(68, 65, 65);
+   color:white;
+}
+
+.number{
+   width: 66.86px;
+   height: 65px;
+   background: whitesmoke;
+   border: 1px solid whitesmoke;
+   font-size: 20px;
+   outline:none;
+}
+
+.number:hover{
+   background-color: white;
+}
+
+.number:active{
+   background-color: rgba(146, 146, 146, 0.575);
+}
+
+.operator{
+  width: 66.86px;
+  height: 65px;
+  background: orange;
+  border: 1px solid orange;
+  font-size: 20px;
+  outline:none;
+}
+
+.operator:hover{
+   background-color: rgba(240, 140, 46, 0.616);
+}
+.operator:active{
+   background-color: rgba(133, 83, 37, 0.774);
+}
+
+.button-zero{
+  width: 136.4px;
+  height: 65px;
+}
+
+.button-ac{
+  width: 205.6px;
+  height: 65px;
+}

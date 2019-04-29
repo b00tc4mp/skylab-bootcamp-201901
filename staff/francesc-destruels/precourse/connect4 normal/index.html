@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en-US">
+<head>
+    <title>Connect4</title>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <div  class="splitLeft">
+            <h1 class="userOne">Player One</h1>
+            <br><br><br><br>
+            <p>Your color is <b><span style="color:blue;">Blue</span></b>.</p>
+            <br>
+            <div id="playerOne"></div>
+    </div>
+
+    <div class="splitCenter">
+        <h1 style="text-align: center">Connect4</h1>
+        <div  id="play" class="play">
+
+            <h3 style="margin-top: 2%; margin-bottom: 0%">Welcome to Connect4</h3><br>
+            <p class="intro">This is a 2 players game where <br> the winner will be the first of you <br> to create a line with 4 pieces of your color! <br><br>
+            Player 1 will play with the Blue dots and it's turn will be annouced at the left side of the screen.<br><br>
+            Player 2 will play with the Red ones and it's turn will be annouced at the right side of the screen.</p><br><br>
+
+            <input autofocus type="button" onclick="game.first()" value="Let's go" class="startButton">
+        </div>
+        <button class="column10 invisible" onclick="game.nextPiece(10);"></button>
+        <button class="column20 invisible" onclick="game.nextPiece(20);"></button>
+        <button class="column30 invisible" onclick="game.nextPiece(30);"></button>
+        <button class="column40 invisible" onclick="game.nextPiece(40);"></button>
+        <button class="column50 invisible" onclick="game.nextPiece(50);"></button>
+        <button class="column60 invisible" onclick="game.nextPiece(60);"></button>
+        <button class="column70 invisible" onclick="game.nextPiece(70);"></button>
+        <table id="boardgame" class="centered size">
+            <tr>
+                <td>
+                    <div id="16" class="empty"></div>
+                </td>
+                <td>
+                    <div id="26" class="empty"></div>
+                </td>
+                <td>
+                    <div id="36" class="empty"></div>
+                </td>
+                <td>
+                    <div id="46" class="empty"></div>
+                </td>
+                <td>
+                    <div id="56" class="empty"></div>
+                </td>
+                <td>
+                    <div id="66" class="empty"></div>
+                </td>
+                <td>
+                    <div id="76" class="empty"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="15" class="empty"></div>
+                </td>
+                <td>
+                    <div id="25" class="empty"></div>
+                </td>
+                <td>    
+                    <div id="35" class="empty"></div>
+                </td>
+                <td>
+                    <div id="45" class="empty"></div>
+                </td>
+                <td>
+                    <div id="55" class="empty"></div>
+                </td>
+                <td>
+                    <div id="65" class="empty"></div>
+                </td>
+                <td>
+                    <div id="75" class="empty"></div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <div id="14" class="empty"></div>
+                </td>
+                <td>
+                    <div id="24" class="empty"></div>
+                </td>
+                <td>
+                    <div id="34" class="empty"></div>
+                </td>
+                <td>
+                    <div id="44" class="empty"></div>
+                </td>
+                <td>
+                    <div id="54" class="empty"></div>
+                </td>
+                <td>
+                    <div id="64" class="empty"></div>
+                </td>
+                <td>
+                    <div id="74" class="empty"></div>
+                </td>
+            </tr>   
+            <tr>
+                <td>
+                    <div id="13" class="empty"></div>
+                </td>
+                <td>
+                    <div id="23" class="empty"></div>
+                </td>
+                <td>
+                    <div id="33" class="empty"></div>
+                </td>
+                <td>
+                    <div id="43" class="empty"></div>
+                </td>
+                <td>
+                    <div id="53" class="empty"></div>
+                </td>
+                <td>
+                    <div id="63" class="empty"></div>
+                </td>
+                <td>
+                    <div id="73" class="empty"></div>
+                </td>
+            </tr>     
+            <tr>
+                <td>
+                    <div id="12" class="empty"></div>
+                </td>
+                <td>
+                    <div id="22" class="empty"></div>
+                </td>
+                <td>
+                    <div id="32" class="empty"></div>
+                </td>
+                <td>
+                    <div id="42" class="empty"></div>
+                </td>
+                <td>
+                    <div id="52" class="empty"></div>
+                </td>
+                <td>
+                    <div id="62" class="empty"></div>
+                </td>
+                <td>
+                    <div id="72" class="empty"></div>
+                </td>
+            </tr> 
+            <tr>
+                <td>
+                    <div id="11" class="empty"></div>
+                </td>
+                <td>
+                    <div id="21" class="empty"></div>
+                </td>
+                <td>
+                    <div id="31" class="empty"></div>
+                </td>
+                <td>
+                    <div id="41" class="empty"></div>
+                </td>
+                <td>
+                    <div id="51" class="empty"></div>
+                </td>
+                <td>
+                    <div id="61" class="empty"></div>
+                </td>
+                <td>
+                    <div id="71" class="empty"></div>
+                </td>
+            </tr>          
+        </table>
+    </div>
+
+    <div class="splitRight">
+            <h1 class="userTwo">Player Two</h1>
+            <br><br><br><br>
+            <p>Your color is <b><span style="color:red;">Red</span></b>.</p>
+            <br>
+            <div id="playerTwo"></div>
+    </div>
+    
+    <div class="bottom">
+        <div class="centerBottom">
+            <button class="bottomButtons" onclick="game.reset();">Reset</button>
+            <button class="bottomButtons" onclick="location.reload();">Close</button>
+        </div>
+    </div>
+<script type="text/javascript" src="./index.js"></script> 
+</body>
+</html>

@@ -1,0 +1,73 @@
+#logo{
+    font-size: 40px;
+    font-family: sans-serif;
+    font-style: italic;
+    color:gray;
+}
+
+.round th{
+    border:2px solid white;
+    background: #014B94;
+    color:white;
+    border-radius: 100%;
+    padding:27px;
+    font-size: 20px;
+    float:left;
+    
+    
+}
+
+
+
+.infoJuego{
+    position: absolute;
+    right:200px;
+    top:70px;
+    font-family: sans-serif;
+    font-size:20px;
+    color: grey;
+    font-style: italic;
+    padding:50px;
+    width:30%;
+    
+}
+.infoJuego p{
+    text-align: center;
+}
+.respuesta{
+    position: absolute;
+    font-family: sans-serif;
+    font-size: 20px;
+    right: 390px;
+    bottom: 100px;
+    color:grey  ;
+    font-style: italic;
+    padding:50px;
+    width:20%;
+}
+
+#showValue{
+    font-size: 50px;
+    font-family: sans-serif;
+    font-style: italic;
+    color:white;
+}
+
+.botones{
+    display:inline-flex; /*para tener los botones pegados entre si */
+    background-color: rgb(31, 83, 161); /* color fondo boton */
+    border: 2px solid rgb(0, 87, 128); /* color borde */
+    color: white; /* color texto */
+    
+    font-size: 20px;
+    cursor: pointer; /* puntero mano*/
+    padding:10px 30px; /* tamaño boton*/
+   
+}
+.botones:hover{
+    color:rgb(0, 140, 255);
+}
+
+#showPregunta{
+    color:white;
+}

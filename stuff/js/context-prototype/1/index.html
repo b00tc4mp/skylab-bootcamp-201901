@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        function salute(name) {
+            console.log(this.hello + ', ' + name + '!');
+        }
+
+        var anita = {
+            hello: 'hello',
+            salute: salute
+        };
+
+        var peter = {
+            hello: 'hola',
+            salute: salute
+        };
+
+        anita.salute('mark');
+        // peter.salute('mark');
+        peter.salute.call(anita, 'mark');
+
+        console.log(anita.salute === peter.salute);
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,92 @@
+body {
+  font-family: 'Anton', sans-serif;
+}
+
+.calculator {
+  width: 300px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;  
+}
+
+#display {
+  grid-column: 1 / span 4;
+  background-color: #eee;
+  height: 75px;
+  border: 2px solid #222;
+  text-align: right;
+  font-size: 3.5rem;
+  padding-right: 5px;
+}
+
+.op {
+  background-color: #ccc;
+  height: 75px;
+  border: 1px solid #111;  
+  text-align: center;
+  font-size: 2rem;
+}
+
+.op:hover { 
+  background-color: rgb(255, 255, 213);
+  transition-duration: 500ms;
+}
+
+.op p {
+  margin-top: 50%;
+  transform: translate(0, -50%);
+  line-height: 0%;
+}
+
+.figure {
+  background-color: #ddd;
+  height: 75px;
+  border: 1px solid #111;
+  text-align: center;
+  font-size: 2rem;
+}
+
+.figure:hover { 
+  background-color: rgb(224, 224, 255);
+  transition-duration: 500ms;
+}
+
+.figure p {
+  margin-top: 50%;
+  transform: translate(0, -50%);
+}
+
+#zero {
+  grid-column: 2 / span 2;
+  display: inline;
+}
+
+#zero p {
+  margin-top: 25%;
+}
+
+#displaySecondary {
+  grid-column: 1 / span 4;
+  
+  display: inline-grid;
+  grid-template-columns: 3fr 25px 1fr;
+  background-color: #eee;
+  height: 30px;
+  border: 2px solid #222;
+}
+
+#currentOperation {
+  margin: 2px;
+  border-radius: 50%;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+}
+
+#resultFlag {
+  margin: 2px;
+  border-radius: 4px;
+  align-content: center;
+  justify-content: center;
+  text-align: center;
+}
+

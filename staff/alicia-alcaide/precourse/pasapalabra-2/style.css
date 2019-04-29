@@ -1,0 +1,157 @@
+body {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0 auto;
+    font-family: 'Roboto', sans-serif;
+    color:#fff;
+    background-color: #5185dd;
+}
+
+h1 {
+    font-size: 65px;
+}
+
+h1, h2 {
+    text-align: center;
+}
+
+.container {
+    display: flex;
+}
+
+@media only screen and (max-width: 900px) {
+    .container {
+        flex-direction: column;
+        align-items: center;
+    }
+}
+
+.board {
+    width: 50%;
+    margin: 0.25em 5em;
+}
+
+.letters-board {
+    display: inline-flex;
+    flex-wrap: wrap;    
+}
+
+.letter {
+    font-size: 35px;  
+    text-align: center;
+    list-style-type: none;
+    margin: .15em;
+    background-image: radial-gradient(circle, #057ce4 15%, #003f75 100%);
+}
+
+#scoreboard {
+    display: none;    /* se cambiará a flex durante la ejecución */
+    align-items: center;
+    margin-top: 3em;
+}
+
+.score {
+	font-size: 25px;
+    text-align: center;
+    list-style-type: none;
+    margin-right: .75em;
+}
+
+.circle {
+    height: 60px;
+	line-height: 60px;
+    width: 60px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    color: #fff;
+}
+
+#correct {
+    background-image: radial-gradient(circle, #03bbbb 15%, #016969 100%);
+}
+
+#mistake {
+    background-image: radial-gradient(circle, #df030e 15%, #790018 100%);
+}
+
+.welcome-game-board {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+}
+
+#game-board {
+    display: none;    /* se cambiará a flex durante la ejecución */
+}    
+
+#finish-board {
+    display: none;    /* se cambiará a flex durante la ejecución */
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+}
+
+p {
+    font-size: 19px;
+}
+
+.butt {
+    color: #fff;
+    cursor: pointer;
+    border: 2px solid #fff;
+    border-radius: 3px;
+    padding: .25em .5em;
+    text-align: center;
+    text-transform: uppercase;
+}
+
+.big-button {
+    background-color: #0074d9;
+    font-size: 25px;
+    line-height: 1.5em;
+    margin-top: 2em;
+}
+
+.big-button:hover {
+    background-color: #003f75; 
+}
+
+.small-button {
+    font-size: 19px;
+    line-height: 1.25em;
+    margin: .75em .25em;
+}
+
+#validate {
+    background-color: #03bbbb;
+}
+
+#validate:hover {
+    background-color: #016969; 
+}
+
+#pasapalabra {
+    background-color: #ebc168;
+}
+
+#pasapalabra:hover {
+    background-color: #eea300;
+}
+
+#user-answer {
+    border: 2px solid #fff;
+    border-radius: 3px;
+    font-size: 19px;
+    padding: .25em .5em;
+    line-height: 1.25em;
+    /*text-align: center;*/
+    margin: .75em .25em;
+}
+
+footer{
+	margin:0 auto;
+    text-align: center;
+    color: #fff;
+}
+

@@ -1,0 +1,242 @@
+@import url('https://fonts.googleapis.com/css?family=Anton|Exo+2');
+
+body {
+  margin-left:auto;
+  margin-right:auto;
+  background-color: #F2F2F2;
+}
+
+#cuerpo{
+  margin: auto;
+  width: 80%;
+}
+
+#pasapalabra{
+  color:   white;
+  font-family: 'Anton', sans-serif;
+  font-weight: bold;
+  text-shadow:
+    4px 4px 0 #A4A4A4,
+    5px 5px 0 #A4A4A4,
+    6px 6px 0 #A4A4A4,
+    7px 7px 0 #A4A4A4;
+
+  letter-spacing: 0.1em;
+  transform: scaleY(0.7);
+  -webkit-transform: scaleY(0.7);
+  -moz-transform: scaleY(0.7);
+  padding-left: 50px;
+  font-size: 60px;
+}
+
+.letra {
+  color:   #D8D8D8;
+  font-family: 'Anton', sans-serif;
+  font-weight: bold;
+    text-shadow:
+      4px 4px 0 #A4A4A4,
+      5px 5px 0 #A4A4A4,
+      6px 6px 0 #A4A4A4,
+      7px 7px 0 #A4A4A4;
+
+  letter-spacing: 0.1em;
+  transform: scaleY(0.7);
+  -webkit-transform: scaleY(0.7);
+  -moz-transform: scaleY(0.7);
+
+  text-align: center;
+  padding: 5px;
+  font-size: 60px;
+}
+
+.script {
+    font-family: "Seaweed Script";
+    color: #fff;
+    text-align: center;
+    font-size: 10px;
+    position: relative;
+    padding: 15px;
+    color: #A4A4A4
+  }
+
+#container{
+    padding-left: 40px;
+    position: absolute;
+    top: 270px;
+    display: inline-block;
+    height: 200px;
+}
+
+#board {
+  font-size: 55px;
+}
+
+#letters {
+    padding-left: 3%;   
+    display: inline-block;
+    width: 600px;
+}
+
+.button {
+  width: 130px;
+  height: 40px;
+  background: linear-gradient(to bottom, #4eb5e5 0%,#389ed5 100%); /* W3C */
+  border: none;
+  border-radius: 5px;
+  position: absolute;
+  top:180px;
+  border-bottom: 4px solid #2b8bc6;
+  color: #fbfbfb;
+  margin: 10px;
+  font-weight: 600;
+  font-family: 'Open Sans', sans-serif;
+  text-shadow: 1px 1px 1px rgba(0,0,0,.4);
+  font-size: 15px;
+  text-align: left;
+  text-indent: 5px;
+  box-shadow: 0px 3px 0px 0px rgba(0,0,0,.2);
+  cursor: pointer;
+}
+.button:active {
+  box-shadow: 0px 2px 0px 0px rgba(0,0,0,.2);
+  top: 181px;
+}
+
+.button:after {
+  content: "";
+  width: 0;
+  height: 0;
+  display: block;
+  border-top: 20px solid #187dbc;
+  border-bottom: 20px solid #187dbc;
+  border-left: 16px solid transparent;
+  border-right: 20px solid #187dbc;
+  position: absolute;
+  opacity: 0.6; 
+  right: 0;
+  top: 0;
+  border-radius: 0 5px 5px 0;  
+}
+
+
+#scoretable{ 
+  white-space: pre;
+  position: relative;
+  color: darkgray;
+  font-size: 20px;
+  width: 500px;
+  text-decoration: none;
+  text-align: center;
+  background-color: white;
+  border-style: solid;
+  border-width: 2px;
+  border-color: darkgray;
+}
+
+input[type="text"] {
+  width: 300px;
+  border: 2px solid #aaa;
+  border-radius: 4px;
+  margin: 8px 0;
+  outline: none;
+  padding: 8px;
+  box-sizing: border-box;
+  transition: 0.3s;
+}
+
+#userinput{
+  margin: 2 0px;  
+}
+
+.gametext{
+  font-family: 'Exo 2', sans-serif;
+  color: #fff;
+  text-align: center;
+  font-size: 20px;
+  position: relative;
+  padding: 15px;
+  color: #A4A4A4
+}
+
+@-webkit-keyframes correct {
+  from {color: #D8D8D8;}
+  to {color: lightgreen;}
+}
+
+/* Standard syntax */
+@keyframes correct {
+  from {color: #D8D8D8;}
+  to {
+    color: lightgreen;
+    text-shadow:
+    4px 4px 0 #5f905f,
+    5px 5px 0 #5f905f,
+    6px 6px 0 #5f905f,
+    7px 7px 0 #5f905f;
+  }
+}
+
+
+@-webkit-keyframes wrong {
+  from {
+    position: relative;
+    top: 0px;
+    }
+  to {
+    position: relative;
+    top: -100px;
+    opacity: 0;
+  }
+}
+
+/* Standard syntax */
+@keyframes wrong {
+  from {
+    position: relative;
+    top: 0px;
+    }
+  to {
+    position: relative;
+    top: -100px;
+    opacity: 0;
+  }
+}
+
+
+@-webkit-keyframes appear {
+  from {
+    color:   #F2F2F2;
+    text-shadow:
+      4px 4px 0 #F2F2F2,
+      5px 5px 0 #F2F2F2,
+      6px 6px 0 #F2F2F2,
+      7px 7px 0 #F2F2F2;
+    }
+  to {
+    color:   #D8D8D8;
+    text-shadow:
+      4px 4px 0 #A4A4A4,
+      5px 5px 0 #A4A4A4,
+      6px 6px 0 #A4A4A4,
+      7px 7px 0 #A4A4A4;
+  }
+}
+
+@keyframes appear {
+  from {
+    color:   #D8D8D8;
+    text-shadow:
+      4px 4px 0 #F2F2F2,
+      5px 5px 0 #F2F2F2,
+      6px 6px 0 #F2F2F2,
+      7px 7px 0 #F2F2F2;
+    }
+  to {
+    color:   #D8D8D8;
+    text-shadow:
+      4px 4px 0 #A4A4A4,
+      5px 5px 0 #A4A4A4,
+      6px 6px 0 #A4A4A4,
+      7px 7px 0 #A4A4A4;
+  }
+}

@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- <script>
+        function what(a, b, c) {
+            return a + b + c;
+        }
+
+        console.log(what(1, 2, 3));
+
+        // call
+
+        console.log(what.call(null, 1, 2, 3));
+
+        // apply
+
+        console.log(what.apply(null, [1, 2, 3]));
+    </script> -->
+
+    <!-- <script>
+        var max = Math.ceil(1000 * (1 + Math.random()));
+        var counter = 0;
+
+        var log = console.log;
+
+        console.log = function() {
+            counter++;
+
+            log.apply(null, arguments);
+        };
+
+        for (var i = 0; i < max; i++) console.log('hola', 'mundo');
+
+        console.log = log;
+
+        console.log(counter);
+    </script> -->
+
+    <script>
+        function what(a, b, c) {
+            console.log(a, b, c);
+        }
+
+        what(1, 2, 3);
+
+        what.call(null, 1, 2, 3);
+
+        what.apply(null, [1, 2, 3]);
+    </script>
+</body>
+
+</html>

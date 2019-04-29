@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SKYLAB-CALC</title>
+    <link rel="stylesheet" type="text/css" href="styles.css">
+</head>
+<body bgcolor="#FAFAFA">
+  
+    <h1>Bienvenido a Skylab-CALC</h1>
+    <h4>Tu calculadora online</h4>
+
+    <table class="info">
+        <tr>
+            <td>
+                <input type="number" id="input1" >
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <br>
+                <button onclick="getPlus()">+</button>
+                <button onclick="getMinus()">-</button>
+                <button onclick="getX()" >x</button>
+                <button onclick="getDiv()" >/</button>
+                <br>
+                <br>
+                <button onclick="calc()" >=</button>
+                <button  onclick="reset()" >Clear</button>
+                
+                
+            </td>
+        </tr>
+        <tr class="show" > 
+            <td id="numero1"></td>
+            <td id="simbolo"></td>
+            <td id="numero2"></td>
+            <td id="resultado" ></td>
+        </tr>
+      
+
+       
+        
+    </table>
+    
+    
+
+
+   
+       <script type="text/javascript" src="main.js"></script>
+      
+
+</body>
+</html>
