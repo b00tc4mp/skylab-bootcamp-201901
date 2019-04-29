@@ -1,0 +1,12 @@
+@import "../../styles/_index.scss";
+@import url('https://fonts.googleapis.com/css?family=Poppins');
+
+section.feedback {
+    margin: $size-m;
+    padding: $size-s;
+    background:  #f50057;
+    border-radius: 9px;
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+}

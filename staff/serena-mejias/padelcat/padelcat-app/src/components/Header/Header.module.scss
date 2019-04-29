@@ -1,0 +1,45 @@
+@import "../../styles/_index.scss";
+
+.header_title {
+  font-size: 2em;
+  font-weight: bold;
+  @media screen and (max-width: 360px) {
+    font-size: $size-s;
+  }
+}
+
+button.button {
+  @media screen and (max-width: 360px) {
+    font-size: 0.75em;
+  }
+}
+
+.toolbar {
+  display: flex;
+  justify-content: space-between;
+  height: $size-l;
+  align-items: stretch;
+  @media screen and (min-width: $break-large) {
+    height: 7em;
+  }
+}
+
+div.buttons{
+  display: flex;
+  flex-direction: column;
+}
+
+div.title {
+  display: flex;
+  flex-direction: row;
+  align-items: center
+}
+
+.icon {
+  -ms-transform: rotate(20deg);
+  -webkit-transform: rotate(20deg); 
+  transform: rotate(330deg);
+  width: 80px;
+  height: 100px;
+}
+
