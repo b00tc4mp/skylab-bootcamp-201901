@@ -4,7 +4,7 @@ import call from '../../common/call'
 const userApi = {
     __url__: 'https://skylabcoders.herokuapp.com/api',
     __timeout__: 0,
-
+    
     create(username, password, data) {
         validate.arguments([
             { name: 'username', value: username, type: 'string', notEmpty: true },
