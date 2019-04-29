@@ -2,12 +2,12 @@ import userApi from '.'
 import { TimeoutError, ConnectionError, ValueError, RequirementError } from '../../common/errors'
 
 describe('user api', () => {
-    const name = 'Manuel'
-    const surname = 'Barzi'
+    const name = 'Misha'
+    const surname = 'Gusak'
     let username
-    const password = '123'
+    const password = '123abc'
 
-    beforeEach(() => username = `manuelbarzi-${Math.random()}@gmail.com`)
+    beforeEach(() => username = `mishagusak-${Math.random()}@email.com`)
 
     describe('create', () => {
         it('should succeed on correct user data', () =>
@@ -25,7 +25,6 @@ describe('user api', () => {
                     expect(id.length).toBeGreaterThan(0)
                 })
         )
-
         describe('on already existing user', () => {
             beforeEach(() => userApi.create(username, password, { name, surname }))
 
@@ -65,6 +64,29 @@ describe('user api', () => {
 
             expect(() => userApi.create(username, password, { name, surname })).toThrowError(ValueError, 'username is empty')
         })
+        it('should fail on undefined password', () => {
+            const password = undefined
+
+            expect(() => userApi.create(username, password, { name, surname })).toThrowError(RequirementError, `password is not optional`)
+        })
+
+        it('should fail on null password', () => {
+            const password = null
+
+            expect(() => userApi.create(username, password, { name, surname })).toThrowError(RequirementError, `password is not optional`)
+        })
+
+        it('should fail on empty password', () => {
+            const password = ''
+
+            expect(() => userApi.create(username, password, { name, surname })).toThrowError(ValueError, 'password is empty')
+        })
+
+        it('should fail on blank password', () => {
+            const password = ' \t    \n'
+
+            expect(() => userApi.create(username, password, { name, surname })).toThrowError(ValueError, 'password is empty')
+        })
 
         // TODO password fail cases
     })
@@ -102,7 +124,33 @@ describe('user api', () => {
 
                     expect(payload.id).toBe(id)
                 })
-        )
+        ),
+            it('should succeed on correct user credential', () =>
+                userApi.authenticate(username, password)
+                    .then(response => {
+                        expect(response).toBeDefined()
+
+                        const { status, data } = response
+
+                        expect(status).toBe('OK')
+                        expect(data).toBeDefined()
+
+                        const { id, token } = data
+
+                        expect(typeof id).toBe('string')
+                        expect(id.length).toBeGreaterThan(0)
+                        expect(id).toBe(_id)
+
+                        expect(typeof token).toBe('string')
+                        expect(token.length).toBeGreaterThan(0)
+
+                        const [, payloadB64,] = token.split('.')
+                        const payloadJson = atob(payloadB64)
+                        const payload = JSON.parse(payloadJson)
+
+                        expect(payload.id).toBe(id)
+                    })
+            )
 
         it('should fail on non-existing user', () =>
             userApi.authenticate(username = 'unexisting-user@mail.com', password)
@@ -156,6 +204,11 @@ describe('user api', () => {
                     expect(status).toBe('KO')
                     expect(_error).toBe(`token id \"${_id}\" does not match user \"${wrongId}\"`)
                 })
+
+        })
+        it('should fail on incorrect type of user id', () => {
+            const wrongId = 1232132132
+            expect(() => userApi.retrieve(wrongId, token)).toThrowError(`id ${wrongId} is not a string`)
         })
     })
 
@@ -280,5 +333,37 @@ describe('user api', () => {
                     expect(data.object).toEqual(_data.object)
                 })
         )
-    })
+
+        it('should fail on undefined token', () =>{
+        const incorrectToken = undefined;
+            expect(() => userApi.update(_id, incorrectToken, _data)).toThrowError("token is not optional")
+        })
+
+        it('should fail on undefined id', () =>{
+            const incorrectId = undefined;
+                expect(() => userApi.update(incorrectId, token, _data)).toThrowError("id is not optional")
+        })
+
+        it('should fail on undefined data', () =>{
+            const incorrectData = undefined;
+                expect(() => userApi.update(_id, token, incorrectData)).toThrowError("data is not optional")
+        })
+
+        it('should fail on null token', () =>{
+            const incorrectToken = null;
+            expect(() => userApi.update(_id, incorrectToken, _data)).toThrowError("token is not optional")
+        })
+
+        it('should fail on null id', () =>{
+            const incorrectId = null;
+                expect(() => userApi.update(incorrectId, token, _data)).toThrowError("id is not optional")
+        })
+        
+        it('should fail on null data', () =>{
+            const incorrectData = null;
+                expect(() => userApi.update(_id, token, incorrectData)).toThrowError("data is not optional")
+        })
+
+        
+})
 })

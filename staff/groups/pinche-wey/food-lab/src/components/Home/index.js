@@ -4,7 +4,12 @@ import logic from '../../logic'
 import Search from '../Search'
 import Results from '../Results'
 import Detail from '../Detail'
+import Header from '../Header'
+import User from '../User'
+import Favorites from '../Favorites'
+import Footer from '../Footer'
 import './index.sass'
+
 
 class Home extends Component {
     state = { error: null, ducks: [], duck: null, favs: [] }
@@ -44,6 +49,26 @@ class Home extends Component {
         const { hello, logout } = literals[lang]
 
         return <main className="home">
+        <Header/>
+        <User/>
+        <Search onSearch={handleSearch} />
+        <Results/>
+        <Favorites/>
+        <Favorites/>
+        <Footer/>
+
+
+
+
+
+
+
+
+
+
+
+
+
             <h1>{hello}, {name}!</h1>
             <button onClick={onLogout}>{logout}</button>
             <Search lang={lang} onSearch={handleSearch} />
