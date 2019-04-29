@@ -1,0 +1,39 @@
+@import '../../utils.sass'
+
+.how-to
+    position: fixed
+    top: 0
+    left: 0
+    height: 100%
+    width: 100%
+    z-index: 10
+    background-color: rgba(0,0,0,0.7)
+    display: flex
+    justify-content: center
+    align-items: center
+
+    &__content
+        margin: 4em
+        background-color: white
+        padding: 2em
+        border-radius: 0.5em
+        border-width: 0
+        display: flex
+        flex-flow: column
+
+    &__close
+        color: $dark-gray
+
+    &__never
+        border-radius: 0.5em
+        padding: 1em
+        border-width: 0
+        box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+        background-color: $dark-green
+        align-self: flex-end
+
+    &__info
+        word-wrap: break-word
+        color: $dark-gray
+        text-align: center
+

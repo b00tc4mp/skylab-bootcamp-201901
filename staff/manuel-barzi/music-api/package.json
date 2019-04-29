@@ -9,7 +9,8 @@
     "debug": "node debug src",
     "test": "mocha --timeout 10000 $(find src -name *.spec.js)",
     "test-debug": "mocha debug $(find src -name *.spec.js)",
-    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 $(find src -name *.spec.js)"
+    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 $(find src -name *.spec.js)",
+    "lint": "npx eslint src"
   },
   "keywords": [],
   "author": "",
@@ -28,6 +29,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
+    "eslint": "^5.15.3",
     "expect": "^24.1.0"
   }
 }

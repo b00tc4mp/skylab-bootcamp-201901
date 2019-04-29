@@ -1,0 +1,79 @@
+@import '../../utils.sass'
+
+.right-bar
+    position: fixed
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    display: grid
+    grid-template-columns: repeat(2, 1fr)
+    height: 100%
+    z-index: 15
+
+    &__empty
+        grid-column-start: 1
+        grid-column-end: 2
+        cursor: pointer
+
+    &__options
+        background-color: $dark-gray
+        grid-column-start: 2
+        grid-column-end: 3
+        display: flex
+        flex-flow: column
+        opacity: 0.9
+
+    &__button
+        align-self: flex-end
+        color: white
+        padding: 2em
+        background-color: $dark-gray
+        opacity: 0.9
+        border-width: 0
+
+        &-icon
+            margin-right: 1em
+
+        &-logout
+            background-color: $dark-gray
+            opacity: 0.9
+            border-width: 0
+            padding: 2em
+            color: white
+            position: absolute
+            bottom: 2em
+            right: 0
+
+        &-highlited
+            background-color: #303030
+
+    &__profile
+        display: flex
+        flex-flow: row
+        align-items: center
+        margin: 1em
+        color: white
+
+    &__img
+        background-color: white
+        width: 3.5em
+        height: 3.5em
+        background-repeat: no-repeat
+        background-position: center
+        background-size: 100%
+        border-radius: 2em
+        margin-right: 0.5em
+
+    &__username
+        margin-bottom: 0.2em
+
+    &__email
+        font-size: 0.6em
+        margin-top: 0.2em
+
+    &__line
+        align-self: center
+        height: 0.15em
+        width: 90%
+        background-color: #1e1e1e
