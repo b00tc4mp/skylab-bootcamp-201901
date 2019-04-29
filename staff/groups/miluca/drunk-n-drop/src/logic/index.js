@@ -68,6 +68,27 @@ const logic = {
                     this.__userToken__ = token
                 } else throw new LogicError(response.error)
             })
+    },
+    
+    toggleFavoriteCocktail(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string' }
+        ]) 
+
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                const { status, data } = response
+                if (status === 'OK') {
+                    const { favorites = [] } = data
+                    const index = favorites.indexOf(id)
+                    if (index < 0) favorites.push(id)
+                    else favorites.splice(index, 1)
+                    return userApi.update(this.__userId__, this.__userToken__, { favorites })
+                        .then(() => { })
+                }
+
+                throw new LogicError(response.error)
+            })
     }
 }
 

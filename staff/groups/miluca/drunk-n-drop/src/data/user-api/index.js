@@ -48,7 +48,7 @@ const userApi = {
             headers: { Authorization: `Bearer ${token}` },
             timeout: this.__timeout__
         })
-            .then(response => response.json())
+        .then(response => response.json())
     },
     update(id, token, data) {
         validate.arguments([
@@ -67,25 +67,7 @@ const userApi = {
             timeout: this.__timeout__
         })
             .then(response => response.json())
-    },
-    update(id, token, data) {
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'data', value: data, type: 'object', notEmpty: true }
-        ])
-
-        return call(`${this.__url__}/user/${id}`, {
-            method: 'PUT',
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(data),
-            timeout: this.__timeout__
-        })
-            .then(response => response.json())
-    },
+    }
 
 }
 
