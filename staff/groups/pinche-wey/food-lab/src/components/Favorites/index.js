@@ -6,9 +6,7 @@ function Favorites () {
 
 
     return <section>
-        <h2>To cock</h2>
-
-        <SmallCard/>  
+        <h2>To cock</h2> 
     </section>
 }
 

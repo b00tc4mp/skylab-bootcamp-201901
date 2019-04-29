@@ -2,19 +2,9 @@ import React, { Component } from "react";
 
 
 function Register ({onRegister, error}) {
-  // ahora register no tiene estado
-  // xq sacamos los campos/inputs desde el valor del input cuando se hace el submit
 
   function handleSubmit (event) {
     event.preventDefault();
-
-    // const name = event.target.name.value
-    // const surname = event.target.surname.value
-    // const age = event.target.age.value
-    // const email = event.target.email.value
-    // const password = event.target.password.value
-    // const passwordConfirm = event.target.passwordConfirm.value
-
 
     const {
         name: { value: name },
@@ -26,8 +16,6 @@ function Register ({onRegister, error}) {
         confirmAge: { checked: confirmAge },
         confirmConditions: { checked: confirmConditions }
     } = event.target
-
-    // para sacar el valor booleano del checkbox => event.target.confirmAge.checkbox
 
     onRegister(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)
   };

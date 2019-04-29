@@ -1,0 +1,23 @@
+@import ../utils
+@import ../config
+
+.detail 
+    display: flex
+    flex-direction: column
+    align-items: center
+
+    &__title
+        display: flex
+        flex-direction: row
+    &__myNotes
+        display: grid
+        grid-template-rows: 20% 80%
+        min-width: 80%
+        min-height: 15em
+    &__textarea
+        resize: none
+
+.detail > img
+    height: 50%
+    width: 50%
+    
