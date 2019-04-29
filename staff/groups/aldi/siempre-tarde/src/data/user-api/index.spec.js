@@ -42,31 +42,41 @@ describe('user api', () => {
             )
         })
 
-        it('should fail on undefined username', () => {
-            const username = undefined
 
-            expect(() => userApi.create(username, password, { name, surname })).toThrowError(RequirementError, `username is not optional`)
-        })
+        describe('on validate parameters', () => {
 
-        it('should fail on null username', () => {
-            const username = null
+            it('should fail on empty username', () => {
+                const username = ''
 
-            expect(() => userApi.create(username, password, { name, surname })).toThrowError(RequirementError, `username is not optional`)
-        })
+                expect(() => userApi.create(username, password, { name, surname })).toThrowError(ValueError, 'username is empty')
+            })
 
-        it('should fail on empty username', () => {
-            const username = ''
+            it('should fail on blank username', () => {
+                const username = ' \t    \n'
 
-            expect(() => userApi.create(username, password, { name, surname })).toThrowError(ValueError, 'username is empty')
-        })
+                expect(() => userApi.create(username, password, { name, surname })).toThrowError(ValueError, 'username is empty')
+            })
 
-        it('should fail on blank username', () => {
-            const username = ' \t    \n'
+            it('should fail on undefined password', () => {
+                const password = undefined
+    
+                expect(() => userApi.create(username, password, { name, surname })).toThrowError(RequirementError, `password is not optional`)
+            })
+    
+            it('should fail on empty password', () => {
+                const password = ''
+    
+                expect(() => userApi.create(username, password, { name, surname })).toThrowError(ValueError, 'password is empty')
+            })
+    
+            it('should fail on blank password', () => {
+                const password = ' \t    \n'
+    
+                expect(() => userApi.create(username, password, { name, surname })).toThrowError(ValueError, 'password is empty')
+            })
 
-            expect(() => userApi.create(username, password, { name, surname })).toThrowError(ValueError, 'username is empty')
-        })
+       })
 
-        // TODO password fail cases
     })
 
     describe('authenticate', () => {
@@ -104,6 +114,21 @@ describe('user api', () => {
                 })
         )
 
+
+        it('should fail on a wrong password', () => {
+            const wrongPassword = 'aqwrdd'
+            userApi.authenticate(username, wrongPassword)
+                .then(response => {               
+                    expect(response).toBeDefined()
+                    const { status, error: _error } = response
+
+                    expect(status).toBe('KO')
+                    expect(_error).toBe(`username and/or password wrong`)
+                }
+            )
+        })
+
+
         it('should fail on non-existing user', () =>
             userApi.authenticate(username = 'unexisting-user@mail.com', password)
                 .then(response => {
@@ -115,6 +140,43 @@ describe('user api', () => {
                     expect(_error).toBe(`user with username \"${username}\" does not exist`)
                 })
         )
+
+        describe('on validate parameters', () => {
+
+            it('should fail on undefined username', () => {
+                const username = undefined
+
+                expect(() => userApi.authenticate(username, password, { name, surname })).toThrowError(RequirementError, `username is not optional`)
+            })
+
+            it('should fail on empty username', () => {
+                const username = ''
+
+                expect(() => userApi.authenticate(username, password, { name, surname })).toThrowError(ValueError, 'username is empty')
+            })
+
+            it('should fail on blank username', () => {
+                const username = ' \t    \n'
+
+                expect(() => userApi.authenticate(username, password, { name, surname })).toThrowError(ValueError, 'username is empty')
+            })
+
+            it('should fail on undefined password', () => {
+                const password = undefined
+                expect(() => userApi.authenticate(username, password, { name, surname })).toThrowError(RequirementError, `password is not optional`)
+            })
+    
+            it('should fail on empty password', () => {
+                const password = ''
+                expect(() => userApi.authenticate(username, password, { name, surname })).toThrowError(ValueError, 'password is empty')
+            })
+    
+            it('should fail on blank password', () => {
+                const password = ' \t    \n'
+                expect(() => userApi.authenticate(username, password, { name, surname })).toThrowError(ValueError, 'password is empty')
+            })
+       })
+
     })
 
     describe('retrieve', () => {
@@ -157,7 +219,59 @@ describe('user api', () => {
                     expect(_error).toBe(`token id \"${_id}\" does not match user \"${wrongId}\"`)
                 })
         })
+
+        it('should fail on a wrong token', () => {
+            const wrongUserToken = "123456"
+            userApi.retrieve(_id, wrongUserToken)
+                .then(response => {
+                    const { status, error: _error } = response
+                    expect(status).toBe('KO')
+                    expect(_error).toBe(`invalid token`)
+                }
+            )
+        })
+
     })
+
+    describe('on validate parameters', () => {
+        it('should fail on undefined id', () => {
+            const id = undefined
+            const token = '1234567890abcdefghijk'
+            expect(() => userApi.retrieve(id, token, () => { }, () => { })).toThrowError(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on empty id', () => {
+            const id = ''
+            const token = '1234567890abcdefghijk'
+            expect(() => userApi.retrieve(id, token, () => { }, () => { })).toThrowError(ValueError, 'id is empty')
+        })
+
+        it('should fail on blank id', () => {
+            const id = ' \t    \n'
+            const token = '1234567890abcdefghijk'
+            expect(() => userApi.retrieve(id, token, () => { }, () => { })).toThrowError(ValueError, 'id is empty')
+        })
+
+        it('should fail on undefined token', () => {
+            const id = '123456'
+            const token = undefined
+            expect(() => userApi.retrieve(id, token, () => { }, () => { })).toThrowError(RequirementError, `token is not optional`)
+        })
+
+        it('should fail on empty token', () => {
+            const id = '123456'
+            const token = ''
+            expect(() => userApi.retrieve(id, token, () => { }, () => { })).toThrowError(ValueError, 'token is empty')
+        })
+
+        it('should fail on blank token', () => {
+            const id = '123456'
+            const token = ' \t    \n'
+            expect(() => userApi.retrieve(id, token, () => { }, () => { })).toThrowError(ValueError, 'token is empty')
+        })
+      
+    })
+
 
     describe('when api url fails', () => {
         let url
