@@ -3,7 +3,7 @@ import normalize from '../common/normalize'
 import weatherApi from "../data/weather-api";
 import itunesApi from "../data/itunes-api";
 import userApi from "../data/user-api";
-import { ValueError } from '../common/errors';
+import { ValueError, LogicError } from '../common/errors';
 
 const logic = {
 
@@ -71,9 +71,7 @@ const logic = {
                 if (status === 'OK') {
                     const { preferences } = data
                     return preferences
-                }
-
-                throw new LogicError(response.error)
+                }else throw new LogicError(response.error)
             })
     },
 }

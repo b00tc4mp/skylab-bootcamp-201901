@@ -1,6 +1,6 @@
 import logic from './homeLogic'
 import userApi from '../data/user-api'
-import { ValueError, RequirementError } from '../common/errors';
+import { ValueError, RequirementError, LogicError } from '../common/errors';
 
 describe('Home Logic', () => {
     let __city__ = 'Barcelona'
@@ -109,24 +109,25 @@ describe('Home Logic', () => {
         let preferences = {Thunderstorm: 'Metal', Drizzle: 'Pop', Rain: 'Jazz', Snow: 'Christmas', Clear: 'Urbano Latino', Clouds: 'Rock', Default: 'Tango'}
         let _id = null
         let _token = null
+
         beforeEach(() => {
             email = `usermail-${Math.random()}@mail.com`
 
-            logic.__userId__ = null
-            logic.__userToken__ = null
+            // logic.__userId__ = null
+            // logic.__userToken__ = null
 
-            userApi.create(email, password, { name, surname,  preferences, city, app})
-                    .then(() =>{
-                        userApi.authenticate(email, password)
+            return userApi.create(email, password, { name, surname,  preferences, city, app})
+                    .then((response) =>{
+                        _id = response.data.id
+                        return userApi.authenticate(email, password)
                     })
-                        .then(response => {
-
-                            const { data:{ id, token} } = response
-                            _id = id
-                            _token = token
-                            logic.__userId__ = id
-                            logic.__userToken__ = token
-                        })
+                    .then((response) => {
+                        const { data:{ id, token} } = response
+                        _id = id
+                        _token = token
+                        logic.__userId__ = id
+                        logic.__userToken__ = token
+                    })
         })
 
         it('should succed retrieving user preferences', () => {
@@ -146,8 +147,7 @@ describe('Home Logic', () => {
                 .catch(error => {
                     expect(error).toBeDefined()
                     expect(error instanceof LogicError).toBeTruthy()
-
-                    expect(error.message).toBe(`id \"${_id}\" does not match user \"${logic.__userId__}\"`)
+                    expect(error.message).toBe(`token id \"${_id}\" does not match user \"${logic.__userId__}\"`)
                 })
         })
 
@@ -160,7 +160,7 @@ describe('Home Logic', () => {
                     expect(error).toBeDefined()
                     expect(error instanceof LogicError).toBeTruthy()
 
-                    expect(error.message).toBe(`token id \"${_token}\" does not match user \"${logic.__userToken__}\"`)
+                    expect(error.message).toBe(`invalid token`)
                 })
         })
 
