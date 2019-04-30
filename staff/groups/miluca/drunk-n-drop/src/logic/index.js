@@ -119,7 +119,7 @@ const logic = {
 
             if(status === 'OK'){
                 const {favorites = [] } = data
-
+                   
                  return filterDetails(favorites)
             }
 
@@ -127,7 +127,6 @@ const logic = {
         })
 
     },
-
     cocktailbyGlass(query){
         validate.arguments([
             {name: 'query', value: query, type: 'string', notEmpty: true},
@@ -141,40 +140,47 @@ const logic = {
                else throw new LogicError(response.error)
                
            })
-    },
 
+
+
+
+    },
     cocktailbyName(query){
         validate.arguments([
             {name: 'query', value: query, type: 'string', notEmpty: true},
            ])
+        
         return cocktailApi.searchCocktail(query)
-           .then(response => {
-               if (response.length > 0){
-                    return filterDetails(response)
-               }
-               else throw new LogicError(response.error) 
-           })
+           
+           .then(({drinks}) => {
+               drinks.length && filter(drinks)
+            })
+           
+    
     },
-
     cocktailDetail(id){
         validate.arguments([
             {name: 'id', value: id, type: 'string', notEmpty: true},
            ])
+
         return cocktailApi.searchById(id)
            .then(response => {
                if (response.length > 0){
-                    return filterDetails(response)
+                    return filter(response)
                }
                else throw new LogicError(response.error)
+               
            })
+    
     }
+
 }
+
 
 function filterDetails(details){
 
     if(details.length){
-        const calls = details.map(fav => {
-           return cocktailApi.searchById(fav)
+        const calls = details.map((id) => cocktailApi.searchById(id)
             .then(({drinks}) => {
                 drinks.forEach(drink => {
                     Object.keys(drink).forEach(key => {
@@ -183,13 +189,30 @@ function filterDetails(details){
                         } 
                     })
                 })
-                return drinkFormater(drinks[0])
+                return drinks[0]
             })
             
-        })
-        console.log(calls)
+        )
         return Promise.all(calls)
     }
+}
+
+
+function filter(drinks){
+    let calls =[]
+    console.log(drinks)
+    if(drinks.length){
+        calls = drinks.forEach(drink => {
+                    Object.keys(drink).forEach(key => {
+                        if(drink[key] === null  || drink[key].trim() === '') {
+                            delete drink[key]
+                        } 
+                    })
+                })
+                return drinkFormater(calls)
+            }
+        
+        return Promise.all(calls)
 }
 
 function drinkFormater(drinkdetails){
