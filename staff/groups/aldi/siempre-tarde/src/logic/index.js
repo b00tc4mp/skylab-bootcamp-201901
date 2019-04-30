@@ -1,8 +1,9 @@
 import normalize from '../common/normalize'
 import validate from '../common/validate'
 import userApi from '../data/user-api'
-import { LogicError } from '../common/errors'
-import { PasswordError } from '../common/errors'
+import { LogicError, DirectionError, PasswordError } from '../common/errors'
+import iBusApi from '../data/ibus-api'
+import transitApi from '../data/transit-api'
 
 
 
@@ -95,11 +96,87 @@ const logic = {
     },
 
 
+    retrieveBusLines(line_id) {
+
+        validate.arguments([
+            { name: 'line_id', value: line_id, type: 'number', notEmpty: true, optional: true }
+        ])
+
+        return transitApi.retrieveBusLine(line_id)
+            .then(response => {
+                const { features } = response
+
+                return features.map(({ properties:
+                    { "CODI_LINIA": line_id,
+                        "NOM_LINIA": name_line,
+                        "DESC_LINIA": desc_line,
+                        "ORIGEN_LINIA": origin_line,
+                        "DESTI_LINIA": dest_line,
+                        "COLOR_LINIA": color_line
+                    }
+                }) => {
+                    return { line_id, name_line, desc_line, origin_line, dest_line, color_line }
+                })
+            })
+    },
 
 
+    retrieveBusLineRoute(line_id) {
+
+        validate.arguments([
+            { name: 'line_id', value: line_id, type: 'number', notEmpty: true, optional: false }
+        ])
+
+        return transitApi.retrieveBusLineRoute(line_id)
+            .then(response => {
+                const { features } = response
+
+                return features.map(({ properties:
+                    { "SENTIT": direction_id,
+                        "DESTI_SENTIT": direction_name
+                    }
+                }) => {
+                    return { direction_id, direction_name }
+                })
+            })
+    },
 
 
+    retrieveBusStops(line_id, direction_id) {
 
+        validate.arguments([
+            { name: 'line_id', value: line_id, type: 'number', notEmpty: true, optional: false },
+            { name: 'direction_id', value: direction_id, type: 'string', notEmpty: true, optional: false }
+        ])
+
+        if (direction_id !== 'A' || direction_id !== 'T') { throw new DirectionError('direction is not valid')}
+
+
+        return transitApi.retrieveBusStops(line_id)
+            .then(response => {
+                const { features } = response
+
+                let stops = []
+
+                features.forEach(e => {
+                    const { properties:
+                        { "CODI_PARADA": stop_id,
+                            "NOM_PARADA": stop_name,
+                            "SENTIT": direction
+                        }
+                    } = e
+                    if (direction === direction_id) {
+                        stops.push({ stop_id, stop_name })
+                    }                   
+
+                })
+
+                return stops
+                
+            })
+
+
+    }
 
 }
 
