@@ -1,18 +1,26 @@
-import React, { Fragment } from 'react'
-import './index.sass'
+import React from 'react'
+import Header from '../Header'
+import Footer from '../Footer'
+import './index.scss'
 
 function Landing({ onClickRegister, onClickLogin }) {
 
     return (
-        <Fragment>
-            <section className="section">
-                <section className="container landing" onClick={e => e.preventDefault()}>
-                    <a href="#" onClick={() => onClickRegister()}>Register</a>
-                    <span>or</span>
-                    <a href="#" onClick={() => onClickLogin()}>Login</a>.
-                </section>
+        <section className="section landing">
+            <Header/>
+            <section className="landing__buttons-container columns" onClick={e => e.preventDefault()}>
+                <div className="column is-3 is-offset-2">
+                    <a className="button is-primary is-large" href="#" onClick={() => onClickRegister()}>Register</a>
+                </div>
+                <div className="column is-2">
+                    <span className="or">or</span>
+                </div>
+                <div className="column is-3">
+                    <a className="button is-link is-large" href="#" onClick={() => onClickLogin()}>Login</a>
+                </div>
             </section>
-        </Fragment>
+            <Footer />
+        </section>
     )
 }
 
