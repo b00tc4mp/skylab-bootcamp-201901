@@ -122,8 +122,8 @@ const logic = {
         return weatherApi.retrieve(city)
             .then(response => {
                 if (!response.message){
-                    const {weather:[{main, icon}], name} = response
-                    return [ name, main, icon]
+                    const {weather:[{main}]} = response
+                    return main
                 }
                 else throw new ValueError(response.message)
             })

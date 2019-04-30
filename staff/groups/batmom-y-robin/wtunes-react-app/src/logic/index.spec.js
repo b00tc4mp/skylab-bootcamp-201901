@@ -429,16 +429,10 @@ describe('logic', ()=>{
                 logic.retrieveWeather(__city__)
                 .then(response => {
                     expect(response).toBeDefined()
-                    const [city, weather, icon] = response
-                    expect(weather).toBeDefined
-                    expect(typeof weather).toBe('string')
-                    expect(icon).toBeDefined
-                    expect(typeof icon).toBe('string')
-                    expect(city).toBeDefined
-                    expect(city).toBe(__city__)
+                    expect(typeof response).toBe('string')
                 })
             )
-    
+
             it('should fail on unexisting city', () =>{
                 logic.retrieveWeather('abcde')
                 .then(() => {})
@@ -448,25 +442,25 @@ describe('logic', ()=>{
                     expect(error.message).toBe('city not found')
                 })
             })
-    
+
             it('should fail on undefined city', () => {
                 __city__ = undefined
                 expect(() => logic.retrieveWeather(__city__)).toThrowError(RequirementError, `city is not optional`)
             })
-    
+
             it('should fail on null city', () => {
                 __city__ = null
                 expect(() => logic.retrieveWeather(__city__)).toThrowError(RequirementError, `city is not optional`)
             })
-    
+
             it('should fail on empty city', () => {
                 __city__ = ''
                 expect(() => logic.retrieveWeather(__city__)).toThrowError(ValueError, `city is empty`)
             })
-    
+
             it('should fail on blank city', () => {
                 __city__ = ' \t    \n'
-    
+
                 expect(() => logic.retrieveWeather(__city__)).toThrowError(ValueError, 'city is empty')
             })
         })
