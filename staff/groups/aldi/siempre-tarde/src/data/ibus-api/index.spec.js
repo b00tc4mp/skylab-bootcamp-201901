@@ -1,9 +1,15 @@
 import iBusApi from '.'
 import { TimeoutError, ConnectionError, RequirementError, NotFoundError } from '../../common/errors'
 
+
+const {env: {REACT_APP_APP_ID, REACT_APP_APP_KEY } } = process
+
+iBusApi.APP_ID = REACT_APP_APP_ID
+iBusApi.APP_KEY = REACT_APP_APP_KEY
+
+
 describe('ibus-api', () => {
-    const app_id = '89d2372e'
-    const app_key = 'd94caab45f16f23e4ab1925e7e4cbbb8'
+    
     const stop_id = 1775
     const line_id = 123
 
@@ -11,8 +17,8 @@ describe('ibus-api', () => {
     describe('retrieve by stop id', () => {
 
 
-        it('should succeed on correct bus stop id', () =>
-            iBusApi.retrieveStopId(app_id, app_key, stop_id)
+        it('should succeed on correct bus stop id', () => {
+            return iBusApi.retrieveStopId(stop_id)
                 .then(response => {
                     const { status, data: { ibus } } = response
 
@@ -29,10 +35,11 @@ describe('ibus-api', () => {
 
                     })
                 })
+            }
         )
 
-        it('should fail on incorrect bus stop id', () =>
-            iBusApi.retrieveStopId(app_id, app_key, 99999)
+        it('should fail on incorrect bus stop id', () => {
+            return iBusApi.retrieveStopId(99999)
                 .then(() => { throw Error('should not reach this point') })
                 .catch(error => {
 
@@ -40,31 +47,13 @@ describe('ibus-api', () => {
                     expect(error instanceof NotFoundError).toBeTruthy()
                     expect(error.message).toBe('cannot found')
                 })
+            }
         )
         it('should fail on undefined bus stop id', () => {
-
-            expect(() => iBusApi.retrieveStopId(app_id, app_key, undefined)).toThrowError(RequirementError,'stop is not optional')
-
+            expect(() => iBusApi.retrieveStopId(undefined)).toThrowError(RequirementError,'stop is not optional')
         })
 
-        it('should fail on incorrect app_id', () =>
-            iBusApi.retrieveStopId('fake_app_id', app_key, stop_id)
-                .then(() => { throw Error('should not reach this point') })
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error instanceof ConnectionError).toBeTruthy()
-                    expect(error.message).toBe('cannot connect')
-                })
-        )
-        it('should fail on incorrect app_key', () =>
-            iBusApi.retrieveStopId(app_id, 'fake_app_key', stop_id)
-                .then(() => { throw Error('should not reach this point') })
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error instanceof ConnectionError).toBeTruthy()
-                    expect(error.message).toBe('cannot connect')
-                })
-        )
+        
 
     })
 
@@ -78,7 +67,7 @@ describe('ibus-api', () => {
         })
 
         it('should fail on wrong api url', () =>
-            iBusApi.retrieveStopId(app_id, app_key, stop_id)
+            iBusApi.retrieveStopId(stop_id)
                 .then(() => { throw Error('should not reach this point') })
                 .catch(error => {
                     expect(error).toBeDefined()
@@ -96,7 +85,7 @@ describe('ibus-api', () => {
         beforeEach(() => iBusApi.__timeout__ = timeout)
 
         it('should fail on too long wait', () =>
-            iBusApi.retrieveStopId(app_id, app_key, stop_id)
+            iBusApi.retrieveStopId(stop_id)
                 .then(() => { throw Error('should not reach this point') })
                 .catch(error => {
                     expect(error).toBeDefined()
@@ -111,8 +100,8 @@ describe('ibus-api', () => {
     describe('retrieve by line & stop id', () => {
 
 
-        it('should succeed on correct line & bus stop id', () =>
-            iBusApi.retrieveLineId(app_id, app_key, stop_id, line_id)
+        it('should succeed on correct line & bus stop id', () =>  {
+            return iBusApi.retrieveLineId(stop_id, line_id)
                 .then(response => {
                     const { status, data: { ibus } } = response
 
@@ -129,55 +118,39 @@ describe('ibus-api', () => {
 
                     })
                 })
+            }
         )
 
-        it('should fail on incorrect bus stop id', () =>
-            iBusApi.retrieveLineId(app_id, app_key, 99999, line_id)
+        it('should fail on incorrect bus stop id', () => {
+            return iBusApi.retrieveLineId(99999, line_id)
                 .then(() => { throw Error('should not reach this point') })
                 .catch(error => {
                     expect(error).toBeDefined()
                     expect(error instanceof NotFoundError).toBeTruthy()
                     expect(error.message).toBe('cannot found')
                 })
+            }
         )
 
-        it('should fail on incorrect line id', () =>
-            iBusApi.retrieveLineId(app_id, app_key, stop_id, 99999)
+        it('should fail on incorrect line id', () => {
+            return iBusApi.retrieveLineId(stop_id, 99999)
                 .then(() => { throw Error('should not reach this point') })
                 .catch(error => {
                     expect(error).toBeDefined()
                     expect(error instanceof NotFoundError).toBeTruthy()
                     expect(error.message).toBe('cannot found')
                 })
+            }
         )
 
         it('should fail on undefined bus stop id', () =>
 
-        expect(() => iBusApi.retrieveLineId(app_id, app_key, undefined, line_id)).toThrowError(RequirementError,'stop is not optional')
+            expect(() => iBusApi.retrieveLineId(undefined, line_id)).toThrowError(RequirementError,'stop is not optional')
        
         )
 
         it('should fail on undefined line id', () =>
-        expect(() => iBusApi.retrieveLineId(app_id, app_key, stop_id,undefined)).toThrowError(RequirementError,'line is not optional')
-        )
-
-        it('should fail on incorrect app_id', () =>
-            iBusApi.retrieveLineId('fake_app_id', app_key, stop_id, line_id)
-                .then(() => { throw Error('should not reach this point') })
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error instanceof ConnectionError).toBeTruthy()
-                    expect(error.message).toBe('cannot connect')
-                })
-        )
-        it('should fail on incorrect app_key', () =>
-            iBusApi.retrieveLineId(app_id, 'fake_app_key', stop_id, line_id)
-                .then(() => { throw Error('should not reach this point') })
-                .catch(error => {
-                    expect(error).toBeDefined()
-                    expect(error instanceof ConnectionError).toBeTruthy()
-                    expect(error.message).toBe('cannot connect')
-                })
+             expect(() => iBusApi.retrieveLineId(stop_id,undefined)).toThrowError(RequirementError,'line is not optional')
         )
 
     })
@@ -192,7 +165,7 @@ describe('ibus-api', () => {
         })
 
         it('should fail on wrong api url', () =>
-            iBusApi.retrieveLineId(app_id, app_key, stop_id, line_id)
+            iBusApi.retrieveLineId(stop_id, line_id)
                 .then(() => { throw Error('should not reach this point') })
                 .catch(error => {
                     expect(error).toBeDefined()
@@ -209,14 +182,15 @@ describe('ibus-api', () => {
 
         beforeEach(() => iBusApi.__timeout__ = timeout)
 
-        it('should fail on too long wait', () =>
-            iBusApi.retrieveLineId(app_id, app_key, stop_id, line_id)
+        it('should fail on too long wait', () =>  {
+            return iBusApi.retrieveLineId(stop_id, line_id)
                 .then(() => { throw Error('should not reach this point') })
                 .catch(error => {
                     expect(error).toBeDefined()
                     expect(error instanceof TimeoutError).toBeTruthy()
                     expect(error.message).toBe(`time out, exceeded limit of ${timeout}ms`)
                 })
+            }
         )
 
         afterEach(() => iBusApi.__timeout__ = 0)

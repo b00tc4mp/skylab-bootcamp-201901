@@ -3,6 +3,17 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './componets/App';
 import * as serviceWorker from './serviceWorker';
+import transitApi from './data/transit-api';
+import iBusApi from './data/ibus-api';
+
+
+const {env: {REACT_APP_APP_ID, REACT_APP_APP_KEY } } = process
+
+transitApi.APP_ID = REACT_APP_APP_ID
+transitApi.APP_KEY = REACT_APP_APP_KEY
+
+iBusApi.APP_ID = REACT_APP_APP_ID
+iBusApi.APP_KEY = REACT_APP_APP_KEY
 
 ReactDOM.render(<App />, document.getElementById('root'));
 
