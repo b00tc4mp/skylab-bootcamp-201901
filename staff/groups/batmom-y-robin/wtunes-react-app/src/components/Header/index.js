@@ -8,15 +8,9 @@ class Header extends Component {
     hadleCityChange = e => {
         this.setState({currentCity: e})
         logic.retrieveWeather(e)
-            .then(response=> {
-                this.setState({currentWeather: response[1]},
-                    () => {
-                        const weather = this.state.currentWeather
-                        const result = this.props.preferences.find(element => Object.keys(element)[0]==weather)
-                        logic.searchMusic(Object.values(result).join())
-                        .then(result => console.log(result))
-                }
-                )
+            .then(weather=> {
+                this.props.onWeatherRetrieved(weather)
+                this.setState({currentWeather: weather})
             })
     }
 
@@ -24,13 +18,15 @@ class Header extends Component {
     componentDidMount() {
         this.setState({ currentCity: this.props.city }, () =>
             logic.retrieveWeather(this.state.currentCity)
-                .then(response => this.setState({currentWeather: response[1]}))
+                .then(weather=> {
+                    this.props.onWeatherRetrieved(weather)
+                    this.setState({currentWeather: weather})
+                })
         )
     }
     render(){
         const {
             hadleCityChange,
-            props: {city},
             state: {currentWeather, currentCity, error}
         } = this
         return <>

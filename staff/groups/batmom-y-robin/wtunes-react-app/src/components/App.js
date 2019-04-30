@@ -1,6 +1,5 @@
 import React, { Component } from 'react'
 import logic from '../logic'
-//import CitySelector from './CitySelector'
 import Landing from './Landing'
 import Register from './Register'
 import Login from './Login'
