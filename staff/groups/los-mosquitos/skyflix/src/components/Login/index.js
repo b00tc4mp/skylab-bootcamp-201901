@@ -1,7 +1,7 @@
 import React from 'react'
 import literals from './literals'
 
-function Login({ lang, onLogin }) {
+function Login({ lang, onLogin, error }) {
     const { title, email, password } = literals[lang]
     function handleSubmit(event) {
 
@@ -21,6 +21,7 @@ function Login({ lang, onLogin }) {
                 <input type='password' name='password' placeholder={password} />
                 <button>{title}</button>
             </form>
+            <span>{error}</span>
         </section>
     </>
 }
