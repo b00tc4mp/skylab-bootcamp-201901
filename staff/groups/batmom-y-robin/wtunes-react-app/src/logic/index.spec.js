@@ -511,5 +511,49 @@ describe('logic', ()=>{
                 expect(() => logic.searchMusic(query)).toThrowError(ValueError, 'query is empty')
             })
         })
+        describe('serach music by prefereces', ()=>{
+            const preferences=[{Rain:'Jazz'}, {Snow:'Tropical'}, {Clouds:'Classical'}]
+            const weather='Rain'
+            it('should succeed on correct data', ()=>{
+                logic.searchMusicPreferences(preferences , weather)
+                    .then(response =>{
+                            expect(response).toBeDefined()
+                            expect(response.length).toBe(20)
+                    })
+            })
+        
+        it('should fail on undefined weather', () => {
+            const weather = undefined
+            expect(() => logic.searchMusicPreferences(preferences , weather)).toThrowError(Error, `weather is not optional`)
+        })
+        it('should fail on null weather', () => {
+            const weather = null
+            expect(() => logic.searchMusicPreferences(preferences , weather)).toThrowError(Error, `weather is not optional`)
+        })
+        it('should fail on empty weather', () => {
+            const weather = ''
+            expect(() => logic.searchMusicPreferences(preferences , weather)).toThrowError(Error, `weather is empty`)
+        })
+        it('should fail on blank query', () => {
+            const weather = ' \t    \n'
+            expect(() => logic.searchMusicPreferences(preferences , weather)).toThrowError(Error, 'weather is empty')
+        })
+        it('should fail on undefined preferences', () => {
+            const preferences = undefined
+            expect(() => logic.searchMusicPreferences(preferences , weather)).toThrowError(Error, `preferences is not optional`)
+        })
+        it('should fail on null preferences', () => {
+            const preferences = null
+            expect(() => logic.searchMusicPreferences(preferences , weather)).toThrowError(Error, `preferences is not optional`)
+        })
+        it('should fail on empty preferences', () => {
+            const preferences = ''
+            expect(() => logic.searchMusicPreferences(preferences , weather)).toThrowError(TypeError, `preferences is empty`)
+        })
+        it('should fail on blank preferences', () => {
+            const preferences = ' \t    \n'
+            expect(() => logic.searchMusicPreferences(preferences , weather)).toThrowError(TypeError, 'preferences is empty')
+        })
+    })
     })
 })

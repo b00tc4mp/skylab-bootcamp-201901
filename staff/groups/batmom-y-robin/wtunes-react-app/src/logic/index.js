@@ -151,6 +151,35 @@ const logic = {
                     return resultsArr
                 }else throw new Error ('no results found')
             })
+    },
+    searchMusicPreferences(preferences, weather){
+        validate.arguments([
+            { name: 'weather', value: weather, type: 'string', notEmpty: true },
+            { name: 'preferences', value: preferences, type: 'object', notEmpty: true }
+        ])
+        debugger
+        const limit = 20
+        let result = preferences.find(element => Object.keys(element)[0]==weather)
+        let query=Object.values(result).join()
+        return itunesApi.searchMusic(query, 'music', limit)
+            .then(response => {
+                let resultsArr = []
+                const {results} = response
+                if (results.length > 0){
+                    results.map(element => {
+                        const{trackName, artistName,previewUrl, artworkUrl100, primaryGenreName } = element
+                        resultsArr.push({
+                            trackName,
+                            artistName,
+                            previewUrl,
+                            artWork: artworkUrl100,
+                            genere: primaryGenreName,
+                        })
+                    })
+                    return resultsArr
+                }else throw new Error ('no results found')
+
+            })       
     }
 }
 
