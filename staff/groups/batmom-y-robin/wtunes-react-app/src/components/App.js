@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import logic from '../logic'
 //import CitySelector from './CitySelector'
 import Landing from './Landing'
-//import Register from './Register'
+import Register from './Register'
 //import Login from './Login'
 //import Home from './Home'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
@@ -44,19 +44,22 @@ class App extends Component {
         //         )
     }
 
-    // handleRegister = (name, surname, username, password) => {
-    //     try {
-    //         logic.registerUser(name, surname, username, password)
-    //             .then(() =>
-    //                 this.setState({ visible: 'register-ok', error: null })
-    //             )
-    //             .catch(error =>
-    //                 this.setState({ error: error.message })
-    //             )
-    //     } catch ({ message }) {
-    //         this.setState({ error: message })
-    //     }
-    // }
+    handleRegister = (name, surname, username, password, city) => {
+        try {
+            logic.registerUser(name, surname, username, password, city)
+                .then(() =>
+                    //this.setState({ visible: 'register-ok', error: null })
+                    this.setState({ name, error: null }, () => this.props.history.push('/home'))
+                )
+                .catch(error =>
+                    this.setState({ error: error.message })
+                )
+        } catch ({ message }) {
+            this.setState({ error: message })
+        }
+    }
+   // handleCityChange = (value) => this.setState({ city: selectedCity})
+  
 
     // handleLogout = () => {
     //     logic.logoutUser()
@@ -74,8 +77,9 @@ class App extends Component {
             // handleCityChange,
             handleRegisterNavigation,
             handleLoginNavigation,
+            handleCityChange,
             // handleLogin,
-            // handleRegister,
+            handleRegister,
             // handleLogout
         } = this
 
@@ -83,13 +87,15 @@ class App extends Component {
                 <Switch>
                     <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
 
+                    <Register onRegister={handleRegister} onCityChange={handleCityChange}error={error} city/> 
+
                     {/* <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> :
                         visible !== 'register-ok' ?
                         <Register lang={lang} onRegister={handleRegister} error={error} /> :
                         <RegisterOk lang={lang} onLogin={handleLoginNavigation} />
-                    } />
+                    } /> */}
 
-                    <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
+                    {/* <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
 
                     <Route path="/home" render={() => logic.isUserLoggedIn ? <Home lang={lang} name={name} onLogout={handleLogout} /> : <Redirect to="/" />} />
 
