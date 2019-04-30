@@ -1,6 +1,6 @@
 import validate from '../../common/validate'
 import call from '../../common/call'
-import { NotFoundError, ConnectionError } from '../../common/errors';
+import { NotFoundError, ConnectionError, NoDataError } from '../../common/errors';
 
 const iBusApi = {
     __url__: 'https://api.tmb.cat/v1/ibus',
@@ -18,8 +18,12 @@ const iBusApi = {
         })
         .then(response => {
 
-            if (response.status === 404) throw new NotFoundError('cannot found')
-            if (response.status === 403) throw new ConnectionError('cannot connect')
+
+            const { status, data: { ibus } } = response
+
+            if (status === 200 && ibus === undefined) throw new NoDataError('no data recived')
+            if (status === 404) throw new NotFoundError('cannot found')
+            if (status === 403) throw new ConnectionError('cannot connect')
             return response.json()
         })
     },
@@ -36,9 +40,11 @@ const iBusApi = {
             timeout: this.__timeout__
         })
             .then(response => {
+                const { status, data: { ibus } } = response
 
-                if (response.status === 404) throw new NotFoundError('cannot found')
-                if (response.status === 403) throw new ConnectionError('cannot connect')
+                if (status === 200 && ibus === undefined) throw new NoDataError('no data recived')
+                if (status === 404) throw new NotFoundError('cannot found')
+                if (status === 403) throw new ConnectionError('cannot connect')
                 return response.json()
             })
 

@@ -16,6 +16,11 @@ class RequirementError extends Error {
         super(message)
     }
 }
+class NoDataError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
 
 class ConnectionError extends Error {
     constructor(message) {
@@ -54,5 +59,6 @@ export {
     TimeoutError,
     LogicError,
     PasswordError,
-    NotFoundError
+    NotFoundError,
+    NoDataError
 }
