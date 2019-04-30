@@ -11,7 +11,8 @@ import { logicalExpression } from '@babel/types';
 
 
 class Home extends Component {
-    state = { error: null, recipes: null, recipe: null, wanted: null, done: null, notes: null, forks: null, user: null }
+
+    state = { error: null, recipes: null, recipe: null, wanted: null, done: null, notes: null, forks: null, fullDone: null, fullWanted: null, user: null }
 
     handleGoBack = () => this.setState({ recipe: null })
 
@@ -31,8 +32,8 @@ class Home extends Component {
                 .then(() =>
                     logic.retrieveBook()
                 )
-                .then(([wanted, done, notes, forks]) => {
-                    this.setState({ wanted, done, notes, forks })
+                .then(([wanted, done, notes, forks, fullWanted, fullDone ]) => {
+                    this.setState({ wanted, done, notes, forks, fullWanted, fullDone})
                 })
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -45,8 +46,8 @@ class Home extends Component {
     handleNotes = (id, changes, notes) => {
         logic.updatingNotes(id, changes, notes)
             .then(() => logic.retrieveBook())
-            .then(([wanted, done, notes, forks]) => {
-                this.setState({ wanted, done, notes, forks })
+            .then(([wanted, done, notes,forks, fullWanted, fullDone]) => {
+                this.setState({ wanted, done, notes, forks, fullWanted, fullDone})
             })
     }
 
@@ -71,10 +72,16 @@ class Home extends Component {
 
                 this.setState({ recipe: null, recipes: random })
             })
-            .then(() => logic.retrieveBook())
-            .then(([wanted, done, notes, forks]) => {
-                this.setState({ wanted, done, notes, forks })
+
+    }
+
+
+    handleRetriveBook = () => {
+        logic.retrieveBook()
+            .then(([wanted, done, notes, forks, fullWanted, fullDone]) => {
+                this.setState({ wanted, done, notes, forks, fullWanted, fullDone })
             })
+
     }
 
     handleUser = () => { // nuevo
@@ -82,9 +89,7 @@ class Home extends Component {
             .then(response => {
                 // const {name,surname,email} = response
                 this.setState({ user: response })
-
             })
-
     }
 
     handleUpdateUser = (xxx) => { // nuevo
@@ -100,24 +105,20 @@ class Home extends Component {
         }
     }
 
-    // handleSmallCard = () => {
-    //     logic.retrieveUser () 
-    //         .then(response => {
-    //             const {data:{wanted,done}} = response
-    //             this.setState({wanted:wanted})
-    //         })
-        
-    // }
-
     componentWillReceiveProps(props) {
         const { results } = props
-
-        if (results !== this.props.recipes) {
+        if (results !== null) {
             this.setState({ recipes: results, recipe: null });
         }
     }
 
-
+    componentDidMount() {
+        this.handleRetriveBook()
+        this.handleRandom()
+        if (results !== this.props.recipes) {
+            this.setState({ recipes: results, recipe: null });
+        }
+    }
 
     render() {
         const {
@@ -130,8 +131,8 @@ class Home extends Component {
             handleWaitingList,
             handleUser,
             handleRetrieve,
-            state: { error, recipe, recipes, wanted, done, notes, forks, user },
-            props: { name, results }
+            state: { error, recipe, recipes, wanted, done, notes, forks, user, fullWanted, fullDone},
+            props: { name }
         } = this
 
         if (recipes === null && recipe === null) handleRandom()
@@ -150,31 +151,17 @@ class Home extends Component {
                     </div>
                     <div className="nav__recipes">
                         <h4>Boiling</h4>
-
-                        {/* {wanted.map(elem => logic.retrieveRecipe(elem).then(<SmallCard />))} */}
-
-
-                        {/* <SmallCard></SmallCard> */}
-                        {<div onClick={() => handleRetrieve("52772")}><p>To Cook recipe</p></div>}
-                        {/* <p>To Cook recipe</p>
-                    <p>To Cook recipe</p>
-                    <p>To Cook recipe</p>
-                    <p>To Cook recipe</p> */}
+                        <SmallCard toPaint={fullWanted} onItem={handleRetrieve}></SmallCard>
                     </div>
                     <div className="nav__recipes">
                         <h4>My Creations</h4>
-                        {/* <SmallCard></SmallCard> */}
-                        {<div onClick={() => handleRetrieve("52773")}><p>Cooked recipe</p></div>}
-                        {/* <p>Cooked recipe</p>
-                    <p>Cooked recipe</p>
-                    <p>Cooked recipe</p>
-                    <p>Cooked recipe</p>  */}
+                        <SmallCard toPaint={fullDone} onItem={handleRetrieve}></SmallCard>
                     </div>
                 </nav>
             </div>
             <div >
                 <div className="home__search__results">
-                    {!recipe && !user && recipes && <Results items={results ? results : recipes} onItem={handleRetrieve} /*onFav={handleFav} favs={favs}*/ />}
+                    {!recipe && !user && recipes && <Results items={recipes} onItem={handleRetrieve} /*onFav={handleFav} favs={favs}*/ />}
                     {!user && recipe && <Detail item={recipe} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} />}
                     {user && <User onUpdate={handleUpdateUser} onBack={handleUpdateUser} user={user} />}
                 </div>
@@ -182,9 +169,4 @@ class Home extends Component {
 
         </main>
     }
-
-
-
-}
-
 export default Home
