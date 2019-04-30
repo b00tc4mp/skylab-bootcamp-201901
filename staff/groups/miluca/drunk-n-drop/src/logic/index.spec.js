@@ -213,6 +213,47 @@ describe('logic', () => {
             })
             
         })
+        describe('retrieve user', () => {
+
+            let id, token
+    
+            beforeEach(() =>
+                userApi.create(email, password, {name, favorites, creations}) 
+                .then(() => {
+                    return userApi.authenticate(email, password)
+                })
+                .then(response => {
+                    console.log(response)
+                    id = response.data.id
+                    token = response.data.token
+                    logic.__userId__ = id
+                    logic.__userToken__ = token
+                })
+            )
+    
+            it('Should succedd on correct user id and token', () => {
+                logic.retrieveUser()
+                .then(user => {
+                    console.log(user.id)
+                    expect(typeof user.id).toBe('undefined')
+                    expect(user.name).toBe(name)
+                    // expect(user.password).toBeUndefined()
+                    expect(user.email).toBe(email)
+                })
+            })
+    
+            it('Should fail on incorrect id', () => {
+                logic.__userId__= '5cb9998f2e59ee0009AAc02c'
+                return logic.retrieveUser()
+                    .then(() => {throw Error('should not reach this point') })
+                    .catch(error => {
+                        expect(error).toBeDefined()
+                        expect(error instanceof LogicError).toBeTruthy()
+                        expect(error.message).toBe(`token id \"${id}\" does not match user \"${logic.__userId__}\"`)
+                    })
+            })       
+        }) 
+
         describe('favorite cocktails', ()  =>{
             let id, token, cocktail_id
     
@@ -269,5 +310,59 @@ describe('logic', () => {
     
             })
         })
+    })
+    describe('Cocktails', () => {
+        let email
+        const password = '1234'
+        
+        beforeEach(() => {
+            email = `miguel-${Math.random()}@gmail.com`
+
+            logic.__userId__ = null
+            logic.__userToken__ = null
+        })
+
+        describe('retrieve favorites', () =>{
+
+            let id , token
+
+            beforeEach(()=> {
+                
+
+                return cocktail.searchByingredient('lime')
+                .then (response => {
+                    
+                    const {drinks:[{idDrink}]} = response
+                 
+                    return userApi.create(email,password,{favorites : [idDrink]})
+                })
+                .then(response => {
+                    
+                    id= response.data.id
+                    return userApi.authenticate(email,password)
+                })
+                .then(response => {
+                    token = response.data.token
+
+                    logic.__userId__ = id
+                    logic.__userToken__ = token
+                })
+            })
+
+
+            it('should succed retiriving user favorites', () =>
+            
+            logic.retriveFavorites()
+                .then(response => {
+                    console.log(response)
+                    expect(response instanceof Array).toBeTruthy()
+
+                })
+            
+            )
+                 
+
+        })
+
     })
 })

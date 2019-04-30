@@ -113,6 +113,17 @@ describe('Cocktail-Api', () => {
             })
         })
     })
+    
+    describe('search cocktail details by ID' , () =>{
+        
+        it('should succed on correct query' , () => {
+            cocktailApi.searchById('11007')
+            .then(response => {
+                expect(response).toBeDefined()
+                expect(response.drinks.strDrink).toBe("Margarita")
+            })
+        })
+    })
 })
 
     

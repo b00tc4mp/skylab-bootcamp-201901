@@ -59,6 +59,15 @@ const cocktailApi = {
     
             return call(`${this.__url__}/filter.php?i=${query}`)
             .then(response => response.json())
+        },
+        searchById(query){
+            validate.arguments([
+                {name: 'query', value: query, type: 'string'}
+            ])
+            
+            return call(`${this.__url__}/lookup.php?i=${query}`)
+            .then(response => response.json())
+
         }
 }
 

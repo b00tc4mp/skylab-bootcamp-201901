@@ -1,7 +1,7 @@
 import normalize from '../common/normalize'
 import validate from '../common/validate'
 import userApi from '../data/user-api'
-import Cocktail from '../data/cocktail-api'
+import cocktailApi from '../data/cocktail-api'
 import { LogicError } from '../common/errors'
 
 
@@ -49,6 +49,18 @@ const logic = {
         sessionStorage.clear()
     },
 
+    retrieveUser() {
+
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                if(response.status === 'OK') {
+                    const {data: {username: email, name, favorites, creations}} = response
+ 
+                    return {email, name, favorites, creations}
+                } else throw new LogicError(response.error)
+            })
+    },
+
     loginUser(email, password) {
         validate.arguments([
             {name: 'email', value: email, type: 'string', notEmpty: true},
@@ -89,6 +101,40 @@ const logic = {
 
                 throw new LogicError(response.error)
             })
+    },
+
+    retriveFavorites(){
+
+        return userApi.retrieve(this.__userId__,this.__userToken__)
+        .then(response => {
+            const {status ,data } = response
+
+            if(status === 'OK'){
+                const {favorites = [] } = data
+
+                if(favorites.length){
+                    const calls = favorites.map(fav => {
+                       return cocktailApi.searchById(fav)
+                        .then(({drinks}) => {
+                            drinks.forEach(drink => {
+                                Object.keys(drink).forEach(key => {
+                                    if(drink[key] === null  || drink[key].trim() == '') {
+                                        delete drink[key]
+                                    } 
+                                })
+                            })
+                            return drinks[0]
+                        })
+                        
+                    })
+                    return Promise.all(calls)
+                
+                } else return favorites
+            }
+
+            throw new LogicError(response.error)
+        })
+
     }
 }
 
