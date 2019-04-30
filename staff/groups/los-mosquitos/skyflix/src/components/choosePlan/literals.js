@@ -10,6 +10,7 @@ export default {
         option4: 'Screens you can watch on at the same time',
         option5: 'Watch on your laptop, TV, phone and tablet',
         option6: 'Unlimited movies and TV shows',
+        button: 'CONTINUE'
     },
     es: {
         planTitle: 'Selecciona el plan ideal para ti. Cambia a un plan inferior o superior cuando quieras',
@@ -22,5 +23,6 @@ export default {
         option4: 'Pantallas que se pueden ver al mismo tiempo',
         option5: 'Multidispositivo: portátil, TV, teléfono y tableta',
         option6: 'Todas las películas y series que desees',
+        button: 'CONTINUAR'
     }
 }
