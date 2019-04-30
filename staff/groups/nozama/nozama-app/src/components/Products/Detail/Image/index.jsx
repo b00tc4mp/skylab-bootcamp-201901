@@ -1,5 +1,5 @@
 import React from 'react'
 
-const ImageProduct = (props)=> { return( <img src={props.image}/> ) }
+const Image = (props)=> { return( <img width="80%" src={props.image}/> ) }
 
-export default ImageProduct
+export default Image

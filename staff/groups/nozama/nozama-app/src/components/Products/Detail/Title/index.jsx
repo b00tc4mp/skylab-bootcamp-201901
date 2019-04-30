@@ -1,5 +1,5 @@
 import React from 'react'
 
-const TitleProduct = (props) => { return( <h3>{props.title}</h3> ) }
+const Title = (props) => { return( <h3>{props.title}</h3> ) }
 
-export default TitleProduct
+export default Title

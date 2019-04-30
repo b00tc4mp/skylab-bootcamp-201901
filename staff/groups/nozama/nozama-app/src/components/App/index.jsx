@@ -6,8 +6,8 @@ import Landing from "../../pages/Landing";
 import Login from "../Login";
 import Register from "../Register";
 import logic from "../../logic";
-import Product from '../Products/product-hor-slim'
 import ProductHorizontalSlim from "../Products/product-hor-slim";
+import ProductVerticalSlim from "../Products/product-hor-slim";
 
 
 function App(props) {

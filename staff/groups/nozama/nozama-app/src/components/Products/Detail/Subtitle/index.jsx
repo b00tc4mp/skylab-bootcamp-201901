@@ -1,6 +1,6 @@
 import React from 'react'
 
-const SubtitleProduct = (props) => {
+const Subtitle = (props) => {
 
   return(
     <p>{props.subtitle}</p>
@@ -8,4 +8,4 @@ const SubtitleProduct = (props) => {
 
 }
 
-export default SubtitleProduct
+export default Subtitle
