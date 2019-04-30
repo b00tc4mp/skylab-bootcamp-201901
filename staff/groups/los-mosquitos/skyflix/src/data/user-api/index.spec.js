@@ -88,7 +88,6 @@ describe('user api', () => {
                     expect(data).toBeDefined()
 
                     const { id, token } = data
-
                     expect(typeof id).toBe('string')
                     expect(id.length).toBeGreaterThan(0)
                     expect(id).toBe(_id)
