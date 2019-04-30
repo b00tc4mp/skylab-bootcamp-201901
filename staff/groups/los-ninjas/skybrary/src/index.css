@@ -13,4 +13,4 @@ code {
     monospace;
 }
 
-@import '../node_modules/bulma/bulma.sass';
+@import '../node_modules/bulma/css/bulma.css';
