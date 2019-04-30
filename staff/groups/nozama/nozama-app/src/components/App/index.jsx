@@ -6,13 +6,16 @@ import Landing from "../../pages/Landing";
 import Login from "../Login";
 import Register from "../Register";
 import logic from "../../logic";
+import Product from '../Products/product-hor-slim'
+import ProductHorizontalSlim from "../Products/product-hor-slim";
 
 
 function App(props) {
   const handleLogin = (email, password) => logic.loginUser(email, password);
 
   return (
-    <Container>      
+    <Container>    
+      <ProductHorizontalSlim/>  
         <Switch>
           <Route path='/' exact component={Landing} />
           <Route path="/register" render={() => logic.isUserLoggedIn ? 
@@ -22,6 +25,7 @@ function App(props) {
                 } />
           <Route path='/login' component={Login} />
         </Switch>
+
     </Container>
   );
 }
