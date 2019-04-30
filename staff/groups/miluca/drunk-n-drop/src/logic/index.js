@@ -204,7 +204,7 @@ function drinkFormater(drinkdetails){
             image: `https://www.thecocktaildb.com/images/ingredients/${drinkdetails[drinkeys[i]]}.png`
         })
     }
-    let a = {
+    return {
         id: drinkdetails.idDrink,
         name: drinkdetails.strDrink,
         tag: drinkdetails.strTags,
@@ -215,8 +215,6 @@ function drinkFormater(drinkdetails){
         image:  drinkdetails.strDrinkThumb, 
         ingredients
     }
-    console.log(a)
-    return a
 }
 
 export default logic
