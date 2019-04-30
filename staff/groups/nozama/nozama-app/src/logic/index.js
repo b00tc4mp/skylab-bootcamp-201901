@@ -1,6 +1,9 @@
 import userApi from '../data/user-api';
+import productApi from '../data/product-api';
 import validate from '../common/validate';
 import { LogicError } from '../common/errors';
+import Product from './Product';
+import ProductWithDetail from './ProductWithDetail';
 
 const logic = {
   __userId__: null,
@@ -21,7 +24,7 @@ const logic = {
   },
 
   get isLoggedIn() {
-    return !!logic.userId ;
+    return !!logic.userId;
   },
 
   registerUser(email, password, name, surname) {
@@ -114,6 +117,26 @@ const logic = {
 
     return userApi.updateAndCheckDeleted(logic.userId, logic.token, dataUser);
   },
+
+  // ********************************
+
+  allProducts() {
+    return productApi.all().then(products => products.map(info => new Product(info)));
+  },
+
+  findProduct(id) {
+    return productApi.findOne(id).then(info => new Product(info));
+  },
+
+  detailProduct(id) {
+    return productApi.detail(id)
+      .then(info => new ProductWithDetail(info));
+  },
+
+  searchProduct(text){
+      return productApi.search(text)
+        .then(products => products.map(info => new Product(info)));
+  }
 };
 
 export default logic;
