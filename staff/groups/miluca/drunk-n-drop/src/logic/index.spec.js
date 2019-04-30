@@ -223,7 +223,6 @@ describe('logic', () => {
                     return userApi.authenticate(email, password)
                 })
                 .then(response => {
-                    console.log(response)
                     id = response.data.id
                     token = response.data.token
                     logic.__userId__ = id
@@ -234,7 +233,6 @@ describe('logic', () => {
             it('Should succedd on correct user id and token', () => {
                 return logic.retrieveUser()
                 .then(user => {
-                    console.log(user.id)
                     expect(typeof user.id).toBe('undefined')
                     expect(user.name).toBe(name)
                     // expect(user.password).toBeUndefined()
@@ -354,7 +352,6 @@ describe('logic', () => {
             
             logic.retriveFavorites()
                 .then(response => {
-                    console.log(response)
                     expect(response instanceof Array).toBeTruthy()
 
                 })           
@@ -399,6 +396,7 @@ describe('logic', () => {
             let id = '11007'
                 logic.cocktailbyName(id)
                     .then(response => {
+                        console.log(response)
                         expect(response instanceof Object).toBeTruthy()
                         expect(response.drinks.length).toBeGreaterThan(0)
                         expect(response.drinks.isDrinks).toBe("11007")

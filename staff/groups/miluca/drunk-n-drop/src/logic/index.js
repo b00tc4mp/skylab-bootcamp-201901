@@ -120,24 +120,7 @@ const logic = {
             if(status === 'OK'){
                 const {favorites = [] } = data
 
-                if(favorites.length){
-                    const calls = favorites.map(fav => {
-                       return cocktailApi.searchById(fav)
-                        .then(({drinks}) => {
-                            drinks.forEach(drink => {
-                                Object.keys(drink).forEach(key => {
-                                    if(drink[key] === null  || drink[key].trim() == '') {
-                                        delete drink[key]
-                                    } 
-                                })
-                            })
-                            return drinks[0]
-                        })
-                        
-                    })
-                    return Promise.all(calls)
-                
-                } else return favorites
+                 return filterDetails(favorites)
             }
 
             throw new LogicError(response.error)
@@ -200,13 +183,40 @@ function filterDetails(details){
                         } 
                     })
                 })
-                return drinks[0]
+                return drinkFormater(drinks[0])
             })
             
         })
+        console.log(calls)
         return Promise.all(calls)
     }
 }
 
+function drinkFormater(drinkdetails){
+    let ingredients =[]
+    const drinkeys=Object.keys(drinkdetails)
+    const ingredientindex = drinkeys.indexOf('strIngredient1')
+    const measuresindex = drinkeys.indexOf('strMeasure1')
+    for( let i=0;i < drinkeys.length; i++){
+        if(i >= ingredientindex && i < measuresindex)ingredients.push({
+            ingredientName: drinkdetails[drinkeys[i]],
+            measure: drinkdetails[drinkeys[(i-ingredientindex)+measuresindex]],
+            image: `https://www.thecocktaildb.com/images/ingredients/${drinkdetails[drinkeys[i]]}.png`
+        })
+    }
+    let a = {
+        id: drinkdetails.idDrink,
+        name: drinkdetails.strDrink,
+        tag: drinkdetails.strTags,
+        category: drinkdetails.strCategory, 
+        alcohol:  drinkdetails.strAlcoholic, 
+        glass: drinkdetails.strGlass,
+        instructions:  drinkdetails.strInstructions,  
+        image:  drinkdetails.strDrinkThumb, 
+        ingredients
+    }
+    console.log(a)
+    return a
+}
 
 export default logic
