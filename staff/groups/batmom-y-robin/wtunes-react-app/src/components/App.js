@@ -8,9 +8,7 @@ import Home from './Home'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 
 class App extends Component {
-    state = { city: null, visible: null, error: null, name: null }
-
-    //handleCityChange = city => this.setState({ city: selectedCity})
+    state = { city: null, visible: null, error: null, user: null }
 
     handleRegisterNavigation = () => this.props.history.push('/register')
 
@@ -22,8 +20,8 @@ class App extends Component {
                 .then(() =>
                     logic.retrieveUser()
                 )
-                .then(({ name }) => {
-                    this.setState({ name, error: null })
+                .then((response) => {
+                    this.setState({ user: response, error: null })
                 })
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -33,32 +31,20 @@ class App extends Component {
         }
     }
 
-    componentDidMount() {
-        // logic.isUserLoggedIn &&
-        //     logic.retrieveUser()
-        //         .then(user =>
-        //             this.setState({ name: user.name })
-        //         )
-        //         .catch(error =>
-        //             this.setState({ error: error.message })
-        //         )
-    }
-
     handleRegister = (name, surname, username, password, city) => {
         try {
             logic.registerUser(name, surname, username, password, city)
-                .then(() =>
-                    //this.setState({ visible: 'register-ok', error: null })
-                    this.setState({ name, error: null }, () => this.props.history.push('/login'))
+            .then(() =>
+
+            this.setState({ name, error: null }, () => this.props.history.push('/login'))
+            )
+            .catch(error =>
+                this.setState({ error: error.message })
                 )
-                .catch(error =>
-                    this.setState({ error: error.message })
-                )
-        } catch ({ message }) {
-            this.setState({ error: message })
+            } catch ({ message }) {
+                this.setState({ error: message })
+            }
         }
-    }
-   // handleCityChange = (value) => this.setState({ city: selectedCity})
 
     handleLogout = () => {
         logic.logoutUser()
@@ -66,14 +52,24 @@ class App extends Component {
         this.props.history.push('/')
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.props.location !== prevProps.location) this.setState({ visible: null })
+    componentDidMount() {
+        logic.isUserLoggedIn &&
+            logic.retrieveUser()
+                .then(user =>{
+                    this.setState({ user })
+                }
+                )
+                .catch(error =>
+                    this.setState({ error: error.message })
+                )
     }
+    // componentDidUpdate(prevProps) {
+    //     if (this.props.location !== prevProps.location) this.setState({ visible: null })
+    // }
 
     render() {
         const {
-            state: {  city, visible, error, name },
-            // handleCityChange,
+            state: {  visible, error, user },
             handleRegisterNavigation,
             handleLoginNavigation,
             handleCityChange,
@@ -88,15 +84,9 @@ class App extends Component {
 
                     <Route path="/register" render={()=> logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} onCityChange={handleCityChange}error={error} city/> }/>
 
-                    {/* <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> :
-                        visible !== 'register-ok' ?
-                        <Register lang={lang} onRegister={handleRegister} error={error} /> :
-                        <RegisterOk lang={lang} onLogin={handleLoginNavigation} />
-                    } /> */}
-
                     <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} error={error} />} />
 
-                    {<Route path="/home" render={() => logic.isUserLoggedIn ? <Home onLogout={handleLogout} /> : <Redirect to="/" />} />}
+                    <Route path="/home" render={() => logic.isUserLoggedIn ? <Home onLogout={handleLogout} user={user} /> : <Redirect to="/" />} />
 
                 <Redirect to="/" />
                 </Switch>

@@ -72,9 +72,9 @@ const logic = {
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
                 if (response.status === 'OK') {
-                    const { data: { name, surname, username: email } } = response
+                    const { data: { name, surname, username: email , preferences, city} } = response
 
-                    return { name, surname, email }
+                    return { name, surname, email, preferences, city }
                 } else throw new LogicError(response.error)
             })
     },
@@ -140,11 +140,12 @@ const logic = {
                 const {results} = response
                 if (results.length > 0){
                     results.map(element => {
-                        const{trackName, previewUrl, artworkUrl100 } = element
+                        const{trackName, previewUrl, artworkUrl100, primaryGenreName } = element
                         resultsArr.push({
                             trackName,
                             previewUrl,
-                            artWork: artworkUrl100
+                            artWork: artworkUrl100,
+                            genere: primaryGenreName,
                         })
                     })
                     return resultsArr
