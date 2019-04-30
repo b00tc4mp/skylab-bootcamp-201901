@@ -92,10 +92,39 @@ describe('logic', () => {
           .then(res => expect(res.status).toBe('OK'))
           .then(() => logic.loginUser(email, password))
           .then(res => {
+            expect(typeof res).toBe('boolean');
             expect(res).toBeTruthy();
             expect(typeof logic.userId).toBe('string');
             expect(typeof logic.token).toBe('string');
           }));
+
+      describe('fails with wrong data', () => {
+        beforeEach(() =>
+          userApi
+            .create(email, password, { name, surname })
+            .then(res => expect(res.status).toBe('OK'))
+        );
+
+        it('must return an error message on wrong user data', () => {
+          const wrongUsername = randomString();
+          return logic.loginUser(wrongUsername, password).then(res => {
+            expect(typeof res).toBe('string');
+            expect(res).toBe(`user with username "${wrongUsername}" does not exist`);
+            expect(logic.userId).toBeNull();
+            expect(logic.token).toBeNull();
+          });
+        });
+
+        it('must return an error message on wrong user password', () => {
+          const wrongPassword = randomString();
+          return logic.loginUser(email, wrongPassword).then(res => {
+            expect(typeof res).toBe('string');
+            expect(res).toBe('username and/or password wrong');
+            expect(logic.userId).toBeNull();
+            expect(logic.token).toBeNull();
+          });
+        });
+      });
 
       describe('fail param', () => {
         it('must return a promise', () =>
