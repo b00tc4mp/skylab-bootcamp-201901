@@ -51,7 +51,7 @@ function FullScreenImage(props) {
 
 
   return (
-    <>
+    
       <Container>
         <Row>
           <Col sm="12">
@@ -60,8 +60,6 @@ function FullScreenImage(props) {
         </Row>
 
       </Container>
-    </>
-
   )
 }
 
