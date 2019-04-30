@@ -7,10 +7,11 @@ import User from '../User'
 import Favorites from '../Favorites'
 import './index.sass'
 import SmallCard from '../SmallCard';
+import { logicalExpression } from '@babel/types';
 
 
 class Home extends Component {
-    state = { error: null, recipes: null, recipe: null, wanted: null, done: null, notes: null, forks: null }
+    state = { error: null, recipes: null, recipe: null, wanted: null, done: null, notes: null, forks: null, user: null }
 
     handleGoBack = () => this.setState({ recipe: null })
 
@@ -76,70 +77,111 @@ class Home extends Component {
             })
     }
 
+    handleUser = () => { // nuevo
+        logic.retrieveUser()
+            .then(response => {
+                // const {name,surname,email} = response
+                this.setState({ user: response })
+
+            })
+
+    }
+
+    handleUpdateUser = (xxx) => { // nuevo
+
+        if (!xxx) {
+            this.setState({ user: null })
+        } else {
+            logic.updateUser(xxx)
+                .then(response => {
+                    if (response.status === 'OK') this.setState({ user: null })
+                    else throw Error(response.error)
+                })
+        }
+    }
+
+    // handleSmallCard = () => {
+    //     logic.retrieveUser () 
+    //         .then(response => {
+    //             const {data:{wanted,done}} = response
+    //             this.setState({wanted:wanted})
+    //         })
+        
+    // }
+
     componentWillReceiveProps(props) {
         const { results } = props
 
         if (results !== this.props.recipes) {
-          this.setState({ recipes: results, recipe: null });
+            this.setState({ recipes: results, recipe: null });
         }
-      }
-    
-render() {
-    const {
-        handleRandom,
-        handleGoBack,
-        handleNewSearch,
-        handleNotes,
-        //handleForks,
-        handleWaitingList,
-        handleRetrieve,
-        state: { error, recipe, recipes, wanted, done, notes, forks },
-        props: { name, results }
-    } = this
+    }
 
-    if (recipes === null && recipe === null) handleRandom()
 
-    return <main className="home">
 
-        <div>
-            <nav className="nav">
-                <div className="nav__user">
-                    <a>
-                        <img src="http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg" />
-                    </a>
-                    <a>
-                        <p>{name}</p>
-                    </a>
-                </div>
-                <div className="nav__recipes">
-                    <h4>Boiling</h4>
-                    {/* <SmallCard></SmallCard> */}
-                    {<div onClick={() => handleRetrieve("52772")}><p>To Cook recipe</p></div>}
-                    {/* <p>To Cook recipe</p>
+    render() {
+        const {
+            handleRandom,
+            handleGoBack,
+            handleNewSearch,
+            handleUpdateUser,
+            handleNotes,
+            //handleForks,
+            handleWaitingList,
+            handleUser,
+            handleRetrieve,
+            state: { error, recipe, recipes, wanted, done, notes, forks, user },
+            props: { name, results }
+        } = this
+
+        if (recipes === null && recipe === null) handleRandom()
+
+        return <main className="home">
+
+            <div>
+                <nav className="nav">
+                    <div className="nav__user">
+                        <a className="nav__user-img">
+                            <img onClick={() => handleUser()} src="http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg" />
+                        </a>
+                        <a>
+                            <p className="nav__user-name" >Hola</p>
+                        </a>
+                    </div>
+                    <div className="nav__recipes">
+                        <h4>Boiling</h4>
+
+                        {/* {wanted.map(elem => logic.retrieveRecipe(elem).then(<SmallCard />))} */}
+
+
+                        {/* <SmallCard></SmallCard> */}
+                        {<div onClick={() => handleRetrieve("52772")}><p>To Cook recipe</p></div>}
+                        {/* <p>To Cook recipe</p>
                     <p>To Cook recipe</p>
                     <p>To Cook recipe</p>
                     <p>To Cook recipe</p> */}
-                </div>
-                <div className="nav__recipes">
-                    <h4>My Creations</h4>
-                    {/* <SmallCard></SmallCard> */}
-                    {<div onClick={() => handleRetrieve("52773")}><p>Cooked recipe</p></div>}
-                    {/* <p>Cooked recipe</p>
+                    </div>
+                    <div className="nav__recipes">
+                        <h4>My Creations</h4>
+                        {/* <SmallCard></SmallCard> */}
+                        {<div onClick={() => handleRetrieve("52773")}><p>Cooked recipe</p></div>}
+                        {/* <p>Cooked recipe</p>
                     <p>Cooked recipe</p>
                     <p>Cooked recipe</p>
                     <p>Cooked recipe</p>  */}
-                </div>
-            </nav>
-        </div>
-        <div >
-            <div className="home__search__results">
-                {!recipe && recipes && <Results items={results ? results : recipes} onItem={handleRetrieve} /*onFav={handleFav} favs={favs}*/ />}
-                {recipe && <Detail item={recipe} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} />}
+                    </div>
+                </nav>
             </div>
-        </div>
+            <div >
+                <div className="home__search__results">
+                    {!recipe && !user && recipes && <Results items={results ? results : recipes} onItem={handleRetrieve} /*onFav={handleFav} favs={favs}*/ />}
+                    {!user && recipe && <Detail item={recipe} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} />}
+                    {user && <User onUpdate={handleUpdateUser} onBack={handleUpdateUser} user={user} />}
+                </div>
+            </div>
 
-    </main>
-}
+        </main>
+    }
 
 
 
