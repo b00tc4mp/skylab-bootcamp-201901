@@ -12,7 +12,7 @@ function Login({ onLogin, error }) {
     }
 
     return <section className="login">
-        <h2>Wetunes</h2>
+        <h2>Weatunes</h2>
         <p>Sign in  with you email address</p>
         <form onSubmit={handleSubmit}>
             <input type="text" name="username" placeholder="email" />
