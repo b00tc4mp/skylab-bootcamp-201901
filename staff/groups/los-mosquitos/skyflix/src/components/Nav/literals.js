@@ -1,10 +1,10 @@
 const literals = {
-    "en-Us": {
+    "en-US": {
         list: 'My List',
         profile: 'Profile',
         logout: 'LOGOUT',
     },
-    "es-Es": {
+    "es-ES": {
         list: 'Mi Lista',
         profile: 'Perfil',
         logout: 'Salir',
