@@ -16,7 +16,7 @@ describe('logic', ()=>{
             logic.__userToken__ = null
         })
         describe('register user', ()=>{
-    
+
             it('should succeed on correct user data', () =>
                 logic.registerUser(name, surname, email, password , city)
                     .then(response => expect(response).toBeUndefined())
