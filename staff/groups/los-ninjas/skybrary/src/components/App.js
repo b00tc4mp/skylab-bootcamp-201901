@@ -4,13 +4,13 @@ import logic from '../logic'
 import Landing from './Landing'
 import Register from './Register'
 // import RegisterOk from './RegisterOk'
-// import Login from './Login'
-// import Home from './Home'
+import Login from './Login'
+import Home from './Home'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 
 
 class App extends Component {
-  state = { error: null }
+  state = { name: null, error: null }
 
 
   handleRegister = (alias, username, password) => {
@@ -26,6 +26,25 @@ class App extends Component {
     }
   }
 
+
+  handleLogin = (username, password) => {
+    try {
+      logic.loginUser(username, password)
+        .then(() =>
+          logic.retrieveUser()
+        )
+        .then(user => {
+          this.setState({ name: user.alias, error: null }, ()=> this.props.history.push('/home'))
+        })
+        .catch(error =>
+          this.setState({ error: error.message })
+        )
+    } catch ({ message }) {
+      this.setState({ error: message })
+    }
+
+  }
+
   handleLoginNavigation = () => this.props.history.push('/login')
 
   handleRegisterNavigation = () => this.props.history.push('/register')
@@ -36,6 +55,7 @@ class App extends Component {
 
     const {
       state: { error },
+      handleLogin,
       handleRegisterNavigation,
       handleLoginNavigation,
       handleRegister
@@ -48,6 +68,13 @@ class App extends Component {
         } />
         <Route path="/register" render={() =>
           <Register onRegister={handleRegister} error={error} />
+        } />
+        <Route path="/login" render={() =>
+          <Login onLogin={handleLogin} error={error} />
+        } />
+
+        <Route path="/home" render={() =>
+          <Home />
         } />
 
         <Redirect to="/" />

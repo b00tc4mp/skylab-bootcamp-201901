@@ -10,6 +10,7 @@ class Home extends Component {
 
     render() {
         return <main>
+            <h2>Hello World</h2>
         </main>
     }
 }
