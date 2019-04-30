@@ -68,6 +68,17 @@ const logic = {
         sessionStorage.clear()
     },
 
+    retrieveUser() {
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                if (response.status === 'OK') {
+                    const { data: { name, surname, username: email } } = response
+
+                    return { name, surname, email }
+                } else throw new LogicError(response.error)
+            })
+    },
+
     retrieveUserPreferences (){
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
