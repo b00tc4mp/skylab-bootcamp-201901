@@ -115,9 +115,6 @@ class Home extends Component {
     componentDidMount() {
         this.handleRetriveBook()
         this.handleRandom()
-        if (results !== this.props.recipes) {
-            this.setState({ recipes: results, recipe: null });
-        }
     }
 
     render() {
@@ -132,7 +129,6 @@ class Home extends Component {
             handleUser,
             handleRetrieve,
             state: { error, recipe, recipes, wanted, done, notes, forks, user, fullWanted, fullDone},
-            props: { name }
         } = this
 
         if (recipes === null && recipe === null) handleRandom()
@@ -169,4 +165,5 @@ class Home extends Component {
 
         </main>
     }
+}
 export default Home
