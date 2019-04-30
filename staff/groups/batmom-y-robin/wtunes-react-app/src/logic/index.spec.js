@@ -429,13 +429,7 @@ describe('logic', ()=>{
                 logic.retrieveWeather(__city__)
                 .then(response => {
                     expect(response).toBeDefined()
-                    const [city, weather, icon] = response
-                    expect(weather).toBeDefined
-                    expect(typeof weather).toBe('string')
-                    expect(icon).toBeDefined
-                    expect(typeof icon).toBe('string')
-                    expect(city).toBeDefined
-                    expect(city).toBe(__city__)
+                    expect(typeof response).toBe('string')
                 })
             )
     
