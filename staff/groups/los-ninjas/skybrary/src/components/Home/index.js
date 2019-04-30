@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-// import literals from './literals'
 // import logic from '../../logic'
 // import Search from '../Search'
 // import Results from '../Results'
