@@ -232,7 +232,7 @@ describe('logic', () => {
             )
     
             it('Should succedd on correct user id and token', () => {
-                logic.retrieveUser()
+                return logic.retrieveUser()
                 .then(user => {
                     console.log(user.id)
                     expect(typeof user.id).toBe('undefined')
@@ -357,12 +357,53 @@ describe('logic', () => {
                     console.log(response)
                     expect(response instanceof Array).toBeTruthy()
 
-                })
-            
+                })           
             )
-                 
+        })
+        describe('search by category', () => {
+            it('Should succed on correct query', () => {
+                logic.searchByCategory('Beer')
+                .then(cockt => {
+                    expect(cockt).toBeDefined()
+                    expect(cockt instanceof Array).toBeTruthy()
+                    expect(cockt.length).toBe(13)
+                    
+                })
+    
+            })
+    
+        })
+        it('should retrive coktails by glass category', ()=>{
+
+            let glass = 'Cocktail_glass'
+
+                logic.cocktailbyGlass(glass)
+                    .then(response => {
+                        expect(response instanceof Object).toBeTruthy()
+                        expect(response.drinks.length).toBeGreaterThan(0)
+                        expect(response.drinks.isDrinks).toBe('16108')
+                    })
 
         })
+    
+        it('should retrive coktails by Name', ()=>{
+            let name = 'margarita'
+            logic.cocktailbyName(name)
+                .then(response => {
+                    expect(response instanceof Object).toBeTruthy()
+                    expect(response.drinks.length).toBeGreaterThan(0)
+                    expect(response.drinks.isDrinks).toBe("11007")
+                })
+        })
+        it('should retrive coktail detail by ID', ()=>{
+            let id = '11007'
+                logic.cocktailbyName(id)
+                    .then(response => {
+                        expect(response instanceof Object).toBeTruthy()
+                        expect(response.drinks.length).toBeGreaterThan(0)
+                        expect(response.drinks.isDrinks).toBe("11007")
+                    })
 
+        })    
     })
 })

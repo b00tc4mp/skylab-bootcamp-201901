@@ -103,6 +103,14 @@ const logic = {
             })
     },
 
+    searchByCategory(query) {
+        validate.arguments([
+            {name : 'query ' , value: query , type : 'string'}
+        ])
+
+        return cocktailApi.searchByCategory(query)
+    },
+
     retriveFavorites(){
 
         return userApi.retrieve(this.__userId__,this.__userToken__)
@@ -135,7 +143,70 @@ const logic = {
             throw new LogicError(response.error)
         })
 
+    },
+
+    cocktailbyGlass(query){
+        validate.arguments([
+            {name: 'query', value: query, type: 'string', notEmpty: true},
+           ])
+
+        return cocktailApi.searchByGlass(query)
+           .then(response => {
+               if (response.length > 0){
+                   return
+               }
+               else throw new LogicError(response.error)
+               
+           })
+    },
+
+    cocktailbyName(query){
+        validate.arguments([
+            {name: 'query', value: query, type: 'string', notEmpty: true},
+           ])
+        return cocktailApi.searchCocktail(query)
+           .then(response => {
+               if (response.length > 0){
+                    return filterDetails(response)
+               }
+               else throw new LogicError(response.error) 
+           })
+    },
+
+    cocktailDetail(id){
+        validate.arguments([
+            {name: 'id', value: id, type: 'string', notEmpty: true},
+           ])
+        return cocktailApi.searchById(id)
+           .then(response => {
+               if (response.length > 0){
+                    return filterDetails(response)
+               }
+               else throw new LogicError(response.error)
+           })
     }
 }
+
+function filterDetails(details){
+
+    if(details.length){
+        const calls = details.map(fav => {
+           return cocktailApi.searchById(fav)
+            .then(({drinks}) => {
+                drinks.forEach(drink => {
+                    Object.keys(drink).forEach(key => {
+                        if(drink[key] === null  || drink[key].trim() == '') {
+                            delete drink[key]
+                        } 
+                    })
+                })
+                return drinks[0]
+            })
+            
+        })
+        return Promise.all(calls)
+    }
+}
+
 
 export default logic
