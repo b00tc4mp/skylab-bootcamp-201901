@@ -7,6 +7,7 @@ import { PasswordError } from '../common/errors'
 
 
 const logic = {
+
     set __userId__(id) {
         sessionStorage.userId = id
     },
@@ -28,7 +29,7 @@ const logic = {
     },
 
     registerUser(name, surname, email, password, password2) {
-       
+
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
             { name: 'surname', value: surname, type: 'string', notEmpty: true },
@@ -83,6 +84,7 @@ const logic = {
         sessionStorage.clear()
     },
 
+
     addFavorites() {
         //TODO
     },
@@ -90,7 +92,11 @@ const logic = {
 
     retrieveFavorites() {
         //TODO
-    }
+    },
+
+
+
+
 
 
 
