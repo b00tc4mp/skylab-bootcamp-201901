@@ -157,9 +157,10 @@ const logic = {
             { name: 'weather', value: weather, type: 'string', notEmpty: true },
             { name: 'preferences', value: preferences, type: 'object', notEmpty: true }
         ])
-        debugger
+
         const limit = 20
         let result = preferences.find(element => Object.keys(element)[0]==weather)
+        result = result!==undefined ? result : 'Tango+Country'
         let query=Object.values(result).join()
         return itunesApi.searchMusic(query, 'music', limit)
             .then(response => {
@@ -179,7 +180,7 @@ const logic = {
                     return resultsArr
                 }else throw new Error ('no results found')
 
-            })       
+            })
     }
 }
 
