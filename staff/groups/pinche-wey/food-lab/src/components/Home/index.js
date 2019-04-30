@@ -10,7 +10,7 @@ import SmallCard from '../SmallCard';
 
 
 class Home extends Component {
-    state = { error: null, recipes: null, recipe: null, wanted: null, done: null, notes: null, forks: null }
+    state = { error: null, recipes: null, recipe: null, wanted: null, done: null, notes: null, forks: null, fullDone: null, fullWanted: null }
 
     handleGoBack = () => this.setState({ recipe: null })
 
@@ -30,8 +30,8 @@ class Home extends Component {
                 .then(() =>
                     logic.retrieveBook()
                 )
-                .then(([wanted, done, notes, forks]) => {
-                    this.setState({ wanted, done, notes, forks })
+                .then(([wanted, done, notes, forks, fullWanted, fullDone ]) => {
+                    this.setState({ wanted, done, notes, forks, fullWanted, fullDone})
                 })
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -44,8 +44,8 @@ class Home extends Component {
     handleNotes = (id, changes, notes) => {
         logic.updatingNotes(id, changes, notes)
             .then(() => logic.retrieveBook())
-            .then(([wanted, done, notes, forks]) => {
-                this.setState({ wanted, done, notes, forks })
+            .then(([wanted, done, notes,forks, fullWanted, fullDone]) => {
+                this.setState({ wanted, done, notes, forks, fullWanted, fullDone})
             })
     }
 
@@ -70,78 +70,74 @@ class Home extends Component {
 
                 this.setState({ recipe: null, recipes: random })
             })
-            .then(() => logic.retrieveBook())
-            .then(([wanted, done, notes, forks]) => {
-                this.setState({ wanted, done, notes, forks })
-            })
+
     }
+
+
+    handleRetriveBook = () => {
+        logic.retrieveBook()
+            .then(([wanted, done, notes, forks, fullWanted, fullDone]) => {
+                this.setState({ wanted, done, notes, forks, fullDone, fullWanted })
+            })
+
+    }
+
 
     componentWillReceiveProps(props) {
         const { results } = props
 
-        if (results !== this.props.recipes) {
-          this.setState({ recipes: results, recipe: null });
+        if (results !== null) {
+            this.setState({ recipes: results, recipe: null });
         }
-      }
-    
-render() {
-    const {
-        handleRandom,
-        handleGoBack,
-        handleNewSearch,
-        handleNotes,
-        //handleForks,
-        handleWaitingList,
-        handleRetrieve,
-        state: { error, recipe, recipes, wanted, done, notes, forks },
-        props: { name, results }
-    } = this
+    }
 
-    if (recipes === null && recipe === null) handleRandom()
+    componentDidMount() {
+        this.handleRetriveBook()
+        this.handleRandom()
+    }
 
-    return <main className="home">
+    render() {
+        const {
+            handleGoBack,
+            handleNotes,
+            //handleForks,
+            handleWaitingList,
+            handleRetrieve,
+            state: { error, recipe, recipes, wanted, done, notes, forks, fullWanted, fullDone },
+            props: { name }
+        } = this
 
-        <div>
-            <nav className="nav">
-                <div className="nav__user">
-                    <a>
-                        <img src="http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg" />
-                    </a>
-                    <a>
-                        <p>{name}</p>
-                    </a>
-                </div>
-                <div className="nav__recipes">
-                    <h4>Boiling</h4>
-                    {/* <SmallCard></SmallCard> */}
-                    {<div onClick={() => handleRetrieve("52772")}><p>To Cook recipe</p></div>}
-                    {/* <p>To Cook recipe</p>
-                    <p>To Cook recipe</p>
-                    <p>To Cook recipe</p>
-                    <p>To Cook recipe</p> */}
-                </div>
-                <div className="nav__recipes">
-                    <h4>My Creations</h4>
-                    {/* <SmallCard></SmallCard> */}
-                    {<div onClick={() => handleRetrieve("52773")}><p>Cooked recipe</p></div>}
-                    {/* <p>Cooked recipe</p>
-                    <p>Cooked recipe</p>
-                    <p>Cooked recipe</p>
-                    <p>Cooked recipe</p>  */}
-                </div>
-            </nav>
-        </div>
-        <div >
-            <div className="home__search__results">
-                {!recipe && recipes && <Results items={results ? results : recipes} onItem={handleRetrieve} /*onFav={handleFav} favs={favs}*/ />}
-                {recipe && <Detail item={recipe} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} />}
+        return <main className="home">
+
+            <div>
+                <nav className="nav">
+                    <div className="nav__user">
+                        <a>
+                            <img src="http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg" />
+                        </a>
+                        <a>
+                            <p>{name}</p>
+                        </a>
+                    </div>
+                    <div className="nav__recipes">
+                        <h4>Boiling</h4>
+                        <SmallCard toPaint={fullWanted} onItem={handleRetrieve}></SmallCard>
+                    </div>
+                    <div className="nav__recipes">
+                        <h4>My Creations</h4>
+                        <SmallCard toPaint={fullDone} onItem={handleRetrieve}></SmallCard>
+                    </div>
+                </nav>
             </div>
-        </div>
+            <div >
+                <div className="home__search__results">
+                    {!recipe && recipes && <Results items={recipes} onItem={handleRetrieve} /*onFav={handleFav} favs={favs}*/ />}
+                    {recipe && <Detail item={recipe} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} />}
+                </div>
+            </div>
 
-    </main>
-}
-
-
+        </main>
+    }
 
 }
 

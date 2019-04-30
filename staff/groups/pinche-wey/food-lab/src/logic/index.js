@@ -151,31 +151,56 @@ const logic = {
 
     },
 
-    retrieveBook(print) {
+    retrieveBook() {
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
                 const { status, data } = response
 
                 if (status === 'OK') {
-                    const { wanted = [], done = [], notes = [], forks = [] } = data
+                    let { wanted = [], done = [], notes = [], forks = [], fullWanted = [], fullDone = [] } = data
+                    let printingsWanted
+                    let printingsDone
 
-                    if (!print) return [wanted, done, notes, forks]
+                    if (wanted.length > 0 && done.length > 0) {
+                        printingsWanted = wanted.map(recipe => recipeApi.retrieveRecipe(recipe))
+                        printingsDone = done.map(recipe => recipeApi.retrieveRecipe(recipe))
 
-                    let calls
+                        return Promise.all(printingsWanted)
+                            .then((will) => {
+                                fullWanted = will.map(({ meals }) => meals[0])
+                                return fullWanted
+                            })
+                            .then(() => Promise.all(printingsDone))
+                            .then((will) => {
+                                fullDone = will.map(({ meals }) => meals[0])
+                                return fullDone
+                            })
+                            .then(() => [wanted, done, notes, forks, fullWanted, fullDone])
 
-                    if (print[0] === wanted[0]) calls = wanted.map(recipe => recipeApi.retrieveRecipe(recipe))
-                    else if (print[0] === done[0]) calls = done.map(recipe => recipeApi.retrieveRecipe(recipe))
-                    else throw new RequirementError("You should send Wanted or Done as a argument")
+                    } else if (wanted.length > 0) {
+                        printingsWanted = wanted.map(recipe => recipeApi.retrieveRecipe(recipe))
 
-                    return Promise.all(calls)
-                        .then(printing => {
+                        return Promise.all(printingsWanted)
+                            .then((will) => {
+                                fullWanted = will.map(({ meals }) => meals[0])
+                                return fullWanted
+                            })
+                            .then(() => [wanted, done, notes, forks, fullWanted, fullDone])
 
-                            const toshow = printing.map(({ meals }) => meals)
-                            return toshow
+                    } else if (done.length > 0) {
+                        printingsDone = done.map(recipe => recipeApi.retrieveRecipe(recipe))
+
+                    return Promise.all(printingsDone)
+                        .then((will) => {
+                            fullDone = will.map(({ meals }) => meals[0])
+                            return fullDone
                         })
+                        .then(() => [wanted, done, notes, forks, fullWanted, fullDone])
 
-                } else throw new LogicError(response.error)
+                    } else return [wanted, done, notes, forks, fullWanted, fullDone]
+                }
             })
+
     },
 
     updatingNotes(index, changes, notes) {
