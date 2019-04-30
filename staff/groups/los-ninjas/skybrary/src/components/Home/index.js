@@ -8,8 +8,12 @@ import React, { Component } from 'react'
 class Home extends Component {
     state = {error: null, books: [], book: null, favList: [], readingList: [], doneList: [], wantToRead: []}
 
+
+
+
     render() {
         return <main>
+            
         </main>
     }
 }
