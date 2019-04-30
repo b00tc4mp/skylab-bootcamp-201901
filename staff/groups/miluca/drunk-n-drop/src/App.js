@@ -1,9 +1,13 @@
-
+import { BrowserRouter as Router, Route, Link, Prompt, Switch, withRouter } from "react-router-dom";
 import React, { Component } from 'react'
 import Login from './components/login/index'
-import logic from '../src/logic';
+import logic from '../src/logic'
 import Search from '../src/components/search'
-import { BrowserRouter as Router, Route, Link, Prompt, Switch, withRouter } from "react-router-dom";
+import Results from '../src/components/results/results'
+
+
+//components
+
 import Register from './components/register';
 
 class App extends Component {
@@ -41,16 +45,19 @@ class App extends Component {
     }
   }
 
-  handleSearch = query => {
-  
-      logic.cocktailbyName(query)
-        
-   
+  handleSearch = (query) => {
+
+     return logic.cocktailbyName(query)
+     .then(response => {
+       this.setState({results : response})
+     })
+
   }
 
+  
   render() {
     const {
-      state: { error, results },
+      state: { error, results},
       handleLogin,
       handleRegister,
       handleSearch
@@ -58,6 +65,7 @@ class App extends Component {
 
 
     return <>
+     <Results items={results} />
       <Router>
         <Route exact path="/register" render={() => <Register onRegister={handleRegister} error={error} />} />
         <Route exact path="/login" render={() => <Login onLogin={handleLogin} error={error} />} />
