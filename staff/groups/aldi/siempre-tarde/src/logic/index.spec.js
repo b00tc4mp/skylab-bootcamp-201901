@@ -1,7 +1,18 @@
 import logic from '.'
-import { LogicError, RequirementError, ValueError, FormatError } from '../common/errors'
+import { LogicError, RequirementError, ValueError, FormatError, NotFoundError, DirectionError } from '../common/errors'
 import userApi from '../data/user-api'
+import transitApi from '../data/transit-api'
 import iBusApi from '../data/ibus-api'
+
+
+const { env: { REACT_APP_APP_ID, REACT_APP_APP_KEY } } = process
+
+transitApi.APP_ID = REACT_APP_APP_ID
+transitApi.APP_KEY = REACT_APP_APP_KEY
+
+iBusApi.APP_ID = REACT_APP_APP_ID
+iBusApi.APP_KEY = REACT_APP_APP_KEY
+
 
 describe('logic', () => {
     describe('users', () => {
@@ -189,12 +200,165 @@ describe('logic', () => {
 
     })
 
-    describe('retrive next bus by stop id', () => {
-      
-        
 
-        
+    describe('retriveBusLines', () => {
+
+        it('should succeed on correct line id', () => {
+            const line_id = 123
+
+            return logic.retrieveBusLines(line_id)
+                .then(response => {
+
+                    expect(response.length).toBe(1)
+
+                    response.forEach(e => {
+                        const {
+                            line_id,
+                            name_line,
+                            desc_line,
+                            origin_line,
+                            dest_line,
+                            color_line } = e
+
+                        expect(typeof line_id == 'number').toBeTruthy()
+                        expect(typeof name_line == 'string').toBeTruthy()
+                        expect(typeof desc_line == 'string').toBeTruthy()
+                        expect(typeof origin_line == 'string').toBeTruthy()
+                        expect(typeof dest_line == 'string').toBeTruthy()
+                        expect(typeof color_line == 'string').toBeTruthy()
+
+                    });
+                })
+        })
+
+        it('should succeed on undefined line id', () => {
+            const line_id = undefined
+
+            return logic.retrieveBusLines(line_id)
+                .then(response => {
+
+                    expect(response.length).toBeGreaterThan(1)
+
+                    response.forEach(e => {
+                        const {
+                            line_id,
+                            name_line,
+                            desc_line,
+                            origin_line,
+                            dest_line,
+                            color_line } = e
+
+                        expect(typeof line_id == 'number').toBeTruthy()
+                        expect(typeof name_line == 'string').toBeTruthy()
+                        expect(typeof desc_line == 'string').toBeTruthy()
+                        expect(typeof origin_line == 'string').toBeTruthy()
+                        expect(typeof dest_line == 'string').toBeTruthy()
+                        expect(typeof color_line == 'string').toBeTruthy()
+
+                    });
+                })
+        })
+
+        it('should fail on incorrect bus stop id', () =>
+            expect(() => logic.retrieveBusLines('123es')).toThrowError(TypeError, 'line_id 123es is not a number')
+        )
+
     })
+
+    describe('retrieveBusLineRoute', () => {
+
+        it('should succeed on correct line id', () => {
+    
+            const line_id = 123
+    
+            return logic.retrieveBusLineRoute(line_id)
+                .then(response => {
+    
+                    expect(response.length).toBe(2)
+    
+                    response.forEach(e => {
+                        const {
+                            direction_id,
+                            direction_name } = e
+    
+                        expect(direction_id === 'T' || direction_id === 'A').toBeTruthy()
+                        expect(typeof direction_name == 'string').toBeTruthy()
+    
+    
+                    })
+                })
+        })
+    
+        it('should fail on incorrect bus stop id', () =>
+    
+            expect(() => logic.retrieveBusLineRoute('123es')).toThrowError(TypeError, 'line_id 123es is not a number')
+    
+        )
+    
+        it('should fail on undefined line id', () => {
+            const line_id = undefined
+    
+            expect(() => logic.retrieveBusLineRoute(line_id)).toThrowError(RequirementError, 'line_id is not optional')
+            
+        })
+    })
+
+    describe('retrieveBusStops', () => {
+
+        it('should succeed on correct line id', () => {
+    
+            const line_id = 123
+            const direction_id = 'A'
+    
+            return logic.retrieveBusStops(line_id,direction_id)
+                .then(response => {
+    
+                    expect(response.length).toBe(2)
+    
+                    response.forEach(e => {
+                        const {
+                            stop_id,
+                            stop_name } = e
+    
+                        expect(typeof stop_id == 'number').toBeTruthy()
+                        expect(typeof stop_name == 'string').toBeTruthy()
+    
+    
+                    })
+                })
+        })
+    
+        it('should fail on incorrect bus stop id', () =>{
+            const line_id = '123a'
+            const direction_id = 'A'
+    
+            expect(() => logic.retrieveBusStops(line_id,direction_id)).toThrowError(TypeError, 'line_id 123es is not a number')
+    
+        })
+        it('should fail on incorrect bus direction id', () =>{
+            const line_id = 123
+            const direction_id = 'Z'
+    
+            expect(() => logic.retrieveBusStops(line_id,direction_id)).toThrowError(DirectionError, 'direction is not valid')
+    
+        })
+        it('should fail on undefined bus stop id', () =>{
+            const line_id = undefined
+            const direction_id = 'A'
+    
+            expect(() => logic.retrieveBusStops(line_id,direction_id)).toThrowError(Error, 'line_id is not optional')
+    
+        })
+        it('should fail on undefined bus direction id', () =>{
+            const line_id = 123
+            const direction_id = undefined
+    
+            expect(() => logic.retrieveBusStops(line_id,direction_id)).toThrowError(Error, 'direction_id is not optional')
+    
+        })
+    
+    })
+
 
 
 })

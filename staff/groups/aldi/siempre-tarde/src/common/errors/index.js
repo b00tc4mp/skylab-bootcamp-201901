@@ -51,6 +51,12 @@ class NotFoundError extends Error {
     }
 }
 
+class DirectionError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
 export {
     ValueError,
     FormatError,
@@ -60,5 +66,6 @@ export {
     LogicError,
     PasswordError,
     NotFoundError,
-    NoDataError
+    NoDataError,
+    DirectionError
 }

@@ -38,14 +38,12 @@ describe('transit api', () => {
             return transitApi.retrieveBusLine(undefined)
                 .then(response => {
                     expect(response).toBeDefined()
-                    debugger
 
                     const { totalFeatures, features } = response
 
                     expect(totalFeatures).toBeGreaterThan(0)
 
                     features.forEach(prop => {
-                        debugger
                         const {properties : { "CODI_LINIA": codi_linea,
                             "NOM_LINIA": nom_linia,
                             "DESC_LINIA": desc_linia,

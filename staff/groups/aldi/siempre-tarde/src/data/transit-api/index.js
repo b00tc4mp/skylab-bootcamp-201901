@@ -24,7 +24,6 @@ const transitApi = {
         })
         .then(response => {
             if (response.status === 200) { 
-                debugger
                 return response.json()
             }  
             if (response.status === 404) throw new NotFoundError('cannot found')
@@ -76,7 +75,6 @@ const transitApi = {
         })
         .then(response => {
             if (response.status === 200) { 
-                debugger
                 return response.json()
             }  
             if (response.status === 404) throw new NotFoundError('cannot found')
