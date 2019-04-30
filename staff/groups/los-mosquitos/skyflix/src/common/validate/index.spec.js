@@ -1,5 +1,5 @@
 import validate from '.'
-import { ValueError, RequirementError, FormatError } from '../errors'
+import { ValueError, RequirementError, FormatError, LogicError } from '../errors'
 
 describe('validate', () => {
     describe('arguments', () => {
@@ -66,6 +66,25 @@ describe('validate', () => {
             expect(() => {
                 validate.url(url)
             }).toThrowError(FormatError, 'url is not a url')
+        })
+    })
+
+    describe('password', () => {
+        let pass1 = '123'
+        let pass2 = '123' 
+        it('should succed on same password', () => {
+            try {
+                validate.password(pass1, pass2)
+                expect(true).toBeTruthy()
+            } catch (error) {
+                expect(error).toBeUndefined()
+            }
+        })
+        it('should fail on invalid url', () => {
+            pass2 = '12345'
+            expect(() => {
+                validate.password(pass1, pass2)
+            }).toThrowError(LogicError, 'Introduce please the same password')
         })
     })
 

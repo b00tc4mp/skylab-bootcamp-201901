@@ -1,4 +1,4 @@
-import { ValueError, RequirementError, FormatError } from '../errors'
+import { ValueError, RequirementError, FormatError, LogicError } from '../errors'
 
 const validate = {
     arguments(args) {
@@ -25,6 +25,12 @@ const validate = {
         const re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 
         if (!re.test(String(url))) throw new FormatError(`${url} is not a url`)
+    },
+    
+    password(password, confirmPassword){
+        if(password !== confirmPassword){
+            throw new LogicError('Introduce please the same password')
+        }
     }
 }
 
