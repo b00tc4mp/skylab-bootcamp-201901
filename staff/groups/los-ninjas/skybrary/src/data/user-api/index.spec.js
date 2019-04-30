@@ -5,16 +5,17 @@ describe('user api', () => {
     const alias = 'skybrary'
     let username
     const password = '123'
-    const favList = []
-    const readingList = []
-    const doneList = []
-    const wantToRead = []
+    const relatedBooks = []
+    // const favList = []
+    // const readingList = []
+    // const doneList = []
+    // const wantToRead = []
 
     beforeEach(() => username = `skybrary${Math.random()}@skybrary.com`)
 
     describe('create', () => {
         it('should succeed on correct user data', () =>
-            userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })
+            userApi.create(username, password, { alias })
                 .then(response => {
                     expect(response).toBeDefined()
 
@@ -30,10 +31,10 @@ describe('user api', () => {
         )
 
         describe('on already existing user', () => {
-            beforeEach(() => userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead }))
+            beforeEach(() => userApi.create(username, password, { alias }))
 
             it('should fail on retrying to register', () =>
-                userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })
+                userApi.create(username, password, { alias })
                     .then(response => {
                         expect(response).toBeDefined()
 
@@ -48,25 +49,25 @@ describe('user api', () => {
         it('should fail on undefined username', () => {
             const username = undefined
 
-            expect(() => userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })).toThrowError(RequirementError, `username is not optional`)
+            expect(() => userApi.create(username, password, { alias })).toThrowError(RequirementError, `username is not optional`)
         })
 
         it('should fail on null username', () => {
             const username = null
 
-            expect(() => userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })).toThrowError(RequirementError, `username is not optional`)
+            expect(() => userApi.create(username, password, { alias })).toThrowError(RequirementError, `username is not optional`)
         })
 
         it('should fail on empty username', () => {
             const username = ''
 
-            expect(() => userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })).toThrowError(ValueError, 'username is empty')
+            expect(() => userApi.create(username, password, { alias })).toThrowError(ValueError, 'username is empty')
         })
 
         it('should fail on blank username', () => {
             const username = ' \t    \n'
 
-            expect(() => userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })).toThrowError(ValueError, 'username is empty')
+            expect(() => userApi.create(username, password, { alias })).toThrowError(ValueError, 'username is empty')
         })
     })
 
@@ -74,7 +75,7 @@ describe('user api', () => {
         let _id
 
         beforeEach(() =>
-            userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })
+            userApi.create(username, password, { alias })
                 .then(response => _id = response.data.id)
         )
 
@@ -122,7 +123,7 @@ describe('user api', () => {
         let _id, token
 
         beforeEach(() =>
-            userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })
+            userApi.create(username, password, { alias })
                 .then(response => {
                     _id = response.data.id
 
@@ -169,7 +170,7 @@ describe('user api', () => {
         })
 
         it('should fail on wrong api url', () =>
-            userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })
+            userApi.create(username, password, { alias })
                 .then(() => { throw Error('should not reach this point') })
                 .catch(error => {
                     expect(error).toBeDefined()
@@ -187,7 +188,7 @@ describe('user api', () => {
         beforeEach(() => userApi.__timeout__ = timeout)
 
         it('should fail on too long wait', () =>
-            userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })
+            userApi.create(username, password, { alias })
                 .then(() => { throw Error('should not reach this point') })
                 .catch(error => {
                     expect(error).toBeDefined()
@@ -205,7 +206,7 @@ describe('user api', () => {
         beforeEach(() => {
             _data = { array: [1, "2", true], hello: 'world', object: { key: 'value' } }
 
-            return userApi.create(username, password, { alias, favList, readingList, doneList, wantToRead })
+            return userApi.create(username, password, { alias })
                 .then(response => {
                     _id = response.data.id
 
