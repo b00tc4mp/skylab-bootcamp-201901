@@ -1,8 +1,12 @@
 import React from 'react'
+import Title from '../Detail/Title'
+import Subtitle from '../Detail/Subtitle'
+import Price from '../Detail/Price'
+import Image from '../Detail/Image'
 
 import {Row, Container, Col} from 'reactstrap'
 
-function ProductVerSlim(props) {
+function ProductVerticalSlim(props) {
 
 
   const detail = {
@@ -53,22 +57,21 @@ function ProductVerSlim(props) {
   return (
     <>
       <Container>
-        <Row>
+        <Row >
           <Col sm="3">
-            <img width="100%" src={detail._links.image_small.href} />
+            <Image image={detail._links.image_small.href}/>
           </Col>
         </Row>
         <Row>
           <Col sm="3">
-            <p>{detail.product_name}</p>
-            <p>{detail.subtitle}</p>
-            <p>{detail.original_price} €</p>
+            <Title title={detail.title}/>
+            <Subtitle title={detail.subtitle}/>
+            <Price price={detail.price}/>
           </Col>
         </Row>
       </Container>
     </>
-
   )
 }
 
-export default ProductVerSlim
+export default ProductVerticalSlim

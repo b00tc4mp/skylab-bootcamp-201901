@@ -1,7 +1,7 @@
 import React from 'react'
-import TitleProduct from '../Detail/Title'
-import SubtitleProduct from '../Detail/Subtitle'
-import ImageProduct from '../Detail/Image'
+import Title from '../Detail/Title'
+import Subtitle from '../Detail/Subtitle'
+import Image from '../Detail/Image'
 import {Row, Container, Col} from 'reactstrap'
 import Price from '../Detail/Price';
 
@@ -56,21 +56,18 @@ function ProductHorizontalSlim(props) {
 
 
   return (
-    <>
       <Container>
-        <Row>
-          <Col sm="3">
-            <ImageProduct image={detail._links.image_small.href}/>
+        <Row >
+          <Col xs="4">
+            <Image image={detail._links.image_small.href}/>
           </Col>
-          <Col sm="9">
-            <TitleProduct title={detail.product_name}  />
-            <SubtitleProduct subtitle={detail.subtitle}/>
+          <Col xs="8">
+            <Title title={detail.product_name}  />
+            <Subtitle subtitle={detail.subtitle}/>
             <Price/>
           </Col>
         </Row>
       </Container>
-    </>
-
   )
 }
 
