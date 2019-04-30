@@ -1,15 +1,13 @@
 import React from 'react'
 import literals from './literals'
 
-function RegisterOk({ lang, onLogin }) {
-    const { successProceedTo, login } = literals[lang]
-
+function RegisterOk({ onLogin }) {
     return <>
-        {successProceedTo} <a href="" onClick={e => {
+        Registration Succeded <a href="" onClick={e => {
             e.preventDefault()
 
             onLogin()
-        }}>{login}</a>.
+        }}>Login</a>.
     </>
 }
 
