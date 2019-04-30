@@ -1,8 +1,8 @@
 import React from 'react'
-
+import './index.sass'
 function Search({ onSearch, error }) {
 
-    return <form onSubmit={e => {
+    return <form className='searcher' onSubmit={e => {
         e.preventDefault()
 
         const query = e.target.query.value
@@ -10,15 +10,15 @@ function Search({ onSearch, error }) {
 
         onSearch(query, selector)
     }}>
-        <input type="text" name="query" />
-        <select name="selector">
+        <input className='searcher__input' type="text" name="query" placeholder=' Search here' />
+        <select className='searcher__selector' name="selector">
             <option value="search.php?s=">Recipe name</option>
             <option value="filter.php?i=">Ingredient</option>
             <option value="filter.php?c=">Category</option>
             <option value="filter.php?a=">Area</option>
         </select>
-        <button>Search</button>
-        <span>{error}</span>
+        <button className='searcher__button'>Search</button>
+        <span className='searcher__error'>{error}</span>
     </form>
     
 }
