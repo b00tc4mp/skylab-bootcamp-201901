@@ -3,7 +3,6 @@ import React from 'react'
 function Register({onRegister, error}){
 let city
     function onCityChange(e){
-        console.log(e)
         city=e
     }
     function handleSubmit(e) {
@@ -27,6 +26,7 @@ let city
         <input type="text" name="username" placeholder="email" />
         <input type="password" name="password" placeholder="password" />
         <select name="city" onChange={event => onCityChange(event.target.value)}>
+            <option value="">City</option>
             <option value="Alaska">Alaska</option>
             <option value="Auckland">Auckland</option>
             <option value="Barcelona">Barcelona</option>
