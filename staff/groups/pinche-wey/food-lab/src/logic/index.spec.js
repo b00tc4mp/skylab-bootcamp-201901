@@ -320,7 +320,7 @@ describe('logic', () => {
             })
         })
 
-        xdescribe('toggle fav duck', () => {
+        describe('toggle fav duck', () => {
             let id, token, duckId
 
             beforeEach(() => {
@@ -376,7 +376,7 @@ describe('logic', () => {
             // TODO more cases
         })
 
-        xdescribe('retrieve fav ducks', () => {
+        describe('retrieve fav ducks', () => {
             let id, token, _favs
 
             beforeEach(() => {
@@ -511,6 +511,50 @@ describe('logic', () => {
                         expect(recipes instanceof Object).toBeTruthy()
                     })
             )
+        })
+    })
+    fdescribe('updateUser', () => {
+        let id, token, email
+        const name = 'Manuel'
+        const surname = 'Barzi'
+        const password = '123456'
+        email = `manuelbarzi-${Math.random()}@gmail.com`
+
+        beforeEach(() =>
+            userApi.create(email, password, { name, surname })
+                .then(response => {
+                    id = response.data.id
+
+                    return userApi.authenticate(email, password)
+                })
+                .then(response => {
+                    token = response.data.token
+
+                    logic.__userId__ = id
+                    logic.__userToken__ = token
+                })
+        )
+
+        it('should succeed on changing data', () => {
+            const newName = "New name"
+            logic.updateUser({ "name": newName })
+                .then(response => {
+                    const { status } = response
+                    expect(status).toBe('OK')
+                    
+
+                })
+                
+
+            userApi.retrieve(id, token)
+                .then(response => {
+                    const { status,data: { name } } = response
+                    expect(status).toBe('OP')
+                    expect(name).toBe(newName)
+                })
+
+
+
         })
     })
 })

@@ -1,38 +1,89 @@
 @import ../utils
 @import ../config
 
+.searcher-container
+    display: flex
+    align-items: center
+    justify-content: center
+    // width: 500px
 
-
-.home
-    display: grid
-    grid-template-columns: 20% 80%
-    grid-template-rows: auto
-    +round-border(.1em, solid, $color, .5em)
-
-    &__searcher
-        +round-border(.1em, solid, blue, .5em)
-        padding: 1.5em
-
-    &__search__results
-        +round-border(.1em, solid, red, .5em)
-
-
-.nav
-   +round-border(.1em, solid, $color, .5em)
-
-   &__user
-       display: flex
-       
-       +round-border(.1em, solid, red, .5em)
-
-   &__user > a > img 
-       max-width: 5em  
-
-   &__recipes
-       +round-border(.1em, solid, black, .5em)
-       
-   &__search
-       +round-border(.1em, solid, blue, .5em)
     
-   &__search__results
-       +round-border(.1em, solid, yellow, .5em)
+.searcher
+    width: 100%
+    border-bottom: 2px green solid
+
+    &__input
+        width: 60%
+        background-color: white
+        height: 30px
+        border: none
+
+    &__selector
+        width: 20%
+        height: 30px
+        border: none
+        color: grey
+        cursor: pointer
+
+    &__selector > option
+        height: 50px
+
+    &__selector > option:after 
+        position: absolute
+        content: ""
+        top: 14px
+        right: 10px
+        width: 0
+        height: 0
+        border: 6px solid transparent
+        border-color: #fff transparent transparent transparent
+
+
+
+
+    
+
+    &__button
+        width: 20%
+        height: 30px
+        border: none
+        cursor: pointer
+
+    &__button:hover
+        background-color: grey
+    
+
+
+// .home
+//     display: grid
+//     grid-template-columns: 20% 80%
+//     grid-template-rows: auto
+//     +round-border(.1em, solid, $color, .5em)
+
+//     &__searcher
+//         +round-border(.1em, solid, blue, .5em)
+//         padding: 1.5em
+
+//     &__search__results
+//         +round-border(.1em, solid, red, .5em)
+
+
+// .nav
+//    +round-border(.1em, solid, $color, .5em)
+
+//    &__user
+//        display: flex
+       
+//        +round-border(.1em, solid, red, .5em)
+
+//    &__user > a > img 
+//        max-width: 5em  
+
+//    &__recipes
+//        +round-border(.1em, solid, black, .5em)
+       
+//    &__search
+//        +round-border(.1em, solid, blue, .5em)
+    
+//    &__search__results
+//        +round-border(.1em, solid, yellow, .5em)

@@ -3,19 +3,25 @@
 
 
 .header
-    display: grid
-    grid-template-columns: 40%, 20&, 20%
-    +round-border(.1em, solid, $color, .5em)
-    min-height: 5em
+    display: flex
+    // grid-template-columns: 40%, 20%, 20%
+    // +round-border(.1em, solid, $color, .5em)
+    // min-height: 5em
+    align-items: center
+    justify-content: space-between
+    height: 50px
+    width: 100%
 
-.header > button 
-    margin: 1em
-    grid-column: 3
-    width: 20%
-    height: 50%
-    justify-self: end
-    align-self: center
-
-.header > h1 
-    grid-column: 2
+    &__title
     justify-self: center
+    padding-left: 20px
+
+    &__searcher
+        width: 500px
+
+    
+    &__button
+    // width: 100px
+    // height: 30px
+    // background-color: red
+    // border-radius: 1px solid red

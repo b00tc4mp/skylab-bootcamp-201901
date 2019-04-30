@@ -83,6 +83,18 @@ const logic = {
             })
     },
 
+    updateUser(data){
+        validate.arguments([
+            { name: 'data', value: data, type: 'object', notEmpty: true }
+        ])
+        return userApi.update(this.__userId__, this.__userToken__, data)
+            .then(response => {
+                if(response.status === 'OK') {
+                    return response
+                } else throw new LogicError(response.error)
+            })
+    },
+
     logoutUser() {
         sessionStorage.clear()
     },
