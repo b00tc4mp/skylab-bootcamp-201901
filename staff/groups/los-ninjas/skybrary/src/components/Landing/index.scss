@@ -1,0 +1,35 @@
+
+
+.landing {
+    background: url('https://cdn-images-1.medium.com/max/1600/1*tO6yh-odg-YDLazUQ6FWVQ.jpeg');
+    padding: 0; 
+    height: 100vh;
+    width: 100%;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    & > .buttons-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        text-align: center;
+        color: white;
+        background-color: rgba(220, 215, 215, 0.3);
+        border-radius: 20px;
+        box-shadow: 0px 3px 3px rgba(0, 0, 0, .15);
+        padding: 50px 0;
+        margin: 0 auto;
+        width: 60%;
+
+        .or {
+            text-shadow: 0 3px 3px rgba(0,0,0,.8);
+            font-family: 'Great Vibes';
+            font-size: 60px;
+            display: block;
+        }
+    }
+
+}
