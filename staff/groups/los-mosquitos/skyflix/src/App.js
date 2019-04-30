@@ -1,11 +1,13 @@
-import React, { Component } from 'react'
-import Login from './components/Login'
+import React, { Component } from 'react';
 import i18n from './common/i18n'
+import LanguageSelector from './components/LanguageSelector'
+import Landing from './components/Landing'
 import logic from './logic';
+import logo from './logo.svg';
+import './App.css';
 
 class App extends Component {
-
-  state = { lang: i18n.language, visible: 'login', error: null }
+	state = { lang: i18n.language, visible: 'login', error: null }
   handleLogin = (username, password) => {
     try {
       logic.loginUser(username, password)
@@ -22,18 +24,28 @@ class App extends Component {
       this.setState({ error: message })
     }
 
-  }
+	handleLanguageChange = lang => this.setState({ lang: i18n.language = lang }) // NOTE setter runs first, getter runs after (i18n)
 
-  render() {
-    const {
-      state: { lang, visible, error },
+	handleRegisterNav = () => this.setState({ visible: 'register' })
+
+    handleLoginNav = () => this.setState({ visible: 'login' })
+
+
+	render() {
+		const {
+			state: { lang, visible },
+			handleLanguageChange,
+			handleLoginNav,
+			handleRegisterNav,
       handleLogin
-    } = this
-    return <>
-      {visible === 'login' && <Login lang={lang} onLogin={handleLogin} error={error} />}
-    </>
-  }
+		} = this
 
+		return <>
+			<LanguageSelector lang={lang} onLanguageChange={handleLanguageChange}/>
+			{visible === 'landing' && <Landing lang={lang} onLogin={handleRegisterNav} onRegister={handleLoginNav}/>}
+      {visible === 'login' && <Login lang={lang} onLogin={handleLogin} error={error} />}
+		</>
+	}
 }
 
 
