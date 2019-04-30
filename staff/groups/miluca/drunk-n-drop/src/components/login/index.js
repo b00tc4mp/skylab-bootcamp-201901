@@ -2,6 +2,7 @@ import React from 'react'
 
 
 
+
 function Login({onLogin,error}){
 
     function handleSubmit(e){
@@ -14,6 +15,7 @@ function Login({onLogin,error}){
     }
 
     return <section className ="login">
+      
         <h2>User Login</h2>
         <form onSubmit={handleSubmit}>
             <input type="text" name= "username" placeholder= "Username"/>

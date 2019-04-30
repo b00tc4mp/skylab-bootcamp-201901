@@ -3,6 +3,7 @@ import validate from '../common/validate'
 import userApi from '../data/user-api'
 import cocktailApi from '../data/cocktail-api'
 import { LogicError } from '../common/errors'
+import call from '../common/call';
 
 
 const logic = {
@@ -151,9 +152,9 @@ const logic = {
            ])
         
         return cocktailApi.searchCocktail(query)
-           
+                 
            .then(({drinks}) => {
-               drinks.length && filter(drinks)
+                if(drinks.length) return filter(drinks)
             })
            
     
@@ -200,7 +201,7 @@ function filterDetails(details){
 
 function filter(drinks){
     let calls =[]
-    console.log(drinks)
+    
     if(drinks.length){
         calls = drinks.forEach(drink => {
                     Object.keys(drink).forEach(key => {
@@ -209,15 +210,17 @@ function filter(drinks){
                         } 
                     })
                 })
-                return drinkFormater(calls)
+               
+                return drinkFormater(drinks[0])
             }
         
         return Promise.all(calls)
 }
 
+
 function drinkFormater(drinkdetails){
     let ingredients =[]
-    const drinkeys=Object.keys(drinkdetails)
+    const drinkeys = Object.keys(drinkdetails)
     const ingredientindex = drinkeys.indexOf('strIngredient1')
     const measuresindex = drinkeys.indexOf('strMeasure1')
     for( let i=0;i < drinkeys.length; i++){
