@@ -1,0 +1,32 @@
+.footer {
+    background-color: transparent;
+    color: white;
+    
+    p {
+        position: relative;
+
+        &::before,
+        &::after {
+            content: ' ';
+            border-bottom: 1px solid white;
+            width: 25%;
+            display: block;
+            height: 1px;
+            position: absolute;
+            top: 50%;
+        }
+
+        &::after {
+            right: 0;
+        }
+
+        &::before {
+            left: 0;
+        }
+    }
+
+    i {
+        @import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+        color: red;
+    }
+}
