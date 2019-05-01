@@ -7,14 +7,21 @@ import Login from '../Login';
 import Register from '../Register';
 import Home from '../../pages/Home';
 import logic from '../../logic';
-import { CART_ADD_PRODUCT, CART_REMOVE_PRODUCT, CART_CHECKOUT } from '../../logic/actions';
+import {
+  CART_ADD_PRODUCT,
+  CART_REMOVE_PRODUCT,
+  CART_UPDATE_PRODUCT,
+  CART_CHECKOUT,
+  FAVORITES_TOGGLE_PRODUCT,
+} from '../../logic/actions';
 
 function App(props) {
+  const [favorites, setFavorites] = useState([]);
   const [cart, setCart] = useState([]);
   const [cartQuantity, setCartQuantity] = useState(0);
 
   const dispatch = ({ action, ...params }) => {
-    const calculateCartQuantity = cart => cart.reduce((acc, item) => (acc + item.quantity),0);
+    const calculateCartQuantity = cart => cart.reduce((acc, item) => acc + item.quantity, 0);
 
     switch (action) {
       case CART_ADD_PRODUCT:
@@ -36,7 +43,7 @@ function App(props) {
         break;
       case CART_REMOVE_PRODUCT:
         {
-          const { product, quantity } = params;
+          const { product } = params;
           const newCart = [...cart];
           const index = newCart.findIndex(item => item.product.productId === product.productId);
           if (index !== -1) newCart.splice(index, 1);
@@ -44,8 +51,29 @@ function App(props) {
           setCartQuantity(calculateCartQuantity(newCart));
         }
         break;
+      case CART_UPDATE_PRODUCT:
+        {
+          const { product, quantity } = params;
+          const newCart = [...cart];
+          const index = newCart.findIndex(item => item.product.productId === product.productId);
+          if (index !== -1) newCart[index].quantity = quantity;
+          setCart(newCart);
+          setCartQuantity(calculateCartQuantity(newCart));
+        }
+        break;
       case CART_CHECKOUT:
         break;
+      case FAVORITES_TOGGLE_PRODUCT:
+        {
+          const { product } = params;
+          const index = favorites.findIndex(item => item.productId === product.productId);
+          let newFavorites = [...favorites];
+          if (index === -1) newFavorites.push(product)
+            else newFavorites.splice(index,1);
+          setFavorites(newFavorites);
+        }
+        break;
+
       default:
         return;
     }

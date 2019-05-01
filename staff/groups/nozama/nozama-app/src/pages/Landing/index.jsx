@@ -1,37 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Nav from '../../components/Nav';
+import Search from '../../components/Search';
+import ProductHorSlim from '../../components/Products/product-hor-slim';
 
 import logic from '../../logic';
-import { Button } from 'reactstrap'
+import { Button } from 'reactstrap';
 import { CART_ADD_PRODUCT, CART_REMOVE_PRODUCT, CART_CHECKOUT } from '../../logic/actions';
+import productApi from '../../data/product-api';
+import { FAVORITES_TOGGLE_PRODUCT } from '../../logic/actions'
 
 function Landing(props) {
-  const products = logic.allProducts();
+  const [products, setProducts] = useState([]);
+
+  const handleSearch = text => {
+    logic.searchProduct(text).then(resProducts => setProducts(resProducts));
+  };
+
+  const handleDetail = product => {
+    console.log(product);
+    props.dispatch({action: FAVORITES_TOGGLE_PRODUCT, product});
+  }
+
   return (
     <div>
-      <ProductHorizontalSlim/>
       <Nav />
       <h1>Landing</h1>
-
-      <ul>
-      {props.cart.map(item => (<li>{item.product.productName}: {item.quantity}</li>))} 
-      </ul>
-      <span>Total quantity: {props.cartQuantity}</span>
-      <Button onClick={
-        () => {
-          debugger;
-          products
-            .then(items => items[Math.floor(Math.random() * 3)])
-            .then(product => props.dispatch({action: CART_ADD_PRODUCT, product, quantity: 1 }))
-        }
-      }>Add</Button>
-      <Button onClick={
-        () => {
-          products
-            .then(items => items[Math.floor(Math.random() * 3)])
-            .then(product => props.dispatch({action: CART_REMOVE_PRODUCT, product }))
-        }
-      }>Remove</Button>
+      <Search onSearch={handleSearch} />
+      {products.map(product => (
+        <ProductHorSlim key={product.productId} product={product} onDetail={handleDetail} />
+      ))}
     </div>
   );
 }

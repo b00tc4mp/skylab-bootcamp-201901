@@ -1,5 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-const Image = (props)=> { return( <img width="80%" src={props.image}/> ) }
+const Image = props => {
+  return <img onClick={props.onClick} width="80%" src={props.image} />;
+};
 
-export default Image
+export default Image;
