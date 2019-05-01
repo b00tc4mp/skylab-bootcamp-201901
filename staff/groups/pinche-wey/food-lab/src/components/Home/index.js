@@ -32,8 +32,8 @@ class Home extends Component {
                 .then(() =>
                     logic.retrieveBook()
                 )
-                .then(([wanted, done, notes, forks, fullWanted, fullDone ]) => {
-                    this.setState({ wanted, done, notes, forks, fullWanted, fullDone})
+                .then(([wanted, done, notes, forks, fullWanted, fullDone]) => {
+                    this.setState({ wanted, done, notes, forks, fullWanted, fullDone })
                 })
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -46,9 +46,10 @@ class Home extends Component {
     handleNotes = (id, changes, notes) => {
         logic.updatingNotes(id, changes, notes)
             .then(() => logic.retrieveBook())
-            .then(([wanted, done, notes,forks, fullWanted, fullDone]) => {
-                this.setState({ wanted, done, notes, forks, fullWanted, fullDone})
+            .then(([wanted, done, notes, forks, fullWanted, fullDone]) => {
+                this.setState({ wanted, done, notes, forks, fullWanted, fullDone })
             })
+            .catch((error) => this.setState({ error: error.message }))
     }
 
 
@@ -72,6 +73,7 @@ class Home extends Component {
 
                 this.setState({ recipe: null, recipes: random })
             })
+            .catch((error) => this.setState({ error: error.message }))
 
     }
 
@@ -81,6 +83,7 @@ class Home extends Component {
             .then(([wanted, done, notes, forks, fullWanted, fullDone]) => {
                 this.setState({ wanted, done, notes, forks, fullWanted, fullDone })
             })
+            .catch((error) => this.setState({ error: error.message }))
 
     }
 
@@ -90,6 +93,7 @@ class Home extends Component {
                 // const {name,surname,email} = response
                 this.setState({ user: response })
             })
+            .catch((error) => this.setState({ error: error.message }))
     }
 
     handleUpdateUser = (xxx) => { // nuevo
@@ -102,6 +106,7 @@ class Home extends Component {
                     if (response.status === 'OK') this.setState({ user: null })
                     else throw Error(response.error)
                 })
+                .catch((error) => this.setState({ error: error.message }))
         }
     }
 
@@ -128,7 +133,7 @@ class Home extends Component {
             handleWaitingList,
             handleUser,
             handleRetrieve,
-            state: { error, recipe, recipes, wanted, done, notes, forks, user, fullWanted, fullDone},
+            state: { error, recipe, recipes, wanted, done, notes, forks, user, fullWanted, fullDone },
         } = this
 
         if (recipes === null && recipe === null) handleRandom()
