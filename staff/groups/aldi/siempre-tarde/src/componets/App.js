@@ -9,28 +9,19 @@ import Home from './Home';
 import StopCode from './StopCode';
 import StopLine from './StopLine';
 import Results from './Results';
+import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
+import Favorites from './Favorites';
 
 
 
 class App extends Component {
-    state = { lang: i18n.language }
+    state = { lang: i18n.language, visible: null, error: null, name: null }
 
     handleLanguageChange = lang => this.setState({ lang: i18n.language = lang })
 
+    handleRegisterNavigation = () => this.props.history.push('/register')
 
-    handleRegister = (name, surname, username, password, password2) => {
-        try {
-            logic.registerUser(name, surname, username, password, password2)
-                .then(() =>
-                    this.setState({ error: null })
-                )
-                .catch(error =>
-                    this.setState({ error: error.message })
-                )
-        } catch ({ message }) {
-            this.setState({ error: message })
-        }
-    }
+    handleLoginNavigation = () => this.props.history.push('/login')
 
     handleLogin = (username, password) => {
         try {
@@ -38,8 +29,8 @@ class App extends Component {
                 .then(() =>
                     logic.retrieveUser()
                 )
-                .then(user => {
-                    this.setState({ error: null })
+                .then(({ name }) => {
+                    this.setState({ name, error: null }, () => this.props.history.push('/home'))
                 })
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -49,38 +40,91 @@ class App extends Component {
         }
     }
 
+    componentDidMount() {
+        logic.isUserLoggedIn &&
+            logic.retrieveUser()
+                .then(user =>
+                    this.setState({ name: user.name })
+                )
+                .catch(error =>
+                    this.setState({ error: error.message })
+                )
+    }
+
+    handleRegister = (name, surname, username, password, password2) => {
+        try {
+
+            logic.registerUser(name, surname, username, password, password2)
+                .then(() =>{
+                    this.setState({ error: null },() => this.props.history.push('/login'))
+                })
+                .catch(error =>{
+                    this.setState({ error: error.message })
+                })
+        } catch ({ message }) {
+            this.setState({ error: message })
+        }
+    }
+    handleStopCode = () => {
+
+        this.setState(() => this.props.history.push('/byidstop'))
+    }
+    handleLineCode = () => {
+
+        this.setState(() => this.props.history.push('/byidline'))
+    }
+    handleFavorites = () => {
+
+        this.setState(() => this.props.history.push('/favoritestops'))
+    }
+
+    handleLogout = () => {
+        logic.logoutUser()
+
+        this.props.history.push('/')
+    }
+
+    componentDidUpdate(prevProps) {
+        if (this.props.location !== prevProps.location) this.setState({ visible: null })
+    }
 
     render() {
         const {
-            state: { lang, error },
+            state: { lang, error, name},
             handleLanguageChange,
+            handleRegisterNavigation,
+            handleLoginNavigation,
             handleLogin,
-            handleRegister
+            handleRegister,
+            handleLogout,
+            handleStopCode,
+            handleLineCode,
+            handleFavorites
         } = this
-
-
 
         return <>
             <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} />
 
-            <Landing lang={lang} onRegister={() => console.log('A')} onLogin={() => console.log('B')} />
+            <Switch>
+                <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing lang={lang} onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
 
-            <Register lang={lang} onRegister={handleRegister} error={error} />
+                <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> :<Register lang={lang} onRegister={handleRegister} error={error}/>} />
 
-            <Login lang={lang} onLogin={handleLogin} error={error} />
+                <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
 
-            <Home lang={lang} onRegister={() => console.log('A')} onLogin={() => console.log('B')} />
+                <Route path="/home" render={() => logic.isUserLoggedIn ? <Home lang={lang} onStopCode={handleStopCode} onLineCode={handleLineCode} onFavorites={handleFavorites} onLogout={handleLogout} /> : <Redirect to="/" />} />
+                
+                <Route path="/byidstop" render={() => logic.isUserLoggedIn ? <StopCode lang={lang} name={name} onStopCode={handleLogout} /> : <Redirect to="/" />} />
 
-            <StopCode lang={lang} onLogin={handleLogin} error={error} />
+                <Route path="/byidline" render={() => logic.isUserLoggedIn ? <StopLine lang={lang} name={name} onStopCode={handleLogout} /> : <Redirect to="/" />} />
 
-            <StopLine lang={lang} onLogin={handleLogin} error={error} />
-
-            <Results lang={lang} onLogin={handleLogin} error={error} />
+                <Route path="/favoritestops" render={() => logic.isUserLoggedIn ? <Favorites lang={lang} name={name} onStopCode={handleLogout} /> : <Redirect to="/" />} />
 
 
-
+                <Redirect to="/" />
+            </Switch>
         </>
     }
-
 }
-export default App
+
+export default withRouter(App)
