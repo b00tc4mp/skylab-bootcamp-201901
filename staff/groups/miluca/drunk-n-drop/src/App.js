@@ -4,16 +4,19 @@ import Login from './components/login/index'
 import logic from '../src/logic'
 import Search from '../src/components/search'
 import Results from '../src/components/results/results'
+import Landing from '../src/components/Landing/index'
 
 
 //components
 
 import Register from './components/register';
 import Favorites from "./components/Favorites";
+import Populars from "./components/Populars";
+import Detail from "./components/Detail";
 
 class App extends Component {
 
-  state = { error: null, name: null, results: [] ,favoriteList :[]}
+  state = { error: null, name: null, results: [] ,favoriteList :[] , populars : [] , details:{}}
 
   handleLogin = (username, password) => {
 
@@ -70,25 +73,46 @@ class App extends Component {
 
   }
 
+  handlePpopular =() =>{
+
+    return logic.popularCocktails()
+    .then(response =>{
+     
+      this.setState({populars:response})
+    })
+  }
+
+  handleDetail = (id) =>{
+  
+    return logic.cocktailDetail(id)
+    .then(response =>{
+      this.setState({details : response})
+    })
+  }
+
   
   render() {
     const {
-      state: { error, results,favoriteList},
+      state: { error, results,favoriteList,populars ,details},
       handleLogin,
       handleRegister,
       handleSearch,
       handleFavorites,
-      returnFavorites
+      handlePpopular,
+      returnFavorites,
+      handleDetail
     } = this
 
 
     return <>
-     
-        <Favorites favs={favoriteList} giveFav={returnFavorites}/>
+        <Landing/>
+        <Detail detail={details}/> 
+        <Populars pops={populars} givePop={handlePpopular}  onFavorites={handleFavorites} onDetail={handleDetail}/>
+        <Favorites favs={favoriteList} giveFav={returnFavorites} onDetail={handleDetail}/>
         <Register onRegister={handleRegister} error={error} />
         <Login onLogin={handleLogin} error={error} />
         <Search onSearch={handleSearch} error={error} />
-        <Results items={results} onFavorites={handleFavorites} />
+        <Results items={results} onFavorites={handleFavorites} onDetail={handleDetail} />
     </>
 
   }

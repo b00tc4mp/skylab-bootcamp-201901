@@ -2,7 +2,7 @@ import React from 'react'
 
 
 
-function Favorites({ favs, giveFav }) {
+function Favorites({ favs, giveFav ,onDetail}) {
 
 
     return  <>
@@ -11,12 +11,12 @@ function Favorites({ favs, giveFav }) {
            
             {
 
-                favs.map(({ name, image}) => {
+                favs.map(({ name, image, id}) => {
                     
 
                     return <li>
                         <h2>{name}</h2>
-                        <img src={image} />
+                        <img src={image} onClick={() => onDetail(id)}/>
                        
                     </li>
                 })

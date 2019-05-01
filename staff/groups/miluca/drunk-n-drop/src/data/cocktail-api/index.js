@@ -71,8 +71,7 @@ const cocktailApi = {
         },
 
         listPopular(){
-
-            return call(`${this.__url__}popular.php`)
+            return call(`${this.__url__}/popular.php`)
             .then(response => response.json())
 
         }

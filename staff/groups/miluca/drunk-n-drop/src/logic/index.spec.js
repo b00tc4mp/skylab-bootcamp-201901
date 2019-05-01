@@ -356,7 +356,7 @@ describe('logic', () => {
 
                 })           
             )
-        })
+        }),
         describe('search by category', () => {
             it('Should succed on correct query', () => {
                 logic.searchByCategory('Beer')
@@ -369,7 +369,7 @@ describe('logic', () => {
     
             })
     
-        })
+        }),
         it('should retrive coktails by glass category', ()=>{
 
             let glass = 'Cocktail_glass'
@@ -381,7 +381,7 @@ describe('logic', () => {
                         expect(response.drinks.isDrink).toBe('16108')
                     })
 
-        })
+        }),
     
         it('should retrive coktails by Name', ()=>{
             let name = 'margarita'
@@ -391,7 +391,7 @@ describe('logic', () => {
                     expect(response.drinks.length).toBeGreaterThan(0)
                     expect(response.drinks.isDrink).toBe("11007")
                 })
-        })
+        }),
         it('should retrive coktail detail by ID', ()=>{
             let id = '11007'
                 logic.cocktailbyName(id)
@@ -402,7 +402,7 @@ describe('logic', () => {
                         expect(response.drinks.isDrink).toBe("11007")
                     })
 
-        }) 
+        }), 
         
         it('should list popular cocktails', ()=>{
                 logic.popularCocktails()
