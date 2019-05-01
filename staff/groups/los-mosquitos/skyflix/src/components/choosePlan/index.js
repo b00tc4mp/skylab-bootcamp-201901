@@ -17,10 +17,7 @@ function ChoosePlan({ lang, onSelectedPlan }) {
             }
         }
         onSelectedPlan(plan)
-
     }
-
-
 
     return <div className="plan">
         <h2>{planTitle}</h2>
@@ -82,14 +79,9 @@ function ChoosePlan({ lang, onSelectedPlan }) {
                 </div>
             </div>
 
-
             <button>{button}</button>
-
-
         </form>
-
     </div>
-
 }
 
 export default ChoosePlan
