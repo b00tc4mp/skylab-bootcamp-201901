@@ -12,17 +12,17 @@ import './index.scss'
 class Home extends Component {
     state = {error: null, books: [], bookDetail: null}
 
-    handleSearch = query => 
+    handleSearch = query =>
         logic.searchBooks(query)
             .then((books) =>
                 this.setState({ bookDetail: null, books: books.docs})
         ).catch(error =>
             this.setState({ error: error.message })
         )
-        
+
     handleRetrieve = (isbn) =>
         logic.retrieveBook(isbn)
-            .then((details) => {      
+            .then((details) => {
                 const bookDetails = Object.values(details)
                 console.log([bookDetails[0].details])
                 this.setState({bookDetail: [bookDetails[0].details]})
@@ -39,7 +39,6 @@ class Home extends Component {
 
         return <main className="home">
             <Header/>
-            <button>Logout</button>
             <Search onSearch={handleSearch}/>
             {!bookDetail && <Results items={books} onItem={handleRetrieve}/>}
             {bookDetail  && <Detail item={bookDetail}/>}
