@@ -1,22 +1,26 @@
 import React from 'react'
 import literals from './literals'
-import { Link } from "react-router-dom"
+import { Route, withRouter, Redirect, Switch, Link } from 'react-router-dom'
 
-function Results({lang,items, onItem }) {
+function Results({ lang, items, error }) {
 
-    const {title1, title2, title3, back} = literals[lang]
+    const { title1, back } = literals[lang]
     return <section>
-    <Link to={`/`}><button>{back}</button></Link> 
-    <h2>{title1}</h2>
-    <button>{back}</button>
-    <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
-
-    </ul>
+    <Link to={`/byidstop`}><button>{back}</button></Link>
+        <h2>{title1}</h2>
+        <ul>
+            {
+                items.map(({ line, t_in_min, color_line }) => {
+                    let style = {
+                        color: `#${color_line}`,
+                      };
+                    return <li key={line} onClick={() => console.log(line)}>
+                        <h2 style={style}>{line}</h2>
+                        <h3>{t_in_min} minutos</h3>
+                    </li>
+                })
+            }
+        </ul>
 
     </section>
 }

@@ -11,6 +11,7 @@ import StopLine from './StopLine';
 import Results from './Results';
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 import Favorites from './Favorites';
+import CodeSearch from './CodeSearch';
 
 
 
@@ -114,7 +115,8 @@ class App extends Component {
 
                 <Route path="/home" render={() => logic.isUserLoggedIn ? <Home lang={lang} onStopCode={handleStopCode} onLineCode={handleLineCode} onFavorites={handleFavorites} onLogout={handleLogout} /> : <Redirect to="/" />} />
                 
-                <Route path="/byidstop" render={() => logic.isUserLoggedIn ? <StopCode lang={lang} name={name} onStopCode={handleLogout} /> : <Redirect to="/" />} />
+                <Route path="/byidstop" render={() => logic.isUserLoggedIn ? <CodeSearch lang={lang} name={name} onStopCode={handleLogout} /> : <Redirect to="/" />} />
+
 
                 <Route path="/byidline" render={() => logic.isUserLoggedIn ? <StopLine lang={lang} name={name} onStopCode={handleLogout} /> : <Redirect to="/" />} />
 

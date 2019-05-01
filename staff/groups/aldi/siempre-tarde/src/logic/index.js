@@ -231,9 +231,9 @@ const logic = {
                     lineFind ? upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line }) :
                             upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line: '#000000'}) 
 
-                })       
-                return upcomingBuses 
-            })       
+                })
+                return upcomingBuses
+            })
     },
 
 
@@ -248,8 +248,7 @@ const logic = {
         debugger
         return iBusApi.retrieveLineId(stop_id, line_id)
             .then(response => {
-                
-                debugger
+
                 const {data:{ibus}} = response
 
                 if (response.length === 0) throw new NoDataError('no data recived')
@@ -258,7 +257,7 @@ const logic = {
 
                     const { line_id, "t-in-min": t_in_min, "t-in-s": t_in_s, "text-ca": text_ca } = bus
 
-                    buses[index]= { line, t_in_min, t_in_s, text_ca }
+                    buses[index]= { line_id, t_in_min, t_in_s, text_ca }
 
                     return transitApi.retrieveBusLine(line_id)
                 })
