@@ -5,20 +5,19 @@ import React from 'react'
 function Favorites({ favs, giveFav }) {
 
 
-
-
     return  <>
     <button onClick={() => giveFav()}>favs</button>
     <ul>
            
             {
 
-                favs.map(({ strDrink, strDrinkThumb, strIngredient1}) => {
+                favs.map(({ name, image}) => {
+                    
 
                     return <li>
-                        <h2>{strDrink}</h2>
-                        <img src={strDrinkThumb} />
-                        <span>{strIngredient1}</span>
+                        <h2>{name}</h2>
+                        <img src={image} />
+                       
                     </li>
                 })
 
