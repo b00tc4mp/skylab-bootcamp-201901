@@ -7,6 +7,7 @@ function Header(){
             <h1>Skybrary</h1>
             <hr />
         </div>
+            <button className="button is-big-mobile is-pulled-left">Log Out</button>
     </header>
 }
 
