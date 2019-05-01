@@ -4,6 +4,7 @@ import Subtitle from '../Detail/Subtitle'
 import Image from '../Detail/Image'
 import {Row, Container, Col} from 'reactstrap'
 import Price from '../Detail/Price';
+import Currency from '../Detail/Currency'
 
 function ProductHorizontalSlim(props) {
 
@@ -52,22 +53,24 @@ function ProductHorizontalSlim(props) {
     "push_tag": "EF7387-PLC-en-US"
 }
 
-
-
-
   return (
-      <Container>
+    <div style={{marginTop:"0.2rem", }}>
+      <Container fluid>
         <Row >
-          <Col xs="4">
+          <Col xs="5" sm="4" >
             <Image image={detail._links.image_small.href}/>
           </Col>
-          <Col xs="8">
+          <Col xs="7" sm="4">
             <Title title={detail.product_name}  />
             <Subtitle subtitle={detail.subtitle}/>
-            <Price/>
+              <div style={{display:"flex" }}>
+                  <Price price={detail.original_price}/>
+                  <Currency currency={detail.display_currency}/>
+              </div>
           </Col>
         </Row>
       </Container>
+    </div>
   )
 }
 
