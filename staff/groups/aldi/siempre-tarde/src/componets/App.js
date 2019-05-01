@@ -12,11 +12,12 @@ import Results from './Results';
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 import Favorites from './Favorites';
 import CodeSearch from './CodeSearch';
+import LineSearch from './LineSearch';
 
 
 
 class App extends Component {
-    state = { lang: i18n.language, visible: null, error: null, name: null }
+    state = { lang: i18n.language, visible: null, error: null, line: null, lines:[] }
 
     handleLanguageChange = lang => this.setState({ lang: i18n.language = lang })
 
@@ -71,8 +72,11 @@ class App extends Component {
         this.setState(() => this.props.history.push('/byidstop'))
     }
     handleLineCode = () => {
+        logic.retrieveBusLines(undefined).then((resp)=>{
+            this.setState({ error:null, lines:resp },() => this.props.history.push('/byidline'))
+        })
 
-        this.setState(() => this.props.history.push('/byidline'))
+        
     }
     handleFavorites = () => {
 
@@ -91,7 +95,7 @@ class App extends Component {
 
     render() {
         const {
-            state: { lang, error, name},
+            state: { lang, error, lines, line},
             handleLanguageChange,
             handleRegisterNavigation,
             handleLoginNavigation,
@@ -115,12 +119,12 @@ class App extends Component {
 
                 <Route path="/home" render={() => logic.isUserLoggedIn ? <Home lang={lang} onStopCode={handleStopCode} onLineCode={handleLineCode} onFavorites={handleFavorites} onLogout={handleLogout} /> : <Redirect to="/" />} />
                 
-                <Route path="/byidstop" render={() => logic.isUserLoggedIn ? <CodeSearch lang={lang} name={name} onStopCode={handleLogout} /> : <Redirect to="/" />} />
+                <Route path="/byidstop" render={() => logic.isUserLoggedIn ? <CodeSearch lang={lang} items={lines}/> : <Redirect to="/" />} />
 
 
-                <Route path="/byidline" render={() => logic.isUserLoggedIn ? <StopLine lang={lang} name={name} onStopCode={handleLogout} /> : <Redirect to="/" />} />
+                <Route path="/byidline" render={() => logic.isUserLoggedIn ? <StopLine lang={lang} items={lines}/> : <Redirect to="/" />} />
 
-                <Route path="/favoritestops" render={() => logic.isUserLoggedIn ? <Favorites lang={lang} name={name} onStopCode={handleLogout} /> : <Redirect to="/" />} />
+                <Route path="/favoritestops" render={() => logic.isUserLoggedIn ? <Favorites lang={lang} items={lines} onStopCode={handleLogout} /> : <Redirect to="/" />} />
 
 
                 <Redirect to="/" />
