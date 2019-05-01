@@ -1,9 +1,9 @@
 import React from 'react'
 import literals from './literals'
 import { Link } from "react-router-dom"
-import iBusApi from '../../data/ibus-api';
+import logic from '../../logic';
 
-function StopCode({lang, onLogin}) {
+function StopCode({lang, onSearch, error}) {
     const {title, stop, submit, reset,back} = literals[lang]
 
     function handleSubmit(e) {
@@ -14,21 +14,16 @@ function StopCode({lang, onLogin}) {
         } = e.target
         let number = parseInt(stop_id,10);
 
-        iBusApi.retrieveStopId(number).then((res)=>{
-            const {data:{ibus}}=res
-            ibus.forEach(element => {
-                console.log(element.line)
-                console.log(element.destination)
-            });
-            })
+        onSearch(number)
 
 
     }
 
 
     return <section>
-    <Link to={`/`}><button>{back}</button></Link> 
+    <Link to={`/`}><button>{back}</button></Link>
     <h2>{title}</h2>
+    <span>{error}</span>
         <form onSubmit= {handleSubmit}>
             <input type="number" name="stop_id" placeholder={stop} autoFocus/>
             <input type="submit" value={submit}/>

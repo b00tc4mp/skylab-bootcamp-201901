@@ -251,14 +251,16 @@ const logic = {
         return iBusApi.retrieveLineId(stop_id, line_id)
             .then(response => {
 
-                debugger
+
                 const { data: { ibus } } = response
+
 
                 if (ibus.length === 0) throw new NoDataError('no data recived')
 
                 return ibus.map((bus, index) => {
 
                 const {"t-in-min": t_in_min, "t-in-s": t_in_s, "text-ca": text_ca } = bus
+
 
                 buses[index] = { line_id, t_in_min, t_in_s, text_ca }
 
