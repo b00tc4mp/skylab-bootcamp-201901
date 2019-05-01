@@ -3,16 +3,13 @@ import './index.scss'
 
 
 function Results({ items, onItem }) {
-    items.forEach(element => {
-
-    });
     return (
         <section className="library container" >
             <ul className="columns is-centered is-multiline is-mobile">
                 {
-                    items.map(({ isbn, cover_edition_key, title, author_name, cover_i, publish_date }) => {
+                    items.map(({ key, isbn, cover_edition_key, title, author_name, cover_i, publish_date }) => {
 
-                        return (isbn && cover_edition_key) && <li className="library__book column is-3-desktop is-5-tablet is-10-mobile" key={cover_edition_key} onClick={() => onItem(isbn[0])}>
+                        return (isbn && cover_edition_key) && <li className="library__book column is-3-desktop is-5-tablet is-10-mobile" key={cover_edition_key} onClick={() => onItem(isbn[0], key)}>
                             <article className="card">
                                 <div className="card-image">
                                     <figure className="image is-3by4">
