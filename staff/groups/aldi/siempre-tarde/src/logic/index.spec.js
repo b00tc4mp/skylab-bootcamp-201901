@@ -396,10 +396,10 @@ describe('logic', () => {
     
             const stop_id = 1278
             const line_id = 136
-            debugger
+        
             return logic.upcomingBusesByStopAndLine(stop_id, line_id)
                 .then(response => {
-                    debugger
+                    
                     expect(response.length).toBe(1)
                     const {
                         t_in_min, 

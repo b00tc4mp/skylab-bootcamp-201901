@@ -8,7 +8,8 @@ const transitApi = {
     APP_KEY: null,
 
 
-    __url__: 'https://api.tmb.cat/v1/transit/linies/bus',
+    __url_lines__: 'https://api.tmb.cat/v1/transit/linies/bus',
+    __url_stops__ : 'https://api.tmb.cat/v1/transit/parades/',
     __timeout__: 0,
 
     
@@ -19,7 +20,7 @@ const transitApi = {
 
         let path
         line_id ? path = line_id : path = ''
-        return call(`${this.__url__}/${path}?app_id=${this.APP_ID}&app_key=${this.APP_KEY}`, {
+        return call(`${this.__url_lines__}/${path}?app_id=${this.APP_ID}&app_key=${this.APP_KEY}`, {
             timeout: this.__timeout__
         })
             .then(response => {
@@ -43,7 +44,7 @@ const transitApi = {
             { name: 'line', value: line_id, type: 'number', notEmpty: true, optional: false }
         ])
 
-        return call(`${this.__url__}/${line_id}/recs?app_id=${this.APP_ID}&app_key=${this.APP_KEY}`, {
+        return call(`${this.__url_lines__}/${line_id}/recs?app_id=${this.APP_ID}&app_key=${this.APP_KEY}`, {
             timeout: this.__timeout__
         })
         .then(response => {
@@ -69,7 +70,7 @@ const transitApi = {
 
         let path = ''
         if (line_id) path = line_id
-        return call(`${this.__url__}/${line_id}/parades?app_id=${this.APP_ID}&app_key=${this.APP_KEY}`, {
+        return call(`${this.__url_lines__}/${line_id}/parades?app_id=${this.APP_ID}&app_key=${this.APP_KEY}`, {
             timeout: this.__timeout__
         })
         .then(response => {
@@ -85,6 +86,30 @@ const transitApi = {
             }else { return response }
         })
     },
+
+
+    retrieveStop(stop_id) {
+        validate.arguments([
+            { name: 'stop', value: stop_id, type: 'number', notEmpty: true, optional: false }
+        ])
+        
+        return call(`${this.__url_stops__}/${stop_id}?app_id=${this.APP_ID}&app_key=${this.APP_KEY}`, {
+            timeout: this.__timeout__
+        })
+        .then(response => {
+            if (response.status === 200) { 
+                return response.json()
+            }  
+            if (response.status === 404) throw new NotFoundError('cannot found')
+            if (response.status === 403) throw new ConnectionError('cannot connect')  
+        })
+        .then( response =>{
+            if (response.totalFeatures === 0){ 
+                throw new NotFoundError('cannot found')
+            }else { return response }
+        })
+    },
+
 
 
 }
