@@ -10,16 +10,16 @@ import Detail from '../Detail'
 import './index.scss'
 
 class Home extends Component {
-    state = {error: null, books: [], bookDetail: null, bookInfo: {}}
+    state = { error: null, books: [], bookDetail: null, bookInfo: {}, favs: [] }
 
     handleSearch = query =>
         logic.searchBooks(query)
             .then((books) =>
-        
-                this.setState({ bookDetail: null, books: books.docs})
-        ).catch(error =>
-            this.setState({ error: error.message })
-        )
+
+                this.setState({ bookDetail: null, books: books.docs })
+            ).catch(error =>
+                this.setState({ error: error.message })
+            )
 
     handleRetrieve = (isbn, key) => {
         console.log(this.state.books)
@@ -30,11 +30,10 @@ class Home extends Component {
         logic.retrieveBook(isbn)
             .then(apiBookDetailsResponse => {
 
-                debugger
 
-                const {details = {}} = Object.values(apiBookDetailsResponse)[0]
-                const {description = {}, number_of_pages} = details
-                const {value = ''} = description
+                const { details = {} } = Object.values(apiBookDetailsResponse)[0]
+                const { description = {}, number_of_pages } = details
+                const { value = '' } = description
 
                 const bookDetail = {
                     author_name,
@@ -45,15 +44,23 @@ class Home extends Component {
                     publish_date: publish_date[0]
                 }
 
-                this.setState({bookDetail})
+                this.setState({ bookDetail })
             }).catch()
     }
-        // logic.retrieveBook(isbn)
-        //     .then((details) => {
-        //         const bookDetails = Object.values(details)
-        //         console.log([bookDetails[0].details])
-        //         this.setState({bookDetail: [bookDetails[0].details]})
-        //     }).catch()
+
+
+    handleFav = isbn =>
+        logic.toggleFavBook(isbn[0])
+            .then(() => logic.retrieveFavBooks())
+            .then(favs => this.setState({ favs }))
+
+
+    // logic.retrieveBook(isbn)
+    //     .then((details) => {
+    //         const bookDetails = Object.values(details)
+    //         console.log([bookDetails[0].details])
+    //         this.setState({bookDetail: [bookDetails[0].details]})
+    //     }).catch()
 
 
     render() {
@@ -61,15 +68,16 @@ class Home extends Component {
         const {
             handleSearch,
             handleRetrieve,
-            state: {books, bookDetail}
+            state: { books, bookDetail, favs },
+            handleFav
         } = this
 
         return <main className="home">
-            <Header/>
-            <Search onSearch={handleSearch}/>
-            {!bookDetail && <Results items={books} onItem={handleRetrieve}/>}
-            {bookDetail  && <Detail item={bookDetail}/>}
-            <Footer/>
+            <Header />
+            <Search onSearch={handleSearch} />
+            {!bookDetail && <Results items={books} onItem={handleRetrieve} onFav={handleFav} favs={favs}/>}
+            {bookDetail && <Detail item={bookDetail} />}
+            <Footer />
         </main>
     }
 }
