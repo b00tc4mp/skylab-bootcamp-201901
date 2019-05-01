@@ -5,6 +5,10 @@ import Landing from './Landing'
 import Register from './Register'
 import Login from './Login'
 import logic from '../logic'
+import Home from './Home';
+import StopCode from './StopCode';
+import StopLine from './StopLine';
+import Results from './Results';
 
 
 
@@ -64,6 +68,14 @@ class App extends Component {
             <Register lang={lang} onRegister={handleRegister} error={error} />
 
             <Login lang={lang} onLogin={handleLogin} error={error} />
+
+            <Home lang={lang} onRegister={() => console.log('A')} onLogin={() => console.log('B')} />
+
+            <StopCode lang={lang} onLogin={handleLogin} error={error} />
+
+            <StopLine lang={lang} onLogin={handleLogin} error={error} />
+
+            <Results lang={lang} onLogin={handleLogin} error={error} />
 
 
 
