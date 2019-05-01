@@ -1,16 +1,16 @@
 import React, {Component} from 'react'
 import logic from '../../logic'
-
+import images from './images'
 
 
 class Header extends Component {
-    state = {currentWeather: null, error: null, currentCity: this.props.city}
+    state = {currentWeather: null, error: null, currentCity: this.props.city, images: images.Thunderstorm }
     hadleCityChange = e => {
         this.setState({currentCity: e})
         logic.retrieveWeather(e)
             .then(weather=> {
                 this.props.onWeatherRetrieved(weather)
-                this.setState({currentWeather: weather})
+                this.setState({currentWeather: weather, images: images[weather]})
             })
     }
 
@@ -31,6 +31,7 @@ class Header extends Component {
         } = this
         return <>
         <header>
+            <img  src={this.state.images}/>
         <select name="city" onChange={event => hadleCityChange(event.target.value)} defaultValue={currentCity}>
             <option value="Alaska">Alaska</option>
             <option value="Auckland">Auckland</option>
