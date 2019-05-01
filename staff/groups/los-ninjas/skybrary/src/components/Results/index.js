@@ -7,12 +7,12 @@ function Results({ items }) {
 
     });
     return (
-        <section className="section library" >
-            <ul className="columns is-multiline">
+        <section className="library container" >
+            <ul className="columns is-centered is-multiline is-mobile">
                 {
                     items.map(({ isbn, cover_edition_key, title, author_name, cover_i, publish_date }) => {
 
-                        return (isbn && cover_edition_key) && <li className="library__book column is-3" key={cover_edition_key}>
+                        return (isbn && cover_edition_key) && <li className="library__book column is-3-desktop is-5-tablet is-10-mobile" key={cover_edition_key}>
                             <article className="card">
                                 <div className="card-image">
                                     <figure className="image is-3by4">

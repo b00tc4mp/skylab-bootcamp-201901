@@ -1,10 +1,12 @@
 .home{
     background: url('https://cdn-images-1.medium.com/max/1600/1*tO6yh-odg-YDLazUQ6FWVQ.jpeg');
+   background-attachment: fixed;
     padding: 0;
-    height: 100vh;
+    min-height: 100vh;
     width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    overflow: hidden;
 
 }

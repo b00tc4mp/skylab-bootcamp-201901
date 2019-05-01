@@ -32,7 +32,6 @@ class Home extends Component {
 
         return <main className="home">
             <Header/>
-            <button>Logout</button>
             <Search onSearch={handleSearch}/>
             <Results items={books}/>
             <Footer/>
