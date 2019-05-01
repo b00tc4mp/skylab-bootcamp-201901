@@ -2,8 +2,12 @@ import React, { Component } from 'react'
 import logic from '../../logic'
 import Search from '../Search'
 import Results from '../Results'
+import Header from '../Header'
+import Footer from '../Footer'
+
 import { booleanLiteral } from '@babel/types';
 // import Detail from '../Detail'
+import './index.scss'
 
 class Home extends Component {
     state = {error: null, books: [], }
@@ -26,11 +30,12 @@ class Home extends Component {
             state: {books}
         } = this
 
-        return <main>
-            <h2>Hello World</h2>
+        return <main className="home">
+            <Header/>
             <button>Logout</button>
             <Search onSearch={handleSearch}/>
             <Results items={books}/>
+            <Footer/>
         </main>
     }
 }
