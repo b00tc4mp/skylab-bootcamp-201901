@@ -1,7 +1,8 @@
 export default {
     en: {
         title1: 'Bus Line Information',
-        back: 'Go Back'
+        back: 'Go Back',
+        
     },
     es: {
         title1: 'Información de la Linia',
