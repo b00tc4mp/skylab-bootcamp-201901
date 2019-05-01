@@ -15,7 +15,7 @@ import userApi from './data/user-api';
 
 class App extends Component {
 
-  state = { lang: i18n.language, plan: null, error: null, visible: 'login' }
+  state = { lang: i18n.language, plan: null, error: null }
 
   handleLanguageChange = lang => this.setState({ lang: i18n.language = lang })
 
@@ -24,7 +24,7 @@ class App extends Component {
     try {
       logic.registerUser(fullname, email, password, confirmPassword, this.state.plan)
 
-        .then(() => { this.setstate(this.props.history.push('/signin')) })
+        .then(() => { this.setstate(this.props.history.push('/login')) })
         .catch(error => {
           this.setState({ error: error.message })
         })
@@ -32,9 +32,11 @@ class App extends Component {
     } catch (error) {
       this.setState({ error: error.message })
     }
-    
-    handleLogin = (username, password) => {
+  }
+
+  handleLogin = (username, password) => {
     try {
+
       logic.loginUser(username, password)
         .then(() =>
           logic.retrieveUser()
@@ -54,10 +56,10 @@ class App extends Component {
 
 
   handleSelectedPlan = (plan) => this.setState({ plan }, () => this.props.history.push('/signup/form'))
-    
-  handleRegisterNav = () => this.setState({ visible: 'register' })
 
-  handleLoginNav = () => this.setState({ visible: 'login' })
+  handleRegisterNav = () => this.props.history.push('/signup')
+
+  handleLoginNav = () => this.props.history.push('/login')
 
 
 
@@ -65,33 +67,33 @@ class App extends Component {
 
 
   render() {
-const {
-      state: { lang, visible, error },
+    const {
+      state: { lang, error, plan },
       handleLanguageChange,
       handleLoginNav,
       handleRegisterNav,
-      handleLogin
+      handleLogin,
+      handleRegister,
+      handleSelectedPlan
     } = this
 
 
     return <>
-      <LanguageSelector lang={this.state.lang} onLanguageChange={this.handleLanguageChange} />
+      <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} /> 
 
       <Switch>
-
-        <Route path="/signup/form" render={() => this.state.plan ? <Register lang={this.state.lang} onRegister={this.handleRegister} plan={this.state.plan} error={this.state.error} /> : <Redirect to='/signup' />} />
-        <Route path="/signup" render={() => <ChoosePlan lang={this.state.lang} onSelectedPlan={this.handleSelectedPlan} />} />
+        <Route exact path="/" render={() => <Landing lang={lang} onLogin={handleLoginNav} onRegister={handleRegisterNav} />} />
+        <Route path="/signup/form" render={() => plan ? <Register lang={lang} onRegister={handleRegister} plan={plan} error={error} /> : <Redirect to='/signup' />} />
+        <Route path="/signup" render={() => <ChoosePlan lang={lang} onSelectedPlan={handleSelectedPlan} />} />
+        <Route patch="/login" render={() => <Login lang={lang} onLogin={handleLogin} error={error} />} />
 
       </Switch>
-    
-    {visible === 'landing' && <Landing lang={lang} onLogin={handleRegisterNav} onRegister={handleLoginNav} />}
-      {visible === 'login' && <Login lang={lang} onLogin={handleLogin} error={error} />}
+
 
     </>
   }
 
 }
-
 
 
 export default withRouter(App);
