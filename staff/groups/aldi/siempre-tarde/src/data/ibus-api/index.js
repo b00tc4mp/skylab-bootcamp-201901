@@ -42,20 +42,21 @@ const iBusApi = {
         return call(`${this.__url__}/lines/${line_id}/stops/${stop_id}?app_id=${this.APP_ID}&app_key=${this.APP_KEY}`, {
             timeout: this.__timeout__
         })
-            .then(response => {
-                if (response.status === 200) { 
-                    return response.json()
-                }  
-                if (response.status === 404) throw new NotFoundError('cannot found')
-                if (response.status === 403) throw new ConnectionError('cannot connect') 
-            })
-            .then( response =>{
-                    
-                const {data:{ibus}} = response
-                if (ibus === undefined){ 
-                    throw new NoDataError('no data recived')
-                }else { return response }
-            })
+        .then(response => {
+            if (response.status === 200) { 
+                return response.json()
+            }  
+            if (response.status === 404) throw new NotFoundError('cannot found')
+            if (response.status === 403) throw new ConnectionError('cannot connect') 
+        })
+        .then( response =>{
+                
+            const {data:{ibus}} = response
+            if (ibus === undefined){ 
+                throw new NoDataError('no data recived')
+//            } else { return ibus }                
+            } else { return response }
+        })
     }
 }
 

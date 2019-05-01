@@ -17,23 +17,23 @@ const transitApi = {
             { name: 'line', value: line_id, type: 'number', notEmpty: true, optional: true }
         ])
 
-        let path = ''
-        if (line_id) path = line_id
+        let path
+        line_id ? path = line_id : path = ''
         return call(`${this.__url__}/${path}?app_id=${this.APP_ID}&app_key=${this.APP_KEY}`, {
             timeout: this.__timeout__
         })
-        .then(response => {
-            if (response.status === 200) { 
-                return response.json()
-            }  
-            if (response.status === 404) throw new NotFoundError('cannot found')
-            if (response.status === 403) throw new ConnectionError('cannot connect')  
-        })
-        .then( response =>{
-            if (response.totalFeatures === 0){ 
-                throw new NotFoundError('cannot found')
-            }else { return response }
-        })
+            .then(response => {
+                if (response.status === 200) { 
+                    return response.json()
+                }  
+                if (response.status === 404) throw new NotFoundError('cannot found')
+                if (response.status === 403) throw new ConnectionError('cannot connect')  
+            })
+            .then( response =>{
+                if (response.totalFeatures === 0){ 
+                    throw new NotFoundError('cannot found')
+                }else { return response }
+            })
 
     },
 
@@ -48,7 +48,6 @@ const transitApi = {
         })
         .then(response => {
             if (response.status === 200) { 
-                debugger
                 return response.json()
             }  
             if (response.status === 404) throw new NotFoundError('cannot found')
