@@ -378,7 +378,7 @@ describe('logic', () => {
                     .then(response => {
                         expect(response instanceof Object).toBeTruthy()
                         expect(response.drinks.length).toBeGreaterThan(0)
-                        expect(response.drinks.isDrinks).toBe('16108')
+                        expect(response.drinks.isDrink).toBe('16108')
                     })
 
         })
@@ -389,19 +389,30 @@ describe('logic', () => {
                 .then(response => {
                     expect(response instanceof Object).toBeTruthy()
                     expect(response.drinks.length).toBeGreaterThan(0)
-                    expect(response.drinks.isDrinks).toBe("11007")
+                    expect(response.drinks.isDrink).toBe("11007")
                 })
         })
         it('should retrive coktail detail by ID', ()=>{
             let id = '11007'
                 logic.cocktailbyName(id)
                     .then(response => {
-                        console.log(response)
+                        
                         expect(response instanceof Object).toBeTruthy()
                         expect(response.drinks.length).toBeGreaterThan(0)
-                        expect(response.drinks.isDrinks).toBe("11007")
+                        expect(response.drinks.isDrink).toBe("11007")
                     })
 
-        })    
+        }) 
+        
+        it('should list popular cocktails', ()=>{
+                logic.popularCocktails()
+                    .then(response => {
+                       
+                        expect(response instanceof Object).toBeTruthy()
+                        expect(response.drinks.length).toBeGreaterThan(0)
+                        expect(response.drinks.isDrink).toBe("1100")
+                    })
+
+        }) 
     })
 })
