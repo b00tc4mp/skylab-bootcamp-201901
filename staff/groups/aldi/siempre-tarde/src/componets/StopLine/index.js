@@ -1,41 +1,32 @@
 import React from 'react'
 import literals from './literals'
 import { Link } from "react-router-dom"
+import logic from '../../logic';
 
-function StopLine({lang, onRegister, onLogin}) {
-    const {title1, title2, title3, back} = literals[lang]
+function StopLine({ lang, onSearch, items, error, line_id }) {
+    const { title1, stop, submit, reset, back } = literals[lang]
 
     return <section>
+        <Link to={`/`}><button>{back}</button></Link>
+        <div>
+            <h1>{title1}</h1>
+            <select onChange={event => console.log(event.target.value)} value={line_id}>
+                {
+                    items.map(({ line_id, name_line, desc_line }) => {
 
-    <div>
-    <h1>{title1}</h1>
-    <Link to={`/`}><button>{back}</button></Link> 
-    <select onSubmit={()=>console.log("avengers")}>
-        <option value="1">111111111</option>
-        <option value="2">222222222</option>
-        <option value="3">333333333</option>
-    </select>
-    </div>
-
-    <div>
-    <h1>{title2}</h1>
-    <Link to={`/`}><button>{back}</button></Link> 
-    <select onSubmit={()=>console.log("end")}>
-        <option value="21">111111111</option>
-        <option value="22">444444444</option>
-        <option value="33">332323213</option>
-    </select>
-    </div>
-
-    <div>
-    <h1>{title3}</h1>
-    <Link to={`/`}><button>{back}</button></Link> 
-    <select onSubmit={()=>console.log("game")}>
-        <option value="1">111111111</option>
-        <option value="2">222222222</option>
-        <option value="3">333333333</option>
-    </select>
-    </div>
+                        return <option key={line_id} value={line_id}>{name_line}-{desc_line}</option>
+                    })
+                }
+            </select>
+        </div>
     </section>
+
+
+
+
+
+
+
+
 }
 export default StopLine
