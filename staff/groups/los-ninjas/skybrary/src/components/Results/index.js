@@ -2,7 +2,7 @@ import React from 'react'
 import './index.scss'
 
 
-function Results({ items }) {
+function Results({ items, onItem }) {
     items.forEach(element => {
 
     });
@@ -12,7 +12,7 @@ function Results({ items }) {
                 {
                     items.map(({ isbn, cover_edition_key, title, author_name, cover_i, publish_date }) => {
 
-                        return (isbn && cover_edition_key) && <li className="library__book column is-3-desktop is-5-tablet is-10-mobile" key={cover_edition_key}>
+                        return (isbn && cover_edition_key) && <li className="library__book column is-3-desktop is-5-tablet is-10-mobile" key={cover_edition_key} onClick={() => onItem(isbn[0])}>
                             <article className="card">
                                 <div className="card-image">
                                     <figure className="image is-3by4">
@@ -44,4 +44,4 @@ function Results({ items }) {
 }
 
 
-export default Results 
+export default Results

@@ -26,7 +26,7 @@ function call(url, options = {}) {
     let signal
 
     if (timeout) {
-        const controller = new AbortController
+        const controller = new AbortController()
         signal = controller.signal
         setTimeout(() => controller.abort(), timeout)
     }

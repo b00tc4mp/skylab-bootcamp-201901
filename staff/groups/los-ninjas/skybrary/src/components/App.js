@@ -8,7 +8,6 @@ import Header from './Header'
 import Login from './Login'
 import Home from './Home'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
-
 import './App.scss'
 
 class App extends Component {

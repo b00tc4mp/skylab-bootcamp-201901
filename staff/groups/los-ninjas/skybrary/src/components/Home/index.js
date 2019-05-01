@@ -5,42 +5,44 @@ import Results from '../Results'
 import Header from '../Header'
 import Footer from '../Footer'
 
-import { booleanLiteral } from '@babel/types';
-// import Detail from '../Detail'
+// import { booleanLiteral } from '@babel/types';
+import Detail from '../Detail'
 import './index.scss'
 
 class Home extends Component {
-    state = { error: null, books: [], }
+    state = {error: null, books: [], bookDetail: null}
 
     handleSearch = query =>
-
         logic.searchBooks(query)
             .then((books) =>
-                this.setState({ books: books.docs })
-            ).catch(error =>
-                this.setState({ error: error.message })
-            )
+                this.setState({ bookDetail: null, books: books.docs})
+        ).catch(error =>
+            this.setState({ error: error.message })
+        )
 
-    handleLogout = () => {
-        logic.logoutUser()
-        this.props.history.push('/')
-
-    }
+    handleRetrieve = (isbn) =>
+        logic.retrieveBook(isbn)
+            .then((details) => {
+                const bookDetails = Object.values(details)
+                console.log([bookDetails[0].details])
+                this.setState({bookDetail: [bookDetails[0].details]})
+            }).catch()
 
 
     render() {
 
         const {
             handleSearch,
-            state: { books },
-            handleLogout
+            handleRetrieve,
+            state: {books, bookDetail}
         } = this
 
         return <main className="home">
-            <Header onLogout={handleLogout} />
-            <Search onSearch={handleSearch} />
-            <Results items={books} />
-            <Footer />
+            <Header/>
+            <Search onSearch={handleSearch}/>
+            {!bookDetail && <Results items={books} onItem={handleRetrieve}/>}
+            {bookDetail  && <Detail item={bookDetail}/>}
+            <Footer/>
         </main>
     }
 }
