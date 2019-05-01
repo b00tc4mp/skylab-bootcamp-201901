@@ -10,7 +10,7 @@
     
 .searcher
     width: 100%
-    border-bottom: 2px green solid
+    border-bottom: 2px $aux-color solid
 
     &__input
         width: 60%
@@ -28,29 +28,15 @@
     &__selector > option
         height: 50px
 
-    &__selector > option:after 
-        position: absolute
-        content: ""
-        top: 14px
-        right: 10px
-        width: 0
-        height: 0
-        border: 6px solid transparent
-        border-color: #fff transparent transparent transparent
-
-
-
-
-    
-
     &__button
         width: 20%
         height: 30px
         border: none
         cursor: pointer
 
-    &__button:hover
-        background-color: grey
+        &:hover
+            background-color: $aux-color
+            color: white
     
 
 
