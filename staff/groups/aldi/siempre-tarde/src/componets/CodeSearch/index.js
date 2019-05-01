@@ -6,12 +6,12 @@ import logic from '../../logic';
 import StopCode from '../StopCode';
 
 class CodeSearch extends Component {
-    state = { error: null, line: null, lines:[] }
+    state = { error: null, line: null, lines:[] , stop: null}
 
     handleSearch = stop_id =>
         logic.upcomingBusesByStop(stop_id)
             .then((lines) =>
-                this.setState({ error:null, line: null, lines},() => this.props.history.push('/byidstop/results'))
+                this.setState({ error:null, line: null, lines, stop:stop_id},() => this.props.history.push('/byidstop/results'))
             )
             .catch(error =>
                 this.setState({ error: error.message })
@@ -21,7 +21,7 @@ class CodeSearch extends Component {
     render() {
         const {
             handleSearch,
-            state: { lines, error },
+            state: { lines, error, stop },
             props: { lang }
         } = this
 
@@ -30,7 +30,7 @@ class CodeSearch extends Component {
         return <main>
             <Switch>
             <Route exact path="/byidstop" render={() => logic.isUserLoggedIn ? <StopCode lang={lang} onSearch={handleSearch} error={error}/> : <Redirect to="/" />} />
-            <Route path="/byidstop/results" render={() => logic.isUserLoggedIn ? <Results lang={lang} items={lines} error={error}/> : <Redirect to="/" />} />
+            <Route path="/byidstop/results" render={() => logic.isUserLoggedIn ? <Results lang={lang} items={lines} stop={stop} error={error}/> : <Redirect to="/" />} />
             <Redirect to="/" />
             </Switch>
         </main>
