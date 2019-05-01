@@ -1,7 +1,7 @@
 import React from 'react'
 
 
-function Results({items,onFavorites}) {
+function Results({items,onFavorites, onDetail}) {
 
 
 
@@ -10,9 +10,10 @@ function Results({items,onFavorites}) {
     
         items.map(({name,image,id})=>{
 
-            return <li key={id} onClick={() => onFavorites(id)}>
+            return <li key={id}>
                 <h2>{name}</h2>
-                <img src={image}/>
+                <img src={image} onClick={() => onDetail(id)}/>
+                <button onClick={() => onFavorites(id)}>add</button>
                 
             </li>
         })
