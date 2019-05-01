@@ -221,15 +221,17 @@ const logic = {
                     let lineFind = false
                     let i = 0
                     let color_line
+                    let dest_line
                     while (i < arr.length && !lineFind) {
                         if (arr[i].name_line === buses[index].line) {
                             color_line = arr[i].color_line
+                            dest_line =  arr[i].dest_line
                             lineFind = true
                         }
                         else {i++}
                     }
-                    lineFind ? upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line }) :
-                            upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line: '#000000'}) 
+                    lineFind ? upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line, dest_line }) :
+                            upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line: '#000000', dest_line}) 
 
                 })       
                 return upcomingBuses 
@@ -252,13 +254,13 @@ const logic = {
                 debugger
                 const {data:{ibus}} = response
 
-                if (response.length === 0) throw new NoDataError('no data recived')
+                if (ibus.length === 0) throw new NoDataError('no data recived')
 
-                return response.map((bus, index) => {
+                return ibus.map((bus, index) => {
 
-                    const { line_id, "t-in-min": t_in_min, "t-in-s": t_in_s, "text-ca": text_ca } = bus
+                    const {"t-in-min": t_in_min, "t-in-s": t_in_s, "text-ca": text_ca } = bus
 
-                    buses[index]= { line, t_in_min, t_in_s, text_ca }
+                    buses[index]= { line_id, t_in_min, t_in_s, text_ca }
 
                     return transitApi.retrieveBusLine(line_id)
                 })
@@ -282,7 +284,7 @@ const logic = {
                 debugger
                 let upcomingBuses = []
                 resp.map((arr, index )=> {
-                    upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line : arr[0].color_line }) 
+                    upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line : arr[0].color_line, dest_line : arr[0].dest_line }) 
                 })       
                 return upcomingBuses 
             })         
