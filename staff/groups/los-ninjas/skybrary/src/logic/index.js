@@ -96,7 +96,7 @@ const logic = {
     //         { name: 'isbn', value: isbn, type: 'string' }
     //     ])
 
-    //     return searchBooksApi.retrieveDuck(isbn)
+    //     return searchBooksApi.retrieveBook(isbn)
     // },
 
     // toggleFavDuck(id) {
