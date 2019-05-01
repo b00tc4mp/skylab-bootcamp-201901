@@ -366,7 +366,6 @@ describe('logic', () => {
             const stop_id = 1278
     
             return logic.upcomingBusesByStop(stop_id)
-                .catch(() => {expect().toThrowError(NoDataError,'no data recived') })
                 .then(response => {
                     expect(response.length).toBeGreaterThan(0)
     
@@ -399,15 +398,14 @@ describe('logic', () => {
             const line_id = 136
             debugger
             return logic.upcomingBusesByStopAndLine(stop_id, line_id)
-                .catch(() => {expect().toThrowError(NoDataError,'no data recived') })
                 .then(response => {
                     debugger
-                    expect(response.data.ibus.length).toBe(1)
+                    expect(response.length).toBe(1)
                     const {
                         t_in_min, 
                         t_in_s, 
                         text_ca, 
-                        color_line } = response.data.ibus[0]
+                        color_line } = response[0]
 
                     expect(typeof t_in_min === 'number').toBeTruthy()
                     expect(typeof t_in_s === 'number').toBeTruthy()
@@ -415,7 +413,7 @@ describe('logic', () => {
                     expect(typeof color_line === 'string').toBeTruthy()
     
                 })
-        }, 10000)
+        }, 1000000)
     })
 
 
