@@ -51,6 +51,11 @@ class App extends Component {
 
     handleLoginNav = () => this.props.history.push('/login')
 
+    handleLogout = () => {
+        logic.logoutUser()
+        this.props.history.push('/')
+    }
+
     render() {
         const {
             state: { lang, error, name, plan },
@@ -59,7 +64,8 @@ class App extends Component {
             handleLogin,
             handleRegister,
             handleLanguageChange,
-            handleSelectedPlan
+            handleSelectedPlan,
+            handleLogout
         } = this
 
         return <>
@@ -73,9 +79,11 @@ class App extends Component {
                 
 				<Route path="/signup" render={() => logic.isUserLoggedIn ? <Redirect to='/home'/> : <ChoosePlan lang={lang} onSelectedPlan={handleSelectedPlan} />} />
                 
-				<Route patch="/login" render={() => logic.isUserLoggedIn ? <Redirect to='/home'/> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
+				<Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to='/home'/> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
                 
-				<Route patch='/home' render={() => logic.isUserLoggedIn ? <Home lang={lang} name={name} /> :  <Redirect to='/'/> } />
+				<Route path='/home' render={() => logic.isUserLoggedIn ? <Home lang={lang} name={name} onLogout={handleLogout} /> :  <Redirect to='/'/> } />
+
+                <Redirect to='/' />
             </Switch>
         </>
     }
