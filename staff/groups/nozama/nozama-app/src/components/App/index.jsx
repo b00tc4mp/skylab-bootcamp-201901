@@ -8,7 +8,10 @@ import Login from '../Login';
 import Register from '../Register';
 import Home from '../../pages/Home';
 import logic from '../../logic';
+<<<<<<< HEAD
 
+=======
+>>>>>>> 74727f7b1c46b3210f32408a6bca1a38d65175d2
 
 function App(props) {
   const handleLogin = (email, password) => logic.loginUser(email, password);
@@ -45,7 +48,10 @@ function App(props) {
         />
         <Redirect to="/" />
       </Switch>
+<<<<<<< HEAD
 
+=======
+>>>>>>> 74727f7b1c46b3210f32408a6bca1a38d65175d2
     </Container>
   );
 }
