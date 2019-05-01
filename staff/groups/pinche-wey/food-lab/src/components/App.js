@@ -64,13 +64,13 @@ class App extends Component {
     }
 
     handleSearch = (query, selector) =>
-    logic.searchRecipes(query, selector)
-        .then((recipes) =>
-            this.setState({ results: recipes })
-        )
-        .catch(error =>
-            this.setState({ error: error.message })
-        )
+        logic.searchRecipes(query, selector)
+            .then((recipes) =>
+                this.setState({ results: recipes })
+            )
+            .catch(error =>
+                this.setState({ error: error.message })
+            )
 
     render() {
         const {
@@ -85,11 +85,19 @@ class App extends Component {
 
         return <>
             <header className="header">
-                <h1>FOODLAB</h1>
-                <div className="app__searcher">
+                <h1 className="header__title" >FOOD<span className="header__title-colored" >LAB</span></h1>
+                <div className="header__searcher">
                     <Search onSearch={handleSearch} />
                 </div>
-                {visible !== 'landing' && <button onClick={handleLogout}> {visible === 'home' ? 'LogOut' : 'Return'}</button>}
+
+                <div className="header__user">
+                    <div className="header__user-img">
+                        <img src="http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg" />
+                    </div>
+                    <p className="header__user-name" >{name}</p>
+                    {visible !== 'landing' && <button className="header__user-button" onClick={handleLogout}> {visible === 'home' ? 'LogOut' : 'Return'}</button>}
+                </div>
+
             </header>
 
             {visible === 'landing' && <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />}
@@ -101,6 +109,11 @@ class App extends Component {
             {visible === 'login' && <Login onLogin={handleLogin} error={error} />}
 
             {visible === 'home' && <Home results={results} name={name} onLogout={handleLogout} />}
+        
+        <footer className='footer'>
+
+        </footer>
+
         </>
 
     }

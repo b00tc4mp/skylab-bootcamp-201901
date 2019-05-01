@@ -513,7 +513,7 @@ describe('logic', () => {
             )
         })
     })
-    fdescribe('updateUser', () => {
+    describe('updateUser', () => {
         let id, token, email
         const name = 'Manuel'
         const surname = 'Barzi'
@@ -535,23 +535,37 @@ describe('logic', () => {
                 })
         )
 
-        it('should succeed on changing data', () => {
-            const newName = "New name"
-            logic.updateUser({ "name": newName })
+        fit('should succeed on changing data', () => {
+            const newName = "Misha"
+            const newSurname = "Gusak"
+            logic.updateUser({ "name": "Misha","surname": "Gusak" })
                 .then(response => {
                     const { status } = response
                     expect(status).toBe('OK')
                     
-
+                    // expect(title.length).toBeGreaterThan(0)
+                    // expect(typeof imageUrl).toBe('string')
+                    // expect(imageUrl.length).toBeGreaterThan(0)
+                    // expect(typeof description).toBe('string')
+                    // expect(description.length).toBeGreaterThan(0)
+                    // expect(typeof price).toBe('string')
+                    // expect(price.length).toBeGreaterThan(0)
+                    
+                    
+                    
                 })
                 
-
-            userApi.retrieve(id, token)
+            return userApi.retrieve(id, token)
                 .then(response => {
-                    const { status,data: { name } } = response
-                    expect(status).toBe('OP')
-                    expect(name).toBe(newName)
+
+                    const { status,data: { name,surname } } = response
+                    expect(status).toBe('OK')
+                    expect(typeof name).toBe('string')
+                    expect(name).toBe("Misha")
+                    expect(surname).toBe("Gusak")
+
                 })
+
 
 
 

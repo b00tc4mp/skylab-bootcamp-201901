@@ -32,8 +32,8 @@ class Home extends Component {
                 .then(() =>
                     logic.retrieveBook()
                 )
-                .then(([wanted, done, notes, forks, fullWanted, fullDone ]) => {
-                    this.setState({ wanted, done, notes, forks, fullWanted, fullDone})
+                .then(([wanted, done, notes, forks, fullWanted, fullDone]) => {
+                    this.setState({ wanted, done, notes, forks, fullWanted, fullDone })
                 })
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -46,8 +46,8 @@ class Home extends Component {
     handleNotes = (id, changes, notes) => {
         logic.updatingNotes(id, changes, notes)
             .then(() => logic.retrieveBook())
-            .then(([wanted, done, notes,forks, fullWanted, fullDone]) => {
-                this.setState({ wanted, done, notes, forks, fullWanted, fullDone})
+            .then(([wanted, done, notes, forks, fullWanted, fullDone]) => {
+                this.setState({ wanted, done, notes, forks, fullWanted, fullDone })
             })
     }
 
@@ -128,35 +128,39 @@ class Home extends Component {
             handleWaitingList,
             handleUser,
             handleRetrieve,
-            state: { error, recipe, recipes, wanted, done, notes, forks, user, fullWanted, fullDone},
+            state: { error, recipe, recipes, wanted, done, notes, forks, user, fullWanted, fullDone },
         } = this
-
-        if (recipes === null && recipe === null) handleRandom()
 
         return <main className="home">
 
             <div>
                 <nav className="nav">
                     <div className="nav__user">
-                        <a className="nav__user-img">
+                    <div className="nav__user-img">
+
                             <img onClick={() => handleUser()} src="http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg" />
-                        </a>
-                        <a>
+                    </div>
                             <p className="nav__user-name" >Hola</p>
-                        </a>
                     </div>
                     <div className="nav__recipes">
-                        <h4>Boiling</h4>
+                        <h4 className="nav__recipes-title" >Boiling</h4>
                         <SmallCard toPaint={fullWanted} onItem={handleRetrieve}></SmallCard>
                     </div>
                     <div className="nav__recipes">
-                        <h4>My Creations</h4>
+                        <h4 className="nav__recipes-title" >My Creations</h4>
                         <SmallCard toPaint={fullDone} onItem={handleRetrieve}></SmallCard>
                     </div>
                 </nav>
             </div>
             <div >
-                <div className="home__search__results">
+                <div className="nav__results">
+                    <div className="nav__results-header">
+                        <h4 className="nav__results-header-title" >Searching into {} by {}</h4>
+                        <div>
+                            <button className='nav__results-header-button' >Boiling</button>
+                            <button className='nav__results-header-button' >My creations</button>
+                        </div>
+                    </div>
                     {!recipe && !user && recipes && <Results items={recipes} onItem={handleRetrieve} /*onFav={handleFav} favs={favs}*/ />}
                     {!user && recipe && <Detail item={recipe} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} />}
                     {user && <User onUpdate={handleUpdateUser} onBack={handleUpdateUser} user={user} />}
