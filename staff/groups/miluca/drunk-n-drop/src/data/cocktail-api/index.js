@@ -68,6 +68,13 @@ const cocktailApi = {
             return call(`${this.__url__}/lookup.php?i=${query}`)
             .then(response => response.json())
 
+        },
+
+        listPopular(){
+
+            return call(`${this.__url__}/lookup.php?i=${query}`)
+            .then(response => response.json())
+
         }
 }
 

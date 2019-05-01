@@ -191,7 +191,8 @@ function filterDetails(details){
                         } 
                     })
                 })
-                return drinkFormater(drinks[0])
+                console.log(drinks)
+                return drinkFormater(drinks)
             })
             
         )
@@ -236,6 +237,7 @@ function drinkFormater(rawdrinks){ //array
                 image: `https://www.thecocktaildb.com/images/ingredients/${drinkdetails[drinkeys[i]]}.png`
             })
         }
+
         drinks.push({
             id: drinkdetails.idDrink,
             name: drinkdetails.strDrink,
@@ -246,7 +248,7 @@ function drinkFormater(rawdrinks){ //array
             image:  drinkdetails.strDrinkThumb, 
             ingredients
         })
-
+       if(rawdrinks.length === 1) return drinks[0]
     }
     return drinks
 }
