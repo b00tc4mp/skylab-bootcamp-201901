@@ -2,8 +2,8 @@ import userApi from '../data/user-api';
 import productApi from '../data/product-api';
 import validate from '../common/validate';
 import { LogicError } from '../common/errors';
-import Product from './Product';
-import ProductWithDetail from './ProductWithDetail';
+import Product from './product/Product';
+import ProductWithDetail from './product/ProductWithDetail';
 
 const logic = {
   __userId__: null,
@@ -133,9 +133,20 @@ const logic = {
       .then(info => new ProductWithDetail(info));
   },
 
-  searchProduct(text){
+  searchProduct(text) {
       return productApi.search(text)
         .then(products => products.map(info => new Product(info)));
+  },
+
+  categories () {
+    return logic.allProducts()
+      .then(products => {
+        return products.reduce((acc, product) => {
+          const category = product.subtitle.trim();
+          if (!acc.includes(category)) acc.push(category);
+          return acc;
+        }, [])
+      })
   }
 };
 
