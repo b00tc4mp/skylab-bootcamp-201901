@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import logic from '../../logic'
 import images from './images'
+import './index.sass'
 
 
 class Header extends Component {
@@ -27,11 +28,17 @@ class Header extends Component {
     render(){
         const {
             hadleCityChange,
-            state: {currentWeather, currentCity, error}
+            state: {currentWeather, currentCity, images},
+            props: {onLogout, onProfile, onPreferences}
         } = this
-        return <>
-        <header>
-            <img  src={this.state.images}/>
+
+        return <div className="myHeader" style={{backgroundImage: `url(${images})`}}>
+        <h1>weatunes</h1>
+        <button onClick={onLogout}>Logout</button>
+        <button onClick={onProfile}>Profile</button>
+        <button onClick={onPreferences}>Preferences</button>
+
+            {/* <img className='img'  src={this.state.images}/> */}
         <select name="city" onChange={event => hadleCityChange(event.target.value)} defaultValue={currentCity}>
             <option value="Alaska">Alaska</option>
             <option value="Auckland">Auckland</option>
@@ -48,9 +55,7 @@ class Header extends Component {
         </select>
         <h2>{currentCity}</h2>
         <h2>{currentWeather}</h2>
-        <img src=""/>
-        </header>
-        </>
+        </div>
     }
 }
 
