@@ -107,12 +107,12 @@ const logic = {
                 const { features } = response
 
                 return features.map(({ properties:
-                    { "CODI_LINIA"     : line_id,
-                        "NOM_LINIA"    : name_line,
-                        "DESC_LINIA"   : desc_line,
-                        "ORIGEN_LINIA" : origin_line,
-                        "DESTI_LINIA"  : dest_line,
-                        "COLOR_LINIA"  : color_line
+                    { "CODI_LINIA": line_id,
+                        "NOM_LINIA": name_line,
+                        "DESC_LINIA": desc_line,
+                        "ORIGEN_LINIA": origin_line,
+                        "DESTI_LINIA": dest_line,
+                        "COLOR_LINIA": color_line
                     }
                 }) => {
                     return { line_id, name_line, desc_line, origin_line, dest_line, color_line }
@@ -132,8 +132,8 @@ const logic = {
                 const { features } = response
 
                 return features.map(({ properties:
-                    { "SENTIT"         : direction_id,
-                        "DESTI_SENTIT" : direction_name
+                    { "SENTIT": direction_id,
+                        "DESTI_SENTIT": direction_name
                     }
                 }) => {
                     return { direction_id, direction_name }
@@ -160,9 +160,9 @@ const logic = {
 
                 features.forEach(e => {
                     const { properties:
-                        { "CODI_PARADA"  : stop_id,
-                            "NOM_PARADA" : stop_name,
-                            "SENTIT"     : direction
+                        { "CODI_PARADA": stop_id,
+                            "NOM_PARADA": stop_name,
+                            "SENTIT": direction
                         }
                     } = e
                     if (direction === direction_id) {
@@ -185,7 +185,7 @@ const logic = {
         let buses = []
         return iBusApi.retrieveStopId(stop_id)
             .then(response => {
-                
+
                 const { data: { ibus } } = response
 
                 if (ibus.length === 0) throw new NoDataError('no data recived')
@@ -194,30 +194,30 @@ const logic = {
 
                     const { line, "t-in-min": t_in_min, "t-in-s": t_in_s, "text-ca": text_ca } = bus
 
-                    buses[index]= { line, t_in_min, t_in_s, text_ca }
+                    buses[index] = { line, t_in_min, t_in_s, text_ca }
 
                     return transitApi.retrieveBusLine()
                 })
             })
             .then(res => Promise.all(res).then(response => {
-                return response.map(({features}) => {
-                    return features.map(({properties:
-                        { "CODI_LINIA"     : line_id,
-                            "NOM_LINIA"    : name_line,
-                            "DESC_LINIA"   : desc_line,
-                            "ORIGEN_LINIA" : origin_line,
-                            "DESTI_LINIA"  : dest_line,
-                            "COLOR_LINIA"  : color_line
+                return response.map(({ features }) => {
+                    return features.map(({ properties:
+                        { "CODI_LINIA": line_id,
+                            "NOM_LINIA": name_line,
+                            "DESC_LINIA": desc_line,
+                            "ORIGEN_LINIA": origin_line,
+                            "DESTI_LINIA": dest_line,
+                            "COLOR_LINIA": color_line
                         }
                     }) => {
                         return { line_id, name_line, desc_line, origin_line, dest_line, color_line }
                     })
-                    }) 
-                })  
+                })
+            })
             )
             .then(resp => {
                 let upcomingBuses = []
-                resp.map((arr, index )=> {
+                resp.map((arr, index) => {
                     let lineFind = false
                     let i = 0
                     let color_line
@@ -225,17 +225,17 @@ const logic = {
                     while (i < arr.length && !lineFind) {
                         if (arr[i].name_line === buses[index].line) {
                             color_line = arr[i].color_line
-                            dest_line =  arr[i].dest_line
+                            dest_line = arr[i].dest_line
                             lineFind = true
                         }
-                        else {i++}
+                        else { i++ }
                     }
-                    lineFind ? upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line, dest_line }) :
-                            upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line: '#000000', dest_line}) 
+                    lineFind ? upcomingBuses.push({ line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line, dest_line }) :
+                               upcomingBuses.push({ line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line: '#000000', dest_line})
 
-                })       
-                return upcomingBuses 
-            })       
+                })
+                return upcomingBuses
+            })
     },
 
 
@@ -250,19 +250,19 @@ const logic = {
         debugger
         return iBusApi.retrieveLineId(stop_id, line_id)
             .then(response => {
-                
+
                 debugger
-                const {data:{ibus}} = response
+                const { data: { ibus } } = response
 
                 if (ibus.length === 0) throw new NoDataError('no data recived')
 
                 return ibus.map((bus, index) => {
 
-                    const {"t-in-min": t_in_min, "t-in-s": t_in_s, "text-ca": text_ca } = bus
+                const {"t-in-min": t_in_min, "t-in-s": t_in_s, "text-ca": text_ca } = bus
 
-                    buses[index]= { line_id, t_in_min, t_in_s, text_ca }
+                buses[index] = { line_id, t_in_min, t_in_s, text_ca }
 
-                    return transitApi.retrieveBusLine(line_id)
+                return transitApi.retrieveBusLine(line_id)
                 })
             })
             .then(res => Promise.all(res).then(response => {
@@ -283,11 +283,11 @@ const logic = {
             .then(resp => {
                 debugger
                 let upcomingBuses = []
-                resp.map((arr, index )=> {
-                    upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line : arr[0].color_line, dest_line : arr[0].dest_line }) 
-                })       
-                return upcomingBuses 
-            })         
+                resp.map((arr) => {
+                    upcomingBuses.push({ line: buses[0].line_id, t_in_min: buses[0].t_in_min, t_in_s: buses[0].t_in_s, text_ca: buses[0].text_ca, color_line: arr[0].color_line, dest_line : arr[0].dest_line })
+                })
+                return upcomingBuses
+            })
     }
 
 }
