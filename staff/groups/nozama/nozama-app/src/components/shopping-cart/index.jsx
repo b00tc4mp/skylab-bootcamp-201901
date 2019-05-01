@@ -4,28 +4,23 @@ import {Row, Container, Col, Button, Badge} from 'reactstrap'
 
 function ShoppingCart(props) {
 
+  const handleClick = (e) => {
+    e.preventDefault();
+    props.onGoToCart();
+  }
+   return (
 
-  return (
-    <Container>
-    <Row>
-
-<Col xs="3">
-
-    <Button color="secondary">
-      <img width="100%" src="https://cdn.pixabay.com/photo/2014/04/02/10/53/shopping-cart-304843__340.png" />
-      <Badge 
+  <>
+      <i className="fas fa-shopping-cart"></i>
+      <small><Badge 
         style={{
           position: "absolute",
-          right: "-10",
-          top: "-10"
+          left: "3rem",
+          top: "0"
         }} 
-        color="primary">4</Badge>
-    </Button>
-    
-</Col>
-</Row>
-      </Container>
-
+        color="secondary" pill>{props.cartQuantity}</Badge>
+        </small>
+    </>
   )
 }
 

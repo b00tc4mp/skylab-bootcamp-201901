@@ -379,8 +379,12 @@ describe('logic', () => {
           return logic.findProduct(randomProductId);
         })
         .then(_infoProduct => (infoProduct = _infoProduct))
-        .then(() => logic.detailProduct(randomProductId))
+        .then(() => {
+          logic.detailProduct(randomProductId)
+        })
         .then(productDetail => {
+          console.log(randomProductId);
+          if (productDetail == undefined || !productDetail.campaign) debugger
           expectsDetail(productDetail);
         });
     });
