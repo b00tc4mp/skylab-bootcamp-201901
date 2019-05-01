@@ -1,6 +1,4 @@
 import logic from '.'
-// import userApi from '../data/user-api'
-// import searchBooksApi from '../data/booksearch-api';
 
 describe('logic', () => {
     describe('books api', () => {
