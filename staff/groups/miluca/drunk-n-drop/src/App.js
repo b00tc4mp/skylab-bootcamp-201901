@@ -9,10 +9,11 @@ import Results from '../src/components/results/results'
 //components
 
 import Register from './components/register';
+import Favorites from "./components/Favorites";
 
 class App extends Component {
 
-  state = { error: null, name: null, results: null }
+  state = { error: null, name: null, results: [] ,favoriteList :[]}
 
   handleLogin = (username, password) => {
 
@@ -54,23 +55,40 @@ class App extends Component {
 
   }
 
+  handleFavorites = (id) =>{
+
+    return logic.toggleFavoriteCocktail(id)
+
+  }
+
+  returnFavorites = () => {
+
+   return logic.retriveFavorites()
+    .then(response =>{
+      this.setState({favoriteList: response})
+    })
+
+  }
+
   
   render() {
     const {
-      state: { error, results},
+      state: { error, results,favoriteList},
       handleLogin,
       handleRegister,
-      handleSearch
+      handleSearch,
+      handleFavorites,
+      returnFavorites
     } = this
 
 
     return <>
-     <Results items={results} />
-      <Router>
-        <Route exact path="/register" render={() => <Register onRegister={handleRegister} error={error} />} />
-        <Route exact path="/login" render={() => <Login onLogin={handleLogin} error={error} />} />
-        <Route exact path="/search" render={() => <Search onSearch={handleSearch} error={error} />} />
-      </Router>
+     
+        <Favorites favs={favoriteList} giveFav={returnFavorites}/>
+        <Register onRegister={handleRegister} error={error} />
+        <Login onLogin={handleLogin} error={error} />
+        <Search onSearch={handleSearch} error={error} />
+        <Results items={results} onFavorites={handleFavorites} />
     </>
 
   }

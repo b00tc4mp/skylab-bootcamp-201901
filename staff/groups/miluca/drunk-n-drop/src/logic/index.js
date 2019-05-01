@@ -148,12 +148,13 @@ const logic = {
     },
     cocktailbyName(query){
         validate.arguments([
-            {name: 'query', value: query, type: 'string', notEmpty: true},
+            {name: 'query', value: query, type: 'string', notEmpty: false},
            ])
         
         return cocktailApi.searchCocktail(query)
                  
            .then(({drinks}) => {
+       
                 if(drinks.length) return filter(drinks)
             })
            
@@ -190,7 +191,7 @@ function filterDetails(details){
                         } 
                     })
                 })
-                return drinks[0]
+                return drinkFormater(drinks[0])
             })
             
         )
@@ -210,37 +211,44 @@ function filter(drinks){
                         } 
                     })
                 })
-               
-                return drinkFormater(drinks[0])
+    
+                return drinkFormater(drinks)
             }
         
         return Promise.all(calls)
 }
 
 
-function drinkFormater(drinkdetails){
-    let ingredients =[]
-    const drinkeys = Object.keys(drinkdetails)
-    const ingredientindex = drinkeys.indexOf('strIngredient1')
-    const measuresindex = drinkeys.indexOf('strMeasure1')
-    for( let i=0;i < drinkeys.length; i++){
-        if(i >= ingredientindex && i < measuresindex)ingredients.push({
-            ingredientName: drinkdetails[drinkeys[i]],
-            measure: drinkdetails[drinkeys[(i-ingredientindex)+measuresindex]],
-            image: `https://www.thecocktaildb.com/images/ingredients/${drinkdetails[drinkeys[i]]}.png`
+function drinkFormater(rawdrinks){ //array
+    let drinks = []
+    let ingredients
+    let drinkdetails
+    for(let j=0 ; j<rawdrinks.length ; j++){
+        drinkdetails=rawdrinks[j]
+        ingredients =[]
+        const drinkeys = Object.keys(drinkdetails)
+        const ingredientindex = drinkeys.indexOf('strIngredient1')
+        const measuresindex = drinkeys.indexOf('strMeasure1')
+        for( let i=0;i < drinkeys.length; i++){
+            if(i >= ingredientindex && i < measuresindex)ingredients.push({
+                ingredientName: drinkdetails[drinkeys[i]],
+                measure: drinkdetails[drinkeys[(i-ingredientindex)+measuresindex]],
+                image: `https://www.thecocktaildb.com/images/ingredients/${drinkdetails[drinkeys[i]]}.png`
+            })
+        }
+        drinks.push({
+            id: drinkdetails.idDrink,
+            name: drinkdetails.strDrink,
+            category: drinkdetails.strCategory, 
+            alcohol:  drinkdetails.strAlcoholic, 
+            glass: drinkdetails.strGlass,
+            instructions:  drinkdetails.strInstructions,  
+            image:  drinkdetails.strDrinkThumb, 
+            ingredients
         })
+
     }
-    return {
-        id: drinkdetails.idDrink,
-        name: drinkdetails.strDrink,
-        tag: drinkdetails.strTags,
-        category: drinkdetails.strCategory, 
-        alcohol:  drinkdetails.strAlcoholic, 
-        glass: drinkdetails.strGlass,
-        instructions:  drinkdetails.strInstructions,  
-        image:  drinkdetails.strDrinkThumb, 
-        ingredients
-    }
+    return drinks
 }
 
 export default logic
