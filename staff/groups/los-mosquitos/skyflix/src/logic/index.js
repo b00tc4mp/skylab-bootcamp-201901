@@ -98,11 +98,18 @@ const logic = {
         return movieApi.retrieveMovie(id)
     },
 
+    retrieveTrailer(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'number' }
+        ])
+        return movieApi.retrieveTrailer(id)
+    },
+
     toggleMovieUserList(id) {
         validate.arguments([
             { name: 'id', value: id, type: 'number' }
         ])
-        
+
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
                 const { status, data } = response

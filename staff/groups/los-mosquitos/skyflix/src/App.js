@@ -13,7 +13,7 @@ import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
 
 class App extends Component {
 
-    state = { lang: i18n.language, plan: null, error: null }
+    state = { lang: i18n.language, plan: null, error: null, name: null }
 
     handleLanguageChange = lang => this.setState({ lang: i18n.language = lang })
 
@@ -28,6 +28,17 @@ class App extends Component {
         } catch (error) {
             this.setState({ error: error.message })
         }
+    }
+
+    componentDidMount() {
+        logic.isUserLoggedIn &&
+            logic.retrieveUser()
+                .then(user =>
+                    this.setState({ name: user.fullname })
+                )
+                .catch(error =>
+                    this.setState({ error: error.message })
+                )
     }
 
     handleLogin = (username, password) => {
@@ -72,16 +83,16 @@ class App extends Component {
             <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} />
 
             <Switch>
-                <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to='/home'/> : <Landing lang={lang} onLogin={handleLoginNav} onRegister={handleRegisterNav} />} />
-                
-				<Route path="/signup/form" render={() => logic.isUserLoggedIn ? <Redirect to='/home'/> :
-					plan ? <Register lang={lang} onRegister={handleRegister} plan={plan} error={error} /> : <Redirect to='/signup' />} />
-                
-				<Route path="/signup" render={() => logic.isUserLoggedIn ? <Redirect to='/home'/> : <ChoosePlan lang={lang} onSelectedPlan={handleSelectedPlan} />} />
-                
-				<Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to='/home'/> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
-                
-				<Route path='/home' render={() => logic.isUserLoggedIn ? <Home lang={lang} name={name} onLogout={handleLogout} /> :  <Redirect to='/'/> } />
+                <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to='/home' /> : <Landing lang={lang} onLogin={handleLoginNav} onRegister={handleRegisterNav} />} />
+
+                <Route path="/signup/form" render={() => logic.isUserLoggedIn ? <Redirect to='/home' /> :
+                    plan ? <Register lang={lang} onRegister={handleRegister} plan={plan} error={error} /> : <Redirect to='/signup' />} />
+
+                <Route path="/signup" render={() => logic.isUserLoggedIn ? <Redirect to='/home' /> : <ChoosePlan lang={lang} onSelectedPlan={handleSelectedPlan} />} />
+
+                <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to='/home' /> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
+
+                <Route path='/home' render={() => logic.isUserLoggedIn ? <Home lang={lang} name={name} onLogout={handleLogout} /> : <Redirect to='/' />} />
 
                 <Redirect to='/' />
             </Switch>
