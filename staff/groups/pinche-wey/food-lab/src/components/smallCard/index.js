@@ -20,6 +20,7 @@ function SmallCard({ toPaint, onItem }) {
     // sólo llamamos a shuffle si toPaint !== null && su longitud es mayor que 5
     if ((toPaint) && (toPaint.length > 5)) shuffle(toPaint, 5)
 
+    return <div>
         {
           toPaint && toPaint.map(({ idMeal: id, strMeal: title, strMealThumb: img }) => {
                 return <span className="smallCard__container" key={id} onClick={() => onItem(id)}>
