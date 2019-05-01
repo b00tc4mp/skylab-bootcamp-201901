@@ -122,14 +122,23 @@ class Home extends Component {
         this.handleRandom()
     }
 
+    handleForks = (index, changes, forks) => {
+        logic.updatingForks(index, changes, forks)
+            .then(() => logic.retrieveBook())
+            .then(([wanted, done, notes, forks, fullWanted, fullDone]) => {
+                
+                this.setState({ wanted, done, notes, forks, fullWanted, fullDone })
+            })
+            .catch((error) => this.setState({ error: error.message }))
+    }
+
     render() {
         const {
             handleRandom,
             handleGoBack,
-            handleNewSearch,
+            handleForks,
             handleUpdateUser,
             handleNotes,
-            //handleForks,
             handleWaitingList,
             handleUser,
             handleRetrieve,
@@ -163,7 +172,7 @@ class Home extends Component {
             <div >
                 <div className="home__search__results">
                     {!recipe && !user && recipes && <Results items={recipes} onItem={handleRetrieve} /*onFav={handleFav} favs={favs}*/ />}
-                    {!user && recipe && <Detail item={recipe} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} />}
+                    {!user && recipe && <Detail item={recipe} onForks={handleForks} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} forks={forks} />}
                     {user && <User onUpdate={handleUpdateUser} onBack={handleUpdateUser} user={user} />}
                 </div>
             </div>

@@ -218,10 +218,29 @@ const logic = {
     },
 
     updatingNotes(index, changes, notes) {
+        validate.arguments([
+            { name: 'index', value: index, type: 'number' },
+            { name: 'changes', value: changes, type: 'string'},
+            { name: 'notes', value: notes, type: 'object'}
+        ])
 
         notes[index] = changes
 
         return userApi.update(this.__userId__, this.__userToken__, { notes })
+            .then(() => { })
+    },
+
+    updatingForks(index, changes, forks) {
+        validate.arguments([
+            { name: 'index', value: index, type: 'number' },
+            { name: 'changes', value: changes, type: 'number'},
+            { name: 'forks', value: forks, type: 'object'}
+ 
+        ])
+
+        forks[index] = changes
+
+        return userApi.update(this.__userId__, this.__userToken__, { forks })
             .then(() => { })
     }
 
