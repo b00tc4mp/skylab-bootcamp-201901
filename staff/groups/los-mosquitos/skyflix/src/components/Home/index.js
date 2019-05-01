@@ -4,6 +4,7 @@ import logic from '../../logic'
 import Nav from '../Nav'
 import Search from '../Search'
 import Results from '../Results'
+import Detail from '../Detail'
 import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
 
 
