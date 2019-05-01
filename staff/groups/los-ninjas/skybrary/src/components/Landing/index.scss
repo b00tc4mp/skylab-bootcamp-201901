@@ -1,28 +1,30 @@
-
-
+// Landing page
 .landing {
     background: url('https://cdn-images-1.medium.com/max/1600/1*tO6yh-odg-YDLazUQ6FWVQ.jpeg');
-    padding: 0; 
+    padding: 0;
     height: 100vh;
     width: 100%;
-
     display: flex;
     flex-direction: column;
     justify-content: space-between;
 
-    & > .buttons-container {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
-        text-align: center;
-        color: white;
+    &__buttons-container {
         background-color: rgba(220, 215, 215, 0.3);
-        border-radius: 20px;
         box-shadow: 0px 3px 3px rgba(0, 0, 0, .15);
-        padding: 50px 0;
+        border-radius: 20px;
+        color: white;
+        padding: 70px 0;
+        text-align: center;
         margin: 0 auto;
-        width: 60%;
+        width: 70%;
+
+        & > .is-3 {
+            align-self: center;
+        }
+
+        .button {
+            box-shadow: 0px 3px 3px rgba(0, 0, 0, .15);
+        }
 
         .or {
             text-shadow: 0 3px 3px rgba(0,0,0,.8);
