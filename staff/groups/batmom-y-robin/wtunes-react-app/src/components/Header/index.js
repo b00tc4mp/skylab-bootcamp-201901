@@ -32,7 +32,6 @@ class Header extends Component {
         return <>
         <header>
         <select name="city" onChange={event => hadleCityChange(event.target.value)} defaultValue={currentCity}>
-            <option value="">City</option>
             <option value="Alaska">Alaska</option>
             <option value="Auckland">Auckland</option>
             <option value="Barcelona">Barcelona</option>
