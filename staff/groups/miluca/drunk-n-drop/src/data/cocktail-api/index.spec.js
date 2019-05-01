@@ -124,6 +124,16 @@ describe('Cocktail-Api', () => {
             })
         })
     })
+    describe('list popular cocktails' , () =>{
+        
+        it('should succed retrive popular cocktails' , () => {
+            cocktailApi.listPopular()
+            .then(response => {
+                expect(response).toBeDefined()
+                expect(response.drinks.strDrink).toBe("Mojito")
+            })
+        })
+    })
 })
 
     

@@ -141,11 +141,20 @@ const logic = {
                else throw new LogicError(response.error)
                
            })
-
-
-
-
     },
+
+    popularCocktails(){
+
+        return cocktailApi.listPopular()
+           .then(response => {
+               if (response.length > 0){
+                   return
+               }
+               else throw new LogicError(response.error)
+               
+           })
+    },
+    
     cocktailbyName(query){
         validate.arguments([
             {name: 'query', value: query, type: 'string', notEmpty: false},
