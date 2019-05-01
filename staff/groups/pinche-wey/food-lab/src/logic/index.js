@@ -46,7 +46,9 @@ const logic = {
         if (!confirmAge) throw new RequirementError('Age is not confirmed!')
         if (!confirmConditions) throw new RequirementError('Conditions are not confirmed')
 
-        return userApi.create(email, password, { name, surname })
+        let photoUrl = "http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg"
+
+        return userApi.create(email, password, { name, surname, photoUrl })
             .then(response => {
                 if (response.status === 'OK') return
 
@@ -76,9 +78,9 @@ const logic = {
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
                 if (response.status === 'OK') {
-                    const { data: { name, surname, username: email } } = response
+                    const { data: { name, surname, username: email, age = false, comment = false, photoUrl } } = response
 
-                    return { name, surname, email }
+                    return { name, surname, email, age, comment, photoUrl }
                 } else throw new LogicError(response.error)
             })
     },
@@ -216,10 +218,29 @@ const logic = {
     },
 
     updatingNotes(index, changes, notes) {
+        validate.arguments([
+            { name: 'index', value: index, type: 'number' },
+            { name: 'changes', value: changes, type: 'string'},
+            { name: 'notes', value: notes, type: 'object'}
+        ])
 
         notes[index] = changes
 
         return userApi.update(this.__userId__, this.__userToken__, { notes })
+            .then(() => { })
+    },
+
+    updatingForks(index, changes, forks) {
+        validate.arguments([
+            { name: 'index', value: index, type: 'number' },
+            { name: 'changes', value: changes, type: 'number'},
+            { name: 'forks', value: forks, type: 'object'}
+ 
+        ])
+
+        forks[index] = changes
+
+        return userApi.update(this.__userId__, this.__userToken__, { forks })
             .then(() => { })
     }
 
