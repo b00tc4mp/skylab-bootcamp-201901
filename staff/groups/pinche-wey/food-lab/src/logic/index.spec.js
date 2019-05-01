@@ -2,9 +2,10 @@ import logic from '.'
 import { LogicError, RequirementError, ValueError, FormatError } from '../common/errors'
 import userApi from '../data/user-api'
 import recipeApi from '../data/recipe-api';
+import { jsxEmptyExpression } from '@babel/types';
 
 describe('logic', () => {
-    xdescribe('users', () => { //DONE
+    describe('users', () => { //DONE
         const name = 'Manuel'
         const surname = 'Barzi'
         let email
@@ -320,110 +321,6 @@ describe('logic', () => {
             })
         })
 
-        describe('toggle fav duck', () => {
-            let id, token, duckId
-
-            beforeEach(() => {
-                duckId = `${Math.random()}`
-
-                return userApi.create(email, password, { name, surname })
-                    .then(response => {
-                        id = response.data.id
-
-                        return userApi.authenticate(email, password)
-                    })
-                    .then(response => {
-                        token = response.data.token
-
-                        logic.__userId__ = id
-                        logic.__userToken__ = token
-                    })
-            })
-
-            it('should succeed adding fav on first time', () =>
-                logic.toggleFavDuck(duckId)
-                    .then(response => expect(response).toBeUndefined())
-                    .then(() => userApi.retrieve(id, token))
-                    .then(response => {
-                        const { data: { favs } } = response
-
-                        expect(favs).toBeDefined()
-                        expect(favs instanceof Array).toBeTruthy()
-                        expect(favs.length).toBe(1)
-                        expect(favs[0]).toBe(duckId)
-                    })
-            )
-
-            it('should succeed removing fav on second time', () =>
-                logic.toggleFavDuck(duckId)
-                    .then(() => logic.toggleFavDuck(duckId))
-                    .then(() => userApi.retrieve(id, token))
-                    .then(response => {
-                        const { data: { favs } } = response
-
-                        expect(favs).toBeDefined()
-                        expect(favs instanceof Array).toBeTruthy()
-                        expect(favs.length).toBe(0)
-                    })
-            )
-
-            it('should fail on null duck id', () => {
-                duckId = null
-
-                expect(() => logic.toggleFavDuck(duckId)).toThrowError(RequirementError, 'id is not optional')
-            })
-
-            // TODO more cases
-        })
-
-        describe('retrieve fav ducks', () => {
-            let id, token, _favs
-
-            beforeEach(() => {
-                _favs = []
-
-                return duckApi.searchDucks('')
-                    .then(ducks => {
-                        for (let i = 0; i < 10; i++) {
-                            const randomIndex = Math.floor(Math.random() * ducks.length)
-
-                            _favs[i] = ducks.splice(randomIndex, 1)[0].id
-                        }
-
-                        return userApi.create(email, password, { name, surname, favs: _favs })
-                    })
-                    .then(response => {
-                        id = response.data.id
-
-                        return userApi.authenticate(email, password)
-                    })
-                    .then(response => {
-                        token = response.data.token
-
-                        logic.__userId__ = id
-                        logic.__userToken__ = token
-                    })
-            })
-
-            it('should succeed adding fav on first time', () =>
-                logic.retrieveFavDucks()
-                    .then(ducks => {
-                        ducks.forEach(({ id, title, imageUrl, description, price }) => {
-                            const isFav = _favs.some(fav => fav === id)
-
-                            expect(isFav).toBeTruthy()
-                            expect(typeof title).toBe('string')
-                            expect(title.length).toBeGreaterThan(0)
-                            expect(typeof imageUrl).toBe('string')
-                            expect(imageUrl.length).toBeGreaterThan(0)
-                            expect(typeof description).toBe('string')
-                            expect(description.length).toBeGreaterThan(0)
-                            expect(typeof price).toBe('string')
-                            expect(price.length).toBeGreaterThan(0)
-                        })
-                    })
-            )
-        })
     })
 
     describe('recipes', () => {
@@ -480,19 +377,19 @@ describe('logic', () => {
             })
         })
 
-        describe('Randoms', () => { // DONE BUT HTML
-            it('should succeed Random pick', () =>
-                logic.retrieveRandomRecipes()
+        describe('Randoms', () => { // DONE BUT HTML 
+            it('should succeed Random pick', () => 
+                logic.retrieveRandomRecipes() 
                     .then(recipes => {
                         expect(recipes).toBeDefined()
                         expect(recipes instanceof Object).toBeTruthy()
                     })
-            )
+            ) 
         })
-
-        describe('detail recipe', () => {
-            it('should succeed on correct id', () =>
-                logic.retrieveRecipe("52772")
+ 
+        describe('detail recipe', () => {  
+            it('should succeed on correct id', () =>  
+                 logic.retrieveRecipe("52772") 
                     .then(recipes => {
                         const { meals } = recipes
 
@@ -513,6 +410,7 @@ describe('logic', () => {
             )
         })
     })
+
     describe('updateUser', () => {
         let id, token, email
         const name = 'Manuel'
@@ -535,40 +433,27 @@ describe('logic', () => {
                 })
         )
 
-        fit('should succeed on changing data', () => {
+        it('should succeed on changing data', () => {
             const newName = "Misha"
             const newSurname = "Gusak"
-            logic.updateUser({ "name": "Misha","surname": "Gusak" })
+            return logic.updateUser({ "name": "Misha","surname": "Gusak" })
                 .then(response => {
                     const { status } = response
-                    expect(status).toBe('OK')
-                    
-                    // expect(title.length).toBeGreaterThan(0)
-                    // expect(typeof imageUrl).toBe('string')
-                    // expect(imageUrl.length).toBeGreaterThan(0)
-                    // expect(typeof description).toBe('string')
-                    // expect(description.length).toBeGreaterThan(0)
-                    // expect(typeof price).toBe('string')
-                    // expect(price.length).toBeGreaterThan(0)
-                    
-                    
+                    expect(status).toBe('OK')                   
+
+                    return userApi.retrieve(id, token)
+                        .then(response => {
+
+                            const { status,data: { name,surname } } = response
+                            expect(status).toBe('OK')
+                            expect(typeof name).toBe('string')
+                            expect(name).toBe("Misha")
+                            expect(surname).toBe("Gusak")
+
+                        })                    
                     
                 })
                 
-            return userApi.retrieve(id, token)
-                .then(response => {
-
-                    const { status,data: { name,surname } } = response
-                    expect(status).toBe('OK')
-                    expect(typeof name).toBe('string')
-                    expect(name).toBe("Misha")
-                    expect(surname).toBe("Gusak")
-
-                })
-
-
-
-
         })
     })
 })
