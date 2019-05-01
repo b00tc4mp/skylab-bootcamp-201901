@@ -2,8 +2,7 @@ import React from 'react'
 import literals from './literals'
 
 function Search({ lang, onSearch }) {
-    const { search } = literals['en-US'] //cambiar por lang
-
+    const { search,placeholder } = literals['en-US'] //cambiar por lang
     return <form onSubmit={e => {
         e.preventDefault()
 

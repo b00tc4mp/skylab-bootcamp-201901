@@ -1,5 +1,5 @@
 import React from 'react'
-import literals from './literals';
+import literals from './literals'
 
 function ChoosePlan({ lang, onSelectedPlan }) {
 
@@ -8,19 +8,16 @@ function ChoosePlan({ lang, onSelectedPlan }) {
     function handlesubmit(event) {
         event.preventDefault()
 
-        const radios = document.getElementsByName("transporte");
+        const radios = document.getElementsByName("transporte")
         let plan
         for (var i = 0; i < radios.length; i++) {
             if (radios[i].checked) {
-                plan = radios[i].value;
-                break;
+                plan = radios[i].value
+                break
             }
         }
         onSelectedPlan(plan)
-
     }
-
-
 
     return <div className="plan">
         <h2>{planTitle}</h2>
@@ -82,14 +79,9 @@ function ChoosePlan({ lang, onSelectedPlan }) {
                 </div>
             </div>
 
-
             <button>{button}</button>
-
-
         </form>
-
     </div>
-
 }
 
 export default ChoosePlan
