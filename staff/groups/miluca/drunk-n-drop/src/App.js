@@ -4,6 +4,7 @@ import Login from './components/login/index'
 import logic from '../src/logic'
 import Search from '../src/components/search'
 import Results from '../src/components/results/results'
+import Landing from '../src/components/Landing/index'
 
 
 //components
@@ -104,9 +105,10 @@ class App extends Component {
 
 
     return <>
+        <Landing/>
         <Detail detail={details}/> 
-        <Populars pops={populars} givePop={handlePpopular}  onFavorites={handleFavorites}/>
-        <Favorites favs={favoriteList} giveFav={returnFavorites}/>
+        <Populars pops={populars} givePop={handlePpopular}  onFavorites={handleFavorites} onDetail={handleDetail}/>
+        <Favorites favs={favoriteList} giveFav={returnFavorites} onDetail={handleDetail}/>
         <Register onRegister={handleRegister} error={error} />
         <Login onLogin={handleLogin} error={error} />
         <Search onSearch={handleSearch} error={error} />
