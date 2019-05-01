@@ -1,5 +1,5 @@
 import logic from '.'
-import { LogicError, RequirementError, ValueError, FormatError, NotFoundError, DirectionError } from '../common/errors'
+import { LogicError, RequirementError, ValueError, FormatError, NotFoundError, DirectionError, NoDataError } from '../common/errors'
 import userApi from '../data/user-api'
 import transitApi from '../data/transit-api'
 import iBusApi from '../data/ibus-api'
@@ -110,7 +110,6 @@ describe('logic', () => {
                 expect(() => logic.registerUser(name, surname, nonEmail, password, password2)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
             })
 
-            // TODO password fail cases
         })
 
         describe('login user', () => {
@@ -313,7 +312,7 @@ describe('logic', () => {
             return logic.retrieveBusStops(line_id,direction_id)
                 .then(response => {
     
-                    expect(response.length).toBe(2)
+                    expect(response.length).toBeGreaterThan(1)
     
                     response.forEach(e => {
                         const {
@@ -358,6 +357,67 @@ describe('logic', () => {
         })
     
     })
+
+
+    describe('upcomingBusesByStop', () => {
+
+        it('should succeed on correct bus stop', () => {
+    
+            const stop_id = 1278
+    
+            return logic.upcomingBusesByStop(stop_id)
+                .catch(() => {expect().toThrowError(NoDataError,'no data recived') })
+                .then(response => {
+                    expect(response.length).toBeGreaterThan(0)
+    
+                    response.forEach( resp => {
+                        const {
+                            line, 
+                            t_in_min, 
+                            t_in_s, 
+                            text_ca, 
+                            color_line } = resp
+    
+                        expect(typeof line === 'string').toBeTruthy()
+                        expect(typeof t_in_min === 'number').toBeTruthy()
+                        expect(typeof t_in_s === 'number').toBeTruthy()
+                        expect(typeof text_ca === 'string').toBeTruthy()
+                        expect(typeof color_line === 'string').toBeTruthy()
+                    })
+                })
+        }, 10000)
+
+    })
+
+
+
+    describe('upcomingBusesByStopAndLine', () => {
+
+        it('should succeed on correct line and bus stop', () => {
+    
+            const stop_id = 1278
+            const line_id = 136
+            debugger
+            return logic.upcomingBusesByStopAndLine(stop_id, line_id)
+                .catch(() => {expect().toThrowError(NoDataError,'no data recived') })
+                .then(response => {
+                    debugger
+                    expect(response.data.ibus.length).toBe(1)
+                    const {
+                        t_in_min, 
+                        t_in_s, 
+                        text_ca, 
+                        color_line } = response.data.ibus[0]
+
+                    expect(typeof t_in_min === 'number').toBeTruthy()
+                    expect(typeof t_in_s === 'number').toBeTruthy()
+                    expect(typeof text_ca === 'string').toBeTruthy()
+                    expect(typeof color_line === 'string').toBeTruthy()
+    
+                })
+        }, 10000)
+    })
+
 
 
 

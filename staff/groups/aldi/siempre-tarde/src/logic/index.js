@@ -1,7 +1,7 @@
 import normalize from '../common/normalize'
 import validate from '../common/validate'
 import userApi from '../data/user-api'
-import { LogicError, DirectionError, PasswordError } from '../common/errors'
+import { LogicError, DirectionError, PasswordError, NoDataError } from '../common/errors'
 import iBusApi from '../data/ibus-api'
 import transitApi from '../data/transit-api'
 
@@ -107,12 +107,12 @@ const logic = {
                 const { features } = response
 
                 return features.map(({ properties:
-                    { "CODI_LINIA": line_id,
-                        "NOM_LINIA": name_line,
-                        "DESC_LINIA": desc_line,
-                        "ORIGEN_LINIA": origin_line,
-                        "DESTI_LINIA": dest_line,
-                        "COLOR_LINIA": color_line
+                    { "CODI_LINIA"     : line_id,
+                        "NOM_LINIA"    : name_line,
+                        "DESC_LINIA"   : desc_line,
+                        "ORIGEN_LINIA" : origin_line,
+                        "DESTI_LINIA"  : dest_line,
+                        "COLOR_LINIA"  : color_line
                     }
                 }) => {
                     return { line_id, name_line, desc_line, origin_line, dest_line, color_line }
@@ -132,8 +132,8 @@ const logic = {
                 const { features } = response
 
                 return features.map(({ properties:
-                    { "SENTIT": direction_id,
-                        "DESTI_SENTIT": direction_name
+                    { "SENTIT"         : direction_id,
+                        "DESTI_SENTIT" : direction_name
                     }
                 }) => {
                     return { direction_id, direction_name }
@@ -149,7 +149,7 @@ const logic = {
             { name: 'direction_id', value: direction_id, type: 'string', notEmpty: true, optional: false }
         ])
 
-        if (direction_id !== 'A' || direction_id !== 'T') { throw new DirectionError('direction is not valid')}
+        if (direction_id !== 'A' && direction_id !== 'T') { throw new DirectionError('direction is not valid') }
 
 
         return transitApi.retrieveBusStops(line_id)
@@ -160,22 +160,132 @@ const logic = {
 
                 features.forEach(e => {
                     const { properties:
-                        { "CODI_PARADA": stop_id,
-                            "NOM_PARADA": stop_name,
-                            "SENTIT": direction
+                        { "CODI_PARADA"  : stop_id,
+                            "NOM_PARADA" : stop_name,
+                            "SENTIT"     : direction
                         }
                     } = e
                     if (direction === direction_id) {
                         stops.push({ stop_id, stop_name })
-                    }                   
+                    }
 
                 })
 
                 return stops
-                
             })
+    },
 
 
+    upcomingBusesByStop(stop_id) {
+
+        validate.arguments([
+            { name: 'stop', value: stop_id, type: 'number', notEmpty: true, optional: false }
+        ])
+
+        let buses = []
+        return iBusApi.retrieveStopId(stop_id)
+            .then(response => {
+                
+                const { data: { ibus } } = response
+
+                if (ibus.length === 0) throw new NoDataError('no data recived')
+
+                return ibus.map((bus, index) => {
+
+                    const { line, "t-in-min": t_in_min, "t-in-s": t_in_s, "text-ca": text_ca } = bus
+
+                    buses[index]= { line, t_in_min, t_in_s, text_ca }
+
+                    return transitApi.retrieveBusLine()
+                })
+            })
+            .then(res => Promise.all(res).then(response => {
+                return response.map(({features}) => {
+                    return features.map(({properties:
+                        { "CODI_LINIA"     : line_id,
+                            "NOM_LINIA"    : name_line,
+                            "DESC_LINIA"   : desc_line,
+                            "ORIGEN_LINIA" : origin_line,
+                            "DESTI_LINIA"  : dest_line,
+                            "COLOR_LINIA"  : color_line
+                        }
+                    }) => {
+                        return { line_id, name_line, desc_line, origin_line, dest_line, color_line }
+                    })
+                    }) 
+                })  
+            )
+            .then(resp => {
+                let upcomingBuses = []
+                resp.map((arr, index )=> {
+                    let lineFind = false
+                    let i = 0
+                    let color_line
+                    while (i < arr.length && !lineFind) {
+                        if (arr[i].name_line === buses[index].line) {
+                            color_line = arr[i].color_line
+                            lineFind = true
+                        }
+                        else {i++}
+                    }
+                    lineFind ? upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line }) :
+                            upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line: '#000000'}) 
+
+                })       
+                return upcomingBuses 
+            })       
+    },
+
+
+    upcomingBusesByStopAndLine(stop_id, line_id) {
+
+        validate.arguments([
+            { name: 'stop', value: stop_id, type: 'number', notEmpty: true, optional: false },
+            { name: 'line', value: line_id, type: 'number', notEmpty: true, optional: false }
+        ])
+
+        let buses = []
+        debugger
+        return iBusApi.retrieveLineId(stop_id, line_id)
+            .then(response => {
+                
+                debugger
+                const {data:{ibus}} = response
+
+                if (response.length === 0) throw new NoDataError('no data recived')
+
+                return response.map((bus, index) => {
+
+                    const { line_id, "t-in-min": t_in_min, "t-in-s": t_in_s, "text-ca": text_ca } = bus
+
+                    buses[index]= { line, t_in_min, t_in_s, text_ca }
+
+                    return transitApi.retrieveBusLine(line_id)
+                })
+            })
+            .then(res => Promise.all(res).then(response => {
+                debugger
+                return response.map(({features}) => {
+                    return features.map(({properties:
+                        { "CODI_LINIA"     : line_id,
+                            "NOM_LINIA"    : name_line,
+                            "DESC_LINIA"   : desc_line,
+                            "ORIGEN_LINIA" : origin_line,
+                            "DESTI_LINIA"  : dest_line,
+                            "COLOR_LINIA"  : color_line
+                        }
+                    }) => {return { line_id, name_line, desc_line, origin_line, dest_line, color_line } })
+                    }) 
+                })  
+            )
+            .then(resp => {
+                debugger
+                let upcomingBuses = []
+                resp.map((arr, index )=> {
+                    upcomingBuses.push({line: buses[index].line, t_in_min: buses[index].t_in_min, t_in_s: buses[index].t_in_s, text_ca: buses[index].text_ca, color_line : arr[0].color_line }) 
+                })       
+                return upcomingBuses 
+            })         
     }
 
 }
