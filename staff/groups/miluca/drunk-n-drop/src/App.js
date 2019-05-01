@@ -16,7 +16,7 @@ import Detail from "./components/Detail";
 
 class App extends Component {
 
-  state = { error: null, name: null, results: [] ,favoriteList :[] , populars : [] , details:{}}
+  state = {errorSearch: null , error: null, name: null, results: [] ,favoriteList :[] , populars : [] , details:{}}
 
   handleLogin = (username, password) => {
 
@@ -55,6 +55,9 @@ class App extends Component {
      .then(response => {
        this.setState({results : response})
      })
+     .catch(response =>{
+        this.setState({errorSearch :response.message})
+     })
 
   }
 
@@ -90,10 +93,14 @@ class App extends Component {
     })
   }
 
+  componentDidMount(){
+    
+  }
+
   
   render() {
     const {
-      state: { error, results,favoriteList,populars ,details},
+      state: { errorSearch,error, results,favoriteList,populars ,details},
       handleLogin,
       handleRegister,
       handleSearch,
@@ -105,13 +112,16 @@ class App extends Component {
 
 
     return <>
+        
         <Landing/>
+        <button>Login</button>
+        <button>register</button>
         <Detail detail={details}/> 
         <Populars pops={populars} givePop={handlePpopular}  onFavorites={handleFavorites} onDetail={handleDetail}/>
         <Favorites favs={favoriteList} giveFav={returnFavorites} onDetail={handleDetail}/>
         <Register onRegister={handleRegister} error={error} />
         <Login onLogin={handleLogin} error={error} />
-        <Search onSearch={handleSearch} error={error} />
+        <Search onSearch={handleSearch} error={errorSearch} />
         <Results items={results} onFavorites={handleFavorites} onDetail={handleDetail} />
     </>
 

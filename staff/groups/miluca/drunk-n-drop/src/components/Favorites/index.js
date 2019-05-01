@@ -14,7 +14,7 @@ function Favorites({ favs, giveFav ,onDetail}) {
                 favs.map(({ name, image, id}) => {
                     
 
-                    return <li>
+                    return <li key={id}>
                         <h2>{name}</h2>
                         <img src={image} onClick={() => onDetail(id)}/>
                        

@@ -155,13 +155,21 @@ const logic = {
         validate.arguments([
             {name: 'query', value: query, type: 'string', notEmpty: false},
            ])
+           
         
         return cocktailApi.searchCocktail(query)
                  
-           .then(({drinks}) => {
-       
-                if(drinks.length) return filter(drinks)
+           .then((response) => {
+               const {drinks} = response
+
+               if(drinks.length)
+               return filter(drinks)
+
             })
+            .catch(() =>{
+                
+                throw Error('NO EXISTEN COINCIDENCIAS')
+             })
            
     
     },
