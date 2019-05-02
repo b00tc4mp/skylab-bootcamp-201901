@@ -3,8 +3,8 @@ import './index.sass'
 
 function Profile({user, onReturn, onCityChange}){
 
-    return<> <main className="mainprofile columns is-centered">
-            <section className="column is-6-desktop is-8-tablet is-10-mobile has-text-centered">
+    return<> <main className="mainprofile is-multiline is-centered">
+            <section className="column is-6-desktop is-6-tablet is-10-mobile has-text-centered">
                 <h2 className="title is-2 is-spaced">Weatunes</h2>
                 <p className="subtitle is-spaced">Welcome to your profile {user.name}</p>
 

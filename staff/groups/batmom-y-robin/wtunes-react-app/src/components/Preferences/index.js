@@ -22,15 +22,15 @@ function Preferences({preferences, onStyleChange, error}){
 }
 
     return<> <div className="mainpreferences">
-    <div className="title-preferences">
-        
+    
+    <div className="title-preferences">    
             <h2 className="title is-2 is-spaced">Weatunes</h2>
             <p className="subtitle is-spaced">On this section you can modify your preferences</p>
     </div>  
-    <form className="weathers columns is-multiline is-mobile is-centered" onSubmit={handleSubmit}>
+    <form className="weathers" onSubmit={handleSubmit}>
     {
     preferences.map(element=> {
-        return  <div className="column is-4-desktop is-4-tablet is-10-mobile">
+        return  <div className="column is-3-desktop is-4-tablet is-8-mobile is-centered">
         <div className="box">
                 <article className="media">
                     <div className="media-left">
