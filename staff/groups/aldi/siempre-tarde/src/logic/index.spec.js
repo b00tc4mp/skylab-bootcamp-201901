@@ -272,10 +272,9 @@ describe('logic', () => {
                     logic.__userToken__ = token
                 })
             })
-    
-            fit('should succeed on retrieve favorites stops', () => {
-                debugger
-                return logic.retrieveFavStops()
+
+            it('should succeed on retrieve favorites stops', () => 
+                logic.retrieveFavStops()
                     .then(stops => {
                         debugger
                         stops.forEach(({ stop_id, stop_name }) => {
@@ -284,13 +283,10 @@ describe('logic', () => {
     
                             expect(isFav).toBeTruthy()
                             expect(typeof stop_id).toBe('number')
-                            expect(stop_id.length).toBeGreaterThan(0)
                             expect(typeof stop_name).toBe('string')
-                            expect(stop_name.length).toBeGreaterThan(0)
     
                         })
                     })
-                }
             )
     
         })

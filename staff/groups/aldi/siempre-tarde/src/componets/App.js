@@ -17,7 +17,7 @@ import LineSearch from './LineSearch';
 
 
 class App extends Component {
-    state = { lang: i18n.language, visible: null, error: null, line: null, lines:[] }
+    state = { lang: i18n.language, visible: null, error: null, line: null, lines: [], favs: [] }
 
     handleLanguageChange = lang => this.setState({ lang: i18n.language = lang })
 
@@ -57,10 +57,10 @@ class App extends Component {
         try {
 
             logic.registerUser(name, surname, username, password, password2)
-                .then(() =>{
-                    this.setState({ error: null },() => this.props.history.push('/login'))
+                .then(() => {
+                    this.setState({ error: null }, () => this.props.history.push('/login'))
                 })
-                .catch(error =>{
+                .catch(error => {
                     this.setState({ error: error.message })
                 })
         } catch ({ message }) {
@@ -72,14 +72,21 @@ class App extends Component {
         this.setState(() => this.props.history.push('/byidstop'))
     }
     handleLineCode = () => {
-        logic.retrieveBusLines(undefined).then((resp)=>{
-            this.setState({ error:null, lines:resp },() => this.props.history.push('/byidline'))
+        logic.retrieveBusLines(undefined).then((resp) => {
+            this.setState({ error: null, lines: resp }, () => this.props.history.push('/byidline'))
         })
 
     }
     handleFavorites = () => {
+        logic.retrieveFavStops()
+            .then(favs => this.setState({ favs }, () => this.props.history.push('/favoritestops')))
 
-        this.setState(() => this.props.history.push('/favoritestops'))
+    }
+    handleFavOut = (stop_id) => {
+        logic.toggleFavStop(stop_id)
+            .then(() => logic.retrieveFavStops())
+            .then(favs => this.setState({ favs }, () => this.props.history.push('/favoritestops')))
+
     }
 
     handleLogout = () => {
@@ -94,7 +101,7 @@ class App extends Component {
 
     render() {
         const {
-            state: { lang, error, lines, line},
+            state: { lang, error, lines, line, favs },
             handleLanguageChange,
             handleRegisterNavigation,
             handleLoginNavigation,
@@ -103,7 +110,8 @@ class App extends Component {
             handleLogout,
             handleStopCode,
             handleLineCode,
-            handleFavorites
+            handleFavorites,
+            handleFavOut
         } = this
 
         return <>
@@ -112,18 +120,18 @@ class App extends Component {
             <Switch>
                 <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing lang={lang} onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
 
-                <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> :<Register lang={lang} onRegister={handleRegister} error={error}/>} />
+                <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register lang={lang} onRegister={handleRegister} error={error} />} />
 
                 <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
 
                 <Route path="/home" render={() => logic.isUserLoggedIn ? <Home lang={lang} onStopCode={handleStopCode} onLineCode={handleLineCode} onFavorites={handleFavorites} onLogout={handleLogout} /> : <Redirect to="/" />} />
-                
-                <Route path="/byidstop" render={() => logic.isUserLoggedIn ? <CodeSearch lang={lang} items={lines}/> : <Redirect to="/" />} />
+
+                <Route path="/byidstop" render={() => logic.isUserLoggedIn ? <CodeSearch lang={lang} items={lines} /> : <Redirect to="/" />} />
 
 
-                <Route path="/byidline" render={() => logic.isUserLoggedIn ? <LineSearch lang={lang} items={lines}/> : <Redirect to="/" />} />
+                <Route path="/byidline" render={() => logic.isUserLoggedIn ? <LineSearch lang={lang} items={lines} /> : <Redirect to="/" />} />
 
-                <Route path="/favoritestops" render={() => logic.isUserLoggedIn ? <Favorites lang={lang} items={lines} onStopCode={handleLogout} /> : <Redirect to="/" />} />
+                <Route path="/favoritestops" render={() => logic.isUserLoggedIn ? <Favorites lang={lang} favs={favs} onFavOut={handleFavOut} onFavorites={handleFavorites} /> : <Redirect to="/" />} />
 
 
                 <Redirect to="/" />

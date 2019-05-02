@@ -18,10 +18,9 @@ class CodeSearch extends Component {
             )
 
     handleFav = id =>
-    console.log(id)
-        // logic.toggleFavStop(id)
-        //     .then(() => logic.retrieveFavDucks())
-        //     .then(favs => this.setState({ favs }))
+        logic.toggleFavStop(id)
+            .then(() => logic.retrieveFavStops())
+            .then(favs => this.setState({ favs }))
 
     render() {
         const {

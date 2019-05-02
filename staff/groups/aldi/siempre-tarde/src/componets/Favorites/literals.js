@@ -1,14 +1,17 @@
 export default {
     en: {
-        welcome: 'FAVORITES',
-        back: 'Back'
+        title1: 'Favorites',
+        back: 'Volver atras',
+        fav: 'Quit'
     },
     es: {
-        welcome: 'FAVORITOS',
-        back: 'Volver atras'
+        title1: 'Favoritos',
+        back: 'Volver atras',
+        fav: 'Quitar'
     },
     ca: {
         back: 'Tornar endarrera',
-        welcome: 'PREFERITS'
+        title1: 'Preferits',
+        fav: 'Treure'
     }
 }

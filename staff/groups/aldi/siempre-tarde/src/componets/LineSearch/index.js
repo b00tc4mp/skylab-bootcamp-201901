@@ -43,10 +43,9 @@ class LineSearch extends Component {
             )
     }
     handleFav = id =>
-    console.log(id)
-        // logic.toggleFavStop(id)
-        //     .then(() => logic.retrieveFavDucks())
-        //     .then(favs => this.setState({ favs }))
+        logic.toggleFavStop(id)
+            .then(() => logic.retrieveFavStops())
+            .then(favs => this.setState({ favs }))
 
     render() {
         const {
@@ -55,7 +54,7 @@ class LineSearch extends Component {
             handleStopSearch,
             handleFav,
             state: { lines, error, stop, directions, favs },
-            props: { lang, items }
+            props: { lang, items}
         } = this
 
         const { back } = literals[lang]

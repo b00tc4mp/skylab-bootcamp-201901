@@ -17,7 +17,7 @@ function Results({ lang, items, stop, error, onFav, favs }) {
                     let style = {
                         color: `#${color_line}`,
                       };
-                    return <li key={line} onClick={() => console.log(line)}>
+                    return <li key={line}>
                         <h2 style={style}>{line} - {dest_line}</h2>
                         <h3>{t_in_min} minutos</h3>
                     </li>

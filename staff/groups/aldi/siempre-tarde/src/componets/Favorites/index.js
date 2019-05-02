@@ -1,24 +1,27 @@
 import React from 'react'
 import literals from './literals'
-import { Link } from "react-router-dom"
+import { Route, withRouter, Redirect, Switch, Link } from 'react-router-dom'
 
-function Favorites({lang, onRegister, onLogin}) {
-    const { welcome, back} = literals[lang]
+function Favorites({ lang, favs, error, onFavOut}) {
+
+    const { title1, back, fav } = literals[lang]
 
     return <section>
-
-    <h1>{welcome}</h1>
-    <Link to={`/`}><button>{back}</button></Link> 
-    <ul>
-        <li>1</li>
-        <li>2</li>
-        <li>3</li>
-        <li>4</li>
-        <li>5</li>
-
-    </ul>
+    <Link to={`/`}><button>{back}</button></Link>
+        <h2>{title1}</h2>
+        <ul>
+            {
+                favs.map(({ stop_id, stop_name }) => {
+                    return <li key={stop_id}>
+                        <h2>{stop_id} - {stop_name}</h2>
+                        <button onClick={()=>onFavOut(stop_id)}>{fav}</button>
+                    </li>
+                })
+            }
+        </ul>
+        <h2>{error}</h2>
 
     </section>
-
 }
+
 export default Favorites
