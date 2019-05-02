@@ -1,6 +1,4 @@
 import React from 'react';
-import { Container, Row, Col, Card, Button, CardImg, CardTitle, CardText, CardGroup,
- CardSubtitle, CardBody } from 'reactstrap';
 
 const CardFeature = (props) => {
 
@@ -9,25 +7,22 @@ const CardFeature = (props) => {
       }
 
   return (
-    <Container>
-        <br/>
-        <Row>
-            <h3>
-                {props.title}
-            </h3>
-        </Row>
-        <Row>
+    <div className="container">
+        <div className="row">
+            <h3>{props.title}</h3>
+        </div>
+        <div className="row">
             {props.products.slice(0,4).map(product => {
                 return (
-                    <Col key={product.productId} xs="6">
+                    <div className="col-xs-6" key={product.productId}>
                         <img onClick={(e) => {handleClickImage(product)} } 
                             width="100%" 
                             src={product.imageSmall} />
-                    </Col>);
+                    </div>);
             })}
-        </Row>
+        </div>
 
-    </Container>
+    </div>
   );
 };
 

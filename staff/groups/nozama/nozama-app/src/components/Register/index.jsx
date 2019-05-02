@@ -27,11 +27,11 @@ class Register extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Form onSubmit={this.handleSubmit} >
-          <FormGroup>
-            <Label for="name">Name</Label>
-            <Input
+      <div className="container">
+        <form className="form" onSubmit={this.handleSubmit} >
+          <div className="form-group">
+            <label for="name">Name</label>
+            <input className="form-control"
               type="text"
               name="name"
               id="name"
@@ -39,10 +39,10 @@ class Register extends React.Component {
               onChange={this.handleChange}
               value={this.state.name}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for="surname">Surname</Label>
-            <Input
+          </div>
+          <div className="form-group">
+            <label for="surname">Surname</label>
+            <input className="form-control"
               type="text"
               name="surname"
               id="surname"
@@ -50,10 +50,10 @@ class Register extends React.Component {
               onChange={this.handleChange}
               value={this.state.surname}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for="email">Email</Label>
-            <Input
+          </div>
+          <div className="form-group">
+            <label for="email">Email</label>
+            <input className="form-control"
               type="email"
               name="email"
               id="email"
@@ -61,10 +61,10 @@ class Register extends React.Component {
               onChange={this.handleChange}
               value={this.state.email}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for="password">Password</Label>
-            <Input
+          </div>
+          <div className="form-group">
+            <label for="password">Password</label>
+            <input className="form-control"
               type="password"
               name="password"
               id="password"
@@ -72,15 +72,15 @@ class Register extends React.Component {
               onChange={this.handleChange}
               value={this.state.password}
             />
-          </FormGroup>
-          <Button block color="primary">
+          </div>
+          <button className="btn btn-primary btn-block">
             Submit
-          </Button>
-          <Link to="/login" color="link" block>
+          </button>
+          <Link to="/login" className="btn btn-link">
             Go to login
           </Link>
-        </Form>
-      </Container>
+        </form>
+      </div>
     );
   }
 }

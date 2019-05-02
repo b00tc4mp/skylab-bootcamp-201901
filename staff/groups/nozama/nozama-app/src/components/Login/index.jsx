@@ -25,12 +25,12 @@ class Login extends React.Component {
 
   render() {
     return (
-      <Container>
+      <div className="container">
         {this.state.error && <h2>{this.state.error}</h2>}
-        <Form onSubmit={this.handleSubmit}>
-          <FormGroup>
-            <Label for="email">Email</Label>
-            <Input
+        <form onSubmit={this.handleSubmit}>
+          <div className ="form-group">
+            <label for="email">Email</label>
+            <input className="form-control"
               type="text"
               name="email"
               id="email"
@@ -38,10 +38,10 @@ class Login extends React.Component {
               onChange={this.handleChange}
               value={this.state.email}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for="password" />
-            <Input
+          </div>
+          <div className="form-group">
+            <label for="password" />
+            <input className="form-control"
               type="password"
               name="password"
               id="password"
@@ -49,15 +49,15 @@ class Login extends React.Component {
               onChange={this.handleChange}
               value={this.state.password}
             />
-          </FormGroup>
-          <Button block color="primary">
+          </div>
+          <button className="btn btn-primary btn-block" >
             Submit
-          </Button>
-        </Form>
-        <Link to="/register" color="link">
+          </button>
+        </form>
+        <Link to="/register" className="btn btn-link">
           Go to register
         </Link>
-      </Container>
+      </div >
     );
   }
 }

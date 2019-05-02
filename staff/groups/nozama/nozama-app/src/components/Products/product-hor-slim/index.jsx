@@ -16,21 +16,21 @@ function ProductHorizontalSlim(props) {
   const { imageSmall, productName, subtitle, originalPrice, displayCurrency } = product;
   return (
     <div style={{marginTop:"0.2rem", }}>
-      <Container fluid>
-        <Row >
-          <Col xs="5" sm="4" >
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xs-5 col-sm-4" >
             <Image image={imageSmall} onClick={handleClickImage}/>
-          </Col>
-          <Col xs="7" sm="4">
+          </div>
+          <div className="col-xs-7 col-sm-4">
             <Title title={productName}/>
             <Subtitle subtitle={subtitle}/>
               <div style={{display:"flex" }}>
                   <Price price={originalPrice}/>
                   <Currency currency={displayCurrency}/>
               </div>
-          </Col>
-        </Row>
-      </Container>
+          </div>
+        </div>
+      </div>
     </div>
   )
 }

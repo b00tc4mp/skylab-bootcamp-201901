@@ -1,7 +1,5 @@
 import React from 'react'
 
-import {Row, Container, Col} from 'reactstrap'
-
 function FullScreenImage(props) {
 
 
@@ -52,14 +50,14 @@ function FullScreenImage(props) {
 
   return (
     
-      <Container>
-        <Row>
-          <Col sm="12">
+      <div className="container">
+        <div className="row">
+          <div className="col-sm-12">
             <img width="100%" src={detail._links.image_large.href} />
-          </Col>
-        </Row>
+          </div>
+        </div>
 
-      </Container>
+      </div>
   )
 }
 
