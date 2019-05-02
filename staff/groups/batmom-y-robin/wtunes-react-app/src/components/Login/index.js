@@ -1,4 +1,5 @@
 import React from 'react'
+import './index.sass' 
 
 function Login({ onLogin, error }) {
 
@@ -11,16 +12,20 @@ function Login({ onLogin, error }) {
         onLogin(username, password)
     }
 
-    return <section className="login">
-        <h2>Weatunes</h2>
-        <p>Sign in  with you email address</p>
+    return <main className="mainlogin">
+    <section className="login column is-4-desktop is-4-tablet is-10-mobile is-one-fifth">
+        <div className="has-text-centered field">
+            <h2 className="title is-2">Weatunes</h2>
+            <p className="subtitle"> Sign in with your email address</p>
+        </div >
         <form onSubmit={handleSubmit}>
-            <input type="text" name="username" placeholder="email" />
-            <input type="password" name="password" placeholder="password" />
-            <button>Sing in</button>
-            <span>{error}</span>
+            <input className="input field" type="text" name="username" placeholder="email"/>
+            <input className="input field" type="password" name="password" placeholder="password" />
+            <button className="button is-fullwidth is-primary">Sign In</button>
+            <span className="help is-danger">{error}</span>
         </form>
     </section>
+    </main> 
 }
 
 export default Login

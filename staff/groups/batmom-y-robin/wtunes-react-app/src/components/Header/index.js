@@ -21,7 +21,7 @@ class Header extends Component {
             logic.retrieveWeather(this.state.currentCity)
                 .then(weather=> {
                     this.props.onWeatherRetrieved(weather)
-                    this.setState({currentWeather: weather})
+                    this.setState({currentWeather: weather, images: images[weather]})
                 })
         )
     }
