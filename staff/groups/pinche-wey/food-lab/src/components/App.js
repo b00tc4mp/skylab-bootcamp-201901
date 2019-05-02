@@ -22,7 +22,7 @@ class App extends Component {
                     logic.retrieveUser()
                 )
                 .then(user => {
-                    this.setState({ visible: 'home', name: user.name, error: null })
+                    this.setState({ visible: 'home', name: user.name, url: user.photoUrl, error: null })
                 })
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -36,7 +36,7 @@ class App extends Component {
         logic.isUserLoggedIn &&
             logic.retrieveUser()
                 .then(user =>
-                    this.setState({ name: user.name })
+                    this.setState({ name: user.name, url: user.photoUrl })
                 )
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -60,7 +60,7 @@ class App extends Component {
     handleLogout = () => {
         logic.logoutUser()
 
-        this.setState({ visible: 'landing' })
+        this.setState({ visible: 'landing', name: null, url: null })
     }
 
     handleSearch = (query, selector) =>
@@ -74,7 +74,7 @@ class App extends Component {
 
     render() {
         const {
-            state: { visible, error, name, results },
+            state: { visible, error, name, url, results },
             handleRegisterNavigation,
             handleLoginNavigation,
             handleSearch,
@@ -92,7 +92,7 @@ class App extends Component {
 
                 <div className="header__user">
                     <div className="header__user-img">
-                        <img src="http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg" />
+                        <img src={url} />
                     </div>
                     <p className="header__user-name" >{name}</p>
                     {visible !== 'landing' && <button className="header__user-button" onClick={handleLogout}> {visible === 'home' ? 'LogOut' : 'Return'}</button>}
@@ -108,7 +108,7 @@ class App extends Component {
 
             {visible === 'login' && <Login onLogin={handleLogin} error={error} />}
 
-            {visible === 'home' && <Home results={results} name={name} onLogout={handleLogout} />}
+            {visible === 'home' && <Home results={results} name={name} onSearch={handleSearch} onLogout={handleLogout} />}
         
         <footer className='footer'>
 
