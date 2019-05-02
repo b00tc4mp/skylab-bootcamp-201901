@@ -30,7 +30,7 @@ export default class Navigation extends React.Component {
           <NavbarBrand href="/" className="mr-auto">
           <Container flex-start>
             <Row>
-              <Col>nozama</Col>        
+              <Col>nozama</Col>
               <Col>
                 <NavLink href="#">
                   <ShoppingCartIcon 

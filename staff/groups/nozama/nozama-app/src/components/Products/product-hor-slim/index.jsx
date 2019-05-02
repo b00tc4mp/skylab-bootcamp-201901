@@ -2,15 +2,20 @@ import React from 'react'
 import Title from '../Detail/Title'
 import Subtitle from '../Detail/Subtitle'
 import Image from '../Detail/Image'
-import {Row, Container, Col} from 'reactstrap'
 import Price from '../Detail/Price';
 import Currency from '../Detail/Currency'
+import ButtonAddToCart from '../../Buttons/AddToCart'
+
 
 function ProductHorizontalSlim(props) {
-  const { product, onDetail } = props
+  const { product, onDetail, onAddToCart } = props
 
-  const handleClickImage = (e) => {
+  const handleClickImage = e => {
     onDetail(product);
+  }
+
+  const handleClickButton = e => {
+   onAddToCart(product)
   }
   
   const { imageSmall, productName, subtitle, originalPrice, displayCurrency } = product;
@@ -31,6 +36,7 @@ function ProductHorizontalSlim(props) {
           </div>
         </div>
       </div>
+
     </div>
   )
 }
