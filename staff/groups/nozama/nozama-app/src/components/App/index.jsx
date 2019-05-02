@@ -9,6 +9,7 @@ import DetailScreen from '../../pages/DetailScreen'
 import Cart from '../../pages/Cart'
 import Checkout from '../Purchase-data'
 import SearchPage from '../../pages/SearchPage'
+import ThanksPage from '../../pages/ThanksPage'
 import logic from '../../logic';
 import {
   CART_ADD_PRODUCT,
@@ -79,7 +80,7 @@ function App(props) {
         newCart.payDetails = {...params}
         logic.saveHistoryCart(newCart);
         setCart([]);
-        props.history.push('/');
+        props.history.push('/thanks');
         break;
 
       case FAVORITES_TOGGLE_PRODUCT:
@@ -150,6 +151,12 @@ function App(props) {
         <Route
           path={[ "/login/:afterGoTo", '/login/']}
           render={() => (!logic.isLoggedIn ? <Login /> : <Redirect to="/" />)}
+        />
+        <Route
+          path="/thanks"
+          render={() =>  <ThanksPage/>
+        }
+
         />
         <Redirect to="/" />
       </Switch>

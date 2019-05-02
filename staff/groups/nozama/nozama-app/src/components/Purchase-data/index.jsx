@@ -1,4 +1,5 @@
 import React from 'react';
+import Link, {withRouter}from 'react-router-dom'
 import { CART_CONFIRMED_PAY } from '../../logic/actions'
 class PurchaseData extends React.Component {
 
@@ -85,4 +86,4 @@ class PurchaseData extends React.Component {
   }
 }
 
-export default PurchaseData
+export default withRouter(PurchaseData) 
