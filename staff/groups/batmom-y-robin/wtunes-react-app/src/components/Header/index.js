@@ -33,30 +33,32 @@ class Header extends Component {
         } = this
 
         return <div className="myHeader" style={{backgroundImage: `url(${images})`}}>
-        <div className="select mySelect">
-        <select name="city" onChange={event => hadleCityChange(event.target.value)} defaultValue={currentCity}>
-            <option value="Alaska">Alaska</option>
-            <option value="Auckland">Auckland</option>
-            <option value="Barcelona">Barcelona</option>
-            <option value="Buenos Aires">Buenos Aires</option>
-            <option value="Cape Town">Cape Town</option>
-            <option value="Cuba">Cuba</option>
-            <option value="Helsinki">Helsinki</option>
-            <option value="London">London</option>
-            <option value="New York">New York</option>
-            <option value="Paris">Paris</option>
-            <option value="Toronto">Toronto</option>
-            <option value="Warsaw">Warsaw</option>
-        </select>
+        <div className="mySelect">
+            <div className="select">
+                <select name="city" onChange={event => hadleCityChange(event.target.value)} defaultValue={currentCity}>
+                    <option value="Alaska">Alaska</option>
+                    <option value="Auckland">Auckland</option>
+                    <option value="Barcelona">Barcelona</option>
+                    <option value="Buenos Aires">Buenos Aires</option>
+                    <option value="Cape Town">Cape Town</option>
+                    <option value="Cuba">Cuba</option>
+                    <option value="Helsinki">Helsinki</option>
+                    <option value="London">London</option>
+                    <option value="New York">New York</option>
+                    <option value="Paris">Paris</option>
+                    <option value="Toronto">Toronto</option>
+                    <option value="Warsaw">Warsaw</option>
+                </select>
+            </div>
         </div>
         <div className="myTitle">
-            <h2 className="title is-1">{currentCity}</h2>
-            <h2 className="title is-3">{currentWeather}</h2>
+            <h2 className="title myCity">{currentCity}</h2>
+            <h2 className="title myWeather">{currentWeather}</h2>
         </div>
         <div className="buttons is-right myButtons">
-            <button className="button is-primary is-right" onClick={onProfile}>Profile</button>
-            <button className="button is-primary is-right" onClick={onPreferences}>Preferences</button>
-            <button className="button is-primary is-right" onClick={onLogout}>Logout</button>
+            <button className="button is-primary is-right" onClick={onProfile}><img className="myIcon" src="https://img.icons8.com/ios-glyphs/30/000000/gender-neutral-user.png" alt="Image"/></button>
+            <button className="button is-primary is-right" onClick={onPreferences}><img className="myIcon" src='https://img.icons8.com/ios-glyphs/30/000000/bulleted-list.png'/></button>
+            <a onClick={onLogout}>Logout</a>
         </div>
         </div>
     }
