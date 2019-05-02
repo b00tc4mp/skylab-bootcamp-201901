@@ -127,7 +127,7 @@ const logic = {
 
                     if (aldiFavorites.length) {
                         const calls = aldiFavorites.map(stop_id => transitApi.retrieveStop(stop_id))
-                        debugger
+debugger
                         return Promise.all(calls).then(response => {
                             return response.map(({ features: [{ properties: { "CODI_PARADA": stop_id, "NOM_PARADA": stop_name } }] }) => ({ stop_id, stop_name }))
                         })
