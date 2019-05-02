@@ -35,5 +35,9 @@ class LogicError extends Error {
     super(message);
   }
 }
-
-export { ValueError, FormatError, RequirementError, ConnectionError, TimeoutError, LogicError };
+class InvalidTokenError extends Error {
+  constructor(message) {
+    super(message);
+  }
+}
+export { ValueError, FormatError, RequirementError, ConnectionError, TimeoutError, LogicError, InvalidTokenError };

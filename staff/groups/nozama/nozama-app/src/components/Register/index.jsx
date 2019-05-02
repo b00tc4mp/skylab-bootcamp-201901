@@ -12,6 +12,7 @@ class Register extends React.Component {
     surname: '',
     email: '',
     password: '',
+    error: null,
   };
 
   handleChange = e => {
@@ -38,7 +39,11 @@ class Register extends React.Component {
   render() {
     const afterGoTo = this.props.match.params.afterGoTo;
     return (
-      <div className="container">
+      <div className="container mt-5">
+        {this.state.error && (
+          <div class="alert alert-warning" role="alert">
+            {this.state.error}
+          </div>)}
         <form className="form" onSubmit={this.handleSubmit} >
           <div className="form-group">
             <label for="name">Name</label>

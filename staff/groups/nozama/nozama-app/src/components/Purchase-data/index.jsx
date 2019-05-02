@@ -1,23 +1,57 @@
 import React from 'react';
-import Link, {withRouter}from 'react-router-dom'
+import {withRouter}from 'react-router-dom'
 import { CART_CONFIRMED_PAY } from '../../logic/actions'
+import validate from '../../common/validate'
 class PurchaseData extends React.Component {
 
   state = {
     cardNumber: '',
     cardName: '',
     expireDate: '',
-    cvv: ''
+    cvv: '',
+    errorMessage: null
   };
 
   handleChange = e => {
+
     this.setState({ [e.target.name]: e.target.value });
   };
 
   handleSubmit = e => {
     e.preventDefault()
     const {cardNumber, cardName, expireDate, cvv} = this.state
-    this.props.dispatch({action: CART_CONFIRMED_PAY,  cardNumber, cardName, expireDate, cvv})
+    try {
+      validate.arguments([
+        {
+          name: 'Card number',
+          value: cardNumber,
+          type: 'string',
+          notEmpty: true,
+        },
+        {
+          name: 'Card name',
+          value: cardName,
+          type: 'string',
+          notEmpty: true,
+        },
+        {
+          name: 'Expire date',
+          value: expireDate,
+          type: 'string',
+          notEmpty: true,
+        },
+        {
+          name: 'cvv',
+          value: cvv,
+          type: 'string',
+          notEmpty: true,
+        },
+      ])
+      this.props.dispatch({action: CART_CONFIRMED_PAY,  cardNumber, cardName, expireDate, cvv})
+    }
+    catch(error){
+      this.setState({ errorMessage: error.message})
+    }
   }
 
   handleCancel = e => {
@@ -28,6 +62,9 @@ class PurchaseData extends React.Component {
   render() {
     return (
       <div className="container">
+          {this.state.errorMessage && <div class="alert alert-warning" role="alert">
+            <h5>{this.state.errorMessage}</h5>
+          </div>}
         <form onSubmit={this.handleSubmit} >
           <div className="form-group">
             <label htmlFor="cardNumber">Card number</label>
