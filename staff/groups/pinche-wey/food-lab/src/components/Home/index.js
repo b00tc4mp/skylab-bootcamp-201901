@@ -106,7 +106,7 @@ class Home extends Component {
         const { results } = props
 
         if (results !== null && results.meals !== null && results !== this.state.recipes) {
-            this.setState({ recipes: results, recipe: null, error: null, }, () => { this.props.history.push("/home") })
+            this.setState({ recipes: results, recipe: null, error: null,})
         } else if (results !== null && results.meals === null) this.setState({ recipes: null, error: "No results for your Search" })
         else {
             const [, , id] = props.location.pathname.split('/')
