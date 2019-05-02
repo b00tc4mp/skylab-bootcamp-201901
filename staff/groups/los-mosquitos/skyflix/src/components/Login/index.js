@@ -13,7 +13,7 @@ function Login({ lang, onLogin, error }) {
     }
 
     return <>
-        <h1>SkyFlix</h1>
+        <div className="bg-container" />
         <section>
             <h2>{title}</h2>
             <form onSubmit={handleSubmit}>

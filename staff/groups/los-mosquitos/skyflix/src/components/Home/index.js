@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import literals from './literals'
 import logic from '../../logic'
 import Genres from '../SelectGenres'
 import Nav from '../Nav'
@@ -10,6 +9,7 @@ import Results from '../Results'
 import MoviesGenres from '../MoviesGenres'
 import Detail from '../Detail'
 import Play from '../Play'
+import './index.sass'
 
 import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
 
