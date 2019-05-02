@@ -21,6 +21,11 @@ class Home extends Component {
                 this.setState({ error: error.message })
             )
 
+    handleLogout = () => {
+        logic.logoutUser()
+        this.props.history.push('/')
+    }
+
     handleRetrieve = (isbn, key) => {
         console.log(this.state.books)
         // buscamos el libro del que se ha hecho click, entre todos los libros que tenemos en el state
@@ -66,6 +71,7 @@ class Home extends Component {
     render() {
 
         const {
+            handleLogout,
             handleSearch,
             handleRetrieve,
             state: { books, bookDetail, favs },
@@ -73,7 +79,7 @@ class Home extends Component {
         } = this
 
         return <main className="home">
-            <Header />
+            <Header onLogout={handleLogout} />
             <Search onSearch={handleSearch} />
             {!bookDetail && <Results items={books} onItem={handleRetrieve} onFav={handleFav} favs={favs}/>}
             {bookDetail && <Detail item={bookDetail} />}

@@ -61,7 +61,7 @@ class App extends Component {
       handleLoginNavigation,
       handleRegister,
     } = this
-    ;
+
     return <Fragment>
       <Switch>
         <Route exact path="/" render={() =>

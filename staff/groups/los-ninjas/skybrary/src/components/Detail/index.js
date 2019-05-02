@@ -1,31 +1,28 @@
 import React from 'react'
+import './index.scss'
 
-function Detail ({item}) {
+function Detail({ item }) {
     if (!item) {
         return "Este detalle no es correcto"
     }
 
-    console.log(item)
 
-    return <section>
-        {item.title && <p>{item.title}</p>}
-        {<img src={(item.cover && item.cover > 0) ? `https://covers.openlibrary.org/b/id/${item.cover}-L.jpg` : 'https://www.motorolasolutions.com/content/dam/msi/images/business/products/accessories/p_-_r/raf4220a/_images/static_files/b2b_product_raf4220a_lg_us-en.jpg'} />}
-        <span>{item.author_name.join(', ')}</span>
-        {item.numberOfPages && <span>{item.numberOfPages} páginas</span>}
-        {item.description && <p>{item.description}</p>}
-     
-        {/* {(item && item.authors > 0) ? <span>{item.authors.name}</span> : <span>No definido</span>} */}
-        
 
-        {/* <img src={`https://covers.openlibrary.org/b/id/${cover_i}-L.jpg`} /> */}
-        {/* {item && <p>{item.description.value}</p>} */}
-        {/* <h2>{title}</h2>
-        <img src={`https://covers.openlibrary.org/b/id/${image}-L.jpg`}  alt={image}/>
-        <p>{description}</p>
-        <span>{date}</span>
-         */}
+    return <section className='container'>
+        <article className='columns card-detail'>
+
+            <div className='column is-4 card-detail__image'>
+                {<img src={(item.cover && item.cover > 0) ? `https://covers.openlibrary.org/b/id/${item.cover}-L.jpg` : 'https://www.motorolasolutions.com/content/dam/msi/images/business/products/accessories/p_-_r/raf4220a/_images/static_files/b2b_product_raf4220a_lg_us-en.jpg'} />}
+            </div>
+            <div className='column is-8 card-detail__info'>
+                {item.title && <span><p className="info__BoldTitle">Title: </p> <p>{item.title}</p></span>}
+                <span><p className="info__BoldTitle">Author: </p>{item.author_name.join(', ')}</span>
+                {item.numberOfPages && <span><p className="info__BoldTitle">Num of pages: </p>{item.numberOfPages} </span>}
+                {item.description && <span> <p className="info__BoldTitle">Synopsis: </p><p>{item.description}</p> </span>}
+            </div>
+        </article>
     </section>
-    
+
 }
 
 
