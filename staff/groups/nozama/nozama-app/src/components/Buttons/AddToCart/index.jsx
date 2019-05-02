@@ -2,15 +2,9 @@ import React from 'react';
 
 function ButtonAddToCart(props) {
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col-xs-3">
-          <button type="btn btn-primary" onClick={props.onClick} color="secondary">
-            <img width="0.8rem" src="https://image.flaticon.com/icons/svg/44/44092.svg" />
-          </button>
-        </div>
-      </div>
-    </div>
+    <button type="button" className="btn btn-secondary" onClick={props.onClick}>
+      <i className="fas fa-cart-arrow-down"></i>
+    </button>
   );
 }
 
