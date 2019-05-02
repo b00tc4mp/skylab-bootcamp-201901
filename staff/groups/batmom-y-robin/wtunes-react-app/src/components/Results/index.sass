@@ -1,20 +1,40 @@
-.myCard
-    min-height: 320px
+@import '../../utils.sass'
 
-.track
-    font-size: 18px
-    text-align: center
+.myBox
+    display: flex
+    min-height: 200px
+    justify-content: center
+    @include mobile
+        min-height: 150px
 
-.artist
-    font-size: 16px
-    text-align: center
 
-.genere
-    font-size: 12px
+.myContent
+    padding-left: 20px
+
+    @include mobile
+        display: flex
+        flex-flow: column
+        padding-left: 0
+
+
+.myImage
+    align-items: center
+
+    @include mobile
+        flex-flow: column
+        justify-content: center
+
+.myText
     text-align: center
-    padding: 0 0 10px
+    &.title
+        @include mobile
+            padding-top: 10px
 
 .results
-    height: calc(100vh - 20vh)
-    margin-top: 125px
+    height: calc(100vh - 25vh)
+    margin-top: 25vh
     overflow-y: auto
+
+.columns
+    height: calc(100vh - 25vh)
+    margin-top: -25vh

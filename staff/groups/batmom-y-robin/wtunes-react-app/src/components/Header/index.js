@@ -33,12 +33,7 @@ class Header extends Component {
         } = this
 
         return <div className="myHeader" style={{backgroundImage: `url(${images})`}}>
-        <h1>weatunes</h1>
-        <button onClick={onLogout}>Logout</button>
-        <button onClick={onProfile}>Profile</button>
-        <button onClick={onPreferences}>Preferences</button>
-
-            {/* <img className='img'  src={this.state.images}/> */}
+        <div className="select mySelect">
         <select name="city" onChange={event => hadleCityChange(event.target.value)} defaultValue={currentCity}>
             <option value="Alaska">Alaska</option>
             <option value="Auckland">Auckland</option>
@@ -53,8 +48,16 @@ class Header extends Component {
             <option value="Toronto">Toronto</option>
             <option value="Warsaw">Warsaw</option>
         </select>
-        <h2>{currentCity}</h2>
-        <h2>{currentWeather}</h2>
+        </div>
+        <div className="myTitle">
+            <h2 className="title is-1">{currentCity}</h2>
+            <h2 className="title is-3">{currentWeather}</h2>
+        </div>
+        <div className="buttons is-right myButtons">
+            <button className="button is-primary is-right" onClick={onProfile}>Profile</button>
+            <button className="button is-primary is-right" onClick={onPreferences}>Preferences</button>
+            <button className="button is-primary is-right" onClick={onLogout}>Logout</button>
+        </div>
         </div>
     }
 }
