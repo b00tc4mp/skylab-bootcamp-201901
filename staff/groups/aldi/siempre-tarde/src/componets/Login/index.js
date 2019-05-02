@@ -1,5 +1,6 @@
 import React from 'react'
 import literals from './literals'
+import './index.sass'
 
 function Login ({lang, onLogin, error }) {
 
@@ -17,15 +18,17 @@ function Login ({lang, onLogin, error }) {
     }
 
 
-    return <section>
-        <h2>{title}</h2>
+    return <section className='main-login'>
+     <div className='login-container'>
+        <h2 className='title'>{title}</h2>
         <form onSubmit= {handleSubmit}>
-            <input type="email" name="username" placeholder={email} autoFocus/>
-            <input type="password" name="password" placeholder={password}/>
-            <input type="submit" value={title}/>
-            <input type="reset" value={reset}/>
-            <span>{error}</span>
+            <input className="input field" type="email" name="username" placeholder={email} autoFocus/>
+            <input className="input field" type="password" name="password" placeholder={password}/>
+            <input className="button is-rounded is-primary" type="submit" value={title}/>
+            <input className="button is-rounded is-primary" type="reset" value={reset}/>
+            <span className="help is-danger">{error}</span>
         </form>
+        </div>
     </section>
     
 }

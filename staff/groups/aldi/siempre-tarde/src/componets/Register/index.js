@@ -1,5 +1,6 @@
 import React from 'react'
 import literals from './literals'
+import './index.sass'
 
 function Register ({lang, onRegister, error }) {
 
@@ -20,18 +21,20 @@ function Register ({lang, onRegister, error }) {
     }
 
 
-    return <section>
-            <h2>{title}</h2>
+    return <section className='main-register'>
+    <div className='register-container'>
+            <h2 className='title'>{title}</h2>
             <form onSubmit = {handleSubmit}>
-                <input type="text" name="name" placeholder={name} autoFocus/>
-                <input type="text" name="surname" placeholder={surname}/>
-                <input type="email" name="username" placeholder={email}/>
-                <input type="password" name="password" placeholder={password}/>
-                <input type="password" name="password2" placeholder={password2}/>
-                <input type="submit" value={title}/>
-                <input type="reset" value={reset}/>
-                <span>{error}</span>
+                <input className="input field"  type="text" name="name" placeholder={name} autoFocus/>
+                <input className="input field" type="text" name="surname" placeholder={surname}/>
+                <input className="input field" type="email" name="username" placeholder={email}/>
+                <input className="input field" type="password" name="password" placeholder={password}/>
+                <input className="input field" type="password" name="password2" placeholder={password2}/>
+                <input className="button is-rounded is-primary" type="submit" value={title}/>
+                <input className="button is-rounded is-primary" type="reset" value={reset}/>
+                <span className="help is-danger">{error}</span>
             </form>
+            </div>
         </section>
 }
 
