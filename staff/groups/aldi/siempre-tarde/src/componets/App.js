@@ -76,7 +76,6 @@ class App extends Component {
             this.setState({ error:null, lines:resp },() => this.props.history.push('/byidline'))
         })
 
-        
     }
     handleFavorites = () => {
 
@@ -122,7 +121,7 @@ class App extends Component {
                 <Route path="/byidstop" render={() => logic.isUserLoggedIn ? <CodeSearch lang={lang} items={lines}/> : <Redirect to="/" />} />
 
 
-                <Route path="/byidline" render={() => logic.isUserLoggedIn ? <StopLine lang={lang} items={lines}/> : <Redirect to="/" />} />
+                <Route path="/byidline" render={() => logic.isUserLoggedIn ? <LineSearch lang={lang} items={lines}/> : <Redirect to="/" />} />
 
                 <Route path="/favoritestops" render={() => logic.isUserLoggedIn ? <Favorites lang={lang} items={lines} onStopCode={handleLogout} /> : <Redirect to="/" />} />
 

@@ -247,7 +247,6 @@ const logic = {
         ])
 
         let buses = []
-        debugger
         return iBusApi.retrieveLineId(stop_id, line_id)
             .then(response => {
 
@@ -268,7 +267,6 @@ const logic = {
                 })
             })
             .then(res => Promise.all(res).then(response => {
-                debugger
                 return response.map(({features}) => {
                     return features.map(({properties:
                         { "CODI_LINIA"     : line_id,
@@ -283,7 +281,6 @@ const logic = {
                 })  
             )
             .then(resp => {
-                debugger
                 let upcomingBuses = []
                 resp.map((arr) => {
                     upcomingBuses.push({ line: buses[0].line_id, t_in_min: buses[0].t_in_min, t_in_s: buses[0].t_in_s, text_ca: buses[0].text_ca, color_line: arr[0].color_line, dest_line : arr[0].dest_line })
