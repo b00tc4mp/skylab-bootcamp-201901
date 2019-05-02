@@ -2,28 +2,29 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
-
-
-
+import './index.sass'
 
 function Results({ items, onItem, error, onFav, favs }) {
-    return <ul>
+    return <ul className="container">
         <p>{error}</p>
-        { 
+        {
             items.map(({ id, title, image }) => {
-                 const isList = favs.some(movie => movie.id === id)
+                const isList = favs.some(movie => movie.id === id)
 
-                return <li key={id} onClick={() => onItem(id)}>
-                    <h2>{title}</h2>
+                return <li className="results" key={id} onClick={() => onItem(id)}>
 
                     <div>
                         <FontAwesomeIcon icon={isList ? faThumbsUp : faPlus} onClick={e => {
                             e.stopPropagation()
 
                             onFav(id)
-                        }}/>
+                        }} />
                     </div>
-                    <img src={image} />
+
+                    <div>
+                        <h2 className="text-white">{title}</h2>
+                        <img src={image} />
+                    </div>
                 </li>
             })
         }

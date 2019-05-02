@@ -2,7 +2,7 @@ import React from 'react'
 import literals from './literals'
 
 function Search({ lang, onSearch }) {
-    const { search,placeholder } = literals['en-US'] //cambiar por lang
+    const { search, placeholder } = literals['en-US'] //cambiar por lang
     return <form onSubmit={e => {
         e.preventDefault()
 
@@ -10,8 +10,8 @@ function Search({ lang, onSearch }) {
 
         onSearch(query)
     }}>
-        <input type="text" name="query" placeholder={placeholder}/>
-        <button>{search}</button>
+        <input type="text" name="query" placeholder={placeholder} />
+        <button className="btn-light">{search}</button>
     </form>
 }
 

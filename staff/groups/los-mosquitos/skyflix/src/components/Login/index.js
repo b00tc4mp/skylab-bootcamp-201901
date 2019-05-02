@@ -1,5 +1,6 @@
 import React from 'react'
 import literals from './literals'
+import './index.sass'
 
 function Login({ lang, onLogin, error }) {
     const { title, email, password } = literals[lang]
@@ -13,13 +14,14 @@ function Login({ lang, onLogin, error }) {
     }
 
     return <>
-        <h1>SkyFlix</h1>
-        <section>
-            <h2>{title}</h2>
+        <section className="login">
+            <h2 className="text-white">{title}</h2>
             <form onSubmit={handleSubmit}>
-                <input type='text' name='username' placeholder={email} />
-                <input type='password' name='password' placeholder={password} />
-                <button>{title}</button>
+                <div class="form-group">
+                    <input type='text' className="form-control" id="formGroupExampleInput" name='username' placeholder={email} />
+                    <input type='password' className=" login form-control" id="formGroupExampleInput2" name='password' placeholder={password} />
+                    <button className=" login btn btn-primary btn-lg btn-block">{title}</button>
+                </div>
             </form>
             <span>{error}</span>
         </section>
