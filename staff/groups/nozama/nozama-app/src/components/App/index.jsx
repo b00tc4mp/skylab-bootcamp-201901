@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect} from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Nav from '../../components/Nav';
 import { withRouter } from 'react-router-dom';
@@ -16,6 +16,7 @@ import {
   CART_UPDATE_PRODUCT,
   CART_CONFIRMED_PAY,
   CART_RETRIEVE,
+  CART_IMPORT,
   FAVORITES_TOGGLE_PRODUCT,
   GLOBAL_LOGOUT,
 } from '../../logic/actions';
@@ -74,12 +75,25 @@ function App(props) {
           .then(user => setCart(...user.cart));
         break;
 
+      case CART_IMPORT:
+        setCart(params.cart);
+        setCartQuantity(calculateCartQuantity(params.cart));
+        break;
+
       case CART_CONFIRMED_PAY:
         const newCart = [...cart];
-        newCart.payDetails = {...params}
-        logic.saveHistoryCart(newCart);
-        setCart([]);
-        props.history.push('/');
+        let historicCarts = [];
+        logic.retrieveUser()
+        .then(user => {
+          if (user.historicCarts) historicCarts = [...user.historicCarts];
+          historicCarts.push({cart: newCart, payDetails: {...params}});
+          return logic.updateUser({cart: [], historicCarts})
+        })
+        .then(() => {
+              setCart([]);
+              setCartQuantity(0);
+              props.history.push('/')
+            })
         break;
 
       case FAVORITES_TOGGLE_PRODUCT:
@@ -104,8 +118,13 @@ function App(props) {
   };
 
   logic.dispatch = dispatch;
+  logic.cart = cart;
 
-  const handleLogin = (email, password) => logic.loginUser(email, password);
+  useEffect(()=> {
+    if (logic.isLoggedIn) {
+      logic.retrieveUser()
+    }
+  }, [])
 
   return (
     <div className="container">      
@@ -114,7 +133,7 @@ function App(props) {
         <Route
           path="/"
           exact
-          render={() => <Landing cart={cart} cartQuantity={cartQuantity} dispatch={dispatch} />}
+          render={(props) => <Landing {...props} cart={cart} cartQuantity={cartQuantity} dispatch={dispatch} />}
         />
         <Route
           path="/detailProduct/:productId"
@@ -141,15 +160,15 @@ function App(props) {
         />
         <Route
           path={"/search/:text"}
-          render={() => <SearchPage />}
+          render={(props) => <SearchPage {...props}/>}
         />
         <Route
           path={["/register/:afterGoTo",'/register/', ]}
-          render={() => (!logic.isLoggedIn ? <Register /> : <Redirect to="/" />)}
+          render={(props) => (!logic.isLoggedIn ? <Register {...props}/> : <Redirect to="/" />)}
         />
         <Route
           path={[ "/login/:afterGoTo", '/login/']}
-          render={() => (!logic.isLoggedIn ? <Login /> : <Redirect to="/" />)}
+          render={(props) => (!logic.isLoggedIn ? <Login {...props}/> : <Redirect to="/" />)}
         />
         <Redirect to="/" />
       </Switch>
