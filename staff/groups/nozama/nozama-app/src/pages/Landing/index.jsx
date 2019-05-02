@@ -8,6 +8,7 @@ function Landing(props) {
   const [products, setProducts] = useState([]);
   const [featureProducts, setFeatureProducts] = useState([]);
   const [newProducts, setNewProducts] = useState([])
+  const [productsByCategories, setProductsByCategories] = useState([])
 
   const allProducts = logic.allProducts()
   
@@ -19,6 +20,7 @@ function Landing(props) {
     }
     setFeatureProducts(ps);
   });
+  
   allProducts
     .then(products => products.filter(item => item.isNew))
     .then(products => {
@@ -28,7 +30,24 @@ function Landing(props) {
       }
       setNewProducts(ps);
     })
+
+    allProducts.then(products => {
+      let cath = [];
+        debugger
+        cath.push(products[0])
+        for(let i = 0; i < products.length; i++){
+          let exist = false;
+          for(let j = 0, lj = cath.length; j < lj ; j++){
+            exist = exist || cath[j].subtitle === products[i].subtitle;
+          }
+          if (!exist) cath.push(products[i])
+        }
+        console.log(cath)      
+        setProductsByCategories(cath);
+    });
   }, [])
+
+  
 
   const handleSearch = text => {
     logic.searchProduct(text).then(resProducts => setProducts(resProducts));
@@ -43,6 +62,7 @@ function Landing(props) {
     <div>
       <CardFeature products={featureProducts} title="Feature Products" />
       <CardFeature products={newProducts} title="New Products" />
+      <CardFeature products={productsByCategories} title="Categories" />
 
       {products.map(product => (
         <ProductHorSlim key={product.productId} product={product} onDetail={handleDetail} />
