@@ -2,14 +2,10 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 
 const CardFeature = props => {
-  const handleClickImage = product => {
-    props.onDetail(product);
-  };
-
   return (
-    <div className="container">
+    <div className="container mt-4">
       <div className="row">
-        <h3>{props.title}</h3>
+        <h3 className="display-5">{props.title}</h3>
       </div>
       <div className="row">
         {props.products.slice(0, 4).map(product => {
@@ -19,7 +15,7 @@ const CardFeature = props => {
               key={product.productId}
               to={'/detailProduct/' + product.productId}
             >
-              <img width="150px" height="150px" src={product.imageSmall} />
+              <img className="mb-3" width="150px" height="150px" src={product.imageSmall} />
             </Link>
           );
         })}

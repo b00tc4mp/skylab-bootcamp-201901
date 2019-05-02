@@ -1,5 +1,5 @@
 import validate from '../../common/validate';
-import { ValueError } from '../../common/errors';
+import { ValueError, InvalidTokenError } from '../../common/errors';
 
 const userApi = {
   __url__: 'https://skylabcoders.herokuapp.com/api',
@@ -92,6 +92,7 @@ const userApi = {
     })
       .then(res => res.json())
       .then(res => {
+        if (res.status === "KO") throw new InvalidTokenError('invalid or expired token')
         if (res.data) delete res.data.app;
         return res;
       });

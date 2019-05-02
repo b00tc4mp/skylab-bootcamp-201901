@@ -384,7 +384,6 @@ describe('logic', () => {
         })
         .then(productDetail => {
           console.log(randomProductId);
-          if (productDetail == undefined || !productDetail.campaign) debugger
           expectsDetail(productDetail);
         });
     });

@@ -1,24 +1,24 @@
-import React, { useEffect } from 'react';
-import { CART_CONFIRMED_PAY } from '../../logic/actions'
-import validate from '../../common/validate'
-class PurchaseData extends React.Component {
-
+import React from 'react';
+import { withRouter } from 'react-router-dom';
+import { CART_CONFIRMED_PAY } from '../../logic/actions';
+import validate from '../../common/validate';
+class Payment extends React.Component {
+  amount = 0;
   state = {
     cardNumber: '',
     cardName: '',
     expireDate: '',
     cvv: '',
-    errorMessage: null
+    errorMessage: null,
   };
 
   handleChange = e => {
-
     this.setState({ [e.target.name]: e.target.value });
   };
 
   handleSubmit = e => {
-    e.preventDefault()
-    const {cardNumber, cardName, expireDate, cvv} = this.state
+    e.preventDefault();
+    const { cardNumber, cardName, expireDate, cvv } = this.state;
     try {
       validate.arguments([
         {
@@ -45,29 +45,43 @@ class PurchaseData extends React.Component {
           type: 'string',
           notEmpty: true,
         },
-      ])
-      this.props.dispatch({action: CART_CONFIRMED_PAY,  cardNumber, cardName, expireDate, cvv})
+      ]);
+      this.props.dispatch({
+        action: CART_CONFIRMED_PAY,
+        cardNumber,
+        cardName,
+        expireDate,
+        cvv,
+        amount: this.amount,
+      });
+    } catch (error) {
+      this.setState({ errorMessage: error.message });
     }
-    catch(error){
-      this.setState({ errorMessage: error.message})
-    }
-  }
+  };
 
   handleCancel = e => {
-      e.preventDefault()
-      this.props.onCancel()
-  }
+    e.preventDefault();
+    this.props.onCancel();
+  };
 
   render() {
+    this.amount = this.props.cart.reduce((acc, line) => {
+      return acc + line.quantity * line.product.originalPrice;
+    }, 0);
     return (
       <div className="container">
-          {this.state.errorMessage && <div class="alert alert-warning" role="alert">
+        {this.state.errorMessage && (
+          <div class="alert alert-warning" role="alert">
             <h5>{this.state.errorMessage}</h5>
-          </div>}
-        <form onSubmit={this.handleSubmit} >
+          </div>
+        )}
+
+        <h3>Amount: {this.amount}</h3>
+        <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="cardNumber">Card number</label>
-            <input
+            <input 
+              className="form-control"
               type="text"
               name="cardNumber"
               id="cardNumber"
@@ -79,6 +93,7 @@ class PurchaseData extends React.Component {
           <div className="form-group">
             <label htmlFor="cardName">Card name</label>
             <input
+              className="form-control"
               type="text"
               name="cardName"
               id="cardName"
@@ -90,6 +105,7 @@ class PurchaseData extends React.Component {
           <div className="form-group">
             <label htmlFor="expireDate">Expire date</label>
             <input
+              className="form-control"
               type="text"
               name="expireDate"
               id="expireDate"
@@ -101,6 +117,7 @@ class PurchaseData extends React.Component {
           <div className="form-group">
             <label htmlFor="cvv">cvv</label>
             <input
+              className="form-control"
               type="text"
               name="cvv"
               id="cvv"
@@ -115,11 +132,10 @@ class PurchaseData extends React.Component {
           <button className="btn btn-secondary btn-block" onClick={this.handleCancel}>
             Back to cart
           </button>
-
         </form>
       </div>
     );
   }
 }
 
-export default PurchaseData
+export default withRouter(Payment);
