@@ -7,6 +7,8 @@ import Login from './Login'
 import Search from './Search'
 import Home from './Home'
 import './index.sass'
+import queryString from 'query-string'
+
 
 import { Route, withRouter, Switch, Link, Redirect } from 'react-router-dom'
 
@@ -67,12 +69,19 @@ class App extends Component {
 
     handleLogout = () => {
         logic.logoutUser()
-      
+
         this.setState({ visible: 'landing', name: null, url: null })
         this.props.history.push('/')
     }
 
-    handleSearch = (query, selector) =>
+    componentWillReceiveProps(props) {
+        const { query, selector } = queryString.parse(props.location.search)
+
+        query && this.search(query, selector)
+
+    }
+
+    search = (query, selector) =>
         logic.searchRecipes(query, selector)
             .then((recipes) =>
                 this.setState({ results: recipes })
@@ -80,6 +89,9 @@ class App extends Component {
             .catch(error =>
                 this.setState({ error: error.message })
             )
+
+    handleSearch = (query, selector) => this.props.history.push(`/home?selector=${selector}&query=${query}`)
+
 
     render() {
         const {
@@ -114,28 +126,28 @@ class App extends Component {
             </header>
 
             <Switch>
-                <Route exact path="/" render={ 
-                    () => logic.isUserLoggedIn? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />
-                } /> 
-
-                <Route exact path="/register" render={ 
-                    () => logic.isUserLoggedIn? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} /> 
+                <Route exact path="/" render={
+                    () => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />
                 } />
 
-                <Route path="/login" render={ 
-                    () => logic.isUserLoggedIn? <Redirect to="/home" /> : <Login onLogin={handleLogin} error={error} /> 
+                <Route exact path="/register" render={
+                    () => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} />
+                } />
+
+                <Route path="/login" render={
+                    () => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} error={error} />
                 } />
 
                 <Route path="/home" render={
-                    () => logic.isUserLoggedIn? <Home results={results} name={name}  onSearch={handleSearch} onLogout={handleLogout} /> : <Redirect to="/" />
+                    () => logic.isUserLoggedIn ? <Home results={results} name={name} onSearch={handleSearch} onLogout={handleLogout} /> : <Redirect to="/" />
                 } />
-                     
+
                 <Redirect to="/" />
-            </Switch>            
+            </Switch>
 
-        <footer className='footer'>
+            <footer className='footer'>
 
-        </footer>
+            </footer>
 
         </>
     }
