@@ -18,8 +18,8 @@ let city
 
         onRegister(name, surname, username, password, city)
     }
-    return <main className="main">
-        <section className="column is-6-desktop is-6-tablet is-6-mobile is-one-fifth">
+    return <main className="mainregister">
+        <section className="column is-6-desktop is-6-tablet is-10-mobile is-one-fifth">
             <div className="has-text-centered field">
             <h2 className="title is-2">Weatunes</h2>
             <p className="subtitle"> Sign up with your email address</p>

@@ -12,8 +12,8 @@ function Login({ onLogin, error }) {
         onLogin(username, password)
     }
 
-    return <main className="main">
-    <section className="login column is-4-desktop is-4-tablet is-6-mobile is-one-fifth">
+    return <main className="mainlogin">
+    <section className="login column is-4-desktop is-4-tablet is-10-mobile is-one-fifth">
         <div className="has-text-centered field">
             <h2 className="title is-2">Weatunes</h2>
             <p className="subtitle"> Sign in with your email address</p>
