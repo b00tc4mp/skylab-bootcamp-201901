@@ -15,10 +15,11 @@ function StopLine3({ lang, onSearch, items, error, stop_id }) {
                 {
                     items.map(({ stop_id, stop_name }) => {
 
-                        return <option key={stop_id} value={stop_id}>{stop_id}-{stop_name}</option>
+                        return <option key={stop_id} value={stop_id}>{stop_id} - {stop_name}</option>
                     })
                 }
             </select>
+            <h2>{error}</h2>
         </div>
     </section>
 

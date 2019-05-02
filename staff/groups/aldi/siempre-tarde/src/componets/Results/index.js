@@ -2,7 +2,7 @@ import React from 'react'
 import literals from './literals'
 import { Route, withRouter, Redirect, Switch, Link } from 'react-router-dom'
 
-function Results({ lang, items, stop }) {
+function Results({ lang, items, stop, error }) {
 
     const { title1, back } = literals[lang]
     return <section>
@@ -21,6 +21,7 @@ function Results({ lang, items, stop }) {
                 })
             }
         </ul>
+        <h2>{error}</h2>
 
     </section>
 }
