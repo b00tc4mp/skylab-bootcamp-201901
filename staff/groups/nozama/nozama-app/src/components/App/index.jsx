@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import { Container } from 'reactstrap';
+import React, { useState } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Nav from '../../components/Nav';
 import { withRouter } from 'react-router-dom';
@@ -8,7 +7,6 @@ import Login from '../Login';
 import Register from '../Register';
 import Home from '../../pages/Home';
 import logic from '../../logic';
-import Cart from '../../pages/Cart'
 import {
   CART_ADD_PRODUCT,
   CART_REMOVE_PRODUCT,
@@ -18,7 +16,6 @@ import {
   FAVORITES_TOGGLE_PRODUCT,
   GLOBAL_LOGOUT,
 } from '../../logic/actions';
-import DetailScreen from '../../pages/DetailScreen'
 
 function App(props) {
   const [favorites, setFavorites] = useState([]);
@@ -102,20 +99,19 @@ function App(props) {
   const handleLogin = (email, password) => logic.loginUser(email, password);
 
   return (
-    <Container>      
+    <div className="container">      
       <Nav cartQuantity={cartQuantity}/>
       <Switch>
         <Route
           path="/"
           exact
-          render={() => {
-          
-            return !logic.isLoggedIn ? (
-              <DetailScreen />
+          render={() =>
+            !logic.isLoggedIn ? (
+              <Landing cart={cart} cartQuantity={cartQuantity} dispatch={dispatch} />
             ) : (
               <Redirect to="/home" />
             )
-          }}
+          }
         />
         <Route
           path="/logout"
@@ -140,7 +136,7 @@ function App(props) {
         />
         <Redirect to="/" />
       </Switch>
-    </Container>
+    </div>
   );
 }
 

@@ -1,16 +1,5 @@
 import React from 'react';
-import {
-  Container,
-  Col,
-  Row,
-  Collapse,
-  Navbar,
-  NavbarToggler,
-  NavbarBrand,
-  Nav,
-  NavItem,
-  NavLink,
-} from 'reactstrap';
+import Search from '../Search';
 import ShoppingCartIcon from '../shopping-cart';
 import { Link } from 'react-router-dom';
 import logic from '../../logic';
@@ -84,6 +73,7 @@ export default class Navigation extends React.Component {
             </ul>
           </div>
         </div>
+        <Search />
       </div>
     );
   }
