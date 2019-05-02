@@ -15,8 +15,11 @@ class Home extends Component {
     handleSearch = query =>
         logic.searchBooks(query)
             .then((books) =>
+                logic.retrieveFavBooks()
+                .then(favs => {
 
-                this.setState({ bookDetail: null, books: books.docs })
+                    this.setState({ favs, bookDetail: null, books: books.docs })
+                })
             ).catch(error =>
                 this.setState({ error: error.message })
             )
@@ -54,18 +57,12 @@ class Home extends Component {
     }
 
 
-    handleFav = isbn =>
-        logic.toggleFavBook(isbn[0])
+    handleFav = cover_edition_key =>
+         logic.toggleFavBook(cover_edition_key)
             .then(() => logic.retrieveFavBooks())
             .then(favs => this.setState({ favs }))
 
 
-    // logic.retrieveBook(isbn)
-    //     .then((details) => {
-    //         const bookDetails = Object.values(details)
-    //         console.log([bookDetails[0].details])
-    //         this.setState({bookDetail: [bookDetails[0].details]})
-    //     }).catch()
 
 
     render() {

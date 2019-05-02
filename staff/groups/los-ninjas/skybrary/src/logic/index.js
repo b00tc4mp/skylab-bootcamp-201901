@@ -36,7 +36,7 @@ const logic = {
         validate.email(email)
 
 
-        return userApi.create(email, password, { alias, favList: [], readingList: [], doneList: [], wantToRead: [] })
+        return userApi.create(email, password, { alias })
             .then(response => {
                 if (response.status === 'OK') return
 
@@ -106,6 +106,7 @@ const logic = {
 
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
+                
                 const { status, data } = response
 
                 if (status === 'OK') {
@@ -114,7 +115,7 @@ const logic = {
                     const index = favs.indexOf(isbn)
 
                     if (index < 0) favs.push(isbn)
-                    else favs.splice(isbn, 1)
+                    else favs.splice(index, 1)
 
                     return userApi.update(this.__userId__, this.__userToken__, { favs })
                         .then(() => { })
