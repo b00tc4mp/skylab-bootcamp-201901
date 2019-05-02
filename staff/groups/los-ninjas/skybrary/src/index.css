@@ -1,10 +1,18 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat');
+html {
+  font-family: 'Montserrat', sans-serif;
+}
+
 body {
   margin: 0;
   padding: 0;
   font-family: 'Montserrat', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+body * {
+  font-family: 'Montserrat', sans-serif;
 }
 
 @import '../node_modules/bulma/css/bulma.css';
