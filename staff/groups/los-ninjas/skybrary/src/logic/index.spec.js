@@ -5,8 +5,8 @@ import userApi from '../data/user-api'
 
 describe('logic', () => {
     describe('users', () => {
-        const alias = 'user'
-        const password = '123'
+        let alias = 'user'
+        let password = '123'
         let email
 
         beforeEach(() => {
@@ -131,6 +131,14 @@ describe('logic', () => {
                         expect(error.message).toBe(`user with username \"${email}\" does not exist`)
                     })
             )
+
+            it('should fail on incorrect password', () =>
+                logic.loginUser(email, password = '777')
+                    .then(() => { throw Error('should not reach this point')})
+                    .catch(error => {
+                        expect(error).toBeDefined()
+                    })
+            )
         })
 
         describe('retrieve user', () => {
@@ -186,7 +194,6 @@ describe('logic', () => {
                     })
                     .then(response => {
                         token = response.data.token
-
                         logic.__userId__ = id
                         logic.__userToken__ = token
                     })
@@ -232,6 +239,71 @@ describe('logic', () => {
                     const {docs} = response
                     expect(docs.length).toBe(0)
                 })
+        })
+    })
+
+
+    describe('toggle fav books', () => {
+        let id, token, bookIsbn
+       
+        let password = '123'
+        let alias = 'pepito'
+        let email = `skybraryrobertoelmejor.${Math.random()}@skybrary.com`
+      
+        
+        bookIsbn = `${Math.trunc(Math.random()*10000000)}`
+
+        beforeAll(() => {
+            return userApi.create(email, password, { alias })
+                .then(response => {
+                    console.log(response)
+                    id = response.data.id
+
+                    return userApi.authenticate(email, password)
+                })
+                .then(response => {
+                    token = response.data.token
+
+                    logic.__userId__ = id
+                    logic.__userToken__ = token
+                })
+        })
+
+        it('should succeed adding a fav book on first time', () => {
+            logic.toggleFavBook(bookIsbn)
+                .then(response => expect(response).toBeUndefined())
+                .then(() => userApi.retrieve(id, token))
+                .then(response => {
+    
+                    const { data: { favs } } = response
+
+                    expect(favs).toBeDefined()
+                    expect(favs instanceof Array).toBeTruthy()
+                    expect(favs.length).toBe(1)
+                    expect(favs[0]).toBe(bookIsbn)
+                })
+        })
+
+        it('should succeed removing fav on second time', () => {
+            logic.toggleFavBook(bookIsbn)
+                .then(() => logic.toggleFavBook(bookIsbn))
+                .then(() => userApi.retrieve(id, token))
+                .then(response => {
+               
+                    const { data: { favs } } = response
+
+                    expect(favs).toBeDefined()
+                    expect(favs instanceof Array).toBeTruthy()
+                })
+                .catch(err => {
+              
+                })
+            }
+        )
+
+        it('should fail on null book isbn', () => {
+            bookIsbn = undefined;
+            expect(() => logic.toggleFavBook(bookIsbn)).toThrowError(RequirementError, 'isbn is undefined')
         })
     })
 })
