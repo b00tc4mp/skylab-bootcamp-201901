@@ -3,23 +3,22 @@ import literals from './literals'
 import { Link } from "react-router-dom"
 import logic from '../../logic';
 
-function StopLine({ lang, onSearch, items, error, line_id }) {
+function StopLine3({ lang, onSearch, items, error, stop_id }) {
     const { title1, select, back } = literals[lang]
 
     return <section>
         <Link to={`/`}><button>{back}</button></Link>
         <div>
             <h1>{title1}</h1>
-            <select onChange={event => onSearch(event.target.value)} value={line_id}>
+            <select onChange={event => onSearch(event.target.value)} value={stop_id}>
             <option key='select'>{select}</option>
                 {
-                    items.map(({ line_id, name_line, desc_line }) => {
+                    items.map(({ stop_id, stop_name }) => {
 
-                        return <option key={line_id} value={line_id}>{name_line}-{desc_line}</option>
+                        return <option key={stop_id} value={stop_id}>{stop_id}-{stop_name}</option>
                     })
                 }
             </select>
-            <span>{error}</span>
         </div>
     </section>
 
@@ -31,4 +30,4 @@ function StopLine({ lang, onSearch, items, error, line_id }) {
 
 
 }
-export default StopLine
+export default StopLine3
