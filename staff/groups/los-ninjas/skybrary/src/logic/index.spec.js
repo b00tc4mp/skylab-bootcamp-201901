@@ -90,6 +90,26 @@ describe('logic', () => {
 
                 expect(() => logic.registerUser(alias, nonEmail, password)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
             })
+            it('should fail on empty password', () => {
+                const nonPassword = ' \t    \n'
+
+                expect(() => logic.registerUser(alias, email, nonPassword)).toThrowError(ValueError, 'is empty')
+            })
+            it('should fail on undefined password', () => {
+                const password2 = undefined
+
+                expect(() => logic.registerUser(alias, email, password2)).toThrowError(RequirementError, `password is not optional`)
+            })
+            it('should fail on null password', () => {
+                const password3 = null
+
+                expect(() => logic.registerUser(alias, email, password3)).toThrowError(RequirementError, `password is not optional`)
+            })
+            it('should fail on empty password', () => {
+                const password4 = ''
+
+                expect(() => logic.registerUser(alias, email, password4)).toThrowError(ValueError, 'password is empty')
+            })
         })
 
         describe('login user', () => {
@@ -132,19 +152,29 @@ describe('logic', () => {
                     })
             )
 
-            it('should fail on incorrect password', () =>
-                logic.loginUser(email, password = '777')
+            it('should fail on incorrect password', () => {
+                const incorrectPassword = '777'
+                return logic.loginUser(email, incorrectPassword)
                     .then(() => { throw Error('should not reach this point')})
                     .catch(error => {
                         expect(error).toBeDefined()
                     })
-            )
+            })
+            
+            it('should fail on empty password', () => {
+                const emptyPassword = ' \t    \n'
+                expect(() => logic.loginUser(email, emptyPassword)).toThrowError(ValueError, 'password is empty')
+            })
+            it('should fail on undefined password', () => {
+                const undefinedPassword = undefined
+                expect(() => logic.loginUser(email, undefinedPassword)).toThrowError(Error, 'password is undefined')
+            })
         })
 
         describe('retrieve user', () => {
             let id, token
 
-            beforeEach(() =>
+            beforeEach(() => 
                 userApi.create(email, password, { alias })
                     .then(response => {
                         id = response.data.id
@@ -256,7 +286,6 @@ describe('logic', () => {
         beforeAll(() => {
             return userApi.create(email, password, { alias })
                 .then(response => {
-                    console.log(response)
                     id = response.data.id
 
                     return userApi.authenticate(email, password)
@@ -304,6 +333,10 @@ describe('logic', () => {
         it('should fail on null book isbn', () => {
             bookIsbn = undefined;
             expect(() => logic.toggleFavBook(bookIsbn)).toThrowError(RequirementError, 'isbn is undefined')
+        })
+        it('should fail on null book isbn', () => {
+            bookIsbn = null;
+            expect(() => logic.toggleFavBook(bookIsbn)).toThrowError(RequirementError, 'isbn is null')
         })
     })
 })
