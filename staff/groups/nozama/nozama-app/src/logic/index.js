@@ -141,7 +141,7 @@ const logic = {
       { name: 'dataUser.password', value: dataUser.password, type: 'string', notEmpty: true, optional: true,},
     ]);
     let slimCart = dataUser.cart;
-    if (dataUser.cart.length !== 0 && !!dataUser.cart[0].product) {
+    if (dataUser.historicCarts && dataUser.cart.length !== 0 && !!dataUser.cart[0].product) {
       slimCart = dataUser.cart.map(({product, quantity}) => ({quantity, productId: product.productId}));
     }
 

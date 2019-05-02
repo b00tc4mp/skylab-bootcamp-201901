@@ -2,15 +2,25 @@ import React, { useState, useEffect } from 'react';
 import logic from '../../logic';
 import Cart from '../Cart';
 
+let _user;
+
 export default function UserProfile(props) {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [error, setError] = useState(null);
   const [historicCarts, setHistoricCarts] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    if (name !== _user.name || surname !== _user.surname || email !== _user.email || password !== '') {
+      let newData = { name, surname, email }
+      if (password !== '') newData = {...newData, password}
+      logic.updateUser(newData)
+      .then(res => setError({type:'success', message: 'Update completed'}))
+      .catch(error => setError({type:'warning', message: error.message}))
+    }
   }
 
   useEffect(() => {
@@ -19,20 +29,26 @@ export default function UserProfile(props) {
       setSurname(user.surname);
       setEmail(user.email);
       setHistoricCarts(user.historicCarts);
+      _user = user; 
     });
   }, logic.userId);
 
   return (
     <div className="container mt-3">
+      {error && (
+        <div class={`alert alert-${error.type}`} role="alert">
+            {error.message}
+        </div>)}
+
       <h4>User Profile</h4>
 
-      {!email && (
+      {!name && (
         <div className="spinner-border text-dark" role="status">
           <span className="sr-only">Loading...</span>
         </div>
       )}
 
-      <form on Submit={handleSubmit}>
+      <form onSubmit={handleSubmit}>
         <div className="row">
           <div className="col">
             <div className="form-group">
@@ -92,7 +108,7 @@ export default function UserProfile(props) {
             onChange={(e) => setPassword(e.target.value)}
           />
         </div>
-        <button type="button" class="btn btn-warning">Update profile</button>
+        <button type="submit" className="btn btn-warning">Update profile</button>
       </form>
 
       <h5 className="mt-3">Last purchases</h5>
