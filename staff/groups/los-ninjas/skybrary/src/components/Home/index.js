@@ -15,11 +15,15 @@ class Home extends Component {
     handleSearch = query =>
         logic.searchBooks(query)
             .then((books) =>
-        
                 this.setState({ bookDetail: null, books: books.docs})
         ).catch(error =>
             this.setState({ error: error.message })
         )
+
+    handleLogout = () => {
+        logic.logoutUser()
+        this.props.history.push('/')
+    }
 
     handleRetrieve = (isbn, key) => {
         console.log(this.state.books)
@@ -59,13 +63,14 @@ class Home extends Component {
     render() {
 
         const {
+            handleLogout,
             handleSearch,
             handleRetrieve,
             state: {books, bookDetail}
         } = this
 
         return <main className="home">
-            <Header/>
+            <Header onLogout={handleLogout} />
             <Search onSearch={handleSearch}/>
             {!bookDetail && <Results items={books} onItem={handleRetrieve}/>}
             {bookDetail  && <Detail item={bookDetail}/>}
