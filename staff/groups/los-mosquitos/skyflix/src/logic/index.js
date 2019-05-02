@@ -167,6 +167,25 @@ const logic = {
                 throw new LogicError(response.error)
             })
     },
+    removeFromMovieUserList(id){
+
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+        .then(response => {
+            const { status,data } = response
+
+                if (status === 'OK') {
+                    const { movieList = [] } = data
+
+
+            const index=movieList.indexOf(id)
+            movieList.splice(index,1)
+    
+            return  userApi.update(this.__userId__, this.__userToken__, { movieList })
+    
+            }
+        })
+        
+    },
 
     retrieveMovieGenres() {
         return movieApi.retrieveMovieGenres()
