@@ -8,12 +8,17 @@ import Search from './Search'
 import Home from './Home'
 import './index.sass'
 
+import { Route, withRouter, Switch, Link, Redirect } from 'react-router-dom'
+
 class App extends Component {
     state = { visible: logic.isUserLoggedIn ? 'home' : 'landing', error: null, name: null, results: null }
 
-    handleRegisterNavigation = () => this.setState({ visible: 'register' })
+    // handleRegisterNavigation = () => this.setState({ visible: 'register' }) // no es necesario hacer esto ya que lo manejamos con this.props.history.push('/register')
 
-    handleLoginNavigation = () => this.setState({ visible: 'login' })
+    handleRegisterNavigation = () => this.props.history.push('/register')
+    handleLoginNavigation = () => this.props.history.push('/login')
+
+    // handleLoginNavigation = () => this.setState({ visible: 'login' }) // no es necesario hacer esto ya que lo manejamos con this.props.history.push('/login')
 
     handleLogin = (username, password) => {
         try {
@@ -23,6 +28,7 @@ class App extends Component {
                 )
                 .then(user => {
                     this.setState({ visible: 'home', name: user.name, error: null })
+                    this.props.history.push('/home')
                 })
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -46,9 +52,10 @@ class App extends Component {
     handleRegister = (name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions) => {
         try {
             logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)
-                .then(() =>
+                .then(() => {
                     this.setState({ visible: 'register-ok', error: null })
-                )
+                    this.props.history.push('/login')
+                })
                 .catch(error =>
                     this.setState({ error: error.message })
                 )
@@ -59,8 +66,8 @@ class App extends Component {
 
     handleLogout = () => {
         logic.logoutUser()
-
-        this.setState({ visible: 'landing' })
+        this.setState({ visible: 'landing', name: null })
+        this.props.history.push('/')
     }
 
     handleSearch = (query, selector) =>
@@ -85,7 +92,11 @@ class App extends Component {
 
         return <>
             <header className="header">
-                <h1 className="header__title" >FOOD<span className="header__title-colored" >LAB</span></h1>
+
+                <h1 className="header__title">
+                    <Link className="header__title__link" to="/">FOOD<span className="header__title-colored">LAB</span></Link>
+                </h1>
+
                 <div className="header__searcher">
                     <Search onSearch={handleSearch} />
                 </div>
@@ -100,15 +111,29 @@ class App extends Component {
 
             </header>
 
-            {visible === 'landing' && <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />}
+            <Switch>
 
-            {visible === 'register' && <Register onRegister={handleRegister} error={error} />}
+                <Route exact path="/" render={ 
+                    () => logic.isUserLoggedIn? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />
+                } /> 
 
-            {visible === 'register-ok' && <RegisterOk onLogin={handleLoginNavigation} />}
+                <Route exact path="/" render={
+                    () => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />
+                }/>
 
-            {visible === 'login' && <Login onLogin={handleLogin} error={error} />}
+                <Route exact path="/register" render={ 
+                    () => logic.isUserLoggedIn? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} /> 
+                } />
 
-            {visible === 'home' && <Home results={results} name={name} onLogout={handleLogout} />}
+                <Route exact path="/login" render={ 
+                    () => logic.isUserLoggedIn? <Redirect to="/home" /> : <Login onLogin={handleLogin} error={error} /> 
+                } />
+
+                <Route exact path="/home" render={
+                    () => logic.isUserLoggedIn? <Home results={results} name={name} onLogout={handleLogout} /> : <Redirect to="/" />
+                } />
+
+            </Switch>            
         
         <footer className='footer'>
 
@@ -119,4 +144,4 @@ class App extends Component {
     }
 }
 
-export default App
+export default withRouter(App)
