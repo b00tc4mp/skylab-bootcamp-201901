@@ -10,6 +10,12 @@ import Home from './components/Home'
 import logo from './logo.svg'
 import './App.css'
 import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+
+library.add(faPlus,faThumbsUp)
 
 class App extends Component {
 
