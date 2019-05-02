@@ -3,7 +3,7 @@ import logic from '../../logic'
 import './index.scss'
 
 function Header(props) {
-   const { onLogout } = props 
+   const { onLogout } = props
    const userLogged = logic.isUserLoggedIn
    return <header className="great-vibes header">
         <div className="container">
