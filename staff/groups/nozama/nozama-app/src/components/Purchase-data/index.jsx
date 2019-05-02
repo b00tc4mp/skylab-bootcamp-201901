@@ -27,11 +27,11 @@ class PurchaseData extends React.Component {
 
   render() {
     return (
-      <Container>
-        <Form onSubmit={this.handleSubmit} >
-          <FormGroup>
-            <Label for="cardNumber">Card number</Label>
-            <Input
+      <div className="container">
+        <form onSubmit={this.handleSubmit} >
+          <div className="form-group">
+            <label for="cardNumber">Card number</label>
+            <input
               type="text"
               name="cardNumber"
               id="cardNumber"
@@ -39,10 +39,10 @@ class PurchaseData extends React.Component {
               onChange={this.handleChange}
               value={this.state.cardNumber}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for="cardName">Card name</Label>
-            <Input
+          </div>
+          <div className="form-group">
+            <label for="cardName">Card name</label>
+            <input
               type="text"
               name="cardName"
               id="cardName"
@@ -50,10 +50,10 @@ class PurchaseData extends React.Component {
               onChange={this.handleChange}
               value={this.state.cardName}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for="expireDate">Expire date</Label>
-            <Input
+          </div>
+          <div className="form-group">
+            <label for="expireDate">Expire date</label>
+            <input
               type="text"
               name="expireDate"
               id="expireDate"
@@ -61,10 +61,10 @@ class PurchaseData extends React.Component {
               onChange={this.handleChange}
               value={this.state.expireDate}
             />
-          </FormGroup>
-          <FormGroup>
-            <Label for="cvv">cvv</Label>
-            <Input
+          </div>
+          <div className="form-group">
+            <label for="cvv">cvv</label>
+            <input
               type="text"
               name="cvv"
               id="cvv"
@@ -72,16 +72,16 @@ class PurchaseData extends React.Component {
               onChange={this.handleChange}
               value={this.state.cvv}
             />
-          </FormGroup>
-          <Button block color="primary" onClick={handleSubmit}>
+          </div>
+          <button block color="primary" onClick={handleSubmit}>
             Pay
-          </Button>
-          <Button block color="secondary" onClick={handleCancel}>
+          </button>
+          <button block color="secondary" onClick={handleCancel}>
             Back to cart
-          </Button>
+          </button>
 
-        </Form>
-      </Container>
+        </form>
+      </div>
     );
   }
 }
