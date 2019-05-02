@@ -56,8 +56,8 @@ class Header extends Component {
             <h2 className="title myWeather">{currentWeather}</h2>
         </div>
         <div className="buttons is-right myButtons">
-            <button className="button is-primary is-right" onClick={onProfile}><img className="myIcon" src="https://img.icons8.com/ios-glyphs/30/000000/gender-neutral-user.png" alt="Image"/></button>
-            <button className="button is-primary is-right" onClick={onPreferences}><img className="myIcon" src='https://img.icons8.com/ios-glyphs/30/000000/bulleted-list.png'/></button>
+            <button className="button is-text is-outlined is-right" onClick={onProfile}><img className="myIcon" src="https://img.icons8.com/ios-glyphs/30/000000/gender-neutral-user.png" alt="Image"/></button>
+            <button className="button is-text is-outlined is-right" onClick={onPreferences}><img className="myIcon" src='https://img.icons8.com/ios-glyphs/30/000000/bulleted-list.png'/></button>
             <a onClick={onLogout}>Logout</a>
         </div>
         </div>

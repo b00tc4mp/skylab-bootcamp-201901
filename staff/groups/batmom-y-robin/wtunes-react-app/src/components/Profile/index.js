@@ -16,15 +16,15 @@ function Profile({user, onReturn, onCityChange}){
                         </figure>
                     </div>
                     <div className="media-content">
-                      <div className='content'>
-                        <div class="field">
-                            <label class="label">Name: {user.name}</label>
+                    <div className='content'>
+                        <div className="field">
+                            <label className="label">Name: {user.name}</label>
                         </div>
-                        <div class="field">
-                            <label class="label">Surname: {user.surname}</label>
+                        <div className="field">
+                            <label className="label">Surname: {user.surname}</label>
                         </div>
-                        <div class="field">
-                            <label class="label">Email: {user.email}</label>
+                        <div className="field">
+                            <label className="label">Email: {user.email}</label>
                         </div>
                         <div className="select field">
                         <select name="city" onChange={event => onCityChange(event.target.value)} defaultValue={user.city}>
@@ -42,7 +42,7 @@ function Profile({user, onReturn, onCityChange}){
                             <option value="Warsaw">Warsaw</option>
                         </select>
                         </div>
-                      </div>
+                    </div>
                     </div>
                 </article>
             </div>
