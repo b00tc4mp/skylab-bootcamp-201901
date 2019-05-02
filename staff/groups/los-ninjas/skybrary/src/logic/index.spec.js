@@ -154,9 +154,7 @@ describe('logic', () => {
             it('should succeed on correct user id and token', () =>
                 logic.retrieveUser()
                     .then(user => {
-                        // expect(user.id).toBeUndefined()
                         expect(user.alias).toBe(alias)
-                        // expect(user.surname).toBe(surname)
                         expect(user.email).toBe(email)
                         expect(user.password).toBeUndefined()
                     })
@@ -175,6 +173,35 @@ describe('logic', () => {
                     })
             })
         })
+
+        describe('logout user', () => {
+            let id, token
+
+            beforeEach(() =>
+                userApi.create(email, password, { alias })
+                    .then(response => {
+                        id = response.data.id
+
+                        return userApi.authenticate(email, password)
+                    })
+                    .then(response => {
+                        token = response.data.token
+
+                        logic.__userId__ = id
+                        logic.__userToken__ = token
+                    })
+            )
+
+            it('should clear the session storage info to force user to logout', () => {
+                const sessionId = sessionStorage.userId
+                const userToken = sessionStorage.userToken
+
+                logic.logoutUser()
+
+                expect(sessionId).toBeUndefined
+                expect(userToken).toBeUndefined
+            })
+        })
     })
 
     describe('books api', () => {
@@ -185,6 +212,7 @@ describe('logic', () => {
                     expect(books instanceof Object).toBeTruthy()
             })
         })
+
         it('should fail on empty query', () => {
             const query = ' \t    \n'
             logic.searchBooks(query)
