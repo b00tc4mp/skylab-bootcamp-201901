@@ -18,14 +18,25 @@ class Register extends React.Component {
     this.setState({ [e.target.name]: e.target.value });
   };
 
-  handleSubmit = e => {
-    e.preventDefault()
-    const {name, surname, email, password} = this.state
+  handleSubmit = event => {
+    event.preventDefault();
+    const afterGoTo = this.props.match.params.afterGoTo;
+    const { email, password, name, surname } = this.state;
     logic.registerUser(email, password, name, surname)
-    this.props.history.push('/login')
-  }
+      .then(() => logic.loginUser(email, password))
+      .then(res => {
+      if (res === true) {
+        if (afterGoTo) {
+          this.props.history.push('/' + afterGoTo)
+        } else this.props.history.push('/home')
+      }
+      else this.setState({ error: res });
+    });
+  };
+
 
   render() {
+    const afterGoTo = this.props.match.params.afterGoTo;
     return (
       <div className="container">
         <form className="form" onSubmit={this.handleSubmit} >
@@ -76,7 +87,7 @@ class Register extends React.Component {
           <button className="btn btn-primary btn-block">
             Submit
           </button>
-          <Link to="/login" className="btn btn-link">
+          <Link to={"/login/" + afterGoTo} className="btn btn-link">
             Go to login
           </Link>
         </form>

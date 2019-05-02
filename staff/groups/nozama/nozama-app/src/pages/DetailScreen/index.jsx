@@ -14,20 +14,14 @@ import {
 function DetailScreen(props){
   const [product, setProduct] = useState(null)
 
-  logic.detailProduct('DB3105')
+  logic.detailProduct(props.match.params.productId)
     .then(detail => { 
       setProduct(detail)
     });
 
+  if (!product) return <div className="spinner-border text-success " role="status"></div>
 
-
-
-        
-
-  if (!product) return <div class="spinner-border text-success " role="status"></div>
-
-  const handleAddToCart = product => {
-    console.log(product)
+  const handleAddToCart = () => {
     props.dispatch({action: CART_ADD_PRODUCT, product, quantity: 1})
    
   }

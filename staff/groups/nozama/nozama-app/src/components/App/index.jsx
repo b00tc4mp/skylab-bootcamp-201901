@@ -5,13 +5,16 @@ import { withRouter } from 'react-router-dom';
 import Landing from '../../pages/Landing';
 import Login from '../Login';
 import Register from '../Register';
-import Home from '../../pages/Home';
+import DetailScreen from '../../pages/DetailScreen'
+import Cart from '../../pages/Cart'
+import Checkout from '../Purchase-data'
+import SearchPage from '../../pages/SearchPage'
 import logic from '../../logic';
 import {
   CART_ADD_PRODUCT,
   CART_REMOVE_PRODUCT,
   CART_UPDATE_PRODUCT,
-  CART_CHECKOUT,
+  CART_CONFIRMED_PAY,
   CART_RETRIEVE,
   FAVORITES_TOGGLE_PRODUCT,
   GLOBAL_LOGOUT,
@@ -66,13 +69,19 @@ function App(props) {
           logic.saveCart(newCart);
         }
         break;
-      case CART_CHECKOUT:
-        break;
-
       case CART_RETRIEVE:
         logic.retrieveUser()
           .then(user => setCart(...user.cart));
         break;
+
+      case CART_CONFIRMED_PAY:
+        const newCart = [...cart];
+        newCart.payDetails = {...params}
+        logic.saveHistoryCart(newCart);
+        setCart([]);
+        props.history.push('/');
+        break;
+
       case FAVORITES_TOGGLE_PRODUCT:
         {
           const { product } = params;
@@ -105,20 +114,23 @@ function App(props) {
         <Route
           path="/"
           exact
-<<<<<<< HEAD
-          render={() => {
-          
-            return !logic.isLoggedIn ? (
-              <DetailScreen  dispatch={dispatch} />
-=======
-          render={() =>
-            !logic.isLoggedIn ? (
-              <Landing cart={cart} cartQuantity={cartQuantity} dispatch={dispatch} />
->>>>>>> 67eb74b850a4323d315710561af4374506c9aa4e
-            ) : (
-              <Redirect to="/home" />
-            )
-          }
+          render={() => <Landing cart={cart} cartQuantity={cartQuantity} dispatch={dispatch} />}
+        />
+        <Route
+          path="/detailProduct/:productId"
+          render={(props) => <DetailScreen {...props} dispatch={dispatch}/>}
+        />
+        <Route
+          path="/cart"
+          render={(props) => <Cart {...props} cart={cart} cartQuantity={cartQuantity} dispatch={dispatch}/>}
+        />
+        <Route
+          path="/checkout"
+          render={(props) => {
+            if (!logic.isLoggedIn) return <Redirect to="/login/checkout"/>
+            return <Checkout {...props} cart={cart} dispatch={dispatch}/>}
+        }
+
         />
         <Route
           path="/logout"
@@ -128,18 +140,16 @@ function App(props) {
           }}
         />
         <Route
-          path="/register"
-          render={() => (!logic.isLoggedIn ? <Register /> : <Redirect to="/home" />)}
+          path={"/search/:text"}
+          render={() => <SearchPage />}
         />
         <Route
-          path="/login"
-          render={() => (!logic.isLoggedIn ? <Login /> : <Redirect to="/home" />)}
+          path={["/register/:afterGoTo",'/register/', ]}
+          render={() => (!logic.isLoggedIn ? <Register /> : <Redirect to="/" />)}
         />
         <Route
-          path="/home"
-          render={() => {
-            return logic.isLoggedIn ? <Home /> : <Redirect to="/" />;
-          }}
+          path={[ "/login/:afterGoTo", '/login/']}
+          render={() => (!logic.isLoggedIn ? <Login /> : <Redirect to="/" />)}
         />
         <Redirect to="/" />
       </Switch>

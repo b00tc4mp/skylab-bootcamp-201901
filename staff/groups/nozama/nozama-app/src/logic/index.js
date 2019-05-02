@@ -119,14 +119,24 @@ const logic = {
         optional: true,
       },
     ]);
-
-    return userApi.updateAndCheckDeleted(logic.userId, logic.token, dataUser);
+    return logic.retrieveUser()
+      .then(user => userApi.updateAndCheckDeleted(logic.userId, logic.token, {...user, ...dataUser}));
   },
 
   // ***********************
 
   saveCart(newCart) {
+    if (!logic.isLoggedIn) return false;
     return logic.updateUser({cart: newCart});
+  },
+
+  saveHistoryCart(newCart) {
+    logic.retrieveUser()
+      .then(user => {
+        if (!user.historicCarts) user.historicCarts = [];
+        user.historicCarts.push(newCart);
+        return logic.updateUser(user);
+      })
   },
 
   // ********************************

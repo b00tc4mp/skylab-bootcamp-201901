@@ -1,5 +1,4 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input, FormText, Container } from 'reactstrap';
 import { withRouter, Link } from 'react-router-dom';
 import logic from '../../logic';
 
@@ -16,20 +15,26 @@ class Login extends React.Component {
 
   handleSubmit = event => {
     event.preventDefault();
+    const afterGoTo = this.props.match.params.afterGoTo;
     const { email, password } = this.state;
     logic.loginUser(email, password).then(res => {
-      if (res === true) this.props.history.push('/home');
+      if (res === true) {
+        if (afterGoTo) {
+          this.props.history.push('/' + afterGoTo)
+        } else this.props.history.push('/home')
+      }
       else this.setState({ error: res });
     });
   };
 
   render() {
+    const afterGoTo = this.props.match.params.afterGoTo;
     return (
       <div className="container">
         {this.state.error && <h2>{this.state.error}</h2>}
         <form onSubmit={this.handleSubmit}>
           <div className ="form-group">
-            <label for="email">Email</label>
+            <label htmlFor="email">Email</label>
             <input className="form-control"
               type="text"
               name="email"
@@ -40,7 +45,7 @@ class Login extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label for="password" />
+            <label htmlFor="password" />
             <input className="form-control"
               type="password"
               name="password"
@@ -54,7 +59,7 @@ class Login extends React.Component {
             Submit
           </button>
         </form>
-        <Link to="/register" className="btn btn-link">
+        <Link to={"/register/" + afterGoTo} className="btn btn-link">
           Go to register
         </Link>
       </div >

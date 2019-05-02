@@ -1,16 +1,34 @@
-import React, { useState } from 'react';
-import Nav from '../../components/Nav';
-import Search from '../../components/Search';
+import React, { useState, useEffect } from 'react';
 import ProductHorSlim from '../../components/Products/product-hor-slim';
-
 import logic from '../../logic';
-import { Button } from 'reactstrap';
-import { CART_ADD_PRODUCT, CART_REMOVE_PRODUCT, CART_CHECKOUT } from '../../logic/actions';
-import productApi from '../../data/product-api';
 import { FAVORITES_TOGGLE_PRODUCT } from '../../logic/actions'
+import CardFeature from '../../components/card-features'
 
 function Landing(props) {
   const [products, setProducts] = useState([]);
+  const [featureProducts, setFeatureProducts] = useState([]);
+  const [newProducts, setNewProducts] = useState([])
+
+  const allProducts = logic.allProducts()
+  
+  useEffect(() => {
+  allProducts.then(products => {
+    const ps = [];
+    for (let i = 0; i < 4; i++) {
+      ps.push(products[Math.floor(Math.random() * products.length)])
+    }
+    setFeatureProducts(ps);
+  });
+  allProducts
+    .then(products => products.filter(item => item.isNew))
+    .then(products => {
+      const ps = [];
+      for (let i = 0; i < 4; i++) {
+        ps.push(products[Math.floor(Math.random() * products.length)])
+      }
+      setNewProducts(ps);
+    })
+  }, [])
 
   const handleSearch = text => {
     logic.searchProduct(text).then(resProducts => setProducts(resProducts));
@@ -23,9 +41,9 @@ function Landing(props) {
 
   return (
     <div>
-      <Nav />
-      <h1>Landing</h1>
-      <Search onSearch={handleSearch} />
+      <CardFeature products={featureProducts} title="Feature Products" />
+      <CardFeature products={newProducts} title="New Products" />
+
       {products.map(product => (
         <ProductHorSlim key={product.productId} product={product} onDetail={handleDetail} />
       ))}

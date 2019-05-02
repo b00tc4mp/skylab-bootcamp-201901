@@ -1,6 +1,5 @@
 import React from 'react';
-import { Button, Form, FormGroup, Label, Input, Container } from 'reactstrap';
-
+import { CART_CONFIRMED_PAY } from '../../logic/actions'
 class PurchaseData extends React.Component {
 
   state = {
@@ -17,7 +16,7 @@ class PurchaseData extends React.Component {
   handleSubmit = e => {
     e.preventDefault()
     const {cardNumber, cardName, expireDate, cvv} = this.state
-    this.props.onPay({cardNumber, cardName, expireDate, cvv})
+    this.props.dispatch({action: CART_CONFIRMED_PAY,  cardNumber, cardName, expireDate, cvv})
   }
 
   handleCancel = e => {
@@ -30,7 +29,7 @@ class PurchaseData extends React.Component {
       <div className="container">
         <form onSubmit={this.handleSubmit} >
           <div className="form-group">
-            <label for="cardNumber">Card number</label>
+            <label htmlFor="cardNumber">Card number</label>
             <input
               type="text"
               name="cardNumber"
@@ -41,7 +40,7 @@ class PurchaseData extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label for="cardName">Card name</label>
+            <label htmlFor="cardName">Card name</label>
             <input
               type="text"
               name="cardName"
@@ -52,7 +51,7 @@ class PurchaseData extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label for="expireDate">Expire date</label>
+            <label htmlFor="expireDate">Expire date</label>
             <input
               type="text"
               name="expireDate"
@@ -63,7 +62,7 @@ class PurchaseData extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label for="cvv">cvv</label>
+            <label htmlFor="cvv">cvv</label>
             <input
               type="text"
               name="cvv"
@@ -73,10 +72,10 @@ class PurchaseData extends React.Component {
               value={this.state.cvv}
             />
           </div>
-          <button block color="primary" onClick={handleSubmit}>
+          <button className="btn btn-primary btn-block" onClick={this.handleSubmit}>
             Pay
           </button>
-          <button block color="secondary" onClick={handleCancel}>
+          <button className="btn btn-secondary btn-block" onClick={this.handleCancel}>
             Back to cart
           </button>
 

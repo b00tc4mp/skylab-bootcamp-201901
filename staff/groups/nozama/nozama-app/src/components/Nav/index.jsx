@@ -30,7 +30,9 @@ export default class Navigation extends React.Component {
           <div className="navbar-brand mr-auto" href="/">
             <div className="container flex-start">
               <div className="row">
-                <div className="col">nozama</div>
+                <Link to="/">
+                  <div className="col">nozama</div>
+                </Link>
                 <div className="col">
                   <Link className="navbar-nav" to="/cart/">
                     <ShoppingCartIcon
@@ -43,7 +45,7 @@ export default class Navigation extends React.Component {
             </div>
           </div>
           <button
-            class="navbar-toggler"
+            className="navbar-toggler"
             type="button"
             data-toggle="collapse"
             data-target="#navbarNav"
@@ -51,22 +53,22 @@ export default class Navigation extends React.Component {
             aria-expanded="false"
             aria-label="Toggle navigation"
           >
-            <span class="navbar-toggler-icon" />
+            <span className="navbar-toggler-icon" />
           </button>
-          <div class="collapse navbar-collapse" id="navbarNav">
+          <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               {!logic.isLoggedIn && (
-                <li class="nav-item">
+                <li className="nav-item">
                   <Link to="/login">Login</Link>
                 </li>
               )}
               {!logic.isLoggedIn && (
-                <li class="nav-item">
+                <li className="nav-item">
                   <Link to="/register/">Register</Link>
                 </li>
               )}
               {logic.isLoggedIn && (
-                <li class="nav-item">
+                <li className="nav-item">
                   <Link to="/logout/">Logout</Link>
                 </li>
               )}
