@@ -3,8 +3,9 @@ import React from 'react'
 // import { faHeart as faHeartSolid } from '@fortawesome/free-solid-svg-icons'
 // import { faHeart as faHeartRegular } from '@fortawesome/free-regular-svg-icons'
 
-function Results({ items, onItem, onList, list }) {
+function Results({ items, onItem, onList, list, error }) {
     return <ul>
+        <p>{error}</p>
         {
             items.map(({ id, title, image }) => {
                 // const isList = list.some(movie => movie.id === id)
