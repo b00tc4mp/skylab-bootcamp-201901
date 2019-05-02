@@ -1,6 +1,62 @@
-@import ../panel
+@import ../config
 
 .landing
-    @extend %panel
+
+    &__main
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        width: 100%
+        // height: 800px
+        height: 100vh
+
+        &-title
+            margin-bottom: 5px
+            font-size: 40px
+
+            &-colored
+                color: $aux-color
+
+        &-slogan
+            margin-bottom: 20px
+
+        &-button
+            display: inline-block
+            height: 30px
+            width: 100px
+            text-align: center
+            background-color: white
+            border-radius: 15px
+            border: 1px solid $button-color
+            color: $button-color
+            cursor: pointer
+            color: aux-color
+            text-decoration-line: none
+            align-items: center
+
+            &:hover
+                color: white
+                background-color: $aux-color
+
+    &__footer
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+        width: 100%
+        height: 130px
+        display: flex
+        justify-content: center
+        background-color: #ece7df
+        
+        & p
+            cursor: pointer
+            margin: 2px 0
+
+
+
+
     
-    padding: 1rem
+    
+ 

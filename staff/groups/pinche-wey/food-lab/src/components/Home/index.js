@@ -157,11 +157,9 @@ class Home extends Component {
                             <p className="nav__user-name" >Hola</p>
                     </div>
                     <div className="nav__recipes">
-                        <h4 className="nav__recipes-title" >Boiling</h4>
                         <SmallCard toPaint={fullWanted} onItem={handleRetrieve}></SmallCard>
                     </div>
                     <div className="nav__recipes">
-                        <h4 className="nav__recipes-title" >My Creations</h4>
                         <SmallCard toPaint={fullDone} onItem={handleRetrieve}></SmallCard>
                     </div>
                 </nav>
@@ -175,7 +173,7 @@ class Home extends Component {
                             <button className='nav__results-header-button' >My creations</button>
                         </div>
                     </div>
-                    {!recipe && !user && recipes && <Results items={recipes} onItem={handleRetrieve} /*onFav={handleFav} favs={favs}*/ />}
+                    {!recipe && !user && recipes && <Results items={recipes} onItem={handleRetrieve} wanted={wanted} done={done} />}
                     {!user && recipe && <Detail item={recipe} onForks={handleForks} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} forks={forks} />}
                     {user && <User onUpdate={handleUpdateUser} onBack={handleUpdateUser} user={user} />}
                 </div>
