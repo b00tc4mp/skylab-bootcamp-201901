@@ -94,6 +94,7 @@ class Home extends Component {
 
     }
 
+    handleHome = () => this.props.history.push('/home')
 
     render() {
         const {
@@ -102,11 +103,12 @@ class Home extends Component {
             handleSearch,
             handleRetrieve,
             handletoMovie,
-            handleOnChangeGenres
+            handleOnChangeGenres,
+            handleHome
         } = this
         
         return <main>
-            {userGenres && <Nav lang={lang} /*onList={handleList} onProfile={handleProfile} */ onLogout={onLogout} />}
+            {userGenres && <Nav lang={lang} /*onList={handleList} onProfile={handleProfile} */ onLogout={onLogout} onHome={handleHome}/>}
             <Name lang={lang} name={fullname} />
             {userGenres && <Search lang={lang} onSearch={handleSearch} /> }
             {!userGenres && movieGenres && <Genres lang={lang} genres={movieGenres} onUpdate={handleOnChangeGenres}/>}
@@ -114,10 +116,8 @@ class Home extends Component {
                 <Route exact path="/home/movies" render={() => <Results lang={lang} items={movies} onItem={handleRetrieve} error={error} />} />
                 <Route exact path="/home/movies/detail/:id" render={() => <Detail item={movie} toMovie={handletoMovie} />} />
                 <Route path={"/home/movies/detail/:id/trailer"} render={() => <Play movie={trailerMovie} />} />
+                <Route path={'/home'} render={() => userGenres && <MoviesGenres userGenres={userGenres} movieGenres={movieGenres} lang={lang} onItem={handleRetrieve} />} />
             </Switch>
-             
-            {/* esconder cuando busque pelis */}
-            {userGenres && <MoviesGenres userGenres={userGenres} movieGenres={movieGenres} lang={lang} />}
         </main>
     }
 }

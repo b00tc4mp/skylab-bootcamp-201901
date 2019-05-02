@@ -34,13 +34,13 @@ class MoviesGenres extends Component {
 
     render() {
         const {
-            props: { lang },
+            props: { lang, onItem},
             state: { movies, error, nameGenre }
         } = this
 
         return <main>
             <NameGenre nameGenre={nameGenre}/>
-            <Results lang={lang} items={movies} error={error} />
+            <Results lang={lang} items={movies} onItem={onItem} error={error} />
         </main>
     }
 }
