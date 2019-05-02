@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Nav from '../../components/Nav';
 import Search from '../../components/Search';
 import ProductHorSlim from '../../components/Products/product-hor-slim';
 
@@ -26,7 +25,6 @@ function Landing(props) {
 
   return (
     <div>
-      <Nav />
       <h1>Landing</h1>
       <Search onSearch={handleSearch} />
       {products.map(product => (

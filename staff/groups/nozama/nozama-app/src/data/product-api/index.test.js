@@ -1,7 +1,7 @@
 import productApi from '.';
 
 describe('product-api', () => {
-  function generalExpect(product) {
+  function generalExpect(product) {    
     expect(product).toBeDefined();
 
     const {
@@ -245,16 +245,20 @@ describe('product-api', () => {
     let list;
     beforeEach(() => productApi.all().then(_list => (list = _list)));
 
-    it('should retrieve products from search in product name', () => {
-      let words = list.map(item => item.product_name);
+    it('should retrieve products from search in all detail', () => {
+      let words = list.map(item => item.product_name); // TODO:
       words = words.reduce((acc, item) => {
         acc.push(...item.split(' '));
         return acc;
       }, []);
       const word = words[Math.floor(Math.random() * words.length)];
       const listOcurrences = list.filter(item => item.product_name.includes(word));
-      return productApi.search(word).then(items => {
-        expect(items).toEqual(listOcurrences);
+      return productApi.search(word)
+        .then(items => {          
+          items.forEach(item => {
+            expect(item).toBeDefined();
+            generalExpect(item)
+          });
       });
     });
   });

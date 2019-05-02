@@ -1,26 +1,25 @@
 import userApi from '../data/user-api';
 import productApi from '../data/product-api';
 import validate from '../common/validate';
+import normalize from '../common/normalize'
 import { LogicError } from '../common/errors';
 import Product from './product/Product';
 import ProductWithDetail from './product/ProductWithDetail';
 
 const logic = {
-  __userId__: null,
-  __userToken__: null,
 
   get userId() {
-    return logic.__userId__;
+    return normalize.undefinedOrNull(sessionStorage.__userId__);
   },
   set userId(id) {
-    logic.__userId__ = id;
+    sessionStorage.__userId__ = id;
   },
 
   get token() {
-    return logic.__userToken__;
+    return normalize.undefinedOrNull(sessionStorage.__token__);
   },
   set token(_token) {
-    logic.__userToken__ = _token;
+    sessionStorage.__token__ = _token;
   },
 
   get isLoggedIn() {
@@ -94,8 +93,14 @@ const logic = {
     });
   },
 
+  logOut() {
+    logic.userId = null;
+    logic.token = null;
+  },
+
   retrieveUser() {
-    return userApi.retrieve(logic.userId, logic.token).then(res => res.data);
+    return userApi.retrieve(logic.userId, logic.token)
+      .then(res => res.data);
   },
 
   updateUser(dataUser) {
@@ -118,6 +123,12 @@ const logic = {
     return userApi.updateAndCheckDeleted(logic.userId, logic.token, dataUser);
   },
 
+  // ***********************
+
+  saveCart(newCart) {
+    return logic.updateUser({cart: newCart});
+  },
+
   // ********************************
 
   allProducts() {
@@ -125,7 +136,10 @@ const logic = {
   },
 
   findProduct(id) {
-    return productApi.findOne(id).then(info => new Product(info));
+    return productApi.findOne(id).then(info => {
+      console.log(id);
+      new Product(info)
+    });
   },
 
   detailProduct(id) {
@@ -135,7 +149,9 @@ const logic = {
 
   searchProduct(text) {
       return productApi.search(text)
-        .then(products => products.map(info => new Product(info)));
+        .then(products => products
+            .map(info => new Product(info))
+            .filter(product => !!product.__info__));
   },
 
   categories () {
@@ -147,7 +163,7 @@ const logic = {
           return acc;
         }, [])
       })
-  }
+  },
 };
 
 export default logic;

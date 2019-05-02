@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Container } from 'reactstrap';
 import { Switch, Route, Redirect } from 'react-router-dom';
+import Nav from '../../components/Nav';
 import { withRouter } from 'react-router-dom';
 import Landing from '../../pages/Landing';
 import Login from '../Login';
@@ -13,7 +14,9 @@ import {
   CART_REMOVE_PRODUCT,
   CART_UPDATE_PRODUCT,
   CART_CHECKOUT,
+  CART_RETRIEVE,
   FAVORITES_TOGGLE_PRODUCT,
+  GLOBAL_LOGOUT,
 } from '../../logic/actions';
 import DetailScreen from '../../pages/DetailScreen'
 
@@ -41,6 +44,7 @@ function App(props) {
           }
           setCart(newCart);
           setCartQuantity(calculateCartQuantity(newCart));
+          logic.saveCart(newCart);
         }
         break;
       case CART_REMOVE_PRODUCT:
@@ -51,6 +55,7 @@ function App(props) {
           if (index !== -1) newCart.splice(index, 1);
           setCart(newCart);
           setCartQuantity(calculateCartQuantity(newCart));
+          logic.saveCart(newCart);
         }
         break;
       case CART_UPDATE_PRODUCT:
@@ -61,9 +66,15 @@ function App(props) {
           if (index !== -1) newCart[index].quantity = quantity;
           setCart(newCart);
           setCartQuantity(calculateCartQuantity(newCart));
+          logic.saveCart(newCart);
         }
         break;
       case CART_CHECKOUT:
+        break;
+
+      case CART_RETRIEVE:
+        logic.retrieveUser()
+          .then(user => setCart(...user.cart));
         break;
       case FAVORITES_TOGGLE_PRODUCT:
         {
@@ -76,15 +87,23 @@ function App(props) {
         }
         break;
 
+      case GLOBAL_LOGOUT:
+        logic.logOut();
+        setCart([]);
+        break;
+
       default:
         return;
     }
   };
 
+  logic.dispatch = dispatch;
+
   const handleLogin = (email, password) => logic.loginUser(email, password);
 
   return (
-    <Container>
+    <Container>      
+      <Nav cartQuantity={cartQuantity}/>
       <Switch>
         <Route
           path="/"
@@ -101,7 +120,7 @@ function App(props) {
         <Route
           path="/logout"
           render={() => {
-            logic.logOut();
+            dispatch({action: GLOBAL_LOGOUT});
             return <Redirect to="/" />;
           }}
         />
