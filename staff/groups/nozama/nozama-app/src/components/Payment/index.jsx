@@ -80,7 +80,8 @@ class Payment extends React.Component {
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="cardNumber">Card number</label>
-            <input
+            <input 
+              className="form-control"
               type="text"
               name="cardNumber"
               id="cardNumber"
@@ -92,6 +93,7 @@ class Payment extends React.Component {
           <div className="form-group">
             <label htmlFor="cardName">Card name</label>
             <input
+              className="form-control"
               type="text"
               name="cardName"
               id="cardName"
@@ -103,6 +105,7 @@ class Payment extends React.Component {
           <div className="form-group">
             <label htmlFor="expireDate">Expire date</label>
             <input
+              className="form-control"
               type="text"
               name="expireDate"
               id="expireDate"
@@ -114,6 +117,7 @@ class Payment extends React.Component {
           <div className="form-group">
             <label htmlFor="cvv">cvv</label>
             <input
+              className="form-control"
               type="text"
               name="cvv"
               id="cvv"
