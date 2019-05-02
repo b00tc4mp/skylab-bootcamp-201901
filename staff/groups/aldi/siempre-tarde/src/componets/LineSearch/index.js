@@ -8,7 +8,7 @@ import StopLine2 from '../StopLine2';
 import StopLine3 from '../StopLine3';
 
 class LineSearch extends Component {
-    state = { error: null, line_id: null, lines: [], stop: null, directions: [], direction: null }
+    state = { error: null, line_id: null, lines: [], stop: null, directions: [], direction: null , favs:[]}
 
     handleLineSearch = line_id => {
         line_id = Number(line_id)
@@ -33,7 +33,7 @@ class LineSearch extends Component {
 
     handleStopSearch = stop_id => {
         stop_id = Number(stop_id)
-        
+
         return logic.upcomingBusesByStopAndLine(stop_id, this.state.line_id)
             .then((stop) =>
                 this.setState({ error: null, stop }, () => this.props.history.push('/byidline/results'))
@@ -42,13 +42,19 @@ class LineSearch extends Component {
                 this.setState({ error: error.message })
             )
     }
+    handleFav = id =>
+    console.log(id)
+        // logic.toggleFavStop(id)
+        //     .then(() => logic.retrieveFavDucks())
+        //     .then(favs => this.setState({ favs }))
 
     render() {
         const {
             handleLineSearch,
             handleDirectionSearch,
             handleStopSearch,
-            state: { lines, error, stop, directions },
+            handleFav,
+            state: { lines, error, stop, directions, favs },
             props: { lang, items }
         } = this
 
@@ -59,7 +65,7 @@ class LineSearch extends Component {
                 <Route exact path="/byidline" render={() => logic.isUserLoggedIn ? <StopLine lang={lang} items={items} onSearch={handleLineSearch} error={error} /> : <Redirect to="/" />} />
                 <Route path="/byidline/directions" render={() => logic.isUserLoggedIn ? <StopLine2 lang={lang} items={directions} onSearch={handleDirectionSearch} error={error} /> : <Redirect to="/" />} />
                 <Route path="/byidline/stops" render={() => logic.isUserLoggedIn ? <StopLine3 lang={lang} items={lines} onSearch={handleStopSearch} error={error} /> : <Redirect to="/" />} />
-                <Route path="/byidline/results" render={() => logic.isUserLoggedIn ? <ResultsLine lang={lang} stop={stop} error={error} /> : <Redirect to="/" />} />
+                <Route path="/byidline/results" render={() => logic.isUserLoggedIn ? <ResultsLine lang={lang} onFav={handleFav} stop={stop} error={error} /> : <Redirect to="/" />} />
                 <Redirect to="/" />
             </Switch>
         </main>

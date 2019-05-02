@@ -2,11 +2,14 @@ import React from 'react'
 import literals from './literals'
 import { Route, withRouter, Redirect, Switch, Link } from 'react-router-dom'
 
-function Results({ lang, items, stop, error }) {
+function Results({ lang, items, stop, error, onFav, favs }) {
 
     const { title1, back } = literals[lang]
+    const isFav = favs.some(fav => fav.id === stop)
+
     return <section>
     <Link to={`/byidstop`}><button>{back}</button></Link>
+    <button onClick={()=>onFav(stop)}>FAV</button>
         <h2>{title1}-{stop}</h2>
         <ul>
             {
