@@ -7,9 +7,10 @@ import Login from '../Login';
 import Register from '../Register';
 import DetailScreen from '../../pages/DetailScreen'
 import Cart from '../../pages/Cart'
-import Checkout from '../Purchase-data'
+import Checkout from '../Payment'
 import SearchPage from '../../pages/SearchPage'
 import ThanksPage from '../../pages/ThanksPage'
+import UserProfile from '../../pages/UserProfile'
 import logic from '../../logic';
 import {
   CART_ADD_PRODUCT,
@@ -87,7 +88,8 @@ function App(props) {
         logic.retrieveUser()
         .then(user => {
           if (user.historicCarts) historicCarts = [...user.historicCarts];
-          historicCarts.push({cart: newCart, payDetails: {...params}});
+          historicCarts.push({cart: newCart, 
+            payDetails: {...params, date: new Date(), numItems: cartQuantity}});
           return logic.updateUser({cart: [], historicCarts})
         })
         .then(() => {
@@ -175,6 +177,11 @@ function App(props) {
         <Route
           path="/thanks"
           render={() => <ThanksPage/>
+        }
+        />
+        <Route
+          path="/userProfile"
+          render={() => <UserProfile />
         }
         />
         <Redirect to="/" />
