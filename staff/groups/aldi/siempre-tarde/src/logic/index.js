@@ -86,22 +86,68 @@ const logic = {
     },
 
 
-    addFavorites() {
-        //TODO
+    toggleFavStop(stop_id) {
+        
+        validate.arguments([
+            { name: 'stop', value: stop_id, type: 'number' }
+        ])
+
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                const { status, data } = response
+
+                if (status === 'OK') {
+                    const { aldiFavorites = [] } = data 
+
+                    const index = aldiFavorites.indexOf(stop_id)
+
+                    if (index < 0) aldiFavorites.push(stop_id)
+                    else aldiFavorites.splice(index, 1)
+
+                    return userApi.update(this.__userId__, this.__userToken__, { aldiFavorites })
+                        .then(() => { })
+                }
+
+                throw new LogicError(response.error)
+            })
+
     },
 
 
-    retrieveFavorites() {
-        //TODO
-    },
+    retrieveFavStops() {
+        debugger
 
+        let aldiFav = []
+
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                const { status, data } = response
+
+                if (status === 'OK') {
+                    const { aldiFavorites = [] } = data
+
+                    if (aldiFavorites.length) {
+                        const calls = aldiFavorites.map(stop_id => transitApi.retrieveStop(stop_id))
+
+                        Promise.all(calls).then(response => {
+                            response.map(({features: [{ properties: {"CODI_PARADA": stop_id, "NOM_PARADA": stop_name} }] }) => aldiFav.push({stop_id, stop_name} ))
+                            return aldiFav
+                        }) 
+                    } else {
+                        return aldiFavorites
+                    }
+
+                } else throw new LogicError(response.error)
+            })
+    },
+    
 
     retrieveBusLines(line_id) {
 
         validate.arguments([
             { name: 'line_id', value: line_id, type: 'number', notEmpty: true, optional: true }
         ])
-
+debugger
         return transitApi.retrieveBusLine(line_id)
             .then(response => {
                 const { features } = response
