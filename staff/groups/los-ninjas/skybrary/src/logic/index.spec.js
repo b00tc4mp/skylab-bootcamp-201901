@@ -198,8 +198,8 @@ describe('logic', () => {
 
                 logic.logoutUser()
 
-                expect(sessionId).toBeUndefined
-                expect(userToken).toBeUndefined
+                expect(sessionId).toBeUndefined()
+                expect(userToken).toBeUndefined()
             })
         })
     })
