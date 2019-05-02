@@ -85,13 +85,13 @@ const logic = {
             })
     },
 
-    updateUser(data){
+    updateUser(data) {
         validate.arguments([
             { name: 'data', value: data, type: 'object', notEmpty: true }
         ])
         return userApi.update(this.__userId__, this.__userToken__, data)
             .then(response => {
-                if(response.status === 'OK') {
+                if (response.status === 'OK') {
                     return response
                 } else throw new LogicError(response.error)
             })
@@ -108,6 +108,26 @@ const logic = {
         ])
 
         return recipeApi.searchRecipes(query, selector)
+            .then(response => {
+
+                if (selector !== "search.php?s=") {
+                    const { meals } = response
+                    let print = meals.map(({ idMeal }) => recipeApi.retrieveRecipe(idMeal))
+
+                    return Promise.all(print)
+                        .then((response) => {
+                            let results = { meals: [] }
+
+                            results.meals = response.map( _meal => {
+                                const { meals } = _meal
+                                return meals[0] 
+                            })
+                            
+                            return results
+                        })
+
+                } else return response
+            })
     },
 
     retrieveRecipe(id) {
@@ -204,12 +224,12 @@ const logic = {
                     } else if (done.length > 0) {
                         printingsDone = done.map(recipe => recipeApi.retrieveRecipe(recipe))
 
-                    return Promise.all(printingsDone)
-                        .then((will) => {
-                            fullDone = will.map(({ meals }) => meals[0])
-                            return fullDone
-                        })
-                        .then(() => [wanted, done, notes, forks, fullWanted, fullDone])
+                        return Promise.all(printingsDone)
+                            .then((will) => {
+                                fullDone = will.map(({ meals }) => meals[0])
+                                return fullDone
+                            })
+                            .then(() => [wanted, done, notes, forks, fullWanted, fullDone])
 
                     } else return [wanted, done, notes, forks, fullWanted, fullDone]
                 }
@@ -220,8 +240,8 @@ const logic = {
     updatingNotes(index, changes, notes) {
         validate.arguments([
             { name: 'index', value: index, type: 'number' },
-            { name: 'changes', value: changes, type: 'string'},
-            { name: 'notes', value: notes, type: 'object'}
+            { name: 'changes', value: changes, type: 'string' },
+            { name: 'notes', value: notes, type: 'object' }
         ])
 
         notes[index] = changes
@@ -233,9 +253,9 @@ const logic = {
     updatingForks(index, changes, forks) {
         validate.arguments([
             { name: 'index', value: index, type: 'number' },
-            { name: 'changes', value: changes, type: 'number'},
-            { name: 'forks', value: forks, type: 'object'}
- 
+            { name: 'changes', value: changes, type: 'number' },
+            { name: 'forks', value: forks, type: 'object' }
+
         ])
 
         forks[index] = changes

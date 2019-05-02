@@ -27,7 +27,8 @@ class App extends Component {
                     logic.retrieveUser()
                 )
                 .then(user => {
-                    this.setState({ visible: 'home', name: user.name, error: null })
+
+                    this.setState({ visible: 'home', name: user.name, url: user.photoUrl, error: null })
                     this.props.history.push('/home')
                 })
                 .catch(error =>
@@ -42,7 +43,7 @@ class App extends Component {
         logic.isUserLoggedIn &&
             logic.retrieveUser()
                 .then(user =>
-                    this.setState({ name: user.name })
+                    this.setState({ name: user.name, url: user.photoUrl })
                 )
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -66,7 +67,8 @@ class App extends Component {
 
     handleLogout = () => {
         logic.logoutUser()
-        this.setState({ visible: 'landing', name: null })
+      
+        this.setState({ visible: 'landing', name: null, url: null })
         this.props.history.push('/')
     }
 
@@ -81,7 +83,7 @@ class App extends Component {
 
     render() {
         const {
-            state: { visible, error, name, results },
+            state: { visible, error, name, url, results },
             handleRegisterNavigation,
             handleLoginNavigation,
             handleSearch,
@@ -103,7 +105,7 @@ class App extends Component {
 
                 <div className="header__user">
                     <div className="header__user-img">
-                        <img src="http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg" />
+                        <img src={url} />
                     </div>
                     <p className="header__user-name" >{name}</p>
                     {visible !== 'landing' && <button className="header__user-button" onClick={handleLogout}> {visible === 'home' ? 'LogOut' : 'Return'}</button>}
@@ -112,7 +114,6 @@ class App extends Component {
             </header>
 
             <Switch>
-
                 <Route exact path="/" render={ 
                     () => logic.isUserLoggedIn? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />
                 } /> 
@@ -130,17 +131,16 @@ class App extends Component {
                 } />
 
                 <Route exact path="/home" render={
-                    () => logic.isUserLoggedIn? <Home results={results} name={name} onLogout={handleLogout} /> : <Redirect to="/" />
+                    () => logic.isUserLoggedIn? <Home results={results} name={name}  onSearch={handleSearch} onLogout={handleLogout} /> : <Redirect to="/" />
                 } />
-
+                     
             </Switch>            
-        
+
         <footer className='footer'>
 
         </footer>
 
         </>
-
     }
 }
 

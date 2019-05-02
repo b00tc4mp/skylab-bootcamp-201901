@@ -19,7 +19,7 @@ class Home extends Component {
     handleRetrieve = id => {
         logic.retrieveRecipe(id)
             .then((recipe) => {
-                this.setState({ recipe: recipe })
+                this.setState({ recipe: recipe, error: null })
             })
             .catch(error =>
                 this.setState({ error: error.message })
@@ -71,7 +71,7 @@ class Home extends Component {
                     return meals[0]
                 })
 
-                this.setState({ recipe: null, recipes: random })
+                this.setState({ error: null, recipe: null, recipes: random })
             })
             .catch((error) => this.setState({ error: error.message }))
 
@@ -103,7 +103,7 @@ class Home extends Component {
         } else {
             logic.updateUser(xxx)
                 .then(response => {
-                    if (response.status === 'OK') this.setState({ user: null })
+                    if (response.status === 'OK') this.setState({ error: null, user: null })
                     else throw Error(response.error)
                 })
                 .catch((error) => this.setState({ error: error.message }))
@@ -112,9 +112,9 @@ class Home extends Component {
 
     componentWillReceiveProps(props) {
         const { results } = props
-        if (results !== null) {
-            this.setState({ recipes: results, recipe: null });
-        }
+        if (results !== null && results.meals !== null) {
+            this.setState({ recipes: results, recipe: null, error: null, });
+        } else if (results !== null && results.meals === null) this.setState({ recipes: null, error: "No results for your Search" })
     }
 
     componentDidMount() {
@@ -126,15 +126,19 @@ class Home extends Component {
         logic.updatingForks(index, changes, forks)
             .then(() => logic.retrieveBook())
             .then(([wanted, done, notes, forks, fullWanted, fullDone]) => {
-                
+
                 this.setState({ wanted, done, notes, forks, fullWanted, fullDone })
             })
             .catch((error) => this.setState({ error: error.message }))
     }
 
+    handleFav = (x) => {
+        let toSend = { meals: x === true ? this.state.fullDone : this.state.fullWanted }
+        this.setState({ recipes: toSend, recipe: null })
+    }
+
     render() {
         const {
-            handleRandom,
             handleGoBack,
             handleForks,
             handleUpdateUser,
@@ -142,7 +146,9 @@ class Home extends Component {
             handleWaitingList,
             handleUser,
             handleRetrieve,
+            handleFav,
             state: { error, recipe, recipes, wanted, done, notes, forks, user, fullWanted, fullDone },
+            props: { onSearch }
         } = this
 
         return <main className="home">
@@ -150,19 +156,19 @@ class Home extends Component {
             <div>
                 <nav className="nav">
                     <div className="nav__user">
-                    <div className="nav__user-img">
+                        <div className="nav__user-img">
 
                             <img onClick={() => handleUser()} src="http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg" />
-                    </div>
-                            <p className="nav__user-name" >Hola</p>
-                    </div>
-                    <div className="nav__recipes">
-                        <h4 className="nav__recipes-title" >Boiling</h4>
-                        <SmallCard toPaint={fullWanted} onItem={handleRetrieve}></SmallCard>
+                        </div>
+                        <p className="nav__user-name" >Hola</p>
                     </div>
                     <div className="nav__recipes">
-                        <h4 className="nav__recipes-title" >My Creations</h4>
-                        <SmallCard toPaint={fullDone} onItem={handleRetrieve}></SmallCard>
+                        <h4 onClick={() => handleFav(false)} className="nav__recipes-title" >Boiling</h4>
+                        <SmallCard toPaint={fullWanted} wanted={wanted} done={done} onItem={handleRetrieve}></SmallCard>
+                    </div>
+                    <div className="nav__recipes">
+                        <h4 onClick={() => handleFav(true)} className="nav__recipes-title" >My Creations</h4>
+                        <SmallCard toPaint={fullDone} wanted={wanted} done={done} forks={forks} onItem={handleRetrieve}></SmallCard>
                     </div>
                 </nav>
             </div>
@@ -171,11 +177,11 @@ class Home extends Component {
                     <div className="nav__results-header">
                         <h4 className="nav__results-header-title" >Searching into {} by {}</h4>
                         <div>
-                            <button className='nav__results-header-button' >Boiling</button>
-                            <button className='nav__results-header-button' >My creations</button>
+                            <button onClick={() => handleFav(false)} className='nav__results-header-button' >Boiling</button>
+                            <button onClick={() => handleFav(true)} className='nav__results-header-button' >My creations</button>
                         </div>
                     </div>
-                    {!recipe && !user && recipes && <Results items={recipes} onItem={handleRetrieve} /*onFav={handleFav} favs={favs}*/ />}
+                    {!recipe && !user && recipes && <Results items={recipes} onItem={handleRetrieve} onSearch={onSearch} error={error} wanted={wanted} done={done}/*onFav={handleFav} favs={favs}*/ />}
                     {!user && recipe && <Detail item={recipe} onForks={handleForks} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} forks={forks} />}
                     {user && <User onUpdate={handleUpdateUser} onBack={handleUpdateUser} user={user} />}
                 </div>
