@@ -9,13 +9,20 @@ const movieApi = {
     /**
      * This function will allow the user to search movies
      * 
-     * @param {*} query the name of the movie that the user is searching
+     * @param {*} data object with the query(required) and other optional data
      */
-    searchMovies(query) {
+    searchMovies(data) {
         validate.arguments([
-            { name: 'query', value: query, type: 'string' }
+            { name: 'data', value: data, type: 'object' }
         ])
-        const search = ''.concat(this.__url__, '/search/movie?api_key=', this.__APIKEY1__, '&query=', query)
+        let query = ''
+        for(let prop in data) {
+            query += `&${prop}=${data[prop]}`
+        }
+
+        const search = ''.concat(this.__url__, '/search/movie?api_key=', this.__APIKEY1__, query)
+        
+
         return call(search)
             .then(response => response.json())
     },
@@ -30,15 +37,40 @@ const movieApi = {
             { name: 'id', value: id, type: 'number' }
         ])
 
-        const search = ''.concat(this.__url__, '/movie/', id, '?api_key=', this.__APIKEY1__)
-        return call(search)
+        const url = ''.concat(this.__url__, '/movie/', id, '?api_key=', this.__APIKEY1__)
+        return call(url)
             .then(response => response.json())
     },
 
-    mostPopularmovies() {
-        //todo
-    }
+    /**
+     * This function will allow us to retrieve the genres of the movies
+     */
+    retrieveMovieGenres() {
+        const url = ''.concat(this.__url__, '/genre/movie/list?api_key=', this.__APIKEY1__)
+        return call(url)
+            .then(response => response.json())
+    },
 
+    /**
+     * This function will allow us to retrieve movies by different type of data like genre movies, etc..
+     * 
+     * @param {*} data the object with the different data
+     */
+    discoverMovies(data) {
+        validate.arguments([
+            { name: 'data', value: data, type: 'object' }
+        ])
+        let query = ''
+        for(let prop in data) {
+            query += `&${prop}=${data[prop]}`
+        }
+
+        const search = ''.concat(this.__url__, '/discover/movie?api_key=', this.__APIKEY1__, query)
+        
+
+        return call(search)
+            .then(response => response.json())
+    }
 }
 
 export default movieApi

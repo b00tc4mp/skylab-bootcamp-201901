@@ -282,5 +282,17 @@ describe('logic', () => {
                     })
             })
         })
+
+        describe('retrive movie genres', () => {
+            it('should succed',  () => {
+                logic.retrieveMovieGenres()
+                    .then(response => {
+                        expect(response).toBeDefined()
+                        expect(response instanceof Object).toBeTruthy()
+                        expect(response.genres instanceof Array).toBeTruthy()
+                        expect(response.genres.length).toBe(19)
+                    })
+            })
+        })
     })
 })
