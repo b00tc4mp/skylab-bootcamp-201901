@@ -4,6 +4,7 @@ import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import './index.sass'
 
 class Detail extends Component {
 
@@ -37,40 +38,39 @@ class Detail extends Component {
 
         const isList = favs.some(movie => movie.id == id)
 
-        return <>
+        return (
+            <section className="card">
+                <div className="row no-gutters">
+                    <div className="col-md-4">
+                        <img className="card-img" src={image} />
+                    </div>
+                    <div className="col-md-8">
+                    <div className="card-body">
+                        <h3 className="card-title">{title}</h3>
+                        <p className="card-text"><span>Vote:</span> {vote} <span className="genres">{ genres && genres.map(genre => {
+                                return genre.name
+                            }).join(' | ')
+                        }</span></p>
+                        <p className="card-text">{description}</p>
 
+                        <div className="btn-list bg-primary">
+                        <FontAwesomeIcon icon={isList ? faThumbsUp : faPlus} onClick={e => {
+                            e.stopPropagation()
+                            onFav(Number(id))
+                        }} />
+                        </div>
+               
+                        <p className="card-text"><span>Release date:</span> {date}</p>
 
-            <section>
-                <h2>{title}</h2>
-                <span>{vote}</span>
-                <img src={image} />
-                <p>{description}</p>
-
-                <div>
-
-                    <FontAwesomeIcon icon={isList ? faThumbsUp : faPlus} onClick={e => {
-                        e.stopPropagation()
-
-                        onFav(Number(id))
-                    }} />
-
+                        <a className="btn btn-success" href="" onClick={(event) => {
+                            event.preventDefault()
+                            toMovie(Number(id))
+                        }}>View Film</a>
+                    </div>
+                    </div>
                 </div>
-
-                <p><span>{date}</span></p>
-                {
-                    genres && genres.map(genre => genre.name)
-                }
             </section>
-
-
-            <a href="" onClick={(event) => {
-                event.preventDefault()
-                toMovie(Number(id))
-            }}>
-
-                <label>Click</label>
-            </a>
-        </>
+        )
     }
 
 

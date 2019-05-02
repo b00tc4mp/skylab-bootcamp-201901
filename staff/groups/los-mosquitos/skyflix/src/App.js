@@ -7,13 +7,11 @@ import Login from './components/Login'
 import ChoosePlan from './components/ChoosePlan'
 import Register from './components/Register'
 import Home from './components/Home'
-import logo from './logo.svg'
-import './App.css'
 import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
 import { library } from '@fortawesome/fontawesome-svg-core'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faPlus } from '@fortawesome/free-solid-svg-icons'
 import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
+import './App.sass'
 
 library.add(faPlus,faThumbsUp)
 
@@ -68,6 +66,8 @@ class App extends Component {
 
     handleLoginNav = () => this.props.history.push('/login')
 
+    handleLandingNav = () => this.props.history.push('/')
+
     handleLogout = () => {
         logic.logoutUser()
         this.props.history.push('/')
@@ -78,6 +78,7 @@ class App extends Component {
             state: { lang, error, name, plan },
             handleLoginNav,
             handleRegisterNav,
+            handleLandingNav,
             handleLogin,
             handleRegister,
             handleLanguageChange,
@@ -85,11 +86,10 @@ class App extends Component {
             handleLogout
         } = this
 
-        return <>
-            <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} />
-
+        return <> 
+            <section className="container app-container">
             <Switch>
-                <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to='/home' /> : <Landing lang={lang} onLogin={handleLoginNav} onRegister={handleRegisterNav} />} />
+                <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to='/home' /> : <Landing lang={lang} onLogin={handleLoginNav} onRegister={handleRegisterNav} onLanding={handleLandingNav}/>} />
 
                 <Route path="/signup/form" render={() => logic.isUserLoggedIn ? <Redirect to='/home' /> :
                     plan ? <Register lang={lang} onRegister={handleRegister} plan={plan} error={error} /> : <Redirect to='/signup' />} />
@@ -102,6 +102,9 @@ class App extends Component {
 
                 <Redirect to='/' />
             </Switch>
+
+            <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} /> 
+            </section>
         </>
     }
 }

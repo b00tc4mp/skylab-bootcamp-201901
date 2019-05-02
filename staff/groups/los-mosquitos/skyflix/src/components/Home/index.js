@@ -1,19 +1,17 @@
 import React, { Component } from 'react'
-import literals from './literals'
 import logic from '../../logic'
 import Genres from '../SelectGenres'
 import Nav from '../Nav'
 import Name from '../Name'
 import Search from '../Search'
 import Results from '../Results'
-//import Pagination from '../Pagination'
 import MoviesGenres from '../MoviesGenres'
 import Detail from '../Detail'
 import Play from '../Play'
+import './index.sass'
 import List from '../List'
 
 import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
-
 
 class Home extends Component {
     state = { movies: [], error: null, trailerMovie: null, userNameGenre: null, favs: [], movieList: [] }

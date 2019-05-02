@@ -5,30 +5,31 @@ import { faThumbsUp } from '@fortawesome/free-solid-svg-icons'
 import './index.sass'
 
 function Results({ items, onItem, error, onFav, favs }) {
-    return <ul className="container">
+    return ( 
+        <section className="container">
+        <ul className="row">
         <p>{error}</p>
         {
             items.map(({ id, title, image }) => {
                 const isList = favs.some(movie => movie.id === id)
 
-                return <li className="results" key={id} onClick={() => onItem(id)}>
-
-                    <div>
+                return <li className="movie-cover col-sm-6 col-md-4 col-lg-3" key={id} onClick={() => onItem(id)}>
+                    <div className="movie-btn-list">
                         <FontAwesomeIcon icon={isList ? faThumbsUp : faPlus} onClick={e => {
                             e.stopPropagation()
 
                             onFav(id)
                         }} />
                     </div>
+                    <img src={image} />
+                    <h2>{title}</h2>
 
-                    <div>
-                        <h2 className="text-white">{title}</h2>
-                        <img src={image} />
-                    </div>
                 </li>
             })
         }
     </ul>
+    </section>
+    )
 }
 
 export default Results

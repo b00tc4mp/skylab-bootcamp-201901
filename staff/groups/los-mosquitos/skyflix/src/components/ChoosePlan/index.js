@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import literals from './literals'
 
 function ChoosePlan({ lang, onSelectedPlan }) {
@@ -19,8 +19,11 @@ function ChoosePlan({ lang, onSelectedPlan }) {
         onSelectedPlan(plan)
     }
 
-    return <div className="plan">
-        <h2 className="text-white">{planTitle}</h2>
+    return (
+        <Fragment>
+        <div className="bg-container" />
+        <div className="plan">
+        <h2>{planTitle}</h2>
 
         <form onSubmit={handlesubmit}>
 
@@ -96,7 +99,9 @@ function ChoosePlan({ lang, onSelectedPlan }) {
 
             <button className="btn btn-light">{button}</button>
         </form>
-    </div >
+    </div>
+    </Fragment>
+    )
 }
 
 export default ChoosePlan

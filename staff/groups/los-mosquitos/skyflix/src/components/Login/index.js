@@ -14,8 +14,9 @@ function Login({ lang, onLogin, error }) {
     }
 
     return <>
-        <section className="login">
-            <h2 className="text-white">{title}</h2>
+        <div className="bg-container" />
+        <section>
+            <h2>{title}</h2>
             <form onSubmit={handleSubmit}>
                 <div class="form-group">
                     <input type='text' className="form-control" id="formGroupExampleInput" name='username' placeholder={email} />
