@@ -120,7 +120,6 @@ class Home extends Component {
 
 
     retrieve = id => {
-        console.log(id)
         logic.retrieveRecipe(id)
             .then((recipe) => {
                 this.setState({ recipe: recipe, error: null })
