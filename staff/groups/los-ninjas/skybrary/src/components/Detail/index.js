@@ -1,7 +1,7 @@
 import React, { Fragment } from 'react'
 import './index.scss'
 
-function Detail({ item }) {
+function Detail({ item, onFav, isbn, isFav }) {
     if (!item) {
         return "Este detalle no es correcto"
     }
@@ -10,6 +10,7 @@ function Detail({ item }) {
 
     return <section className='container'>
         <article className='columns card-detail'>
+            {<i onClick={e => { e.stopPropagation(); onFav(isbn[0]) }} className={isFav ? 'fas fa-heart' : 'far fa-heart'} />}
 
             <div className='column is-4 card-detail__image'>
                 {<img src={(item.cover && item.cover > 0) ? `https://covers.openlibrary.org/b/id/${item.cover}-L.jpg` : 'https://www.motorolasolutions.com/content/dam/msi/images/business/products/accessories/p_-_r/raf4220a/_images/static_files/b2b_product_raf4220a_lg_us-en.jpg'} />}
@@ -24,7 +25,10 @@ function Detail({ item }) {
                     </Fragment>
                 }
 
-                <p className="info__BoldTitle">Author: </p>{item.author_name.join(', ')}
+                <p className="info__BoldTitle">
+                    Author:
+                    <span>{item.author_name.join(', ')}</span>
+                </p>
                 {item.numberOfPages &&
                     <p className="info__BoldTitle">
                         Num of pages:
