@@ -53,8 +53,7 @@ const iBusApi = {
                 
             const {data:{ibus}} = response
             if (ibus === undefined){ 
-                throw new NoDataError('no data recived')
-//            } else { return ibus }                
+                throw new NoDataError('no data recived')             
             } else { return response }
         })
     }

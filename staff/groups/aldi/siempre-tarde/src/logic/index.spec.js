@@ -367,8 +367,8 @@ describe('logic', () => {
     
             return logic.upcomingBusesByStop(stop_id)
                 .then(response => {
+
                     expect(response.length).toBeGreaterThan(0)
-    
                     response.forEach( resp => {
                         const {
                             line, 
@@ -384,7 +384,7 @@ describe('logic', () => {
                         expect(typeof color_line === 'string').toBeTruthy()
                     })
                 })
-        }, 10000)
+        }, 100000000)
 
     })
 
@@ -396,10 +396,10 @@ describe('logic', () => {
     
             const stop_id = 1278
             const line_id = 136
-            debugger
+        
             return logic.upcomingBusesByStopAndLine(stop_id, line_id)
                 .then(response => {
-                    debugger
+                    
                     expect(response.length).toBe(1)
                     const {
                         t_in_min, 
@@ -413,7 +413,7 @@ describe('logic', () => {
                     expect(typeof color_line === 'string').toBeTruthy()
     
                 })
-        }, 1000000)
+        }, 100000000)
     })
 
 

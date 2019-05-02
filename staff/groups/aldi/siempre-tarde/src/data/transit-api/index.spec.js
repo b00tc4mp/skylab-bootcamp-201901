@@ -151,6 +151,46 @@ describe('transit api', () => {
         )
 
 
+    }),
+
+
+    describe('retrieveStop', () => {
+
+        it('should succeed on correct bus stop', () => {
+            
+            return transitApi.retrieveStop(stop_id)
+                .then(response => {
+
+                    expect(response).toBeDefined()
+
+                    const { totalFeatures, features: [{ properties: { "CODI_PARADA": _stop_id } }] } = response
+
+                    response.features[0].properties
+
+                    expect(totalFeatures).toBe(1)
+
+                    expect(_stop_id).toBe(stop_id)
+                
+                })
+        })
+
+        it('should fail on incorrect bus stop', () => {
+            return transitApi.retrieveStop(988877)
+                .then(() => { throw Error('should not reach this point') })
+                .catch(error => {
+                    expect(error).toBeDefined()
+                    expect(error instanceof NotFoundError).toBeTruthy()
+                    expect(error.message).toBe('cannot found')
+                })
+        })
+
+        it('should fail on undefined bus stop', () =>
+            expect(() => transitApi.retrieveStop(undefined)).toThrowError(RequirementError,'stop is not optional')
+        )
+
+
     })
+
+
 
 })
