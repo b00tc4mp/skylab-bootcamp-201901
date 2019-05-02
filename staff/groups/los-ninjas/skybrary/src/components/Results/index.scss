@@ -1,6 +1,23 @@
 .library {
     background-color: transparent;
+
     &__book {
+        i {
+            position: absolute;
+            top: 0;
+            right: 20px;
+            width: 30px;
+            height: 40px;
+            background: rgba(241, 238, 236, .85);
+            font-size: 22px;
+            line-height: 40px;
+            color: red;
+            text-align: center;
+            border-bottom-left-radius: 6px;
+            border-bottom-right-radius: 6px;
+            box-shadow: 2px 3px 2px rgba(0, 0, 0, .55);
+        }
+
         .book__isbn {
             display: block;
         }
