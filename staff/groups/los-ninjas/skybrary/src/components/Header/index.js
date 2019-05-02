@@ -14,7 +14,7 @@ function Header(props) {
         </div>
         {userLogged &&
             <button className="button is-small is-pulled-left" onClick={() => {onLogout()}}>
-                <i class="fas fa-power-off" />
+                <i className="fas fa-power-off" />
                 <span>
                     Log Out
                 </span>
