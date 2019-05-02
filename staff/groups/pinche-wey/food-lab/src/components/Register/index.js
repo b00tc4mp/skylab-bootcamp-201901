@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import './index.sass'
 
 
 function Register ({onRegister, error}) {
@@ -23,8 +24,8 @@ function Register ({onRegister, error}) {
   
     return (
       <section className="register">
-        <h2>Register</h2>
-        <form onSubmit={ handleSubmit }>
+        <h2 className='register__title'>Register</h2>
+        <form className='register__form' onSubmit={ handleSubmit }>
           <input type="text" name="name" placeholder="name" required />
           <input type="text" name="surname" placeholder="surname" required />
           <input type="text" name="email" placeholder="email" required />
@@ -34,9 +35,9 @@ function Register ({onRegister, error}) {
           <label>Confirm age: <input type="checkbox" name="confirmAge" required /></label>
           <label>Confirm conditions: <input type="checkbox" name="confirmConditions" required /></label>
 
-          <button>Register</button>
+          <button className='register__form-button'>Register</button>
 
-          <span>{error}</span>
+          {error && <span className='register__form-error'>{error}</span>}
         </form>
       </section>
     );

@@ -5,6 +5,7 @@ import { faStar } from '@fortawesome/free-solid-svg-icons'
 
 import './index.sass'
 
+
 function Results({ items: { meals = [] }, onItem, wanted, done, error, onSearch }) {
 
     function onClickArea(area){
@@ -18,6 +19,9 @@ function Results({ items: { meals = [] }, onItem, wanted, done, error, onSearch 
     }
 
     return <div>
+         <div>
+            <h2 className='results__cont-title'>Searing results</h2>
+         </div>
         <p>{error}</p>
         {!error && meals !== undefined && meals.length > 0 && <div className="results">
             {
