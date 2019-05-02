@@ -1,25 +1,17 @@
-import React from 'react'
-
-import {Row, Container, Col, Button, Badge} from 'reactstrap'
+import React from 'react';
 
 function ButtonAddToCart(props) {
-
-
   return (
-    <Container>
-    <Row>
-
-<Col xs="3">
-
-    <Button onClick={props.onClick} color="secondary">
-      <img width="0.8rem" src="https://image.flaticon.com/icons/svg/44/44092.svg"/>
-    </Button>
-    
-</Col>
-</Row>
-      </Container>
-
-  )
+    <div className="container">
+      <div className="row">
+        <div className="col-xs-3">
+          <button type="btn btn-primary" onClick={props.onClick} color="secondary">
+            <img width="0.8rem" src="https://image.flaticon.com/icons/svg/44/44092.svg" />
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
-export default ButtonAddToCart
+export default ButtonAddToCart;

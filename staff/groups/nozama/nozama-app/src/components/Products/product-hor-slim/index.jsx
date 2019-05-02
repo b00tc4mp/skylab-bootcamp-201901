@@ -2,7 +2,6 @@ import React from 'react'
 import Title from '../Detail/Title'
 import Subtitle from '../Detail/Subtitle'
 import Image from '../Detail/Image'
-import {Row, Container, Col} from 'reactstrap'
 import Price from '../Detail/Price';
 import Currency from '../Detail/Currency'
 import ButtonAddToCart from '../../Buttons/AddToCart'
@@ -22,25 +21,22 @@ function ProductHorizontalSlim(props) {
   const { imageSmall, productName, subtitle, originalPrice, displayCurrency } = product;
   return (
     <div style={{marginTop:"0.2rem", }}>
-      <Container fluid>
-        <Row >
-          <Col xs="4" sm="4" >
+      <div className="container-fluid">
+        <div className="row">
+          <div className="col-xs-5 col-sm-4" >
             <Image image={imageSmall} onClick={handleClickImage}/>
-          </Col>
-          <Col xs="5" sm="5">
+          </div>
+          <div className="col-xs-7 col-sm-4">
             <Title title={productName}/>
             <Subtitle subtitle={subtitle}/>
               <div style={{display:"flex" }}>
                   <Price price={originalPrice}/>
                   <Currency currency={displayCurrency}/>
               </div>
+          </div>
+        </div>
+      </div>
 
-          </Col>
-          <Col xs="3" sm="3">
-            {onAddToCart ? <ButtonAddToCart onClick={handleClickButton}/> : null}
-          </Col>
-        </Row>
-      </Container>
     </div>
   )
 }

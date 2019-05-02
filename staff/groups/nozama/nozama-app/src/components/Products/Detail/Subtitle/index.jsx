@@ -1,11 +1,7 @@
-import React from 'react'
+import React from 'react';
 
-const Subtitle = (props) => {
+const Subtitle = props => {
+  return <p>{props.subtitle}</p>;
+};
 
-  return(
-    <p>{props.subtitle}</p>
-  )
-
-}
-
-export default Subtitle
+export default Subtitle;

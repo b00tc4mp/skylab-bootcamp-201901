@@ -15,17 +15,10 @@ function FavoriteList (props){
                 <div>
                     <ProductHorSlim key={product.productId} product={product} onDetail={onDetail} />
                     <div onClick={(e) => handleToggle(product)}>
-                    <Badge 
-                        style={{
-                        position: "absolute",
-                        right: "10",
-                        top: "-10",
-                        zIndex: "1"
-                        }} 
-                        color="primary"  >Fav</Badge>
+                        <span className="badge badge-primary"
+                         style="position:absolute; right:10; top:-10; zIndex:1">Fav</span>
                     </div>
                 </div>
-            
             ))}
         </div>
         )
