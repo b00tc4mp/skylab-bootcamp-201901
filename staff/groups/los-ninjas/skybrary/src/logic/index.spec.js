@@ -193,10 +193,11 @@ describe('logic', () => {
             )
 
             it('should clear the session storage info to force user to logout', () => {
-                const sessionId = sessionStorage.userId
-                const userToken = sessionStorage.userToken
 
                 logic.logoutUser()
+            
+                const sessionId = sessionStorage.userId
+                const userToken = sessionStorage.userToken
 
                 expect(sessionId).toBeUndefined()
                 expect(userToken).toBeUndefined()
