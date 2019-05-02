@@ -214,6 +214,16 @@ describe('logic', () => {
                         expect(error.message).toBe(`token id \"${id}\" does not match user \"${logic.__userId__}\"`)
                     })
             })
+            it('should fail on incorrect user token', () => {
+                logic.__userToken__ = '5cb9998f2e59ee0009eac02c'
+
+                return logic.retrieveUser()
+                    .then(() => { throw Error('should not reach this point') })
+                    .catch(error => {
+                        expect(error).toBeDefined()
+                        expect(error instanceof LogicError).toBeTruthy()
+                    })
+            })
         })
 
         describe('logout user', () => {
@@ -265,8 +275,28 @@ describe('logic', () => {
                 })
         })
 
+        it('should fail on undefined query', () => {
+            const undefinedQuery = undefined
+            expect(() => logic.searchBooks(undefinedQuery)).toThrowError(RequirementError, 'query is not optional')
+        
+        })
+        it('should fail on undefined query', () => {
+            const nullQuery = null
+            expect(() => logic.searchBooks(nullQuery)).toThrowError(RequirementError, 'query is not optional')
+        
+        })
+
         it('should fail if not find results', () => {
             const query = '2362836283'
+            logic.searchBooks(query)
+                .then(response =>{
+                    expect(response).toBeDefined()
+                    const {docs} = response
+                    expect(docs.length).toBe(0)
+                })
+        })
+        it('should fail if not find results', () => {
+            const query = '22638962392'
             logic.searchBooks(query)
                 .then(response =>{
                     expect(response).toBeDefined()
