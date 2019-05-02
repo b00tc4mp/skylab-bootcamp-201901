@@ -16,17 +16,17 @@ describe('logic', () => {
             logic.__userToken__ = null
         })
 
-        fdescribe('register user', () => {
+        describe('register user', () => {
             it('should succeed on correct user data', () =>
-                logic.registerUser(email, password, alias)
+                logic.registerUser(alias, email, password)
                     .then(response => expect(response).toBeUndefined())
             )
 
             describe('on already existing user', () => {
-                beforeEach(() => logic.registerUser(email, password, alias))
+                beforeEach(() => logic.registerUser(alias, email, password))
 
                 it('should fail on retrying to register', () =>
-                    logic.registerUser(email, password, alias)
+                    logic.registerUser(alias, email, password)
                         .then(() => { throw Error('should not reach this point') })
                         .catch(error => {
                             expect(error).toBeDefined()
@@ -40,31 +40,31 @@ describe('logic', () => {
             it('should fail on undefined name', () => {
                 const alias = undefined
 
-                expect(() => logic.registerUser(alias,  email, password)).toThrowError(RequirementError, `name is not optional`)
+                expect(() => logic.registerUser(alias, email, password)).toThrowError(RequirementError, `name is not optional`)
             })
 
             it('should fail on null name', () => {
                 const alias = null
 
-                expect(() => logic.registerUser(alias,  email, password)).toThrowError(RequirementError, `name is not optional`)
+                expect(() => logic.registerUser(alias, email, password)).toThrowError(RequirementError, `name is not optional`)
             })
 
             it('should fail on empty name', () => {
                 const alias = ''
 
-                expect(() => logic.registerUser(alias,  email, password)).toThrowError(ValueError, 'name is empty')
+                expect(() => logic.registerUser(alias, email, password)).toThrowError(ValueError, 'name is empty')
             })
 
             it('should fail on blank name', () => {
                 const alias = ' \t    \n'
 
-                expect(() => logic.registerUser(alias,  email, password)).toThrowError(ValueError, 'name is empty')
+                expect(() => logic.registerUser(alias, email, password)).toThrowError(ValueError, 'name is empty')
             })
 
             it('should fail on undefined email', () => {
                 const email = undefined
 
-                expect(() => logic.registerUser(alias,  email, password)).toThrowError(RequirementError, `email is not optional`)
+                expect(() => logic.registerUser(alias, email, password)).toThrowError(RequirementError, `email is not optional`)
             })
 
             it('should fail on null email', () => {
@@ -96,7 +96,7 @@ describe('logic', () => {
             let id
 
             beforeEach(() =>
-                userApi.create(email, password )
+                userApi.create(email, password, { alias } )
                     .then(response => id = response.data.id)
             )
 
