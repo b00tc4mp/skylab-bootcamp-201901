@@ -1,7 +1,8 @@
 import React from 'react'
 import literals from './literals'
 import { Link } from "react-router-dom"
-import logic from '../../logic';
+import logic from '../../logic'
+import './index.sass'
 
 function StopLine({ lang, onSearch, items, error, line_id }) {
     const { title1, select, back } = literals[lang]
@@ -19,8 +20,9 @@ function StopLine({ lang, onSearch, items, error, line_id }) {
     }
     items.sort(dynamicSort('line_id'))
     
-    return <section>
-        <Link to={`/`}><button>{back}</button></Link>
+    return <section className='main-stopline'>
+        <div className='stopcode-container'>
+        <Link to={`/`}><button className="button is-rounded is-primary is-outlined">{back}</button></Link>
         <div>
             <h1>{title1}</h1>
             <select onChange={event => onSearch(event.target.value)} value={line_id}>
@@ -32,7 +34,8 @@ function StopLine({ lang, onSearch, items, error, line_id }) {
                     })
                 }
             </select>
-            <h2>{error}</h2>
+            <span className="help is-danger">{error}</span>
+        </div>
         </div>
     </section>
 

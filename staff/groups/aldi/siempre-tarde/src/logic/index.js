@@ -119,7 +119,7 @@ const logic = {
         let aldiFav = []
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
-                debugger
+             
                 const { status, data } = response
 
                 if (status === 'OK') {
@@ -127,7 +127,7 @@ const logic = {
 
                     if (aldiFavorites.length) {
                         const calls = aldiFavorites.map(stop_id => transitApi.retrieveStop(stop_id))
-debugger
+
                         return Promise.all(calls).then(response => {
                             return response.map(({ features: [{ properties: { "CODI_PARADA": stop_id, "NOM_PARADA": stop_name } }] }) => ({ stop_id, stop_name }))
                         })
@@ -145,7 +145,7 @@ debugger
         validate.arguments([
             { name: 'line_id', value: line_id, type: 'number', notEmpty: true, optional: true }
         ])
-        debugger
+        
         return transitApi.retrieveBusLine(line_id)
             .then(response => {
                 const { features } = response

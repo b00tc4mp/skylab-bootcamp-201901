@@ -1,12 +1,14 @@
 import React from 'react'
 import literals from './literals'
 import { Link } from "react-router-dom"
-import logic from '../../logic';
+import logic from '../../logic'
+import './index.sass'
 
 function StopLine2({ lang, onSearch, items, error, direction_id }) {
     const { title1, select, back } = literals[lang]
 
-    return <section>
+    return <section className='main-stopline'>
+        <div className='stopcode-container'>
         <Link to={`/`}><button>{back}</button></Link>
         <div>
             <h1>{title1}</h1>
@@ -20,6 +22,7 @@ function StopLine2({ lang, onSearch, items, error, direction_id }) {
                 }
             </select>
             <h2>{error}</h2>
+        </div>
         </div>
     </section>
 
