@@ -70,6 +70,15 @@ describe('movie api', () => {
         )
     })
 
+    describe('retrieve Trailer', () => {
+
+        it('should succed on ')
+            const id = 550
+            movieApi.retrieveTrailer()
+
+        })
+
+
     describe('invalid APIKEY', () => {
         let apiKey
 

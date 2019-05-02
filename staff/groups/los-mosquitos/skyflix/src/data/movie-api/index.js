@@ -70,6 +70,16 @@ const movieApi = {
 
         return call(search)
             .then(response => response.json())
+    },
+
+    retrieveTrailer(id) {
+        const search = ''.concat(this.__url__, '/movie/', id, '/videos?api_key=', this.__APIKEY1__)
+        return call(search)
+            .then(response => response.json())
+    },
+
+    mostPopularmovies() {
+        //todo
     }
 }
 
