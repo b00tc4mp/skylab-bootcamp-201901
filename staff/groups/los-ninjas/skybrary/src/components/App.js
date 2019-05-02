@@ -67,9 +67,11 @@ class App extends Component {
         <Route exact path="/" render={() =>
           <Landing onClickRegister={handleRegisterNavigation} onClickLogin={handleLoginNavigation} />
         } />
+
         <Route path="/register" render={() =>
           <Register onRegister={handleRegister} error={error} />
         } />
+
         <Route path="/login" render={() =>
           <Login onLogin={handleLogin} error={error} />
         } />
@@ -77,7 +79,6 @@ class App extends Component {
         <Route path="/home" render={props =>
           <Home {...props}/>
         } />
-
 
         <Redirect to="/" />
       </Switch>

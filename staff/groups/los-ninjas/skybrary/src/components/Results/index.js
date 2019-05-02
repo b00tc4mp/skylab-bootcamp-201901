@@ -2,14 +2,23 @@ import React from 'react'
 import './index.scss'
 
 
-function Results({ items, onItem }) {
+
+function Results({ items, onItem, onFav, favs }) {
     return (
         <section className="library container" >
             <ul className="columns is-centered is-multiline is-mobile">
                 {
                     items.map(({ key, isbn, cover_edition_key, title, author_name, cover_i, publish_date }) => {
+                        const isFav = favs.some(fav => {
 
-                        return (isbn && cover_edition_key) && <li className="library__book column is-3-desktop is-5-tablet is-10-mobile" key={cover_edition_key} onClick={() => onItem(isbn[0], key)}>
+                            if(isbn){
+                                const key = Object.keys(fav)[0]
+                                console.log(key, isbn[0])
+                                return key === 'ISBN:' + isbn[0]
+                            }
+                            return false
+                        })
+                        return (isbn && cover_edition_key) && <li className="library__book column is-3-desktop is-4-tablet is-10-mobile" key={cover_edition_key} onClick={() => onItem(isbn[0], key)}>
                             <article className="card">
                                 <div className="card-image">
                                     <figure className="image is-3by4">
@@ -29,7 +38,9 @@ function Results({ items, onItem }) {
                                         <time>
                                             {publish_date && <span>{publish_date[0]}</span>}
                                         </time>
+
                                     </div>
+                                {<i onClick={e => { e.stopPropagation(); onFav(isbn[0]) }} className={isFav ? 'fas fa-heart' : 'far fa-heart'}/>}                          
                                 </div>
                             </article>
                         </li>
