@@ -197,226 +197,320 @@ describe('logic', () => {
             })
         })
 
-    })
 
+        describe('toggle fav bus stop', () => {
+            let id, token, stop_id
 
-    describe('retriveBusLines', () => {
+            beforeEach(() => {
+                stop_id = 1278
 
-        it('should succeed on correct line id', () => {
-            const line_id = 123
+                return userApi.create(email, password, { name, surname })
+                    .then(response => {
+                        id = response.data.id
 
-            return logic.retrieveBusLines(line_id)
-                .then(response => {
-
-                    expect(response.length).toBe(1)
-
-                    response.forEach(e => {
-                        const {
-                            line_id,
-                            name_line,
-                            desc_line,
-                            origin_line,
-                            dest_line,
-                            color_line } = e
-
-                        expect(typeof line_id == 'number').toBeTruthy()
-                        expect(typeof name_line == 'string').toBeTruthy()
-                        expect(typeof desc_line == 'string').toBeTruthy()
-                        expect(typeof origin_line == 'string').toBeTruthy()
-                        expect(typeof dest_line == 'string').toBeTruthy()
-                        expect(typeof color_line == 'string').toBeTruthy()
-
-                    });
-                })
-        })
-
-        it('should succeed on undefined line id', () => {
-            const line_id = undefined
-
-            return logic.retrieveBusLines(line_id)
-                .then(response => {
-
-                    expect(response.length).toBeGreaterThan(1)
-
-                    response.forEach(e => {
-                        const {
-                            line_id,
-                            name_line,
-                            desc_line,
-                            origin_line,
-                            dest_line,
-                            color_line } = e
-
-                        expect(typeof line_id == 'number').toBeTruthy()
-                        expect(typeof name_line == 'string').toBeTruthy()
-                        expect(typeof desc_line == 'string').toBeTruthy()
-                        expect(typeof origin_line == 'string').toBeTruthy()
-                        expect(typeof dest_line == 'string').toBeTruthy()
-                        expect(typeof color_line == 'string').toBeTruthy()
-
-                    });
-                })
-        })
-
-        it('should fail on incorrect bus stop id', () =>
-            expect(() => logic.retrieveBusLines('123es')).toThrowError(TypeError, 'line_id 123es is not a number')
-        )
-
-    })
-
-    describe('retrieveBusLineRoute', () => {
-
-        it('should succeed on correct line id', () => {
-    
-            const line_id = 123
-    
-            return logic.retrieveBusLineRoute(line_id)
-                .then(response => {
-    
-                    expect(response.length).toBe(2)
-    
-                    response.forEach(e => {
-                        const {
-                            direction_id,
-                            direction_name } = e
-    
-                        expect(direction_id === 'T' || direction_id === 'A').toBeTruthy()
-                        expect(typeof direction_name == 'string').toBeTruthy()
-    
-    
+                        return userApi.authenticate(email, password)
                     })
-                })
-        })
-    
-        it('should fail on incorrect bus stop id', () =>
-    
-            expect(() => logic.retrieveBusLineRoute('123es')).toThrowError(TypeError, 'line_id 123es is not a number')
-    
-        )
-    
-        it('should fail on undefined line id', () => {
-            const line_id = undefined
-    
-            expect(() => logic.retrieveBusLineRoute(line_id)).toThrowError(RequirementError, 'line_id is not optional')
-            
-        })
-    })
+                    .then(response => {
+                        token = response.data.token
 
-    describe('retrieveBusStops', () => {
-
-        it('should succeed on correct line id', () => {
-    
-            const line_id = 123
-            const direction_id = 'A'
-    
-            return logic.retrieveBusStops(line_id,direction_id)
-                .then(response => {
-    
-                    expect(response.length).toBeGreaterThan(1)
-    
-                    response.forEach(e => {
-                        const {
-                            stop_id,
-                            stop_name } = e
-    
-                        expect(typeof stop_id == 'number').toBeTruthy()
-                        expect(typeof stop_name == 'string').toBeTruthy()
-    
-    
+                        logic.__userId__ = id
+                        logic.__userToken__ = token
                     })
-                })
+            })
+
+            it('should succeed adding fav on first time', () => {
+                return logic.toggleFavStop(stop_id)
+                    .then(response => expect(response).toBeUndefined())
+                    .then(() => userApi.retrieve(id, token))
+                    .then(response => {
+                        const { data: { aldiFavorites } } = response
+
+                        expect(aldiFavorites).toBeDefined()
+                        expect(aldiFavorites instanceof Array).toBeTruthy()
+                        expect(aldiFavorites.length).toBe(1)
+                        expect(aldiFavorites[0]).toBe(stop_id)
+                    })
+            }
+            )
+
+            it('should succeed removing fav on second time', () =>
+                logic.toggleFavStop(stop_id)
+                    .then(() => logic.toggleFavStop(stop_id))
+                    .then(() => userApi.retrieve(id, token))
+                    .then(response => {
+                        const { data: { aldiFavorites } } = response
+
+                        expect(aldiFavorites).toBeDefined()
+                        expect(aldiFavorites instanceof Array).toBeTruthy()
+                        expect(aldiFavorites.length).toBe(0)
+                    })
+            )
+
+            it('should fail on null bus stop', () => {
+                stop_id = null
+
+                expect(() => logic.toggleFavStop(stop_id)).toThrowError(TypeError, 'stop null is not a number')
+            })
         })
-    
-        it('should fail on incorrect bus stop id', () =>{
-            const line_id = '123a'
-            const direction_id = 'A'
-    
-            expect(() => logic.retrieveBusStops(line_id,direction_id)).toThrowError(TypeError, 'line_id 123es is not a number')
-    
+
+        describe('retrieve fav stops', () => {
+            let id, token, _favs
+
+            beforeEach(() => {
+                _favs = [1775, 38, 1196, 71]
+
+                return userApi.create(email, password, { name, surname, aldiFavorites: _favs })
+                    .then(response => {
+                        id = response.data.id
+
+                        return userApi.authenticate(email, password)
+                    })
+                    .then(response => {
+                        token = response.data.token
+
+                        logic.__userId__ = id
+                        logic.__userToken__ = token
+                    })
+            })
+
+            it('should succeed on retrieve favorites stops', () =>
+                logic.retrieveFavStops()
+                    .then(stops => {
+                        debugger
+                        stops.forEach(({ stop_id, stop_name }) => {
+
+                            const isFav = _favs.some(fav => fav === stop_id)
+
+                            expect(isFav).toBeTruthy()
+                            expect(typeof stop_id).toBe('number')
+                            expect(typeof stop_name).toBe('string')
+
+                        })
+                    })
+            )
+
         })
-        it('should fail on incorrect bus direction id', () =>{
-            const line_id = 123
-            const direction_id = 'Z'
-    
-            expect(() => logic.retrieveBusStops(line_id,direction_id)).toThrowError(DirectionError, 'direction is not valid')
-    
-        })
-        it('should fail on undefined bus stop id', () =>{
-            const line_id = undefined
-            const direction_id = 'A'
-    
-            expect(() => logic.retrieveBusStops(line_id,direction_id)).toThrowError(Error, 'line_id is not optional')
-    
-        })
-        it('should fail on undefined bus direction id', () =>{
-            const line_id = 123
-            const direction_id = undefined
-    
-            expect(() => logic.retrieveBusStops(line_id,direction_id)).toThrowError(Error, 'direction_id is not optional')
-    
-        })
-    
+
     })
 
+    describe('apis', () => {
 
-    describe('upcomingBusesByStop', () => {
+        describe('retriveBusLines', () => {
 
-        it('should succeed on correct bus stop', () => {
-    
-            const stop_id = 1278
-    
-            return logic.upcomingBusesByStop(stop_id)
-                .then(response => {
+            it('should succeed on correct line id', () => {
+                const line_id = 123
 
-                    expect(response.length).toBeGreaterThan(0)
-                    response.forEach( resp => {
+                return logic.retrieveBusLines(line_id)
+                    .then(response => {
+
+                        expect(response.length).toBe(1)
+
+                        response.forEach(e => {
+                            const {
+                                line_id,
+                                name_line,
+                                desc_line,
+                                origin_line,
+                                dest_line,
+                                color_line } = e
+
+                            expect(typeof line_id == 'number').toBeTruthy()
+                            expect(typeof name_line == 'string').toBeTruthy()
+                            expect(typeof desc_line == 'string').toBeTruthy()
+                            expect(typeof origin_line == 'string').toBeTruthy()
+                            expect(typeof dest_line == 'string').toBeTruthy()
+                            expect(typeof color_line == 'string').toBeTruthy()
+
+                        });
+                    })
+            })
+
+            it('should succeed on undefined line id', () => {
+                const line_id = undefined
+
+                return logic.retrieveBusLines(line_id)
+                    .then(response => {
+
+                        expect(response.length).toBeGreaterThan(1)
+
+                        response.forEach(e => {
+                            const {
+                                line_id,
+                                name_line,
+                                desc_line,
+                                origin_line,
+                                dest_line,
+                                color_line } = e
+
+                            expect(typeof line_id == 'number').toBeTruthy()
+                            expect(typeof name_line == 'string').toBeTruthy()
+                            expect(typeof desc_line == 'string').toBeTruthy()
+                            expect(typeof origin_line == 'string').toBeTruthy()
+                            expect(typeof dest_line == 'string').toBeTruthy()
+                            expect(typeof color_line == 'string').toBeTruthy()
+
+                        });
+                    })
+            })
+
+            it('should fail on incorrect bus stop id', () =>
+                expect(() => logic.retrieveBusLines('123es')).toThrowError(TypeError, 'line_id 123es is not a number')
+            )
+
+        })
+
+        describe('retrieveBusLineRoute', () => {
+
+            it('should succeed on correct line id', () => {
+
+                const line_id = 123
+
+                return logic.retrieveBusLineRoute(line_id)
+                    .then(response => {
+
+                        expect(response.length).toBe(2)
+
+                        response.forEach(e => {
+                            const {
+                                direction_id,
+                                direction_name } = e
+
+                            expect(direction_id === 'T' || direction_id === 'A').toBeTruthy()
+                            expect(typeof direction_name == 'string').toBeTruthy()
+
+
+                        })
+                    })
+            })
+
+            it('should fail on incorrect bus stop id', () =>
+
+                expect(() => logic.retrieveBusLineRoute('123es')).toThrowError(TypeError, 'line_id 123es is not a number')
+
+            )
+
+            it('should fail on undefined line id', () => {
+                const line_id = undefined
+
+                expect(() => logic.retrieveBusLineRoute(line_id)).toThrowError(RequirementError, 'line_id is not optional')
+
+            })
+        })
+
+        describe('retrieveBusStops', () => {
+
+            it('should succeed on correct line id', () => {
+
+                const line_id = 123
+                const direction_id = 'A'
+
+                return logic.retrieveBusStops(line_id, direction_id)
+                    .then(response => {
+
+                        expect(response.length).toBeGreaterThan(1)
+
+                        response.forEach(e => {
+                            const {
+                                stop_id,
+                                stop_name } = e
+
+                            expect(typeof stop_id == 'number').toBeTruthy()
+                            expect(typeof stop_name == 'string').toBeTruthy()
+
+
+                        })
+                    })
+            })
+
+            it('should fail on incorrect bus stop id', () => {
+                const line_id = '123a'
+                const direction_id = 'A'
+
+                expect(() => logic.retrieveBusStops(line_id, direction_id)).toThrowError(TypeError, 'line_id 123es is not a number')
+
+            })
+            it('should fail on incorrect bus direction id', () => {
+                const line_id = 123
+                const direction_id = 'Z'
+
+                expect(() => logic.retrieveBusStops(line_id, direction_id)).toThrowError(DirectionError, 'direction is not valid')
+
+            })
+            it('should fail on undefined bus stop id', () => {
+                const line_id = undefined
+                const direction_id = 'A'
+
+                expect(() => logic.retrieveBusStops(line_id, direction_id)).toThrowError(Error, 'line_id is not optional')
+
+            })
+            it('should fail on undefined bus direction id', () => {
+                const line_id = 123
+                const direction_id = undefined
+
+                expect(() => logic.retrieveBusStops(line_id, direction_id)).toThrowError(Error, 'direction_id is not optional')
+
+            })
+
+        })
+
+
+        describe('upcomingBusesByStop', () => {
+
+            it('should succeed on correct bus stop', () => {
+
+                const stop_id = 1278
+
+                return logic.upcomingBusesByStop(stop_id)
+                    .then(response => {
+
+                        expect(response.length).toBeGreaterThan(0)
+                        response.forEach(resp => {
+                            const {
+                                line,
+                                t_in_min,
+                                t_in_s,
+                                text_ca,
+                                color_line } = resp
+
+                            expect(typeof line === 'string').toBeTruthy()
+                            expect(typeof t_in_min === 'number').toBeTruthy()
+                            expect(typeof t_in_s === 'number').toBeTruthy()
+                            expect(typeof text_ca === 'string').toBeTruthy()
+                            expect(typeof color_line === 'string').toBeTruthy()
+                        })
+                    })
+            }, 100000000)
+
+        })
+
+
+
+        describe('upcomingBusesByStopAndLine', () => {
+
+            it('should succeed on correct line and bus stop', () => {
+
+                const stop_id = 1775
+                const line_id = 123
+
+                return logic.upcomingBusesByStopAndLine(stop_id, line_id)
+                    .then(response => {
+
+                        expect(response.length).toBe(1)
                         const {
-                            line, 
-                            t_in_min, 
-                            t_in_s, 
-                            text_ca, 
-                            color_line } = resp
-    
-                        expect(typeof line === 'string').toBeTruthy()
+                            t_in_min,
+                            t_in_s,
+                            text_ca,
+                            color_line } = response[0]
+
                         expect(typeof t_in_min === 'number').toBeTruthy()
                         expect(typeof t_in_s === 'number').toBeTruthy()
                         expect(typeof text_ca === 'string').toBeTruthy()
                         expect(typeof color_line === 'string').toBeTruthy()
+
                     })
-                })
-        }, 100000000)
+            }, 100000000)
+        })
 
     })
-
-
-
-    describe('upcomingBusesByStopAndLine', () => {
-
-        it('should succeed on correct line and bus stop', () => {
-    
-            const stop_id = 1278
-            const line_id = 136
-        
-            return logic.upcomingBusesByStopAndLine(stop_id, line_id)
-                .then(response => {
-                    
-                    expect(response.length).toBe(1)
-                    const {
-                        t_in_min, 
-                        t_in_s, 
-                        text_ca, 
-                        color_line } = response[0]
-
-                    expect(typeof t_in_min === 'number').toBeTruthy()
-                    expect(typeof t_in_s === 'number').toBeTruthy()
-                    expect(typeof text_ca === 'string').toBeTruthy()
-                    expect(typeof color_line === 'string').toBeTruthy()
-    
-                })
-        }, 100000000)
-    })
-
-
-
 
 })

@@ -14,7 +14,7 @@ function ResultsLine({ lang, stop, onFav, favs, error }) {
                     let style = {
                         color: `#${color_line}`,
                       };
-                    return <li key={line} onClick={() => console.log(line)}>
+                    return <li key={line}>
                         <h2 style={style}> {lin} {line} {dir} {dest_line}</h2>
                         <h3>{t_in_min} min</h3>
                     </li>
