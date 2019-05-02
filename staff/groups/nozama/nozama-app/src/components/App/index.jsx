@@ -111,7 +111,7 @@ function App(props) {
           render={() => {
           
             return !logic.isLoggedIn ? (
-              <DetailScreen />
+              <DetailScreen  dispatch={dispatch} />
             ) : (
               <Redirect to="/home" />
             )

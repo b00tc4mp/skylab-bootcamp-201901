@@ -1,38 +1,56 @@
-import React from 'react'
+import React , {useState} from 'react'
 import Image from '../../components/Products/Detail/Image'
 import Title from '../../components/Products/Detail/Title'
 import Subtitle from '../../components/Products/Detail/Subtitle'
 import Price from '../../components/Products/Detail/Price'
 import Currency from '../../components/Products/Detail/Currency'
-import {Container, Col, Row} from 'reactstrap'
+import ButtonAddToCart from '../../components/Buttons/AddToCart'
+import Cart from '../Cart';
+import logic from '../../logic/'
+import {
+  CART_ADD_PRODUCT
+} from '../../logic/actions';
 
 function DetailScreen(props){
-  const [product, setProducts] = useState([]);
+  const [product, setProduct] = useState(null)
 
-  const handleSearch = text => {
-    logic.detailProduct('5cc7662e9437a23d6c998d03').then(resProduct => setProducts(resProducts));
-  };
+  logic.detailProduct('DB3105')
+    .then(detail => { 
+      setProduct(detail)
+    });
 
 
-  const {imageSmall} = product
+
+
+        
+
+  if (!product) return <div class="spinner-border text-success " role="status"></div>
+
+  const handleAddToCart = product => {
+    console.log(product)
+    props.dispatch({action: CART_ADD_PRODUCT, product, quantity: 1})
+   
+  }
 
   return(
-    <Container>
-      <Col>
-        <Col sm="5" xm="5">
-          <Row>
-            <Image image={imageSmall}></Image>
-          </Row>
-        </Col>
-        <Col>
-
-        </Col>
-        <Col>
-        
-        </Col>
-      
-      </Col>
-    </Container>
+    <div className="container">
+      <div className="row">
+          <Title title={product.productName}/>
+        </div>
+          <div className="row">
+            <img width="100rem" height="100rem" src={product.imageSmall}/>
+          </div>
+        <div className="col">
+          <Subtitle subtitle={product.subtitle} />
+          <div className="row" >
+            <Price price={product.originalPrice}/>
+            <Currency currency={product.displayCurrency}/>
+          </div>
+          <div className="col">
+          <ButtonAddToCart onClick={handleAddToCart}/>
+          </div>
+        </div>
+      </div>
   )
 
 }
