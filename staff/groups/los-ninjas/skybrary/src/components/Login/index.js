@@ -20,7 +20,7 @@ function Login({onLogin, error}){
                 <h2 className="subtitle has-text-centered">Login</h2>
 
                 <form  className="columns is-multiline" onSubmit={handleSubmit}>
-                    <input className="column is-5 is-four-fifths-mobile is-offset-1" type="text" name="username" placeholder="Email" />
+                    <input className="column is-5 is-four-fifths-mobile is-offset-1 is-offset-1-mobile" type="text" name="username" placeholder="Email" />
                     <input className="column is-5 is-four-fifths-mobile is-offset-1-mobile" type="password" name="password" placeholder="Password" />
                     <p className="column is-2 is-offset-5 has-text-centered">
                         <button className="button is-medium is-link is-inverted">Send</button>
