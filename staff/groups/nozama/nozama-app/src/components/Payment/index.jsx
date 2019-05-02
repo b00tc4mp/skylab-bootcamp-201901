@@ -56,12 +56,13 @@ class Payment extends React.Component {
       });
     } catch (error) {
       this.setState({ errorMessage: error.message });
+      setTimeout(() => this.setState({errorMessage: null}), 4000)
     }
   };
 
   handleCancel = e => {
     e.preventDefault();
-    this.props.onCancel();
+    this.props.history.push("/cart")
   };
 
   render() {
@@ -71,12 +72,12 @@ class Payment extends React.Component {
     return (
       <div className="container">
         {this.state.errorMessage && (
-          <div class="alert alert-warning" role="alert">
+          <div className="alert alert-warning mt-3" role="alert">
             <h5>{this.state.errorMessage}</h5>
           </div>
         )}
 
-        <h3>Amount: {this.amount}</h3>
+        <h3 className="text-center p-3">Amount: {`${this.amount} $`}</h3>
         <form onSubmit={this.handleSubmit}>
           <div className="form-group">
             <label htmlFor="cardNumber">Card number</label>
@@ -86,6 +87,8 @@ class Payment extends React.Component {
               name="cardNumber"
               id="cardNumber"
               placeholder="Card number"
+              required
+              pattern="[0-9]{14,16}"
               onChange={this.handleChange}
               value={this.state.cardNumber}
             />
@@ -109,7 +112,9 @@ class Payment extends React.Component {
               type="text"
               name="expireDate"
               id="expireDate"
-              placeholder="Expire date"
+              placeholder="mmyy"
+              required
+              pattern="[0-9]{4,5}"
               onChange={this.handleChange}
               value={this.state.expireDate}
             />
@@ -122,6 +127,8 @@ class Payment extends React.Component {
               name="cvv"
               id="cvv"
               placeholder="cvv"
+              required
+              pattern="[0-9]{3,4}"
               onChange={this.handleChange}
               value={this.state.cvv}
             />
