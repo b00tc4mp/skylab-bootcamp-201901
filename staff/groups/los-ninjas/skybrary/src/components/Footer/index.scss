@@ -1,9 +1,30 @@
+@keyframes heartbeat {
+    0% {
+      transform: scale(1);
+    }
+    30% {
+      transform: scale(1.2);
+    }
+    55% {
+      transform: scale(1);
+    }
+    70% {
+      transform: scale(1.2);
+    }
+    100% {
+      transform: scale(1);
+    }
+}
+
 .footer {
     background-color: transparent;
     color: white;
-    
-    p {
+    padding-bottom: 24px;
+
+    &__text {
+        display: inline-block;
         position: relative;
+        text-shadow: 0 3px 3px rgba(0,0,0,.4);
 
         &::before,
         &::after {
@@ -17,16 +38,21 @@
         }
 
         &::after {
-            right: 0;
+            right: calc(100% + 24px);
         }
 
         &::before {
-            left: 0;
+            left: calc(100% + 24px);
         }
-    }
 
-    i {
-        @import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
-        color: red;
+        i {
+            transition: all .3s ease;
+            @import url('https://use.fontawesome.com/releases/v5.8.1/css/all.css');
+            color: red;
+
+            &:hover {
+                animation: 1s infinite heartbeat;
+            }
+        }
     }
 }

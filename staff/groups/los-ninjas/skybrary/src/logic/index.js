@@ -46,7 +46,7 @@ const logic = {
 
     loginUser(email, password) {
         validate.arguments([
-            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true},
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 

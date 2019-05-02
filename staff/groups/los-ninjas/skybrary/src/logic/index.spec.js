@@ -1,7 +1,7 @@
 import logic from '.'
 import { LogicError, RequirementError, ValueError, FormatError } from '../common/errors'
 import userApi from '../data/user-api'
-import searchBooksApi from '../data/booksearch-api'
+// import searchBooksApi from '../data/booksearch-api'
 
 describe('logic', () => {
     describe('users', () => {
@@ -10,23 +10,23 @@ describe('logic', () => {
         let email
 
         beforeEach(() => {
-            email = `skybrary${Math.random()}@skybrary.com`
+            email = `skybrary.${Math.random()}@skybrary.com`
 
             logic.__userId__ = null
             logic.__userToken__ = null
         })
 
-        describe('register user', () => {
+        fdescribe('register user', () => {
             it('should succeed on correct user data', () =>
-                logic.registerUser(alias, email, password)
+                logic.registerUser(email, password, alias)
                     .then(response => expect(response).toBeUndefined())
             )
 
             describe('on already existing user', () => {
-                beforeEach(() => logic.registerUser(alias, email, password))
+                beforeEach(() => logic.registerUser(email, password, alias))
 
                 it('should fail on retrying to register', () =>
-                    logic.registerUser(alias, email, password)
+                    logic.registerUser(email, password, alias)
                         .then(() => { throw Error('should not reach this point') })
                         .catch(error => {
                             expect(error).toBeDefined()
@@ -38,57 +38,57 @@ describe('logic', () => {
             })
 
             it('should fail on undefined name', () => {
-                const username = undefined
+                const alias = undefined
 
-                expect(() => logic.registerUser(username,  email, password)).toThrowError(RequirementError, `name is not optional`)
+                expect(() => logic.registerUser(alias,  email, password)).toThrowError(RequirementError, `name is not optional`)
             })
 
             it('should fail on null name', () => {
-                const username = null
+                const alias = null
 
-                expect(() => logic.registerUser(username,  email, password)).toThrowError(RequirementError, `name is not optional`)
+                expect(() => logic.registerUser(alias,  email, password)).toThrowError(RequirementError, `name is not optional`)
             })
 
             it('should fail on empty name', () => {
-                const username = ''
+                const alias = ''
 
-                expect(() => logic.registerUser(username,  email, password)).toThrowError(ValueError, 'name is empty')
+                expect(() => logic.registerUser(alias,  email, password)).toThrowError(ValueError, 'name is empty')
             })
 
             it('should fail on blank name', () => {
-                const username = ' \t    \n'
+                const alias = ' \t    \n'
 
-                expect(() => logic.registerUser(username,  email, password)).toThrowError(ValueError, 'name is empty')
+                expect(() => logic.registerUser(alias,  email, password)).toThrowError(ValueError, 'name is empty')
             })
 
             it('should fail on undefined email', () => {
                 const email = undefined
 
-                expect(() => logic.registerUser(username,  email, password)).toThrowError(RequirementError, `email is not optional`)
+                expect(() => logic.registerUser(alias,  email, password)).toThrowError(RequirementError, `email is not optional`)
             })
 
             it('should fail on null email', () => {
                 const email = null
 
-                expect(() => logic.registerUser(username,  email, password)).toThrowError(RequirementError, `email is not optional`)
+                expect(() => logic.registerUser(alias, email, password)).toThrowError(RequirementError, `email is not optional`)
             })
 
             it('should fail on empty email', () => {
                 const email = ''
 
-                expect(() => logic.registerUser(username,  email, password)).toThrowError(ValueError, 'email is empty')
+                expect(() => logic.registerUser(alias, email, password)).toThrowError(ValueError, 'email is empty')
             })
 
             it('should fail on blank email', () => {
                 const email = ' \t    \n'
 
-                expect(() => logic.registerUser(username,  email, password)).toThrowError(ValueError, 'email is empty')
+                expect(() => logic.registerUser(alias, email, password)).toThrowError(ValueError, 'email is empty')
             })
 
             it('should fail on non-email email', () => {
                 const nonEmail = 'non-email'
 
-                expect(() => logic.registerUser(username,  nonEmail, password)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
+                expect(() => logic.registerUser(alias, nonEmail, password)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
             })
         })
 
@@ -96,7 +96,7 @@ describe('logic', () => {
             let id
 
             beforeEach(() =>
-                userApi.create(email, password, username )
+                userApi.create(email, password )
                     .then(response => id = response.data.id)
             )
 
@@ -127,9 +127,8 @@ describe('logic', () => {
                     .then(() => { throw Error('should not reach this point') })
                     .catch(error => {
                         expect(error).toBeDefined()
-                        expect(error instanceof LogicError).toBeTruthy()
 
-                        expect(error.message).toBe(`username with username \"${email}\" does not exist`)
+                        expect(error.message).toBe(`user with username \"${email}\" does not exist`)
                     })
             )
         })
@@ -137,33 +136,34 @@ describe('logic', () => {
         describe('retrieve user', () => {
             let id, token
 
-            beforeEach(() => {
-                userApi.create(username, email)
+            beforeEach(() =>
+                userApi.create(email, password, { alias })
                     .then(response => {
                         id = response.data.id
 
                         return userApi.authenticate(email, password)
                     })
                     .then(response => {
-                        toke = response.data.token
+                        token = response.data.token
 
                         logic.__userId__ = id
                         logic.__userToken__ = token
                     })
-            })
+            )
 
-            it('should succceed on retrieving data from a valid user', () => {
-                logic.registerUser(id, token)
-                    .then(user =>{
-                        expect(user).toBeDefined
+            it('should succeed on correct user id and token', () =>
+                logic.retrieveUser()
+                    .then(user => {
+                        // expect(user.id).toBeUndefined()
                         expect(user.alias).toBe(alias)
-                        expect(user.relatedBooks).toBe(relatedBooks)
+                        // expect(user.surname).toBe(surname)
+                        expect(user.email).toBe(email)
                         expect(user.password).toBeUndefined()
                     })
-            })
+            )
 
-            it('should fail if id is not correct', () => {
-                logic.__userId__ = '2535235lkh5lh3k532l532'
+            it('should fail on incorrect user id', () => {
+                logic.__userId__ = '5cb9998f2e59ee0009eac02c'
 
                 return logic.retrieveUser()
                     .then(() => { throw Error('should not reach this point') })
@@ -174,6 +174,35 @@ describe('logic', () => {
                         expect(error.message).toBe(`token id \"${id}\" does not match user \"${logic.__userId__}\"`)
                     })
             })
+        })
+    })
+
+    describe('books api', () => {
+        it('should succeed searching books', () => {
+            logic.searchBooks('Lord of the rings')
+                .then(books => {
+                    expect(books).toBeDefined()
+                    expect(books instanceof Object).toBeTruthy()
+            })
+        })
+        it('should fail on empty query', () => {
+            const query = ' \t    \n'
+            logic.searchBooks(query)
+                .then(response =>{
+                    expect(response).toBeDefined()
+                    const { status } = response
+                    expect(status).toBe('500')
+                })
+        })
+
+        it('should fail if not find results', () => {
+            const query = '2362836283'
+            logic.searchBooks(query)
+                .then(response =>{
+                    expect(response).toBeDefined()
+                    const {docs} = response
+                    expect(docs.length).toBe(0)
+                })
         })
     })
 })

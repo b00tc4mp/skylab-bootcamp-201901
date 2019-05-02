@@ -1,31 +1,44 @@
-import React, {Fragment} from 'react'
+import React from 'react'
+import Header from '../Header'
+import Footer from '../Footer'
+import './index.scss'
 
 function Register({ onRegister, error }) {
 
-function handleSubmit(event){
-    event.preventDefault()
+    function handleSubmit(event){
+        event.preventDefault()
 
-    const {
-        alias: {value: alias},
-        username: {value: username},
-        password: {value: password}
-    } = event.target
+        const {
+            alias: {value: alias},
+            username: {value: username},
+            password: {value: password}
+        } = event.target
 
-    onRegister(alias, username, password)
-}
+        onRegister(alias, username, password)
+    }
 
-
-    return <Fragment>
-        <h2>Register</h2>
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="alias" placeholder="Alias" />
-            <input type="text" name="username" placeholder="Email" />
-            <input type="password" name="password" placeholder="Password" />
-            <button>Send</button>
-            <span>{error}</span>
-        </form>
-
-    </Fragment>
+    return (
+        <section className="section register">
+            <Header/>
+            <div className="section">
+                <h2 className="subtitle has-text-centered">Register</h2>
+                <form className="columns is-multiline" onSubmit={handleSubmit}>
+                    <input className="column is-4 is-four-fifths-mobile is-offset-1-mobile" type="text" name="alias" placeholder="Alias" />
+                    <input className="column is-4 is-four-fifths-mobile is-offset-1-mobile" type="text" name="username" placeholder="Email" />
+                    <input className="column is-4 is-four-fifths-mobile is-offset-1-mobile" type="password" name="password" placeholder="Password" />
+                    <p className="column is-2 is-offset-5 has-text-centered">
+                        <button className="button is-medium is-link is-inverted">Send</button>
+                    </p>
+                    {error && <article className="column is-12  message is-danger register__error">
+                        <div className="message-body">
+                            {error}
+                        </div>
+                    </article>}
+                </form>
+            </div>
+            <Footer />
+        </section>
+    )
 }
 
 export default Register
