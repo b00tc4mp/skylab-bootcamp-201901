@@ -93,7 +93,7 @@ function App(props) {
         .then(() => {
               setCart([]);
               setCartQuantity(0);
-              props.history.push('/')
+              props.history.push('/thanks')
             })
         break;
 
@@ -111,6 +111,7 @@ function App(props) {
       case GLOBAL_LOGOUT:
         logic.logOut();
         setCart([]);
+        setCartQuantity(0);
         break;
 
       default:
@@ -173,9 +174,8 @@ function App(props) {
         />
         <Route
           path="/thanks"
-          render={() =>  <ThanksPage/>
+          render={() => <ThanksPage/>
         }
-
         />
         <Redirect to="/" />
       </Switch>

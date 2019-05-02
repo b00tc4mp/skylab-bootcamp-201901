@@ -3,6 +3,7 @@ import ProductHorSlim from '../../components/Products/product-hor-slim';
 import logic from '../../logic';
 import { FAVORITES_TOGGLE_PRODUCT } from '../../logic/actions'
 import CardFeature from '../../components/card-features'
+import CarouselCategories from '../../components/CarouselCategories'
 
 function Landing(props) {
   const [products, setProducts] = useState([]);
@@ -58,14 +59,10 @@ function Landing(props) {
   }
 
   return (
-    <div>
+    <div className="container">
       <CardFeature products={featureProducts} title="Feature Products" />
+      <CarouselCategories products={productsByCategories} title="Categories"/>
       <CardFeature products={newProducts} title="New Products" />
-      <CardFeature products={productsByCategories} title="Categories" />
-
-      {products.map(product => (
-        <ProductHorSlim key={product.productId} product={product} onDetail={handleDetail} />
-      ))}
     </div>
   );
 }
