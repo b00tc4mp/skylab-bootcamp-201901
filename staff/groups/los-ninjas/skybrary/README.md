@@ -20,3 +20,20 @@ As a user I expect to find my favorite books and maybe discover new ones. Also I
 - Books suggestions
 
 ---
+
+
+## Data:
+
+USER has this schema:
+```
+| - email - string * (required)
+| - password - string * (required)
+| - alias - string
+| - relatedBooks - Array of Objects each of them is a book
+| -- ISBN - string - Book identifier
+| -- favList - key/value of boolean - If book is favorite or not
+| -- readingList  - key/value of boolean - Currently reading this book
+| -- doneList  - key/value of boolean - Book already read
+| -- wantToRead - key/value of boolean - Book save for read later
+| -- timesRead - Number - Number of times a books has been read
+```

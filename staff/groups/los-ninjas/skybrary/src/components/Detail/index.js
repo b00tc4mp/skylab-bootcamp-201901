@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Fragment } from 'react'
 import './index.scss'
 
 function Detail({ item }) {
@@ -15,10 +15,30 @@ function Detail({ item }) {
                 {<img src={(item.cover && item.cover > 0) ? `https://covers.openlibrary.org/b/id/${item.cover}-L.jpg` : 'https://www.motorolasolutions.com/content/dam/msi/images/business/products/accessories/p_-_r/raf4220a/_images/static_files/b2b_product_raf4220a_lg_us-en.jpg'} />}
             </div>
             <div className='column is-8 card-detail__info'>
-                {item.title && <span><p className="info__BoldTitle">Title: </p> <p>{item.title}</p></span>}
-                <span><p className="info__BoldTitle">Author: </p>{item.author_name.join(', ')}</span>
-                {item.numberOfPages && <span><p className="info__BoldTitle">Num of pages: </p>{item.numberOfPages} </span>}
-                {item.description && <span> <p className="info__BoldTitle">Synopsis: </p><p>{item.description}</p> </span>}
+                {item.title &&
+                    <Fragment>
+                        <p className="info__BoldTitle">
+                            Title:
+                            <span>{item.title}</span>
+                        </p>
+                    </Fragment>
+                }
+
+                <p className="info__BoldTitle">Author: </p>{item.author_name.join(', ')}
+                {item.numberOfPages &&
+                    <p className="info__BoldTitle">
+                        Num of pages:
+                        <span>{item.numberOfPages}</span>
+                    </p>
+                }
+                {item.description &&
+                    <Fragment>
+                        <p className="info__BoldTitle">
+                            Synopsis:
+                            <span>{item.description}</span>
+                        </p>
+                    </Fragment>
+                }
             </div>
         </article>
     </section>

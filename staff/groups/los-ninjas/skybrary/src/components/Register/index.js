@@ -23,9 +23,13 @@ function Register({ onRegister, error }) {
             <div className="section">
                 <h2 className="subtitle has-text-centered">Register</h2>
                 <form className="columns is-multiline" onSubmit={handleSubmit}>
-                    <input className="column is-4 is-four-fifths-mobile is-offset-1-mobile" type="text" name="alias" placeholder="Alias" />
-                    <input className="column is-4 is-four-fifths-mobile is-offset-1-mobile" type="text" name="username" placeholder="Email" />
-                    <input className="column is-4 is-four-fifths-mobile is-offset-1-mobile" type="password" name="password" placeholder="Password" />
+                    <div className="column is-10 is-offset-1">
+                        <div className="columns is-multiline">
+                            <input className="column is-4 is-10-mobile is-offset-1-mobile" type="text" name="alias" placeholder="Alias" />
+                            <input className="column is-4 is-10-mobile is-offset-1-mobile" type="text" name="username" placeholder="Email" />
+                            <input className="column is-4 is-10-mobile is-offset-1-mobile" type="password" name="password" placeholder="Password" />
+                        </div>
+                    </div>
                     <p className="column is-2 is-offset-5 has-text-centered">
                         <button className="button is-medium is-link is-inverted">Send</button>
                     </p>

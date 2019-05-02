@@ -9,7 +9,6 @@ function Results({ items, onItem, onFav, favs }) {
             <ul className="columns is-centered is-multiline is-mobile">
                 {
                     items.map(({ key, isbn, cover_edition_key, title, author_name, cover_i, publish_date }) => {
-                        //console.log(favs)
                         const isFav = favs.some(fav => {
 
                             if(isbn){
@@ -19,7 +18,7 @@ function Results({ items, onItem, onFav, favs }) {
                             }
                             return false
                         })
-                        return (isbn && cover_edition_key) && <li className="library__book column is-3-desktop is-5-tablet is-10-mobile" key={cover_edition_key} onClick={() => onItem(isbn[0], key)}>
+                        return (isbn && cover_edition_key) && <li className="library__book column is-3-desktop is-4-tablet is-10-mobile" key={cover_edition_key} onClick={() => onItem(isbn[0], key)}>
                             <article className="card">
                                 <div className="card-image">
                                     <figure className="image is-3by4">

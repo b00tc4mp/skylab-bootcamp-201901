@@ -46,7 +46,7 @@ const logic = {
 
     loginUser(email, password) {
         validate.arguments([
-            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true},
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
@@ -67,18 +67,14 @@ const logic = {
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
                 if (response.status === 'OK') {
-                    const { data: { alias, username: email, favList, readingList, doneList, wantToRead } } = response    
+                    const { data: { alias, username: email } } = response
 
-                    return { alias, email, favList, readingList, doneList, wantToRead }
+                    return { alias, email }
                 } else throw new LogicError(response.error)
             })
     },
 
     logoutUser() {
-        // this.__userId__ = null
-        // this.__userToken__ = null
-
-        // OR fully remove all key values from session storage
         sessionStorage.clear()
     },
 
