@@ -8,22 +8,16 @@ import Favorites from '../Favorites'
 import './index.sass'
 import SmallCard from '../SmallCard';
 import { logicalExpression } from '@babel/types';
+import { withRouter } from 'react-router-dom'
 
 
 class Home extends Component {
 
     state = { error: null, recipes: null, recipe: null, wanted: null, done: null, notes: null, forks: null, fullDone: null, fullWanted: null, user: null }
 
-    handleGoBack = () => this.setState({ recipe: null })
-
-    handleRetrieve = id => {
-        logic.retrieveRecipe(id)
-            .then((recipe) => {
-                this.setState({ recipe: recipe, error: null })
-            })
-            .catch(error =>
-                this.setState({ error: error.message })
-            )
+    handleGoBack = () => {
+        this.setState({ recipe: null })
+        this.props.history.push("/home")
     }
 
     handleWaitingList = (id, done) => {
@@ -52,7 +46,6 @@ class Home extends Component {
             .catch((error) => this.setState({ error: error.message }))
     }
 
-
     handleRandom = () => {
 
         let random = { meals: [] }
@@ -76,7 +69,6 @@ class Home extends Component {
             .catch((error) => this.setState({ error: error.message }))
 
     }
-
 
     handleRetriveBook = () => {
         logic.retrieveBook()
@@ -112,9 +104,30 @@ class Home extends Component {
 
     componentWillReceiveProps(props) {
         const { results } = props
-        if (results !== null && results.meals !== null) {
-            this.setState({ recipes: results, recipe: null, error: null, });
+
+        if (results !== null && results.meals !== null && results !== this.state.recipes) {
+            this.setState({ recipes: results, recipe: null, error: null, }, () => { this.props.history.push("/home") })
         } else if (results !== null && results.meals === null) this.setState({ recipes: null, error: "No results for your Search" })
+        else {
+            const [, , id] = props.location.pathname.split('/')
+
+            id && this.retrieve(id)
+        }
+
+    }
+
+    handleRetrieve = id => this.props.history.push(`/home/${id}`)
+
+
+    retrieve = id => {
+        console.log(id)
+        logic.retrieveRecipe(id)
+            .then((recipe) => {
+                this.setState({ recipe: recipe, error: null })
+            })
+            .catch(error =>
+                this.setState({ error: error.message })
+            )
     }
 
     componentDidMount() {
@@ -192,4 +205,4 @@ class Home extends Component {
         </main>
     }
 }
-export default Home
+export default withRouter(Home)

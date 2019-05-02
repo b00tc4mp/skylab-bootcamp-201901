@@ -14,7 +14,7 @@ function Results({ items: { meals = [] }, onItem, wanted, done, error, onSearch 
     }
 
     function onClickCategory(category){
-        console.log(category)
+
         onSearch(category, "filter.php?c=")
     }
 

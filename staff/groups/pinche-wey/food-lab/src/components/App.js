@@ -118,22 +118,19 @@ class App extends Component {
                     () => logic.isUserLoggedIn? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />
                 } /> 
 
-                <Route exact path="/" render={
-                    () => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />
-                }/>
-
                 <Route exact path="/register" render={ 
                     () => logic.isUserLoggedIn? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} /> 
                 } />
 
-                <Route exact path="/login" render={ 
+                <Route path="/login" render={ 
                     () => logic.isUserLoggedIn? <Redirect to="/home" /> : <Login onLogin={handleLogin} error={error} /> 
                 } />
 
-                <Route exact path="/home" render={
+                <Route path="/home" render={
                     () => logic.isUserLoggedIn? <Home results={results} name={name}  onSearch={handleSearch} onLogout={handleLogout} /> : <Redirect to="/" />
                 } />
                      
+                <Redirect to="/" />
             </Switch>            
 
         <footer className='footer'>
