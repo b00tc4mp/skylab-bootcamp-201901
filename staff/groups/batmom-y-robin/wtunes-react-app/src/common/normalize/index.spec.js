@@ -1,3 +1,3 @@
-xdescribe('normalize', () => {
+describe('normalize', () => {
     it('should pass', ()=> expect(true).toBeTruthy())
 })

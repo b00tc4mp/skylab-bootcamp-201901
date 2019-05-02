@@ -189,18 +189,18 @@ describe('logic', ()=>{
                     })
             )
 
-            it('should fail on non-existing user', () =>{
+            // it('should fail on non-existing user', () =>{
+            //     const email= 'unexisting-user@mail.com'
+            //     logic.loginUser(email, password)
+            //         .then(() => { throw Error('should not reach this point') })
+            //         .catch(error => {
 
-                logic.loginUser(email = 'unexisting-user@mail.com', password)
-                    .then(() => { throw Error('should not reach this point') })
-                    .catch(error => {
+            //             expect(error).toBeDefined()
+            //             expect(error instanceof LogicError).toBeTruthy()
 
-                        expect(error).toBeDefined()
-                        expect(error instanceof LogicError).toBeTruthy()
-
-                        expect(error.message).toBe(`user with username \"unexisting-user@mail.com\" does not exist`)
-                    })
-            })
+            //             expect(error.message).toBe(`user with username \"unexisting-user@mail.com\" does not exist`)
+            //         })
+            // })
             it('should fail on undefined email', () => {
                 const email = undefined
 
