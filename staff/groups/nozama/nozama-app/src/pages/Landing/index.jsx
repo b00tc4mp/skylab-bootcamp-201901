@@ -33,7 +33,6 @@ function Landing(props) {
 
     allProducts.then(products => {
       let cath = [];
-        debugger
         cath.push(products[0])
         for(let i = 0; i < products.length; i++){
           let exist = false;
