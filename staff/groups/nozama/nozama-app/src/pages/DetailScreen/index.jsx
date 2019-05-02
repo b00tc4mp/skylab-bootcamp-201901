@@ -29,22 +29,49 @@ function DetailScreen(props){
   return(
     <div className="container">
       <div className="row">
-          <Title title={product.productName}/>
+      <div className="col-1">
         </div>
-          <div className="row">
-            <img width="100rem" height="100rem" src={product.imageSmall}/>
-          </div>
+        <div className="col-">
+        <Title title={product.productName}/>
+        </div>
+          
+      </div>
+
+      <div className="row">
+        <div className="col-1">
+        </div>
         <div className="col">
-          <Subtitle subtitle={product.subtitle} />
-          <div className="row" >
-            <Price price={product.originalPrice}/>
-            <Currency currency={product.displayCurrency}/>
-          </div>
-          <div className="col">
-          <ButtonAddToCart onClick={handleAddToCart}/>
-          </div>
+          <img width="300rem" height="300rem" src={product.imageSmall}/>
         </div>
       </div>
+
+      <div className="row">
+        <div className="col-xs-1">
+        </div>
+        <div className="col">
+          <Subtitle subtitle={product.subtitle} />
+        </div>
+      </div>
+
+      <div className="row" >
+        <div className="col-1">
+        </div>
+        <div className="col-">
+          <div className="row">
+            <Price price={product.originalPrice}/>
+            <Currency currency={product.displayCurrency}/>
+          </div>  
+        </div> 
+      </div>
+
+      <div className="row">
+        <div className="col-1">
+        </div>
+        <div className="col-">
+          <ButtonAddToCart onClick={handleAddToCart}/>
+        </div>
+      </div>
+    </div>
   )
 
 }
