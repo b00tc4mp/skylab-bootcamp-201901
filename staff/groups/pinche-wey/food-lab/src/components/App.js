@@ -75,10 +75,9 @@ class App extends Component {
     }
 
     componentWillReceiveProps(props) {
-        const { query, selector } = queryString.parse(props.location.search)
+        const { query = "", selector } = queryString.parse(props.location.search)
 
-        query && this.search(query, selector)
-
+        selector && this.search(query, selector)
     }
 
     search = (query, selector) =>
