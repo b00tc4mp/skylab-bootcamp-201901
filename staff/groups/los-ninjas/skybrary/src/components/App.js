@@ -4,10 +4,10 @@ import logic from '../logic'
 import Landing from './Landing'
 import Register from './Register'
 // import RegisterOk from './RegisterOk'
+import Header from './Header'
 import Login from './Login'
 import Home from './Home'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
-
 import './App.scss'
 
 class App extends Component {
@@ -35,7 +35,7 @@ class App extends Component {
           logic.retrieveUser()
         )
         .then(user => {
-          this.setState({ name: user.alias, error: null }, ()=> this.props.history.push('/home'))
+          this.setState({ name: user.alias, error: null }, () => this.props.history.push('/home'))
         })
         .catch(error =>
           this.setState({ error: error.message })
@@ -59,7 +59,7 @@ class App extends Component {
       handleLogin,
       handleRegisterNavigation,
       handleLoginNavigation,
-      handleRegister
+      handleRegister,
     } = this
 
     return <Fragment>
@@ -67,15 +67,17 @@ class App extends Component {
         <Route exact path="/" render={() =>
           <Landing onClickRegister={handleRegisterNavigation} onClickLogin={handleLoginNavigation} />
         } />
+
         <Route path="/register" render={() =>
           <Register onRegister={handleRegister} error={error} />
         } />
+
         <Route path="/login" render={() =>
           <Login onLogin={handleLogin} error={error} />
         } />
 
-        <Route path="/home" render={() =>
-          <Home />
+        <Route path="/home" render={props =>
+          <Home {...props}/>
         } />
 
         <Redirect to="/" />

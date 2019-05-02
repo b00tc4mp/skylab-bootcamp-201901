@@ -87,13 +87,13 @@ const logic = {
         return searchBooksApi.searchBooks(query)
     },
 
-    // retrieveBook(isbn) {
-    //     validate.arguments([
-    //         { name: 'isbn', value: isbn, type: 'string' }
-    //     ])
+    retrieveBook(isbn) {
+        validate.arguments([
+             { name: 'isbn', value: isbn, type: 'string' }
+         ])
 
-    //     return searchBooksApi.retrieveBook(isbn)
-    // },
+        return searchBooksApi.retrieveBook(isbn)
+    },
 
     // toggleFavDuck(id) {
     //     validate.arguments([
