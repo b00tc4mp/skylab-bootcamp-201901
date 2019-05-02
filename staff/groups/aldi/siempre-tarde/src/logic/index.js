@@ -175,6 +175,37 @@ const logic = {
             })
     },
 
+    retrieveStop(stop_id) {
+
+        validate.arguments([
+            { name: 'stop', value: stop_id, type: 'number', notEmpty: true, optional: false }
+        ])
+
+        return transitApi.retrieveStop(stop_id)
+            .then(response => {
+                const { features } = response
+
+                let stops = []
+
+                features.forEach(e => {
+                    const { properties:
+                        { "CODI_PARADA": stop_id,
+                            "NOM_PARADA": stop_name,
+                            "SENTIT": direction
+                        }
+                    } = e
+                    if (direction === direction_id) {
+                        stops.push({ stop_id, stop_name })
+                    }
+
+                })
+
+                return stops
+            })
+    },
+
+
+/*
 
     upcomingBusesByStop(stop_id) {
 
@@ -253,6 +284,96 @@ const logic = {
             })
     },
 
+*/
+
+   upcomingBusesByStop(stop_id) {
+
+    validate.arguments([
+        { name: 'stop', value: stop_id, type: 'number', notEmpty: true, optional: false }
+    ])
+
+    let buses = []
+    let stop_name = ''
+
+    return transitApi.retrieveStop(stop_id)
+        .then(response => {
+            const {features: [{ properties: { "NOM_PARADA": _stop_name } }] } = response
+            stop_name = _stop_name
+
+            return iBusApi.retrieveStopId(stop_id)
+        })
+        .then(response => {
+
+            const { data: { ibus } } = response
+
+            if (ibus.length === 0) throw new NoDataError('no data recived')
+
+            return ibus.map((bus, index) => {
+
+                const { line, "t-in-min": t_in_min, "t-in-s": t_in_s, "text-ca": text_ca } = bus
+
+                buses[index] = { line, t_in_min, t_in_s, text_ca }
+
+                return transitApi.retrieveBusLine()
+            })
+        })
+        .then(res => Promise.all(res).then(response => {
+            return response.map(({ features }) => {
+                return features.map(({ properties:
+                    { "CODI_LINIA": line_id,
+                        "NOM_LINIA": name_line,
+                        "DESC_LINIA": desc_line,
+                        "ORIGEN_LINIA": origin_line,
+                        "DESTI_LINIA": dest_line,
+                        "COLOR_LINIA": color_line
+                    }
+                }) => {
+                    return { line_id, name_line, desc_line, origin_line, dest_line, color_line }
+                })
+            })
+        })
+        )
+        .then(resp => {
+            let upcomingBuses = []
+            resp.map((arr, index) => {
+                let lineFind = false
+                let i = 0
+                let color_line = '#000000'
+                let dest_line = ''
+                let name_line = ''
+                let desc_line = ''
+                let origin_line = ''
+
+                while (i < arr.length && !lineFind) {
+                    if (arr[i].name_line === buses[index].line) {
+                        color_line  = arr[i].color_line
+                        dest_line   = arr[i].dest_line
+                        name_line   = arr[i].name_line
+                        desc_line   = arr[i].desc_line
+                        origin_line = arr[i].origin_line
+                        lineFind    = true
+                    }
+                    else { i++ }
+                }
+                upcomingBuses.push({ line: buses[index].line, 
+                                     t_in_min: buses[index].t_in_min, 
+                                     t_in_s: buses[index].t_in_s, 
+                                     text_ca: buses[index].text_ca, 
+                                     color_line, 
+                                     dest_line, 
+                                     name_line, 
+                                     desc_line, 
+                                     origin_line,
+                                     stop_id,
+                                     stop_name : stop_name
+                                }) 
+
+            })
+            return upcomingBuses
+        })
+    },
+       
+
 
     upcomingBusesByStopAndLine(stop_id, line_id) {
 
@@ -262,13 +383,12 @@ const logic = {
         ])
 
         let buses = []
+        let upcomingBuses = []
         
         return iBusApi.retrieveLineId(stop_id, line_id)
             .then(response => {
 
-
                 const { data: { ibus } } = response
-
 
                 if (ibus.length === 0) throw new NoDataError('no data recived')
 
@@ -298,8 +418,6 @@ const logic = {
                 })  
             )
             .then(resp => {
-            
-                let upcomingBuses = []
                 resp.map((arr) => {
                     upcomingBuses.push({ line        : buses[0].line_id, 
                                          t_in_min    : buses[0].t_in_min, 
@@ -312,9 +430,33 @@ const logic = {
                                          origin_line : arr[0].origin_line
                      })
                 })
-                return upcomingBuses
+                
+                return transitApi.retrieveStop(stop_id)
             })
+            .then(response => {
+        
+                let busesData = []
+
+                const {features: [{ properties: { "CODI_PARADA": _stop_id, "NOM_PARADA": _stop_name } }] } = response
+
+                busesData.push({line        : upcomingBuses[0].line,
+                                t_in_min    : upcomingBuses[0].t_in_min, 
+                                t_in_s      : upcomingBuses[0].t_in_s, 
+                                text_ca     : upcomingBuses[0].text_ca, 
+                                color_line  : upcomingBuses[0].color_line, 
+                                dest_line   : upcomingBuses[0].dest_line,
+                                name_line   : upcomingBuses[0].name_line, 
+                                desc_line   : upcomingBuses[0].desc_line, 
+                                origin_line : upcomingBuses[0].origin_line,
+                                stop_id     : _stop_id,
+                                stop_name   : _stop_name
+                            })
+                return busesData
+                }
+                
+            )
     }
+
 
 }
 

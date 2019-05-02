@@ -158,12 +158,8 @@ describe('transit api', () => {
 
         it('should succeed on correct bus stop', () => {
             
-            debugger
-
             return transitApi.retrieveStop(stop_id)
                 .then(response => {
-                    
-                    debugger
 
                     expect(response).toBeDefined()
 
