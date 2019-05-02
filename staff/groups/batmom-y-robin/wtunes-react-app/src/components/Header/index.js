@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import logic from '../../logic'
 import images from './images'
+import './index.sass'
 
 
 class Header extends Component {
@@ -27,11 +28,12 @@ class Header extends Component {
     render(){
         const {
             hadleCityChange,
-            state: {currentWeather, currentCity, error}
+            state: {currentWeather, currentCity, images},
+            props: {onLogout, onProfile, onPreferences}
         } = this
-        return <>
-        <header>
-            <img  src={this.state.images}/>
+
+        return <div className="myHeader" style={{backgroundImage: `url(${images})`}}>
+        <div className="select mySelect">
         <select name="city" onChange={event => hadleCityChange(event.target.value)} defaultValue={currentCity}>
             <option value="Alaska">Alaska</option>
             <option value="Auckland">Auckland</option>
@@ -46,11 +48,17 @@ class Header extends Component {
             <option value="Toronto">Toronto</option>
             <option value="Warsaw">Warsaw</option>
         </select>
-        <h2>{currentCity}</h2>
-        <h2>{currentWeather}</h2>
-        <img src=""/>
-        </header>
-        </>
+        </div>
+        <div className="myTitle">
+            <h2 className="title is-1">{currentCity}</h2>
+            <h2 className="title is-3">{currentWeather}</h2>
+        </div>
+        <div className="buttons is-right myButtons">
+            <button className="button is-primary is-right" onClick={onProfile}>Profile</button>
+            <button className="button is-primary is-right" onClick={onPreferences}>Preferences</button>
+            <button className="button is-primary is-right" onClick={onLogout}>Logout</button>
+        </div>
+        </div>
     }
 }
 

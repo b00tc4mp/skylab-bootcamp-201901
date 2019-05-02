@@ -1,0 +1,40 @@
+@import '../../utils.sass'
+
+.myBox
+    display: flex
+    min-height: 200px
+    justify-content: center
+    @include mobile
+        min-height: 150px
+
+
+.myContent
+    padding-left: 20px
+
+    @include mobile
+        display: flex
+        flex-flow: column
+        padding-left: 0
+
+
+.myImage
+    align-items: center
+
+    @include mobile
+        flex-flow: column
+        justify-content: center
+
+.myText
+    text-align: center
+    &.title
+        @include mobile
+            padding-top: 10px
+
+.results
+    height: calc(100vh - 25vh)
+    margin-top: 25vh
+    overflow-y: auto
+
+.columns
+    height: calc(100vh - 25vh)
+    margin-top: -25vh
