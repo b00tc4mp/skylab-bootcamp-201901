@@ -1,9 +1,13 @@
 import React, { Component } from 'react'
 import literals from './literals'
 import logic from '../../logic'
+import Genres from '../SelectGenres'
 import Nav from '../Nav'
+import Name from '../Name'
 import Search from '../Search'
 import Results from '../Results'
+import Pagination from '../Pagination'
+import MoviesGenres from '../MoviesGenres'
 import Detail from '../Detail'
 import Play from '../Play'
 
@@ -11,23 +15,47 @@ import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
 
 
 class Home extends Component {
+    state = { movies: [], error: null, trailerMovie: null, userNameGenre: null }
 
-    state = { movies: [], error: null, trailerMovie: null }
 
     handleSearch = query => {
-        logic.searchMovies(query)
-            .then(response => this.setState({
-                movies: response.results.map(({ id, title, poster_path: image }) => {
-                    const imagePath = `https://image.tmdb.org/t/p/w300/${image}`
-                    return { id, title, image: imagePath }
+        try {
+            logic.searchMovies(query)
+                .then(response => this.setState({
+                    movies: response.results.map(({ id, title, poster_path: image }) => {
+                        let imagePath
+                        if(image) imagePath = `https://image.tmdb.org/t/p/w300/${image}`
+                        else imagePath = 'https://via.placeholder.com/300x450'                       
+                        return { id, title, image: imagePath }
+                    })
+                , error: null}, this.props.history.push(('/home/movies'))))
+                .catch(error => {
+                    this.setState({ error: error.message })
                 })
-            }))
-            .then(response => {
-                this.props.history.push(('/home/movies'))
+          } catch(error) {
+            this.setState({ error: error.message })
+        }
+    }
+
+    componentDidMount() {
+        const state = {}
+        logic.retrieveUser()
+            .then(({ fullname, genres }) => {
+                state.userGenres = genres
+                state.fullname = fullname
+                // if(!genres)
+                return logic.retrieveMovieGenres()
+                    .then(({ genres }) => {
+                        state.movieGenres = genres
+                    })
             })
-            .catch(error => {
-                this.setState({ error: error.message })
-            })
+            .then(()=> this.setState(state))
+            .catch(error => this.setState({ error: error.message }))
+    }
+
+    handleOnChangeGenres = genres => {
+        logic.updateGenresUser(genres)
+            .then(() => this.setState({userGenres: genres}))
     }
 
     handleRetrieve = id => {
@@ -69,25 +97,27 @@ class Home extends Component {
 
     render() {
         const {
-            props: { lang, name, onLogout },
-            state: { movies, movie, trailerMovie },
+            props: { lang, onLogout },
+            state: { movies, movie, trailerMovie, movieGenres, userGenres, fullname, error },
             handleSearch,
             handleRetrieve,
             handletoMovie,
-
+            handleOnChangeGenres
         } = this
-
-        const { hello } = literals[lang]
-
+        
         return <main>
-            <Nav lang={lang} /*onList={handleList} onProfile={handleProfile} */ onLogout={onLogout} />
-            <h1>{hello}, {name}!</h1>
-            <Search lang={lang} onSearch={handleSearch} />
+            {userGenres && <Nav lang={lang} /*onList={handleList} onProfile={handleProfile} */ onLogout={onLogout} />}
+            <Name lang={lang} name={fullname} />
+            {userGenres && <Search lang={lang} onSearch={handleSearch} /> }
+            {!userGenres && movieGenres && <Genres lang={lang} genres={movieGenres} onUpdate={handleOnChangeGenres}/>}
             <Switch>
-                <Route exact path="/home/movies" render={() => <Results lang={lang} items={movies} onItem={handleRetrieve} />} />
+                <Route exact path="/home/movies" render={() => <Results lang={lang} items={movies} onItem={handleRetrieve}, error={error} />} />
                 <Route exact path="/home/movies/detail/:id" render={() => <Detail item={movie} toMovie={handletoMovie} />} />
                 <Route path={"/home/movies/detail/:id/trailer"} render={() => <Play movie={trailerMovie} />} />
             </Switch>
+             
+            {/* esconder cuando busque pelis */}
+            {userGenres && <MoviesGenres userGenres={userGenres} movieGenres={movieGenres} lang={lang} />}
         </main>
     }
 }

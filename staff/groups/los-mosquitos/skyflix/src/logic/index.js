@@ -69,11 +69,22 @@ const logic = {
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
                 if (response.status === 'OK') {
-                    const { data: { fullname, username: email, subscription, app } } = response
+                    const { data: { fullname, username: email, subscription, app, genres } } = response
 
-                    return { fullname, email, subscription, app }
+                    return { fullname, email, subscription, app, genres }
                 }
                 else throw new LogicError(response.error)
+            })
+    },
+
+    updateGenresUser(genres) {
+        validate.arguments([
+            { name: 'data', value: genres, type: 'number', notEmpty: true }
+        ])
+
+        return userApi.update(this.__userId__, this.__userToken__, { genres })
+            .then(response => {
+                if (response.status === 'OK') return
             })
     },
 
@@ -83,12 +94,20 @@ const logic = {
 
     searchMovies(query) {
         validate.arguments([
-            { name: 'query', value: query, type: 'string' }
+            { name: 'query', value: query, type: 'string', notEmpty: true}
         ])
 
-        return movieApi.searchMovies(query)
+        return movieApi.searchMovies({ query })
     },
 
+    searchMoviesWithPage(query, page) {
+        validate.arguments([
+            { name: 'query', value: query, type: 'string' },
+            { name: 'page', value: page, type: 'number'}
+        ])
+
+        return movieApi.searchMovies({ query, page })  
+    },
 
     retrieveMovie(id) {
         validate.arguments([
@@ -147,6 +166,14 @@ const logic = {
 
                 throw new LogicError(response.error)
             })
+    },
+
+    retrieveMovieGenres() {
+        return movieApi.retrieveMovieGenres()
+    },
+
+    retrieveMoviesWithGenre(genre){
+        return movieApi.discoverMovies({with_genres: genre})
     }
 }
 
