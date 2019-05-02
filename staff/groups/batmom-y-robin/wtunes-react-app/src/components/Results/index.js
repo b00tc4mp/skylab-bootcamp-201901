@@ -13,10 +13,10 @@ function Results({ error, items, onPlayer }) {
 
                 return <div key={previewUrl} className="column is-4-desktop is-5-tablet is-8-mobile"  onClick={() => onPlayer(previewUrl)}>
                         <div className="box myBox">
-                            <article class="media myImage">
+                            <article className="media myImage">
                                 <img src={artWork} />
-                                <div class="media-content myContent">
-                                    <div class="content">
+                                <div className="media-content myContent">
+                                    <div className="content">
                                         <h3 className='title is-4 myText'>{trackName.substring(0,35)}</h3>
                                         <h4 className="subtitle is-6 myText">{artistName}</h4>
                                         <p className="myText is-small">{genere}</p>

@@ -1,4 +1,6 @@
+@import '../../utils.sass'
 @import url('https://fonts.googleapis.com/css?family=Ubuntu')
+
 
 .myHeader
     position: fixed
@@ -13,8 +15,10 @@
 
 .myButtons
     display: flex
-    align-self: flex-end
-    z-index: 6
+    flex-flow: column
+    padding-bottom: 20px;
+    padding-right: 5px;
+    align-items: center;
     width: 30vw
 
 .mySelect
@@ -27,3 +31,25 @@
     text-align: center
     z-index: 10
     width: 40vw
+
+.myCity
+    font-size: 68px
+
+    @include tablet
+        font-size: 42px
+
+    @include mobile
+        font-size: 30px
+
+.myWeather
+    font-size: 34px
+
+    @include tablet
+        font-size: 28px
+
+    @include mobile
+        font-size: 16px
+
+.myIcon
+    height: 18px
+    width: 18px
