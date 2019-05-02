@@ -6,7 +6,7 @@ import Nav from '../Nav'
 import Name from '../Name'
 import Search from '../Search'
 import Results from '../Results'
-import Pagination from '../Pagination'
+//import Pagination from '../Pagination'
 import MoviesGenres from '../MoviesGenres'
 import Detail from '../Detail'
 import Play from '../Play'
@@ -111,7 +111,7 @@ class Home extends Component {
             {userGenres && <Search lang={lang} onSearch={handleSearch} /> }
             {!userGenres && movieGenres && <Genres lang={lang} genres={movieGenres} onUpdate={handleOnChangeGenres}/>}
             <Switch>
-                <Route exact path="/home/movies" render={() => <Results lang={lang} items={movies} onItem={handleRetrieve}, error={error} />} />
+                <Route exact path="/home/movies" render={() => <Results lang={lang} items={movies} onItem={handleRetrieve} error={error} />} />
                 <Route exact path="/home/movies/detail/:id" render={() => <Detail item={movie} toMovie={handletoMovie} />} />
                 <Route path={"/home/movies/detail/:id/trailer"} render={() => <Play movie={trailerMovie} />} />
             </Switch>
