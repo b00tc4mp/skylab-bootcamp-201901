@@ -15,11 +15,11 @@ function StopLine({ lang, onSearch, items, error, line_id }) {
                 {
                     items.map(({ line_id, name_line, desc_line }) => {
 
-                        return <option key={line_id} value={line_id}>{name_line}-{desc_line}</option>
+                        return <option key={line_id} value={line_id}>{name_line} - {desc_line}</option>
                     })
                 }
             </select>
-            <span>{error}</span>
+            <h2>{error}</h2>
         </div>
     </section>
 

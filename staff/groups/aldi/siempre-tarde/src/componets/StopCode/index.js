@@ -23,12 +23,12 @@ function StopCode({lang, onSearch, error}) {
     return <section>
     <Link to={`/`}><button>{back}</button></Link>
     <h2>{title}</h2>
-    <span>{error}</span>
         <form onSubmit= {handleSubmit}>
             <input type="number" name="stop_id" placeholder={stop} autoFocus/>
             <input type="submit" value={submit}/>
             <input type="reset" value={reset}/>
         </form>
+        <h2>{error}</h2>
     </section>
 
 }
