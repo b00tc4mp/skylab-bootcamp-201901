@@ -30,14 +30,9 @@ class Home extends Component {
         }=this
         return <>
         <main className="home">
-        <h1>weatunes</h1>
-        <button onClick={onLogout}>Logout</button>
-        <button onClick={onProfile}>Profile</button>
-        <button onClick={onPreferences}>Preferences</button>
-
-        {user && <Header city={user.city} preferences={user.preferences} onWeatherRetrieved={handleSearchMusic}/>}
+        {user && <Header city={user.city} preferences={user.preferences} onWeatherRetrieved={handleSearchMusic} onLogout={onLogout} onProfile={onProfile} onPreferences={onPreferences}/>}
         <Results items={musicList} onPlayer={handlePlayMusic}/>
-        {playerUrl && <Player url={playerUrl}/>}
+        {<Player url={playerUrl}/>}
         
         </main>
         </>

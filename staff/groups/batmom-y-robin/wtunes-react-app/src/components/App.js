@@ -7,6 +7,7 @@ import Home from './Home'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 import Profile from './Profile'
 import Preferences from './Preferences'
+import './App.sass'
 
 class App extends Component {
     state = { city: null, visible: null, error: null, user: null , preferences : null }
