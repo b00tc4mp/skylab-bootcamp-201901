@@ -6,6 +6,7 @@
     "react": "^16.8.6",
     "react-bulma-components": "^2.3.0",
     "react-dom": "^16.8.6",
+    "react-fontawesome": "^1.6.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.0"
   },
@@ -14,7 +15,7 @@
     "build": "react-scripts build",
     "test": "react-scripts test --runInBand",
     "eject": "react-scripts eject",
-    "test:debug":"react-scripts --inspect-brk test --runInBand --no-cache"
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache"
   },
   "eslintConfig": {
     "extends": "react-app"

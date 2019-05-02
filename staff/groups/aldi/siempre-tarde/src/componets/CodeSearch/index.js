@@ -6,32 +6,38 @@ import logic from '../../logic';
 import StopCode from '../StopCode';
 
 class CodeSearch extends Component {
-    state = { error: null, line: null, lines:[] , stop: null}
+    state = { error: null, line: null, lines: [], stop: null, favs:[] }
 
     handleSearch = stop_id =>
         logic.upcomingBusesByStop(stop_id)
             .then((lines) =>
-                this.setState({ error:null, line: null, lines, stop:stop_id},() => this.props.history.push('/byidstop/results'))
+                this.setState({ error: null, line: null, lines, stop: stop_id }, () => this.props.history.push('/byidstop/results'))
             )
             .catch(error =>
                 this.setState({ error: error.message })
             )
 
+    handleFav = id =>
+    console.log(id)
+        // logic.toggleFavStop(id)
+        //     .then(() => logic.retrieveFavDucks())
+        //     .then(favs => this.setState({ favs }))
 
     render() {
         const {
             handleSearch,
-            state: { lines, error, stop },
+            handleFav,
+            state: { lines, error, stop, favs },
             props: { lang }
         } = this
 
-        const { back} = literals[lang]
+        const { back } = literals[lang]
 
         return <main>
             <Switch>
-            <Route exact path="/byidstop" render={() => logic.isUserLoggedIn ? <StopCode lang={lang} onSearch={handleSearch} error={error}/> : <Redirect to="/" />} />
-            <Route path="/byidstop/results" render={() => logic.isUserLoggedIn ? <Results lang={lang} items={lines} stop={stop} error={error}/> : <Redirect to="/" />} />
-            <Redirect to="/" />
+                <Route exact path="/byidstop" render={() => logic.isUserLoggedIn ? <StopCode lang={lang} onSearch={handleSearch} error={error} /> : <Redirect to="/" />} />
+                <Route path="/byidstop/results" render={() => logic.isUserLoggedIn ? <Results lang={lang} items={lines} onFav={handleFav} stop={stop} error={error} favs={favs}/> : <Redirect to="/" />} />
+                <Redirect to="/" />
             </Switch>
         </main>
     }
