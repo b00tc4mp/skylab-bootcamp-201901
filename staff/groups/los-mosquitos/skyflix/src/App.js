@@ -80,8 +80,6 @@ class App extends Component {
         } = this
 
         return <>
-            <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} />
-
             <Switch>
                 <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to='/home' /> : <Landing lang={lang} onLogin={handleLoginNav} onRegister={handleRegisterNav} />} />
 
@@ -96,6 +94,8 @@ class App extends Component {
 
                 <Redirect to='/' />
             </Switch>
+
+            <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} /> 
         </>
     }
 }
