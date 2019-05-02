@@ -58,17 +58,22 @@ export default class Navigation extends React.Component {
           <div className="collapse navbar-collapse" id="navbarNav">
             <ul className="navbar-nav">
               {!logic.isLoggedIn && (
-                <li className="nav-item">
+                <li className="nav-item my-2">
                   <Link to="/login">Login</Link>
                 </li>
               )}
               {!logic.isLoggedIn && (
-                <li className="nav-item">
+                <li className="nav-item my-2">
                   <Link to="/register/">Register</Link>
                 </li>
               )}
               {logic.isLoggedIn && (
-                <li className="nav-item">
+                <li className="nav-item my-2">
+                  <Link to="/userProfile/">User profile</Link>
+                </li>
+              )}
+              {logic.isLoggedIn && (
+                <li className="nav-item my-2">
                   <Link to="/logout/">Logout</Link>
                 </li>
               )}

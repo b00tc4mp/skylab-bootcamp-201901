@@ -152,16 +152,7 @@ function App(props) {
           render={(props) => {
             if (!logic.isLoggedIn) return <Redirect to="/login/checkout"/>
             return <Checkout {...props} cart={cart} dispatch={dispatch}/>}
-        }
-
-        />
-        <Route
-          path="/logout"
-          render={() => {
-            dispatch({action: GLOBAL_LOGOUT});
-            return <Redirect to="/" />;
-          }}
-        />
+        }/>
         <Route
           path={"/search/:text"}
           render={(props) => <SearchPage {...props}/>}
@@ -176,13 +167,18 @@ function App(props) {
         />
         <Route
           path="/thanks"
-          render={() => <ThanksPage/>
-        }
+          render={() => logic.isLoggedIn ? <ThanksPage/> : <Redirect to="/" />}
         />
         <Route
           path="/userProfile"
-          render={() => <UserProfile />
-        }
+          render={() => logic.isLoggedIn ? <UserProfile /> : <Redirect to="/" />}
+        />
+        <Route
+          path="/logout"
+          render={() => {
+            dispatch({action: GLOBAL_LOGOUT});
+            return <Redirect to="/" />;
+          }}
         />
         <Redirect to="/" />
       </Switch>

@@ -9,6 +9,10 @@ export default function UserProfile(props) {
   const [password, setPassword] = useState('');
   const [historicCarts, setHistoricCarts] = useState([]);
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
   useEffect(() => {
     logic.retrieveUser().then(user => {
       setName(user.name);
@@ -28,7 +32,7 @@ export default function UserProfile(props) {
         </div>
       )}
 
-      <form>
+      <form on Submit={handleSubmit}>
         <div className="row">
           <div className="col">
             <div className="form-group">
@@ -39,6 +43,7 @@ export default function UserProfile(props) {
                 id="name"
                 placeholder="Name"
                 value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
           </div>
@@ -51,6 +56,7 @@ export default function UserProfile(props) {
                 id="surname"
                 placeholder="Surname"
                 value={surname}
+                onChange={(e) => setSurname(e.target.value)}
               />
             </div>
           </div>
@@ -71,18 +77,22 @@ export default function UserProfile(props) {
               aria-label="Username"
               aria-describedby="basic-addon1"
               value={email}
+              onChange={(e) => setEmail(e.target.value)}
             />
           </div>
         </div>
         <div className="form-group">
-          <label htmlFor="exampleInputPassword1">Password</label>
+          <label htmlFor="password">Password</label>
           <input
             type="password"
             className="form-control"
-            id="exampleInputPassword1"
+            id="password"
             placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
           />
         </div>
+        <button type="button" class="btn btn-warning">Update profile</button>
       </form>
 
       <h5 className="mt-3">Last purchases</h5>
@@ -90,7 +100,7 @@ export default function UserProfile(props) {
       {!historicCarts ? (
         <p>No purchases yet</p>
       ) : (
-        <table class="table table-striped table-sm">
+        <table class="table table-striped table-sm table-hover ">
           <thead class="thead-dark">
             <tr>
               <th scope="col">#</th>

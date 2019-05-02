@@ -2,11 +2,10 @@ import React from 'react';
 
 import { Button, Form, FormGroup, Label, Input, FormText, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
-import logic from "../../logic";
-import { withRouter } from "react-router-dom";
+import logic from '../../logic';
+import { withRouter } from 'react-router-dom';
 
 class Register extends React.Component {
-
   state = {
     name: '',
     surname: '',
@@ -23,31 +22,41 @@ class Register extends React.Component {
     event.preventDefault();
     const afterGoTo = this.props.match.params.afterGoTo;
     const { email, password, name, surname } = this.state;
-    logic.registerUser(email, password, name, surname)
-      .then(() => logic.loginUser(email, password))
-      .then(res => {
-      if (res === true) {
-        if (afterGoTo) {
-          this.props.history.push('/' + afterGoTo)
-        } else this.props.history.push('/home')
-      }
-      else this.setState({ error: res });
-    });
+    try {
+      logic
+        .registerUser(email, password, name, surname)
+        .then(() => logic.loginUser(email, password))
+        .then(res => {
+          if (!res.message) {
+            if (afterGoTo) {
+              this.props.history.push('/' + afterGoTo);
+            } else this.props.history.push('/');
+          } else throw Error(res);
+        })
+        .catch(error => {
+          this.setState({ error: error.message });
+          setTimeout(() => this.setState({ error: null }));
+        });
+    } catch (error) {
+      this.setState({ error: error.message });
+      setTimeout(() => this.setState({ error: null }));
+    }
   };
-
 
   render() {
     const afterGoTo = this.props.match.params.afterGoTo;
     return (
       <div className="container mt-5">
         {this.state.error && (
-          <div class="alert alert-warning" role="alert">
+          <div className="alert alert-warning" role="alert">
             {this.state.error}
-          </div>)}
-        <form className="form" onSubmit={this.handleSubmit} >
+          </div>
+        )}
+        <form className="form" onSubmit={this.handleSubmit}>
           <div className="form-group">
-            <label for="name">Name</label>
-            <input className="form-control"
+            <label htmlFor="name">Name</label>
+            <input
+              className="form-control"
               type="text"
               name="name"
               id="name"
@@ -57,8 +66,9 @@ class Register extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label for="surname">Surname</label>
-            <input className="form-control"
+            <label htmlFor="surname">Surname</label>
+            <input
+              className="form-control"
               type="text"
               name="surname"
               id="surname"
@@ -68,8 +78,9 @@ class Register extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label for="email">Email</label>
-            <input className="form-control"
+            <label htmlFor="email">Email</label>
+            <input
+              className="form-control"
               type="email"
               name="email"
               id="email"
@@ -79,8 +90,9 @@ class Register extends React.Component {
             />
           </div>
           <div className="form-group">
-            <label for="password">Password</label>
-            <input className="form-control"
+            <label htmlFor="password">Password</label>
+            <input
+              className="form-control"
               type="password"
               name="password"
               id="password"
@@ -89,10 +101,8 @@ class Register extends React.Component {
               value={this.state.password}
             />
           </div>
-          <button className="btn btn-primary btn-block">
-            Submit
-          </button>
-          <Link to={"/login/" + afterGoTo} className="btn btn-link">
+          <button className="btn btn-primary btn-block">Submit</button>
+          <Link to={'/login/' + afterGoTo} className="btn btn-link">
             Go to login
           </Link>
         </form>
@@ -101,4 +111,4 @@ class Register extends React.Component {
   }
 }
 
-export default withRouter(Register)
+export default withRouter(Register);
