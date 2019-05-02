@@ -3,7 +3,7 @@ import literals from './literals'
 import './index.sass'
 
 function Search({ lang, onSearch }) {
-    const { search,placeholder } = literals['en-US'] //cambiar por lang
+    const { search, placeholder } = literals['en-US'] //cambiar por lang
     return <form onSubmit={e => {
         e.preventDefault()
 
@@ -17,6 +17,7 @@ function Search({ lang, onSearch }) {
                 <button className="btn btn-primary">{search}</button>
             </div>
         </div>
+
     </form>
 }
 

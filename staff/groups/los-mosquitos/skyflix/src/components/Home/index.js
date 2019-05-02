@@ -5,17 +5,16 @@ import Nav from '../Nav'
 import Name from '../Name'
 import Search from '../Search'
 import Results from '../Results'
-//import Pagination from '../Pagination'
 import MoviesGenres from '../MoviesGenres'
 import Detail from '../Detail'
 import Play from '../Play'
 import './index.sass'
+import List from '../List'
 
 import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
 
-
 class Home extends Component {
-    state = { movies: [], error: null, trailerMovie: null, userNameGenre: null, favs: [] }
+    state = { movies: [], error: null, trailerMovie: null, userNameGenre: null, favs: [], movieList: [] }
 
 
     handleSearch = query => {
@@ -29,7 +28,7 @@ class Home extends Component {
                             else imagePath = 'https://via.placeholder.com/300x450'
                             return { id, title, image: imagePath }
                         })
-                        , error: null , favs
+                        , error: null, favs
                     }, () => this.props.history.push(('/home/movies'))))
                 .catch(error => {
                     this.setState({ error: error.message })
@@ -98,34 +97,47 @@ class Home extends Component {
 
     handleHome = () => this.props.history.push('/home')
 
-    handleFav = (id) =>{
-    
+    toList = () => {
+        this.props.history.push('/home/list')
+
+    }
+
+    handleFav = (id) => {
+
         logic.toggleMovieUserList(id)
             .then(() => logic.retrieveMovieUserList())
             .then(favs => this.setState({ favs }))
     }
+
+
     render() {
         const {
             props: { lang, onLogout },
-            state: { movies, movie, trailerMovie, movieGenres, userGenres, fullname, error, favs },
+            state: { movies, movie, movieList, trailerMovie, movieGenres, userGenres, fullname, error, favs },
             handleSearch,
             handleRetrieve,
             handletoMovie,
             handleOnChangeGenres,
             handleHome,
-            handleFav
+            handleFav,
+            toList
         } = this
 
         return <main>
-            {userGenres && <Nav lang={lang} /*onList={handleList} onProfile={handleProfile} */ onLogout={onLogout} onHome={handleHome} />}
+            {userGenres && <Nav lang={lang} onList={toList} /*onProfile={handleProfile} */ onLogout={onLogout} onHome={handleHome} />}
             <Name lang={lang} name={fullname} />
             {userGenres && <Search lang={lang} onSearch={handleSearch} />}
             {!userGenres && movieGenres && <Genres lang={lang} genres={movieGenres} onUpdate={handleOnChangeGenres} />}
             <Switch>
-                <Route exact path="/home/movies" render={() => <Results lang={lang} items={movies} onItem={handleRetrieve} error={error} onFav={handleFav} favs={favs} />} />               
-                <Route exact path="/home/movies/detail/:id" render={() => <Detail item={movie} toMovie={handletoMovie} onFav={handleFav} favs={favs}/>} />
+                <Route exact path="/home/movies" render={() => <Results lang={lang} items={movies} onItem={handleRetrieve} error={error} onFav={handleFav} favs={favs} />} />
+                <Route exact path="/home/movies/detail/:id" render={() => <Detail item={movie} toMovie={handletoMovie} onFav={handleFav} favs={favs} />} />
                 <Route path={"/home/movies/detail/:id/trailer"} render={() => <Play movie={trailerMovie} />} />
-                <Route path={'/home'} render={() => userGenres && <MoviesGenres userGenres={userGenres} movieGenres={movieGenres} lang={lang} onItem={handleRetrieve} onFav={handleFav}  favs={favs} />} />
+                <Route path={'/home/list'} render={() => {
+                    logic.retrieveMovieUserList()
+                        .then(movieList => this.setState({ movieList }))
+                    return <List movieList={movieList} onItem={handleRetrieve}/>
+                }} />
+                <Route path={'/home'} render={() => userGenres && <MoviesGenres userGenres={userGenres} movieGenres={movieGenres} lang={lang} onItem={handleRetrieve} onFav={handleFav} favs={favs} />} />
             </Switch>
         </main>
     }
