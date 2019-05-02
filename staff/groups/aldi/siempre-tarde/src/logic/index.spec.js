@@ -276,7 +276,7 @@ describe('logic', () => {
             it('should succeed on retrieve favorites stops', () => 
                 logic.retrieveFavStops()
                     .then(stops => {
-                        debugger
+                        
                         stops.forEach(({ stop_id, stop_name }) => {
     
                             const isFav = _favs.some(fav => fav === stop_id)
