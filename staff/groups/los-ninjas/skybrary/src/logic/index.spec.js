@@ -169,6 +169,10 @@ describe('logic', () => {
                 const undefinedPassword = undefined
                 expect(() => logic.loginUser(email, undefinedPassword)).toThrowError(Error, 'password is undefined')
             })
+            it('should fail on null password', () => {
+                const nullPassword = null
+                expect(() => logic.loginUser(email, nullPassword)).toThrowError(Error, 'password is null')
+            })
         })
 
         describe('retrieve user', () => {
