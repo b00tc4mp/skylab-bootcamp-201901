@@ -2,6 +2,7 @@ import React from 'react'
 import literals from './literals'
 import { Link } from "react-router-dom"
 import logic from '../../logic';
+import './index.sass'
 
 function StopLine3({ lang, onSearch, items, error, stop_id }) {
     const { title1, select, back } = literals[lang]
