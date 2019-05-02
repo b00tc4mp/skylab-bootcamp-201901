@@ -33,7 +33,6 @@ class Home extends Component {
 
         logic.retrieveBook(isbn)
             .then(apiBookDetailsResponse => {
-
                 const {details = {}} = Object.values(apiBookDetailsResponse)[0]
                 const {description = {}, number_of_pages} = details
                 const {value = ''} = description
