@@ -3,6 +3,7 @@ export default {
         title: 'Login',
         email: 'E-mail',
         password: 'Password',
+        back: 'Go back',
         reset: 'Reset'
     },
     es: {
@@ -10,6 +11,7 @@ export default {
         email: 'Correo electrónico',
         password: 'Contraseña',
         password2: 'Repite la contraseña',
+        back: 'Atras',
         reset: 'Borrar'
     },
     ca: {
@@ -17,6 +19,7 @@ export default {
         email: 'Adreça electrònica',
         password: 'Contrasenya',
         password2: 'Repiteix la contrasenya',
+        back: 'Endarrera',
         reset: 'Esborrar'
     }
 }

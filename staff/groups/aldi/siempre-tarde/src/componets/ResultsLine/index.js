@@ -2,10 +2,10 @@ import React from 'react'
 import literals from './literals'
 import { Link } from 'react-router-dom'
 import './index.sass'
+import emoji from 'react-easy-emoji'
 
 function ResultsLine({ lang, stop, onFav, favs, error }) {
     const { title1, lin, dir,back, fav } = literals[lang]
-debugger
     const isFav = favs.some((fav2) => fav2.stop_id === stop[0].stop_id)
     return <section className='main-results-line'>
     <div className='results-line-container'>
@@ -18,12 +18,12 @@ debugger
                     let style = {
                         color: `#${color_line}`,
                       };
-                    return <li className="columns" key={line}>
+                    return <li className="columns is-mobile is-centered" key={line}>
                         <div className="column is-6-mobile">
-                            <h2 style={style}> {lin} {line} {dir} {dest_line}</h2>
+                            <h2 style={style}> <span>{ emoji(' 📍') }</span>{lin} {line} {dir} {dest_line}</h2>
                         </div>
-                        <div className="column is-2-mobile">
-                           <h3>{t_in_min} min</h3>
+                        <div className="column is-6-mobile">
+                           <h3>{t_in_min} min<span>{ emoji(' 🚌💨💨') }</span> </h3>
                         </div>
                     </li>
                 })

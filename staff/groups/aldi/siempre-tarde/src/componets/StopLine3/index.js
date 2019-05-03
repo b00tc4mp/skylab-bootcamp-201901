@@ -26,7 +26,7 @@ function StopLine3({ lang, onSearch, items, error, stop_id }) {
         <Link to={`/`}><button className="button is-rounded is-primary is-outlined">{back}</button></Link>
         <div>
             <h2 className="title is-4 has-text-centered">{title1}</h2>
-            <div className='main-language select field'>
+            <div className='select field'>
             <select onChange={event => onSearch(event.target.value)} value={stop_id}>
             <option key='select'>{select}</option>
                 {

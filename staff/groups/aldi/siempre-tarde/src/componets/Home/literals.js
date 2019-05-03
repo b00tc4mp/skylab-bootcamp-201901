@@ -8,7 +8,7 @@ export default {
     },
     es: {
         stopByCode: 'Parada por Código',
-        stopByLine: 'Parada por Linia',
+        stopByLine: 'Parada por linea',
         favoriteStops: 'Favoritos',
         title: 'Próximo Bus',
         logout: 'Cerrar Sesión'
