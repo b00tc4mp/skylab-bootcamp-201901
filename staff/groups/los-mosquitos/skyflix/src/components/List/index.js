@@ -1,11 +1,9 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faTrashAlt } from '@fortawesome/free-solid-svg-icons'
-import logic from '../../logic'
 import './index.sass'
 
-function List({ movieList, onItem }) {
-
+function List({ movieList, onItem, onRemoveItem }) {
 
     return (
         <section className="container">
@@ -20,8 +18,7 @@ function List({ movieList, onItem }) {
 
                                 <FontAwesomeIcon icon={faTrashAlt} onClick={e => {
                                     e.stopPropagation()
-                                    
-                                    logic.removeFromMovieUserList(id)
+                                    onRemoveItem(id)
                                 }}
                                 />
 
