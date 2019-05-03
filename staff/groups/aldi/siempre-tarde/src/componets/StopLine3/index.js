@@ -21,10 +21,12 @@ function StopLine3({ lang, onSearch, items, error, stop_id }) {
 
     items.sort(dynamicSort('stop_id'))
 
-    return <section>
-        <Link to={`/`}><button>{back}</button></Link>
+    return <section className='main-stopline3'>
+        <div className='stopline3-container'>
+        <Link to={`/`}><button className="button is-rounded is-primary is-outlined">{back}</button></Link>
         <div>
-            <h1>{title1}</h1>
+            <h2 className="title is-4 has-text-centered">{title1}</h2>
+            <div className='main-language select field'>
             <select onChange={event => onSearch(event.target.value)} value={stop_id}>
             <option key='select'>{select}</option>
                 {
@@ -34,7 +36,9 @@ function StopLine3({ lang, onSearch, items, error, stop_id }) {
                     })
                 }
             </select>
-            <h2>{error}</h2>
+            <span className="help is-danger">{error}</span>
+        </div>
+        </div>
         </div>
     </section>
 

@@ -24,7 +24,7 @@ function StopCode({lang, onSearch, error}) {
     return <section className='main-stopcode'>
      <div className='stopcode-container'>
         <Link to={`/`}><button className="button is-rounded is-primary is-outlined">{back}</button></Link>
-        <h2 className='title'>{title}</h2>
+        <h2 className="title is-4 has-text-centered">{title}</h2>
         <form onSubmit= {handleSubmit}>
                 <input className="input field" type="number" name="stop_id" placeholder={stop} autoFocus/>
                 <input className="button is-rounded is-primary" type="submit" value={submit}/>
