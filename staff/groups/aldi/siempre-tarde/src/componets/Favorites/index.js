@@ -3,9 +3,9 @@ import literals from './literals'
 import { Route, withRouter, Redirect, Switch, Link } from 'react-router-dom'
 import './index.sass'
 
-function Favorites({ lang, favs, error, onFavOut }) {
+function Favorites({ lang, favs, error, onFavOut, onSee }) {
 
-    const { title1, back, fav } = literals[lang]
+    const { title1, back, fav, see } = literals[lang]
 
     return <section className='main-results'>
         <div className='results-container'>
@@ -20,6 +20,7 @@ function Favorites({ lang, favs, error, onFavOut }) {
                             </div>
                             <div className="column is-2-mobile">
                                 <button className="button is-rounded is-primary" onClick={() => onFavOut(stop_id)}>{fav}</button>
+                                <button className="button is-rounded is-primary" onClick={()=>onSee(stop_id)}>{see}</button>
                             </div>
                         </li>
                     })

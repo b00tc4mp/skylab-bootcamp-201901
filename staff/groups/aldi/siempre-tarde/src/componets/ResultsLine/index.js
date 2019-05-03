@@ -4,11 +4,11 @@ import { Link } from 'react-router-dom'
 import './index.sass'
 
 function ResultsLine({ lang, stop, onFav, favs, error }) {
-    const { title1, lin, dir,back } = literals[lang]
+    const { title1, lin, dir,back, fav } = literals[lang]
     return <section className='main-results-line'>
     <div className='results-line-container'>
     <Link to={`/`}><button className="button is-rounded is-primary is-outlined">{back}</button></Link>
-    <button className="button is-rounded is-primary" onClick={()=>onFav(stop[0].stop_id)}>FAV</button>
+    <button className="button is-rounded is-primary" onClick={()=>onFav(stop[0].stop_id)}>{fav}</button>
         <h2 className="title is-4 has-text-centered">{title1} {stop[0].stop_id}: {stop[0].stop_name}</h2>
         <ul className="container">
             {
