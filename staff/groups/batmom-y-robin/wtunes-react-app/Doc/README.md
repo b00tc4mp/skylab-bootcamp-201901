@@ -1,10 +1,5 @@
 # Weatunes
 
-## Demo
-
-[Live Demo](http://weatunes.surge.sh)
-
-
 ## Introduction
 ```
 Weatunes app will proposes you a playlist based on the weather of the selected city.
