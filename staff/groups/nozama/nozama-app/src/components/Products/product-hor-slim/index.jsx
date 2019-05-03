@@ -32,12 +32,14 @@ function ProductHorizontalSlim(props) {
               <img src={imageSmall} width="100%" />
             </Link>            
           </div>
-          <div className="col-7 col-sm-8">
+          <div className="col-7 col-sm-8 p-0">
             <Title title={productName} />
             <Subtitle subtitle={subtitle} />
-            <div className="d-flex justify-content-center align-middle">
+            <div className="row font-italic">
               <Price price={originalPrice} />
               <Currency currency={displayCurrency} />
+            </div>
+            <div className="row">
               {props.line && (
                 <>
                   <i onClick={handleMinus} className="fas fa-minus fa-lg mx-2"></i>

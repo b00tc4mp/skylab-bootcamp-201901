@@ -1,5 +1,5 @@
 import React from 'react'
 
-const Currency = props => { return( <p className="pl-3">{props.currency}</p> ) }
+const Currency = props => { return( <h6 className="pl-1">{props.currency}</h6> ) }
 
 export default Currency;
