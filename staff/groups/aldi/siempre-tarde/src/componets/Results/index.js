@@ -6,7 +6,6 @@ import './index.sass'
 function Results({ lang, items, stop, error, onFav, favs }) {
 
     const { back, fav , to} = literals[lang]
-    debugger
     const isFav = favs.some((fav2) => fav2.stop_id === stop)
 
     return <section className='main-results'>

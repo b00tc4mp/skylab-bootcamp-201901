@@ -35,8 +35,10 @@ class LineSearch extends Component {
         stop_id = Number(stop_id)
 
         return logic.upcomingBusesByStopAndLine(stop_id, this.state.line_id)
-            .then((stop) =>
-                this.setState({ error: null, stop }, () => this.props.history.push('/byidline/results'))
+            .then((stop) =>{
+                return logic.retrieveFavStops().then(favs => this.setState({ error: null, line: null, favs, stop }, () => this.props.history.push('/byidline/results')))
+
+            }
             )
             .catch(error =>
                 this.setState({ error: error.message })
@@ -64,7 +66,7 @@ class LineSearch extends Component {
                 <Route exact path="/byidline" render={() => logic.isUserLoggedIn ? <StopLine lang={lang} items={items} onSearch={handleLineSearch} error={error} /> : <Redirect to="/" />} />
                 <Route path="/byidline/directions" render={() => logic.isUserLoggedIn ? <StopLine2 lang={lang} items={directions} onSearch={handleDirectionSearch} error={error} /> : <Redirect to="/" />} />
                 <Route path="/byidline/stops" render={() => logic.isUserLoggedIn ? <StopLine3 lang={lang} items={lines} onSearch={handleStopSearch} error={error} /> : <Redirect to="/" />} />
-                <Route path="/byidline/results" render={() => logic.isUserLoggedIn ? <ResultsLine lang={lang} onFav={handleFav} stop={stop} error={error} /> : <Redirect to="/" />} />
+                <Route path="/byidline/results" render={() => logic.isUserLoggedIn ? <ResultsLine lang={lang} onFav={handleFav} stop={stop} error={error} favs={favs}/> : <Redirect to="/" />} />
                 <Redirect to="/" />
             </Switch>
         </main>
