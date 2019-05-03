@@ -5,7 +5,7 @@ import './index.sass'
 
 
 class Header extends Component {
-    state = {currentWeather: null, error: null, currentCity: this.props.city, images: images.Thunderstorm }
+    state = {currentWeather: null, error: null, currentCity: this.props.city, images: null }
     hadleCityChange = e => {
         this.setState({currentCity: e})
         logic.retrieveWeather(e)
@@ -28,7 +28,7 @@ class Header extends Component {
     render(){
         const {
             hadleCityChange,
-            state: {currentWeather, currentCity, images},
+            state: {currentWeather, currentCity, images, error},
             props: {onLogout, onProfile, onPreferences}
         } = this
 
@@ -60,7 +60,9 @@ class Header extends Component {
             <button className="button is-text is-outlined is-right" onClick={onPreferences}><img className="myIcon" src='https://img.icons8.com/ios-glyphs/30/000000/bulleted-list.png'/></button>
             <a onClick={onLogout}>Logout</a>
         </div>
+        <span className="help is-danger">{error}</span>
         </div>
+        
     }
 }
 

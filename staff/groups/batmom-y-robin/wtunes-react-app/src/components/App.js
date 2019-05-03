@@ -70,14 +70,14 @@ class App extends Component {
     handleCityChange = city => {
 
         logic.updateUserCity(city)
-        .then(()=> this.setState({city}))
-        .catch(error =>
+            .then(()=> this.setState({city}))
+            .catch(error =>
             this.setState({ error: error.message })
             )
     }
     handleStyleChange = preferences =>{
         logic.updateUserPreferences(preferences)
-        .then(() => this.handleComeBack())
+            .then(() => this.handleComeBack())
     }
 
     componentDidMount() {
@@ -91,13 +91,13 @@ class App extends Component {
                     this.setState({ error: error.message })
                 )
     }
-    componentDidUpdate(prevProps) {
-        if (this.props.location !== prevProps.location) this.setState({ visible: null })
-    }
+    // componentDidUpdate(prevProps) {
+    //     if (this.props.location !== prevProps.location) this.setState({ visible: null })
+    // }
 
     render() {
         const {
-            state: {  visible, error, user, preferences },
+            state: { error, user, preferences },
             handleRegisterNavigation,
             handleLoginNavigation,
             handleCityChange,
