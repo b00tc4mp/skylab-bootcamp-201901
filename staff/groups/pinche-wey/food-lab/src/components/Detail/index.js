@@ -100,7 +100,7 @@ function Detail({ item: { meals }, onBack, onWaiting, error, wanted, done, notes
                     }} icon={star <= 4 ? faStarRegular : faStartSolid} />
                 </div>
             </>}
-            {done.indexOf(id) !== -1 && <textarea id="notes" className="detail__myNotes-textarea" onBlur={() => {
+            {done.indexOf(id) !== -1 && <textarea id="notes" placeholder="My notes" className="detail__myNotes-textarea" onBlur={() => {
                 let value = document.getElementById("notes").value
                 if (value !== notes[done.indexOf(id)]) {
 

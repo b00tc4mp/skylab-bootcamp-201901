@@ -17,8 +17,15 @@ class App extends Component {
 
     // handleRegisterNavigation = () => this.setState({ visible: 'register' }) // no es necesario hacer esto ya que lo manejamos con this.props.history.push('/register')
 
-    handleRegisterNavigation = () => this.props.history.push('/register')
-    handleLoginNavigation = () => this.props.history.push('/login')
+    handleRegisterNavigation = () => {
+        this.props.history.push('/register')
+        this.setState({ visible: 'register', error: null })
+    }
+
+    handleLoginNavigation = () => {
+        this.props.history.push('/login')
+        this.setState({ visible: 'login', error: null })
+    }
 
     // handleLoginNavigation = () => this.setState({ visible: 'login' }) // no es necesario hacer esto ya que lo manejamos con this.props.history.push('/login')
 
@@ -56,7 +63,6 @@ class App extends Component {
         try {
             logic.registerUser(name, surname, email, confirmEmail, password, confirmPassword, confirmAge, confirmConditions)
                 .then(() => {
-                    this.setState({ visible: 'register-ok', error: null })
                     this.props.history.push('/login')
                 })
                 .catch(error =>
@@ -69,8 +75,7 @@ class App extends Component {
 
     handleLogout = () => {
         logic.logoutUser()
-
-        this.setState({ visible: 'landing', name: null, url: null })
+        this.setState({ visible: 'landing', name: null, url: null, error: null })
         this.props.history.push('/')
     }
 
@@ -88,7 +93,9 @@ class App extends Component {
             .catch(error =>
                 this.setState({ error: error.message })
             )
+            
     handleUser = () => { // nuevo
+        this.props.history.push(`/user`)
         logic.retrieveUser()
             .then(response => {
                 this.setState({ userCont: response })
@@ -118,8 +125,10 @@ class App extends Component {
         }
     }
 
-    handleSearch = (query, selector) => this.props.history.push(`/home?selector=${selector}&query=${query}`)
-
+    handleSearch = (query, selector) => {
+        this.props.history.push(`/home?selector=${selector}&query=${query}`)
+        this.handleUpdateUser()
+    }
 
     render() {
         const {
@@ -135,21 +144,21 @@ class App extends Component {
         } = this
 
         return <>
-            <header className="header">
+           <header className="header">
 
                 <h1 className="header__title">
                     <Link className="header__title-link" to="/">FOOD<span className="header__title-colored">LAB</span></Link>
                 </h1>
 
-                <div className="header__searcher">
+                {visible === 'home' && <div className="header__searcher">
                     <Search onSearch={handleSearch} />
-                </div>
+                </div>}
 
                 <div className="header__user">
-                    <div className="header__user-img">
+                    {visible === 'home' && <div className="header__user-img">
                         <img onClick={() => handleUser()} src={url} />
-                    </div>
-                    <p className="header__user-name" >{name}</p>
+                    </div>}
+                    {visible === 'home' &&<p className="header__user-name" >{name}</p>}
                     {visible !== 'landing' && <button className="header__user-button" onClick={handleLogout}> {visible === 'home' ? 'LogOut' : 'Return'}</button>}
                 </div>
 
@@ -157,7 +166,7 @@ class App extends Component {
 
             <Switch>
                 <Route exact path="/" render={
-                    () => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />
+                    () => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onClick={handleLogout} onLogin={handleLoginNavigation} />
                 } />
 
                 <Route exact path="/register" render={

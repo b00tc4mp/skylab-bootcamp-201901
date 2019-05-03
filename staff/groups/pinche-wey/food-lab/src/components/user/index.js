@@ -1,7 +1,7 @@
 import React from 'react'
 import './index.sass'
 
-function User({ user, onUpdate, onBack }) {
+function User({ user, onUpdate, onBack, random }) {
 
     function handleSubmit (event) {
         event.preventDefault();
@@ -19,7 +19,7 @@ function User({ user, onUpdate, onBack }) {
         if (image.length < 1) image = user.photoUrl
         if (user.age && age.length < 1) age = user.age
 
-        onUpdate({ name: name, surname: surname, comment: comment, age: age, photoUrl: image })
+        onUpdate({ name: name, surname: surname, comment: comment, age: age, photoUrl: image }, random)
     };
 
 

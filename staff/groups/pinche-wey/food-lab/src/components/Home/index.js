@@ -94,7 +94,10 @@ class Home extends Component {
 
     }
 
-    handleRetrieve = id => this.props.history.push(`/home/${id}`)
+    handleRetrieve = id => { 
+        this.props.history.push(`/home/${id}`)
+        this.props.handleUpdateUser()
+    }
 
     retrieve = id => {
         logic.retrieveRecipe(id)

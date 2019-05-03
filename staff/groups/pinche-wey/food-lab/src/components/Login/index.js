@@ -13,6 +13,8 @@ function Login({ onLogin, error }) {
     }
 
     return <section className="login">
+    <div>
+
         <h2 className='login__title'>Login</h2>
         <form className='login__form' onSubmit={handleSubmit}>
             <input type="text" name="username" placeholder="username" required />
@@ -20,6 +22,7 @@ function Login({ onLogin, error }) {
             <button className='login__form-button'>Login</button>
             {error && <span className='login__form-error'>{error}</span>}
         </form>
+    </div>
     </section>
 }
 
