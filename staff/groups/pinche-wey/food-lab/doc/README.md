@@ -27,9 +27,9 @@ Secondly, once the recipe is within the category  *Cooked* , the user can evalua
 
 ## Technical description
 
-### BLocks
+### Blocks
 
-![BLocks]("images/blocks.jpg)
+![Blocks](images/blocks.jpg)
 
 ### Components
 
