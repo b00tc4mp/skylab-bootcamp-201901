@@ -33,8 +33,9 @@ function App(props) {
     switch (action) {
       case CART_ADD_PRODUCT:
         {
+          debugger
           const { product, quantity } = params;
-          const newCart = [...cart];
+          const newCart = cart;
           const index = newCart.findIndex(item => item.product.productId === product.productId);
           if (index === -1) {
             newCart.push({ product, quantity });
@@ -52,7 +53,7 @@ function App(props) {
       case CART_REMOVE_PRODUCT:
         {
           const { product } = params;
-          const newCart = [...cart];
+          const newCart = cart;
           const index = newCart.findIndex(item => item.product.productId === product.productId);
           if (index !== -1) newCart.splice(index, 1);
           setCart(newCart);
@@ -63,7 +64,7 @@ function App(props) {
       case CART_UPDATE_PRODUCT:
         {
           const { product, quantity } = params;
-          const newCart = [...cart];
+          const newCart = cart;
           const index = newCart.findIndex(item => item.product.productId === product.productId);
           if (index !== -1) newCart[index].quantity = quantity;
           setCart(newCart);
