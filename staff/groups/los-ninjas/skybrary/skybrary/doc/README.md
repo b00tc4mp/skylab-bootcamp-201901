@@ -30,4 +30,3 @@ Search Book
 React JS, ES6, Sass, JEST, NPM, Bulma, Font Awesome
 ### **Code Coverage**
 ![image](images/test-coverage.png)
-We got 90% that one time the coverage wanted to work.
