@@ -8,23 +8,18 @@ import { Button } from 'reactstrap'
 
 function Cart(props) {
    const handleDetail = product => {
-    console.log(product);
     props.dispatch({action: FAVORITES_TOGGLE_PRODUCT, product});
   }
 
   const handleAddToCart = product => {
-    console.log(product)
     props.dispatch({action: CART_ADD_PRODUCT, product, quantity: 1})
   }
 
-  const handleCheckout = (e) => {
-    e.preventDefault();
-    props.onCheckout();
-  }
-
   return (
-    <div>
-      <strong>Subtotal de {props.cartQuantity} {}</strong>
+    <div className="mt-3">
+      {props.cart.length ?
+      <>
+      <strong>Added items: {props.cartQuantity} {}</strong>
       {props.cart.map(line => { 
         const {product} = line
         return ( 
@@ -33,8 +28,16 @@ function Cart(props) {
       )}
       <h3>Total {props.cart.reduce((acc, line) => {
         return acc + line.quantity * line.product.originalPrice;
-      }, 0)}</h3>
+      }, 0)} $</h3>
       <Link to="/checkout" >Checkout</Link>
+      </>
+      :
+      <h4 className="text-center strong p-4">No cart to display</h4>}
+      <div className="text-center">
+        <Link to="/" ><h4>Home</h4></Link>
+      </div>
+      
+      
     </div>
   );
 }

@@ -92,9 +92,12 @@ describe('logic', () => {
           .create(email, password, { name, surname })
           .then(res => expect(res.status).toBe('OK'))
           .then(() => logic.loginUser(email, password))
-          .then(res => {
-            expect(typeof res).toBe('boolean');
-            expect(res).toBeTruthy();
+          .then(user => {
+            expect(typeof user).toBe('object');
+            expect(typeof user.name).toBe('string');
+            expect(typeof user.surname).toBe('string');
+            expect(typeof user.email).toBe('string');
+            expect(user.password).toBeUndefined();
             expect(typeof logic.userId).toBe('string');
             expect(typeof logic.token).toBe('string');
           }));
@@ -131,7 +134,6 @@ describe('logic', () => {
         it('must return a promise', () =>
           userApi
             .create(email, password, { name, surname })
-            .then(res => expect(res.status).toBe('OK'))
             .then(() => expect(logic.loginUser(email, password) instanceof Promise).toBeTruthy()));
 
         it('fails if no email', () =>
@@ -162,12 +164,14 @@ describe('logic', () => {
           .then(({ status }) => expect(status).toBe('OK'))
           .then(() => userApi.auth(email, password))
           .then(res => {
+            debugger
             expect(res.status).toBe('OK');
             logic.userId = res.data.id;
             logic.token = res.data.token;
           })
           .then(() => logic.retrieveUser())
           .then(user => {
+            debugger
             const originalUser = {
               name,
               surname,

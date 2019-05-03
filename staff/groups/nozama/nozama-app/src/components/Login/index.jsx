@@ -1,7 +1,7 @@
 import React from 'react';
 import { withRouter, Link } from 'react-router-dom';
 import logic from '../../logic';
-import { CART_RETRIEVE } from '../../logic/actions'
+import { CART_RETRIEVE } from '../../logic/actions';
 
 class Login extends React.Component {
   state = {
@@ -18,22 +18,31 @@ class Login extends React.Component {
     event.preventDefault();
     const afterGoTo = this.props.match.params.afterGoTo;
     const { email, password } = this.state;
-    logic.loginUser(email, password)
-      .then(res => {
-        if (typeof res !== 'string') {
-          if (logic.cart.length !== 0) {
-            res.cart = [...logic.cart];
-            logic.updateUser(res);
-          } else {
-            logic.dispatch({action: CART_RETRIEVE});
-          }
-          if (afterGoTo) {
-            this.props.history.push('/' + afterGoTo)
-          } else this.props.history.push('/')
-        }
-        else this.setState({ error: res });
-        return res;
-      });
+    try {
+      logic
+        .loginUser(email, password)
+        .then(res => {
+          if (typeof res !== 'string') {
+            if (logic.cart.length !== 0) {
+              res.cart = [...logic.cart];
+              logic.updateUser(res);
+            } else {
+              logic.dispatch({ action: CART_RETRIEVE });
+            }
+            if (afterGoTo) {
+              this.props.history.push('/' + afterGoTo);
+            } else this.props.history.push('/');
+          } else throw Error(res);
+          return res;
+        })
+        .catch(error => {
+          this.setState({ error: error.message });
+          setTimeout(() => this.setState({ error: null }), 4000);
+        });
+    } catch (error) {
+      this.setState({ error: error.message });
+      setTimeout(() => this.setState({ error: null }), 4000);
+    }
   };
 
   render() {
@@ -41,13 +50,15 @@ class Login extends React.Component {
     return (
       <div className="container mt-5">
         {this.state.error && (
-          <div class="alert alert-warning" role="alert">
+          <div className="alert alert-warning" role="alert">
             {this.state.error}
-          </div>)}
+          </div>
+        )}
         <form onSubmit={this.handleSubmit}>
-          <div className ="form-group">
+          <div className="form-group">
             <label htmlFor="email">Email</label>
-            <input className="form-control"
+            <input
+              className="form-control"
               type="text"
               name="email"
               id="email"
@@ -58,7 +69,8 @@ class Login extends React.Component {
           </div>
           <div className="form-group">
             <label htmlFor="password" />
-            <input className="form-control"
+            <input
+              className="form-control"
               type="password"
               name="password"
               id="password"
@@ -67,14 +79,12 @@ class Login extends React.Component {
               value={this.state.password}
             />
           </div>
-          <button className="btn btn-primary btn-block" >
-            Submit
-          </button>
+          <button className="btn btn-primary btn-block">Submit</button>
         </form>
-        <Link to={"/register/" + afterGoTo} className="btn btn-link">
+        <Link to={'/register/' + afterGoTo} className="btn btn-link">
           Go to register
         </Link>
-      </div >
+      </div>
     );
   }
 }
