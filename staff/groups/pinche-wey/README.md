@@ -18,11 +18,11 @@ Secondly, once the recipe is within the category  *Cocked* , the user can evalua
 
 TODO ...
 
-## TEAM
+## MEMBERS
 
-### Francesc Destruels Rossello 
+### Francesc Destruels Rossello
 
-![](/images/170.png)
+![](https://ca.slack-edge.com/T0SJKHBFZ-UFFJEU8QH-3fb1a664b160-300)
 
 - Fran D. (Slack)
 - [frandross](http://trello.com/frandross) (Trello)
@@ -30,7 +30,7 @@ TODO ...
 
 ### Sergio Arce
 
-![](https://ca.slack-edge.com/T0SJKHBFZ-UF3JVA6AK-b3e6112ac517-1024)
+![](https://ca.slack-edge.com/T0SJKHBFZ-UF3JVA6AK-b3e6112ac517-300)
 
 - [Sergio.Arce](https://skylabcoders.slack.com/messages/DF2P76T29/team/UF3JVA6AK/)
 (slak)
@@ -38,8 +38,7 @@ TODO ...
 
 ### Mykhaylo Gusak
 
-![](https://ca.slack-edge.com/T0SJKHBFZ-UFGEK7P7H-fbcf35506193-150)
+![](https://ca.slack-edge.com/T0SJKHBFZ-UFGEK7P7H-fbcf35506193-300)
 
 - [Mihail G.](https://skylabcoders.slack.com/messages/C0SJQPW8Z/team/UFGEK7P7H/): {Slack}
 - [@mykhaylogusak:](https://trello.com/mykhaylogusak) {trello}
-
