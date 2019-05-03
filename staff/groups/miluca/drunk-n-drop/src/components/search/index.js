@@ -1,5 +1,5 @@
 import React from 'react'
-
+import './index.sass'
 
 
 function Search({onSearch,error}) {
@@ -13,11 +13,9 @@ function Search({onSearch,error}) {
 
     
     
-    return <section className ="search">
+    return <section class=" searcher_back">
     <form onSubmit={handleSubmit}>
-        <input type="text"  name ="search" />
-        <button>Search</button>
-        <span>{error}</span>
+        <input class="input is-rounded is-small"type="text"  name ="search" />
     </form>
 
 </section>

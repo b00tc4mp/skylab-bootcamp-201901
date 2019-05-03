@@ -1,53 +1,74 @@
+import { BrowserRouter as Router, Route, Link, Prompt, Switch, withRouter } from "react-router-dom";
 import Slider from "react-slick";
 import React from 'react'
+import './index.sass'
 
-function Detail({ detail }) {
 
+function Detail(props) {
+
+    
+
+    const { detail ,favClick} = props
 
     const { id, name, image, instructions, glass, ingredients } = detail
 
     var settings = {
         dots: false,
-        autoplay: true
+        autoplay: true,
+        infinite: true,
+        arrows:false
     };
+ 
+    return <div class="columns base" key={id}>
+            <div class="column topInfo">
+            <h1 class="title , topName">{name}</h1>
+                <div class="favDesktop">
+                <figure class="topImgae" >
+                 <img class="cocktailImage" src={image}/>
+                </figure>
+                <i class="far fa-star fav" onClick={()=>favClick(id)}></i>
+                </div>
+            </div>
+        <div class ="desktopVersion">
+            <div class="centerFlex">
+                <div class="column is-two-fifths centerInfo">
+                <h1 class="title midName">Ingredients</h1>
+                        <Slider {...settings}>
+                            {
+                                ingredients && ingredients.map(({ measure, image, ingredientName }) => {
+                                    return <div className="container slider" key={ingredientName}>
+                                        <div class="slider">
+                                    
+                                            <img class="detailsIngredient  detailsimg" src={image}/>
+                                        
+                                            <h5 class="title is-5 detailsIngredient ">{ingredientName}</h5>
+                                            <h2 class="subtitle detailsIngredient ">{measure}</h2>
+                                        </div>
+                                        </div>
+                                })
+                            }
+                        </Slider>   
+                </div>
+            </div>   
+          
+            <div class="column cocktailInfo">
+                    <div class="instructionsInfo">
+                        <h6 class="title  detailInfo">Instructions</h6>
+                        <h6 class="title is-6 detailInfo">{instructions}</h6>
+                    </div>
+                    <div class="glassInfo">
+                    <h6 class="title detailInfo detailInfoGlass">Glass</h6>
+                    <figure class="image is-128x128">
+                    <img   class ="glassImage"src="https://images-na.ssl-images-amazon.com/images/I/61kK8NnvtkL._SX466_.jpg"/>
+                    </figure>
+                    <h6 class="title is-6 detailInfo ">{glass}</h6>
+                    </div>
+            </div>
+    </div>
+       
 
-    return <>
-        <ul key={id}>
-            <li >
-                <h2>{name}</h2>
-                <img src={image} />
-                <span>{instructions}</span>
-                <span>{glass}</span>
-
-            </li>
-            <ul>
-
-                {
-                    ingredients && ingredients.map(({ measure, image, ingredientName }) => {
-                        return <div className="container" key={ingredientName}>
-                            <Slider {...settings}>
-                                <div>
-                                    <img src={image}/>
-                                </div>
-                                <div>
-                                    <img src="https://theculturetrip.com/wp-content/uploads/2015/08/27126168565_fde7898595_k.jpg" />
-                                </div>
-                                <div>
-                                    <img src="https://themadrex.com/wp-content/uploads/2018/04/cocktail-857393_1280.jpg" />
-                                </div>
-
-                            </Slider>
-                        </div>
-
-                    })
-                }
-
-            </ul>
-        </ul>
-
-    </>
-
+    </div>
 
 }
 
-export default Detail
+export default withRouter(Detail)
