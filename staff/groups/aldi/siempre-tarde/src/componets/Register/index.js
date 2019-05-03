@@ -1,10 +1,11 @@
 import React from 'react'
 import literals from './literals'
 import './index.sass'
+import { Link } from 'react-router-dom'
 
 function Register ({lang, onRegister, error }) {
 
-    const {title, name, surname, email, password, password2, reset} = literals[lang]
+    const {title, name, surname, email, password, password2, reset, back} = literals[lang]
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -23,6 +24,7 @@ function Register ({lang, onRegister, error }) {
 
     return <section className='main-register'>
     <div className='register-container'>
+    <Link to={`/`}><button className="button is-rounded is-primary is-outlined">{back}</button></Link>
             <h2 className='title'>{title}</h2>
             <form onSubmit = {handleSubmit}>
                 <input className="input field"  type="text" name="name" placeholder={name} autoFocus/>

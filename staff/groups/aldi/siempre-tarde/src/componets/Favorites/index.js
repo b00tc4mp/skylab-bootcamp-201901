@@ -2,6 +2,7 @@ import React from 'react'
 import literals from './literals'
 import { Route, withRouter, Redirect, Switch, Link } from 'react-router-dom'
 import './index.sass'
+import emoji from 'react-easy-emoji'
 
 function Favorites({ lang, favs, error, onFavOut, onSee }) {
 
@@ -14,11 +15,11 @@ function Favorites({ lang, favs, error, onFavOut, onSee }) {
             <ul className="container">
                 {
                     favs.map(({ stop_id, stop_name }) => {
-                        return <li className="columns" key={stop_id}>
-                            <div className="column is-6-mobile">
-                                <h2>{stop_id} - {stop_name}</h2>
+                        return <li className="columns is-mobile is-centered is-multiline" key={stop_id}>
+                            <div className="column is-12-mobile">
+                                <h2><span>{ emoji(' 📍') }</span>{stop_id} - {stop_name}</h2>
                             </div>
-                            <div className="column is-2-mobile">
+                            <div className="column is-12-mobile">
                                 <button className="button is-rounded is-primary" onClick={() => onFavOut(stop_id)}>{fav}</button>
                                 <button className="button is-rounded is-primary" onClick={()=>onSee(stop_id)}>{see}</button>
                             </div>
@@ -26,7 +27,7 @@ function Favorites({ lang, favs, error, onFavOut, onSee }) {
                     })
                 }
             </ul>
-            <h2>{error}</h2>
+            <span className="help is-danger">{error}</span>
         </div>
     </section>
 }

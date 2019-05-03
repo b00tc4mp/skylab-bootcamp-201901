@@ -14,6 +14,7 @@ import Favorites from './Favorites';
 import CodeSearch from './CodeSearch';
 import LineSearch from './LineSearch';
 import ResultsFav from './ResultsFav';
+import './index.sass'
 
 
 
@@ -131,7 +132,7 @@ class App extends Component {
             handleSee
         } = this
 
-        return <>
+        return <div className="main-app">
             <LanguageSelector lang={lang} onLanguageChange={handleLanguageChange} />
 
             <Switch>
@@ -154,7 +155,7 @@ class App extends Component {
 
                 <Redirect to="/" />
             </Switch>
-        </>
+        </div>
     }
 }
 

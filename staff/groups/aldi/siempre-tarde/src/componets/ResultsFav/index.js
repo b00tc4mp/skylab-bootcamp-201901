@@ -2,6 +2,7 @@ import React from 'react'
 import literals from './literals'
 import { Route, withRouter, Redirect, Switch, Link } from 'react-router-dom'
 import './index.sass'
+import emoji from 'react-easy-emoji'
 
 function ResultsFav({ lang, items, stop, error, onFav, favs }) {
 
@@ -18,12 +19,12 @@ function ResultsFav({ lang, items, stop, error, onFav, favs }) {
                  let style = {
                      color: `#${color_line}`,
                    };
-                 return <li className="columns" key={line}>
+                 return <li className="columns is-mobile is-centered" key={line}>
                      <div className="column is-6-mobile">
-                         <h2 style={style}>{name_line} - {desc_line} {to} {dest_line}</h2>
+                         <h2 style={style}><span>{ emoji(' 📍') }</span>{name_line} - {desc_line} {to} {dest_line}</h2>
                      </div>
-                     <div className="column is-2-mobile">
-                         <h3>{t_in_min} min</h3>
+                     <div className="column is-6-mobile">
+                         <h3>{t_in_min} min<span>{ emoji(' 🚌💨💨') }</span></h3>
                      </div>
                  </li>
              })
