@@ -5,7 +5,7 @@ import './index.sass'
 
 function Results({items,onFavorites, onDetail}) {
     return (
-    <div class="container-fluid container_background">
+    <div class="container-fluid container_background ">
         <ul class="columns is-multiline is-mobile is-centered">
             {
             items.map(({name,image,id})=>{

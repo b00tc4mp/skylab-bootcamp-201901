@@ -121,16 +121,20 @@ const logic = {
 
         return userApi.retrieve(this.__userId__,this.__userToken__)
         .then(response => {
+            
             const {status ,data } = response
 
-            if(status === 'OK'){
+            if(data.favorites.length>0){
+                
                 const {favorites = [] } = data
                    
                  return filterDetails(favorites)
             }
+            else throw Error('No existen favoritos')
 
-            throw new LogicError(response.error)
+            
         })
+       
 
     },
     cocktailbyGlass(query){

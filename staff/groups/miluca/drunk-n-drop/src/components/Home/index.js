@@ -18,7 +18,7 @@ import Favorites from '../Favorites'
 
 class Home extends Component {
 
-  state = { populars: [], toggleLogin: false, islogedIn:false, defaultquery: null, register: false, visible: false, details: null ,showFav:null}
+  state = { home:true, populars: [], toggleLogin: false, islogedIn:false,error:null, defaultquery: null, register: false, visible: false, details: null ,showFav:null}
 
   handlePpopular = () => {
 
@@ -51,7 +51,12 @@ class Home extends Component {
 
     return logic.retriveFavorites()
       .then(response => {
+     
         this.setState({ populars: response })
+      })
+      .catch(response =>{
+        
+        alert(response)
       })
 
   }
@@ -84,6 +89,10 @@ class Home extends Component {
       })
   }
 
+  handleHome = (home) =>{
+    this.setState({ visible: home})
+  }
+
   LoginVisibleHandler = () => {
     this.setState({ toggleLogin: !this.state.toggleLogin })
 
@@ -93,30 +102,29 @@ class Home extends Component {
   }
 
   handleLogin = (username, password) => {
-
     try {
       logic.loginUser(username, password)
         .then(() =>
           logic.retrieveUser()
+
         )
         .then(({ name }) => {
           this.setState({ name, error: null })
-          
+          this.setState({ toggleLogin: !this.state.toggleLogin })
+          this.setState({ islogedIn : true})
         })
         .catch(error =>
           this.setState({ error: error.message })
         )
-      this.setState({ toggleLogin: !this.state.toggleLogin })
-      this.setState({ islogedIn: true })
     } catch ({ message }) {
-      this.setState({ error: message })
+      alert(message)
     }
   }
 
 
   render() {
     const {
-      state: { populars, toggleLogin, islogedIn, defaultquery, register, visible, details,showFav },
+      state: { populars, toggleLogin, islogedIn, defaultquery, register, visible, details,showFav,error },
       handleLogin,
       LoginVisibleHandler,
       onRegister,
@@ -131,9 +139,9 @@ class Home extends Component {
       {visible &&<Detail detail={details} favClick={toggleFavorites} />}
       {defaultquery && !visible && <CocktailResults default={defaultquery} loginControl={islogedIn}/>}
       {toggleLogin && <Login togglelogin={LoginVisibleHandler} onLogin={handleLogin} />}
-      <Navbar />
+      <Navbar isHome={this.state.home}/>
       {!register && !visible && <Landing />}
-      {register && <Register onRegister={onRegister}/>}
+      {register && <Register onRegister={onRegister} error={error}/>}
       
       {!islogedIn && <nav class="level is-mobile bar">
         <p class="level-item has-text-centered">
@@ -149,7 +157,7 @@ class Home extends Component {
             Search
         </a>
         </p>
-      </nav>}s
+      </nav>}
       {islogedIn && <nav class="level is-mobile bar">
       <p class="level-item has-text-centered">
         <a onClick={() => returnFavorites()} class="link is-info  regist-login">Favorites</a>

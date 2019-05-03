@@ -27,12 +27,12 @@ class Navbar extends Component {
         </div>
         <div id="navbar" className={this.state.toggled ?"navbar-menu is-back is-active ":"navbar-menu" }>
         <div class="navbar-start">
-        <div class="navbar-item has-dropdown is-hoverable" >
+        {!this.props.isHome && <div class="navbar-item has-dropdown is-hoverable" >
             <a class="navbar-link" href="/search" >
             Categories
             </a>
             <div class="navbar-dropdown is-boxed" > 
-                <a class="navbar-item" href="/search" onClick={() => this.props.categorySearch('Cocktail')} >
+                <a class="navbar-item" onClick={() => this.props.categorySearch('Cocktail')} >
                 Cocktail
                 </a>
                 <a class="navbar-item" onClick={() => this.props.categorySearch('Milk / Float / Shake')}>
@@ -64,7 +64,7 @@ class Navbar extends Component {
                 </a>
 
             </div>
-        </div>
+        </div>}
             
         </div>
         </div>
