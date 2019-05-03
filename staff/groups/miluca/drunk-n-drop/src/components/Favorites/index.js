@@ -4,7 +4,7 @@ import React from 'react'
 
 function Favorites({ favs, giveFav ,onDetail}) {
 
-
+        
     return  <>
     <button onClick={() => giveFav()}>favs</button>
     <ul>

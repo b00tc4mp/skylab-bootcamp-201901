@@ -8,7 +8,7 @@ function Populars({ pops, onFavorites,onDetail }) {
     
 
     return <>
-    <div class="container-fluid container_background">
+    <div class="container-fluid container_background ">
         <ul class="columns is-multiline is-mobile is-centered">
             {
             pops.map(({name,image,id})=>{

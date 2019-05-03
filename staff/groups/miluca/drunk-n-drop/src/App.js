@@ -88,13 +88,13 @@ class App extends Component {
  */
   render() {
 
-    return <Router>
+    return <>
 
       <Switch>
         <Route exact path="/" render={() => <Home />} />
         <CocktailResults />
       </Switch>
-    </Router>
+    </>
 
   }
 }
