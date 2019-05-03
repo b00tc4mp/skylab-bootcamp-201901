@@ -1,23 +1,20 @@
 import React from 'react'
 import './index.scss'
 
-
-
-function Results({ items, onItem, onFav, favs }) {
+function Results({ items, onItem, onFav, bookFavs }) {
     return (
         <section className="library container" >
             <ul className="columns is-centered is-multiline is-mobile">
                 {
                     items.map(({ key, isbn, cover_edition_key, title, author_name, cover_i, publish_date }) => {
-                        const isFav = favs.some(fav => {
-
+                        const isFav = bookFavs.some(fav => {
                             if(isbn){
                                 const key = Object.keys(fav)[0]
-                                console.log(key, isbn[0])
                                 return key === 'ISBN:' + isbn[0]
                             }
                             return false
                         })
+
                         return (isbn && cover_edition_key) && <li className="library__book column is-3-desktop is-4-tablet is-10-mobile" key={cover_edition_key} onClick={() => onItem(isbn[0], key)}>
                             <article className="card">
                                 <div className="card-image">
@@ -40,7 +37,7 @@ function Results({ items, onItem, onFav, favs }) {
                                         </time>
 
                                     </div>
-                                {<i onClick={e => { e.stopPropagation(); onFav(isbn[0]) }} className={isFav ? 'fas fa-heart' : 'far fa-heart'}/>}                          
+                                {<i onClick={e => { e.stopPropagation(); onFav(isbn[0]) }} className={isFav ? 'fas fa-heart' : 'far fa-heart'}/>}
                                 </div>
                             </article>
                         </li>
@@ -50,6 +47,5 @@ function Results({ items, onItem, onFav, favs }) {
         </section>
     )
 }
-
 
 export default Results
