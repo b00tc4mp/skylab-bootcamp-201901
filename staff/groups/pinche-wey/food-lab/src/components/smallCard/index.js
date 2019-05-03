@@ -1,5 +1,4 @@
 import React from 'react'
-import logic from '../../logic';
 import './index.sass'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar as faStarSolid } from '@fortawesome/free-solid-svg-icons'
