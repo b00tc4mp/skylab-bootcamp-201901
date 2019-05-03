@@ -6,7 +6,6 @@ function Header(props) {
    const { onLogout } = props
    const userLogged = logic.isUserLoggedIn
 
-   console.log(props.history)
    return <header className="great-vibes header">
         <div className="container">
             <h1>Skybrary</h1>

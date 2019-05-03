@@ -1,8 +1,9 @@
 import normalize from '../common/normalize'
 import validate from '../common/validate'
 import userApi from '../data/user-api'
-import searchBooksApi from '../data/booksearch-api'
+import duckApi from '../data/duck-api'
 import { LogicError } from '../common/errors'
+
 
 const logic = {
     set __userId__(id) {
@@ -25,17 +26,17 @@ const logic = {
         return !!(this.__userId__ && this.__userToken__)
     },
 
-    registerUser(alias, email, password) {
+    registerUser(name, surname, email, password) {
         validate.arguments([
-            { name: 'alias', value: alias, type: 'string', notEmpty: true },
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
         validate.email(email)
 
-
-        return userApi.create(email, password, { alias })
+        return userApi.create(email, password, { name, surname })
             .then(response => {
                 if (response.status === 'OK') return
 
@@ -45,7 +46,7 @@ const logic = {
 
     loginUser(email, password) {
         validate.arguments([
-            { name: 'email', value: email, type: 'string', notEmpty: true},
+            { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
@@ -66,37 +67,42 @@ const logic = {
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
                 if (response.status === 'OK') {
-                    const { data: { alias, username: email } } = response
+                    const { data: { name, surname, username: email } } = response
 
-                    return { alias, email }
+                    return { name, surname, email }
                 } else throw new LogicError(response.error)
             })
     },
 
     logoutUser() {
+        // this.__userId__ = null
+        // this.__userToken__ = null
+
+        // OR fully remove all key values from session storage
         sessionStorage.clear()
     },
 
 
-    searchBooks(query) {
+    searchDucks(query) {
         validate.arguments([
             { name: 'query', value: query, type: 'string' }
         ])
 
-        return searchBooksApi.searchBooks(query)
+        return duckApi.searchDucks(query)
+            .then(ducks => ducks instanceof Array? ducks : [])
     },
 
-    retrieveBook(isbn) {
+    retrieveDuck(id) {
         validate.arguments([
-             { name: 'isbn', value: isbn, type: 'string' }
-         ])
+            { name: 'id', value: id, type: 'string' }
+        ])
 
-        return searchBooksApi.retrieveBook(isbn)
+        return duckApi.retrieveDuck(id)
     },
 
-    toggleFavBook(isbn) {
+    toggleFavDuck(id) {
         validate.arguments([
-            { name: 'isbn', value: isbn, type: 'string' }
+            { name: 'id', value: id, type: 'string' }
         ])
 
         return userApi.retrieve(this.__userId__, this.__userToken__)
@@ -104,33 +110,34 @@ const logic = {
                 const { status, data } = response
 
                 if (status === 'OK') {
-                    const { bookFavs = [] } = data // NOTE if data.bookFavs === undefined then bookFavs = []
+                    const { favs = [] } = data // NOTE if data.favs === undefined then favs = []
 
-                    const index = bookFavs.indexOf(isbn)
+                    const index = favs.indexOf(id)
 
-                    if (index < 0) bookFavs.push(isbn)
-                    else bookFavs.splice(index, 1)
+                    if (index < 0) favs.push(id)
+                    else favs.splice(index, 1)
 
-                    return userApi.update(this.__userId__, this.__userToken__, { bookFavs })
-                        .then(() => bookFavs)
+                    return userApi.update(this.__userId__, this.__userToken__, { favs })
+                        .then(() => { })
                 }
-                else throw new LogicError(response.error)
+
+                throw new LogicError(response.error)
             })
     },
 
-    retrieveFavBooks() {
+    retrieveFavDucks() {
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
                 const { status, data } = response
 
                 if (status === 'OK') {
-                    const { bookFavs = [] } = data
+                    const { favs = [] } = data
 
-                    if (bookFavs.length) {
-                        const calls = bookFavs.map(fav => searchBooksApi.retrieveBook(fav))
+                    if (favs.length) {
+                        const calls = favs.map(fav => duckApi.retrieveDuck(fav))
 
                         return Promise.all(calls)
-                    } else return bookFavs
+                    } else return favs
                 }
 
                 throw new LogicError(response.error)
