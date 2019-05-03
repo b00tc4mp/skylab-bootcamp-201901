@@ -1,16 +1,16 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
 import Nav from '../../components/Nav';
 import { withRouter } from 'react-router-dom';
 import Landing from '../../pages/Landing';
 import Login from '../Login';
 import Register from '../Register';
-import DetailScreen from '../../pages/DetailScreen'
-import Cart from '../../pages/Cart'
-import Checkout from '../Payment'
-import SearchPage from '../../pages/SearchPage'
-import ThanksPage from '../../pages/ThanksPage'
-import UserProfile from '../../pages/UserProfile'
+import DetailScreen from '../../pages/DetailScreen';
+import Cart from '../../pages/Cart';
+import Checkout from '../Payment';
+import SearchPage from '../../pages/SearchPage';
+import ThanksPage from '../../pages/ThanksPage';
+import UserProfile from '../../pages/UserProfile';
 import logic from '../../logic';
 import {
   CART_ADD_PRODUCT,
@@ -46,9 +46,10 @@ function App(props) {
             if (newQuantity !== 0) newCart[index] = { product, quantity: newQuantity };
             else newCart.splice(index, 1);
           }
-          setCart(newCart);
-          setCartQuantity(calculateCartQuantity(newCart));
-          logic.saveCart(newCart);
+          logic
+            .saveCart(newCart)
+            .then(() => setCart(newCart))
+            .then(() => setCartQuantity(calculateCartQuantity(newCart)));
         }
         break;
       case CART_REMOVE_PRODUCT:
@@ -57,9 +58,10 @@ function App(props) {
           const newCart = cart;
           const index = newCart.findIndex(item => item.product.productId === product.productId);
           if (index !== -1) newCart.splice(index, 1);
-          setCart(newCart);
-          setCartQuantity(calculateCartQuantity(newCart));
-          logic.saveCart(newCart);
+          logic
+            .saveCart(newCart)
+            .then(() => setCart(newCart))
+            .then(() => setCartQuantity(calculateCartQuantity(newCart)));
         }
         break;
       case CART_UPDATE_PRODUCT:
@@ -74,8 +76,7 @@ function App(props) {
         }
         break;
       case CART_RETRIEVE:
-        logic.retrieveUser()
-          .then(user => setCart(...user.cart));
+        logic.retrieveUser().then(user => setCart(...user.cart));
         break;
 
       case CART_IMPORT:
@@ -86,18 +87,21 @@ function App(props) {
       case CART_CONFIRMED_PAY:
         const newCart = [...cart];
         let historicCarts = [];
-        logic.retrieveUser()
-        .then(user => {
-          if (user.historicCarts) historicCarts = [...user.historicCarts];
-          historicCarts.push({cart: newCart, 
-            payDetails: {...params, date: new Date(), numItems: cartQuantity}});
-          return logic.updateUser({cart: [], historicCarts})
-        })
-        .then(() => {
-              setCart([]);
-              setCartQuantity(0);
-              props.history.push('/thanks')
-            })
+        logic
+          .retrieveUser()
+          .then(user => {
+            if (user.historicCarts) historicCarts = [...user.historicCarts];
+            historicCarts.push({
+              cart: newCart,
+              payDetails: { ...params, date: new Date(), numItems: cartQuantity },
+            });
+            return logic.updateUser({ cart: [], historicCarts });
+          })
+          .then(() => {
+            setCart([]);
+            setCartQuantity(0);
+            props.history.push('/thanks');
+          });
         break;
 
       case FAVORITES_TOGGLE_PRODUCT:
@@ -105,8 +109,8 @@ function App(props) {
           const { product } = params;
           const index = favorites.findIndex(item => item.productId === product.productId);
           let newFavorites = [...favorites];
-          if (index === -1) newFavorites.push(product)
-            else newFavorites.splice(index,1);
+          if (index === -1) newFavorites.push(product);
+          else newFavorites.splice(index, 1);
           setFavorites(newFavorites);
         }
         break;
@@ -125,59 +129,61 @@ function App(props) {
   logic.dispatch = dispatch;
   logic.cart = cart;
 
-  useEffect(()=> {
+  useEffect(() => {
     if (logic.isLoggedIn) {
-      logic.retrieveUser()
+      logic.retrieveUser();
     }
-  }, [])
+  }, []);
 
   return (
-    <div className="container">      
-      <Nav cartQuantity={cartQuantity}/>
+    <div className="container">
+      <Nav cartQuantity={cartQuantity} />
       <Switch>
         <Route
           path="/"
           exact
-          render={(props) => <Landing {...props} cart={cart} cartQuantity={cartQuantity} dispatch={dispatch} />}
+          render={props => (
+            <Landing {...props} cart={cart} cartQuantity={cartQuantity} dispatch={dispatch} />
+          )}
         />
         <Route
           path="/detailProduct/:productId"
-          render={(props) => <DetailScreen {...props} dispatch={dispatch}/>}
+          render={props => <DetailScreen {...props} dispatch={dispatch} />}
         />
         <Route
           path="/cart"
-          render={(props) => <Cart {...props} cart={cart} cartQuantity={cartQuantity} dispatch={dispatch}/>}
+          render={props => (
+            <Cart {...props} cart={cart} cartQuantity={cartQuantity} dispatch={dispatch} />
+          )}
         />
         <Route
           path="/checkout"
-          render={(props) => {
-            if (!logic.isLoggedIn) return <Redirect to="/login/checkout"/>
-            return <Checkout {...props} cart={cart} dispatch={dispatch}/>}
-        }/>
+          render={props => {
+            if (!logic.isLoggedIn) return <Redirect to="/login/checkout" />;
+            return <Checkout {...props} cart={cart} dispatch={dispatch} />;
+          }}
+        />
+        <Route path={'/search/:text'} render={props => <SearchPage {...props} />} />
         <Route
-          path={"/search/:text"}
-          render={(props) => <SearchPage {...props}/>}
+          path={['/register/:afterGoTo', '/register/']}
+          render={props => (!logic.isLoggedIn ? <Register {...props} /> : <Redirect to="/" />)}
         />
         <Route
-          path={["/register/:afterGoTo",'/register/', ]}
-          render={(props) => (!logic.isLoggedIn ? <Register {...props}/> : <Redirect to="/" />)}
-        />
-        <Route
-          path={[ "/login/:afterGoTo", '/login/']}
-          render={(props) => (!logic.isLoggedIn ? <Login {...props}/> : <Redirect to="/" />)}
+          path={['/login/:afterGoTo', '/login/']}
+          render={props => (!logic.isLoggedIn ? <Login {...props} /> : <Redirect to="/" />)}
         />
         <Route
           path="/thanks"
-          render={() => logic.isLoggedIn ? <ThanksPage/> : <Redirect to="/" />}
+          render={() => (logic.isLoggedIn ? <ThanksPage /> : <Redirect to="/" />)}
         />
         <Route
           path="/userProfile"
-          render={() => logic.isLoggedIn ? <UserProfile /> : <Redirect to="/" />}
+          render={() => (logic.isLoggedIn ? <UserProfile /> : <Redirect to="/" />)}
         />
         <Route
           path="/logout"
           render={() => {
-            dispatch({action: GLOBAL_LOGOUT});
+            dispatch({ action: GLOBAL_LOGOUT });
             return <Redirect to="/" />;
           }}
         />
