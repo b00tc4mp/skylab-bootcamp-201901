@@ -15,7 +15,7 @@ function Results({ items, onItem, error, onFav, favs }) {
 
                 return <li className="movie-cover col-sm-6 col-md-4 col-lg-3" key={id} onClick={() => onItem(id)}>
                     <div className="movie-btn-list">
-                        <FontAwesomeIcon icon={isList ? faThumbsUp : faPlus} onClick={e => {
+                        <FontAwesomeIcon className="icon" icon={isList ? faThumbsUp : faPlus} onClick={e => {
                             e.stopPropagation()
 
                             onFav(id)

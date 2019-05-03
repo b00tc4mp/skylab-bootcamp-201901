@@ -47,7 +47,7 @@ class Detail extends Component {
                     <div className="col-md-8">
                     <div className="card-body">
                         <h3 className="card-title">{title}</h3>
-                        <p className="card-text"><span>Vote:</span> {vote} <span className="genres">{ genres && genres.map(genre => {
+                        <p className="card-text"><span>Vote:</span> {vote} <span>{ genres && genres.map(genre => {
                                 return genre.name
                             }).join(' | ')
                         }</span></p>

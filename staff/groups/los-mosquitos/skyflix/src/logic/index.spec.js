@@ -106,6 +106,22 @@ describe('logic', () => {
                     })
             })
         })
+
+        // describe('reegister user', () => {
+
+        // })
+
+        // describe('update genres user', () => {
+        //     it('should succed with correct genres', () => {
+
+        //     })
+        // }) 
+
+        // describe('logout user user', () =>{
+        //     it('should succed and delete id and token user', () =>{
+
+        //     })
+        // }) 
     })
 
     describe('movies', () => {
