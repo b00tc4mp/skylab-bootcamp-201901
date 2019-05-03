@@ -113,7 +113,6 @@ const logic = {
 
                     return userApi.update(this.__userId__, this.__userToken__, { bookFavs })
                         .then(() => bookFavs)
-                        // .then(() => { })
                 }
                 else throw new LogicError(response.error)
             })
