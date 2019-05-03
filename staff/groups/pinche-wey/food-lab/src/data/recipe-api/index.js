@@ -7,7 +7,7 @@ const recipeApi = {
     searchRecipes(query, selector) {
         validate.arguments([
             { name: 'query', value: query, type: 'string' },
-            { name: 'selector', value: selector, type: 'string' }
+            { name: 'selector', value: selector, type: 'string', notEmpty: true }
         ])
 
         return call(`${this.__url__}${selector}${query}`)
@@ -16,7 +16,7 @@ const recipeApi = {
 
     retrieveRecipe(id) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string' }
+            { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
         return call(`${this.__url__}lookup.php?i=${id}`)
