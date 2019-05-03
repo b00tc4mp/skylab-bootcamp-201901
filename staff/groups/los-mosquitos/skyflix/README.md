@@ -1,8 +1,8 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Documentation
+[Documentation](/docs/README.md)
 
-[Documentation](collab/skylab-bootcamp-201904/staff/groups/los-mosquitos/skyflix/docs/README.md)
+[LIVE DEMO](http://skyflix.surge[].sh/#/)
 
 ## Available Scripts
 
