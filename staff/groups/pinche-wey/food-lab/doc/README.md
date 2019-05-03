@@ -43,4 +43,7 @@ Secondly, once the recipe is within the category  *Cooked* , the user can evalua
 
 React Js, ES6
 
+## Code Coverage
+
+![Test Coverage](images/coverage.jpg)
 
