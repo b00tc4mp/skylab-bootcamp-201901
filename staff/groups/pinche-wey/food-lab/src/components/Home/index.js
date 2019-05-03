@@ -1,10 +1,8 @@
 import React, { Component } from 'react'
-import literals from './literals'
 import logic from '../../logic'
 import Results from '../Results'
 import Detail from '../Detail'
 import User from '../User'
-import Favorites from '../Favorites'
 import './index.sass'
 import SmallCard from '../SmallCard';
 import { logicalExpression } from '@babel/types';
