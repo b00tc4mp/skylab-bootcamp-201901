@@ -167,8 +167,8 @@ describe('logic', ()=>{
                     .then(response => id = response.data.id)
             )
 
-            it('should succeed on correct user credential', () =>
-                logic.loginUser(email, password)
+            it('should succeed on correct user credential', () =>{
+                return logic.loginUser(email, password)
                     .then(() => {
                         const { __userId__, __userToken__ } = logic
 
@@ -179,28 +179,22 @@ describe('logic', ()=>{
                         expect(typeof __userToken__).toBe('string')
                         expect(__userToken__.length).toBeGreaterThan(0)
 
-                        const [, payloadB64,] = __userToken__.split('.')
-                        const payloadJson = atob(payloadB64)
-                        const payload = JSON.parse(payloadJson)
-
-                        expect(payload.id).toBe(id)
-
                         expect(logic.isUserLoggedIn).toBeTruthy()
                     })
-            )
+                })
 
-            // it('should fail on non-existing user', () =>{
-            //     const email= 'unexisting-user@mail.com'
-            //     logic.loginUser(email, password)
-            //         .then(() => { throw Error('should not reach this point') })
-            //         .catch(error => {
+            it('should fail on non-existing user', () =>{
+                const email= 'unexisting-user@mail.com'
+                logic.loginUser(email, password)
+                    .then(() => { throw Error('should not reach this point') })
+                    .catch(error => {
 
-            //             expect(error).toBeDefined()
-            //             expect(error instanceof LogicError).toBeTruthy()
+                        expect(error).toBeDefined()
+                        expect(error instanceof LogicError).toBeTruthy()
 
-            //             expect(error.message).toBe(`user with username \"unexisting-user@mail.com\" does not exist`)
-            //         })
-            // })
+                        expect(error.message).toBe(`user with username \"unexisting-user@mail.com\" does not exist`)
+                    })
+            })
             it('should fail on undefined email', () => {
                 const email = undefined
 
@@ -418,6 +412,48 @@ describe('logic', ()=>{
                     })
             })
 
+        })
+        describe('retrieve user', () => {
+            let id, token
+
+            beforeEach(() =>
+                userApi.create(email, password, { name, surname })
+                    .then(response => {
+                        id = response.data.id
+
+                        return userApi.authenticate(email, password)
+                    })
+                    .then(response => {
+                        token = response.data.token
+
+                        logic.__userId__ = id
+                        logic.__userToken__ = token
+                    })
+            )
+
+            it('should succeed on correct user id and token', () =>
+                logic.retrieveUser()
+                    .then(user => {
+                        expect(user.id).toBeUndefined()
+                        expect(user.name).toBe(name)
+                        expect(user.surname).toBe(surname)
+                        expect(user.email).toBe(email)
+                        expect(user.password).toBeUndefined()
+                    })
+            )
+
+            it('should fail on incorrect user id', () => {
+                logic.__userId__ = '5cb9998f2e59ee0009eac02c'
+
+                return logic.retrieveUser()
+                    .then(() => { throw Error('should not reach this point') })
+                    .catch(error => {
+                        expect(error).toBeDefined()
+                        expect(error instanceof LogicError).toBeTruthy()
+
+                        expect(error.message).toBe(`token id \"${id}\" does not match user \"${logic.__userId__}\"`)
+                    })
+            })
         })
     })
 
