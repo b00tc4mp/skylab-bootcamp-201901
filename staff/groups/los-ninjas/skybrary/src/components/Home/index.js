@@ -4,35 +4,39 @@ import Search from '../Search'
 import Results from '../Results'
 import Header from '../Header'
 import Footer from '../Footer'
-
-// import { booleanLiteral } from '@babel/types';
 import Detail from '../Detail'
+import { withRouter } from 'react-router-dom'
+import queryString from 'query-string'
+
 import './index.scss'
 
 class Home extends Component {
-    state = { error: null, books: [], bookDetail: null, bookInfo: {}, favs: [] }
+    state = { query: null, error: null, books: [], bookDetail: null, bookInfo: {}, bookFavs: [] }
 
-    handleSearch = query =>
+    componentWillReceiveProps(props) {
+        if (props.location.search) {
+            const { query } = queryString.parse(props.location.search)
+
+            query && this.search(query)
+        }
+    }
+
+    search = query =>
         logic.searchBooks(query)
             .then((books) =>
                 logic.retrieveFavBooks()
-                .then(favs => {
-
-                    this.setState({ favs, bookDetail: null, books: books.docs })
+                .then(bookFavs => {
+                    this.setState({ query, bookFavs, bookDetail: null, books: books.docs })
                 })
             ).catch(error =>
                 this.setState({ error: error.message })
             )
 
-    handleLogout = () => {
-        logic.logoutUser()
-        this.props.history.push('/')
-    }
+    handleSearch = query => this.props.history.push(`/home?query=${query}`)
 
     handleRetrieve = (isbn, key) => {
-        console.log(this.state.books)
-        // buscamos el libro del que se ha hecho click, entre todos los libros que tenemos en el state
         const singleBook = this.state.books.find(book => book.key === key)
+
         const { cover_i, title, author_name = [], publish_date = [] } = singleBook
 
         logic.retrieveBook(isbn)
@@ -46,40 +50,43 @@ class Home extends Component {
                     description: value,
                     numberOfPages: number_of_pages,
                     title,
-                    publish_date: publish_date[0]
+                    publish_date: publish_date[0],
+                    isbn,
                 }
 
-                this.setState({ bookDetail })
+                // console.log(btoa(JSON.stringify(bookDetail))) // atob to decript!
+
+                this.setState({ bookDetail, isbn })
             }).catch()
     }
 
-
-    handleFav = cover_edition_key =>
-         logic.toggleFavBook(cover_edition_key)
+    handleFav = isbn =>
+         logic.toggleFavBook(isbn)
             .then(() => logic.retrieveFavBooks())
-            .then(favs => this.setState({ favs }))
+            .then(bookFavs => this.setState({ bookFavs }))
 
-
-
+    handleLogout = () => {
+        logic.logoutUser()
+        this.props.history.push('/')
+    }
 
     render() {
-
         const {
             handleLogout,
             handleSearch,
             handleRetrieve,
-            state: { books, bookDetail, favs },
+            state: { query, books, bookDetail, bookFavs },
             handleFav
         } = this
 
         return <main className="home">
             <Header onLogout={handleLogout} />
-            <Search onSearch={handleSearch} />
-            {!bookDetail && <Results items={books} onItem={handleRetrieve} onFav={handleFav} favs={favs}/>}
-            {bookDetail && <Detail item={bookDetail} />}
+            <Search query={query} onSearch={handleSearch} />
+            {!bookDetail && <Results items={books} onItem={handleRetrieve} onFav={handleFav} bookFavs={bookFavs}/>}
+            {bookDetail && <Detail item={bookDetail} onFav={handleFav} bookFavs={bookFavs} />}
             <Footer />
         </main>
     }
 }
 
-export default Home
+export default withRouter(Home)

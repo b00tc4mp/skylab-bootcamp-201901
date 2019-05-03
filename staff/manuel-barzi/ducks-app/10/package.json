@@ -1,10 +1,13 @@
 {
-  "name": "skybrary",
+  "name": "8",
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bulma": "^0.7.4",
-    "node-sass": "^4.12.0",
+    "@fortawesome/fontawesome-svg-core": "^1.2.17",
+    "@fortawesome/free-regular-svg-icons": "^5.8.1",
+    "@fortawesome/free-solid-svg-icons": "^5.8.1",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "node-sass": "^4.11.0",
     "query-string": "^6.5.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
@@ -31,6 +34,11 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "watchPathIgnorePatterns": [
+      "src/common"
     ]
   }
 }
