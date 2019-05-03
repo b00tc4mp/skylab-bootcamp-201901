@@ -13,7 +13,7 @@ import { withRouter } from 'react-router-dom'
 
 class Home extends Component {
 
-    state = { error: null, recipes: null, recipe: null, wanted: null, done: null, notes: null, forks: null, fullDone: null, fullWanted: null, user: null }
+    state = { error: null, recipes: null, recipe: null, wanted: null, done: null, notes: null, forks: null, fullDone: null, fullWanted: null }
 
     handleGoBack = () => {
         this.setState({ recipe: null })
@@ -79,29 +79,6 @@ class Home extends Component {
 
     }
 
-    handleUser = () => { // nuevo
-        logic.retrieveUser()
-            .then(response => {
-                // const {name,surname,email} = response
-                this.setState({ user: response })
-            })
-            .catch((error) => this.setState({ error: error.message }))
-    }
-
-    handleUpdateUser = (xxx) => { // nuevo
-
-        if (!xxx) {
-            this.setState({ user: null })
-        } else {
-            logic.updateUser(xxx)
-                .then(response => {
-                    if (response.status === 'OK') this.setState({ error: null, user: null })
-                    else throw Error(response.error)
-                })
-                .catch((error) => this.setState({ error: error.message }))
-        }
-    }
-
     componentWillReceiveProps(props) {
         const { results } = props
 
@@ -117,7 +94,6 @@ class Home extends Component {
     }
 
     handleRetrieve = id => this.props.history.push(`/home/${id}`)
-
 
     retrieve = id => {
         console.log(id)
@@ -154,27 +130,18 @@ class Home extends Component {
         const {
             handleGoBack,
             handleForks,
-            handleUpdateUser,
             handleNotes,
             handleWaitingList,
-            handleUser,
             handleRetrieve,
             handleFav,
-            state: { error, recipe, recipes, wanted, done, notes, forks, user, fullWanted, fullDone },
-            props: { onSearch }
+            state: { error, recipe, recipes, wanted, done, notes, forks, fullWanted, fullDone },
+            props: { onSearch, userXXX, handleUpdateUser }
         } = this
 
         return <main className="home">
 
             <div>
                 <nav className="nav">
-                    <div className="nav__user">
-                        <div className="nav__user-img">
-
-                            <img onClick={() => handleUser()} src="http://www.europe-together.eu/wp-content/themes/sd/images/user-placeholder.svg" />
-                        </div>
-                        <p className="nav__user-name" >Hola</p>
-                    </div>
                     <div className="nav__recipes">
                         <h4 onClick={() => handleFav(false)} className="nav__recipes-title" >Boiling</h4>
                         <SmallCard toPaint={fullWanted} wanted={wanted} done={done} onItem={handleRetrieve}></SmallCard>
@@ -189,16 +156,15 @@ class Home extends Component {
             <div >
                 <div className="nav__results">
                     <div className="nav__results-header">
-                        <h4 className="nav__results-header-title" >Searching into {} by {}</h4>
-                        <div>
+                       
                             <button onClick={() => handleFav(false)} className='nav__results-header-button' >Boiling</button>
                             <button onClick={() => handleFav(true)} className='nav__results-header-button' >My creations</button>
-                        </div>
+                        
                     </div>
 
-                    {!recipe && !user && recipes && <Results items={recipes} onItem={handleRetrieve} onSearch={onSearch} error={error} wanted={wanted} done={done}/*onFav={handleFav} favs={favs}*/ />}
-                    {!user && recipe && <Detail item={recipe} onForks={handleForks} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} forks={forks} />}
-                    {user && <User onUpdate={handleUpdateUser} onBack={handleUpdateUser} user={user} />}
+                    {!recipe && !userXXX && recipes && <Results items={recipes} onItem={handleRetrieve} onSearch={onSearch} error={error} wanted={wanted} done={done}/*onFav={handleFav} favs={favs}*/ />}
+                    {!userXXX && recipe && <Detail item={recipe} onForks={handleForks} onNotes={handleNotes} onBack={handleGoBack} onWaiting={handleWaitingList} error={error} done={done} wanted={wanted} notes={notes} forks={forks} />}
+                    { userXXX && <User onUpdate={handleUpdateUser} onBack={handleUpdateUser} user={userXXX} />}
                 </div>
             </div>
 

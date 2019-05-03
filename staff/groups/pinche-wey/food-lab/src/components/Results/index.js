@@ -18,9 +18,9 @@ function Results({ items: { meals = [] }, onItem, wanted, done, error, onSearch 
         onSearch(category, "filter.php?c=")
     }
 
-    return <div>
+    return <div className='results'>
          <div>
-            <h2 className='results__cont-title'>Searing results</h2>
+            <h4 className='results__cont-title'>Searing results</h4>
          </div>
         <p>{error}</p>
         {!error && meals !== undefined && meals.length > 0 && <div className="results">
@@ -34,6 +34,7 @@ function Results({ items: { meals = [] }, onItem, wanted, done, error, onSearch 
 
                                 onClickArea(area)
                             }} className='results__tags-tags'>{area}</span></p>}
+                            
                             {category && <p className='results__tags-title' >Category:<span  onClick={e => {
                                 e.stopPropagation()
 
