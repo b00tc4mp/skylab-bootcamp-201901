@@ -1,8 +1,6 @@
 import React, { Component } from 'react'
 import Results from '../Results'
 import NameGenre from '../NameGenre'
-import Detail from '../Detail'
-import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
 import logic from '../../logic';
 
 

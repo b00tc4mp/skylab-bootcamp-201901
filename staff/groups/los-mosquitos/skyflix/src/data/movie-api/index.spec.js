@@ -70,13 +70,54 @@ describe('movie api', () => {
         )
     })
 
-    describe('retrieve Trailer', () => {
+    describe('retrieve trailer', () => {
+        const id = 550
 
-        it('should succed on ')
-            const id = 550
-            movieApi.retrieveTrailer()
+        it('should succed on correct id', () =>
+            movieApi.retrieveTrailer(id)
+                .then(movie => {
+                    expect(movie).toBeDefined()
+                    expect(movie.id).toBe(id)
+                })
+        )
 
-        })
+        it('should fail on invalid id', () =>
+            movieApi.retrieveTrailer(6868768)
+                .then(response => {
+                    expect(response).toBeDefined()
+                    expect(response.status_message).toBe('The resource you requested could not be found.')
+                })
+        )
+    })
+
+    describe('discover movies', () => {
+        it('should succed on correct data', () =>
+            movieApi.discoverMovies()
+                .then(movies => {
+                    const { page, total_results, total_pages, results } = movies
+
+                    expect(page).toBeDefined()
+                    expect(total_results).toBeDefined()
+                    expect(total_pages).toBeDefined()
+                    expect(results).toBeDefined()
+                    expect(results instanceof Array).toBeTruthy()
+                    expect(results.length).toBe(20)
+                })
+        )
+
+        it('should succed on correct query whitout results', () =>
+            movieApi.searchMovies('asdfasdfasdf')
+                .then(movies => {
+                    const { page, total_results, total_pages, results } = movies
+                    
+                    expect(page).toBeDefined()
+                    expect(total_results).toBeDefined()
+                    expect(total_pages).toBeDefined()
+                    expect(results instanceof Array).toBeTruthy()
+                    expect(results.length).toBe(0)
+                })
+        )
+    })
 
 
     describe('invalid APIKEY', () => {

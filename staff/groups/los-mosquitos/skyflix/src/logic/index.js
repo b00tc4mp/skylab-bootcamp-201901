@@ -100,15 +100,6 @@ const logic = {
         return movieApi.searchMovies({ query })
     },
 
-    searchMoviesWithPage(query, page) {
-        validate.arguments([
-            { name: 'query', value: query, type: 'string' },
-            { name: 'page', value: page, type: 'number'}
-        ])
-
-        return movieApi.searchMovies({ query, page })  
-    },
-
     retrieveMovie(id) {
         validate.arguments([
             { name: 'id', value: id, type: 'number' }
@@ -167,6 +158,7 @@ const logic = {
                 throw new LogicError(response.error)
             })
     },
+    
     removeFromMovieUserList(id){
 
         return userApi.retrieve(this.__userId__, this.__userToken__)
