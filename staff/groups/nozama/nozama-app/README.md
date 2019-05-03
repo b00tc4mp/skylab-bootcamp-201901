@@ -3,7 +3,7 @@
 
 ## [Documentation](docs/README.md)
 
-## [Live demo]()
+## [Live demo](http://nozama.surge.sh)
 
 
 ## Comands to deploy Nozama App
