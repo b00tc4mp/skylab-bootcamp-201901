@@ -10,9 +10,11 @@ class CodeSearch extends Component {
 
     handleSearch = stop_id =>
         logic.upcomingBusesByStop(stop_id)
-            .then((lines) =>
-                this.setState({ error: null, line: null, lines, stop: stop_id }, () => this.props.history.push('/byidstop/results'))
-            )
+            .then((lines) =>{
+                debugger
+                return logic.retrieveFavStops()
+            .then(favs => this.setState({ error: null, line: null, favs, lines, stop: stop_id }, () => this.props.history.push('/byidstop/results')))
+            })
             .catch(error =>
                 this.setState({ error: error.message })
             )
