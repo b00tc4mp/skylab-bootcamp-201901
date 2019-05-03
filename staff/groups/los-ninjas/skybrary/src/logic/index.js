@@ -4,7 +4,6 @@ import userApi from '../data/user-api'
 import searchBooksApi from '../data/booksearch-api'
 import { LogicError } from '../common/errors'
 
-
 const logic = {
     set __userId__(id) {
         sessionStorage.userId = id
@@ -102,22 +101,21 @@ const logic = {
 
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
-                
                 const { status, data } = response
 
                 if (status === 'OK') {
-                    const { favs = [] } = data // NOTE if data.favs === undefined then favs = []
+                    const { bookFavs = [] } = data // NOTE if data.bookFavs === undefined then bookFavs = []
 
-                    const index = favs.indexOf(isbn)
+                    const index = bookFavs.indexOf(isbn)
 
-                    if (index < 0) favs.push(isbn)
-                    else favs.splice(index, 1)
+                    if (index < 0) bookFavs.push(isbn)
+                    else bookFavs.splice(index, 1)
 
-                    return userApi.update(this.__userId__, this.__userToken__, { favs })
-                        .then(() => { })
+                    return userApi.update(this.__userId__, this.__userToken__, { bookFavs })
+                        .then(() => bookFavs)
+                        // .then(() => { })
                 }
-
-                throw new LogicError(response.error)
+                else throw new LogicError(response.error)
             })
     },
 
@@ -127,13 +125,13 @@ const logic = {
                 const { status, data } = response
 
                 if (status === 'OK') {
-                    const { favs = [] } = data
+                    const { bookFavs = [] } = data
 
-                    if (favs.length) {
-                        const calls = favs.map(fav => searchBooksApi.retrieveBook(fav))
+                    if (bookFavs.length) {
+                        const calls = bookFavs.map(fav => searchBooksApi.retrieveBook(fav))
 
                         return Promise.all(calls)
-                    } else return favs
+                    } else return bookFavs
                 }
 
                 throw new LogicError(response.error)
