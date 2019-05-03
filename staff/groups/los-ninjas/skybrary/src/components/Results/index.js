@@ -1,5 +1,6 @@
 import React from 'react'
 import './index.scss'
+import { debug } from 'util';
 
 
 
@@ -10,7 +11,6 @@ function Results({ items, onItem, onFav, favs }) {
                 {
                     items.map(({ key, isbn, cover_edition_key, title, author_name, cover_i, publish_date }) => {
                         const isFav = favs.some(fav => {
-
                             if(isbn){
                                 const key = Object.keys(fav)[0]
                                 console.log(key, isbn[0])

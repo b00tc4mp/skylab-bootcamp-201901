@@ -109,7 +109,7 @@ const logic = {
                     const { favs = [] } = data // NOTE if data.favs === undefined then favs = []
 
                     const index = favs.indexOf(isbn)
-
+debugger
                     if (index < 0) favs.push(isbn)
                     else favs.splice(index, 1)
 

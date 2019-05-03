@@ -1,12 +1,10 @@
 import React, { Fragment } from 'react'
 import './index.scss'
 
-function Detail({ item, onFav, isbn, isFav }) {
+function Detail({ item, onFav, isbn, isFav}) {
     if (!item) {
         return "Este detalle no es correcto"
     }
-
-
 
     return <section className='container'>
         <article className='columns card-detail'>
