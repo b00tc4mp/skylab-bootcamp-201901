@@ -1,5 +1,9 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Documentation
+
+[Documentation](collab/skylab-bootcamp-201904/staff/groups/los-mosquitos/skyflix/docs/README.md)
+
 ## Available Scripts
 
 In the project directory, you can run:
