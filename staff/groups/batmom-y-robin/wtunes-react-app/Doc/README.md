@@ -34,4 +34,12 @@ If you move from your city, you could change you default city in any moment.
 
 ![Use Cases](images/components-class.png)
 
+### Data model
+
+![Use Cases](images/data-model.png)
+
+
+### Coverage
+
+![Use Cases](images/coverage.png)
 
