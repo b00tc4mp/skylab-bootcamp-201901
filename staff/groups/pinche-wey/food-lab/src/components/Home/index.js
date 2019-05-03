@@ -9,7 +9,7 @@ import './index.sass'
 import SmallCard from '../SmallCard';
 import { logicalExpression } from '@babel/types';
 import { withRouter } from 'react-router-dom'
-
+import queryString from 'query-string'
 
 class Home extends Component {
 
@@ -17,7 +17,8 @@ class Home extends Component {
 
     handleGoBack = () => {
         this.setState({ recipe: null })
-        this.props.history.push("/home")
+        if (!this.state.random) window.history.back()
+        else this.props.history.push('/home')
     }
 
     handleWaitingList = (id, done) => {
@@ -64,7 +65,7 @@ class Home extends Component {
                     return meals[0]
                 })
 
-                this.setState({ error: null, recipe: null, recipes: random })
+                this.setState({ error: null, recipe: null, recipes: random, random: true })
             })
             .catch((error) => this.setState({ error: error.message }))
 
@@ -106,7 +107,7 @@ class Home extends Component {
         const { results } = props
 
         if (results !== null && results.meals !== null && results !== this.state.recipes) {
-            this.setState({ recipes: results, recipe: null, error: null,})
+            this.setState({ recipes: results, recipe: null, error: null, random: false})
         } else if (results !== null && results.meals === null) this.setState({ recipes: null, error: "No results for your Search" })
         else {
             const [, , id] = props.location.pathname.split('/')
