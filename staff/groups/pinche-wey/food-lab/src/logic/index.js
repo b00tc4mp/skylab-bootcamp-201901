@@ -239,7 +239,7 @@ const logic = {
 
     updatingNotes(index, changes, notes) {
         validate.arguments([
-            { name: 'index', value: index, type: 'number',  notEmpty: true },
+            { name: 'index', value: index, type: 'number', notEmpty: true },
             { name: 'changes', value: changes, type: 'string' },
             { name: 'notes', value: notes, type: 'object',  notEmpty: true }
         ])
