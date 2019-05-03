@@ -7,7 +7,9 @@
 Discover cocktails you can make from the alcohol bottles you already have, from simple cocktails To more complex recipes of wonderfull cocktails. Use our Cocktail Searcher to find more than 500 recipes and add it to your personal account (You can Register and Login) and store yor favorites. 
 
 
-## Functional Description
+## Live DEMO
+
+[LIVE DEMO](http://drunk-n-drop.surge.sh/#/)
 
 ### Use Cases
 
