@@ -1,24 +1,14 @@
 import { BrowserRouter as Router, Route, Link, Prompt, Switch, withRouter } from "react-router-dom";
 import React, { Component } from 'react'
-import Login from './components/login/index'
 import logic from '../src/logic'
-import Search from '../src/components/search'
-import Results from '../src/components/results/results'
-import Landing from '../src/components/Landing/index'
-
-
-//components
-
-import Register from './components/register';
-import Favorites from "./components/Favorites";
-import Populars from "./components/Populars";
-import Detail from "./components/Detail";
+import CocktailResults from "./components/CocktailResults"
+import Home from './components/Home'
 
 class App extends Component {
 
-  state = {errorSearch: null , error: null, name: null, results: [] ,favoriteList :[] , populars : [] , details:{}}
+  state = { errorSearch: null, error: null, name: null, results: [], favoriteList: [], populars: [], details: {}, visible: false }
 
-  handleLogin = (username, password) => {
+  /* handleLogin = (username, password) => {
 
     try {
       logic.loginUser(username, password)
@@ -51,17 +41,17 @@ class App extends Component {
 
   handleSearch = (query) => {
 
-     return logic.cocktailbyName(query)
-     .then(response => {
-       this.setState({results : response})
-     })
-     .catch(response =>{
-        this.setState({errorSearch :response.message})
-     })
+    return logic.cocktailbyName(query)
+      .then(response => {
+        this.setState({ results: response })
+      })
+      .catch(response => {
+        this.setState({ errorSearch: response.message })
+      })
 
   }
 
-  handleFavorites = (id) =>{
+  handleFavorites = (id) => {
 
     return logic.toggleFavoriteCocktail(id)
 
@@ -69,61 +59,42 @@ class App extends Component {
 
   returnFavorites = () => {
 
-   return logic.retriveFavorites()
-    .then(response =>{
-      this.setState({favoriteList: response})
-    })
+    return logic.retriveFavorites()
+      .then(response => {
+        this.setState({ favoriteList: response })
+      })
 
   }
 
-  handlePpopular =() =>{
+  handlePpopular = () => {
 
     return logic.popularCocktails()
-    .then(response =>{
-     
-      this.setState({populars:response})
-    })
+      .then(response => {
+
+        this.setState({ populars: response })
+      })
   }
 
-  handleDetail = (id) =>{
-  
+  handleDetail = (id) => {
+
     return logic.cocktailDetail(id)
-    .then(response =>{
-      this.setState({details : response})
-    })
+      .then(response => {
+        this.setState({ details: response, visible: true })
+      })
   }
 
-  componentDidMount(){
-    
-  }
 
-  
+
+ */
   render() {
-    const {
-      state: { errorSearch,error, results,favoriteList,populars ,details},
-      handleLogin,
-      handleRegister,
-      handleSearch,
-      handleFavorites,
-      handlePpopular,
-      returnFavorites,
-      handleDetail
-    } = this
 
+    return <Router>
 
-    return <>
-        
-        <Landing/>
-        <button>Login</button>
-        <button>register</button>
-        <Detail detail={details}/> 
-        <Populars pops={populars} givePop={handlePpopular}  onFavorites={handleFavorites} onDetail={handleDetail}/>
-        <Favorites favs={favoriteList} giveFav={returnFavorites} onDetail={handleDetail}/>
-        <Register onRegister={handleRegister} error={error} />
-        <Login onLogin={handleLogin} error={error} />
-        <Search onSearch={handleSearch} error={errorSearch} />
-        <Results items={results} onFavorites={handleFavorites} onDetail={handleDetail} />
-    </>
+      <Switch>
+        <Route exact path="/" render={() => <Home />} />
+        <CocktailResults />
+      </Switch>
+    </Router>
 
   }
 }
@@ -131,4 +102,4 @@ class App extends Component {
 
 
 
-export default App
+export default withRouter(App)

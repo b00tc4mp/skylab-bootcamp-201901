@@ -110,8 +110,13 @@ const logic = {
         ])
 
         return cocktailApi.searchByCategory(query)
+        .then(response =>{
+            const categories=response.drinks
+            return categoryFilter(categories)
+        })
+        
+            
     },
-
     retriveFavorites(){
 
         return userApi.retrieve(this.__userId__,this.__userToken__)
@@ -191,6 +196,18 @@ const logic = {
     
     }
 
+}
+
+function categoryFilter(rawcategories){
+    let drinks=[]
+    for(let i=0 ; i<rawcategories.length ; i++){
+        drinks.push({
+            id:rawcategories[i].idDrink,
+            name:rawcategories[i].strDrink,
+            image:rawcategories[i].strDrinkThumb
+        })
+    }
+    return drinks
 }
 
 
