@@ -33,14 +33,17 @@ function SmallCard({ toPaint, onItem, done, forks }) {
                     <div className='smallCard__img'>
                         <img src={img} />
                     </div>
+                    <div>
                     <h4 className='smallCard__title' >{title}</h4>
-                    <>
+                    <div className='smallCard__stars'>
                         {done.indexOf(id) > 0 && <FontAwesomeIcon icon={forks[done.indexOf(id)] === 0 ? faStarRegular : faStarSolid} />}
                         {done.indexOf(id) > 0 && <FontAwesomeIcon icon={forks[done.indexOf(id)] <= 1 ? faStarRegular : faStarSolid} />}
                         {done.indexOf(id) > 0 && <FontAwesomeIcon icon={forks[done.indexOf(id)] <= 2 ? faStarRegular : faStarSolid} />}
                         {done.indexOf(id) > 0 && <FontAwesomeIcon icon={forks[done.indexOf(id)] <= 3 ? faStarRegular : faStarSolid} />}
                         {done.indexOf(id) > 0 && <FontAwesomeIcon icon={forks[done.indexOf(id)] <= 4 ? faStarRegular : faStarSolid} />}
-                    </>
+                    </div>
+
+                    </div>
                 </span>
             })
         }

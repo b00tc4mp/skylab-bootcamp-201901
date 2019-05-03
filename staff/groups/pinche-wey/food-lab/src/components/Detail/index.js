@@ -28,7 +28,7 @@ function Detail({ item: { meals }, onBack, onWaiting, error, wanted, done, notes
                 <div className='detail__nav'>
                     <div>
                         <button className="detail__button" onClick={() => onBack()}>Go Back</button>
-                        {wanted.indexOf(id) !== -1 && <button onClick={() => onWaiting(id)}>Add to boiling!</button>}
+                        {wanted.indexOf(id) !== -1 && <button onClick={() => onWaiting(id)}>Remove from boiling!</button>}
                         {wanted.indexOf(id) === -1 && done.indexOf(id) === -1 && <button onClick={() => onWaiting(id)}>I want to cook it!</button>}
                         {wanted.indexOf(id) !== -1 && <button onClick={() => onWaiting(id, true)}>Cocked!</button>}
                     </div>

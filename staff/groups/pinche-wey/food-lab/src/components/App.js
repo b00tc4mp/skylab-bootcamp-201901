@@ -13,7 +13,7 @@ import queryString from 'query-string'
 import { Route, withRouter, Switch, Link, Redirect } from 'react-router-dom'
 
 class App extends Component {
-    state = { visible: logic.isUserLoggedIn ? 'home' : 'landing', error: null, name: null, results: null }
+    state = { visible: logic.isUserLoggedIn ? 'home' : 'landing', error: null, name: null, results: null, userCont: null }
 
     // handleRegisterNavigation = () => this.setState({ visible: 'register' }) // no es necesario hacer esto ya que lo manejamos con this.props.history.push('/register')
 
@@ -88,26 +88,57 @@ class App extends Component {
             .catch(error =>
                 this.setState({ error: error.message })
             )
+    handleUser = () => { // nuevo
+        logic.retrieveUser()
+            .then(response => {
+                this.setState({ userCont: response })
+            })
+            .catch((error) => this.setState({ error: error.message }))
+    }
+
+    handleUpdateUser = (xxx) => { // nuevo
+
+        if (!xxx) {
+            this.setState({ userCont: null })
+        } else {
+            logic.updateUser(xxx)
+                .then(user => {
+                    if (user.status === 'OK') {                        
+                    this.setState({ error: null, userCont: null})
+                        logic.retrieveUser()
+                        .then(user => {
+                            this.setState({ name: user.name, url: user.photoUrl })
+                        })
+                        .catch((error) => this.setState({ error: error.message }))
+
+                    } else throw Error(user.error)
+                })
+                .catch((error) => this.setState({ error: error.message }))
+
+        }
+    }
 
     handleSearch = (query, selector) => this.props.history.push(`/home?selector=${selector}&query=${query}`)
 
 
     render() {
         const {
-            state: { visible, error, name, url, results },
+            state: { visible, error, name, url, results , userCont},
             handleRegisterNavigation,
             handleLoginNavigation,
             handleSearch,
             handleLogin,
             handleRegister,
-            handleLogout
+            handleLogout,
+            handleUser,
+            handleUpdateUser
         } = this
 
         return <>
             <header className="header">
 
                 <h1 className="header__title">
-                    <Link className="header__title__link" to="/">FOOD<span className="header__title-colored">LAB</span></Link>
+                    <Link className="header__title-link" to="/">FOOD<span className="header__title-colored">LAB</span></Link>
                 </h1>
 
                 <div className="header__searcher">
@@ -116,7 +147,7 @@ class App extends Component {
 
                 <div className="header__user">
                     <div className="header__user-img">
-                        <img src={url} />
+                        <img onClick={() => handleUser()} src={url} />
                     </div>
                     <p className="header__user-name" >{name}</p>
                     {visible !== 'landing' && <button className="header__user-button" onClick={handleLogout}> {visible === 'home' ? 'LogOut' : 'Return'}</button>}
@@ -138,15 +169,21 @@ class App extends Component {
                 } />
 
                 <Route path="/home" render={
-                    () => logic.isUserLoggedIn ? <Home results={results} name={name} onSearch={handleSearch} onLogout={handleLogout} /> : <Redirect to="/" />
+
+                    () => logic.isUserLoggedIn? <Home results={results} name={name}  onSearch={handleSearch} onLogout={handleLogout} userXXX={userCont} handleUpdateUser={handleUpdateUser}/> : <Redirect to="/" />
+
                 } />
 
                 <Redirect to="/" />
             </Switch>
 
-            <footer className='footer'>
+        <footer className='footer'>
+            <p>Come sano, con lo que tienes a mano</p>
+            <p>Términos y condiciones Política de Privacidad </p>
+            <p>Política de cookies </p>
+            <p>FOODLAB 2019</p>
+        </footer>
 
-            </footer>
 
         </>
     }

@@ -20,10 +20,12 @@ body
         justify-content: center
         height: 100px
 
+
         &-img
             width: 75px
             height: 75px
             margin: 0 auto
+            border-radius: 20px
 
             & img
                 height: 100%
@@ -40,6 +42,9 @@ body
     &__recipes     
         padding: 10px
 
+        &-title
+            margin: 10px
+            color: $aux-color
   
 
     &__results
@@ -47,27 +52,8 @@ body
 
         &-header
 
-
-
-            &-title
-                margin: 10px
-                color: $aux-color
-
-
             &-button
-                display: none
-
-
-
-
-
-
-
-
-       
-    &__search
-       +round-border(.1em, solid, blue, .5em)
-    
+                display: none   
 
 .footer
     width: 100%
@@ -92,15 +78,14 @@ body
 
             &-header
                 display: flex
-                justify-content: space-between
+                justify-content: center
                 align-items: center
 
-                & div
-                    display: flex
+                    
                     
             
                 &-button
-                    display: block
+                    display: flex
                     width: 100px
                     height: 30px
                     background-color: white
@@ -109,6 +94,7 @@ body
                     color: $button-color
                     cursor: pointer
                     margin-right: 20px
+                    justify-content: center
 
     
 
