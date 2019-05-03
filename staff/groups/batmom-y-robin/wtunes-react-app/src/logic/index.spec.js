@@ -22,7 +22,7 @@ describe('logic', ()=>{
                     .then(response => expect(response).toBeUndefined())
             )
             it('should fail on retrying to register', ()=>{
-                logic.registerUser(name, surname, email, password , city)
+                return logic.registerUser(name, surname, email, password , city)
                     .then(response => expect(response).toBeUndefined())
                     .then (()=>logic.registerUser(name, surname, email, password , city))
                     .then(() => { throw Error('should not reach this point') })
@@ -185,7 +185,7 @@ describe('logic', ()=>{
 
             it('should fail on non-existing user', () =>{
                 const email= 'unexisting-user@mail.com'
-                logic.loginUser(email, password)
+                return logic.loginUser(email, password)
                     .then(() => { throw Error('should not reach this point') })
                     .catch(error => {
 
@@ -246,7 +246,7 @@ describe('logic', ()=>{
             let id, token
 
             beforeEach(() => {
-                
+
                 let preferences=[{Snow:'Classical'}, {Rain :'Rock'} ]
 
                 return userApi.create(email, password, { name, surname, preferences, city, app })
@@ -265,7 +265,7 @@ describe('logic', ()=>{
             it('should succeed on correct preferences', ()=>{
 
                 let preferences=[{Rain:'Jazz'}, {Snow:'Tropical'}, {Clouds:'Classical'}]
-                
+
                 return logic.updateUserPreferences(preferences)
                 .then(response => expect(response).toBeUndefined())
                 .then(()=> userApi.retrieve(id,token))
@@ -273,7 +273,7 @@ describe('logic', ()=>{
                     const {preferences : _preferences}=response.data
                     expect(_preferences).toBeDefined()
                     expect(_preferences.length).toBe(preferences.length)
-                    
+
                         expect(_preferences).toEqual(preferences)
                     })
             })
@@ -299,13 +299,13 @@ describe('logic', ()=>{
 
                 expect(() => logic.updateUserPreferences(preferences)).toThrowError(TypeError, 'preferences is empty')
             })
-    
+
         })
         describe('update user city', ()=>{
             let id, token
 
             beforeEach(() => {
-                
+
                 let preferences=[{Snow:'Classical'}, {Rain :'Rock'} ]
 
                 return userApi.create(email, password, { name, surname, preferences, city, app })
@@ -355,7 +355,7 @@ describe('logic', ()=>{
 
                 expect(() => logic.updateUserCity(city)).toThrowError(Error, 'city is empty')
             })
-            
+
         })
 
         describe('retrieve user preferences', () =>{
@@ -528,7 +528,7 @@ describe('logic', ()=>{
                         expect(error.message).toBe('no results found')
                     })
             )
-    
+
             it('should fail on undefined query', () => {
                 const query = undefined
                 expect(() => logic.searchMusic(query)).toThrowError(RequirementError, `query is not optional`)
@@ -543,7 +543,7 @@ describe('logic', ()=>{
             })
             it('should fail on blank query', () => {
                 const query = ' \t    \n'
-    
+
                 expect(() => logic.searchMusic(query)).toThrowError(ValueError, 'query is empty')
             })
         })
@@ -557,7 +557,7 @@ describe('logic', ()=>{
                             expect(response.length).toBe(20)
                     })
             })
-        
+
         it('should fail on undefined weather', () => {
             const weather = undefined
             expect(() => logic.searchMusicPreferences(preferences , weather)).toThrowError(Error, `weather is not optional`)
