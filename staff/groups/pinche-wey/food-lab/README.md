@@ -1,5 +1,15 @@
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+FoodLab
+
+======================
+
+## Documentation
+
+[Documentation](collab/skylab-bootcamp-201904/staff/groups/pinche-wey/food-lab/doc/README.md)
+
+[Live Demo](http://skylab-foodLab2019.surge.sh/)
+
 ## Available Scripts
 
 In the project directory, you can run:
