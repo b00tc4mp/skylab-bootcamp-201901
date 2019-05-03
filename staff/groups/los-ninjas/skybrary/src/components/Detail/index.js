@@ -18,7 +18,7 @@ function Detail({ item }) {
                 {item.title &&
                     <Fragment>
                         <p className="info__BoldTitle">
-                            Title:
+                            Title: 
                             <span>{item.title}</span>
                         </p>
                     </Fragment>
@@ -27,14 +27,14 @@ function Detail({ item }) {
                 <p className="info__BoldTitle">Author: </p>{item.author_name.join(', ')}
                 {item.numberOfPages &&
                     <p className="info__BoldTitle">
-                        Num of pages:
+                        Num of pages: 
                         <span>{item.numberOfPages}</span>
                     </p>
                 }
                 {item.description &&
                     <Fragment>
                         <p className="info__BoldTitle">
-                            Synopsis:
+                            Synopsis: 
                             <span>{item.description}</span>
                         </p>
                     </Fragment>

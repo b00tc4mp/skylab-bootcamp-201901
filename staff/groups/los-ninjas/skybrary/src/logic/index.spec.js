@@ -1,7 +1,6 @@
 import logic from '.'
 import { LogicError, RequirementError, ValueError, FormatError } from '../common/errors'
 import userApi from '../data/user-api'
-// import searchBooksApi from '../data/booksearch-api'
 
 describe('logic', () => {
     describe('users', () => {
@@ -296,7 +295,7 @@ describe('logic', () => {
                 })
         })
         it('should fail if not find results', () => {
-            const query = '22638962392'
+            const query = '...'
             logic.searchBooks(query)
                 .then(response =>{
                     expect(response).toBeDefined()
