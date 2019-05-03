@@ -24,7 +24,8 @@ function Login({ lang, onLogin, error }) {
                     <button className=" login btn btn-primary btn-lg btn-block">{title}</button>
                 </div>
             </form>
-            <span>{error}</span>
+            {error && <span className="error alert alert-info">{error}</span>}
+
         </section>
     </>
 }

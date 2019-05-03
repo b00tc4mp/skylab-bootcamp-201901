@@ -32,8 +32,8 @@ function Register({ lang, onRegister, error }) {
                 <input type="text" className="register form-control" id="formGroupExampleInput2" name="email" placeholder={email} />
                 <input type="password" className="register form-control" id="formGroupExampleInput3" name="password" placeholder={password} />
                 <input type="password" className="register form-control" id="formGroupExampleInput4" name="confirmPassword" placeholder={confirmPassword} />
-                <button className="btn btn-success btn-primary btn-lg btn-block">{title}</button>
-                <span>{error}</span>
+                <button className="button btn btn-success btn-primary btn-lg btn-block">{title}</button>
+                {error && <span className="error alert alert-info">{error}</span>}
             </div>
         </form>
     </section>
