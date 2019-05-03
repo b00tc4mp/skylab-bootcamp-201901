@@ -8,8 +8,8 @@ import Results from '../Results'
 import MoviesGenres from '../MoviesGenres'
 import Detail from '../Detail'
 import Play from '../Play'
-import './index.sass'
 import List from '../List'
+import './index.sass'
 
 import { Route, withRouter, Switch, Redirect } from 'react-router-dom'
 
@@ -40,10 +40,11 @@ class Home extends Component {
 
     componentDidMount() {
         const state = {}
-        logic.retrieveUser()
-            .then(({ fullname, genres }) => {
+        Promise.all([logic.retrieveUser(),logic.retrieveMovieUserList()])
+            .then(([{ fullname, genres }, favs]) => {
                 state.userGenres = genres
                 state.fullname = fullname
+                this.setState({favs})
                 // if(!genres)
                 return logic.retrieveMovieGenres()
                     .then(({ genres }) => {
@@ -60,55 +61,40 @@ class Home extends Component {
     }
 
     handleRetrieve = id => {
-
         this.props.history.push(('/home/movies/detail/' + id))
-        // logic.retrieveMovie(id)
-        //     .then(({ title, poster_path: image, overview: description, genres, release_date: date, vote_average: vote }) => {
-        //         const imagePath = `https://image.tmdb.org/t/p/w300/${image}`
-        //         this.setState({ movie: { title, image: imagePath, description, genres, date, vote } })
-        //         return id
-        //     })
-        //     .then(id => {
-        //         this.props.history.push(('/home/movies/detail/' + id))
-        //     })
-
     }
-
-    // handlekey= id => {
-    //     logic.retrieveTrailer(id)
-    //     .then(/*{id, results} => ({id, key: results[0].key})*/({id , results:[{key}]}) => {
-    //             const videoKey= `https://www.youtube.com/embed/${key}`
-
-    //     })
-
-
-    // }
-
-
 
     handletoMovie = (id) => {
         logic.retrieveTrailer(id)
-            .then(/*{id, results} => ({id, key: results[0].key})*/({ id, results: [{ key }] }) => {
+            .then(({ id, results: [{ key }] }) => {
                 const videoKey = `https://www.youtube.com/embed/${key}`
-                this.setState({ trailerMovie: videoKey }, this.props.history.push('/home/movies/detail/' + id + '/trailer'))
+                this.setState({ trailerMovie: videoKey }, () => this.props.history.push('/home/movies/detail/' + id + '/trailer'))
             })
 
     }
 
-    handleHome = () => this.props.history.push('/home')
+    handleHome = () => {
+        logic.retrieveMovieUserList()
+            .then(favs => this.setState({favs}, () => this.props.history.push('/home')) )
+    }
 
-    toList = () => {
-        this.props.history.push('/home/list')
-
+    handleList = () => {
+        logic.retrieveMovieUserList()
+            .then(movieList => {
+                this.setState( {movieList} , () => this.props.history.push('/home/list'))})
     }
 
     handleFav = (id) => {
-
         logic.toggleMovieUserList(id)
             .then(() => logic.retrieveMovieUserList())
             .then(favs => this.setState({ favs }))
     }
 
+    handleRemoveItem = id => {
+        logic.removeFromMovieUserList(id)
+            .then(() => logic.retrieveMovieUserList()
+            .then(movieList => this.setState( {movieList})))
+    }
 
     render() {
         const {
@@ -120,24 +106,31 @@ class Home extends Component {
             handleOnChangeGenres,
             handleHome,
             handleFav,
-            toList
+            handleList,
+            handleRemoveItem
         } = this
 
         return <main>
-            {userGenres && <Nav lang={lang} onList={toList} /*onProfile={handleProfile} */ onLogout={onLogout} onHome={handleHome} />}
+            {userGenres && <Nav lang={lang} onList={handleList} /*onProfile={handleProfile} */ onLogout={onLogout} onHome={handleHome} />}
             <Name lang={lang} name={fullname} />
+            
             {userGenres && <Search lang={lang} onSearch={handleSearch} />}
+            
             {!userGenres && movieGenres && <Genres lang={lang} genres={movieGenres} onUpdate={handleOnChangeGenres} />}
+            
             <Switch>
+                <Route exact path="/home" render={() => userGenres && <MoviesGenres userGenres={userGenres} movieGenres={movieGenres} lang={lang} onItem={handleRetrieve} onFav={handleFav} favs={favs} />} />
+                
+                <Route path={'/home/list'} render={() => <List movieList={movieList} onItem={handleRetrieve} onRemoveItem={handleRemoveItem}/>} />
+
                 <Route exact path="/home/movies" render={() => <Results lang={lang} items={movies} onItem={handleRetrieve} error={error} onFav={handleFav} favs={favs} />} />
+                
                 <Route exact path="/home/movies/detail/:id" render={() => <Detail item={movie} toMovie={handletoMovie} onFav={handleFav} favs={favs} />} />
+                
                 <Route path={"/home/movies/detail/:id/trailer"} render={() => <Play movie={trailerMovie} />} />
-                <Route path={'/home/list'} render={() => {
-                    logic.retrieveMovieUserList()
-                        .then(movieList => this.setState({ movieList }))
-                    return <List movieList={movieList} onItem={handleRetrieve}/>
-                }} />
-                <Route path={'/home'} render={() => userGenres && <MoviesGenres userGenres={userGenres} movieGenres={movieGenres} lang={lang} onItem={handleRetrieve} onFav={handleFav} favs={favs} />} />
+
+                
+                
             </Switch>
         </main>
     }
