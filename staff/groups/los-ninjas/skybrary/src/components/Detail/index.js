@@ -18,7 +18,7 @@ function Detail({ item, onFav, bookFavs }) {
 
     return <section className='container'>
         <article className='columns card-detail'>
-            {<i onClick={() => { onFav(item.isbn) }} className={isBookFav() ? 'fas fa-heart' : 'far fa-heart'} />}
+            {<i onClick={(e) => { e.stopPropagation();  onFav(item.isbn) }} className={isBookFav() ? 'fas fa-heart' : 'far fa-heart'} />}
 
             <div className='column is-4 card-detail__image'>
                 {<img src={(item.cover && item.cover > 0)
