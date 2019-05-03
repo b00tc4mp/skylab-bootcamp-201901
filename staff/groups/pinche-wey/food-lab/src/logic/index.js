@@ -104,7 +104,7 @@ const logic = {
     searchRecipes(query, selector) {
         validate.arguments([
             { name: 'query', value: query, type: 'string' },
-            { name: 'selector', value: selector, type: 'string' }
+            { name: 'selector', value: selector, type: 'string',  notEmpty: true }
         ])
 
         return recipeApi.searchRecipes(query, selector)
@@ -132,7 +132,7 @@ const logic = {
 
     retrieveRecipe(id) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string' }
+            { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
         return recipeApi.retrieveRecipe(id)
@@ -144,7 +144,7 @@ const logic = {
 
     updateBook(id, _done) { // Para hace favorito una receta , quitarla y para pasarla a hecha
         validate.arguments([
-            { name: 'id', value: id, type: 'string' },
+            { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'done', value: _done, type: 'boolean', optional: true }
         ])
 
@@ -239,9 +239,9 @@ const logic = {
 
     updatingNotes(index, changes, notes) {
         validate.arguments([
-            { name: 'index', value: index, type: 'number' },
+            { name: 'index', value: index, type: 'number',  notEmpty: true },
             { name: 'changes', value: changes, type: 'string' },
-            { name: 'notes', value: notes, type: 'object' }
+            { name: 'notes', value: notes, type: 'object',  notEmpty: true }
         ])
 
         notes[index] = changes
@@ -252,9 +252,9 @@ const logic = {
 
     updatingForks(index, changes, forks) {
         validate.arguments([
-            { name: 'index', value: index, type: 'number' },
-            { name: 'changes', value: changes, type: 'number' },
-            { name: 'forks', value: forks, type: 'object' }
+            { name: 'index', value: index, type: 'number',  notEmpty: true },
+            { name: 'changes', value: changes, type: 'number',  notEmpty: true },
+            { name: 'forks', value: forks, type: 'object',  notEmpty: true }
 
         ])
 

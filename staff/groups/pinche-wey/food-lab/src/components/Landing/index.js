@@ -1,5 +1,4 @@
 import React from 'react'
-import literals from './literals'
 import './index.sass'
 
 function Landing({ onRegister, onLogin }) {
