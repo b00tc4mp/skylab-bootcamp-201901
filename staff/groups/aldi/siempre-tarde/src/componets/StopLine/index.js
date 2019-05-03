@@ -24,7 +24,8 @@ function StopLine({ lang, onSearch, items, error, line_id }) {
         <div className='stopcode-container'>
         <Link to={`/`}><button className="button is-rounded is-primary is-outlined">{back}</button></Link>
         <div>
-            <h1>{title1}</h1>
+            <h2 className="title is-4 has-text-centered">{title1}</h2>
+            <div className='main-language select field'>
             <select onChange={event => onSearch(event.target.value)} value={line_id}>
             <option key='select'>{select}</option>
                 {
@@ -34,6 +35,7 @@ function StopLine({ lang, onSearch, items, error, line_id }) {
                     })
                 }
             </select>
+            </div>
             <span className="help is-danger">{error}</span>
         </div>
         </div>

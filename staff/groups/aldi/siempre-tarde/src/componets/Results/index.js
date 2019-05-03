@@ -24,7 +24,7 @@ function Results({ lang, items, stop, error, onFav, favs }) {
                             <h2 style={style}>{line} - {dest_line}</h2>
                         </div>
                         <div className="column is-2-mobile">
-                            <h3>{t_in_min} minutos</h3>
+                            <h3>{t_in_min} min</h3>
                         </div>
                     </li>
                 })
