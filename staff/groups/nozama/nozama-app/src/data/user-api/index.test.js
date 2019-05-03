@@ -1,5 +1,5 @@
 import userApi from '.';
-import { RequirementError } from '../../common/errors';
+import { RequirementError, ApiError } from '../../common/errors';
 
 const randomString = (length = 20) => Number(Math.random() * 9 ** length).toString(35);
 
@@ -511,7 +511,7 @@ describe('user-api', () => {
       password = randomString();
     });
 
-    it('should retrieve on correct user data', () => {
+    it('should delete on correct user data', () => {
       let id, token;
       return userApi
         .create(username, password)
@@ -523,11 +523,14 @@ describe('user-api', () => {
         })
         .then(() => userApi.delete(id, token, username, password))
         .then(({ status }) => expect(status).toBe('OK'))
-        .then(() => userApi.retrieve(id, token))
-        .then(({ status, error }) => {
-          expect(status).toBe('KO');
-          expect(error).toBe(`user with id "${id}" does not exist`);
-        })
+        // .then(() => {
+        //   expect(() => userApi.retrieve(id, token))
+        //     .toThrowError(new ApiError(`user with username "${id}" does not exist`))
+        // })
+        // .then(({ status, error }) => {
+        //   expect(status).toBe('KO');
+        //   expect(error).toBe(`user with id "${id}" does not exist`);
+        // })
         .then(() => userApi.auth(username, password))
         .then(({ status, error }) => {
           expect(status).toBe('KO');

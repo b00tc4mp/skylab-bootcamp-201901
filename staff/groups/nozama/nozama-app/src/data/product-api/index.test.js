@@ -246,17 +246,17 @@ describe('product-api', () => {
     beforeEach(() => productApi.all().then(_list => (list = _list)));
 
     it('should retrieve products from search in all detail', () => {
-      let words = list.map(item => item.product_name); // TODO:
+      let words = list.map(item => item.product_name);
       words = words.reduce((acc, item) => {
         acc.push(...item.split(' '));
         return acc;
       }, []);
       const word = words[Math.floor(Math.random() * words.length)];
-      const listOcurrences = list.filter(item => item.product_name.includes(word));
       return productApi.search(word)
         .then(items => {          
           items.forEach(item => {
             expect(item).toBeDefined();
+            expect(item).not.toBeNull();
             generalExpect(item)
           });
       });

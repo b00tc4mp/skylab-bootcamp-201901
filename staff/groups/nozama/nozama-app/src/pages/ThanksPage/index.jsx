@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import Title from '../../components/Products/Detail/Title';
 import Subtitle from '../../components/Products/Detail/Subtitle';
 import logic from '../../logic';
 import { Link } from 'react-router-dom'
@@ -27,7 +26,7 @@ function ThanksForPay(props) {
 
       <div className="row">
         <div className="col"/>
-        <button className="btn btn-primary my-5">Check more products</button>
+        <Link to ="/" className="btn btn-primary my-5">Check more products</Link>
         <div className="col"/>
       </div>
     </div>

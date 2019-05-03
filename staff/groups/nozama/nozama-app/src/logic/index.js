@@ -2,7 +2,7 @@ import userApi from '../data/user-api';
 import productApi from '../data/product-api';
 import validate from '../common/validate';
 import normalize from '../common/normalize'
-import { LogicError, InvalidTokenError } from '../common/errors';
+import { LogicError, ApiError } from '../common/errors';
 import Product from './product/Product';
 import ProductWithDetail from './product/ProductWithDetail';
 import { CART_IMPORT, GLOBAL_LOGOUT } from './actions';
@@ -86,12 +86,12 @@ const logic = {
       if (res.status === 'OK') {
         logic.userId = res.data.id;
         logic.token = res.data.token;
-        return 'OK';
+        return logic.retrieveUser();
       }
       logic.userId = null;
       logic.token = null;
       return res.error;
-    }).then(res => ((res === 'OK') ? logic.retrieveUser() : res))
+    })
   },
 
   logOut() {
@@ -101,37 +101,28 @@ const logic = {
 
   retrieveUser() {
     return userApi.retrieve(logic.userId, logic.token)
-      .then(res => res.data)
-      .then(user => {
+      .then(res => {
+        const user = res.data;
+        user.email = user.username;
+        delete user.username;
         if (!user.cart || (user.cart.length === 0)) {
           user.cart = [];
-          return Promise.resolve(user);
+          return user;
         }
-        const fetchProducts = [];
-        for (let line of user.cart) {
-          const productPromise = logic.detailProduct(line.productId);
-          fetchProducts.push(productPromise);
-        }
-        return Promise.all(fetchProducts)
+        return Promise.all(user.cart.map(({productId}) => logic.detailProduct(productId)))
           .then ((products) => {
-            const fetchedCart = [];
-            for (let ii=0, ll=user.cart.length; ii < ll; ii++) {
-                fetchedCart[ii] = {product: products[ii], quantity: user.cart[ii].quantity}
-            }
-            user.cart = fetchedCart;
+            user.cart = products.map((product,i) => ({product, quantity: user.cart[i].quantity}))
+            logic.dispatch({action: CART_IMPORT, cart: user.cart})
+            return user;
+          })
+          .catch(error => {
+            user.cart = [];
             return user;
           })
       })
-      .then(user => {
-        if (logic.cart.length === 0) {
-
-          logic.dispatch({action: CART_IMPORT, cart: user.cart})
-        }
-        return user;
-      })
       .catch(error => {
-        if (error instanceof InvalidTokenError) logic.dispatch({action: GLOBAL_LOGOUT})
-
+        if (error instanceof ApiError) logic.dispatch({action: GLOBAL_LOGOUT})
+        throw error;
       });
   },
 
@@ -168,7 +159,7 @@ const logic = {
   // ***********************
 
   saveCart(newCart) {
-    if (!logic.isLoggedIn) return false;
+    if (!logic.isLoggedIn) return Promise.resolve(newCart);
     const slimCart = newCart.map(({product, quantity}) => ({quantity, productId: product.productId}));
     return logic.updateUser({cart: slimCart});
   },
@@ -180,10 +171,7 @@ const logic = {
   },
 
   findProduct(id) {
-    return productApi.findOne(id).then(info => {
-      console.log(id);
-      new Product(info)
-    });
+    return productApi.findOne(id).then(info => new Product(info));
   },
 
   detailProduct(id) {

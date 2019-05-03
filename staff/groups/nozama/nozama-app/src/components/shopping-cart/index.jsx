@@ -1,27 +1,23 @@
-import React from 'react'
-
-import {Row, Container, Col, Button, Badge} from 'reactstrap'
+import React from 'react';
 
 function ShoppingCart(props) {
+  return (
+    <div>
+      <i className="fas fa-shopping-cart" />
 
-  const handleClick = (e) => {
-    e.preventDefault();
-    props.onGoToCart();
-  }
-   return (
-
-  <>
-      <i className="fas fa-shopping-cart"></i>
-      <small><Badge 
-        style={{
-          position: "absolute",
-          left: "3rem",
-          top: "0"
-        }} 
-        color="secondary" pill>{props.cartQuantity}</Badge>
-        </small>
-    </>
-  )
+      <small>
+        <span
+          style={{
+            position: 'relative',
+            top: '-12px',
+          }}
+          class="badge badge-dark"
+        >
+          {props.cartQuantity}
+        </span>
+      </small>
+    </div>
+  );
 }
 
-export default ShoppingCart
+export default ShoppingCart;

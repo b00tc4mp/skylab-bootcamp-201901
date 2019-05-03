@@ -163,24 +163,48 @@ describe('logic', () => {
           })
           .then(({ status }) => expect(status).toBe('OK'))
           .then(() => userApi.auth(email, password))
-          .then(res => {
-            debugger
+          .then(res => {            
             expect(res.status).toBe('OK');
             logic.userId = res.data.id;
             logic.token = res.data.token;
           })
           .then(() => logic.retrieveUser())
           .then(user => {
-            debugger
             const originalUser = {
               name,
               surname,
-              username: email,
+              email,
               id: logic.userId,
+              cart: [],
             };
             expect(user).toEqual(originalUser);
           }));
     });
+
+    describe('session management', () => {
+      beforeEach(() => {
+        logic.userId = null;
+        logic.token = null;
+      })
+      it('must show loggedIn with correct data', () =>
+      userApi
+        .create(email, password, { name, surname })
+        .then(res => expect(res.status).toBe('OK'))
+        .then(() => logic.loginUser(email, password))
+        .then(user => {
+          expect(logic.isLoggedIn).toBeTruthy();
+        }));
+      
+        it('must not loggedIn with incorrect data', () =>
+        userApi
+          .create(email, password, { name, surname })
+          .then(res => expect(res.status).toBe('OK'))
+          .then(() => logic.loginUser(randomString(), password))
+          .then(user => {
+            expect(logic.isLoggedIn).toBeFalsy();
+          }));
+        
+    })
   });
 
   describe('logic-product', () => {
@@ -383,13 +407,12 @@ describe('logic', () => {
           return logic.findProduct(randomProductId);
         })
         .then(_infoProduct => (infoProduct = _infoProduct))
-        .then(() => {
-          logic.detailProduct(randomProductId)
-        })
+        .then(() => logic.detailProduct(randomProductId))
         .then(productDetail => {
-          console.log(randomProductId);
           expectsDetail(productDetail);
         });
     });
   });
+
+
 });

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Switch, Route, Redirect } from 'react-router-dom';
-import Nav from '../../components/Nav';
 import { withRouter } from 'react-router-dom';
+import Nav from '../../components/Nav';
 import Landing from '../../pages/Landing';
 import Login from '../Login';
 import Register from '../Register';
@@ -34,7 +34,6 @@ function App(props) {
     switch (action) {
       case CART_ADD_PRODUCT:
         {
-          debugger
           const { product, quantity } = params;
           const newCart = cart;
           const index = newCart.findIndex(item => item.product.productId === product.productId);
@@ -76,7 +75,15 @@ function App(props) {
         }
         break;
       case CART_RETRIEVE:
-        logic.retrieveUser().then(user => setCart(...user.cart));
+        logic.retrieveUser().then(user => {
+          if (user.cart) {
+            setCart([...user.cart]);
+            setCartQuantity(calculateCartQuantity(user.cart));
+          } else {
+            setCart([]);
+            setCartQuantity(calculateCartQuantity(0));
+          }
+        });
         break;
 
       case CART_IMPORT:

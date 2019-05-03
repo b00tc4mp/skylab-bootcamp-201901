@@ -1,6 +1,4 @@
 import React from 'react';
-
-import { Button, Form, FormGroup, Label, Input, FormText, Container } from 'reactstrap';
 import { Link } from 'react-router-dom';
 import logic from '../../logic';
 import { withRouter } from 'react-router-dom';

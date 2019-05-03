@@ -1,10 +1,7 @@
 import React, { useState } from 'react';
-import App from '../../components/App';
 import { Link } from 'react-router-dom';
 import ProductHorSlim from '../../components/Products/product-hor-slim';
-import logic from '../../logic';
 import { CART_ADD_PRODUCT, CART_REMOVE_PRODUCT, FAVORITES_TOGGLE_PRODUCT } from '../../logic/actions';
-import { Button } from 'reactstrap';
 
 function Cart(props) {
   const handleRemoveProduct = product => {
