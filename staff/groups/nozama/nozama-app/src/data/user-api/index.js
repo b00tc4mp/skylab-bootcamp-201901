@@ -7,23 +7,9 @@ const userApi = {
 
   create(username, password, data = {}) {
     validate.arguments([
-      {
-        name: 'username',
-        value: username,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'password',
-        value: password,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'data',
-        value: data,
-        type: 'object',
-      },
+      { name: 'username', value: username, type: 'string', notEmpty: true },
+      { name: 'password', value: password, type: 'string', notEmpty: true },
+      { name: 'data', value: data, type: 'object' },
     ]);
     const { __app__: app } = this;
     return fetch(`${this.__url__}/user`, {
@@ -42,18 +28,8 @@ const userApi = {
 
   auth(username, password) {
     validate.arguments([
-      {
-        name: 'username',
-        value: username,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'password',
-        value: password,
-        type: 'string',
-        notEmpty: true,
-      },
+      { name: 'username', value: username, type: 'string', notEmpty: true },
+      { name: 'password', value: password, type: 'string', notEmpty: true },
     ]);
 
     return fetch(`${this.__url__}/auth`, {
@@ -70,18 +46,8 @@ const userApi = {
 
   retrieve(id, token) {
     validate.arguments([
-      {
-        name: 'id',
-        value: id,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'token',
-        value: token,
-        type: 'string',
-        notEmpty: true,
-      },
+      { name: 'id', value: id, type: 'string', notEmpty: true },
+      { name: 'token', value: token, type: 'string', notEmpty: true },
     ]);
 
     return fetch(`${this.__url__}/user/${id}`, {
@@ -100,23 +66,9 @@ const userApi = {
 
   update(id, token, data) {
     validate.arguments([
-      {
-        name: 'id',
-        value: id,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'token',
-        value: token,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'data',
-        value: data,
-        type: 'object',
-      },
+      { name: 'id', value: id, type: 'string', notEmpty: true },
+      { name: 'token', value: token, type: 'string', notEmpty: true },
+      { name: 'data', value: data, type: 'object' },
     ]);
 
     return fetch(`${this.__url__}/user/${id}`, {
@@ -133,29 +85,10 @@ const userApi = {
 
   updateAndCheckDeleted(id, token, user) {
     validate.arguments([
-      {
-        name: 'id',
-        value: id,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'token',
-        value: token,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'user',
-        value: user,
-        type: 'object',
-      },
-      {
-        name: 'user.id',
-        value: user.id,
-        type: 'string',
-        notEmpty: true,
-      },
+      { name: 'id', value: id, type: 'string', notEmpty: true },
+      { name: 'token', value: token, type: 'string', notEmpty: true},
+      { name: 'user', value: user, type: 'object' },
+      { name: 'user.id', value: user.id, type: 'string', notEmpty: true },
     ]);
 
     if (!user.username) {
@@ -183,30 +116,10 @@ const userApi = {
 
   delete(id, token, username, password) {
     validate.arguments([
-      {
-        name: 'id',
-        value: id,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'token',
-        value: token,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'password',
-        value: password,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'username',
-        value: username,
-        type: 'string',
-        notEmpty: true,
-      },
+      { name: 'id', value: id, type: 'string', notEmpty: true },
+      { name: 'token', value: token, type: 'string', notEmpty: true },
+      { name: 'password', value: password, type: 'string', notEmpty: true },
+      { name: 'username', value: username, type: 'string', notEmpty: true },
     ]);
 
     return fetch(`${this.__url__}/user/${id}`, {

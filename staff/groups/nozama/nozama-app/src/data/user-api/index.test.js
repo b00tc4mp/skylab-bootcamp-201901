@@ -369,8 +369,8 @@ describe('user-api', () => {
         expect(() =>
           userApi
             .update(undefined, token, {})
-            .toThrowError(new RequirementError(`id is not optional`))
-        );
+            
+        ).toThrowError(new RequirementError(`id is not optional`));
       });
 
       it('fails if id is blank', () =>
@@ -382,7 +382,7 @@ describe('user-api', () => {
         ));
 
       it('fails if token is blank', () => {
-        expect(() => userApi.update(id, '  \t\n', {}).toThrowError(Error(`id is empty`)));
+        expect(() => userApi.update(id, '  \t\n', {})).toThrowError(Error(`token is empty`));
       });
 
       it('fails if extra data is not an object', () =>
@@ -442,7 +442,7 @@ describe('user-api', () => {
     });
 
     it('should persist a true copy of object even in deleted fields', () => {
-      const newUser = randomChange(user);
+      const newUser = randomChange();
       return userApi
         .updateAndCheckDeleted(id, token, newUser)
         .then(({ status }) => expect(status).toBe('OK'))
@@ -478,9 +478,7 @@ describe('user-api', () => {
         ));
 
       it('fails if token is blank', () => {
-        expect(() =>
-          userApi.updateAndCheckDeleted(id, '  \t\n', user).toThrowError(Error(`id is empty`))
-        );
+        expect(() => userApi.updateAndCheckDeleted(id, '  \t\n', user)).toThrowError(Error(`token is empty`));
       });
 
       it('fails if no token', () =>
@@ -513,29 +511,31 @@ describe('user-api', () => {
 
     it('should delete on correct user data', () => {
       let id, token;
-      return userApi
-        .create(username, password)
-        .then(() => userApi.auth(username, password))
-        .then(res => {
-          const { data } = res;
-          id = data.id;
-          token = data.token;
-        })
-        .then(() => userApi.delete(id, token, username, password))
-        .then(({ status }) => expect(status).toBe('OK'))
-        // .then(() => {
-        //   expect(() => userApi.retrieve(id, token))
-        //     .toThrowError(new ApiError(`user with username "${id}" does not exist`))
-        // })
-        // .then(({ status, error }) => {
-        //   expect(status).toBe('KO');
-        //   expect(error).toBe(`user with id "${id}" does not exist`);
-        // })
-        .then(() => userApi.auth(username, password))
-        .then(({ status, error }) => {
-          expect(status).toBe('KO');
-          expect(error).toBe(`user with username "${username}" does not exist`);
-        });
+      return (
+        userApi
+          .create(username, password)
+          .then(() => userApi.auth(username, password))
+          .then(res => {
+            const { data } = res;
+            id = data.id;
+            token = data.token;
+          })
+          .then(() => userApi.delete(id, token, username, password))
+          .then(({ status }) => expect(status).toBe('OK'))
+          // .then(() => {
+          //   expect(() => userApi.retrieve(id, token))
+          //     .toThrowError(new ApiError(`user with username "${id}" does not exist`))
+          // })
+          // .then(({ status, error }) => {
+          //   expect(status).toBe('KO');
+          //   expect(error).toBe(`user with id "${id}" does not exist`);
+          // })
+          .then(() => userApi.auth(username, password))
+          .then(({ status, error }) => {
+            expect(status).toBe('KO');
+            expect(error).toBe(`user with username "${username}" does not exist`);
+          })
+      );
     });
 
     describe('fail param', () => {

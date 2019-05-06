@@ -29,30 +29,10 @@ const logic = {
 
   registerUser(email, password, name, surname) {
     validate.arguments([
-      {
-        name: 'email',
-        value: email,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'password',
-        value: password,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'name',
-        value: name,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'surname',
-        value: surname,
-        type: 'string',
-        notEmpty: true,
-      },
+      { name: 'email', value: email, type: 'string', notEmpty: true },
+      { name: 'password', value: password, type: 'string', notEmpty: true },
+      { name: 'name', value: name, type: 'string', notEmpty: true },
+      { name: 'surname', value: surname, type: 'string', notEmpty: true },
     ]);
     validate.email(email);
 
@@ -69,18 +49,8 @@ const logic = {
 
   loginUser(email, password) {
     validate.arguments([
-      {
-        name: 'email',
-        value: email,
-        type: 'string',
-        notEmpty: true,
-      },
-      {
-        name: 'password',
-        value: password,
-        type: 'string',
-        notEmpty: true,
-      },
+      { name: 'email', value: email, type: 'string', notEmpty: true },
+      { name: 'password', value: password, type: 'string', notEmpty: true },
     ]);
     return userApi.auth(email, password).then(res => {
       if (res.status === 'OK') {
