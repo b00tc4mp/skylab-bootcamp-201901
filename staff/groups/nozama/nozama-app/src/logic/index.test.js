@@ -11,7 +11,8 @@ function createRandomCart() {
   const cartProductsId = [];
   const cartComplete = [];
   const cartSlim = [];
-  return productApi.all()
+  return productApi
+    .all()
     .then(products => {
       const productsId = products.map(product => product.productId);
       let ii = 0,
@@ -33,7 +34,7 @@ function createRandomCart() {
         cartSlim.push({ productId: cartProductsId[i], quantity });
       });
       return { cartComplete, cartSlim };
-    })
+    });
 }
 
 describe('logic', () => {
@@ -71,12 +72,15 @@ describe('logic', () => {
       });
 
       it('should fail if user exists', () => {
-        return userApi.create(email, password, { name, surname }).then(res => {
-          expect(res.status).toBe('OK');
-          expect(() => logic.registerUser(email, password, name, surname)).toThrowError(
-            new LogicError(`username "${email}" already exists`)
+        return userApi
+          .create(email, password, { name, surname })
+          .then(res => {
+            expect(res.status).toBe('OK');
+            return logic.registerUser(email, password, name, surname);
+          })
+          .catch(error =>
+            expect(error).toEqual(new LogicError(`user with username "${email}" already exists`))
           );
-        });
       });
 
       describe('fail param', () => {
@@ -224,14 +228,9 @@ describe('logic', () => {
       it('must update an user converting the cart from product detail to unique product id', () => {
         let _cartComplete, _cartSlim;
         let _completeUser, _slimUser;
-        debugger
-
-        return createRandomCart
-          .then(({ cartComplete, cartSlim }) => {
-            _cartComplete = cartComplete;
-            _cartSlim = cartSlim;
-            return userApi.create(email, password, { name, surname });
-          })
+        
+        return userApi
+          .create(email, password, { name, surname })
           .then(({ status }) => {
             expect(status).toBe('OK');
             return userApi.auth(email, password);
@@ -240,16 +239,22 @@ describe('logic', () => {
             expect(res.status).toBe('OK');
             logic.userId = res.data.id;
             logic.token = res.data.token;
-            return userApi.retrieveUser();
+            return userApi.retrieve(logic.userId, logic.token);
           })
           .then(apiUser => {
-            _completeUser = { ...apiUser, cart: _cartComplete };
-            _slimUser = { ...apiUser, cart: _cartComplete };
-            return logic.updateUser(_completeUser);
-            // TODO: expect call userApi.update with slim cart. ?? use of saveCart??
-          })
-          .then(res => {
-            expect(res.status).toBe('OK');
+            return createRandomCart()
+              .then(({ cartComplete, cartSlim }) => {
+                _cartComplete = cartComplete;
+                _cartSlim = cartSlim;
+                _completeUser = { ...apiUser, cart: _cartComplete };
+                _slimUser = { ...apiUser, cart: _cartComplete };
+                return logic.updateUser(_completeUser);
+                // TODO: expect call userApi.update with slim cart. ?? use of saveCart??
+              })
+              .then(res => {
+                debugger
+                expect(res.status).toBe('OK');
+              });
           });
       });
 
