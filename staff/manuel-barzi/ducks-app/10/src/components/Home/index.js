@@ -5,20 +5,36 @@ import Search from '../Search'
 import Results from '../Results'
 import Detail from '../Detail'
 import './index.sass'
+import { withRouter } from 'react-router-dom'
+import queryString from 'query-string'
 
 class Home extends Component {
-    state = { error: null, ducks: [], duck: null, favs: [] }
+    state = { query: null, error: null, ducks: null, duck: null, favs: null }
 
-    handleSearch = query =>
+    componentWillReceiveProps(props) {
+        if (props.location.search) {
+            const { query } = queryString.parse(props.location.search)
+
+            query && this.search(query)
+        } else {
+            const [, , id] = props.location.pathname.split('/')
+
+            id && this.retrieve(id)
+        }
+    }
+
+    search = query =>
         Promise.all([logic.searchDucks(query), logic.retrieveFavDucks()])
             .then(([ducks, favs]) =>
-                this.setState({ duck: null, ducks: ducks.map(({ id, title, imageUrl: image, price }) => ({ id, title, image, price })), favs })
+                this.setState({ query, duck: null, ducks: ducks.map(({ id, title, imageUrl: image, price }) => ({ id, title, image, price })), favs })
             )
             .catch(error =>
                 this.setState({ error: error.message })
             )
 
-    handleRetrieve = id =>
+    handleSearch = query => this.props.history.push(`/home?query=${query}`)
+
+    retrieve = id =>
         logic.retrieveDuck(id)
             .then(({ title, imageUrl: image, description, price }) =>
                 this.setState({ duck: { title, image, description, price } })
@@ -26,6 +42,8 @@ class Home extends Component {
             .catch(error =>
                 this.setState({ error: error.message })
             )
+
+    handleRetrieve = id => this.props.history.push(`/home/${id}`)
 
     handleFav = id =>
         logic.toggleFavDuck(id)
@@ -37,7 +55,7 @@ class Home extends Component {
             handleSearch,
             handleRetrieve,
             handleFav,
-            state: { ducks, duck, favs },
+            state: { query, ducks, duck, favs },
             props: { lang, name, onLogout }
         } = this
 
@@ -46,11 +64,11 @@ class Home extends Component {
         return <main className="home">
             <h1>{hello}, {name}!</h1>
             <button onClick={onLogout}>{logout}</button>
-            <Search lang={lang} onSearch={handleSearch} />
-            {!duck && <Results items={ducks} onItem={handleRetrieve} onFav={handleFav} favs={favs} />}
+            <Search lang={lang} query={query} onSearch={handleSearch} />
+            {!duck && ducks && (ducks.length && <Results items={ducks} onItem={handleRetrieve} onFav={handleFav} favs={favs} /> || <p>No results.</p>)}
             {duck && <Detail item={duck} />}
         </main>
     }
 }
 
-export default Home
+export default withRouter(Home)
