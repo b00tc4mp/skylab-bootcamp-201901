@@ -1,0 +1,3 @@
+
+const funcModule = require('./module')
+
