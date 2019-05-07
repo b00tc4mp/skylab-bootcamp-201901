@@ -1,4 +1,0 @@
-members:
-- daniela
-- albert
-- edgar
