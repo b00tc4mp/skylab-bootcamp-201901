@@ -1,0 +1,143 @@
+* {
+  box-sizing: border-box;
+  font-family: 'Montserrat', sans-serif;
+}
+
+h2 {
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 28px;
+}
+
+section {
+  background-color: #8853a1;
+  padding: 20px;
+  margin: 20px auto;
+  border-radius: 20px;
+}
+section p {
+  color: white;
+  font-size: 24px;
+  text-align: center;
+}
+section ul {
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: row;
+  border: 1px dashed white;
+  border-radius: 20px;
+}
+section ul li {
+  font-weight: bold;
+  color: white;
+  flex: 1;
+  list-style-type: none;
+  border-radius: 10px;
+  border: 1px solid black;
+  background-color: #f7941f;
+  padding: 10px;
+  text-align: center;
+  margin: 10px;
+}
+section.direction-row ul {
+  flex-direction: row;
+}
+section.direction-row.reverse ul {
+  flex-direction: row-reverse;
+}
+section.direction-column ul {
+  flex-direction: column;
+}
+section.direction-column ul li {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+section.direction-column.reverse ul {
+  flex-direction: column-reverse;
+}
+section.direction-column.reverse ul li {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+section.flex-wrap {
+  margin: 20px auto;
+  max-width: 60%;
+}
+section.flex-wrap ul li {
+  margin: 10px;
+  height: 50px;
+  width: 50px;
+}
+section.flex-wrap.nowrap ul {
+  flex-wrap: nowrap;
+}
+section.flex-wrap.nowrap li {
+  background-color: tomato;
+}
+section.flex-wrap.wrap ul {
+  flex-wrap: wrap;
+}
+section.flex-wrap.wrap li {
+  background-color: gold;
+}
+section.flex-wrap.wrap-reverse ul {
+  flex-wrap: wrap-reverse;
+}
+section.flex-wrap.wrap-reverse li {
+  background-color: deepskyblue;
+}
+section.justify-content ul li {
+  margin: 10px;
+  height: 100px;
+  width: 100px;
+  flex: unset;
+}
+section.justify-content.flex-start ul {
+  justify-content: flex-start;
+}
+section.justify-content.flex-end ul {
+  justify-content: flex-end;
+}
+section.justify-content.center ul {
+  justify-content: center;
+}
+section.justify-content.space-between ul {
+  justify-content: space-between;
+}
+section.justify-content.space-around ul {
+  justify-content: space-around;
+}
+section.justify-content.space-evenly ul {
+  justify-content: space-evenly;
+}
+section.align-items ul li {
+  margin: 10px;
+}
+section.align-items ul li:nth-of-type(1) {
+  min-height: 220px;
+}
+section.align-items ul li:nth-of-type(2) {
+  min-height: 280px;
+}
+section.align-items ul li:nth-of-type(3) {
+  min-height: 90px;
+}
+section.align-items ul li:nth-of-type(4) {
+  min-height: 110px;
+}
+section.align-items.flex-start ul {
+  align-items: flex-start;
+}
+section.align-items.flex-end ul {
+  align-items: flex-end;
+}
+section.align-items.center ul {
+  align-items: center;
+}
+section.align-items.stretch ul {
+  align-items: stretch;
+}
+section.align-items.baseline ul {
+  align-items: baseline;
+}
