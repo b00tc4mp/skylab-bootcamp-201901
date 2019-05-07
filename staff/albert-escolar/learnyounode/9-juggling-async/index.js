@@ -2,7 +2,7 @@ const http = require('http')
 const bl = require('bl')
 
 const results = []
-const count = 0
+let count = 0
 
 function printResults() {
     for (let i = 0; i<3; i++)
