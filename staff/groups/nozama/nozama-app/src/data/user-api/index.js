@@ -90,7 +90,6 @@ const userApi = {
       { name: 'user', value: user, type: 'object' },
       { name: 'user.id', value: user.id, type: 'string', notEmpty: true },
     ]);
-
     if (!user.username) {
       user.username = user.email;
     }

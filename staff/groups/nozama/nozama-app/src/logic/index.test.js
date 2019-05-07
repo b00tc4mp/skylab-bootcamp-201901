@@ -3,6 +3,7 @@ import userApi from '../data/user-api';
 import logic from '.';
 import { RequirementError, LogicError } from '../common/errors';
 import productApi from '../data/product-api';
+import ProductWithDetail from './product/ProductWithDetail';
 import { exportDefaultDeclaration } from '@babel/types';
 
 const randomString = (length = 20) => Number(Math.random() * 9 ** length).toString(35);
@@ -14,7 +15,7 @@ function createRandomCart() {
   return productApi
     .all()
     .then(products => {
-      const productsId = products.map(product => product.productId);
+      const productsId = products.map(product => product.product_id);
       let ii = 0,
         ll = Math.floor(Math.random() * 10);
       do {
@@ -30,7 +31,7 @@ function createRandomCart() {
     .then(details => {
       details.forEach((detail, i) => {
         const quantity = Math.ceil(Math.random() * 6);
-        cartComplete.push({ product: detail, quantity });
+        cartComplete.push({ product: new ProductWithDetail(detail), quantity });
         cartSlim.push({ productId: cartProductsId[i], quantity });
       });
       return { cartComplete, cartSlim };
@@ -40,7 +41,6 @@ function createRandomCart() {
 describe('logic', () => {
   describe('logicUser', () => {
     let name, surname, password, email;
-    let cart, historicCart;
     let id, token;
 
     beforeEach(() => {
@@ -225,90 +225,130 @@ describe('logic', () => {
             expect(user).toEqual(originalUser);
           }));
 
-      it('must update an user converting the cart from product detail to unique product id', () => {
-        let _cartComplete, _cartSlim;
-        let _completeUser, _slimUser;
-        
-        return userApi
-          .create(email, password, { name, surname })
-          .then(({ status }) => {
-            expect(status).toBe('OK');
-            return userApi.auth(email, password);
-          })
-          .then(res => {
-            expect(res.status).toBe('OK');
-            logic.userId = res.data.id;
-            logic.token = res.data.token;
-            return userApi.retrieve(logic.userId, logic.token);
-          })
-          .then(apiUser => {
-            return createRandomCart()
-              .then(({ cartComplete, cartSlim }) => {
-                _cartComplete = cartComplete;
-                _cartSlim = cartSlim;
-                _completeUser = { ...apiUser, cart: _cartComplete };
-                _slimUser = { ...apiUser, cart: _cartComplete };
-                return logic.updateUser(_completeUser);
-                // TODO: expect call userApi.update with slim cart. ?? use of saveCart??
-              })
-              .then(res => {
-                debugger
-                expect(res.status).toBe('OK');
-              });
-          });
-      });
+      it(
+        'must retrieve on correct user data with cart information',
+        () => {
+          let _completeUser;
+          let spyDispatch;
 
-      it('must update an user converting historic carts to slim carts', () => {
-        const randomCarts = [];
-        for (let ii = 0, ll = Math.ceil(Math.random() * 5); ii < ll; ii++) {
-          randomCarts[ii] = createRandomCart();
-        }
-        return Promise.all(randomCarts)
-          .then(baseCarts =>
-            baseCarts.map(cart => ({
-              cart,
-              payDetails: {
-                cardNumber: '0000111122223333',
-                cardName: 'testing',
-                expireDate: '00/00',
-                cvv: '000',
-                amount: 1,
-              },
-            }))
-          )
-          .then(carts =>
-            userApi
-              .create(email, password, { name, surname })
-              .then(({ status }) => {
-                expect(status).toBe('OK');
-                return userApi.auth(email, password);
+          return userApi
+            .create(email, password, { name, surname })
+            .then(() => userApi.auth(email, password))
+            .then(res => {
+              expect(res.status).toBe('OK');
+              id = logic.userId = res.data.id;
+              token = logic.token = res.data.token;
+              return userApi.retrieve(id, token);
+            })
+            .then(({ data: apiUser }) =>
+              createRandomCart().then(({ cartComplete }) => {
+                _completeUser = { ...apiUser, email: apiUser.username, cart: cartComplete };
+                delete _completeUser.username;
+                return logic.updateUser(_completeUser);
               })
-              .then(res => {
-                expect(res.status).toBe('OK');
-                logic.userId = res.data.id;
-                logic.token = res.data.token;
-                return userApi.retrieveUser();
-              })
-              .then(({ name, surname, email }) => {
-                const user = {
-                  name,
-                  surname,
-                  email,
-                  cart: [],
-                  historicCart: randomCarts,
-                };
-                return logic.updateUser(user); //TODO: check call with productId
-              })
-              .then(user => {
-                expect(user.name).toBe(name);
-                expect(user.surname).toBe(surname);
-                expect(user.email).toBe(email);
-                expect(user.password).toBeUndefined();
-                expect(cart.length).toBe(0);
-                expect(user.historicCart).toEqual(randomCarts);
-              })
-          );
-      });
+            )
+            .then(res => {
+              expect(res.status).toBe('OK');
+              spyDispatch = logic.dispatch;
+              logic.dispatch = () => {};
+              return logic.retrieveUser();
+            })
+            .then(userRetrieved => {
+              logic.dispatch = spyDispatch;
+              expect(userRetrieved).toBeDefined();
+              expect(userRetrieved).toEqual(_completeUser);
+            });
+        },
+        1000 * 15
+      );
+
+      it(
+        'must update an user converting the cart from product detail to unique product id',
+        () => {
+          let _completeUser, _slimUser;
+          let spy;
+
+          return userApi
+            .create(email, password, { name, surname })
+            .then(({ status }) => {
+              expect(status).toBe('OK');
+              return userApi.auth(email, password);
+            })
+            .then(res => {
+              expect(res.status).toBe('OK');
+              id = logic.userId = res.data.id;
+              token = logic.token = res.data.token;
+              return userApi.retrieve(logic.userId, logic.token);
+            })
+            .then(({ data: apiUser }) => {
+              return createRandomCart()
+                .then(({ cartComplete, cartSlim }) => {
+                  _completeUser = { ...apiUser, email: apiUser.username, cart: cartComplete };
+                  _slimUser = { ...apiUser, email: apiUser.username, cart: cartSlim };
+                  spy = jest.spyOn(userApi, 'updateAndCheckDeleted');
+                  return logic.updateUser(_completeUser);
+                })
+                .then(res => {
+                  expect(spy).toHaveBeenCalled();
+                  expect(spy).toHaveBeenCalledWith(id, token, _slimUser);
+                  expect(res.status).toBe('OK');
+                  spy.mockRestore();
+                });
+            });
+        },
+        1000 * 15
+      );
+
+      it(
+        'must update an user converting historic carts to slim carts',
+        () => {
+          const randomCarts = [];
+          let userComplete, userSlim;
+          let spy;
+
+          return userApi
+            .create(email, password, { name, surname })
+            .then(({ status }) => {
+              expect(status).toBe('OK');
+              return userApi.auth(email, password);
+            })
+            .then(res => {
+              expect(res.status).toBe('OK');
+              id = logic.userId = res.data.id;
+              token = logic.token = res.data.token;
+              return userApi.retrieve(id, token);
+            })
+            .then(({ data: user }) => {
+              userComplete = { ...user, cart: [], historicCarts: [] };
+              userSlim = { ...user, cart: [], historicCarts: [] };
+              for (let ii = 0, ll = Math.ceil(Math.random() * 5); ii < ll; ii++) {
+                randomCarts[ii] = createRandomCart();
+              }
+              return Promise.all(randomCarts)
+                .then(baseCarts => {
+                  baseCarts.forEach(({ cartComplete, cartSlim }) => {
+                    const payDetails = {
+                      cardNumber: '0000111122223333',
+                      cardName: 'testing',
+                      expireDate: '00/00',
+                      cvv: '000',
+                      amount: 1,
+                    };
+                    userComplete.historicCarts.push({ cart: cartComplete, payDetails });
+                    userSlim.historicCarts.push({ cart: cartSlim, payDetails });
+                  });
+                  spy = jest.spyOn(userApi, 'updateAndCheckDeleted');
+                  return logic.updateUser(userComplete);
+                })
+                .then(user => {
+                  expect(spy).toHaveBeenCalled();
+                  expect(spy).toHaveBeenCalledWith(id, token, { ...userSlim, email });
+                  spy.mockRestore();
+                });
+            });
+        },
+        1000 * 15
+      );
 
       describe('session management', () => {
         beforeEach(() => {
@@ -318,18 +358,16 @@ describe('logic', () => {
         it('must show loggedIn with correct data', () =>
           userApi
             .create(email, password, { name, surname })
-            .then(res => expect(res.status).toBe('OK'))
             .then(() => logic.loginUser(email, password))
-            .then(user => {
+            .then(() => {
               expect(logic.isLoggedIn).toBeTruthy();
             }));
 
         it('must not loggedIn with incorrect data', () =>
           userApi
             .create(email, password, { name, surname })
-            .then(res => expect(res.status).toBe('OK'))
             .then(() => logic.loginUser(randomString(), password))
-            .then(user => {
+            .then(() => {
               expect(logic.isLoggedIn).toBeFalsy();
             }));
 
@@ -346,6 +384,59 @@ describe('logic', () => {
         //TODO: check if save cart is with productId
       });
     });
+
+    describe('save only cart', () => {
+      it(
+        'must retrieve on correct user data with cart information if only cart is provided',
+        () => {
+          let _completeUser;
+          let spyDispatch;
+
+          return userApi
+            .create(email, password, { name, surname })
+            .then(() => userApi.auth(email, password))
+            .then(res => {
+              expect(res.status).toBe('OK');
+              id = logic.userId = res.data.id;
+              token = logic.token = res.data.token;
+              return userApi.retrieve(id, token);
+            })
+            .then(({ data: apiUser }) =>
+              createRandomCart().then(({ cartComplete }) => {
+                _completeUser = { ...apiUser, email: apiUser.username, cart: cartComplete };
+                delete _completeUser.username;
+                return logic.saveCart(cartComplete);
+              })
+            )
+            .then(res => {
+              expect(res.status).toBe('OK');
+              spyDispatch = logic.dispatch;
+              logic.dispatch = () => {};
+              return logic.retrieveUser();
+            })
+            .then(userRetrieved => {
+              logic.dispatch = spyDispatch;
+              expect(userRetrieved).toBeDefined();
+              expect(userRetrieved).toEqual(_completeUser);
+            });
+        },
+        1000 * 15
+      );
+
+      it('return the same cart without saving if not logged', () => {
+        logic.userId = null;
+        logic.token = null;
+        let cart;
+        return createRandomCart()
+          .then(({ cartComplete }) => {
+            cart = cartComplete;
+            return logic.saveCart(cartComplete)
+          })
+          .then(res => {
+            expect(res).toBe(cart);
+          })
+      })
+    })
   });
 
   describe('logic-product', () => {

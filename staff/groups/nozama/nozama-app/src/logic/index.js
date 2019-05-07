@@ -102,8 +102,10 @@ const logic = {
       { name: 'dataUser.password', value: dataUser.password, type: 'string', notEmpty: true, optional: true,},
     ]);
     let slimCart = dataUser.cart;
-    if (dataUser.historicCarts && dataUser.cart.length !== 0 && !!dataUser.cart[0].product) {
-      slimCart = dataUser.cart.map(({product, quantity}) => ({quantity, productId: product.productId}));
+    if (dataUser.cart && dataUser.cart.length !== 0 && !!dataUser.cart[0].product) {
+      slimCart = dataUser.cart.map(({product, quantity}) => {        
+        return ({quantity, productId: product.productId})
+      });
     }
 
     let slimHistoricCarts = dataUser.historicCarts || [];
@@ -156,16 +158,6 @@ const logic = {
             .filter(product => !!product.__info__));
   },
 
-  categories () {
-    return logic.allProducts()
-      .then(products => {
-        return products.reduce((acc, product) => {
-          const category = product.subtitle.trim();
-          if (!acc.includes(category)) acc.push(category);
-          return acc;
-        }, [])
-      })
-  },
 };
 
 export default logic;
