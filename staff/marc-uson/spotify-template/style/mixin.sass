@@ -1,0 +1,23 @@
+@mixin for-galaxy
+    @media (max-width: $galaxy-size)
+        @content
+
+@mixin for-iphone
+    @media (max-width: $iphone-size)
+        @content
+
+@mixin for-phablet
+    @media (min-width: $phablet-size-min) and (max-width: $phablet-size-max )
+        @content
+
+@mixin for-tablet
+    @media (min-width: $phablet-size-max + 1) and (max-width: $tablet-size - 1)
+        @content
+
+@mixin for-big-tablet
+    @media (min-width: $tablet-size )
+        @content
+
+@mixin for-desktop
+    @media (min-width: $desktop-size )
+        @content

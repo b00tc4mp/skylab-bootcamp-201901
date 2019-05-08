@@ -1,0 +1,153 @@
+@import url("https://fonts.googleapis.com/css?family=Montserrat");
+html {
+  box-sizing: border-box;
+  height: 100hv;
+  font-family: montserrat;
+}
+
+body {
+  background-color: brown;
+  background-image: linear-gradient(to left, brown, black);
+  width: 100%;
+  display: grid;
+  justify-items: stretch;
+  grid-template-columns: 90px 1fr;
+  grid-template-rows: 100px 1fr 150px;
+  grid-template-areas: "l h" "l b" "f f";
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.topmenu {
+  margin: 0.5em;
+  height: 100%;
+  width: 100%;
+  grid-area: h;
+  color: white;
+  display: flex;
+  flex-flow: row wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.lateralmenu {
+  background-color: black;
+  padding-left: 0.5em;
+  opacity: 0.8;
+  height: 100%;
+  width: 100%;
+  grid-area: l;
+}
+
+.lateralmenulist {
+  position: fixed;
+  color: white;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  margin-top: 50px;
+  height: 200px;
+  width: 100%;
+}
+
+.albums {
+  margin: 0.5em;
+  grid-area: b;
+  width: 100%;
+  height: 100%;
+}
+
+.player {
+  position: fixed;
+  bottom: 0;
+  padding: 1.2em;
+  background-color: #1f1f1f;
+  opacity: 0.7;
+  height: 100px;
+  width: 100%;
+  grid-area: f;
+  display: grid;
+  grid-template-columns: 1fr 2fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-template-areas: ". c ." ". . v" ". t .";
+}
+
+.controls {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  color: white;
+  width: 100%;
+  grid-area: c;
+}
+
+.volume {
+  color: white;
+  grid-area: v;
+}
+
+.timerep {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  color: white;
+  grid-area: t;
+}
+
+.pool {
+  display: flex;
+  justify-content: start;
+  align-content: start;
+  flex-flow: row wrap;
+}
+
+.album {
+  display: flex;
+  position: relative;
+  margin: 5px;
+  height: 200px;
+  width: 200px;
+}
+
+.albumtext {
+  font-size: 1.2em;
+  color: #eee;
+  display: flex;
+  flex-flow: row wrap;
+  position: absolute;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  width: 90%;
+  height: 90%;
+}
+
+.dayquote {
+  color: #eee;
+  font-size: 2em;
+  font-weight: bolder;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-flow: row wrap;
+  height: 90px;
+  width: 100%;
+}
+
+.logo {
+  margin-top: 2em;
+  width: 50px;
+  height: 50px;
+  display: flex;
+  justify-content: space-around;
+  flex-flow: column wrap;
+  align-items: center;
+}
+
+#toplogo {
+  width: 90%;
+  height: 90%;
+}
+
+/*# sourceMappingURL=style.css.map */

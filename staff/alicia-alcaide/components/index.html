@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./style.css">
+    <title>Duck ecommerce</title>
+  </head>
+
+  <body>
+    <nav class="nav">
+      <select class="language">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="ca">Català</option>
+        <option value="ga">Galego</option>
+      </select>
+      <button class="nav__logout">Logout</button>
+    </nav>
+
+    <section class="landing">
+      <img class="landing__image" src="https://media.tenor.com/images/4f8eca353a4e30bb521b06e19da01e04/tenor.gif">
+      <div class="landing__actions">
+          <a class="btn landing__login" href="">Login</a><span class="landing__middleText">or</span><a class="btn btn--small landing__register" href="">Register</a>
+      </div>
+    </section>
+
+
+
+        <button>Register</button>
+        <p>Error!</p>
+    </form>
+
+
+    <section>
+        User successfully registered, you can proceed to <a href="">Login</a>.
+    </section>
+
+    
+    <form>
+        <h2>Login</h2>
+
+      <div class="login__error">
+          <p class="login__error-message">Error!</p>
+      </div>
+
+      <ul class="login__inputs">
+        <li><input class="login__input input" type="text" name="email" placeholder="email" /></li>
+        <li>
+          <input class="login__input input" type="password" name="password" placeholder="password" />
+        </li>
+      </ul>
+
+      <button class="btn login__button">Login</button>
+    </form>
+
+
+    <main>
+        <h1>Hello, User!</h1>
+
+        <button>Log out!</button>
+        
+        <form>
+            <input type="text" name="query">
+            <button>Search</button>
+        </form>
+
+        <ul></ul>
+
+        <section>
+            <h2>Duck Detail</h2>
+            <img>
+            <span></span>
+            <p></p>
+        </section>
+
+        <p>Error!</p>
+    </main>
+
+    <script src="scripts/errors.js"></script>
+    <script src="scripts/validate.js"></script>
+
+    <script src="scripts/components/component.js"></script>
+    <script src="scripts/components/feedback.js"></script>
+    <script src="scripts/components/language-selector.js"></script>
+    <script src="scripts/components/landing.js"></script>
+    <script src="scripts/components/register.js"></script>
+    <script src="scripts/components/register-ok.js"></script>
+    <script src="scripts/components/login.js"></script>
+    <script src="scripts/components/search.js"></script>
+    <script src="scripts/components/results.js"></script>
+    <script src="scripts/components/detail.js"></script>
+    <script src="scripts/components/home.js"></script>
+
+    <script src="scripts/duck-api/index.js"></script>
+    <script src="scripts/user-api/index.js"></script>
+
+    <script src="scripts/logic/index.js"></script>
+
+    <script src="scripts/i18n.js"></script>
+    <script src="scripts/main.js"></script>
+  </body>
+</html>

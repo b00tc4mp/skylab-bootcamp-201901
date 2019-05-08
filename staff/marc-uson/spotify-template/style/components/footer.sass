@@ -1,0 +1,114 @@
+.footer-mbl
+    display: flex
+    flex-flow: column
+    align-items: center
+    padding: 20px
+
+    &__options
+        display: flex
+        flex-flow: column
+        align-items: center
+        margin: 6px 0 20px
+        color: gray
+        font-size: 14px
+        font-weight: bold
+
+        & > p
+            margin: 5px
+
+    @include for-desktop
+        display: none
+
+
+.footer
+    display: none
+    position: fixed
+    box-sizing: border-box
+    bottom: 0
+    left: 0
+    background-color: $footer-color
+    width: $footer-width
+    height: $footer-height
+    border-top: 1px solid black
+
+    @include for-desktop
+        display: flex
+        justify-content: space-between
+        align-content: center
+
+.nowplaying
+    display: flex
+    align-items: center
+    width: 25vw
+    &__cover
+        padding: 20px
+        width: 10vh
+        height: 10vh
+    
+    &__title
+        > p
+            font-size: 12px
+            margin: 0
+        &-artist
+            color: lightgray
+
+    &__add
+        font-size: 24px
+        font-weight: lighter
+        padding: 40px
+
+.player
+    display: flex
+    flex-flow: column
+    padding: 40px
+    width: 50vw
+    justify-content: center
+    
+    &__controls
+        display: flex
+        flex-flow: row
+        width: 50vw
+        justify-content: center
+        align-items: center
+        font-weight: 100
+        
+        > i
+            padding: 20px 20px 0px
+
+        > .fa-play-circle
+            font-size: 36px
+    &__bar
+        display: flex
+        flex-flow: row
+        justify-content: center
+        align-items: center
+        font-size: 12px
+
+        &-bar
+            font-size: 4px
+            color: gray
+            background-color: gray
+            line-height: 4px
+            width: 30vw
+            margin: 10px
+            border-radius: 2px
+
+.volume-control
+    display: flex
+    flex-flow: row
+    width: 50vh
+    padding: 20px
+    justify-content: center
+    align-items: center
+
+    > i
+        padding: 10px
+
+    &--bar
+        font-size: 4px
+        color: gray
+        background-color: gray
+        line-height: 4px
+        width: 6vw
+        border-radius: 2px
+

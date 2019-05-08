@@ -1,0 +1,449 @@
+body {
+    margin: 0;
+    display: flex;
+    box-sizing: border-box;
+    flex-direction: column;
+    font-family: 'Open Sans', sans-serif;
+    
+}
+
+h1,h2,h3,h4,h5,h6,p {
+    margin: 0;
+    font-weight:normal;
+}
+
+/* HEADER STYLE */
+
+header {
+    background-color: red;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    z-index: 3;
+}
+
+.header_logo {
+    display: flex;
+    align-items: center;
+    width: 200px;
+
+}
+
+.logo_yt {
+    font-size: 35px;
+    color: white;
+    margin-left:10px;
+    width: 50px;
+    
+}
+
+
+.header_navegation {
+    display: flex;
+    align-items: center;
+    width: 60px;
+    justify-content: space-between;
+    margin-right:30px;
+}
+
+.header_navegation div i {
+    align-items: center;    
+    font-size: 17px;
+    color: white;
+}
+
+.user_canal_name {
+    color: white;
+    font-size: 10px;
+}
+
+/* USER CANAL HEADER STYLE */
+
+.user_img_canal {
+    height: 75px;
+    z-index: 2;
+}
+
+.user_canal_description {
+    height: 55px;
+    display: flex;
+    flex-direction: column;
+    margin-left: 50px;
+    margin-top:30px;
+}
+
+.user_suscription {
+    display: flex;
+    margin-top:5px;
+
+}
+
+.user_suscription i {
+    color:#606060;
+    font-size: 20px;
+}
+
+.user_suscription p {
+    width: 60px;
+    font-size: 14px;
+    margin-left:5px;
+    color:#606060;
+}
+
+.user_photo_canal {
+    width: 55px;
+    height: 55px;
+    border-radius:50%;
+    background-color: black;
+    position: absolute;
+    top:95px;
+    left:30px;
+}
+
+
+
+/* CANAL SECTIONS STYLES */
+.user_canal_sections_desktop {
+    display: none;
+}
+
+
+.user_canal_sections {
+    display: flex;
+    flex-direction: row;
+    height: 40px;
+    box-shadow: 0 4px 2px -2px #7D7D7D;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.user_canal_sections p {
+    padding: 10px 17px 10px 17px;
+    font-size: 14px;
+}
+
+.user_canal_sections i {
+    padding: 10px 20px 10px 20px;
+    font-size: 15px;
+}
+
+/* VIDEOS STYLE */
+
+
+main {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.section_video_title  {
+    padding-bottom:10px;
+    font-size:13px;
+
+}
+
+article {
+    display: flex;
+    flex-direction: row;
+    margin-bottom:10px;
+}
+
+
+.publication_video_preview {
+    width: 160px;
+    height: 100px;
+    background-color: pink;
+    display: flex;
+    justify-content: space-between;
+    
+}
+
+.publication_video_info {
+    padding-left: 10px; 
+    flex-basis:100%;
+    
+
+}
+
+.publication_video_views {
+    display: flex;
+    flex-direction: column;
+}
+
+
+.publication_video_views p {
+    margin-top:5px;
+    font-size:13px;
+    color:grey;
+}
+
+.publication_video_title h5 {
+    font-size: 15px;
+}
+
+.publication_video_options {
+    height: 100%;
+    align-content: space-between;
+    
+}
+.publication_video_options i {
+    padding-top:20px;
+    padding-right:10px;
+    
+}
+
+
+/* SECTION VIDEOS MORE ARROW */
+
+.section_video_more {
+    display: flex;
+    justify-content: center;
+    height: 30px;
+    box-shadow: 0px 1px 0px 0px rgba(171,171,171,1);
+
+}
+
+
+/* DISPLAY NONE */
+
+.user_canal_name_small {
+    display: none;
+}
+
+
+/* DESKTOP VERSION ....................................... */
+
+@media ( min-width: 1024px) { 
+
+    .user_canal_name > h2 {
+        color: black;
+        margin-left: 10px
+
+        
+    }
+
+    .logo_yt > i{
+        font-size: 35px;
+        color:red;
+        margin-left:10px;
+        width: 50px;
+        
+    }
+
+
+    .user_canal_sections {
+        display: none;
+    }
+
+    .user_canal_sections_desktop {
+        display: flex;
+        width: 1284px;
+        height: 48px;
+        justify-content: space-evenly;
+        align-self: center;
+
+    }
+
+    .user_canal_sections_desktop > p , .user_canal_sections_desktop > i {
+        font-size: 14px;
+        align-self: center;
+        color:black;
+    }
+
+
+
+
+    .section_video_title > h4 {
+        font-size: 20px;
+        margin: 20px 0 20px 0;
+    }
+
+
+
+    main {
+        padding: 10px;
+    }
+
+    .user_canal_videos_uploaded  {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        overflow: auto
+
+    }
+    
+    article  {
+        flex-basis: 300px;
+        display: flex;        
+        flex-direction: column;
+        align-content: flex-start;
+        height: 200px;
+        padding: 10px 10px 0 10px;
+
+    }
+    
+    
+
+    .publication_video_info {
+        height: 10px;
+        padding:0;
+    }
+
+    .publication_video_title {
+        height: 20px;
+    }
+
+    .publication_video_views {
+        height: 20px;
+    }
+
+    .publication_video_preview {
+        width: 240px;
+        height: 160px;
+    }
+
+    .publication_video_preview > img {
+        width: 100%
+    }
+    
+    .video_container {
+        width: 1000px;
+        display: flex;
+        flex-direction: column;
+
+    }
+
+
+    .publication_video_options {
+        display: none;
+    }
+
+    .publication_video_views p{ 
+        margin: 0;
+    }
+
+    .user_canal_name_small {
+        display: flex;
+        align-items: center;
+
+
+        
+    }
+
+    .user_canal_name_small p,i {
+        font-size:13px;
+        color:grey;
+
+    }
+
+    .user_canal_name_small i {
+        margin-left:5px;
+        font-size: 11px;
+    }
+
+    header {
+        background-color: white;
+        box-shadow: 0 4px 2px -2px #7D7D7D;
+    }
+    
+
+    .main_container {
+        display: flex;
+        flex-direction: row;
+        align-self: center;
+    }
+    
+    .main {
+        max-width: 1069px;
+    }
+
+    /* NAV */
+
+    .user_canal_sections {
+        box-shadow: none;
+    }
+
+    /* ASIDE  */
+
+
+    aside {        
+        max-width: 215px;
+
+    }
+
+
+
+    .aside_header {
+        flex-basis:100%;
+        box-shadow: none;
+
+
+    }
+
+
+    .aside_header > h2 {
+        font-size: 15px;
+    }
+
+    .aside_friends {
+        display: flex;
+        flex-direction: column;
+        height: 57px;
+        align-self: center;
+        margin-top: 20px;
+    }
+
+
+
+    .aside_other-canal {
+        height: 24px;
+
+    }
+    .aside_other-canal-logo > img {
+        height: 24px;
+        width: 24px;
+        border-radius: 50%;
+        background-color: black;
+        
+    }
+    
+    .aside_other-canal {
+        display: flex;
+        font-size: 25px;
+        
+
+    }
+
+    .aside_other-canal > div  {
+        align-self: center;
+        margin-left: 5px;
+        
+
+    }
+
+    .aside_other-canal-button {
+        width: 100px;
+        height: 25px;
+        background-attachment: gray;
+        border-radius: 5px;
+        border: none;
+        font-size: 12px;
+        margin-top:10px;
+        
+
+    }
+
+
+    .publication_video_info {
+        flex-basis: 100px;
+
+    }
+
+  
+
+
+
+ }
+
+
+
