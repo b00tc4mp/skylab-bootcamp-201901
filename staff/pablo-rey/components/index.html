@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <link rel="stylesheet" href="./style.css">
+    <title>Duck ecommerce</title>
+  </head>
+
+  <body>
+    <nav class="nav">
+      <select class="language">
+        <option value="en">English</option>
+        <option value="es">Español</option>
+        <option value="ca">Català</option>
+        <option value="ga">Galego</option>
+      </select>
+      <button class="nav__logout">Logout</button>
+    </nav>
+
+    <section class="landing">
+      <img class="landing__image" src="https://media.tenor.com/images/4f8eca353a4e30bb521b06e19da01e04/tenor.gif">
+      <div class="landing__actions">
+          <a class="btn landing__login" href="">Login</a><span class="landing__middleText">or</span><a class="btn btn--small landing__register" href="">Register</a>
+      </div>
+    </section>
+
+
+
+    <form class="register">
+      <h2 class="register__title">Register</h2>
+
+      <div class="register__error">
+          <p class="register__error-message">Error!</p>
+      </div>
+
+      <ul class="register__inputs">
+        <li><input class="register__input input" type="text" name="name" placeholder="name" /></li>
+        <li><input class="register__input input" type="text" name="surname" placeholder="surname" /></li>
+        <li><input class="register__input input" type="text" name="email" placeholder="email" /></li>
+        <li>
+          <input class="register__input input" type="password" name="password" placeholder="password" />
+        </li>
+      </ul>
+
+      <button class="btn register__button">Register</button>
+    </form>
+
+    <form class="login">
+      <h2 class="login__title">Login</h2>
+
+      <div class="login__error">
+          <p class="login__error-message">Error!</p>
+      </div>
+
+      <ul class="login__inputs">
+        <li><input class="login__input input" type="text" name="email" placeholder="email" /></li>
+        <li>
+          <input class="login__input input" type="password" name="password" placeholder="password" />
+        </li>
+      </ul>
+
+      <button class="btn login__button">Login</button>
+    </form>
+
+    <section class="registerSuccessful">
+      User successfully registered, you can proceed to <a href="">Login</a>.
+    </section>
+
+    <main class="home">
+      <h1 class="home__title">Hello, Duck!</h1>
+      <form class="home__search">
+        <input class="input home__search-input" type="text" name="searchText" />
+        <button class="btn btn--small home__search-button">Search</button>
+      </form>
+      <ul class="duck-list"></ul>
+      <section class="duck-detail">
+        <h3 class="duck-detail__title">Titulo</h3>
+        <img class="duck-detail__image" src="" />
+        <span class="duck-detail__price">Precio</span>
+        <p class="duck-detail__description">description</p>
+        <a class="duck-detail__back">Back</a>
+        <button class="duck-detail__buy">Buy</button>
+      </section>
+    </main>
+
+    <script src="scripts/validate.js"></script>
+    <script src="scripts/normalize.js"></script>
+    <script src="scripts/errors.js"></script>
+    <script src="scripts/user-api/index.js"></script>
+    <script src="scripts/duck-api/index.js"></script>
+    <script src="scripts/components/component.js"></script>
+    <script src="scripts/components/feedback.js"></script>
+    <script src="scripts/components/language-selector.js"></script>
+    <script src="scripts/components/landing.js"></script>
+    <script src="scripts/components/register.js"></script>
+    <script src="scripts/components/register-ok.js"></script>
+    <script src="scripts/components/login.js"></script>
+    <script src="scripts/components/logout.js"></script>
+    <script src="scripts/components/search-form.js"></script>
+    <script src="scripts/components/card-duck.js"></script>
+    <script src="scripts/components/duck-detail.js"></script>
+    <script src="scripts/components/list.js"></script>
+    <script src="scripts/components/home.js"></script>
+    <script src="scripts/data.js"></script>
+    <script src="scripts/logic/index.js"></script>
+    <script src="scripts/i18n.js"></script>
+    <script src="scripts/main.js"></script>
+  </body>
+</html>
