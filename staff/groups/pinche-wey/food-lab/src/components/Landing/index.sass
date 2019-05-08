@@ -1,0 +1,58 @@
+@import ../App/config
+
+.landing
+    background-image: url('http://www.corktowntavern.com/wp-content/uploads/2018/10/still-life-food-background-full-hd-436393.jpg')
+
+    &__main
+        display: flex
+        flex-direction: column
+        align-items: center
+        justify-content: center
+        width: 100%
+        // height: 800px
+        height: 100vh
+
+        &-container
+            display: flex
+            flex-direction: column
+            justify-content: center
+            align-items: center
+            background-color: rgba(250,250,250,0.3)
+            width: 100%
+            height: 200px
+
+        &-title
+            margin-bottom: 5px
+            font-size: 40px
+
+            &-colored
+                color: $aux-color
+
+        &-slogan
+            margin-bottom: 20px
+
+        &-button
+            display: inline-block
+            height: 30px
+            width: 100px
+            text-align: center
+            // background-color: white
+            border-radius: 15px
+            border: 1px solid $button-color
+            color: $button-color
+            cursor: pointer
+            color: aux-color
+            text-decoration-line: none
+            align-items: center
+
+            &:hover
+                color: white
+                background-color: $aux-color
+
+
+
+
+
+    
+    
+ 
