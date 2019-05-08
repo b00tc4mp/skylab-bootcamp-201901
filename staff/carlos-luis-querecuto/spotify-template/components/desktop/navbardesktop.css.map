@@ -1,9 +1,0 @@
-{
-    "version": 3,
-    "mappings": "AAAA,AAAA,cAAc,CAAC;EACX,MAAM,EAAE,IAAI;EACZ,aAAa,EAAE,CAAC;EAChB,OAAO,EAAE,IAAI;EACb,eAAe,EAAE,aAAa;EAC9B,WAAW,EAAE,MAAM;EACnB,aAAa,EAAE,MAAM;CAAG",
-    "sources": [
-        "navbardesktop.sass"
-    ],
-    "names": [],
-    "file": "navbardesktop.css"
-}
