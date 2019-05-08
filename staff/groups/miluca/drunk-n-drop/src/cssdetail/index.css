@@ -1,0 +1,149 @@
+@media only screen and (max-width: 1024px) {
+  .columns {
+    background-image: url("https://img.freepik.com/free-photo/empty-wooden-table-blurred-background_28283-615.jpg?size=626&ext=jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; }
+
+  .slider {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; }
+
+  .detailsIngredient {
+    display: flex;
+    justify-content: center;
+    color: white; }
+
+  .detailsimg {
+    width: 150px;
+    margin-left: 30%; }
+
+  .topInfo {
+    margin-top: 20px; }
+
+  .topImgae {
+    padding: 10%; }
+
+  .topName {
+    color: white;
+    display: flex;
+    justify-content: center; }
+
+  .fav {
+    color: yellow;
+    display: flex;
+    justify-content: center;
+    font-size: 2em;
+    text-shadow: 2px 2px black; }
+
+  .midName {
+    display: flex;
+    justify-content: center;
+    color: white; }
+
+  .cocktailInfo {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px; }
+
+  .detailInfo {
+    color: white;
+    display: flex;
+    justify-content: center;
+    padding: 10px; }
+
+  .glassInfo {
+    margin-right: 10px; }
+
+  .glassImage {
+    border-radius: 20%; }
+
+  .cocktailImage {
+    border-radius: 20%;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); } }
+@media only screen and (min-width: 900px) {
+  .columns {
+    display: flex;
+    flex-direction: column;
+    background-image: url("https://img.freepik.com/free-photo/empty-wooden-table-blurred-background_28283-615.jpg?size=626&ext=jpg");
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover; }
+
+  .topInfo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-around;
+    margin-top: 10px; }
+
+  .cocktailImage {
+    width: 400px;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19); }
+
+  .fav {
+    color: yellow;
+    display: flex;
+    margin-right: 130px;
+    margin-top: 170px;
+    font-size: 3em;
+    text-shadow: 2px 2px black; }
+
+  .favDesktop {
+    display: flex;
+    flex-direction: row-reverse; }
+
+  .topName {
+    color: white;
+    font-size: 4em;
+    margin-left: 20px; }
+
+  .cocktailInfo {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px; }
+
+  .centerFlex {
+    display: flex;
+    flex-direction: column;
+    margin-left: 130px;
+    margin-top: 20px; }
+
+  .midName {
+    color: white;
+    display: flex;
+    flex-direction: column;
+    align-items: center; }
+
+  .detailsimg {
+    width: 200px; }
+
+  .centerInfo {
+    margin-left: 300px; }
+
+  .slider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 10px; }
+
+  .glassInfo {
+    display: none; }
+
+  .detailInfo {
+    color: white; }
+
+  .instructionsInfo {
+    margin-left: 30px; }
+
+  .detailsIngredient {
+    color: white; }
+
+  .desktopVersion {
+    display: flex;
+    flex-direction: column-reverse;
+    background-color: black;
+    opacity: 0.8; } }
+
+/*# sourceMappingURL=index.css.map */

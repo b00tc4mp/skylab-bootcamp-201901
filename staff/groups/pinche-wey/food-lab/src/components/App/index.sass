@@ -1,0 +1,96 @@
+@import ./utils
+@import ./config
+
+
+.header
+    display: flex
+    // grid-template-columns: 40%, 20%, 20%
+    // +round-border(.1em, solid, $color, .5em)
+    // min-height: 5em
+    align-items: center
+    justify-content: space-between
+    background-color: white
+    height: 100px
+    width: 100%
+
+    &__title
+        justify-self: center
+        padding-left: 20px
+        color: black
+
+        &-link
+            text-decoration: none
+            font-size: 20px
+
+
+        &-colored
+            color: $title-colored
+
+    &__searcher
+        width: 50%
+
+    &__user
+        width: 250px
+        display: flex
+        flex-direction: row
+        justify-content: space-between
+        align-items: center
+
+        &-img
+            width: 50px
+            height: 50px
+            cursor: pointer
+            border-radius: 50%
+
+            & img
+                width: 100%
+                height: 100%
+
+        &-name
+
+
+    
+        &-button
+            width: 100px
+            height: 30px
+            background-color: white
+            border-radius: 15px
+            border: 1px solid $button-color
+            color: $button-color
+            cursor: pointer
+            margin-right: 20px
+
+            &:hover
+                background-color: $button-color
+                color: white
+.footer
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    width: 100%
+    height: 130px
+    display: flex
+    justify-content: center
+    background-color: #31241C
+    
+    & p
+        cursor: pointer
+        margin: 2px 0
+        color: $aux-color
+
+@media screen and (max-width: $break-mobile ) 
+    .header
+        display: flex
+        flex-direction: column
+        height: 200px
+
+        &__title
+            height: 33%
+
+        &__searcher
+            height: 20%
+            width: 80%
+
+        &__user
+            height: 33%

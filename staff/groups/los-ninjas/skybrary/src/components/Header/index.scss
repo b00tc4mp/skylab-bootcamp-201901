@@ -1,0 +1,47 @@
+.header {
+    display: flex;
+    flex-direction: column;
+
+    .container {
+        @media(max-width: 1088px) {
+            margin: 0 2em;
+        }
+    }
+
+    h1 {
+        font-family: 'Great Vibes';
+        font-size: 5em;
+        text-align: center;
+        color: white;
+        text-shadow: 0 3px 3px rgba(0, 0, 0, .8);
+    }
+
+    button {
+        font-family: 'Montserrat';
+        font-size: 1.2em;
+        color: black;
+        align-self: flex-end;
+        margin-right: 10%;
+        margin-bottom: 10px;
+
+        &.is-small {
+            @media(max-width: 768px) {
+                border-radius: 50px;
+                margin-bottom: 24px;
+            }
+        }
+
+        span {
+            margin-left: 6px;
+
+            @media(max-width: 768px) {
+                margin-left: 0;
+                display: none;
+            }
+        }
+    }
+
+    hr {
+        height: 1px;
+    }
+}
