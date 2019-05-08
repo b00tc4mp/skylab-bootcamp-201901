@@ -1,32 +1,34 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <link rel="stylesheet" href="./style.css">
-    <title>Duck ecommerce</title>
-  </head>
 
-  <body>
-    <nav class="nav">
-      <select class="language">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <select>
         <option value="en">English</option>
         <option value="es">Español</option>
         <option value="ca">Català</option>
         <option value="ga">Galego</option>
-      </select>
-      <button class="nav__logout">Logout</button>
-    </nav>
+    </select>
 
-    <section class="landing">
-      <img class="landing__image" src="https://media.tenor.com/images/4f8eca353a4e30bb521b06e19da01e04/tenor.gif">
-      <div class="landing__actions">
-          <a class="btn landing__login" href="">Login</a><span class="landing__middleText">or</span><a class="btn btn--small landing__register" href="">Register</a>
-      </div>
+    <section>
+            <a href="">Register</a> <span>or</span> <a href="">Login</a>.
     </section>
 
+    <form>
+        <h2>Register</h2>
 
+        <ul>
+            <li><input type="text" name="name" placeholder="name"></li>
+            <li><input type="text" name="surname" placeholder="surname"></li>
+            <li><input type="text" name="email" placeholder="email"></li>
+            <li><input type="password" name="password" placeholder="password"></li>
+        </ul>
 
         <button>Register</button>
         <p>Error!</p>
@@ -41,18 +43,14 @@
     <form>
         <h2>Login</h2>
 
-      <div class="login__error">
-          <p class="login__error-message">Error!</p>
-      </div>
+        <ul>
+            <li><input type="text" name="email" placeholder="email"></li>
+            <li><input type="password" name="password" placeholder="password"></li>
+        </ul>
 
-      <ul class="login__inputs">
-        <li><input class="login__input input" type="text" name="email" placeholder="email" /></li>
-        <li>
-          <input class="login__input input" type="password" name="password" placeholder="password" />
-        </li>
-      </ul>
+        <button>Login</button>
 
-      <button class="btn login__button">Login</button>
+        <p>Error!</p>
     </form>
 
 
@@ -100,5 +98,6 @@
 
     <script src="scripts/i18n.js"></script>
     <script src="scripts/main.js"></script>
-  </body>
+</body>
+
 </html>
