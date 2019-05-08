@@ -1,0 +1,55 @@
+@import '../../utils.sass'
+@import url('https://fonts.googleapis.com/css?family=Ubuntu')
+
+
+.myHeader
+    position: fixed
+    top: 0
+    height: 25vh
+    width: 100%
+    z-index: 5
+    display: flex
+    flex-direction: row
+    justify-content: space-between
+    font-family: ‘Ubuntu’, sans-serif
+
+.myButtons
+    display: flex
+    flex-flow: column
+    padding-bottom: 20px
+    padding-right: 5px
+    align-items: center
+    width: 30vw
+
+.mySelect
+    width: 30vw
+
+.myTitle
+    display: flex
+    flex-flow: column
+    justify-content: center
+    text-align: center
+    z-index: 10
+    width: 40vw
+
+.myCity
+    font-size: 68px
+
+    @include tablet
+        font-size: 42px
+
+    @include mobile
+        font-size: 30px
+
+.myWeather
+    font-size: 34px
+
+    @include tablet
+        font-size: 28px
+
+    @include mobile
+        font-size: 16px
+
+.myIcon
+    height: 18px
+    width: 18px
