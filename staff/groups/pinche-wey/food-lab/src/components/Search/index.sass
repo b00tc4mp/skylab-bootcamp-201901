@@ -1,0 +1,75 @@
+@import ../App/utils
+@import ../App/config
+
+.searcher-container
+    display: flex
+    align-items: center
+    justify-content: center
+    // width: 500px
+
+    
+.searcher
+    width: 100%
+    border-bottom: 2px $aux-color solid
+
+    &__input
+        width: 60%
+        background-color: white
+        height: 30px
+        border: none
+
+    &__selector
+        width: 20%
+        height: 30px
+        border: none
+        color: grey
+        cursor: pointer
+
+    &__selector > option
+        height: 50px
+
+    &__button
+        width: 20%
+        height: 30px
+        border: none
+        cursor: pointer
+
+        &:hover
+            background-color: $aux-color
+            color: white
+    
+
+
+// .home
+//     display: grid
+//     grid-template-columns: 20% 80%
+//     grid-template-rows: auto
+//     +round-border(.1em, solid, $color, .5em)
+
+//     &__searcher
+//         +round-border(.1em, solid, blue, .5em)
+//         padding: 1.5em
+
+//     &__search__results
+//         +round-border(.1em, solid, red, .5em)
+
+
+// .nav
+//    +round-border(.1em, solid, $color, .5em)
+
+//    &__user
+//        display: flex
+       
+//        +round-border(.1em, solid, red, .5em)
+
+//    &__user > a > img 
+//        max-width: 5em  
+
+//    &__recipes
+//        +round-border(.1em, solid, black, .5em)
+       
+//    &__search
+//        +round-border(.1em, solid, blue, .5em)
+    
+//    &__search__results
+//        +round-border(.1em, solid, yellow, .5em)
