@@ -7,7 +7,7 @@ class Home extends Component {
     super(path.join(__dirname, 'index.html'));
   }
 
-  beforeRender(html, { listDucks = [], query = '' }) {
+  beforeRender(html, { listDucks, query }) {
     html = html.replace(
       '<DuckList />',
       listDucks.length !== 0 ? new DuckList().render({ listDucks, query }) : ''
