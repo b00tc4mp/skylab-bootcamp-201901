@@ -1,5 +1,7 @@
 const express = require('express')
 const bodyParser = require('./body-parser')
+const render = require('./render')
+const logic = require('./logic')
 
 const { argv: [, , port] } = process
 
@@ -9,28 +11,10 @@ app.use(express.static('public'))
 
 let user = {}
 
-function render(body) {
-    return `<!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
-        <link rel="stylesheet" href="style.css">
-    </head>
-    <body>
-        ${body}
-    </body>
-    </html>`
-}
-
-app.get('/landing', (req, res) => {
-
-    res.send(render(`<h1>Welcome to XXX</h1>        
-        <a href="/register">Register</a>
-        <a href="/login">login</a>`))
-})
+app.get('/', (req, res) =>
+    res.send(render(`<h1>Welcome to this Web Application</h1>
+<a href="/register">Register</a> or <a href="/login">Login</a>`))
+)
 
 app.get('/register', (req, res) =>
     res.send(render(`<form method="post" action="/register">
@@ -38,7 +22,7 @@ app.get('/register', (req, res) =>
             <input type="password" name="password">
             <button>Register</button>
         </form>`))
-)
+       )
 
 app.post('/register', bodyParser, (req, res) => {
 
@@ -46,7 +30,12 @@ app.post('/register', bodyParser, (req, res) => {
 
     user.username = username
     user.password = password
+
+    logic.registerUser(username, password) 
+
     
+    
+
 
     res.send(render(`<p>Ok, user correctly registered, you can now proceed to <a href="/login">login</a></p>`))
 })
