@@ -1,22 +1,21 @@
-const logic = require('.')
+const Logic = require('.')
 const { LogicError, RequirementError, ValueError, FormatError } = require('../common/errors')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const atob = require('atob')
 
 describe('logic', () => {
+    let logic
+
+    beforeEach(() => logic = new Logic)
+
     describe('users', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
         let email
         const password = '123'
 
-        beforeEach(() => {
-            email = `manuelbarzi-${Math.random()}@gmail.com`
-
-            logic.__userId__ = null
-            logic.__userToken__ = null
-        })
+        beforeEach(() => email = `manuelbarzi-${Math.random()}@gmail.com`)
 
         describe('register user', () => {
             it('should succeed on correct user data', () =>
