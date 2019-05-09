@@ -7,7 +7,6 @@ function Results({ error, items, onPlayer }) {
 
     return <div className="results">
         <section className="container">
-            <span className="help is-danger">{error}</span>
             <div className='columns is-multiline is-mobile is-centered'>
             {
             items.map(({ trackName, artistName, previewUrl, artWork, genere }) =>{
