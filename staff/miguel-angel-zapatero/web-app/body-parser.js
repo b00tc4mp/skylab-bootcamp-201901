@@ -4,6 +4,7 @@ function bodyParser(req, res, next) {
     req.on('data', data => raw += data)
 
     req.on('end', () => {
+        raw = raw.replace('%40', '@')
         const keyValues = raw.split('&')
 
         const body = {}
