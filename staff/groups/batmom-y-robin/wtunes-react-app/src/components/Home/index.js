@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import Header from '../Header'
 import Results from '../Results'
 import Player from '../Player'
+import Toast from '../Toast'
 import logic from '../../logic'
 
 class Home extends Component {
@@ -32,6 +33,7 @@ class Home extends Component {
         return <>
         <main className="home">
         {user && <Header city={user.city} preferences={user.preferences} onWeatherRetrieved={handleSearchMusic} onLogout={onLogout} onProfile={onProfile} onPreferences={onPreferences}/>}
+        {error && <Toast error={error}/>}
         <Results items={musicList} onPlayer={handlePlayMusic} error={error}/>
         {<Player url={playerUrl}/>}
         
