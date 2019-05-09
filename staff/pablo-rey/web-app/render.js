@@ -1,4 +1,8 @@
-function render(body) {
+const logic = require('./logic')
+const literals = require('./i18n')
+
+function render(body, url) {
+    url = url || '';
     return `<!DOCTYPE html>
     <html lang="en">
     <head>
@@ -9,7 +13,27 @@ function render(body) {
         <link rel="stylesheet" href="style.css">
     </head>
     <body>
-        ${body}
+      <nav class="nav">
+       <form class="language__container" action="/changeLanguage/${url}">
+          <select
+            onChange="this.form.submit()"
+            class="language"
+            name="language"
+            id="language"
+          >
+            <option value="en" ${literals.language === 'en' ? 'selected' : ''}>English</option>
+            <option value="es" ${literals.language === 'es' ? 'selected' : ''}>Español</option>
+            <option value="ca" ${literals.language === 'ca' ? 'selected' : ''}>Català</option>
+            <option value="ga" ${literals.language === 'ga' ? 'selected' : ''}>Galego</option>
+          </select>
+          ${logic.isUserLoggedIn ? `<LogOut
+            onLogout="onLogout()"
+            literals=${literals.logout}
+            selectedLanguage=${literals.selectedLanguage}
+          />`: ''}
+        </form>
+      </nav>
+      ${body}
     </body>
     </html>`
 }

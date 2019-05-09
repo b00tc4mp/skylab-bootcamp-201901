@@ -1,13 +1,23 @@
 module.exports = {
-  // set language(lang) {
-  //   localStorage.lang = lang;
-  // },
-
-  // get language() {
-  //   return localStorage.lang || "en";
-  // },
   
-  logout: {
+  selectedLanguage: 'en',
+  set language(lang) {
+    this.selectedLanguage = lang;
+  },
+
+  get language() {
+    return this.selectedLanguage || "en";
+  },
+
+  get logout () { return this.__logout[this.selectedLanguage]},
+  get landing () { return this.__landing[this.selectedLanguage]},
+  get register () { return this.__register[this.selectedLanguage]},
+  get admin () { return this.__admin[this.selectedLanguage]},
+  get login () { return this.__login[this.selectedLanguage]},
+  get home () { return this.__home[this.selectedLanguage]},
+  get errors () { return this.__errors[this.selectedLanguage]},
+  
+  __logout: {
     en: {
       logout: "Log Out",
     },
@@ -21,7 +31,7 @@ module.exports = {
       logout: "Desconectarse",
     },
   },
-  landing: {
+  __landing: {
     en: {
       register: "Register",
       or: "or",
@@ -43,7 +53,7 @@ module.exports = {
       login: "Inicia sesión",
     },
   },
-  register: {
+  __register: {
     en: {
       title: "Register",
       name: "Name",
@@ -73,13 +83,13 @@ module.exports = {
       password: "Contrasinal",
     },
   },
-  admin: {
+  __admin: {
     en: "Administrator",
     es: "Administrador",
     ca: "Gestor",
     ga: "Administrador",
   },
-  login: {
+  __login: {
     en: {
       title: "Login",
       email: "E-mail",
@@ -101,7 +111,7 @@ module.exports = {
       password: "Contrasinal",
     },
   },
-  home: {
+  __home: {
     en: {
       logout: "logout",
       buttonText: "Search",
@@ -119,7 +129,7 @@ module.exports = {
       buttonText: "Buscar",
     },
   },
-  errors: {
+  __errors: {
     en: {
       1: "wrong credentials",
       2: "name not provided",

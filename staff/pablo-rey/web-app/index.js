@@ -1,57 +1,163 @@
-const express = require('express')
-const bodyParser = require('./body-parser')
-const render = require('./render')
-const logic = require('./logic')
+//@ts-check
+const express = require('express');
+const bodyParser = require('./body-parser');
+const literals = require('./i18n');
+const render = require('./render');
 
-const { argv: [, , port] } = process
+const {
+  argv: [, , port],
+} = process;
 
-const app = express()
+const app = express();
 
-app.use(express.static('public'))
+app.use(express.static('public'));
 
-let user = {}
+let user = {};
+let error = '';
 
-app.get('/', (req, res) =>
-    res.send(render(`<h1>Welcome to this Web Application</h1>
-<a href="/register">Register</a> or <a href="/login">Login</a>`))
-)
+app.get('/', (req, res) => {
+  res.send(
+    render(
+      `<section class="landing">
+        <img
+          class="landing__image"
+          src="https://media.tenor.com/images/4f8eca353a4e30bb521b06e19da01e04/tenor.gif"
+        />
+        <div class="landing__actions">
+          <a class="btn landing__login" href="/login">
+            ${literals.landing.login}
+          </a>
+          <span class="landing__middleText">
+            ${literals.landing.or}
+          </span>
+          <a
+            class="btn btn--small landing__register"
+            href="/register"
+          >
+            ${literals.landing.register}
+          </a>
+        </div>
+      </section>
+    `,
+      'landing'
+    )
+  );
+});
+
+app.get('/changeLanguage/:goto', (req, res) => {
+  const {
+    query: { language },
+    params: { goto },
+  } = req;
+  literals.language = language;
+  if (goto === 'landing') res.redirect('/');
+  else res.redirect('/' + req.params.goto);
+});
+
+function feedback(cssClass, errorMessage) {
+  return `
+    <div class=${cssClass + '__error'}>
+      <p class=${cssClass + '__error-message'}>${errorMessage}</p>
+    </div>`;
+}
 
 app.get('/register', (req, res) =>
-    res.send(render(`<h2>Register</h2>
-    <form method="post" action="/register">
-            <input type="text" name="username" required>
-            <input type="password" name="password" required>
-            <button>Register</button>
-        </form>`))
-)
+  res.send(
+    render(
+      `<form class="register">
+      <h2 class="register__title">
+        ${literals.title}
+      </h2>
+
+      ${!!errorMessage && feedback('register', errorMessage)} 
+
+      <ul class="register__inputs">
+        <li>
+          <input
+            class="register__input input"
+            type="text"
+            name="name"
+            placeholder="${literals.register.name}"
+          />
+        </li>
+        <li>
+          <input
+            class="register__input input"
+            type="text"
+            name="surname"
+            placeholder="${literals.register.surname}"
+          />
+        </li>
+        <li>
+          <input
+            class="register__input input"
+            type="text"
+            name="email"
+            placeholder="${literals.register.email}"
+          />
+        </li>
+        <li>
+          <input
+            class="register__input input"
+            type="password"
+            name="password"
+            placeholder="${literals.register.password}"
+          />
+        </li>
+      </ul>
+
+      <button class="btn register__button">
+        ${literals.register.title}
+      </button>
+    </form>`,
+      'register'
+    )
+  )
+);
 
 app.post('/register', bodyParser, (req, res) => {
-    const { username, password } = req.body 
+  const { username, password } = req.body;
 
-    user.username = username
-    user.password = password
+  user.username = username;
+  user.password = password;
 
-    res.send(render(`<p>Ok, user correctly registered, you can now proceed to <a href="/login">login</a></p>`))
-})
+  res.send(
+    render(`    
+      <section className="registerSuccessful">
+         User successfully registered, you can proceed to{" "}
+          <a href="/login">Login</a>
+          .
+        </section>
+    `)
+  );
+});
 
 app.get('/login', (req, res) =>
-    res.send(render(`<h1>Login</h1>
-    <form method="post" action="/login">
-            <input type="text" name="username">
-            <input type="password" name="password">
-            <button>Login</button>
-        </form>`))
-)
+  res.send(
+    render(
+      `<div class="login">
+        <h2 class="login__title">Login</h2>
+        <form class="login__form" method="post" action="/login">
+            <input class="input" type="text" name="username" placeholder="Username">
+            <input class="input" type="password" name="password" placeholder="Password">
+            ${error ? `<p class="error">${error}</p>` : ''}
+            <button class="btn">Login</button>
+        </form>
+       </div>`
+    , 'login')
+  )
+);
 
 app.post('/login', bodyParser, (req, res) => {
-    const { username, password } = req.body
+  const { username, password } = req.body;
 
-    if (username === user.username && password === user.password) res.redirect('/home')
-    else res.send(render(`<p>Wrong credentials.</p>`))
-})
+  if (username === user.username && password === user.password) res.redirect('/home');
+  else {
+    error = 'Wrong credentials';
+    res.redirect('/login');
+  }
+});
 
-app.get('/home', (req, res) =>
-    res.send(render(`<h1>Hola, ${user.username}!`))
-)
+app.get('/home', (req, res) => res.send(render(`<h1>Hola, ${user.username}!`)));
 
-app.listen(port)
+app.listen(port || 7000);
