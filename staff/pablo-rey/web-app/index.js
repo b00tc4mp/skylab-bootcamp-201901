@@ -1,163 +1,103 @@
-//@ts-check
 const express = require('express');
-const bodyParser = require('./body-parser');
-const literals = require('./i18n');
+const { bodyParser, cookieParser, injectLogic, checkLogin } = require('./middlewares');
 const render = require('./render');
+const package = require('./package.json');
+const { Login, Register, Home, DuckDetail } = require('./components');
 
 const {
-  argv: [, , port],
+  argv: [, , port = 8080],
 } = process;
 
 const app = express();
 
 app.use(express.static('public'));
 
-let user = {};
-let error = '';
+app.use(cookieParser, injectLogic);
 
-app.get('/', (req, res) => {
+app.get('/', checkLogin('/home'), (req, res) => {
   res.send(
-    render(
-      `<section class="landing">
-        <img
-          class="landing__image"
-          src="https://media.tenor.com/images/4f8eca353a4e30bb521b06e19da01e04/tenor.gif"
-        />
-        <div class="landing__actions">
-          <a class="btn landing__login" href="/login">
-            ${literals.landing.login}
-          </a>
-          <span class="landing__middleText">
-            ${literals.landing.or}
-          </span>
-          <a
-            class="btn btn--small landing__register"
-            href="/register"
-          >
-            ${literals.landing.register}
-          </a>
-        </div>
-      </section>
-    `,
-      'landing'
-    )
+    render(`<h1>Welcome to this Web Application</h1>
+<a href="/register">Register</a> or <a href="/login">Login</a>`)
   );
 });
 
-app.get('/changeLanguage/:goto', (req, res) => {
+app.get('/register', checkLogin('/home'), (req, res) => {
+  res.send(render(new Register().render()));
+});
+
+app.post('/register', [checkLogin('/home'), bodyParser], (req, res) => {
   const {
-    query: { language },
-    params: { goto },
+    body: { name, surname, email, password },
+    logic,
   } = req;
-  literals.language = language;
-  if (goto === 'landing') res.redirect('/');
-  else res.redirect('/' + req.params.goto);
-});
 
-function feedback(cssClass, errorMessage) {
-  return `
-    <div class=${cssClass + '__error'}>
-      <p class=${cssClass + '__error-message'}>${errorMessage}</p>
-    </div>`;
-}
-
-app.get('/register', (req, res) =>
-  res.send(
-    render(
-      `<form class="register">
-      <h2 class="register__title">
-        ${literals.title}
-      </h2>
-
-      ${!!errorMessage && feedback('register', errorMessage)} 
-
-      <ul class="register__inputs">
-        <li>
-          <input
-            class="register__input input"
-            type="text"
-            name="name"
-            placeholder="${literals.register.name}"
-          />
-        </li>
-        <li>
-          <input
-            class="register__input input"
-            type="text"
-            name="surname"
-            placeholder="${literals.register.surname}"
-          />
-        </li>
-        <li>
-          <input
-            class="register__input input"
-            type="text"
-            name="email"
-            placeholder="${literals.register.email}"
-          />
-        </li>
-        <li>
-          <input
-            class="register__input input"
-            type="password"
-            name="password"
-            placeholder="${literals.register.password}"
-          />
-        </li>
-      </ul>
-
-      <button class="btn register__button">
-        ${literals.register.title}
-      </button>
-    </form>`,
-      'register'
-    )
-  )
-);
-
-app.post('/register', bodyParser, (req, res) => {
-  const { username, password } = req.body;
-
-  user.username = username;
-  user.password = password;
-
-  res.send(
-    render(`    
-      <section className="registerSuccessful">
-         User successfully registered, you can proceed to{" "}
-          <a href="/login">Login</a>
-          .
-        </section>
-    `)
-  );
-});
-
-app.get('/login', (req, res) =>
-  res.send(
-    render(
-      `<div class="login">
-        <h2 class="login__title">Login</h2>
-        <form class="login__form" method="post" action="/login">
-            <input class="input" type="text" name="username" placeholder="Username">
-            <input class="input" type="password" name="password" placeholder="Password">
-            ${error ? `<p class="error">${error}</p>` : ''}
-            <button class="btn">Login</button>
-        </form>
-       </div>`
-    , 'login')
-  )
-);
-
-app.post('/login', bodyParser, (req, res) => {
-  const { username, password } = req.body;
-
-  if (username === user.username && password === user.password) res.redirect('/home');
-  else {
-    error = 'Wrong credentials';
-    res.redirect('/login');
+  try {
+    logic
+      .registerUser(name, surname, email, password)
+      .then(() =>
+        res.send(
+          render(
+            `<p>Ok, user correctly registered, you can now proceed to <a href="/login">login</a></p>`
+          )
+        )
+      )
+      .catch(({ message }) => {
+        res.send(render(new Register().render({ name, surname, email, message })));
+      });
+  } catch ({ message }) {
+    res.send(render(new Register().render({ name, surname, email, message })));
   }
 });
 
-app.get('/home', (req, res) => res.send(render(`<h1>Hola, ${user.username}!`)));
+app.get('/login', checkLogin('/home'), (req, res) => res.send(render(new Login().render())));
 
-app.listen(port || 7000);
+app.post('/login', [checkLogin('/home'), bodyParser], (req, res) => {
+  const {
+    body: { email, password },
+    logic,
+  } = req;
+
+  try {
+    logic
+      .loginUser(email, password)
+      .then(() => {
+        res.setHeader('set-cookie', [`token=${logic.__userToken__}`]);
+        res.redirect('/home');
+      })
+      .catch(({ message }) => res.send(render(new Login().render({ email, message }))));
+  } catch ({ message }) {
+    res.send(render(new Login().render({ email, message })));
+  }
+});
+
+app.get('/home', checkLogin('/', false), (req, res) => {
+  const { logic, url } = req;
+
+  logic
+    .retrieveUser()
+    .then(({ name }) => {
+      const { query } = req.query;
+      if (query) {
+        req.logic
+          .searchDucks(query)
+          .then(listDucks => res.send(render(new Home().render({ name, listDucks, query }))));
+      } else {
+        res.send(render(new Home().render({ name })));
+      }
+    })
+    .catch(({ message }) => res.send(render(`<p>${message}</p>`)));
+});
+
+app.get('/detail/:id', checkLogin('/', false), (req, res) => {
+  const {
+    logic,
+    params: { id },
+    query: { query = '' },
+  } = req;
+
+  logic
+    .retrieveDuck(id)
+    .then(duck => res.send(render(new DuckDetail().render({ ...duck, query }))));
+});
+
+app.listen(port, () => console.log(`${package.name} ${package.version} up on port ${port}`));

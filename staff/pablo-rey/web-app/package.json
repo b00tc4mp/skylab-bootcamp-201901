@@ -12,8 +12,8 @@
     "jest": "^24.8.0"
   },
   "scripts": {
-    "start": "node index.js 7000",
-    "dev": "nodemon index.js 7000",
+    "start": "node index.js 8080",
+    "dev": "nodemon index.js 8080",
     "test": "jest",
     "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"
   },
