@@ -1,0 +1,15 @@
+{
+  "name": "json-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "categories.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongodb": "^3.2.3",
+    "unirest": "^0.6.0"
+  }
+}
