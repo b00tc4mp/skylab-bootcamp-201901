@@ -1,0 +1,35 @@
+/* * {
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+}   */
+body {
+    -webkit-animation: color-fade 10s infinite;
+    -moz-animation: color-fade 10s infinite;
+    animation: color-fade 10s infinite;
+  }
+  
+
+  @-webkit-keyframes color-fade {
+    0% { background: #9a5342; }
+    25% { background: #fffc0c; }
+    50% { background: #e46d00; }
+    75% { background: #ff3506; }
+    100% { background: #9a5342; }
+  }
+  
+  @-moz-keyframes color-fade {
+    0% { background: #9a5342; }
+    25% { background: #fffc0c; }
+    50% { background: #e46d00; }
+    75% { background: #ff3506; }
+    100% { background: #9a5342; }
+  }
+  
+  @keyframes color-fade {
+    0% { background: #9a5342; }
+    25% { background: #fffc0c; }
+    50% { background: #e46d00; }
+    75% { background: #ff3506; }
+    100% { background: #9a5342; }
+  }
