@@ -1,0 +1,37 @@
+{
+  "name": "first-api-react-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "client": "npm start -prefix client",
+    "server": "nodemon ./server.js",
+    "dev": "concurrently --kill-others-on-fail \"npm run server\" \"npm run client\"",
+    "__NULL__heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
+  },
+  "engines": {
+    "node": "11.12.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/paulusrex/first-api-react-app.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/paulusrex/first-api-react-app/issues"
+  },
+  "homepage": "https://github.com/paulusrex/first-api-react-app#readme",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.4.0",
+    "mongoose": "^5.4.3",
+    "mongoose-timestamp": "^0.6.0"
+  },
+  "devDependencies": {
+    "concurrently": "^4.1.0"
+  }
+}
