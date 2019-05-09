@@ -7,3 +7,5 @@
 [backlog](https://trello.com/b/zWyd6X7N/skylab-bootcamp-201904-board)
 
 [slides](https://docs.google.com/presentation/d/1EH2JcL6yLIvH8PYc1f6Q55jVGFhdOqHgXNlk7BN1bbU/edit?usp=sharing)
+
+[misc](https://drive.google.com/drive/folders/1vWKm1ov2UfVOPEusm1bYpfmZbYjAIBJF?usp=sharing)
