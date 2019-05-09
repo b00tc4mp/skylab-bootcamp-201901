@@ -1,6 +1,6 @@
 # Weatunes
 
-## [Documentation](doc/README.md)
+## [Documentation](Doc/README.md)
 
 ## [Live Demo](http://weatunes.surge.sh)
 
