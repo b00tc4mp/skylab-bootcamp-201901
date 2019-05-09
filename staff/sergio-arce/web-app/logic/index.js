@@ -3,6 +3,7 @@ const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
+const atob = require('atob')
 
 const sessionStorage = {
     clear() {
@@ -13,12 +14,16 @@ const sessionStorage = {
 }
 
 const logic = {
-    set __userId__(id) {
-        sessionStorage.userId = id
-    },
-
     get __userId__() {
-        return normalize.undefinedOrNull(sessionStorage.userId)
+        const token = this.__userToken__
+
+        if (token) {
+            const [, rawPayload] = token.split('.')
+
+            const { id } = JSON.parse(atob(rawPayload))
+
+            return id
+        }
     },
 
     set __userToken__(token) {
@@ -30,7 +35,7 @@ const logic = {
     },
 
     get isUserLoggedIn() {
-        return !!(this.__userId__ && this.__userToken__)
+        return !!this.__userToken__
     },
 
     registerUser(name, surname, email, password) {
@@ -62,9 +67,8 @@ const logic = {
         return userApi.authenticate(email, password)
             .then(response => {
                 if (response.status === 'OK') {
-                    const { data: { id, token } } = response
+                    const { data: { token } } = response
 
-                    this.__userId__ = id
                     this.__userToken__ = token
                 } else throw new LogicError(response.error)
             })
