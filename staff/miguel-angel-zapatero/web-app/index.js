@@ -1,86 +1,65 @@
 const express = require('express')
-const bodyParser = require('./body-parser')
+const { bodyParser, cookieParser, injectLogic, checkLogin } = require('./middlewares')
 const render = require('./render')
-const template = require('./template')
-const render2 = require('./render2')
-const logic = require('./logic')
+const package = require('./package.json')
+const { Login, Register, Home } = require('./components')
 
-const { argv: [, , port] } = process
+const { argv: [, , port = 8080] } = process
 
 const app = express()
 
 app.use(express.static('public'))
-app.use(express.static('./'))
 
-let user = {}
+app.use(cookieParser, injectLogic)
 
-const templatePath = './html/index.html'
-
-app.get('/', template(templatePath), render2('./components/landing/index.html', {name: 'Miguel', app: 'Web Hola'}), (req, res) => {
-    res.send(res.body)
+app.get('/', checkLogin('/home'), (req, res) => {
+    res.send(render(`<h1>Welcome to this Web Application</h1>
+<a href="/register">Register</a> or <a href="/login">Login</a>`))
 })
 
-app.get('/register', (req, res) =>
-    res.send(render(`<h2>Register</h2>
-        <form method="post" action="/register">
-            <input type="text" name="name" required placeholder="name" autofocus>
-            <input type="text" name="surname" required placeholder="surname">
-            <input type="email" name="email" required placeholder="email">
-            <input type="password" name="password" required placeholder="password">
-            <button>Register</button>
-        </form>`))
-)
-
-app.post('/register', bodyParser, (req, res) => {
-    const { name, surname, email, password } = req.body 
-
-    logic.registerUser(name, surname, email, password)
-        .then(() => res.send(render(`<p>Ok, user correctly registered, you can now proceed to <a href="/login">login</a></p>`)))
-        .catch(({message}) => {
-            `<h2>Register</h2>
-            <form method="post" action="/register">
-                <input type="text" name="name" required placeholder="name" autofocus>
-                <input type="text" name="surname" required placeholder="surname">
-                <input type="email" name="email" required placeholder="email">
-                <input type="password" name="password" required placeholder="password">
-                <button>Register</button>
-                <p>${message}</p>
-            </form>`
-        })    
+app.get('/register', checkLogin('/home'), (req, res) => {
+    res.send(render(new Register().render()))
 })
 
-app.get('/login', (req, res) => {
-    res.send(render(`<h1>Login</h1>
-    <form method="post" action="/login">
-            <input type="email" name="email" required placeholder="email" autofocus>
-            <input type="password" name="password" required placeholder="password">
-            <button>Login</button>
-        </form>`))
-})
+app.post('/register', [checkLogin('/home'), bodyParser], (req, res) => {
+    const { body: { name, surname, email, password }, logic } = req
 
-app.post('/login', bodyParser, (req, res) => {
-    const { email, password } = req.body
-    
-    logic.loginUser(email, password)
-        .then(() => {
-            // res.cookie('name', 'miguel')
-            res.redirect('/home')
-        })
-        .catch(({ message }) => {
-            render(`<h1>Login</h1>
-            <form method="post" action="/login">
-                <input type="email" name="email" required placeholder="email" autofocus>
-                <input type="password" name="password" required placeholder="password">
-                <button>Login</button>
-                <p>${message}</p>
-            </form>`) 
-        })
-})
-
-app.get('/home', template(templatePath), render2('./components/home/index.html', { username: user.username }), (req, res) => {
-        logic.registerUser() //acabar esto!
-        res.send(res.body)
+    try {
+        logic.registerUser(name, surname, email, password)
+            .then(() => res.send(render(`<p>Ok, user correctly registered, you can now proceed to <a href="/login">login</a></p>`)))
+            .catch(({ message }) => {
+                res.send(render(new Register().render({ name, surname, email, message })))
+            })
+    } catch ({ message }) {
+        res.send(render(new Register().render({ name, surname, email, message })))
     }
+})
+
+app.get('/login', checkLogin('/home'), (req, res) =>
+    res.send(render(new Login().render()))
 )
 
-app.listen(port)
+app.post('/login', [checkLogin('/home'), bodyParser], (req, res) => {
+    const { body: { email, password }, logic } = req
+
+    try {
+        logic.loginUser(email, password)
+            .then(() => {
+                res.setHeader('set-cookie', [`token=${logic.__userToken__}`])
+                res.redirect('/home')
+            })
+            .catch(({ message }) => res.send(render(new Login().render({ email, message }))))
+    } catch ({ message }) {
+        res.send(render(new Login().render({ email, message })))
+    }
+})
+
+app.get('/home', checkLogin('/', false), (req, res) => {
+    const { logic } = req
+
+    logic.retrieveUser()
+        .then(({ name }) => res.send(render(new Home().render({ name }))))
+        .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
+})
+
+app.listen(port, () => console.log(`${package.name} ${package.version} up on port ${port}`))

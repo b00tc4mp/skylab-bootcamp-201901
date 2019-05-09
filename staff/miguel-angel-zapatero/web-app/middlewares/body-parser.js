@@ -1,10 +1,13 @@
+const querystring = require('querystring')
+
 function bodyParser(req, res, next) {
     let raw = ''
 
     req.on('data', data => raw += data)
 
     req.on('end', () => {
-        raw = raw.replace('%40', '@')
+        raw = querystring.unescape(raw)
+
         const keyValues = raw.split('&')
 
         const body = {}
