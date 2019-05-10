@@ -2,7 +2,7 @@ const express = require('express')
 const { bodyParser, cookieParser, injectLogic, checkLogin } = require('./middlewares')
 const render = require('./render')
 const package = require('./package.json')
-const { Login, Register, Home } = require('./components')
+const { Login, Register, Home, Search } = require('./components')
 
 const { argv: [, , port = 8080] } = process
 
@@ -56,10 +56,30 @@ app.post('/login', [checkLogin('/home'), bodyParser], (req, res) => {
 
 app.get('/home', checkLogin('/', false), (req, res) => {
     const { logic } = req
-
+    
     logic.retrieveUser()
-        .then(({ name }) => res.send(render(new Home().render({ name }))))
+        .then(({ name }) => {
+            res.send(render(new Home().render({ name })))
+        })
         .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
+})
+
+app.post('/home', [checkLogin('/', false), bodyParser], (req, res) => {
+    const { body: { query }, logic } = req
+    try {
+        let ducks
+        logic.searchDucks(query)
+        .then( listducks => {
+            ducks = listducks
+            return logic.retrieveUser()
+        })
+        .then(({ name }) => {
+            res.send(render(new Home().render({ name, query, ducks })))
+        })
+        // .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
+    } catch ({ message }) {
+        res.send(render(new Home().render({ query, message })))
+    }
 })
 
 app.listen(port, () => console.log(`${package.name} ${package.version} up on port ${port}`))

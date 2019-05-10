@@ -14,7 +14,7 @@
   "scripts": {
     "start": "node .",
     "watch": "nodemon .",
-    "debug": "node debug .",
+    "debug": "node inspect .",
     "test": "jest",
     "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"
   },
