@@ -1,0 +1,15 @@
+extends ../index
+
+include ../feedback/index
+
+block content
+
+    h2 Register
+        form(method='post' action='/register')
+            input(type='text' name='name' required='' placeholder='name' autofocus='' value=name)
+            input(type='text' name='surname' required='' placeholder='surname' value=surname)
+            input(type='email' name='email' required='' placeholder='e-mail' value=email)
+            input(type='password' name='password' required='' placeholder='password')
+            if message
+                +feedback(message)
+            button Register
