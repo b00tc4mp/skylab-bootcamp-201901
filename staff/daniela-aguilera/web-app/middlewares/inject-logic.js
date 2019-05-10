@@ -1,7 +1,7 @@
 const Logic = require('../logic')
 
 function injectLogic(req, res, next) {
-    const { cookies: { token } } = req
+    const { session: { token } } = req
 
     const logic = new Logic(token)
 
