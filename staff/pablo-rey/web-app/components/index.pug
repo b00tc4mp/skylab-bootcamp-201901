@@ -1,0 +1,21 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(http-equiv='X-UA-Compatible' content='ie=edge')
+  title Document
+  link(rel='stylesheet' href='https://use.fontawesome.com/releases/v5.8.2/css/all.css' integrity='sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay' crossorigin='anonymous')
+  link(rel='stylesheet' href='/style.css')
+body
+  nav.nav
+    form.language__container(action='/changeLanguage/${url}')
+      select#language.language(onchange='this.form.submit()' name='language')
+        option(value='en' ${selected_en}='') English
+        option(value='es' ${selected_es}='') Español
+        option(value='ca' ${selected_ca}='') Catalá
+        option(value='ga' ${selected_ga}='') Galego
+    if !logout
+      form.logout(method='POST' action='/logout')
+        button Logout
+
+  block content

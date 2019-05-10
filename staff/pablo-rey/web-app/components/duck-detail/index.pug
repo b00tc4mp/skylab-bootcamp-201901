@@ -1,0 +1,10 @@
+mixin duck-detail(duck)
+  section.duck-detail
+    .duck-detail__title-container
+      a(href=duck.url)
+        i.fas.fa-arrow-left.duck-detail__back
+      h3.duck-detail__title #{duck.title}
+    img.duck-detail__image(src=duck.image)
+    div
+      span.duck-detail__price #{duck.price}
+    p.duck-detail__description #{duck.description}

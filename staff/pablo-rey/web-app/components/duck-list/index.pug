@@ -1,0 +1,6 @@
+include ../card-duck/index
+
+mixin duck-list (list)
+  ul.duck-list
+    each duck in list
+      +card-duck(duck)

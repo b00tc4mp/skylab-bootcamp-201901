@@ -11,13 +11,31 @@ html, body {
   font-family: "Raleway", sans-serif;
 }
 
+.favorite {
+  font-size: 2rem;
+  display: inline;
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+}
+.favorite--on {
+  color: red;
+}
+.favorite--off {
+  color: black;
+}
+.favorite--detail {
+  position: relative;
+  top: 0;
+  right: 0;
+}
+
 .nav {
   display: flex;
   align-items: center;
   justify-content: space-between;
   height: 40px;
-  background-color: lightgray;
-  color: skyblue;
+  background-color: skyblue;
 }
 .nav__logout {
   background-color: transparent;
@@ -30,7 +48,7 @@ html, body {
 .language {
   margin: 0 5%;
   width: 35%;
-  background-color: lightgray;
+  background-color: skyblue;
   font-size: 18px;
 }
 
@@ -140,6 +158,7 @@ html, body {
   margin-bottom: 2rem;
   padding: 1rem;
   border-radius: 1rem;
+  position: relative;
 }
 .duck-item__title {
   font-size: 1.2rem;
@@ -155,6 +174,31 @@ html, body {
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  position: relative;
+  width: 100%;
+}
+.duck-detail__title-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 85%;
+}
+.duck-detail__title {
+  display: inline;
+  width: 80%;
+}
+.duck-detail__image {
+  width: 100%;
+  margin: 0;
+}
+.duck-detail__description {
+  width: 90%;
+  text-align: justify;
+}
+.duck-detail__buy {
+  background-color: white;
+  border-style: solid;
 }
 
 /*# sourceMappingURL=style.css.map */

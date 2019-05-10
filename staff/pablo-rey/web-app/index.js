@@ -1,8 +1,10 @@
 const express = require('express');
-const { bodyParser, cookieParser, injectLogic, checkLogin } = require('./middlewares');
-const render = require('./render');
+const { injectLogic, checkLogin } = require('./middlewares');
 const package = require('./package.json');
-const { Login, Register, Home, DuckDetail } = require('./components');
+const bodyParser = require('body-parser');
+const session = require('express-session');
+
+const urlencodedParser = bodyParser.urlencoded({ extended: false });
 
 const {
   argv: [, , port = 8080],
@@ -10,22 +12,23 @@ const {
 
 const app = express();
 
-app.use(express.static('public'));
+app.set('view engine', 'pug');
+app.set('views', 'components');
 
-app.use(cookieParser, injectLogic);
+app.use(
+  session({
+    secret: 'my super secret phrase to encrypt my session',
+    resave: true,
+    saveUninitialized: true,
+  })
+);
 
-app.get('/', checkLogin('/home'), (req, res) => {
-  res.send(
-    req.root.render(`<h1>Welcome to this Web Application</h1>
-<a href="/register">Register</a> or <a href="/login">Login</a>`)
-  );
-});
+app.use(express.static('public'), injectLogic);
 
-app.get('/register', checkLogin('/home'), (req, res) => {
-  res.send(req.root.render(new Register().render()));
-});
+app.get('/', checkLogin('/home'), (req, res) => res.render('landing', { logout: true }));
 
-app.post('/register', [checkLogin('/home'), bodyParser], (req, res) => {
+app.get('/register', checkLogin('/home'), (req, res) => res.render('register', { logout: true }));
+app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
   const {
     body: { name, surname, email, password },
     logic,
@@ -34,79 +37,92 @@ app.post('/register', [checkLogin('/home'), bodyParser], (req, res) => {
   try {
     logic
       .registerUser(name, surname, email, password)
-      .then(() =>
-        res.send(req.root.
-          render(
-            `<p>Ok, user correctly registered, you can now proceed to <a href="/login">login</a></p>`
-          )
-        )
-      )
+      .then(() => res.render('login', { email, message: 'Register successful. Please login' , logout: true }))
       .catch(({ message }) => {
-        res.send(req.root.render(new Register().render({ name, surname, email, message })));
+        res.render('register', { name, surname, email, message });
       });
   } catch ({ message }) {
-    res.send(req.render(new Register().render({ name, surname, email, message })));
+    res.render('register', { name, surname, email, message });
   }
 });
 
-app.post('/logout',  (req, res) => {
-  res.setHeader('set-cookie', [`token=; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT`]);
-  res.redirect('/');
-});
+app.get('/login', checkLogin('/home'), (req, res) => res.render('login', { logout: true }));
 
-app.get('/login', checkLogin('/home'), (req, res) => res.send(req.root.render(new Login().render())));
-
-app.post('/login', [checkLogin('/home'), bodyParser], (req, res) => {
+app.post('/login', [checkLogin('/home'), urlencodedParser], (req, res) => {
   const {
     body: { email, password },
     logic,
+    session,
   } = req;
 
   try {
     logic
       .loginUser(email, password)
       .then(() => {
-        res.setHeader('set-cookie', [`token=${logic.__userToken__}`]);
+        session.token = logic.__userToken__;
         res.redirect('/home');
       })
-      .catch(({ message }) => res.send(rq.root.render(new Login().render({ email, message }))));
+      .catch(({ message }) => res.render('login', { email, message, logout: true }));
   } catch ({ message }) {
-    res.send(req.root.render(new Login().render({ email, message })));
+    res.render('login', { email, message, logout: true });
   }
 });
 
 app.get('/home', checkLogin('/', false), (req, res) => {
-  const { logic, url } = req;
+  const { logic } = req;
 
   logic
     .retrieveUser()
-    .then(({ name }) => {
-      const { query } = req.query;
-      if (query) {
-        req.logic
-          .searchDucks(query)
-          .then(listDucks => res.send(req.root.render(new Home().render({ name, listDucks, query }))));
-      } else {
-        res.send(req.root.render(new Home().render({ name })));
-      }
-    })
-    .catch(({ message }) => res.send(render(`<p>${message}</p>`)));
+    .then(({ name }) => res.render('home', { name }))
+    .catch(({ message }) => res.render('home', { name, message }));
 });
 
-app.get('/detail/:id', checkLogin('/', false), (req, res) => {
+app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => {
   const {
+    query: { query },
     logic,
-    params: { id },
-    query: { query = '' },
+    session,
   } = req;
 
+  session.query = query;
+
   logic
-    .retrieveDuck(id)
-    .then(duck => res.send(req.root.render(new DuckDetail().render({ ...duck, query }))));
+    .searchDucks(query)
+    .then(ducks => {
+      ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({
+        url: `/home/duck/${id}`,
+        title,
+        image,
+        price,
+      }));
+
+      return logic.retrieveUser().then(({ name }) => res.render('home', { name, query, ducks }));
+    })
+    .catch(({ message }) => res.render('home', { name, message }));
 });
 
-app.use((req, res) => {
-  res.redirect('/')
+app.get('/home/duck/:id', checkLogin('/', false), (req, res) => {
+  const {
+    params: { id },
+    logic,
+    session: { query },
+  } = req;
+
+  logic.retrieveDuck(id).then(({ title, imageUrl: image, description, price }) => {
+    const duck = { title, image, description, price };
+
+    return logic.retrieveUser().then(({ name }) => res.render('home', { query, name, duck }));
+  });
+});
+
+app.post('/logout', (req, res) => {
+  req.session.destroy();
+
+  res.redirect('/');
+});
+
+app.use(function(req, res, next) {
+  res.redirect('/');
 });
 
 app.listen(port, () => console.log(`${package.name} ${package.version} up on port ${port}`));

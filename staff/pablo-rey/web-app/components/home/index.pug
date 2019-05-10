@@ -1,0 +1,15 @@
+extends ../index
+
+include ../duck-list/index
+include ../duck-detail/index
+
+block content
+  h1 Hola, #{name}!
+  form(action='/home/search')
+    input(type='text' name='query' placeholder='query' autofocus='' required='' value=query)
+    button Login
+  if ducks
+    +duck-list(ducks)
+  
+  if duck
+    +duck-detail(duck)

@@ -2,7 +2,7 @@ const validate = require('../common/validate');
 const userApi = require('../data/user-api');
 const duckApi = require('../data/duck-api');
 const { LogicError } = require('../common/errors');
-const atob = require('atob');
+const token = require('../common/token');
 
 class Logic {
   constructor(token) {
@@ -10,14 +10,10 @@ class Logic {
   }
 
   get __userId__() {
-    const token = this.__userToken__;
+    if (this.__userToken__) {
+      const payload = token.payload(this.__userToken__);
 
-    if (token) {
-      const [, rawPayload] = token.split('.');
-
-      const { id } = JSON.parse(atob(rawPayload));
-
-      return id;
+      return payload.id;
     }
   }
 
