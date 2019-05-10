@@ -2,7 +2,7 @@ import validate from '../../common/validate'
 import call from '../../common/call'
 
 const itunesApi = {
-    __url__: 'https://itunes.apple.com',
+    __url__: 'https://skylabcoders.herokuapp.com/proxy?url=https://itunes.apple.com',
 
     searchMusic(term, media, limit){
     

@@ -190,19 +190,6 @@ describe('logic', () => {
                         expect(user.password).toBeUndefined()
                     })
             )
-
-            it('should fail on incorrect user id', () => {
-                logic.__userId__ = '5cb9998f2e59ee0009eac02c'
-
-                return logic.retrieveUser()
-                    .then(() => { throw Error('should not reach this point') })
-                    .catch(error => {
-                        expect(error).toBeDefined()
-                        expect(error instanceof LogicError).toBeTruthy()
-
-                        expect(error.message).toBe(`token id \"${id}\" does not match user \"${logic.__userId__}\"`)
-                    })
-            })
         })
 
         describe('toggle fav duck', () => {

@@ -4,14 +4,7 @@ const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
 const atob = require('atob')
-
-const sessionStorage = {
-    clear() {
-        const keys = Object.keys(sessionStorage)
-
-        keys.forEach(key => delete sessionStorage[key])
-    }
-}
+require('../common/session-storage')
 
 const logic = {
     get __userId__() {
