@@ -1,25 +1,25 @@
-const fs = require('fs')
+const fs = require('fs');
 
 class Component {
-    constructor(templateFile) {
-        this.template = fs.readFileSync(templateFile, 'utf8')
-    }
+  constructor(templateFile, props = {}) {
+    this.template = fs.readFileSync(templateFile, 'utf8');
+    this.props = props;
+  }
 
-    render(props = {}) {
-        const keys = Object.keys(props)
+  render() {
+    const keys = Object.keys(this.props);
 
-        let html = this.template
+    let html = this.template;
+    keys.forEach(key => {
+      html = html.replace('${' + key + '}', this.props[key]);
+    });
 
-        keys.forEach(key => {
-            html = html.replace('${' + key + '}', props[key])
-        })
+    return this.beforeRender(html);
+  }
 
-        return this.beforeRender(html, props)
-    }
-
-    beforeRender(html) {
-        return html
-    }
+  beforeRender(html) {
+    return html;
+  }
 }
 
-module.exports = Component
+module.exports = Component;

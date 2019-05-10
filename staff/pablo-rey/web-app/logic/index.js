@@ -1,10 +1,8 @@
-const normalize = require('../common/normalize');
 const validate = require('../common/validate');
 const userApi = require('../data/user-api');
 const duckApi = require('../data/duck-api');
 const { LogicError } = require('../common/errors');
 const atob = require('atob');
-require('../common/session-storage');
 
 class Logic {
   constructor(token) {

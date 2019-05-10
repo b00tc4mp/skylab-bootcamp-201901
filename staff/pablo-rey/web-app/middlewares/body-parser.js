@@ -1,27 +1,27 @@
-const querystring = require('querystring')
+const querystring = require('querystring');
 
 function bodyParser(req, res, next) {
-    let raw = ''
+  let raw = '';
 
-    req.on('data', data => raw += data)
+  req.on('data', data => (raw += data));
 
-    req.on('end', () => {
-        raw = querystring.unescape(raw)
+  req.on('end', () => {
+    raw = querystring.unescape(raw);
 
-        const keyValues = raw.split('&')
+    const keyValues = raw.split('&');
 
-        const body = {}
+    const body = {};
 
-        keyValues.forEach(keyValue => {
-            const [key, value] = keyValue.split('=')
+    keyValues.forEach(keyValue => {
+      const [key, value] = keyValue.split('=');
 
-            body[key] = value
-        })
+      body[key] = value;
+    });
 
-        req.body = body
+    req.body = body;
 
-        next()
-    })
+    next();
+  });
 }
 
-module.exports = bodyParser
+module.exports = bodyParser;

@@ -2,8 +2,8 @@ const path = require('path');
 const Component = require('../component');
 
 class DuckDetail  extends Component {
-  constructor() {
-    super(path.join(__dirname, 'index.html'));
+  constructor(props) {
+    super(path.join(__dirname, 'index.html'), props);
   }
 }
 

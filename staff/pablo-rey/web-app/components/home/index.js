@@ -16,8 +16,8 @@ class Home extends Component {
     return html;
   }
 
-  render({ name = '', listDucks = [], query = '' }) {
-    return super.render({ name, listDucks, query });
+  render({ name = '', listDucks = [], query = '', ...props }) {
+    return super.render({ ...props, name, listDucks, query });
   }
 }
 

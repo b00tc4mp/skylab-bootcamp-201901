@@ -1,23 +1,17 @@
-const path = require('path')
-const Feedback = require('../feedback')
-const Component = require('../component')
+const path = require('path');
+const Feedback = require('../feedback');
+const Component = require('../component');
 
 class Register extends Component {
-    constructor() {
-        super(path.join(__dirname, 'index.html'))
-    }
+  constructor(props = { name: '', surname: '', email: '', message: '' }) {
+    super(path.join(__dirname, 'index.html'), props);
+  }
 
-    render(props = { name: '', surname: '', email: '', message: '' }) {
-        return super.render(props)
-    }
-
-    beforeRender(html, props) {
-        const { message } = props
-
-        html = html.replace('<feedback />', message ? new Feedback().render({ message }) : '')
-
-        return html
-    }
+  beforeRender(html) {
+    const { message } = this.props;
+    html = html.replace('<feedback />', message ? new Feedback().render({ message }) : '');
+    return html;
+  }
 }
 
-module.exports = Register
+module.exports = Register;
