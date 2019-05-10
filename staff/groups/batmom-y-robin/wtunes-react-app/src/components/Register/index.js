@@ -1,4 +1,5 @@
 import React from 'react'
+import Toast from '../Toast'
 import './index.sass' 
 
 function Register({onRegister, error}){
@@ -47,7 +48,7 @@ let city
                     </select>
                 </div>
                 <button className="button is-fullwidth is-primary">Sign Up</button>
-                <span className="help is-danger">{error}</span>
+                {error && <Toast error={error}/>}
             </form>
         </section>
     </main>
