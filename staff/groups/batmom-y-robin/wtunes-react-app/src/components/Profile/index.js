@@ -1,5 +1,5 @@
 import React from 'react'
-import './index.sass' 
+import './index.sass'
 
 function Profile({user, onReturn, onCityChange}){
 
@@ -50,6 +50,5 @@ function Profile({user, onReturn, onCityChange}){
                 </div>
             </section>
         </main>
-    
 }
 export default Profile

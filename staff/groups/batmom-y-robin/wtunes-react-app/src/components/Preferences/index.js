@@ -1,31 +1,31 @@
 import React from 'react'
+import Toast from '../Toast'
 import './index.sass' 
 import icons from './icons.js'
 
 
 function Preferences({preferences, onStyleChange, error}){
     let updatedPreferences=preferences
-    
+
     function onStyleSelect(style){
 
         const pref = new Object();
         let weather=style.name
         pref[style.name]=style.value
         let index=updatedPreferences.findIndex(element =>  Object.keys(element)==weather)
-        
         updatedPreferences[index]=pref
     }
     function handleSubmit(e){
         e.preventDefault()
         onStyleChange(updatedPreferences)
-        
+
 }
 
     return <div className="mainpreferences">
-        <div className="title-preferences">    
+        <div className="title-preferences">
                 <h2 className="title is-2 is-spaced">Weatunes</h2>
                 <p className="subtitle is-spaced">On this section you can modify your preferences</p>
-        </div>  
+        </div>
         <form className="weathers" onSubmit={handleSubmit}>
         {
             preferences.map(element=> {
@@ -60,7 +60,7 @@ function Preferences({preferences, onStyleChange, error}){
                                                     <option value="Tango">Tango</option>
                                                     <option value="Tropical">Tropical</option>
                                                     <option value="Urbano latino">Urbano latino</option>
-                                                </select> 
+                                                </select>
                                             </div>
                                         </div>
                                     </div >
@@ -75,9 +75,8 @@ function Preferences({preferences, onStyleChange, error}){
                     <button className="button is-primary is-medium">Save</button>
             </div>
         </form>
-        <span>{error}</span>
+        {error && <Toast error={error}/>}
     </div>
-    
 
 }
 export default Preferences
