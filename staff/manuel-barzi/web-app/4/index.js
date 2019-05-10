@@ -106,4 +106,8 @@ app.post('/logout', (req, res) => {
     res.redirect('/')
 })
 
+app.use(function(req, res, next) {
+    res.redirect('/')
+})
+
 app.listen(port, () => console.log(`${package.name} ${package.version} up on port ${port}`))
