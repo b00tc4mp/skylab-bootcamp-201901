@@ -29,7 +29,7 @@ app.get('/', checkLogin('/home'), (req, res) => {
 })
 
 app.get('/register', checkLogin('/home'), (req, res) => {
-    res.send(render(new Register().render()))
+    res.render('register')
 })
 
 app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
