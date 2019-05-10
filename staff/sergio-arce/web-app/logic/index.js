@@ -3,40 +3,24 @@ const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
-const atob = require('atob')
+const token = require('../common/token')
 
-const sessionStorage = {
-    clear() {
-        const keys = Object.keys(sessionStorage)
-
-        keys.forEach(key => delete sessionStorage[key])
+class Logic {
+    constructor(token) {
+        this.__userToken__ = token
     }
-}
 
-const logic = {
     get __userId__() {
-        const token = this.__userToken__
+        if (this.__userToken__) {
+            const payload = token.payload(this.__userToken__)
 
-        if (token) {
-            const [, rawPayload] = token.split('.')
-
-            const { id } = JSON.parse(atob(rawPayload))
-
-            return id
+            return payload.id
         }
-    },
-
-    set __userToken__(token) {
-        sessionStorage.userToken = token
-    },
-
-    get __userToken__() {
-        return normalize.undefinedOrNull(sessionStorage.userToken)
-    },
+    }
 
     get isUserLoggedIn() {
         return !!this.__userToken__
-    },
+    }
 
     registerUser(name, surname, email, password) {
         validate.arguments([
@@ -54,7 +38,7 @@ const logic = {
 
                 throw new LogicError(response.error)
             })
-    },
+    }
 
     loginUser(email, password) {
         validate.arguments([
@@ -72,7 +56,7 @@ const logic = {
                     this.__userToken__ = token
                 } else throw new LogicError(response.error)
             })
-    },
+    }
 
     retrieveUser() {
         return userApi.retrieve(this.__userId__, this.__userToken__)
@@ -83,7 +67,7 @@ const logic = {
                     return { name, surname, email }
                 } else throw new LogicError(response.error)
             })
-    },
+    }
 
     logoutUser() {
         // this.__userId__ = null
@@ -91,7 +75,7 @@ const logic = {
 
         // OR fully remove all key values from session storage
         sessionStorage.clear()
-    },
+    }
 
 
     searchDucks(query) {
@@ -101,7 +85,7 @@ const logic = {
 
         return duckApi.searchDucks(query)
             .then(ducks => ducks instanceof Array ? ducks : [])
-    },
+    }
 
     retrieveDuck(id) {
         validate.arguments([
@@ -109,7 +93,7 @@ const logic = {
         ])
 
         return duckApi.retrieveDuck(id)
-    },
+    }
 
     toggleFavDuck(id) {
         validate.arguments([
@@ -134,7 +118,7 @@ const logic = {
 
                 throw new LogicError(response.error)
             })
-    },
+    }
 
     retrieveFavDucks() {
         return userApi.retrieve(this.__userId__, this.__userToken__)
@@ -156,4 +140,4 @@ const logic = {
     }
 }
 
-module.exports = logic
+module.exports = Logic

@@ -1,5 +1,4 @@
 module.exports = {
-    login: require('./login'),
-    register: require('./register'),
-    home: require('./home')
+    Register: require('./register'),
+    Home: require('./home')
 }
