@@ -1,4 +1,5 @@
 import React from 'react'
+import Toast from '../Toast'
 import './index.sass' 
 
 function Login({ onLogin, error }) {
@@ -22,7 +23,7 @@ function Login({ onLogin, error }) {
                 <input className="input field" type="text" name="username" placeholder="email"/>
                 <input className="input field" type="password" name="password" placeholder="password" />
                 <button className="button is-fullwidth is-primary">Sign In</button>
-                <span className="help is-danger">{error}</span>
+                {error && <Toast error={error}/>}
             </form>
         </section>
     </main> 
