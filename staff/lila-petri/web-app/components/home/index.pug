@@ -1,0 +1,17 @@
+extends ../index
+
+include ../search/index
+include ../results/index
+include ../detail/index
+
+block content
+    h1 Hola, #{name}!
+    form(action='/logout' method='post')
+        button Logout
+    +search
+    if ducks
+        +results
+    if duck
+        +detail
+
+
