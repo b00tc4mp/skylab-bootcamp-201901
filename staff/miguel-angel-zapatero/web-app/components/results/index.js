@@ -7,19 +7,9 @@ class Results extends Component {
     }
 
     beforeRender(html, { items }) {
-        let list = ''
-        
-        if (items) {
-            ducks.forEach(({id, title, imageUrl: image, price}) => {
-                list += `<li key="${id}">
-                <h2>${title}</h2>
-                <img src="${image}">
-                <span>${price}</span>
-                </li>`
-            })
-        }
-            
-        html = html.replace('<list />', ducks ? list : '')
+        const lis = items.map(({url, title, image, price}) => `<li><a href="${url}"><h2>${title}</h2><img src="${image}"><span>${price}</span></a></li>`).join('')
+
+        html = html.replace('<items />', lis)
 
         return html
     }

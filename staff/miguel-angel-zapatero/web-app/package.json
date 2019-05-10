@@ -5,16 +5,20 @@
   "main": "index.js",
   "dependencies": {
     "atob": "^2.1.2",
+    "body-parser": "^1.19.0",
     "express": "^4.16.4",
-    "isomorphic-fetch": "^2.2.1"
+    "express-session": "^1.16.1",
+    "isomorphic-fetch": "^2.2.1",
+    "pug": "^2.0.3",
+    "session-file-store": "^1.2.0"
   },
   "devDependencies": {
     "jest": "^24.8.0"
   },
   "scripts": {
     "start": "node .",
-    "watch": "nodemon .",
-    "debug": "node inspect .",
+    "watch": "nodemon --ignore ./sessions .",
+    "debug": "node debug .",
     "test": "jest",
     "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"
   },
