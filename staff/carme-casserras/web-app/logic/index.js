@@ -3,51 +3,47 @@ const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
+const atob = require('atob')
+require('../common/session-storage')
 
-const sessionStorage = {
-    clear() {
-        const keys = Object.keys(sessionStorage)
-
-        keys.forEach(key => delete sessionStorage[key])
+class Logic {
+    constructor(token) {
+        this.__userToken__ = token
     }
-}
-
-const logic = {
-    set __userId__(id) {
-        sessionStorage.userId = id
-    },
 
     get __userId__() {
-        return normalize.undefinedOrNull(sessionStorage.userId)
-    },
+        const token = this.__userToken__
 
-    set __userToken__(token) {
-        sessionStorage.userToken = token
-    },
+        if (token) {
+            const [, rawPayload] = token.split('.')
 
-    get __userToken__() {
-        return normalize.undefinedOrNull(sessionStorage.userToken)
-    },
+            const { id } = JSON.parse(atob(rawPayload))
+
+            return id
+        }
+    }
 
     get isUserLoggedIn() {
-        return !!(this.__userId__ && this.__userToken__)
-    },
+        return !!this.__userToken__
+    }
 
-    registerUser(email, password) {
+    registerUser(name, surname, email, password) {
         validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
         validate.email(email)
 
-        return userApi.create(email, password)
+        return userApi.create(email, password, { name, surname })
             .then(response => {
                 if (response.status === 'OK') return
 
                 throw new LogicError(response.error)
             })
-    },
+    }
 
     loginUser(email, password) {
         validate.arguments([
@@ -60,13 +56,12 @@ const logic = {
         return userApi.authenticate(email, password)
             .then(response => {
                 if (response.status === 'OK') {
-                    const { data: { id, token } } = response
+                    const { data: { token } } = response
 
-                    this.__userId__ = id
                     this.__userToken__ = token
                 } else throw new LogicError(response.error)
             })
-    },
+    }
 
     retrieveUser() {
         return userApi.retrieve(this.__userId__, this.__userToken__)
@@ -77,7 +72,7 @@ const logic = {
                     return { name, surname, email }
                 } else throw new LogicError(response.error)
             })
-    },
+    }
 
     logoutUser() {
         // this.__userId__ = null
@@ -85,7 +80,7 @@ const logic = {
 
         // OR fully remove all key values from session storage
         sessionStorage.clear()
-    },
+    }
 
 
     searchDucks(query) {
@@ -95,7 +90,7 @@ const logic = {
 
         return duckApi.searchDucks(query)
             .then(ducks => ducks instanceof Array ? ducks : [])
-    },
+    }
 
     retrieveDuck(id) {
         validate.arguments([
@@ -103,7 +98,7 @@ const logic = {
         ])
 
         return duckApi.retrieveDuck(id)
-    },
+    }
 
     toggleFavDuck(id) {
         validate.arguments([
@@ -128,7 +123,7 @@ const logic = {
 
                 throw new LogicError(response.error)
             })
-    },
+    }
 
     retrieveFavDucks() {
         return userApi.retrieve(this.__userId__, this.__userToken__)
@@ -150,4 +145,4 @@ const logic = {
     }
 }
 
-module.exports = logic
+module.exports = Logic

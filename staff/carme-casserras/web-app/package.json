@@ -12,6 +12,9 @@
     "jest": "^24.8.0"
   },
   "scripts": {
+    "start": "node .",
+    "watch": "nodemon .",
+    "debug": "node debug .",
     "test": "jest",
     "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"
   },
