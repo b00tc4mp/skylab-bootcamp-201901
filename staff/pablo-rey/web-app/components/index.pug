@@ -8,12 +8,6 @@ head
   link(rel='stylesheet' href='/style.css')
 body
   nav.nav
-    form.language__container(action='/changeLanguage/${url}')
-      select#language.language(onchange='this.form.submit()' name='language')
-        option(value='en' ${selected_en}='') English
-        option(value='es' ${selected_es}='') Español
-        option(value='ca' ${selected_ca}='') Catalá
-        option(value='ga' ${selected_ga}='') Galego
     a(href='/')
       i.fas.fa-home
     if !logout
@@ -21,7 +15,10 @@ body
         i.fa-heart.fas.favorite---on
       a(href='/cart')
         i.fas.fa-shopping-cart
-      form.logout(method='POST' action='/logout')
-        button Logout
+      a(href='/user')
+        i.fas.fa-user
+      form(method='POST' action='/logout')
+        button.nav__logout 
+          i.fas.fa-sign-out-alt
 
   block content

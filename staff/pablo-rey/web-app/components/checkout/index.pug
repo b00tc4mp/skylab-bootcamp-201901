@@ -1,13 +1,14 @@
 extends ../index
 
 block content
-  h1 Checkout #{name}
-  
-  p #{amount} €
+  .checkout
+    h1.checkout__title Checkout
+    
+    p.checkout__amount Total amount: #{amount} €
 
-  form(method='POST')
-    textarea(name="address", cols="40", rows="6" placeholder="Address")
-    input(type="number", name="cardNumber" placeholder="Card number")
-    input(type="text", name="cardName" placeholder="Card name")
-    input(type="text", name="CVV" placeholder="CVV")
-    button.btn(name="amount" value=amount) Confirm
+    form.checkout__form(method='POST')
+      textarea.input.checkout__address(name="address", cols="40", rows="6" placeholder="Address")
+      input.input(type="number", name="cardNumber" placeholder="Card number")
+      input.input(type="text", name="cardName" placeholder="Card name")
+      input.input(type="text", name="CVV" placeholder="CVV")
+      button.btn(name="amount" value=amount) Confirm

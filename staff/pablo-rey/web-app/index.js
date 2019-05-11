@@ -12,6 +12,7 @@ const {
 } = process;
 
 const app = express();
+app.locals.moment = require('moment');
 
 app.set('view engine', 'pug');
 app.set('views', 'components');
@@ -201,43 +202,50 @@ app.get('/cart', checkLogin('/', false), (req, res) => {
     session,
   } = req;
 
-  const cart = session.cart || [];
-  return logic.retrieveUser().then(({ name }) => res.render('cart', { name, cart }));
+  logic
+    .retrieveUser()
+    .then(({ name }) => logic.retrieveCart().then(cart => res.render('cart', { name, cart })));
 });
 
 app.post('/cart', checkLogin('/', false), urlencodedParser, (req, res) => {
+  const saveAndRender = cart => {
+    logic
+      .saveCart(cart)
+      .then(() => logic.retrieveUser())
+      .then(({ name }) => res.render('cart', { name, cart }));
+  };
+
   const {
     body: { addToCart, reduceFromCart, removeFromCart },
     logic,
-    session,
   } = req;
 
-  const cart = session.cart || (session.cart = []);
-
-  if (addToCart) {
-    const id = addToCart;
-    logic.retrieveDuck(id).then(duck => {
-      duck = { ...duck, image: duck.imageUrl };
-      const index = cart.findIndex(line => line.duck.id === duck.id);
-      if (index !== -1) {
-        cart[index] = { duck, quantity: cart[index].quantity + 1 };
-      } else {
-        cart.push({ duck, quantity: 1 });
-      }
-      res.redirect('/cart');
-    });
-  } else if (reduceFromCart) {
-    const id = reduceFromCart;
-    const index = cart.findIndex(line => line.duck.id === id);
-    cart[index].quantity--;
-    if (!cart[index].quantity) cart.splice(index, 1);
-    res.redirect('/cart');
-  } else if (removeFromCart) {
-    const id = removeFromCart;
-    const index = cart.findIndex(line => line.duck.id === id);
-    cart.splice(index, 1);
-    res.redirect('/cart');
-  } else res.redirect('/cart');
+  logic.retrieveCart().then(cart => {
+    if (addToCart) {
+      const id = addToCart;
+      logic.retrieveDuck(id).then(duck => {
+        duck = { ...duck, image: duck.imageUrl };
+        const index = cart.findIndex(line => line.duck.id === duck.id);
+        if (index !== -1) {
+          cart[index] = { duck, quantity: cart[index].quantity + 1 };
+        } else {
+          cart.push({ duck, quantity: 1 });
+        }
+        saveAndRender(cart);
+      });
+    } else if (reduceFromCart) {
+      const id = reduceFromCart;
+      const index = cart.findIndex(line => line.duck.id === id);
+      cart[index].quantity--;
+      if (!cart[index].quantity) cart.splice(index, 1);
+      saveAndRender(cart);
+    } else if (removeFromCart) {
+      const id = removeFromCart;
+      const index = cart.findIndex(line => line.duck.id === id);
+      cart.splice(index, 1);
+      saveAndRender(cart);
+    } else res.redirect('/cart');
+  });
 });
 
 app.get('/checkout', checkLogin('/', false), (req, res) => {
@@ -247,30 +255,60 @@ app.get('/checkout', checkLogin('/', false), (req, res) => {
     session,
   } = req;
 
-  const cart = session.cart || [];
-  const amount = cart.reduce((acc, line) => acc + line.quantity * Number(line.duck.price.split(' ')[0]), 0)
-  if (cart.length === 0) res.redirect('/')
-  else res.render('checkout', { amount });
+  logic.retrieveCart().then(cart => {
+    let amount = cart.reduce(
+      (acc, line) => acc + line.quantity * Number(line.duck.price.split(' ')[0]),
+      0
+    );
+    amount = Math.round(amount * 100) / 100;
+    if (cart.length === 0) res.redirect('/');
+    else res.render('checkout', { amount });
+  });
 });
 
 app.post('/checkout', checkLogin('/', false), urlencodedParser, (req, res) => {
   const {
     logic,
     session,
-    body: {amount, address, cardNumber,cardName, cvv}
+    body: { amount, address, cardNumber, cardName, cvv },
   } = req;
-  //TODO: checkdata and process
 
-  const cart = session.cart;
-  session.cart = [];
-  logic.retrieveUser()
-    .then(({name, surname}) => 
-      res.render('./checkout/thanks', { name, surname, address, cardNumber, cardName, amount ,cart}));
+  const payment = { amount, date: new Date, address, cardNumber, cardName, cvv };
+  let cart;
+
+  logic.retrieveCart()
+    .then(res => cart = res)
+    .then(cart => {
+      debugger
+      return logic.pushToHistoricCarts(cart, payment)
+    })
+    .then(() => logic.saveCart([]))
+    .then(() => logic.retrieveUser())
+    .then(({ name, surname }) =>
+        res.render('./thanks', {
+          name,
+          surname,
+          ...payment,
+          cart,
+        })
+    )
 });
+
+
+app.get('/user', checkLogin('/', false), (req, res) => {
+  const {
+    logic,
+    session,
+  } = req;
+  logic.retrieveUser()
+    .then(({name, surname }) => 
+      logic.retrieveHistoricCarts()
+        .then(historicCarts =>  res.render('user', {name, surname, historicCarts}))
+    )
+})
 
 app.post('/logout', (req, res) => {
   req.session.destroy();
-
   res.redirect('/');
 });
 

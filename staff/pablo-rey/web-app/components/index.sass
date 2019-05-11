@@ -6,6 +6,10 @@ $warning: orange
 
 $background-primary: white
 $background-secondary: lightgray
+
+@import 'cart'
+@import 'checkout'
+@import 'login' // For login and register
   
 *
   box-sizing: border-box
@@ -23,6 +27,10 @@ html, body
   position: absolute
   top: 1rem
   right: 1rem
+  background-color: transparent
+  border-width: 0
+  border-style: none
+  border-color: none
   
   &--on
     color: red
@@ -38,7 +46,7 @@ html, body
 .nav
   display: flex
   align-items: center
-  justify-content: space-between
+  justify-content: space-around
   height: 40px
   background-color: $primary
 
@@ -71,10 +79,10 @@ html, body
 
 .btn
   margin: 1rem
-  padding: 1rem 3rem
+  padding: .8rem 3rem
   background-color: white
   border: 2px solid $primary
-  border-radius: 1.5rem
+  border-radius: 1rem
   color: $primary
   font-size: 1.2rem
 
@@ -85,45 +93,17 @@ html, body
     color: $primary
     font-size: 1rem
 
+  &--block
+    width: 90%
+    display: flex
+    justify-content: center
+    align-items: center
+
 .input
   border: 0px solid white
-  border-bottom: 1px solid $primary
-
-.register,
-.login
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-
-  &__error
-    background-color: white
-    color: $warning
-    width: 90%
-    margin: 1rem
-    border-radius: 0.3rem
-    border: 2px solid $warning
-    padding: 0.2rem 1rem
-
-  &__title
-    font-size: 2rem
-
-  &__inputs
-    width: 90%
-    list-style-type: none
-    margin-block-start: 0
-    margin-block-end: 0
-    padding-inline-start: 0
-    padding-block-end: 0
-
-  &__input
-    width: 100%
-    margin-bottom: 0.5rem 
-    padding: 0.2rem
-
-  &__button
-    margin-top: 2rem
-
+  border-bottom: 2px solid $primary
+  margin-bottom: 0.5rem 
+  padding: 0.2rem
 
 .home
   display: flex

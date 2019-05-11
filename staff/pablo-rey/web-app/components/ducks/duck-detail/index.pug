@@ -11,6 +11,10 @@ mixin duck-detail(duck)
         else
           i.fa-heart.far.favorite---off
     img.duck-detail__image(src=duck.image)
-    div
-      span.duck-detail__price #{duck.price}
+    form(method='POST' action='/cart')
+      button.btn.btn--block(name="addToCart" value=duck.id) 
+        span Add to cart
+        div
+          span.duck-detail__price  #{duck.price}  
+          i.fas.fa-cart-plus
     p.duck-detail__description #{duck.description}

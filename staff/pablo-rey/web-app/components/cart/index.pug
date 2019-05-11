@@ -3,10 +3,12 @@ extends ../index
 include ./cart-list/index
 
 block content
-  h1 Your shopping cart, #{name}
-  i.fas.fa-cart-arrow-down
-  if cart && cart.length !== 0
-    a.btn(href='/checkout') Checkout
-    +cart-list(cart)
-  else
-    p No ducklings in your shopping cart
+  .cart
+    h3.cart__title Your shopping cart, #{name}
+    if cart && cart.length !== 0
+      div.cart__control
+        i.btn.fas.fa-cart-arrow-down
+        a.btn(href='/checkout') Checkout
+      +cart-list(cart)
+    else
+      p No ducklings in your shopping cart

@@ -1,0 +1,11 @@
+extends ../index
+
+block content
+  .thanks
+    h1 Thank you #{name}
+
+    p This is your receipt for this purchase:
+    strong #{name} #{surname}
+    p.
+      #{address}
+    p #{cardNumber} (#{cardName})

@@ -1,15 +1,17 @@
 extends ../index
 
-include ../duck-list/index
-include ../duck-detail/index
+include ../ducks/duck-list/index
+include ../ducks/duck-detail/index
 
 block content
-  h1 Hola, #{name}!
-  form(action='/home/search')
-    input(type='text' name='query' placeholder='query' autofocus='' required='' value=query)
-    button Login
-  if ducks
-    +duck-list(ducks)
-  
-  if duck
-    +duck-detail(duck)
+  .home
+    h1 Hola, #{name}!
+    form(action='/home/search')
+      input.input(type='text' name='query' placeholder='query' autofocus='' required='' value=query)
+      button.btn.btn--small
+        i.fas.fa-search
+    if ducks
+      +duck-list(ducks)
+    
+    if duck
+      +duck-detail(duck)

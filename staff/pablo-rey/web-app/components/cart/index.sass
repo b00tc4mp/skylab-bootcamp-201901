@@ -1,0 +1,45 @@
+.cart
+  display: flex
+  flex-direction: column
+  justify-content: center
+  align-items: center
+    
+
+.cart-list
+  width: 90%
+  list-style-type: none
+  margin-block-start: 0
+  margin-block-end: 0
+  margin-inline-start: 0
+  margin-inline-end: 0
+  padding-inline-start: 0
+
+.cart-line
+  display: flex
+  align-items: center
+
+  &__image
+    width: 20vw
+    margin: 1rem
+
+  &__title
+    font-size: 1.2rem
+    margin: 0
+
+  &__price
+    font-size: 1.3rem
+
+  &__quantity
+    display: flex
+    justify-content: space-between
+    align-items: center
+  
+  &__btn
+    padding: 0.4rem
+    cursor: pointer
+    color: $primary
+    border-style: solid
+    border-color: $primary
+    background-color: transparent
+    margin: 0.3rem
+    border-radius: 50%
