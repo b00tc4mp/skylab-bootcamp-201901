@@ -1,0 +1,12 @@
+mixin favlist(list)
+    ul
+        each item in list
+            li
+                a(href=item.url)
+                    h2 #{item.title}
+                    img(src=item.image, alt='duck image')
+                    span #{item.price}
+                form(method='post' action=item.urlFav)
+                    input(type='hidden' name='favDuck' value='favlist')
+                    button 
+                        i(class="fas fa-trash")

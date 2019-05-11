@@ -1,0 +1,19 @@
+extends ../index
+
+include ../search/index
+include ../results/index
+include ../detail/index
+include ../favlist/index
+
+block content
+    h1 Hello, #{name}
+    form(method='post' action='/logout')
+        button Logout
+    a(href='/home/favs/list') List
+    +search(query, message)
+    if ducks
+        +results(ducks, favs)
+    if duck
+        +detail(duck)
+    if favlist
+        +favlist(favlist)

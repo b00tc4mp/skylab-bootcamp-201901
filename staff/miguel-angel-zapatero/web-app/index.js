@@ -1,11 +1,8 @@
 const express = require('express')
 const { injectLogic, checkLogin } = require('./middlewares')
-const render = require('./components/render')
 const package = require('./package.json')
-const { Register, Home } = require('./components')
 const bodyParser = require('body-parser')
 const session = require('express-session')
-
 
 const urlencodedParser = bodyParser.urlencoded({ extended: false })
 
@@ -29,7 +26,7 @@ app.get('/', checkLogin('/home'), (req, res) => {
 })
 
 app.get('/register', checkLogin('/home'), (req, res) => {
-    res.send(render(new Register().render()))
+    res.render('register')
 })
 
 app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
@@ -37,12 +34,12 @@ app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
 
     try {
         logic.registerUser(name, surname, email, password)
-            .then(() => res.send(render(`<p>Ok, user correctly registered, you can now proceed to <a href="/login">login</a></p>`)))
+            .then(() => res.render('login', { message: 'Ok, user correctly registered, you can now proceed to login'}))
             .catch(({ message }) => {
-                res.send(render(new Register().render({ name, surname, email, message })))
+                res.render('register', { name, surname, email, message })
             })
     } catch ({ message }) {
-        res.send(render(new Register().render({ name, surname, email, message })))
+        res.render('register', { name, surname, email, message })
     }
 })
 
@@ -70,7 +67,7 @@ app.get('/home', checkLogin('/', false), (req, res) => {
     const { logic } = req
 
     logic.retrieveUser()
-        .then(({ name }) => res.send(render(new Home().render({ name }))))
+        .then(({ name }) => res.render('home', { name }))
         .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
 })
 
@@ -79,12 +76,12 @@ app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => 
 
     session.query = query
 
-    logic.searchDucks(query)
-        .then(ducks => {
-            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ url: `/home/duck/${id}`, title, image, price }))
+    Promise.all([logic.searchDucks(query), logic.retrieveFavDucks()])
+        .then(([ducks, favs]) => {
+            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price, urlFav: `/home/favs/${id}`}))
 
             return logic.retrieveUser()
-                .then(({ name }) => res.send(render(new Home().render({ name, query, ducks }))))
+                .then(({ name }) => res.render('home', { name, query, ducks, favs }))
         })
         .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
 })
@@ -92,12 +89,49 @@ app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => 
 app.get('/home/duck/:id', checkLogin('/', false), (req, res) => {
     const { params: { id }, logic, session: { query } } = req
 
-    logic.retrieveDuck(id)
-        .then(({ title, imageUrl: image, description, price }) => {
-            const duck = { title, image, description, price }
+    Promise.all([logic.retrieveDuck(id), logic.retrieveFavDucks()])
+    // logic.retrieveDuck(id)
+        .then(([{ title, imageUrl: image, description, price }, favs]) => {
+            const duck = { id, title, image, description, price, urlFav: `/home/favs/${id}`}
 
             return logic.retrieveUser()
-                .then(({ name }) => res.send(render(new Home().render({ query, name, duck }))))
+                .then(({ name }) => res.render('home', { query, name, duck, favs }))
+        })
+})
+
+app.post('/home/favs/:id', [checkLogin('/', false), urlencodedParser], (req, res) => {
+    const { params: { id }, logic, session: { query }, body: {favDuck} } = req
+    
+    logic.toggleFavDuck(id)
+        .then(() => {
+            switch (favDuck) {
+                case 'ducks':
+                    res.redirect(`/home/search?query=${query}`)
+                    break
+            
+                case 'duck':
+                    res.redirect(`/home/duck/${id}`)
+                    break
+
+                case 'favlist':
+                    res.redirect(`/home/favs/list`)
+                    break
+            }
+        })
+})
+
+app.get('/home/favs/list', checkLogin('/', false), (req, res) => {
+    const { logic, session: { query } } = req
+
+    logic.retrieveFavDucks()
+        .then((favlist) => {
+            favlist = favlist.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price, urlFav: `/home/favs/${id}`}))
+            
+            let message = ''
+            if(!favlist.length) message = 'Not favourite ducks!'
+
+            return logic.retrieveUser()
+                .then(({ name }) => res.render('home', { query, name, favlist, message }))
         })
 })
 

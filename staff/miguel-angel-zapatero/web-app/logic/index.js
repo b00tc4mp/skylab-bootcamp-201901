@@ -103,9 +103,9 @@ class Logic {
         return userApi.retrieve(this.__userId__, this.__userToken__)
             .then(response => {
                 const { status, data } = response
-
+                
                 if (status === 'OK') {
-                    const { favs = [] } = data // NOTE if data.favs === undefined then favs = []
+                    const { favs = [] } = data
 
                     const index = favs.indexOf(id)
 
