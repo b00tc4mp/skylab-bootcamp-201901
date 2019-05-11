@@ -7,6 +7,6 @@ block content
     form(method='post' action='/login')
         input(type='text' name='email' placeholder='email' autofocus='' required='' value=email)
         input(type='password' name='password' placeholder='password' required='')
+        button Login
         if message
             +feedback(message)
-        button Login

@@ -1,0 +1,11 @@
+mixin detail({ id, title, image, description, price, urlFav })
+    - const isFav = favs.some(fav => fav.id === id)
+    h2 #{title}
+    img(src=image, alt="duck image")
+    p #{description}
+    span #{price}
+    form(method='post' action=urlFav)
+        input(type='hidden' name='favDuck' value='duck')
+        button 
+            i(class=isFav ? "fas fa-heart" : "far fa-heart")
+    
