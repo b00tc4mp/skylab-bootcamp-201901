@@ -14,7 +14,13 @@ body
         option(value='es' ${selected_es}='') Español
         option(value='ca' ${selected_ca}='') Catalá
         option(value='ga' ${selected_ga}='') Galego
+    a(href='/')
+      i.fas.fa-home
     if !logout
+      a(href='/home/favorites')
+        i.fa-heart.fas.favorite---on
+      a(href='/cart')
+        i.fas.fa-shopping-cart
       form.logout(method='POST' action='/logout')
         button Logout
 

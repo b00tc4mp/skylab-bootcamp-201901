@@ -227,6 +227,7 @@ describe('logic', () => {
           expect(user.surname).toBe(surname);
           expect(user.email).toBe(email);
           expect(user.password).toBeUndefined();
+          expect(user.favs instanceof Array).toBeTruthy();
         }));
     });
 

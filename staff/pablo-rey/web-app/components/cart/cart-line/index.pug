@@ -1,0 +1,14 @@
+mixin cart-line(line)
+  li
+    a(href='####')
+      img(src=line.duck.image)
+    h6 #{line.duck.title}
+    span #{line.duck.price}
+      span  x #{line.quantity}
+      form(method='POST' action='/cart')
+        button(name="reduceFromCart" value=line.duck.id)
+          i.fas.fa-minus
+        button(name="addToCart" value=line.duck.id)
+          i.fas.fa-plus
+        button(name="removeFromCart" value=line.duck.id)
+          i.fas.fa-trash-alt

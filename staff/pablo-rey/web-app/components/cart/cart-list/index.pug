@@ -1,0 +1,6 @@
+include ../cart-line/index
+
+mixin cart-list (list)
+  ul
+    each line in list
+      +cart-line(line)

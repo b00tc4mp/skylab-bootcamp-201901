@@ -61,10 +61,10 @@ class Logic {
     return userApi.retrieve(this.__userId__, this.__userToken__).then(response => {
       if (response.status === 'OK') {
         const {
-          data: { name, surname, username: email },
+          data: { name, surname, username: email, favs = [] },
         } = response;
 
-        return { name, surname, email };
+        return { name, surname, email, favs };
       } else throw new LogicError(response.error);
     });
   }
