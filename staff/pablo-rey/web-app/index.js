@@ -33,7 +33,7 @@ app.get('/register', checkLogin('/home'), (req, res) => res.render('register', {
 app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
   const {
     body: { name, surname, email, password },
-    logic,
+    session: { logic },
   } = req;
 
   try {
@@ -55,8 +55,8 @@ app.get('/login', checkLogin('/home'), (req, res) => res.render('login', { logou
 app.post('/login', [checkLogin('/home'), urlencodedParser], (req, res) => {
   const {
     body: { email, password },
-    logic,
     session,
+    session: { logic },
   } = req;
 
   try {
@@ -73,7 +73,9 @@ app.post('/login', [checkLogin('/home'), urlencodedParser], (req, res) => {
 });
 
 app.get('/home', checkLogin('/', false), (req, res) => {
-  const { logic } = req;
+  const {
+    session: { logic },
+  } = req;
 
   logic
     .retrieveUser()
@@ -82,7 +84,9 @@ app.get('/home', checkLogin('/', false), (req, res) => {
 });
 
 app.get('/home/favorites', checkLogin('/', false), urlencodedParser, (req, res) => {
-  const { logic, session } = req;
+  const {
+    session: { logic },
+  } = req;
 
   return logic
     .retrieveUser()
@@ -106,8 +110,8 @@ app.post('/home/favorites', checkLogin('/', false), urlencodedParser, (req, res)
   const {
     query: { query },
     body,
-    logic,
     session,
+    session: { logic },
   } = req;
 
   session.query = query;
@@ -121,8 +125,8 @@ app.post('/home/favorites', checkLogin('/', false), urlencodedParser, (req, res)
 app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => {
   const {
     query: { query },
-    logic,
     session,
+    session: { logic },
   } = req;
 
   session.query = query;
@@ -149,8 +153,8 @@ app.post('/home/search', checkLogin('/', false), urlencodedParser, (req, res) =>
   const {
     query: { query },
     body,
-    logic,
     session,
+    session: { logic },
   } = req;
 
   session.query = query;
@@ -164,8 +168,7 @@ app.post('/home/search', checkLogin('/', false), urlencodedParser, (req, res) =>
 app.get('/home/duck/:id', checkLogin('/', false), (req, res) => {
   const {
     params: { id },
-    logic,
-    session: { query },
+    session: { query, logic },
   } = req;
 
   return logic.retrieveUser().then(({ name, favs = [] }) =>
@@ -187,8 +190,7 @@ app.post('/home/duck/:id', checkLogin('/', false), urlencodedParser, (req, res) 
   const {
     params: { id },
     body,
-    logic,
-    session: { query },
+    session: { logic },
   } = req;
   if (body.toggleFav) {
     return logic.toggleFavDuck(id).then(() => res.redirect(req.url));
@@ -197,9 +199,7 @@ app.post('/home/duck/:id', checkLogin('/', false), urlencodedParser, (req, res) 
 
 app.get('/cart', checkLogin('/', false), (req, res) => {
   const {
-    params: { id },
-    logic,
-    session,
+    session: { logic },
   } = req;
 
   logic
@@ -208,16 +208,16 @@ app.get('/cart', checkLogin('/', false), (req, res) => {
 });
 
 app.post('/cart', checkLogin('/', false), urlencodedParser, (req, res) => {
-  const saveAndRender = cart => {
+  function saveAndRender(cart) {
     logic
       .saveCart(cart)
       .then(() => logic.retrieveUser())
       .then(({ name }) => res.render('cart', { name, cart }));
-  };
+  }
 
   const {
     body: { addToCart, reduceFromCart, removeFromCart },
-    logic,
+    session: { logic },
   } = req;
 
   logic.retrieveCart().then(cart => {
@@ -250,9 +250,7 @@ app.post('/cart', checkLogin('/', false), urlencodedParser, (req, res) => {
 
 app.get('/checkout', checkLogin('/', false), (req, res) => {
   const {
-    params: { id },
-    logic,
-    session,
+    session: { logic },
   } = req;
 
   logic.retrieveCart().then(cart => {
@@ -268,48 +266,47 @@ app.get('/checkout', checkLogin('/', false), (req, res) => {
 
 app.post('/checkout', checkLogin('/', false), urlencodedParser, (req, res) => {
   const {
-    logic,
-    session,
-    body: { amount, address, cardNumber, cardName, cvv },
+    session: { logic },
+    body: { amount, address, cardNumber, cardName, expDate, cvv },
   } = req;
 
-  const payment = { amount, date: new Date, address, cardNumber, cardName, cvv };
+  const payment = { amount, date: new Date(), address, cardNumber, cardName, expDate, cvv };
   let cart;
 
-  logic.retrieveCart()
-    .then(res => cart = res)
+  logic
+    .retrieveCart()
+    .then(res => (cart = res))
     .then(cart => {
-      debugger
-      return logic.pushToHistoricCarts(cart, payment)
+      debugger;
+      return logic.pushToHistoricCarts(cart, payment);
     })
     .then(() => logic.saveCart([]))
     .then(() => logic.retrieveUser())
     .then(({ name, surname }) =>
-        res.render('./thanks', {
-          name,
-          surname,
-          ...payment,
-          cart,
-        })
-    )
+      res.render('./thanks', {
+        name,
+        surname,
+        ...payment,
+        cart,
+      })
+    );
 });
-
 
 app.get('/user', checkLogin('/', false), (req, res) => {
   const {
-    logic,
-    session,
+    session: { logic },
   } = req;
-  logic.retrieveUser()
-    .then(({name, surname }) => 
-      logic.retrieveHistoricCarts()
-        .then(historicCarts =>  res.render('user', {name, surname, historicCarts}))
-    )
-})
+  logic
+    .retrieveUser()
+    .then(({ name, surname }) =>
+      logic
+        .retrieveHistoricCarts()
+        .then(historicCarts => res.render('user', { name, surname, historicCarts }))
+    );
+});
 
 app.post('/logout', (req, res) => {
-  req.session.destroy();
-  res.redirect('/');
+  req.session.destroy(() => res.redirect('/'));
 });
 
 app.use(function(req, res, next) {

@@ -1,11 +1,13 @@
 function checkLogin(path, loggedIn = true) {
-    return function (req, res, next) {
-        const { logic } = req
+  return function(req, res, next) {
+    const {
+      session: { logic },
+    } = req;
 
-        if (logic.isUserLoggedIn === loggedIn) return res.redirect(path)
+    if (logic.isUserLoggedIn === loggedIn) return res.redirect(path);
 
-        next()
-    }
+    next();
+  };
 }
 
-module.exports = checkLogin
+module.exports = checkLogin;

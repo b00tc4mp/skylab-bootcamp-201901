@@ -1,10 +1,7 @@
 .register,
 .login
-  display: flex
-  flex-direction: column
-  justify-content: center
-  align-items: center
-
+  @extend %container
+  
   &__error
     background-color: white
     color: $warning

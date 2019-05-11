@@ -1,112 +1,4 @@
 @import url("https://fonts.googleapis.com/css?family=Raleway");
-.cart {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-
-.cart-list {
-  width: 90%;
-  list-style-type: none;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  margin-inline-start: 0;
-  margin-inline-end: 0;
-  padding-inline-start: 0;
-}
-
-.cart-line {
-  display: flex;
-  align-items: center;
-}
-.cart-line__image {
-  width: 20vw;
-  margin: 1rem;
-}
-.cart-line__title {
-  font-size: 1.2rem;
-  margin: 0;
-}
-.cart-line__price {
-  font-size: 1.3rem;
-}
-.cart-line__quantity {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-.cart-line__btn {
-  padding: 0.4rem;
-  cursor: pointer;
-  color: skyblue;
-  border-style: solid;
-  border-color: skyblue;
-  background-color: transparent;
-  margin: 0.3rem;
-  border-radius: 50%;
-}
-
-.checkout {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.checkout__title {
-  font-size: 1.5rem;
-}
-.checkout__form {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  width: 90%;
-}
-.checkout__address {
-  background-color: rgba(0, 0, 0, 0.03);
-}
-
-.register,
-.login {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-}
-.register__error,
-.login__error {
-  background-color: white;
-  color: orange;
-  width: 90%;
-  margin: 1rem;
-  border-radius: 0.3rem;
-  border: 2px solid orange;
-  padding: 0.2rem 1rem;
-}
-.register__title,
-.login__title {
-  font-size: 2rem;
-}
-.register__inputs,
-.login__inputs {
-  width: 90%;
-  list-style-type: none;
-  margin-block-start: 0;
-  margin-block-end: 0;
-  padding-inline-start: 0;
-  padding-block-end: 0;
-}
-.register__input,
-.login__input {
-  width: 100%;
-  margin-bottom: 0.5rem;
-  padding: 0.2rem;
-}
-.register__button,
-.login__button {
-  margin-top: 2rem;
-}
-
 * {
   box-sizing: border-box;
 }
@@ -210,7 +102,8 @@ html, body {
   padding: 0.2rem;
 }
 
-.home {
+.thanks, .home, .user, .register,
+.login, .cart {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -278,6 +171,100 @@ html, body {
 .duck-detail__buy {
   background-color: white;
   border-style: solid;
+}
+
+.cart-list {
+  width: 90%;
+  list-style-type: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  margin-inline-start: 0;
+  margin-inline-end: 0;
+  padding-inline-start: 0;
+}
+
+.cart-line {
+  display: flex;
+  align-items: center;
+}
+.cart-line__image {
+  width: 20vw;
+  margin: 1rem;
+}
+.cart-line__title {
+  font-size: 1.2rem;
+  margin: 0;
+}
+.cart-line__price {
+  font-size: 1.3rem;
+}
+.cart-line__quantity {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.cart-line__btn {
+  padding: 0.4rem;
+  cursor: pointer;
+  color: skyblue;
+  border-style: solid;
+  border-color: skyblue;
+  background-color: transparent;
+  margin: 0.3rem;
+  border-radius: 50%;
+}
+
+.checkout {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+.checkout__title {
+  font-size: 1.5rem;
+}
+.checkout__form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 90%;
+}
+.checkout__address {
+  background-color: rgba(0, 0, 0, 0.03);
+}
+
+.register__error,
+.login__error {
+  background-color: white;
+  color: orange;
+  width: 90%;
+  margin: 1rem;
+  border-radius: 0.3rem;
+  border: 2px solid orange;
+  padding: 0.2rem 1rem;
+}
+.register__title,
+.login__title {
+  font-size: 2rem;
+}
+.register__inputs,
+.login__inputs {
+  width: 90%;
+  list-style-type: none;
+  margin-block-start: 0;
+  margin-block-end: 0;
+  padding-inline-start: 0;
+  padding-block-end: 0;
+}
+.register__input,
+.login__input {
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 0.2rem;
+}
+.register__button,
+.login__button {
+  margin-top: 2rem;
 }
 
 /*# sourceMappingURL=style.css.map */

@@ -1,13 +1,12 @@
-const Logic = require('../logic')
+const Logic = require('../logic');
 
 function injectLogic(req, res, next) {
-    const { session: { token } } = req
+  const {
+    session: { token },
+  } = req;
 
-    const logic = new Logic(token)
-
-    req.logic = logic
-
-    next()
+  req.session.logic = new Logic(token);
+  next();
 }
 
-module.exports = injectLogic
+module.exports = injectLogic;
