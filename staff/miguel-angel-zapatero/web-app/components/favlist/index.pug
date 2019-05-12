@@ -7,6 +7,6 @@ mixin favlist(list)
                     img(src=item.image, alt='duck image')
                     span #{item.price}
                 form(method='post' action=item.urlFav)
-                    input(type='hidden' name='favDuck' value='favlist')
+                    input(type='hidden' name='handleFavs' value='favlist')
                     button 
                         i(class="fas fa-trash")

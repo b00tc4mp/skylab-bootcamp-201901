@@ -8,6 +8,11 @@ mixin results(list, favs)
                     img(src=item.image, alt='duck image')
                     span #{item.price}
                 form(method='post' action=item.urlFav)
-                    input(type='hidden' name='favDuck' value='ducks')
+                    input(type='hidden' name='handleFavs' value='ducks')
                     button 
                         i(class=isFav ? "fas fa-heart" : "far fa-heart")
+                //- form(method='post' action=item.urlCart)
+                form(method='post' action='/home/cart/'+item.id)
+                    input(type='hidden' name='handleCart' value='ducks')
+                    button
+                        i(class='fas fa-cart-plus')

@@ -68,43 +68,48 @@ app.get('/home', checkLogin('/', false), (req, res) => {
 
     logic.retrieveUser()
         .then(({ name }) => res.render('home', { name }))
-        .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
+        .catch(({ message }) => res.render(`<p>${message}</p>`))
 })
 
-app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => {
+app.get('/home/search', [checkLogin('/', false), urlencodedParser], (req, res) => {
     const { query: { query }, logic, session } = req
-
+    
     session.query = query
 
+    //inicializo session cart
+    if(!session.cart) session.cart = []
+    const itemsCart = session.cart.length
+    
     Promise.all([logic.searchDucks(query), logic.retrieveFavDucks()])
         .then(([ducks, favs]) => {
-            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price, urlFav: `/home/favs/${id}`}))
-
+            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price, urlFav: `/home/favs/${id}`, urlCart: `/home/cart/${id}`}))
+            
             return logic.retrieveUser()
-                .then(({ name }) => res.render('home', { name, query, ducks, favs }))
+                .then(({ name }) => res.render('home', { name, query, ducks, favs, itemsCart}))
         })
-        .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
+        .catch(({ message }) => res.render('home', { name, query, ducks, favs, itemsCart, message}))
 })
 
 app.get('/home/duck/:id', checkLogin('/', false), (req, res) => {
-    const { params: { id }, logic, session: { query } } = req
+    const { params: { id }, logic, session: { query, cart } } = req
+
+    const itemsCart = cart.length
 
     Promise.all([logic.retrieveDuck(id), logic.retrieveFavDucks()])
-    // logic.retrieveDuck(id)
-        .then(([{ title, imageUrl: image, description, price }, favs]) => {
-            const duck = { id, title, image, description, price, urlFav: `/home/favs/${id}`}
+        .then(([{title, imageUrl: image, description, price }, favs]) => {
+            const duck = { id, title, image, description, price, urlFav: `/home/favs/${id}`, urlCart: `/home/cart/${id}`}
 
             return logic.retrieveUser()
-                .then(({ name }) => res.render('home', { query, name, duck, favs }))
+                .then(({ name }) => res.render('home', { query, name, duck, favs, itemsCart }))
         })
 })
 
 app.post('/home/favs/:id', [checkLogin('/', false), urlencodedParser], (req, res) => {
-    const { params: { id }, logic, session: { query }, body: {favDuck} } = req
+    const { params: { id }, logic, session: { query }, body: {handleFavs} } = req
     
     logic.toggleFavDuck(id)
         .then(() => {
-            switch (favDuck) {
+            switch (handleFavs) {
                 case 'ducks':
                     res.redirect(`/home/search?query=${query}`)
                     break
@@ -121,7 +126,9 @@ app.post('/home/favs/:id', [checkLogin('/', false), urlencodedParser], (req, res
 })
 
 app.get('/home/favs/list', checkLogin('/', false), (req, res) => {
-    const { logic, session: { query } } = req
+    const { logic, session: { query, cart } } = req
+
+    const itemsCart = cart.length
 
     logic.retrieveFavDucks()
         .then((favlist) => {
@@ -131,7 +138,43 @@ app.get('/home/favs/list', checkLogin('/', false), (req, res) => {
             if(!favlist.length) message = 'Not favourite ducks!'
 
             return logic.retrieveUser()
-                .then(({ name }) => res.render('home', { query, name, favlist, message }))
+                .then(({ name }) => res.render('home', { query, name, favlist, itemsCart, message }))
+        })
+})
+
+app.post('/home/cart/:id', [checkLogin('/', false), urlencodedParser], (req, res) => {
+    const { params: { id }, session: { query, cart }, body: {handleCart} } = req
+
+    if(!cart) session.cart = []
+
+    cart.push(id) //meter los productos en un array
+
+    switch (handleCart) {
+        case 'ducks':
+            res.redirect(`/home/search?query=${query}`)
+            break
+    
+        case 'duck':
+            res.redirect(`/home/duck/${id}`)
+            break
+
+        // case 'favlist':
+        //     res.redirect(`/home/favs/list`)
+        //     break
+    }
+})
+
+app.get('/home/cart', checkLogin('/', false), (req, res) => {
+    const { session: { cart, query }, logic } = req
+    
+    const itemsCart = cart.length
+
+    Promise.all(cart.map(id => logic.retrieveDuck(id)))
+        .then(listCart => {
+            listCart = listCart.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price }))
+
+            return logic.retrieveUser()
+                .then(({ name }) => res.render('home', { name, query, itemsCart, listCart }))
         })
 })
 
