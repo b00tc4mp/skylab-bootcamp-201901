@@ -3,15 +3,19 @@ extends ../index
 include ../search/index
 include ../results/index
 include ../detail/index
+include ../resultsFav/index
 
 block content
     h1 Hola, #{name}!
     form(action='/logout' method='post')
         button Logout
-    +search
+    a(href='/home/favorites') List
+    +search(query)
     if ducks
-        +results
+        +results(ducks, ducksFav)
     if duck
-        +detail
+        +detail(duck, ducksFav)
+    if favlist
+        +resultsFavs(favlist)
 
 

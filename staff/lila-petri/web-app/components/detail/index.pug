@@ -1,6 +1,8 @@
-mixin detail()
+mixin detail(duck, ducksFav)
 
     h2=duck.title
     img(src=duck.image)
     p=duck.description
     span=duck.price
+    - const isFav=ducksFav.some(fav => fav.id === duck.id)
+    i(class=isFav ? 'fas fa-heart' : 'far fa-heart')

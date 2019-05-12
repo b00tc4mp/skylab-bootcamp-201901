@@ -1,0 +1,8 @@
+mixin resultsFavs(ducksFav)
+    ul
+        for item in ducksFav
+            li
+                a(href=item.url)
+                    h2=item.title
+                    img(src=item.image)
+                    span=item.price

@@ -81,16 +81,14 @@ app.get('/home', checkLogin('/', false), (req, res) => {
 app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => {
     const { query: { query }, logic, session } = req
 
-
     session.query = query
     
-    logic.searchDucks(query)
-        .then(ducks => {
+    Promise.all([logic.searchDucks(query), logic.retrieveFavDucks()])
+        .then(([ducks, ducksFav]) => {
             
-            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ url: `/home/duck/${id}`, title, image, price }))
-        
+            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price }))
             return logic.retrieveUser()
-                .then(({ name }) => res.render('home' , { name, query, ducks }))
+                .then(({ name }) => res.render('home' , { name, query, ducks, ducksFav }))
         })
         .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
 })
@@ -98,15 +96,39 @@ app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => 
 app.get('/home/duck/:id', checkLogin('/', false), (req, res) => {
     const { params: { id }, logic, session: { query } } = req
 
-    logic.retrieveDuck(id)
-        .then(({ title, imageUrl: image, description, price }) => {
-            const duck = { title, image, description, price }
+    Promise.all([logic.retrieveDuck(id), logic.retrieveFavDucks()])
+        .then(([{ title, imageUrl: image, description, price }, ducksFav]) => {
+            const duck = { id, title, image, description, price }
 
             return logic.retrieveUser()
-                .then(({ name }) => res.render('home', { query, name, duck }))
+                .then(({ name }) => res.render('home', { query, name, duck, ducksFav }))
+        })
+})
+app.post('/home/fav/:id', checkLogin('/', false), (req, res)=>{
+    const { params: { id }, logic, session: {query} } = req
+    
+    logic.toggleFavDuck(id)
+        .then(()=> Promise.all([logic.searchDucks(query), logic.retrieveFavDucks()]))
+        
+        .then(([ducks, ducksFav]) => {
+            
+            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price }))
+            return logic.retrieveUser()
+                .then(({ name }) => res.render('home' , { name, query, ducks, ducksFav }))
         })
 })
 
+app.get('/home/favorites', checkLogin('/', false), urlencodedParser, (req, res) => {
+    const { query: { query }, logic } = req
+
+    logic.retrieveFavDucks()
+        .then((favlist) => {         
+            favlist = favlist.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price }))
+            return logic.retrieveUser()
+                .then(({ name }) => res.render('home' , { name, query, favlist }))
+        })
+        .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
+})
 app.post('/logout', (req, res) => {
     req.session.destroy()
 
