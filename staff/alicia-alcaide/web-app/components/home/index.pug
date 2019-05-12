@@ -1,0 +1,27 @@
+extends ../index
+
+include ../feedback/index
+
+include ../search/index
+
+include ../results/index
+
+include ../detail/index
+
+include ../favorites/index
+
+block content
+  h1  Hola, #{name}! 
+  form(action='/logout' method='post')
+    button Logout
+  form(action='/home/favorites')
+    button Favorites
+  if message
+      +feedback(message)
+  +search(query)
+  if items
+      +results(items, favs)
+  if item
+      +detail(item)
+  if favoritesList
+      +favorites(favoritesList)

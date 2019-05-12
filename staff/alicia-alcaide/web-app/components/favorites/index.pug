@@ -1,0 +1,14 @@
+mixin favorites(favoritesList)
+
+    if favoritesList.length > 0
+        ul
+            each fav in favoritesList
+                li  
+                    a(href=`${fav.url}`)
+                        h2= fav.title
+                    a(href=`${fav.urlToggle}`)  
+                        i.fas.fa-heart
+                    img(src=`${fav.image}`)
+                    span= fav.price                    
+    else
+        p= 'No favorites'

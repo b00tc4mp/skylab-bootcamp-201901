@@ -1,0 +1,12 @@
+extends ../index
+
+include ../feedback/index
+
+block content
+    h2 Login
+    form(method='post' action='/login')
+        input(type='text' name='email' placeholder='email' autofocus='' required='' value=email)
+        input(type='password' name='password' placeholder='password' required='')
+        if message
+            +feedback(message)
+        button Login
