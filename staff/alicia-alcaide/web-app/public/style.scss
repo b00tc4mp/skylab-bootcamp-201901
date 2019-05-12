@@ -1,0 +1,166 @@
+@import url('https://fonts.googleapis.com/css?family=Roboto+Slab|Stylish');
+
+$primary: rgb(129, 214, 157);
+$secondary: rgb(121, 120, 120);
+$warning: rgb(255, 166, 0);
+
+$background-primary: white;
+
+* {
+    margin: 0px;
+    padding: 0px;
+    box-sizing: border-box;
+    font-family: 'Roboto Slab', serif;
+}
+
+h1, h2 {
+    font-family: 'Stylish', sans-serif;
+    text-align: center;
+}
+
+h1 {
+    font-size: 42px;
+    color: $primary;
+    padding: 1rem;
+}
+
+h2 {
+    font-size: 28px;
+    color: $secondary;
+}
+
+.feedback {
+    color: $warning;
+}
+
+img {
+    max-width: 200px;
+}
+
+a {
+    text-decoration: none;
+    color: $secondary;
+}
+
+.fav {
+    color: $primary;
+}
+
+
+.list-items {
+    list-style-type: none;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-evenly;
+    align-items: stretch;
+}
+
+.item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid $primary;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  color: $secondary;
+}
+
+.item__title,
+.detail__title {
+    margin-bottom: 0.3rem;
+    align-self: center;
+}
+
+.item__image, 
+.detail__image {
+    align-self: center;
+}
+
+.item__price,
+.detail__price {
+    align-self: flex-end;
+}
+
+
+.no-result {
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    padding: 1.2em;
+    border: 1px solid $primary;
+    margin: 5rem 2rem 5rem 2rem;
+    padding: 1rem;
+    border-radius: 1rem;
+    color: $secondary;
+}
+
+.detail {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+    padding: 1.2em;
+    border: 1px solid $primary;
+    margin: 2em 20rem 2rem 20rem;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.detail__item {
+    display: flex;
+    flex-direction: column;
+    color: $secondary;
+}
+
+.panel-home {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    color: $secondary;
+    border: 1px solid $primary;
+    margin: 2rem;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+.panel {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: $secondary;
+    border: 1px solid $primary;
+    margin: 3em 20rem 3rem 20rem;
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+
+.link-button, button {
+    color: $secondary;
+    border: 1px solid $primary;
+    background-color: $background-primary;
+    width: 8rem;
+    padding: 1rem;
+    margin: 1rem;
+    border-radius: 1rem;
+    text-align: center
+}
+.link-button:hover, .link-button:active,
+button:hover, button:active {
+    background-color: $primary;
+    color: $background-primary;
+}
+
+input {
+    display: inline-block;
+    text-align: start;
+    border: 1px solid $primary;
+    border-radius: 1rem;
+    width: 350px;
+    height: 48px;
+    padding: 0px 11px;
+    margin: 1rem;
+    color: $secondary;
+    background-color: $background-primary;
+}

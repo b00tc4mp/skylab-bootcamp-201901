@@ -11,17 +11,24 @@ include ../detail/index
 include ../favorites/index
 
 block content
-  h1  Hola, #{name}! 
-  form(action='/logout' method='post')
-    button Logout
-  form(action='/home/favorites')
-    button Favorites
+  .header
+    h1 Ducks World
+    h2 Hello, #{name}!
+  section.panel-home
+    +search(query)
+    form(action='/home/favorites')
+      button Favorites
+    form(action='/logout' method='post')
+      button Logout
   if message
-      +feedback(message)
-  +search(query)
+    .feedback
+        +feedback(message)
   if items
+    section.results
       +results(items, favs)
   if item
+    section.detail
       +detail(item)
   if favoritesList
+    section.favorites
       +favorites(favoritesList)

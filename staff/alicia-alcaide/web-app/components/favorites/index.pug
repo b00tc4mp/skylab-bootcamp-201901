@@ -1,14 +1,14 @@
 mixin favorites(favoritesList)
 
     if favoritesList.length > 0
-        ul
+        ul.list-items
             each fav in favoritesList
-                li  
+                li.item
                     a(href=`${fav.url}`)
-                        h2= fav.title
-                    a(href=`${fav.urlToggle}`)  
+                        h3.item__title= fav.title
+                    a.fav(href=`${fav.urlToggle}`)  
                         i.fas.fa-heart
-                    img(src=`${fav.image}`)
-                    span= fav.price                    
+                    img.item__image(src=`${fav.image}`)
+                    span.item__price= fav.price                    
     else
-        p= 'No favorites'
+        p.no-result= 'No favorites'

@@ -1,17 +1,17 @@
 mixin results(items)
 
     if items.length > 0
-        ul
+        ul.list-items
             each item in items
-                li  
+                li.item  
                     a(href=`${item.url}`)
-                        h2= item.title
-                    a(href=`${item.urlToggle}`)  
+                        h3.item__title= item.title
+                    a.fav(href=`${item.urlToggle}`)  
                         if item.isFav
                             i.fas.fa-heart
                         else    
                             i.far.fa-heart
-                    img(src=`${item.image}`)
-                    span= item.price
+                    img.item__image(src=`${item.image}`)
+                    span.item__price= item.price
     else
-        p= 'No resutls'
+        p.no-result= 'No results'

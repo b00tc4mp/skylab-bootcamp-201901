@@ -1,7 +1,9 @@
 extends ../index
 
 block content
-    h1 Welcome to this Web Application
-    a(href='/register') Register
-    |  or 
-    a(href='/login') Login
+    .head
+        h1 Welcome to Ducks World
+    section.panel
+        a.link-button(href='/register') Register
+        p or 
+        a.link-button(href='/login') Login

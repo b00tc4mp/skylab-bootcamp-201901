@@ -1,9 +1,136 @@
+@import url("https://fonts.googleapis.com/css?family=Roboto+Slab|Stylish");
 * {
-    border: 1px solid black;
-    border-radius: 1em;
-    padding: 1em;
-}
+  margin: 0px;
+  padding: 0px;
+  box-sizing: border-box;
+  font-family: 'Roboto Slab', serif; }
+
+h1, h2 {
+  font-family: 'Stylish', sans-serif;
+  text-align: center; }
+
+h1 {
+  font-size: 42px;
+  color: #81d69d;
+  padding: 1rem; }
+
+h2 {
+  font-size: 28px;
+  color: #797878; }
+
+.feedback {
+  color: #ffa600; }
 
 img {
-    max-width: 200px;
-}
+  max-width: 200px; }
+
+a {
+  text-decoration: none;
+  color: #797878; }
+
+.fav {
+  color: #81d69d; }
+
+.list-items {
+  list-style-type: none;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-evenly;
+  align-items: stretch; }
+
+.item {
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #81d69d;
+  margin-bottom: 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  color: #797878; }
+
+.item__title,
+.detail__title {
+  margin-bottom: 0.3rem;
+  align-self: center; }
+
+.item__image,
+.detail__image {
+  align-self: center; }
+
+.item__price,
+.detail__price {
+  align-self: flex-end; }
+
+.no-result {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 1.2em;
+  border: 1px solid #81d69d;
+  margin: 5rem 2rem 5rem 2rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  color: #797878; }
+
+.detail {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  padding: 1.2em;
+  border: 1px solid #81d69d;
+  margin: 2em 20rem 2rem 20rem;
+  padding: 2rem;
+  border-radius: 1rem; }
+
+.detail__item {
+  display: flex;
+  flex-direction: column;
+  color: #797878; }
+
+.panel-home {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  color: #797878;
+  border: 1px solid #81d69d;
+  margin: 2rem;
+  padding: 2rem;
+  border-radius: 1rem; }
+
+.panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #797878;
+  border: 1px solid #81d69d;
+  margin: 3em 20rem 3rem 20rem;
+  padding: 2rem;
+  border-radius: 1rem; }
+
+.link-button, button {
+  color: #797878;
+  border: 1px solid #81d69d;
+  background-color: white;
+  width: 8rem;
+  padding: 1rem;
+  margin: 1rem;
+  border-radius: 1rem;
+  text-align: center; }
+
+.link-button:hover, .link-button:active,
+button:hover, button:active {
+  background-color: #81d69d;
+  color: white; }
+
+input {
+  display: inline-block;
+  text-align: start;
+  border: 1px solid #81d69d;
+  border-radius: 1rem;
+  width: 350px;
+  height: 48px;
+  padding: 0px 11px;
+  margin: 1rem;
+  color: #797878;
+  background-color: white; }
