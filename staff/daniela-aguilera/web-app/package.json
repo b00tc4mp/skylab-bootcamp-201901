@@ -18,7 +18,7 @@
   },
   "scripts": {
     "start": "node .",
-    "watch": "nodemon --ignore ./sessions .",
+    "watch": "nodemon index.js 8080 --ignore ./sessions -e js,pug",
     "debug": "node debug .",
     "test": "jest",
     "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"

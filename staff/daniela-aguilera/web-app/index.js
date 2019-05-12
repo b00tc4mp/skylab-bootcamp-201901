@@ -2,7 +2,6 @@ const express = require('express')
 const { injectLogic, checkLogin } = require('./middlewares')
 const render = require('./components/render')
 const package = require('./package.json')
-const { Register, Home } = require('./components')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 
@@ -39,10 +38,10 @@ app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
         logic.registerUser(name, surname, email, password)
             .then(() => res.send(render(`<p>Ok, user correctly registered, you can now proceed to <a href="/login">login</a></p>`)))
             .catch(({ message }) => {
-                res.send(render(new Register().render({ name, surname, email, message })))
+                res.render('register', { name, surname, email, message })
             })
     } catch ({ message }) {
-        res.send(render(new Register().render({ name, surname, email, message })))
+        res.render('register', { name, surname, email, message })
     }
 })
 
@@ -70,7 +69,7 @@ app.get('/home', checkLogin('/', false), (req, res) => {
     const { logic } = req
 
     logic.retrieveUser()
-        .then(({ name }) => res.send(render(new Home().render({ name }))))
+        .then(({ name }) => res.render('home', { name }))
         .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
 })
 
@@ -81,10 +80,14 @@ app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => 
 
     logic.searchDucks(query)
         .then(ducks => {
-            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ url: `/home/duck/${id}`, title, image, price }))
+            ducks = ducks.map(duck => {
+                const { id, title, imageUrl: image, price } = duck
+                return { url: `/home/duck/${id}`, title, image, price }
+            })
 
-            return logic.retrieveUser()
-                .then(({ name }) => res.send(render(new Home().render({ name, query, ducks }))))
+            logic.retrieveUser()
+                //.then(({ name }) => res.send(render(new Home().render({ name, query, ducks }))))
+                .then(({ name }) => res.render('home', { name, query, ducks }))
         })
         .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
 })
@@ -94,12 +97,69 @@ app.get('/home/duck/:id', checkLogin('/', false), (req, res) => {
 
     logic.retrieveDuck(id)
         .then(({ title, imageUrl: image, description, price }) => {
-            const duck = { title, image, description, price }
+            const duck = { id, title, image, description, price }
+            logic.retrieveFavDucks()
+                .then(ducks => {
+                    duck.isFav = ducks.some(duck => duck.id === id)
 
-            return logic.retrieveUser()
-                .then(({ name }) => res.send(render(new Home().render({ query, name, duck }))))
+                    logic.retrieveCartDucks()
+                        .then(ducks => {
+                            duck.isInCart = ducks.some(duck => duck.id === id)
+                            logic.retrieveUser()
+                                .then((user) => res.render('home', { query, name: user.name, duck }))
+                        })
+                })
         })
 })
+
+
+app.post('/fav/:id', checkLogin('/', false), (req, res) => {
+    const { params: { id }, logic } = req
+    logic.toggleFavDuck(id)
+        .then(() => res.redirect(`/home/duck/${id}`))
+        .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
+})
+
+
+app.get('/fav', checkLogin('/', false), (req, res) => {
+    const { logic } = req
+    logic.retrieveFavDucks()
+        .then(ducks => {
+            ducks = ducks.map(duck => {
+                const { id, title, imageUrl: image, price } = duck
+                return { url: `/home/duck/${id}`, title, image, price }
+            })
+            logic.retrieveUser()
+                .then((user) => res.render('home', { query: 'Favoritos', ducks, name: user.name }))
+        })
+})
+
+
+
+
+
+app.post('/cart/:id', checkLogin('/', false), (req, res) => {
+    const { params: { id }, logic } = req
+    logic.toggleCart(id)
+        .then(() => res.redirect(`/home/duck/${id}`))
+        .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
+})
+
+
+app.get('/cart', checkLogin('/', false), (req, res) => {
+    const { logic } = req
+    logic.retrieveCartDucks()
+        .then(ducks => {
+            ducks = ducks.map(duck => {
+                const { id, title, imageUrl: image, price } = duck
+                return { url: `/home/duck/${id}`, title, image, price }
+            })
+            logic.retrieveUser()
+                .then((user) => res.render('home', { query: 'shopping cart', ducks, name: user.name }))
+        })
+})
+
+
 
 app.post('/logout', (req, res) => {
     req.session.destroy()
