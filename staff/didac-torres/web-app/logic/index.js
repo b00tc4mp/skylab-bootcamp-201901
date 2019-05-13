@@ -138,6 +138,50 @@ class Logic {
                 throw new LogicError(response.error)
             })
     }
+    
+    toggleCartDuck(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string' }
+        ])
+
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                const { status, data } = response
+
+                if (status === 'OK') {
+                    const { shoppingCart = [] } = data // NOTE if data.favs === undefined then favs = []
+
+                    const index = shoppingCart.indexOf(id)
+
+                    if (index < 0) shoppingCart.push(id)
+                    else shoppingCart.splice(index, 1)
+
+                    return userApi.update(this.__userId__, this.__userToken__, { shoppingCart })
+                        .then(() => { })
+                }
+
+                throw new LogicError(response.error)
+            })
+    }
+
+    retrieveCartDucks() {
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                const { status, data } = response
+
+                if (status === 'OK') {
+                    const { shoppingCart = [] } = data
+
+                    if (shoppingCart.length) {
+                        const calls = shoppingCart.map(cart => duckApi.retrieveDuck(cart))
+
+                        return Promise.all(calls)
+                    } else return shoppingCart
+                }
+
+                throw new LogicError(response.error)
+            })
+    }
 }
 
 module.exports = Logic

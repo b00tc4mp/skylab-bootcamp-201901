@@ -1,0 +1,15 @@
+
+mixin cart(ducks, total, shipCost, withShip)
+      
+        h2 Shopping Cart
+        ul
+            for item in ducks
+                li
+                    a(href=item.url)
+                        h2=item.title
+                        span=item.price
+                    a(href=item.cartUrl)
+                        button Quit to Cart
+        h3 Ducks Cost: !{total} €
+        h3 Shipping Cost: !{shipCost} €
+        h2 Total Cost: !{withShip} €
