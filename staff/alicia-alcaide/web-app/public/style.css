@@ -116,7 +116,8 @@ a {
   padding: 1rem;
   margin: 1rem;
   border-radius: 1rem;
-  text-align: center; }
+  text-align: center;
+  outline: none; }
 
 .link-button:hover, .link-button:active,
 button:hover, button:active {
@@ -132,5 +133,6 @@ input {
   height: 48px;
   padding: 0px 11px;
   margin: 1rem;
+  outline: none;
   color: #797878;
   background-color: white; }
