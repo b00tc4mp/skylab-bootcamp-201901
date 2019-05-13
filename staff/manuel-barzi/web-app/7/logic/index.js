@@ -1,4 +1,3 @@
-const normalize = require('../common/normalize')
 const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
@@ -70,11 +69,7 @@ class Logic {
     }
 
     logoutUser() {
-        // this.__userId__ = null
-        // this.__userToken__ = null
-
-        // OR fully remove all key values from session storage
-        sessionStorage.clear()
+        // ?
     }
 
 
