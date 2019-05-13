@@ -1,0 +1,13 @@
+mixin detail(duck)
+    h2=duck.title
+    img(src=duck.image)
+    p=duck.description
+    span=duck.price
+     if duck.fav === false
+        form(action='/toggle/detail')
+            button( name='id' value=duck.id ) addFavorite
+    if duck.fav === true
+        form(action='/toggle/detail')
+            button( name='id' value=duck.id ) removeFavorite
+    form(action='/cart')
+            button( name='id' value=duck.id ) addToCart
