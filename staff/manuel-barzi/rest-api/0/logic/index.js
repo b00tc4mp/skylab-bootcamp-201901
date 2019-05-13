@@ -4,7 +4,7 @@ const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
 const token = require('../common/token')
 
-class Logic {
+class Logic { // TODO move to single object in memory (logic)
     constructor(token) {
         this.__userToken__ = token
     }
