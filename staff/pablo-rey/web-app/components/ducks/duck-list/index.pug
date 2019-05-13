@@ -1,6 +1,9 @@
 include ../card-duck/index
 
 mixin duck-list (list)
-  ul.duck-list
-    each duck in list
-      +card-duck(duck)
+  if list.length !== 0
+    ul.duck-list
+      each duck in list
+        +card-duck(duck)
+  else
+    p No results

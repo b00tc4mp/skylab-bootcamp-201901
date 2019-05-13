@@ -10,7 +10,7 @@ block content
       input.input(type='text' name='query' placeholder='query' autofocus='' required='' value=query)
       button.btn.btn--small
         i.fas.fa-search
-    if ducks
+    if query
       +duck-list(ducks)
     
     if duck
