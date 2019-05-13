@@ -135,9 +135,6 @@ app.get('/fav', checkLogin('/', false), (req, res) => {
 })
 
 
-
-
-
 app.post('/cart/:id', checkLogin('/', false), (req, res) => {
     const { params: { id }, logic } = req
     logic.toggleCart(id)
