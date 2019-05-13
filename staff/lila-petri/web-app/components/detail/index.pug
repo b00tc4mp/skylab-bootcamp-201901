@@ -5,4 +5,6 @@ mixin detail(duck, ducksFav)
     p=duck.description
     span=duck.price
     - const isFav=ducksFav.some(fav => fav.id === duck.id)
-    i(class=isFav ? 'fas fa-heart' : 'far fa-heart')
+    form(method='post' action='/home/fav/'+duck.id)
+        button
+            i(class=isFav ? 'fas fa-heart' : 'far fa-heart')

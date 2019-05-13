@@ -2,7 +2,6 @@ mixin results(ducks, ducksFav)
     ul
         for item in ducks
             - const isFav=ducksFav.some(fav => fav.id === item.id)
-            - debugger
             li
                 a(href=item.url)
                     h2=item.title
