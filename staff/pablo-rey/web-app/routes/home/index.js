@@ -1,6 +1,4 @@
 var express = require('express');
-const bodyParser = require('body-parser');
-const urlencodedParser = bodyParser.urlencoded({ extended: false });
 const { checkLogin } = require('../../middlewares');
 var router = express.Router();
 
