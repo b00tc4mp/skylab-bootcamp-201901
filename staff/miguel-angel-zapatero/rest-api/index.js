@@ -83,7 +83,7 @@ app.get('/user/favs/:id', jsonParser, (req, res) => {
 
     try {
         logic.toggleFavDuck(token, id)
-            .then(() => res.json({ message: 'Ok, fav saved. '}))
+            .then(() => res.json({ message: 'Ok, duck saved in favourites. '}))
             .catch(({ message })=> res.status(401).json({ error: message }))
     } catch ({ message }) {
         res.status(401).json({error: message})
