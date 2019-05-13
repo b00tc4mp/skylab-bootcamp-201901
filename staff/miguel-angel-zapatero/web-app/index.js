@@ -21,20 +21,17 @@ app.use(session({
 
 app.use(express.static('public'), injectLogic)
 
-app.get('/', checkLogin('/home'), (req, res) => {
-    res.render('landing')
-})
+app.get('/', checkLogin('/home'), (req, res) => res.render('landing'))
 
-app.get('/register', checkLogin('/home'), (req, res) => {
-    res.render('register')
-})
+app.get('/register', checkLogin('/home'), (req, res) => res.render('register'))
 
 app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
     const { body: { name, surname, email, password }, logic } = req
 
     try {
         logic.registerUser(name, surname, email, password)
-            .then(() => res.render('login', { message: 'Ok, user correctly registered, you can now proceed to login'}))
+            .then(() => res.redirect('/login'))
+            // .then(() => res.render('login', { message: 'Ok, user correctly registered, you can now proceed to login'}))
             .catch(({ message }) => {
                 res.render('register', { name, surname, email, message })
             })
@@ -43,9 +40,13 @@ app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
     }
 })
 
-app.get('/login', checkLogin('/home'), (req, res) =>
-    res.render('login')
-)
+app.get('/login', checkLogin('/home'), (req, res) => {
+    const refererUrl = req.get('referer')
+    debugger
+    if (refererUrl && refererUrl.includes('register')) {
+        res.render('login', {message: 'Ok, user correctly registered, you can now proceed to login'})
+    } else res.render('login')
+})
 
 app.post('/login', [checkLogin('/home'), urlencodedParser], (req, res) => {
     const { body: { email, password }, logic, session } = req
@@ -75,7 +76,7 @@ app.get('/home/search', [checkLogin('/', false), urlencodedParser], (req, res) =
     const { query: { query }, logic, session } = req
     
     session.query = query
-
+    
     //inicializo session cart
     if(!session.cart) session.cart = []
     const itemsCart = session.cart.length
@@ -83,9 +84,9 @@ app.get('/home/search', [checkLogin('/', false), urlencodedParser], (req, res) =
     Promise.all([logic.searchDucks(query), logic.retrieveFavDucks()])
         .then(([ducks, favs]) => {
             ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price, urlFav: `/home/favs/${id}`, urlCart: `/home/cart/${id}`}))
-            
+
             return logic.retrieveUser()
-                .then(({ name }) => res.render('home', { name, query, ducks, favs, itemsCart}))
+                .then(({ name }) => {debugger; res.render('home', { name, query, ducks, favs, itemsCart})})
         })
         .catch(({ message }) => res.render('home', { name, query, ducks, favs, itemsCart, message}))
 })
@@ -109,19 +110,7 @@ app.post('/home/favs/:id', [checkLogin('/', false), urlencodedParser], (req, res
     
     logic.toggleFavDuck(id)
         .then(() => {
-            switch (handleFavs) {
-                case 'ducks':
-                    res.redirect(`/home/search?query=${query}`)
-                    break
-            
-                case 'duck':
-                    res.redirect(`/home/duck/${id}`)
-                    break
-
-                case 'favlist':
-                    res.redirect(`/home/favs/list`)
-                    break
-            }
+            res.redirect(req.get('referer'))
         })
 })
 
@@ -149,19 +138,7 @@ app.post('/home/cart/:id', [checkLogin('/', false), urlencodedParser], (req, res
 
     cart.push(id) //meter los productos en un array
 
-    switch (handleCart) {
-        case 'ducks':
-            res.redirect(`/home/search?query=${query}`)
-            break
-    
-        case 'duck':
-            res.redirect(`/home/duck/${id}`)
-            break
-
-        // case 'favlist':
-        //     res.redirect(`/home/favs/list`)
-        //     break
-    }
+    res.redirect(req.get('referer'))
 })
 
 app.get('/home/cart', checkLogin('/', false), (req, res) => {
@@ -184,8 +161,6 @@ app.post('/logout', (req, res) => {
     res.redirect('/')
 })
 
-app.use(function (req, res, next) {
-    res.redirect('/')
-})
+app.use((req, res, next) => res.redirect('/'))
 
 app.listen(port, () => console.log(`${package.name} ${package.version} up on port ${port}`))

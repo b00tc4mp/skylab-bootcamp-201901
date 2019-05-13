@@ -5,11 +5,9 @@ mixin detail({ id, title, image, description, price, urlFav, urlCart }, favs)
     p #{description}
     span #{price}
     form(method='post' action=urlFav)
-        input(type='hidden' name='handleFavs' value='duck')
         button 
             i(class=isFav ? "fas fa-heart" : "far fa-heart")
     form(method='post' action=urlCart)       
-        input(type='hidden' name='handleCart' value='duck')
         button
             i(class='fas fa-cart-plus')
     

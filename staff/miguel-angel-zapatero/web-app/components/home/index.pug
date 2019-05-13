@@ -11,14 +11,14 @@ block content
     form(method='post' action='/logout')
         button Logout
     a(href='/home/favs/list') Favs
-        
+
     if itemsCart
         a(href='/home/cart') Cart: #{itemsCart} items
     else
         p Cart: Empty
 
     +search(query, message)
-
+    
     if ducks
         +results(ducks, favs)
     if duck

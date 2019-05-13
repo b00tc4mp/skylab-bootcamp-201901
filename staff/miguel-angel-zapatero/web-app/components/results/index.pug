@@ -1,18 +1,16 @@
-mixin results(list, favs)
+mixin results(items, favs)
     ul
-        each item in list
+        each item in items
             - const isFav = favs.some(fav => fav.id === item.id)
             li
                 a(href=item.url)
-                    h2 #{item.title}
+                    h2=item.title
                     img(src=item.image, alt='duck image')
-                    span #{item.price}
+                    span=item.price
                 form(method='post' action=item.urlFav)
-                    input(type='hidden' name='handleFavs' value='ducks')
                     button 
                         i(class=isFav ? "fas fa-heart" : "far fa-heart")
-                //- form(method='post' action=item.urlCart)
-                form(method='post' action='/home/cart/'+item.id)
-                    input(type='hidden' name='handleCart' value='ducks')
+                //-form(method='post' action='/home/cart/'+item.id)
+                form(method='post' action=item.urlCart)
                     button
-                        i(class='fas fa-cart-plus')
+                        i.fas.fa-cart-plus
