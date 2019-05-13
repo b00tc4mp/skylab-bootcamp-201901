@@ -1,8 +1,6 @@
 const express = require('express')
 const { injectLogic, checkLogin } = require('./middlewares')
-const render = require('./components/render')
 const package = require('./package.json')
-const { Register, Home } = require('./components')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 
@@ -29,7 +27,7 @@ app.get('/', checkLogin('/home'), (req, res) => {
 })
 
 app.get('/register', checkLogin('/home'), (req, res) => {
-    res.send(render(new Register().render()))
+    res.render('register')
 })
 
 app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
@@ -37,12 +35,12 @@ app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
 
     try {
         logic.registerUser(name, surname, email, password)
-            .then(() => res.send(render(`<p>Ok, user correctly registered, you can now proceed to <a href="/login">login</a></p>`)))
+            .then(() => res.render('register-ok'))
             .catch(({ message }) => {
-                res.send(render(new Register().render({ name, surname, email, message })))
+                res.render('register', { name, surname, email, message })
             })
     } catch ({ message }) {
-        res.send(render(new Register().render({ name, surname, email, message })))
+        res.render('register', { name, surname, email, message })
     }
 })
 
@@ -70,8 +68,8 @@ app.get('/home', checkLogin('/', false), (req, res) => {
     const { logic } = req
 
     logic.retrieveUser()
-        .then(({ name }) => res.send(render(new Home().render({ name }))))
-        .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
+        .then(({ name }) => res.render('home', { name }))
+        .catch(({ message }) => res.render('home', { message }))
 })
 
 app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => {
@@ -81,12 +79,17 @@ app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => 
 
     logic.searchDucks(query)
         .then(ducks => {
-            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ url: `/home/duck/${id}`, title, image, price }))
+            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, favUrl: `/home/fav/${id}`, cartUrl: `/home/cart/${id}`, title, image, price }))
 
-            return logic.retrieveUser()
-                .then(({ name }) => res.send(render(new Home().render({ name, query, ducks }))))
+            return logic.retrieveFavDucks()
+                .then(favs => {
+                    ducks.forEach(duck => duck.isFav = favs.some(fav => fav.id === duck.id))
+
+                    return logic.retrieveUser()
+                        .then(({ name }) => res.render('home', { name, query, ducks }))
+                })
         })
-        .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
+        .catch(({ message }) => res.render('home', { name, query, message }))
 })
 
 app.get('/home/duck/:id', checkLogin('/', false), (req, res) => {
@@ -94,11 +97,24 @@ app.get('/home/duck/:id', checkLogin('/', false), (req, res) => {
 
     logic.retrieveDuck(id)
         .then(({ title, imageUrl: image, description, price }) => {
-            const duck = { title, image, description, price }
+            const duck = { title, image, description, price, favUrl: `/home/fav/${id}`, cartUrl: `/home/cart/${id}` }
 
-            return logic.retrieveUser()
-                .then(({ name }) => res.send(render(new Home().render({ query, name, duck }))))
+            return logic.retrieveFavDucks()
+                .then(favs => {
+                    duck.isFav = favs.some(fav => fav.id === id)
+
+                    return logic.retrieveUser()
+                        .then(({ name }) => res.render('home', { query, name, duck }))
+                })
         })
+})
+
+app.post('/home/fav/:id', checkLogin('/', false), (req, res) => {
+    const { params: { id }, logic, session: { query } } = req
+
+    logic.toggleFavDuck(id)
+        .then(() => res.redirect(req.get('referer')))
+        .catch(({ message }) => res.render('home', { name, query, message }))
 })
 
 app.post('/logout', (req, res) => {
@@ -108,6 +124,7 @@ app.post('/logout', (req, res) => {
 })
 
 app.use(function (req, res, next) {
+    debugger
     res.redirect('/')
 })
 
