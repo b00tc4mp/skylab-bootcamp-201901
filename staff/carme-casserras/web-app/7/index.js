@@ -2,7 +2,7 @@ const express = require('express')
 const { injectLogic, checkLogin } = require('./middlewares')
 const render = require('./components/render')
 const package = require('./package.json')
-// const { Register, Home } = require('./components')
+const { Register, Home } = require('./components')
 const bodyParser = require('body-parser')
 const session = require('express-session')
 
@@ -29,7 +29,7 @@ app.get('/', checkLogin('/home'), (req, res) => {
 })
 
 app.get('/register', checkLogin('/home'), (req, res) => {
-    res.render('register')
+    res.send(render(new Register().render()))
 })
 
 app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
@@ -37,11 +37,12 @@ app.post('/register', [checkLogin('/home'), urlencodedParser], (req, res) => {
 
     try {
         logic.registerUser(name, surname, email, password)
-            .then(() => res.render('login', {message: 'Ok, user correctly registered, you can now proceed'}))
-            .catch(({ message }) => res.render('register', { name, surname, email, message }))
-
+            .then(() => res.send(render(`<p>Ok, user correctly registered, you can now proceed to <a href="/login">login</a></p>`)))
+            .catch(({ message }) => {
+                res.send(render(new Register().render({ name, surname, email, message })))
+            })
     } catch ({ message }) {
-        res.render('register', { name, surname, email, message })
+        res.send(render(new Register().render({ name, surname, email, message })))
     }
 })
 
@@ -69,51 +70,35 @@ app.get('/home', checkLogin('/', false), (req, res) => {
     const { logic } = req
 
     logic.retrieveUser()
-        .then(({ name }) => res.render('home',{ name }))
-        .catch(({ message }) => res.render('home', {message}))
+        .then(({ name }) => res.send(render(new Home().render({ name }))))
+        .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
 })
-
 
 app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => {
     const { query: { query }, logic, session } = req
 
     session.query = query
 
-    Promise.all([logic.searchDucks(query), logic.retrieveFavDucks()])    
-        .then(([ducks, favs]) => {
-            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price }))
-            
+    logic.searchDucks(query)
+        .then(ducks => {
+            ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ url: `/home/duck/${id}`, title, image, price }))
+            debugger
             return logic.retrieveUser()
-                .then(({ name }) => res.render('home', { name, query, ducks, favs }))
+                .then(({ name }) => res.send(render(new Home().render({ name, query, ducks }))))
         })
-        .catch(({ message }) => res.render('home', {message}))
+        .catch(({ message }) => res.send(render(`<p>${message}</p>`)))
 })
-
-app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => {
-    const { query: { query }, logic, session } = req
-
-    session.query = query
-
-    logic.toggleFavDuck(id)
-    .then(( favs) => {
-        ducks = ducks.map(({ id, title, imageUrl: image, price }) => ({ id, url: `/home/duck/${id}`, title, image, price }))
-        
-        return logic.retrieveFavDucks()
-            .then(({ name }) => res.render('home', { name, query, ducks, favs }))
-    })
-    .catch(({ message }) => res.render('home', {message}))
-})
-
 
 app.get('/home/duck/:id', checkLogin('/', false), (req, res) => {
     const { params: { id }, logic, session: { query } } = req
+debugger
 
     logic.retrieveDuck(id)
         .then(({ title, imageUrl: image, description, price }) => {
             const duck = { title, image, description, price }
 
             return logic.retrieveUser()
-                .then(({ name }) => res.render('home', { query, name, duck }))
+                .then(({ name }) => res.send(render(new Home().render({ query, name, duck }))))
         })
 })
 
