@@ -1,7 +1,7 @@
 const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
-const { LogicError } = require('../common/errors')
+const { LogicError, UnknownError } = require('../common/errors')
 const _token = require('../common/token')
 
 const logic = {
@@ -18,8 +18,7 @@ const logic = {
         return userApi.create(email, password, { name, surname })
             .then(response => {
                 if (response.status === 'OK') return
-
-                throw new LogicError(response.error)
+                else throw new LogicError(response.error)
             })
     },
 
@@ -33,11 +32,8 @@ const logic = {
 
         return userApi.authenticate(email, password)
             .then(response => {
-                if (response.status === 'OK') {
-                    const { data: { token } } = response
-
-                    return token
-                } else throw new LogicError(response.error)
+                if (response.status === 'OK') return response.data.token
+                else throw new LogicError(response.error)
             })
     },
 
