@@ -2,6 +2,7 @@ const express = require('express')
 const package = require('./package.json')
 const bodyParser = require('body-parser')
 const logic = require('./logic')
+const handleErrors = require('./routes/handle-errors')
 
 const jsonParser = bodyParser.json()
 
@@ -11,16 +12,11 @@ const app = express()
 
 app.post('/user', jsonParser, (req, res) => {
     const { body: { name, surname, email, password } } = req
-    
-    try {
+
+    handleErrors(() =>
         logic.registerUser(name, surname, email, password)
-            .then(() => res.json({ message: 'Ok, user registered. '}))
-            .catch(({ message }) => {
-                res.status(400).json({ error: message})
-            })
-    } catch ({ message }) {
-        res.status(400).json({ error: message})
-    }
+            .then(() => res.status(201).json({ message: 'Ok, user registered. ' })),
+    res)
 })
 
 // TODO other routes
