@@ -54,13 +54,11 @@ const logic = {
             })
     },
 
-    updateUser(token, data) {
+    updateUser(id, token, data) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'data', value: data, type: 'object', notEmpty: true }
         ])
-
-        const { id } = _token.payload(token)
 
         return userApi.update(id, token, data)
             .then(response => {
