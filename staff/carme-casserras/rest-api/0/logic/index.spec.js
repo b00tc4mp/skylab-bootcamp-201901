@@ -5,13 +5,14 @@ const duckApi = require('../data/duck-api')
 const atob = require('atob')
 
 describe('logic', () => {
-    describe('users', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        let email
-        const password = '123'
+    const name = 'Manuel'
+    const surname = 'Barzi'
+    let email
+    const password = '123'
 
-        beforeEach(() => email = `manuelbarzi-${Math.random()}@gmail.com`)
+    beforeEach(() => email = `manuelbarzi-${Math.random()}@gmail.com`)
+
+    describe('users', () => {
 
         describe('register user', () => {
             it('should succeed on correct user data', () =>
@@ -230,7 +231,7 @@ describe('logic', () => {
         })
 
         describe('retrieve fav ducks', () => {
-            let id, token, _favs
+            let token, _favs
 
             beforeEach(() => {
                 _favs = []
@@ -277,7 +278,7 @@ describe('logic', () => {
     })
 
     describe('ducks', () => {
-        let id, token
+        let token
 
         beforeEach(() => {
             return userApi.create(email, password, { name, surname })

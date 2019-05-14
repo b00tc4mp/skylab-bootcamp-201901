@@ -2,13 +2,9 @@ const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
-const token = require('../common/token')
+const _token = require('../common/token')
 
-// TODO move to single object in memory (logic)
-
-const logic =  { 
-
-
+const logic = {
     registerUser(name, surname, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -38,15 +34,21 @@ const logic =  {
         return userApi.authenticate(email, password)
             .then(response => {
                 if (response.status === 'OK') {
-                    const { data: { token, id } } = response
+                    const { data: { token } } = response
 
                     return token
                 } else throw new LogicError(response.error)
             })
     },
 
-    retrieveUser() {
-        return userApi.retrieve(userId, userToken)
+    retrieveUser(token) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true }
+        ])
+
+        const { id } = _token.payload(token)
+
+        return userApi.retrieve(id, token)
             .then(response => {
                 if (response.status === 'OK') {
                     const { data: { name, surname, username: email } } = response
@@ -56,46 +58,60 @@ const logic =  {
             })
     },
 
-    logoutUser() {
-        // ?
-    },
-
-
     searchDucks(token, query) {
         validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'query', value: query, type: 'string' }
         ])
 
-        return duckApi.searchDucks(query)
-            .then(ducks => ducks instanceof Array ? ducks : [])
+        const { id } = _token.payload(token)
+
+        return userApi.retrieve(id, token)
+            .then(response => {
+                if (response.status === 'OK') {
+                    return duckApi.searchDucks(query)
+                        .then(ducks => ducks instanceof Array ? ducks : [])
+                } else throw new LogicError(response.error)
+            })
     },
 
     retrieveDuck(token, id) {
         validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'id', value: id, type: 'string' }
         ])
 
-        return duckApi.retrieveDuck(id)
+        const { id: _id } = _token.payload(token)
+
+        return userApi.retrieve(_id, token)
+            .then(response => {
+                if (response.status === 'OK') {
+                    return duckApi.retrieveDuck(id)
+                } else throw new LogicError(response.error)
+            })
     },
 
     toggleFavDuck(token, id) {
         validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'id', value: id, type: 'string' }
         ])
 
-        return userApi.retrieve(userId, userToken) // Crec que amb el token és suficient
+        const { id: _id } = _token.payload(token)
+
+        return userApi.retrieve(_id, token)
             .then(response => {
                 const { status, data } = response
 
                 if (status === 'OK') {
-                    const { favs = [] } = data // NOTE if data.favs === undefined then favs = []
+                    const { favs = [] } = data
 
                     const index = favs.indexOf(id)
 
                     if (index < 0) favs.push(id)
                     else favs.splice(index, 1)
 
-                    return userApi.update(userId, userToken, { favs }) // Crec que amb el token és suficient
+                    return userApi.update(_id, token, { favs })
                         .then(() => { })
                 }
 
@@ -103,8 +119,14 @@ const logic =  {
             })
     },
 
-    retrieveFavDucks() {
-        return userApi.retrieve(userId, userToken) // Crec que amb el token és suficient
+    retrieveFavDucks(token) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true }
+        ])
+
+        const { id: _id } = _token.payload(token)
+
+        return userApi.retrieve(_id, token)
             .then(response => {
                 const { status, data } = response
 
@@ -123,4 +145,4 @@ const logic =  {
     }
 }
 
-// module.exports = Logic
+module.exports = logic
