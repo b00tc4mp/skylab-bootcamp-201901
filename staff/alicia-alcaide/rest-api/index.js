@@ -2,6 +2,7 @@ const express = require('express')
 const package = require('./package.json')
 const bodyParser = require('body-parser')
 const logic = require('./logic')
+const handleErrors = require('./handle-errors')
 
 const jsonParser = bodyParser.json()
 
