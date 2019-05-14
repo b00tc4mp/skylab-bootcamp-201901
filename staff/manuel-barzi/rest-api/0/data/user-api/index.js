@@ -16,7 +16,6 @@ const userApi = {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password, ...data })
         })
-            .then(response => response.json())
     },
 
     authenticate(username, password) {
@@ -30,7 +29,6 @@ const userApi = {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ username, password })
         })
-            .then(response => response.json())
     },
 
     retrieve(id, token) {
@@ -42,7 +40,6 @@ const userApi = {
         return call(`${this.__url__}/user/${id}`, {
             headers: { Authorization: `Bearer ${token}` }
         })
-            .then(response => response.json())
     },
 
     update(id, token, data) {
@@ -60,7 +57,6 @@ const userApi = {
             },
             body: JSON.stringify(data)
         })
-            .then(response => response.json())
     },
 }
 
