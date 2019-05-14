@@ -14,7 +14,7 @@ const userApi = {
         return call(`${this.__url__}/user`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password, ...data })
+            data: { username, password, ...data }
         })
     },
 
@@ -27,7 +27,7 @@ const userApi = {
         return call(`${this.__url__}/auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            data: { username, password }
         })
     },
 
@@ -55,7 +55,7 @@ const userApi = {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            data
         })
     },
 }
