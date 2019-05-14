@@ -1,26 +1,10 @@
 const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
-const { LogicError } = require('../common/errors')
-const token = require('../common/token')
+const { LogicError, UnknownError } = require('../common/errors')
+const _token = require('../common/token')
 
-class Logic { // TODO move to single object in memory (logic)
-    constructor(token) {
-        this.__userToken__ = token
-    }
-
-    get __userId__() {
-        if (this.__userToken__) {
-            const payload = token.payload(this.__userToken__)
-
-            return payload.id
-        }
-    }
-
-    get isUserLoggedIn() {
-        return !!this.__userToken__
-    }
-
+const logic = {
     registerUser(name, surname, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -34,12 +18,11 @@ class Logic { // TODO move to single object in memory (logic)
         return userApi.create(email, password, { name, surname })
             .then(response => {
                 if (response.status === 'OK') return
-
-                throw new LogicError(response.error)
+                else throw new LogicError(response.error)
             })
-    }
+    },
 
-    loginUser(email, password) {
+    authenticateUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
@@ -49,16 +32,19 @@ class Logic { // TODO move to single object in memory (logic)
 
         return userApi.authenticate(email, password)
             .then(response => {
-                if (response.status === 'OK') {
-                    const { data: { token } } = response
-
-                    this.__userToken__ = token
-                } else throw new LogicError(response.error)
+                if (response.status === 'OK') return response.data.token
+                else throw new LogicError(response.error)
             })
-    }
+    },
 
-    retrieveUser() {
-        return userApi.retrieve(this.__userId__, this.__userToken__)
+    retrieveUser(token) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true }
+        ])
+
+        const { id } = _token.payload(token)
+
+        return userApi.retrieve(id, token)
             .then(response => {
                 if (response.status === 'OK') {
                     const { data: { name, surname, username: email } } = response
@@ -66,57 +52,77 @@ class Logic { // TODO move to single object in memory (logic)
                     return { name, surname, email }
                 } else throw new LogicError(response.error)
             })
-    }
+    },
 
-    logoutUser() {
-        // ?
-    }
-
-
-    searchDucks(query) {
+    searchDucks(token, query) {
         validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'query', value: query, type: 'string' }
         ])
 
-        return duckApi.searchDucks(query)
-            .then(ducks => ducks instanceof Array ? ducks : [])
-    }
+        const { id } = _token.payload(token)
 
-    retrieveDuck(id) {
+        return userApi.retrieve(id, token)
+            .then(response => {
+                if (response.status === 'OK') {
+                    return duckApi.searchDucks(query)
+                        .then(ducks => ducks instanceof Array ? ducks : [])
+                } else throw new LogicError(response.error)
+            })
+    },
+
+    retrieveDuck(token, id) {
         validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'id', value: id, type: 'string' }
         ])
 
-        return duckApi.retrieveDuck(id)
-    }
+        const { id: _id } = _token.payload(token)
 
-    toggleFavDuck(id) {
+        return userApi.retrieve(_id, token)
+            .then(response => {
+                if (response.status === 'OK') {
+                    return duckApi.retrieveDuck(id)
+                } else throw new LogicError(response.error)
+            })
+    },
+
+    toggleFavDuck(token, id) {
         validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'id', value: id, type: 'string' }
         ])
 
-        return userApi.retrieve(this.__userId__, this.__userToken__)
+        const { id: _id } = _token.payload(token)
+
+        return userApi.retrieve(_id, token)
             .then(response => {
                 const { status, data } = response
 
                 if (status === 'OK') {
-                    const { favs = [] } = data // NOTE if data.favs === undefined then favs = []
+                    const { favs = [] } = data
 
                     const index = favs.indexOf(id)
 
                     if (index < 0) favs.push(id)
                     else favs.splice(index, 1)
 
-                    return userApi.update(this.__userId__, this.__userToken__, { favs })
+                    return userApi.update(_id, token, { favs })
                         .then(() => { })
                 }
 
                 throw new LogicError(response.error)
             })
-    }
+    },
 
-    retrieveFavDucks() {
-        return userApi.retrieve(this.__userId__, this.__userToken__)
+    retrieveFavDucks(token) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true }
+        ])
+
+        const { id: _id } = _token.payload(token)
+
+        return userApi.retrieve(_id, token)
             .then(response => {
                 const { status, data } = response
 
@@ -135,4 +141,4 @@ class Logic { // TODO move to single object in memory (logic)
     }
 }
 
-module.exports = Logic
+module.exports = logic

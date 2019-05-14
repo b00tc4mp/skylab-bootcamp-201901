@@ -14,9 +14,8 @@ const userApi = {
         return call(`${this.__url__}/user`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password, ...data })
+            data: { username, password, ...data }
         })
-            .then(response => response.json())
     },
 
     authenticate(username, password) {
@@ -28,9 +27,8 @@ const userApi = {
         return call(`${this.__url__}/auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ username, password })
+            data: { username, password }
         })
-            .then(response => response.json())
     },
 
     retrieve(id, token) {
@@ -42,7 +40,6 @@ const userApi = {
         return call(`${this.__url__}/user/${id}`, {
             headers: { Authorization: `Bearer ${token}` }
         })
-            .then(response => response.json())
     },
 
     update(id, token, data) {
@@ -58,9 +55,8 @@ const userApi = {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify(data)
+            data
         })
-            .then(response => response.json())
     },
 }
 
