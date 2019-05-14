@@ -60,6 +60,12 @@ class UnhandledError extends Error {
     }
 }
 
+class UnauthorizedError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
 module.exports = {
     ValueError,
     FormatError,
@@ -70,5 +76,6 @@ module.exports = {
     HttpError,
     UnknownError,
     UnexpectedError,
-    UnhandledError
+    UnhandledError,
+    UnauthorizedError
 }
