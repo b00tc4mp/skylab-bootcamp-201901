@@ -33,6 +33,19 @@ class TimeoutError extends Error {
 class LogicError extends Error {
     constructor(message) {
         super(message)
+        // this.status = 406
+    }
+}
+
+class HttpError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
+class UnauthorizedError extends Error {
+    constructor(message) {
+        super(message)
     }
 }
 
@@ -42,5 +55,7 @@ module.exports = {
     RequirementError,
     ConnectionError,
     TimeoutError,
-    LogicError
+    LogicError, 
+    HttpError,
+    UnauthorizedError
 }

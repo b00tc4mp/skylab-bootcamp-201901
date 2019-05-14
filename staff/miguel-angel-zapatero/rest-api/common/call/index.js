@@ -1,5 +1,5 @@
 const validate = require('../validate')
-const { ConnectionError, TimeoutError } = require('../errors')
+const { ConnectionError, HttpError } = require('../errors')
 require('isomorphic-fetch')
 
 /**
@@ -22,12 +22,20 @@ function call(url, options = {}) {
     ])
 
     validate.url(url)
-
+    
     return fetch(url, {
         method,
         headers,
         body
     })
+        .then(response => {
+            debugger
+            if(!response.ok) {
+                const error = new HttpError(response.statusText)
+                error.status = response.status
+                throw error
+            } else return response 
+        })
         .catch(error => {
             if (error.name === 'FetchError') throw new ConnectionError('cannot connect')
             else throw error
