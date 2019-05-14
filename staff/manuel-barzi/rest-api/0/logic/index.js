@@ -17,11 +17,8 @@ const logic = {
 
         return userApi.create(email, password, { name, surname })
             .then(response => {
-                if (response.data) 
-                    if (response.data.status === 'OK') return
-                    else throw new LogicError(response.data.error)
-
-                throw new UnknownError(response)
+                if (response.status === 'OK') return
+                else throw new LogicError(response.error)
             })
     },
 
@@ -35,11 +32,8 @@ const logic = {
 
         return userApi.authenticate(email, password)
             .then(response => {
-                if (response.status === 'OK') {
-                    const { data: { token } } = response
-
-                    return token
-                } else throw new LogicError(response.error)
+                if (response.status === 'OK') return response.data.token
+                else throw new LogicError(response.error)
             })
     },
 
