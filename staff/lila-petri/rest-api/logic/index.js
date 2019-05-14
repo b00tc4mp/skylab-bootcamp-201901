@@ -2,22 +2,9 @@ const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
-const token = require('../common/token')
+const _token = require('../common/token')
 
-const logic = { 
-    
-    // get __userId__() {
-    //     if (this.__userToken__) {
-    //         const payload = token.payload(this.__userToken__)
-
-    //         return payload.id
-    //     }
-    // },
-
-    // get isUserLoggedIn() {
-    //     return !!this.__userToken__
-    // },
-
+const logic = {
     registerUser(name, surname, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -48,19 +35,20 @@ const logic = {
             .then(response => {
                 if (response.status === 'OK') {
                     const { data: { token } } = response
+
                     return token
                 } else throw new LogicError(response.error)
             })
     },
 
-    retrieveUser(userToken) {
+    retrieveUser(token) {
         validate.arguments([
-            { name: 'userToken', value: userToken, type: 'string', notEmpty : true }
+            { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
 
-        const payload = token.payload(userToken)
-        
-        return userApi.retrieve(payload.id, userToken)
+        const { id } = _token.payload(token)
+
+        return userApi.retrieve(id, token)
             .then(response => {
                 if (response.status === 'OK') {
                     const { data: { name, surname, username: email } } = response
@@ -70,57 +58,60 @@ const logic = {
             })
     },
 
-    logoutUser() {
-        // ?
-    },
-
-
-    searchDucks(userToken, query) {
+    searchDucks(token, query) {
         validate.arguments([
-            { name: 'query', value: query, type: 'string' },
-            { name: 'userToken', userToken: query, type: 'string' }
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'query', value: query, type: 'string' }
         ])
-        const payload = token.payload(userToken)
-        return userApi.retrieve(payload.id, userToken)
-            .then(response =>{
-                const { status } = response
-                if(status === 'OK'){
 
+        const { id } = _token.payload(token)
+
+        return userApi.retrieve(id, token)
+            .then(response => {
+                if (response.status === 'OK') {
                     return duckApi.searchDucks(query)
-                }
+                        .then(ducks => ducks instanceof Array ? ducks : [])
+                } else throw new LogicError(response.error)
             })
-
-            .then(ducks => ducks instanceof Array ? ducks : [])
     },
 
-    retrieveDuck(id) {
+    retrieveDuck(token, id) {
         validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'id', value: id, type: 'string' }
         ])
 
-        return duckApi.retrieveDuck(id)
+        const { id: _id } = _token.payload(token)
+
+        return userApi.retrieve(_id, token)
+            .then(response => {
+                if (response.status === 'OK') {
+                    return duckApi.retrieveDuck(id)
+                } else throw new LogicError(response.error)
+            })
     },
 
-    toggleFavDuck(userToken, id) {
+    toggleFavDuck(token, id) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty : true  },
-            { name: 'userToken', value: userToken, type: 'string', notEmpty : true  }
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'id', value: id, type: 'string' }
         ])
-        const payload = token.payload(userToken)
 
-        return userApi.retrieve(payload.id, userToken)
+        const { id: _id } = _token.payload(token)
+
+        return userApi.retrieve(_id, token)
             .then(response => {
                 const { status, data } = response
 
                 if (status === 'OK') {
-                    const { favs = [] } = data // NOTE if data.favs === undefined then favs = []
+                    const { favs = [] } = data
 
                     const index = favs.indexOf(id)
 
                     if (index < 0) favs.push(id)
                     else favs.splice(index, 1)
 
-                    return userApi.update(payload.id, userToken, { favs })
+                    return userApi.update(_id, token, { favs })
                         .then(() => { })
                 }
 
@@ -128,13 +119,14 @@ const logic = {
             })
     },
 
-    retrieveFavDucks(userToken) {
+    retrieveFavDucks(token) {
         validate.arguments([
-            { name: 'userToken', value: userToken, type: 'string', notEmpty : true  }
+            { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
 
-        const payload = token.payload(userToken)
-        return userApi.retrieve(payload.id, userToken)
+        const { id: _id } = _token.payload(token)
+
+        return userApi.retrieve(_id, token)
             .then(response => {
                 const { status, data } = response
 
