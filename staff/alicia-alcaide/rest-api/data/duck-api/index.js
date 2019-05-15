@@ -10,7 +10,6 @@ const duckApi = {
         ])
 
         return call(`${this.__url__}/search?q=${query}`)
-            .then(response => response.json())
     },
 
     retrieveDuck(id) {
@@ -19,7 +18,6 @@ const duckApi = {
         ])
 
         return call(`${this.__url__}/ducks/${id}`)
-            .then(response => response.json())
     }
 }
 

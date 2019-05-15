@@ -177,6 +177,63 @@ describe('logic', () => {
             )
         })
 
+
+        describe('delete user', () => {
+            let token
+
+            beforeEach(() =>
+                userApi.create(email, password, { name, surname })
+                    .then(response => {
+                        id = response.data.id
+
+                        return userApi.authenticate(email, password)
+                    })
+                    .then(response => {
+                        token = response.data.token
+                    })
+            )
+
+            it('should succeed on correct user id and token', () =>
+                logic.deleteUser(token, email, password)
+                    .then(response => {
+                        expect(response).toBe('OK')
+                    })
+            )
+        })
+
+        describe('update user', () => {
+            let token, id
+            const _name = 'Ali'
+            const _surname = 'AA'
+            const _password = '123aa'
+
+            beforeEach(() =>
+                userApi.create(email, password, { name, surname })
+                    .then(response => {
+                        id = response.data.id
+
+                        return userApi.authenticate(email, password)
+                    })
+                    .then(response => {
+                        token = response.data.token
+                    })
+            )
+
+            it('should succeed on correct user id and token', () =>
+                
+                logic.updateUser(token, _name, _surname, _password)
+                    .then(response => expect(response).toBe('OK'))
+                    .then(() => userApi.retrieve(id, token))
+                    .then(response => {
+                        const { data: { name, surname } } = response
+
+                        expect(_name).toBe(name)
+                        expect(_surname).toBe(surname)
+                    })
+            )
+        })
+
+
         describe('toggle fav duck', () => {
             let id, token, duckId
 
