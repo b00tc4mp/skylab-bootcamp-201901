@@ -33,7 +33,6 @@ class TimeoutError extends Error {
 class LogicError extends Error {
     constructor(message) {
         super(message)
-        // this.status = 406
     }
 }
 

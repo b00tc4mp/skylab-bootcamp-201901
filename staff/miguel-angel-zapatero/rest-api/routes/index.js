@@ -13,7 +13,7 @@ router.post('/users', jsonParser, (req, res) => {
     
     handleErrors(() =>
         logic.registerUser(name, surname, email, password)
-            .then(() => res.status(201).json({ message: 'Ok, user registered. '})), 
+            .then(() => res.status(201).json({ message: 'Ok, user registered.'})), 
         res)
 })
 
@@ -40,12 +40,34 @@ router.get('/users', jsonParser, (req, res) => {
     }, res)
 })
 
-router.delete('/users/del', jsonParser, (req, res) => {
-    // TODO
+router.delete('/users/delete', jsonParser, (req, res) => {
+    handleErrors(() => {
+        const { headers: { authorization }, body: { email, password}  } = req
+        debugger
+        if (!authorization) throw new UnauthorizedError()
+
+        const token = authorization.split(' ')[1]
+
+        if (!token) throw new UnauthorizedError()
+        
+        return logic.deleteUser(token, email, password)
+            .then(() =>res.json({ message: 'Ok, user deleted.'}))
+    }, res)
 })
 
 router.put('/users/update', jsonParser, (req, res) => {
-    //TODO
+    handleErrors(() => {
+        const { headers: { authorization }, body: data  } = req
+        
+        if (!authorization) throw new UnauthorizedError()
+
+        const token = authorization.split(' ')[1]
+
+        if (!token) throw new UnauthorizedError()
+        
+        return logic.updateUser(token, data)
+            .then(() =>res.json({ message: 'Ok, user updated.'}))
+    }, res)
 })
 
 router.post('/ducks/:id/fav', jsonParser, (req, res) => {

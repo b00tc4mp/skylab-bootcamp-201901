@@ -29,7 +29,6 @@ function call(url, options = {}) {
         body
     })
         .then(response => {
-            debugger
             if(!response.ok) {
                 const error = new HttpError(response.statusText)
                 error.status = response.status

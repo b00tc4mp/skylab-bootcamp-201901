@@ -1,4 +1,4 @@
-const { LogicError, ValueError, RequirementError, UnknownError, UnauthorizedError } = require('../common/errors')
+const { LogicError, ValueError, RequirementError, UnauthorizedError } = require('../common/errors')
 
 function handleErrors(callback, res) {
     try {

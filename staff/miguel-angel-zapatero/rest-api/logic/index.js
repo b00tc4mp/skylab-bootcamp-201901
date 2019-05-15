@@ -58,6 +58,39 @@ const logic = {
             })
     },
 
+    updateUser(token, data) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object', notEmpty: true }
+        ])
+
+        const { id } = _token.payload(token)
+        
+        return userApi.update(id, token, data)
+            .then(response => {
+                if (response.status === 'OK') return
+
+                throw new LogicError(response.error)
+            })
+    },
+
+    deleteUser(token, email, password) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true }
+        ])
+
+        const { id } = _token.payload(token)
+        
+        return userApi.delete(id, token, email, password)
+            .then(response => {
+                if (response.status === 'OK') return
+
+                throw new LogicError(response.error)
+            })
+    },
+
     searchDucks(token, query) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },

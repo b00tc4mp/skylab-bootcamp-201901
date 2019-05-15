@@ -264,4 +264,75 @@ describe('user api', () => {
                 })
         )
     })
+
+    describe('delete', () => {
+        let _id, token
+
+        beforeEach(() => {
+            return userApi.create(username, password, { name, surname })
+                .then(response => {
+                    _id = response.data.id
+
+                    return userApi.authenticate(username, password)
+                })
+                .then(response => token = response.data.token)
+        })
+
+        it('should succeed on correct data', () =>
+            userApi.delete(_id, token, username, password)
+                .then(response => {
+                    const { status } = response
+
+                    expect(status).toBe('OK')
+                })
+                .then(() => userApi.retrieve(_id, token))
+                .then(response => {
+                    const { status, error } = response
+                    debugger
+                    expect(status).toBe('KO')
+                    expect(error).toBe(`user with id \"${_id}\" does not exist`)
+                })
+        )
+
+        it('should fail on unexisting user', () =>
+            userApi.delete(_id, token, 'fake_user', password)
+                .then(response => {
+                    const { status, error } = response
+
+                    expect(status).toBe('KO')
+                    expect(error).toBe("username and/or password wrong")
+                })
+        )
+
+        it('should fail on wrong password', () =>
+            userApi.delete(_id, token, username, 'bad_password')
+                .then(response => {
+                    const { status, error } = response
+                    
+                    expect(status).toBe('KO')
+                    expect(error).toBe("username and/or password wrong")
+                })
+        )
+
+        it('should fail on wrong id', () => {
+            const badId = '5cdaf2b69d905b000948'
+            return userApi.delete(badId, token, username, password)
+                .then(response => {
+                    const { status, error } = response
+                    
+                    expect(status).toBe('KO')
+                    expect(error).toBe(`token id \"${_id}\" does not match user \"${badId}\"`)
+                })
+        })
+
+        it('should fail on invalid token', () =>
+            userApi.delete(_id, 'bad token', username, password)
+                .then(response => {
+                    const { status, error } = response
+
+                    expect(status).toBe('KO')
+                    expect(error).toBe("invalid token")
+                })
+        )
+    })
 })

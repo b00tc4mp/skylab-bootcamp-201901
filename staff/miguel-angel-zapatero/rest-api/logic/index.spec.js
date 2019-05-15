@@ -3,6 +3,7 @@ const { LogicError, RequirementError, ValueError, FormatError } = require('../co
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const atob = require('atob')
+const _token = require('../common/token')
 
 describe('logic', () => {
     const name = 'Manuel'
@@ -173,6 +174,110 @@ describe('logic', () => {
                         expect(user.surname).toBe(surname)
                         expect(user.email).toBe(email)
                         expect(user.password).toBeUndefined()
+                    })
+            )
+        })
+
+        describe('update user', () => {
+            let _id, token, _data
+            
+            beforeEach(() => {
+                _data = { array: [1, "2", true], hello: 'world', object: { key: 'value' } }
+    
+                return userApi.create(email, password, { name, surname })
+                    .then(() => userApi.authenticate(email, password))
+                    .then(response => {
+                        token = response.data.token
+                        const { id } = _token.payload(token)
+                        _id = id
+                    })
+            })
+    
+            it('should succeed on correct data', () =>
+                logic.updateUser(token, _data)
+                    .then(response => {
+                        expect(response).toBeUndefined()
+                    })
+                    .then(() => userApi.retrieve(_id, token))
+                    .then(response => {
+                        const { status, data } = response
+    
+                        expect(status).toBe('OK')
+                        expect(data).toBeDefined()
+    
+                        expect(data.id).toBe(_id)
+                        expect(data.name).toBe(name)
+                        expect(data.surname).toBe(surname)
+                        expect(data.username).toBe(email)
+                        expect(data.password).toBeUndefined()
+    
+                        expect(data.array).toEqual(_data.array)
+                        expect(data.hello).toBe(_data.hello)
+                        expect(data.object).toEqual(_data.object)
+                    })
+            )
+    
+            it('should succeed on correct data re-updating', () =>
+                logic.updateUser(token, _data)
+                    .then(response => {
+                        expect(response).toBeUndefined()
+                    })
+                    .then(() => {
+                        _data.array = [2, 'b', false]
+                        _data.hello = 'mundo'
+                        _data.object = { property: 'something' }
+    
+                        return userApi.update(_id, token, _data)
+                    })
+                    .then(response => {
+                        const { status, data } = response
+    
+                        expect(status).toBe('OK')
+                        expect(data).toBeUndefined()
+                    })
+                    .then(() => userApi.retrieve(_id, token))
+                    .then(response => {
+                        const { status, data } = response
+    
+                        expect(status).toBe('OK')
+                        expect(data).toBeDefined()
+    
+                        expect(data.id).toBe(_id)
+                        expect(data.name).toBe(name)
+                        expect(data.surname).toBe(surname)
+                        expect(data.username).toBe(email)
+                        expect(data.password).toBeUndefined()
+    
+                        expect(data.array).toEqual(_data.array)
+                        expect(data.hello).toBe(_data.hello)
+                        expect(data.object).toEqual(_data.object)
+                    })
+            )
+        })
+
+        describe('delete user', () => {
+            let _id, token, _data
+            
+            beforeEach(() => {
+                return userApi.create(email, password, { name, surname })
+                    .then(() => userApi.authenticate(email, password))
+                    .then(response => {
+                        token = response.data.token
+                        _id = response.data.id
+                    })
+            })
+    
+            it('should succeed on correct data', () =>
+                logic.deleteUser(token, email, password)
+                    .then(response => {
+                        expect(response).toBeUndefined()
+                    })
+                    .then(() => userApi.retrieve(_id, token))
+                    .then(response => {
+                        const { status, error } = response
+                        debugger
+                        expect(status).toBe('KO')
+                        expect(error).toBe(`user with id \"${_id}\" does not exist`)
                     })
             )
         })
