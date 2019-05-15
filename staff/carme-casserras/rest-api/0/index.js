@@ -10,6 +10,7 @@ const { argv: [, , port = 8080] } = process
 const app = express()
 
 app.post('/user', jsonParser, (req, res) => {
+    debugger
     const { body: { name, surname, email, password } } = req
     
     try {
@@ -36,7 +37,7 @@ app.post('/auth', jsonParser, (req, res) => {
     }
 })
 
-app.get('/user', jsonParser, (req, res) => {
+app.get('/user', (req, res) => {
     
     let {headers: {authorization} } = req
 
