@@ -13,7 +13,7 @@ router.post('/users', jsonParser, (req, res) => {
 
     handleErrors(() =>
         logic.registerUser(name, surname, email, password)
-            .then(() => res.status(201).json({ message: 'Ok, user registered. ' })),
+            .then(() => res.status(201).json({ message: 'Ok, user registered.' })),
         res)
 })
 
@@ -28,6 +28,7 @@ router.post('/users/auth', jsonParser, (req, res) => {
 
 router.get('/users', (req, res) => {
     handleErrors(() => {
+        debugger
         const { headers: { authorization } } = req
 
         if (!authorization) throw new UnauthorizedError()
@@ -60,6 +61,7 @@ router.post('/ducks/:id/fav', (req, res) => {
 
 router.get('/ducks/fav', (req, res) => {
     handleErrors(() => {
+        debugger
         const { headers: { authorization } } = req
 
         if (!authorization) throw new UnauthorizedError()
