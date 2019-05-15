@@ -3,6 +3,7 @@ import validate from '../common/validate'
 import normalize from '../common/normalize'
 import { LogicError, FormatError } from '../common/errors'
 import restApi from '../data/rest-api';
+import { RequirementError } from '../common/errors';
 
 const logic = {
   /**
@@ -64,6 +65,12 @@ const logic = {
   },
 
   updateUser(name, surname, email, password) {
+    validate.arguments([
+      { name: "name", value: name, type: "string", notEmpty: true },
+      { name: "surname", value: surname, type: "string", notEmpty: true },
+      { name: "email", value: email, type: "string", notEmpty: true },
+      { name: "password", value: password, type: "string", notEmpty: true },
+    ]);
     const user = {...this.__user__, favoriteDucks: this.__user__.favoriteDucks.map(duck => duck.id)};
 
     return restApi.updateUser(this.__token__, name, surname, email,password)
@@ -74,6 +81,9 @@ const logic = {
   },
 
   isFavorite(duck) {
+    validate.arguments([
+      { name: "duck", value: duck, type: "object", notEmpty: true },
+    ]);
     return logic.retrieveFavDucks()
       .then(ducks => ducks.some(_duck => _duck.id = duck.id))
   },
@@ -83,6 +93,7 @@ const logic = {
   },
 
   toggleFavorite(duck) {
+    if (typeof duck !== 'string' && typeof duck !== 'object' || duck == null) throw new RequirementError('id|duck is not optional');
     const duckId = duck.id || duck;
     return restApi.toggleDuck(logic.__token__, duckId)
   },

@@ -110,6 +110,7 @@ describe('logic', () => {
   });
 
   describe('ducks', () => {
+    let token;
 
     beforeEach(() => {
       const username = generateRandomEmail();
@@ -118,8 +119,80 @@ describe('logic', () => {
         .createUser(randomString(), randomString(), username, password)
         .then(() => restApi.loginUser(username, password))
         .then(res => {
-          return (logic.__token__ = res.token);
+          return (token = logic.__token__ = res.token);
         });
+    });
+
+    describe('toggle fav duck', () => {
+      let duckId;
+
+      beforeEach(() => restApi.searchDucks(token, '').then(ducks => (duckId = ducks[0].id)));
+
+      it('should succeed adding fav on first time', () =>
+        logic
+          .toggleFavorite(duckId)
+          .then(({ message }) => expect(message).toBe('Ok, duck toggled.'))
+          .then(() => restApi.retrieveFavDucks(token))
+          .then(favs => {
+            expect(favs).toBeDefined();
+            expect(favs instanceof Array).toBeTruthy();
+            expect(favs.length).toBe(1);
+            expect(favs[0].id).toBe(duckId);
+          }));
+
+      it('should succeed removing fav on second time', () =>
+        logic
+          .toggleFavorite(duckId)
+          .then(() => logic.toggleFavorite(duckId))
+          .then(() => restApi.retrieveFavDucks(token))
+          .then(favs => {
+            expect(favs).toBeDefined();
+            expect(favs instanceof Array).toBeTruthy();
+            expect(favs.length).toBe(0);
+          }));
+
+      it('should fail on null duck id', () => {
+        duckId = null;
+
+        expect(() => logic.toggleFavorite(duckId)).toThrowError(
+          new RequirementError('id|duck is not optional')
+        );
+      });
+
+      // TODO more cases
+    });
+
+    describe('retrieve fav ducks', () => {
+      let _favs;
+
+      beforeEach(() => {
+        _favs = [];
+
+        return restApi.searchDucks(token, '').then(ducks => {
+          for (let i = 0; i < 10; i++) {
+            const randomIndex = Math.floor(Math.random() * ducks.length);
+
+            _favs[i] = ducks.splice(randomIndex, 1)[0].id;
+          }
+        });
+      });
+
+      it('should succeed adding fav on first time', () =>
+        logic.retrieveFavDucks(token).then(ducks => {
+          ducks.forEach(({ id, title, imageUrl, description, price }) => {
+            const isFav = _favs.some(fav => fav === id);
+
+            expect(isFav).toBeTruthy();
+            expect(typeof title).toBe('string');
+            expect(title.length).toBeGreaterThan(0);
+            expect(typeof imageUrl).toBe('string');
+            expect(imageUrl.length).toBeGreaterThan(0);
+            expect(typeof description).toBe('string');
+            expect(description.length).toBeGreaterThan(0);
+            expect(typeof price).toBe('string');
+            expect(price.length).toBeGreaterThan(0);
+          });
+        }));
     });
 
     describe('search ducks', () => {
@@ -130,7 +203,7 @@ describe('logic', () => {
           expect(ducks.length).toBe(13);
         }));
 
-      // TODO fail cases
+      // TODO other cases
     });
   });
 });
