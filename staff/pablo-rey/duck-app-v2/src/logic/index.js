@@ -1,8 +1,8 @@
+//@ts-check
 import validate from '../common/validate'
 import normalize from '../common/normalize'
-import userApi from '../data/user-api'
-import duckApi from '../data/duck-api'
 import { LogicError, FormatError } from '../common/errors'
+import restApi from '../data/rest-api';
 
 const logic = {
   /**
@@ -22,9 +22,9 @@ const logic = {
 
     validate.email(email);
 
-    return userApi.create(name, surname, email, password)
+    return restApi.createUser(name, surname, email, password)
       .then(response => {
-          if (response.status === "OK") return undefined;
+          if (response.message) return undefined;
           throw new LogicError(response.error);
     });
   },
@@ -40,11 +40,10 @@ const logic = {
       { name: "password", value: password, type: "string", notEmpty: true },
     ]);
 
-    return userApi.authenticate(email, password)
+    return restApi.loginUser(email, password)
       .then(response => {
         if (response.error) throw new LogicError(response.error);
-        const { data: { id: userId, token }} = response;
-        this.__userId__ = userId;
+        const { token } = response;
         this.__token__ = token;
         return undefined;
       }
@@ -57,60 +56,39 @@ const logic = {
    * @param {string} token
    */
   retrieveUser() {
-    return userApi.retrieve(this.__userId__, this.__token__)
-      .then(response => {
-        if (response.status !== "OK")  throw new LogicError(response.error);
-        
-        this.__user__= {};
-        const { data } = response;
-        for (let key in data) {
-          if (key === 'username') this.__user__.email = data[key];
-          else if (key !==  'password') this.__user__[key]= data[key];
-        }        
-        return this.__user__;
+    return restApi.retrieveUser(this.__token__)
+      .then(res => {
+        if (res.error)  throw new LogicError(res.error);
+        return res
       })
-      .then(() => Promise.all(this.__user__.favoriteDucks.map(duckId => duckApi.retrieveDuck(duckId))))
-      .then(res => this.__user__.favoriteDucks = [...res])
-      .then(() => this.__user__);
   },
 
-  updateUser() {
+  updateUser(name, surname, email, password) {
     const user = {...this.__user__, favoriteDucks: this.__user__.favoriteDucks.map(duck => duck.id)};
 
-    return userApi.update(this.__userId__, this.__token__, user)
+    return restApi.updateUser(this.__token__, name, surname, email,password)
   },
 
   logout() {
-    this.__userId__ = null;
     this.__token__ = null;
   },
 
-  isFavorite: (duck) => {
-    if (!logic.__user__.favoriteDucks) return false;
-    const index = logic.__user__.favoriteDucks.findIndex(_duck => _duck.id === duck.id)
-    return index !== -1;
+  isFavorite(duck) {
+    return logic.retrieveFavDucks()
+      .then(ducks => ducks.some(_duck => _duck.id = duck.id))
   },
 
-  toggleFavorite: (toggleDuck) => {
-    if (!logic.__user__.favoriteDucks) logic.__user__.favoriteDucks = [];
-    const index = logic.__user__.favoriteDucks.findIndex(duck => duck.id === toggleDuck.id);
-    if (index !== -1) {
-      logic.__user__.favoriteDucks.splice(index,1)
-    } else  {
-      logic.__user__.favoriteDucks.push(toggleDuck);
-    }
-    logic.updateUser();
+  retrieveFavDucks() {
+    return restApi.retrieveFavDucks(logic.__token__);
+  },
+
+  toggleFavorite(duck) {
+    const duckId = duck.id || duck;
+    return restApi.toggleDuck(logic.__token__, duckId)
   },
 
   get isLogged() {
-    return !!(this.__userId__ && this.__token__);
-  },
-
-  get __userId__() {
-    return normalize.undefinedOrNull(sessionStorage.__userId__);
-  },
-  set __userId__(id) {
-    sessionStorage.__userId__ = id;
+    return !!this.__token__;
   },
 
   get __token__() {
@@ -125,7 +103,7 @@ const logic = {
       { name: "query", value: query, type: "string", optional: false },
     ]);
 
-    return duckApi.searchDucks(query);
+    return restApi.searchDucks(logic.__token__, query);
   },
 
   retrieveDuck(id) {
@@ -133,7 +111,7 @@ const logic = {
       { name: "id", value: id, type: "string", notEmpty: false },
     ]);
 
-    return duckApi.retrieveDuck(id)
+    return restApi.retrieveDuck(logic.__token__, id)
   },
 
 };

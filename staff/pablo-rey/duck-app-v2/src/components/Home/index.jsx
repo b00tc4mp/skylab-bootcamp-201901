@@ -11,22 +11,20 @@ function Home(props) {
 
   const handleSearch = searchText => {
     setDetailDuck(null);
-    return Promise.all([logic.retrieveUser(), logic.searchDucks(searchText)])
-      .then(([_,ducks]) => {
-        return setItems(ducks.map(duck => ({...duck, isFavorite: logic.isFavorite(duck)})));
+    return Promise.all([logic.searchDucks(searchText), logic.retrieveFavDucks()])
+      .then(([ducks, favDucks]) => {
+        return setItems(ducks.map(duck => ({...duck, isFavorite: favDucks.some((favDuck) => favDuck.id === duck.id)})));
       });
     };
 
   const handleDetail = duck => {
-    logic.retrieveDuck(duck.id)
+    return logic.retrieveDuck(duck.id)
     .then(duckDetail => setDetailDuck(duckDetail))
   };
   
   const handleToggleFavorite = (toggleDuck) => {
-    logic.toggleFavorite(toggleDuck)
-    setItems(items.map(duck => ({ ...duck, 
-        isFavorite: toggleDuck.id === duck.id ? !duck.isFavorite : duck.isFavorite }))
-        );
+    return logic.toggleFavorite(toggleDuck)
+      .then(() => setItems(items.map(duck => ({ ...duck,  isFavorite: duck.id !== toggleDuck.id ? duck.isFavorite : !duck.isFavorite }))));
   }
 
   return (
