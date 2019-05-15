@@ -12,6 +12,7 @@ function handleErrors(callback, res) {
                 res.status(status).json({ error: message || 'unknown error' })
             })
     } catch (error) {
+        debugger
         const { message } = error
 
         let status = 400
