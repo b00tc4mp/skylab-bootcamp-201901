@@ -118,7 +118,24 @@ router.put('/users', jsonParser, (req, res) => {
         if (!token) throw new UnauthorizedError()
 
         return logic.updateUser(token, name, surname, password)
-            .then(() => res.status(200).json({ message: 'Ok, user data changed. ' }))
+            .then(() => res.status(200).json({ message: 'Ok, user data updated. ' }))
+    },
+        res)
+})
+
+
+
+router.delete('/users', jsonParser, (req, res) => {
+    handleErrors(() => {
+        const { headers: { authorization }, body: { email, password } } = req
+        if (!authorization) throw new UnauthorizedError()
+
+        const token = authorization.slice(7)
+
+        if (!token) throw new UnauthorizedError()
+
+        return logic.deleteUser(token, email, password)
+            .then(() => res.status(204).json({ message: 'Ok, user deleted. ' }))
     },
         res)
 })
