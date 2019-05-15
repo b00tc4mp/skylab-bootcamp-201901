@@ -1,9 +1,10 @@
-// import logic from '.'
-// import { LogicError, RequirementError, ValueError, FormatError } from '../common/errors'
-// import userApi from '../data/user-api'
-// import duckApi from '../data/duck-api';
+import logic from '.'
+import { LogicError, RequirementError, ValueError, FormatError } from '../common/errors'
+import restApi from '../data/rest-api'
 
-xdescribe('logic', () => {
+jest.setTimeout(100000)
+
+describe('logic', () => {
     describe('users', () => {
         const name = 'Manuel'
         const surname = 'Barzi'
@@ -13,7 +14,6 @@ xdescribe('logic', () => {
         beforeEach(() => {
             email = `manuelbarzi-${Math.random()}@gmail.com`
 
-            logic.__userId__ = null
             logic.__userToken__ = null
         })
 
@@ -31,6 +31,7 @@ xdescribe('logic', () => {
                         .then(() => { throw Error('should not reach this point') })
                         .catch(error => {
                             expect(error).toBeDefined()
+
                             expect(error instanceof LogicError).toBeTruthy()
 
                             expect(error.message).toBe(`user with username \"${email}\" already exists`)
@@ -120,21 +121,14 @@ xdescribe('logic', () => {
         })
 
         describe('login user', () => {
-            let id
-
             beforeEach(() =>
-                userApi.create(email, password, { name, surname })
-                    .then(response => id = response.data.id)
+                restApi.registerUser(name, surname, email, password)
             )
 
             it('should succeed on correct user credential', () =>
                 logic.loginUser(email, password)
                     .then(() => {
-                        const { __userId__, __userToken__ } = logic
-
-                        expect(typeof __userId__).toBe('string')
-                        expect(__userId__.length).toBeGreaterThan(0)
-                        expect(__userId__).toBe(id)
+                        const { __userToken__ } = logic
 
                         expect(typeof __userToken__).toBe('string')
                         expect(__userToken__.length).toBeGreaterThan(0)
@@ -143,7 +137,8 @@ xdescribe('logic', () => {
                         const payloadJson = atob(payloadB64)
                         const payload = JSON.parse(payloadJson)
 
-                        expect(payload.id).toBe(id)
+                        expect(typeof payload.id).toBe('string')
+                        expect(payload.id.length).toBeGreaterThan(0)
 
                         expect(logic.isUserLoggedIn).toBeTruthy()
                     })
@@ -162,19 +157,16 @@ xdescribe('logic', () => {
         })
 
         describe('retrieve user', () => {
-            let id, token
+            let token
 
             beforeEach(() =>
-                userApi.create(email, password, { name, surname })
+                restApi.registerUser(name, surname, email, password)
+                    .then(response =>
+                        restApi.authenticateUser(email, password)
+                    )
                     .then(response => {
-                        id = response.data.id
+                        token = response.token
 
-                        return userApi.authenticate(email, password)
-                    })
-                    .then(response => {
-                        token = response.data.token
-
-                        logic.__userId__ = id
                         logic.__userToken__ = token
                     })
             )
@@ -190,8 +182,8 @@ xdescribe('logic', () => {
                     })
             )
 
-            it('should fail on incorrect user id', () => {
-                logic.__userId__ = '5cb9998f2e59ee0009eac02c'
+            it('should fail on incorrect user token', () => {
+                logic.__userToken__ = 'wrong-token'
 
                 return logic.retrieveUser()
                     .then(() => { throw Error('should not reach this point') })
@@ -199,129 +191,114 @@ xdescribe('logic', () => {
                         expect(error).toBeDefined()
                         expect(error instanceof LogicError).toBeTruthy()
 
-                        expect(error.message).toBe(`token id \"${id}\" does not match user \"${logic.__userId__}\"`)
+                        expect(error.message).toBe(`invalid token`)
                     })
             })
         })
 
-        describe('toggle fav duck', () => {
-            let id, token, duckId
+        describe('ducks', () => {
+            let token
 
-            beforeEach(() => {
-                duckId = `${Math.random()}`
-
-                return userApi.create(email, password, { name, surname })
+            beforeEach(() =>
+                restApi.registerUser(name, surname, email, password)
+                    .then(() =>
+                        restApi.authenticateUser(email, password)
+                    )
                     .then(response => {
-                        id = response.data.id
+                        token = response.token
 
-                        return userApi.authenticate(email, password)
-                    })
-                    .then(response => {
-                        token = response.data.token
-
-                        logic.__userId__ = id
                         logic.__userToken__ = token
-                    })
-            })
-
-            it('should succeed adding fav on first time', () =>
-                logic.toggleFavDuck(duckId)
-                    .then(response => expect(response).toBeUndefined())
-                    .then(() => userApi.retrieve(id, token))
-                    .then(response => {
-                        const { data: { favs } } = response
-
-                        expect(favs).toBeDefined()
-                        expect(favs instanceof Array).toBeTruthy()
-                        expect(favs.length).toBe(1)
-                        expect(favs[0]).toBe(duckId)
                     })
             )
 
-            it('should succeed removing fav on second time', () =>
-                logic.toggleFavDuck(duckId)
-                    .then(() => logic.toggleFavDuck(duckId))
-                    .then(() => userApi.retrieve(id, token))
-                    .then(response => {
-                        const { data: { favs } } = response
+            describe('toggle fav duck', () => {
+                let duckId
 
-                        expect(favs).toBeDefined()
-                        expect(favs instanceof Array).toBeTruthy()
-                        expect(favs.length).toBe(0)
-                    })
-            )
+                beforeEach(() =>
+                    restApi.searchDucks(token, '')
+                        .then(ducks => duckId = ducks[0].id)
+                )
 
-            it('should fail on null duck id', () => {
-                duckId = null
-
-                expect(() => logic.toggleFavDuck(duckId)).toThrowError(RequirementError, 'id is not optional')
-            })
-
-            // TODO more cases
-        })
-
-        describe('retrieve fav ducks', () => {
-            let id, token, _favs
-
-            beforeEach(() => {
-                _favs = []
-
-                return duckApi.searchDucks('')
-                    .then(ducks => {
-                        for (let i = 0; i < 10; i++) {
-                            const randomIndex = Math.floor(Math.random() * ducks.length)
-
-                            _favs[i] = ducks.splice(randomIndex, 1)[0].id
-                        }
-
-                        return userApi.create(email, password, { name, surname, favs: _favs })
-                    })
-                    .then(response => {
-                        id = response.data.id
-
-                        return userApi.authenticate(email, password)
-                    })
-                    .then(response => {
-                        token = response.data.token
-
-                        logic.__userId__ = id
-                        logic.__userToken__ = token
-                    })
-            })
-
-            it('should succeed adding fav on first time', () =>
-                logic.retrieveFavDucks()
-                    .then(ducks => {
-                        ducks.forEach(({ id, title, imageUrl, description, price }) => {
-                            const isFav = _favs.some(fav => fav === id)
-
-                            expect(isFav).toBeTruthy()
-                            expect(typeof title).toBe('string')
-                            expect(title.length).toBeGreaterThan(0)
-                            expect(typeof imageUrl).toBe('string')
-                            expect(imageUrl.length).toBeGreaterThan(0)
-                            expect(typeof description).toBe('string')
-                            expect(description.length).toBeGreaterThan(0)
-                            expect(typeof price).toBe('string')
-                            expect(price.length).toBeGreaterThan(0)
+                it('should succeed adding fav on first time', () =>
+                    logic.toggleFavDuck(duckId)
+                        .then(response => expect(response).toBeUndefined())
+                        .then(() => restApi.retrieveFavDucks(token))
+                        .then(favs => {
+                            expect(favs).toBeDefined()
+                            expect(favs instanceof Array).toBeTruthy()
+                            expect(favs.length).toBe(1)
+                            expect(favs[0].id).toBe(duckId)
                         })
-                    })
-            )
-        })
-    })
+                )
 
-    describe('ducks', () => {
-        describe('search ducks', () => {
-            it('should succeed on correct query', () =>
-                logic.searchDucks('yellow')
-                    .then(ducks => {
-                        expect(ducks).toBeDefined()
-                        expect(ducks instanceof Array).toBeTruthy()
-                        expect(ducks.length).toBe(13)
-                    })
+                it('should succeed removing fav on second time', () =>
+                    logic.toggleFavDuck(duckId)
+                        .then(() => logic.toggleFavDuck(duckId))
+                        .then(() => restApi.retrieveFavDucks(token))
+                        .then(favs => {
+                            expect(favs).toBeDefined()
+                            expect(favs instanceof Array).toBeTruthy()
+                            expect(favs.length).toBe(0)
+                        })
+                )
 
-                // TODO other cases
-            )
+                it('should fail on null duck id', () => {
+                    duckId = null
+
+                    expect(() => logic.toggleFavDuck(duckId)).toThrowError(RequirementError, 'id is not optional')
+                })
+
+                // TODO more cases
+            })
+
+            describe('retrieve fav ducks', () => {
+                let _favs
+
+                beforeEach(() => {
+                    _favs = []
+
+                    return restApi.searchDucks(token, '')
+                        .then(ducks => {
+                            for (let i = 0; i < 10; i++) {
+                                const randomIndex = Math.floor(Math.random() * ducks.length)
+
+                                _favs[i] = ducks.splice(randomIndex, 1)[0].id
+                            }
+                        })
+                })
+
+                it('should succeed adding fav on first time', () =>
+                    logic.retrieveFavDucks(token)
+                        .then(ducks => {
+                            ducks.forEach(({ id, title, imageUrl, description, price }) => {
+                                const isFav = _favs.some(fav => fav === id)
+
+                                expect(isFav).toBeTruthy()
+                                expect(typeof title).toBe('string')
+                                expect(title.length).toBeGreaterThan(0)
+                                expect(typeof imageUrl).toBe('string')
+                                expect(imageUrl.length).toBeGreaterThan(0)
+                                expect(typeof description).toBe('string')
+                                expect(description.length).toBeGreaterThan(0)
+                                expect(typeof price).toBe('string')
+                                expect(price.length).toBeGreaterThan(0)
+                            })
+                        })
+                )
+            })
+
+            describe('search ducks', () => {
+                it('should succeed on correct query', () =>
+                    logic.searchDucks('yellow')
+                        .then(ducks => {
+                            expect(ducks).toBeDefined()
+                            expect(ducks instanceof Array).toBeTruthy()
+                            expect(ducks.length).toBe(13)
+                        })
+
+                    // TODO other cases
+                )
+            })
         })
     })
 })

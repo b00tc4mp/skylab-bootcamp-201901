@@ -61,6 +61,7 @@ router.post('/ducks/:id/fav', (req, res) => {
 
 router.get('/ducks/fav', (req, res) => {
     handleErrors(() => {
+        debugger
         const { headers: { authorization } } = req
 
         if (!authorization) throw new UnauthorizedError()

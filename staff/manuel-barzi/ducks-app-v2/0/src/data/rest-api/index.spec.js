@@ -4,17 +4,17 @@ import { TimeoutError, ConnectionError, ValueError, RequirementError } from '../
 jest.setTimeout(100000)
 
 describe('rest api', () => {
+    const name = 'Manuel'
+    const surname = 'Barzi'
+    let email
+    const password = '123'
+
+    beforeEach(() => email = `manuelbarzi-${Math.random()}@gmail.com`)
+
     describe('users', () => {
-        const name = 'Manuel'
-        const surname = 'Barzi'
-        let email
-        const password = '123'
-
-        beforeEach(() => email = `manuelbarzi-${Math.random()}@gmail.com`)
-
-        describe('create', () => {
+        describe('register user', () => {
             it('should succeed on correct user data', () =>
-                restApi.create(email, password, { name, surname })
+                restApi.registerUser(name, surname, email, password)
                     .then(response => {
                         expect(response).toBeDefined()
 
@@ -26,10 +26,10 @@ describe('rest api', () => {
             )
 
             describe('on already existing user', () => {
-                beforeEach(() => restApi.create(email, password, { name, surname }))
+                beforeEach(() => restApi.registerUser(name, surname, email, password))
 
                 it('should fail on retrying to register', () =>
-                    restApi.create(email, password, { name, surname })
+                    restApi.registerUser(name, surname, email, password)
                         .then(response => {
                             expect(response).toBeDefined()
 
@@ -43,37 +43,37 @@ describe('rest api', () => {
             it('should fail on undefined email', () => {
                 const email = undefined
 
-                expect(() => restApi.create(email, password, { name, surname })).toThrowError(RequirementError, `email is not optional`)
+                expect(() => restApi.registerUser(name, surname, email, password)).toThrowError(RequirementError, `email is not optional`)
             })
 
             it('should fail on null email', () => {
                 const email = null
 
-                expect(() => restApi.create(email, password, { name, surname })).toThrowError(RequirementError, `email is not optional`)
+                expect(() => restApi.registerUser(name, surname, email, password)).toThrowError(RequirementError, `email is not optional`)
             })
 
             it('should fail on empty email', () => {
                 const email = ''
 
-                expect(() => restApi.create(email, password, { name, surname })).toThrowError(ValueError, 'email is empty')
+                expect(() => restApi.registerUser(name, surname, email, password)).toThrowError(ValueError, 'email is empty')
             })
 
             it('should fail on blank email', () => {
                 const email = ' \t    \n'
 
-                expect(() => restApi.create(email, password, { name, surname })).toThrowError(ValueError, 'email is empty')
+                expect(() => restApi.registerUser(name, surname, email, password)).toThrowError(ValueError, 'email is empty')
             })
 
             // TODO password fail cases
         })
 
-        describe('authenticate', () => {
+        describe('authenticate user', () => {
             beforeEach(() =>
-                restApi.create(email, password, { name, surname })
+                restApi.registerUser(name, surname, email, password)
             )
 
             it('should succeed on correct user credential', () =>
-                restApi.authenticate(email, password)
+                restApi.authenticateUser(email, password)
                     .then(response => {
                         expect(response).toBeDefined()
 
@@ -94,7 +94,7 @@ describe('rest api', () => {
             )
 
             it('should fail on non-existing user', () =>
-                restApi.authenticate(email = 'unexisting-user@mail.com', password)
+                restApi.authenticateUser(email = 'unexisting-user@mail.com', password)
                     .then(response => {
                         expect(response).toBeDefined()
 
@@ -105,19 +105,19 @@ describe('rest api', () => {
             )
         })
 
-        describe('retrieve', () => {
+        describe('retrieve user', () => {
             let token
 
             beforeEach(() =>
-                restApi.create(email, password, { name, surname })
-                    .then(response => 
-                        restApi.authenticate(email, password)
+                restApi.registerUser(name, surname, email, password)
+                    .then(response =>
+                        restApi.authenticateUser(email, password)
                     )
                     .then(response => token = response.token)
             )
 
             it('should succeed on correct user id and token', () =>
-                restApi.retrieve(token)
+                restApi.retrieveUser(token)
                     .then(response => {
                         expect(response.id).toBeUndefined()
                         expect(response.name).toBe(name)
@@ -128,7 +128,7 @@ describe('rest api', () => {
             )
 
             it('should fail on incorrect user token', () => {
-                return restApi.retrieve('wrong-token')
+                return restApi.retrieveUser('wrong-token')
                     .then(response => {
                         const { error } = response
 
@@ -147,7 +147,7 @@ describe('rest api', () => {
             })
 
             it('should fail on wrong api url', () =>
-                restApi.create(email, password, { name, surname })
+                restApi.registerUser(name, surname, email, password)
                     .then(() => { throw Error('should not reach this point') })
                     .catch(error => {
                         expect(error).toBeDefined()
@@ -165,7 +165,7 @@ describe('rest api', () => {
             beforeEach(() => restApi.__timeout__ = timeout)
 
             it('should fail on too long wait', () =>
-                restApi.create(email, password, { name, surname })
+                restApi.registerUser(name, surname, email, password)
                     .then(() => { throw Error('should not reach this point') })
                     .catch(error => {
                         expect(error).toBeDefined()
@@ -177,30 +177,30 @@ describe('rest api', () => {
             afterEach(() => restApi.__timeout__ = 0)
         })
 
-        xdescribe('update', () => {
+        xdescribe('update', () => { // TODO refactor
             let token, _data
 
             beforeEach(() => {
                 _data = { array: [1, "2", true], hello: 'world', object: { key: 'value' } }
 
-                return restApi.create(name, surname, email, password)
+                return restApi.registerUser(name, surname, email, password)
                     .then(response => {
                         _id = response.data.id
 
-                        return restApi.authenticate(email, password)
+                        return restApi.authenticateUser(email, password)
                     })
                     .then(response => token = response.data.token)
             })
 
             it('should succeed on correct data', () =>
-                restApi.update(_id, token, _data)
+                restApi.updateUser(_id, token, _data)
                     .then(response => {
                         const { status, data } = response
 
                         expect(status).toBe('OK')
                         expect(data).toBeUndefined()
                     })
-                    .then(() => restApi.retrieve(_id, token))
+                    .then(() => restApi.retrieveUser(_id, token))
                     .then(response => {
                         const { status, data } = response
 
@@ -220,7 +220,7 @@ describe('rest api', () => {
             )
 
             it('should succeed on correct data re-updating', () =>
-                restApi.update(_id, token, _data)
+                restApi.updateUser(_id, token, _data)
                     .then(response => {
                         const { status, data } = response
 
@@ -232,7 +232,7 @@ describe('rest api', () => {
                         _data.hello = 'mundo'
                         _data.object = { property: 'something' }
 
-                        return restApi.update(_id, token, _data)
+                        return restApi.updateUser(_id, token, _data)
                     })
                     .then(response => {
                         const { status, data } = response
@@ -240,7 +240,7 @@ describe('rest api', () => {
                         expect(status).toBe('OK')
                         expect(data).toBeUndefined()
                     })
-                    .then(() => restApi.retrieve(_id, token))
+                    .then(() => restApi.retrieveUser(_id, token))
                     .then(response => {
                         const { status, data } = response
 
@@ -259,5 +259,117 @@ describe('rest api', () => {
                     })
             )
         })
+    })
+
+    describe('ducks', () => {
+        let token
+
+        beforeEach(() =>
+            restApi.registerUser(name, surname, email, password)
+                .then(() =>
+                    restApi.authenticateUser(email, password)
+                )
+                .then(response => token = response.token)
+        )
+
+        describe('search ducks', () => {
+            it('should succeed on correct query', () =>
+                restApi.searchDucks(token, 'yellow')
+                    .then(ducks => {
+                        expect(ducks).toBeDefined()
+                        expect(ducks instanceof Array).toBeTruthy()
+                        expect(ducks.length).toBe(13)
+                    })
+            )
+        })
+
+        describe('toggle fav duck', () => {
+            let duckId
+
+            beforeEach(() =>
+                restApi.searchDucks(token, '')
+                    .then(ducks => duckId = ducks[0].id)
+            )
+
+            it('should succeed adding fav on first time', () =>
+                restApi.toggleFavDuck(token, duckId)
+                    .then(response => {
+                        const { message } = response
+
+                        expect(message).toBe('Ok, duck toggled.')
+                    })
+                    .then(() => restApi.retrieveFavDucks(token))
+                    .then(favs => {
+                        debugger
+                        expect(favs).toBeDefined()
+                        expect(favs instanceof Array).toBeTruthy()
+                        expect(favs.length).toBe(1)
+                        expect(favs[0].id).toBe(duckId)
+                    })
+            )
+
+            it('should succeed removing fav on second time', () =>
+                restApi.toggleFavDuck(token, duckId)
+                    .then(() => restApi.toggleFavDuck(token, duckId))
+                    .then(() => restApi.retrieveFavDucks(token))
+                    .then(favs => {
+                        expect(favs).toBeDefined()
+                        expect(favs instanceof Array).toBeTruthy()
+                        expect(favs.length).toBe(0)
+                    })
+            )
+
+            it('should fail on null duck id', () => {
+                duckId = null
+
+                expect(() => restApi.toggleFavDuck(token, duckId)).toThrowError(RequirementError, 'id is not optional')
+            })
+
+            // TODO more cases
+        })
+
+        describe('retrieve fav ducks', () => {
+            let _favs
+
+            beforeEach(() => {
+                _favs = []
+
+                return restApi.searchDucks(token, '')
+                    .then(ducks => {
+                        const toggles = []
+
+                        for (let i = 0; i < 10; i++) {
+                            const randomIndex = Math.floor(Math.random() * ducks.length)
+
+                            const duckId = _favs[i] = ducks.splice(randomIndex, 1)[0].id
+
+                            toggles.push(restApi.toggleFavDuck(token, duckId))
+                        }
+
+                        return Promise.all(toggles)
+                    })
+            })
+
+            it('should succeed adding fav on first time', () =>
+                restApi.retrieveFavDucks(token)
+                    .then(ducks => {
+                        ducks.forEach(({ id, title, imageUrl, description, price }) => {
+                            const isFav = _favs.some(fav => fav === id)
+
+                            expect(isFav).toBeTruthy()
+                            expect(typeof title).toBe('string')
+                            expect(title.length).toBeGreaterThan(0)
+                            expect(typeof imageUrl).toBe('string')
+                            expect(imageUrl.length).toBeGreaterThan(0)
+                            expect(typeof description).toBe('string')
+                            expect(description.length).toBeGreaterThan(0)
+                            expect(typeof price).toBe('string')
+                            expect(price.length).toBeGreaterThan(0)
+                        })
+                    })
+            )
+        })
+
+        // TODO other cases
     })
 })

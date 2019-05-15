@@ -5,23 +5,24 @@ const restApi = {
     __url__: 'http://localhost:8080/api',
     __timeout__: 0,
 
-    create(email, password, data) {
+    registerUser(name, surname, email, password) {
         validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
             { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true },
-            { name: 'data', value: data, type: 'object', notEmpty: true, optional: true }
+            { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
         return call(`${this.__url__}/users`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ email, password, ...data }),
+            body: JSON.stringify({ name, surname, email, password }),
             timeout: this.__timeout__
         })
             .then(response => response.json())
     },
 
-    authenticate(email, password) {
+    authenticateUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
@@ -36,7 +37,7 @@ const restApi = {
             .then(response => response.json())
     },
 
-    retrieve(token) {
+    retrieveUser(token) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
@@ -48,7 +49,7 @@ const restApi = {
             .then(response => response.json())
     },
 
-    update(id, token, data) {
+    updateUser(id, token, data) { // TODO refactor
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -66,6 +67,68 @@ const restApi = {
         })
             .then(response => response.json())
     },
+
+    searchDucks(token, query) {
+        debugger
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'query', value: query, type: 'string' }
+        ])
+
+        return call(`${this.__url__}/ducks?query=${query}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            timeout: this.__timeout__
+        })
+            .then(response => response.json())
+    },
+
+    retrieveDuck(token, id) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+
+        return call(`${this.__url__}/ducks/${id}`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            timeout: this.__timeout__
+        })
+            .then(response => response.json())
+    },
+
+    toggleFavDuck(token, id) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+
+        return call(`${this.__url__}/ducks/${id}/fav`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            timeout: this.__timeout__
+        })
+            .then(response => response.json())
+    },
+
+    retrieveFavDucks(token) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true }
+        ])
+
+        return call(`${this.__url__}/ducks/fav`, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            },
+            timeout: this.__timeout__
+        })
+            .then(response => response.json())
+    }
 }
+
 
 export default restApi
