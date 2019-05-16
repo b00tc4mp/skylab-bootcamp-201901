@@ -7,7 +7,7 @@ function handleErrors(callback, res) {
                 let { status = 400, message } = error
 
                 if (error instanceof LogicError) status = 409
-
+                
                 res.status(status).json({ error: message || 'unknown error' })
             })
     } catch (error) {

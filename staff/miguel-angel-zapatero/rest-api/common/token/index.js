@@ -1,5 +1,5 @@
 const atob = require('atob')
-const { FormatError } = require('./')
+const { FormatError } = require('../errors')
 
 const token = {
     payload(token) {

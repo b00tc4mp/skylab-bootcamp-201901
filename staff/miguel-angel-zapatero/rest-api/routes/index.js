@@ -10,7 +10,6 @@ const router = express.Router()
 
 router.post('/users', jsonParser, (req, res) => {
     const { body: { name, surname, email, password } } = req
-    
     handleErrors(() =>
         logic.registerUser(name, surname, email, password)
             .then(() => res.status(201).json({ message: 'Ok, user registered.'})), 
@@ -22,7 +21,7 @@ router.post('/users/auth', jsonParser, (req, res) => {
 
     handleErrors(() => 
         logic.authenticateUser(email, password)
-            .then(token => res.json(token)), res)
+            .then(token => res.json({ token })), res)
 })
 
 router.get('/users', jsonParser, (req, res) => {
