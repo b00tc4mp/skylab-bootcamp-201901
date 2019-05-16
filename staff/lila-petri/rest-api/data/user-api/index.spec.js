@@ -2,7 +2,7 @@ const userApi = require('.')
 const { TimeoutError, ConnectionError, ValueError, RequirementError } = require('../../common/errors')
 const atob = require('atob')
 
-describe('user api', () => {
+fdescribe('user api', () => {
     const name = 'Manuel'
     const surname = 'Barzi'
     let username
@@ -14,6 +14,7 @@ describe('user api', () => {
         it('should succeed on correct user data', () =>
             userApi.create(username, password, { name, surname })
                 .then(response => {
+                    debugger
                     expect(response).toBeDefined()
 
                     const { status, data } = response
@@ -264,4 +265,38 @@ describe('user api', () => {
                 })
         )
     })
+
+    describe('delete', () => {
+        let _id, token, _data
+
+        beforeEach(() => {
+
+            return userApi.create(username, password, { name, surname })
+                .then(response => {
+                    _id = response.data.id
+
+                    return userApi.authenticate(username, password)
+                })
+                .then(response => token = response.data.token)
+        })
+
+        it('should succeed on correct data', () =>
+            userApi.delete(_id, token, {username, password})
+                .then(response => {
+                    const { status } = response
+
+                    expect(status).toBe('OK')
+                })
+                .then(() => userApi.retrieve(_id, token))
+                .then(response => {
+                    const { status, error } = response
+
+                    expect(status).toBe('KO')
+                    expect(error).toBeDefined()
+                    expect(error).toBe(`user with id \"${_id}\" does not exist`)
+                })
+        )
+        
+    })
+
 })

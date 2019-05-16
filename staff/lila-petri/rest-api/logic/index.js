@@ -18,8 +18,7 @@ const logic = {
         return userApi.create(email, password, { name, surname })
             .then(response => {
                 if (response.status === 'OK') return
-
-                throw new LogicError(response.error)
+                else throw new LogicError(response.error)
             })
     },
 
@@ -33,11 +32,8 @@ const logic = {
 
         return userApi.authenticate(email, password)
             .then(response => {
-                if (response.status === 'OK') {
-                    const { data: { token } } = response
-
-                    return token
-                } else throw new LogicError(response.error)
+                if (response.status === 'OK') return response.data.token
+                else throw new LogicError(response.error)
             })
     },
 
@@ -45,16 +41,56 @@ const logic = {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
-
+        debugger
         const { id } = _token.payload(token)
 
         return userApi.retrieve(id, token)
             .then(response => {
+                debugger
                 if (response.status === 'OK') {
+                    
                     const { data: { name, surname, username: email } } = response
 
                     return { name, surname, email }
                 } else throw new LogicError(response.error)
+            })
+    },
+    deleteUser(token, email, password) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true }
+        ])
+        
+        validate.email(email)
+
+        const { id } = _token.payload(token)
+
+        return userApi.delete(id, token, {username: email, password})
+            .then(response => {
+        
+                if (response.status === 'OK'){
+                    return response.status}
+
+                else throw new LogicError(response.error)
+            })
+    },
+    updateUser(token, name, surname, password) {
+        debugger
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true }
+        ])
+        const { id } = _token.payload(token)
+
+        return userApi.update(id, token, {name, surname, password})
+            .then(response => {
+                if (response.status === 'OK'){
+                    return response.status}
+
+                else throw new LogicError(response.error)
             })
     },
 
