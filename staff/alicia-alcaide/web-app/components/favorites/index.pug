@@ -6,8 +6,9 @@ mixin favorites(favoritesList)
                 li.item
                     a(href=`${fav.url}`)
                         h3.item__title= fav.title
-                    a.fav(href=`${fav.urlToggle}`)  
-                        i.fas.fa-heart
+                    form(method='post' action=fav.urlToggle)
+                        button.fav
+                            i(class= 'fas fa-heart')
                     img.item__image(src=`${fav.image}`)
                     span.item__price= fav.price                    
     else

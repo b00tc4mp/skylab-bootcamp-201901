@@ -29,7 +29,9 @@ a {
   color: #797878; }
 
 .fav {
-  color: #81d69d; }
+  color: #81d69d;
+  border: none;
+  background: none; }
 
 .list-items {
   list-style-type: none;
@@ -108,7 +110,7 @@ a {
   padding: 2rem;
   border-radius: 1rem; }
 
-.link-button, button {
+.isButton {
   color: #797878;
   border: 1px solid #81d69d;
   background-color: white;
@@ -119,10 +121,10 @@ a {
   text-align: center;
   outline: none; }
 
-.link-button:hover, .link-button:active,
-button:hover, button:active {
+.isButton:hover, .isButton:active {
   background-color: #81d69d;
-  color: white; }
+  color: white;
+  outline: none; }
 
 input {
   display: inline-block;

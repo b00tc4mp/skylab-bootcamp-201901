@@ -17,9 +17,9 @@ block content
   section.panel-home
     +search(query)
     form(action='/home/favorites')
-      button Favorites
+      button.isButton Favorites
     form(action='/logout' method='post')
-      button Logout
+      button.isButton Logout
   if message
     .feedback
         +feedback(message)

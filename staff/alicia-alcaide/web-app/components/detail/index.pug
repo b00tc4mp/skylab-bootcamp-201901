@@ -1,11 +1,9 @@
 mixin detail(item)
     .detail__item
         h3.detail__title= item.title
-        a.fav(href=`${item.urlToggle}`)  
-            if item.isFav
-                i.fas.fa-heart
-            else    
-                i.far.fa-heart
+        form(method='post' action=item.urlToggle)
+            button.fav
+                i(class=item.isFav? 'fas fa-heart' : 'far fa-heart')
         img.detail__image(src=`${item.image}`)
         p.detail__description= item.description
         span.detail__price= item.price

@@ -44,6 +44,8 @@ a {
 
 .fav {
     color: $primary;
+    border: none;
+    background: none;
 }
 
 
@@ -135,8 +137,7 @@ a {
     border-radius: 1rem;
 }
 
-
-.link-button, button {
+.isButton {
     color: $secondary;
     border: 1px solid $primary;
     background-color: $background-primary;
@@ -147,10 +148,11 @@ a {
     text-align: center;
     outline:none;
 }
-.link-button:hover, .link-button:active,
-button:hover, button:active {
+
+.isButton:hover, .isButton:active {
     background-color: $primary;
     color: $background-primary;
+    outline:none;
 }
 
 input {

@@ -75,8 +75,7 @@ app.get('/home/search', checkLogin('/', false), urlencodedParser, (req, res) => 
     const { query: { query }, logic, session } = req
 
     session.query = query
-    session.urlToggleBack = `/home/search?query=${query}`
-    
+        
     logic.searchDucks(query)
         .then(ducks => {
             return logic.retrieveFavDucks()
@@ -95,8 +94,6 @@ app.get('/home/duck/:id', checkLogin('/', false), urlencodedParser, (req, res) =
     const { params: { id }, logic, session } = req
     const { query } = session
 
-    session.urlToggleBack = `/home/duck/${id}`
-    
     logic.retrieveDuck(id)
         .then(({ title, imageUrl: image, description, price }) => {
             return logic.retrieveFavDucks()
@@ -109,19 +106,17 @@ app.get('/home/duck/:id', checkLogin('/', false), urlencodedParser, (req, res) =
         })
 })
 
-app.get('/home/toggle/:id', checkLogin('/', false), urlencodedParser, (req, res) => {
-    const { params: { id }, logic, session: { urlToggleBack } } = req
+app.post('/home/toggle/:id', checkLogin('/', false), urlencodedParser, (req, res) => {
+    const { params: { id }, logic } = req
 
     logic.toggleFavDuck(id)
-        .then (() => res.redirect(urlToggleBack))
+        .then (() => res.redirect(req.get('referer')))
 })
 
 
 app.get('/home/favorites', checkLogin('/', false), urlencodedParser, (req, res) => {
     const { logic, session } = req
     const { query } = session
-
-    session.urlToggleBack = '/home/favorites'
 
     logic.retrieveFavDucks()
         .then(ducks => {

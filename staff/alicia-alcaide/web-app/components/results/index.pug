@@ -6,11 +6,9 @@ mixin results(items)
                 li.item  
                     a(href=`${item.url}`)
                         h3.item__title= item.title
-                    a.fav(href=`${item.urlToggle}`)  
-                        if item.isFav
-                            i.fas.fa-heart
-                        else    
-                            i.far.fa-heart
+                    form(method='post' action=item.urlToggle)
+                        button.fav
+                            i(class=item.isFav? 'fas fa-heart' : 'far fa-heart')
                     img.item__image(src=`${item.image}`)
                     span.item__price= item.price
     else
