@@ -87,10 +87,10 @@ const logic = {
             })
     },
 
-    toggleFavDuck(token, id) {
+    toggleFavDuck(token, id) { // TODO check duck id is valid (it exists) 
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'id', value: id, type: 'string' }
+            { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
         const { id: _id } = _token.payload(token)
