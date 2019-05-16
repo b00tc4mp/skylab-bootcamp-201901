@@ -1,7 +1,7 @@
 const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
-const { LogicError } = require('../common/errors')
+const { LogicError, UnknownError } = require('../common/errors')
 const _token = require('../common/token')
 
 const logic = {
@@ -54,35 +54,6 @@ const logic = {
             })
     },
 
-    updateUser(id, token, data) {
-        validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'data', value: data, type: 'object', notEmpty: true }
-        ])
-
-        return userApi.update(id, token, data)
-            .then(response => {
-                if (response.status === 'OK') return
-                else throw new LogicError(response.error)
-            })
-    },
-
-    deleteUser(token, email, password) {
-        validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true }
-        ])
-
-        const { id } = _token.payload(token)
-
-        return userApi.delete(id, token, email, password)
-            .then(response => {
-                if (response.status === 'OK') return
-                else throw new LogicError(response.error)
-            })
-    },
-
     searchDucks(token, query) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -116,10 +87,10 @@ const logic = {
             })
     },
 
-    toggleFavDuck(token, id) {
+    toggleFavDuck(token, id) { // TODO check duck id is valid (it exists) 
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'id', value: id, type: 'string' }
+            { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
         const { id: _id } = _token.payload(token)

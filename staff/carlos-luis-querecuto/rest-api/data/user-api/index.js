@@ -58,24 +58,6 @@ const userApi = {
             data
         })
     },
-
-    delete(id, token,username, password) {
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'username', value: username, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true }
-        ])
-
-        return call(`${this.__url__}/user/${id}`, {
-            method: 'DELETE',
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-            data:{ username , password }
-        })
-    },
 }
 
 module.exports = userApi

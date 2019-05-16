@@ -151,7 +151,7 @@ describe('logic', () => {
         })
 
         describe('retrieve user', () => {
-            let token
+            let id, token
 
             beforeEach(() =>
                 userApi.create(email, password, { name, surname })
@@ -174,47 +174,6 @@ describe('logic', () => {
                         expect(user.email).toBe(email)
                         expect(user.password).toBeUndefined()
                     })
-            )
-        })
-
-        describe('update user', () => {
-            let token
-            beforeEach(() =>
-                userApi.create(email, password, { name, surname })
-                    .then(response => {
-                        id = response.data.id
-
-                        return userApi.authenticate(email, password)
-                    })
-                    .then(response => {
-                        token = response.data.token
-                    })
-            )
-
-            it('should succeed on correct user id and token', () =>
-                logic.updateUser(token, { name, surname })
-                    .then(response => expect(response).toBeUndefined())
-            )
-        })
-
-        describe('delete user', () => {
-            let token
-
-            beforeEach(() =>
-                userApi.create(email, password, { name, surname })
-                    .then(response => {
-                        id = response.data.id
-
-                        return userApi.authenticate(email, password)
-                    })
-                    .then(response => {
-                        token = response.data.token
-                    })
-            )
-
-            it('should succeed on correct user id and token', () =>
-                logic.deleteUser(token, email ,password)
-                    .then(response => expect(response).toBeUndefined())
             )
         })
 

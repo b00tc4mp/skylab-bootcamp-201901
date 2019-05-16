@@ -2,7 +2,7 @@ const userApi = require('.')
 const { TimeoutError, ConnectionError, ValueError, RequirementError } = require('../../common/errors')
 const atob = require('atob')
 
-fdescribe('user api', () => {
+describe('user api', () => {
     const name = 'Manuel'
     const surname = 'Barzi'
     let username
