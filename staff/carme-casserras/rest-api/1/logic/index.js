@@ -17,11 +17,8 @@ const logic = {
 
         return userApi.create(email, password, { name, surname })
             .then(response => {
-                if (response.data) 
-                    if (response.data.status === 'OK') return
-                    else throw new LogicError(response.data.error)
-
-                throw new UnknownError(response)
+                if (response.status === 'OK') return
+                else throw new LogicError(response.error)
             })
     },
 
@@ -35,11 +32,8 @@ const logic = {
 
         return userApi.authenticate(email, password)
             .then(response => {
-                if (response.status === 'OK') {
-                    const { data: { token } } = response
-
-                    return token
-                } else throw new LogicError(response.error)
+                if (response.status === 'OK') return response.data.token
+                else throw new LogicError(response.error)
             })
     },
 
@@ -93,10 +87,10 @@ const logic = {
             })
     },
 
-    toggleFavDuck(token, id) {
+    toggleFavDuck(token, id) { // TODO check duck id is valid (it exists) 
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'id', value: id, type: 'string' }
+            { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
         const { id: _id } = _token.payload(token)

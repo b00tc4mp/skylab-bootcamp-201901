@@ -14,6 +14,7 @@ describe('user api', () => {
         it('should succeed on correct user data', () =>
             userApi.create(username, password, { name, surname })
                 .then(response => {
+                    debugger
                     expect(response).toBeDefined()
 
                     const { status, data } = response

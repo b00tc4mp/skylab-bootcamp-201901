@@ -1,29 +1,24 @@
+require('dotenv').config()
+
 const express = require('express')
 const package = require('./package.json')
-const bodyParser = require('body-parser')
-const logic = require('./logic')
-const handleErrors = require('./routes/handle-errors')
+const routes = require('./routes')
 
-const jsonParser = bodyParser.json()
-
-const { argv: [, , port = 8080] } = process
+const { env: { PORT }, argv: [, , port = PORT || 8080], } = process
 
 const app = express()
 
-app.post('/user', jsonParser, (req, res) => {
-    const { body: { name, surname, email, password } } = req
+app.use((req, res, next) => {
+    res.setHeader('Access-Control-Allow-Origin', '*')
+    res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type')
 
-    handleErrors(() =>
-        logic.registerUser(name, surname, email, password)
-            .then(() => res.status(201).json({ message: 'Ok, user registered. ' })),
-    res)
+    next()
 })
 
-// TODO other routes
+app.use('/api', routes)
 
 app.use(function (req, res, next) {
-    debugger
-    res.redirect('/')
+    res.status(404).json({ error: 'Not found.'})
 })
 
 app.listen(port, () => console.log(`${package.name} ${package.version} up on port ${port}`))

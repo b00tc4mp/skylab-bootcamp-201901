@@ -53,23 +53,6 @@ const logic = {
                 } else throw new LogicError(response.error)
             })
     },
-    //MIAU
-    updateUser(id, token, data) {
-
-        validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'data', value: data, type: 'object', notEmpty: true }
-        ])
-
-        const { id } = _token.payload(token)
-        return userApi.update(id, token) 
-            .then(response => {
-                if (response.status === 'OK') return response.data.token
-                else throw new LogicError(response.error)
-            })
-
-
-    },
 
     searchDucks(token, query) {
         validate.arguments([
@@ -125,7 +108,7 @@ const logic = {
                     else favs.splice(index, 1)
 
                     return userApi.update(_id, token, { favs })
-                        .then(() => { }) //PERQUE ?????????'
+                        .then(() => { })
                 }
 
                 throw new LogicError(response.error)

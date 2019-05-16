@@ -58,22 +58,6 @@ const userApi = {
             data
         })
     },
-    // MIAU
-    delete(username, password, token) {
-        validate.arguments([
-            { name: 'username', value: username, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true },
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-        ])
-
-        return call(`${this.__url__}/user/${id}`, {
-            method: 'DEL',
-            headers: {
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'
-            },
-        })
-    },
 }
 
 module.exports = userApi
