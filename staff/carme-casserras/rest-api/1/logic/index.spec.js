@@ -1,6 +1,7 @@
 const logic = require('.')
 const { LogicError, RequirementError, ValueError, FormatError } = require('../common/errors')
-const userApi = require('../data/user-api')
+// const userApi = require('../data/user-api')
+const userData = require('../data/user-data')
 const duckApi = require('../data/duck-api')
 const atob = require('atob')
 
@@ -34,6 +35,7 @@ describe('logic', () => {
                         })
                 )
             })
+
 
             it('should fail on undefined name', () => {
                 const name = undefined
@@ -120,24 +122,25 @@ describe('logic', () => {
             let id
 
             beforeEach(() =>
-                userApi.create(email, password, { name, surname })
+                // userApi.create(email, password, { name, surname })
+                userData.create(name, surname, email, password )
                     .then(response => id = response.data.id)
             )
 
-            it('should succeed on correct user credential', () =>
+            it('should succeed on correct user credential', () => //canviat tos els tokens per id
                 logic.authenticateUser(email, password)
-                    .then(token => {
-                        expect(typeof token).toBe('string')
-                        expect(token.length).toBeGreaterThan(0)
+                    .then(id => {
+                        expect(typeof id).toBe('string')
+                        expect(id.length).toBeGreaterThan(0)
 
-                        const [, payloadB64,] = token.split('.')
-                        const payloadJson = atob(payloadB64)
-                        const payload = JSON.parse(payloadJson)
+                        // const [, payloadB64,] = token.split('.')
+                        // const payloadJson = atob(payloadB64)
+                        // const payload = JSON.parse(payloadJson)
 
-                        expect(payload.id).toBe(id)
+                        // expect(payload.id).toBe(id)
                     })
             )
-
+ // ULL ENS FALTA AUTHENTICATE
             it('should fail on non-existing user', () =>
                 logic.authenticateUser(email = 'unexisting-user@mail.com', password)
                     .then(() => { throw Error('should not reach this point') })
@@ -154,18 +157,18 @@ describe('logic', () => {
             let id, token
 
             beforeEach(() =>
-                userApi.create(email, password, { name, surname })
+                userData.create(name, surname, email, password)
                     .then(response => {
                         id = response.data.id
 
-                        return userApi.authenticate(email, password)
+                        return userData.authenticate(email, password)
                     })
-                    .then(response => {
-                        token = response.data.token
+                    .then(response => { // canviat token per id
+                        id = response.data.id
                     })
             )
 
-            it('should succeed on correct user id and token', () =>
+            it('should succeed on correct user id', () =>
                 logic.retrieveUser(token)
                     .then(user => {
                         expect(user.id).toBeUndefined()
@@ -176,7 +179,7 @@ describe('logic', () => {
                     })
             )
         })
-
+// DUCKS !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
         describe('toggle fav duck', () => {
             let id, token, duckId
 
