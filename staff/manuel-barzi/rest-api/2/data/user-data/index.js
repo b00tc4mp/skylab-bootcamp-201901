@@ -15,8 +15,6 @@ const userData = {
         return fs.writeFile(this.__file__, JSON.stringify(this.__users__))
     },
 
-    __cache__: {}, // WEAK cache (but just didactive for "children")
-
     create(user) {
         validate.arguments([
             { name: 'user', value: user, type: 'object', optional: false }
@@ -53,20 +51,17 @@ const userData = {
 
         const index = criteria.toString()
 
-        const users = this.__cache__[index]
 
-        if (!users)
-            return this.__load__()
-                .then(users => users.filter(criteria))
-                .then(users => this.__cache__[index] = users)
-        else return Promise.resolve(users)
+
+        return this.__load__()
+            .then(users => users.filter(criteria))
     },
 
     update(id, data, replace) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true, optional: false },
-            { name: 'data', value: data, type: 'object', optional: false },
-            { name: 'replace', value: replace, type: 'boolean' }
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object' },
+            { name: 'replace', value: replace, type: 'boolean', optional: true }
         ])
 
         if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')

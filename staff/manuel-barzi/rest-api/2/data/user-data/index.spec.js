@@ -104,7 +104,26 @@ describe('user data', () => {
         })
 
         describe('not replacing', () => {
-            // TODO
+            it('should succeed on correct data', () => {
+                const user = users[Math.random(users.length - 1)]
+
+                const data = { name: 'n', surname: 's', email: 'e', password: 'p', lastAccess: Date.now() }
+
+                return userData.update(user.id, data)
+                    .then(() => fs.readFile(userData.__file__, 'utf8'))
+                    .then(JSON.parse)
+                    .then(users => {
+                        const _user = users.find(({ id }) => id === user.id)
+
+                        expect(_user).toBeDefined()
+
+                        expect(_user.id).toEqual(user.id)
+
+                        expect(_user).toMatchObject(data)
+
+                        expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
+                    })
+            })
         })
     })
 
