@@ -29,7 +29,7 @@ router.post('/users/auth', jsonParser, (req, res) => {
 
 router.get('/users', (req, res) => {
     handleErrors(() => {
-        debugger
+        
         const { headers: { authorization } } = req
 
         if (!authorization) throw new UnauthorizedError()
@@ -112,7 +112,7 @@ router.get('/ducks/:id', (req, res) => {
 router.put('/users', jsonParser, (req, res) => {
     handleErrors(() => {
         const { headers: { authorization }, body: { name, surname, password } } = req
-        debugger
+    
         if (!authorization) throw new UnauthorizedError()
 
         const token = authorization.slice(7)
@@ -127,7 +127,7 @@ router.put('/users', jsonParser, (req, res) => {
 router.delete('/users', jsonParser, (req, res) => {
     handleErrors(() => {
         const { headers: { authorization }, body: { mail, password } } = req
-        debugger
+        
         if (!authorization) throw new UnauthorizedError()
 
         const token = authorization.slice(7)

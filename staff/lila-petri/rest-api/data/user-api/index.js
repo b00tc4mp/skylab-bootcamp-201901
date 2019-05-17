@@ -43,7 +43,7 @@ const userApi = {
     },
 
     update(id, token, data) {
-        debugger
+        
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'token', value: token, type: 'string', notEmpty: true },

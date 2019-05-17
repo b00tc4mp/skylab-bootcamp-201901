@@ -3,7 +3,6 @@ const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
 const _token = require('../common/token')
-const userData = require('../data/user-data')
 
 const logic = {
     registerUser(name, surname, email, password) {
@@ -16,12 +15,11 @@ const logic = {
 
         validate.email(email)
 
-        return userData.create({name, surname, email, password})
-            // .then(response => {
-            //     if (response.status === 'OK') return
-            //     else throw new LogicError(response.error)
-            // })
-            .then(()=> {debugger})
+        return userApi.create(email, password, { name, surname })
+            .then(response => {
+                if (response.status === 'OK') return
+                else throw new LogicError(response.error)
+            })
     },
 
     authenticateUser(email, password) {
