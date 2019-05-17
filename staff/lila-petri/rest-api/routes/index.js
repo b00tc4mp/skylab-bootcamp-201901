@@ -22,11 +22,11 @@ router.post('/users', jsonParser, (req, res) => {
 
 router.post('/users/auth', jsonParser, (req, res) => {
     const { body: { email, password } } = req
-
+    debugger
     handleErrors(() =>
         logic.authenticateUser(email, password)
             .then(sub => {
-                const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '47m' })
+                const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '470m' })
 
                 res.json({ token })
             }),
