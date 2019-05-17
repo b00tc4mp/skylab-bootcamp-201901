@@ -3,17 +3,13 @@ require('dotenv').config()
 const express = require('express')
 const package = require('./package.json')
 const routes = require('./routes')
+const cors = require('./routes/cors')
 
 const { env: { PORT }, argv: [, , port = PORT || 8080], } = process
 
 const app = express()
 
-app.use((req, res, next) => {
-    res.setHeader('Access-Control-Allow-Origin', '*')
-    res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type')
-
-    next()
-})
+app.use(cors)
 
 app.use('/api', routes)
 
