@@ -37,6 +37,8 @@ const logic = {
                 const [user] = users
 
                 if (user.password !== password) throw new LogicError('wrong credentials')
+
+                return user.id
             })
     },
 
@@ -55,22 +57,34 @@ const logic = {
             })
     },
 
-    searchDucks(query) {
+    searchDucks(id, query) {
         validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'query', value: query, type: 'string' }
         ])
 
-        return duckApi.searchDucks(query)
+        return userData.retrieve(id)
+            .then(user => {
+                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+
+                return duckApi.searchDucks(query)
+            })
             .then(ducks => ducks instanceof Array ? ducks : [])
 
     },
 
-    retrieveDuck(id) {
+    retrieveDuck(id, duckId) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string' }
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
 
-        return duckApi.retrieveDuck(id)
+        return userData.retrieve(id)
+            .then(user => {
+                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+
+                return duckApi.retrieveDuck(duckId)
+            })
     },
 
     toggleFavDuck(id, duckId) {
