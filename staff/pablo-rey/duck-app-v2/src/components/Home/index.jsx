@@ -24,7 +24,8 @@ function Home(props) {
   
   const handleToggleFavorite = (toggleDuck) => {
     return logic.toggleFavorite(toggleDuck)
-      .then(() => setItems(items.map(duck => ({ ...duck,  isFavorite: duck.id !== toggleDuck.id ? duck.isFavorite : !duck.isFavorite }))));
+      .then(() => setItems(items.map(duck => ({ ...duck,  isFavorite: duck.id !== toggleDuck.id ? duck.isFavorite : !duck.isFavorite }))))
+      .then(() => detailDuck && detailDuck.id === toggleDuck.id && setDetailDuck({...detailDuck, isFavorite: !detailDuck.isFavorite}))
   }
 
   return (
