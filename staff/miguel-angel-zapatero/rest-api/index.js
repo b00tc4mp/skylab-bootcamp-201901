@@ -12,8 +12,7 @@ const app = express()
 // CORS --> Para permitir acceso a tu api desde otro dominio. Si pones un * en vez de una URL permite acceder de cualquier dominio(origen). El modulo cors de npm hace lo mismo que esto.
 // app.use((req, res, next) => {
 //     res.setHeader('Acces-Control-Allow-Origin', 'https://www.google.es')
-//     res.setHeader('Access-Control-Allow-Headers', 'Authorization')  
-//     res.setHeader('Access')  
+//     res.setHeader('Access-Control-Allow-Headers', 'Authorization, Content-Type)  
 //     next()
 // })
 

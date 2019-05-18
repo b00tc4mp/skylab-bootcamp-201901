@@ -1,8 +1,7 @@
 const validate = require('../common/validate')
-const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
-const _token = require('../common/token')
+const userData = require('../data/user-data')
 
 const logic = {
     registerUser(name, surname, email, password) {
@@ -15,11 +14,11 @@ const logic = {
 
         validate.email(email)
 
-        return userApi.create(email, password, { name, surname })
-            .then(response => {
-                if (response.status === 'OK') return
+        return userData.find(user => user.email === email)
+            .then(users => {
+                if (users.length) throw new LogicError(`user with email "${email}" already exists`)
 
-                throw new LogicError(response.error)
+                return userData.create({ email, password, name, surname })
             })
     },
 
@@ -31,145 +30,97 @@ const logic = {
 
         validate.email(email)
 
-        return userApi.authenticate(email, password)
-            .then(response => {
-                if (response.status === 'OK') {
-                    const { data: { token } } = response
+        return userData.find(user => user.email === email)
+            .then(users => {
+                if (!users.length) throw new LogicError(`user with email "${email}" does not exist`)
 
-                    return token
-                } else throw new LogicError(response.error)
+                const [user] = users
+
+                if (user.password !== password) throw new LogicError('wrong credentials')
+
+                return user.id
             })
     },
 
-    retrieveUser(token) {
+    retrieveUser(id) {
         validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true }
+            { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
-        const { id } = _token.payload(token)
+        return userData.retrieve(id)
+            .then(user => {
+                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
-        return userApi.retrieve(id, token)
-            .then(response => {
-                if (response.status === 'OK') {
-                    const { data: { name, surname, username: email } } = response
+                const { name, surname, email } = user
 
-                    return { name, surname, email }
-                } else throw new LogicError(response.error)
+                return { name, surname, email }
             })
     },
 
-    updateUser(token, data) {
+    searchDucks(id, query) {
         validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'data', value: data, type: 'object', notEmpty: true }
-        ])
-
-        const { id } = _token.payload(token)
-        
-        return userApi.update(id, token, data)
-            .then(response => {
-                if (response.status === 'OK') return
-
-                throw new LogicError(response.error)
-            })
-    },
-
-    deleteUser(token, email, password) {
-        validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true }
-        ])
-
-        const { id } = _token.payload(token)
-        
-        return userApi.delete(id, token, email, password)
-            .then(response => {
-                if (response.status === 'OK') return
-
-                throw new LogicError(response.error)
-            })
-    },
-
-    searchDucks(token, query) {
-        validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'query', value: query, type: 'string' }
         ])
-        const { id } = _token.payload(token)
 
-        return userApi.retrieve(id, token)
-            .then(response => {
-                if (response.status === 'OK') {
-                    return duckApi.searchDucks(query)
-                        .then(ducks => ducks instanceof Array ? ducks : [])
-                } else throw new LogicError(response.error)
+        return userData.retrieve(id)
+            .then(user => {
+                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+
+                return duckApi.searchDucks(query)
+            })
+            .then(ducks => ducks instanceof Array ? ducks : [])
+
+    },
+
+    retrieveDuck(id, duckId) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
+        ])
+
+        return userData.retrieve(id)
+            .then(user => {
+                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+
+                return duckApi.retrieveDuck(duckId)
             })
     },
 
-    retrieveDuck(token, id) {
+    toggleFavDuck(id, duckId) {
         validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
+        ])
+
+        return userData.retrieve(id)
+            .then(user => {
+                const { favs = [] } = user
+
+                const index = favs.indexOf(duckId)
+
+                if (index < 0) favs.push(duckId)
+                else favs.splice(index, 1)
+
+                return userData.update(id, { favs })
+                    .then(() => { })
+            })
+    },
+
+    retrieveFavDucks(id) {
+        validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
-        const {  id: _id  } = _token.payload(token)
 
-        return userApi.retrieve(_id, token)
-            .then(response => {
-                if (response.status === 'OK') {
-                    return duckApi.retrieveDuck(id)
-                } else throw new LogicError(response.error)
-            })
-    },
+        return userData.retrieve(id)
+            .then(user => {
+                const { favs = [] } = user
 
-    toggleFavDuck(token, id) {
-        validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'id', value: id, type: 'string', notEmpty: true }
-        ])
+                if (favs.length) {
+                    const calls = favs.map(fav => duckApi.retrieveDuck(fav))
 
-        const {  id: _id  } = _token.payload(token)
-        return userApi.retrieve(_id, token)
-            .then(response => {
-                const { status, data } = response
-
-                if (status === 'OK') {
-                    const { favs = [] } = data 
-
-                    const index = favs.indexOf(id)
-
-                    if (index < 0) favs.push(id)
-                    else favs.splice(index, 1)
-
-                    return userApi.update(_id, token, { favs })
-                        .then(() => { })
-                }
-
-                throw new LogicError(response.error)
-            })
-    },
-
-    retrieveFavDucks(token) {
-        validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true }
-        ])
-        const { id } = _token.payload(token)
-
-        return userApi.retrieve(id, token)
-            .then(response => {
-                const { status, data } = response
-
-                if (status === 'OK') {
-                    const { favs = [] } = data
-
-                    if (favs.length) {
-                        const calls = favs.map(fav => duckApi.retrieveDuck(fav))
-
-                        return Promise.all(calls)
-                    } else return favs
-                }
-
-                throw new LogicError(response.error)
+                    return Promise.all(calls)
+                } else return favs
             })
     }
 }

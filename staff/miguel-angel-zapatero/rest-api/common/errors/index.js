@@ -42,6 +42,24 @@ class HttpError extends Error {
     }
 }
 
+class UnknownError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
+class UnexpectedError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
+class UnhandledError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
 class UnauthorizedError extends Error {
     constructor(message) {
         super(message)
@@ -54,7 +72,10 @@ module.exports = {
     RequirementError,
     ConnectionError,
     TimeoutError,
-    LogicError, 
+    LogicError,
     HttpError,
+    UnknownError,
+    UnexpectedError,
+    UnhandledError,
     UnauthorizedError
 }
