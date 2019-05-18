@@ -2,7 +2,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const logic = require('../logic')
 const handleErrors = require('./handle-errors')
-const { UnauthorizedError } = require('../common/errors')
+const jwt = require('jsonwebtoken')
+const auth = require('./auth')
+
+const { env: { JWT_SECRET } } = process
 
 const jsonParser = bodyParser.json()
 
@@ -22,87 +25,59 @@ router.post('/users/auth', jsonParser, (req, res) => {
 
     handleErrors(() =>
         logic.authenticateUser(email, password)
-            .then(token => res.json({ token })),
+            .then(sub => {
+                const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '47m' })
+
+                res.json({ token })
+            }),
         res)
 })
 
-router.get('/users', (req, res) => {
+router.get('/users', auth, (req, res) => {
     handleErrors(() => {
-        debugger
-        const { headers: { authorization } } = req
+        const { userId } = req
 
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.slice(7)
-
-        if (!token) throw new UnauthorizedError()
-
-        return logic.retrieveUser(token)
+        return logic.retrieveUser(userId)
             .then(user => res.json(user))
     },
         res)
 })
 
-router.post('/ducks/:id/fav', (req, res) => {
+router.post('/ducks/:id/fav', auth, (req, res) => {
     handleErrors(() => {
-        const { headers: { authorization }, params: { id } } = req
+        const { userId, params: { id } } = req
 
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.slice(7)
-
-        if (!token) throw new UnauthorizedError()
-
-        return logic.toggleFavDuck(token, id)
+        return logic.toggleFavDuck(userId, id)
             .then(() => res.json({ message: 'Ok, duck toggled.' }))
     },
         res)
 })
 
-router.get('/ducks/fav', (req, res) => {
+router.get('/ducks/fav', auth, (req, res) => {
     handleErrors(() => {
-        debugger
-        const { headers: { authorization } } = req
+        const { userId } = req
 
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.slice(7)
-
-        if (!token) throw new UnauthorizedError()
-
-        return logic.retrieveFavDucks(token)
+        return logic.retrieveFavDucks(userId)
             .then(ducks => res.json(ducks))
     },
         res)
 })
 
-router.get('/ducks', (req, res) => {
+router.get('/ducks', auth, (req, res) => {
     handleErrors(() => {
-        const { headers: { authorization }, query: { query } } = req
+        const { userId, query: { query } } = req
 
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.slice(7)
-
-        if (!token) throw new UnauthorizedError()
-
-        return logic.searchDucks(token, query)
+        return logic.searchDucks(userId, query)
             .then(ducks => res.json(ducks))
     },
         res)
 })
 
-router.get('/ducks/:id', (req, res) => {
+router.get('/ducks/:id', auth, (req, res) => {
     handleErrors(() => {
-        const { headers: { authorization }, params: { id } } = req
+        const { userId, params: { id } } = req
 
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.slice(7)
-
-        if (!token) throw new UnauthorizedError()
-
-        return logic.retrieveDuck(token, id)
+        return logic.retrieveDuck(userId, id)
             // .then(duck => res.json(duck))
             .then(res.json.bind(res))
     },

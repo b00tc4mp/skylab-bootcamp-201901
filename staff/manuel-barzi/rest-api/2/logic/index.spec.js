@@ -4,7 +4,7 @@ const userData = require('../data/user-data')
 const duckApi = require('../data/duck-api')
 require('../common/utils/object-matches.polyfill')
 const path = require('path')
-const fs = require('fs').promises
+const file = require('../common/utils/file')
 
 userData.__file__ = path.join(__dirname, 'users.test.json')
 
@@ -22,7 +22,7 @@ describe('logic', () => {
 
     describe('users', () => {
         describe('register user', () => {
-            beforeEach(() => fs.writeFile(userData.__file__, '[]'))
+            beforeEach(() => file.writeFile(userData.__file__, '[]'))
 
             it('should succeed on correct user data', () =>
                 logic.registerUser(name, surname, email, password)
@@ -140,7 +140,10 @@ describe('logic', () => {
 
             it('should succeed on correct user credential', () =>
                 logic.authenticateUser(email, password)
-                    .then(res => expect(res).toBeUndefined())
+                    .then(id => {
+                        expect(typeof id).toBe('string')
+                        expect(id.length).toBeGreaterThan(0)
+                    })
             )
 
             it('should fail on non-existing user', () =>
@@ -280,9 +283,17 @@ describe('logic', () => {
     })
 
     describe('ducks', () => {
+        let id
+
+        beforeEach(() =>
+            userData.create({ email, password, name, surname })
+                .then(() => userData.find(user => user.email === email))
+                .then(([user]) => id = user.id)
+        )
+
         describe('search ducks', () => {
             it('should succeed on correct query', () =>
-                logic.searchDucks('yellow')
+                logic.searchDucks(id, 'yellow')
                     .then(ducks => {
                         expect(ducks).toBeDefined()
                         expect(ducks).toBeInstanceOf(Array)
@@ -301,8 +312,8 @@ describe('logic', () => {
                     .then(ducks => duck = ducks[0])
             )
 
-            it('should succeed on correct duck id', () => 
-                logic.retrieveDuck(duck.id)
+            it('should succeed on correct duck id', () =>
+                logic.retrieveDuck(id, duck.id)
                     .then(_duck => {
                         expect(_duck).toMatchObject(duck)
 
@@ -313,5 +324,5 @@ describe('logic', () => {
         })
     })
 
-    afterAll(() => fs.writeFile(userData.__file__, '[]'))
+    afterAll(() => file.writeFile(userData.__file__, '[]'))
 })
