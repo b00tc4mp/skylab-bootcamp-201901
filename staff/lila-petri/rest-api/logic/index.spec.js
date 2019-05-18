@@ -328,7 +328,7 @@ describe('logic', () => {
 
             // TODO more cases
         })
-        fdescribe('retrieve cart ducks', () => {
+        describe('retrieve cart ducks', () => {
             let id, _carts
 
             beforeEach(() => {
@@ -349,7 +349,7 @@ describe('logic', () => {
 
             })
 
-            fit('should succeed adding cart on first time', () =>
+            it('should succeed adding cart on first time', () =>
                 logic.retrieveCartDucks(id)
                     .then(ducks => {
                         ducks.forEach(({ id, title, imageUrl, description, price }) => {

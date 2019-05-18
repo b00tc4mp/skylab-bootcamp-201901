@@ -128,7 +128,7 @@ const logic = {
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
-
+        debugger
         return userData.retrieve(id)
             .then(user => {
                 const { cart = [] } = user
