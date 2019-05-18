@@ -1,10 +1,19 @@
-const fs = require('fs').promises
+const file = require('../../common/utils/file')
 const path = require('path')
 const uuid = require('uuid/v4')
 const validate = require('../../common/validate')
+const { ValueError } = require('../../common/errors')
 
 const userData = {
     __file__: path.join(__dirname, 'users.json'),
+
+    __load__() {
+        return this.__users__ ? Promise.resolve(this.__users__) : file.readFile(this.__file__, 'utf8').then(JSON.parse).then(users => this.__users__ = users)
+    },
+
+    __save__() {
+        return file.writeFile(this.__file__, JSON.stringify(this.__users__))
+    },
 
     create(user) {
         validate.arguments([
@@ -13,21 +22,58 @@ const userData = {
 
         user.id = uuid()
 
-        return fs.readFile(this.__file__, 'utf8')
-            .then(content => {
-                const users = JSON.parse(content)
-
+        return this.__load__()
+            .then(users => {
                 users.push(user)
 
-                const json = JSON.stringify(users)
-
-                return fs.writeFile(this.__file__, json)
+                return this.__save__()
             })
     },
 
     list() {
-        return fs.readFile(this.__file__, 'utf8')
-            .then(JSON.parse)
+        return this.__load__()
+
+    },
+
+    retrieve(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true, optional: false }
+        ])
+
+        return this.__load__()
+            .then(users => users.find(({ id: _id }) => _id === id))
+    },
+
+    find(criteria) {
+        validate.arguments([
+            { name: 'criteria', value: criteria, type: 'function', notEmpty: true, optional: false }
+        ])
+
+        return this.__load__()
+            .then(users => users.filter(criteria))
+    },
+
+    update(id, data, replace) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object' },
+            { name: 'replace', value: replace, type: 'boolean', optional: true }
+        ])
+
+        if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')
+
+        return this.__load__()
+            .then(users => {
+                const user = users.find(({ id: _id }) => _id === id)
+
+                if (replace)
+                    for (const key in user)
+                        if (key !== 'id') delete user[key]
+
+                for (const key in data) user[key] = data[key]
+
+                return this.__save__()
+            })
     }
 }
 
