@@ -280,6 +280,94 @@ describe('logic', () => {
                     })
             )
         })
+
+        describe('toggle cart duck', () => {
+            let id, duckId
+
+            beforeEach(() => {
+                duckId = `${Math.random()}`
+
+                return userData.create({ name, surname, email, password })
+                    .then(() => userData.find(user => user.email === email))
+                    .then(([user]) => id = user.id)
+            })
+
+            it('should succeed adding cart on first time', () =>
+                logic.toggleCartDuck(id, duckId)
+                    .then(response => expect(response).toBeUndefined())
+                    .then(() => userData.retrieve(id))
+                    .then(user => {
+                        const { cart } = user
+
+                        expect(cart).toBeDefined()
+                        expect(cart).toBeInstanceOf(Array)
+                        expect(cart).toHaveLength(1)
+                        expect(cart[0]).toBe(duckId)
+                    })
+            )
+
+            it('should succeed removing cart on second time', () =>
+                logic.toggleCartDuck(id, duckId)
+                    .then(() => logic.toggleCartDuck(id, duckId))
+                    .then(response => expect(response).toBeUndefined())
+                    .then(() => userData.retrieve(id))
+                    .then(user => {
+                        const { cart } = user
+
+                        expect(cart).toBeDefined()
+                        expect(cart).toBeInstanceOf(Array)
+                        expect(cart).toHaveLength(0)
+                    })
+            )
+
+            it('should fail on null duck id', () => {
+                duckId = null
+
+                expect(() => logic.toggleCartDuck(duckId)).toThrowError(RequirementError, 'id is not optional')
+            })
+
+            // TODO more cases
+        })
+        fdescribe('retrieve cart ducks', () => {
+            let id, _carts
+
+            beforeEach(() => {
+                _carts = []
+
+                return duckApi.searchDucks('')
+                    .then(ducks => {
+                        for (let i = 0; i < 10; i++) {
+                            const randomIndex = Math.floor(Math.random() * ducks.length)
+
+                            _carts[i] = ducks.splice(randomIndex, 1)[0].id
+                        }
+
+                        return userData.create({ email, password, name, surname, favs: _carts })
+                    })
+                    .then(() => userData.find(user => user.email === email))
+                    .then(([user]) => id = user.id)
+
+            })
+
+            fit('should succeed adding cart on first time', () =>
+                logic.retrieveCartDucks(id)
+                    .then(ducks => {
+                        ducks.forEach(({ id, title, imageUrl, description, price }) => {
+                            const isOnCart = _carts.some(cart => cart === id)
+
+                            expect(isOnCart).toBeTruthy()
+                            expect(typeof title).toBe('string')
+                            expect(title.length).toBeGreaterThan(0)
+                            expect(typeof imageUrl).toBe('string')
+                            expect(imageUrl.length).toBeGreaterThan(0)
+                            expect(typeof description).toBe('string')
+                            expect(description.length).toBeGreaterThan(0)
+                            expect(typeof price).toBe('string')
+                            expect(price.length).toBeGreaterThan(0)
+                        })
+                    })
+            )
+        })
     })
 
     describe('ducks', () => {

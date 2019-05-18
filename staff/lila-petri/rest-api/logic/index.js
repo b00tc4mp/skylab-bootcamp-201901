@@ -142,6 +142,22 @@ const logic = {
                     .then(() => { })
             })
     },
+    retrieveCartDucks(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+
+        return userData.retrieve(id)
+            .then(user => {
+                const { carts = [] } = user
+
+                if (carts.length) {
+                    const carts = carts.map(cart => duckApi.retrieveDuck(cart))
+
+                    return Promise.all(calls)
+                } else return carts
+            })
+    }
 }
 
 module.exports = logic
