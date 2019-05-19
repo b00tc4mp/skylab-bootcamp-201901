@@ -1,5 +1,5 @@
 const userData = require('.')
-const fs = require('fs').promises
+const file = require('../../common/utils/file')
 const path = require('path')
 require('../../common/utils/array-random.polyfill')
 
@@ -19,7 +19,7 @@ describe('user data', () => {
     beforeEach(() => delete userData.__users__)
 
     describe('create', () => {
-        beforeEach(() => fs.writeFile(userData.__file__, '[]'))
+        beforeEach(() => file.writeFile(userData.__file__, '[]'))
 
         it('should succeed on correct data', () => {
             const user = {
@@ -33,7 +33,7 @@ describe('user data', () => {
                 .then(() => {
                     expect(typeof user.id).toBe('string')
 
-                    return fs.readFile(userData.__file__, 'utf8')
+                    return file.readFile(userData.__file__, 'utf8')
                 })
                 .then(content => {
                     expect(content).toBeDefined()
@@ -51,7 +51,7 @@ describe('user data', () => {
     })
 
     describe('list', () => {
-        beforeEach(() => fs.writeFile(userData.__file__, JSON.stringify(users)))
+        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
 
         it('should succeed and return items if users exist', () => {
             userData.list()
@@ -65,7 +65,7 @@ describe('user data', () => {
     })
 
     describe('retrieve', () => {
-        beforeEach(() => fs.writeFile(userData.__file__, JSON.stringify(users)))
+        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
 
         it('should succeed on an already existing user', () => {
             const user = users[Math.random(users.length - 1)]
@@ -78,7 +78,7 @@ describe('user data', () => {
     })
 
     describe('update', () => {
-        beforeEach(() => fs.writeFile(userData.__file__, JSON.stringify(users)))
+        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
 
         describe('replacing', () => {
             it('should succeed on correct data', () => {
@@ -87,7 +87,7 @@ describe('user data', () => {
                 const data = { name: 'n', email: 'e', password: 'p', lastAccess: Date.now() }
 
                 return userData.update(user.id, data, true)
-                    .then(() => fs.readFile(userData.__file__, 'utf8'))
+                    .then(() => file.readFile(userData.__file__, 'utf8'))
                     .then(JSON.parse)
                     .then(users => {
                         const _user = users.find(({ id }) => id === user.id)
@@ -110,7 +110,7 @@ describe('user data', () => {
                 const data = { name: 'n', surname: 's', email: 'e', password: 'p', lastAccess: Date.now() }
 
                 return userData.update(user.id, data)
-                    .then(() => fs.readFile(userData.__file__, 'utf8'))
+                    .then(() => file.readFile(userData.__file__, 'utf8'))
                     .then(JSON.parse)
                     .then(users => {
                         const _user = users.find(({ id }) => id === user.id)
@@ -143,7 +143,7 @@ describe('user data', () => {
                 password: `123-${Math.random()}`
             })
 
-            return fs.writeFile(userData.__file__, JSON.stringify(_users))
+            return file.writeFile(userData.__file__, JSON.stringify(_users))
         })
 
         it('should succeed on matching existing users', () => {
@@ -159,5 +159,5 @@ describe('user data', () => {
         })
     })
 
-    afterAll(() => fs.writeFile(userData.__file__, '[]'))
+    afterAll(() => file.writeFile(userData.__file__, '[]'))
 })

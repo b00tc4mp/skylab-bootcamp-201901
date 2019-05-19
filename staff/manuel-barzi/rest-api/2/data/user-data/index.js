@@ -1,4 +1,4 @@
-const fs = require('fs').promises
+const file = require('../../common/utils/file')
 const path = require('path')
 const uuid = require('uuid/v4')
 const validate = require('../../common/validate')
@@ -8,11 +8,11 @@ const userData = {
     __file__: path.join(__dirname, 'users.json'),
 
     __load__() {
-        return this.__users__ ? Promise.resolve(this.__users__) : fs.readFile(this.__file__, 'utf8').then(JSON.parse).then(users => this.__users__ = users)
+        return this.__users__ ? Promise.resolve(this.__users__) : file.readFile(this.__file__, 'utf8').then(JSON.parse).then(users => this.__users__ = users)
     },
 
     __save__() {
-        return fs.writeFile(this.__file__, JSON.stringify(this.__users__))
+        return file.writeFile(this.__file__, JSON.stringify(this.__users__))
     },
 
     create(user) {
@@ -48,10 +48,6 @@ const userData = {
         validate.arguments([
             { name: 'criteria', value: criteria, type: 'function', notEmpty: true, optional: false }
         ])
-
-        const index = criteria.toString()
-
-
 
         return this.__load__()
             .then(users => users.filter(criteria))
