@@ -1,4 +1,4 @@
-//@ts-check
+//@ts-ignore
 import validate from '../common/validate'
 import normalize from '../common/normalize'
 import { LogicError, FormatError } from '../common/errors'
