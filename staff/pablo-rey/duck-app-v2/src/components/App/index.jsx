@@ -6,7 +6,7 @@ import LogOut from '../LogOut'
 import LogIn from '../LogIn'
 import Home from '../Home'
 import Landing from '../Landing'
-import Register from '../Register'
+import Register from '../../pages/Register'
 import RegisterOk from '../RegisterOk'
 
 class App extends Component {

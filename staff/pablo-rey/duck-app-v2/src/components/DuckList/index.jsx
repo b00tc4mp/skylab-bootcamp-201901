@@ -3,7 +3,7 @@ import CardDuck from '../CardDuck'
 import { IonGrid, IonRow, IonCol } from '@ionic/react'
 
 function DuckList({ items, onDetail, onToggleFavorite }) {
-  if (items.length === 0) return <></>;
+  if (!items || items.length === 0) return <></>;
   return (
     <IonGrid>
       <IonCol align-self-center>

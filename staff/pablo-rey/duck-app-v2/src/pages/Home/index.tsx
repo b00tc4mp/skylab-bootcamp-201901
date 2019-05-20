@@ -11,11 +11,14 @@ import {
   IonSearchbar,
   IonLoading,
   IonBadge,
+  IonModal,
+  IonBackButton,
 } from '@ionic/react';
 import logic from '../../logic';
 import { IonIcon, IonButton } from '@ionic/react';
 import Menu from '../../components/Menu';
 import DuckList from '../../components/DuckList';
+import DuckDetail from '../../components/DuckDetail';
 
 const Home: React.FC = () => {
   const [items, setItems] = useState([]);
@@ -23,6 +26,8 @@ const Home: React.FC = () => {
   const [isLoadingSearch, setIsLoadingSearch] = useState(false);
   const [isLoadingFavs, setIsLoadingFavs] = useState(false);
   const [detailDuck, setDetailDuck] = useState(null);
+  const [view, setView] = useState('all');
+  const [searchText, setSearchText] = useState('');
 
   const simulateLogin = () => {
     logic.loginUser('a@gmail.com', '123');
@@ -47,24 +52,34 @@ const Home: React.FC = () => {
     );
   };
 
-  // const handleDetail = duck => {
-  //   return logic.retrieveDuck(duck.id)
-  //   .then(duckDetail => setDetailDuck(duckDetail))
-  // };
+  const handleDetail = duck => {
+    return logic
+      .retrieveDuck(duck.id)
+      .then(duckDetail =>
+        logic
+          .retrieveFavDucks()
+          .then(favDucks =>
+            setDetailDuck({
+              ...duckDetail,
+              isFavorite: favDucks.some(favDuck => (favDuck.id = duckDetail.id)),
+            })
+          )
+      );
+  };
 
-  const handleToggleFavorite = (toggleDuck) => {
-    return logic.toggleFavorite(toggleDuck)
+  const handleToggleFavorite = toggleDuck => {
+    return logic
+      .toggleFavorite(toggleDuck)
       .then(() => logic.retrieveFavDucks())
       .then(favDucks => {
-        const it =items.map(duck => ({ ...duck,  isFavorite: favDucks.some(favDuck => favDuck.id === duck.id) }));
+        const it = items.map(duck => ({
+          ...duck,
+          isFavorite: favDucks.some(favDuck => favDuck.id === duck.id),
+        }));
         setItems(it);
-      })
-      // .then(() => detailDuck && detailDuck.id === toggleDuck.id && setDetailDuck({...detailDuck, isFavorite: !detailDuck.isFavorite}))
-  }
-
-  const [view, setView] = useState('all');
-  const [searchText, setSearchText] = useState('');
-  const [] = useState<Array<string>>(['Favorito1', 'Favorito B']);
+      });
+    // .then(() => detailDuck && detailDuck.id === toggleDuck.id && setDetailDuck({...detailDuck, isFavorite: !detailDuck.isFavorite}))
+  };
 
   const updateSegment = (e: CustomEvent) => {
     const _view = e.detail.value;
@@ -73,8 +88,8 @@ const Home: React.FC = () => {
       setIsLoadingFavs(true);
       logic.retrieveFavDucks().then(ducks => {
         setFavs(ducks.map(duck => ({ ...duck, isFavorite: true })));
-        setIsLoadingFavs(false)
-      })
+        setIsLoadingFavs(false);
+      });
     }
   };
 
@@ -85,6 +100,24 @@ const Home: React.FC = () => {
         onDidDismiss={() => {}}
         message={'Loading...'}
       />
+      <IonModal isOpen={!!detailDuck} onDidDismiss={() => setDetailDuck(null)}>
+        <IonHeader>
+          <IonToolbar>
+            <IonButtons slot="start">
+              <IonButton onClick={() => setDetailDuck(null)}>Back</IonButton>
+            </IonButtons>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          {!!detailDuck && (
+            <DuckDetail
+              duck={detailDuck}
+              onToggleFavorite={handleToggleFavorite}
+              onBuy={() => {}}
+            />
+          )}
+        </IonContent>
+      </IonModal>
       <Menu />
       <IonPage id="main">
         <IonHeader>
@@ -124,16 +157,21 @@ const Home: React.FC = () => {
               </IonButton>
             </IonToolbar>
           )}
-        </IonHeader>
+        </IonHeader>{' '}
         <IonContent>
           {view === 'all' ? (
-            <DuckList items={items} onDetail={() => {}} onToggleFavorite={handleToggleFavorite} />
+            <DuckList
+              items={items}
+              onDetail={handleDetail}
+              onToggleFavorite={handleToggleFavorite}
+            />
           ) : (
-            <DuckList items={favs} onDetail={() => {}} onToggleFavorite={handleToggleFavorite} />
+            <DuckList
+              items={favs}
+              onDetail={handleDetail}
+              onToggleFavorite={handleToggleFavorite}
+            />
           )}
-          <IonButton onClick={simulateLogin} color="primary">
-            Primary
-          </IonButton>
         </IonContent>
       </IonPage>
     </>

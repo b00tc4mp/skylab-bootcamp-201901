@@ -13,7 +13,9 @@ import {
   IonCol,
 } from '@ionic/react';
 
-function LogIn({ history }) {
+function Register({ history }) {
+  const [name, setName] = useState('');
+  const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
@@ -22,10 +24,11 @@ function LogIn({ history }) {
     e.preventDefault();
     try {
       logic
-        .loginUser(email, password)
+        .registerUser(name, surname, email, password)
         .then(() => {
-          if (logic.isLogged) history.push('/');
+          return logic.loginUser(email, password);
         })
+        .then(() => logic.isLogged && history.push('/'))
         .catch(err => setError(err.message));
     } catch (err) {
       setError(err.message);
@@ -37,7 +40,7 @@ function LogIn({ history }) {
         <IonRow>
           <IonCol size="10" push="1">
             <IonText>
-              <h2>Login</h2>
+              <h2>Register</h2>
             </IonText>
           </IonCol>
         </IonRow>
@@ -55,6 +58,34 @@ function LogIn({ history }) {
             },
           ]}
         />
+        <IonRow>
+          <IonCol size="10" push="1">
+            <IonItem>
+              <IonLabel position="stacked">name</IonLabel>
+              <IonInput
+                type="text"
+                name="name"
+                placeholder="name"
+                value={name}
+                onIonChange={e => setName(e.target.value)}
+              />
+            </IonItem>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol size="10" push="1">
+            <IonItem>
+              <IonLabel position="stacked">surname</IonLabel>
+              <IonInput
+                type="text"
+                name="surname"
+                placeholder="surname"
+                value={surname}
+                onIonChange={e => setSurname(e.target.value)}
+              />
+            </IonItem>
+          </IonCol>
+        </IonRow>
         <IonRow>
           <IonCol size="10" push="1">
             <IonItem>
@@ -86,7 +117,7 @@ function LogIn({ history }) {
         <IonRow>
           <IonCol size="10" push="1">
             <IonButton margin-top color="primary" fill="solid" expand="block" onClick={handleLogin}>
-              Login
+              Register
             </IonButton>
           </IonCol>
         </IonRow>
@@ -97,9 +128,9 @@ function LogIn({ history }) {
               color="secondary"
               fill="solid"
               expand="block"
-              onClick={() => history.push('/register')}
+              onClick={() => history.push('/login')}
             >
-              or register here
+              or login here
             </IonButton>
           </IonCol>
         </IonRow>
@@ -108,4 +139,4 @@ function LogIn({ history }) {
   );
 }
 
-export default withRouter(LogIn);
+export default withRouter(Register);

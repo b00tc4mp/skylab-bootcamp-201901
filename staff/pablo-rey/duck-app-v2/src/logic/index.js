@@ -1,7 +1,6 @@
-//@ts-ignore
 import validate from '../common/validate'
 import normalize from '../common/normalize'
-import { LogicError, FormatError } from '../common/errors'
+import { LogicError } from '../common/errors'
 import restApi from '../data/rest-api';
 import { RequirementError } from '../common/errors';
 
@@ -71,7 +70,6 @@ const logic = {
       { name: "email", value: email, type: "string", notEmpty: true },
       { name: "password", value: password, type: "string", notEmpty: true },
     ]);
-    const user = {...this.__user__, favoriteDucks: this.__user__.favoriteDucks.map(duck => duck.id)};
 
     return restApi.updateUser(this.__token__, name, surname, email,password)
   },
@@ -93,7 +91,7 @@ const logic = {
   },
 
   toggleFavorite(duck) {
-    if (typeof duck !== 'string' && typeof duck !== 'object' || duck == null) throw new RequirementError('id|duck is not optional');
+    if (typeof duck !== 'string' && (typeof duck !== 'object' || duck == null)) throw new RequirementError('id|duck is not optional');
     const duckId = duck.id || duck;
     return restApi.toggleDuck(logic.__token__, duckId)
   },

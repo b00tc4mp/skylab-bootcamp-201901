@@ -1,31 +1,18 @@
-import React, { useState } from 'react';
-import {
-  HashRouter as Router,
-  Route,
-  Switch,
-  Redirect,
-  withRouter,
-  RouteProps,
-  RouteComponentProps,
-} from 'react-router-dom';
+import React from 'react';
+import { HashRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
 import { IonApp, IonContent } from '@ionic/react';
 import logic from './logic';
 import Home from './pages/Home';
 import Landing from './pages/Landing';
 import Login from './pages/Login';
+import Register from './pages/Register';
 
-import '@ionic/core/css/core.css';
+import '@ionic/core';
+// import '@ionic/core/css/core.css';
 import '@ionic/core/css/ionic.bundle.css';
 import './style.css';
-import { StaticContext } from 'react-router';
 
-const App: any = withRouter(({ history }) => {
-  const onLogin = (email: string, password: string) => {
-    logic.loginUser(email, password).then(() => {
-      if (logic.isLogged) history.push('/home');
-    });
-  };
-
+const App: any = () => {
   return (
     <Router>
       <IonApp>
@@ -37,8 +24,18 @@ const App: any = withRouter(({ history }) => {
               exact
               render={() => (logic.isLogged ? <Redirect to="/home" /> : <Landing />)}
             />
-            <Route path="/login" render={() => <Login errorMessage={null} onLogin={onLogin} />} />
-            <Route path="/home" component={Home} />
+            <Route
+              path="/home"
+              render={() => (logic.isLogged ? <Home /> : <Redirect to="/login" />)}
+            />
+            <Route
+              path="/login"
+              render={() => (!logic.isLogged ? <Login /> : <Redirect to="/home" />)}
+            />
+            <Route
+              path="/register"
+              render={() => (!logic.isLogged ? <Register /> : <Redirect to="/home" />)}
+            />
             <Route
               path="/logout"
               render={() => {
@@ -46,24 +43,12 @@ const App: any = withRouter(({ history }) => {
                 return <Redirect to="/" />;
               }}
             />
-            {/* <RequiresTutorialRoute path="/login" component={Login} /> */}
-            {/* <RequiresTutorialRoute path="/support" component={Support} /> */}
-            {/* <RequiresTutorialRoute path="/signup" component={Signup} /> */}
-            {/* <RequiresTutorialRoute path="/" component={AppStack} /> */}
             <Route path="*" render={() => <Redirect to="/" />} />
           </Switch>
         </IonContent>
       </IonApp>
     </Router>
   );
-});
-
-const AppContainer: React.FC = () => {
-  return (
-    <Router>
-      <App />
-    </Router>
-  );
 };
 
-export default AppContainer;
+export default App;
