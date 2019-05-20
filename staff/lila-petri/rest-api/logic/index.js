@@ -123,21 +123,37 @@ const logic = {
                 } else return favs
             })
     },
-    toggleCartDuck(id, duckId) {
+    addCartDuck(id, duckId) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
-        debugger
+        
+        return userData.retrieve(id)
+            .then(user => {
+                const { cart = [] } = user
+
+                cart.push(duckId)
+                
+                return userData.update(id, { cart })
+                    .then(() => { })
+            })
+    },
+    deleteCartDuck(id, duckId) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
+        ])
+        
         return userData.retrieve(id)
             .then(user => {
                 const { cart = [] } = user
 
                 const index = cart.indexOf(duckId)
-
-                if (index < 0) cart.push(duckId)
+                
+                if (index < 0) return
                 else cart.splice(index, 1)
-
+                
                 return userData.update(id, { cart })
                     .then(() => { })
             })
@@ -149,13 +165,40 @@ const logic = {
 
         return userData.retrieve(id)
             .then(user => {
-                const { carts = [] } = user
+                
+                const { cart = [] } = user
 
-                if (carts.length) {
-                    const carts = carts.map(cart => duckApi.retrieveDuck(cart))
-
+                if (cart.length) {
+                    const calls = cart.map(item => duckApi.retrieveDuck(item))
+                    
                     return Promise.all(calls)
-                } else return carts
+                } else return cart
+            })
+    },
+    payment(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+
+        return userData.retrieve(id)
+            .then(user => {
+                
+                let { cart = [], orders=[] } = user
+
+                if (cart.length) {
+                    
+                    orders.push( [{
+                        id: '_' + Math.random().toString(36).substr(2, 9),
+                        items: cart.slice()
+                    }])
+                    
+                    return userData.update(id, { orders })
+                        .then(()=>{
+                            cart=[]
+                            return userData.update(id, { cart })
+                        })
+                        .then(() => { })
+                } else return cart
             })
     }
 }

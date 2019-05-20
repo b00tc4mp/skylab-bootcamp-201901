@@ -53,11 +53,40 @@ router.post('/ducks/:id/fav', auth, (req, res) => {
         res)
 })
 
+router.post('/ducks/:id/cart', auth, (req, res) => {
+    handleErrors(() => {
+        const { userId, params: { id } } = req
+
+        return logic.addCartDuck(userId, id)
+            .then(() => res.json({ message: 'Ok, duck added to cart.' }))
+    },
+        res)
+})
+
+router.delete('/ducks/:id/cart', auth, (req, res) => {
+    handleErrors(() => {
+        const { userId, params: { id } } = req
+        return logic.deleteCartDuck(userId, id)
+            .then(() => res.json({ message: 'Ok, duck deleted to cart.' }))
+    },
+        res)
+})
+
 router.get('/ducks/fav', auth, (req, res) => {
     handleErrors(() => {
         const { userId } = req
 
         return logic.retrieveFavDucks(userId)
+            .then(ducks => res.json(ducks))
+    },
+        res)
+})
+
+router.get('/ducks/cart', auth, (req, res) => {
+    handleErrors(() => {
+        const { userId } = req
+
+        return logic.retrieveCartDucks(userId)
             .then(ducks => res.json(ducks))
     },
         res)
@@ -80,6 +109,16 @@ router.get('/ducks/:id', auth, (req, res) => {
         return logic.retrieveDuck(userId, id)
             // .then(duck => res.json(duck))
             .then(res.json.bind(res))
+    },
+        res)
+})
+
+router.post('/payment', auth, (req, res) => {
+    handleErrors(() => {
+        const { userId } = req
+
+        return logic.payment(userId)
+            .then(() => res.json({ message: 'Order saved successfully .' }))
     },
         res)
 })
