@@ -2,6 +2,8 @@ const validate = require('../common/validate')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
 const userData = require('../data/user-data')
+const moment = require('moment');
+
 
 const logic = {
     registerUser(name, surname, email, password) {
@@ -187,10 +189,11 @@ const logic = {
 
                 if (cart.length) {
                     
-                    orders.push( [{
+                    orders.push( {
                         id: '_' + Math.random().toString(36).substr(2, 9),
+                        date: moment(new Date()).format("YYYY-MM-DD HH:mm:ss"),
                         items: cart.slice()
-                    }])
+                    })
                     
                     return userData.update(id, { orders })
                         .then(()=>{
@@ -200,7 +203,20 @@ const logic = {
                         .then(() => { })
                 } else return cart
             })
-    }
+    },
+    retrieveOrders(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+
+        return userData.retrieve(id)
+            .then(user => {
+                
+                const { orders = [] } = user
+
+                return orders
+            })
+    },
 }
 
 module.exports = logic

@@ -122,6 +122,15 @@ router.post('/payment', auth, (req, res) => {
     },
         res)
 })
+router.get('/orders', auth, (req, res) => {
+    handleErrors(() => {
+        const { userId } = req
+
+        return logic.retrieveOrders(userId)
+            .then((orders) => res.json(orders))
+    },
+        res)
+})
 
 // TODO other routes (update, delete...)
 

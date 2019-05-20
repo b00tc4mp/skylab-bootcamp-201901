@@ -387,7 +387,7 @@ describe('logic', () => {
                     })
             )
         })
-        describe('payment', ()=>{
+        fdescribe('payment', ()=>{
             let id, duckId
 
             beforeEach(() => {
@@ -398,7 +398,7 @@ describe('logic', () => {
                     .then(([user]) => id = user.id)
                     .then(()=>logic.addCartDuck(id, duckId))
             })
-            fit('should succeed on correct data', ()=>{
+            it('should succeed on correct data', ()=>{
                 logic.payment(id)
                 .then(response => expect(response).toBeUndefined())
                 .then(() => userData.retrieve(id))
