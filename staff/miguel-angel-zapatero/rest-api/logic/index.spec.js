@@ -192,6 +192,113 @@ describe('logic', () => {
             })
         })
 
+        describe('update', () => {
+            let user = {}
+
+            beforeEach(() =>
+                userData.create({ name, surname, email, password })
+                    .then(() => userData.find(user => user.email === email))
+                    .then(users => {
+                        for (let key in users[0]) {
+                            user[key] = users[0][key]
+                        }
+                    })
+            )
+    
+            it('should succeed on correct data', () => {    
+                const data = { name: 'n', email: 'e', password: 'p', lastAccess: Date.now() }
+
+                return logic.updateUser(user.id, data)
+                    .then(response => {
+                        expect(response).toBeUndefined()
+                        return userData.find(({ id }) => id === user.id)
+                    })
+                    .then(([_user]) => {                    
+                        expect(_user).toBeDefined()
+                        expect(_user.id).toBe(user.id)
+                        expect(_user.surname).toBe(user.surname)
+                        expect(_user.name).not.toBe(user.name)
+                        expect(_user.email).not.toBe(user.email)
+                        expect(_user.password).not.toBe(user.password)
+                        expect(_user).toMatchObject(data)
+                        expect(Object.keys(_user).length).toEqual(Object.keys(user).length + 1)
+                    })
+            })
+
+            it('should succeed on incorrect user id', () => {    
+                let id = 'wrong-id'
+
+                return logic.updateUser(id)
+                    .then(() => { throw new Error('should not reach this point') })
+                    .catch(error => {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+
+                        expect(error.message).toBe(`user with id "${id}" does not exist`)
+                    })
+            })
+        })
+    
+        describe('delete', () => {
+            let user
+
+            beforeEach(() =>
+                userData.create({ name, surname, email, password })
+                    .then(() => userData.find(user => user.email === email))
+                    .then(users => user = users[0])
+            )
+            
+            it('should succed on correct id', () => {
+                return logic.deleteUser(user.id, user.email, user.password)
+                    .then((response) => {
+                        expect(response).toBeUndefined()
+                        return userData.find(({ id }) => id === user.id)
+                    })
+                    .then(([_user]) => {
+                        expect(_user).toBeUndefined()
+                    })
+            })
+    
+            it('should fail on incorrect id', () => {
+                let id = '223423'
+                
+                return logic.deleteUser(id, user.email, user.password)
+                    .then(() => { throw new Error('should not reach this point') })
+                    .catch(error => {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+
+                        expect(error.message).toBe(`user with id "${id}" does not exist`)
+                    })
+            })
+
+            it('should fail on incorrect email', () => {
+                let email = 'fake_email@gmail.com' 
+
+                return logic.deleteUser(user.id, email, user.password)
+                    .then(() => { throw new Error('should not reach this point') })
+                    .catch(error => {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+
+                        expect(error.message).toBe('wrong credentials')
+                    })
+            })
+
+            it('should fail on incorrect password', () => {
+                let password = '423'
+
+                return logic.deleteUser(user.id, user.email, password)
+                    .then(() => { throw new Error('should not reach this point') })
+                    .catch(error => {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+
+                        expect(error.message).toBe('wrong credentials')
+                    })
+            })
+        })
+
         describe('toggle fav duck', () => {
             let id, duckId
 
@@ -336,7 +443,7 @@ describe('logic', () => {
         })
 
         describe('add items', () => {
-            it('should succed adding one item', () => {
+            it('should succed adding one item', () => 
                 logic.addToCart(id, duckId)
                     .then(response => expect(response).toBeUndefined())
                     .then(() => userData.retrieve(id))
@@ -350,9 +457,9 @@ describe('logic', () => {
                         expect(cart[0].id).toBe(duckId)
                         expect(cart[0].qty).toBe(1)
                     })
-            })
+            )
 
-            it('should succed adding twice the same item', () => {
+            it('should succed adding an item twice', () => 
                 logic.addToCart(id, duckId)
                     .then(() => logic.addToCart(id, duckId))
                     .then(response => expect(response).toBeUndefined())
@@ -367,12 +474,12 @@ describe('logic', () => {
                         expect(cart[0].id).toBe(duckId)
                         expect(cart[0].qty).toBe(2)
                     })
-            })
+            )
 
             it('should succed adding two different items', () => {
                 const _duckId = `${Math.random()}`
 
-                logic.addToCart(id, duckId)
+                return logic.addToCart(id, duckId)
                     .then(() => logic.addToCart(id, _duckId))
                     .then(() => userData.retrieve(id))
                     .then(user => {
@@ -387,6 +494,67 @@ describe('logic', () => {
                         expect(cart[1]).toBeInstanceOf(Object)
                         expect(cart[1].id).toBe(_duckId)
                         expect(cart[1].qty).toBe(1)
+                    })
+            })
+        })
+
+        describe('delete items', () => {
+            let _cart
+
+            beforeEach(() => {
+                _cart = []
+                _cart.push({id: duckId, qty: Math.ceil(Math.random() * 10)})
+                return userData.update(id, { cart: _cart })
+            })
+
+            it('should succed on correct user and duckId', () => {
+                return logic.deleteToCart(id, duckId)
+                    .then(() => userData.retrieve(id))
+                    .then(user => {
+                        const { cart } = user
+
+                        expect(cart).toBeDefined()
+                        expect(cart).toBeInstanceOf(Array)
+                        expect(cart).toHaveLength(0)
+                    })
+            })
+        })
+
+        fdescribe('update items', () => {
+            let _cart, qty = 5
+
+            beforeEach(() => {
+                _cart = []
+                _cart.push({id: duckId, qty: qty})
+                return userData.update(id, { cart: _cart })
+            })
+
+            it('should succed on positive number', () => {
+                qty = 2
+                return logic.updateItemCart(id, duckId, qty)
+                    .then(() => userData.retrieve(id))
+                    .then(user => {
+                        const { cart } = user
+
+                        expect(cart).toBeDefined()
+                        expect(cart).toBeInstanceOf(Array)
+                        expect(cart).toHaveLength(1)
+                        expect(cart[0]).toBeInstanceOf(Object)
+                        expect(cart[0].id).toBe(duckId)
+                        expect(cart[0].qty).toBe(qty)
+                    })
+            })
+
+            it('should delete item on zero or negative items', () => {
+                qty = 0
+                return logic.updateItemCart(id, duckId, qty)
+                    .then(() => userData.retrieve(id))
+                    .then(user => {
+                        const { cart } = user
+
+                        expect(cart).toBeDefined()
+                        expect(cart).toBeInstanceOf(Array)
+                        expect(cart).toHaveLength(0)
                     })
             })
         })
@@ -409,17 +577,13 @@ describe('logic', () => {
 
                         return userData.update(id, { cart: _cart })
                     })
-                    // .then(() => userData.find(user => user.email === email))
-                    // .then(([user]) => id = user.id)
             })
 
             it('should succeed on correct user id', () =>
                 logic.retrieveCartItems(id)
                     .then(cart => {
-                        cart.forEach(({ _id, qty, title, price, imageUrl }) => {
-                            const isFav = _cart.some(item => item.id === _id)
-
-                            expect(isFav).toBeTruthy()
+                        cart.forEach(({ id: _id, qty, title, price, imageUrl }, i) => {
+                            expect(_id).toBe(_cart[i].id)
                             expect(typeof _id).toBe('string')
                             expect(_id.length).toBeGreaterThan(0)
                             expect(typeof qty).toBe('number')
@@ -427,13 +591,14 @@ describe('logic', () => {
                             expect(title.length).toBeGreaterThan(0)
                             expect(typeof imageUrl).toBe('string')
                             expect(imageUrl.length).toBeGreaterThan(0)
-                            expect(typeof description).toBe('string')
-                            expect(description.length).toBeGreaterThan(0)
-                            expect(typeof price).toBe('string')
-                            expect(price.length).toBeGreaterThan(0)
+                            expect(typeof price).toBe('number')
                         })
                     })
             )
+        })
+
+        describe('checkout', () => {
+
         })
     })
 

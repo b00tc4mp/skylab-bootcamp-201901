@@ -2,7 +2,10 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const logic = require('../logic')
 const handleErrors = require('./handle-errors')
-const { UnauthorizedError } = require('../common/errors')
+const jwt = require('jsonwebtoken')
+const auth = require('./auth')
+
+const { env: { JWT_SECRET } } = process
 
 const jsonParser = bodyParser.json()
 
@@ -19,114 +22,123 @@ router.post('/users', jsonParser, (req, res) => {
 router.post('/users/auth', jsonParser, (req, res) => {
     const { body: { email, password } } = req
 
-    handleErrors(() => 
+    handleErrors(() =>
         logic.authenticateUser(email, password)
-            .then(token => res.json({ token })), res)
+            .then(sub => {
+                const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '47m' })
+
+                res.json({ token })
+            }),
+        res)
 })
 
-router.get('/users', jsonParser, (req, res) => {
+router.get('/users', auth, (req, res) => {
     handleErrors(() => {
-        const { headers: { authorization } } = req
+        const { userId } = req
 
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.split(' ')[1]
-
-        if (!token) throw new UnauthorizedError()
-        
-        return logic.retrieveUser(token)
+        return logic.retrieveUser(userId)
             .then(user => res.json(user))
-    }, res)
+    },
+        res)
 })
 
-router.delete('/users/delete', jsonParser, (req, res) => {
+router.delete('/users/delete', auth, jsonParser, (req, res) => {
     handleErrors(() => {
-        const { headers: { authorization }, body: { email, password}  } = req
-        debugger
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.split(' ')[1]
-
-        if (!token) throw new UnauthorizedError()
+        const { userId, body: { email, password}  } = req
         
-        return logic.deleteUser(token, email, password)
+        return logic.deleteUser(userId, email, password)
             .then(() =>res.json({ message: 'Ok, user deleted.'}))
     }, res)
 })
 
-router.put('/users/update', jsonParser, (req, res) => {
+router.patch('/users/update', auth, jsonParser, (req, res) => {
     handleErrors(() => {
-        const { headers: { authorization }, body: data  } = req
+        const { userId, body: data  } = req
         
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.split(' ')[1]
-
-        if (!token) throw new UnauthorizedError()
-        
-        return logic.updateUser(token, data)
+        return logic.updateUser(userId, data)
             .then(() =>res.json({ message: 'Ok, user updated.'}))
     }, res)
 })
 
-router.post('/ducks/:id/fav', jsonParser, (req, res) => {
+router.post('/ducks/:id/fav', auth, (req, res) => {
     handleErrors(() => {
-        const { params: { id }, headers: { authorization } } = req
+        const { userId, params: { id } } = req
 
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.split(' ')[1]
-
-        if (!token) throw new UnauthorizedError()
-        
-        return logic.toggleFavDuck(token, id)
-            .then(() => res.json({ message: 'Ok, duck saved in favourites. '}))
-    }, res)
+        return logic.toggleFavDuck(userId, id)
+            .then(() => res.json({ message: 'Ok, duck toggled.' }))
+    },
+        res)
 })
 
-router.get('/ducks/fav', jsonParser, (req, res) => {
+router.get('/ducks/fav', auth, (req, res) => {
     handleErrors(() => {
-        const { headers: { authorization } } = req
+        const { userId } = req
 
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.split(' ')[1]
-
-        if (!token) throw new UnauthorizedError()
-        
-        return logic.retrieveFavDucks(token)
-            .then(favs => res.json(favs))
-    }, res)
-})
-
-router.get('/ducks', jsonParser, (req, res) => {
-    handleErrors(() => {
-        const { query: { query }, headers: { authorization } } = req
-
-        if (!authorization) throw new UnauthorizedError()
-
-        const token = authorization.split(' ')[1]
-
-        if (!token) throw new UnauthorizedError()
-        
-        return logic.searchDucks(token, query)
+        return logic.retrieveFavDucks(userId)
             .then(ducks => res.json(ducks))
-    }, res)
+    },
+        res)
 })
 
-router.get('/ducks/:id', jsonParser, (req, res) => {
+router.get('/ducks', auth, (req, res) => {
     handleErrors(() => {
-        const { params: { id }, headers: { authorization } } = req
+        const { userId, query: { query } } = req
 
-        if (!authorization) throw new UnauthorizedError()
+        return logic.searchDucks(userId, query)
+            .then(ducks => res.json(ducks))
+    },
+        res)
+})
 
-        const token = authorization.split(' ')[1]
+router.get('/ducks/:id', auth, (req, res) => {
+    handleErrors(() => {
+        const { userId, params: { id } } = req
 
-        if (!token) throw new UnauthorizedError()
-        
-        return logic.retrieveDuck(token, id)
-            .then(duck => res.json(duck))
-    }, res)
+        return logic.retrieveDuck(userId, id)
+            // .then(duck => res.json(duck))
+            .then(res.json.bind(res))
+    },
+        res)
+})
+
+router.post('/cart/:id/add', auth, (req, res) => {
+    handleErrors(() => {
+        const { userId, params: { id } } = req
+
+        return logic.addToCart(userId, id)
+            .then(() => res.json({ message: 'Ok, item added.' }))
+    },
+        res)
+})
+
+router.patch('/cart/:id/update', auth, (req, res) => {
+    handleErrors(() => {
+        const { userId, params: { id }, body: qty } = req
+
+        return logic.updateItemCart(userId, id, qty)
+            .then(() => res.json({ message: 'Ok, item updated.' }))
+    },
+        res)
+})
+
+router.delete('/cart/:id/delete', auth, (req, res) => {
+    handleErrors(() => {
+        const { userId, params: { id } } = req
+
+        return logic.deleteToCart(userId, id)
+            .then(() => res.json({ message: 'Ok, item deleted.' }))
+    },
+        res)
+})
+
+router.get('/cart', auth, (req, res) => {
+    handleErrors(() => {
+        const { userId } = req
+
+        return logic.retrieveCartItems(userId)
+            .then(items => res.json(items))
+    },
+        res)
 })
 
 module.exports = router

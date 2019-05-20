@@ -7,6 +7,7 @@
     "atob": "^2.1.2",
     "axios": "^0.18.0",
     "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
@@ -18,9 +19,9 @@
   "scripts": {
     "start": "node .",
     "watch": "nodemon .",
-    "debug": "node debug .",
+    "debug": "node inspect .",
     "test": "jest --runInBand",
-    "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"
+    "test:debug": "node inspect ./node_modules/jest/bin/jest.js --runInBand --watchAll"
   },
   "keywords": [],
   "author": "",
