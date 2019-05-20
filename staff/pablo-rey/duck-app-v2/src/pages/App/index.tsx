@@ -1,18 +1,19 @@
 import React from 'react';
-import { HashRouter as Router, Route, Switch, Redirect, withRouter } from 'react-router-dom';
+import { HashRouter as Router, Route, Switch, Redirect} from 'react-router-dom';
 import { IonApp, IonContent } from '@ionic/react';
-import logic from './logic';
-import Home from './pages/Home';
-import Landing from './pages/Landing';
-import Login from './pages/Login';
-import Register from './pages/Register';
+import logic from '../../logic';
+import Home from '../Home';
+import Cart from '../Cart';
+import Landing from '../Landing';
+import Login from '../Login';
+import Register from '../Register';
 
 import '@ionic/core';
 // import '@ionic/core/css/core.css';
 import '@ionic/core/css/ionic.bundle.css';
-import './style.css';
+import '../../style.css';
 
-const App: any = () => {
+const App: React.SFC = () => {
   return (
     <Router>
       <IonApp>
@@ -27,6 +28,10 @@ const App: any = () => {
             <Route
               path="/home"
               render={() => (logic.isLogged ? <Home /> : <Redirect to="/login" />)}
+            />
+            <Route
+              path="/cart"
+              render={() => (logic.isLogged ? <Cart /> : <Redirect to="/login" />)}
             />
             <Route
               path="/login"

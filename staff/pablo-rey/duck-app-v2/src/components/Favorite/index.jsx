@@ -1,14 +1,14 @@
 import React from 'react';
-import { IonIcon } from '@ionic/react';
+import { IonButton } from '@ionic/react';
 
 const Favorite = (props) => {
   const { item, isFavorite, onClickFavorite, className='' } = props;
-  const icon = isFavorite ? (
-    <IonIcon className={`favorite favorite--on ${className}`} onClick={() => onClickFavorite(item)} name="heart"/>
+  const icon = item.isFavorite ? (
+    <i className="fas fa-heart favorite--on"></i>
   ) : (
-    <IonIcon className={`favorite favorite--off ${className}`} onClick={() => onClickFavorite(item)} name="heart-empty" />
+    <i className="far fa-heart favorite--off"></i>
   );
-  return icon;
+  return <IonButton fill="clear" onClick={() => onClickFavorite(item)}>{icon}</IonButton>;
 }
 
 export default Favorite;

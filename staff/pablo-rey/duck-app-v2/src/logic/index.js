@@ -72,6 +72,10 @@ const logic = {
     ]);
 
     return restApi.updateUser(this.__token__, name, surname, email,password)
+  },  
+
+  retrieveCart() {
+    return restApi.retrieveCart(this.__token__);
   },
 
   logout() {

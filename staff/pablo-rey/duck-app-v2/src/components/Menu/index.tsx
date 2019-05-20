@@ -14,8 +14,7 @@ import {
 } from '@ionic/react';
 import { withRouter, RouteComponentProps } from 'react-router-dom';
 
-const Menu: React.SFC<RouteComponentProps<{}>> = (props) => {
-
+const Menu: React.SFC<RouteComponentProps<{}>> = ({ history }) => {
   return (
     <IonMenu contentId="main">
       <IonHeader>
@@ -26,34 +25,48 @@ const Menu: React.SFC<RouteComponentProps<{}>> = (props) => {
       <IonContent class="outer-content">
         <IonList>
           <IonListHeader>Navigate</IonListHeader>
-          <IonMenuToggle key="Calendar" auto-hide="false">
-            <IonItem button onClick={() => {}}>
-              <IonIcon slot="start" name="calendar" />
-              <IonLabel>Calendar</IonLabel>
+          <IonMenuToggle key="Home" auto-hide="false">
+            <IonItem
+              button
+              onClick={() => {
+                history.push('/home');
+              }}
+            >
+              <IonIcon slot="start" name="home" />
+              <IonLabel>Home</IonLabel>
+            </IonItem>
+          </IonMenuToggle>
+          <IonMenuToggle key="Cart" auto-hide="false">
+            <IonItem
+              button
+              onClick={() => {
+                history.push('/home/cart');
+              }}
+            >
+              <IonIcon slot="start" name="cart" />
+              <IonLabel>Cart</IonLabel>
             </IonItem>
           </IonMenuToggle>
         </IonList>
         <IonList>
           <IonListHeader>Account</IonListHeader>
-          <IonMenuToggle key="login" auto-hide="false">
+          <IonMenuToggle key="userprofile" auto-hide="false">
             <IonItem button onClick={() => {}}>
               <IonIcon slot="start" name="person" />
-              <IonLabel>Login</IonLabel>
+              <IonLabel>My profile</IonLabel>
             </IonItem>
           </IonMenuToggle>
           <IonMenuToggle key="logout" auto-hide="false">
-            <IonItem button onClick={() => {props.history.push('/logout')}}>
+            <IonItem
+              button
+              onClick={() => {
+                history.push('/logout');
+              }}
+            >
               <IonIcon slot="start" name="log-out" />
               <IonLabel>LogOut</IonLabel>
             </IonItem>
           </IonMenuToggle>
-        </IonList>
-        <IonList>
-          <IonListHeader>Tutorial</IonListHeader>
-          <IonItem onClick={() => {}}>
-            <IonIcon slot="start" name="hammer" />
-            Show Tutorial
-          </IonItem>
         </IonList>
       </IonContent>
     </IonMenu>

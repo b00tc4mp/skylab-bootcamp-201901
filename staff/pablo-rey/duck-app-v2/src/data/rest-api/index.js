@@ -14,18 +14,10 @@ const restApi = {
       { name: 'password', value: password, type: 'string', notEmpty: true },
     ]);
 
-    const controller = new AbortController();
-    let signal;
-    if (this.__timeout__) {
-      signal = controller.signal;
-      const timeout = setTimeout(() => controller.abort(), this.__timeout__);
-    }
-
     return fetch(`${this.__url__}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ name, surname, email, password }),
-      signal,
     })
       .then(res => {
         return res.json();
@@ -44,18 +36,10 @@ const restApi = {
       { name: 'password', value: password, type: 'string', notEmpty: true },
     ]);
 
-    const controller = new AbortController();
-    let signal;
-    if (this.__timeout__) {
-      signal = controller.signal;
-      const timeout = setTimeout(() => controller.abort(), this.__timeout__);
-    }
-
     return fetch(`${this.__url__}/users/auth`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }),
-      signal,
     })
       .then(res => res.json())
       .catch(error => {
@@ -69,16 +53,23 @@ const restApi = {
   retrieveUser(token) {
     validate.arguments([{ name: 'token', value: token, type: 'string', notEmpty: true }]);
 
-    const controller = new AbortController();
-    let signal;
-    if (this.__timeout__) {
-      signal = controller.signal;
-      const timeout = setTimeout(() => controller.abort(), this.__timeout__);
-    }
-
     return fetch(`${this.__url__}/users`, {
       headers: { Authorization: `Bearer ${token}` },
-      signal,
+    })
+      .then(res => res.json())
+      .catch(error => {
+        if (error instanceof TypeError) throw new ConnectionError('cannot connect');
+        else if (error instanceof DOMException)
+          throw new TimeoutError(`time out, exceeded limit of ${this.__timeout__}ms`);
+        else throw error;
+      });
+  },
+
+  retrieveCart(token) {
+    validate.arguments([{ name: 'token', value: token, type: 'string', notEmpty: true }]);
+
+    return fetch(`${this.__url__}/users/cart`, {
+      headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
       .catch(error => {
@@ -124,16 +115,8 @@ const restApi = {
       { name: 'query', value: query, type: 'string' },
     ]);
 
-    const controller = new AbortController();
-    let signal;
-    if (this.__timeout__) {
-      signal = controller.signal;
-      const timeout = setTimeout(() => controller.abort(), this.__timeout__);
-    }
-
     return fetch(`${this.__url__}/ducks?query=${query}`, {
       headers: { Authorization: `Bearer ${token}` },
-      signal,
     })
       .then(res => res.json())
       .catch(error => {

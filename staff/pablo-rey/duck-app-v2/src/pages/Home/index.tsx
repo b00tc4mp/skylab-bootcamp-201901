@@ -12,15 +12,16 @@ import {
   IonLoading,
   IonBadge,
   IonModal,
-  IonBackButton,
 } from '@ionic/react';
 import logic from '../../logic';
 import { IonIcon, IonButton } from '@ionic/react';
-import Menu from '../../components/Menu';
-import DuckList from '../../components/DuckList';
-import DuckDetail from '../../components/DuckDetail';
+import Menu from '../../components/Menu/';
+import DuckList from '../../components/Ducks/DuckList';
+import DuckDetail from '../../components/Ducks/DuckDetail';
+import Cart from '../Cart';
+import {  withRouter } from 'react-router-dom';
 
-const Home: React.FC = () => {
+const Home: React.FC<any> = ({ location }) => {
   const [items, setItems] = useState([]);
   const [favs, setFavs] = useState([]);
   const [isLoadingSearch, setIsLoadingSearch] = useState(false);
@@ -29,42 +30,34 @@ const Home: React.FC = () => {
   const [view, setView] = useState('all');
   const [searchText, setSearchText] = useState('');
 
-  const simulateLogin = () => {
-    logic.loginUser('a@gmail.com', '123');
-  };
-
   const handleSearch = () => {
     setIsLoadingSearch(true);
     setDetailDuck(null);
 
     Promise.all([logic.searchDucks(searchText), logic.retrieveFavDucks()]).then(
       ([ducks, favDucks]) => {
-        if (ducks.length) {
+        if (ducks && ducks.length) {
           setItems(
             ducks.map((duck: any) => ({
               ...duck,
               isFavorite: favDucks.some((favDuck: any) => favDuck.id === duck.id),
             }))
           );
-        } else setItems(ducks);
+        } else setItems([]);
         setIsLoadingSearch(false);
       }
     );
   };
 
   const handleDetail = duck => {
-    return logic
-      .retrieveDuck(duck.id)
-      .then(duckDetail =>
-        logic
-          .retrieveFavDucks()
-          .then(favDucks =>
-            setDetailDuck({
-              ...duckDetail,
-              isFavorite: favDucks.some(favDuck => (favDuck.id = duckDetail.id)),
-            })
-          )
-      );
+    return logic.retrieveDuck(duck.id).then(duckDetail =>
+      logic.retrieveFavDucks().then(favDucks =>
+        setDetailDuck({
+          ...duckDetail,
+          isFavorite: favDucks.some(favDuck => (favDuck.id = duckDetail.id)),
+        })
+      )
+    );
   };
 
   const handleToggleFavorite = toggleDuck => {
@@ -77,27 +70,40 @@ const Home: React.FC = () => {
           isFavorite: favDucks.some(favDuck => favDuck.id === duck.id),
         }));
         setItems(it);
+        setFavs(favDucks.map(fav => ({ ...fav, isFavorite: true })));
+        if (detailDuck && detailDuck.id === toggleDuck.id)
+          setDetailDuck({
+            ...detailDuck,
+            isFavorite: favDucks.some(favDuck => favDuck.id === detailDuck.id),
+          });
       });
-    // .then(() => detailDuck && detailDuck.id === toggleDuck.id && setDetailDuck({...detailDuck, isFavorite: !detailDuck.isFavorite}))
   };
 
   const updateSegment = (e: CustomEvent) => {
     const _view = e.detail.value;
     setView(_view);
     if (_view === 'favorites') {
-      setIsLoadingFavs(true);
+      // setIsLoadingFavs(true);
       logic.retrieveFavDucks().then(ducks => {
-        setFavs(ducks.map(duck => ({ ...duck, isFavorite: true })));
-        setIsLoadingFavs(false);
+        if (ducks) setFavs(ducks.map(duck => ({ ...duck, isFavorite: true })));
+        else setFavs([]);
+        // setIsLoadingFavs(false);
       });
     }
   };
 
+  if (location.pathname.endsWith('cart') && view !== 'cart') {
+    setView('cart');
+  }
+
   return (
     <>
       <IonLoading
-        isOpen={isLoadingFavs || isLoadingSearch}
-        onDidDismiss={() => {}}
+        isOpen={isLoadingSearch || isLoadingFavs}
+        onDidDismiss={() => {
+          setIsLoadingFavs(false);
+          setIsLoadingSearch(false);
+        }}
         message={'Loading...'}
       />
       <IonModal isOpen={!!detailDuck} onDidDismiss={() => setDetailDuck(null)}>
@@ -128,21 +134,18 @@ const Home: React.FC = () => {
 
             <IonSegment onIonChange={updateSegment}>
               <IonSegmentButton value="all" checked={view === 'all'}>
-                All
+                All <IonIcon name="search" />
               </IonSegmentButton>
               <IonSegmentButton value="favorites" checked={view === 'favorites'}>
-                Favorites
+                Favorites <IonIcon name="heart" />
               </IonSegmentButton>
-            </IonSegment>
-
-            <IonButtons slot="end">
-              <IonButton onClick={() => {}}>
-                <IonIcon name="cart" slot="icon-only" />
+              <IonSegmentButton value="cart" checked={view === 'cart'}>
+                Cart <IonIcon name="cart" />{' '}
                 <IonBadge color="secondary" slot="end">
                   2
                 </IonBadge>
-              </IonButton>
-            </IonButtons>
+              </IonSegmentButton>
+            </IonSegment>
           </IonToolbar>
 
           {view === 'all' && (
@@ -157,17 +160,13 @@ const Home: React.FC = () => {
               </IonButton>
             </IonToolbar>
           )}
-        </IonHeader>{' '}
+        </IonHeader>
         <IonContent>
-          {view === 'all' ? (
-            <DuckList
-              items={items}
-              onDetail={handleDetail}
-              onToggleFavorite={handleToggleFavorite}
-            />
+          {view === 'cart' ? (
+            <Cart />
           ) : (
             <DuckList
-              items={favs}
+              items={view === 'all' ? items : favs}
               onDetail={handleDetail}
               onToggleFavorite={handleToggleFavorite}
             />
@@ -178,4 +177,4 @@ const Home: React.FC = () => {
   );
 };
 
-export default Home;
+export default withRouter(Home);
