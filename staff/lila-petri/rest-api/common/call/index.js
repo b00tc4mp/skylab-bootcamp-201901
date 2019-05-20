@@ -23,16 +23,19 @@ function call(url, options = {}) {
 
     validate.url(url)
 
-    return axios({
-        headers,
-        method,
-        url,
-        data
-    })
-        .then(response => response.data)
-        .catch(error => {
-            if (error.code === 'ENOTFOUND')  throw new ConnectionError('cannot connect')
-            
+    return (async () => {
+        try {
+            const response = await axios({
+                headers,
+                method,
+                url,
+                data
+            })
+
+            return response.data
+        } catch (error) {
+            if (error.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')
+
             const { response } = error
 
             if (response && response.status) {
@@ -42,9 +45,10 @@ function call(url, options = {}) {
 
                 throw err
             }
-             
+
             throw error
-        })
+        }
+    })()
 }
 
 module.exports = call
