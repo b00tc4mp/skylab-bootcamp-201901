@@ -29,38 +29,36 @@ describe('user data', () => {
                 password: '123'
             }
 
-            return userData.create(user)
-                .then(() => {
-                    expect(typeof user.id).toBe('string')
+            return (async () => {
+                await userData.create(user)
+               
+                expect(typeof user.id).toBe('string')
 
-                    return file.readFile(userData.__file__, 'utf8')
-                })
-                .then(content => {
-                    expect(content).toBeDefined()
+                const content = await file.readFile(userData.__file__, 'utf8')
+            
+                expect(content).toBeDefined()
 
-                    const users = JSON.parse(content)
+                const users = JSON.parse(content)
 
-                    expect(users).toHaveLength(1)
+                expect(users).toHaveLength(1)
 
-                    const [_user] = users
+                const [_user] = users
 
-                    // expect(_user).toMatchObject(user) 
-                    expect(_user).toEqual(user)
-                })
+                expect(_user).toEqual(user)
+                
+            })()
         })
     })
 
     describe('list', () => {
         beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
 
-        it('should succeed and return items if users exist', () => {
-            userData.list()
-                .then(_users => {
-                    expect(_users).toHaveLength(users.length)
+        it('should succeed and return items if users exist', async () => {
+            const _users = await userData.list()
+                
+            expect(_users).toHaveLength(users.length)
 
-                    // expect(_users).toMatchObject(users)
-                    expect(_users).toEqual(users)
-                })
+            expect(_users).toEqual(users)
         })
     })
 
@@ -70,10 +68,11 @@ describe('user data', () => {
         it('should succeed on an already existing user', () => {
             const user = users[Math.random(users.length - 1)]
 
-            return userData.retrieve(user.id)
-                .then(_user =>
-                    expect(_user).toEqual(user)
-                )
+            return (async () => {
+                const _user = await userData.retrieve(user.id)
+                
+                expect(_user).toEqual(user)
+            })()
         })
     })
 
@@ -86,20 +85,23 @@ describe('user data', () => {
 
                 const data = { name: 'n', email: 'e', password: 'p', lastAccess: Date.now() }
 
-                return userData.update(user.id, data, true)
-                    .then(() => file.readFile(userData.__file__, 'utf8'))
-                    .then(JSON.parse)
-                    .then(users => {
-                        const _user = users.find(({ id }) => id === user.id)
+                return (async () => {
+                    await userData.update(user.id, data, true)
+                    
+                    const content = await file.readFile(userData.__file__, 'utf8')
+                    
+                    const users = JSON.parse(content)
+                    
+                    const _user = users.find(({ id }) => id === user.id)
 
-                        expect(_user).toBeDefined()
+                    expect(_user).toBeDefined()
 
-                        expect(_user.id).toEqual(user.id)
+                    expect(_user.id).toEqual(user.id)
 
-                        expect(_user).toMatchObject(data)
+                    expect(_user).toMatchObject(data)
 
-                        expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
-                    })
+                    expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
+                })()
             })
         })
 
@@ -109,20 +111,21 @@ describe('user data', () => {
 
                 const data = { email: 'e', lastAccess: Date.now() }
 
-                return userData.update(user.id, data)
-                    .then(() => file.readFile(userData.__file__, 'utf8'))
-                    .then(JSON.parse)
-                    .then(users => {
-                        const _user = users.find(({ id }) => id === user.id)
+                return (async () => {
+                    await userData.update(user.id, data)
+                    const content = await file.readFile(userData.__file__, 'utf8')
+                    const users = JSON.parse(content)
+                    
+                    const _user = users.find(({ id }) => id === user.id)
 
-                        expect(_user).toBeDefined()
+                    expect(_user).toBeDefined()
 
-                        expect(_user.id).toEqual(user.id)
+                    expect(_user.id).toEqual(user.id)
 
-                        expect(_user).toMatchObject(data)
+                    expect(_user).toMatchObject(data)
 
-                        expect(Object.keys(_user).length).toBe(6)
-                    })
+                    expect(Object.keys(_user).length).toBe(6)
+                })()
             })
         })
     })
@@ -133,28 +136,30 @@ describe('user data', () => {
         it('should succed on correct id', () => {
             const user = users[Math.random(users.length - 1)]
 
-            return userData.delete(user.id)
-            .then(() => file.readFile(userData.__file__, 'utf8'))
-            .then(JSON.parse)
-            .then(users => {
+            return (async () => {
+                await userData.delete(user.id)
+                const content = await file.readFile(userData.__file__, 'utf8')
+                const users = JSON.parse(content)
+            
                 const _user = users.find(({ id }) => id === user.id)
 
                 expect(_user).toBeUndefined()
-            })
+            })()
         })
 
         it('should fail on incorrect id', () => {
             const user = users[Math.random(users.length - 1)]
 
-            return userData.delete('123123')
-            .then(() => file.readFile(userData.__file__, 'utf8'))
-            .then(JSON.parse)
-            .then(users => {
+            return (async () => {
+                await userData.delete('123123')
+                const content = await file.readFile(userData.__file__, 'utf8')
+                const users = JSON.parse(content)
+                
                 const _user = users.find(({ id }) => id === user.id)
 
                 expect(_user).toBeDefined()
                 expect(_user).toEqual(user)
-            })
+            })()
         })
     })
 
@@ -176,8 +181,20 @@ describe('user data', () => {
         it('should succeed on matching existing users', () => {
             const criteria = ({ name, email }) => (name.includes('F') || name.includes('a')) && email.includes('i')
 
+            return (async () => {
+                const users = await userData.find(criteria)
+                
+                const __users = _users.filter(criteria)
+
+                expect(users).toEqual(__users)
+            })()
+        })
+
+        it('should succeed on matching existing users', () => {
+            const criteria = ({ name, email }) => (name.includes('F') || name.includes('a')) && email.includes('i')
+
             return userData.find(criteria)
-                .then(() => userData.find(criteria))
+                // .then(() => userData.find(criteria))
                 .then(users => {
                     const __users = _users.filter(criteria)
 

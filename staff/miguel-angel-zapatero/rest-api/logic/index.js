@@ -14,12 +14,13 @@ const logic = {
 
         validate.email(email)
 
-        return userData.find(user => user.email === email)
-            .then(users => {
-                if (users.length) throw new LogicError(`user with email "${email}" already exists`)
+        return (async () =>{  
+            const users = await userData.find(user => user.email === email)
+            
+            if (users.length) throw new LogicError(`user with email "${email}" already exists`)
 
-                return userData.create({ email, password, name, surname })
-            })
+            return await userData.create({ email, password, name, surname })
+        })()
     },
 
     authenticateUser(email, password) {
@@ -30,16 +31,16 @@ const logic = {
 
         validate.email(email)
 
-        return userData.find(user => user.email === email)
-            .then(users => {
-                if (!users.length) throw new LogicError(`user with email "${email}" does not exist`)
+        return (async () => {
+            const users = await userData.find(user => user.email === email)
+            if (!users.length) throw new LogicError(`user with email "${email}" does not exist`)
 
-                const [user] = users
+            const [user] = users
 
-                if (user.password !== password) throw new LogicError('wrong credentials')
+            if (user.password !== password) throw new LogicError('wrong credentials')
 
-                return user.id
-            })
+            return user.id
+        })()
     },
 
     retrieveUser(id) {
@@ -47,14 +48,15 @@ const logic = {
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+        return (async () => { 
+            const user = await userData.retrieve(id)
+            
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
-                const { name, surname, email } = user
+            const { name, surname, email } = user
 
-                return { name, surname, email }
-            })
+            return { name, surname, email }
+        })()
     },
 
     updateUser(id, data = {}) {
@@ -63,12 +65,13 @@ const logic = {
             { name: 'data', value: data, type: 'object' }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+        return (async () => {
+            const user = await userData.retrieve(id)
+            
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
-                return userData.update(id, data)
-            })
+            return userData.update(id, data)
+        })()
     },
 
     deleteUser(id, email, password) {
@@ -78,16 +81,17 @@ const logic = {
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+        return (async () => {
+            const user = await userData.retrieve(id)
+            
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
-                if (user.email !== email) throw new LogicError('wrong credentials')
+            if (user.email !== email) throw new LogicError('wrong credentials')
 
-                if (user.password !== password) throw new LogicError('wrong credentials')
+            if (user.password !== password) throw new LogicError('wrong credentials')
 
-                return userData.delete(id)
-            })
+            return await userData.delete(id)
+        })()
     },
 
     searchDucks(id, query) {
@@ -96,13 +100,15 @@ const logic = {
             { name: 'query', value: query, type: 'string' }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+        return (async () => {
+            const user = await userData.retrieve(id)
+           
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
-                return duckApi.searchDucks(query)
-            })
-            .then(ducks => ducks instanceof Array ? ducks : [])
+            const ducks = await duckApi.searchDucks(query)
+                
+            return ducks instanceof Array ? ducks : []
+        })()
 
     },
 
@@ -112,12 +118,13 @@ const logic = {
             { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+        return (async () => {
+            const user = await userData.retrieve(id)
+            
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
-                return duckApi.retrieveDuck(duckId)
-            })
+            return await duckApi.retrieveDuck(duckId)
+        })()
     },
 
     toggleFavDuck(id, duckId) {
@@ -126,18 +133,18 @@ const logic = {
             { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                const { favs = [] } = user
+        return (async () => {
+            const user = await userData.retrieve(id)
+            
+            const { favs = [] } = user
 
-                const index = favs.indexOf(duckId)
+            const index = favs.indexOf(duckId)
 
-                if (index < 0) favs.push(duckId)
-                else favs.splice(index, 1)
+            if (index < 0) favs.push(duckId)
+            else favs.splice(index, 1)
 
-                return userData.update(id, { favs })
-                    .then(() => { })
-            })
+            return await userData.update(id, { favs })
+        })()
     },
 
     retrieveFavDucks(id) {
@@ -145,16 +152,17 @@ const logic = {
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                const { favs = [] } = user
+        return (async () => {
+            const user = await userData.retrieve(id)
+            
+            const { favs = [] } = user
 
-                if (favs.length) {
-                    const calls = favs.map(fav => duckApi.retrieveDuck(fav))
+            if (favs.length) {
+                const calls = favs.map(fav => duckApi.retrieveDuck(fav))
 
-                    return Promise.all(calls)
-                } else return favs
-            })
+                return await Promise.all(calls)
+            } else return favs
+        })()
     },
 
     addToCart(id, duckId) {
@@ -163,18 +171,18 @@ const logic = {
             { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                const { cart = [] } = user
+        return (async () => {
+            const user = await userData.retrieve(id)
+            
+            const { cart = [] } = user
 
-                const index = cart.findIndex(({ id }) => id === duckId)
+            const index = cart.findIndex(({ id }) => id === duckId)
 
-                if (index < 0) cart.push({ id: duckId, qty: 1})
-                else cart[index].qty++
+            if (index < 0) cart.push({ id: duckId, qty: 1})
+            else cart[index].qty++
 
-                return userData.update(id, { cart })
-                    .then(() => { })
-            })
+            return await userData.update(id, { cart })
+        })()
     },
 
     updateItemCart(id, duckId, qty) {
@@ -185,22 +193,23 @@ const logic = {
 
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                const { cart = [] } = user
-                
-                if(cart.length) {
-                    if(qty <= 0) {
-                        const index = cart.indexOf(item => item.id === duckId)
-                        
-                        cart.splice(index, 1)
-                    } else {
-                        const item = cart.find(item => item.id === duckId)
+        return (async () => {
+            const user = await userData.retrieve(id)
+            
+            const { cart = [] } = user
+            
+            if(cart.length) {
+                if(qty <= 0) {
+                    const index = cart.indexOf(item => item.id === duckId)
+                    
+                    cart.splice(index, 1)
+                } else {
+                    const item = cart.find(item => item.id === duckId)
 
-                        item.qty = qty
-                    }
-                } 
-            })
+                    item.qty = qty
+                }
+            } 
+        })()
     },
 
     deleteToCart(id, duckId) {
@@ -209,15 +218,16 @@ const logic = {
             { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                const { cart = [] } = user
+        return (async () => {
+            const user = await userData.retrieve(id)
+            
+            const { cart = [] } = user
 
-                if(cart.length) {
-                    const index = cart.indexOf(item => item.id === duckId)
-                    cart.splice(index, 1)
-                } 
-            })
+            if(cart.length) {
+                const index = cart.indexOf(item => item.id === duckId)
+                cart.splice(index, 1)
+            } 
+        })()
     },
 
     retrieveCartItems(id) {
@@ -225,23 +235,22 @@ const logic = {
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                const { cart = [] } = user
+        return (async () => {
+            const user = await userData.retrieve(id)
+            
+            const { cart = [] } = user
 
-                if (cart.length) {
-                    const calls = cart.map(item => duckApi.retrieveDuck(item.id))
-                    return Promise.all(calls)
-                        .then(items => {
-                            items = items.map((item, i) => {
-                                let { title, price, imageUrl } = item
-                                price = Number(price.split(' ')[0])
-                                return { ...cart[i], title, price, imageUrl}
-                            })
-                            return items
-                        })
-                } else return cart
-            })
+            if (cart.length) {
+                const calls = cart.map(item => duckApi.retrieveDuck(item.id))
+                let items = await Promise.all(calls)
+                items = items.map((item, i) => {
+                    let { title, price, imageUrl } = item
+                    price = Number(price.split(' ')[0])
+                    return { ...cart[i], title, price, imageUrl}
+                })
+                return items
+            } else return cart
+        })()
     },
 
     checkoutCart(id, cart) {

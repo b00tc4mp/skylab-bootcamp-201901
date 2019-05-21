@@ -7,8 +7,14 @@ const { ValueError } = require('../../common/errors')
 const userData = {
     __file__: path.join(__dirname, 'users.json'),
 
-    __load__() {
-        return this.__users__ ? Promise.resolve(this.__users__) : file.readFile(this.__file__, 'utf8').then(JSON.parse).then(users => this.__users__ = users)
+    async __load__() {
+        if(this.__users__) 
+            return this.__users__
+        else {
+            const content = await file.readFile(this.__file__, 'utf8')
+            const users = JSON.parse(content)
+            return this.__users__ = users
+        }
     },
     
     __save__(users) {
@@ -22,17 +28,17 @@ const userData = {
 
         user.id = uuid()
 
-        return this.__load__()
-            .then(users => {
-                users.push(user)
+        return (async () => {
+            const users = await this.__load__()
 
-                return this.__save__(users)
-            })
+            users.push(user)
+
+            return await this.__save__(users)
+        })()
     },
 
     list() {
         return this.__load__()
-
     },
 
     retrieve(id) {
@@ -40,8 +46,11 @@ const userData = {
             { name: 'id', value: id, type: 'string', notEmpty: true, optional: false }
         ])
 
-        return this.__load__()
-            .then(users => users.find(({ id: _id }) => _id === id))
+        return (async () => {
+            const users = await this.__load__()
+            
+            return users.find(({ id: _id }) => _id === id)
+        })()
     },
 
     find(criteria) {
@@ -49,8 +58,11 @@ const userData = {
             { name: 'criteria', value: criteria, type: 'function', notEmpty: true, optional: false }
         ])
 
-        return this.__load__()
-            .then(users => users.filter(criteria))
+        return (async () => { 
+            const users = await this.__load__()
+            
+            return users.filter(criteria)
+        })()
     },
 
     update(id, data, replace) {
@@ -62,18 +74,19 @@ const userData = {
 
         if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')
 
-        return this.__load__()
-            .then(users => {
-                const user = users.find(({ id: _id }) => _id === id)
+        return (async () => {
+            const users = await this.__load__()
+            
+            const user = users.find(({ id: _id }) => _id === id)
 
-                if (replace)
-                    for (const key in user)
-                        if (key !== 'id') delete user[key]
+            if (replace)
+                for (const key in user)
+                    if (key !== 'id') delete user[key]
 
-                for (const key in data) user[key] = data[key]
+            for (const key in data) user[key] = data[key]
 
-                return this.__save__(users)
-            })
+            return await this.__save__(users)
+        })()
     },
 
     delete(id) {
@@ -81,15 +94,16 @@ const userData = {
             { name: 'id', value: id, type: 'string', notEmpty: true, optional: false }
         ])
 
-        return this.__load__()
-            .then(users => {
-                const index = users.findIndex(({ id: _id }) => _id === id)
+        return (async () => {
+            const users = await this.__load__()
+            
+            const index = users.findIndex(({ id: _id }) => _id === id)
 
-                if(index >= 0) {
-                    users.splice(index, 1)
-                    return this.__save__(users)
-                }
-            })
+            if(index >= 0) {
+                users.splice(index, 1)
+                return this.__save__(users)
+            }
+        })()
     }
 }
 
