@@ -118,7 +118,7 @@ describe('user data', () => {
     })
 
     describe('update', () => {
-        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
+        beforeEach(async () => await file.writeFile(userData.__file__, JSON.stringify(users)))
 
         describe('replacing', () => {
             it('should succeed on correct data', () => {
@@ -183,25 +183,26 @@ describe('user data', () => {
                         expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
                     })
             })
-            it('should succeed on correct data async', () => {
+            it('should succeed on correct data async', async () => {
                 const user = users[Math.random(users.length - 1)]
 
                 const data = { name: 'n', surname: 's', email: 'e', password: 'p', lastAccess: Date.now() }
 
-                return userData.update(user.id, data)
-                    .then(() => file.readFile(userData.__file__, 'utf8'))
-                    .then(JSON.parse)
-                    .then(users => {
-                        const _user = users.find(({ id }) => id === user.id)
+                await userData.update(user.id, data)
+                let _users = await file.readFile(userData.__file__, 'utf8')
+                
+                _users=JSON.parse(_users)
 
-                        expect(_user).toBeDefined()
+                const _user = _users.find(({ id }) => id === user.id)
+                
+                expect(_user).toBeDefined()
 
-                        expect(_user.id).toEqual(user.id)
+                expect(_user.id).toEqual(user.id)
 
-                        expect(_user).toMatchObject(data)
+                expect(_user).toMatchObject(data)
 
-                        expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
-                    })
+                expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
+                    
             })
         })
     })
@@ -235,6 +236,18 @@ describe('user data', () => {
 
                     expect(users).toEqual(__users)
                 })
+        })
+    
+        it('should succeed on matching existing users async', async () => {
+            const criteria = ({ name, email }) => (name.includes('F') || name.includes('a')) && email.includes('i')
+
+            await userData.find(criteria)
+            const users= await userData.find(criteria)
+                
+            const __users = _users.filter(criteria)
+
+            expect(users).toEqual(__users)
+                
         })
     })
 
