@@ -1,0 +1,14 @@
+$red: #de0000;
+$spacing: 30px;
+
+main {
+  & > section {
+    $random-spacing: 500px;
+
+    border: 2px solid $red;
+    border-radius: $spacing;
+    margin: #{$spacing/2} auto;
+    padding: $spacing;
+    width: calc(100vw - #{$random-spacing}); // Variables need to be interpolated inside a calc operation
+  }
+}
