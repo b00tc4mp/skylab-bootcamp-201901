@@ -87,7 +87,7 @@ describe('user data', () => {
         beforeEach(() => users.insert(_users))
 
         describe('replacing', () => {
-            fit('should succeed on correct data', async () => {
+            it('should succeed on correct data', async () => {
                 const user = _users.random()
 
                 const data = { email: 'e@mail.com', lastAccess: Date.now() }
@@ -108,25 +108,22 @@ describe('user data', () => {
         })
 
         describe('not replacing', () => {
-            it('should succeed on correct data', () => {
-                const user = users[Math.random(users.length - 1)]
+            it('should succeed on correct data', async () => {
+                const user = _users.random()
 
-                const data = { name: 'n', surname: 's', email: 'e', password: 'p', lastAccess: Date.now() }
+                const data = { name: 'n', lastAccess: Date.now() }
 
-                return userData.update(user.id, data)
-                    .then(() => file.readFile(userData.__file__, 'utf8'))
-                    .then(JSON.parse)
-                    .then(users => {
-                        const _user = users.find(({ id }) => id === user.id)
+                await userData.update(user._id, data)
 
-                        expect(_user).toBeDefined()
+                const _user = await users.findOne(user._id)
 
-                        expect(_user.id).toEqual(user.id)
+                expect(_user).toBeDefined()
 
-                        expect(_user).toMatchObject(data)
+                expect(_user._id).toEqual(user._id)
 
-                        expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
-                    })
+                expect(_user).toMatchObject(data)
+
+                expect(Object.keys(_user).length).toEqual(Object.keys(user).length + 1)
             })
         })
     })
@@ -136,30 +133,34 @@ describe('user data', () => {
     })
 
     describe('find', () => {
-        let _users
+        let __users
 
         beforeEach(() => {
-            _users = users.concat({
+            __users = _users.concat({
                 id: `123-${Math.random()}`,
                 name: `Fulanito-${Math.random()}`,
                 surname: `Grillo-${Math.random()}`,
-                email: `pepitogrillo-${Math.random()}@mail.com`,
+                email: `grillo-${Math.random()}@mail.com`,
                 password: `123-${Math.random()}`
             })
 
-            return file.writeFile(userData.__file__, JSON.stringify(_users))
+            return users.insert(__users)
         })
 
-        it('should succeed on matching existing users', () => {
+        it('should succeed on matching existing users', async () => {
             const criteria = ({ name, email }) => (name.includes('F') || name.includes('a')) && email.includes('i')
 
-            return userData.find(criteria)
-                .then(() => userData.find(criteria))
-                .then(users => {
-                    const __users = _users.filter(criteria)
+            const users = await userData.find(criteria)
 
-                    expect(users).toEqual(__users)
-                })
+            debugger
+
+            expect(users.length).toBeGreaterThan(0)
+
+            const _users = __users.filter(criteria)
+
+            expect(users).toEqual(_users)
+
+            users.forEach(({name}) => expect(name.startsWith('Pepito')).toBeFalsy())
         })
     })
 

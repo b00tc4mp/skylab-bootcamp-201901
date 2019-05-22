@@ -32,9 +32,16 @@ const userData = {
         ])
 
         return (async () => {
-            const users = await this.__load__()
+            const cursor = await this.__col__.find()
 
-            return users.filter(criteria)
+            const users = []
+
+            await cursor.forEach(user => {
+                if (criteria(user))
+                    users.push(user)
+            })
+
+            return users
         })()
     },
 
