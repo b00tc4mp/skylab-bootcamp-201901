@@ -1,207 +1,189 @@
 const userData = require('.')
-const file = require('../../common/utils/file')
-const path = require('path')
 require('../../common/utils/array-random.polyfill')
+const { MongoClient, ObjectId } = require('mongodb')
 
-userData.__file__ = path.join(__dirname, 'users.test.json')
+const url = 'mongodb://localhost/rest-api-test'
 
 describe('user data', () => {
+    let client, users
+
+    beforeAll(async () => {
+        client = await MongoClient.connect(url, { useNewUrlParser: true })
+
+        const db = client.db()
+
+        users = db.collection('users')
+
+        userData.__col__ = users
+    })
+
     const names = ['Pepito', 'Fulanito', 'Menganito']
+    let _users
 
-    const users = new Array(Math.random(100)).fill().map(() => ({
-        id: `123-${Math.random()}`,
-        name: `${names.random()}-${Math.random()}`,
-        surname: `Grillo-${Math.random()}`,
-        email: `grillo-${Math.random()}@mail.com`,
-        password: `123-${Math.random()}`
-    }))
-
-    beforeEach(() => delete userData.__users__)
+    beforeEach(async () => {
+        await users.deleteMany()
+        
+        _users = new Array(Math.random(10, 100)).fill().map(() => ({
+            name: `${names.random()}-${Math.random()}`,
+            surname: `Grillo-${Math.random()}`,
+            email: `grillo-${Math.random()}@mail.com`,
+            password: `123-${Math.random()}`
+        }))
+    })
 
     describe('create', () => {
-        beforeEach(() => file.writeFile(userData.__file__, '[]'))
-
-        it('should succeed on correct data', () => {
+        it('should succeed on correct data', async () => {
             const user = {
                 name: 'Manuel',
                 surname: 'Barzi',
                 email: 'manuelbarzi@gmail.com',
                 password: '123'
             }
+            await userData.create(user)
 
-            return (async () => {
-                await userData.create(user)
-               
-                expect(typeof user.id).toBe('string')
+            expect(user._id).toBeInstanceOf(ObjectId)
 
-                const content = await file.readFile(userData.__file__, 'utf8')
-            
-                expect(content).toBeDefined()
+            // const cursor = await users.find()
+            // const _users = []
+            // await cursor.forEach(user => _users.push(user))
+            //El codigo anterior se puede resumir
+            const _users = await users.find().toArray()
 
-                const users = JSON.parse(content)
+            expect(_users).toHaveLength(1)
 
-                expect(users).toHaveLength(1)
+            const [_user] = _users
 
-                const [_user] = users
-
-                expect(_user).toEqual(user)
-                
-            })()
+            expect(_user).toEqual(user)
         })
     })
 
     describe('list', () => {
-        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
+
+        beforeEach(async () => await users.insertMany(_users))
 
         it('should succeed and return items if users exist', async () => {
-            const _users = await userData.list()
-                
-            expect(_users).toHaveLength(users.length)
+            const users_ = await userData.list()
+            
+            expect(users_).toHaveLength(_users.length)
 
-            expect(_users).toEqual(users)
+            expect(users_).toEqual(_users)
         })
     })
 
     describe('retrieve', () => {
-        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
+        beforeEach(() => users.insertMany(_users))
 
-        it('should succeed on an already existing user', () => {
-            const user = users[Math.random(users.length - 1)]
+        it('should succeed on an already existing user', async () => {
+            const user = _users.random()  
 
-            return (async () => {
-                const _user = await userData.retrieve(user.id)
-                
-                expect(_user).toEqual(user)
-            })()
+            const _user = await userData.retrieve(user._id)
+            
+            expect(_user).toEqual(user)
         })
     })
 
     describe('update', () => {
-        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
+        beforeEach(async () => await users.insertMany(_users))
 
         describe('replacing', () => {
-            it('should succeed on correct data', () => {
-                const user = users[Math.random(users.length - 1)]
+            it('should succeed on correct data', async () => {
+                const user = _users.random()
+                
+                const data = { lastAccess: Date.now() }
+                
+                await userData.update(user._id, data, true)
+                
+                const _user = await users.findOne(user._id)
 
-                const data = { name: 'n', email: 'e', password: 'p', lastAccess: Date.now() }
+                expect(_user).toBeDefined()
 
-                return (async () => {
-                    await userData.update(user.id, data, true)
-                    
-                    const content = await file.readFile(userData.__file__, 'utf8')
-                    
-                    const users = JSON.parse(content)
-                    
-                    const _user = users.find(({ id }) => id === user.id)
-
-                    expect(_user).toBeDefined()
-
-                    expect(_user.id).toEqual(user.id)
-
-                    expect(_user).toMatchObject(data)
-
-                    expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
-                })()
+                expect(_user._id).toEqual(user._id)
+                
+                expect(_user).toMatchObject(data)
+                
+                expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
             })
         })
 
         describe('not replacing', () => {
-            it('should succeed on correct data', () => {
-                const user = users[Math.random(users.length - 1)]
+            it('should succeed on correct data', async () => {
+                const user = _users.random()
 
                 const data = { email: 'e', lastAccess: Date.now() }
 
-                return (async () => {
-                    await userData.update(user.id, data)
-                    const content = await file.readFile(userData.__file__, 'utf8')
-                    const users = JSON.parse(content)
-                    
-                    const _user = users.find(({ id }) => id === user.id)
+                await userData.update(user._id, data)
+                
+                const _user = await users.findOne(user._id)
+                
+                expect(_user).toBeDefined()
 
-                    expect(_user).toBeDefined()
+                expect(_user._id).toEqual(user._id)
+                debugger
+                expect(_user).toMatchObject(data)
 
-                    expect(_user.id).toEqual(user.id)
+                expect(Object.keys(_user).length).toEqual(Object.keys(user).length + 1)
 
-                    expect(_user).toMatchObject(data)
-
-                    expect(Object.keys(_user).length).toBe(6)
-                })()
+                expect(Object.keys(_user).length).toBe(6) //test extras
             })
         })
     })
 
     describe('delete', () => {
-        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
+        beforeEach(async () => await users.insertMany(_users))
         
-        it('should succed on correct id', () => {
-            const user = users[Math.random(users.length - 1)]
+        it('should succed on correct id', async () => {
+            const user = _users.random()
+            debugger
+            await userData.delete(user._id)
 
-            return (async () => {
-                await userData.delete(user.id)
-                const content = await file.readFile(userData.__file__, 'utf8')
-                const users = JSON.parse(content)
-            
-                const _user = users.find(({ id }) => id === user.id)
-
-                expect(_user).toBeUndefined()
-            })()
+            const _user = await users.findOne(user._id)
+            debugger
+            expect(_user).toBeNull()
         })
 
-        it('should fail on incorrect id', () => {
-            const user = users[Math.random(users.length - 1)]
-
-            return (async () => {
-                await userData.delete('123123')
-                const content = await file.readFile(userData.__file__, 'utf8')
-                const users = JSON.parse(content)
-                
-                const _user = users.find(({ id }) => id === user.id)
-
-                expect(_user).toBeDefined()
-                expect(_user).toEqual(user)
-            })()
+        it('should fail on incorrect id', async () => {
+            let id = {id:'123'} 
+            const user = _users[Math.random(_users.length)]
+           
+            await userData.delete(id)
+            
+            const _user = await users.findOne(user._id)
+            
+            expect(_user).toBeDefined()
+            expect(_user).toEqual(user)
         })
     })
 
     describe('find', () => {
-        let _users
+        let __users
 
         beforeEach(() => {
-            _users = users.concat({
+            __users = _users.concat({
                 id: `123-${Math.random()}`,
                 name: `Fulanito-${Math.random()}`,
                 surname: `Grillo-${Math.random()}`,
-                email: `pepitogrillo-${Math.random()}@mail.com`,
+                email: `grillo-${Math.random()}@mail.com`,
                 password: `123-${Math.random()}`
             })
 
-            return file.writeFile(userData.__file__, JSON.stringify(_users))
+            return users.insert(__users)
         })
 
-        it('should succeed on matching existing users', () => {
+        it('should succeed on matching existing users', async () => {
             const criteria = ({ name, email }) => (name.includes('F') || name.includes('a')) && email.includes('i')
 
-            return (async () => {
-                const users = await userData.find(criteria)
-                
-                const __users = _users.filter(criteria)
+            
+            const users = await userData.find(criteria)
+            
+            expect(users.length).toBeGreaterThan(0)
+            
+            const _users = __users.filter(criteria)
 
-                expect(users).toEqual(__users)
-            })()
-        })
+            expect(users).toEqual(_users)
 
-        it('should succeed on matching existing users', () => {
-            const criteria = ({ name, email }) => (name.includes('F') || name.includes('a')) && email.includes('i')
-
-            return userData.find(criteria)
-                // .then(() => userData.find(criteria))
-                .then(users => {
-                    const __users = _users.filter(criteria)
-
-                    expect(users).toEqual(__users)
-                })
+            users.forEach(({name}) => expect(name.startsWith('Pepito')).toBeFalsy())
         })
     })
 
-    afterAll(() => file.writeFile(userData.__file__, '[]'))
+    afterAll(() => client.close())
 })
