@@ -100,7 +100,6 @@ describe('user data', () => {
 
                 expect(_user._id).toEqual(user._id)
 
-                debugger
                 expect(_user).toMatchObject(data)
 
                 expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
