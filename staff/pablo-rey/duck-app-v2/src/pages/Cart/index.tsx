@@ -9,28 +9,19 @@ const Cart: React.FC = () => {
     logic.retrieveCart().then(cart => setCart(cart));
   }, []);
 
-  const handleMore = duck => {
-    const newCart = cart.slice();
-    const line = newCart.find(line => (line.duck.id === duck.id));
-    line.quantity++;
-    setCart(newCart);
-    logic.saveCart(newCart);
+  const handleMore = async duck => {
+    const savedCart = await logic.addToCart(duck);
+    setCart(savedCart);
   };
 
-  const handleMinus = duck => {
-    const newCart = cart.slice();
-    const index = newCart.findIndex(line => (line.duck.id === duck.id));
-    const line = newCart[index];
-    line.quantity--;
-    if (!line.quantity) newCart.splice(index,1)
-    setCart(newCart);
-    logic.saveCart(newCart);
+  const handleMinus = async duck => {
+    const savedCart = await logic.subtractFromCart(duck);
+    setCart(savedCart);
   };
 
-  const handleRemove = duck => {
-    const newCart = cart.filter(line => line.duck.id !== duck.id);
-    setCart(newCart)
-    logic.saveCart(newCart);
+  const handleRemove = async duck => {
+    const savedCart = await logic.removeFromCart(duck);
+    setCart(savedCart);
   };
 
   return (

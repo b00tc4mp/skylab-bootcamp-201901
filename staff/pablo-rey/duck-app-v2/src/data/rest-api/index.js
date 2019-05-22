@@ -101,6 +101,68 @@ const restApi = {
       });
   },
 
+  addToCart(token, duckId) {
+    validate.arguments([
+      { name: 'token', value: token, type: 'string', notEmpty: true },
+      { name: 'duckId', value: duckId, type: 'string', notEmpty: true },
+    ]);
+    return fetch(`${this.__url__}/users/cart/add`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ duckId }),
+    })
+      .then(res => {
+        return res.json();
+      })
+      .catch(error => {
+        if (error instanceof TypeError) throw new ConnectionError('cannot connect');
+        else if (error instanceof DOMException)
+          throw new TimeoutError(`time out, exceeded limit of ${this.__timeout__}ms`);
+        else throw error;
+      });
+  },
+
+  subtractFromCart(token, duckId) {
+    validate.arguments([
+      { name: 'token', value: token, type: 'string', notEmpty: true },
+      { name: 'duckId', value: duckId, type: 'string', notEmpty: true },
+    ]);
+    return fetch(`${this.__url__}/users/cart/subtract`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ duckId }),
+    })
+      .then(res => {
+        return res.json();
+      })
+      .catch(error => {
+        if (error instanceof TypeError) throw new ConnectionError('cannot connect');
+        else if (error instanceof DOMException)
+          throw new TimeoutError(`time out, exceeded limit of ${this.__timeout__}ms`);
+        else throw error;
+      });
+  },
+
+  removeFromCart(token, duckId) {
+    validate.arguments([
+      { name: 'token', value: token, type: 'string', notEmpty: true },
+      { name: 'duckId', value: duckId, type: 'string', notEmpty: true },
+    ]);
+    return fetch(`${this.__url__}/users/cart/remove`, {
+      method: 'POST',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ duckId }),
+    })
+      .then(res => {
+        return res.json();
+      })
+      .catch(error => {
+        if (error instanceof TypeError) throw new ConnectionError('cannot connect');
+        else if (error instanceof DOMException)
+          throw new TimeoutError(`time out, exceeded limit of ${this.__timeout__}ms`);
+        else throw error;
+      });
+  },
   /**
    *
    * @param {string} userId

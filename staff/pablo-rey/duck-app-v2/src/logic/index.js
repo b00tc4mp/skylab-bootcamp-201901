@@ -78,13 +78,16 @@ const logic = {
     return restApi.saveCart(this.__token__, cart);
   },
 
-  async addToCart(duck) {
-    const cart = await logic.retrieveCart();
-    const newCart = cart.slice();
-    const index = newCart.findIndex(line => (line.duck.id === duck.id)) 
-    if (index === -1) newCart.push({ duck, quantity: 1 });
-    else newCart[index].quantity++;
-    return await logic.saveCart(newCart);
+  addToCart(duck) {
+    return restApi.addToCart(this.__token__, duck.id);
+  },
+
+  subtractFromCart(duck) {
+    return restApi.subtractFromCart(this.__token__, duck.id);
+  },
+
+  removeFromCart(duck) {
+    return restApi.removeFromCart(this.__token__, duck.id);
   },
 
   logout() {
@@ -93,7 +96,7 @@ const logic = {
 
   isFavorite(duck) {
     validate.arguments([{ name: 'duck', value: duck, type: 'object', notEmpty: true }]);
-    return logic.retrieveFavDucks().then(ducks => ducks.some(_duck => (_duck.id === duck.id)));
+    return logic.retrieveFavDucks().then(ducks => ducks.some(_duck => _duck.id === duck.id));
   },
 
   retrieveFavDucks() {

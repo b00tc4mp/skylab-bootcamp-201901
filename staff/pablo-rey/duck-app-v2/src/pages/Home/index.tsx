@@ -49,8 +49,8 @@ const Home: React.FC<any> = ({ location }) => {
     );
   };
 
-  const handleBuy = (duck) => {
-    logic.addToCart(duck);
+  const handleBuy = async (duck) => {
+    await logic.addToCart(duck);
   }
 
   const handleDetail = duck => {
