@@ -49,12 +49,16 @@ const Home: React.FC<any> = ({ location }) => {
     );
   };
 
+  const handleBuy = (duck) => {
+    logic.addToCart(duck);
+  }
+
   const handleDetail = duck => {
     return logic.retrieveDuck(duck.id).then(duckDetail =>
       logic.retrieveFavDucks().then(favDucks =>
         setDetailDuck({
           ...duckDetail,
-          isFavorite: favDucks.some(favDuck => (favDuck.id = duckDetail.id)),
+          isFavorite: favDucks.some(favDuck => (favDuck.id === duckDetail.id)),
         })
       )
     );
@@ -119,7 +123,7 @@ const Home: React.FC<any> = ({ location }) => {
             <DuckDetail
               duck={detailDuck}
               onToggleFavorite={handleToggleFavorite}
-              onBuy={() => {}}
+              onBuy={handleBuy}
             />
           )}
         </IonContent>
@@ -169,6 +173,7 @@ const Home: React.FC<any> = ({ location }) => {
               items={view === 'all' ? items : favs}
               onDetail={handleDetail}
               onToggleFavorite={handleToggleFavorite}
+              onBuy={handleBuy}
             />
           )}
         </IonContent>

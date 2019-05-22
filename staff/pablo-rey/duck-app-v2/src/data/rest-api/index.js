@@ -13,7 +13,6 @@ const restApi = {
       { name: 'email', value: email, type: 'string', notEmpty: true },
       { name: 'password', value: password, type: 'string', notEmpty: true },
     ]);
-
     return fetch(`${this.__url__}/users`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -72,6 +71,28 @@ const restApi = {
       headers: { Authorization: `Bearer ${token}` },
     })
       .then(res => res.json())
+      .catch(error => {
+        if (error instanceof TypeError) throw new ConnectionError('cannot connect');
+        else if (error instanceof DOMException)
+          throw new TimeoutError(`time out, exceeded limit of ${this.__timeout__}ms`);
+        else throw error;
+      });
+  },
+
+  saveCart(token, cart) {
+    validate.arguments([
+      { name: 'token', value: token, type: 'string', notEmpty: true },
+      { name: 'cart', value: cart, type: 'object', notEmpty: true },
+    ]);
+
+    return fetch(`${this.__url__}/users/cart`, {
+      method: 'PUT',
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
+      body: JSON.stringify({ cart }),
+    })
+      .then(res => {
+        return res.json();
+      })
       .catch(error => {
         if (error instanceof TypeError) throw new ConnectionError('cannot connect');
         else if (error instanceof DOMException)
@@ -170,14 +191,11 @@ const restApi = {
       method: 'POST',
       headers: { Authorization: `Bearer ${token}` },
       signal,
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   },
 
   retrieveFavDucks(token) {
-    validate.arguments([
-      { name: 'token', value: token, type: 'string', notEmpty: true },
-    ]);
+    validate.arguments([{ name: 'token', value: token, type: 'string', notEmpty: true }]);
 
     const controller = new AbortController();
     let signal;
@@ -189,8 +207,7 @@ const restApi = {
     return fetch(`${this.__url__}/ducks/fav`, {
       headers: { Authorization: `Bearer ${token}` },
       signal,
-    })
-      .then(res => res.json())
+    }).then(res => res.json());
   },
 };
 

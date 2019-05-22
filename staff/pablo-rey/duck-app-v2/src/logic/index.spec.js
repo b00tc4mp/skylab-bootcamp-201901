@@ -64,7 +64,7 @@ describe('logic', () => {
             throw Error('expected no response here');
           })
           .catch(error => {
-            expect(error.message).toBe(`user with username "${wrongEmail}" does not exist`);
+            expect(error.message).toBe(`user with email "${wrongEmail}" does not exist`);
           });
       });
 
@@ -77,7 +77,7 @@ describe('logic', () => {
             throw Error('expected no response here');
           })
           .catch(error => {
-            expect(error.message).toBe('username and/or password wrong');
+            expect(error.message).toBe('wrong credentials');
           });
       });
     });

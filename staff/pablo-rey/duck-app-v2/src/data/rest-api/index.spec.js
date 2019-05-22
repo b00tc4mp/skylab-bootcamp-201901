@@ -19,11 +19,11 @@ describe('users', () => {
   beforeEach(() => (email = generateRandomEmail()));
 
   describe('create', () => {
-    it('should succeed on correct user data', () =>
-      restApi.createUser(name, surname, email, password).then(res => {
-        expect(res).toBeDefined();
-        expect(res.message).toBe('Ok, user registered. ');
-      }));
+    it('should succeed on correct user data', async () => {
+      const res = await restApi.createUser(name, surname, email, password);
+      expect(res).toBeDefined();
+      expect(res.message).toBe('Ok, user registered. ');
+    });
 
     it('should fail on retrying to register', () =>
       restApi
@@ -31,7 +31,7 @@ describe('users', () => {
         .then(() => restApi.createUser(name, surname, email, password))
         .then(response => {
           expect(response).toBeDefined();
-          expect(response.error).toBe(`user with username \"${email}\" already exists`);
+          expect(response.error).toBe(`user with email \"${email}\" already registered`);
         }));
 
     describe('sync fails', () => {
@@ -151,27 +151,26 @@ describe('users', () => {
         .loginUser((email = randomString() + 'unexisting-user@mail.com'), password)
         .then(res => {
           expect(res).toBeDefined();
-          expect(res.error).toBe(`user with username \"${email}\" does not exist`);
+          expect(res.error).toBe(`user with email \"${email}\" does not exist`);
         }));
   });
 
   describe('retrieve', () => {
     let token;
 
-    beforeEach(() =>
-      restApi
-        .createUser(name, surname, email, password)
-        .then(() => restApi.loginUser(email, password))
-        .then(res => (token = res.token))
-    );
+    beforeEach(async () => {
+      await restApi.createUser(name, surname, email, password);
+      const { token: _token } = await restApi.loginUser(email, password);
+      token = _token;
+    });
 
-    it('should succeed on correct user id and token', () =>
-      restApi.retrieveUser(token).then(response => {
-        expect(response.name).toBe(name);
-        expect(response.surname).toBe(surname);
-        expect(response.email).toBe(email);
-        expect(response.password).toBeUndefined();
-      }));
+    it('should succeed on correct user id and token', async () => {
+      const _user = await restApi.retrieveUser(token);
+      expect(_user.name).toBe(name);
+      expect(_user.surname).toBe(surname);
+      expect(_user.email).toBe(email);
+      expect(_user.password).toBeUndefined();
+    });
   });
 
   describe('update', () => {});
@@ -210,7 +209,6 @@ describe('users', () => {
           })
           .then(() => restApi.retrieveFavDucks(token))
           .then(favs => {
-            debugger;
             expect(favs).toBeDefined();
             expect(favs instanceof Array).toBeTruthy();
             expect(favs.length).toBe(1);
@@ -232,8 +230,7 @@ describe('users', () => {
         duckId = null;
 
         expect(() => restApi.toggleDuck(token, duckId)).toThrowError(
-          RequirementError,
-          'id is not optional'
+          new RequirementError('id is not optional')
         );
       });
 

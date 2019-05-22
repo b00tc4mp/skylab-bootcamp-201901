@@ -1,5 +1,7 @@
 {
   "name": "duck-app-v2",
-  "integrations": {},
+  "integrations": {
+    "capacitor": {}
+  },
   "type": "angular"
 }

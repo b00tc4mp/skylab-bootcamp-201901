@@ -1,7 +1,7 @@
 import React from 'react'
 import Favorite from '../../Favorite'
 
-function DuckDetail({ onBuy, duck, onToggleFavorite }) {
+function DuckDetail({ onBuy, duck, onToggleFavorite}) {
   const { title, imageUrl, price, description } = duck;
 
   const handleFavorite = () => {

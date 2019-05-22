@@ -12,11 +12,12 @@ import {
   IonCol,
   IonRow,
   IonButton,
+  IonList,
 } from '@ionic/react';
 
-export default function CartList({ cart }) {
+export default function CartList({ cart, onMore, onMinus, onRemove }) {
   return (
-    <>
+    <IonList>
       {cart.map(({ duck, quantity }) => {
         return (
           <IonItemSliding key={duck.id}>
@@ -31,13 +32,15 @@ export default function CartList({ cart }) {
                     <IonGrid>
                       <IonRow>
                         <IonCol size="2">
-                          <IonButton fill="clear">
+                          <IonButton fill="clear" onClick={() => onMinus(duck)}>
                             <IonIcon name="remove-circle-outline" />
                           </IonButton>
                         </IonCol>
-                        <IonCol size="2" align-self-center><IonText>{`x${quantity}`}</IonText></IonCol>
+                        <IonCol size="2" align-self-center>
+                          <IonText>{`x${quantity}`}</IonText>
+                        </IonCol>
                         <IonCol size="2">
-                          <IonButton fill="clear">
+                          <IonButton fill="clear" onClick={() => onMore(duck)}>
                             <IonIcon name="add-circle-outline" />
                           </IonButton>
                         </IonCol>
@@ -51,7 +54,7 @@ export default function CartList({ cart }) {
               </IonGrid>
             </IonItem>
             <IonItemOptions>
-              <IonItemOption color="danger">
+              <IonItemOption color="danger" onClick={() => onRemove(duck)}>
                 <IonIcon slot="start" name="trash" />
                 Remove
               </IonItemOption>
@@ -59,6 +62,6 @@ export default function CartList({ cart }) {
           </IonItemSliding>
         );
       })}
-    </>
+    </IonList>
   );
 }

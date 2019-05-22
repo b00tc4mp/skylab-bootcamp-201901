@@ -12,7 +12,7 @@ import {
 } from '@ionic/react';
 import { IonCardHeader } from '@ionic/react';
 
-function CardDuck({ item, onDetail, onToggleFavorite }) {
+function CardDuck({ item, onDetail, onToggleFavorite, onBuy }) {
   function onSelect(e) {
     e.preventDefault();
     onDetail(item);
@@ -30,7 +30,7 @@ function CardDuck({ item, onDetail, onToggleFavorite }) {
         <IonItem>
           <IonButtons slot="end">
             <Favorite item={item} isFavorite={item.isFavorite} onClickFavorite={onToggleFavorite} />
-            <IonButton fill="outline">Buy</IonButton>
+            <IonButton fill="outline" onClick={() => onBuy(item)}>Buy</IonButton>
           </IonButtons>
           <IonLabel>{item.price}</IonLabel>
         </IonItem>

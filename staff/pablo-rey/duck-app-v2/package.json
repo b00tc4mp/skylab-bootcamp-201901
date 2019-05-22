@@ -3,14 +3,17 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@capacitor/android": "^1.0.0-beta.25",
+    "@capacitor/cli": "1.0.0-beta.25",
+    "@capacitor/core": "1.0.0-beta.25",
     "@ionic/core": "^4.4.0",
     "@ionic/react": "0.0.5",
     "@types/jest": "24.0.13",
     "@types/node": "12.0.2",
     "@types/react": "16.8.17",
+    "@types/react-dom": "16.8.4",
     "@types/react-router": "^4.4.3",
     "@types/react-router-dom": "^4.3.1",
-    "@types/react-dom": "16.8.4",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router": "^4.3.1",
@@ -22,6 +25,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:inspect": "react-scripts --inspect-brk test --runInBand --no-cache",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
