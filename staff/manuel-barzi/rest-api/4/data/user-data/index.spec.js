@@ -2,7 +2,7 @@ const userData = require('.')
 require('../../common/utils/array-random.polyfill')
 const { MongoClient, ObjectId } = require('mongodb')
 
-const url = 'mongodb://localhost/rest-api-test'
+const url = 'mongodb://localhost/rest-api-user-data-test'
 
 describe('user data', () => {
     let client, users
