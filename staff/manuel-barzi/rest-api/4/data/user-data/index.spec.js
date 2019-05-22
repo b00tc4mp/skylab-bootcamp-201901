@@ -19,17 +19,21 @@ describe('user data', () => {
 
     const names = ['Pepito', 'Fulanito', 'Menganito']
 
-    const _users = new Array(Math.random(100)).fill().map(() => ({
-        name: `${names.random()}-${Math.random()}`,
-        surname: `Grillo-${Math.random()}`,
-        email: `grillo-${Math.random()}@mail.com`,
-        password: `123-${Math.random()}`
-    }))
+    let _users
 
-    beforeEach(() => users.deleteMany())
+    beforeEach(async () => {
+        await users.deleteMany()
+
+        _users = new Array(Math.random(50, 100)).fill().map(() => ({
+            name: `${names.random()}-${Math.random()}`,
+            surname: `Grillo-${Math.random()}`,
+            email: `grillo-${Math.random()}@mail.com`,
+            password: `123-${Math.random()}`
+        }))
+    })
 
     describe('create', () => {
-        fit('should succeed on correct data', async () => {
+        it('should succeed on correct data', async () => {
             const user = {
                 name: 'Manuel',
                 surname: 'Barzi',
@@ -38,15 +42,15 @@ describe('user data', () => {
             }
 
             await userData.create(user)
-            
+
             expect(user._id).toBeInstanceOf(ObjectId)
-            
+
             const cursor = await users.find()
-            
+
             const _users = []
-            
+
             await cursor.forEach(user => _users.push(user))
-            
+
             expect(_users).toHaveLength(1)
 
             const [_user] = _users
@@ -56,55 +60,50 @@ describe('user data', () => {
     })
 
     describe('list', () => {
-        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
+        beforeEach(() => users.insert(_users))
 
-        it('should succeed and return items if users exist', () => {
-            userData.list()
-                .then(_users => {
-                    expect(_users).toHaveLength(users.length)
+        it('should succeed and return items if users exist', async () => {
+            const users = await userData.list()
 
-                    // expect(_users).toMatchObject(users)
-                    expect(_users).toEqual(users)
-                })
+            expect(users).toHaveLength(_users.length)
+
+            expect(users).toEqual(_users)
         })
     })
 
     describe('retrieve', () => {
-        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
+        beforeEach(() => users.insert(_users))
 
-        it('should succeed on an already existing user', () => {
-            const user = users[Math.random(users.length - 1)]
+        it('should succeed on an already existing user', async () => {
+            const user = _users.random()
 
-            return userData.retrieve(user.id)
-                .then(_user =>
-                    expect(_user).toEqual(user)
-                )
+            const _user = await userData.retrieve(user._id)
+
+            expect(_user).toEqual(user)
         })
     })
 
     describe('update', () => {
-        beforeEach(() => file.writeFile(userData.__file__, JSON.stringify(users)))
+        beforeEach(() => users.insert(_users))
 
         describe('replacing', () => {
-            it('should succeed on correct data', () => {
-                const user = users[Math.random(users.length - 1)]
+            fit('should succeed on correct data', async () => {
+                const user = _users.random()
 
-                const data = { name: 'n', email: 'e', password: 'p', lastAccess: Date.now() }
+                const data = { email: 'e@mail.com', lastAccess: Date.now() }
 
-                return userData.update(user.id, data, true)
-                    .then(() => file.readFile(userData.__file__, 'utf8'))
-                    .then(JSON.parse)
-                    .then(users => {
-                        const _user = users.find(({ id }) => id === user.id)
+                await userData.update(user._id, data, true)
 
-                        expect(_user).toBeDefined()
+                const _user = await users.findOne(user._id)
 
-                        expect(_user.id).toEqual(user.id)
+                expect(_user).toBeDefined()
 
-                        expect(_user).toMatchObject(data)
+                expect(_user._id).toEqual(user._id)
 
-                        expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
-                    })
+                debugger
+                expect(_user).toMatchObject(data)
+
+                expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)
             })
         })
 
