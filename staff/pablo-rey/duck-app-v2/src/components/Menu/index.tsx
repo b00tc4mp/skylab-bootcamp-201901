@@ -36,6 +36,17 @@ const Menu: React.SFC<RouteComponentProps<{}>> = ({ history }) => {
               <IonLabel>Home</IonLabel>
             </IonItem>
           </IonMenuToggle>
+          <IonMenuToggle key="Favorites" auto-hide="false">
+            <IonItem
+              button
+              onClick={() => {
+                history.push('/home/favorites');
+              }}
+            >
+              <IonIcon slot="start" name="heart" />
+              <IonLabel>Favorites</IonLabel>
+            </IonItem>
+          </IonMenuToggle>
           <IonMenuToggle key="Cart" auto-hide="false">
             <IonItem
               button

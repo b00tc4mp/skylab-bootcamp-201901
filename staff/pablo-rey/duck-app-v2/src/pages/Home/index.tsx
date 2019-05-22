@@ -19,9 +19,9 @@ import Menu from '../../components/Menu/';
 import DuckList from '../../components/Ducks/DuckList';
 import DuckDetail from '../../components/Ducks/DuckDetail';
 import Cart from '../Cart';
-import {  withRouter } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-const Home: React.FC<any> = ({ location }) => {
+const Home: React.FC<any> = ({ history, location }) => {
   const [items, setItems] = useState([]);
   const [favs, setFavs] = useState([]);
   const [isLoadingSearch, setIsLoadingSearch] = useState(false);
@@ -49,16 +49,17 @@ const Home: React.FC<any> = ({ location }) => {
     );
   };
 
-  const handleBuy = async (duck) => {
+  const handleBuy = async duck => {
     await logic.addToCart(duck);
-  }
+    setView('cart');
+  };
 
   const handleDetail = duck => {
     return logic.retrieveDuck(duck.id).then(duckDetail =>
       logic.retrieveFavDucks().then(favDucks =>
         setDetailDuck({
           ...duckDetail,
-          isFavorite: favDucks.some(favDuck => (favDuck.id === duckDetail.id)),
+          isFavorite: favDucks.some(favDuck => favDuck.id === duckDetail.id),
         })
       )
     );
@@ -97,7 +98,11 @@ const Home: React.FC<any> = ({ location }) => {
   };
 
   if (location.pathname.endsWith('cart') && view !== 'cart') {
+    history.replace('/home');
     setView('cart');
+  } else if (location.pathname.endsWith('favorites') && view !== 'favorites') {
+    history.replace('/home');
+    setView('favorites');
   }
 
   return (
