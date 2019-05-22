@@ -60,7 +60,7 @@ const userData = {
             // else
             //     await users.findOneAndUpdate(id, { $set: data })
 
-            await replace ? this.__col__.findOneAndReplace({ _id: id }, data) : this.__col__.findOneAndUpdate({ _id: id }, { $set: data })
+             await (replace ? this.__col__.findOneAndReplace({ _id: id }, data) : this.__col__.findOneAndUpdate({ _id: id }, { $set: data }))
         })()
     }
 }
