@@ -50,9 +50,25 @@ db.once('open', async () => {
   });
   const Product = mongoose.model('Product', productSchema);
 
+  const wishListSchema = new Schema({
+    client: { type : Schema.Types.ObjectId, ref: 'Client', required: true},
+    date: Date,
+    products: [
+      {
+        product: { type : Schema.Types.ObjectId, ref: 'Product', required: true},
+        qty: Number,
+      },
+    ],
+  });
+  wishListSchema.virtual('amount').get(function() {
+    return this.products.reduce((acc, line) => acc + line.product.price * line.qty, 0);
+  });
+  const WishList = mongoose.model('WishList', wishListSchema);
+
+
   const invoiceSchema = new Schema({
     client: clientSchema,
-    date: Date,
+    date: { type: Date, default: Date.now },
     products: [
       {
         product: productSchema,
@@ -66,6 +82,11 @@ db.once('open', async () => {
   const Invoice = mongoose.model('Invoice', invoiceSchema);
 
   // data
+  await Client.deleteMany();
+  await Product.deleteMany();
+  await Invoice.deleteMany();
+  await WishList.deleteMany();
+
   const perico = new Client({
     fullname: 'Perico Palotes',
     DNI: ' 1F ',
@@ -132,6 +153,26 @@ db.once('open', async () => {
   invoice = await Invoice.findById(invoiceId);
   printInvoice(invoice)
 
+  let wishList = new WishList({
+    client: albertito,
+    date: new Date(),
+    products: [
+      {
+        product: products[1],
+        qty: 3,
+      },
+      {
+        product: products[0],
+        qty: 1,
+      },
+      {
+        product: products[2],
+        qty: 2,
+      },
+    ],
+  });
+  await wishList.save();
+  
   mongoose.disconnect()
 
 });
