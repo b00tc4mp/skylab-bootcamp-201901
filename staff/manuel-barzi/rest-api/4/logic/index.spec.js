@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const logic = require('.')
 const { LogicError, RequirementError, ValueError, FormatError } = require('../common/errors')
 const userData = require('../data/user-data')
@@ -6,7 +8,7 @@ require('../common/utils/object-matches.polyfill')
 require('../common/utils/array-random.polyfill')
 const { MongoClient, ObjectId } = require('mongodb')
 
-const url = 'mongodb://localhost/rest-api-logic-test'
+const { env: { MONGO_URL_LOGIC_TEST : url }} = process
 
 describe('logic', () => {
     let client, users
@@ -184,6 +186,7 @@ describe('logic', () => {
                 const user = await logic.retrieveUser(id)
 
                 expect(user.id).toBeUndefined()
+                expect(user._id).toBeUndefined()
                 expect(user.name).toBe(name)
                 expect(user.surname).toBe(surname)
                 expect(user.email).toBe(email)

@@ -1,8 +1,10 @@
+require('dotenv').config()
+
 const userData = require('.')
 require('../../common/utils/array-random.polyfill')
 const { MongoClient, ObjectId } = require('mongodb')
 
-const url = 'mongodb://localhost/rest-api-user-data-test'
+const { env: { MONGO_URL_USER_DATA_TEST : url }} = process
 
 describe('user data', () => {
     let client, users
