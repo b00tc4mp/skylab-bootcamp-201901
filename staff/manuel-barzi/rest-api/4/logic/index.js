@@ -69,14 +69,19 @@ const logic = {
             { name: 'query', value: query, type: 'string' }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+        if (!ObjectId.isValid(id)) throw new FormatError('invalid id')
 
-                return duckApi.searchDucks(query)
-            })
-            .then(ducks => ducks instanceof Array ? ducks : [])
+        return (async () => {
+            const user = await userData.retrieve(ObjectId(id))
 
+            debugger
+
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+
+            const ducks = await duckApi.searchDucks(query)
+
+            return ducks instanceof Array ? ducks : []
+        })()
     },
 
     retrieveDuck(id, duckId) {
@@ -88,7 +93,7 @@ const logic = {
         if (!ObjectId.isValid(id)) throw new FormatError('invalid id')
 
         return (async () => {
-            const user = await userData.retrieve(id)
+            const user = await userData.retrieve(ObjectId(id))
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
@@ -125,16 +130,19 @@ const logic = {
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
-        return userData.retrieve(id)
-            .then(user => {
-                const { favs = [] } = user
+        if (!ObjectId.isValid(id)) throw new FormatError('invalid id')
 
-                if (favs.length) {
-                    const calls = favs.map(fav => duckApi.retrieveDuck(fav))
+        return (async () => {
+            const user = await userData.retrieve(ObjectId(id))
 
-                    return Promise.all(calls)
-                } else return favs
-            })
+            const { favs = [] } = user
+
+            if (favs.length)
+                for (let i = 0; i < favs.length; i++)
+                    favs[i] = await duckApi.retrieveDuck(favs[i])
+
+            return favs
+        })()
     }
 }
 
