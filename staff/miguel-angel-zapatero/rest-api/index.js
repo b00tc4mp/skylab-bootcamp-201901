@@ -4,6 +4,9 @@ const express = require('express')
 const package = require('./package.json')
 const router = require('./routes')
 const cors = require('cors')
+const userData = require('./data/user-data')
+
+const db = require('./database')
  
 const { env: { PORT }, argv: [, , port = PORT || 8080], } = process
 
@@ -24,4 +27,19 @@ app.use(function (req, res, next) {
     // res.redirect('/')
 })
 
-app.listen(port, () => console.log(`${package.name} ${package.version} up on port ${port}`))
+// Connect to Mongo on start
+const url = 'mongodb://localhost/user-data-test'
+
+db.connect(url, function(err) {
+  if (err) {
+    console.log('Unable to connect to Mongo.')
+    process.exit(1)
+  } else {
+    console.log('Database connection success')
+    
+    const db_ = db.get()
+    userData.__col__ = db_.collection('users')
+
+    app.listen(port, () => console.log(`${package.name} ${package.version} up on port ${port}`))
+  }
+})

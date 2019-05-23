@@ -1,7 +1,10 @@
 const validate = require('../common/validate')
 const duckApi = require('../data/duck-api')
-const { LogicError } = require('../common/errors')
+const { LogicError, FormatError } = require('../common/errors')
 const userData = require('../data/user-data')
+const { ObjectId } = require('mongodb')
+
+const db = require('../database')
 
 const logic = {
     registerUser(name, surname, email, password) {
@@ -13,13 +16,14 @@ const logic = {
         ])
 
         validate.email(email)
-
+        
         return (async () =>{  
             const users = await userData.find(user => user.email === email)
             
             if (users.length) throw new LogicError(`user with email "${email}" already exists`)
 
-            return await userData.create({ email, password, name, surname })
+            await userData.create({ email, password, name, surname })
+            // db.close()
         })()
     },
 
@@ -38,8 +42,8 @@ const logic = {
             const [user] = users
 
             if (user.password !== password) throw new LogicError('wrong credentials')
-
-            return user.id
+            
+            return user._id.toString()
         })()
     },
 
@@ -48,8 +52,10 @@ const logic = {
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => { 
-            const user = await userData.retrieve(id)
+            const user = await userData.retrieve(ObjectId(id))
             
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
@@ -65,12 +71,14 @@ const logic = {
             { name: 'data', value: data, type: 'object' }
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => {
-            const user = await userData.retrieve(id)
+            const user = await userData.retrieve(ObjectId(id))
             
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
-            return userData.update(id, data)
+            await userData.update(ObjectId(id), data)
         })()
     },
 
@@ -81,8 +89,10 @@ const logic = {
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => {
-            const user = await userData.retrieve(id)
+            const user = await userData.retrieve(ObjectId(id))
             
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
@@ -90,7 +100,7 @@ const logic = {
 
             if (user.password !== password) throw new LogicError('wrong credentials')
 
-            return await userData.delete(id)
+            await userData.delete(ObjectId(id))
         })()
     },
 
@@ -100,8 +110,10 @@ const logic = {
             { name: 'query', value: query, type: 'string' }
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => {
-            const user = await userData.retrieve(id)
+            const user = await userData.retrieve(ObjectId(id))
            
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
@@ -118,8 +130,10 @@ const logic = {
             { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => {
-            const user = await userData.retrieve(id)
+            const user = await userData.retrieve(ObjectId(id))
             
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
@@ -133,8 +147,10 @@ const logic = {
             { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => {
-            const user = await userData.retrieve(id)
+            const user = await userData.retrieve(ObjectId(id))
             
             const { favs = [] } = user
 
@@ -143,7 +159,7 @@ const logic = {
             if (index < 0) favs.push(duckId)
             else favs.splice(index, 1)
 
-            return await userData.update(id, { favs })
+            await userData.update(ObjectId(id), { favs })
         })()
     },
 
@@ -152,8 +168,10 @@ const logic = {
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => {
-            const user = await userData.retrieve(id)
+            const user = await userData.retrieve(ObjectId(id))
             
             const { favs = [] } = user
 
@@ -171,8 +189,10 @@ const logic = {
             { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => {
-            const user = await userData.retrieve(id)
+            const user = await userData.retrieve(ObjectId(id))
             
             const { cart = [] } = user
 
@@ -181,7 +201,7 @@ const logic = {
             if (index < 0) cart.push({ id: duckId, qty: 1})
             else cart[index].qty++
 
-            return await userData.update(id, { cart })
+            await userData.update(ObjectId(id), { cart })
         })()
     },
 
@@ -193,8 +213,10 @@ const logic = {
 
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => {
-            const user = await userData.retrieve(id)
+            const user = await userData.retrieve(ObjectId(id))
             
             const { cart = [] } = user
             
@@ -209,6 +231,8 @@ const logic = {
                     item.qty = qty
                 }
             } 
+            
+            await userData.update(ObjectId(id), { cart })
         })()
     },
 
@@ -218,8 +242,12 @@ const logic = {
             { name: 'duckId', value: duckId, type: 'string', notEmpty: true }
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => {
-            const user = await userData.retrieve(id)
+            const oid = ObjectId(id)
+
+            const user = await userData.retrieve(oid)
             
             const { cart = [] } = user
 
@@ -227,6 +255,7 @@ const logic = {
                 const index = cart.indexOf(item => item.id === duckId)
                 cart.splice(index, 1)
             } 
+            await userData.update(oid, { cart })
         })()
     },
 
@@ -235,8 +264,12 @@ const logic = {
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
+        if(!ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return (async () => {
-            const user = await userData.retrieve(id)
+            const oid = ObjectId(id)
+
+            const user = await userData.retrieve(oid)
             
             const { cart = [] } = user
 

@@ -29,13 +29,9 @@ const userData = {
         validate.arguments([
             { name: 'id', value: id, type: 'object', notEmpty: true, optional: false }
         ])
-
-        return this.__col__.findOne(id)
-
-        // return (async () => {
-        //     const user = await this.__col__.findOne(id)
-        //     return user
-        // })()
+        
+        //no hace falta poner async/await porque ya devuelve una promise
+        return this.__col__.findOne(id) 
     },
 
     find(criteria) {
