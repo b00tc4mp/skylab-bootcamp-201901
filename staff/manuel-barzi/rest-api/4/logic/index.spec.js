@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const logic = require('.')
 const { LogicError, RequirementError, ValueError, FormatError } = require('../common/errors')
 const userData = require('../data/user-data')
@@ -6,7 +8,7 @@ require('../common/utils/object-matches.polyfill')
 require('../common/utils/array-random.polyfill')
 const { MongoClient, ObjectId } = require('mongodb')
 
-const url = 'mongodb://localhost/rest-api-test'
+const { env: { MONGO_URL_LOGIC_TEST : url }} = process
 
 describe('logic', () => {
     let client, users
@@ -184,6 +186,7 @@ describe('logic', () => {
                 const user = await logic.retrieveUser(id)
 
                 expect(user.id).toBeUndefined()
+                expect(user._id).toBeUndefined()
                 expect(user.name).toBe(name)
                 expect(user.surname).toBe(surname)
                 expect(user.email).toBe(email)
@@ -262,84 +265,84 @@ describe('logic', () => {
         describe('retrieve fav ducks', () => {
             let id, _favs
 
-            beforeEach(() => {
+            beforeEach(async () => {
                 _favs = []
 
-                return duckApi.searchDucks('')
-                    .then(ducks => {
-                        for (let i = 0; i < 10; i++) {
-                            const randomIndex = Math.floor(Math.random() * ducks.length)
+                const ducks = await duckApi.searchDucks('')
 
-                            _favs[i] = ducks.splice(randomIndex, 1)[0].id
-                        }
+                for (let i = 0; i < 10; i++) {
+                    const randomIndex = Math.floor(Math.random() * ducks.length)
 
-                        return userData.create({ email, password, name, surname, favs: _favs })
-                    })
-                    .then(() => userData.find(user => user.email === email))
-                    .then(([user]) => id = user.id)
+                    _favs[i] = ducks.splice(randomIndex, 1)[0].id
+                }
 
+                await userData.create({ email, password, name, surname, favs: _favs })
+
+                const [user] = await userData.find(user => user.email === email)
+
+                id = user._id.toString()
             })
 
-            it('should succeed adding fav on first time', () =>
-                logic.retrieveFavDucks(id)
-                    .then(ducks => {
-                        ducks.forEach(({ id, title, imageUrl, description, price }) => {
-                            const isFav = _favs.some(fav => fav === id)
+            it('should succeed on existing fav ducks', async () => {
+                const ducks = await logic.retrieveFavDucks(id)
 
-                            expect(isFav).toBeTruthy()
-                            expect(typeof title).toBe('string')
-                            expect(title.length).toBeGreaterThan(0)
-                            expect(typeof imageUrl).toBe('string')
-                            expect(imageUrl.length).toBeGreaterThan(0)
-                            expect(typeof description).toBe('string')
-                            expect(description.length).toBeGreaterThan(0)
-                            expect(typeof price).toBe('string')
-                            expect(price.length).toBeGreaterThan(0)
-                        })
-                    })
-            )
+                ducks.forEach(({ id, title, imageUrl, description, price }) => {
+                    const isFav = _favs.some(fav => fav === id)
+
+                    expect(isFav).toBeTruthy()
+                    expect(typeof title).toBe('string')
+                    expect(title.length).toBeGreaterThan(0)
+                    expect(typeof imageUrl).toBe('string')
+                    expect(imageUrl.length).toBeGreaterThan(0)
+                    expect(typeof description).toBe('string')
+                    expect(description.length).toBeGreaterThan(0)
+                    expect(typeof price).toBe('string')
+                    expect(price.length).toBeGreaterThan(0)
+                })
+            })
         })
     })
 
     describe('ducks', () => {
-        let id
+        let id, results
 
-        beforeEach(() =>
-            userData.create({ email, password, name, surname })
-                .then(() => userData.find(user => user.email === email))
-                .then(([user]) => id = user.id)
-        )
+        beforeEach(async () => {
+            const ducks = await duckApi.searchDucks('yellow')
+
+            results = ducks.length
+
+            await userData.create({ email, password, name, surname })
+
+            const [user] = await userData.find(user => user.email === email)
+
+            id = user._id.toString()
+        })
 
         describe('search ducks', () => {
-            it('should succeed on correct query', () =>
-                logic.searchDucks(id, 'yellow')
-                    .then(ducks => {
-                        expect(ducks).toBeDefined()
-                        expect(ducks).toBeInstanceOf(Array)
-                        expect(ducks.length).toBe(13)
-                    })
+            it('should succeed on correct query', async () => {
+                const ducks = await logic.searchDucks(id, 'yellow')
+
+                expect(ducks).toBeDefined()
+                expect(ducks).toBeInstanceOf(Array)
+                expect(ducks.length).toBe(results)
 
                 // TODO other cases
-            )
+            })
         })
 
         describe('retrieve duck', () => {
             let duck
 
-            beforeEach(() =>
-                duckApi.searchDucks('yellow')
-                    .then(ducks => duck = ducks[0])
-            )
+            beforeEach(async () => [duck] = await duckApi.searchDucks('yellow'))
 
-            it('should succeed on correct duck id', () =>
-                logic.retrieveDuck(id, duck.id)
-                    .then(_duck => {
-                        expect(_duck).toMatchObject(duck)
+            it('should succeed on correct duck id', async () => {
+                const _duck = await logic.retrieveDuck(id, duck.id)
 
-                        expect(typeof _duck.description).toBe('string')
-                        expect(_duck.description.length).toBeGreaterThan(0)
-                    })
-            )
+                expect(_duck).toMatchObject(duck)
+
+                expect(typeof _duck.description).toBe('string')
+                expect(_duck.description.length).toBeGreaterThan(0)
+            })
         })
     })
 
