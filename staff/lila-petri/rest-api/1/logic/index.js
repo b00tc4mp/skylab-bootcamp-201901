@@ -216,7 +216,6 @@ const logic = {
             const { cart = [] } = user
             cart.push(duckId)
             await userData.update(ObjectId(id), { cart })
-            return
 
         })()
     },
@@ -268,7 +267,9 @@ const logic = {
         //         } else return cart
         //     })
         return (async()=>{
-            const cart = await userData.retrieve(ObjectId(id))
+            const user = await userData.retrieve(ObjectId(id))
+            const { cart = [] } = user
+            
             if (cart.length) {
                 const calls = await cart.map(item => duckApi.retrieveDuck(item))
                 
@@ -295,10 +296,10 @@ const logic = {
                         items: cart.slice()
                     })
                     
-                    return userData.update(id, { orders })
+                    return userData.update(ObjectId(id), { orders })
                         .then(()=>{
                             cart=[]
-                            return userData.update(id, { cart })
+                            return userData.update(ObjectId(id), { cart })
                         })
                         .then(() => { })
                 } else return cart

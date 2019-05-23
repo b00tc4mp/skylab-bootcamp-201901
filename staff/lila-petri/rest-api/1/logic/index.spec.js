@@ -5,7 +5,7 @@ const duckApi = require('../data/duck-api')
 const userData= require('../data/user-data')
 require('../common/utils/object-matches.polyfill')
 
-const url = 'mongodb://localhost/rest-api-test'
+const url = 'mongodb://localhost/rest-api-logic-test'
 
 describe('logic', () => {
     const name = 'lila'
@@ -305,7 +305,7 @@ describe('logic', () => {
 
             it('should succeed adding cart on first time', async () =>{
                 const response = await logic.addCartDuck(id, duckId)
-                debugger
+                
                     expect(response).toBeUndefined()
                     const user = await userData.retrieve(ObjectId(id))
                     
@@ -384,6 +384,7 @@ describe('logic', () => {
                 const ducks = await logic.retrieveCartDucks(id)
                 
                         ducks.forEach(({ id, title, imageUrl, description, price }) => {
+                            
                             const isOnCart = _carts.some(cart => cart === id)
 
                             expect(isOnCart).toBeTruthy()
@@ -399,29 +400,27 @@ describe('logic', () => {
                     
                 })
         })
-        xdescribe('payment', ()=>{
+        describe('payment', ()=>{
             let id, duckId
 
-            beforeEach(() => {
+            beforeEach(async () => {
                 duckId = `${Math.random()}`
 
-                return userData.create({ name, surname, email, password })
-                    .then(() => userData.find(user => user.email === email))
-                    .then(([user]) => id = user.id)
-                    .then(()=>logic.addCartDuck(id, duckId))
+                await userData.create({ name, surname, email, password })
+                const [user]= await userData.find(user => user.email === email)
+                id = user._id.toString()
+                await logic.addCartDuck(id, duckId)
             })
-            it('should succeed on correct data', ()=>{
-                logic.payment(id)
-                .then(response => expect(response).toBeUndefined())
-                .then(() => userData.retrieve(id))
-                .then(user => {
-                    const { orders , cart} = user
+            it('should succeed on correct data', async ()=>{
+                const response= await logic.payment(id)
+                expect(response).toBeUndefined()
+                const user= await userData.retrieve(ObjectId(id))
+                const { orders , cart} = user
 
-                    expect(cart).toHaveLength(0)
-                    expect(orders).toBeDefined()
-                    expect(orders).toBeInstanceOf(Array)
-                    expect(orders).toHaveLength(1)
-                })
+                expect(cart).toHaveLength(0)
+                expect(orders).toBeDefined()
+                expect(orders).toBeInstanceOf(Array)
+                expect(orders).toHaveLength(1)
 
             })
         })
@@ -449,7 +448,7 @@ describe('logic', () => {
             )
         })
 
-        xdescribe('retrieve duck', () => {
+        describe('retrieve duck', () => {
             let duck
 
             beforeEach(() =>
