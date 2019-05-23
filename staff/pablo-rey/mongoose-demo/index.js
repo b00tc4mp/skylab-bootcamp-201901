@@ -132,4 +132,6 @@ db.once('open', async () => {
   invoice = await Invoice.findById(invoiceId);
   printInvoice(invoice)
 
+  mongoose.disconnect()
+
 });
