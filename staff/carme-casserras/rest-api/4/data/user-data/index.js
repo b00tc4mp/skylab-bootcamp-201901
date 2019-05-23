@@ -15,10 +15,6 @@ const userData = {
     },
 
     list() {
-        // es el mateix que abaix
-        // const cursor = await this.__col__.find()
-        // return await cursor.toArray()
-
         return this.__col__.find().toArray()
     },
 
@@ -27,15 +23,7 @@ const userData = {
             { name: 'id', value: id, type: 'object', notEmpty: true, optional: false }
         ])
 
-        (async () => {
-            const users = await this.__col__.findOne(id)
-
-            const {id} = users
-
-
-            return id
-            // return users.find(({ id: _id }) => _id === id)
-        })()
+        return this.__col__.findOne(id)
     },
 
     find(criteria) {
@@ -44,33 +32,35 @@ const userData = {
         ])
 
         return (async () => {
-            const users = await this.__load__()
+            const cursor = await this.__col__.find()
 
-            return users.filter(criteria)
+            const users = []
+
+            await cursor.forEach(user => {
+                if (criteria(user))
+                    users.push(user)
+            })
+
+            return users
         })()
     },
 
     update(id, data, replace) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'id', value: id, type: 'object', notEmpty: true },
             { name: 'data', value: data, type: 'object' },
             { name: 'replace', value: replace, type: 'boolean', optional: true }
         ])
 
-        if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')
+        if (data._id && id.toString() !== data._id.toString()) throw new ValueError('data id does not match criteria id')
 
         return (async () => {
-            const users = await this.__load__()
+            // if (replace)
+            //     await users.findOneAndReplace(id, data)
+            // else
+            //     await users.findOneAndUpdate(id, { $set: data })
 
-            const user = users.find(({ id: _id }) => _id === id)
-
-            if (replace)
-                for (const key in user)
-                    if (key !== 'id') delete user[key]
-
-            for (const key in data) user[key] = data[key]
-
-            return await this.__save__()
+             await (replace ? this.__col__.findOneAndReplace({ _id: id }, data) : this.__col__.findOneAndUpdate({ _id: id }, { $set: data }))
         })()
     }
 }
