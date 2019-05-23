@@ -2,7 +2,7 @@ const userData = require('.')
 require('../../common/utils/array-random.polyfill')
 const { MongoClient, ObjectId } = require('mongodb')
 
-const url = 'mongodb://localhost/rest-api-test'
+const url = 'mongodb://localhost/rest-api-user-data-test'
 
 describe('user data', () => {
     let client, users
@@ -100,7 +100,6 @@ describe('user data', () => {
 
                 expect(_user._id).toEqual(user._id)
 
-                debugger
                 expect(_user).toMatchObject(data)
 
                 expect(Object.keys(_user).length).toEqual(Object.keys(data).length + 1)

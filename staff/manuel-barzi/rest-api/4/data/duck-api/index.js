@@ -13,6 +13,7 @@ const duckApi = {
     },
 
     retrieveDuck(id) {
+        debugger
         validate.arguments([
             { name: 'id', value: id, type: 'string' }
         ])
