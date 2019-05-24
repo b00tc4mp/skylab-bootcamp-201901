@@ -51,7 +51,7 @@ const logic = {
 
             // 2
 
-            return  await User.findById(id).select('name surname email -_id').lean()
+            return await User.findById(id).select('name surname email -_id').lean()
 
             // 3
 
@@ -79,16 +79,63 @@ const logic = {
         // TODO implement logic
     },
 
-    listPublicNotes(userId) {
+    retrievePublicNotes(userId) {
         // TODO validate inputs
 
         // TODO implement logic
+        return (async () => {
+            const notes = await Note.find({ author: userId }).populate('author', 'name').lean()
+
+            if (notes.length) {
+                const [{ author }] = notes
+                author.id = author._id.toString()
+                delete author._id
+
+                notes.forEach(note => {
+                    note.id = note._id.toString()
+                    delete note._id
+                })
+            }
+
+
+            return notes
+        })()
+    },
+
+    retrieveAllPublicNotes() {
+        // TODO validate inputs
+
+        // TODO implement logic
+        return (async () => {
+            const notes = await Note.find().populate('author', 'name').lean()
+
+            notes.forEach(note => {
+                note.id = note._id.toString()
+                delete note._id
+
+                const { author } = note
+
+                if (!author.id) {
+                    author.id = author._id.toString()
+                    delete author._id
+                }
+            })
+
+            return notes
+        })()
     },
 
     addPrivateNote(userId, text) {
         // TODO validate inputs
 
         // TODO implement logic
+        return (async () => {
+            const user = await User.findById(userId)
+
+            user.notes.push(new Note({ text, author: userId }))
+
+            await user.save()
+        })()
     },
 
     removePrivateNote(userId, noteId) {
@@ -97,10 +144,22 @@ const logic = {
         // TODO implement logic
     },
 
-    listPrivateNotes(userId) {
+    retrievePrivateNotes(userId) {
         // TODO validate inputs
 
         // TODO implement logic
+        return (async () => {
+            const { notes } = await User.findById(userId).select('notes').lean()
+
+            notes.forEach(note => {
+                note.id = note._id.toString()
+                delete note._id
+
+                note.author = note.author.toString()
+            })
+
+            return notes
+        })()
     }
 }
 
