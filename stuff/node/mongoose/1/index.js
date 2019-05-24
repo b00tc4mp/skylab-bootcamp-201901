@@ -1,5 +1,4 @@
 import mongoose from 'mongoose'
-import prompts from 'prompts'
 import models from './models'
 
 const { User, Note } = models;
