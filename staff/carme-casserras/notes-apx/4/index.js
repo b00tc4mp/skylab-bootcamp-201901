@@ -5,7 +5,7 @@ const package = require('./package.json')
 const routes = require('./routes')
 const cors = require('./routes/cors')
 const { MongoClient } = require('mongodb')
-const userData = require('./data/user-data')
+
 
 const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = process;
 

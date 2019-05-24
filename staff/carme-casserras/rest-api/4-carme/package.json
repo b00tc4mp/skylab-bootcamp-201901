@@ -20,7 +20,7 @@
     "watch": "nodemon .",
     "debug": "node debug .",
     "test": "jest --runInBand",
-    "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"
+    "test:debug": "node debug ./node_modules/jest/bin/jest.js --runInBand --watchAll"
   },
   "keywords": [],
   "author": "",

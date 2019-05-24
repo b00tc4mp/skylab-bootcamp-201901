@@ -1,10 +1,21 @@
 const validate = require('../common/validate')
-const duckApi = require('../data/duck-api')
 const { LogicError, FormatError } = require('../common/errors')
-const userData = require('../data/user-data')
-const { ObjectId } = require('mongodb')
+
+const { UserData, Note } = require('../data/models')
 
 const logic = {
+
+    createNote(text, id)  {
+        validate.arguments([
+            { name: 'text', value: text, type: 'string', notEmpty: true },
+            { name: 'id', value: id, type: 'string', notEmpty: true }  
+        ])
+
+        return (async () => {
+            await Note.create({text, author: id })
+        })()
+    },
+
     registerUser(name, surname, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -16,11 +27,11 @@ const logic = {
         validate.email(email)
 
         return (async () => {
-            const users = await userData.find(user => user.email === email)
-
+            const users = await UserData.find({ email })
+            
             if (users.length) throw new LogicError(`user with email "${email}" already exists`)
 
-            return userData.create({ email, password, name, surname })
+            await UserData.create({ email, password, name, surname })
         })()
     },
 
@@ -33,7 +44,7 @@ const logic = {
         validate.email(email)
 
         return (async () => {
-            const users = await userData.find(user => user.email === email)
+            const users = await UserData.find(user => user.email === email)
 
             if (!users.length) throw new LogicError(`user with email "${email}" does not exist`)
 
@@ -53,7 +64,7 @@ const logic = {
         if (!ObjectId.isValid(id)) throw new FormatError('invalid id')
 
         return (async () => {
-            const user = await userData.retrieve(ObjectId(id))
+            const user = await UserData.retrieve(ObjectId(id))
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
@@ -72,7 +83,7 @@ const logic = {
         if (!ObjectId.isValid(id)) throw new FormatError('invalid id')
 
         return (async () => {
-            const user = await userData.retrieve(ObjectId(id))
+            const user = await UserData.retrieve(ObjectId(id))
 
             debugger
 
@@ -93,7 +104,7 @@ const logic = {
         if (!ObjectId.isValid(id)) throw new FormatError('invalid id')
 
         return (async () => {
-            const user = await userData.retrieve(ObjectId(id))
+            const user = await UserData.retrieve(ObjectId(id))
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
@@ -112,7 +123,7 @@ const logic = {
         return (async () => {
             const oid = ObjectId(id)
 
-            const user = await userData.retrieve(oid)
+            const user = await UserData.retrieve(oid)
 
             const { favs = [] } = user
 
@@ -121,7 +132,7 @@ const logic = {
             if (index < 0) favs.push(duckId)
             else favs.splice(index, 1)
 
-            await userData.update(oid, { favs })
+            await UserData.update(oid, { favs })
         })()
     },
 
@@ -133,7 +144,7 @@ const logic = {
         if (!ObjectId.isValid(id)) throw new FormatError('invalid id')
 
         return (async () => {
-            const user = await userData.retrieve(ObjectId(id))
+            const user = await UserData.retrieve(ObjectId(id))
 
             const { favs = [] } = user
 

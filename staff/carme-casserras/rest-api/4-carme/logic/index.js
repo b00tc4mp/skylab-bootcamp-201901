@@ -69,17 +69,15 @@ const logic = {
             { name: 'query', value: query, type: 'string' }
         ])
 
-        if (!ObjectId.isValid(id)) throw new FormatError('invalid id')
-
         return (async () => {
-            const user = await userData.retrieve(ObjectId(id))
+            //Es declara una variable per que és sincrono y hauria de fer un try 
+            oid = ObjectId(id)
 
-            debugger
-
+            const user = await userData.retrieve(oid)            
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-
+            debugger
             const ducks = await duckApi.searchDucks(query)
-
+            debugger
             return ducks instanceof Array ? ducks : []
         })()
     },
@@ -130,18 +128,15 @@ const logic = {
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
 
-        if (!ObjectId.isValid(id)) throw new FormatError('invalid id')
-
         return (async () => {
             const user = await userData.retrieve(ObjectId(id))
-
             const { favs = [] } = user
 
-            if (favs.length)
-                for (let i = 0; i < favs.length; i++)
-                    favs[i] = await duckApi.retrieveDuck(favs[i])
+                if (favs.length) {
+                    const calls = favs.map(fav => duckApi.retrieveDuck(fav))
 
-            return favs
+                    return Promise.all(calls)
+                } else return favs
         })()
     }
 }
