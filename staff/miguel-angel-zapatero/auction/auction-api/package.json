@@ -1,0 +1,23 @@
+{
+  "name": "auction-api",
+  "version": "0.0.1",
+  "description": "Auction server side API",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maz-e"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "sockets"
+  ],
+  "author": "Miguel Angel Zapatero",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.0"
+  }
+}
