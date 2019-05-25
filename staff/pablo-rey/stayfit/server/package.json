@@ -1,0 +1,30 @@
+{
+  "name": "stayfit",
+  "version": "1.0.0",
+  "description": "App to manage box, gym and personal trainer session schedules",
+  "main": "server/index.ts",
+  "scripts": {
+    "start": "ts-node ./src/index.ts",
+    "dev": "nodemon",
+    "test": "mocha --require ts-node/register --watch-extensions ts,tsx \"src/**/*.test.{ts,tsx}\" --watch",
+    "test:debug": "mocha --require ts-node/register --watch-extensions ts,tsx \"src/**/*.test.{ts,tsx}\" --watch --inspect"
+  },
+  "author": "Pablo Javier Rey Sobral",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "express": "^4.17.0",
+    "typescript": "^3.4.5"
+  },
+  "devDependencies": {
+    "@types/chai": "^4.1.7",
+    "@types/dotenv": "^6.1.1",
+    "@types/express": "^4.16.1",
+    "@types/mocha": "^5.2.6",
+    "@types/node": "^12.0.2",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "ts-mocha": "^6.0.0",
+    "ts-node": "^8.1.1"
+  }
+}

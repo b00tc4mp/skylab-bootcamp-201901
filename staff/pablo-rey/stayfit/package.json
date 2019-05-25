@@ -1,0 +1,14 @@
+{
+  "name": "stayfit",
+  "version": "1.0.0",
+  "description": "App to manage box, gym and personal trainer session schedules",
+  "main": "server/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Pablo Javier Rey Sobral",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^12.0.2"
+  }
+}
