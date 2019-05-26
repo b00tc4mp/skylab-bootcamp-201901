@@ -58,9 +58,32 @@ const logic = {
 
         return user.id
 
+    },
+
+    async uploadGame(ownerId, title, genre, description, images, gameFile) {
+        if(typeof ownerId !=='string') throw TypeError(`${ownerId} is not a string`)
+        if (!ownerId.trim().length) throw Error(`${ownerId} cannot be empty`)
+        if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
+        if (!title.trim().length) throw Error(`${title} cannot be empty`)
+        if (typeof genre !== 'string') throw TypeError(`${genre} is not a string`)
+        if (!genre.trim().length) throw Error(`${genre}cannot be empty`)
+        if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
+        if (!description.trim().length) throw Error(`${description} cannot be empty`)
+        if (typeof images !== 'string') throw TypeError(`${images} is not a string`)
+        if (!images.trim().length) throw Error(`${images} cannot be empty`)
+        if (typeof gameFile !== 'string') throw TypeError(`${gameFile} is not a string`)
+        if (!gameFile.trim().length) throw Error(`${gameFile} cannot be empty`)
+
+        const newGame = await Game.create({ownerId, title, genre, description, images, gameFile})
+
+        const ownerUser = await User.findById(ownerId)
+
+        ownerUser.uploads.push(newGame.id)
+
+        ownerUser.save()
+
+        return newGame
     }
-
-
 
 
 }
