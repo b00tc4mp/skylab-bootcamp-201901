@@ -18,6 +18,7 @@
   "author": "Miguel Angel Zapatero",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.0"
+    "express": "^4.17.0",
+    "mongoose": "^5.5.11"
   }
 }
