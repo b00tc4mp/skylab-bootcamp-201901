@@ -1,5 +1,8 @@
 const validate = require('../../common/validate')
 const call = require('../../common/call')
+const dotenv = require ('dotenv')
+dotenv.config()
+const { env: { JIRA_TOKEN: token } } = process
 
 const jiraApi = {
     __url__: 'https://docplanner.atlassian.net/rest/api/3/search',
@@ -14,11 +17,11 @@ const jiraApi = {
         return call(`${this.__url__}`, {
             method: 'POST',
             headers: {
-                Authorization: `Basic cWFAZG9jdG9yYWxpYS5jb206WW9Rb0NsWU1Na1BhcTRySGo3TVQwNjc5`,
+                Authorization: `Basic ${token}`,
                 'Content-Type': 'application/json'
             },
             data: { 
-                'jql': `project = DOC AND issuetype in (Bug, BugFix, HotFix, Request) AND created >= ${startDate} AND created <= ${endDate} order by created DESC`
+                'jql': `project = DOC AND issuetype in (Bug, BugFix, HotFix, Request) AND created >= ${startDate} AND created <= ${endDate} AND duedate!=null order by created DESC`
             }
         })
     }

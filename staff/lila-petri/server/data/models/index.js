@@ -3,6 +3,6 @@ const schemas = require('./schemas')
 
 const { issues }= schemas
 
-moodule.exports {
-    Issues : mongoose.module('Issues', issues)
+module.exports= { 
+    Issues : mongoose.model('Issues', issues)
 }

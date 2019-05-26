@@ -4,15 +4,19 @@
   "description": "server side",
   "main": "index.js",
   "scripts": {
-    "test": "npx mocha ",
+    "test": "npx mocha  --timeout 300000",
     "test:debug": "npx mocha debug "
+   
   },
   "author": "Lila Petri",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.18.0",
     "chai": "^4.2.0",
-    "mocha": "^6.1.4"
+    "dotenv": "^8.0.0",
+    "mocha": "^6.1.4",
+    "moment": "^2.24.0",
+    "mongoose": "^5.5.11"
   },
   "devDependencies": {
     "chai": "^4.2.0",
