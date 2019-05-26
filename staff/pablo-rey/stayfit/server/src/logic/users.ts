@@ -1,11 +1,18 @@
+import { AuthorizationError } from './errors/index';
+import { UserType, UserModel } from './../models/user';
 import * as bcrypt from 'bcryptjs';
 import { Schema } from 'mongoose';
-import { UserModel } from '../models/user';
 import { ValidationError, LogicError } from './errors';
-import { isMongoId } from 'validator';
+import { isMongoId, isEmpty, isEmail } from 'validator';
 
-function leanUser(user: any) {
-  return { id: user._id, name: user.name, surname: user.surname, email: user.email };
+function leanUser(user: UserType): UserType {
+  return {
+    id: user._id,
+    name: user.name,
+    surname: user.surname,
+    email: user.email,
+    role: user.role,
+  };
 }
 
 export default {
@@ -29,6 +36,19 @@ export default {
       }
       throw err;
     }
+  },
+
+  async login(email: string, password: string) {
+    if (isEmpty(email)) throw new ValidationError('email is required');
+    if (!isEmail(email)) throw new ValidationError('email not contains a valid email');
+    if (isEmpty(password)) throw new ValidationError('password is required');
+
+    const user = await UserModel.findOne({ email });
+    if (!user) throw new AuthorizationError('wrong credentials');
+    if (await !bcrypt.compare(password, user.password)) {
+      throw new AuthorizationError('wrong credentials');
+    }
+    return { id: user.id.toString(), role: user.role };
   },
 
   async retrieve(id: string | Schema.Types.ObjectId) {

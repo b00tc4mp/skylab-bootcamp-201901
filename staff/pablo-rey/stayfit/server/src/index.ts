@@ -6,7 +6,7 @@ import * as mongoose from 'mongoose';
 import * as cors from 'cors';
 
 import { buildSchema } from "type-graphql";
-import { UserResolver } from "./graphql/UserResolver";
+import { UserResolver } from "./graphql/user-resolvers";
 
 dotenv.config();
 const {

@@ -1,4 +1,3 @@
-import { LogicError } from './errors/index';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import * as uuid from 'uuid/v4';
@@ -9,11 +8,8 @@ import * as bcrypt from 'bcryptjs';
 import { random } from '../utils/random';
 
 import usersLogic from './users';
-import { UserModel } from '../models/user';
-
-import { ValidationError } from './errors';
-import { ObjectId } from 'bson';
-import users from './users';
+import { UserModel, UserType, ROLES } from '../models/user';
+import { LogicError, AuthenticationError,  ValidationError } from './errors/index';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -42,7 +38,7 @@ describe('users', () => {
     expect(user).not.to.be.undefined;
     expect(user)
       .to.have.property('id')
-      .and.be.instanceOf(ObjectId);
+      .and.be.instanceOf(mongoose.Types.ObjectId);
     expect(user)
       .to.have.property('name')
       .and.be.a('string');
@@ -53,6 +49,21 @@ describe('users', () => {
       .to.have.property('email')
       .and.be.a('string');
     expect(user).not.to.have.property('password');
+    expect(user)
+    .to.have.property('role')
+    .and.be.a('string')
+    .and.to.be.oneOf(ROLES);
+  };
+
+  const fillDbRandomUsers = async function (users: UserType[] = [], num: number = 10)  {
+    for (let ii = 0, ll = Math.max(random(num),1) ; ii < ll; ii++) {
+      const name = `name-${uuid()}`;
+      const surname = `surname-${uuid()}`;
+      const email = `email-${uuid()}@testing.com`;
+      const password = `password-${uuid()}`;
+      const hashPassword = await bcrypt.hash(password, 12);
+      users.push(await UserModel.create({ name, surname, email, password: hashPassword }));
+    }
   };
 
   describe('create users', () => {
@@ -145,6 +156,58 @@ describe('users', () => {
     });
   });
 
+  describe('login', function ()  {
+    let users: UserType[];
+    let email: string, password: string;
+    let _user: UserType;
+
+    this.timeout(5000);
+
+    beforeEach(async () => {
+      users = [];
+      await fillDbRandomUsers(users)
+      _user = random(users);
+      email = _user.email;
+      password = _user.password!;
+    });
+
+    it('should login correct a random user', async () => {
+      const user = await usersLogic.login(email, password);
+      expect(user).not.to.be.null;
+      expect(user.id).to.be.equal(_user.id);
+      expect(user.role).to.be.equal(_user.role);
+    });
+
+    it('should fail if email does not exists', async () => {
+      await UserModel.findByIdAndDelete(_user.id);
+      expect(usersLogic.login(email, password)).to.be.rejectedWith(
+        AuthenticationError,
+        'wrong credentials'
+      );
+    });
+
+    describe('params bad format', () => {
+      it('should fail if email is empty', async () => {
+        expect(usersLogic.login('', password)).to.be.rejectedWith(
+          ValidationError,
+          'email is required'
+        );
+      });
+      it('should fail if email provided is not a valid formated email', async () => {
+        expect(usersLogic.login(uuid(), password)).to.be.rejectedWith(
+          ValidationError,
+          'email not contains a valid email'
+        );
+      });
+      it('should fail if password is empty', async () => {
+        expect(usersLogic.login(email, '')).to.be.rejectedWith(
+          ValidationError,
+          'password is required'
+        );
+      });
+    });
+  });
+
   describe('retrieve user', function ()  {
     const users: any = [];
 
@@ -192,25 +255,16 @@ describe('users', () => {
 
     this.timeout(5000);
 
-    beforeEach(async () => {
-      for (let ii = 0, ll = random(15) + 1 ; ii < ll; ii++) {
-        const name = `name-${uuid()}`;
-        const surname = `surname-${uuid()}`;
-        const email = `email-${uuid()}@testing.com`;
-        const password = `password-${uuid()}`;
-        const hashPassword = await bcrypt.hash(password, 12);
-        users.push(await UserModel.create({ name, surname, email, password: hashPassword }));
-      }
-    });
+    beforeEach(() => fillDbRandomUsers(users));
 
-    it('should retrieve a random user', async () => {
+    it('should retrieve all users', async () => {
       const _users = await usersLogic.retrieveAll();
       expect(_users).not.to.be.null;
       expect(_users).to.have.lengthOf(users.length);
 
       _users.map(_user => {
         userExpectations(_user)
-        const user:any = users.find((user:any) => user.id.toString() === _user.id.toString());
+        const user:UserType = users.find((u:UserType) => u.id!.toString() === _user.id!.toString());
         expect(user).not.to.be.undefined;
         expect(_user.name).to.be.equal(user.name);
         expect(_user.surname).to.be.equal(user.surname);
