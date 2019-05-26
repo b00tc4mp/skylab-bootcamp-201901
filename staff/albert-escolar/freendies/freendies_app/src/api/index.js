@@ -59,11 +59,39 @@ const freendiesApi = {
         })
             .then(response => response.json())
             .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+
+    uploadGame(title, genre, description, images, gameFile) {
+        if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
+        if (!title.trim().length) throw Error(`${title} cannot be empty`)
+        if (typeof genre !== 'string') throw TypeError(`${genre} is not a string`)
+        if (!genre.trim().length) throw Error(`${genre}cannot be empty`)
+        if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
+        if (!description.trim().length) throw Error(`${description} cannot be empty`)
+        if (typeof images !== 'string') throw TypeError(`${images} is not a string`)
+        if (!images.trim().length) throw Error(`${images} cannot be empty`)
+        if (typeof gameFile !== 'string') throw TypeError(`${gameFile} is not a string`)
+        if (!gameFile.trim().length) throw Error(`${gameFile} cannot be empty`)
+
+        return fetch(`${this.url}user/game`, {
+            method: 'POST',
+            headers: {
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({ title, genre, description, images, gameFile })
+        })
+            .then(response => response.json())
+            .then(response => {
                 if(response.error) throw Error(response.error)
 
                 return response
             })
-    }
+    }   
 }
 
 export default freendiesApi
