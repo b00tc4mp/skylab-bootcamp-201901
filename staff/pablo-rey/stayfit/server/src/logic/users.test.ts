@@ -135,7 +135,7 @@ describe('users', () => {
         expect(_users).to.have.lengthOf(0);
       });
       it('should fail if password is empty', async () => {
-        expect(await usersLogic.create(name, surname, email, '')).to.be.rejectedWith(
+        expect(usersLogic.create(name, surname, email, '')).to.be.rejectedWith(
           ValidationError,
           'password is required'
         );
@@ -174,7 +174,7 @@ describe('users', () => {
     it('should fail if id is wrong', async () => {
       const _user = random(users);
       await UserModel.findByIdAndDelete(_user.id);
-      expect(await usersLogic.retrieve(_user.id)).to.be.rejectedWith(
+      expect(usersLogic.retrieve(_user.id)).to.be.rejectedWith(
         LogicError,
         'id not found'
       );
@@ -182,7 +182,7 @@ describe('users', () => {
 
     describe('params bad format', () => {
       it('should fail if is not a correct ObjectId string', async () => {
-        expect(await usersLogic.retrieve(uuid())).to.be.rejectedWith(ValidationError, 'id is not correct');
+        expect(usersLogic.retrieve(uuid())).to.be.rejectedWith(ValidationError, 'id is not correct');
       });
     });
   });
