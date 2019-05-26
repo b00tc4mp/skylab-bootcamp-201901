@@ -4,12 +4,14 @@ const { mongoose } = require('freendies_data')
 const express = require('express')
 const bodyParser = require('body-parser')
 const tokenHelper = require('./token-helper')
+const {tokenVerifierMiddleware} = tokenHelper
 const package = require('../package.json')
 const cors = require('./cors')
 
 const {
     registerUser,
-    authenticateUser
+    authenticateUser,
+    uploadGame
 } = require('./routes')
 
 const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
@@ -27,10 +29,11 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.post('/user', jsonBodyParser, registerUser)
         router.post('/user/auth', jsonBodyParser, authenticateUser)
+        router.post('/user/game', tokenVerifierMiddleware, jsonBodyParser, uploadGame)
 
 
 
-
+        
         app.use('/api', router)
 
         app.listen(port, () => console.log(`${package.name} ${package.version} running on port ${port}`))
