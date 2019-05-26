@@ -2,14 +2,14 @@ require('dotenv').config()
 const mongoose = require('mongoose')
 const logic = require('.')
 
-const { UserData } = require('../data/models')
+const { UserData, Stuff } = require('../data/models')
 
 describe('logic', () => {
 
     beforeAll(async ()=> {
 
         try {
-            await mongoose.connect('mongodb://localhost:27017/pg-test', { useNewUrlParser: true })
+            await mongoose.connect('mongodb://localhost:27017/pg-test', { useNewUrlParser: true, useFindAndModify:false, useCreateIndex: true })
     
             console.log('connected to database')
             } catch (error) {
@@ -29,11 +29,14 @@ describe('logic', () => {
     })
 
     describe('users', () => {
-        describe('resgister user', () => {
+        describe('register user', () => {
             it('should succeed on correct user data', async ()=> {
-                const res= await logic.registerUser(name, email, password)
 
+                debugger
+                const res = await logic.registerUser(name, email, password)
+                debugger
                 expect(res).toBeUndefined()
+
 
             })
         })
@@ -43,6 +46,6 @@ describe('logic', () => {
 
 })
 
-module.exports = {
-    testEnvironment: 'node'
-  };
+// module.exports = {
+//     testEnvironment: 'node'
+//   };

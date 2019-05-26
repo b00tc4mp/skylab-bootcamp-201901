@@ -1,6 +1,6 @@
 const validate = require('../../common/validate')
 const {LogicError} = require('../../common/errors')
-const {UserData} = require('../data/models')
+const {UserData, Stuff} = require('../data/models')
 
 const logic = {
 
@@ -61,6 +61,22 @@ const logic = {
             return { name, surname, email }
         })()
     },
+
+    addStuff(image, description, category, location, id) {
+        validate.arguments([
+            { name: 'image', value: image, type: 'string', notEmpty: true },
+            { name: 'description', value: description, type: 'string', notEmpty: true },
+            { name: 'category', value: category, type: 'string', notEmpty: true },
+            { name: 'location', value: location, type: 'string', notEmpty: true },
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+
+        return (async() => {
+            await Stuff.create({image, description, category, location, owner: id})
+        })()
+    }
+
+    
 
 }
 module.export = logic
