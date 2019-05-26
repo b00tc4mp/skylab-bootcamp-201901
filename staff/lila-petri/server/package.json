@@ -1,0 +1,21 @@
+{
+  "name": "server-side",
+  "version": "1.0.0",
+  "description": "server side",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx mocha ",
+    "test:debug": "npx mocha debug "
+  },
+  "author": "Lila Petri",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
+  }
+}
