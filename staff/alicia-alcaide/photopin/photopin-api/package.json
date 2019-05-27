@@ -1,0 +1,33 @@
+{
+  "name": "photopin-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src",
+    "watch": "nodemon src",
+    "lint": "./node_modules/.bin/eslint **/*.js",
+    "debug": "node debug src",
+    "test": "mocha $(find src -name *.spec.js)",
+    "test debug": "mocha debug $(find src -name *.spec.js)",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha $(find src -name *.spec.js)"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.18.0",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mongodb": "^3.2.6",
+    "mongoose": "^5.5.11",
+    "photopin-data": "file:../photopin-data"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4"
+  }
+}

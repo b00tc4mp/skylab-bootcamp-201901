@@ -6,9 +6,9 @@ PhotoPin is an app to save photographic locations on a map. You can create diffe
 <img src="photopin-doc/images/photopin-logo/iconfinder_v2.png" alt="logo" width="120px" />
 
 
-## [Planning](https://docs.google.com/spreadsheets/d/1FhPfRvsASocZMx397xKO8jK24CFqp_BnGvC5RqeB8ME/edit#gid=0)
+## [Planning](https://docs.google.com/spreadsheets/d/1FhPfRvsASocZMx397xKO8jK24CFqp_BnGvC5RqeB8ME/edit?usp=sharing)
 
-## [Tasks]()
+## [Tasks (trello)]()
 
 ## [Documentation](photopin-doc/README.md)
 
