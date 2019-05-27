@@ -1,6 +1,7 @@
 require('dotenv').config()
 const mongoose = require('mongoose')
 const logic = require('.')
+const {RequirementError} = require('../../common/errors')
 
 const { UserData, Stuff } = require('../data/models')
 
@@ -30,16 +31,43 @@ describe('logic', () => {
 
     describe('users', () => {
         describe('register user', () => {
-            it('should succeed on correct user data', async ()=> {
+            fit('should succeed on correct user data', async ()=> {
 
-                debugger
                 const res = await logic.registerUser(name, email, password)
-                debugger
+
+                const users = UserData.find()
+
                 expect(res).toBeUndefined()
+                expect(users).toBeDefined()
+                // expect(users).toHaveLength(1)
 
+                const [user] = users
 
+                expect(user.name).toBe(name)
+                expect(user.email).toBe(email)
+                expect(user.password).toBeDefined()
+            })
+
+            it('should fail on undefined name', () => {
+                const name = undefined
+
+                expect(() => logic.registerUser(name, email, password)).toThrowError(RequirementError, `name is not optional`)
+            })
+
+            it('should fail on nul name', () => {
+                const name = null
+                expect(() => logic.registerUser(name, email, password)).toThrowError(RequirementError, `name is not optional`)
+            })
+            it('should fail on empty name', () =>{
+                const name = ''
+                expect(()=> logic.registerUser(name, email, password)).toThrowError(RequirementError, `name is not optional`)
+            } )
+            it('should fail on blank name', () => {
+                const name = '\t   \n'
+                expect(()=> logic.registerUser(name, email, password)).toThrowError(RequirementError, `name is not optional`)
             })
         })
+
     })
 ()
 

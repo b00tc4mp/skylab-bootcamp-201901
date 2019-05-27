@@ -79,4 +79,4 @@ const logic = {
     
 
 }
-module.export = logic
+module.exports = logic
