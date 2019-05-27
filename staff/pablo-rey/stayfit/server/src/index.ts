@@ -9,6 +9,7 @@ import { buildSchema } from "type-graphql";
 import { UserResolver } from "./graphql/user-resolvers";
 import { ServiceResolver } from './graphql/service-resolvers'
 import { SubscriptionResolver } from "./graphql/subscription-resolvers";
+import { ProviderResolver } from "./graphql/provider-resolvers";
 
 dotenv.config();
 const {
@@ -23,7 +24,7 @@ db.on('open', async () => {
   // const apolloContext = require('./graphql/middleware/apolloContext');
 
   const schema = await buildSchema({
-    resolvers: [UserResolver, ServiceResolver, SubscriptionResolver]
+    resolvers: [UserResolver, ProviderResolver]
   });
 
   const apolloServer = new ApolloServer({ schema });
