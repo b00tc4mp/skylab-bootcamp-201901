@@ -1,0 +1,11 @@
+mixin favorites(favs)
+
+    ul 
+    
+        each value in favs
+            li 
+                p=value.title
+                a(href=value.url)
+                    img(src=value.image)
+                p=value.price
+        

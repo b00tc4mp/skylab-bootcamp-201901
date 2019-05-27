@@ -1,0 +1,21 @@
+mixin results(ducks)
+
+    ul 
+    
+        each value in ducks
+            li 
+                p=value.title
+                a(href=value.url )
+                    img(src=value.image )
+                if value.favo === false
+                    form(action='/toggle')
+                        button( name='id' value=value.id ) addFavorite
+                if value.favo === true
+                     form(action='/toggle')
+                        button( name='id' value=value.id ) removeFavorite
+                p=value.price
+        
+            
+                
+           
+            
