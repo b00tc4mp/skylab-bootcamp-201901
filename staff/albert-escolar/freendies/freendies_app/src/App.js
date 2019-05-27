@@ -11,9 +11,9 @@ class App extends Component {
 
   onRegister = (username, email, password, passwordConfirmation) => {
     const { history } = this.props
-
+debugger
     logic.registerUser(username, email, password, passwordConfirmation)
-      .then(() => history.push('/login'))
+      .then((res) => history.push('/login'))
   }
 
   onLogin = (email, password) => {
@@ -69,4 +69,4 @@ class App extends Component {
   }
 }
 
-export default App;
+export default withRouter(App);
