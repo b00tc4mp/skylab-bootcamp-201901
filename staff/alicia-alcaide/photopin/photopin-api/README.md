@@ -11,24 +11,25 @@
 
 ### Production Dependencies
 
-| **Dependency**  | **Use**                                                                  |
-| --------------- | ------------------------------------------------------------------------ |
-| axios           | Promise based HTTP client for the browser and node.js                    |
-| body-parser     | Node.js body parsing middleware                                          |
-| express         | Minimal and flexible Node.js web application framework                   |
-| dotenv          | Loads environment variables from a .env file into process.env            |
-| jsonwebtoken    | An implementation of JSON Web Tokens                                     |
-| mongodb         | The official MongoDB driver for Node.js                                  |
-| mongoose        | Is a MongoDB object modeling tool to work in an asynchronous environment |
+| **Dependency**  | **Use**                                                                            |
+| --------------- | ---------------------------------------------------------------------------------- |
+| axios           | Promise based HTTP client for the browser and node.js                              |
+| body-parser     | Node.js body parsing middleware                                                    |
+| cors            | Provide a Connect/Express middleware that can be used to enable CORS               |
+| express         | Minimal and flexible Node.js web application framework                             |
+| dotenv          | Loads environment variables from a .env file into process.env                      |
+| jsonwebtoken    | An implementation of JSON Web Tokens                                               |
+| mongodb         | The official MongoDB driver for Node.js                                            |
+| mongoose        | Is a MongoDB object modeling tool to work in an asynchronous environment           |
 
 
 ### Development Dependencies
 
-| **Dependency**  | **Use**                                                                  |
-| --------------- | ------------------------------------------------------------------------ |
-| chai            | Chai is a BDD / TDD assertion library for node and the browser           |     
-| mocha           | test framework for Node.js                                               |
-
+| **Dependency**  | **Use**                                                                            |
+| --------------- | ---------------------------------------------------------------------------------- |
+| chai            | Chai is a BDD / TDD assertion library for node and the browser                     |     
+| eslint          | Tool for identifying and reporting on patterns found in ECMAScript/JavaScript code |
+| mocha           | test framework for Node.js                                                         |
 
 
 ## Available Scripts for development
