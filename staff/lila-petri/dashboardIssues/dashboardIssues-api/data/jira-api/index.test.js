@@ -84,7 +84,7 @@ describe('jira api', () => {
 
             jiraApi.__url__ = 'https://this-is-a-fake-url'
         })
-        it.only('should fail on wrong api url', async ()=>{
+        it('should fail on wrong api url', async ()=>{
             try{
                 await jiraApi.searchIssues(startDate, endDate)
                 throw Error('should not reach this point')
