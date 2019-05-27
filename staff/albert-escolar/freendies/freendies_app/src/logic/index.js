@@ -5,6 +5,7 @@ const logic = {
 
 
     registerUser(username, email, password, passwordConfirmation) {
+        debugger
         if (typeof username !== 'string') throw TypeError(`${username} is not a string`)
 
         if (!username.trim().length) throw Error('username cannot be empty')
