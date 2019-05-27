@@ -17,7 +17,7 @@ const logic = {
         return (async() => {
             const users = await UserData.find({email})
 
-            if(users.length) throw new LogicError(`user with this ${email} already exists`)
+            if(users.length) throw new LogicError(`user with email ${email} already exists`)
 
             await UserData.create({name, email, password})
         })()
@@ -34,7 +34,7 @@ const logic = {
         return (async () => {
             const users = await UserData.find(user => user.email === email)
 
-            if (!users.length) throw new LogicError(`user with this "${email}" does not exist`)
+            if (!users.length) throw new LogicError(`user with email ${email} does not exist`)
 
             const [user] = users
 
@@ -54,7 +54,7 @@ const logic = {
         return (async () => {
             const user = await UserData.retrieve(ObjectId(id))
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
 
             const { name, surname, email } = user
 
