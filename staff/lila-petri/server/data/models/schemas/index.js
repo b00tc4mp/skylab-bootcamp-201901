@@ -14,9 +14,9 @@ const issues= new Schema({
 
 })
 
-issues.methods.findIssuesByCountryAndDate = function (issueType,country, startDate, endDate) {
-    let query= {$and:[{issueType: this.issueType},{country: this.country}]}
-    return this.model('Issues').find(query)
+issues.statics.findIssuesByCountryAndDate = function (issueType, country, startDate, endDate) {
+    let query= {$and:[{issueType: issueType},{country: country}, { createdDate: { $gte: startDate} }, { createdDate: { $lte: endDate} }]}
+    return this.find(query)
 }
 
 module.exports = {issues}

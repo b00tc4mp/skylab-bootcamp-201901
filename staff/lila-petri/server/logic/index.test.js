@@ -15,7 +15,7 @@ const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 describe('logic', ()=>{
     before(()=> mongoose.connect(url, {useNewUrlParser:true}))
     beforeEach(async()=>{
-        await Issues.deleteMany()
+        //await Issues.deleteMany()
     })
     describe('load jira', ()=>{
         const month= 'May'
@@ -78,6 +78,12 @@ describe('logic', ()=>{
             await logic.clearUp()
             const collection = await Issues.estimatedDocumentCount()
             expect(collection).is.equal(0)
+        })
+    })
+    describe('static', ()=>{
+        it.only('should succeed on correct data', async ()=>{
+            const issuesByCountry= await Issues.findIssuesByCountryAndDate('Bug', 'MX')
+            console.log(issuesByCountry)
         })
     })
 
