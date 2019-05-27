@@ -1,0 +1,9 @@
+{
+  "name": "photopin-data",
+  "version": "1.0.0",
+  "description": "data",
+  "main": "src/index.js",
+  "dependencies": {
+    "mongoose": "^5.5.11"
+  }
+}

@@ -1,6 +1,6 @@
 # PhotoPin
 
-PhotoPin is an app to save photographic locations on a map. You can create different maps and in them save locations or pins with all the information you need about this spot, either photographic or logistics information.
+PhotoPin is an app to save photographic locations on a map. You can create different maps and in them save locations (pins) with all the information you need about this spot, either photographic or logistics information.
 
 
 <img src="photopin-doc/images/photopin-logo/iconfinder_v2.png" alt="logo" width="120px" />
