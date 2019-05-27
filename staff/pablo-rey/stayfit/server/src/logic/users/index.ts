@@ -1,4 +1,7 @@
-import { AuthorizationError, AuthenticationError } from './errors/index';
+import * as bcrypt from 'bcryptjs';
+import { Schema } from 'mongoose';
+import { isMongoId, isEmpty, isEmail, isIn } from 'validator';
+import { AuthorizationError, AuthenticationError, ValidationError, LogicError} from '../errors/index';
 import {
   UserType,
   UserModel,
@@ -9,12 +12,7 @@ import {
   GUEST_ROLE,
   USER_ROLE,
   BUSINESS_ROLE,
-} from './../models/user';
-import * as bcrypt from 'bcryptjs';
-import { Schema } from 'mongoose';
-import { ValidationError, LogicError } from './errors';
-import { isMongoId, isEmpty, isEmail, isIn } from 'validator';
-import { CreateInput } from 'src/graphql/user-resolvers';
+} from '../../models/user';
 
 function leanUser(user: UserType): UserType {
   return {

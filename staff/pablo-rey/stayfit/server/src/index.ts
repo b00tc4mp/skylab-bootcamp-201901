@@ -7,6 +7,8 @@ import * as cors from 'cors';
 
 import { buildSchema } from "type-graphql";
 import { UserResolver } from "./graphql/user-resolvers";
+import { ServiceResolver } from './graphql/service-resolvers'
+import { SubscriptionResolver } from "./graphql/subscription-resolvers";
 
 dotenv.config();
 const {
@@ -21,7 +23,7 @@ db.on('open', async () => {
   // const apolloContext = require('./graphql/middleware/apolloContext');
 
   const schema = await buildSchema({
-    resolvers: [UserResolver]
+    resolvers: [UserResolver, ServiceResolver, SubscriptionResolver]
   });
 
   const apolloServer = new ApolloServer({ schema });

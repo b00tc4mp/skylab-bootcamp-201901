@@ -1,6 +1,5 @@
 import { User, UserType, ROLES } from './../models/user';
 import { Resolver, Query, Mutation, Arg, Root } from 'type-graphql';
-import * as bcrypt from 'bcryptjs';
 
 import usersLogic from '../logic/users';
 

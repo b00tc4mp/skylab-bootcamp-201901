@@ -5,9 +5,9 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as bcrypt from 'bcryptjs';
 
-import { random } from '../utils/random';
+import { random } from '../../utils/random';
 
-import usersLogic from './users';
+import usersLogic from '.';
 import {
   UserModel,
   UserType,
@@ -18,14 +18,13 @@ import {
   BUSINESS_ROLE,
   ADMIN_ROLE,
   SUPERADMIN_ROLE,
-} from '../models/user';
+} from '../../models/user';
 import {
   LogicError,
   AuthenticationError,
   ValidationError,
   AuthorizationError,
-} from './errors/index';
-import { fail } from 'assert';
+} from '../errors/index';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -38,7 +37,7 @@ const {
 describe('users', () => {
   let db: mongoose.Connection;
 
-  before((done) => {
+  before(done => {
     mongoose.connect(MONGODB_URL_TESTING!, { useNewUrlParser: true });
     db = mongoose.connection;
     db.on('error', err => console.error('MongoDB connection error', err));
