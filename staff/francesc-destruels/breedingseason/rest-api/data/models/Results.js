@@ -1,7 +1,7 @@
 const { Schema, Schema: { Types: { ObjectId } } } = require('mongoose')
 
 const gameRecord = new Schema({
-    players: ObjectId,
+    player: ObjectId,
     OneEggNestAmount: { type: Number, required: true },
     OneEggNestLvL: { type: Number, required: true },
     TwoEggNestAmount: { type: Number, required: true },
