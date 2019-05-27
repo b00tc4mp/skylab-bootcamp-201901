@@ -1,6 +1,8 @@
 import normalize from '../common/normalize'
 import restApi from '../data/rest-api'
 import { LogicError } from '../common/errors'
+const ow = require('ow')
+const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
 
 const logic = {
@@ -19,9 +21,12 @@ const logic = {
 
     registerUser(nickname, age, email, password) {
 
-        //todo Validation with OW
+        ow(nickname, ow.string.not.empty)
+        ow(age, ow.number.is(x => x > 13))
+        ow(email, ow.string.not.empty)
+        ow(password, ow.string.is(x => re.test(String(x))))
 
-        (async () => {
+        return (async () => {
             const response = await restApi.create(nickname, age, email, password)
 
             if (!response.ok) throw new LogicError('Email already registred')
@@ -30,9 +35,10 @@ const logic = {
 
     loginUser(nicknameOEmail, password) {
 
-        //todo Validation with OW
+        ow(nicknameOEmail, ow.string.not.empty)
+        ow(password, ow.string.not.empty)
 
-        (async () => {
+        return (async () => {
             const response = await restApi.authenticate(nicknameOEmail, password)
 
             if (response.status === 200) {
@@ -42,16 +48,6 @@ const logic = {
             } else throw new LogicError("Bad identification")
 
         })()
-
-        return restApi.authenticate(nicknameOEmail, password)
-            .then(response => {
-                if (response.status === 200) return response.json()
-                else throw new LogicError("Bad identification")
-            })
-            .then(response => {
-
-                this.__userToken__ = response.token
-            })
     },
 
     async retrieveUser() {
