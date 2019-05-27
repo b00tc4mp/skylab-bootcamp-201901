@@ -9,7 +9,7 @@ export async function populateDb() {
   const superAdmin: UserType = {
     name: 'Super',
     surname: 'Admin',
-    email: 'superadmin@stay.fit',
+    role: 'superadmin@stay.fit',
     password: await bcrypt.hash('123', 12),
     role: SUPERADMIN_ROLE,
   };

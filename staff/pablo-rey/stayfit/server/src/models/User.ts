@@ -20,7 +20,7 @@ export const ROLES = [
 ];
 
 export type UserType = {
-  id?: Types.ObjectId | string;
+  id?: string;
   _id?: Types.ObjectId;
   name: string;
   surname: string;
@@ -54,6 +54,7 @@ export class User extends Typegoose {
   @prop({ required: true })
   password: string;
 
+  @Field()
   @prop({ required: true, default: GUEST_ROLE, enum: ROLES })
   role: string;
 
