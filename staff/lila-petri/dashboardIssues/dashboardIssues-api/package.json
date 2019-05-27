@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "npx mocha  --timeout 300000",
-    "test:debug": "npx mocha debug "
+    "test:debug": "npx mocha debug ",
+    "test-with-coverage": "npx --reporter=text mocha"
   },
   "author": "Lila Petri",
   "license": "ISC",
@@ -21,6 +22,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
   }
 }

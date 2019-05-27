@@ -15,8 +15,8 @@ const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 describe('logic', ()=>{
     before(()=> mongoose.connect(url, {useNewUrlParser:true}))
     beforeEach(async()=>{
-        //await Issue.deleteMany()
-        //await User.deleteMany()
+        await Issue.deleteMany()
+        await User.deleteMany()
     })
     describe('load jira', ()=>{
         const month= 'May'
@@ -98,15 +98,15 @@ describe('logic', ()=>{
     describe('user',()=>{
         let name, surname, email, password, profile, country
         beforeEach(()=>{
-            name = `name-${Math.random()}`
-            surname = `surname-${Math.random()}`
+            name = `John`
+            surname = `Smith`
             email = `email-${Math.random()}@mail.com`
-            password = `password-${Math.random()}`
-            profile = `profile-${Math.random()}`
-            country = `country-${Math.random()}`
+            password = `123`
+            profile = `admin`
+            country = `PL`
         })
         describe('registerUser', ()=>{
-            it.only('should succeed on correct data', async ()=>{
+            it('should succeed on correct data', async ()=>{
             const res = await logic.registerUser(name, surname, email, password, profile, country)
 
             expect(res).to.be.undefined
@@ -121,10 +121,258 @@ describe('logic', ()=>{
             expect(user.name).to.equal(name)
             expect(user.surname).to.equal(surname)
             expect(user.email).to.equal(email)
+            expect(user.profile).to.equal(profile)
+            expect(user.country[0]).to.equal(country)
 
             expect(user.password).to.exist
 
             expect(await argon2.verify(user.password, password)).to.be.true
+            })
+
+            it('should fail on existing user', async ()=>{
+                await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+
+                try{
+
+                    await logic.registerUser(name, surname, email, password, profile, country)
+                    throw Error('should not reach this point')
+
+                }catch(err){
+                    
+                    expect(err.message).to.equal(`user with username \"${email}\" already exists`)
+                }
+
+            })
+
+            it('should fail on undefined name', () => {
+                const name = undefined
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `name is not optional`)
+            })
+            
+            it('should fail on null name', () => {
+                const name = null
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `name is not optional`)
+            })
+            
+            it('should fail on empty name', () => {
+                const name = ''
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'name is empty')
+            })
+            
+            it('should fail on blank name', () => {
+                const name = ' \t    \n'
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'name is empty')
+            })
+
+            it('should fail on undefined surname', () => {
+                const surname = undefined
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `surname is not optional`)
+            })
+            
+            it('should fail on null surname', () => {
+                const surname = null
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `surname is not optional`)
+            })
+            
+            it('should fail on empty surname', () => {
+                const surname = ''
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'surname is empty')
+            })
+            
+            it('should fail on blank surname', () => {
+                const surname = ' \t    \n'
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'surname is empty')
+            })
+
+            it('should fail on undefined email', () => {
+                const email = undefined
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `email is not optional`)
+            })
+            
+            it('should fail on null email', () => {
+                const email = null
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `email is not optional`)
+            })
+            
+            it('should fail on empty email', () => {
+                const email = ''
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'email is empty')
+            })
+            
+            it('should fail on blank email', () => {
+                const email = ' \t    \n'
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'email is empty')
+            })
+
+            it('should fail on undefined password', () => {
+                const password = undefined
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `password is not optional`)
+            })
+            
+            it('should fail on null password', () => {
+                const password = null
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `password is not optional`)
+            })
+            
+            it('should fail on empty password', () => {
+                const password = ''
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'password is empty')
+            })
+            
+            it('should fail on blank password', () => {
+                const password = ' \t    \n'
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'password is empty')
+            })
+
+            it('should fail on undefined profile', () => {
+                const profile = undefined
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `profile is not optional`)
+            })
+            
+            it('should fail on null profile', () => {
+                const profile = null
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `profile is not optional`)
+            })
+            
+            it('should fail on empty profile', () => {
+                const profile = ''
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'profile is empty')
+            })
+            
+            it('should fail on blank profile', () => {
+                const profile = ' \t    \n'
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'profile is empty')
+            })
+
+            it('should fail on undefined country', () => {
+                const country = undefined
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `country is not optional`)
+            })
+            
+            it('should fail on null country', () => {
+                const country = null
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(RequirementError, `country is not optional`)
+            })
+            
+            it('should fail on empty country', () => {
+                const country = ''
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'country is empty')
+            })
+            
+            it('should fail on blank country', () => {
+                const country = ' \t    \n'
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'country is empty')
+            })
+
+
+        })
+        describe('authenticateUser', ()=>{
+            let user
+            beforeEach(async()=>{
+                user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+            })
+            it('should succeed on correct credentials', async () => {
+                const id = await logic.authenticateUser(email, password)
+    
+                expect(id).to.exist
+                expect(id).to.be.a('string')
+    
+                expect(id).to.equal(user.id)
+            })
+            it('should fail on non existing user', async () => {
+                const email= 'wrong@email.com'
+                try{
+                    
+                    await logic.authenticateUser(email, password)
+                    throw Error('should not reach this point')
+
+                }catch(err){
+
+                    expect(err.message).to.equal(`wrong credentials`)
+                }
+            })
+            it('should fail on incorrect password', async () => {
+                const password ='123999'
+                try{
+                    
+                    await logic.authenticateUser(email, password)
+                    throw Error('should not reach this point')
+
+                }catch(err){
+
+                    expect(err.message).to.equal(`wrong credentials`)
+                }
+            })
+            it('should fail on undefined email', () => {
+                const email = undefined
+                
+                expect(() => logic.authenticateUser(email, password)).to.throw(RequirementError, `email is not optional`)
+            })
+            
+            it('should fail on null email', () => {
+                const email = null
+                
+                expect(() => logic.authenticateUser(email, password)).to.throw(RequirementError, `email is not optional`)
+            })
+            
+            it('should fail on empty email', () => {
+                const email = ''
+                
+                expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'email is empty')
+            })
+            
+            it('should fail on blank email', () => {
+                const email = ' \t    \n'
+                
+                expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'email is empty')
+            })
+
+            it('should fail on undefined password', () => {
+                const password = undefined
+                
+                expect(() => logic.authenticateUser(email, password)).to.throw(RequirementError, `password is not optional`)
+            })
+            
+            it('should fail on null password', () => {
+                const password = null
+                
+                expect(() => logic.authenticateUser(email, password)).to.throw(RequirementError, `password is not optional`)
+            })
+            
+            it('should fail on empty password', () => {
+                const password = ''
+                
+                expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'password is empty')
+            })
+            
+            it('should fail on blank password', () => {
+                const password = ' \t    \n'
+                
+                expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'password is empty')
             })
 
         })

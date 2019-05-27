@@ -103,7 +103,7 @@ const logic = {
         return (async () => {
             const hash = await argon2.hash(password)
             const user = await User.findOne({ email }) 
-            if (user) throw new LogicError('user already exists')
+            if (user) throw new LogicError(`user with username \"${email}\" already exists`)
             await User.create({ name, surname, email, password: hash, profile, country })
         })()
     },
@@ -117,8 +117,8 @@ const logic = {
 
         return (async () => {
             const user = await User.findOne({ email })
-
-            if (await argon2.verify(user.password, password)) return user.id
+            
+            if (user && await argon2.verify(user.password, password)) return user.id
             else throw new LogicError('wrong credentials')
         })()
     },
