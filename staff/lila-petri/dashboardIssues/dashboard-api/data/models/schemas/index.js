@@ -24,7 +24,7 @@ const user = new Schema({
     },
     password: { type: String, required: true },
     profile: { type: String, required: true },
-    country: [String]
+    country: { type: String, required: true }
     
 })
 

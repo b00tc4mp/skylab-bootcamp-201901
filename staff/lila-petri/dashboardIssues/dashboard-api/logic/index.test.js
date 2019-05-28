@@ -16,7 +16,7 @@ describe('logic', ()=>{
     before(()=> mongoose.connect(url, {useNewUrlParser:true}))
     beforeEach(async()=>{
         await Issue.deleteMany()
-        await User.deleteMany()
+        //await User.deleteMany()
     })
     describe('load jira', ()=>{
         const month= 'May'
@@ -122,7 +122,7 @@ describe('logic', ()=>{
             expect(user.surname).to.equal(surname)
             expect(user.email).to.equal(email)
             expect(user.profile).to.equal(profile)
-            expect(user.country[0]).to.equal(country)
+            expect(user.country).to.equal(country)
 
             expect(user.password).to.exist
 
@@ -295,6 +295,7 @@ describe('logic', ()=>{
             beforeEach(async()=>{
                 user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
             })
+
             it('should succeed on correct credentials', async () => {
                 const id = await logic.authenticateUser(email, password)
     
@@ -303,6 +304,7 @@ describe('logic', ()=>{
     
                 expect(id).to.equal(user.id)
             })
+
             it('should fail on non existing user', async () => {
                 const email= 'wrong@email.com'
                 try{
@@ -315,18 +317,7 @@ describe('logic', ()=>{
                     expect(err.message).to.equal(`wrong credentials`)
                 }
             })
-            it('should fail on incorrect password', async () => {
-                const password ='123999'
-                try{
-                    
-                    await logic.authenticateUser(email, password)
-                    throw Error('should not reach this point')
 
-                }catch(err){
-
-                    expect(err.message).to.equal(`wrong credentials`)
-                }
-            })
             it('should fail on undefined email', () => {
                 const email = undefined
                 
@@ -351,6 +342,19 @@ describe('logic', ()=>{
                 expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'email is empty')
             })
 
+            it('should fail on incorrect password', async () => {
+                const password ='123999'
+                try{
+                    
+                    await logic.authenticateUser(email, password)
+                    throw Error('should not reach this point')
+
+                }catch(err){
+
+                    expect(err.message).to.equal(`wrong credentials`)
+                }
+            })
+
             it('should fail on undefined password', () => {
                 const password = undefined
                 
@@ -362,17 +366,123 @@ describe('logic', ()=>{
                 
                 expect(() => logic.authenticateUser(email, password)).to.throw(RequirementError, `password is not optional`)
             })
-            
+        
             it('should fail on empty password', () => {
                 const password = ''
                 
                 expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'password is empty')
             })
-            
+
             it('should fail on blank password', () => {
                 const password = ' \t    \n'
                 
                 expect(() => logic.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'password is empty')
+            })
+
+        })
+        describe('retrieveUser', ()=>{
+        let user
+            beforeEach(async () => user = await User.create({ name, surname, email, password: await argon2.hash(password), profile, country }))
+
+            it('should succeed on correct id from existing user', async () => {
+                const _user = await logic.retrieveUser(user.id)
+
+                expect(_user.id).to.be.undefined
+                expect(_user.name).to.equal(name)
+                expect(_user.surname).to.equal(surname)
+                expect(_user.email).to.equal(email)
+                expect(_user.password).to.be.undefined
+                expect(_user.profile).to.equal(profile)
+                expect(_user.country).to.equal(country)
+                
+            })
+            it('should fail on non-existent user', async ()=>{
+                const id= 'non-existent'
+                try{
+                    await logic.retrieveUser(id)
+                }catch(err){
+                    expect(err.message).to.equal('user not found')
+                }
+            })
+            it('should fail on undefined id', () => {
+                const id = undefined
+                
+                expect(() => logic.retrieveUser(id)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on null id', () => {
+                const id = null
+                
+                expect(() => logic.retrieveUser(id)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on empty id', () => {
+                const id = ''
+                
+                expect(() => logic.retrieveUser(id)).to.throw(ValueError, 'id is empty')
+            })
+            
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+                
+                expect(() => logic.retrieveUser(id)).to.throw(ValueError, 'id is empty')
+            })
+
+        })
+        describe('updateUser',()=>{
+            let user, id
+            beforeEach(async()=>{
+                user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                id = await logic.authenticateUser(email, password)
+            })
+            it.only('should succeed on correct data', async ()=>{
+                const name='Lila'
+                await logic.updateUser(id, name)
+                
+            })
+        })
+        describe('deleteUser',()=>{
+            let user, id
+            beforeEach(async()=>{
+                user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                id = await logic.authenticateUser(email, password)
+            })
+            it('shoul succeed on correct data', async ()=> {
+                const res= await logic.deleteUser(id)
+                expect(res).to.be.undefined
+                const collection = await User.estimatedDocumentCount()
+                expect(collection).is.equal(0)
+            })
+            it('should fail on non-existent user', async ()=>{
+                const id= 'non-existent'
+                try{
+                    await logic.deleteUser(id)
+                }catch(err){
+                    expect(err.message).to.equal('user not found')
+                }
+            })
+            it('should fail on undefined id', () => {
+                const id = undefined
+                
+                expect(() => logic.deleteUser(id)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on null id', () => {
+                const id = null
+                
+                expect(() => logic.deleteUser(id)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on empty id', () => {
+                const id = ''
+                
+                expect(() => logic.deleteUser(id)).to.throw(ValueError, 'id is empty')
+            })
+            
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+                
+                expect(() => logic.deleteUser(id)).to.throw(ValueError, 'id is empty')
             })
 
         })

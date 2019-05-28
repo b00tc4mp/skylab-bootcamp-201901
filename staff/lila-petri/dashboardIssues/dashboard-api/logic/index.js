@@ -130,11 +130,60 @@ const logic = {
 
         return (async () => {
             
-            const { name, surname, email, country, profile } = await User.findById(id)
+            const user = await User.findById(id)
+            if(user){
+                const { name, surname, email, country, profile} = user
+                
+                return { name, surname, email, country, profile}
 
-            return { name, surname, email, country, profile}
+            } else throw new LogicError('user not found')
+
         })()
     },
+    updateUser(id, name, surname, country ){
+        debugger
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true},
+            { name: 'name', value: name, type: 'string', optional: true},
+            { name: 'surname', value: surname, type: 'string', optional: true},
+            { name: 'country', value: country, type: 'string', optional: true}
+        ])
+
+        return (async () => {
+            const user = await User.findById(id)
+        
+            if (!user) throw new LogicError(`user not found`)
+
+            const body = {
+                name: name || user.name,
+                surname: surname ||  user.surname,
+                email: user.email,
+                country: country || user.country   
+            }
+            
+            await User.findByIdAndUpdate(id, body)
+            
+        })()
+    },
+    deleteUser(id){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true}
+        ])
+        return (async () => {
+
+            const user = await User.findById(id)
+
+            if(user){
+
+                await User.findByIdAndRemove({_id:id})
+
+                return
+
+            } else throw new LogicError('user not found')
+
+        })()
+
+    }
 }
 
 module.exports = logic
