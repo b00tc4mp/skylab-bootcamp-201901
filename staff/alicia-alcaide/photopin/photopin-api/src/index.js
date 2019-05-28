@@ -1,10 +1,9 @@
 require('dotenv').config()
 
 const express = require('express')
-const packageJSON = require('./package.json')
+const packageJSON = require('../package.json')
 const cors = require('cors')
 const { mongoose } = require('photopin-data')
-//const logic = require('./logic')
 const routes = require('./routes')
 
 const { env: { PORT, MONGODB_URL: url }, argv: [, , port = PORT || 8080], } = process;
