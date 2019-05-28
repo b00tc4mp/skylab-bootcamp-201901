@@ -1,11 +1,11 @@
 require('dotenv').config()
-const mongoose = require('mongoose')
 const logic = require('.')
-const {RequirementError, ValueError, LogicError} = require('../common/errors')
+const {RequirementError, ValueError, LogicError} = require('../../common/errors')
 const bcrypt = require('bcrypt')
-require('../common/util//math-random.polyfill')
+require('../../common/util/math-random.polyfill')
 
-const { UserData, Stuff } = require('../data/models')
+const { models, mongoose} = require('pg-data')
+const { UserData, Things } = models
 
 describe('logic', () => {
     let name
@@ -25,7 +25,7 @@ describe('logic', () => {
     beforeEach(async ()=> {
         
         await UserData.deleteMany()
-        // await Junk.deleteMany()
+        // await Thing.deleteMany()
         name = 'carme'
         email = `cc-${Math.random()}@gmail.com`
         password = '123'

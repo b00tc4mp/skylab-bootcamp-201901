@@ -1,15 +1,17 @@
 require('dotenv').config()
 const express = require('express')
-const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 const cors = require('cors')
-const routes = require('./routes')
+const routes = require('../pg-api/routes')
+const {mongoose} = require('pg-data')
+
+
 
 const {env: {PORT, MONGO_URL : url} } = process;
 // const {env: {PORT, MONGO_URL : url}, argv: [, , port = PORT || 3000], } = process
 
 const app = express()
-mongoose.connect(url, {useNewUrlParser: true, useFindAndModify:false, useCreateIndex: true})
+mongoose.connect(url, {useNewUrlParser: true, useFindAndModify:false, useCreateIndex: true});
 // (async () => {
     
     

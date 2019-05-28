@@ -1,6 +1,6 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const logic = require('../logic')
+const logic = require('../logic/index')
 const handleErrors = require ('./handle-errors')
 const jwt = require('jsonwebtoken')
 const auth = require('./auth')

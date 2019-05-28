@@ -1,8 +1,9 @@
-const validate = require('../common/validate')
-const {LogicError} = require('../common/errors')
-const {UserData, Thing} = require('../data/models')
+const validate = require('../../common/validate')
+const {LogicError} = require('../../common/errors')
+const { models } = require('pg-data')
 const bcrypt = require('bcrypt')
 
+const {UserData, Thing} = models
 
 const logic = {
 
@@ -68,7 +69,7 @@ const logic = {
 
     addPublicThing(image, category, description, location, owner) {
         validate.arguments([
-            { name: 'image', value: image, type: 'string', notEmpty: true },
+            { name: 'image', value: image, type: 'object', notEmpty: true },
             { name: 'description', value: description, type: 'string', notEmpty: true },
             { name: 'category', value: category, type: 'string', notEmpty: true },
             { name: 'location', value: location, type: 'string', notEmpty: true },
