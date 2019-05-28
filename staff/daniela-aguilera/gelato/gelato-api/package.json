@@ -1,0 +1,20 @@
+{
+  "name": "gelato-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "test": "mocha src/**/*.test.js",
+    "test:debug": "mocha debug src/**/*.test.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "chai": "4.2.0",
+    "mocha": "6.1.4"
+  },
+  "dependencies": {
+    "gelato-data": "file:../gelato-data",
+    "dotenv": "8.0.0"
+  }
+}
