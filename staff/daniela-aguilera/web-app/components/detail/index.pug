@@ -1,0 +1,18 @@
+mixin detail(duck)
+    h2= duck.title
+    img(src=duck.image)
+    p= duck.description
+    span= duck.price
+    form(method='post' action='/fav/' + duck.id)
+        button
+            if duck.isFav
+                i(class="fas fa-heart")
+            else
+                i(class="far fa-heart")
+
+    form(method='post' action='/cart/' + duck.id)
+        button
+            if duck.isInCart
+                i(class="fas fa-cart-plus")
+            else
+                i(class="fas fa-shopping-cart")

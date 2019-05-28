@@ -2,30 +2,30 @@ $red: #de0000;
 $spacing: 30px;
 
 $typevars: (
-  main-title-36-size: 36px,
-  main-title-36-weight: 600,
-  main-title-36-color: $red,
-  main-subtitle-27-size: 27px,
-  main-subtitle-27-weight: 500,
-  main-subtitle-27-bold: 700,
-  section-title-17-size: 17px,
-  section-title-17-weight: 600,
-  section-15-size: 15px,
-  section-15-weight: 400,
-  section-15-weight-bold: 700,
-  link-25-size: 25px,
-  link-25-weight: 400,
+  // main-title-36-size: 36px,
+  // main-title-36-weight: 600,
+  // main-title-36-color: $red,
+  // main-subtitle-27-size: 27px,
+  // main-subtitle-27-weight: 500,
+  // main-subtitle-27-bold: 700,
+  // section-title-17-size: 17px,
+  // section-title-17-weight: 600,
+  // section-15-size: 15px,
+  // section-15-weight: 400,
+  // section-15-weight-bold: 700,
+  // link-25-size: 25px,
+  // link-25-weight: 400,
 );
 
 @mixin typography($key) {
   $size: map-get($typevars, #{$key}-size);
   $weight: map-get($typevars, #{$key}-weight);
   $weight-bold: map-get($typevars, #{$key}-weight-bold);
-  $color: map-get($typevars, #{$key}-color);
+  // $color: map-get($typevars, #{$key}-color);
 
   font-size: #{$size};
   font-weight: #{$weight};
-  color: #{$color};
+  // color: #{$color};
 
   @if $weight-bold {
     & b,
