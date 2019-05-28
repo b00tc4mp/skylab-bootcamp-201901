@@ -1,9 +1,9 @@
 const schemas = require('./schemas')
 const mongoose = require('mongoose')
 
-const {user, stuff} = schemas
+const {user, thing} = schemas
 
 module.exports = {
     UserData: mongoose.model('User', user),
-    Stuff: mongoose.model('Stuff', stuff)
+    Thing: mongoose.model('Thing', thing)
 }
