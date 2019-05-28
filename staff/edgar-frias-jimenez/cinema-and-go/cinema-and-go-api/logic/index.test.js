@@ -2,6 +2,7 @@ const dotenv = require('dotenv')
 const { mongoose, User } = require('cinema-and-go-data')
 const bcrypt = require('bcrypt')
 const logic = require('.')
+const { RequirementError, ValueError, FormatError } = require('../common/errors')
 
 dotenv.config()
 
@@ -36,6 +37,84 @@ describe('logic', () => {
 
             expect(user.password).toBeDefined()
             expect(await bcrypt.compare(password, user.password)).toBeTruthy()
+        })
+
+        it('should fail on undefined username', () => {
+            const name = undefined
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(RequirementError, 'name is not optional')
+        })
+
+        it('should fail on null username', () => {
+            const name = null
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(RequirementError, 'name is not optional')
+        })
+
+        it('should fail on empty username', () => {
+            const name = ''
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(ValueError, 'name is empty')
+        })
+
+        it('should fail on blank username', () => {
+            const name = ' \t    \n'
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(ValueError, 'name is empty')
+        })
+
+        it('should fail on undefined email', () => {
+            const email = undefined
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(RequirementError, `email is not optional`)
+        })
+
+        it('should fail on null email', () => {
+            const email = null
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(RequirementError, `email is not optional`)
+        })
+
+        it('should fail on empty email', () => {
+            const email = ''
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(ValueError, 'email is empty')
+        })
+
+        it('should fail on blank email', () => {
+            const email = ' \t    \n'
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(ValueError, 'email is empty')
+        })
+
+        it('should fail on non-email email', () => {
+            const nonEmail = 'non-email'
+
+            expect(() => logic.registerUser(name, nonEmail, password)).toThrowError(FormatError, `${nonEmail} is not an email`)
+        })
+
+        it('should fail on undefined username', () => {
+            const password = undefined
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(RequirementError, 'password is not optional')
+        })
+
+        it('should fail on null username', () => {
+            const password = null
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(RequirementError, 'password is not optional')
+        })
+
+        it('should fail on empty username', () => {
+            const password = ''
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(ValueError, 'password is empty')
+        })
+
+        it('should fail on blank username', () => {
+            const password = ' \t    \n'
+
+            expect(() => logic.registerUser(name, email, password)).toThrowError(ValueError, 'password is empty')
         })
     })
 
