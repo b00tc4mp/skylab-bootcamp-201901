@@ -1,8 +1,8 @@
-const { Users, Items, Bids } = require('../data/models')
-const { LogicError } = require('../common/errors')
-const validate = require('../common/validate')
+const { mongoose: {Types: { ObjectId }}, models: { User, Item, Bid }} = require('auction-data')
+const { LogicError } = require('auction-errors') 
+const validate = require('auction-validate')
 const bcrypt = require('bcrypt')
-const { Types: { ObjectId } } = require('mongoose')
+const moment = require('moment')
 
 const logic = {
 
@@ -29,11 +29,11 @@ const logic = {
         const encryptPass = bcrypt.hashSync(password, 10)
         
         return (async () => {
-            const user = await Users.findOne({email})
+            const user = await User.findOne({email})
             
             if(user) throw new LogicError(`user with email ${email} already exists`)
             
-            return await Users.create({name, surname, email, password: encryptPass})
+            return await User.create({name, surname, email, password: encryptPass})
         })()
     },
 
@@ -54,7 +54,7 @@ const logic = {
         validate.email(email)
 
         return (async () => {
-            const user = await Users.findOne({email})
+            const user = await User.findOne({email})
             
             if(!user) throw new LogicError(`user with email ${email} doesn't exists`)
             
@@ -79,7 +79,7 @@ const logic = {
         ])
 
         return (async () => {
-            const user = await Users.findById(id).select('-_id name surname email').lean()
+            const user = await User.findById(id).select('-_id name surname email').lean()
     
             if(!user) throw new LogicError(`user with id ${id} doesn't exists`)
 
@@ -95,6 +95,13 @@ const logic = {
         //TODO
     },
 
+    /**
+     * Add a bid into the item selected
+     * 
+     * @param {String} itemId The item id to make a bid
+     * @param {String} userId The user id that make the bid
+     * @param {Number} amount The price of the bid
+     */
     placeBid(itemId, userId, amount) {
         validate.arguments([
             { name: 'itemId', value: itemId, type: 'string', notEmpty: true },
@@ -103,14 +110,14 @@ const logic = {
         ])
 
         return (async () => {
-            const user = await Users.findById(userId)
+            const user = await User.findById(userId)
             if(!user) throw new LogicError(`user with id ${id} doesn't exists`)
 
-            const item = await Items.findById(itemId)
+            const item = await Item.findById(itemId)
             if(!item) throw new LogicError(`item with id ${id} doesn't exists`)
 
             userId = ObjectId(userId)            
-            const bid = await Bids.create({userId, amount})
+            const bid = await Bid.create({userId, amount})
             
             //---start add to addItem?¿
             const index = user.items.findIndex(item => item.toString() === itemId)
@@ -125,12 +132,38 @@ const logic = {
         })()
     },
 
-    retrieveItem(id) {
-        //TODO
+    /**
+     * Search all the documents with the given query
+     * 
+     * @param {Object} query The query data to search items
+     * 
+     * @returns {Array} An array with the items found
+     */
+    searchItems(query) {
+        validate.arguments([
+            { name: 'query', value: query, type: 'object'},
+        ])
+
+        return (async () => {
+            return await Item.find(query).lean()
+        })()
     },
 
-    listItems() {
-        //TODO
+    /**
+     * Retrieve an item with the given item id
+     * 
+     * @param {String} id The item id 
+     * 
+     * @returns {Object} An item with the given id
+     */
+    retrieveItem(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+            return await Item.findById(id).lean()
+        })()
     },
 
     //LIKE ADD TO FAVOURITES
@@ -144,7 +177,21 @@ const logic = {
     },
 
     createItem(title, description, startPrice, startDate, finishDate, reservedPrice) {
-        //TODO
+        validate.arguments([
+            { name: 'title', value: title, type: 'string', notEmpty: true },
+            { name: 'description', value: description, type: 'string', notEmpty: true },
+            { name: 'startPrice', value: startPrice, type: 'number', notEmpty: true },
+            { name: 'startDate', value: startDate, type: 'string', notEmpty: true },
+            { name: 'finishDate', value: finishDate, type: 'string', notEmpty: true },
+            { name: 'reservedPrice', value: reservedPrice, type: 'number', optional: true}
+        ])
+
+        return (async () => {
+            startDate = moment(startDate, 'DD/MM/YYYY', true).format()
+            finishDate = moment(finishDate, 'DD/MM/YYYY', true).format()
+            
+            await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice})
+        })()
     },
 
     registerToAuction(userId, auctionId) {
