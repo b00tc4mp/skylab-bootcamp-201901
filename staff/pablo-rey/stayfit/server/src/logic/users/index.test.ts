@@ -1,11 +1,12 @@
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import * as uuid from 'uuid/v4';
+import * as faker from 'faker';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as bcrypt from 'bcryptjs';
 
 import { random } from '../../utils/random';
+import { randomUser, fillDbRandomUsers, userExpectations } from '../tests-utils'
 
 import usersLogic from '.';
 import {
@@ -37,72 +38,23 @@ const {
 describe('users', () => {
   let db: mongoose.Connection;
 
-  before(done => {
-    mongoose.connect(MONGODB_URL_TESTING!, { useNewUrlParser: true });
-    db = mongoose.connection;
-    db.on('error', err => console.error('MongoDB connection error', err));
-    db.on('open', () => done());
-  });
+  before(() => mongoose.connect(MONGODB_URL_TESTING!, { useNewUrlParser: true }));
   after(async () => await mongoose.disconnect());
 
   beforeEach(async () => {
     await UserModel.deleteMany({});
   });
 
-  const userExpectations = (user: any): void => {
-    expect(user).not.to.be.undefined;
-    expect(user)
-      .to.have.property('id')
-      .and.be.a('string');
-    expect(user)
-      .to.have.property('_id')
-      .and.be.instanceOf(mongoose.Types.ObjectId);
-    expect(user)
-      .to.have.property('name')
-      .and.be.a('string');
-    expect(user)
-      .to.have.property('surname')
-      .and.be.a('string');
-    expect(user)
-      .to.have.property('email')
-      .and.be.a('string');
-    expect(user).not.to.have.property('password');
-    expect(user)
-      .to.have.property('role')
-      .and.be.a('string')
-      .and.to.be.oneOf(ROLES);
-  };
-
-  const randomUser = (_role?: string): UserType => {
-    const name = `name-${uuid()}`;
-    const surname = `surname-${uuid()}`;
-    const email = `email-${uuid()}@testing.com`;
-    const password = `password-${uuid()}`;
-    const role = _role || random(ROLES);
-    return { name, surname, email, password, role };
-  };
-
-  const fillDbRandomUsers = async function(
-    users: UserType[] = [],
-    num: number = 10,
-    role?: string
-  ) {
-    for (let ii = 0, ll = Math.max(random(num), 1); ii < ll; ii++) {
-      const user = randomUser(role);
-      const hashPassword = await bcrypt.hash(user.password!, 12);
-      users.push(await UserModel.create({ ...user, password: hashPassword }));
-    }
-  };
-
   describe('create users', () => {
     let name: string, surname: string, email: string, password: string, role: string;
 
     beforeEach(() => {
-      name = `name-${uuid()}`;
-      surname = `surname-${uuid()}`;
-      email = `email-${uuid()}@testing.com`;
-      password = `password-${uuid()}`;
-      role = random(ROLES);
+      const user = randomUser();
+      name = user.name;
+      surname = user.surname;
+      email = user.email;
+      password = user.password!;
+      role = user.role;
     });
 
     it('should register a guest user without provide any owner correct data', async () => {
@@ -224,7 +176,7 @@ describe('users', () => {
       });
       it('should fail if email provided is not a valid formated email', async () => {
         await expect(
-          usersLogic.create({ name, surname, email: uuid(), password, role })
+          usersLogic.create({ name, surname, email: faker.internet.userName(), password, role })
         ).to.be.rejectedWith(ValidationError, 'email not contains a valid email');
         const _users = await UserModel.find({ email });
         expect(_users).to.have.lengthOf(0);
@@ -238,7 +190,7 @@ describe('users', () => {
       });
       it('should fail if role is not within permitted values', async () => {
         await expect(
-          usersLogic.create({ name, surname, email, password, role: uuid() })
+          usersLogic.create({ name, surname, email, password, role: faker.random.alphaNumeric() })
         ).to.be.rejectedWith(ValidationError, 'role must be one of [' + ROLES.join(',') + ']');
         const _users = await UserModel.find({ email });
         expect(_users).to.have.lengthOf(0);
@@ -284,7 +236,7 @@ describe('users', () => {
         );
       });
       it('should fail if email provided is not a valid formated email', async () => {
-        await expect(usersLogic.login(uuid(), password)).to.be.rejectedWith(
+        await expect(usersLogic.login(faker.random.alphaNumeric(), password)).to.be.rejectedWith(
           ValidationError,
           'email not contains a valid email'
         );
@@ -305,12 +257,9 @@ describe('users', () => {
 
     beforeEach(async () => {
       for (let ii = 0, ll = random(15); ii < ll; ii++) {
-        const name = `name-${uuid()}`;
-        const surname = `surname-${uuid()}`;
-        const email = `email-${uuid()}@testing.com`;
-        const password = `password-${uuid()}`;
-        const hashPassword = await bcrypt.hash(password, 12);
-        users.push(await UserModel.create({ name, surname, email, password: hashPassword }));
+        const user = randomUser();
+        const hashPassword = await bcrypt.hash(user.password!, 12);
+        users.push(await UserModel.create({ ...user, password: hashPassword }));
       }
     });
 
@@ -332,7 +281,7 @@ describe('users', () => {
 
     describe('params bad format', () => {
       it('should fail if is not a correct ObjectId string', async () => {
-        await expect(usersLogic.retrieve(uuid())).to.be.rejectedWith(
+        await expect(usersLogic.retrieve(faker.random.alphaNumeric())).to.be.rejectedWith(
           ValidationError,
           'id is not correct'
         );
