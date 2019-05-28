@@ -1,15 +1,15 @@
 {
-  "name": "cinema-and-go-data",
+  "name": "cinema-and-go-app",
   "version": "1.0.0",
   "description": "",
-  "main": "./models/index.js",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
-  "dependencies": {
-    "mongoose": "^5.5.11"
+  "devDependencies": {
+    "cinema-and-go-data": "file:../cinema-and-go-data"
   }
 }

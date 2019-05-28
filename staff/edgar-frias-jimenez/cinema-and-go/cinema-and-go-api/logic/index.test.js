@@ -21,12 +21,12 @@ describe('logic', () => {
     })
 
     describe('register user', () => {
-        fit('should succeed on correct data', async () => {
-            debugger
+        it('should succeed on correct data', async () => {
             const res = await logic.registerUser(name, email, password)
-            expect(res).toBeUndefined()
+            expect(res).toBeDefined()
 
             const users = await User.find()
+
             expect(users).toBeDefined()
             expect(users).toHaveLength(1)
 
@@ -35,14 +35,14 @@ describe('logic', () => {
             expect(user.email).toEqual(email)
 
             expect(user.password).toBeDefined()
-            expect(await bcrypt.compare(user.password, password)).toBeTruthy()
+            expect(await bcrypt.compare(password, user.password)).toBeTruthy()
         })
     })
 
     describe('authenticate user', () => {
         let user
 
-        beforeEach(async () => user = await User.create({ name, email, password: await bcrypt.hash(password) }))
+        beforeEach(async () => user = await User.create({ name, email, password: await bcrypt.hash(password, 10) }))
 
         it('should succeed on correct credentials', async () => {
             const id = await logic.authenticateUser(email, password)
@@ -57,7 +57,7 @@ describe('logic', () => {
     describe('retrieve user', () => {
         let user
 
-        beforeEach(async () => user = await User.create({ name, email, password: await bcrypt.hash(password) }))
+        beforeEach(async () => user = await User.create({ name, email, password: await bcrypt.hash(password, 10) }))
 
         it('should succeed on correct id from existing user', async () => {
             const _user = await logic.retrieveUser(user.id)
@@ -70,5 +70,5 @@ describe('logic', () => {
         })
     })
 
-    after(() => mongoose.disconnect())
+    afterAll(() => mongoose.disconnect())
 })

@@ -10,6 +10,7 @@ const {
 } = schemas
 
 module.exports = {
+  mongoose,
   City: mongoose.model('city', city),
   Cinema: mongoose.model('cinema', cinema),
   Movie: mongoose.model('movie', movie),

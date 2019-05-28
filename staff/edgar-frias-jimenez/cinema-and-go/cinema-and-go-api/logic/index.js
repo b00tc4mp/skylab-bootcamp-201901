@@ -1,7 +1,7 @@
-const models = require('../cinema-and-go-data/models')
 const bcrypt = require('bcrypt')
 const LogicError = require('../common/errors')
 const validate = require('../common/validate')
+const models = require('cinema-and-go-data')
 
 const { User } = models
 
@@ -19,18 +19,9 @@ const logic = {
             const user = await User.findOne({'email': email})
             if (user) throw new LogicError(`user with email "${email}" already exists`)
 
-            let hash = bcrypt.genSalt(10, (err, salt) => {
-                if(err) return next(err)
+            let hash = await bcrypt.hash(password, 10)
 
-                bcrypt.hash(password, salt, null, (err, hash) => {
-                    if(err) return next(err)
-
-                    return hash
-                })
-                console.log('HASH --->', hash)
-            })
-
-            return User.create({ name, email, password: hash })
+            return await User.create({ name, email, password: hash })
         })()
     },
 
@@ -46,7 +37,7 @@ const logic = {
             const user = await User.findOne({email})
             if (!user) throw new LogicError(`user with email "${email}" does not exist`)
 
-            if (await bcrypt.compare(user.password, password)) return user.id
+            if (await bcrypt.compare(password, user.password)) return user.id
             else throw new LogicError('wrong credentials')
         })()
     },

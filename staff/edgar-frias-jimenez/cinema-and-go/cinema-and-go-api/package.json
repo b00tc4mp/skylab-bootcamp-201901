@@ -14,10 +14,9 @@
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^3.0.6",
+    "cinema-and-go-data": "file:../cinema-and-go-data",
     "dotenv": "^8.0.0",
-    "mongoose": "^5.5.11",
-    "nodemon": "^1.19.1",
-    "cinema-and-go-data": "file:../cinema-and-go-data/models"
+    "nodemon": "^1.19.1"
   },
   "devDependencies": {
     "jest": "^24.8.0"
