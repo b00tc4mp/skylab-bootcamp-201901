@@ -1,6 +1,22 @@
 const { Schema } = require('mongoose')
 // import { isEmail } from 'validator'
 
+const product = new Schema({
+    description: {
+        type: String,
+        required: true,
+        enum: ['REVISION', 'REPAIR', 'RESTORATION', 'MAINTENANCE', 'SPARES', 'REFUND', 'DISCOUNT' ],
+        default: 'REVISION',
+    },
+    price: { type: Number, required: true }
+})
+
+const note = new Schema({
+    text: { type: String, required: true },
+    date: { type: Date, default: Date.now },
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+})
+
 const user = new Schema({
     name: { type: String, required: true },
     surname: { type: String, required: true },
@@ -51,21 +67,6 @@ const electronicControlModule = new Schema({
 
 })
 
-const product = new Schema({
-    description: {
-        type: String,
-        required: true,
-        enum: ['REVISION', 'REPAIR', 'RESTORATION', 'MAINTENANCE', 'SPARES', 'REFUND', 'DISCOUNT' ],
-        default: 'REVISION',
-    },
-    price: { type: Number, required: true }
-})
-
-const note = new Schema({
-    text: { type: String, required: true },
-    date: { type: Date, default: Date.now },
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-})
 
 
 module.exports = { user, customer, electronicControlModule, product, note }
