@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="styles.css">
+    <title>Theming with css properties!</title>
+  </head>
+
+  <body>
+      <nav class="navbar">Theming!</nav>
+      <div class="container">
+          <section>
+            <input type="button" value="Red" id="toggle-red" />
+            <input type="button" value="Blue" id="toggle-blue" />
+            <input type="button" value="Green" id="toggle-green" />
+          </section>
+
+          <h2 class="title">Custom theming with a few lines of CSS and JS!</h2>
+
+          <p class="content">
+              Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy
+              text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen
+              book. It has survived not only five centuries, but also the leap into electronic typesetting, remaining essentially
+              unchanged. It was popularised in the 1960s with the release of Letraset sheets containing Lorem Ipsum passages,
+              and more recently with desktop publishing software like Aldus PageMaker including versions of Lorem Ipsum.
+          </p>
+      </div>
+
+      <footer>
+          I'm a footer :P
+      </footer>
+
+
+      <script>
+        document.body.onload = () => {
+          const redBtn = document.querySelector('#toggle-red');
+          const blueBtn = document.querySelector('#toggle-blue');
+          const greenBtn = document.querySelector('#toggle-green');
+
+          redBtn.addEventListener('click', (e) => {
+            document.documentElement.style.setProperty('--main-hue', 360);
+          })
+
+          blueBtn.addEventListener('click', (e) => {
+            document.documentElement.style.setProperty('--main-hue', 240);
+          })
+
+          greenBtn.addEventListener('click', (e) => {
+            document.documentElement.style.setProperty('--main-hue', 120);
+          })
+        }
+      </script>
+  </body>
+</html>

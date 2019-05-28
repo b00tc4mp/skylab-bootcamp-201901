@@ -1,6 +1,19 @@
 $red: #de0000;
 $spacing: 30px;
 
+height, body {
+  height: 100vh;
+}
+
+header {
+  &.main-header {
+    border-bottom: 2px solid $red;
+    height: 85px;
+    line-height: 85px;
+    text-align: center;
+  }
+}
+
 main {
   & > section {
     $random-spacing: 500px;
@@ -9,6 +22,6 @@ main {
     border-radius: $spacing;
     margin: #{$spacing/2} auto;
     padding: $spacing;
-    width: calc(100vw - #{$random-spacing}); // Variables need to be interpolated inside a calc operation
+    // width: calc(100vw - #{$random-spacing}); // Variables need to be interpolated inside a calc operation
   }
 }
