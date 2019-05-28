@@ -1,8 +1,7 @@
 require('dotenv').config();
 const logic = require('.')
-const mongoose = require('mongoose')
-const { Users, Items, Bids } = require('../data/models')
-const { LogicError } = require('../common/errors')
+const { mongoose, models: {User, Item, Bid }} = require('auction-data')
+const { LogicError } = require('auction-errors')
 const bcrypt = require('bcrypt')
 
 const {env: { MONGO_URL_LOGIC_TEST }} = process
@@ -35,8 +34,8 @@ describe('logic', () => {
         email = user.email
         password = user.password
         
-        await Users.deleteMany()
-        await Items.deleteMany()
+        await User.deleteMany()
+        await Item.deleteMany()
     })
 
     describe('users', () => {
@@ -44,7 +43,7 @@ describe('logic', () => {
             it('should success on correct data', async () => {
                 await logic.registerUser(name, surname, email, password)
 
-                const user = await Users.findOne({email})
+                const user = await User.findOne({email})
                 
                 const samePass = bcrypt.compareSync(password, user.password)
 
@@ -56,7 +55,7 @@ describe('logic', () => {
 
             it('should fail on already user exists', async () => {
                 try {
-                    await Users.create({name, surname, email, password})   
+                    await User.create({name, surname, email, password})   
                     await logic.registerUser(name, surname, email, password)
                     throw Error('should not reach this point')
                 } catch (error) {
@@ -71,7 +70,7 @@ describe('logic', () => {
 
             beforeEach(async() => {
                 _password = bcrypt.hashSync(password, 10)
-                user = await Users.create({name, surname, email, password: _password})
+                user = await User.create({name, surname, email, password: _password})
             })
 
             describe('authenticate user', () => {
@@ -95,11 +94,81 @@ describe('logic', () => {
         })
     })
 
+    describe('items', () => {
+        let items
+
+        beforeEach(async () => {
+            items = new Array(25).fill().map(item => item = {
+                title: `Car-${Math.random()}`,
+                description: `description-${Math.random()}`,
+                startPrice: Math.ceil(Math.random() * 200),
+                startDate: Date.now(),
+                finishDate: Date.now() + 3600000,
+                reservedPrice: Math.floor(Math.random() * 1)
+            })
+
+            await Promise.all(items.map(async item => await Item.create(item)))
+        })
+
+        describe('create items', () => {
+            it('should success on correct data', async () => {
+                let item = {title: 'Ferrari 100', description: 'buen coche', startPrice: 2000}
+                const { title, description, startPrice } = item
+                try {
+                    await logic.createItem(title, description, startPrice, '28/05/2019', '28/06/2020')
+                } catch (error) {
+                    debugger
+                }
+
+                const _item = Item.findOne({title})
+                debugger
+                expect(_item.title).toBe(item.title)
+                expect(_item.description).toBe(item.description)
+                expect(_item.startPrice).toBe(item.startPrice)
+                // expect(_item.startDate).toEqual()
+                // expect(_item.finishDate).toEqual(item.finishDate)
+                expect(_item.reservedPrice).toBeUndefined()
+            })
+        })
+
+        describe('search items', () => {
+            xit('should success on correct query', async () => {
+                let query = ''
+                const _items = await logic.searchItems(query)
+
+                expect(_items).toBe(items)
+                expect(_items.length).toBe(5)
+            })
+
+            it('should list all items with empty query', async () => {
+                const _items = await logic.searchItems({})
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items.length).toBe(25)
+            })
+        })
+
+        describe('retrieve items', () => {
+            it('should success on correc item id', async () => {
+                let item_ = items[Math.floor(Math.random() * items.length)]
+                const item = await Item.create(item_)
+
+                const _item = await logic.retrieveItem(item.id)
+                
+                expect(_item.title).toBe(item.title)
+                expect(_item.description).toBe(item.description)
+                expect(_item.startPrice).toBe(item.startPrice)
+                expect(_item.startDate).toEqual(item.startDate)
+                expect(_item.finishDate).toEqual(item.finishDate)
+            })
+        })
+    })
+
     describe('bids', () => {
         let item, user
 
         beforeEach(async () => {
-            item = await Items.create({
+            item = await Item.create({
                 title: 'Monopatin',
                 description: 'Un monopatin super chulo',
                 startPrice: 20,
@@ -107,7 +176,7 @@ describe('logic', () => {
                 finishDate: Date.now() + 360000
             })
             
-            user = await Users.create({name, surname, email, password})
+            user = await User.create({name, surname, email, password})
         })
 
         describe('place a bid', () => {
@@ -115,8 +184,8 @@ describe('logic', () => {
                 let amount = 200
 
                 await logic.placeBid(item.id, user.id, amount)
-                const _item = await Items.findById(item.id)
-                const _user = await Users.findById(user.id)
+                const _item = await Item.findById(item.id)
+                const _user = await User.findById(user.id)
 
                 expect(_item.bids).toBeInstanceOf(Array)
                 expect(_item.bids.length).toBeGreaterThan(0)
@@ -137,9 +206,9 @@ describe('logic', () => {
                 let amount2 = 500
                 await logic.placeBid(item.id, user.id, amount2)
 
-                const _item = await Items.findById(item.id)
-                const _user = await Users.findById(user.id)
-                debugger
+                const _item = await Item.findById(item.id)
+                const _user = await User.findById(user.id)
+                
                 expect(_item.bids).toBeInstanceOf(Array)
                 expect(_item.bids.length).toBeGreaterThan(1)
                 expect(_item.bids[0].userId.toString()).toBe(user.id)
