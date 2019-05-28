@@ -1,4 +1,4 @@
-const { ValueError, RequirementError, FormatError } = require('../errors')
+const { ValueError, RequirementError, FormatError, LogicError } = require('../errors')
 
 const validate = {
     arguments(args) {
@@ -25,6 +25,11 @@ const validate = {
         const re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 
         if (!re.test(String(url))) throw new FormatError(`${url} is not a url`)
+    },
+
+    category(category) {
+        const categories = ['MASTER', 'TECHNICIAN', 'ASSISTANT']
+        if(categories.indexOf(category) < 0) throw new LogicError(`${category} is not a valid option for category`)
     }
 }
 

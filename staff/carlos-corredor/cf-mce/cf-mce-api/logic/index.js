@@ -1,26 +1,33 @@
 // const { Schema } = require('mongoose')
-const { models } = require('cf-mce-data')
-
+const { models} = require('cf-mce-data')
+const { validate, errors: {LogicError}  } = require('cf-mce-common')
 const argon2 = require('argon2')
-const LogicError = require('./logic-error')
 
 const { User, Customer, ElectronicControlModule, Product, Note } = models
 
 const logic = {
     
-    // registerUser(name, surname, email, password, category) {
-    //     // TODO validate inputs
+    registerUser(name, surname, email, password, category) {
+        validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true },
+            { name: 'category', value: category, type: 'string', notEmpty: true }
+        ])
+        validate.email(email)
+        validate.category(category)
 
+        return (async () => {
+            const user = await User.findOne({email: email}).lean()
 
-    //     // TODO implement logic
-    //     return (async () => {
-    //         const hash = await argon2.hash(password)
+            if (user) throw new LogicError(`user with email "${email}" already exists`)
 
-    //         // TODO end logic, other cases, flows, states... (user already exists check, etc)
+            const hash = await argon2.hash(password)
 
-    //         await User.create({ name, surname, email, password: hash, category })
-    //     })()
-    // },
+            await User.create({ name, surname, email, password: hash, category })
+        })()
+    },
 
     // authenticateUser(email, password) {
     //     // TODO validate inputs
@@ -166,6 +173,4 @@ const logic = {
     // }
 }
 
-module.exports = {
-    logic
-}
+module.exports = logic

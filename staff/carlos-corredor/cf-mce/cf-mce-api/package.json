@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "argon2": "^0.23.0",
+    "cf-mce-common": "file:../cf-mce-common",
     "cf-mce-data": "file:../cf-mce-data",
     "dotenv": "^8.0.0"
   },
