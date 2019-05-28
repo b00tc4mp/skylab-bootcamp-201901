@@ -21,13 +21,14 @@ const ProductSchema = new Schema({
     }
 })
 
-// const BasketSchema = new Schema({
-//     products: [{ type: Schema.Types.ObjectId, ref: 'Product', required: true }],
-//     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-// })
+const CartSchema = new Schema({
+    products: [{ type: Schema.Types.ObjectId, ref: 'Product', required: true }],
+    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+})
 
 
 module.exports = {
     UserSchema,
-    ProductSchema
+    ProductSchema,
+    CartSchema
 }

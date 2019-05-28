@@ -2,6 +2,7 @@ const express = require('express')
 const bodyParser = require('body-parser')
 const logic = require('../logic')
 const jwt = require('jsonwebtoken')
+const handleErrors = require('./handle-errors')
 const auth = require('./auth')
 
 const { env: { JWT_SECRET } } = process
@@ -13,44 +14,60 @@ const router = express.Router()
 router.post('/users', jsonParser, (req, res) => {
     const { body: { name, surname, phone, email, password } } = req
 
-    return logic.registerUser(name, surname, phone, email, password)
-        .then(() => res.status(201).json({ message: 'Ok, user registered.' }))
-
+    handleErrors(async () => {
+        await logic.registerUser(name, surname, phone, email, password)
+        return res.status(201).json({ message: 'Ok, user registered.' })
+    }, res)
 })
 
 router.post('/users/auth', jsonParser, (req, res) => {
     const { body: { email, password } } = req
 
-    return logic.authenticateUser(email, password)
-        .then(sub => {
-            const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '47m' })
-            res.json({ token })
-        })
+    handleErrors(async () => {
+        const sub = await logic.authenticateUser(email, password)
+
+        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '47m' })
+        return res.json({ token })
+
+    }, res)
 })
 
 router.get('/users/:id', auth, (req, res) => {
-    const { userId } = req
+    const { params: { id: userId } } = req
 
-    return logic.retrieveUser(userId)
-        .then(user => res.json(user))
+    handleErrors(async () => {
+        const user = await logic.retrieveUser(userId)
+        return res.json(user)
+    }, res)
 })
 
 // Products
 
 router.post('/products', jsonParser, (req, res) => {
     const { body: { title, image, description, price, category } } = req
-
-    return logic.createProduct(title, image, description, price, category)
-        .then(() => res.status(201).json({ message: 'Ok, product create.' }))
+    handleErrors(async () => {
+        await logic.createProduct(title, image, description, price, category)
+        return res.status(201).json({ message: 'Ok, product create.' })
+    }, res)
 
 })
 
-router.get('/products/:id', (req, res) => {
+router.get('/product/:id', (req, res) => {
 
-    const { params: { id } } = req
+    const { params: { id: productId } } = req
+    handleErrors(async () => {
+        const product = await logic.retrieveProduct(productId)
+        return res.json(product)
+    }, res)
+})
 
-    return logic.retrieveProduct(id)
-        .then(product => res.json(product))
+router.get('/products/:category', (req, res) => {
+
+    const { params: { category } } = req
+    handleErrors(async () => {
+        const products = await logic.retrieveProductsByCategory(category)
+        return res.json(products)
+    }, res)
 })
 
 

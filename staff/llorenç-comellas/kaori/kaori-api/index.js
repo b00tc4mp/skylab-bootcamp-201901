@@ -1,6 +1,6 @@
 require('dotenv').config()
 const express = require('express')
-const mongoose = require('mongoose')
+const {mongoose} = require('kaori-data')
 const routes = require('./routes')
 
 const app = express()
