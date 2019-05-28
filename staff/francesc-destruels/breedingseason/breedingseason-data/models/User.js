@@ -3,7 +3,7 @@ const gameRecord = require('./GameRecord')
 
 const user = new Schema({
     nickname: { type: String, trim: true, required: true },
-    age: { type: Number, min: 6, required: true},
+    age: { type: Number, min: 13, required: true},
     email: {
         type: String,
         required: true,
@@ -11,6 +11,7 @@ const user = new Schema({
         unique: true,
     },
     password: { type: String, required: true },
+    avatar: { type: String, trim: true, required: true },
     gameHistory: [gameRecord]
 })
 

@@ -1,8 +1,8 @@
 const express = require('express')
 const bodyParser = require('body-parser')
 const logic = require('../logic')
-// const handleErrors = require('./handle-errors')
 const jwt = require('jsonwebtoken')
+const auth = require('./auth')
 
 const { env: { JWT_SECRET } } = process
 
@@ -13,7 +13,7 @@ const router = express.Router()
 // User routes 
 
 // User creation route 
-router.post('/user', jsonParser, async (req, res) => {
+router.post('/user', jsonParser, async (req, res) => { //OK
     const { body: { nickname, age, email, password } } = req
 
     try {
@@ -26,7 +26,7 @@ router.post('/user', jsonParser, async (req, res) => {
 })
 
 // User authenticate route
-router.post('/users/auth', jsonParser, async (req, res) => {
+router.post('/users/auth', jsonParser, async (req, res) => { //OK
     const { body: { nicknameOEmail, password } } = req
 
     try {
@@ -41,15 +41,11 @@ router.post('/users/auth', jsonParser, async (req, res) => {
 })
 
 // User data retrieve route
-router.get('/user', async (req, res) => {
-    const { header: { } } = req //sacar token
+router.get('/user', auth, async (req, res) => { //OK
+    const { userId } = req //sacar token
 
     try {
-        let payload = jwt.verify(token, JWT_SECRET) // verificar token
-
-        const { sub } = payload
-
-        const user = await logic.retrieveUser(sub) // 
+        const user = await logic.retrieveUser(userId) // 
 
         const { nickname, age, email, avatar } = user
 
@@ -62,14 +58,10 @@ router.get('/user', async (req, res) => {
 
 // User game retrieve route
 router.get('/user/gamedata', async (req, res) => {
-    const { header: { } } = req //sacar token
+    const { userId } = req //sacar token
 
     try {
-        let payload = jwt.verify(token, JWT_SECRET)
-
-        const { sub } = payload
-
-        const gamedata = await logic.retrieveUserGameData(sub) // Should be an object containing a key GAMES with an array with up to 5 games data and the id key of the user
+        const gamedata = await logic.retrieveUserGameData(userId) // Should be an object containing a key GAMES with an array with up to 5 games data and the id key of the user
 
         res.json(gamedata)
 
@@ -82,16 +74,14 @@ router.get('/user/gamedata', async (req, res) => {
 
 //New Game route 
 router.post('/newGame', async (req, res) => {
-    const { header: { }, body: { gameId, style } } = req //sacar token
+    const { body: { style } } = req //sacar token
 
     try {
-        let payload = jwt.verify(token, JWT_SECRET)
+        const gameId = userId + Math.floor(Math.random()*585)
 
-        const { sub } = payload
+        await logic.newGame(userId, gameId, style)
 
-        await logic.newGame(sub, gameId, style)
-
-        res.status(201).json({message: `game with id ${gameId} created waiting to start`})
+        res.status(201).json({gameId, message: `game with id ${gameId} created waiting to start`})
 
     } catch ({ message }) {
         res.status(400).json({ error: message })
@@ -99,16 +89,12 @@ router.post('/newGame', async (req, res) => {
 })
 
 router.post('/joinGame', async (req, res) => {
-    const { header: { }, body: { gameId } } = req //sacar token
+    const { userId , body: { gameId } } = req //sacar token
 
     try {
-        let payload = jwt.verify(token, JWT_SECRET)
+        const game = await logic.joinGame(userId, gameId)
 
-        const { sub } = payload
-
-        const game = await logic.joinGame(sub, gameId)
-
-        res.json(game) // whith contain all the needed data for the game to start
+        res.json(game) 
 
     } catch ({ message }) {
         res.status(400).json({ error: message })
@@ -116,16 +102,28 @@ router.post('/joinGame', async (req, res) => {
 })
 
 router.get('/startGame/:gameId', async (req, res) => {
-    const { header: { }, param: { gameId } } = req //sacar token
+    const { userId, param: { gameId } } = req //sacar token
 
     try {
-        let payload = jwt.verify(token, JWT_SECRET)
 
-        const { sub } = payload
 
-        const startingPacket = await logic.startGame(sub, gameId)
+        await logic.startGame(userId, gameId)
 
-        res.json(startingPacket) // all the necessary staff to start the game
+        res.json({message: "Waiting all players"})
+
+    } catch ({ message }) {
+        res.status(400).json({ error: message })
+    }
+})
+
+router.get('/updateGame/:gameId', async (req, res) => {
+    const { userId, param: { gameId } } = req //sacar token
+
+    try {
+        const data = await logic.updateGame(userId, gameId)
+
+        if(data) res.json(data)
+        else res.jason({messaje: "Waitng players"})
 
     } catch ({ message }) {
         res.status(400).json({ error: message })
@@ -148,6 +146,12 @@ router.post('/continueGame/:gameId', async (req, res) => {
         res.status(400).json({ error: message })
     }
 })
+
+// router.get('/superSecretAddMissionCard', async (req, res) => {
+//     await logic.createMissionCartCollection()
+
+//     res.status(200).json({message: done})
+// })
 
 
 module.exports = router

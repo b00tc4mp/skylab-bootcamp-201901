@@ -4,12 +4,12 @@ const express = require('express')
 const package = require('./package.json')
 const routes = require('./routes')
 const cors = require('cors')
-const mongoose = require('mongoose')
+const { mongoose } = require("breedingseason-data")
 
 const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 7000] } = process;
 
 (async () => {
-    // client = await mongoose.connect(url, { useNewUrlParser: true }) // esperamos que se levabte mongo
+    client = await mongoose.connect(url, { useNewUrlParser: true }) // esperamos que se levabte mongo
 
     const app = express()
 
