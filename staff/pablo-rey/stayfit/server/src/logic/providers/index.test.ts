@@ -230,7 +230,7 @@ describe('providers', () => {
           const providerId = newUser.id; // wrong id
           await expect(providerLogic.addCustomer(providerId, newUser.id, owner)).to.be.rejectedWith(
             LogicError,
-            `Provider with id ${providerId} not found`
+            `Provider is required`
           );
         });
 
@@ -299,7 +299,7 @@ describe('providers', () => {
           const providerId = userToRemove.id; // wrong id
           await expect(
             providerLogic.removeCustomer(providerId, userToRemove.id, owner)
-          ).to.be.rejectedWith(LogicError, `Provider with id ${providerId} not found`);
+          ).to.be.rejectedWith(LogicError, `Provider is required`);
         });
 
         it('should fail if id of user is empty', async () => {

@@ -110,7 +110,7 @@ describe('users', () => {
         }
         for (let role of [SUPERADMIN_ROLE, BUSINESS_ROLE]) {
           const failUser = randomUser(SUPERADMIN_ROLE);
-          await expect(usersLogic.create(failUser)).to.be.rejectedWith(
+          await expect(usersLogic.create(failUser, owner)).to.be.rejectedWith(
             AuthorizationError,
             'Not authorized to create a user with ' + failUser.role
           );
@@ -126,7 +126,7 @@ describe('users', () => {
         }
         for (let role of [SUPERADMIN_ROLE, BUSINESS_ROLE, ADMIN_ROLE]) {
           const failUser = randomUser(SUPERADMIN_ROLE);
-          await expect(usersLogic.create(failUser)).to.be.rejectedWith(
+          await expect(usersLogic.create(failUser, owner)).to.be.rejectedWith(
             AuthorizationError,
             'Not authorized to create a user with ' + failUser.role
           );
@@ -142,7 +142,7 @@ describe('users', () => {
         }
         for (let role of [SUPERADMIN_ROLE, BUSINESS_ROLE, ADMIN_ROLE, STAFF_ROLE]) {
           const failUser = randomUser(SUPERADMIN_ROLE);
-          await expect(usersLogic.create(failUser)).to.be.rejectedWith(
+          await expect(usersLogic.create(failUser, owner)).to.be.rejectedWith(
             AuthorizationError,
             'Not authorized to create a user with ' + failUser.role
           );

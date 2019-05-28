@@ -13,8 +13,11 @@ import {
   USER_ROLE,
   BUSINESS_ROLE,
 } from '../../models/user';
+import { throwAuth } from '../authorization';
 
-function leanUser(user: UserType): UserType {
+export const AUTH_USER_CREATE = 'AUTH_USER_CREATE';
+
+export function leanUser(user: UserType): UserType {
   return {
     id: user._id!.toString(),
     _id: user._id,
@@ -23,17 +26,6 @@ function leanUser(user: UserType): UserType {
     email: user.email,
     role: user.role,
   };
-}
-
-function authenticationChecking( userRole: string, owner?: UserType): AuthenticationError | null {
-  if (isIn(userRole, [GUEST_ROLE])) return null;
-  if (!owner) return new AuthorizationError('Not authorized to create a user with ' + userRole);
-
-  if (owner.role === SUPERADMIN_ROLE) return null;
-  else if (owner.role === BUSINESS_ROLE && isIn(userRole, [ADMIN_ROLE, STAFF_ROLE, GUEST_ROLE, USER_ROLE])) return null;
-  else if (owner.role === ADMIN_ROLE && isIn(userRole, [STAFF_ROLE, GUEST_ROLE, USER_ROLE])) return null;
-  else if (owner.role === STAFF_ROLE && isIn(userRole, [GUEST_ROLE, USER_ROLE])) return null;
-  return new AuthorizationError('Not authorized to create a user with ' + userRole);
 }
 
 export default {
@@ -45,8 +37,7 @@ export default {
     if (!isIn(role, ROLES)) throw new ValidationError('role must be one of [' + ROLES.join(',') + ']');
 
     // Authorization
-    const authError = authenticationChecking(role, owner);
-    if (authError) throw authError;
+    await throwAuth(AUTH_USER_CREATE, { owner, role})
 
     // Create
     const hashPassword = await bcrypt.hash(password!, 12);
