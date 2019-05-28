@@ -1,0 +1,21 @@
+extends ../index  
+include ../search/index
+include ../results/index 
+include ../detail/index
+
+block content
+    h1 Hola #{name}
+    form(method='post' action='/logout') 
+        button Logout
+    +search
+    if ducks
+        +results(query, ducks)
+    if duck
+        +detail(duck)
+    form(method='get' action='/fav')
+        button fav ducks
+    form(method='get' action='/cart')
+        button shopping cart
+
+
+

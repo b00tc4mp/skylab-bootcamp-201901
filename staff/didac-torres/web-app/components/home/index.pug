@@ -1,0 +1,32 @@
+extends ../index
+
+include ../search/index
+include ../results/index
+include ../detail/index
+include ../cart/index
+include ../favorites/index
+
+block content
+    .home
+        h1 Hola, !{name}!
+        form(action='/logout' method='post')
+            button Logout
+        a(href='/home/favorites')
+            button Favorites
+        a(href='/home/cart')
+            button Shopping Cart
+    .search
+        +search(query)
+
+    if ducks
+        .results
+            +results(ducks)
+    if duck
+        .detail
+            +detail(duck)
+    if favorites
+        .favorites
+            +favorites(favorites)
+    if cart
+        .cart
+            +cart(cart, totalPrice, shipCost, withShip)
