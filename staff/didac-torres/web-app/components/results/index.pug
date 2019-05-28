@@ -1,0 +1,14 @@
+
+mixin results(items)
+    ul
+        for item in items
+            li
+                a(href=item.url)
+                    h2=item.title
+                    img(src=item.image)
+                    span=item.price
+
+                a(href=item.favUrl)
+                    button Add to Fav
+                a(href=item.cartUrl)
+                    button Add to Cart

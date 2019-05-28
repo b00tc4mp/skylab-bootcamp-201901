@@ -1,0 +1,15 @@
+mixin favorites(favoritesList)
+
+    if favoritesList.length > 0
+        ul.list-items
+            each fav in favoritesList
+                li.item
+                    a(href=`${fav.url}`)
+                        h3.item__title= fav.title
+                    form(method='post' action=fav.urlToggle)
+                        button.fav
+                            i(class= 'fas fa-heart')
+                    img.item__image(src=`${fav.image}`)
+                    span.item__price= fav.price                    
+    else
+        p.no-result= 'No favorites'

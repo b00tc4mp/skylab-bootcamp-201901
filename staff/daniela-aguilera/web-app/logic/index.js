@@ -3,6 +3,7 @@ const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
+<<<<<<< HEAD
 
 const sessionStorage = {
     clear() {
@@ -32,6 +33,26 @@ const logic = {
     get isUserLoggedIn() {
         return !!(this.__userId__ && this.__userToken__)
     },
+=======
+const token = require('../common/token')
+
+class Logic {
+    constructor(token) {
+        this.__userToken__ = token
+    }
+
+    get __userId__() {
+        if (this.__userToken__) {
+            const payload = token.payload(this.__userToken__)
+
+            return payload.id
+        }
+    }
+
+    get isUserLoggedIn() {
+        return !!this.__userToken__
+    }
+>>>>>>> upstream/develop
 
     registerUser(name, surname, email, password) {
         validate.arguments([
@@ -49,7 +70,11 @@ const logic = {
 
                 throw new LogicError(response.error)
             })
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> upstream/develop
 
     loginUser(email, password) {
         validate.arguments([
@@ -62,6 +87,7 @@ const logic = {
         return userApi.authenticate(email, password)
             .then(response => {
                 if (response.status === 'OK') {
+<<<<<<< HEAD
                     const { data: { id, token } } = response
 
                     this.__userId__ = id
@@ -69,6 +95,14 @@ const logic = {
                 } else throw new LogicError(response.error)
             })
     },
+=======
+                    const { data: { token } } = response
+
+                    this.__userToken__ = token
+                } else throw new LogicError(response.error)
+            })
+    }
+>>>>>>> upstream/develop
 
     retrieveUser() {
         return userApi.retrieve(this.__userId__, this.__userToken__)
@@ -79,7 +113,11 @@ const logic = {
                     return { name, surname, email }
                 } else throw new LogicError(response.error)
             })
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> upstream/develop
 
     logoutUser() {
         // this.__userId__ = null
@@ -87,7 +125,11 @@ const logic = {
 
         // OR fully remove all key values from session storage
         sessionStorage.clear()
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> upstream/develop
 
 
     searchDucks(query) {
@@ -97,7 +139,11 @@ const logic = {
 
         return duckApi.searchDucks(query)
             .then(ducks => ducks instanceof Array ? ducks : [])
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> upstream/develop
 
     retrieveDuck(id) {
         validate.arguments([
@@ -105,7 +151,11 @@ const logic = {
         ])
 
         return duckApi.retrieveDuck(id)
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> upstream/develop
 
     toggleFavDuck(id) {
         validate.arguments([
@@ -130,7 +180,11 @@ const logic = {
 
                 throw new LogicError(response.error)
             })
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> upstream/develop
 
     retrieveFavDucks() {
         return userApi.retrieve(this.__userId__, this.__userToken__)
@@ -150,6 +204,65 @@ const logic = {
                 throw new LogicError(response.error)
             })
     }
+<<<<<<< HEAD
 }
 
 module.exports = logic
+=======
+
+    toggleCart(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string' }
+        ])
+    
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                const { status, data } = response
+    
+                if (status === 'OK') {
+                    const { cart = [] } = data // NOTE if data.favs === undefined then favs = []
+    
+                    const index = cart.indexOf(id)
+    
+                    if (index < 0) cart.push(id)
+                    else cart.splice(index, 1)
+    
+                    return userApi.update(this.__userId__, this.__userToken__, { cart })
+                        .then(() => { })
+                }
+    
+                throw new LogicError(response.error)
+            })
+    }
+
+    retrieveCartDucks() {
+        return userApi.retrieve(this.__userId__, this.__userToken__)
+            .then(response => {
+                const { status, data } = response
+
+                if (status === 'OK') {
+                    const { cart = [] } = data
+
+                    if (cart.length) {
+                        const calls = cart.map(item => duckApi.retrieveDuck(item))
+
+                        return Promise.all(calls)
+                    } else return cart
+                }
+
+                throw new LogicError(response.error)
+            })
+    }
+}
+
+
+
+
+
+
+
+
+
+
+module.exports = Logic
+>>>>>>> upstream/develop
