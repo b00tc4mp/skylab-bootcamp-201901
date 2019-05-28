@@ -1,13 +1,12 @@
 const mongoose = require('mongoose')
-const schemas = require('./schemas')
-
-const { user, note } = schemas
+const user = require('./schemas/user.js')
+const item = require('./schemas/item.js')
 
 mongoose.set('useCreateIndex', true);
 const User = mongoose.model('User', user)
-const Note = mongoose.model('Note', note)
+const Item = mongoose.model('Item', item)
 
 module.exports = { 
     User: User,
-    Note: Note
+    Item: Item
 }
