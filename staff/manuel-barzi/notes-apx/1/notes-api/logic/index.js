@@ -1,6 +1,6 @@
-import { models } from 'notes-data'
-import argon2 from 'argon2'
-import LogicError from './logic-error'
+const { models } = require('notes-data')
+const argon2 = require('argon2')
+const LogicError = require('./logic-error')
 
 const { User, Note } = models
 
@@ -163,4 +163,4 @@ const logic = {
     }
 }
 
-export default logic
+module.exports = logic

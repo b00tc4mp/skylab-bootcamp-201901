@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "npx mocha * --require esm",
-    "test:debug": "npx mocha debug * --require esm"
+    "test": "npx mocha ./**/*.test.js",
+    "test:debug": "npx mocha debug ./**/*.test.js",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.test.js"
   },
   "keywords": [],
   "author": "",
@@ -19,6 +20,7 @@
   },
   "devDependencies": {
     "chai": "^4.2.0",
-    "mocha": "^6.1.4"
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
   }
 }

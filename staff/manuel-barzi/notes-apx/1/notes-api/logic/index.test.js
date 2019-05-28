@@ -1,8 +1,8 @@
-import dotenv from 'dotenv'
-import { mongoose, models } from 'notes-data'
-import { expect } from 'chai'
-import logic from '.';
-import argon2 from 'argon2'
+const dotenv = require('dotenv')
+const { mongoose, models } = require('notes-data')
+const { expect } = require('chai')
+const logic = require('.')
+const argon2 = require('argon2')
 
 dotenv.config()
 
