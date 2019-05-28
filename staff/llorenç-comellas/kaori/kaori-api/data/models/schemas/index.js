@@ -12,7 +12,7 @@ const ProductSchema = new Schema({
     title: { type: String, required: [true, 'title required'] },
     image: { type: String, required: [true, 'image required'] },
     description: { type: String, required: [true, 'description required'] },
-    price: { type: String, required: [true, 'price required'] },
+    price: { type: Number, required: [true, 'price required'] },
     category: {
         type: String, required: [true, 'category required'],
         enum: {
@@ -21,10 +21,11 @@ const ProductSchema = new Schema({
     }
 })
 
-// const CardSchema = new Schema({
+// const BasketSchema = new Schema({
 //     products: [{ type: Schema.Types.ObjectId, ref: 'Product', required: true }],
 //     user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 // })
+
 
 module.exports = {
     UserSchema,

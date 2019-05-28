@@ -3,7 +3,7 @@ const { LogicError } = require('../common/errors')
 const models = require('../data/models')
 const bcrypt = require('bcrypt')
 
-const { User } = models
+const { User, Product } = models
 
 const logic = {
     registerUser(name, surname, phone, email, password) {
@@ -17,7 +17,7 @@ const logic = {
 
         //TODO LOGIC
         return (async () => {
-            const encryptPassword = bcrypt.hashSync(password, 10) 
+            const encryptPassword = bcrypt.hashSync(password, 10)
             await User.create({ name, surname, phone, email, password: encryptPassword })
         })()
     },
@@ -41,7 +41,7 @@ const logic = {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
-        
+
         //TODO LOGIC
 
         return (async () => {
@@ -50,12 +50,37 @@ const logic = {
 
     },
 
-    updateUsr(){
+    updateUser() {
         //TODO
     },
 
-    deleteUser(){
+    deleteUser() {
         //TODO
+    },
+
+    createProduct(title, image, description, price, category) {
+        validate.arguments([
+            { name: 'title', value: title, type: 'string', notEmpty: true },
+            { name: 'image', value: image, type: 'string', notEmpty: true },
+            { name: 'description', value: description, type: 'string', notEmpty: true },
+            { name: 'price', value: price, type: 'number', notEmpty: true },
+            { name: 'category', value: category, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {       
+            await Product.create({ title, image, description, price, category})
+        })()
+    },
+
+    retrieveProduct(id){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            return await Product.findById(id).select('title image description price category -_id').lean()
+        })()
+
     }
 
 }
