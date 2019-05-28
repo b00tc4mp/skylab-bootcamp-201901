@@ -1,0 +1,25 @@
+{
+  "name": "cinema-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "test": "jest --runInBand",
+    "test:debug": "node debug ./node_modules/jest/bin/jest.js --runInBand --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "dotenv": "^8.0.0",
+    "mongoose": "^5.5.11",
+    "nodemon": "^1.19.1",
+    "cinema-and-go-data": "file:../cinema-and-go-data/models"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
+  }
+}

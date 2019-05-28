@@ -1,0 +1,74 @@
+const dotenv = require('dotenv')
+const { mongoose, User } = require('cinema-and-go-data')
+const bcrypt = require('bcrypt')
+const logic = require('.')
+
+dotenv.config()
+
+const { env: { MONGO_URL_LOGIC_TEST: url } } = process
+
+describe('logic', () => {
+    let name, email, password
+
+    beforeAll(() => mongoose.connect(url, { useNewUrlParser: true }))
+
+    beforeEach(async () => {
+        await User.deleteMany()
+
+        name = `name-${Math.random()}`
+        email = `email-${Math.random()}@mail.com`
+        password = `password-${Math.random()}`
+    })
+
+    describe('register user', () => {
+        fit('should succeed on correct data', async () => {
+            debugger
+            const res = await logic.registerUser(name, email, password)
+            expect(res).toBeUndefined()
+
+            const users = await User.find()
+            expect(users).toBeDefined()
+            expect(users).toHaveLength(1)
+
+            const [user] = users
+            expect(user.name).toEqual(name)
+            expect(user.email).toEqual(email)
+
+            expect(user.password).toBeDefined()
+            expect(await bcrypt.compare(user.password, password)).toBeTruthy()
+        })
+    })
+
+    describe('authenticate user', () => {
+        let user
+
+        beforeEach(async () => user = await User.create({ name, email, password: await bcrypt.hash(password) }))
+
+        it('should succeed on correct credentials', async () => {
+            const id = await logic.authenticateUser(email, password)
+
+            expect(id).toBeDefined()
+            expect(typeof id).toBe('string')
+
+            expect(id).toEqual(user.id)
+        })
+    })
+
+    describe('retrieve user', () => {
+        let user
+
+        beforeEach(async () => user = await User.create({ name, email, password: await bcrypt.hash(password) }))
+
+        it('should succeed on correct id from existing user', async () => {
+            const _user = await logic.retrieveUser(user.id)
+
+            expect(_user.id).toBeUndefined()
+            expect(_user.name).toEqual(name)
+            expect(_user.email).toEqual(email)
+
+            expect(_user.password).toBeUndefined()
+        })
+    })
+
+    after(() => mongoose.disconnect())
+})
