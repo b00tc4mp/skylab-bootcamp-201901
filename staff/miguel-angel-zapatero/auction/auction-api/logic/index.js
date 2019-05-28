@@ -9,10 +9,17 @@ const logic = {
     /**
      * Register an user into database
      * 
+<<<<<<< Updated upstream
      * @param {String} name The user's name
      * @param {String} surname The user's surname
      * @param {String} email The user's email 
      * @param {String} password The user's password 
+=======
+     * @param {String} name The user name
+     * @param {String} surname The user surname
+     * @param {String} email The user email 
+     * @param {String} password The user password 
+>>>>>>> Stashed changes
      * 
      * @returns {Object} The new user object created
      */
@@ -40,10 +47,17 @@ const logic = {
     /**
      * Authenticate an user to retrieve the id or throw an error if an email doesn't exists or the password not match.
      * 
+<<<<<<< Updated upstream
      * @param {String} email The user's email to authenticate
      * @param {String} password The user's email to match
      * 
      * @returns {String} The user's id
+=======
+     * @param {String} email The user email to authenticate
+     * @param {String} password The user email to match
+     * 
+     * @returns {String} The user id
+>>>>>>> Stashed changes
      */
     authenticateUser(email, password) {
         validate.arguments([
@@ -69,7 +83,11 @@ const logic = {
     /**
      * Retrieve the user data (name, surname and email)
      * 
+<<<<<<< Updated upstream
      * @param {String} id The user's id
+=======
+     * @param {String} id The user id
+>>>>>>> Stashed changes
      * 
      * @returns {Object} The user data
      */
@@ -176,6 +194,19 @@ const logic = {
         //TODO
     },
 
+<<<<<<< Updated upstream
+=======
+    /**
+     * Create an item into the database
+     * 
+     * @param {String} title The item title
+     * @param {String} description The item description
+     * @param {Number} startPrice The start price for the item
+     * @param {String} startDate The date when start the item auction
+     * @param {String} finishDate The date when finish the item auction 
+     * @param {Number} reservedPrice The price if the item is reserved
+     */
+>>>>>>> Stashed changes
     createItem(title, description, startPrice, startDate, finishDate, reservedPrice) {
         validate.arguments([
             { name: 'title', value: title, type: 'string', notEmpty: true },
@@ -189,8 +220,14 @@ const logic = {
         return (async () => {
             startDate = moment(startDate, 'DD/MM/YYYY', true).format()
             finishDate = moment(finishDate, 'DD/MM/YYYY', true).format()
+<<<<<<< Updated upstream
             
             await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice})
+=======
+
+            const item = await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice})
+            debugger
+>>>>>>> Stashed changes
         })()
     },
 
