@@ -1,9 +1,9 @@
-const mongoose = require('mongoose')
-const { User, PMap, Pin } = require('./schemas')
+const { model } = require('mongoose')
+const { user, pmap, pin } = require('./schemas/index')
 
 module.exports = {
-    User: mongoose.model('User', User),
-    Map: mongoose.model('PMap', PMap),
-    Pin: mongoose.model('Pin', Pin)
+    User: model('User', user),
+    Map: model('PMap', pmap),
+    Pin: model('Pin', pin)
 }
 

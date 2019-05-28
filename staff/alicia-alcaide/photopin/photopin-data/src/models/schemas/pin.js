@@ -1,10 +1,10 @@
-const { Schema }  = require ('mongoose')
+const { Schema, Schema: { Types: { ObjectId }} }  = require ('mongoose')
 
 
-const Pin = new Schema({
+const pin = new Schema({
     title: { type: String, required: true },
     description: { type: String },
-    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    author: { type: ObjectId, ref: 'User' },
     urlImage: { type: String },
     icon: { type: String },
     color: { type: String },
@@ -19,4 +19,4 @@ const Pin = new Schema({
     }
 })
 
-module.exports = { Pin }
+module.exports = { pin }

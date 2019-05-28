@@ -20,6 +20,4 @@ router.get('/user', auth, retrieveUser)
 router.put('/user', [jsonBodyParser, auth], updateUser)
 router.delete('/user', jsonBodyParser, deleteUser)
 
-
-
-module.exports = router
+//TODO router para map y pin (con sus handlers)

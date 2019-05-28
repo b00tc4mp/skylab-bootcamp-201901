@@ -1,7 +1,7 @@
-const { Schema }  = require ('mongoose')
+const { Schema, Schema: { Types: { ObjectId }} }  = require ('mongoose')
 
 
-const PMap = new Schema({
+const pmap = new Schema({
     title: { type: String, required: true },
     description: { type: String },
     coverImage: { type: String },
@@ -11,11 +11,8 @@ const PMap = new Schema({
     isPublic: { type: Boolean, default:false, required: true  },
     collections: [{
         title: String,
-        pin: [{
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Pin'
-        }]
+        pin: [{ type: ObjectId, ref: 'Pin' }]
     }]    
 })
 
-module.exports = { PMap }
+module.exports = { pmap }
