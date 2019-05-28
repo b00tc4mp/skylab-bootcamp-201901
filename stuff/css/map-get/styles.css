@@ -5,35 +5,4 @@ main > section {
   padding: 30px;
   width: 600px;
 }
-
-.title {
-  font-size: 36px;
-  font-weight: 600;
-  color: #de0000;
-}
-
-h3 {
-  font-size: 27px;
-  font-weight: 500;
-}
-
-.content {
-  font-size: 15px;
-  font-weight: 400;
-}
-
-.content b,
-.content strong {
-  font-weight: 700;
-}
-
-.content h4 {
-  font-size: 17px;
-  font-weight: 600;
-}
-
-.content a {
-  font-size: 25px;
-  font-weight: 400;
-}
 /*# sourceMappingURL=styles.css.map */

@@ -1,0 +1,12 @@
+mixin results(ducks, ducksFav)
+    ul
+        for item in ducks
+            - const isFav=ducksFav.some(fav => fav.id === item.id)
+            li
+                a(href=item.url)
+                    h2=item.title
+                    img(src=item.image)
+                    span=item.price
+            form(method='post' action='/home/fav/'+item.id)
+                button
+                    i(class=isFav ? 'fas fa-heart' : 'far fa-heart')
