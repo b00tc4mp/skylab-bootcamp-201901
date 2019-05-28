@@ -1,7 +1,8 @@
-const validate = require('../../common/validate')
-const call = require('../../common/call')
-const dotenv = require ('dotenv')
-dotenv.config()
+const call = require('dashboard-call')
+const validate = require('dashboard-validate')
+
+// const dotenv = require ('dotenv')
+require('dotenv').config()
 const { env: { JIRA_TOKEN: token } } = process
 
 const jiraApi = {
@@ -9,6 +10,7 @@ const jiraApi = {
     
 
     searchIssues(startDate, endDate) {
+        
         validate.arguments([
             { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
             { name: 'endDate', value: endDate, type: 'string', notEmpty: true }

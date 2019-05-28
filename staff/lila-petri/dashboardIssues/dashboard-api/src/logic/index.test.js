@@ -1,27 +1,27 @@
 const dotenv = require ('dotenv')
 const moment =require ('moment')
-const mongoose = require ('mongoose')
-const models = require ('../data/models')
+const {models:{Issue, User}, mongoose} = require ('dashboard-data')
 const { expect } = require ('chai') 
 const logic = require('.')
 const argon2 = require('argon2')
-const { TimeoutError, ConnectionError, ValueError, RequirementError }= require('../common/errors')
+const { ValueError, RequirementError }= require('dashboard-errors')
 
 dotenv.config()
 
-const { Issue, User } = models;
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 
 describe('logic', ()=>{
     before(()=> mongoose.connect(url, {useNewUrlParser:true}))
     beforeEach(async()=>{
-        await Issue.deleteMany()
-        //await User.deleteMany()
+        //await Issue.deleteMany()
+        await User.deleteMany()
     })
     describe('load jira', ()=>{
         const month= 'May'
         it('should succeed on correct data', async ()=>{
+            debugger
             const res= await logic.loadJirasByMonth(month)
+            
             expect(res).to.be.undefined
             const issues= await Issue.find()
             expect(issues).to.exist
@@ -87,9 +87,9 @@ describe('logic', ()=>{
             await logic.loadJirasByMonth(month)
         })
         it('should succeed on correct data', async ()=>{
-            let statDate= moment('2019-05-24')
+            let startDate= moment('2019-05-24')
             let endDate= moment('2019-05-27')
-            const issuesByCountryByDate= await Issue.findIssuesByCountryAndDate('BugFix', 'IT', statDate, endDate)
+            const issuesByCountryByDate= await Issue.findIssuesByCountryAndDate('BugFix', 'IT', startDate, endDate)
             expect(issuesByCountryByDate[0].issueType).is.equal('BugFix')
             expect(issuesByCountryByDate[0].country).is.equal('IT')
             expect(issuesByCountryByDate[0].createdDate).to.be.within(statDate.toDate(),endDate.toDate())
@@ -400,6 +400,7 @@ describe('logic', ()=>{
                 const id= 'non-existent'
                 try{
                     await logic.retrieveUser(id)
+                    throw Error('should not reach this point')
                 }catch(err){
                     expect(err.message).to.equal('user not found')
                 }
@@ -435,10 +436,50 @@ describe('logic', ()=>{
                 user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
                 id = await logic.authenticateUser(email, password)
             })
-            it.only('should succeed on correct data', async ()=>{
-                const name='Lila'
-                await logic.updateUser(id, name)
+            it('should succeed on correct data', async ()=>{
+                const name='Updated'
+                const surname='Surname'
+                const country = 'AR'
+                await logic.updateUser(id, name, surname, country)
+                const updatedUser= await User.findById(id)
+                expect(updatedUser.name).to.equal(name)
+                expect(updatedUser.surname).to.equal(surname)
+                expect(updatedUser.country).to.equal(country) 
+            })
+            it('should fail on non-existent user', async ()=>{
+                const id = 'non-existent'
+                try{
+                    await logic.updateUser(id, name, surname, country)
+                    throw Error('should not reach this point')
+                }catch(err){
+
+                    expect(err.message).to.equal('user not found')
+
+                }
+
+            })
+            it('should fail on undefined id', () => {
+                const id = undefined
                 
+                expect(() => logic.updateUser(id, name, surname, country)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on null id', () => {
+                const id = null
+                
+                expect(() => logic.updateUser(id, name, surname, country)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on empty id', () => {
+                const id = ''
+                
+                expect(() => logic.updateUser(id, name, surname, country)).to.throw(ValueError, 'id is empty')
+            })
+            
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+                
+                expect(() => logic.updateUser(id, name, surname, country)).to.throw(ValueError, 'id is empty')
             })
         })
         describe('deleteUser',()=>{
@@ -485,6 +526,23 @@ describe('logic', ()=>{
                 expect(() => logic.deleteUser(id)).to.throw(ValueError, 'id is empty')
             })
 
+        })
+    })
+    describe('retrieve Issues by SLA', ()=>{
+        const month ='May'
+        const issueType = 'Bug'
+        //country = 'PL'
+        const startDate = '2019-05-01'
+        const endDate = '2019-05-28'
+
+
+        beforeEach(async()=>{
+           // await logic.loadJirasByMonth(month)
+        })
+        it.only('should sucdeed on correct data', async ()=>{
+            
+            const response= await logic.retrieveIssuesByResolution('Request', 'IT', startDate, endDate)
+            console.log(response)
         })
     })
 

@@ -1,14 +1,12 @@
-const models = require ('../data/models')
-const jiraApi = require('../data/jira-api')
+const {models:{Issue, User}, jiraApi} = require ('dashboard-data')
 const moment = require('moment')
-const validate = require('../common/validate')
-const { LogicError }= require('../common/errors')
+const validate = require('dashboard-validate')
+const { LogicError }= require('dashboard-errors')
 const argon2 = require('argon2')
-
-const { Issue, User } = models
 
 const logic = {
     loadJirasByMonth(month){
+        debugger
         validate.arguments([
             { name: 'month', value: month, type: 'string', notEmpty: true},
         ])
@@ -21,7 +19,7 @@ const logic = {
         return(async()=>{
 
             while(startDate<end){
-
+                debugger
                 const jiras= await jiraApi.searchIssues(startDate.toString(), endDate.toString())
                 const {total, issues}= jiras
 
@@ -107,7 +105,6 @@ const logic = {
             await User.create({ name, surname, email, password: hash, profile, country })
         })()
     },
-
     authenticateUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true},
@@ -122,7 +119,6 @@ const logic = {
             else throw new LogicError('wrong credentials')
         })()
     },
-
     retrieveUser(id) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true}
@@ -157,7 +153,6 @@ const logic = {
             const body = {
                 name: name || user.name,
                 surname: surname ||  user.surname,
-                email: user.email,
                 country: country || user.country   
             }
             
@@ -180,6 +175,68 @@ const logic = {
                 return
 
             } else throw new LogicError('user not found')
+
+        })()
+
+    },
+    retrieveIssuesByResolution(issueType, country, startDate, endDate){
+        debugger
+        validate.arguments([
+            { name: 'issueType', value: issueType, type: 'string', notEmpty: true},
+            { name: 'country', value: country, type: 'string', notEmpty: true},
+            { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
+            { name: 'endDate', value: endDate, type: 'string', notEmpty: true}
+        ])
+        startDate = moment(startDate).toDate()
+        endDate = moment(endDate).toDate()
+        debugger
+        // const country=Issue.find({ country })
+        // const issueType=Issue.find({ issueType })
+        return (async()=>{
+            let countCR = 0
+            let countDone = 0
+            let countDup = 0
+            let countInc = 0
+            let countIsNot = 0
+            let countWF = 0
+            let countNone=0
+            
+            const issuesByCountryAndDate= await Issue.findIssuesByCountryAndDate(issueType, country, startDate, endDate)
+            
+            issuesByCountryAndDate.forEach(element => {
+                switch (element.resolutionType){
+                    case 'Cannot Reproduce':
+                        countCR++
+                        break;
+                    case 'Done':
+                        countDone++
+                        break;
+                    case 'Duplicate':
+                        countDup++
+                        break;
+                    case 'Incomplete':
+                        countInc++
+                        break;
+                    case 'Is not a Bug':
+                        countIsNot++
+                        break;
+                    case "Won't Fix":
+                        countWF++
+                        break;
+                    default:
+                        countNone++
+
+                }
+            })
+
+            return  {'Cannot Reproduce': countCR, 
+                    'Done' : countDone, 
+                    'Duplicate' : countDup, 
+                    'Incomplete' : countInc, 
+                    'Is not a Bug': countIsNot, 
+                    "Won't Fix": countWF, 
+                    'Unresolved': countNone
+                }
 
         })()
 

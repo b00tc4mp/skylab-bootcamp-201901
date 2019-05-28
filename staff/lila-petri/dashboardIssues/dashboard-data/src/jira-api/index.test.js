@@ -1,6 +1,6 @@
 const jiraApi = require('.')
 const { expect } = require('chai')
-const { TimeoutError, ConnectionError, ValueError, RequirementError }= require('../../common/errors')
+const {  ConnectionError, ValueError, RequirementError }= require('dashboard-errors')
 
 const startDate='2019-04-01'
 const endDate='2019-04-02'

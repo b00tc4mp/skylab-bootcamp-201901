@@ -1,5 +1,5 @@
-const validate = require('../validate')
-const { ConnectionError, HttpError } = require('../errors')
+const validate = require('dashboard-validate')
+const { ConnectionError, HttpError } = require('dashboard-errors')
 const axios = require('axios')
 
 /**
@@ -20,7 +20,7 @@ function call(url, options = {}) {
         { name: 'headers', value: headers, type: 'object', optional: true },
         { name: 'data', value: data, type: 'object', optional: true }
     ])
-
+    debugger
     validate.url(url)
 
     return (async () => {
