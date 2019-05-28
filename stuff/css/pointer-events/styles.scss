@@ -9,10 +9,10 @@ main {
     padding: $spacing;
     width: 600px;
 
-    &:nth-of-type(2) {
-      * {
-        pointer-events: none;
-      }
-    }
+    // &:nth-of-type(2) {
+    //   * {
+    //     pointer-events: none;
+    //   }
+    // }
   }
 }

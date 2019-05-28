@@ -1,0 +1,21 @@
+extends ../index
+
+include ../search/index
+include ../results/index
+include ../detail/index
+include ../resultsFav/index
+
+block content
+    h1 Hola, #{name}!
+    form(action='/logout' method='post')
+        button Logout
+    a(href='/home/favorites') List
+    +search(query)
+    if ducks
+        +results(ducks, ducksFav)
+    if duck
+        +detail(duck, ducksFav)
+    if favlist
+        +resultsFavs(favlist)
+
+

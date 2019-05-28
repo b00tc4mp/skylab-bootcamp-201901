@@ -1,0 +1,15 @@
+extends ../index
+
+include ../feedback/index
+
+block content
+  .register
+    h2.register__title Register
+    form.register__inputs(method='post' action='/register')
+      input.input.register__input(type='text' name='name' placeholder='name' autofocus='' required='' value=name)
+      input.input.register__input(type='text' name='surname' placeholder='surname' autofocus='' required='' value=surname)
+      input.input.register__input(type='text' name='email' placeholder='email' autofocus='' required='' value=email)
+      input.input.register__input(type='password' name='password' placeholder='password' required='')
+      if message
+        +feedback(message)
+      button.btn.btn--block Register
