@@ -6,12 +6,12 @@
   "dependencies": {
     "axios": "^0.18.0",
     "body-parser": "^1.19.0",
+    "breedingseason-data": "file:../breedingseason-data",
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.16.4",
     "jsonwebtoken": "^8.5.1",
     "mongodb": "^3.2.5",
-    "mongoose": "^5.5.11",
     "ow": "^0.13.2"
   },
   "devDependencies": {
