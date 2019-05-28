@@ -1,12 +1,13 @@
 const { Schema, Schema: { Types: { ObjectId }} } = require('mongoose')
 
 const user = new Schema({
-    name: {type: String, required: [true, 'name required']},
-    surname: {type: String, required: [true, 'surname required']},
+    name: {type: String, required: [true, 'name required'], trim: true},
+    surname: {type: String, required: [true, 'surname required'], trim: true},
     email: {
         type: String, 
         required: [true, 'email required'], 
         unique: true,
+        trim: true
         //validate: isEmail --> MIRAR SI AL FINAL LO HAGO
     },
     password: {type: String, required: [true, 'password required']},
@@ -29,9 +30,9 @@ const bid = new Schema({
 })
 
 const item = new Schema({
-    title: {type: String, required: [true, 'title required']},
-    description: {type: String, required: [true, 'description required']},
-    startPrice: {type: Number, required: [true, 'start price required']},
+    title: {type: String, required: [true, 'title required'], trim: true},
+    description: {type: String, required: [true, 'description required'], trim: true},
+    startPrice: {type: Number, required: [true, 'start price required'], trim: true},
     startDate: {type: Date, required: [true, 'start date required']},
     finishDate: {type: Date, required: [true, 'finish date required']},
     reservedPrice: {type: Number},

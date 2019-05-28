@@ -112,20 +112,17 @@ describe('logic', () => {
 
         describe('create items', () => {
             it('should success on correct data', async () => {
-                let item = {title: 'Ferrari 100', description: 'buen coche', startPrice: 2000}
-                const { title, description, startPrice } = item
-                try {
-                    await logic.createItem(title, description, startPrice, '28/05/2019', '28/06/2020')
-                } catch (error) {
-                    debugger
-                }
+                let item = {title: 'Ferrari 100', description: 'buen coche', startPrice: 2000, startDate: '28/05/2019', finishDate: '01/06/2019'}
+                const { title, description, startPrice, startDate, finishDate } = item
+               
+                await logic.createItem(title, description, startPrice, startDate, finishDate)
 
-                const _item = Item.findOne({title})
+                const _item = await Item.findOne({title: title})
                 debugger
                 expect(_item.title).toBe(item.title)
                 expect(_item.description).toBe(item.description)
                 expect(_item.startPrice).toBe(item.startPrice)
-                // expect(_item.startDate).toEqual()
+                // expect(_item.startDate).toEqual(item.startDate)
                 // expect(_item.finishDate).toEqual(item.finishDate)
                 expect(_item.reservedPrice).toBeUndefined()
             })

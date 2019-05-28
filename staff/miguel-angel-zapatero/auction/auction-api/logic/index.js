@@ -9,10 +9,10 @@ const logic = {
     /**
      * Register an user into database
      * 
-     * @param {String} name The user's name
-     * @param {String} surname The user's surname
-     * @param {String} email The user's email 
-     * @param {String} password The user's password 
+     * @param {String} name The user name
+     * @param {String} surname The user surname
+     * @param {String} email The user email 
+     * @param {String} password The user password 
      * 
      * @returns {Object} The new user object created
      */
@@ -40,10 +40,10 @@ const logic = {
     /**
      * Authenticate an user to retrieve the id or throw an error if an email doesn't exists or the password not match.
      * 
-     * @param {String} email The user's email to authenticate
-     * @param {String} password The user's email to match
+     * @param {String} email The user email to authenticate
+     * @param {String} password The user email to match
      * 
-     * @returns {String} The user's id
+     * @returns {String} The user id
      */
     authenticateUser(email, password) {
         validate.arguments([
@@ -69,7 +69,7 @@ const logic = {
     /**
      * Retrieve the user data (name, surname and email)
      * 
-     * @param {String} id The user's id
+     * @param {String} id The user id
      * 
      * @returns {Object} The user data
      */
@@ -176,6 +176,16 @@ const logic = {
         //TODO
     },
 
+    /**
+     * Create an item into the database
+     * 
+     * @param {String} title The item title
+     * @param {String} description The item description
+     * @param {Number} startPrice The start price for the item
+     * @param {String} startDate The date when start the item auction
+     * @param {String} finishDate The date when finish the item auction 
+     * @param {Number} reservedPrice The price if the item is reserved
+     */
     createItem(title, description, startPrice, startDate, finishDate, reservedPrice) {
         validate.arguments([
             { name: 'title', value: title, type: 'string', notEmpty: true },
@@ -189,8 +199,9 @@ const logic = {
         return (async () => {
             startDate = moment(startDate, 'DD/MM/YYYY', true).format()
             finishDate = moment(finishDate, 'DD/MM/YYYY', true).format()
-            
-            await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice})
+
+            const item = await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice})
+            debugger
         })()
     },
 
