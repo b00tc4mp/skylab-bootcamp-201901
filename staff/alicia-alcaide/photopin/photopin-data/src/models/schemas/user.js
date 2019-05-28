@@ -1,12 +1,12 @@
-const { Schema }  = require ('mongoose')
+const { Schema, Schema: { Types: { ObjectId }} }  = require ('mongoose')
 
 
-const User = new Schema({
-    name: { type: String, required: true },
-    surname: { type: String, required: true },
+const user = new Schema({
+    name: { type: String, required: [true, 'name required'] },
+    surname: { type: String, required: [true, 'surname required'] },
     email: {
         type: String,
-        required: true,
+        required: [true, 'email required'],
         unique: true,
         validate: {
             validator: email => {
@@ -15,13 +15,10 @@ const User = new Schema({
             message: props => `${props.value} is not a valid email`
         }
     },
-    password: { type: String, required: true },
-    avatar: { type: String },
-    language: { type: String,  default: 'EN', required: true  },
-    favoritePublicMap: [{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'PMap'
-    }]    
+    password: {type: String, required: [true, 'password required']}
+    //avatar: { type: String },
+    //language: { type: String,  default: 'EN' },
+    //favoritePublicMap: [{ type: ObjectId, ref: 'PMap' }]    
 })
 
-module.exports = { User }
+module.exports = { user }

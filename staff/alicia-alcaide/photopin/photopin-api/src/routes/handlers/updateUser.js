@@ -1,5 +1,8 @@
-/* 
-router.put('/users', jsonBodyParser, (req, res) => {
+const logic = require('../../logic')
+const handleErrors = require('../../middlewares/handle-errors')
+const UnauthorizedError = require('photopin-errors')
+
+module.exports = (req, res) => {
     handleErrors(() => {
         const { headers: { authorization }, body: { name, surname, password } } = req
         if (!authorization) throw new UnauthorizedError()
@@ -10,7 +13,5 @@ router.put('/users', jsonBodyParser, (req, res) => {
 
         return logic.updateUser(token, name, surname, password)
             .then(() => res.status(200).json({ message: 'Ok, user data updated. ' }))
-    },
-        res)
-})
-*/
+    }, res)
+}

@@ -1,4 +1,4 @@
-const { ValueError, RequirementError, FormatError } = require('../errors')
+const { ValueError, RequirementError, FormatError } = require('photopin-errors')
 
 const validate = {
     arguments(args) {

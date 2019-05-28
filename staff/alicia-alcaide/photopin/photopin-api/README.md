@@ -14,6 +14,7 @@
 | **Dependency**  | **Use**                                                                            |
 | --------------- | ---------------------------------------------------------------------------------- |
 | axios           | Promise based HTTP client for the browser and node.js                              |
+| bcrypt          | A library to help you hash passwords                                               |
 | body-parser     | Node.js body parsing middleware                                                    |
 | cors            | Provide a Connect/Express middleware that can be used to enable CORS               |
 | express         | Minimal and flexible Node.js web application framework                             |
@@ -29,7 +30,8 @@
 | --------------- | ---------------------------------------------------------------------------------- |
 | chai            | Chai is a BDD / TDD assertion library for node and the browser                     |     
 | eslint          | Tool for identifying and reporting on patterns found in ECMAScript/JavaScript code |
-| mocha           | test framework for Node.js                                                         |
+| nyc             | Easily check code coverage                                                         |
+| mocha           | Test framework for Node.js                                                         |
 
 
 ## Available Scripts for development

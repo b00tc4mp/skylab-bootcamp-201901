@@ -11,16 +11,19 @@ const { env: { PORT, MONGODB_URL: url }, argv: [, , port = PORT || 8080], } = pr
 
 (async () => {
     try {
-        await mongoose.connect(url, { useNewUrlParser: true })
+        //await mongoose.connect(url, { useNewUrlParser: true })
+        await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
+
+        console.log('Connection to mongodb ok')
 
         const app = express()
     
         app.use(cors())
         app.use('/api', routes)
 
-        /* app.use(function (req, res, next) {
+        app.use(function (req, res, next) {
             res.status(404).json({ error: 'Not found.' })
-        }) */
+        })
 
         app.listen(port, () => console.log(`${packageJSON.name} ${packageJSON.version} up on port ${port}`))
 
@@ -29,6 +32,7 @@ const { env: { PORT, MONGODB_URL: url }, argv: [, , port = PORT || 8080], } = pr
     }
 })()
 
+/* 
 process.on('SIGINT', () => {
     mongoose.disconnect()
         .then(() => {
@@ -36,4 +40,4 @@ process.on('SIGINT', () => {
 
             process.exit(0)
         })
-})
+}) */

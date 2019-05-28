@@ -1,5 +1,8 @@
-/*
-router.delete('/users', jsonBodyParser, (req, res) => {
+const logic = require('../../logic')
+const handleErrors = require('../../middlewares/handle-errors')
+const UnauthorizedError = require('photopin-errors')
+
+module.exports = (req, res) => {
     handleErrors(() => {
         const { headers: { authorization }, body: { email, password } } = req
         if (!authorization) throw new UnauthorizedError()
@@ -10,6 +13,5 @@ router.delete('/users', jsonBodyParser, (req, res) => {
 
         return logic.deleteUser(token, email, password)
             .then(() => res.status(204).json({ message: 'Ok, user deleted. ' }))
-    },
-        res)
-}) */
+    }, res)
+}
