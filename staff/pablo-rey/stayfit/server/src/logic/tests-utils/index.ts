@@ -1,24 +1,11 @@
-import * as faker from 'faker';
 import * as bcrypt from 'bcryptjs';
+import { expect } from 'chai';
+import * as faker from 'faker';
 import * as mongoose from 'mongoose';
-
+import { ROLES, UserModel, UserType } from '../../models/user';
 import { random } from '../../utils/random';
 
-import {
-  UserModel,
-  UserType,
-  ROLES,
-  GUEST_ROLE,
-  USER_ROLE,
-  STAFF_ROLE,
-  BUSINESS_ROLE,
-  ADMIN_ROLE,
-  SUPERADMIN_ROLE,
-} from '../../models/user';
-import { expect } from 'chai';
-
-const {ObjectId} = mongoose.Types;
-// faker.setLocale('es');
+const { ObjectId } = mongoose.Types;
 
 export function randomUser(_role?: string): UserType {
   const name = faker.name.firstName();
@@ -29,7 +16,7 @@ export function randomUser(_role?: string): UserType {
   return { name, surname, email, password, role };
 }
 
-export function createRandomUser(_role? : string){
+export function createRandomUser(_role?: string) {
   return UserModel.create(randomUser(_role));
 }
 
@@ -37,12 +24,12 @@ export async function fillDbRandomUsers(users: UserType[] = [], num: number = 10
   for (let ii = 0, ll = Math.max(random(num), 1); ii < ll; ii++) {
     const user = randomUser(role);
     const hashPassword = await bcrypt.hash(user.password!, 12);
-    const dbUser = await UserModel.create({ ...user, password: hashPassword }); 
+    const dbUser = await UserModel.create({ ...user, password: hashPassword });
     users.push(dbUser);
   }
 }
 
-export function userExpectations(user: any, withPassword: boolean = false ): void {
+export function userExpectations(user: any, withPassword: boolean = false): void {
   expect(user).not.to.be.undefined;
   expect(user)
     .to.have.property('id')
@@ -59,7 +46,7 @@ export function userExpectations(user: any, withPassword: boolean = false ): voi
   expect(user)
     .to.have.property('email')
     .and.be.a('string');
-  if (withPassword) expect(user).to.have.property('password'); 
+  if (withPassword) expect(user).to.have.property('password');
   else expect(user).not.to.have.property('password');
   expect(user)
     .to.have.property('role')
@@ -67,31 +54,43 @@ export function userExpectations(user: any, withPassword: boolean = false ): voi
     .and.to.be.oneOf(ROLES);
 }
 
-export function providerExpectations (provider: any) : void {
+export function providerExpectations(provider: any): void {
   expect(provider).not.to.be.undefined;
   expect(provider).to.have.property('name');
-  expect(provider).to.have.property('admins').and.be.instanceOf(Array);
+  expect(provider)
+    .to.have.property('admins')
+    .and.be.instanceOf(Array);
   if (provider.admins.length) {
-    expect(provider.admins.every((admin: any) => {
-      if (admin instanceof ObjectId) return true
-      userExpectations(admin)
-      return true
-    })).to.be.true;
+    expect(
+      provider.admins.every((admin: any) => {
+        if (admin instanceof ObjectId) return true;
+        userExpectations(admin);
+        return true;
+      })
+    ).to.be.true;
   }
-  expect(provider).to.have.property('coaches').and.be.instanceOf(Array);
+  expect(provider)
+    .to.have.property('coaches')
+    .and.be.instanceOf(Array);
   if (provider.coaches.length) {
-    expect(provider.coaches.every((coach: any) => {
-      if (coach instanceof ObjectId) return true
-      userExpectations(coach)
-      return true
-    })).to.be.true;
+    expect(
+      provider.coaches.every((coach: any) => {
+        if (coach instanceof ObjectId) return true;
+        userExpectations(coach);
+        return true;
+      })
+    ).to.be.true;
   }
-  expect(provider).to.have.property('customers').and.be.instanceOf(Array);
+  expect(provider)
+    .to.have.property('customers')
+    .and.be.instanceOf(Array);
   if (provider.customers.length) {
-    expect(provider.customers.every((customers: any) => {
-      if (customers instanceof ObjectId) return true
-      userExpectations(customers)
-      return true
-    })).to.be.true;
+    expect(
+      provider.customers.every((customers: any) => {
+        if (customers instanceof ObjectId) return true;
+        userExpectations(customers);
+        return true;
+      })
+    ).to.be.true;
   }
 }

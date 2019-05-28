@@ -1,6 +1,5 @@
-
 export default {
   async list() {
-    return []
-  }
-}
+    return [];
+  },
+};

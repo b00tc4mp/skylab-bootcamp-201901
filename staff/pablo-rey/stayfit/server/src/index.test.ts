@@ -1,8 +1,8 @@
-import * as dotenv from 'dotenv';
-dotenv.config();
 import * as chai from 'chai';
-const expect = chai.expect;
+import * as dotenv from 'dotenv';
 import * as isURL from 'validator/lib/isURL';
+dotenv.config();
+const expect = chai.expect;
 
 describe('environment variables', () => {
   const {
@@ -12,7 +12,7 @@ describe('environment variables', () => {
   it('should exist the correct url settings', () => {
     expect(MONGODB_URL).not.to.be.undefined;
     expect(MONGODB_URL).to.be.a('string');
-    expect(isURL(MONGODB_URL!, { protocols: ['mongodb'], require_tld:false })).to.be.true;
+    expect(isURL(MONGODB_URL!, { protocols: ['mongodb'], require_tld: false })).to.be.true;
   });
 
   it('should exist the correct port settings', () => {

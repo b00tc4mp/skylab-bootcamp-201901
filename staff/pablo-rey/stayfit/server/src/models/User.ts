@@ -1,7 +1,7 @@
 import { Types } from 'mongoose';
+import { Field, ID, ObjectType, Root } from 'type-graphql';
 import { prop, Typegoose } from 'typegoose';
 import { isEmail } from 'validator';
-import { ObjectType, Field, ID, Root } from 'type-graphql';
 
 // Constants
 export const SUPERADMIN_ROLE = 'SUPERADMIN_ROLE';
@@ -10,14 +10,7 @@ export const ADMIN_ROLE = 'ADMIN_ROLE';
 export const STAFF_ROLE = 'STAFF_ROLE';
 export const USER_ROLE = 'USER_ROLE';
 export const GUEST_ROLE = 'GUEST_ROLE';
-export const ROLES = [
-  SUPERADMIN_ROLE,
-  BUSINESS_ROLE,
-  ADMIN_ROLE,
-  STAFF_ROLE,
-  USER_ROLE,
-  GUEST_ROLE,
-];
+export const ROLES = [SUPERADMIN_ROLE, BUSINESS_ROLE, ADMIN_ROLE, STAFF_ROLE, USER_ROLE, GUEST_ROLE];
 
 export type UserType = {
   id?: string;

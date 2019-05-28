@@ -1,8 +1,4 @@
-import { Resolver, Query, Mutation, Arg, Root } from 'type-graphql';
-import { Service } from '../models/service';
-import { User } from 'src/models/user';
-
-import serviceLogic from '../logic/services'
+import { Query, Resolver } from 'type-graphql';
 import { Subscription } from '../models/subscription';
 
 @Resolver(Subscription)

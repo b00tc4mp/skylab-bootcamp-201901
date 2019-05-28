@@ -1,31 +1,16 @@
-import * as dotenv from 'dotenv';
-import * as mongoose from 'mongoose';
-import * as faker from 'faker';
+import * as bcrypt from 'bcryptjs';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
-import * as bcrypt from 'bcryptjs';
-
-import { random } from '../../utils/random';
-import { randomUser, fillDbRandomUsers, userExpectations } from '../tests-utils'
-
+import * as dotenv from 'dotenv';
+import * as faker from 'faker';
+import * as mongoose from 'mongoose';
 import usersLogic from '.';
-import {
-  UserModel,
-  UserType,
-  ROLES,
-  GUEST_ROLE,
-  USER_ROLE,
-  STAFF_ROLE,
-  BUSINESS_ROLE,
-  ADMIN_ROLE,
-  SUPERADMIN_ROLE,
-} from '../../models/user';
-import {
-  LogicError,
-  AuthenticationError,
-  ValidationError,
-  AuthorizationError,
-} from '../errors/index';
+import { ADMIN_ROLE, BUSINESS_ROLE, GUEST_ROLE, ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel, UserType, USER_ROLE } from '../../models/user';
+import { random } from '../../utils/random';
+import { AuthenticationError, AuthorizationError, LogicError, ValidationError } from '../errors/index';
+import { fillDbRandomUsers, randomUser, userExpectations } from '../tests-utils';
+
+
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -154,23 +139,26 @@ describe('users', () => {
       beforeEach(() => (role = GUEST_ROLE));
 
       it('should fail if name is empty', async () => {
-        await expect(
-          usersLogic.create({ name: '', surname, email, password, role })
-        ).to.be.rejectedWith(ValidationError, 'name is required');
+        await expect(usersLogic.create({ name: '', surname, email, password, role })).to.be.rejectedWith(
+          ValidationError,
+          'name is required'
+        );
         const _users = await UserModel.find({ email });
         expect(_users).to.have.lengthOf(0);
       });
       it('should fail if surname is empty', async () => {
-        await expect(
-          usersLogic.create({ name, surname: '', email, password, role })
-        ).to.be.rejectedWith(ValidationError, 'surname is required');
+        await expect(usersLogic.create({ name, surname: '', email, password, role })).to.be.rejectedWith(
+          ValidationError,
+          'surname is required'
+        );
         const _users = await UserModel.find({ email });
         expect(_users).to.have.lengthOf(0);
       });
       it('should fail if email is empty', async () => {
-        await expect(
-          usersLogic.create({ name, surname, email: '', password, role })
-        ).to.be.rejectedWith(ValidationError, 'email is required');
+        await expect(usersLogic.create({ name, surname, email: '', password, role })).to.be.rejectedWith(
+          ValidationError,
+          'email is required'
+        );
         const _users = await UserModel.find({ email });
         expect(_users).to.have.lengthOf(0);
       });
@@ -182,9 +170,10 @@ describe('users', () => {
         expect(_users).to.have.lengthOf(0);
       });
       it('should fail if password is empty', async () => {
-        await expect(
-          usersLogic.create({ name, surname, email, password: '', role })
-        ).to.be.rejectedWith(ValidationError, 'password is required');
+        await expect(usersLogic.create({ name, surname, email, password: '', role })).to.be.rejectedWith(
+          ValidationError,
+          'password is required'
+        );
         const _users = await UserModel.find({ email });
         expect(_users).to.have.lengthOf(0);
       });
@@ -222,18 +211,12 @@ describe('users', () => {
 
     it('should fail if email does not exists', async () => {
       await UserModel.findByIdAndDelete(_user.id);
-      expect(usersLogic.login(email, password)).to.be.rejectedWith(
-        AuthenticationError,
-        'wrong credentials'
-      );
+      expect(usersLogic.login(email, password)).to.be.rejectedWith(AuthenticationError, 'wrong credentials');
     });
 
     describe('params bad format', () => {
       it('should fail if email is empty', async () => {
-        await expect(usersLogic.login('', password)).to.be.rejectedWith(
-          ValidationError,
-          'email is required'
-        );
+        await expect(usersLogic.login('', password)).to.be.rejectedWith(ValidationError, 'email is required');
       });
       it('should fail if email provided is not a valid formated email', async () => {
         await expect(usersLogic.login(faker.random.alphaNumeric(), password)).to.be.rejectedWith(
@@ -242,10 +225,7 @@ describe('users', () => {
         );
       });
       it('should fail if password is empty', async () => {
-        await expect(usersLogic.login(email, '')).to.be.rejectedWith(
-          ValidationError,
-          'password is required'
-        );
+        await expect(usersLogic.login(email, '')).to.be.rejectedWith(ValidationError, 'password is required');
       });
     });
   });
@@ -303,9 +283,7 @@ describe('users', () => {
 
       _users.map(_user => {
         userExpectations(_user);
-        const user: UserType = users.find(
-          (u: UserType) => u.id!.toString() === _user.id!.toString()
-        );
+        const user: UserType = users.find((u: UserType) => u.id!.toString() === _user.id!.toString());
         expect(user).not.to.be.undefined;
         expect(_user.name).to.be.equal(user.name);
         expect(_user.surname).to.be.equal(user.surname);

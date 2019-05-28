@@ -1,6 +1,5 @@
-import { Types } from 'mongoose';
-import { prop, arrayProp, Typegoose, Ref, instanceMethod } from 'typegoose';
-import { ObjectType, Field, ID, Root } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
+import { arrayProp, instanceMethod, prop, Ref, Typegoose } from 'typegoose';
 import { User, UserType } from './user';
 
 @ObjectType()

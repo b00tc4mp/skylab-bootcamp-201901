@@ -1,15 +1,12 @@
-import "reflect-metadata";
+import { ApolloServer } from 'apollo-server-express';
+import * as cors from 'cors';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
-import { ApolloServer } from 'apollo-server-express';
 import * as mongoose from 'mongoose';
-import * as cors from 'cors';
-
-import { buildSchema } from "type-graphql";
-import { UserResolver } from "./graphql/user-resolvers";
-import { ServiceResolver } from './graphql/service-resolvers'
-import { SubscriptionResolver } from "./graphql/subscription-resolvers";
-import { ProviderResolver } from "./graphql/provider-resolvers";
+import 'reflect-metadata';
+import { buildSchema } from 'type-graphql';
+import { ProviderResolver } from './graphql/provider-resolvers';
+import { UserResolver } from './graphql/user-resolvers';
 
 dotenv.config();
 const {
@@ -24,7 +21,7 @@ db.on('open', async () => {
   // const apolloContext = require('./graphql/middleware/apolloContext');
 
   const schema = await buildSchema({
-    resolvers: [UserResolver, ProviderResolver]
+    resolvers: [UserResolver, ProviderResolver],
   });
 
   const apolloServer = new ApolloServer({ schema });
@@ -34,7 +31,5 @@ db.on('open', async () => {
 
   apolloServer.applyMiddleware({ app });
 
-  app.listen(PORT, () =>
-    console.log(`Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`)
-  );
+  app.listen(PORT, () => console.log(`Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`));
 });

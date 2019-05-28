@@ -1,8 +1,5 @@
-import { Types } from 'mongoose';
-import { prop, Typegoose, Ref, arrayProp } from 'typegoose';
-import { ObjectType, Field, ID, Root } from 'type-graphql';
-import { User } from './user';
-import { Service } from './service';
+import { Field, ID, ObjectType } from 'type-graphql';
+import { arrayProp, prop, Ref, Typegoose } from 'typegoose';
 import { Attendance } from './attendance';
 
 @ObjectType()

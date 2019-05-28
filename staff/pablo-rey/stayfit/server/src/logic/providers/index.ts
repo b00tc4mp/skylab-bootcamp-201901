@@ -71,7 +71,7 @@ export default {
   },
 
   async list(owner: UserType) {
-    await throwAuth(AUTH_PROVIDERS_LISTALL, { owner});
+    await throwAuth(AUTH_PROVIDERS_LISTALL, { owner });
     return ProviderModel.find()
       .populate('admins')
       .populate('coaches')

@@ -1,10 +1,7 @@
-import { User, UserType, ROLES } from './../models/user';
-import { Resolver, Query, Mutation, Arg, Root } from 'type-graphql';
-
+import { IsEmail, IsIn, Length } from 'class-validator';
+import { Arg, Field, InputType, Mutation, Query, Resolver } from 'type-graphql';
 import usersLogic from '../logic/users';
-
-import { Length, IsEmail, IsIn } from 'class-validator';
-import { Field, InputType } from 'type-graphql';
+import { ROLES, User } from './../models/user';
 
 @InputType()
 export class CreateInput {

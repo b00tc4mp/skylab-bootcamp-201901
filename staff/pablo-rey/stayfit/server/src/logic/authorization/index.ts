@@ -1,24 +1,24 @@
+import { Provider } from 'src/models/provider';
 import { isEmpty, isIn } from 'validator';
 import {
+  ADMIN_ROLE,
+  BUSINESS_ROLE,
+  GUEST_ROLE,
+  STAFF_ROLE,
   SUPERADMIN_ROLE,
   UserModel,
   UserType,
-  GUEST_ROLE,
-  ADMIN_ROLE,
-  BUSINESS_ROLE,
-  STAFF_ROLE,
   USER_ROLE,
 } from '../../models/user';
 import { AuthorizationError, LogicError } from '../errors';
-import { leanUser, AUTH_USER_CREATE } from '../users';
 import {
-  AUTH_PROVIDERS_UPDATEADMINS,
-  AUTH_PROVIDERS_CREATE,
-  AUTH_PROVIDERS_UPDATECOACHES,
   AUTH_PROVIDERS_ADDCUSTOMER,
+  AUTH_PROVIDERS_CREATE,
   AUTH_PROVIDERS_REMOVECUSTOMER,
+  AUTH_PROVIDERS_UPDATEADMINS,
+  AUTH_PROVIDERS_UPDATECOACHES,
 } from '../providers';
-import { Provider } from 'src/models/provider';
+import { AUTH_USER_CREATE, leanUser } from '../users';
 
 export type AuthResult = {
   ok: boolean;
@@ -56,18 +56,12 @@ export async function authPolicies(action: string, payload: Payload): Promise<Au
   switch (action) {
     case AUTH_USER_CREATE:
       const { role } = payload;
-      if (!role)
-        return { ok: false, error: new AuthorizationError('role for new user not provided') };
+      if (!role) return { ok: false, error: new AuthorizationError('role for new user not provided') };
       if (isIn(role, [GUEST_ROLE])) return { ok: true };
-      if (
-        owner.role === BUSINESS_ROLE &&
-        isIn(role, [ADMIN_ROLE, STAFF_ROLE, GUEST_ROLE, USER_ROLE])
-      )
+      if (owner.role === BUSINESS_ROLE && isIn(role, [ADMIN_ROLE, STAFF_ROLE, GUEST_ROLE, USER_ROLE]))
         return { ok: true };
-      if (owner.role === ADMIN_ROLE && isIn(role, [STAFF_ROLE, GUEST_ROLE, USER_ROLE]))
-        return { ok: true };
-      else if (owner.role === STAFF_ROLE && isIn(role, [GUEST_ROLE, USER_ROLE]))
-        return { ok: true };
+      if (owner.role === ADMIN_ROLE && isIn(role, [STAFF_ROLE, GUEST_ROLE, USER_ROLE])) return { ok: true };
+      else if (owner.role === STAFF_ROLE && isIn(role, [GUEST_ROLE, USER_ROLE])) return { ok: true };
       return {
         ok: false,
         error: new AuthorizationError('Not authorized to create a user with ' + role),

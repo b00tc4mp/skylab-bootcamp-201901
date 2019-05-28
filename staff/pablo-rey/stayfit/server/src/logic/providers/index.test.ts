@@ -1,40 +1,15 @@
-import * as dotenv from 'dotenv';
-import * as mongoose from 'mongoose';
-import * as faker from 'faker';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
-import * as bcrypt from 'bcryptjs';
-
-import { random } from '../../utils/random';
-import {
-  randomUser,
-  fillDbRandomUsers,
-  userExpectations,
-  createRandomUser,
-  providerExpectations,
-} from '../tests-utils';
-
+import * as dotenv from 'dotenv';
+import * as faker from 'faker';
+import * as mongoose from 'mongoose';
 import providerLogic from '.';
-import {
-  UserModel,
-  UserType,
-  ROLES,
-  GUEST_ROLE,
-  USER_ROLE,
-  STAFF_ROLE,
-  BUSINESS_ROLE,
-  ADMIN_ROLE,
-  SUPERADMIN_ROLE,
-  User,
-} from '../../models/user';
-import {
-  LogicError,
-  AuthenticationError,
-  ValidationError,
-  AuthorizationError,
-} from '../errors/index';
-import { ProviderModel, Provider } from '../../models/provider';
-import { Ref } from 'typegoose';
+import { Provider, ProviderModel } from '../../models/provider';
+import { ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel, UserType, USER_ROLE } from '../../models/user';
+import { random } from '../../utils/random';
+import { AuthorizationError, LogicError, ValidationError } from '../errors/index';
+import { createRandomUser, fillDbRandomUsers, providerExpectations, userExpectations } from '../tests-utils';
+
 dotenv.config();
 const {
   env: { MONGODB_URL_TESTING },
@@ -42,8 +17,6 @@ const {
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
-
-// faker.setLocale('es');
 
 describe('providers', () => {
   let db: mongoose.Connection;
@@ -72,9 +45,7 @@ describe('providers', () => {
         for (let role of otherRoles) {
           const owner = await createRandomUser(role);
           const name = faker.company.companyName();
-          await expect(providerLogic.create({ name }, owner)).to.be.rejectedWith(
-            AuthorizationError
-          );
+          await expect(providerLogic.create({ name }, owner)).to.be.rejectedWith(AuthorizationError);
         }
       });
     });
@@ -101,8 +72,7 @@ describe('providers', () => {
         const providerId = provider.id.toString();
         const owner = await createRandomUser(SUPERADMIN_ROLE);
 
-        expect(await providerLogic.updateAdmins({ providerId, admins: staffUserId }, owner)).to.be
-          .true;
+        expect(await providerLogic.updateAdmins({ providerId, admins: staffUserId }, owner)).to.be.true;
 
         const _provider = await ProviderModel.findById(providerId).populate('admins');
         expect(_provider).not.to.be.null;
@@ -120,9 +90,9 @@ describe('providers', () => {
           const owner = await createRandomUser(role);
           const adminsId = staffUsers.map(admin => admin.id!.toString());
 
-          await expect(
-            providerLogic.updateAdmins({ providerId, admins: adminsId }, owner)
-          ).to.be.rejectedWith(AuthorizationError);
+          await expect(providerLogic.updateAdmins({ providerId, admins: adminsId }, owner)).to.be.rejectedWith(
+            AuthorizationError
+          );
         }
       });
     });
@@ -133,8 +103,7 @@ describe('providers', () => {
         const provider = await ProviderModel.create({ name });
         const providerId = provider.id.toString();
 
-        expect(await providerLogic.updateCoaches({ providerId, coaches: staffUserId }, owner)).to.be
-          .true;
+        expect(await providerLogic.updateCoaches({ providerId, coaches: staffUserId }, owner)).to.be.true;
 
         const _provider = await ProviderModel.findById(providerId).populate('coaches');
         expect(_provider).not.to.be.null;
@@ -150,8 +119,7 @@ describe('providers', () => {
         const providerId = provider.id.toString();
         const coachesId = staffUsers.map(coach => coach.id!.toString());
 
-        expect(await providerLogic.updateCoaches({ providerId, coaches: coachesId }, owner)).to.be
-          .true;
+        expect(await providerLogic.updateCoaches({ providerId, coaches: coachesId }, owner)).to.be.true;
 
         const _provider = await ProviderModel.findById(providerId).populate('coaches');
         expect(_provider).not.to.be.null;
@@ -167,9 +135,9 @@ describe('providers', () => {
         for (let role of otherRoles) {
           const owner = await createRandomUser(role);
 
-          await expect(
-            providerLogic.updateCoaches({ providerId, coaches: staffUserId }, owner)
-          ).to.be.rejectedWith(AuthorizationError);
+          await expect(providerLogic.updateCoaches({ providerId, coaches: staffUserId }, owner)).to.be.rejectedWith(
+            AuthorizationError
+          );
         }
       });
     });
@@ -236,17 +204,18 @@ describe('providers', () => {
 
         it('should fail if id of user is empty', async () => {
           const newUser = await createRandomUser(USER_ROLE);
-          await expect(
-            providerLogic.addCustomer(provider.id.toString(), '', owner)
-          ).to.be.rejectedWith(ValidationError, 'newUser is required');
+          await expect(providerLogic.addCustomer(provider.id.toString(), '', owner)).to.be.rejectedWith(
+            ValidationError,
+            'newUser is required'
+          );
         });
 
         it('should fail if owner is not admin', async () => {
           const owner = await createRandomUser(STAFF_ROLE);
           const newUser = await createRandomUser(USER_ROLE);
-          await expect(
-            providerLogic.addCustomer(provider.id.toString(), newUser.id, owner)
-          ).to.be.rejectedWith(AuthorizationError);
+          await expect(providerLogic.addCustomer(provider.id.toString(), newUser.id, owner)).to.be.rejectedWith(
+            AuthorizationError
+          );
           const _provider = await ProviderModel.findById(provider.id).populate('customers');
           expect(_provider).not.to.be.null;
           expect(_provider!.customers).to.have.lengthOf(0);
@@ -297,23 +266,25 @@ describe('providers', () => {
         it('should fail if id of provider not found', async () => {
           const userToRemove = await createRandomUser(USER_ROLE);
           const providerId = userToRemove.id; // wrong id
-          await expect(
-            providerLogic.removeCustomer(providerId, userToRemove.id, owner)
-          ).to.be.rejectedWith(LogicError, `Provider is required`);
+          await expect(providerLogic.removeCustomer(providerId, userToRemove.id, owner)).to.be.rejectedWith(
+            LogicError,
+            `Provider is required`
+          );
         });
 
         it('should fail if id of user is empty', async () => {
-          await expect(
-            providerLogic.removeCustomer(provider.id.toString(), '', owner)
-          ).to.be.rejectedWith(ValidationError, 'userToRemove is required');
+          await expect(providerLogic.removeCustomer(provider.id.toString(), '', owner)).to.be.rejectedWith(
+            ValidationError,
+            'userToRemove is required'
+          );
         });
 
         it('should fail if owner is not admin', async () => {
           const owner = await createRandomUser(STAFF_ROLE);
           const userToRemove = await createRandomUser(USER_ROLE);
-          await expect(
-            providerLogic.removeCustomer(provider.id.toString(), userToRemove.id, owner)
-          ).to.be.rejectedWith(AuthorizationError);
+          await expect(providerLogic.removeCustomer(provider.id.toString(), userToRemove.id, owner)).to.be.rejectedWith(
+            AuthorizationError
+          );
           const _provider = await ProviderModel.findById(provider.id).populate('customers');
           expect(_provider).not.to.be.null;
           expect(_provider!.customers).to.have.lengthOf(users.length);

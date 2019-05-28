@@ -1,8 +1,7 @@
-import { Types } from 'mongoose';
-import { prop, Typegoose, Ref } from 'typegoose';
-import { ObjectType, Field, ID, Root } from 'type-graphql';
-import { User } from './user';
+import { Field, ID, ObjectType } from 'type-graphql';
+import { prop, Ref, Typegoose } from 'typegoose';
 import { Service } from './service';
+import { User } from './user';
 
 @ObjectType()
 export class Attendance extends Typegoose {
@@ -18,7 +17,7 @@ export class Attendance extends Typegoose {
   service: Ref<Service>;
 
   @Field()
-  status: string;  // deleted | cancelled | noshow | free |  attended
+  status: string; // deleted | cancelled | noshow | free |  attended
 }
 
 export const AttendanceModel = new Attendance().getModelForClass(Attendance, {

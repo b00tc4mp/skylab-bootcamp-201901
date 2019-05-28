@@ -1,5 +1,4 @@
-import { Resolver, Query, Mutation, Arg, Root, Field } from 'type-graphql';
-
+import { Arg, Mutation, Query, Resolver } from 'type-graphql';
 import providersLogic from '../logic/providers';
 import { Provider } from '../models/provider';
 
@@ -18,7 +17,7 @@ export class ProviderResolver {
   @Mutation(returns => Provider)
   async updateAdmins(
     @Arg('providerId') providerId: string,
-    @Arg('admins',  type => String, { nullable: 'items' }) admins: string[]
+    @Arg('admins', type => String, { nullable: 'items' }) admins: string[]
   ): Promise<Provider> {
     return providersLogic.updateAdmins(providerId, admins);
   }

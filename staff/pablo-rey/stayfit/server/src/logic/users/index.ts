@@ -1,19 +1,9 @@
 import * as bcrypt from 'bcryptjs';
 import { Schema } from 'mongoose';
-import { isMongoId, isEmpty, isEmail, isIn } from 'validator';
-import { AuthorizationError, AuthenticationError, ValidationError, LogicError} from '../errors/index';
-import {
-  UserType,
-  UserModel,
-  ROLES,
-  SUPERADMIN_ROLE,
-  ADMIN_ROLE,
-  STAFF_ROLE,
-  GUEST_ROLE,
-  USER_ROLE,
-  BUSINESS_ROLE,
-} from '../../models/user';
+import { isEmail, isEmpty, isIn, isMongoId } from 'validator';
+import { ROLES, UserModel, UserType } from '../../models/user';
 import { throwAuth } from '../authorization';
+import { AuthenticationError, LogicError, ValidationError } from '../errors/index';
 
 export const AUTH_USER_CREATE = 'AUTH_USER_CREATE';
 
@@ -37,7 +27,7 @@ export default {
     if (!isIn(role, ROLES)) throw new ValidationError('role must be one of [' + ROLES.join(',') + ']');
 
     // Authorization
-    await throwAuth(AUTH_USER_CREATE, { owner, role})
+    await throwAuth(AUTH_USER_CREATE, { owner, role });
 
     // Create
     const hashPassword = await bcrypt.hash(password!, 12);
