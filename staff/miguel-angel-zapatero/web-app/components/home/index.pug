@@ -1,0 +1,29 @@
+extends ../index
+
+include ../search/index
+include ../results/index
+include ../detail/index
+include ../favlist/index
+include ../cart/index
+
+block content
+    h1 Hello, #{name}
+    form(method='post' action='/logout')
+        button Logout
+    a(href='/home/favs/list') Favs
+
+    if itemsCart
+        a(href='/home/cart') Cart: #{itemsCart} items
+    else
+        p Cart: Empty
+
+    +search(query, message)
+    
+    if ducks
+        +results(ducks, favs)
+    if duck
+        +detail(duck, favs)
+    if favlist
+        +favlist(favlist)
+    if listCart
+        +cart(listCart)

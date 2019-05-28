@@ -1,0 +1,15 @@
+mixin card-duck(duck)
+  li.duck-item(id=duck.id)
+    form(method="POST")
+      button.favorite(name="toggleFav" value=duck.id)
+        if duck.isFav
+          i.fa-heart.fas.favorite--on
+        else
+          i.fa-heart.far.favorite--off
+    a(href=duck.url)
+      img.duck-item__image(src=duck.image)
+    h3.duck-item__title #{duck.title}
+    span.duck-item__price #{duck.price}
+      form(method='POST' action='/cart')
+        button.btn.btn--block(name="addToCart" value=duck.id) Add to cart
+          i.fas.fa-cart-plus
