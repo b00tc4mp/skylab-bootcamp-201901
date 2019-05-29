@@ -7,6 +7,6 @@ module.exports = {
 
     updateUser: require('./updateUser'),
 
-    deleteUser: require('./deleteUser'),
+    removeUser: require('./removeUser'),
     
 }

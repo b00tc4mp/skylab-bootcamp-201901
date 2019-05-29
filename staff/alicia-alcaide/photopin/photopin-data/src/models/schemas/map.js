@@ -15,4 +15,4 @@ const pmap = new Schema({
     }]    
 })
 
-module.exports = { pmap }
+module.exports = pmap

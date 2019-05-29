@@ -1,29 +1,26 @@
 require('dotenv').config()
 
 const express = require('express')
-const packageJSON = require('../package.json')
-const cors = require('cors')
+const packageJSON = require('./package.json')
 const { mongoose } = require('photopin-data')
-const routes = require('./routes')
+const router = require('./src/routes')
 
 const { env: { PORT, MONGODB_URL: url }, argv: [, , port = PORT || 8080], } = process;
 
 
 (async () => {
     try {
-        //await mongoose.connect(url, { useNewUrlParser: true })
         await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
 
-        console.log('Connection to mongodb ok')
+        console.log(`connected to ${url} database`)
 
         const app = express()
     
-        app.use(cors())
-        app.use('/api', routes)
+        app.use('/api', router)
 
-        app.use(function (req, res, next) {
-            res.status(404).json({ error: 'Not found.' })
-        })
+        // app.use(function (req, res, next) {
+        //     res.status(404).json({ error: 'Not found.' })
+        // })
 
         app.listen(port, () => console.log(`${packageJSON.name} ${packageJSON.version} up on port ${port}`))
 
@@ -32,7 +29,7 @@ const { env: { PORT, MONGODB_URL: url }, argv: [, , port = PORT || 8080], } = pr
     }
 })()
 
-/* 
+
 process.on('SIGINT', () => {
     mongoose.disconnect()
         .then(() => {
@@ -40,4 +37,4 @@ process.on('SIGINT', () => {
 
             process.exit(0)
         })
-}) */
+}) 
