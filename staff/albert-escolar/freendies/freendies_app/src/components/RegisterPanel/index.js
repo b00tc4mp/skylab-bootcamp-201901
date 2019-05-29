@@ -28,6 +28,7 @@ class RegisterPanel extends Component {
         const { onInputChange,onSubmit } = this
 
         return <div>
+            <h1>Register</h1>
             <form onSubmit={onSubmit}>
                 <input required name="username" placeholder="insert your user name" type="text" onChange={event => onInputChange(event)} />
                 <input required name="email" placeholder="insert your user mail" type="text" onChange={event => onInputChange(event)} />

@@ -26,6 +26,7 @@ class LoginPanel extends Component {
 
 
         return <div>
+            <h1>Login</h1>
             <form onSubmit={onSubmit}>
                 <input required name="email" placeholder="insert your user mail" type="text" onChange={event => onInputChange(event)} />
                 <input required name="password" placeholder="insert your user password" type="password" onChange={event => onInputChange(event)} />

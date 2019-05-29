@@ -4,12 +4,17 @@ import { HashRouter } from 'react-router-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import logic from './logic'
+
+const token = sessionStorage.getItem('freendies-user-token')
+if (token) {
+    logic.setUserApiToken(token)
+}
 
 ReactDOM.render(
-
     <HashRouter>
 
-        <App />
+        {<App token={token} />}
 
     </HashRouter>
 

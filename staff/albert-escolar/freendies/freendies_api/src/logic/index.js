@@ -63,23 +63,22 @@ const logic = {
 
 
     async retrieveUser(userId) {
-
-        if (userId !== 'string') throw TypeError(`${userId} is not a string`)
+        
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error(`${userId} cannot be empty`)
 
-        return User.findById(userId).select('-password -__v').lean()
-            .then(user => {
-                if (!user) throw Error(`user with Id:${userId} not found`)
+        const user = await User.findById(userId).select('-password -__v').lean()
+        if (!user) throw Error(`user with Id:${userId} not found`)
 
-                user.id = user._id.toString()
+        user.id = user._id.toString()
 
-                delete user._id
+        delete user._id
 
-                return user
-            })
+        return user
     },
 
-    
+
+
     async uploadGame(ownerId, title, genre, description, images, gameFile) {
         if (typeof ownerId !== 'string') throw TypeError(`${ownerId} is not a string`)
         if (!ownerId.trim().length) throw Error(`${ownerId} cannot be empty`)
@@ -107,6 +106,7 @@ const logic = {
 
 
 }
+
 
 
 module.exports = logic
