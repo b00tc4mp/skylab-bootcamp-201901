@@ -3,7 +3,7 @@ const LogicError = require('../common/errors')
 const validate = require('../common/validate')
 const models = require('cinema-and-go-data')
 
-const { User } = models
+const { User, Movie } = models
 
 const logic = {
     registerUser(name, email, password) {
@@ -54,6 +54,12 @@ const logic = {
             const { name, email } = user
 
             return { name, email }
+        })()
+    },
+
+    registerMovie(name, img, info, cast) {
+        return (async () => {
+            return await Movie.create({ name, img, info, cast })
         })()
     },
 }
