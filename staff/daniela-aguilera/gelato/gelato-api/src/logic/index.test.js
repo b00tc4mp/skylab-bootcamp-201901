@@ -1,17 +1,14 @@
 const { User, Order, mongoose } = require('gelato-data')
 
-const dotenv = require('dotenv')
 const { expect } = require('chai')
 const logic = require('./index')
 
-dotenv.config()
-
-const { MONGO_URL_LOGIC_TEST: url } = process.env
+const connectToDatabase = require('../db-connection')
 
 describe('logic', () => {
   let name, surname, email, password
 
-  before(() => mongoose.connect(url, { useNewUrlParser: true }))
+  before(() => connectToDatabase({ isTest: true }))
 
   beforeEach(async () => {
     await User.deleteMany()
