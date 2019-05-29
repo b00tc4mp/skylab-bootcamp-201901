@@ -4,7 +4,7 @@ import { Attendance } from './attendance';
 import { User } from './user';
 
 @ObjectType()
-export class Service extends Typegoose {
+export class Session extends Typegoose {
   @Field(() => ID)
   id: number;
 
@@ -45,6 +45,6 @@ export class Service extends Typegoose {
   attendants: Ref<Attendance>[];
 }
 
-export const ServiceModel = new Service().getModelForClass(Service, {
-  schemaOptions: { collection: 'services' },
+export const SessionModel = new Session().getModelForClass(Session, {
+  schemaOptions: { collection: 'sessions' },
 });

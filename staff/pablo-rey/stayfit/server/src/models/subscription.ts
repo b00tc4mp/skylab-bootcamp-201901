@@ -3,7 +3,7 @@ import { arrayProp, prop, Ref, Typegoose } from 'typegoose';
 import { Attendance } from './attendance';
 
 @ObjectType()
-export class ServiceLimit extends Typegoose {
+export class SessionsLimit extends Typegoose {
   @Field()
   @prop()
   type: string;
@@ -31,12 +31,12 @@ export class Subscription extends Typegoose {
   @Field()
   endDate: Date;
 
-  @Field(() => ServiceLimit)
-  @arrayProp({ items: ServiceLimit })
-  serviceLimits: ServiceLimit[];
+  @Field(() => SessionsLimit)
+  @arrayProp({ items: SessionsLimit })
+  sessionsLimit: SessionsLimit[];
   /*
 
-  serviceLimits: {
+  sessionsLimit: {
       "wod": {limit : 10, attendance: [Attendances]}
       "mobility": {limit : 2, attendance: [Attendances]}
   }
