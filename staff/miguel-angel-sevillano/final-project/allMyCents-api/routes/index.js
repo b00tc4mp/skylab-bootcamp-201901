@@ -11,7 +11,7 @@ const jsonParser = bodyParser.json()
 
 const router = express.Router()
 
-router.post('/user/register', jsonParser, (req, res) => {
+router.post('/user/register', jsonParser, (req, res) => {                               //REGISTER
 
     const { body: { name, surname, email, password } } = req
 
@@ -22,7 +22,7 @@ router.post('/user/register', jsonParser, (req, res) => {
 
 })
 
-router.post('/user/auth', jsonParser, (req, res) => {
+router.post('/user/auth', jsonParser, (req, res) => {                                   //AUTH
     const { body: { email, password } } = req
 
     handleErrors(async () => {
@@ -32,7 +32,7 @@ router.post('/user/auth', jsonParser, (req, res) => {
     }, res)
 })
 
-router.get('/user/retrieve', auth, (req, res) => {
+router.get('/user/retrieve', auth, (req, res) => {                                  //RETRIVE
     handleErrors(async () => {
         const { userId } = req
 
@@ -41,7 +41,7 @@ router.get('/user/retrieve', auth, (req, res) => {
     }, res)
 })
 
-router.put('/user/update', auth, jsonParser, (req, res) => {
+router.put('/user/update', auth, jsonParser, (req, res) => {                        //UPDATE
 
     handleErrors(async () => {
         const { userId, body } = req
@@ -51,7 +51,7 @@ router.put('/user/update', auth, jsonParser, (req, res) => {
     }, res)
 })
 
-router.delete('/user/delete', auth, (req, res) => {
+router.delete('/user/delete', auth, (req, res) => {                             //DELETE
 
     handleErrors(async () => {
         const { userId } = req
@@ -62,7 +62,7 @@ router.delete('/user/delete', auth, (req, res) => {
 })
 
 
-router.get('/tickets', auth, (req, res) => {
+router.get('/tickets', auth, (req, res) => {                        //GET ALL TICKETS
     handleErrors(async () => {
         const { userId } = req
 
@@ -71,7 +71,7 @@ router.get('/tickets', auth, (req, res) => {
     }, res)
 })
 
-router.put('/ticket/addTicket', auth, jsonParser, (req, res) => {
+router.put('/ticket/addTicket', auth, jsonParser, (req, res) => {                       //ADD TICKET
 
     handleErrors(async () => {
         const { userId, body } = req
@@ -81,7 +81,7 @@ router.put('/ticket/addTicket', auth, jsonParser, (req, res) => {
     }, res)
 })
 
-router.get('/ticket/retrieve/:ticketId', auth, (req, res) => {
+router.get('/ticket/retrieve/:ticketId', auth, (req, res) => {                      //RETRIVE A SINGLE TICKET
     handleErrors(async () => {
         const { userId, params: { ticketId } } = req
         let user = await logic.retrivePrivateTicket(userId, ticketId)
@@ -90,7 +90,7 @@ router.get('/ticket/retrieve/:ticketId', auth, (req, res) => {
 })
 
 
-router.post('/ticket/retrieve-dates', auth, jsonParser, (req, res) => {
+router.post('/ticket/retrieve-dates', auth, jsonParser, (req, res) => {             //RETRIVE TICKETS BY DATES
     handleErrors(async () => {
 
         const { userId, body: { data } } = req
@@ -101,7 +101,7 @@ router.post('/ticket/retrieve-dates', auth, jsonParser, (req, res) => {
 })
 
 
-router.put('/ticket/update/:ticketId', auth, jsonParser, (req, res) => {
+router.put('/ticket/update/:ticketId', auth, jsonParser, (req, res) => {            //UPDATE A SINGLE TICKET
     handleErrors(async () => {
         const { userId, params: { ticketId }, body: { data, position } } = req
 
@@ -112,7 +112,7 @@ router.put('/ticket/update/:ticketId', auth, jsonParser, (req, res) => {
 
 
 
-router.delete('/ticket/delete/:ticketId', auth, (req, res) => {
+router.delete('/ticket/delete/:ticketId', auth, (req, res) => {                         //DELTE A SINGLE TICKET
 
     handleErrors(async () => {
         const { userId, params: { ticketId } } = req
@@ -122,7 +122,7 @@ router.delete('/ticket/delete/:ticketId', auth, (req, res) => {
     }, res)
 })
 
-router.delete('/ticket/delete', auth, (req, res) => {
+router.delete('/ticket/delete', auth, (req, res) => {                       //DELETE ALL TICKETS
 
     handleErrors(async () => {
         const { userId } = req

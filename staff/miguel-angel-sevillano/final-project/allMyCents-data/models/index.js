@@ -1,5 +1,5 @@
 let mongoose = require('mongoose');
-let { user, item,ticket,alert,ticketItem } = require('./schemas');
+let { user, item,ticket,alert,ticketItem ,cat} = require('./schemas');
 
 
 
@@ -8,5 +8,6 @@ module.exports = {
     Item: mongoose.model('Item', item),
     Ticket: mongoose.model('Ticket',ticket),
     Alert: mongoose.model('Alert',alert),
-    TicketItem:mongoose.model('TickerItem',ticketItem)
+    TicketItem:mongoose.model('TickerItem',ticketItem),
+    Cat: mongoose.model('Category',cat),
 }

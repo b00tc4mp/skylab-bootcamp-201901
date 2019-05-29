@@ -20,9 +20,16 @@ const item = new Schema({
     text: { type: String, required: true },
 })
 
+
+const cat = new Schema({
+    category:{type:String},
+    items:{type:Array}
+})
+
 const alert =new Schema({
     name: {type:String ,required :true},
-    value: {type: Number,required:true}
+    Euro: {type: Number,required:false},
+    maxValue:{type:Number,required:true}
     
 })
 
@@ -44,4 +51,4 @@ const user = new Schema({
 
 
 
-module.exports = { user, item, ticket , alert,ticketItem }
+module.exports = { user, item, ticket , alert,ticketItem ,cat}

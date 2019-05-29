@@ -1,12 +1,17 @@
 
-const { errors:{LogicError },validate} = require('allMyCents-utils')
-const { models:{User, Item, Ticket, Alert, TicketItem} } = require('allMyCents-data')
+const { errors: { LogicError }, validate } = require('allMyCents-utils')
+const { models: { User, Item, Ticket, Alert, Cat } } = require('allMyCents-data')
 const bcrypt = require('bcryptjs');
 
 
 
 
 const logic = {
+
+
+
+    //CRUD------------------------------------------------------------------------------------------------------
+
     registerUser(name, surname, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -38,9 +43,9 @@ const logic = {
         validate.email(email)
 
         return (async () => {
-            debugger
-            let user = await User.findOne({email})
-    
+
+            let user = await User.findOne({ email })
+
             if (!user) throw new LogicError("wrong credentials")
             if (!await bcrypt.compare(password, user.password)) throw Error('wrong credentials')
 
@@ -73,7 +78,6 @@ const logic = {
 
         return (async () => {
 
-
             let mail
             let user = await User.findById(id)
 
@@ -104,16 +108,17 @@ const logic = {
 
         return (async () => {
 
-            await User.findByIdAndRemove(id)
+            const user = await User.findByIdAndRemove(id)
 
-            deleted = await User.findById(id)
-
-            if (!deleted) return ("User succesfully deleted")
+            if (user) return ("User succesfully deleted")
 
         })()
     },
 
-    addPrivateTicket(id, ticket) {
+
+    //USER TICKETS----------------------------------------------------------------------------------------------------
+
+    addPrivateTicket(id, ticket) {                                                      //ADD TICKET--------------------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'ticket', value: ticket, type: "object", notEmpty: true }
@@ -126,13 +131,22 @@ const logic = {
             if (user.id != id) throw new LogicError(`worng credentials `)
 
             user.tickets.push(new Ticket({ items: ticket }))
+
+            if (user.alerts) {
+                ticket.forEach(item => {
+                    user.alerts.forEach(product => {
+                        if (item.name === product.name) product.Euro += item.Euro
+                    })
+                })
+            }
+
             await user.save()
 
             return ("Ticket succesfully added")
         })()
 
     },
-    retrivePrivateTicket(id, ticketId) {
+    retrivePrivateTicket(id, ticketId) {                                                    //RETRIVE TICKET--------------------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'ticketId', value: ticketId, type: 'string', notEmpty: true }
@@ -143,7 +157,7 @@ const logic = {
 
             let user = await User.findById(id)
             let rTicket
-            debugger
+
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
@@ -159,7 +173,8 @@ const logic = {
         })()
 
     },
-    updatePrivateTicket(id, ticketId, data, position) {
+
+    updatePrivateTicket(id, ticketId, data, position) {                                 //UPDATE TICKET-------------------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'ticketId', value: ticketId, type: 'string', notEmpty: true },
@@ -185,12 +200,20 @@ const logic = {
                 }
             })
 
+            if (user.alerts.length) {
+
+                user.alert.forEach(item => {
+                    if (item.name === data.name) item.Euro += data.Euro
+                })
+            }
+
             await user.save()
-            return("tikcet succecfuly updated")
+            return ("tikcet succecfuly updated")
         })()
 
     },
-    retrivePrivateTicketsByDates(id, data) {
+
+    retrivePrivateTicketsByDates(id, data) {                                                 //GET TICKETS BY DATES--------------------------
 
 
         validate.arguments([
@@ -201,17 +224,18 @@ const logic = {
 
         return (async () => {
 
+            let user = await User.findById(id)
+            const { tickets } = user
+
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+            if (user.id != id) throw new LogicError(`worng credentials `)
+
+            let retrivedTickets = []
+            let init = false
+            let end = false
+
 
             if (data.month) {
-
-                let user = await User.findById(id)
-                const { tickets } = user
-
-                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-                if (user.id != id) throw new LogicError(`worng credentials `)
-
-                let retrivedTickets = []
-
 
                 tickets.forEach((item, index) => {
 
@@ -222,15 +246,6 @@ const logic = {
             }
             if (data.day) {
 
-                let user = await User.findById(id)
-                const { tickets } = user
-
-                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-                if (user.id != id) throw new LogicError(`worng credentials `)
-
-                let retrivedTickets = []
-
-
                 tickets.forEach((item, index) => {
 
                     if (item.date === data.day) retrivedTickets.push(tickets[index])
@@ -240,17 +255,6 @@ const logic = {
             }
 
             if (data.init && data.end) {
-
-                let user = await User.findById(id)
-                const { tickets } = user
-
-                if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-                if (user.id != id) throw new LogicError(`worng credentials `)
-
-                let retrivedTickets = []
-                let init = false
-                let end = false
-
 
                 tickets.forEach((item, index) => {
 
@@ -267,7 +271,8 @@ const logic = {
 
     },
 
-    removePrivateTicket(id, ticketId) {
+
+    removePrivateTicket(id, ticketId) {                                                      //DELETE TICKET-----------------------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'ticketId', value: ticketId, type: 'string', notEmpty: true }
@@ -286,12 +291,12 @@ const logic = {
             })
 
             await User.findByIdAndUpdate(id, { tickets: user.tickets })
-            return("ticket succesfully deleted")
+            return ("ticket succesfully deleted")
         })()
 
     },
 
-    removeAllPrivateTickets(id) {
+    removeAllPrivateTickets(id) {                                                            //DELETE ALL TICKETS-----------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
@@ -305,13 +310,13 @@ const logic = {
             user.tickets = []
 
             await User.findByIdAndUpdate(id, { tickets: user.tickets })
-            return("all tickets succesfully removed")
+            return ("all tickets succesfully removed")
         })()
 
     },
 
 
-    listPrivateTickets(id) {
+    listPrivateTickets(id) {                                                        //LIST ALL TICKETS----------------------------------
 
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -328,7 +333,96 @@ const logic = {
 
     },
 
-    addAlert(id, alert) {
+
+
+    //TICKET ITEMS----------------------------------------------------------------------------------------------
+
+
+    retrieveAmountByProdcut(id, product) {                                                  //GET AMOUNT BY ITEM QUERY--------------------------
+
+
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'product', value: product, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+            const user = await User.findById(id)
+
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+            if (user.id != id) throw new LogicError(`worng credentials `)
+
+            let amount = 0
+
+            user.tickets.forEach(ticket => {
+                ticket.items.forEach(item => {
+                    if (item.name === product) amount += item.Euro
+                })
+
+            })
+            return amount
+        })()
+
+
+    },
+
+
+    retrieveByCategory(id, category) {                                                  //GET ITEMS BY CATEGORY QUERY--------
+
+
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'category', value: category, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+
+            let results = []
+            const user = await User.findById(id)
+
+
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+            if (user.id != id) throw new LogicError(`worng credentials `)
+
+            const { items } = await Cat.findOne({ category }).lean()
+
+            user.tickets.forEach(ticket => {
+                ticket.items.forEach(first => {
+
+                    for (let i = 0; i < items.length; i++) {
+                        if (first.name === items[i]) {
+
+
+                            if (results.length) {
+                                results.forEach(resItems => {
+
+
+                                    if (resItems.name === first.name) resItems.Euro += first.Euro
+                                    else results.push({ name: first.name, Euro: first.Euro })
+
+                                })
+                            } else results.push({ name: first.name, Euro: first.Euro })
+
+                        }
+
+                    }
+
+                })
+
+
+            })
+
+            if (results.length) return results
+            else return ("No results")
+
+        })()
+
+    },
+
+
+    //USER ALERTS -------------------------------------------------------------------------------------------------
+
+    addAlert(id, alert) {                                                               //ADD AN ALERT---------------------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'alert', value: alert, type: 'object', notEmpty: true }
@@ -340,13 +434,18 @@ const logic = {
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
-            user.alerts.push(new Alert({ name: alert.name, value: alert.value }))
+
+            const list = Item.find(alert.name)
+
+            if(!list) user.alerts.push(new Alert({ name: alert.name, maxValue: alert.maxValue }))
+            else throw new LogicError(`${alert.name} dont exist`)
+
 
             await user.save()
         })()
     },
 
-    deleteAlert(id, alertId) {
+    deleteAlert(id, alertId) {                                                                      //DELETE ALERT-----------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'alertId', value: alertId, type: 'string', notEmpty: true }
@@ -367,7 +466,7 @@ const logic = {
             await user.save()
         })()
     },
-    editAlert(id, alertId, data) {
+    editAlert(id, alertId, data) {                                                                  //EDIT ALERT------------------------
 
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -384,11 +483,10 @@ const logic = {
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
+
             alerts.forEach(alert => {
                 if (alert._id.toString() === alertId) {
-
-                    if (data.name) alert.name = data.name
-                    if (data.value) alert.value = data.value
+                    if (data.maxValue) alert.maxValue = data.maxValue
                 }
             })
 
@@ -397,6 +495,7 @@ const logic = {
     },
 
 
+    //ITEMS--------------------------------------------------------------------------------------------------
 
     addItem(item) {
         validate.arguments([

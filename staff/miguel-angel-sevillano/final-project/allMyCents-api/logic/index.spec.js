@@ -18,12 +18,10 @@ describe('logic', () => {
     let email
     const password = '123'
     let cryptPass = bcrypt.hashSync(password, 8)
-   
+
 
     beforeEach(async () => {
-
-
-        await Item.deleteMany()
+        
         email = `MiguelAngel-${Math.random()}@gmail.com`
 
     })
@@ -62,10 +60,10 @@ describe('logic', () => {
         })
 
         describe('authenticate user', () => {
-            
+
 
             beforeEach(async () => {
-                await User.create({ name, surname, email, password:cryptPass })
+                await User.create({ name, surname, email, password: cryptPass })
             })
 
 
@@ -166,8 +164,12 @@ describe('logic', () => {
 
             it('should succed deleting user', async () => {
 
-                await logic.deleteUser(id)
+                const response = await logic.deleteUser(id)
+
+                expect(response).to.equal("User succesfully deleted")
+
                 const user = await User.findById(id)
+
                 expect(user).to.equal(null)
 
             })
@@ -338,7 +340,6 @@ describe('logic', () => {
 
             it('should succeed retriving ticket by a month', async () => {
 
-
                 let userId = "5cececc4c0b1c93f8c9b6e88"
 
                 const tickets = await logic.retrivePrivateTicketsByDates(userId, { month: "2019/04" })
@@ -360,11 +361,49 @@ describe('logic', () => {
 
             })
         })
+
+        describe("products", () => {
+
+            let id
+            let ticket = [{ name: 'detergente', Euro: 1.65 },
+            { name: 'pera', Euro: 2.75 },
+            { name: 'detergente', Euro: 1.65 },
+            { name: 'pera', Euro: 2.75 }]
+
+            beforeEach(async () => {
+
+                user = await User.create({ name, surname, email, password: cryptPass })
+                id = user.id
+                await logic.addPrivateTicket(id, ticket)
+            })
+
+            it("sould retrivie all spent amount of an specified product", async () => {
+
+                const product = "pera"
+                const amount = await logic.retrieveAmountByProdcut(id, product)
+
+                expect(amount).to.exist
+                expect(amount).to.be.equal(5.5)
+
+            })
+
+            it("sould return product name and amount by category ", async () => {
+
+                const category= "frutas"
+                const products= await logic.retrieveByCategory(id, category)
+
+                expect(products[0]).to.exist
+                expect(products[0].name).to.be.equal("pera")
+                expect(products[0].Euro).to.be.equal(5.5)
+
+            })
+
+        })
         describe("alerts", () => {
 
             let user
             let id
-            let alert = { name: "platanos", value: 300 }
+            let alert = { name: "platanos",maxValue:100 }
 
             beforeEach(async () => {
                 user = await User.create({ name, surname, email, password })
@@ -418,7 +457,7 @@ describe('logic', () => {
 
                 let alertId = alerts[0]._id.toString()
 
-                let data = { name: "PINCHOS" }
+                let data = { maxValue: 300 }
 
                 await logic.editAlert(id, alertId, data)
 
@@ -427,9 +466,28 @@ describe('logic', () => {
 
                 expect(_alerts).to.exist
                 expect(_alerts).to.have.lengthOf(1)
-                expect(_alerts[0].name).to.equal(data.name)
+                expect(_alerts[0].maxValue).to.equal(data.maxValue)
 
             })
+
+            it('should fail adding  if item dont exist', async () => {
+
+                await logic.addAlert(id, alert)
+
+                const user = await User.findById(id).lean()
+                const { alerts } = user
+
+                let alertId = alerts[0]._id.toString()
+
+                let data = { name: "PINCHOS" }
+
+                const response =await logic.editAlert(id, alertId, data)
+
+                expect(response).to.equal('PINCHOS dont exist')
+
+            })
+
+
 
 
 
