@@ -1,6 +1,16 @@
+import { Types } from 'mongoose';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { arrayProp, instanceMethod, prop, Ref, Typegoose } from 'typegoose';
 import { User, UserType } from './user';
+
+export type Provider__Type = {
+  id?: string;
+  _id?: Types.ObjectId;
+  name: string;
+  admins: UserType[];
+  coaches: UserType[];
+  customers: UserType[];
+};
 
 @ObjectType()
 export class Provider extends Typegoose {

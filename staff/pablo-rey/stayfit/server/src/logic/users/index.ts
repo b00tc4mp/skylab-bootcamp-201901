@@ -3,7 +3,7 @@ import { Schema } from 'mongoose';
 import { isEmail, isEmpty, isIn, isMongoId } from 'validator';
 import { ROLES, UserModel, UserType } from '../../models/user';
 import { throwAuth } from '../authorization';
-import { AuthenticationError, LogicError, ValidationError } from '../errors/index';
+import { AuthenticationError, LogicError, ValidationError } from '../../common/errors/index';
 
 export const AUTH_USER_CREATE = 'AUTH_USER_CREATE';
 

@@ -1,5 +1,5 @@
-import { Provider } from 'src/models/provider';
 import { isEmpty, isIn } from 'validator';
+import { AuthorizationError, LogicError } from '../../common/errors';
 import {
   ADMIN_ROLE,
   BUSINESS_ROLE,
@@ -7,10 +7,9 @@ import {
   STAFF_ROLE,
   SUPERADMIN_ROLE,
   UserModel,
-  UserType,
+  User,
   USER_ROLE,
 } from '../../models/user';
-import { AuthorizationError, LogicError } from '../errors';
 import {
   AUTH_PROVIDERS_ADDCUSTOMER,
   AUTH_PROVIDERS_CREATE,
@@ -19,6 +18,7 @@ import {
   AUTH_PROVIDERS_UPDATECOACHES,
 } from '../providers';
 import { AUTH_USER_CREATE, leanUser } from '../users';
+import { Provider } from './../../models/provider';
 
 export type AuthResult = {
   ok: boolean;
@@ -26,7 +26,7 @@ export type AuthResult = {
 };
 
 type Payload = {
-  owner?: UserType | string;
+  owner?: User | string | null;
   role?: string | null;
   provider?: Provider | null;
   userId?: UserType | null;
@@ -38,15 +38,14 @@ export async function throwAuth(action: string, payload: Payload): Promise<void>
 }
 
 export async function authPolicies(action: string, payload: Payload): Promise<AuthResult> {
-  let owner: UserType;
+  let owner: User | null;
   if (!payload.owner && action === AUTH_USER_CREATE && payload.role === GUEST_ROLE) {
     return { ok: true };
   } else if (typeof payload.owner === 'string') {
     if (!payload.owner || isEmpty(payload.owner))
       return { ok: false, error: new AuthorizationError('owner not provided') };
-    const _owner = await UserModel.findById(payload.owner);
-    if (!_owner) return { ok: false, error: new AuthorizationError('owner not provided') };
-    owner = leanUser(_owner);
+    owner = await UserModel.findById(payload.owner);
+    if (!owner) return { ok: false, error: new AuthorizationError('owner not provided') };
   } else {
     owner = payload.owner!;
   }

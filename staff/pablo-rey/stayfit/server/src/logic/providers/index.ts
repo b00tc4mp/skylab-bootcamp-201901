@@ -1,9 +1,10 @@
 import { Types } from 'mongoose';
 import { isEmpty } from 'validator';
-import { ProviderModel } from '../../models/provider';
+import { ProviderModel, Provider__Type } from '../../models/provider';
 import { UserType } from '../../models/user';
 import { throwAuth } from '../authorization';
-import { AuthorizationError, ValidationError } from '../errors';
+import { AuthorizationError, ValidationError } from '../../common/errors';
+import { leanUser } from '../users';
 
 export const AUTH_PROVIDERS_CREATE = 'AUTH_PROVIDERS_CREATE';
 export const AUTH_PROVIDERS_UPDATEADMINS = 'AUTH_PROVIDERS_UPDATEADMINS';
@@ -11,6 +12,17 @@ export const AUTH_PROVIDERS_UPDATECOACHES = 'AUTH_PROVIDERS_UPDATECOACHES';
 export const AUTH_PROVIDERS_ADDCUSTOMER = 'AUTH_PROVIDERS_ADDCUSTOMER';
 export const AUTH_PROVIDERS_REMOVECUSTOMER = 'AUTH_PROVIDERS_REMOVECUSTOMER';
 export const AUTH_PROVIDERS_LISTALL = 'AUTH_PROVIDERS_LISTALL';
+
+export function leanProvider(provider: Provider__Type): Provider__Type {
+  return {
+    id: provider._id!.toString(),
+    _id: provider._id,
+    name: provider.name,
+    admins: provider.admins.map(admin => leanUser(admin)),
+    coaches: provider.coaches.map(coach => leanUser(coach)),
+    customers: provider.customers.map(customer => leanUser(customer)),
+  };
+}
 
 export default {
   async create({ name }: { name: string }, owner: UserType) {

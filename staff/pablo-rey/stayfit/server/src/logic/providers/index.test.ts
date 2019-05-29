@@ -7,7 +7,7 @@ import providerLogic from '.';
 import { Provider, ProviderModel } from '../../models/provider';
 import { ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel, UserType, USER_ROLE } from '../../models/user';
 import { random } from '../../utils/random';
-import { AuthorizationError, LogicError, ValidationError } from '../errors/index';
+import { AuthorizationError, LogicError, ValidationError } from '../../common/errors/index';
 import { createRandomUser, fillDbRandomUsers, providerExpectations, userExpectations } from '../tests-utils';
 
 dotenv.config();
