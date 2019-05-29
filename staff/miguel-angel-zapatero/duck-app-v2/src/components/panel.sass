@@ -1,0 +1,21 @@
+@import config
+@import utils
+
+%panel
+    +round-border(.1em, solid, $color, .5em)
+
+    background-color: $back-color
+    padding: 1em
+    font-family: $font
+    font-size: 2em
+    margin: 1em
+
+.panel
+    @extend %panel
+
+    &__title
+        color: $color
+        margin: 0
+
+    &__content
+        line-height: 1em
