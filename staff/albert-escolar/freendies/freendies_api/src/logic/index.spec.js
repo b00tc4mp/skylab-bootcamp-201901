@@ -368,16 +368,15 @@ describe('logic', () => {
                 .then(({ id }) => userId = id)
         )
 
-        it('should succeed retrieving the user on correct credentials', ()=>{
+        it('should succeed retrieving the user on correct credentials', () => {
             logic.retrieveUser(userId)
-            .then(user=>{
-                expect(user.id).toBe(userId)
-                expect(user.username).toBe(username)
-                expect(user.email).toBe(email)
-            })
+                .then(user => {
+                    expect(user.id).toBe(userId)
+                    expect(user.username).toBe(username)
+                    expect(user.email).toBe(email)
+                })
         })
 
 
     })
-
 })

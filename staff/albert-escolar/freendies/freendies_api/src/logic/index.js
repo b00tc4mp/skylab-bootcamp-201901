@@ -63,7 +63,7 @@ const logic = {
 
 
     async retrieveUser(userId) {
-        
+
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error(`${userId} cannot be empty`)
 
@@ -77,6 +77,21 @@ const logic = {
         return user
     },
 
+
+    async updateUser(userId, data) {
+        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
+        if (!userId.trim().length) throw Error(`${userId} cannot be empty`)
+
+        const user = await User.findOneAndUpdate(userId, data, { runValidators: true, new: true }).select('-password -__v').lean()
+
+        if (!user) throw Error(`user with id ${userId} was not found`)
+
+        user.id = user._id.toString()
+
+        delete user._id
+
+        return user
+    },
 
 
     async uploadGame(ownerId, title, genre, description, images, gameFile) {
