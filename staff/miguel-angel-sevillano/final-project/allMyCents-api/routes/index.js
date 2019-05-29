@@ -11,47 +11,140 @@ const jsonParser = bodyParser.json()
 
 const router = express.Router()
 
-router.post('/users', jsonParser, (req, res) => {
+router.post('/user/register', jsonParser, (req, res) => {
+
     const { body: { name, surname, email, password } } = req
 
-    handleErrors(() =>
-        logic.registerUser(name, surname, email, password)
-            .then(() => res.status(201).json({ message: 'Ok, user registered.' })),
-        res)
+    handleErrors(async () => {
+        await logic.registerUser(name, surname, email, password)
+        res.status(201).json({ message: 'Ok, user registered.' })
+    }, res)
+
 })
 
-router.post('/users/auth', jsonParser, (req, res) => {
+router.post('/user/auth', jsonParser, (req, res) => {
     const { body: { email, password } } = req
 
-    handleErrors(() =>
-        logic.authenticateUser(email, password)
-            .then(sub => {
-                const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '47m' })
+    handleErrors(async () => {
 
-                res.json({ token })
-            }),
-        res)
+        let sub = await logic.authenticateUser(email, password)
+        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '1h' })
+        res.json({ token })
+    }, res)
 })
 
-router.get('/users', auth, (req, res) => {
-    handleErrors(() => {
+router.get('/user/retrieve', auth, (req, res) => {
+    handleErrors(async () => {
         const { userId } = req
 
-        return logic.retrieveUser(userId)
-            .then(user => res.json(user))
-    },
-        res)
+        let user = await logic.retrieveUser(userId)
+        res.json(user)
+    }, res)
 })
 
-router.post('/ducks/:id/fav', auth, (req, res) => {
-    handleErrors(() => {
-        const { userId, params: { id } } = req
+router.put('/user/update', auth, jsonParser, (req, res) => {
 
-        return logic.toggleFavDuck(userId, id)
-            .then(() => res.json({ message: 'Ok, duck toggled.' }))
-    },
-        res)
+    handleErrors(async () => {
+        const { userId, body } = req
+
+        let user = await logic.updateUser(userId, body)
+        res.json(user)
+    }, res)
 })
+
+router.delete('/user/delete', auth, (req, res) => {
+
+    handleErrors(async () => {
+        const { userId } = req
+
+        let user = await logic.deleteUser(userId)
+        res.json(user)
+    }, res)
+})
+
+
+router.get('/tickets', auth, (req, res) => {
+    handleErrors(async () => {
+        const { userId } = req
+        
+        let user = await logic.listPrivateTickets(userId)
+        res.json(user)
+    }, res)
+})
+
+router.put('/ticket/addTicket', auth, jsonParser, (req, res) => {
+
+    handleErrors(async () => {
+        const { userId, body}= req
+        
+        let user = await logic.addPrivateTicket(userId, body)
+        res.json(user)
+    }, res)
+})
+
+router.get('/ticket/retrieve/:ticketId', auth, (req, res) => {
+    handleErrors(async () => {
+        const { userId, params: { ticketId } } = req
+
+        let user = await logic.retrivePrivateTicket(userId, ticketId)
+        res.json(user)
+    }, res)
+})
+
+
+router.get('/ticket/retrieve/dates', auth, (req, res) => {
+    handleErrors(async () => {
+        const { userId, body:{data} } = req
+
+        let user = await logic.retrivePrivateTicketsByDates(userId,data)
+        res.json(user)
+    }, res)
+})
+
+
+router.get('/ticket/update/:ticketId', auth, (req, res) => {
+    handleErrors(async () => {
+        const { userId, params: { ticketId } } = req
+
+        let user = await logic.updatePrivateTicket(userId, ticketId)
+        res.json(user)
+    }, res)
+})
+
+
+
+router.delete('/ticket/delete/ticketId', auth, (req, res) => {
+
+    handleErrors(async () => {
+        const { userId, params: { ticketId } } = req
+
+        let user = await logic.removePrivateTicket(userId, ticketId)
+        res.json(user)
+    }, res)
+})
+
+router.delete('/ticket/delete', auth, (req, res) => {
+
+    handleErrors(async () => {
+        const { userId } = req
+
+        let user = await logic.removeAllPrivateTickets(userId)
+        res.json(user)
+    }, res)
+})
+
+
+
+
+
+/* router.get('/user/retrieve/tickets', auth, (req, res) => {
+    handleErrors(async () => {
+        const { userId } = req
+
+        let user = await logic.retrieveUser(userId)
+        res.json(user)
+    }, res)
+}) */
 
 router.get('/ducks/fav', auth, (req, res) => {
     handleErrors(() => {

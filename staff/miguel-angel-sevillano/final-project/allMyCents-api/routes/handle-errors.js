@@ -1,4 +1,4 @@
-const { LogicError, ValueError, RequirementError, UnknownError, UnauthorizedError } = require('../common/errors')
+const { errors:{LogicError, ValueError, RequirementError, UnknownError, UnauthorizedError }} = require('allMyCents-utils')
 
 function handleErrors(callback, res) {
     try {

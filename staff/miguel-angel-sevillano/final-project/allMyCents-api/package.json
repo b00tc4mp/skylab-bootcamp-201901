@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
+    "allMyCents-data": "file:../allMyCents-data",
+    "allMyCents-utils": "file:../allMyCents-utils",
     "atob": "^2.1.2",
-    "axios": "^0.18.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",

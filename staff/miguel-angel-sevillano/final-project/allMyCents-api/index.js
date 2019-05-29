@@ -3,8 +3,7 @@ const express = require('express')
 const package = require('./package.json')
 const routes = require('./routes')
 const cors = require('./routes/cors')
-const userData = require('./data/user-data')
-let mongoose = require('mongoose');
+const mongoose = require('mongoose');
 
 
 
@@ -14,14 +13,6 @@ const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = proc
 
 
     await mongoose.connect(url, { useNewUrlParser: true })
-
-    /*  const client = await MongoClient.connect(url, { useNewUrlParser: true })
- 
-     const db = client.db()
- 
-     userData.__col__ = db.collection('users')
- 
-     // express */
 
     const app = express()
 

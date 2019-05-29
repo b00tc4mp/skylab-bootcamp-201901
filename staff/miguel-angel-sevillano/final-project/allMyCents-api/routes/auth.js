@@ -1,5 +1,5 @@
 const handleErrors = require('./handle-errors')
-const { UnauthorizedError } = require('../common/errors')
+const { errors:{UnauthorizedError} } = require('allMyCents-utils')
 const jwt = require('jsonwebtoken')
 
 const { env: { JWT_SECRET } } = process
