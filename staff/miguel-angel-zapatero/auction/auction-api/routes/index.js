@@ -53,14 +53,35 @@ router.post('/items/:id/bid', jsonParser, auth, (req, res) => {
 
 router.post('/items', jsonParser, (req, res) => {
     handleErrors(async () => {
+        
         const { body: { 
-            title, description, startPrice, startDate, finishDate, reservedPrice  
+            title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city  
         } } = req
-        debugger
-        //FALTA PASARLE EL userId para proteger lo de crear items
-        await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice)
+        
+        //FALTA PASARLE EL userId para proteger lo de crear items?¿?¿
+        await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
         
         return res.status(201).json({ message: 'Ok, item created.' })
+    }, res)
+})
+
+router.get('/items', jsonParser, (req, res) => {
+    handleErrors(async () => {
+        const { query } = req 
+
+        const items = await logic.searchItems(query)
+        
+        return res.json(items)
+    }, res)
+})
+
+router.get('/items/:id', (req, res) => {
+    handleErrors(async () => {
+        const { params: { id } } = req 
+
+        const item = await logic.retrieveItem(id)
+        
+        return res.json(item)
     }, res)
 })
 

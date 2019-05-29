@@ -8,23 +8,13 @@ const user = new Schema({
         required: [true, 'email required'], 
         unique: true,
         trim: true
-        //validate: isEmail --> MIRAR SI AL FINAL LO HAGO
     },
     password: {type: String, required: [true, 'password required']},
-    // role: {
-    //     type: String,
-    //     default: 'user',
-    //     enum: {
-    //         values:['user', 'admin'],
-    //         message: 'not valid role'
-    //     }
-    // },
-    // calendar: [{type: ObjectId, ref: 'Auctions'}],
-    items: [{type: ObjectId, ref: 'Items'}]
+    items: [{type: ObjectId, ref: 'Item'}]
 })
 
 const bid = new Schema({
-    userId: {type: ObjectId, ref: 'Users', required: true},
+    userId: {type: ObjectId, ref: 'User', required: true},
     amount: {type: Number, required: [true, 'ammount required']},
     timeStamp: {type: Date, default: Date.now}
 })
@@ -36,7 +26,11 @@ const item = new Schema({
     startDate: {type: Date, required: [true, 'start date required']},
     finishDate: {type: Date, required: [true, 'finish date required']},
     reservedPrice: {type: Number},
-    bids: [bid]
+    // bids: [{type: ObjectId, ref: 'Bid'}],
+    bids: [bid],
+    images: [{type: String, trim: true}],
+    category: {type: String, required: [true, 'category required'], trim: true},
+    city: {type: String, required: [true, 'city required'], trim: true}
 })
 
 item.methods.isReserved = function() {
@@ -54,26 +48,6 @@ item.methods.winningBid = function() {
 
     return this.bids[0]
 }
-
-// const auctions = new Schema({
-//     title: {type: String, required: [true, 'title required']},
-//     overview: {type: String, required: [true, 'overview required']},
-//     image: String,
-//     type: {
-//         type: String, 
-//         enum: {values: ['live', 'open'], message: 'type not valid'},
-//         required: true
-//     },
-//     category: {type: ObjectId, ref: 'Categories', required: true},
-//     lots: [{type: ObjectId, ref: 'Items'}],
-//     startDate: {type: Date, default: Date.now},
-//     finishDate: {type: Date, required: [true, 'date required']}
-// })
-
-// const categories = new Schema({
-//     title: String,
-//     description: String
-// })
 
 module.exports = {
     user,

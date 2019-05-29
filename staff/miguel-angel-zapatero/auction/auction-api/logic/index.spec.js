@@ -3,6 +3,7 @@ const logic = require('.')
 const { mongoose, models: {User, Item, Bid }} = require('auction-data')
 const { LogicError } = require('auction-errors')
 const bcrypt = require('bcrypt')
+const moment = require('moment')
 
 const {env: { MONGO_URL_LOGIC_TEST }} = process
 
@@ -36,6 +37,7 @@ describe('logic', () => {
         
         await User.deleteMany()
         await Item.deleteMany()
+        await Bid.deleteMany()
     })
 
     describe('users', () => {
@@ -96,6 +98,8 @@ describe('logic', () => {
 
     describe('items', () => {
         let items
+        const cities = ['Japan', 'New York', 'Spain', 'London']
+        const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
 
         beforeEach(async () => {
             items = new Array(25).fill().map(item => item = {
@@ -103,8 +107,11 @@ describe('logic', () => {
                 description: `description-${Math.random()}`,
                 startPrice: Math.ceil(Math.random() * 200),
                 startDate: Date.now(),
-                finishDate: Date.now() + 3600000,
-                reservedPrice: Math.floor(Math.random() * 1)
+                finishDate: Date.now() + (Math.ceil(Math.random() * 1000000000)),
+                reservedPrice: Math.floor(Math.random() * 1),
+                city: cities[Math.floor(Math.random() * cities.length)],
+	            category: categories[Math.floor(Math.random() * categories.length)],
+	            images: "image1.jpg"
             })
 
             await Promise.all(items.map(async item => await Item.create(item)))
@@ -112,25 +119,38 @@ describe('logic', () => {
 
         describe('create items', () => {
             it('should success on correct data', async () => {
-                let item = {title: 'Ferrari 100', description: 'buen coche', startPrice: 2000, startDate: '28/05/2019', finishDate: '01/06/2019'}
-                const { title, description, startPrice, startDate, finishDate } = item
+                let item = items[Math.floor(Math.random() * items.length)]
+                
+                let { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
                
-                await logic.createItem(title, description, startPrice, startDate, finishDate)
-
+                startDate = moment(startDate).format('DD-MM-YYYY')
+                finishDate = moment(finishDate).format('DD-MM-YYYY')
+                
+                await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
+                
                 const _item = await Item.findOne({title: title})
-                debugger
-                expect(_item.title).toBe(item.title)
-                expect(_item.description).toBe(item.description)
-                expect(_item.startPrice).toBe(item.startPrice)
-                // expect(_item.startDate).toEqual(item.startDate)
-                // expect(_item.finishDate).toEqual(item.finishDate)
-                expect(_item.reservedPrice).toBeUndefined()
+                
+                expect(_item.title).toBe(title)
+                expect(_item.description).toBe(description)
+                expect(_item.startPrice).toBe(startPrice)
+                
+                const startFormatDate = moment(_item.startDate).format('DD-MM-YYYY') 
+                const endFormatDate = moment(_item.finishDate).format('DD-MM-YYYY')
+                
+                expect(startFormatDate).toEqual(startDate)
+                expect(endFormatDate).toEqual(finishDate)
+                expect(_item.reservedPrice).toBe(reservedPrice)
+                expect(_item.city).toBe(city)
+                expect(_item.category).toBe(category)
+                expect(_item.images).toBeInstanceOf(Array)
+                // expect(_item.images).toContain(images)
             })
         })
 
+        //FALTA MEJORAR ESTE TEST
         describe('search items', () => {
             xit('should success on correct query', async () => {
-                let query = ''
+                let query = {query: 'hola'}
                 const _items = await logic.searchItems(query)
 
                 expect(_items).toBe(items)
@@ -157,6 +177,10 @@ describe('logic', () => {
                 expect(_item.startPrice).toBe(item.startPrice)
                 expect(_item.startDate).toEqual(item.startDate)
                 expect(_item.finishDate).toEqual(item.finishDate)
+                expect(_item.reservedPrice).toBe(item.reservedPrice)
+                expect(_item.city).toBe(item.city)
+                expect(_item.category).toBe(item.category)
+                expect(_item.images).toBeInstanceOf(Array)
             })
         })
     })
@@ -164,13 +188,20 @@ describe('logic', () => {
     describe('bids', () => {
         let item, user
 
+        const cities = ['Japan', 'New York', 'Spain', 'London']
+        const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
+        
         beforeEach(async () => {
             item = await Item.create({
-                title: 'Monopatin',
-                description: 'Un monopatin super chulo',
-                startPrice: 20,
+                title: `Car-${Math.random()}`,
+                description: `description-${Math.random()}`,
+                startPrice: Math.ceil(Math.random() * 200),
                 startDate: Date.now(),
-                finishDate: Date.now() + 360000
+                finishDate: Date.now() + (Math.ceil(Math.random() * 1000000000)),
+                reservedPrice: Math.floor(Math.random() * 1),
+                city: cities[Math.floor(Math.random() * cities.length)],
+	            category: categories[Math.floor(Math.random() * categories.length)],
+	            images: "image1.jpg"
             })
             
             user = await User.create({name, surname, email, password})
@@ -218,6 +249,33 @@ describe('logic', () => {
                 expect(_user.items).toBeInstanceOf(Array)
                 expect(_user.items.length).toBeLessThan(2)
                 expect(_user.items[0].toString()).toBe(item.id)
+            })
+        })
+
+        describe('retrieve item bids', () => {
+            it('should success on correc item id', async () => {
+                let amount = 200
+                await logic.placeBid(item.id, user.id, amount)
+
+                let amount2 = 500
+                await logic.placeBid(item.id, user.id, amount2)
+
+                const bids = await logic.retrieveItemBids(item.id)
+                
+                expect(bids.length).toBeGreaterThan(0)
+                expect(bids[0].userId.toString()).toBe(user.id)
+                expect(bids[0].amount).toBe(amount)
+                expect(bids[0].timeStamp).toBeDefined()
+                expect(bids[1].userId.toString()).toBe(user.id)
+                expect(bids[1].amount).toBe(amount2)
+                expect(bids[1].timeStamp).toBeDefined()
+
+                expect(bids[0].userId.name).toBe(user.name)
+                expect(bids[0].userId.surname).toBe(user.surname)
+                expect(bids[0].userId.email).toBe(user.email)
+                expect(bids[1].userId.name).toBe(user.name)
+                expect(bids[1].userId.surname).toBe(user.surname)
+                expect(bids[1].userId.email).toBe(user.email)
             })
         })
     })
