@@ -13,9 +13,9 @@ const user = new Schema({
   password: { type: String, required: true },
   age: Number,
   date: { type: Date, default: Date.now },
-  cart: [{type: Schema.Types.ObjectId, ref: 'Item', required: true} ],
-  wishlist: [{type: Schema.Types.ObjectId, ref: 'Item', required: true} ],
-  historic: [{type: Schema.Types.ObjectId, ref: 'Item', required: true} ]
+  cart: [{type: Schema.Types.ObjectId, ref: 'Item'} ],
+  wishlist: [{type: Schema.Types.ObjectId, ref: 'Item'} ],
+  historic: [{type: Schema.Types.ObjectId, ref: 'Item'} ]
 })
 
-module.exports =  user
+module.exports = user

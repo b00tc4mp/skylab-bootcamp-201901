@@ -1,65 +1,112 @@
+//@ts-check
 const models = require('../data/models')
 const argon2 = require('argon2')
-const LogicError = require('./logic-error')
+const validate = require('../common/validate')
+const { LogicError } = require('../common/errors')
 
-const { User, Note } = models
+
+const { User, Item } = models
 
 const logic = {
-    registerUser(name, surname, email, password) {
-        // TODO validate inputs
-
+    registerUser(name, surname, email, password, age ) {
+        validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true },
+            { name: 'age', value: age, type: 'string', notEmpty: true }
+        ])
+        validate.email(email)
+        age = parseInt(age)
 
         // TODO implement logic
         return (async () => {
+            const userDb = await User.findOne({email})
+
+            if (userDb) throw new LogicError(`user with email "${email}" already exists`)
             const hash = await argon2.hash(password)
 
-            // TODO end logic, other cases, flows, states... (user already exists check, etc)
 
-            await User.create({ name, surname, email, password: hash })
+            await User.create({ name, surname, email, password: hash, age })
         })()
     },
 
     authenticateUser(email, password) {
-        // TODO validate inputs
+        validate.arguments([
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true }
+        ])
 
-        // TODO implement logic
+        validate.email(email)
+
         return (async () => {
             const user = await User.findOne({ email })
 
+            if (!user) throw new LogicError(`user with email "${email}" does not exist`)
+
             if (await argon2.verify(user.password, password)) return user.id
             else throw new LogicError('wrong credentials')
+
         })()
     },
 
     retrieveUser(id) {
-        // TODO validate inputs
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
 
         // TODO implement logic
         return (async () => {
-            // 1
+  
+            const { name, surname, email, age } = await User.findById(id)
 
-            // const user = await User.findById(id).lean()
-
-            // user.id = user._id.toString()
-            // delete user._id
-
-            // delete user.password
-            // delete user.notes
-            // delete user.__v
-
-            // return user
-
-            // 2
-
-            return await User.findById(id).select('name surname email -_id').lean()
-
-            // 3
-
-            // const { name, surname, email } = await User.findById(id)
-
-            // return { name, surname, email }
+            return { name, surname, email, age }
         })()
     },
+
+    updateUser(id, data) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object', notEmpty: true }
+
+        ])
+        
+        return (async () => {
+
+            let userDb = await User.findById(id).lean()
+            if(userDb.email.notEmpty){
+                const userWithEmail = User.findOne(userDb.email)
+                if(userWithEmail) throw new LogicError( `That email is already used` )
+            }
+
+            if(!userDb) throw new LogicError( ` That user doesn't exist` )
+
+            const userUpdated = Object.assign(userDb, data)
+  
+            await User.findByIdAndUpdate(id, userUpdated)
+
+            return true
+        })()
+    },
+
+    deleteUser(id){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+        return ( async ()=> {
+            const userDb = await User.findById(id)
+            if(!userDb) throw new LogicError(`This user doesn't exist`)
+            await User.findByIdAndDelete(id)
+    
+            return true
+        })()
+ 
+    },
+
+
+
+
+
 
     addPublicNote(userId, text) {
         // TODO validate inputs

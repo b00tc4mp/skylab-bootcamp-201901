@@ -1,12 +1,12 @@
-const mongoose = require('mongoose')
+const {model} = require('mongoose')
 const user = require('./schemas/user.js')
 const item = require('./schemas/item.js')
 
-mongoose.set('useCreateIndex', true);
-const User = mongoose.model('User', user)
-const Item = mongoose.model('Item', item)
+// mongoose.set('useCreateIndex', true);
+
+const User = model('User', user)
 
 module.exports = { 
-    User: User,
-    Item: Item
+    User ,
+    Item: model('Item', item)
 }
