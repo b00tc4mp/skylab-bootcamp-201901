@@ -1,12 +1,11 @@
 const {models:{Issue, User}, jiraApi} = require ('dashboard-data')
 const moment = require('moment')
 const validate = require('dashboard-validate')
-const { LogicError }= require('dashboard-errors')
+const { LogicError , RequirementError , FormatError }= require('dashboard-errors')
 const argon2 = require('argon2')
 
 const logic = {
     loadJirasByMonth(month){
-        debugger
         validate.arguments([
             { name: 'month', value: month, type: 'string', notEmpty: true},
         ])
@@ -19,7 +18,7 @@ const logic = {
         return(async()=>{
 
             while(startDate<end){
-                debugger
+                
                 const jiras= await jiraApi.searchIssues(startDate.toString(), endDate.toString())
                 const {total, issues}= jiras
 
@@ -180,19 +179,27 @@ const logic = {
 
     },
     retrieveIssuesByResolution(issueType, country, startDate, endDate){
-        debugger
         validate.arguments([
             { name: 'issueType', value: issueType, type: 'string', notEmpty: true},
             { name: 'country', value: country, type: 'string', notEmpty: true},
             { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
             { name: 'endDate', value: endDate, type: 'string', notEmpty: true}
         ])
+
+        if(!moment(startDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
+        if(!moment(endDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
+
         startDate = moment(startDate).toDate()
         endDate = moment(endDate).toDate()
-        debugger
-        // const country=Issue.find({ country })
-        // const issueType=Issue.find({ issueType })
+
+        if (endDate<startDate) throw new RequirementError ('incorrect date range')
+        
         return (async()=>{
+
+            if(!await Issue.findOne({ country })) throw new RequirementError ('incorrect country')
+        
+            if(!await Issue.findOne({ issueType })) throw new RequirementError ('incorrect issueType')
+
             let countCR = 0
             let countDone = 0
             let countDup = 0
@@ -201,8 +208,7 @@ const logic = {
             let countWF = 0
             let countNone=0
             
-            const issuesByCountryAndDate= await Issue.findIssuesByCountryAndDate(issueType, country, startDate, endDate)
-            
+            const issuesByCountryAndDate= await Issue.findIssuesByCountryDateIssueType(issueType, country, startDate, endDate)
             issuesByCountryAndDate.forEach(element => {
                 switch (element.resolutionType){
                     case 'Cannot Reproduce':
@@ -240,6 +246,129 @@ const logic = {
 
         })()
 
+    },
+    retrieveIssuesBySLA(issueType, country, startDate, endDate){
+        validate.arguments([
+            { name: 'issueType', value: issueType, type: 'string', notEmpty: true},
+            { name: 'country', value: country, type: 'string', notEmpty: true},
+            { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
+            { name: 'endDate', value: endDate, type: 'string', notEmpty: true}
+        ])
+
+        if(!moment(startDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
+        if(!moment(endDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
+
+        startDate = moment(startDate)
+        endDate = moment(endDate)
+
+        if (endDate<startDate) throw new RequirementError ('incorrect date range')
+        return (async()=>{
+
+            if(!await Issue.findOne({ country })) throw new RequirementError ('incorrect country')
+            
+            if(!await Issue.findOne({ issueType })) throw new RequirementError ('incorrect issueType')
+
+            let start = moment(startDate).format('YYYY-MM-DD')
+            let end 
+            end = moment(startDate).add(1, 'days').format('YYYY-MM-DD')
+            endDate = endDate.format('YYYY-MM-DD')
+            let sla = []
+            
+            while(end <= endDate){ 
+        
+                let countOverdue = 0
+                let countOnTime = 0
+                let countTotal = 0
+                let created
+                
+                let issuesByCountryAndDate= await Issue.findIssuesByCountryDateIssueType(issueType, country, moment(start).toDate(), moment(end).toDate())
+
+                if(issuesByCountryAndDate.length===0){
+                    sla.push({created : moment(start).format('YYYY-MM-DD'), 
+                        overdue : countOverdue,
+                        ontime : countOnTime,
+                        total : countTotal})
+
+                }else {
+                        if(issuesByCountryAndDate.every(element => element.createdDate.getTime() === issuesByCountryAndDate[0].createdDate.getTime())){
+                            
+                            created = moment(issuesByCountryAndDate[0].createdDate).format('YYYY-MM-DD')
+                            
+                            issuesByCountryAndDate.forEach(element =>{
+                                
+                                if(element.overdue==='yes') countOverdue++
+                                else countOnTime++
+                                
+                                countTotal++
+                            })
+
+                            sla.push({  created : created, 
+                                        overdue : countOverdue,
+                                        ontime : countOnTime,
+                                        total : countTotal  })            
+
+                        } else throw Error ('no todas son la misma fecha')
+                    }
+                
+                start=moment(start).add(1, 'days').format('YYYY-MM-DD')
+                end=moment(end).add(1, 'days').format('YYYY-MM-DD')
+            }
+            return sla
+        })()
+
+    },
+    retrieveIssuesByTable(country, startDate, endDate){
+        validate.arguments([
+            { name: 'country', value: country, type: 'string', notEmpty: true},
+            { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
+            { name: 'endDate', value: endDate, type: 'string', notEmpty: true}
+        ])
+
+        if(!moment(startDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
+        if(!moment(endDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
+
+        startDate = moment(startDate)
+        endDate = moment(endDate)
+
+        if (endDate<startDate) throw new RequirementError ('incorrect date range')
+        let table=[]
+        let countOverdue = 0
+        let countOnTime = 0
+        let countTotal = 0
+
+        function resetCounts(){
+            countOverdue = 0
+            countOnTime = 0
+            countTotal = 0
+        }
+
+        return(async ()=>{
+
+            if(!await Issue.findOne({ country })) throw new RequirementError ('incorrect country')
+            
+            async function addResults(issueType){
+                let issues= await Issue.findIssuesByCountryDateIssueType(issueType, country, moment(startDate).toDate(), moment(endDate).toDate())
+                
+                issues.forEach(element =>{
+                                    
+                    if(element.overdue==='yes') countOverdue++
+                    else countOnTime++
+                    
+                    countTotal++
+                })
+                table.push({  issueType: issueType, 
+                            overdue : countOverdue,
+                            ontime : countOnTime,
+                            total : countTotal  })
+                resetCounts()
+            }
+            await addResults('HotFix')
+            await addResults('BugFix')
+            await addResults('Bug')
+            await addResults('Request')
+            
+            return table
+        })()
     }
 }
 

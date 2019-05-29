@@ -28,9 +28,11 @@ const user = new Schema({
     
 })
 
-issue.statics.findIssuesByCountryAndDate = function (issueType, country, startDate, endDate) {
+issue.statics.findIssuesByCountryDateIssueType = function (issueType, country, startDate, endDate) {
     let query= {$and:[{issueType: issueType},{country: country}, { createdDate: { $gte: startDate} }, { createdDate: { $lte: endDate} }]}
+    
     return this.find(query)
 }
+
 
 module.exports = {issue, user}
