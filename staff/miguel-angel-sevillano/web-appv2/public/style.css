@@ -1,0 +1,9 @@
+* {
+    border: 1px solid black;
+    border-radius: 1em;
+    padding: 1em;
+}
+
+img {
+    max-width: 200px;
+}

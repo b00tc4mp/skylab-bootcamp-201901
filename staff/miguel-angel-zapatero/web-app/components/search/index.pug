@@ -1,0 +1,8 @@
+include ../feedback/index
+
+mixin search(query, message)
+    form(action='/home/search')
+        input(type='text' name='query' placeholder='search...' value=query autofocus)
+        button Search
+        if message
+            +feedback(message)
