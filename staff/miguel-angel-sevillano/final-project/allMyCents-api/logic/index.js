@@ -38,11 +38,10 @@ const logic = {
         validate.email(email)
 
         return (async () => {
-
+            debugger
             let user = await User.findOne({email})
     
             if (!user) throw new LogicError("wrong credentials")
-            debugger
             if (!await bcrypt.compare(password, user.password)) throw Error('wrong credentials')
 
             else return user.id
@@ -136,7 +135,7 @@ const logic = {
     retrivePrivateTicket(id, ticketId) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'ticketId', value: ticketId, type: 'object', notEmpty: true }
+            { name: 'ticketId', value: ticketId, type: 'string', notEmpty: true }
 
         ])
 
@@ -144,6 +143,7 @@ const logic = {
 
             let user = await User.findById(id)
             let rTicket
+            debugger
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
@@ -162,9 +162,9 @@ const logic = {
     updatePrivateTicket(id, ticketId, data, position) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'ticketId', value: ticketId, type: 'object', notEmpty: true },
+            { name: 'ticketId', value: ticketId, type: 'string', notEmpty: true },
             { name: 'data', value: data, type: 'object', notEmpty: true },
-            { name: 'position', value: position, type: 'number', notEmpty: true }
+            { name: 'position', value: position, type: 'string', notEmpty: true }
 
         ])
 
@@ -180,12 +180,13 @@ const logic = {
             tickets.forEach(ticket => {
                 if (ticket._id.toString() === ticketId.toString()) {
 
-                    if (data.name) ticket.items[position].name = data.name
-                    if (data.Euro) ticket.items[position].Euro = data.Euro
+                    if (data.name) ticket.items[Number(position)].name = data.name
+                    if (data.Euro) ticket.items[Number(position)].Euro = data.Euro
                 }
             })
 
             await user.save()
+            return("tikcet succecfuly updated")
         })()
 
     },
@@ -238,7 +239,7 @@ const logic = {
                 return retrivedTickets
             }
 
-            if (data.init) {
+            if (data.init && data.end) {
 
                 let user = await User.findById(id)
                 const { tickets } = user
@@ -269,7 +270,7 @@ const logic = {
     removePrivateTicket(id, ticketId) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'ticketId', value: ticketId, type: 'object', notEmpty: true }
+            { name: 'ticketId', value: ticketId, type: 'string', notEmpty: true }
 
         ])
 
@@ -285,6 +286,7 @@ const logic = {
             })
 
             await User.findByIdAndUpdate(id, { tickets: user.tickets })
+            return("ticket succesfully deleted")
         })()
 
     },
@@ -303,6 +305,7 @@ const logic = {
             user.tickets = []
 
             await User.findByIdAndUpdate(id, { tickets: user.tickets })
+            return("all tickets succesfully removed")
         })()
 
     },

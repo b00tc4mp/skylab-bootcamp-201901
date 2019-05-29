@@ -243,9 +243,9 @@ describe('logic', () => {
                 const user = await User.findById(id).lean()
 
                 const { tickets } = user
-                let ticketId = tickets[0]._id
+                let ticketId = tickets[0]._id.toString()
                 let data = { name: "VENTILADOR" }
-                let position = 1
+                let position = "1"
 
                 await logic.updatePrivateTicket(id, ticketId, data, position)
 
@@ -266,8 +266,8 @@ describe('logic', () => {
                 const _user = await User.findById(id).lean()
                 const { tickets } = _user
 
-                let fTicketId = tickets[0]._id
-                let sTicketId = tickets[1]._id
+                let fTicketId = tickets[0]._id.toString()
+                let sTicketId = tickets[1]._id.toString()
 
                 const fTicket = await logic.retrivePrivateTicket(id, fTicketId)
 
@@ -298,7 +298,7 @@ describe('logic', () => {
                 const user = await User.findById(id).lean()
                 const { tickets } = user
 
-                let fTicketId = tickets[0]._id
+                let fTicketId = tickets[0]._id.toString()
 
                 await logic.removePrivateTicket(id, fTicketId)
 

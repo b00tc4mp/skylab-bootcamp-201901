@@ -3,7 +3,7 @@ const express = require('express')
 const package = require('./package.json')
 const routes = require('./routes')
 const cors = require('./routes/cors')
-const mongoose = require('mongoose');
+const {mongoose} = require('allMyCents-data');
 
 
 
