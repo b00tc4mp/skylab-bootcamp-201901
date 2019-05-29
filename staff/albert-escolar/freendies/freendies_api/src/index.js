@@ -12,6 +12,7 @@ const {
     registerUser,
     authenticateUser,
     retrieveUser,
+    updateUser,
     uploadGame
 } = require('./routes')
 
@@ -32,6 +33,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.post('/user', jsonBodyParser, registerUser)
         router.get('/user', tokenVerifierMiddleware, retrieveUser)
         router.post('/user/auth', jsonBodyParser, authenticateUser)
+        router.put('/user/update',tokenVerifierMiddleware,jsonBodyParser,updateUser)
         router.post('/user/game', tokenVerifierMiddleware, uploadGame)
 
 
