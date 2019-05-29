@@ -19,12 +19,12 @@ const Game = new Schema({
 
     description: {
         type:String,
-        requires: true
+        requires: false
     },
 
     images: [{
         type:String,
-        requires: true
+        requires: false
     }],
 
     gameFile: {

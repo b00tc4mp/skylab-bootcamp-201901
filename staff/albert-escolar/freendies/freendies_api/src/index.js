@@ -4,7 +4,7 @@ const { mongoose } = require('freendies_data')
 const express = require('express')
 const bodyParser = require('body-parser')
 const tokenHelper = require('./token-helper')
-const {tokenVerifierMiddleware} = tokenHelper
+const { tokenVerifierMiddleware } = tokenHelper
 const package = require('../package.json')
 const cors = require('cors')
 
@@ -30,10 +30,10 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         tokenHelper.jwtSecret = JWT_SECRET
 
         router.post('/user', jsonBodyParser, registerUser)
-        router.get('/user', jsonBodyParser, retrieveUser)
+        router.get('/user', tokenVerifierMiddleware, retrieveUser)
         router.post('/user/auth', jsonBodyParser, authenticateUser)
-        router.post('/user/game', tokenVerifierMiddleware, jsonBodyParser, uploadGame)
-        
+        router.post('/user/game', tokenVerifierMiddleware, uploadGame)
+
 
         app.use('/api', router)
 

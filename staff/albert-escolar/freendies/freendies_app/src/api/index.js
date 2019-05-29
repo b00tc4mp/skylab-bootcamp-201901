@@ -51,11 +51,28 @@ const freendiesApi = {
         if (!password.trim().length) throw Error('password cannot be empty')
 
         return fetch(`${this.url}user/auth`, {
-            mehtod: 'POST',
+            method: 'POST',
             headers: {
                 'content-type': 'application/json'
             },
             body: JSON.stringify({ email, password })
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+                return response.token
+            })
+    },
+
+
+    retrieveUser(token) {
+        if (typeof token !== 'string') throw TypeError(`${token} is not a string`)
+        if (!token.trim().length) throw Error(`${token} cannot be empty`)
+
+        return fetch(`${this.url}user`, {
+            headers: {
+                authorization:`Bearer ${token}`
+            }
         })
             .then(response => response.json())
             .then(response => {
@@ -87,11 +104,11 @@ const freendiesApi = {
         })
             .then(response => response.json())
             .then(response => {
-                if(response.error) throw Error(response.error)
+                if (response.error) throw Error(response.error)
 
                 return response
             })
-    }   
+    }
 }
 
 export default freendiesApi

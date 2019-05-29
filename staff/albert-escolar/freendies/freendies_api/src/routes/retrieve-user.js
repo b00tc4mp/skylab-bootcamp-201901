@@ -5,7 +5,7 @@ module.exports = async (req, res) => {
 
     try {
         const user = await logic.retrieveUser(userId)
-        res.json.bind(user)
+        res.status(200).json(user)
         
     } catch ({ message }) {
 
@@ -14,4 +14,3 @@ module.exports = async (req, res) => {
         })
     }
 }
-
