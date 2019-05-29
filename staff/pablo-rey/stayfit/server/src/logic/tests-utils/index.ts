@@ -2,14 +2,14 @@ import * as bcrypt from 'bcryptjs';
 import { expect } from 'chai';
 import * as faker from 'faker';
 import * as mongoose from 'mongoose';
-import { ROLES, UserModel, UserType } from '../../models/user';
+import { ROLES, User, UserModel } from '../../models/user';
 import { random } from '../../utils/random';
 import { SessionModel } from './../../models/session';
 import { SessionTypeModel } from './../../models/session-type';
 
 const { ObjectId } = mongoose.Types;
 
-export function randomUser(_role?: string): UserType {
+export function randomUser(_role?: string) {
   const name = faker.name.firstName();
   const surname = faker.name.lastName();
   const email = faker.internet.email();
@@ -22,7 +22,7 @@ export function createRandomUser(_role?: string) {
   return UserModel.create(randomUser(_role));
 }
 
-export async function fillDbRandomUsers(users: UserType[] = [], num: number = 10, role?: string) {
+export async function fillDbRandomUsers(users: User[] = [], num: number = 10, role?: string) {
   for (let ii = 0, ll = Math.max(random(num), 1); ii < ll; ii++) {
     const user = randomUser(role);
     const hashPassword = await bcrypt.hash(user.password!, 12);

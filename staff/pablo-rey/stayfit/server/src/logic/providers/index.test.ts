@@ -4,10 +4,10 @@ import * as dotenv from 'dotenv';
 import * as faker from 'faker';
 import * as mongoose from 'mongoose';
 import providerLogic from '.';
-import { Provider, ProviderModel } from '../../models/provider';
-import { ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel, UserType, USER_ROLE } from '../../models/user';
-import { random } from '../../utils/random';
 import { AuthorizationError, LogicError, ValidationError } from '../../common/errors/index';
+import { Provider, ProviderModel } from '../../models/provider';
+import { ROLES, STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../../models/user';
+import { random } from '../../utils/random';
 import { createRandomUser, fillDbRandomUsers, providerExpectations, userExpectations } from '../tests-utils';
 
 dotenv.config();
@@ -55,7 +55,7 @@ describe('providers', () => {
     this.timeout(10000);
 
     let name: string;
-    let staffUsers: UserType[];
+    let staffUsers: User[];
     let staffUserId: string[];
 
     beforeEach(async () => {
@@ -145,7 +145,7 @@ describe('providers', () => {
 
   describe('modify customer in a provider', () => {
     let name: string;
-    let owner: UserType;
+    let owner: User;
     let provider: Provider;
 
     beforeEach(async () => {
@@ -224,7 +224,7 @@ describe('providers', () => {
     });
 
     describe('remove a customer', () => {
-      let users: UserType[];
+      let users: User[];
       let usersId: string[];
 
       beforeEach(async () => {

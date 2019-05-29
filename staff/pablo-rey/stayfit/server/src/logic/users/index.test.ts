@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv';
 import * as faker from 'faker';
 import * as mongoose from 'mongoose';
 import usersLogic from '.';
-import { ADMIN_ROLE, BUSINESS_ROLE, GUEST_ROLE, ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel, UserType, USER_ROLE } from '../../models/user';
+import { ADMIN_ROLE, BUSINESS_ROLE, GUEST_ROLE, ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel, User, USER_ROLE } from '../../models/user';
 import { random } from '../../utils/random';
 import { AuthenticationError, AuthorizationError, LogicError, ValidationError } from '../../common/errors/index';
 import { fillDbRandomUsers, randomUser, userExpectations } from '../tests-utils';
@@ -188,9 +188,9 @@ describe('users', () => {
   });
 
   describe('login', function() {
-    let users: UserType[];
+    let users: User[];
     let email: string, password: string;
-    let _user: UserType;
+    let _user: User;
 
     this.timeout(5000);
 
@@ -283,7 +283,7 @@ describe('users', () => {
 
       _users.map(_user => {
         userExpectations(_user);
-        const user: UserType = users.find((u : UserType) => u.id!.toString() === _user.id!.toString());
+        const user: User = users.find((u : User) => u.id!.toString() === _user.id!.toString());
         expect(user).not.to.be.undefined;
         expect(_user.name).to.be.equal(user.name);
         expect(_user.surname).to.be.equal(user.surname);

@@ -3,7 +3,7 @@ import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import * as jwt from 'jsonwebtoken';
-import { UserModel, UserType } from '../../models/user';
+import { UserModel, User } from '../../models/user';
 import { random } from '../../utils/random';
 import { fillDbRandomUsers } from './../../common/test-utils';
 import { gCall } from './../../utils/testing-utils/gqlCall';
@@ -30,9 +30,9 @@ describe('login user', function() {
     }
   `;
 
-  let users: UserType[];
+  let users: User[];
   let email: string, password: string;
-  let _user: UserType;
+  let _user: User;
 
   beforeEach(async () => {
     await UserModel.deleteMany({});

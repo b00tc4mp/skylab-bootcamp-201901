@@ -6,8 +6,8 @@ import {
   GUEST_ROLE,
   STAFF_ROLE,
   SUPERADMIN_ROLE,
-  UserModel,
   User,
+  UserModel,
   USER_ROLE,
 } from '../../models/user';
 import {
@@ -17,8 +17,9 @@ import {
   AUTH_PROVIDERS_UPDATEADMINS,
   AUTH_PROVIDERS_UPDATECOACHES,
 } from '../providers';
-import { AUTH_USER_CREATE, leanUser } from '../users';
+import { AUTH_USER_CREATE } from './../../resolvers/users/create-user-resolver';
 import { Provider } from './../../models/provider';
+import { AUTH_SERVICETYPE_CREATE } from './../../resolvers/session-type/session-type-resolver';
 
 export type AuthResult = {
   ok: boolean;
@@ -29,7 +30,7 @@ type Payload = {
   owner?: User | string | null;
   role?: string | null;
   provider?: Provider | null;
-  userId?: UserType | null;
+  userId?: string | null;
 };
 
 export async function throwAuth(action: string, payload: Payload): Promise<void> {
@@ -66,21 +67,26 @@ export async function authPolicies(action: string, payload: Payload): Promise<Au
         error: new AuthorizationError('Not authorized to create a user with ' + role),
       };
 
+    // Only superadmin can do this
     case AUTH_PROVIDERS_UPDATEADMINS:
     case AUTH_PROVIDERS_CREATE:
       return { ok: false, error: new AuthorizationError() };
 
+    // Needs to be admin of provider
+    case AUTH_SERVICETYPE_CREATE:
     case AUTH_PROVIDERS_UPDATECOACHES:
       if (!payload.provider) throw new LogicError(`Provider is required`);
-      if (payload.provider.isAdmin(owner.id!)) return { ok: true };
+      if (payload.provider.isAdmin(owner)) return { ok: true };
       return { ok: false, error: new AuthorizationError() };
 
+    // Needs to be admin of provider
+    // Needs to userId be present
     case AUTH_PROVIDERS_ADDCUSTOMER:
     case AUTH_PROVIDERS_REMOVECUSTOMER:
       const { provider, userId } = payload;
       if (!provider) throw new LogicError(`Provider is required`);
       if (!userId) throw new LogicError(`User is required`);
-      if (provider.isAdmin(owner.id!)) return { ok: true };
+      if (provider.isAdmin(owner)) return { ok: true };
       return { ok: false, error: new AuthorizationError() };
   }
 

@@ -1,25 +1,14 @@
 import * as bcrypt from 'bcryptjs';
 import { Schema } from 'mongoose';
 import { isEmail, isEmpty, isIn, isMongoId } from 'validator';
-import { ROLES, UserModel, UserType } from '../../models/user';
-import { throwAuth } from '../authorization';
 import { AuthenticationError, LogicError, ValidationError } from '../../common/errors/index';
+import { ROLES, User, UserModel } from '../../models/user';
+import { throwAuth } from '../authorization';
 
 export const AUTH_USER_CREATE = 'AUTH_USER_CREATE';
 
-export function leanUser(user: UserType): UserType {
-  return {
-    id: user._id!.toString(),
-    _id: user._id,
-    name: user.name,
-    surname: user.surname,
-    email: user.email,
-    role: user.role,
-  };
-}
-
 export default {
-  async create({ name, surname, email, password, role }: UserType, owner?: UserType) {
+  async create({ name, surname, email, password, role }: User, owner?: User) {
     // Custom Validations
     if (!password || password!.trim() === '') throw new ValidationError('password is required');
     const _users = await UserModel.find({ email });
@@ -33,7 +22,7 @@ export default {
     const hashPassword = await bcrypt.hash(password!, 12);
     try {
       const user = await UserModel.create({ name, surname, email, password: hashPassword, role });
-      return leanUser(user);
+      return user;
     } catch (err) {
       const { errors } = err;
       const keys = Object.keys(err.errors);
@@ -62,11 +51,11 @@ export default {
     if (typeof id === 'string' && !isMongoId(id)) throw new ValidationError('id is not correct');
     const user = await UserModel.findById(id);
     if (!user) throw new LogicError('id not found');
-    return leanUser(user);
+    return user;
   },
 
   async retrieveAll() {
     const users = await UserModel.find();
-    return users.map(user => leanUser(user));
+    return users;
   },
 };

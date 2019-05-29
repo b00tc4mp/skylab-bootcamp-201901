@@ -1,13 +1,12 @@
-import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import * as cors from 'cors';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
-import * as session from 'express-session';
-
-import { createSchema } from './graphql/schema';
+import 'reflect-metadata';
 import context from './graphql/middleware/context';
+import { createSchema } from './graphql/schema';
+
 
 dotenv.config();
 const {

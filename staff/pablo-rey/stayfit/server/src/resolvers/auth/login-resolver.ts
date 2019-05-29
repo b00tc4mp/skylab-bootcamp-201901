@@ -1,6 +1,6 @@
 import { AuthenticationError } from 'apollo-server';
 import * as jwt from 'jsonwebtoken';
-import { Arg, Field, Mutation, ObjectType, Resolver } from 'type-graphql';
+import { Arg, Field, Mutation, ObjectType, Resolver, Query } from 'type-graphql';
 import { UserModel } from './../../models/user';
 
 @ObjectType()
@@ -11,6 +11,10 @@ export class AuthResponse {
 
 @Resolver()
 export class LoginResolver {
+  @Query(() => String)
+  async hello () {
+    return 'hello'
+  }
   @Mutation(() => AuthResponse)
   async login(@Arg('email') email: string, @Arg('password') password: string): Promise<AuthResponse> {
     const user = await UserModel.findOne({ email });

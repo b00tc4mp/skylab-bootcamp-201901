@@ -7,6 +7,8 @@ import { throwAuth } from './../../logic/authorization';
 import { isIn } from 'validator';
 import { MyContext } from './../../common/types/MyContext';
 
+export const AUTH_USER_CREATE = 'AUTH_USER_CREATE';
+
 @InputType()
 export class CreateInput {
   @Field()

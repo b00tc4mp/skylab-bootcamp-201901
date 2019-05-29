@@ -1,10 +1,9 @@
 import { Types } from 'mongoose';
 import { isEmpty } from 'validator';
-import { ProviderModel, Provider__Type } from '../../models/provider';
-import { UserType } from '../../models/user';
-import { throwAuth } from '../authorization';
 import { AuthorizationError, ValidationError } from '../../common/errors';
-import { leanUser } from '../users';
+import { ProviderModel } from '../../models/provider';
+import { User } from '../../models/user';
+import { throwAuth } from '../authorization';
 
 export const AUTH_PROVIDERS_CREATE = 'AUTH_PROVIDERS_CREATE';
 export const AUTH_PROVIDERS_UPDATEADMINS = 'AUTH_PROVIDERS_UPDATEADMINS';
@@ -13,26 +12,15 @@ export const AUTH_PROVIDERS_ADDCUSTOMER = 'AUTH_PROVIDERS_ADDCUSTOMER';
 export const AUTH_PROVIDERS_REMOVECUSTOMER = 'AUTH_PROVIDERS_REMOVECUSTOMER';
 export const AUTH_PROVIDERS_LISTALL = 'AUTH_PROVIDERS_LISTALL';
 
-export function leanProvider(provider: Provider__Type): Provider__Type {
-  return {
-    id: provider._id!.toString(),
-    _id: provider._id,
-    name: provider.name,
-    admins: provider.admins.map(admin => leanUser(admin)),
-    coaches: provider.coaches.map(coach => leanUser(coach)),
-    customers: provider.customers.map(customer => leanUser(customer)),
-  };
-}
-
 export default {
-  async create({ name }: { name: string }, owner: UserType) {
+  async create({ name }: { name: string }, owner: User) {
     await throwAuth(AUTH_PROVIDERS_CREATE, { owner });
 
     const provider = await ProviderModel.create({ name, admins: [], coaches: [], customers: [] });
     return provider;
   },
 
-  async updateAdmins({ providerId, admins }: { providerId: string; admins: string[] }, owner: UserType) {
+  async updateAdmins({ providerId, admins }: { providerId: string; admins: string[] }, owner: User) {
     if (!providerId) throw new ValidationError('providedId is required');
 
     const provider = await ProviderModel.findById(providerId);
@@ -43,7 +31,7 @@ export default {
     return true;
   },
 
-  async updateCoaches({ providerId, coaches }: { providerId: string; coaches: string[] }, owner: UserType) {
+  async updateCoaches({ providerId, coaches }: { providerId: string; coaches: string[] }, owner: User) {
     if (!owner) throw new AuthorizationError('Owner of operation is required');
 
     const provider = await ProviderModel.findById(providerId);
@@ -54,7 +42,7 @@ export default {
     return true;
   },
 
-  async addCustomer(providerId: string, newUser: UserType | string, owner: UserType) {
+  async addCustomer(providerId: string, newUser: User | string, owner: User) {
     if (isEmpty(providerId)) throw new ValidationError('providerId is required');
     if (typeof newUser === 'string' && isEmpty(newUser)) throw new ValidationError('newUser is required');
 
@@ -67,7 +55,7 @@ export default {
     return true;
   },
 
-  async removeCustomer(providerId: string, userToRemove: UserType | string, owner: UserType) {
+  async removeCustomer(providerId: string, userToRemove: User | string, owner: User) {
     if (isEmpty(providerId)) throw new ValidationError('providerId is required');
     if (typeof userToRemove === 'string' && isEmpty(userToRemove))
       throw new ValidationError('userToRemove is required');
@@ -82,7 +70,7 @@ export default {
     return true;
   },
 
-  async list(owner: UserType) {
+  async list(owner: User) {
     await throwAuth(AUTH_PROVIDERS_LISTALL, { owner });
     return ProviderModel.find()
       .populate('admins')

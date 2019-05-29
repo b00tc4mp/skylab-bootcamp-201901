@@ -55,8 +55,7 @@ describe.only('sessions', function() {
         visibility,
       });
       expect(sessionId).not.to.be.undefined;
-      expect(sessionId)
-        .to.be.a('string');
+      expect(sessionId).to.be.a('string');
       const _sessions = await SessionModel.find();
       expect(_sessions).to.have.lengthOf(1);
       const _session = _sessions[0];
@@ -84,7 +83,5 @@ describe.only('sessions', function() {
         .to.have.property('visibility')
         .and.be.equal(visibility);
     });
-
-    
   });
 });

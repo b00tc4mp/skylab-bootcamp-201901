@@ -1,16 +1,6 @@
-import { Types } from 'mongoose';
 import { Field, ID, ObjectType } from 'type-graphql';
 import { arrayProp, instanceMethod, prop, Ref, Typegoose } from 'typegoose';
-import { User, UserType } from './user';
-
-export type Provider__Type = {
-  id?: string;
-  _id?: Types.ObjectId;
-  name: string;
-  admins: UserType[];
-  coaches: UserType[];
-  customers: UserType[];
-};
+import { User } from './user';
 
 @ObjectType()
 export class Provider extends Typegoose {
@@ -34,7 +24,7 @@ export class Provider extends Typegoose {
   customers: Ref<User>[];
 
   @instanceMethod
-  isAdmin(this: Provider, user: UserType | string) {
+  isAdmin(this: Provider, user: User | string) {
     const userId = typeof user === 'string' ? user : (user as any)._id.toString();
     const result = this.admins.some(admin => {
       return (admin as any).toString() === userId;
@@ -43,7 +33,7 @@ export class Provider extends Typegoose {
   }
 
   @instanceMethod
-  isCustomer(this: Provider, user: UserType | string) {
+  isCustomer(this: Provider, user: User | string) {
     const userId = typeof user === 'string' ? user : (user as any)._id.toString();
     const result = this.customers.some(customer => {
       return (customer as any).toString() === userId;

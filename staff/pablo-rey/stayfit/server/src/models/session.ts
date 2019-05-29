@@ -1,9 +1,9 @@
+import { Types } from 'mongoose';
 import { Field, ID, ObjectType, Root } from 'type-graphql';
 import { arrayProp, instanceMethod, prop, Ref, Typegoose } from 'typegoose';
-import { Provider, Provider__Type } from './provider';
-import { SessionType, SessionType__Type } from './session-type';
-import { User, UserType } from './user';
-import { Types } from 'mongoose';
+import { Provider } from './provider';
+import { SessionType } from './session-type';
+import { User } from './user';
 
 export const ACTIVE = 'ACTIVE';
 export const CANCELLED = 'CANCELLED';
@@ -24,12 +24,12 @@ export type Session__Type = {
   id?: string;
   _id?: Types.ObjectId;
   title: string;
-  provider: Provider__Type;
-  coaches: UserType[];
+  provider: Provider;
+  coaches: User[];
   startTime: Date;
   endTime: Date;
   maxAttendants: number;
-  type: SessionType__Type;
+  type: SessionType;
   status: string;
   visibility: string;
 };
