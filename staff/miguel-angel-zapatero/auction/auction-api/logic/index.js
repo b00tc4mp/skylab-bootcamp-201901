@@ -116,20 +116,32 @@ const logic = {
             const item = await Item.findById(itemId)
             if(!item) throw new LogicError(`item with id ${id} doesn't exists`)
 
+            let bid = item.winningBid()
+            if(bid && bid.amount >= amount) throw new LogicError(`sorry, the bid is lower than the current amount`)
+
             userId = ObjectId(userId)            
-            const bid = await Bid.create({userId, amount})
+            bid = await Bid.create({userId, amount})
             
-            //---start add to addItem?¿
-            const index = user.items.findIndex(item => item.toString() === itemId)
-            if (index < 0) {
-                user.items.push(itemId)
-                await user.save()
-            }
-            //--- end add to addItem?¿
+            this._addBiddedItem(user, itemId)
 
             item.bids.push(bid)
             await item.save()
         })()
+    },
+
+    /**
+     * Add a bidded item into the user historial
+     * 
+     * @param {Object} user The data user
+     * @param {String} itemId The item id
+     */
+    async _addBiddedItem(user, itemId) {
+        const index = user.items.findIndex(item => item.toString() === itemId)
+        
+        if (index < 0) {
+            user.items.push(itemId)
+            await user.save()
+        }
     },
 
     /**
@@ -143,10 +155,17 @@ const logic = {
         validate.arguments([
             { name: 'query', value: query, type: 'object'},
         ])
+        
+        const parseQuery = this._queryParser(query)
 
         return (async () => {
             return await Item.find(query).lean()
         })()
+    },
+    //ACABAR CON LA FUNCIÓN SEARCH
+    _queryParser(dataQuery) {
+        
+        const result = 'hola'
     },
 
     /**
@@ -166,10 +185,32 @@ const logic = {
         })()
     },
 
-    //LIKE ADD TO FAVOURITES
-    addItem(userId, itemId) {
-        //TODO
-    },
+    // /**
+    //  * Retrieve the bids on the given item id
+    //  * 
+    //  * @param {String} id The item id
+    //  * 
+    //  * @returns {Array} The item bids 
+    //  */
+    // retrieveItemBids(id) {
+    //     validate.arguments([
+    //         { name: 'id', value: id, type: 'string', notEmpty: true },
+    //     ])
+    //     //SE PUEDE HACER HACIENDO LINK EN BIDS
+    //     return (async () => {
+    //         const bids = await Item.findById(id)
+    //             .populate({
+    //                 path: 'bids',
+    //                 model: 'Bid',
+    //                 populate: {
+    //                     path: 'userId',
+    //                     model: 'User'
+    //                 }
+    //             }).lean()
+    //         debugger 
+    //         return bids.bids
+    //     })()
+    // },
 
     //LIKE ADD TO FAVOURITES
     addToCalendar(userId, auctionId) {
@@ -184,24 +225,29 @@ const logic = {
      * @param {Number} startPrice The start price for the item
      * @param {String} startDate The date when start the item auction
      * @param {String} finishDate The date when finish the item auction 
-     * @param {Number} reservedPrice The price if the item is reserved
+     * @param {Number} reservedPrice The price if the item is reserved 
+     * @param {String} images The item images
+     * @param {String} category The item category
+     * @param {String} city The city where the item auction is showing
      */
-    createItem(title, description, startPrice, startDate, finishDate, reservedPrice) {
+    createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city) {
         validate.arguments([
             { name: 'title', value: title, type: 'string', notEmpty: true },
             { name: 'description', value: description, type: 'string', notEmpty: true },
             { name: 'startPrice', value: startPrice, type: 'number', notEmpty: true },
             { name: 'startDate', value: startDate, type: 'string', notEmpty: true },
             { name: 'finishDate', value: finishDate, type: 'string', notEmpty: true },
-            { name: 'reservedPrice', value: reservedPrice, type: 'number', optional: true}
+            { name: 'reservedPrice', value: reservedPrice, type: 'number', optional: true},
+            { name: 'images', value: images, type: 'string', optional: true },
+            { name: 'category', value: category, type: 'string', notEmpty: true },
+            { name: 'city', value: city, type: 'string', notEmpty: true }
         ])
 
         return (async () => {
-            startDate = moment(startDate, 'DD/MM/YYYY', true).format()
-            finishDate = moment(finishDate, 'DD/MM/YYYY', true).format()
+            startDate = moment(startDate, 'DD-MM-YYYY', true).format()
+            finishDate = moment(finishDate, 'DD-MM-YYYY', true).format()
 
-            const item = await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice})
-            debugger
+            await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city})
         })()
     },
 
