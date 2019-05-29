@@ -3,9 +3,10 @@ const handleErrors = require('../../middlewares/handle-errors')
 
 module.exports = (req, res) => {
     handleErrors(async () => {
-        const { userId , body } = req
 
-        const user = await logic.updateUser(userId, body)
+        const { userId } = req
+
+        const user = await logic.removeUser(userId)
 
         return res.json(user)
         

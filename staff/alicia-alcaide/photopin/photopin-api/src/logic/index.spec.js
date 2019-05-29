@@ -1,10 +1,10 @@
-/* eslint-disable no-undef */
 require('dotenv').config()
 
 const { mongoose, models: { User, PMap, Pin } } = require('photopin-data')
-const expect = require('chai')
+const expect = require('chai').expect
 const logic = require('.')
 const bcrypt = require('bcrypt')
+const { LogicError, RequirementError, ValueError } = require('photopin-errors')
 
 
 const { env: { MONGODB_URL_API_LOGIC_TEST : url } } = process
@@ -13,8 +13,7 @@ const { env: { MONGODB_URL_API_LOGIC_TEST : url } } = process
 describe('logic', () => {
     before(async () => {
         try {
-            await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
-            //await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false })
+            await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false })
             console.log(`connected to ${url} database`)
         } catch (error) {
             console.log(error, error.message)
@@ -41,29 +40,30 @@ describe('logic', () => {
         await User.deleteMany()
     })
 
+
     describe('users', () => {
 
         describe('register user', () => {
             it('should succeed on correct data', async () => {
-                debugger
-                const newId = await logic.registerUser(name, surname, email, password)
-                debugger
+                
+                await logic.registerUser(name, surname, email, password)
+                
                 const user = await User.findOne({email})
-                debugger
+                
                 expect(user.name).to.equal(name)
                 expect(user.surname).to.equal(surname)
                 expect(user.email).to.equal(email)
-                expect(await bcrypt.compare(user.password, password)).to.be.true
+                
+                const match = await bcrypt.compare(password, user.password)
+                expect(match).to.be.true
             })
                 
-
             it('should fail on retrying to register an already existing user', async () => {
                 try {
                     await User.create({name, surname, email, password})   
                     await logic.registerUser(name, surname, email, password)
                     throw Error('should not reach this point')
                 } catch (error) {
-                    debugger
                     expect(error).to.be.instanceOf(LogicError)
                     expect(error.message).to.equal(`user with email ${email} already exists`)
                 }
@@ -89,58 +89,31 @@ describe('logic', () => {
 
             //TODO resto de casos síncronos de variables obligatorias (name, surname, password)
 
-            describe('after created user', () =>{
-                let user, _password
-    
-                beforeEach(async() => {
-                    _password = bcrypt.hashSync(password, 10)
-                    user = await User.create({name, surname, email, password: _password})
-                })
-    
-                describe('authenticate user', () => {
-                    it('should success on correct data', async () => {
-                        const id = await logic.authenticateUser(email, password)
-    
-                        expect(id).to.equal(user.id)
-                    })
-                })
-    
-                describe('retrieve user', () => {
-                    it('should success on correct user id', async () => {
-                        const _user = await logic.retrieveUser(user.id)
-    
-                        expect(_user.id).toBeUndefined()
-                        expect(_user.name).to.equal(user.name)
-                        expect(_user.surname).to.equal(user.surname)
-                        expect(_user.email).to.equal(user.email)
-                    })
-                })
-            })
 
         })
 
         describe('authenticate user', () => {
             let user
 
-            beforeEach(async () => user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 11) }))
+            beforeEach(async () => user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 10) }))
 
             it('should succeed on correct credentials', async () => {
+            
                 const id = await logic.authenticateUser(email, password)
 
                 expect(id).to.exist
                 expect(id).to.be.a('string')
-
                 expect(id).to.equal(user.id)
             })
 
             it('should fail on non-existing user',async () => {
+                const _email = 'unexisting-user@mail.com'
                 try {
-                    await logic.authenticateUser('unexisting-user@mail.com', password)
+                    await logic.authenticateUser(_email, password)
                     throw Error('should not reach this point')
                 } catch (error) {
-                    debugger
                     expect(error).to.be.instanceOf(LogicError)
-                    expect(error.message).to.equal(`user with email ${email} already exists`)
+                    expect(error.message).to.equal(`user with email ${_email} doesn't exists`)
                 }
             })
             
@@ -149,7 +122,6 @@ describe('logic', () => {
                     await logic.authenticateUser(email, 'incorrect password')
                     throw Error('should not reach this point')
                 } catch (error) {
-                    debugger
                     expect(error).to.be.instanceOf(LogicError)
                     expect(error.message).to.equal(`wrong credentials`)
                 }
@@ -160,7 +132,7 @@ describe('logic', () => {
         describe('retrieve user', () => {
             let user
 
-            beforeEach(async () => user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 11) }))
+            beforeEach(async () => user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 10) }))
 
             it('should succeed on correct id from existing user', async () => {
                 const _user = await logic.retrieveUser(user.id)
@@ -174,13 +146,11 @@ describe('logic', () => {
             })
 
             it('should fail on incorrect user id', async() => {
-                const wrongId = '5cb9998f2e59ee0009eac02c'
-
+                const wrongId = '342452654635'
                 try {
                     await logic.retrieveUser(wrongId)
                     throw Error('should not reach this point')
                 } catch (error) {
-                    debugger
                     expect(error).to.be.instanceOf(LogicError)
                     expect(error.message).to.equal(`user with id ${wrongId} doesn't exists`)
                 }
@@ -188,28 +158,138 @@ describe('logic', () => {
 
         })
 
-        xdescribe('update user' , () => {
-            //TODO
-            it('should succeed on correct data', () => {
+        describe('update user' , () => {
+            let user, _name, _surname, _email, _avatar, _language, userUp, userId
+
+            beforeEach(async () => {
+                user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 10) })
+                userId = user.id
+                _name = user.name + '-MOD'
+                _surname = user.surname + '-MOD'
+                _email = user.email + '-MOD'
+                _avatar = 'newAvatar'
+                _language = 'ES'
+                userUp = { name: _name, surname: _surname, email: _email, avatar: _avatar, language: _language }
+            }) 
+
+            it('should succeed on correct data', async () => {
+
+                await logic.updateUser(userId, userUp)
+                
+                const userMod = logic.retrieveUser(userId)
+                
+                expect(userMod.name).to.equal(userUp._name)
+                expect(userMod.surname).to.equal(userUp._surname)
+                expect(userMod.email).to.equal(userUp._email)
+                expect(userMod.avatar).to.equal(userUp._avatar)
+                expect(userMod.language).to.equal(userUp._language)
+                expect(userMod.password).to.be.undefined
 
             })
 
-            it('should fail on incorrect id user', () => {
+            it('should fail on incorrect id user', async () => {
 
+                const wrongId = '342452654635'
+
+                try {
+                    await logic.updateUser(wrongId, userUp)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`user with id ${wrongId} doesn't exists`)
+                }
             })
 
-            //TODO validaciones síncronas
+            it('should fail on undefined id', () => {
+                expect(() => logic.updateUser(undefined, userUp)).to.throw(RequirementError, `id is not optional`)
+            })
+    
+            it('should fail on null id', () => {
+                expect(() => logic.updateUser(null, userUp)).to.throw(RequirementError, `id is not optional`)
+            })
+    
+            it('should fail on empty id', () => {
+                expect(() => logic.updateUser('', userUp)).to.throw(ValueError, 'id is empty')
+            })
+    
+            it('should fail on blank id', () => {
+                expect(() => logic.updateUser(' \t    \n', userUp)).to.throw(ValueError, 'id is empty')
+            })
+    
+            it('should fail on a not string id', () => {
+                expect(() => logic.updateUser(123, userUp)).to.throw(TypeError, `id 123 is not a string`)
+            })
+
+            it('should fail on undefined user data', () => {
+                expect(() => logic.updateUser(userId, undefined)).to.throw(RequirementError, `data is not optional`)
+            })
+    
+            it('should fail on null user data', () => {
+                expect(() => logic.updateUser(userId, null)).to.throw(RequirementError, `data is not optional`)
+            })
+
+            it('should fail on a not object data', () => {
+                expect(() => logic.updateUser(userId, 'data')).to.throw(TypeError, 'data data is not a object')
+            })
+
         })
 
-        xdescribe('delete user' , () => {
-            //TODO
-            it('should succeed on correct data', () => {
+        describe('remove user' , () => {
+            let user, userId
 
+            beforeEach(async () => {
+                user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 10) })
+                userId = user.id
+            }) 
+
+            it('should succeed on correct credentials', async () => {
+                try {
+                    await logic.removeUser(userId, password)
+                }
+                catch(error) {
+                    throw Error('should not reach this point')
+                }
+            
+                let _user
+                try {
+                    _user = logic.retrieveUser(userId)
+                }
+                catch(error) {
+                    expect(_user).to.be.undefined
+                }
             })
 
-            it('should fail on incorrect id user', () => {
+            it('should fail on incorrect id user', async () => {
 
+                const wrongId = '342452654635'
+
+                try {
+                    await logic.removeUser(wrongId, password)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`user with id ${wrongId} doesn't exists`)
+                }
             })
+
+            it('should fail on undefined id', () => {
+                expect(() => logic.removeUser(undefined, password)).to.throw(RequirementError, `id is not optional`)
+            })
+    
+            it('should fail on null id', () => {
+                expect(() => logic.removeUser(null, password)).to.throw(RequirementError, `id is not optional`)
+            })
+    
+            it('should fail on empty id', () => {
+                expect(() => logic.removeUser('', password)).to.throw(ValueError, 'id is empty')
+            })
+    
+            it('should fail on blank id', () => {
+                expect(() => logic.removeUser(' \t    \n', password)).to.throw(ValueError, 'id is empty')
+            })        
+
         })
 
     })
@@ -222,6 +302,7 @@ describe('logic', () => {
     xdescribe('pins', () => {
         //TODO
     })
+
 
     after(() => mongoose.disconnect())
 })

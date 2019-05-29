@@ -19,4 +19,4 @@ const pin = new Schema({
     }
 })
 
-module.exports = { pin }
+module.exports = pin

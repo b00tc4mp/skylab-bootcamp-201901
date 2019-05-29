@@ -1,5 +1,5 @@
-const { Schema, Schema: { Types: { ObjectId }} }  = require ('mongoose')
-
+const { Schema }  = require ('mongoose')
+const { Types: { ObjectId }} = Schema
 
 const user = new Schema({
     name: { type: String, required: [true, 'name required'] },
@@ -15,10 +15,10 @@ const user = new Schema({
             message: props => `${props.value} is not a valid email`
         }
     },
-    password: {type: String, required: [true, 'password required']}
-    //avatar: { type: String },
-    //language: { type: String,  default: 'EN' },
-    //favoritePublicMap: [{ type: ObjectId, ref: 'PMap' }]    
+    password: { type: String, required: [true, 'password required'] },
+    avatar: { type: String },
+    language: { type: String,  default: 'EN' },
+    favoritePublicMap: [{ type: ObjectId, ref: 'PMap' }]    
 })
 
-module.exports = { user }
+module.exports = user
