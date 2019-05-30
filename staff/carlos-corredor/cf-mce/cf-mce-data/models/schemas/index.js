@@ -14,7 +14,7 @@ const product = new Schema({
 const note = new Schema({
     text: { type: String, required: true },
     date: { type: Date, default: Date.now },
-    user: { type: Schema.Types.ObjectId, ref: 'User', required: true },
+    author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
 })
 
 const user = new Schema({
