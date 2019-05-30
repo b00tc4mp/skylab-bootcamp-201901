@@ -17,6 +17,7 @@
     "mongo": "^0.1.0",
     "mongodb": "^3.2.5",
     "mongoose": "^5.5.11",
+    "nyc": "^14.1.1",
     "validator": "^11.0.0"
   },
   "devDependencies": {
@@ -29,7 +30,12 @@
     "watch": "nodemon .",
     "debug": "node debug .",
     "test": "mocha",
-    "test:debug": "node debug node_modules/jest/bin/jest.js --runInBand --watchAll"
+    "test:debug": "node debug node_modules/jest/bin/jest.js --runInBand --watchAll",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.spec.js"
+
+  },
+  "nyc": {
+    "exclude": "**/*.spec.js"
   },
   "keywords": [],
   "author": "",

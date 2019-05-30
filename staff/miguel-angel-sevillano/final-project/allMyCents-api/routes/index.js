@@ -132,8 +132,55 @@ router.delete('/ticket/delete', auth, (req, res) => {                       //DE
     }, res)
 })
 
+router.put('/alert/addAlert', auth, jsonParser, (req, res) => {                       //ADD ALERT
+
+    handleErrors(async () => {
+        const { userId, body } = req
+
+        let user = await logic.addAlert(userId, body)
+        res.json(user)
+    }, res)
+})
+
+router.get('/alert/listAlerts', auth, jsonParser, (req, res) => {                       //LIST ALERTS
+
+    handleErrors(async () => {
+        const { userId} = req
+
+        let user = await logic.listAlerts(userId)
+        res.json(user)
+    }, res)
+})
+
+router.put('/alert/update/:alertId', auth, jsonParser, (req, res) => {            //UPDATE AN ALERT VALUE
+    handleErrors(async () => {
+        const { userId, params: { alertId }, body } = req
+
+        let user = await logic.editAlert(userId, alertId, body)
+        res.json(user)
+    }, res)
+})
 
 
+router.delete('/alert/delete/:alertId', auth, (req, res) => {                       //DELETE AN ALERT
+
+    handleErrors(async () => {
+        const { userId,params: { alertId } } = req
+
+        let user = await logic.deleteAlert(userId,alertId)
+        res.json(user)
+    }, res)
+})
+
+router.delete('/alert/delete/', auth, (req, res) => {                       //DELETE ALL ALERTS
+
+    handleErrors(async () => {
+        const { userId} = req
+
+        let user = await logic.deleteAllAlerts(userId)
+        res.json(user)
+    }, res)
+})
 
 
 

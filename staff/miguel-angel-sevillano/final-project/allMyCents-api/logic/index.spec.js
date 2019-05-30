@@ -21,7 +21,7 @@ describe('logic', () => {
 
 
     beforeEach(async () => {
-        
+
         email = `MiguelAngel-${Math.random()}@gmail.com`
 
     })
@@ -46,7 +46,7 @@ describe('logic', () => {
 
                     try {
                         await logic.registerUser(name, surname, email, password)
-
+                        /* istanbul ignore next */
                         throw Error('should not reach this point')
 
                     } catch (error) {
@@ -291,6 +291,19 @@ describe('logic', () => {
 
             })
 
+            it('should succed listing all tickets', async () => {
+
+
+                await logic.addPrivateTicket(id, ticket_1)
+                await logic.addPrivateTicket(id, ticket_2)
+
+                const tickets = await logic.listPrivateTickets(id)
+
+                expect(tickets).to.exist
+                expect(tickets).to.have.lengthOf(2)
+
+            })
+
             it('should succeed removing a private ticket', async () => {
 
                 await logic.addPrivateTicket(id, ticket_1)
@@ -389,8 +402,8 @@ describe('logic', () => {
 
             it("sould return product name and amount by category ", async () => {
 
-                const category= "frutas"
-                const products= await logic.retrieveByCategory(id, category)
+                const category = "frutas"
+                const products = await logic.retrieveByCategory(id, category)
 
                 expect(products[0]).to.exist
                 expect(products[0].name).to.be.equal("pera")
@@ -403,7 +416,7 @@ describe('logic', () => {
 
             let user
             let id
-            let alert = { name: "platanos",maxValue:100 }
+            let alert = { name: "platano", maxValue: 100 }
 
             beforeEach(async () => {
                 user = await User.create({ name, surname, email, password })
@@ -424,11 +437,30 @@ describe('logic', () => {
 
             })
 
+            it('should fail adding an alert if item dont exist', async () => {
+
+
+                try {
+                    await logic.addAlert(id, { name: "PINCHOS", maxValue: 300 })
+                } catch (err) { expect(err.message).to.equal('PINCHOS dont exist') }
+
+            })
+
+            it('should fail adding an alert that already exist', async () => {
+
+
+                try {
+                    await logic.addAlert(id, alert)
+                    await logic.addAlert(id, alert)
+
+                } catch (err) { expect(err.message).to.equal('Alert already added') }
+
+            })
+
 
             it('should succeed deleting an alert', async () => {
 
 
-                await logic.addAlert(id, alert)
                 await logic.addAlert(id, alert)
 
                 const user = await User.findById(id).lean()
@@ -442,8 +474,21 @@ describe('logic', () => {
                 const { alerts: _alerts } = _user
 
                 expect(_alerts).to.exist
-                expect(_alerts).to.have.lengthOf(1)
-                expect(_alerts[0].name).to.equal(alert.name)
+                expect(_alerts).to.have.lengthOf(0)
+
+            })
+
+            it('should succeed deleting all alerts', async () => {
+
+
+                await logic.addAlert(id, alert)
+                const response = await logic.deleteAllAlerts(id)
+
+                expect(response).to.equal("Alerts succesfully deleted")
+
+                const { alerts } = await User.findById(id).lean()
+
+                expect(alerts).to.have.lengthOf(0)
 
             })
 
@@ -470,33 +515,26 @@ describe('logic', () => {
 
             })
 
-            it('should fail adding  if item dont exist', async () => {
+
+
+            it('should succeed listing all alerts', async () => {
+
 
                 await logic.addAlert(id, alert)
+                await logic.listAlerts(id)
+                const { alerts } = await User.findById(id)
 
-                const user = await User.findById(id).lean()
-                const { alerts } = user
-
-                let alertId = alerts[0]._id.toString()
-
-                let data = { name: "PINCHOS" }
-
-                const response =await logic.editAlert(id, alertId, data)
-
-                expect(response).to.equal('PINCHOS dont exist')
+                expect(alerts).to.exist
+                expect(alerts).to.have.lengthOf(1)
+                expect(alerts[0].maxValue).to.equal(alert.maxValue)
 
             })
-
-
-
 
 
         })
 
 
     })
-
-
 
     after(() => mongoose.disconnect())
 

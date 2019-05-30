@@ -271,6 +271,25 @@ const logic = {
 
     },
 
+    listPrivateTickets(id) {                                                        //LIST ALL TICKETS----------------------------------
+
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+            const user = await User.findById(id)
+
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+            if (user.id != id) throw new LogicError(`worng credentials `)
+
+            if(user.tickets.length) return user.tickets
+            else throw new LogicError("No tickets found")
+        })()
+
+    },
+
+
 
     removePrivateTicket(id, ticketId) {                                                      //DELETE TICKET-----------------------------------
         validate.arguments([
@@ -314,26 +333,6 @@ const logic = {
         })()
 
     },
-
-
-    listPrivateTickets(id) {                                                        //LIST ALL TICKETS----------------------------------
-
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
-        ])
-
-        return (async () => {
-            const user = await User.findById(id)
-
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
-
-            return user.tickets
-        })()
-
-    },
-
-
 
     //TICKET ITEMS----------------------------------------------------------------------------------------------
 
@@ -429,19 +428,87 @@ const logic = {
         ])
 
         return (async () => {
+
+            const { name, maxValue } = alert
+
             const user = await User.findById(id)
+            const list = await Item.findOne({ text: name })
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
 
-            const list = Item.find(alert.name)
+            if (typeof user.alerts[0] != "undefined") {
 
-            if(!list) user.alerts.push(new Alert({ name: alert.name, maxValue: alert.maxValue }))
-            else throw new LogicError(`${alert.name} dont exist`)
+                user.alerts.forEach(item => {
 
+                    if (item.name === name) throw new LogicError("Alert already added")
+                    else {
+
+                        list ? user.alerts.push(new Alert({ name: name, maxValue: maxValue })) : new LogicError(`${name} dont exist`)
+                    }
+                })
+            } else {
+                list ? user.alerts.push(new Alert({ name: name, maxValue: maxValue })) : new LogicError(`${name} dont exist`)
+
+            }
 
             await user.save()
+            return ("Alert succesfully added")
+        })()
+    },
+
+
+    listAlerts(id) {                                                               //LIST ALERTS---------------------------------
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+
+            let user = await User.findById(id)
+            const { alerts } = user
+
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+            if (user.id != id) throw new LogicError(`worng credentials `)
+
+            if (alerts.length) return alerts
+            else throw new LogicError("No alerts found")
+
+
+        })()
+    },
+
+    editAlert(id, alertId, data) {                                                                  //EDIT ALERT------------------------
+
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'alertId', value: alertId, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object', notEmpty: true }
+        ])
+
+        return (async () => {
+
+            let user = await User.findById(id)
+            let { alerts } = user
+            let added = false
+
+
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+            if (user.id != id) throw new LogicError(`worng credentials `)
+
+            alerts.forEach(item => {
+
+                if (item.id === alertId) {
+                    item.maxValue = data.maxValue
+                    added = true
+                }
+            })
+            if (!added) throw new LogicError("Alert dosen't exist")
+
+            await user.save()
+            return ("Alert succesfully updated")
+
         })()
     },
 
@@ -455,43 +522,46 @@ const logic = {
 
             let user = await User.findById(id)
             let { alerts } = user
+            let deleted = false
+
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
             alerts.forEach((items, index) => {
-                if (items._id.toString() === alertId) alerts.splice(index, 1)
-
+                if (items._id.toString() === alertId) {
+                    alerts.splice(index, 1)
+                    deleted = true
+                }
             })
 
             await user.save()
+            deleted ? ("Alert succesfully deleted") : new LogicError("Alert dosen't exist")
+
         })()
     },
-    editAlert(id, alertId, data) {                                                                  //EDIT ALERT------------------------
+
+
+    deleteAllAlerts(id) {                                                                           //DELETE ALL ALERTS
 
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'alertId', value: alertId, type: 'string', notEmpty: true },
-            { name: 'data', value: data, type: 'object', notEmpty: true }
         ])
 
         return (async () => {
 
             let user = await User.findById(id)
-            let { alerts } = user
-
+            let alerts = []
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
-
-            alerts.forEach(alert => {
-                if (alert._id.toString() === alertId) {
-                    if (data.maxValue) alert.maxValue = data.maxValue
-                }
-            })
-
+            await User.findByIdAndUpdate(id, { alerts: alerts })
             await user.save()
+            return ("Alerts succesfully deleted")
+
         })()
+
+
     },
 
 
