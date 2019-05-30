@@ -1,26 +1,27 @@
 import * as bcrypt from 'bcryptjs';
-import { IsEmail, IsIn, Length } from 'class-validator';
+import { IsEmail, IsIn, Length, IsNotEmpty } from 'class-validator';
 import { Arg, Field, InputType, Mutation, Resolver, Ctx } from 'type-graphql';
-import { ValidationError } from './../../common/errors';
-import { ROLES, User, UserModel } from './../../models/user';
-import { throwAuth } from './../../logic/authorization';
+import { ValidationError } from '../../../common/errors';
+import { ROLES, User, UserModel } from '../../../models/user';
+import { checkAuth } from '../../authorization';
 import { isIn } from 'validator';
-import { MyContext } from './../../common/types/MyContext';
+import { MyContext } from '../../../common/types/MyContext';
 
 export const AUTH_USER_CREATE = 'AUTH_USER_CREATE';
 
 @InputType()
 export class CreateInput {
   @Field()
-  @Length(1, 40)
+  @IsNotEmpty()
   name: string;
 
   @Field()
-  @Length(1, 40)
+  @IsNotEmpty()
   surname: string;
 
   @Field()
   @IsEmail()
+  @IsNotEmpty()
   email: string;
 
   @Field()
@@ -46,8 +47,8 @@ export class CreateUserResolver {
     if (!isIn(role, ROLES)) throw new ValidationError('role must be one of [' + ROLES.join(',') + ']');
 
     // Authorization
-    const owner = ctx.user;
-    await throwAuth(AUTH_USER_CREATE, { owner, role });
+    const owner = ctx && ctx.user;
+    await checkAuth(AUTH_USER_CREATE, { owner, role });
 
     // Create
     const hashPassword = await bcrypt.hash(password!, 12);

@@ -9,6 +9,11 @@ import { SessionTypeModel } from './../../models/session-type';
 
 const { ObjectId } = mongoose.Types;
 
+export type userAndPlainPassword = {
+  user: User;
+  password?: string;
+};
+
 export function randomUser(_role?: string) {
   const name = faker.name.firstName();
   const surname = faker.name.lastName();
@@ -22,12 +27,16 @@ export function createRandomUser(_role?: string) {
   return UserModel.create(randomUser(_role));
 }
 
-export async function fillDbRandomUsers(users: User[] = [], num: number = 10, role?: string) {
+export async function fillDbRandomUsers(
+  users: userAndPlainPassword[] = [],
+  num: number = 10,
+  role?: string
+) {
   for (let ii = 0, ll = Math.max(random(num), 1); ii < ll; ii++) {
     const user = randomUser(role);
     const hashPassword = await bcrypt.hash(user.password!, 12);
     const dbUser = await UserModel.create({ ...user, password: hashPassword });
-    users.push(dbUser);
+    users.push({ user: dbUser, password: user.password });
   }
 }
 

@@ -40,6 +40,9 @@ export class User extends Typegoose {
   @prop({ required: true, default: GUEST_ROLE, enum: ROLES })
   role: string;
 
+  @prop({ default: 0})
+  refreshTokenCount: number
+
   @Field()
   fullName(@Root() parent: User): string {
     return `${parent.name} ${parent.surname}`;

@@ -1,23 +1,22 @@
-import { graphql, GraphQLSchema, DocumentNode } from 'graphql';
-import Maybe from 'graphql/tsutils/Maybe';
-
-import { createSchema } from './../../graphql/schema';
-import { User } from './../../models/User';
-
+import { DocumentNode, graphql, GraphQLSchema } from 'graphql';
 import { print } from 'graphql/language/printer';
+import Maybe from 'graphql/tsutils/Maybe';
+import { createSchema } from '../../graphql/schemas/rootSchema';
+import { User } from './../../models/User';
+import sinon = require('sinon');
+import { MyContext } from './../../common/types/MyContext';
 
 interface Options {
   source: string | DocumentNode;
   variableValues?: Maybe<{
     [key: string]: any;
   }>;
-  userId?: string;
-  user?: User;
+  ctx?: any | undefined;
 }
 
 let schema: GraphQLSchema;
 
-export const gCall = async ({ source, variableValues, user, userId }: Options) => {
+export const gCall = async ({ source, variableValues, ctx }: Options) => {
   if (!schema) {
     schema = await createSchema();
   }
@@ -26,14 +25,13 @@ export const gCall = async ({ source, variableValues, user, userId }: Options) =
     schema,
     source: _source,
     variableValues,
-    contextValue: {
-      req: {
-        userId,
-        user,
-      },
-      res: {
-        clearCookie: () => {}, //jest.fn()
-      },
-    },
+    contextValue: ctx,
   });
 };
+
+// For documentation
+// ctx: {
+//   res: { cookie: fakeCookie },
+//   userId: contextUserId,
+//   user: contextUser,
+// },

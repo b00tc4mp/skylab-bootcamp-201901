@@ -3,7 +3,7 @@ import { isEmpty } from 'validator';
 import { AuthorizationError, ValidationError } from '../../common/errors';
 import { ProviderModel } from '../../models/provider';
 import { User } from '../../models/user';
-import { throwAuth } from '../authorization';
+import { checkAuth } from '../../graphql/authorization';
 
 export const AUTH_PROVIDERS_CREATE = 'AUTH_PROVIDERS_CREATE';
 export const AUTH_PROVIDERS_UPDATEADMINS = 'AUTH_PROVIDERS_UPDATEADMINS';
@@ -14,7 +14,7 @@ export const AUTH_PROVIDERS_LISTALL = 'AUTH_PROVIDERS_LISTALL';
 
 export default {
   async create({ name }: { name: string }, owner: User) {
-    await throwAuth(AUTH_PROVIDERS_CREATE, { owner });
+    await checkAuth(AUTH_PROVIDERS_CREATE, { owner });
 
     const provider = await ProviderModel.create({ name, admins: [], coaches: [], customers: [] });
     return provider;
@@ -24,7 +24,7 @@ export default {
     if (!providerId) throw new ValidationError('providedId is required');
 
     const provider = await ProviderModel.findById(providerId);
-    await throwAuth(AUTH_PROVIDERS_UPDATEADMINS, { owner, provider });
+    await checkAuth(AUTH_PROVIDERS_UPDATEADMINS, { owner, provider });
 
     provider!.admins = admins.map(id => Types.ObjectId(id));
     await provider!.save();
@@ -35,7 +35,7 @@ export default {
     if (!owner) throw new AuthorizationError('Owner of operation is required');
 
     const provider = await ProviderModel.findById(providerId);
-    await throwAuth(AUTH_PROVIDERS_UPDATECOACHES, { owner, provider });
+    await checkAuth(AUTH_PROVIDERS_UPDATECOACHES, { owner, provider });
 
     provider!.coaches = coaches.map(id => Types.ObjectId(id));
     await provider!.save();
@@ -48,7 +48,7 @@ export default {
 
     const provider = await ProviderModel.findById(providerId);
     const newUserId = typeof newUser === 'string' ? newUser : (newUser as any)._id.toString();
-    await throwAuth(AUTH_PROVIDERS_ADDCUSTOMER, { owner, userId: newUserId, provider });
+    await checkAuth(AUTH_PROVIDERS_ADDCUSTOMER, { owner, userId: newUserId, provider });
 
     if (!provider!.isCustomer(newUser)) provider!.customers.push(Types.ObjectId(newUserId));
     await provider!.save();
@@ -62,7 +62,7 @@ export default {
 
     const provider = await ProviderModel.findById(providerId);
     const userId = typeof userToRemove === 'string' ? userToRemove : (userToRemove as any)._id.toString();
-    await throwAuth(AUTH_PROVIDERS_REMOVECUSTOMER, { owner, userId, provider });
+    await checkAuth(AUTH_PROVIDERS_REMOVECUSTOMER, { owner, userId, provider });
 
     if (!provider!.isCustomer(userToRemove)) return false;
     provider!.customers = provider!.customers.filter(customer => customer.toString() !== userId);
@@ -71,7 +71,7 @@ export default {
   },
 
   async list(owner: User) {
-    await throwAuth(AUTH_PROVIDERS_LISTALL, { owner });
+    await checkAuth(AUTH_PROVIDERS_LISTALL, { owner });
     return ProviderModel.find()
       .populate('admins')
       .populate('coaches')

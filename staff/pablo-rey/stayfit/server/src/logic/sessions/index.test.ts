@@ -20,7 +20,7 @@ const { expect } = chai;
 
 const { ObjectId } = mongoose.Types;
 
-describe.only('sessions', function() {
+describe('sessions', function() {
   this.timeout(5000);
 
   before(() => mongoose.connect(MONGODB_URL_TESTING!, { useNewUrlParser: true }));

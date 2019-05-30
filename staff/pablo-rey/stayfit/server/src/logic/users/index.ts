@@ -3,7 +3,7 @@ import { Schema } from 'mongoose';
 import { isEmail, isEmpty, isIn, isMongoId } from 'validator';
 import { AuthenticationError, LogicError, ValidationError } from '../../common/errors/index';
 import { ROLES, User, UserModel } from '../../models/user';
-import { throwAuth } from '../authorization';
+import { checkAuth } from '../../graphql/authorization';
 
 export const AUTH_USER_CREATE = 'AUTH_USER_CREATE';
 
@@ -16,7 +16,7 @@ export default {
     if (!isIn(role, ROLES)) throw new ValidationError('role must be one of [' + ROLES.join(',') + ']');
 
     // Authorization
-    await throwAuth(AUTH_USER_CREATE, { owner, role });
+    await checkAuth(AUTH_USER_CREATE, { owner, role });
 
     // Create
     const hashPassword = await bcrypt.hash(password!, 12);

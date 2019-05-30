@@ -1,8 +1,8 @@
 import { Arg, Ctx, Field, InputType, Mutation, Resolver } from 'type-graphql';
-import { MyContext } from './../../common/types/MyContext';
-import { throwAuth } from './../../logic/authorization';
-import { ProviderModel } from './../../models/provider';
-import { SessionType, SessionTypeModel } from './../../models/session-type';
+import { MyContext } from '../../../common/types/MyContext';
+import { checkAuth } from '../../authorization';
+import { ProviderModel } from '../../../models/provider';
+import { SessionType, SessionTypeModel } from '../../../models/session-type';
 
 export const AUTH_SERVICETYPE_CREATE = 'AUTH_SERVICETYPE_CREATE';
 export const AUTH_SERVICETYPE_RETRIEVE = 'AUTH_SERVICETYPE_RETRIEVE';
@@ -31,7 +31,7 @@ export class SessionTypeResolver {
     @Ctx() ctx: MyContext
   ) {
     const provider = await ProviderModel.findById(providerId);
-    await throwAuth(AUTH_SERVICETYPE_CREATE, { owner: ctx.user, provider });
+    await checkAuth(AUTH_SERVICETYPE_CREATE, { owner: ctx.user, provider });
     return await SessionTypeModel.create({ type, title, provider, active });
   }
 

@@ -16,10 +16,12 @@ import {
   AUTH_PROVIDERS_REMOVECUSTOMER,
   AUTH_PROVIDERS_UPDATEADMINS,
   AUTH_PROVIDERS_UPDATECOACHES,
-} from '../providers';
-import { AUTH_USER_CREATE } from './../../resolvers/users/create-user-resolver';
-import { Provider } from './../../models/provider';
-import { AUTH_SERVICETYPE_CREATE } from './../../resolvers/session-type/session-type-resolver';
+} from '../../logic/providers';
+import { AUTH_USER_CREATE } from '../resolvers/users/create-user-resolver';
+import { Provider } from '../../models/provider';
+import { AUTH_SERVICETYPE_CREATE } from '../resolvers/session-type/session-type-resolver';
+import { AUTH_AUTH_INVALIDATE_CREDENTIALS } from '../resolvers/auth/invalidate-credentials-resolver';
+import { AUTH_USER_LISTALL } from '../resolvers/users/list-all-users-resolver';
 
 export type AuthResult = {
   ok: boolean;
@@ -33,7 +35,7 @@ type Payload = {
   userId?: string | null;
 };
 
-export async function throwAuth(action: string, payload: Payload): Promise<void> {
+export async function checkAuth(action: string, payload: Payload): Promise<void> {
   const response = await authPolicies(action, payload);
   if (!response.ok) throw response.error;
 }
@@ -68,8 +70,14 @@ export async function authPolicies(action: string, payload: Payload): Promise<Au
       };
 
     // Only superadmin can do this
+    case AUTH_USER_LISTALL:
     case AUTH_PROVIDERS_UPDATEADMINS:
     case AUTH_PROVIDERS_CREATE:
+      return { ok: false, error: new AuthorizationError() };
+
+    // Only own user can do this
+    case AUTH_AUTH_INVALIDATE_CREDENTIALS:
+      if (owner.id.toString() === payload.userId) return { ok: true}
       return { ok: false, error: new AuthorizationError() };
 
     // Needs to be admin of provider
