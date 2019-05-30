@@ -11,15 +11,24 @@ dotenv.config()
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 
 describe('logic', ()=>{
+    let email, id, user
+    const name = `John`
+    const surname = `Smith`
+    const password = `123`
+    const profile = `admin`
+    const  country = `PL`
     before(()=> mongoose.connect(url, {useNewUrlParser:true}))
     beforeEach(async()=>{
-        await Issue.deleteMany()
-        await User.deleteMany()
+        //await Issue.deleteMany()
+        //await User.deleteMany()
+        email = `email-${Math.random()}@mail.com`
+        user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+        id= user.id
     })
     describe('load jira', ()=>{
         const month= 'May'
         it('should succeed on correct data', async ()=>{
-            const res= await logic.loadJirasByMonth(month)
+            const res= await logic.loadJirasByMonth(id, month)
             
             expect(res).to.be.undefined
             const issues= await Issue.find()
@@ -28,41 +37,87 @@ describe('logic', ()=>{
 
         it('should succeed on correct data loading more tha one month', async ()=>{
             const monthBefore= 'April'
-            await logic.loadJirasByMonth(monthBefore)
-            await logic.loadJirasByMonth(month)
+            await logic.loadJirasByMonth(id, monthBefore)
+            await logic.loadJirasByMonth(id, month)
             const issues= await Issue.find()
             expect(issues).to.exist
+        })
+
+        it('should fail on incorrect format id', async ()=>{
+            const id='LL'
+            try{
+                await logic.loadJirasByMonth(id, month)
+                throw Error('should not reach this point')
+
+            }catch(err){
+                expect(err.message).to.equals('invalid id')
+            }
+        })
+        
+        it('should fail on inexistent id', async ()=>{
+            const id='5cefc8d029db9f0ba2664b16'
+            try{
+                await logic.loadJirasByMonth(id, month)
+                throw Error('should not reach this point')
+
+            }catch(err){
+                expect(err.message).to.equals(`user with id "${id}" does not exist`)
+            }
         })
 
         it('should fail on undefined month', () => {
             const month = undefined
             
-            expect(() => logic.loadJirasByMonth(month)).to.throw(RequirementError, `month is not optional`)
+            expect(() => logic.loadJirasByMonth(id, month)).to.throw(RequirementError, `month is not optional`)
         })
         
         it('should fail on null month', () => {
             const month = null
             
-            expect(() => logic.loadJirasByMonth(month)).to.throw(RequirementError, `month is not optional`)
+            expect(() => logic.loadJirasByMonth(id, month)).to.throw(RequirementError, `month is not optional`)
         })
         
         it('should fail on empty month', () => {
             const month = ''
             
-            expect(() => logic.loadJirasByMonth(month)).to.throw(ValueError, 'month is empty')
+            expect(() => logic.loadJirasByMonth(id, month)).to.throw(ValueError, 'month is empty')
         })
         
         it('should fail on blank month', () => {
             const month = ' \t    \n'
             
-            expect(() => logic.loadJirasByMonth(month)).to.throw(ValueError, 'month is empty')
+            expect(() => logic.loadJirasByMonth(id, month)).to.throw(ValueError, 'month is empty')
+        })
+
+        it('should fail on undefined id', () => {
+            const id = undefined
+            
+            expect(() => logic.loadJirasByMonth(id, month)).to.throw(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on null id', () => {
+            const id = null
+            
+            expect(() => logic.loadJirasByMonth(id, month)).to.throw(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on empty id', () => {
+            const id = ''
+            
+            expect(() => logic.loadJirasByMonth(id, month)).to.throw(ValueError, 'id is empty')
+        })
+
+        it('should fail on blank id', () => {
+            const month = ' \t    \n'
+            
+            expect(() => logic.loadJirasByMonth(id, month)).to.throw(ValueError, 'id is empty')
         })
     })
     describe('issues', ()=>{
         const month='May'
-        beforeEach(async()=>{
-            await logic.loadJirasByMonth(month)
-        })
+        // beforeEach(async()=>{
+        //     await logic.loadJirasByMonth(month)
+        // })
         describe('calculate overdue',()=>{
             // const month='May'
             // beforeEach(async()=>{
@@ -102,17 +157,24 @@ describe('logic', ()=>{
             })
         })
         describe('retrieve Issues by Resolution', ()=>{
-            // const month ='May'
-            // beforeEach(async()=>{
-            //     await logic.loadJirasByMonth(month)
-            // })
-            
+        
             const startDate = '2019-05-01'
             const endDate = '2019-05-29'
-    
+            let id
+            beforeEach(async()=>{
+                name = `John`
+                surname = `Smith`
+                email = `email-${Math.random()}@mail.com`
+                password = `123`
+                profile = `admin`
+                country = `PL`
+                user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                id= user.id
+            })
+            
             it('should sucdeed on correct data', async ()=>{
                 
-                const response= await logic.retrieveIssuesByResolution('Bug', 'PL', startDate, endDate)
+                const response= await logic.retrieveIssuesByResolution(id,'Bug', 'PL', startDate, endDate)
                 expect(response).to.exist
             })
     
@@ -120,7 +182,7 @@ describe('logic', ()=>{
                 const startDate = '2019-05-02'
                 const endDate = '2019-05-01'
                 try{
-                    await logic.retrieveIssuesByResolution('Request', 'IT', startDate, endDate)
+                    await logic.retrieveIssuesByResolution(id,'Request', 'IT', startDate, endDate)
                     throw Error('should not reach this point')
                 }catch(err){
                     expect(err.message).to.equals('incorrect date range')
@@ -130,7 +192,7 @@ describe('logic', ()=>{
             it('should fail on incorrect country', async ()=>{
                 const country='LL'
                 try{
-                    await logic.retrieveIssuesByResolution('Request', country, startDate, endDate)
+                    await logic.retrieveIssuesByResolution(id,'Request', country, startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
@@ -141,7 +203,7 @@ describe('logic', ()=>{
             it('should fail on incorrect issueType', async ()=>{
                 const issueType='LL'
                 try{
-                    await logic.retrieveIssuesByResolution(issueType, 'IT', startDate, endDate)
+                    await logic.retrieveIssuesByResolution(id,issueType, 'IT', startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
@@ -152,7 +214,7 @@ describe('logic', ()=>{
             it('should fail on incorrect startDate', async ()=>{
                 const startDate='LL'
                 try{
-                    await logic.retrieveIssuesByResolution('Request', 'IT', startDate, endDate)
+                    await logic.retrieveIssuesByResolution(id,'Request', 'IT', startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
@@ -163,108 +225,154 @@ describe('logic', ()=>{
             it('should fail on incorrect endDate', async ()=>{
                 const endDate='LL'
                 try{
-                    await logic.retrieveIssuesByResolution('Request', 'IT', startDate, endDate)
+                    await logic.retrieveIssuesByResolution(id,'Request', 'IT', startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
                     expect(err.message).to.equals('incorrect date')
                 }
             })
+
+            it('should fail on incorrect format id', async ()=>{
+                const id='LL'
+                try{
+                    await logic.retrieveIssuesByResolution(id,'Request', 'IT', startDate, endDate)
+                    throw Error('should not reach this point')
+    
+                }catch(err){
+                    expect(err.message).to.equals('invalid id')
+                }
+            })
+
+            it('should fail on inexistent id', async ()=>{
+                const id='5cefc8d029db9f0ba2664b16'
+                try{
+                    await logic.retrieveIssuesByResolution(id,'Request', 'IT', startDate, endDate)
+                    throw Error('should not reach this point')
+    
+                }catch(err){
+                    expect(err.message).to.equals(`user with id "${id}" does not exist`)
+                }
+            })
     
             it('should fail on undefined issueType', () => {
                 const issueType = undefined
                 
-                expect(() => logic.retrieveIssuesByResolution(issueType, 'IT', startDate, endDate)).to.throw(RequirementError, `issueType is not optional`)
+                expect(() => logic.retrieveIssuesByResolution(id, issueType, 'IT', startDate, endDate)).to.throw(RequirementError, `issueType is not optional`)
             })
             
             it('should fail on null issueType', () => {
                 const issueType = null
                 
-                expect(() => logic.retrieveIssuesByResolution(issueType, 'IT', startDate, endDate)).to.throw(RequirementError, `issueType is not optional`)
+                expect(() => logic.retrieveIssuesByResolution(id, issueType, 'IT', startDate, endDate)).to.throw(RequirementError, `issueType is not optional`)
             })
             
             it('should fail on empty issueType', () => {
                 const issueType = ''
                 
-                expect(() => logic.retrieveIssuesByResolution(issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
+                expect(() => logic.retrieveIssuesByResolution(id, issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
             })
             
             it('should fail on blank issueType', () => {
                 const issueType = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesByResolution(issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
+                expect(() => logic.retrieveIssuesByResolution(id, issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
             })
     
             it('should fail on undefined country', () => {
                 const country = undefined
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
             })
             
             it('should fail on null issueType', () => {
                 const country = null
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
             })
             
             it('should fail on empty country', () => {
                 const country = ''
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
             })
             
             it('should fail on blank country', () => {
                 const country = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
             })
     
             it('should fail on undefined startDate', () => {
                 const startDate = undefined
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
             })
             
             it('should fail on null startDate', () => {
                 const startDate = null
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
             })
             
             it('should fail on empty startDate', () => {
                 const startDate = ''
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
             })
             
             it('should fail on blank startDate', () => {
                 const startDate = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
             })
     
             it('should fail on undefined endDate', () => {
                 const endDate = undefined
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
             })
             
             it('should fail on null endDate', () => {
                 const endDate = null
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
             })
             
             it('should fail on empty endDate', () => {
                 const endDate = ''
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
             })
             
             it('should fail on blank endDate', () => {
                 const endDate = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesByResolution('Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+            })
+
+            it('should fail on undefined id', () => {
+                const id = undefined
+                
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on null id', () => {
+                const id = null
+                
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on empty id', () => {
+                const id = ''
+                
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'id is empty')
+            })
+            
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+            
+                expect(() => logic.retrieveIssuesByResolution(id,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'id is empty')
             })
             
         })
@@ -540,15 +648,15 @@ describe('logic', ()=>{
 
     })
     describe('users',()=>{
-        let name, surname, email, password, profile, country
-        beforeEach(()=>{
-            name = `John`
-            surname = `Smith`
-            email = `email-${Math.random()}@mail.com`
-            password = `123`
-            profile = `admin`
-            country = `PL`
-        })
+        // let name, surname, email, password, profile, country
+        // beforeEach(()=>{
+        //     name = `John`
+        //     surname = `Smith`
+        //     email = `email-${Math.random()}@mail.com`
+        //     password = `123`
+        //     profile = `admin`
+        //     country = `PL`
+        // })
         describe('registerUser', ()=>{
             it('should succeed on correct data', async ()=>{
             const res = await logic.registerUser(name, surname, email, password, profile, country)
@@ -735,10 +843,10 @@ describe('logic', ()=>{
 
         })
         describe('authenticateUser', ()=>{
-            let user
-            beforeEach(async()=>{
-                user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
-            })
+            // let user
+            // beforeEach(async()=>{
+            //     user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+            // })
 
             it('should succeed on correct credentials', async () => {
                 const id = await logic.authenticateUser(email, password)

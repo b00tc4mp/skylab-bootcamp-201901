@@ -1,14 +1,16 @@
-const {models:{Issue, User}, jiraApi} = require ('dashboard-data')
+const {models:{Issue, User}, jiraApi, mongoose:{Types}} = require ('dashboard-data')
 const moment = require('moment')
 const validate = require('dashboard-validate')
 const { LogicError , RequirementError , FormatError }= require('dashboard-errors')
 const argon2 = require('argon2')
 
 const logic = {
-    loadJirasByMonth(month){
+    loadJirasByMonth(id, month){
         validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true},
             { name: 'month', value: month, type: 'string', notEmpty: true},
         ])
+        if (!Types.ObjectId.isValid(id)) throw new FormatError('invalid id')
         let _month= moment().month(month)
         let start = moment(_month).startOf('month').format('YYYY-MM-DD')
         let end =moment(_month).endOf('month').format('YYYY-MM-DD')
@@ -16,6 +18,10 @@ const logic = {
         let endDate= moment(start).add(1, 'days').format('YYYY-MM-DD')
 
         return(async()=>{
+            
+            const user = await User.findById(id)
+            
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
 
             while(startDate<end){
                 
@@ -85,107 +91,17 @@ const logic = {
             await Issue.deleteMany()
         })()
     },
-    registerUser(name, surname, email, password, profile, country) {
-        validate.arguments([
-            { name: 'name', value: name, type: 'string', notEmpty: true},
-            { name: 'surname', value: surname, type: 'string', notEmpty: true},
-            { name: 'email', value: email, type: 'string', notEmpty: true},
-            { name: 'password', value: password, type: 'string', notEmpty: true},
-            { name: 'profile', value: profile, type: 'string', notEmpty: true},
-            { name: 'country', value: country, type: 'string', notEmpty: true},
-        ])
-
-        validate.email(email)
-
-        return (async () => {
-            const hash = await argon2.hash(password)
-            const user = await User.findOne({ email }) 
-            if (user) throw new LogicError(`user with username \"${email}\" already exists`)
-            await User.create({ name, surname, email, password: hash, profile, country })
-        })()
-    },
-    authenticateUser(email, password) {
-        validate.arguments([
-            { name: 'email', value: email, type: 'string', notEmpty: true},
-            { name: 'password', value: password, type: 'string', notEmpty: true},
-        ])
-        validate.email(email)
-
-        return (async () => {
-            const user = await User.findOne({ email })
-            
-            if (user && await argon2.verify(user.password, password)) return user.id
-            else throw new LogicError('wrong credentials')
-        })()
-    },
-    retrieveUser(id) {
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true}
-        ])
-
-        return (async () => {
-            
-            const user = await User.findById(id)
-            if(user){
-                const { name, surname, email, country, profile} = user
-                
-                return { name, surname, email, country, profile}
-
-            } else throw new LogicError('user not found')
-
-        })()
-    },
-    updateUser(id, name, surname, country ){
-        debugger
+    retrieveIssuesByResolution(id, issueType, country, startDate, endDate){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true},
-            { name: 'name', value: name, type: 'string', optional: true},
-            { name: 'surname', value: surname, type: 'string', optional: true},
-            { name: 'country', value: country, type: 'string', optional: true}
-        ])
-
-        return (async () => {
-            const user = await User.findById(id)
-        
-            if (!user) throw new LogicError(`user not found`)
-
-            const body = {
-                name: name || user.name,
-                surname: surname ||  user.surname,
-                country: country || user.country   
-            }
-            
-            await User.findByIdAndUpdate(id, body)
-            
-        })()
-    },
-    deleteUser(id){
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true}
-        ])
-        return (async () => {
-
-            const user = await User.findById(id)
-
-            if(user){
-
-                await User.findByIdAndRemove({_id:id})
-
-                return
-
-            } else throw new LogicError('user not found')
-
-        })()
-
-    },
-    retrieveIssuesByResolution(issueType, country, startDate, endDate){
-        validate.arguments([
             { name: 'issueType', value: issueType, type: 'string', notEmpty: true},
             { name: 'country', value: country, type: 'string', notEmpty: true},
             { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
             { name: 'endDate', value: endDate, type: 'string', notEmpty: true}
         ])
 
+        if (!Types.ObjectId.isValid(id)) throw new FormatError('invalid id')
+        
         if(!moment(startDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
         if(!moment(endDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
 
@@ -195,6 +111,9 @@ const logic = {
         if (endDate<startDate) throw new RequirementError ('incorrect date range')
         
         return (async()=>{
+            const user = await User.findById(id)
+            
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
 
             if(!await Issue.findOne({ country })) throw new RequirementError ('incorrect country')
         
@@ -369,7 +288,110 @@ const logic = {
             
             return table
         })()
+    },
+    registerUser(name, surname, email, password, profile, country) {
+        validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true},
+            { name: 'surname', value: surname, type: 'string', notEmpty: true},
+            { name: 'email', value: email, type: 'string', notEmpty: true},
+            { name: 'password', value: password, type: 'string', notEmpty: true},
+            { name: 'profile', value: profile, type: 'string', notEmpty: true},
+            { name: 'country', value: country, type: 'string', notEmpty: true},
+        ])
+
+        validate.email(email)
+
+        return (async () => {
+            try{
+                const hash = await argon2.hash(password)
+                const user = await User.findOne({ email }) 
+                if (user) throw new LogicError(`user with username \"${email}\" already exists`)
+                await User.create({ name, surname, email, password: hash, profile, country })
+
+            }catch(err){
+                debugger
+                throw Error (err.message)
+
+            }
+
+
+        })()
+    },
+    authenticateUser(email, password) {
+        validate.arguments([
+            { name: 'email', value: email, type: 'string', notEmpty: true},
+            { name: 'password', value: password, type: 'string', notEmpty: true},
+        ])
+        validate.email(email)
+
+        return (async () => {
+            const user = await User.findOne({ email })
+            
+            if (user && await argon2.verify(user.password, password)) return user.id
+            else throw new LogicError('wrong credentials')
+        })()
+    },
+    retrieveUser(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true}
+        ])
+
+        return (async () => {
+            
+            const user = await User.findById(id)
+            if(user){
+                const { name, surname, email, country, profile} = user
+                
+                return { name, surname, email, country, profile}
+
+            } else throw new LogicError('user not found')
+
+        })()
+    },
+    updateUser(id, name, surname, country ){
+        debugger
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true},
+            { name: 'name', value: name, type: 'string', optional: true},
+            { name: 'surname', value: surname, type: 'string', optional: true},
+            { name: 'country', value: country, type: 'string', optional: true}
+        ])
+
+        return (async () => {
+            const user = await User.findById(id)
+        
+            if (!user) throw new LogicError(`user not found`)
+
+            const body = {
+                name: name || user.name,
+                surname: surname ||  user.surname,
+                country: country || user.country   
+            }
+            
+            await User.findByIdAndUpdate(id, body)
+            
+        })()
+    },
+    deleteUser(id){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true}
+        ])
+        return (async () => {
+
+            const user = await User.findById(id)
+
+            if(user){
+
+                await User.findByIdAndRemove({_id:id})
+
+                return
+
+            } else throw new LogicError('user not found')
+
+        })()
+
     }
+    
 }
 
 module.exports = logic

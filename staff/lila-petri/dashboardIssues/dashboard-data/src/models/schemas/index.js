@@ -23,7 +23,12 @@ const user = new Schema({
         validate: isEmail
     },
     password: { type: String, required: true },
-    profile: { type: String, required: true },
+    profile: { 
+        type: String,
+        enum:{values: ['product-expert', 'admin'], message: 'does not match'},
+        required: true,
+        default: 'product-expert' },
+    
     country: { type: String, required: true }
     
 })
