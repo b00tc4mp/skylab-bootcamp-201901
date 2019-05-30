@@ -32,7 +32,6 @@ class LoginPanel extends Component {
                 <input required name="password" placeholder="insert your user password" type="password" onChange={event => onInputChange(event)} />
                 <button>Submit</button>
             </form>
-            <button onClick={() => history.push("/")}>Home</button>
         </div>
     }
 

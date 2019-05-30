@@ -5,6 +5,7 @@ import './App.css';
 import Header from './components/Header'
 import RegisterPanel from './components/RegisterPanel'
 import LoginPanel from './components/LoginPanel'
+import UserPanel from './components/UserPanel'
 import UploadGamePanel from './components/UploadGamePanel'
 import logic from './logic'
 
@@ -74,15 +75,21 @@ class App extends Component {
     this.setState({ user: null, token: null })
     logic.deleteUserApiToken()
   }
+
+  handleGoToUserPanel = () => {
+    this.props.history.push('/user')
+  }
   render() {
 
-    const { state: { user }, handleRegister, handleGoToRegister, handleLogin, handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleUploadGame, handleLogout } = this
+    const { state: { user }, handleRegister, handleGoToRegister, handleLogin,
+      handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleGoToUserPanel,
+      handleUploadGame, handleLogout } = this
 
     return (
       <div className="App">
         <header className="App-header">
           <Header user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
-            handleGoToLanding={handleGoToLanding} handleLogout={handleLogout}
+            handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
             handleGoToUploadGame={handleGoToUploadGame}></Header>
           <Switch>
 
@@ -108,6 +115,9 @@ class App extends Component {
               return <LoginPanel history={props.history} onLogin={handleLogin} />
             }} />
 
+            <Route path="/user" render={props => {
+              return <UserPanel history={props.history} user={user} />
+            }} />
 
             <Route path="/uploadGame" render={props => {
               return <UploadGamePanel history={props.history} onUploadGame={handleUploadGame} />

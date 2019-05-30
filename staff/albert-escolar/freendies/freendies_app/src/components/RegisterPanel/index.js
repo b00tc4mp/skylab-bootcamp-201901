@@ -25,7 +25,7 @@ class RegisterPanel extends Component {
 
     render() {
         const { history } = this.props
-        const { onInputChange,onSubmit } = this
+        const { onInputChange, onSubmit } = this
 
         return <div>
             <h1>Register</h1>
@@ -36,8 +36,6 @@ class RegisterPanel extends Component {
                 <input required name="passwordConfirmation" placeholder="confirm you password" type="password" onChange={event => onInputChange(event)} />
                 <button>Submit</button>
             </form>
-
-            <button onClick={() => history.push("/")}>Home</button>
         </div>
 
 
