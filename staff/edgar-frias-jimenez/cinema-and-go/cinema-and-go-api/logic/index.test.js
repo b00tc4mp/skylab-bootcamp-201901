@@ -4,7 +4,7 @@ const {Types:{ObjectId}} = mongoose
 const bcrypt = require('bcrypt')
 const logic = require('.')
 // const scrapper = require('../lib/scrapper')
-const { RequirementError, ValueError, FormatError } = require('../common/errors')
+const { RequirementError, ValueError, FormatError, LogicError } = require('../common/errors')
 
 dotenv.config()
 
@@ -15,7 +15,7 @@ jest.setTimeout(1000000)
 describe('logic', () => {
     let name, email, password
 
-    beforeAll(() => mongoose.connect(url, { useNewUrlParser: true }))
+    beforeAll(() => mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true, }))
 
     beforeEach(async () => {
         await User.deleteMany()
@@ -155,8 +155,138 @@ describe('logic', () => {
         })
     })
 
+    describe('update user', () => {
+        let user, _name, _email, userUpdated, id
+
+        beforeEach(async () => {
+            user = await User.create({ name, email, password: await bcrypt.hash(password, 10) })
+            id = user.id
+            _name = user.name + '_updated'
+            _email = user.email + '_updated'
+            userUpdated = { name: _name, email: _email }
+        })
+
+        it('should succeed on update user', async () => {
+            await logic.updateUser(id, userUpdated)
+
+            const userChange = logic.retrieveUser(id)
+
+            expect(userChange.name).toEqual(userUpdated._name)
+            expect(userChange.surname).toEqual(userUpdated._surname)
+            expect(userChange.email).toEqual(userUpdated._email)
+            expect(userChange.avatar).toEqual(userUpdated._avatar)
+            expect(userChange.language).toEqual(userUpdated._language)
+            expect(userChange.password).toBeUndefined()
+        })
+
+        // it('should fail on incorrect user id', async () => {
+        //     const id = 'aslkfjhsdlkafhjldksjhf'
+
+        //     try {
+        //         await logic.updateUser(id, userUpdated)
+        //         throw Error('should not reach this point')
+        //     } catch (error) { // ????
+        //         expect(error).toThrowError(LogicError, `user with id ${id} doesn't exists`)
+        //         expect(error).toBeInstanceOf(TypeError)
+        //         expect(error.message).toEqual(`user with id ${id} doesn't exists`)
+        //     }
+        // })
+
+        it('should fail on undefined id', () => {
+            expect(() => logic.updateUser(undefined, userUpdated)).toThrowError(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on null id', () => {
+            expect(() => logic.updateUser(null, userUpdated)).toThrowError(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on empty id', () => {
+            expect(() => logic.updateUser('', userUpdated)).toThrowError(ValueError, 'id is empty')
+        })
+
+        it('should fail on blank id', () => {
+            expect(() => logic.updateUser(' \t    \n', userUpdated)).toThrowError(ValueError, 'id is empty')
+        })
+
+        it('should fail on a not string id', () => {
+            expect(() => logic.updateUser(123, userUpdated)).toThrowError(TypeError, `id 123 is not a string`)
+        })
+
+        it('should fail on undefined user data', () => {
+            expect(() => logic.updateUser(id, undefined)).toThrowError(RequirementError, `data is not optional`)
+        })
+
+        it('should fail on null user data', () => {
+            expect(() => logic.updateUser(id, null)).toThrowError(RequirementError, `data is not optional`)
+        })
+
+        it('should fail on a not object data', () => {
+            expect(() => logic.updateUser(id, 'data')).toThrowError(TypeError, 'data data is not a object')
+        })
+    })
+
+    describe('remove user', () => {
+        let user, id
+
+        beforeEach(async () => {
+            user = await User.create({ name, email, password: await bcrypt.hash(password, 10) })
+            id = user.id
+        })
+
+        it('should succeed on correct credentials', async () => {
+            try {
+                debugger
+                await logic.removeUser(id, password)
+            }
+            catch(error) {
+                debugger
+                throw Error('should not reach this point')
+            }
+
+            let _user
+            try {
+                debugger
+                _user = logic.retrieveUser(id)
+            }
+            catch(error) {
+                debugger
+                expect(_user).toBeUndefined
+            }
+        })
+
+        // it('should fail on incorrect user id', async () => {
+        //     const id = 'aslkfjhsdlkafhjldksjhf'
+
+        //     try {
+        //         await logic.removeUser(id, password)
+        //         throw Error('should not reach this point')
+        //     } catch (error) {
+
+        //         expect(error).toThrowError(LogicError, `user with id ${id} doesn't exists`)
+        //         expect(error).toBeInstanceOf(LogicError)
+        //         expect(error.message).toEqual(`user with id ${id} doesn't exists`)
+        //     }
+        // })
+
+        it('should fail on undefined id', () => {
+            expect(() => logic.removeUser(undefined, password)).toThrowError(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on null id', () => {
+            expect(() => logic.removeUser(null, password)).toThrowError(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on empty id', () => {
+            expect(() => logic.removeUser('', password)).toThrowError(ValueError, 'id is empty')
+        })
+
+        it('should fail on blank id', () => {
+            expect(() => logic.removeUser(' \t    \n', password)).toThrowError(ValueError, 'id is empty')
+        })
+    })
+
     describe('scrap a movie', () => {
-        fit('should insert a movie into de database', async () => {
+        it('should insert a movie into de database', async () => {
             const img = 'https://www.ecartelera.com/carteles/15000/15032/002-th.jpg'
             const title = 'El Hijo'
             const info = [ '90 min.', 'EE.UU.', 'Ciencia ficción', '+16' ]
@@ -185,10 +315,9 @@ describe('logic', () => {
     })
 
     describe('Scrap an entire city', () => {
-        fit('should get all cinemas from a given city', async () => {
+        it('should get all cinemas from a given city', async () => {
             const cityCinemas = await logic.scrapperCinemaMovies()
-            debugger
-            expect(cityCinemas).toBeDefined()
+            expect(cityCinemas).toBeUndefined()
         })
     })
 

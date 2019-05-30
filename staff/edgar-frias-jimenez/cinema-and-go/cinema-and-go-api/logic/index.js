@@ -59,6 +59,40 @@ const logic = {
         })()
     },
 
+    updateUser(id, data) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object', notEmpty: true }
+        ])
+
+        return (async () => {
+            try {
+                let result = await User.findByIdAndUpdate(id, { $set: data }).select('-__v  -password').lean()
+
+                result.id = result._id.toString()
+                delete result._id
+
+                return result
+
+            } catch(error) { // ??? PEta
+                throw new LogicError(`user with id "${id}" does not exist`)
+            }
+        })()
+    },
+
+    removeUser(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            const user = await User.findById(id)
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
+
+            return await User.findByIdAndDelete(id)
+        })()
+    },
+
     registerCities(name, link, cinemas) {
         return(async () => {
             return await City.create({name, link, cinemas})

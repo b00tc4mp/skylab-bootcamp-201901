@@ -31,19 +31,19 @@ const scrapper = {
 
 
     // Internal method - Not in use | Given a url from ecartelera it returns each cities urls
-    __getAllCities(html) {
-        const $ = cheerio.load(html, { decodeEntities: false }) // Decode entities is needed to view correctly accents
+    // __getAllCities(html) {
+    //     const $ = cheerio.load(html, { decodeEntities: false }) // Decode entities is needed to view correctly accents
 
-        let citiesLinks = []
+    //     let citiesLinks = []
 
-        $('.wcnt .cityselector:first-of-type a').each((i, el) => {
-        const item = {city: $(el).text(), link: $(el).attr('href')}
-        citiesLinks.push(item)
-        })
+    //     $('.wcnt .cityselector:first-of-type a').each((i, el) => {
+    //     const item = {city: $(el).text(), link: $(el).attr('href')}
+    //     citiesLinks.push(item)
+    //     })
 
-        console.log('citiesLinks ', '\n', '-------------', citiesLinks, '\n', '-------------')
-        return citiesLinks
-    },
+    //     console.log('citiesLinks ', '\n', '-------------', citiesLinks, '\n', '-------------')
+    //     return citiesLinks
+    // },
 
     // Internal method | Given a fetched url (html) it will returns each cinema urls
     __listCinemas(html) {
@@ -92,16 +92,16 @@ const scrapper = {
         return {cinemaName, telephone, direction, projectionDay, billboard }
     },
 
-    getAllCities() {
-        return (async () => {
-            const html = await this.__getHtml(url_cities)
-            const cities = await this.__getAllCities(html)
+    // getAllCities() {
+    //     return (async () => {
+    //         const html = await this.__getHtml(url_cities)
+    //         const cities = await this.__getAllCities(html)
 
-            return cities.map(async city => {
-                return await this.getAllCinemas(city.link)
-            });
-        })()
-    },
+    //         return cities.map(async city => {
+    //             return await this.getAllCinemas(city.link)
+    //         });
+    //     })()
+    // },
 
     /**
      * getAllCinemas will get the cinemas from a single city
