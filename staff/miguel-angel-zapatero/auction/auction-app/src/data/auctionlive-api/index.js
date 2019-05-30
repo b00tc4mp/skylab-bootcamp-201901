@@ -15,6 +15,8 @@ const auctionLiveApi = {
             { name: 'password', value: password, type: 'string', notEmpty: true },
         ])
 
+        validate.email(email)
+
         return call(`${this.__url__}/users`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
@@ -28,6 +30,8 @@ const auctionLiveApi = {
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
+
+        validate.email(email)
 
         return call(`${this.__url__}/users/auth`, {
             method: 'POST',

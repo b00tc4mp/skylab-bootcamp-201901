@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "auction-data": "file:../auction-data",
-    "bcrypt": "^3.0.6"
+    "bcrypt": "^3.0.6",
+    "jsonwebtoken": "^8.5.1"
   }
 }

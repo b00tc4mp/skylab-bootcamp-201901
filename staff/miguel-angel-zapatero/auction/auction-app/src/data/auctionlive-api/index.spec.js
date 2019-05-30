@@ -1,9 +1,10 @@
 // require('dotenv').config();
 import auctionLiveApi from '.'
 import { mongoose, models } from 'auction-data'
-import { LogicError } from 'auction-errors'
+import { LogicError, RequirementError, ValueError, FormatError } from 'auction-errors'
 import bcrypt from  'bcrypt'
 import moment from 'moment'
+import jwt from 'jsonwebtoken'
 
 const { User, Item, Bid } = models
 
@@ -45,10 +46,12 @@ describe('auctionlive-api', () => {
     describe('users', () => {
         describe('register user', () => {
             it('should success on correct data', async () => {
-                await auctionLiveApi.registerUser(name, surname, email, password)
+                const res = await auctionLiveApi.registerUser(name, surname, email, password)
+
+                expect(res.message).toBe('Ok, user registered.')
 
                 const user = await User.findOne({email})
-                debugger
+                
                 const samePass = bcrypt.compareSync(password, user.password)
 
                 expect(user.name).toBe(name)
@@ -63,9 +66,111 @@ describe('auctionlive-api', () => {
                     await auctionLiveApi.registerUser(name, surname, email, password)
                     throw Error('should not reach this point')
                 } catch (error) {
-                    expect(error).toBeInstanceOf(LogicError)
-                    expect(error.message).toBe(`user with email ${email} already exists`)
+                    // expect(error).toBeInstanceOf(LogicError)
+                    expect(error.message).toBe(`user with email "${email}" already exist`)
                 }
+            })
+
+            it('should fail on undefined name', () => {
+                const name = undefined
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(RequirementError, `name is not optional`)
+            })
+
+            it('should fail on null name', () => {
+                const name = null
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(RequirementError, `name is not optional`)
+            })
+
+            it('should fail on empty name', () => {
+                const name = ''
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(ValueError, 'name is empty')
+            })
+
+            it('should fail on blank name', () => {
+                const name = ' \t    \n'
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(ValueError, 'name is empty')
+            })
+
+            it('should fail on undefined surname', () => {
+                const surname = undefined
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(RequirementError, `surname is not optional`)
+            })
+
+            it('should fail on null surname', () => {
+                const surname = null
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(RequirementError, `surname is not optional`)
+            })
+
+            it('should fail on empty surname', () => {
+                const surname = ''
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(ValueError, 'surname is empty')
+            })
+
+            it('should fail on blank surname', () => {
+                const surname = ' \t    \n'
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(ValueError, 'surname is empty')
+            })
+
+            it('should fail on undefined email', () => {
+                const email = undefined
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(RequirementError, `email is not optional`)
+            })
+
+            it('should fail on null email', () => {
+                const email = null
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(RequirementError, `email is not optional`)
+            })
+
+            it('should fail on empty email', () => {
+                const email = ''
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(ValueError, 'email is empty')
+            })
+
+            it('should fail on blank email', () => {
+                const email = ' \t    \n'
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(ValueError, 'email is empty')
+            })
+
+            it('should fail on non-email email', () => {
+                const nonEmail = 'non-email'
+
+                expect(() => auctionLiveApi.registerUser(name, surname, nonEmail, password)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
+            })
+
+            it('should fail on undefined password', () => {
+                const email = undefined
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(RequirementError, `password is not optional`)
+            })
+
+            it('should fail on null password', () => {
+                const password = null
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(RequirementError, `password is not optional`)
+            })
+
+            it('should fail on empty password', () => {
+                const password = ''
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(ValueError, 'password is empty')
+            })
+
+            it('should fail on blank password', () => {
+                const password = ' \t    \n'
+
+                expect(() => auctionLiveApi.registerUser(name, surname, email, password)).toThrowError(ValueError, 'password is empty')
             })
         })
 
@@ -79,24 +184,250 @@ describe('auctionlive-api', () => {
 
             describe('authenticate user', () => {
                 it('should success on correct data', async () => {
-                    const id = await auctionLiveApi.authenticateUser(email, password)
+                    const {token} = await auctionLiveApi.authenticateUser(email, password)
                     
-                    expect(id).toBe(user.id)
+                    var {sub} = jwt.decode(token)
+                    
+                    expect(sub).toBe(user.id)
+                })
+
+                it('should fail on non-existing user', async () => {
+                    try {
+                        await auctionLiveApi.authenticateUser(email = 'unexisting-user@mail.com', password)
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        // expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe(`user with email "${email}" doesn't exist`)
+                    }
+                })
+
+                it('should fail on wrong password', async () => {
+                    try {
+                        await auctionLiveApi.authenticateUser(email, password = '123')
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        // expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe('wrong credentials')
+                    }
                 })
             })
 
             describe('retrieve user', () => {
-                it('should success on correct user id', async () => {
-                    const _user = await auctionLiveApi.retrieveUser(user.id)
+                let token
+
+                beforeEach(async () => {
+                    const res = await auctionLiveApi.authenticateUser(email, password)
+                    token = res.token
+                })
+
+                it('should success on correct user token', async () => {
+                   
+                    const _user = await auctionLiveApi.retrieveUser(token)
 
                     expect(_user.id).toBeUndefined()
                     expect(_user.name).toBe(user.name)
                     expect(_user.surname).toBe(user.surname)
                     expect(_user.email).toBe(user.email)
+                    expect(_user.password).toBeUndefined()
+                })
+
+                it('should fail on invalid token', async () => {
+                    token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
+    
+                    try {
+                        await auctionLiveApi.retrieveUser(token) 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        // expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe('invalid signature')
+                    }
+                })
+    
+                it('should fail on wrong token', async () => {
+                    token = 'wrong-id'
+    
+                    try {
+                        await auctionLiveApi.retrieveUser(token) 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        
+                        expect(error.message).toBe('jwt malformed')
+                    }
+                })
+            })
+
+            //--------<start>
+
+            describe('update', () => {        
+                let data, token
+
+                beforeEach(async () => {
+                    const res = await auctionLiveApi.authenticateUser(email, password)
+                    token = res.token
+
+                    data = { name: 'n', surname: 's', email: 'e@e.com', password: 'p'}
+                })
+                it('should succeed on correct data', async () => {    
+                    const response = await auctionLiveApi.updateUser(token, data.name, data.surname, data.email, data.password)
+                    expect(response).toBeUndefined()
+                    
+                    const _user = await User.findById(user.id)
+                    
+                    expect(_user).toBeDefined()
+                    expect(_user.id).toBe(user.id)
+                    expect(_user.surname).toBe(data.surname)
+                    expect(_user.name).toBe(data.name)
+                    expect(_user.email).toBe(data.email)
+
+                    const pass = bcrypt.compareSync(data.password, _user.password)
+
+                    expect(pass).toBeTruthy()
+                    expect(_user.lastAccess).toBeUndefined()
+                    
+                    expect(Object.keys(_user._doc).length).toEqual(Object.keys(user._doc).length)
+                })
+
+                it('should succeed changing some fields', async () => {    
+                    const data = { name: 'n', email: 'e@e.com'}
+    
+                    const response = await auctionLiveApi.updateUser(token, data.name, data.surname, data.email, data.password)
+                    expect(response).toBeUndefined()
+                    
+                    const _user = await User.findById(user.id)
+                    
+                    expect(_user).toBeDefined()
+                    expect(_user.id).toBe(user.id)
+                    expect(_user.name).toBe(data.name)
+                    expect(_user.email).toBe(data.email)
+                    
+                    expect(_user.name).not.toBe(user.name)
+                    expect(_user.email).not.toBe(user.email)
+                    expect(_user.surname).toBe(user.surname)
+                    expect(_user.password).toBe(user.password)
+    
+                    expect(Object.keys(_user._doc).length).toEqual(Object.keys(user._doc).length)
+                })
+    
+                it('should fail on incorrect user token', async () => {    
+                    token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
+    
+                    try {
+                        await auctionLiveApi.updateUser(token, data.name, data.surname, data.email, data.password) 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+        
+                        expect(error.message).toBe('invalid signature')
+                    }
+                })
+                
+                it('should fail on wrong token', async () => {    
+                    let id = 'wrong-id'
+    
+                    try {
+                        await auctionLiveApi.updateUser(id, data.name, data.surname, data.email, data.password)
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        
+                        expect(error.message).toBe('jwt malformed')
+                    }
+                })
+
+                it('should fail on existing email user', async () => {    
+                    await User.create({name, surname, email: 'email@mail.com', password: _password}) 
+
+                    data.email = 'email@mail.com'
+    
+                    try {
+                        await auctionLiveApi.updateUser(token, data.name, data.surname, data.email, data.password) 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+                        
+                        expect(error.message).toBe(`email "${data.email}" already exist`)
+                    }
+                })
+            })
+        
+            describe('delete', () => {
+                it('should succed on correct id', async () => {
+                    const response = await auctionLiveApi.deleteUser(user.id, user.email, password)
+                    
+                    expect(response).toBeUndefined()
+
+                    const _user = await User.findById(user.id)
+
+                    expect(_user).toBeNull()
+                })
+        
+                it('should fail on incorrect id', async () => {
+                    id = '01234567890123456789abcd'
+                    try {
+                        await auctionLiveApi.deleteUser(id, user.email, user.password)
+                        throw new Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+        
+                        expect(error.message).toBe(`user with id "${id}" does not exist`)
+                    }
+                })
+
+                it('should fail on wrong id', async () => {    
+                    let id = 'wrong-id'
+    
+                    try {
+                        await auctionLiveApi.deleteUser(id, email, user.password)
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        
+                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR
+                        // expect(error).toBeInstanceOf(FormatError)
+                        // expect(error.message).toBe('invalid id')
+                        expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
+                    }
+                })
+    
+                it('should fail on incorrect email', async () => {
+                    let email = 'fake_email@gmail.com' 
+    
+                    try {
+                        await auctionLiveApi.deleteUser(user.id, email, user.password)
+                        throw new Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+        
+                        expect(error.message).toBe('wrong credentials')
+                    }
+                })
+    
+                it('should fail on incorrect password', async () => {
+                    let password = '423'
+    
+                    try {
+                        await auctionLiveApi.deleteUser(user.id, user.email, password)
+                        throw new Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+        
+                        expect(error.message).toBe('wrong credentials')
+                    }
                 })
             })
         })
     })
+
+    //-------<fin>
 
     describe('items', () => {
         let items
