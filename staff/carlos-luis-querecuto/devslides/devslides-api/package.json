@@ -1,0 +1,30 @@
+{
+  "esm": "auto",
+  "name": "devslides-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "devslides-data": "file:../devslides-data",
+    "dotenv": "^8.0.0",
+    "esm": "^3.2.25",
+    "validator": "^11.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  },
+  "scripts": {
+    "start": "node .",
+    "watch": "nodemon .",
+    "debug": "node debug .",
+    "test": "mocha --timeout 100000 -r esm '**/*.spec.js'",
+    "test:debug": "mocha debug -r esm '**/*.spec.js'",
+    "test:coverage": "nyc --reporter=text --reporter=html mocha -r esm '**/*.spec.js'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
