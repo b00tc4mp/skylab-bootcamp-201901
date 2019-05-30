@@ -148,7 +148,7 @@ function Game(creatorId, gameId, style) {
             round += 1
         }
 
-        if (mode === "solo") return sendNextRound(userId)
+        if (this.mode === "solo") return sendNextRound(userId)
     }
 
     this.update = (userId) => {

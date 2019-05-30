@@ -1,6 +1,6 @@
 const { Schema, Schema: { Types: { ObjectId } } } = require('mongoose')
 
-const gameRecord = new Schema({
+const result = new Schema({
     player: ObjectId,
     OneEggNestAmount: { type: Number, required: true },
     OneEggNestLvL: { type: Number, required: true },
@@ -17,4 +17,4 @@ const gameRecord = new Schema({
     FishingRoadUsed: {type: Number, required: true}
 })
 
-module.exports = gameRecord
+module.exports = result
