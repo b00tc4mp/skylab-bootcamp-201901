@@ -53,12 +53,12 @@ class Header extends Component {
         handleLogout()
     }
 
-    goToUser = event => {
+    goToUserPanel = event => {
         event.preventDefault()
 
-        const { props: { handleGoToUser } } = this
+        const { props: { handleGoToUserPanel } } = this
 
-        handleGoToUser()
+        handleGoToUserPanel()
     }
 
     goToUploadGame = event => {
@@ -78,9 +78,9 @@ class Header extends Component {
 
     }
 
-    renderLoggedButtons(goToLogout, goToUser, goToUploadGame) {
+    renderLoggedButtons(goToLogout, goToUserPanel, goToUploadGame) {
         return <div>
-            <button onClick={goToUser}>User</button>
+            <button onClick={goToUserPanel}>User</button>
             <button onClick={goToUploadGame}>Upload Game</button>
             <button onClick={goToLogout}>Logout</button>
 
@@ -92,13 +92,13 @@ class Header extends Component {
     render() {
         const {
             goToRegister, goToLogin, goToLanding, goToLogout,
-            goToUser,goToUploadGame, renderUnloggedButtons, renderLoggedButtons,
+            goToUserPanel,goToUploadGame, renderUnloggedButtons, renderLoggedButtons,
             state: { user }
         } = this
         return <div>
             <h1>Header</h1>
             <button onClick={goToLanding}>Go To Landing</button>
-            {user ? renderLoggedButtons(goToLogout, goToUser, goToUploadGame) : renderUnloggedButtons(goToRegister, goToLogin)}
+            {user ? renderLoggedButtons(goToLogout, goToUserPanel, goToUploadGame) : renderUnloggedButtons(goToRegister, goToLogin)}
         </div>
 
 

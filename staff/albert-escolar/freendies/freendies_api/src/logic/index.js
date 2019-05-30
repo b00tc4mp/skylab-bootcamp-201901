@@ -8,19 +8,19 @@ const logic = {
 
     async registerUser(username, email, password, passwordConfirmation) {
 
-        if (typeof username !== 'string') throw TypeError(`${username} is not a string`)
+        if (typeof username !== 'string') throw TypeError(`username is not a string`)
 
         if (!username.trim().length) throw Error('username cannot be empty')
 
-        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
+        if (typeof email !== 'string') throw TypeError(`email is not a string`)
 
         if (!email.trim().length) throw Error('email cannot be empty')
 
-        if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
+        if (typeof password !== 'string') throw TypeError(`password is not a string`)
 
         if (!password.trim().length) throw Error('password cannot be empty')
 
-        if (typeof passwordConfirmation !== 'string') throw TypeError(`${passwordConfirmation} is not a string`)
+        if (typeof passwordConfirmation !== 'string') throw TypeError(`passwordConfirm is not a string`)
 
         if (!passwordConfirmation.trim().length) throw Error('password confirmation cannot be empty')
 
@@ -82,7 +82,7 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error(`${userId} cannot be empty`)
 
-        const user = await User.findOneAndUpdate(userId, data, { runValidators: true, new: true }).select('-password -__v').lean()
+        const user = await User.findByIdAndUpdate(userId, data, { runValidators: true, new: true }).select('-password -__v').lean()
 
         if (!user) throw Error(`user with id ${userId} was not found`)
 
