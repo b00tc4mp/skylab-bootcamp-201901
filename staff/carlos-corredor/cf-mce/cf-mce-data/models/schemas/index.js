@@ -57,13 +57,11 @@ const electronicControlModule = new Schema({
     status: {
         type: String,
         required: true,
-        enum: ['RECEIVED', 'REVIEWED', 'BUDGETED', 'APPROVED', 'REPAIRED', 'COLLECT'],
+        enum: ['RECEIVED', 'REVIEWED', 'BUDGETED', 'APPROVED', 'REPAIRED', 'COLLECT', 'DELIVERED'],
         default: 'RECEIVED',
     },
     notes: [note]
 
 })
-
-
 
 module.exports = { user, customer, electronicControlModule, product, note }
