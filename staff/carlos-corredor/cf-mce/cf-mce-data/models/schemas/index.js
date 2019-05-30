@@ -32,14 +32,11 @@ const user = new Schema({
 
 const customer = new Schema({
     name: { type: String, required: true },
-    surname: { type: String, required: true },
-    phone: {type: String, required: true},
-    address: {type: String},
-    nid: {type: String, required: true},
-    email: {
-        type: String,
-        required: true
-    },
+    surname: { type: String },
+    phone: { type: String },
+    address: { type: String },
+    nid: { type: String },
+    email: { type: String },
     notes: [note]
 })
 
