@@ -1,0 +1,29 @@
+{
+  "name": "notes-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha --watch-extensions js,jsx '**/*.test.{js,jxs}' --watch",
+    "test:debug": "mocha  --watch-extensions js,jsx \"src/**/*.test.{ts,tsx}\" --watch --inspect",
+    "only-test": "mocha --inspect-brk only-test/test.js",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.23.0",
+    "dotenv": "^8.0.0",
+    "pro-skate-data": "file:../pro-skate-data",
+    "validator": "^11.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  },
+  "nyc": {
+    "exclude": "**/common/**/*.js"
+  }
+}

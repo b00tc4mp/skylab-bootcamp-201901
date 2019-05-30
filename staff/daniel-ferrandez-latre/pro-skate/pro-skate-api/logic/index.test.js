@@ -1,7 +1,8 @@
 require('dotenv').config()
-const mongoose = require('mongoose')
-const { User, Item } = require('../data/models')
-const { LogicError, RequirementError, ValueError, FormatError } = require('../common/errors')
+
+const { mongoose, models }= require('pro-skate-data')
+const { User, Product } = models
+const { LogicError, RequirementError, ValueError, FormatError, UnauthorizedError } = require('../common/errors')
 const chai = require('chai')
 const { expect } = chai
 const logic = require('../logic');
@@ -10,7 +11,7 @@ const argon2 = require('argon2')
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 
 describe('logic', () => {
-    let name, surname, email, password, age
+    let name, surname, email, imageUrl, password, age
 
     before( () =>  mongoose.connect(url, { useNewUrlParser: true }))
     after(async () =>  mongoose.disconnect())
@@ -20,6 +21,7 @@ describe('logic', () => {
         name = `name-${Math.random()}`
         surname = `surname-${Math.random()}`
         email = `email-${Math.random()}@mail.com`
+        imageUrl = `http://-${Math.random()}@mail.com`
         password = `password-${Math.random()}`
         age = `${Math.floor(Math.random() * 100)}`
     })
@@ -30,8 +32,8 @@ describe('logic', () => {
             this.timeout(10000);
 
             it('should succeed on correct data', async function () {
-
-                const res = await logic.registerUser(name, surname, email, password, age)
+                
+                const res = await logic.registerUser(name, surname, email, imageUrl, password, age)
                 expect(res).to.be.undefined
 
                 const users = await User.find()
@@ -44,6 +46,7 @@ describe('logic', () => {
                 expect(user.name).to.equal(name)
                 expect(user.surname).to.equal(surname)
                 expect(user.email).to.equal(email)
+                expect(user.imageUrl).to.equal(imageUrl)
                 expect(user.password).to.exist
                 expect(user.age).to.equal(parseInt(age))
                 expect(user.cart).to.be.an('array')
@@ -54,11 +57,11 @@ describe('logic', () => {
             })
 
             describe('on already existing user', () => {
-                beforeEach(() => User.create({ name, surname, email, password, age }))
+                beforeEach(async () => await User.create({ name, surname, email, imageUrl, password, age }))
 
                 it('should fail on retrying to register', async () => {
                     try {
-                        await logic.registerUser(name, surname, email, password, age)
+                        await logic.registerUser(name, surname, email, imageUrl, password, age)
 
                         throw Error('should not reach this point')
                     } catch (error) {
@@ -72,14 +75,14 @@ describe('logic', () => {
             it('should fail on undefined name', () => {
                 const name = undefined
 
-                expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(RequirementError, `name is not optional`)
+                expect(() => logic.registerUser(name, surname, email, imageUrl, password, age)).to.throw(RequirementError, `name is not optional`)
             })
 
 
             it('should fail on empty name', () => {
                 const name = ''
 
-                expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(ValueError, 'name is empty')
+                expect(() => logic.registerUser(name, surname, email, imageUrl, password, age)).to.throw(ValueError, 'name is empty')
             })
 
             it('should fail on blank name', () => {
@@ -170,10 +173,10 @@ describe('logic', () => {
 
         describe('authenticate user', () => {
             
-            beforeEach(() =>
-                logic.registerUser( name, surname, email, password, age )
-            
-            )
+            beforeEach(async () => {
+                const hash = await argon2.hash(password)
+                await User.create({ name, surname, email, imageUrl, password: hash, age })
+            })
 
             it('should succeed on correct credentials', async () => {
                 
@@ -271,6 +274,20 @@ describe('logic', () => {
                 expect(_user.password).to.be.undefined
             })
 
+            it('should fail on worn user id', async ()=>{
+                const idUserDeleted = user.id
+                await User.findByIdAndDelete(user.id)
+                try{
+                    await logic.retrieveUser(idUserDeleted)
+                    throw Error('should not reach this point')
+                }catch(err){
+                    expect(err).not.to.be.undefined
+                    expect(err).to.instanceOf(LogicError)
+                    expect(err.message).to.equal(`User with id ${idUserDeleted} doesn't exist`)
+                }
+
+            })
+
             it('should fail on undefined id', () => {
                 const id = undefined
 
@@ -321,12 +338,11 @@ describe('logic', () => {
             })
 
             it('should fail on repeated email from existing user', async () => {
-                debugger
                 try{
                 await logic.updateUser(user.id, {email: _user.email})
                 }catch( err ){
-                    expect(err).to.instanceOf(LogicError)
-                    expect(err.message).to.equal('That email is already used')
+                    expect(err).to.exist
+                    expect(err.codename).to.equal('That email is already used')
                 }
             })
 
@@ -365,30 +381,37 @@ describe('logic', () => {
 
                 expect(() => logic.updateUser(_id_, data)).to.throw(RequirementError, `data is not optional`)
             })
-
         })
 
         describe('Delete User', ()=> {
-            let id, _id_
+           
+            let id
             beforeEach(async () => {
-                user = await User.create({ name, surname, email, password: await argon2.hash(password), age })
-                id = user.id
-                _id_ = '3'
+                await User.create({ name, surname, email, password: await argon2.hash(password), age })
+                const { _id } = await User.findOne({email}).lean()
+                
+                id = _id.toString()
             })
 
             it('should delete user on correct id', async ()=>{
-                const isDeletedUser = await logic.deleteUser(user.id)
+                
+                const isDeletedUser = await logic.deleteUser(id)
+                
                 expect(isDeletedUser).to.be.true
                 const userDb = await User.findById(id)
                 expect(userDb).to.be.null
             })
 
             it('should fail on unexisting id', async ()=>{
+
                 try{
-                    logic.deleteUser(_id_)
+                    User.create({ name, surname, email: 'danbang@gmail.com', password: await argon2.hash(password), age })
+                    const userDb = User.findOne({email})
+                    const deletedUserId = userDb.id
+                    User.findByIdAndDelete(deletedUserId)
+                    logic.deleteUser(deletedUserId)
                 } catch(err) {
-                    expect(err).to.instanceOf(LogicError)
-                    expect(err.message).to.equal(`This user doesn't exist`)
+                    expect(err).to.exist
                 }
             })
 
@@ -417,6 +440,104 @@ describe('logic', () => {
                 expect(() => logic.updateUser(id, {})).to.throw(ValueError, 'id is empty')
             })
         })
+
+        describe('create new product', ()=>{
+
+            let  userId, prod_name, prod_imagesUrl, prod_description, prod_price, prod_tag
+            
+            beforeEach(async () => {
+                await Product.deleteMany();
+                await User.create({ name, surname, email, password: await argon2.hash(password), age, isAdmin: true })
+                const { _id } = await User.findOne({email}).lean()
+                userId = _id.toString()
+
+                prod_name =  `name-${Math.random()}`
+                prod_imagesUrl= [`http://${Math.random()}.com`, `http://${Math.random()}.com`, `http://${Math.random()}.com`]
+                prod_description= `description-${Math.random()}`
+                prod_price= `${Math.floor(Math.random() * 100)}`
+                prod_tag= [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
+                
+            })
+
+
+            it('should create a new product on correct data', async ()=>{
+                
+                const isProductCreated = await logic.createNewProduct(userId, {name: prod_name, imagesUrl: prod_imagesUrl, description: prod_description,price: prod_price,tag: prod_tag })
+
+                expect(isProductCreated).to.be.true
+                const productDb = await Product.findOne({name: prod_name})
+                
+                expect(productDb.id).not.to.be.undefined
+                expect(productDb.name).to.equal(prod_name)
+                expect(productDb.description).to.equal(prod_description)
+                expect(productDb.price).to.equal(parseInt(prod_price))
+                expect(productDb.tag).to.deep.equal(prod_tag)
+            })
+
+            it('should fail on create a new product on user id', async ()=>{
+
+                const userDb = await User.findOne({name})
+                const idUserDeleted = userDb.id
+                await User.findByIdAndDelete(idUserDeleted)
+                try{
+                await logic.createNewProduct(idUserDeleted, {name: prod_name, imagesUrl: prod_imagesUrl, description: prod_description,price: prod_price,tag: prod_tag })
+                }catch(err){
+                    expect(err).not.to.be.undefined
+                    expect(err).to.be.instanceOf(LogicError)
+                    expect(err.message).to.equal(`This user can not create a new product`)
+                }
+            })
+
+            it.only('should fail on create a new product on not admin user role', async ()=>{
+                await User.create({ name: 'dan', surname: 'latre', email: 'latre@mail.com', password: await argon2.hash('breakfast'), age:'31', isAdmin: false })
+                debugger
+
+                const userDb = await User.findOne({name: 'dan'})
+                try{
+                await logic.createNewProduct(userDb.id, {name: prod_name, imagesUrl: prod_imagesUrl, description: prod_description,price: prod_price,tag: prod_tag })
+                }catch(err){
+                    debugger
+                    expect(err).not.to.be.undefined
+                    expect(err).to.be.instanceOf(UnauthorizedError)
+                    expect(err.message).to.equal(`You need admin permissions to perform this action`)
+                }
+            })
+
+            it('should fail on undefined userId', () => {
+                const id = undefined
+
+                expect(() => logic.createNewProduct(id, {})).to.throw(RequirementError, `userId is not optional`)
+            })
+
+            it('should fail on null id', () => {
+                const id = null
+
+                expect(() => logic.createNewProduct(id, {})).to.throw(RequirementError, `userId is not optional`)
+            })
+
+            it('should fail on empty id', () => {
+                const id = ''
+
+                expect(() => logic.createNewProduct(id, {})).to.throw(ValueError, 'userId is empty')
+            })
+
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+
+                expect(() => logic.createNewProduct(id, {})).to.throw(ValueError, 'userId is empty')
+            })
+
+            it('should fail on undefined userId', () => {
+                const id = undefined
+
+                expect(() => logic.createNewProduct(id, {})).to.throw(RequirementError, `userId is not optional`)
+            })
+
+
+
+
+        })
+
     })
 
 
