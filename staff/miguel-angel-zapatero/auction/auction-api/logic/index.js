@@ -31,7 +31,7 @@ const logic = {
         return (async () => {
             const user = await User.findOne({email})
             
-            if(user) throw new LogicError(`user with email ${email} already exists`)
+            if(user) throw new LogicError(`user with email "${email}" already exist`)
             
             return await User.create({name, surname, email, password: encryptPass})
         })()
@@ -56,7 +56,7 @@ const logic = {
         return (async () => {
             const user = await User.findOne({email})
             
-            if(!user) throw new LogicError(`user with email ${email} doesn't exists`)
+            if(!user) throw new LogicError(`user with email "${email}" doesn't exist`)
             
             const pass = bcrypt.compareSync(password, user.password)
             
@@ -81,18 +81,74 @@ const logic = {
         return (async () => {
             const user = await User.findById(id).select('-_id name surname email').lean()
     
-            if(!user) throw new LogicError(`user with id ${id} doesn't exists`)
+            if(!user) throw new LogicError(`user with id "${id}" doesn't exist`)
 
             return user
         })()
     },
 
-    updateUser(id, data) {
-        //TODO
+    /**
+     * Update the user data with the nedded changing fields
+     * 
+     * @param {String} id The user id
+     * @param {Object} data The fields to update de user data
+     */
+    updateUser(id, name, surname, email, password) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'name', value: name, type: 'string', notEmpty: true, optional: true},
+            { name: 'surname', value: surname, type: 'string', notEmpty: true, optional: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true, optional: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true, optional: true }
+        ])
+
+        validate.email(email)
+
+        return (async () => {
+            const user = await User.findById(id)
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+            
+            const existingEmail = await User.findOne({email: email})
+            if(existingEmail) throw new LogicError(`email "${email}" already exist`)
+            
+            const data = {
+                name: name || user.name,
+                surname: surname || user.surname,
+                email: email || user.email,
+                password: password ? bcrypt.hashSync(password, 10) : user.password
+            }
+            
+            await User.findByIdAndUpdate(id, data)
+        })()
     },
 
-    deleteUser(id) {
-        //TODO
+    /**
+     * Delete an user with the correct user credentials
+     * 
+     * @param {*} id The user id
+     * @param {*} email The user email
+     * @param {*} password The user password
+     */
+    deleteUser(id, email, password) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true }
+        ])
+        
+        return (async () => {
+            const user = await User.findById(id)
+            
+            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+
+            if (user.email !== email) throw new LogicError('wrong credentials')
+
+            const pass = bcrypt.compareSync(password, user.password)
+
+            if (!pass) throw new LogicError('wrong credentials')
+
+            await User.findByIdAndRemove(id)
+        })()
     },
 
     /**
@@ -111,20 +167,27 @@ const logic = {
 
         return (async () => {
             const user = await User.findById(userId)
-            if(!user) throw new LogicError(`user with id ${id} doesn't exists`)
+            if(!user) throw new LogicError(`user with id "${id}" doesn't exist`)
 
             const item = await Item.findById(itemId)
-            if(!item) throw new LogicError(`item with id ${id} doesn't exists`)
+            if(!item) throw new LogicError(`item with id "${id}" doesn't exist`)
+            
+            if(item.startPrice >= amount) throw new LogicError(`sorry, the current bid "${amount}" is lower than the start price`)
 
             let bid = item.winningBid()
-            if(bid && bid.amount >= amount) throw new LogicError(`sorry, the bid is lower than the current amount`)
+            if(bid && bid.amount >= amount) throw new LogicError(`sorry, the bid "${amount}" is lower than the current amount`)
 
             userId = ObjectId(userId)            
             bid = await Bid.create({userId, amount})
             
             this._addBiddedItem(user, itemId)
 
-            item.bids.push(bid)
+            item.bids.push(bid) //tambien puedo poner unshift
+            
+            item.bids.sort(function (a, b) {
+                return b.amount - a.amount;
+            });
+            
             await item.save()
         })()
     },
@@ -156,16 +219,17 @@ const logic = {
             { name: 'query', value: query, type: 'object'},
         ])
         
-        const parseQuery = this._queryParser(query)
-
-        return (async () => {
-            return await Item.find(query).lean()
+        return (async () => {        
+            let items = await Item.find(query).select('-__v').lean()
+            
+            items = items.map(item => {
+                item.id = item._id
+                delete item._id
+                return item
+            })
+            
+            return items
         })()
-    },
-    //ACABAR CON LA FUNCIÓN SEARCH
-    _queryParser(dataQuery) {
-        
-        const result = 'hola'
     },
 
     /**
@@ -185,36 +249,36 @@ const logic = {
         })()
     },
 
-    // /**
-    //  * Retrieve the bids on the given item id
-    //  * 
-    //  * @param {String} id The item id
-    //  * 
-    //  * @returns {Array} The item bids 
-    //  */
-    // retrieveItemBids(id) {
-    //     validate.arguments([
-    //         { name: 'id', value: id, type: 'string', notEmpty: true },
-    //     ])
-    //     //SE PUEDE HACER HACIENDO LINK EN BIDS
-    //     return (async () => {
-    //         const bids = await Item.findById(id)
-    //             .populate({
-    //                 path: 'bids',
-    //                 model: 'Bid',
-    //                 populate: {
-    //                     path: 'userId',
-    //                     model: 'User'
-    //                 }
-    //             }).lean()
-    //         debugger 
-    //         return bids.bids
-    //     })()
-    // },
+    /**
+     * Retrieve the bids on the given item id
+     * 
+     * @param {String} itemId The item id
+     * @param {String} userId The user id
+     * 
+     * @returns {Array} The item bids 
+     */
+    retrieveItemBids(itemId, userId) {
+        validate.arguments([
+            { name: 'itemId', value: itemId, type: 'string', notEmpty: true },
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+        ])
 
-    //LIKE ADD TO FAVOURITES
-    addToCalendar(userId, auctionId) {
-        //TODO
+        return (async () => {
+            const user = await User.findById(userId)
+            if(!user) throw new LogicError(`user with id "${id}" doesn't exist`)
+
+            const item = await Item.findById(itemId)
+            if(!item) throw new LogicError(`item with id "${id}" doesn't exist`)
+
+            const { bids } = await Item.findById(itemId)
+                .populate({
+                    path: 'bids.userId',
+                    model: 'User',
+                    select: 'name -_id'
+                }).lean()
+
+            return bids
+        })()
     },
 
     /**
@@ -249,34 +313,6 @@ const logic = {
 
             await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city})
         })()
-    },
-
-    registerToAuction(userId, auctionId) {
-        //TODO
-    },
-
-    createAuction(title, overview, image, type, category, finishDate) {
-        //TODO
-    },
-
-    retrieveAuction(id) {
-        //TODO
-    },
-
-    listAuctions() {
-        //TODO
-    },
-
-    createCategory(title, description) {
-        //TODO
-    },
-
-    retrieveCategory(id) {
-        //TODO
-    },
-
-    listCategories() {
-        //TODO
     }
 }
 

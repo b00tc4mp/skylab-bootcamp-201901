@@ -26,7 +26,6 @@ const item = new Schema({
     startDate: {type: Date, required: [true, 'start date required']},
     finishDate: {type: Date, required: [true, 'finish date required']},
     reservedPrice: {type: Number},
-    // bids: [{type: ObjectId, ref: 'Bid'}],
     bids: [bid],
     images: [{type: String, trim: true}],
     category: {type: String, required: [true, 'category required'], trim: true},

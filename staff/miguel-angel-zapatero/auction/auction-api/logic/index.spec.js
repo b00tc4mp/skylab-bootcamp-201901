@@ -1,7 +1,7 @@
 require('dotenv').config();
 const logic = require('.')
 const { mongoose, models: {User, Item, Bid }} = require('auction-data')
-const { LogicError } = require('auction-errors')
+const { LogicError, RequirementError, ValueError, FormatError } = require('auction-errors')
 const bcrypt = require('bcrypt')
 const moment = require('moment')
 
@@ -55,19 +55,121 @@ describe('logic', () => {
                 expect(samePass).toBe(true)
             })
 
-            it('should fail on already user exists', async () => {
+            it('should fail if user exists', async () => {
                 try {
                     await User.create({name, surname, email, password})   
                     await logic.registerUser(name, surname, email, password)
                     throw Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeInstanceOf(LogicError)
-                    expect(error.message).toBe(`user with email ${email} already exists`)
+                    expect(error.message).toBe(`user with email "${email}" already exist`)
                 }
+            })
+
+            it('should fail on undefined name', () => {
+                const name = undefined
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `name is not optional`)
+            })
+
+            it('should fail on null name', () => {
+                const name = null
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `name is not optional`)
+            })
+
+            it('should fail on empty name', () => {
+                const name = ''
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'name is empty')
+            })
+
+            it('should fail on blank name', () => {
+                const name = ' \t    \n'
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'name is empty')
+            })
+
+            it('should fail on undefined surname', () => {
+                const surname = undefined
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `surname is not optional`)
+            })
+
+            it('should fail on null surname', () => {
+                const surname = null
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `surname is not optional`)
+            })
+
+            it('should fail on empty surname', () => {
+                const surname = ''
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'surname is empty')
+            })
+
+            it('should fail on blank surname', () => {
+                const surname = ' \t    \n'
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'surname is empty')
+            })
+
+            it('should fail on undefined email', () => {
+                const email = undefined
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `email is not optional`)
+            })
+
+            it('should fail on null email', () => {
+                const email = null
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `email is not optional`)
+            })
+
+            it('should fail on empty email', () => {
+                const email = ''
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'email is empty')
+            })
+
+            it('should fail on blank email', () => {
+                const email = ' \t    \n'
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'email is empty')
+            })
+
+            it('should fail on non-email email', () => {
+                const nonEmail = 'non-email'
+
+                expect(() => logic.registerUser(name, surname, nonEmail, password)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
+            })
+
+            it('should fail on undefined password', () => {
+                const email = undefined
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `password is not optional`)
+            })
+
+            it('should fail on null password', () => {
+                const password = null
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `password is not optional`)
+            })
+
+            it('should fail on empty password', () => {
+                const password = ''
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'password is empty')
+            })
+
+            it('should fail on blank password', () => {
+                const password = ' \t    \n'
+
+                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'password is empty')
             })
         })
 
-        describe('after created user', () =>{
+        describe('on already existing user', () =>{
             let user, _password
 
             beforeEach(async() => {
@@ -76,10 +178,32 @@ describe('logic', () => {
             })
 
             describe('authenticate user', () => {
-                it('should success on correct data', async () => {
+                it('should success on correct user data', async () => {
                     const id = await logic.authenticateUser(email, password)
                     
                     expect(id).toBe(user.id)
+                })
+
+                it('should fail on non-existing user', async () => {
+                    try {
+                        await logic.authenticateUser(email = 'unexisting-user@mail.com', password)
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe(`user with email "${email}" doesn't exist`)
+                    }
+                })
+
+                it('should fail on wrong password', async () => {
+                    try {
+                        await logic.authenticateUser(email, password = '123')
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe('wrong credentials')
+                    }
                 })
             })
 
@@ -91,6 +215,200 @@ describe('logic', () => {
                     expect(_user.name).toBe(user.name)
                     expect(_user.surname).toBe(user.surname)
                     expect(_user.email).toBe(user.email)
+                    expect(_user.password).toBeUndefined()
+                })
+
+                it('should fail on unexisting user id', async () => {
+                    id = '01234567890123456789abcd'
+    
+                    try {
+                        await logic.retrieveUser(id) 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+        
+                        expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                    }
+                })
+    
+                it('should fail on wrong id', async () => {
+                    id = 'wrong-id'
+    
+                    try {
+                        await logic.retrieveUser(id) 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        
+                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR
+                        // expect(error).toBeInstanceOf(FormatError)
+                        // expect(error.message).toBe('invalid id')
+                        expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
+                    }
+                })
+            })
+
+            describe('update', () => {        
+                let data
+
+                beforeEach(() => {
+                    data = { name: 'n', surname: 's', email: 'e@e.com', password: 'p'}
+                })
+                it('should succeed on correct data', async () => {    
+                    const response = await logic.updateUser(user.id, data.name, data.surname, data.email, data.password)
+                    expect(response).toBeUndefined()
+                    
+                    const _user = await User.findById(user.id)
+                    
+                    expect(_user).toBeDefined()
+                    expect(_user.id).toBe(user.id)
+                    expect(_user.surname).toBe(data.surname)
+                    expect(_user.name).toBe(data.name)
+                    expect(_user.email).toBe(data.email)
+
+                    const pass = bcrypt.compareSync(data.password, _user.password)
+
+                    expect(pass).toBeTruthy()
+                    expect(_user.lastAccess).toBeUndefined()
+                    
+                    expect(Object.keys(_user._doc).length).toEqual(Object.keys(user._doc).length)
+                })
+
+                it('should succeed changing some fields', async () => {    
+                    const data = { name: 'n', email: 'e@e.com'}
+    
+                    const response = await logic.updateUser(user.id, data.name, data.surname, data.email, data.password)
+                    expect(response).toBeUndefined()
+                    
+                    const _user = await User.findById(user.id)
+                    
+                    expect(_user).toBeDefined()
+                    expect(_user.id).toBe(user.id)
+                    expect(_user.name).toBe(data.name)
+                    expect(_user.email).toBe(data.email)
+                    
+                    expect(_user.name).not.toBe(user.name)
+                    expect(_user.email).not.toBe(user.email)
+                    expect(_user.surname).toBe(user.surname)
+                    expect(_user.password).toBe(user.password)
+    
+                    expect(Object.keys(_user._doc).length).toEqual(Object.keys(user._doc).length)
+                })
+    
+                it('should fail on incorrect user id', async () => {    
+                    id = '01234567890123456789abcd'
+    
+                    try {
+                        await logic.updateUser(id, data.name, data.surname, data.email, data.password) 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+        
+                        expect(error.message).toBe(`user with id "${id}" does not exist`)
+                    }
+                })
+                
+                it('should fail on wrong id', async () => {    
+                    let id = 'wrong-id'
+    
+                    try {
+                        await logic.updateUser(id, data.name, data.surname, data.email, data.password)
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        
+                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR
+                        // expect(error).toBeInstanceOf(FormatError)
+                        // expect(error.message).toBe('invalid id')
+                        expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
+                    }
+                })
+
+                it('should fail on existing email user', async () => {    
+                    await User.create({name, surname, email: 'email@mail.com', password: _password}) 
+
+                    data.email = 'email@mail.com'
+    
+                    try {
+                        await logic.updateUser(user.id, data.name, data.surname, data.email, data.password) 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+                        
+                        expect(error.message).toBe(`email "${data.email}" already exist`)
+                    }
+                })
+            })
+        
+            describe('delete', () => {
+                it('should succed on correct id', async () => {
+                    const response = await logic.deleteUser(user.id, user.email, password)
+                    
+                    expect(response).toBeUndefined()
+
+                    const _user = await User.findById(user.id)
+
+                    expect(_user).toBeNull()
+                })
+        
+                it('should fail on incorrect id', async () => {
+                    id = '01234567890123456789abcd'
+                    try {
+                        await logic.deleteUser(id, user.email, user.password)
+                        throw new Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+        
+                        expect(error.message).toBe(`user with id "${id}" does not exist`)
+                    }
+                })
+
+                it('should fail on wrong id', async () => {    
+                    let id = 'wrong-id'
+    
+                    try {
+                        await logic.deleteUser(id, email, user.password)
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        
+                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR
+                        // expect(error).toBeInstanceOf(FormatError)
+                        // expect(error.message).toBe('invalid id')
+                        expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
+                    }
+                })
+    
+                it('should fail on incorrect email', async () => {
+                    let email = 'fake_email@gmail.com' 
+    
+                    try {
+                        await logic.deleteUser(user.id, email, user.password)
+                        throw new Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+        
+                        expect(error.message).toBe('wrong credentials')
+                    }
+                })
+    
+                it('should fail on incorrect password', async () => {
+                    let password = '423'
+    
+                    try {
+                        await logic.deleteUser(user.id, user.email, password)
+                        throw new Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+        
+                        expect(error.message).toBe('wrong credentials')
+                    }
                 })
             })
         })
@@ -147,16 +465,20 @@ describe('logic', () => {
             })
         })
 
-        //FALTA MEJORAR ESTE TEST
         describe('search items', () => {
+
+
             xit('should success on correct query', async () => {
-                let query = {query: 'hola'}
+                //INCLUDE MULTISEARCH MIDDLEWARE¿?¿¿? AND TESTING¿???
+
+                let query = {title: 'hola'}
                 const _items = await logic.searchItems(query)
 
                 expect(_items).toBe(items)
                 expect(_items.length).toBe(5)
             })
 
+            //TODO MORE CASES WITH WORDS (TITLE AND DESCRIP), PRICE AND DATES
             it('should list all items with empty query', async () => {
                 const _items = await logic.searchItems({})
 
@@ -195,7 +517,7 @@ describe('logic', () => {
             item = await Item.create({
                 title: `Car-${Math.random()}`,
                 description: `description-${Math.random()}`,
-                startPrice: Math.ceil(Math.random() * 200),
+                startPrice: Math.floor(Math.random() * 200) + 10,
                 startDate: Date.now(),
                 finishDate: Date.now() + (Math.ceil(Math.random() * 1000000000)),
                 reservedPrice: Math.floor(Math.random() * 1),
@@ -209,7 +531,7 @@ describe('logic', () => {
 
         describe('place a bid', () => {
             it('should success on correct data when bidding first time', async () => {
-                let amount = 200
+                let amount = 1000
 
                 await logic.placeBid(item.id, user.id, amount)
                 const _item = await Item.findById(item.id)
@@ -228,10 +550,10 @@ describe('logic', () => {
             })
 
             it('should success on correct data when bidding second time', async () => {
-                let amount = 200
+                let amount = 1000
                 await logic.placeBid(item.id, user.id, amount)
 
-                let amount2 = 500
+                let amount2 = 2000
                 await logic.placeBid(item.id, user.id, amount2)
 
                 const _item = await Item.findById(item.id)
@@ -240,42 +562,193 @@ describe('logic', () => {
                 expect(_item.bids).toBeInstanceOf(Array)
                 expect(_item.bids.length).toBeGreaterThan(1)
                 expect(_item.bids[0].userId.toString()).toBe(user.id)
-                expect(_item.bids[0].amount).toBe(amount)
+                expect(_item.bids[0].amount).toBe(amount2)
                 expect(_item.bids[0].timeStamp).toBeDefined()
                 expect(_item.bids[1].userId.toString()).toBe(user.id)
-                expect(_item.bids[1].amount).toBe(amount2)
+                expect(_item.bids[1].amount).toBe(amount)
                 expect(_item.bids[1].timeStamp).toBeDefined()
 
                 expect(_user.items).toBeInstanceOf(Array)
                 expect(_user.items.length).toBeLessThan(2)
                 expect(_user.items[0].toString()).toBe(item.id)
             })
+
+            it('should fail if the bid is lower than the start price', async () => {
+                let amount = 5
+                try {
+                    await logic.placeBid(item.id, user.id, amount)
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    debugger
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`sorry, the current bid "${amount}" is lower than the start price`)
+                }
+            })
+
+            it('should fail if the bid is lower than the current bid', async () => {
+                let amount = 2000
+                try {
+                    await logic.placeBid(item.id, user.id, amount)
+                    
+                    amount = 1000
+                    await logic.placeBid(item.id, user.id, amount)
+                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`sorry, the bid "${amount}" is lower than the current amount`)
+                }
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let amount = 2000
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.placeBid(id, user.id, amount)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                }
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let amount = 2000
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.placeBid(id, user.id, amount)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    // expect(error).toBeInstanceOf(LogicError)
+                    // expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                let amount = 2000
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.placeBid(item.id, id, amount)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                let amount = 2000
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.placeBid(item.id, id, amount)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    // expect(error).toBeInstanceOf(LogicError)
+                    // expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
+                }
+            })
+
         })
 
         describe('retrieve item bids', () => {
-            it('should success on correc item id', async () => {
-                let amount = 200
+            it('should success on correct item id', async () => {
+                let amount = 1000
                 await logic.placeBid(item.id, user.id, amount)
 
-                let amount2 = 500
+                let amount2 = 1500
                 await logic.placeBid(item.id, user.id, amount2)
 
-                const bids = await logic.retrieveItemBids(item.id)
+                const bids = await logic.retrieveItemBids(item.id, user.id)
                 
                 expect(bids.length).toBeGreaterThan(0)
-                expect(bids[0].userId.toString()).toBe(user.id)
-                expect(bids[0].amount).toBe(amount)
-                expect(bids[0].timeStamp).toBeDefined()
-                expect(bids[1].userId.toString()).toBe(user.id)
-                expect(bids[1].amount).toBe(amount2)
-                expect(bids[1].timeStamp).toBeDefined()
 
+                expect(bids[0].amount).toBe(amount2)
+                expect(bids[0].timeStamp).toBeDefined()
                 expect(bids[0].userId.name).toBe(user.name)
-                expect(bids[0].userId.surname).toBe(user.surname)
-                expect(bids[0].userId.email).toBe(user.email)
+                expect(bids[0].userId.name).toBe(user.name)
+                expect(bids[0].userId.name).toBe(user.name)
+                expect(bids[0].userId.password).toBeUndefined()
+                expect(bids[0].userId._id).toBeUndefined()
+
+                expect(bids[1].amount).toBe(amount)
+                expect(bids[1].timeStamp).toBeDefined()
                 expect(bids[1].userId.name).toBe(user.name)
-                expect(bids[1].userId.surname).toBe(user.surname)
-                expect(bids[1].userId.email).toBe(user.email)
+                expect(bids[1].userId.surname).toBeUndefined()
+                expect(bids[1].userId.email).toBeUndefined()
+                expect(bids[1].userId.password).toBeUndefined()
+                expect(bids[1].userId._id).toBeUndefined()
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.retrieveItemBids(id, user.id)                   
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                }
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.retrieveItemBids(id, user.id)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    // expect(error).toBeInstanceOf(LogicError)
+                    // expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.retrieveItemBids(item.id, id)              
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.retrieveItemBids(item.id, id)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    // expect(error).toBeInstanceOf(LogicError)
+                    // expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
+                }
             })
         })
     })

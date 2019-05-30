@@ -4,6 +4,7 @@ const jwt = require('jsonwebtoken')
 const logic = require('../logic')
 const handleErrors = require('./handle-errors')
 const auth = require('./auth')
+const multisearch = require('./multisearch')
 
 const { env: { JWT_SECRET } } = process
 
@@ -21,16 +22,6 @@ router.post('/users', jsonParser, (req, res) => {
     }, res)
 })
 
-router.get('/users', auth, (req, res) => {
-    handleErrors(async () => {
-        const { userId } = req
-
-        const user = await logic.retrieveUser(userId)
-
-        return res.json(user)
-    }, res)
-})
-
 router.post('/users/auth', jsonParser, (req, res) => {
     const { body: { email, password } } = req
     
@@ -41,23 +32,62 @@ router.post('/users/auth', jsonParser, (req, res) => {
     }, res)
 })
 
-router.post('/items/:id/bid', jsonParser, auth, (req, res) => {
+router.get('/users', auth, (req, res) => {
+    const { userId } = req
+    
     handleErrors(async () => {
-        const { userId, params: { id }, body: { amount } } = req
+        const user = await logic.retrieveUser(userId)
 
+        return res.json(user)
+    }, res)
+})
+
+router.put('/users/update', jsonParser, auth, (req, res) => {
+    const { userId, body: { name, surname, email, password } } = req
+    
+    handleErrors(async () => {
+        await logic.updateUser(userId, name, surname, email, password)
+        
+        return res.status(201).json({ message: 'Ok, user updated.' })
+    }, res)
+})
+
+router.delete('/users/delete', jsonParser, auth, (req, res) => {
+    const { userId, body: { email, password } } = req
+    
+    handleErrors(async () => {
+        await logic.deleteUser(userId, email, password)
+
+        return res.json({ message: 'Ok, user deleted.' })
+    }, res)
+})
+
+router.post('/items/:id/bids', jsonParser, auth, (req, res) => {
+    const { userId, params: { id }, body: { amount } } = req
+    
+    handleErrors(async () => {
         await logic.placeBid(id, userId, amount)
         
         return res.json({ message: 'Ok, bid placed.' })
     }, res)
 })
 
-router.post('/items', jsonParser, (req, res) => {
+router.get('/items/:id/bids', auth, (req, res) => {
+    const { userId, params: { id } } = req
+    
     handleErrors(async () => {
+        const bids = await logic.retrieveItemBids(id, userId)
         
-        const { body: { 
-            title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city  
-        } } = req
-        
+        return res.json(bids)
+    }, res)
+})
+
+router.post('/items', jsonParser, (req, res) => {
+    const { body: { 
+        title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city  
+    } } = req
+    
+    handleErrors(async () => {
         //FALTA PASARLE EL userId para proteger lo de crear items?¿?¿
         await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
         
@@ -65,10 +95,10 @@ router.post('/items', jsonParser, (req, res) => {
     }, res)
 })
 
-router.get('/items', jsonParser, (req, res) => {
-    handleErrors(async () => {
-        const { query } = req 
+router.get('/items', jsonParser, multisearch, (req, res) => {
+    const { query } = req 
 
+    handleErrors(async () => {
         const items = await logic.searchItems(query)
         
         return res.json(items)
@@ -76,9 +106,9 @@ router.get('/items', jsonParser, (req, res) => {
 })
 
 router.get('/items/:id', (req, res) => {
+    const { params: { id } } = req 
+    
     handleErrors(async () => {
-        const { params: { id } } = req 
-
         const item = await logic.retrieveItem(id)
         
         return res.json(item)
