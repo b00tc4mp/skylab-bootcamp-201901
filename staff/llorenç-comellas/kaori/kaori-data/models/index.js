@@ -1,14 +1,9 @@
-const mongoose = require('mongoose')
-const schemas = require('./schemas')
-
-const { UserSchema, ProductSchema, CartSchema } = schemas
-
-const User = mongoose.model('User', UserSchema)
-const Product = mongoose.model('Product', ProductSchema)
-const Cart = mongoose.model('Cart', CartSchema)
+const {model} = require('mongoose')
+const { UserSchema, ProductSchema, CartItemSchema, OrderSchema}  = require('./schemas')
 
 module.exports = {
-    User,
-    Product,
-    Cart  
+    User: model('User', UserSchema),
+    Product: model('Product', ProductSchema),
+    CartItem: model('CartItem', CartItemSchema),
+    Order: model('Order', OrderSchema)
 }

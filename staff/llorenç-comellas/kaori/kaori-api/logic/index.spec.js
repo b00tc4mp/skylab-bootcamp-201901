@@ -4,7 +4,7 @@ const logic = require('.')
 const bcrypt = require('bcrypt')
 const { LogicError, RequirementError, ValueError, FormatError } = require('../common/errors')
 
-const { User, Product, Cart } = models
+const { User, Product } = models
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 
 describe('logic', () => {
@@ -164,6 +164,8 @@ describe('logic', () => {
 
                 expect(() => logic.registerUser(name, surname, phone, nonEmail, password)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
             })
+
+            //TODO PASSWORD
         })
 
         describe('authenticate user', () => {
@@ -263,7 +265,7 @@ describe('logic', () => {
 
         describe('retrieve product by category', () => {
             let products
-            beforeEach(async () => products = await Product.create({ title, image, description, price, category }))
+            beforeEach(async () => products = await Product.create({ title, image, phone, description, price, category }))
 
             it('should succed on correct category from existing product', async () => {
                 const _products = await logic.retrieveProductsByCategory(products.category)
@@ -276,6 +278,149 @@ describe('logic', () => {
                 expect(_products[0].category).toEqual(category)
             })
 
+        })
+
+        describe('add product', () => {
+            let user
+            beforeEach(async () => user = await User.create({ name, surname, phone, email, password }))
+
+            it('should succeed adding product', async () => {
+                const product = await Product.create({
+                    title: 'Maki',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 10,
+                    category: 'ENTRANTES'
+                })
+
+                const res = await logic.addToCart(product.id, user.id)
+
+                expect(res).toBeDefined()
+
+                const _user = await User.findById(user.id).lean()
+
+                const { cart } = _user
+
+                expect(cart).toBeDefined()
+                expect(cart).toHaveLength(1)
+
+                expect(cart[0].productId.toString()).toEqual(product.id)
+                expect(cart[0].quantity).toBe(1)
+
+            })
+
+            it('should succed adding more items', async () => {
+                const product = await Product.create({
+                    title: 'Maki',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 10,
+                    category: 'ENTRANTES'
+                })
+                const _product = await Product.create({
+                    title: 'Maki',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 10,
+                    category: 'ENTRANTES'
+                })
+
+                await logic.addToCart(product.id, user.id)
+                await logic.addToCart(_product.id, user.id)
+
+                const _user = await User.findById(user.id).lean()
+
+                const { cart } = _user
+
+                expect(cart).toBeDefined()
+                expect(cart).toHaveLength(2)
+
+                expect(cart[0].productId.toString()).toEqual(product.id)
+                expect(cart[0].quantity).toBe(1)
+                expect(cart[1].productId.toString()).toEqual(_product.id)
+                expect(cart[1].quantity).toBe(1)
+            })
+            fit('should succeed adding the same item', async () => {
+                const product = await Product.create({
+                    title: 'Maki',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 10,
+                    category: 'ENTRANTES'
+                })
+
+                await logic.addToCart(product.id, user.id)
+                debugger
+                const res = await logic.addToCart(product.id, user.id)
+                expect(res).toBeDefined()
+
+                const _user = await User.findById(user.id).lean()
+
+                const { cart } = _user
+
+                expect(cart).toBeDefined()
+                expect(cart).toHaveLength(1)
+
+                expect(cart[0].productId.toString()).toEqual(product.id)
+                expect(cart[0].quantity).toBe(2)
+
+            })
+        })
+        describe('delete product', () => {
+            let user
+            beforeEach(async () => user = await User.create({ name, surname, phone, email, password }))
+
+            it('should delete product', async () => {
+                const product = await Product.create({
+                    title: 'Fish-roll',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 8,
+                    category: 'ENTRANTES'
+                })
+                await logic.addToCart(product.id, user.id)
+                       
+                await logic.deleteToCart(product.id, user.id)
+                
+                const _user = await User.findById(user.id).lean()
+                
+                const { cart } = _user
+
+                expect(cart).toBeDefined()
+                expect(cart).toHaveLength(0)
+
+            })
+        }),
+        describe('from cart to order', () => {
+            let user
+            beforeEach(async () => user = await User.create({ name, surname, phone, email, password }))
+
+            it('should create new order', async () => {
+                const productA = await Product.create({
+                    title: 'Fish-roll',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 8,
+                    category: 'ENTRANTES'
+                })
+
+                const productB = await Product.create({
+                    title: 'Fish-roll-sub',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 18,
+                    category: 'ENTRANTES'
+                })
+                await logic.addToCart(productA.id, user.id)
+
+                await logic.addToCart(productB.id, user.id)
+                       
+                const order = await logic.cartToOrder(user.id)
+                
+                expect(user.cart.length).toEqual(0)
+                expect(order).toBeDefined()
+                
+            })
         })
     })
 

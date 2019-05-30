@@ -1,9 +1,9 @@
 const validate = require('../common/validate')
 const { LogicError } = require('../common/errors')
-const { models } = require('kaori-data')
+const { models, mongoose: { Schema: { Types: { ObjectId } } } } = require('kaori-data')
 const bcrypt = require('bcrypt')
 
-const { User, Product, Cart } = models
+const { User, Product, CartItem, Order } = models
 
 const logic = {
     registerUser(name, surname, phone, email, password) {
@@ -40,7 +40,7 @@ const logic = {
 
             const encryptPassword = bcrypt.hashSync(password, 10)
 
-            if (bcrypt.compareSync(password, encryptPassword)) return user.id //REVISAR
+            if (await bcrypt.compareSync(password, encryptPassword)) return user.id //REVISAR
             else throw new LogicError('wrong credentials')
 
         })()
@@ -88,7 +88,9 @@ const logic = {
         ])
 
         return (async () => {
-            return await Product.findById(id).select('title image description price category -_id').lean()
+            const product = await Product.findById(id).select('-_id title image description price category').lean()
+            if (!product) throw new LogicError(`product whit id "${id}" doesn't exists`)
+            return product
         })()
 
     },
@@ -99,18 +101,77 @@ const logic = {
         ])
 
         return (async () => {
-            return await Product.find({ category }).select('title image description price category -_id').lean()
+            const product = await Product.find({ category }).select('-_id title image description price category').lean()
+            if (!product) throw new LogicError(`product whit category ${category} doesn't exists`)
+
+            return product
         })()
     },
 
     addToCart(productId, userId) {
-        //TODO VALIDATE 
+        validate.arguments([
+            { name: 'productId', value: productId, type: 'string', notEmpty: true },
+            { name: 'userId', value: userId, type: 'string', notEmpty: true }
+        ])
 
-        //TODO LOGIC
+        return (async () => {
+            const user = await User.findById(userId)
+            if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
+            // const cartItem = CartItem.findOne({productId})
+            // debugger
+            const index = user.cart.indexOf(({ id }) => id === productId)
+            if (index < 0) user.cart.push({ productId, quantity: 1 })
+            else user.cart[index].qty++
 
+            await user.save()
 
+            return user.cart
+        })()
+    },
+
+    deleteToCart(productId, userId) {
+        validate.arguments([
+            { name: 'productId', value: productId, type: 'string', notEmpty: true },
+            { name: 'userId', value: userId, type: 'string', notEmpty: true }
+        ])
+        return (async () => {
+            const user = await User.findById(userId)
+            if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
+
+            if (user.cart.length) {
+                const index = await user.cart.indexOf(({ id }) => id === productId)
+                user.cart.splice(index, 1)
+            }
+
+            await user.save()
+
+            return user.cart
+
+        })()
+    },
+
+    retrieveToCart() {
+
+    },
+
+    cartToOrder(userId) {
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            const user = await User.findById(userId)
+            if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
+
+            const order = await Order.create({ products: user.cart, user: user.id })
+
+            user.cart = []
+
+            await user.save()
+
+            return order.id
+        })()
     }
-
 
 }
 

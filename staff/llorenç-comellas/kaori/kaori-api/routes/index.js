@@ -26,7 +26,7 @@ router.post('/users/auth', jsonParser, (req, res) => {
     handleErrors(async () => {
         const sub = await logic.authenticateUser(email, password)
 
-        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '47m' })
+        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '2h' })
         return res.json({ token })
 
     }, res)
@@ -68,6 +68,14 @@ router.get('/products/:category', (req, res) => {
         const products = await logic.retrieveProductsByCategory(category)
         return res.json(products)
     }, res)
+})
+
+router.post('/products/cart', (req, res) => {
+    const { body: { productId, userId } } = req
+    handleErrors(async () =>{
+        await logic.addToCart(productId, userId)
+        return res.status(201).json({ message: 'Ok, product add to cart.' })
+    },res)
 })
 
 
