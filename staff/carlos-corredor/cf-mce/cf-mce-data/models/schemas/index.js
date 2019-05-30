@@ -35,7 +35,7 @@ const customer = new Schema({
     surname: { type: String },
     phone: { type: String },
     address: { type: String },
-    nid: { type: String },
+    nid: { type: String, required: true },
     email: { type: String },
     notes: [note]
 })
