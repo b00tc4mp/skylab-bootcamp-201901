@@ -6,6 +6,7 @@
   "scripts": {
     "test": "npx mocha ./**/*.test.js",
     "test:debug": "npx mocha debug ./**/*.test.js",
+    "test:inspect": "npx mocha --inspect-brk ./**/*.test.js",
     "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.test.js"
   },
   "keywords": [],

@@ -30,7 +30,12 @@ const validate = {
     category(category) {
         const categories = ['MASTER', 'TECHNICIAN', 'ASSISTANT']
         if(categories.indexOf(category) < 0) throw new LogicError(`${category} is not a valid option for category`)
+    },
+
+    idMongodb(id) {
+        if(id.length !== 24 ) throw new FormatError(`${id} is not a valid id`)
     }
+
 }
 
 module.exports = validate

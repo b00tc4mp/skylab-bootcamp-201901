@@ -1,6 +1,6 @@
 // const { Schema } = require('mongoose')
 const { models} = require('cf-mce-data')
-const { validate, errors: {LogicError}  } = require('cf-mce-common')
+const { validate, errors: {LogicError, UnauthorizedError, ValueError}  } = require('cf-mce-common')
 const argon2 = require('argon2')
 
 const { User, Customer, ElectronicControlModule, Product, Note } = models
@@ -29,48 +29,86 @@ const logic = {
         })()
     },
 
-    // authenticateUser(email, password) {
-    //     // TODO validate inputs
+    authenticateUser(email, password) {
+        validate.arguments([
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true }
+        ])
+        validate.email(email)
 
-    //     // TODO implement logic
-    //     return (async () => {
-    //         const user = await User.findOne({ email })
 
-    //         if (await argon2.verify(user.password, password)) return user.id
-    //         else throw new LogicError('wrong credentials')
-    //     })()
-    // },
+        return (async () => {
+            const user = await User.findOne({ email })
+            if(!user) throw new LogicError(`user with email "${email}" does not exist`)
 
-    // retrieveUser(id) {
-    //     // TODO validate inputs
+            if (await argon2.verify(user.password, password)) return user.id
+            else throw new UnauthorizedError('wrong credentials')
+        })()
+    },
 
-    //     // TODO implement logic
-    //     return (async () => {
-    //         // 1
+    retrieveUser(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(id)
 
-    //         // const user = await User.findById(id).lean()
+         return (async () => {
+            const user = await User.findById(id)
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
+ 
+            return await User.findById(id).select('name surname email category -_id').lean()
 
-    //         // user.id = user._id.toString()
-    //         // delete user._id
+        })()
+    },
 
-    //         // delete user.password
-    //         // delete user.notes
-    //         // delete user.__v
+    update(id, data) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object' }
+        ])
+        validate.idMongodb(id)
+        
+        if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')
 
-    //         // return user
+        return (async () => {
+                 await User.findByIdAndUpdate(id, data)
+        })()
+    },
 
-    //         // 2
+    delete(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(id)
 
-    //         return await User.findById(id).select('name surname email -_id').lean()
+         return (async () => {
+            const user = await User.findById(id)
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
+ 
+            await User.findByIdAndRemove(id)
 
-    //         // 3
+        })()
+    },
 
-    //         // const { name, surname, email } = await User.findById(id)
+    registerCustomer(name, surname, phone, address, nid, email) {
+        validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true, optional: true },
+            { name: 'phone', value: phone, type: 'string', notEmpty: true, optional: true },
+            { name: 'address', value: address, type: 'string', notEmpty: true, optional: true },
+            { name: 'nid', value: nid, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true, optional: true }
+        ])
+        if (email != null) validate.email(email)
 
-    //         // return { name, surname, email }
-    //     })()
-    // },
+        return (async () => {
+            const customer = await Customer.findOne({nid}).lean()
 
+            if (customer) throw new LogicError(`customer with nid "${nid}" already exists`)
+
+            await Customer.create({ name, surname, phone, address, nid, email })
+        })()
+    },
     // addPublicNote(userId, text) {
     //     // TODO validate inputs
 
