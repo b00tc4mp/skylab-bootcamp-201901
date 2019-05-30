@@ -2,8 +2,10 @@ const bcrypt = require('bcrypt')
 const LogicError = require('../common/errors')
 const validate = require('../common/validate')
 const models = require('cinema-and-go-data')
+const scrapper = require('../lib/scrapper')
 
-const { User, Movie } = models
+const { User, Movie, MovieSessions, City, mongoose } = models
+const {Types: {ObjectId}} = mongoose
 
 const logic = {
     registerUser(name, email, password) {
@@ -57,11 +59,43 @@ const logic = {
         })()
     },
 
-    registerMovie(name, img, info, cast) {
-        return (async () => {
-            return await Movie.create({ name, img, info, cast })
+    registerCities(name, link, cinemas) {
+        return(async () => {
+            return await City.create({name, link, cinemas})
         })()
     },
+
+    registerMovie(title, img, info, cast) {
+        return (async () => {
+            const exists = await Movie.findOne({ title })
+            if (exists) return exists._id
+
+            const insertMovie = await Movie.create({ title, img, info, cast })
+
+            return insertMovie._id
+        })()
+    },
+
+    registerSessions(movie, sessions) {
+        return(async () => {
+            return await MovieSessions.create({ movie, sessions })
+        })()
+    },
+
+    scrapperCinemaMovies() {
+        const bcnCinemas = 'https://www.ecartelera.com/cines/0,9,23.html'
+        return (async () => {
+            const scrapCity = await scrapper.getAllCinemas(bcnCinemas);
+
+            await Promise.all(scrapCity.map(async cinema => {
+                const { billboard } = cinema
+                await Promise.all(billboard.map(async ({title, img, info, cast, movieSessions}) => {
+                    const movie = await this.registerMovie(title, img, info, cast)
+                    const movieSession = await this.registerSessions(ObjectId(movie), movieSessions)
+                }))
+            }))
+        })()
+    }
 }
 
 module.exports = logic

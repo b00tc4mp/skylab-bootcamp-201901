@@ -1,26 +1,10 @@
 /**
  * @jest-environment node
 */
-
-const dotenv = require('dotenv')
-const { mongoose, City, Cinema, Movie, MovieSessions } = require('cinema-and-go-data')
 const { FormatError, ValueError } = require('../../common/errors')
 const scrapper = require('.');
 
-dotenv.config()
-
-// const { env: { MONGO_URL_LOGIC_TEST: url } } = process
-
 describe('scrapper', () => {
-    // beforeAll(() => mongoose.connect(url, { useNewUrlParser: true }))
-
-    // beforeEach(async () => {
-    //     await City.deleteMany()
-    //     await Cinema.deleteMany()
-    //     await Movie.deleteMany()
-    //     await MovieSessions.deleteMany()
-    // })
-
     describe('Html fetch', () => {
         it('should fetch correctly data from a given url', async () => {
             const url = 'https://www.google.com/'
@@ -89,40 +73,27 @@ describe('scrapper', () => {
                 cinemaName: '',
                 telephone: '',
                 direction: '',
-                projectionDay: undefined
+                projectionDay: undefined,
+                billboard: []
             });
         })
     })
 
-    describe('List cinema movies', () => {
-        let html
-        const url_cinema = 'https://www.ecartelera.com/cines/89,0,1.html'
-
-        beforeAll(async () => {
-            html = await scrapper.__getHtml(url_cinema)
-            return html
-        })
-
-        it('should get the correct info from a given html', async () => {
-            const cinemaInfo = await scrapper.__listCinemaMovies(html)
-            expect(cinemaInfo).toBeDefined()
-            expect(cinemaInfo).toBeInstanceOf(Array)
-        })
-
-        it('should fail on incorrect info from a given html', async () => {
-            html = ''
-            const cinemaInfo = await scrapper.__listCinemaMovies(html)
-            expect(cinemaInfo).toHaveLength(0)
-        })
-    })
-
     describe('Get all cinemas', () => {
+        const url_city = 'https://www.ecartelera.com/cines/0,9,23.html'
         it('should get all cinemas by calling it', async () => {
-            const cinemas = await scrapper.getAllCinemas()
+            const cinemas = await scrapper.getAllCinemas(url_city)
             expect(cinemas).toBeDefined()
             expect(cinemas).toBeInstanceOf(Array)
         })
     })
 
-    // afterAll(() => mongoose.disconnect())
+    describe('Get all information from inside a cinema', () => {
+        const url_cinema = 'https://www.ecartelera.com/cines/multicines-arenas-de-barcelona/'
+        it('should retrieve all cinema information when call it', async () => {
+            const cinemaInfo = await scrapper.getCinemaInfo(url_cinema)
+            expect(cinemaInfo).toBeDefined()
+            expect(cinemaInfo).toBeInstanceOf(Object)
+        })
+    })
 })

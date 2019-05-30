@@ -1,12 +1,16 @@
 const dotenv = require('dotenv')
-const { mongoose, User } = require('cinema-and-go-data')
+const { mongoose, User, Movie, MovieSessions } = require('cinema-and-go-data')
+const {Types:{ObjectId}} = mongoose
 const bcrypt = require('bcrypt')
 const logic = require('.')
+// const scrapper = require('../lib/scrapper')
 const { RequirementError, ValueError, FormatError } = require('../common/errors')
 
 dotenv.config()
 
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
+
+jest.setTimeout(1000000)
 
 describe('logic', () => {
     let name, email, password
@@ -15,6 +19,8 @@ describe('logic', () => {
 
     beforeEach(async () => {
         await User.deleteMany()
+        await Movie.deleteMany()
+        await MovieSessions.deleteMany()
 
         name = `name-${Math.random()}`
         email = `email-${Math.random()}@mail.com`
@@ -146,6 +152,43 @@ describe('logic', () => {
             expect(_user.email).toEqual(email)
 
             expect(_user.password).toBeUndefined()
+        })
+    })
+
+    describe('scrap a movie', () => {
+        fit('should insert a movie into de database', async () => {
+            const img = 'https://www.ecartelera.com/carteles/15000/15032/002-th.jpg'
+            const title = 'El Hijo'
+            const info = [ '90 min.', 'EE.UU.', 'Ciencia ficción', '+16' ]
+            const cast = 'Elizabeth Banks, Jackson A. Dunn, David Denman Dir. David Yarovesky'
+            const inserted = await logic.registerMovie(title, img, info, cast)
+            expect(inserted).toBeDefined()
+        })
+    })
+
+    describe('get movie sessions', () => {
+        let inserted
+
+        beforeEach(async () => {
+            const img = 'https://www.ecartelera.com/carteles/15000/15032/002-th.jpg'
+            const title = 'El Hijo'
+            const info = [ '90 min.', 'EE.UU.', 'Ciencia ficción', '+16' ]
+            const cast = 'Elizabeth Banks, Jackson A. Dunn, David Denman Dir. David Yarovesky'
+            inserted = await logic.registerMovie(title, img, info, cast)
+        })
+
+        it('should insert all movie sessions from a given cinema', async () => {
+            const movieSession = ['12:00', '16:30', '19:15', '22:00', '12:00', '20:00', '12:30', '17:15', '20:00', '18:00', '20:45' ]
+            const sessions = await logic.registerSessions(ObjectId(inserted), movieSession)
+            expect(sessions).toBeDefined()
+        })
+    })
+
+    describe('Scrap an entire city', () => {
+        fit('should get all cinemas from a given city', async () => {
+            const cityCinemas = await logic.scrapperCinemaMovies()
+            debugger
+            expect(cityCinemas).toBeDefined()
         })
     })
 
