@@ -4,7 +4,7 @@ const { aliveGames, Game } = require("./game/game")
 const ow = require('ow')
 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const { env: { PLACEHOLDERURL } } = process
-const { models: { User, MissionDeck } } = require("breedingseason-data")
+const { models: { User, MissionDeck, GameDeck } } = require("breedingseason-data")
 
 const logic = {
     registerUser(nickname, age, email, password) { //OK
@@ -87,7 +87,7 @@ const logic = {
     newGame(id, gameId, style) {
         ow(id, ow.string.not.empty)
         ow(gameId, ow.string.not.empty)
-        ow(style, ow.is.object.exactShape({
+        ow(style, ow.object.exactShape({
             mode: ow.string,
             conditions: {
                 players: ow.number,
@@ -216,6 +216,78 @@ const logic = {
     //     ]
 
     //     for(let i = 0; i < cards.length; i++ ) await MissionDeck.create(cards[i])
+    // }
+
+    // async createPenguinCartCollection() {
+    //     console.log("Await")
+
+    //     const cards = [
+    //         // { A: 1, B: "fishing" },
+    //         // { A: 2, B: "fishing" },
+    //         // { A: 3, B: "fishing" },
+    //         // { A: 4, B: "fishing" },
+    //         // { A: 5, B: "fishing" },
+    //         // { A: 6, B: "fishing" },
+    //         // { A: 7, B: "fishing" },
+
+    //         // { A: 1, B: "love" },
+    //         // { A: 2, B: "love" },
+    //         // { A: 3, B: "love" },
+    //         // { A: 4, B: "love" },
+    //         // { A: 5, B: "love" },
+    //         // { A: 6, B: "love" },
+    //         // { A: 7, B: "love" },
+
+    //         // { A: 1, B: "love" },
+    //         // { A: 2, B: "love" },
+    //         // { A: 3, B: "love" },
+    //         // { A: 4, B: "love" },
+    //         // { A: 5, B: "love" },
+    //         // { A: 6, B: "love" },
+    //         // { A: 7, B: "love" },
+
+    //         // { A: 1, B: "security" },
+    //         // { A: 2, B: "security" },
+    //         // { A: 3, B: "security" },
+    //         // { A: 4, B: "security" },
+    //         // { A: 5, B: "security" },
+    //         // { A: 6, B: "security" },
+    //         // { A: 7, B: "security" },
+
+    //         // { A: 1, B: "glue" },
+    //         // { A: 2, B: "glue" },
+    //         // { A: 3, B: "glue" },
+    //         // { A: 4, B: "pick" },
+    //         // { A: 5, B: "pick" },
+    //         // { A: 6, B: "pick" },
+    //         // { A: 7, B: "pick" },
+            
+    //         // { A: 1, B: "upgrade" },
+    //         // { A: 2, B: "upgrade" },
+    //         // { A: 3, B: "upgrade" },
+    //         // { A: 4, B: "upgrade" },
+    //         // { A: 5, B: "upgrade" },
+    //         // { A: 6, B: "upgrade" },
+    //         // { A: 7, B: "upgrade" },
+
+    //         { A: 1, B: "security" },
+    //         { A: 2, B: "pick" },
+    //         { A: 3, B: "love" },
+    //         { A: 4, B: "pick" },
+    //         { A: 5, B: "glue" },
+    //         { A: 6, B: "security" },
+    //         { A: 7, B: "upgrade"},
+
+    //         { A: 1, B: "pick" },
+    //         { A: 2, B: "security" },
+    //         { A: 3, B: "pick" },
+    //         { A: 4, B: "love" },
+    //         { A: 5, B: "pick" },
+    //         { A: 6, B: "upgrade" },
+    //         { A: 7, B: "glue"},
+    //     ]
+
+    //     for (let i = 0; i < cards.length; i++) await GameDeck.create(cards[i])
     // }
 
 }

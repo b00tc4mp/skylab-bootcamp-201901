@@ -147,10 +147,10 @@ router.post('/continueGame/:gameId', async (req, res) => {
     }
 })
 
-// router.get('/superSecretAddMissionCard', async (req, res) => {
-//     await logic.createMissionCartCollection()
+// router.get('/superSecretAddPenguinCard', async (req, res) => {
+//     await logic.createPenguinCartCollection()
 
-//     res.status(200).json({message: done})
+//     res.status(200).json({message: "done"})
 // })
 
 
