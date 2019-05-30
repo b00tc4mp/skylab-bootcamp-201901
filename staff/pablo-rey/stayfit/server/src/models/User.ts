@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType, Root } from 'type-graphql';
-import { prop, Typegoose } from 'typegoose';
+import { prop, Typegoose, arrayProp, Ref } from 'typegoose';
 import { isEmail } from 'validator';
+import { Provider } from './provider';
 
 // Constants
 export const SUPERADMIN_ROLE = 'SUPERADMIN_ROLE';
@@ -47,6 +48,7 @@ export class User extends Typegoose {
   fullName(@Root() parent: User): string {
     return `${parent.name} ${parent.surname}`;
   }
+
 }
 
 export const UserModel = new User().getModelForClass(User, {

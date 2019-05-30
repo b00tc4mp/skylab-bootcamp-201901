@@ -1,9 +1,8 @@
 import * as bcrypt from 'bcryptjs';
 import { IsEmail, IsIn, Length, IsNotEmpty } from 'class-validator';
 import { Arg, Field, InputType, Mutation, Resolver, Ctx } from 'type-graphql';
-import { ValidationError } from '../../../common/errors';
-import { ROLES, User, UserModel } from '../../../models/user';
-import { checkAuth } from '../../authorization';
+import { ValidationError, AuthorizationError } from '../../../common/errors';
+import { ROLES, User, UserModel, GUEST_ROLE, SUPERADMIN_ROLE } from '../../../models/user';
 import { isIn } from 'validator';
 import { MyContext } from '../../../common/types/MyContext';
 
@@ -39,16 +38,21 @@ export class CreateUserResolver {
     @Arg('data')
     { email, name, surname, password, role }: CreateInput,
     @Ctx() ctx: MyContext
-  ) {
-    // Custom Validations
-    if (!password || password!.trim() === '') throw new ValidationError('password is required');
-    const _users = await UserModel.find({ email });
-    if (_users.length) throw new ValidationError('email already registered');
-    if (!isIn(role, ROLES)) throw new ValidationError('role must be one of [' + ROLES.join(',') + ']');
-
-    // Authorization
-    const owner = ctx && ctx.user;
-    await checkAuth(AUTH_USER_CREATE, { owner, role });
+    ) {
+      // Custom Validations
+      const _users = await UserModel.find({ email });
+      if (_users.length) throw new ValidationError('email already registered');
+      
+      // Authorization
+        const authFailed = {
+          ok: false,
+          error: new AuthorizationError('Not authorized to create a user with ' + role),
+        }
+    const owner = ctx ? ctx!.user || await UserModel.findById(ctx.userId) : null;
+    // if (!role) return { ok: false, error: new AuthorizationError('role for new user not provided') };
+    // if (isIn(role, [GUEST_ROLE])) return { ok: true };
+    // if (!owner) return authFailed;
+    // // TODO: si es un usuario administrador de un provider entonces puede crear
 
     // Create
     const hashPassword = await bcrypt.hash(password!, 12);

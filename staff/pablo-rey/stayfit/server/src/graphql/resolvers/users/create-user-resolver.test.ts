@@ -8,9 +8,7 @@ import { randomUser } from '../../../common/test-utils';
 import { GUEST_ROLE, UserModel, SUPERADMIN_ROLE, ROLES } from '../../../models/user';
 import { gCall } from '../../../utils/testing-utils/gqlCall';
 import { expectError } from './../../../utils/testing-utils/error-handling';
-import { checkAuth } from './../../../graphql/authorization';
 import sinon = require('sinon');
-import { AUTH_USER_CREATE } from './create-user-resolver';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -46,9 +44,8 @@ describe('create users', function() {
     role = user.role;
   });
 
-  it.only('should register a guest user without provide any owner correct data', async () => {
+  it('should register a guest user without provide any owner correct data', async () => {
     role = GUEST_ROLE;
-    // const spyCheckAuth = sinon.spy(checkAuth);
 
     const response = await gCall({
       source: mutation,
@@ -62,7 +59,6 @@ describe('create users', function() {
     });
     if (response.errors) console.log(response.errors);
     expect(response).not.to.have.property('errors');
-    // expect(spyCheckAuth.calledWith(AUTH_USER_CREATE)).to.be.true;
     expect(response).to.have.property('data');
     expect(response.data!.createUser).to.be.a('string');
     const _id = response.data!.createUser;

@@ -4,12 +4,11 @@ import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
-import { UserModel, User } from '../../../models/user';
+import { UserModel } from '../../../models/user';
 import { gCall } from '../../../utils/testing-utils/gqlCall';
-import { SUPERADMIN_ROLE } from './../../../models/user';
 import { ProviderModel } from './../../../models/provider';
+import { SUPERADMIN_ROLE } from './../../../models/user';
 import faker = require('faker');
-import { Provider } from './../../../models/provider';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -35,7 +34,7 @@ describe('update admins of a provider', function() {
     await ProviderModel.deleteMany({});
   });
 
-  it('should create a provider', async () => {
+  it('should update the admins of a provider', async () => {
     const name = faker.company.companyName();
     const provider = await ProviderModel.create({ name });
     const superadmin = await createRandomUser(SUPERADMIN_ROLE);

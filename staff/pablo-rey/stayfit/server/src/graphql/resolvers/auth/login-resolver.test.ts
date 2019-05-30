@@ -47,7 +47,7 @@ describe('login user', function() {
     password = _user.password!;
   });
 
-  it.only('should login correct a random user', async () => {
+  it('should login correct a random user', async () => {
     const fakeCookie = sinon.fake();
     const response = await gCall({
       source: loginMutation,

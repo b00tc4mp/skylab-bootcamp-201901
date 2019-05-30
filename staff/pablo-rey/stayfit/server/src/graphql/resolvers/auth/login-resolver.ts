@@ -2,7 +2,7 @@ import { AuthenticationError } from 'apollo-server';
 import * as bcrypt from 'bcryptjs';
 import { IsEmail, IsNotEmpty } from 'class-validator';
 import { refreshToken } from './../../../common/token/refresh-tokens';
-import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver } from 'type-graphql';
+import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver, Authorized } from 'type-graphql';
 import { UserModel } from '../../../models/user';
 import { MyContext } from './../../../common/types/MyContext';
 

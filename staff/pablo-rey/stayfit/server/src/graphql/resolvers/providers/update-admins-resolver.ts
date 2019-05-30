@@ -1,25 +1,24 @@
-import { Arg, Ctx, Mutation, Resolver } from 'type-graphql';
+import { Types } from 'mongoose';
+import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import { MyContext } from '../../../common/types/MyContext';
 import { Provider, ProviderModel } from '../../../models/provider';
-import { checkAuth } from '../../authorization';
-import { Types } from 'mongoose';
-import { arrayProp } from 'typegoose';
-
-export const AUTH_PROVIDERS_UPDATEADMINS = 'AUTH_PROVIDERS_UPDATEADMINS';
+import { ONLY_SUPERADMIN } from './../../middleware/authChecker';
+import users from 'src/logic/users';
+import { User, UserModel } from 'src/models/user';
 
 @Resolver(Provider)
 export class UpdateProviderAdminsResolver {
+  @Authorized(ONLY_SUPERADMIN)
   @Mutation(returns => Boolean)
   async updateProviderAdmins(
     @Arg('providerId') providerId: string,
-    @Arg('usersId') usersId: string[], //FIXME: its an array
+    @Arg('usersId', () => [String]) usersId: string[],
     @Ctx() ctx: MyContext
   ) {
     const provider = await ProviderModel.findById(providerId);
-    await checkAuth(AUTH_PROVIDERS_UPDATEADMINS, { owner: ctx.userId, provider });
-
     provider!.admins = usersId.map(id => Types.ObjectId(id));
     await provider!.save();
+
     return true;
   }
 }

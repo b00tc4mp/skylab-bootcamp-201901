@@ -6,7 +6,7 @@ import * as mongoose from 'mongoose';
 import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import { UserModel } from '../../../models/user';
 import { gCall } from '../../../utils/testing-utils/gqlCall';
-import { SUPERADMIN_ROLE } from './../../../models/user';
+import { SUPERADMIN_ROLE } from '../../../models/user';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
