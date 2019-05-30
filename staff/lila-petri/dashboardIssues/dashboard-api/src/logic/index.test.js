@@ -19,8 +19,8 @@ describe('logic', ()=>{
     const  country = `PL`
     before(()=> mongoose.connect(url, {useNewUrlParser:true}))
     beforeEach(async()=>{
-        //await Issue.deleteMany()
-        //await User.deleteMany()
+        await Issue.deleteMany()
+        await User.deleteMany()
         email = `email-${Math.random()}@mail.com`
         user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
         id= user.id
@@ -108,27 +108,68 @@ describe('logic', ()=>{
         })
 
         it('should fail on blank id', () => {
-            const month = ' \t    \n'
+            const id = ' \t    \n'
             
             expect(() => logic.loadJirasByMonth(id, month)).to.throw(ValueError, 'id is empty')
         })
     })
-    describe('issues', ()=>{
+    describe.only('issues', ()=>{
         const month='May'
-        // beforeEach(async()=>{
-        //     await logic.loadJirasByMonth(month)
-        // })
+        beforeEach(async()=>{
+            await logic.loadJirasByMonth(id, month)
+        })
         describe('calculate overdue',()=>{
             // const month='May'
             // beforeEach(async()=>{
             //     await logic.loadJirasByMonth(month)
             // })
             it('shoul succeed on correct data', async ()=>{
-                await logic.calculateOverdue()
+                await logic.calculateOverdue(id)
                 const issues= await Issue.find()
                 expect(issues).to.exist
+            })
+            it('should fail on incorrect format id', async ()=>{
+                const id='LL'
+                try{
+                    await logic.calculateOverdue(id)
+                    throw Error('should not reach this point')
     
+                }catch(err){
+                    expect(err.message).to.equals('invalid id')
+                }
+            })
+            it('should fail on inexistent id', async ()=>{
+                const id='5cefc8d029db9f0ba2664b16'
+                try{
+                    await logic.calculateOverdue(id)
+                    throw Error('should not reach this point')
     
+                }catch(err){
+                    expect(err.message).to.equals(`user with id "${id}" does not exist`)
+                }
+            })
+            it('should fail on undefined id', () => {
+                const id = undefined
+                
+                expect(() => logic.calculateOverdue(id)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on null id', () => {
+                const id = null
+                
+                expect(() => logic.calculateOverdue(id)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on empty id', () => {
+                const id = ''
+                
+                expect(() => logic.calculateOverdue(id)).to.throw(ValueError, 'id is empty')
+            })
+            
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+            
+                expect(() => logic.calculateOverdue(id)).to.throw(ValueError, 'id is empty')
             })
         })
         describe('clean collection issue', ()=>{
@@ -137,9 +178,53 @@ describe('logic', ()=>{
             //     await logic.loadJirasByMonth(month)
             // })
             it('should clean issues collection', async ()=>{
-                await logic.clearUp()
+                await logic.clearUp(id)
                 const collection = await Issue.estimatedDocumentCount()
                 expect(collection).is.equal(0)
+            })
+            it('should fail on incorrect format id', async ()=>{
+                const id='LL'
+                try{
+                    await logic.clearUp(id)
+                    throw Error('should not reach this point')
+    
+                }catch(err){
+                    expect(err.message).to.equals('invalid id')
+                }
+            })
+
+            it('should fail on inexistent id', async ()=>{
+                const id='5cefc8d029db9f0ba2664b16'
+                try{
+                    await logic.clearUp(id)
+                    throw Error('should not reach this point')
+    
+                }catch(err){
+                    expect(err.message).to.equals(`user with id "${id}" does not exist`)
+                }
+            })
+            it('should fail on undefined id', () => {
+                const id = undefined
+                
+                expect(() => logic.clearUp(id)).to.throw(RequirementError, `id is not optional`)
+            })
+    
+            it('should fail on null id', () => {
+                const id = null
+                
+                expect(() => logic.clearUp(id)).to.throw(RequirementError, `id is not optional`)
+            })
+    
+            it('should fail on empty id', () => {
+                const id = ''
+                
+                expect(() => logic.clearUp(id)).to.throw(ValueError, 'id is empty')
+            })
+    
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+                
+                expect(() => logic.clearUp(id)).to.throw(ValueError, 'id is empty')
             })
         })
         describe('static method', ()=>{
@@ -160,17 +245,17 @@ describe('logic', ()=>{
         
             const startDate = '2019-05-01'
             const endDate = '2019-05-29'
-            let id
-            beforeEach(async()=>{
-                name = `John`
-                surname = `Smith`
-                email = `email-${Math.random()}@mail.com`
-                password = `123`
-                profile = `admin`
-                country = `PL`
-                user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
-                id= user.id
-            })
+            // let id
+            // beforeEach(async()=>{
+            //     name = `John`
+            //     surname = `Smith`
+            //     email = `email-${Math.random()}@mail.com`
+            //     password = `123`
+            //     profile = `admin`
+            //     country = `PL`
+            //     user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+            //     id= user.id
+            // })
             
             it('should sucdeed on correct data', async ()=>{
                 
@@ -386,14 +471,15 @@ describe('logic', ()=>{
             const endDate = '2019-05-06'
     
             it('should succeed on correct data', async ()=>{
-                const response = await logic.retrieveIssuesBySLA('Bug', 'IT', startDate, endDate)
+                const response = await logic.retrieveIssuesBySLA(id, 'Bug', 'IT', startDate, endDate)
                 expect(response).to.exist
             })
+
             it('should fail on incorrect range of date', async ()=>{
                 const startDate = '2019-05-02'
                 const endDate = '2019-05-01'
                 try{
-                    await logic.retrieveIssuesBySLA('Request', 'IT', startDate, endDate)
+                    await logic.retrieveIssuesBySLA(id,'Request', 'IT', startDate, endDate)
                     throw Error('should not reach this point')
                 }catch(err){
                     expect(err.message).to.equals('incorrect date range')
@@ -403,7 +489,7 @@ describe('logic', ()=>{
             it('should fail on incorrect country', async ()=>{
                 const country='LL'
                 try{
-                    await logic.retrieveIssuesBySLA('Request', country, startDate, endDate)
+                    await logic.retrieveIssuesBySLA(id,'Request', country, startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
@@ -414,7 +500,7 @@ describe('logic', ()=>{
             it('should fail on incorrect issueType', async ()=>{
                 const issueType='LL'
                 try{
-                    await logic.retrieveIssuesBySLA(issueType, 'IT', startDate, endDate)
+                    await logic.retrieveIssuesBySLA(id, issueType, 'IT', startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
@@ -425,7 +511,7 @@ describe('logic', ()=>{
             it('should fail on incorrect startDate', async ()=>{
                 const startDate='LL'
                 try{
-                    await logic.retrieveIssuesBySLA('Request', 'IT', startDate, endDate)
+                    await logic.retrieveIssuesBySLA(id,'Request', 'IT', startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
@@ -436,108 +522,154 @@ describe('logic', ()=>{
             it('should fail on incorrect endDate', async ()=>{
                 const endDate='LL'
                 try{
-                    await logic.retrieveIssuesBySLA('Request', 'IT', startDate, endDate)
+                    await logic.retrieveIssuesBySLA(id,'Request', 'IT', startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
                     expect(err.message).to.equals('incorrect date')
                 }
             })
+
+            it('should fail on incorrect format id', async ()=>{
+                const id='LL'
+                try{
+                    await logic.retrieveIssuesBySLA(id,'Request', 'IT', startDate, endDate)
+                    throw Error('should not reach this point')
     
+                }catch(err){
+                    expect(err.message).to.equals('invalid id')
+                }
+            })
+
+            it('should fail on inexistent id', async ()=>{
+                const id='5cefc8d029db9f0ba2664b16'
+                try{
+                    await logic.retrieveIssuesBySLA(id,'Request', 'IT', startDate, endDate)
+                    throw Error('should not reach this point')
+    
+                }catch(err){
+                    expect(err.message).to.equals(`user with id "${id}" does not exist`)
+                }
+            })
+
             it('should fail on undefined issueType', () => {
                 const issueType = undefined
                 
-                expect(() => logic.retrieveIssuesBySLA(issueType, 'IT', startDate, endDate)).to.throw(RequirementError, `issueType is not optional`)
+                expect(() => logic.retrieveIssuesBySLA(id, issueType, 'IT', startDate, endDate)).to.throw(RequirementError, `issueType is not optional`)
             })
             
             it('should fail on null issueType', () => {
                 const issueType = null
                 
-                expect(() => logic.retrieveIssuesBySLA(issueType, 'IT', startDate, endDate)).to.throw(RequirementError, `issueType is not optional`)
+                expect(() => logic.retrieveIssuesBySLA(id, issueType, 'IT', startDate, endDate)).to.throw(RequirementError, `issueType is not optional`)
             })
             
             it('should fail on empty issueType', () => {
                 const issueType = ''
                 
-                expect(() => logic.retrieveIssuesBySLA(issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
+                expect(() => logic.retrieveIssuesBySLA(id, issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
             })
             
             it('should fail on blank issueType', () => {
                 const issueType = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesBySLA(issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
+                expect(() => logic.retrieveIssuesBySLA(id, issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
             })
     
             it('should fail on undefined country', () => {
                 const country = undefined
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
             })
             
             it('should fail on null issueType', () => {
                 const country = null
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
             })
             
             it('should fail on empty country', () => {
                 const country = ''
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
             })
             
             it('should fail on blank country', () => {
                 const country = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
             })
     
             it('should fail on undefined startDate', () => {
                 const startDate = undefined
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
             })
             
             it('should fail on null startDate', () => {
                 const startDate = null
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
             })
             
             it('should fail on empty startDate', () => {
                 const startDate = ''
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
             })
             
             it('should fail on blank startDate', () => {
                 const startDate = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
             })
     
             it('should fail on undefined endDate', () => {
                 const endDate = undefined
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
             })
             
             it('should fail on null endDate', () => {
                 const endDate = null
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
             })
             
             it('should fail on empty endDate', () => {
                 const endDate = ''
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
             })
             
             it('should fail on blank endDate', () => {
                 const endDate = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesBySLA('Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+                expect(() => logic.retrieveIssuesBySLA(id, 'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+            })
+
+            it('should fail on undefined id', () => {
+                const id = undefined
+                
+                expect(() => logic.retrieveIssuesBySLA(id,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on null id', () => {
+                const id = null
+                
+                expect(() => logic.retrieveIssuesBySLA(id,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on empty id', () => {
+                const id = ''
+                
+                expect(() => logic.retrieveIssuesBySLA(id,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'id is empty')
+            })
+            
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+            
+                expect(() => logic.retrieveIssuesBySLA(id,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'id is empty')
             })
     
         })
@@ -551,13 +683,13 @@ describe('logic', ()=>{
             const endDate = '2019-05-15'
     
             it('should succeed on correct data', async ()=>{
-                const response = await logic.retrieveIssuesByTable('IT', startDate, endDate)
+                const response = await logic.retrieveIssuesByTable(id, 'IT', startDate, endDate)
                 expect(response).to.exist
             })
             it('should fail on incorrect startDate', async ()=>{
                 const startDate='LL'
                 try{
-                    await logic.retrieveIssuesByTable('IT', startDate, endDate)
+                    await logic.retrieveIssuesByTable(id, 'IT', startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
@@ -567,96 +699,144 @@ describe('logic', ()=>{
             it('should fail on incorrect startDate', async ()=>{
                 const endDate='LL'
                 try{
-                    await logic.retrieveIssuesByTable('IT', startDate, endDate)
+                    await logic.retrieveIssuesByTable(id, 'IT', startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
                     expect(err.message).to.equals('incorrect date')
                 }
             })
+
             it('should fail on incorrect country', async ()=>{
                 const country='LL'
                 try{
-                    await logic.retrieveIssuesByTable(country, startDate, endDate)
+                    await logic.retrieveIssuesByTable(id, country, startDate, endDate)
                     throw Error('should not reach this point')
     
                 }catch(err){
                     expect(err.message).to.equals('incorrect country')
                 }
             })
+
+            it('should fail on incorrect format id', async ()=>{
+                const id='LL'
+                try{
+                    await logic.retrieveIssuesByTable(id, 'IT', startDate, endDate)
+                    throw Error('should not reach this point')
+    
+                }catch(err){
+                    expect(err.message).to.equals('invalid id')
+                }
+            })
+
+            it('should fail on inexistent id', async ()=>{
+                const id='5cefc8d029db9f0ba2664b16'
+                try{
+                    await logic.retrieveIssuesByTable(id, 'IT', startDate, endDate)
+                    throw Error('should not reach this point')
+    
+                }catch(err){
+                    expect(err.message).to.equals(`user with id "${id}" does not exist`)
+                }
+            })
+
             it('should fail on empty country', () => {
                 const country = ''
                 
-                expect(() => logic.retrieveIssuesByTable(country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+                expect(() => logic.retrieveIssuesByTable(id, country , startDate, endDate)).to.throw(ValueError, 'country is empty')
             })
             
             it('should fail on blank country', () => {
                 const country = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesByTable(country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+                expect(() => logic.retrieveIssuesByTable(id, country , startDate, endDate)).to.throw(ValueError, 'country is empty')
             })
     
             it('should fail on undefined startDate', () => {
                 const startDate = undefined
                 
-                expect(() => logic.retrieveIssuesByTable('MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
             })
             
             it('should fail on null startDate', () => {
                 const startDate = null
                 
-                expect(() => logic.retrieveIssuesByTable('MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
             })
             
             it('should fail on empty startDate', () => {
                 const startDate = ''
                 
-                expect(() => logic.retrieveIssuesByTable('MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
             })
             
             it('should fail on blank startDate', () => {
                 const startDate = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesByTable('MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
             })
     
             it('should fail on undefined endDate', () => {
                 const endDate = undefined
                 
-                expect(() => logic.retrieveIssuesByTable('MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
             })
             
             it('should fail on null endDate', () => {
                 const endDate = null
                 
-                expect(() => logic.retrieveIssuesByTable('MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
             })
             
             it('should fail on empty endDate', () => {
                 const endDate = ''
                 
-                expect(() => logic.retrieveIssuesByTable('MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
             })
             
             it('should fail on blank endDate', () => {
                 const endDate = ' \t    \n'
                 
-                expect(() => logic.retrieveIssuesByTable('MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+            })
+
+            it('should fail on undefined id', () => {
+                const id = undefined
+                
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on null id', () => {
+                const id = null
+                
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(RequirementError, `id is not optional`)
+            })
+            
+            it('should fail on empty id', () => {
+                const id = ''
+                
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(ValueError, 'id is empty')
+            })
+            
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+            
+                expect(() => logic.retrieveIssuesByTable(id, 'MX' , startDate, endDate)).to.throw(ValueError, 'id is empty')
             })
     
         })
 
     })
     describe('users',()=>{
-        // let name, surname, email, password, profile, country
-        // beforeEach(()=>{
-        //     name = `John`
-        //     surname = `Smith`
-        //     email = `email-${Math.random()}@mail.com`
-        //     password = `123`
-        //     profile = `admin`
-        //     country = `PL`
-        // })
+        let name, surname, email, password, profile, country
+        beforeEach(()=>{
+            name = `John`
+            surname = `Smith`
+            email = `email-${Math.random()}@mail.com`
+            password = `123`
+            profile = `admin`
+            country = `PL`
+        })
         describe('registerUser', ()=>{
             it('should succeed on correct data', async ()=>{
             const res = await logic.registerUser(name, surname, email, password, profile, country)
@@ -843,10 +1023,10 @@ describe('logic', ()=>{
 
         })
         describe('authenticateUser', ()=>{
-            // let user
-            // beforeEach(async()=>{
-            //     user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
-            // })
+            let user
+            beforeEach(async()=>{
+                user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+            })
 
             it('should succeed on correct credentials', async () => {
                 const id = await logic.authenticateUser(email, password)

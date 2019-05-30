@@ -54,19 +54,46 @@ router.delete('/users',auth, (req, res) => {
         res.status(204).json({ message: 'Ok, user deleted.' })
     },res)
 })
-router.get('issues/load?:q', auth, (req, res)=>{
+router.get('/issues/load', auth, (req, res)=>{
     handleErrors(async () => {
         const {  userId , query: { month } } = req
-        debugger
         await logic.loadJirasByMonth(userId, month)
         res.status(200).json({ message: 'Database loaded successfully' })
     },res)
 })
+router.put('/issues/overdue', auth, (req, res)=>{
+    handleErrors(async () => {
+        const {  userId  } = req
+        await logic.calculateOverdue(userId)
+        res.status(200).json({ message: 'Database updated successfully' })
+    },res)
+})
+router.put('/issues/cleanup', auth, (req, res)=>{
+    handleErrors(async () => {
+        const {  userId  } = req
+        await logic.clearUp(userId)
+        res.status(200).json({ message: 'Database cleaned successfully' })
+    },res)
+})
 router.get('/issues/resolution', auth, (req, res)=>{
     handleErrors(async () => {
-        const {  userId , body: { issueType, country, startDate, endDate } } = req
+        const {  userId , query: { issueType, country, startDate, endDate } } = req
         const issuesByResolution = await logic.retrieveIssuesByResolution(userId, issueType, country, startDate, endDate)
         return res.status(200).json(issuesByResolution)
+    },res)
+})
+router.get('/issues/sla', auth, (req, res)=>{
+    handleErrors(async () => {
+        const {  userId , query: { issueType, country, startDate, endDate } } = req
+        const issuesBySLA = await logic.retrieveIssuesBySLA(userId, issueType, country, startDate, endDate)
+        return res.status(200).json(issuesBySLA)
+    },res)
+})
+router.get('/issues/table', auth, (req, res)=>{
+    handleErrors(async () => {
+        const {  userId , query: { country, startDate, endDate } } = req
+        const table = await logic.retrieveIssuesByTable(userId, country, startDate, endDate)
+        return res.status(200).json(table)
     },res)
 })
 

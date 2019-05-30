@@ -18,8 +18,9 @@ const logic = {
         let endDate= moment(start).add(1, 'days').format('YYYY-MM-DD')
 
         return(async()=>{
-            
+
             const user = await User.findById(id)
+            debugger
             
             if(!user) throw new LogicError(`user with id "${id}" does not exist`)
 
@@ -63,11 +64,20 @@ const logic = {
         })()
 
     },
-    calculateOverdue(){
+    calculateOverdue(id){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true}
+        ])
+
+        if (!Types.ObjectId.isValid(id)) throw new FormatError('invalid id')
 
         let today=moment().format('YYYY-MM-DD')
 
         return(async()=>{
+            const user = await User.findById(id)
+            
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
+            
             const issues = await Issue.find()
             issues.forEach( async(issue)=>{
                 let duedate=moment(issue.dueDate).format('YYYY-MM-DD')
@@ -86,8 +96,18 @@ const logic = {
             
         })()
     },
-    clearUp(){
+    clearUp(id){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true}
+        ])
+
+        if (!Types.ObjectId.isValid(id)) throw new FormatError('invalid id')
+
         return(async ()=>{
+            const user = await User.findById(id)
+            
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
+
             await Issue.deleteMany()
         })()
     },
@@ -166,13 +186,15 @@ const logic = {
         })()
 
     },
-    retrieveIssuesBySLA(issueType, country, startDate, endDate){
+    retrieveIssuesBySLA(id,issueType, country, startDate, endDate){
         validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true},
             { name: 'issueType', value: issueType, type: 'string', notEmpty: true},
             { name: 'country', value: country, type: 'string', notEmpty: true},
             { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
             { name: 'endDate', value: endDate, type: 'string', notEmpty: true}
         ])
+        if (!Types.ObjectId.isValid(id)) throw new FormatError('invalid id')
 
         if(!moment(startDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
         if(!moment(endDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
@@ -182,6 +204,9 @@ const logic = {
 
         if (endDate<startDate) throw new RequirementError ('incorrect date range')
         return (async()=>{
+            const user = await User.findById(id)
+            
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
 
             if(!await Issue.findOne({ country })) throw new RequirementError ('incorrect country')
             
@@ -236,13 +261,15 @@ const logic = {
         })()
 
     },
-    retrieveIssuesByTable(country, startDate, endDate){
+    retrieveIssuesByTable(id, country, startDate, endDate){
         validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true},
             { name: 'country', value: country, type: 'string', notEmpty: true},
             { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
             { name: 'endDate', value: endDate, type: 'string', notEmpty: true}
         ])
 
+        if (!Types.ObjectId.isValid(id)) throw new FormatError('invalid id')
         if(!moment(startDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
         if(!moment(endDate, moment.ISO_8601).isValid()) throw new FormatError ('incorrect date')
 
@@ -262,6 +289,9 @@ const logic = {
         }
 
         return(async ()=>{
+            const user = await User.findById(id)
+            
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
 
             if(!await Issue.findOne({ country })) throw new RequirementError ('incorrect country')
             
