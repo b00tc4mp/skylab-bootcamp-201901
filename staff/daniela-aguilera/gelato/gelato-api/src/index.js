@@ -8,11 +8,12 @@ const connectToDatabase = require('./db-connection')
 
 ;(async () => {
   try {
-    await connectToDatabase()
+    await connectToDatabase({ isTest: process.env.NODE_ENV === 'test' })
 
     const app = express()
 
     app.use(cors())
+
     app.use('/api', routes)
 
     app.use((req, res) => {

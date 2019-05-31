@@ -1,6 +1,6 @@
 const { User, Order } = require('gelato-data')
-const LogicError = require('./logic-error')
-const validate = require('../../../gelato-validation/validate/index')
+const { LogicError } = require('gelato-errors')
+const validate = require('gelato-validation')
 
 const logic = {
   registerUser (name, surname, email, password) {
@@ -21,6 +21,7 @@ const logic = {
       }
     })()
   },
+
   authenticateUser (email, password) {
     validate.arguments([
       { name: 'email', value: email, type: 'string', notEmpty: true },
@@ -39,7 +40,9 @@ const logic = {
     ])
 
     return (async () => {
-      return User.findById(id).select('name surname email -_id').lean()
+      const user = await User.findById(id).lean()
+      delete user.password
+      return user
     })()
   },
 
@@ -72,12 +75,14 @@ const logic = {
     })()
   },
 
-  removeOneOrder (orderId) {
+  removeOneOrder ({ orderId, userId }) {
     validate.arguments([
+      { name: 'userId', value: userId, type: 'string', notEmpty: true },
       { name: 'orderId', value: orderId, type: 'string', notEmpty: true }
     ])
+
     return (async () => {
-      const isHereTheOrder = await Order.find({ _id: orderId })
+      const isHereTheOrder = await Order.find({ _id: orderId, client: userId })
       if (!isHereTheOrder.length) {
         throw new LogicError('Order not found')
       } else {
@@ -118,12 +123,11 @@ const logic = {
 
   retrieveAllOrders () {
     return (async () => {
-      const allOrders = await Order.find().populate('client', 'name').lean()
+      let allOrders = await Order.find().populate('client', 'name').lean()
 
       allOrders.forEach(order => {
         order.id = order._id.toString()
         delete order._id
-
         const { client } = order
 
         if (!client.id) {
@@ -135,12 +139,12 @@ const logic = {
     })()
   },
 
-  retrieveOneOrderByOrderId (orderId) {
+  retrieveOneOrderByOrderId ({ orderId, userId }) {
     validate.arguments([
       { name: 'orderId', value: orderId, type: 'string', notEmpty: true }
     ])
     return (async () => {
-      const order = await Order.find({ _id: orderId })
+      const order = await Order.find({ _id: orderId, client: userId })
       if (order.length >= 1) {
         const [{ client }] = order
         client.id = client._id.toString()

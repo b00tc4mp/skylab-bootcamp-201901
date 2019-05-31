@@ -354,7 +354,7 @@ describe('logic', () => {
     })
 
     it('should succeed removing an existing order', async () => {
-      await logic.removeOneOrder(orders[0].id)
+      await logic.removeOneOrder({ orderId: orders[0].id, userId: user.id })
       const updatedUserOrders = await logic.retrieveOrdersByUserId(user.id)
       expect(updatedUserOrders).to.have.lengthOf(1)
       expect(updatedUserOrders[0].id).to.equal(orders[1].id)
@@ -362,8 +362,8 @@ describe('logic', () => {
 
     it('should fail removing an non-existent order', async () => {
       try {
-        await logic.removeOneOrder(orders[0].id)
-        await logic.removeOneOrder(orders[0].id)
+        await logic.removeOneOrder({ orderId: orders[0].id, userId: user.id })
+        await logic.removeOneOrder({ orderId: orders[0].id, userId: user.id })
       } catch (error) {
         expect(error.message).to.equal('Order not found')
       }
@@ -453,7 +453,7 @@ describe('logic', () => {
       await Promise.all(gelatos.map(async gelato => orders.push(await Order.create(gelato))))
     })
     it('should success by retorning one order by order id', async () => {
-      const oneOrder = await logic.retrieveOneOrderByOrderId(orders[0].id)
+      const oneOrder = await logic.retrieveOneOrderByOrderId({ orderId: orders[0].id, userId: user.id })
       expect(oneOrder[0].type).to.exist
       expect(oneOrder).to.have.length(1)
       expect(oneOrder[0].id).to.be.equal(orders[0].id)
@@ -463,7 +463,7 @@ describe('logic', () => {
     it('should fail by retorning one order by non-existent order id', async () => {
       const fakeId = '692837982630'
       try {
-        await logic.retrieveOneOrderByOrderId(fakeId)
+        await logic.retrieveOneOrderByOrderId({ orderId: fakeId, userId: user.id })
       } catch (error) {
         expect(error.message).to.equal('order Id not found')
       }
@@ -472,7 +472,7 @@ describe('logic', () => {
     it('should fail by retorning one order by empty order id', async () => {
       const emptyId = ' \t    \n'
       try {
-        await logic.retrieveOneOrderByOrderId(emptyId)
+        await logic.retrieveOneOrderByOrderId({ orderId: emptyId, userId: user.id })
       } catch (error) {
         expect(error.message).to.equal('orderId is empty')
       }
@@ -481,7 +481,7 @@ describe('logic', () => {
     it('should fail by retorning one order by empty order id', async () => {
       const undefinedId = undefined
       try {
-        await logic.retrieveOneOrderByOrderId(undefinedId)
+        await logic.retrieveOneOrderByOrderId({ orderId: undefinedId, userId: user.id })
       } catch (error) {
         expect(error.message).to.equal('orderId is not optional')
       }
@@ -490,7 +490,7 @@ describe('logic', () => {
     it('should fail by retorning one order by sending random numbers instead of the order id in string', async () => {
       const randomNumbersId = 7373733
       try {
-        await logic.retrieveOneOrderByOrderId(randomNumbersId)
+        await logic.retrieveOneOrderByOrderId({ orderId: randomNumbersId, userId: user.id })
       } catch (error) {
         console.log(error.message)
         expect(error.message).to.equal(`orderId ${randomNumbersId} is not a string`)
