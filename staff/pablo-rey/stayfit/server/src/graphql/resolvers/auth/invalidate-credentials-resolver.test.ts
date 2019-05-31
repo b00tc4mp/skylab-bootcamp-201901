@@ -71,6 +71,6 @@ describe('invalidate credentials', function() {
         userId: id,
       },
     });
-    expectError(response, undefined, 'user not found');
+    expectError(response, undefined, 'Invalid credentials provider to authentication');
   });
 });

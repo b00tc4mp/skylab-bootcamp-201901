@@ -101,7 +101,7 @@ describe('login user', function() {
           password,
         },
       });
-      expectError(response, 'Error', 'Argument Validation Error');
+      expectError(response);
     });
     it('should fail if email provided is not a valid formated email', async () => {
       const response = await gCall({
@@ -111,7 +111,7 @@ describe('login user', function() {
           password,
         },
       });
-      expectError(response, 'Error', 'Argument Validation Error');
+      expectError(response);
     });
 
     it('should fail if password is empty', async () => {

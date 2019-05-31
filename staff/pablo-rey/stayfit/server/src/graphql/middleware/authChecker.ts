@@ -11,7 +11,6 @@ export const ONLY_ADMINS_OF_PROVIDER = 'ONLY_PROVIDER_ADMIN'; // You need to be 
 export const ALWAYS_OWN_USER = 'ALWAYS_OWN_USER'; // You need to be admin in this provider to receive authorization
 
 export const authChecker: AuthChecker<MyContext> = async ( { root, args, context, info }, roles) => {
-  debugger;
   const ownerId = context.userId;
   const owner = (context.user = await UserModel.findById(ownerId));
   let provider: Provider | null = null;
@@ -42,7 +41,7 @@ export const authChecker: AuthChecker<MyContext> = async ( { root, args, context
         const providerId = info.variableValues.providerId;
         if (!providerId) throw new LogicError(`Provider is required`);
         if (!provider) provider = context.provider = await ProviderModel.findById(providerId);
-        if (!provider || !provider.admins.includes(owner)) throw new AuthorizationError();
+        if (!provider || !provider.admins.includes(owner.id)) throw new AuthorizationError();
         break;
     }
   }

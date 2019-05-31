@@ -5,8 +5,9 @@ import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import { randomUser } from '../../../common/test-utils';
-import { GUEST_ROLE, UserModel, SUPERADMIN_ROLE, ROLES } from '../../../models/user';
+import { GUEST_ROLE, ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel } from '../../../models/user';
 import { gCall } from '../../../utils/testing-utils/gqlCall';
+import { USER_ROLE } from './../../../models/user';
 import { expectError } from './../../../utils/testing-utils/error-handling';
 import sinon = require('sinon');
 
@@ -45,34 +46,36 @@ describe('create users', function() {
   });
 
   it('should register a guest user without provide any owner correct data', async () => {
-    role = GUEST_ROLE;
+    for (let role of [GUEST_ROLE, USER_ROLE]) {
+      await UserModel.deleteMany({});
+      const user = randomUser(role);
+      const response = await gCall({
+        source: mutation,
+        variableValues: {
+          name: user.name,
+          surname: user.surname,
+          email: user.email,
+          password: user.password!,
+          role: user.role,
+        },
+      });
+      if (response.errors) console.log(response.errors);
+      expect(response).not.to.have.property('errors');
+      expect(response).to.have.property('data');
+      expect(response.data!.createUser).to.be.a('string');
+      const _id = response.data!.createUser;
 
-    const response = await gCall({
-      source: mutation,
-      variableValues: {
-        name,
-        surname,
-        email,
-        password,
-        role,
-      },
-    });
-    if (response.errors) console.log(response.errors);
-    expect(response).not.to.have.property('errors');
-    expect(response).to.have.property('data');
-    expect(response.data!.createUser).to.be.a('string');
-    const _id = response.data!.createUser;
+      const _users = await UserModel.find();
+      expect(_users).to.have.lengthOf(1);
 
-    const _users = await UserModel.find();
-    expect(_users).to.have.lengthOf(1);
-
-    const _user = _users[0];
-    expect(_user.id.toString()).to.be.equal(_id);
-    expect(_user.name).to.be.equal(name);
-    expect(_user.surname).to.be.equal(surname);
-    expect(_user.email).to.be.equal(email);
-    expect(_user.role).to.be.equal(role);
-    expect(await compare(password, _user.password)).to.be.true;
+      const _user = _users[0];
+      expect(_user.id.toString()).to.be.equal(_id);
+      expect(_user.name).to.be.equal(user.name);
+      expect(_user.surname).to.be.equal(user.surname);
+      expect(_user.email).to.be.equal(user.email);
+      expect(_user.role).to.be.equal(user.role);
+      expect(await compare(user.password, _user.password)).to.be.true;
+    }
   });
 
   it('should fail to register an user with same email', async () => {
@@ -93,79 +96,55 @@ describe('create users', function() {
     expect(_users).to.have.lengthOf(1);
   });
 
-  // describe('authorization failures', () => {
-  //   it('should register any type of user if the owner has SUPERADMIN_ROLE ', async () => {
-  //     const owner = await UserModel.create(randomUser(SUPERADMIN_ROLE));
-  //     for (let role of ROLES) {
-  //       const user = randomUser(role);
-  //       const response = await gCall({
-  //         source: mutation,
-  //         variableValues: {
-  //           name: user.name,
-  //           surname: user.surname,
-  //           email: user.email,
-  //           password: user.password,
-  //           role,
-  //         },
-  //         contextUserId: owner.id,
-  //       });
-  //       if (response.errors) console.log(response.errors);
-  //       expect(response).not.to.have.property('errors');
-  //       expect(response).to.have.property('data');
-  //       expect(response.data!.createUser).to.be.a('string');
-  //       const _id = response.data!.createUser;
-  //       expect(await UserModel.findById(_id)).not.to.be.null;
-  //     }
-  //   });
-
-  //   it('should register correct types of users the owner has BUSINESS_ROLE', async () => {
-  //     const owner = await UserModel.create(randomUser(BUSINESS_ROLE));
-  //     for (let role of [ADMIN_ROLE, STAFF_ROLE, GUEST_ROLE, USER_ROLE]) {
-  //       const newUser = await usersLogic.create(randomUser(role), owner);
-  //       expect(newUser).not.to.be.undefined;
-  //       userExpectations(newUser);
-  //     }
-  //     for (let role of [SUPERADMIN_ROLE, BUSINESS_ROLE]) {
-  //       const failUser = randomUser(SUPERADMIN_ROLE);
-  //       await expect(usersLogic.create(failUser, owner)).to.be.rejectedWith(
-  //         AuthorizationError,
-  //         'Not authorized to create a user with ' + failUser.role
-  //       );
-  //     }
-  //   });
-
-  //   it('should register correct types of users the owner has ADMIN_ROLE', async () => {
-  //     const owner = await UserModel.create(randomUser(ADMIN_ROLE));
-  //     for (let role of [STAFF_ROLE, GUEST_ROLE, USER_ROLE]) {
-  //       const newUser = await usersLogic.create(randomUser(role), owner);
-  //       expect(newUser).not.to.be.undefined;
-  //       userExpectations(newUser);
-  //     }
-  //     for (let role of [SUPERADMIN_ROLE, BUSINESS_ROLE, ADMIN_ROLE]) {
-  //       const failUser = randomUser(SUPERADMIN_ROLE);
-  //       await expect(usersLogic.create(failUser, owner)).to.be.rejectedWith(
-  //         AuthorizationError,
-  //         'Not authorized to create a user with ' + failUser.role
-  //       );
-  //     }
-  //   });
-
-  //   it('should register correct types of users the owner has STAFF_ROLE', async () => {
-  //     const owner = await UserModel.create(randomUser(STAFF_ROLE));
-  //     for (let role of [GUEST_ROLE, USER_ROLE]) {
-  //       const newUser = await usersLogic.create(randomUser(role), owner);
-  //       expect(newUser).not.to.be.undefined;
-  //       userExpectations(newUser);
-  //     }
-  //     for (let role of [SUPERADMIN_ROLE, BUSINESS_ROLE, ADMIN_ROLE, STAFF_ROLE]) {
-  //       const failUser = randomUser(SUPERADMIN_ROLE);
-  //       await expect(usersLogic.create(failUser, owner)).to.be.rejectedWith(
-  //         AuthorizationError,
-  //         'Not authorized to create a user with ' + failUser.role
-  //       );
-  //     }
-  //   });
-  // });
-
-  // })
+  describe('authorization failures', () => {
+    it('should register any type of user if the owner has SUPERADMIN_ROLE ', async () => {
+      const owner = await UserModel.create(randomUser(SUPERADMIN_ROLE));
+      for (let role of ROLES) {
+        const user = randomUser(role);
+        const response = await gCall({
+          source: mutation,
+          variableValues: {
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            password: user.password,
+            role,
+          },
+          ctx: {
+            userId: owner.id.toString(),
+          },
+        });
+        if (response.errors) {
+          console.log(user);
+          console.dir(response.errors);
+        }
+        expect(response).not.to.have.property('errors');
+        expect(response).to.have.property('data');
+        expect(response.data!.createUser).to.be.a('string');
+        const _id = response.data!.createUser;
+        expect(await UserModel.findById(_id)).not.to.be.null;
+      }
+    });
+    it('should fail if you try to register other roles than USER and GUEST and you are not SUPERADMIN_ROLE ', async () => {
+      const owner = await UserModel.create(randomUser(STAFF_ROLE));
+      for (let role of ROLES.filter(r => ![GUEST_ROLE, USER_ROLE].includes(r))) {
+        const user = randomUser(role);
+        const response = await gCall({
+          source: mutation,
+          variableValues: {
+            name: user.name,
+            surname: user.surname,
+            email: user.email,
+            password: user.password,
+            role,
+          },
+          ctx: {
+            userId: owner.id.toString(),
+          },
+        });
+        expect(response).to.have.property('errors');
+        expect(await UserModel.find()).to.have.lengthOf(1);
+      }
+    });
+  });
 });

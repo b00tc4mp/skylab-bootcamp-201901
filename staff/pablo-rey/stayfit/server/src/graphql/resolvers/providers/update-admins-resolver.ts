@@ -12,11 +12,11 @@ export class UpdateProviderAdminsResolver {
   @Mutation(returns => Boolean)
   async updateProviderAdmins(
     @Arg('providerId') providerId: string,
-    @Arg('usersId', () => [String]) usersId: string[],
+    @Arg('usersId', () => [String]) adminsId: string[],
     @Ctx() ctx: MyContext
   ) {
     const provider = await ProviderModel.findById(providerId);
-    provider!.admins = usersId.map(id => Types.ObjectId(id));
+    provider!.admins = adminsId.map(id => Types.ObjectId(id));
     await provider!.save();
 
     return true;

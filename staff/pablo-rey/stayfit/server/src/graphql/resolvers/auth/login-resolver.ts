@@ -5,6 +5,8 @@ import { refreshToken } from './../../../common/token/refresh-tokens';
 import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver, Authorized } from 'type-graphql';
 import { UserModel } from '../../../models/user';
 import { MyContext } from './../../../common/types/MyContext';
+import { isEmail } from 'validator';
+import { ValidationError } from '../../../common/errors';
 
 @ObjectType()
 export class AuthResponse {
@@ -17,7 +19,7 @@ export class AuthResponse {
 
 @InputType()
 export class LoginArgs {
-  @IsEmail()
+  // @IsEmail()
   @IsNotEmpty()
   @Field(type => String)
   email: string;
@@ -37,6 +39,8 @@ export class LoginResolver {
 
   @Mutation(() => AuthResponse)
   async login(@Arg('input') { email, password }: LoginArgs, @Ctx() ctx: MyContext): Promise<AuthResponse> {
+    
+    if (!isEmail(email)) throw new ValidationError('email must be an email')
     const user = await UserModel.findOne({ email });
 
     if (!user) throw new AuthenticationError('wrong credentials');

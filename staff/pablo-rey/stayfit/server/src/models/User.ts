@@ -2,6 +2,7 @@ import { Field, ID, ObjectType, Root } from 'type-graphql';
 import { prop, Typegoose, arrayProp, Ref } from 'typegoose';
 import { isEmail } from 'validator';
 import { Provider } from './provider';
+import { IsEmail } from 'class-validator';
 
 // Constants
 export const SUPERADMIN_ROLE = 'SUPERADMIN_ROLE';
@@ -26,11 +27,12 @@ export class User extends Typegoose {
   surname: string;
 
   @Field()
+  // @IsEmail()
   @prop({
     required: true,
     unique: true,
     trim: true,
-    validate: [{ validator: email => isEmail(email), message: 'email not contains a valid email' }],
+    // validate: [{ validator: email => isEmail(email), message: 'email not contains a valid email' }],
   })
   email: string;
 
