@@ -59,7 +59,7 @@ const auctionLiveApi = {
         ])
 
         return call(`${this.__url__}/users/update`, {
-            method: 'PATCH',
+            method: 'PUT',
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -87,7 +87,78 @@ const auctionLiveApi = {
         })
     },
 
+    createItem() {
+        //TODO
+    },
 
+    placeBid(itemId, token, amount) {
+        validate.arguments([
+            { name: 'itemId', value: itemId, type: 'string', notEmpty: true },
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'amount', value: amount, type: 'number', notEmpty: true }
+        ])
+
+        return call(`${this.__url__}/items/${itemId}/bids`, {
+            method: 'POST',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            body: { amount },
+            timeout: this.__timeout__
+        })
+    },
+
+    retrieveItemBids(itemId, token){
+        validate.arguments([
+            { name: 'itemId', value: itemId, type: 'string', notEmpty: true },
+            { name: 'token', value: token, type: 'string', notEmpty: true }
+        ])
+
+        return call(`${this.__url__}/items/${itemId}/bids`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            timeout: this.__timeout__
+        })
+    },
+
+    searchItems(query) {
+        validate.arguments([
+            { name: 'query', value: query, type: 'object', notEmpty: true, optional: true}
+        ])
+
+        // const { query, category, city, price, startdate, endDate, startPrice, endPrice} = query
+
+        let queryString = ''
+        for(let key in query) {
+            queryString += `${key}=${query[key]}` 
+        }
+
+        return call(`${this.__url__}/items?${queryString}`, {
+            method: 'GET',
+            header: {
+                'Content-Type': 'appication/json'
+            },
+            timeout: this.__timeout__
+        })
+    },
+    
+    retrieveItem(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true, optional: true}
+        ])
+
+        return call(`${this.__url__}/items/${id}`, {
+            method: 'GET',
+            header: {
+                'Content-Type': 'appication/json'
+            },
+            timeout: this.__timeout__
+        })
+    }
 }
 
 export default auctionLiveApi
