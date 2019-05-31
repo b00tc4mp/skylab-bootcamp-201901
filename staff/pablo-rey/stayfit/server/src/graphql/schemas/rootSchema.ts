@@ -12,11 +12,13 @@ import { AddProviderCustomerResolver } from './../resolvers/providers/add-custom
 import { RemoveProviderCustomerResolver } from '../resolvers/providers/remove-customer-resolver';
 import { RetrieveUserResolver } from '../resolvers/users/retrieve-user-resolver';
 import { ListProvidersResolver } from './../resolvers/providers/list-providers-resolver';
+import { CreateSessionResolver } from '../resolvers/sessions/create-session.ts/create-session-resolver';
 
 export async function createSchema() {
   return await buildSchema({
     resolvers: [
       CreateSessionTypeResolver,
+      CreateSessionResolver,
       LoginResolver,
       InvalidateCredentialsResolver,
       CreateUserResolver,

@@ -49,7 +49,7 @@ export async function populateDb() {
       })
     );
   }
-  const provider = await ProviderModel.create({
+  const provider1 = await ProviderModel.create({
     name: 'Testing provider',
     admins: [admin],
     coaches,
@@ -74,7 +74,12 @@ export async function populateDb() {
     bannerImageUrl: 'https://blogmedia.dealerfire.com/wp-content/uploads/sites/394/2018/06/Crossfit-training-3-banner.jpg',
     logoImageUrl: 'https://image.shutterstock.com/image-vector/modern-vector-professional-sign-logo-260nw-594906506.jpg',
   });
-  
-  // await SessionTypeModel.create({ type: 'wod', title: 'WOD' });
-  // await SessionTypeModel.create({ type: 'pt', title: 'Personal training' });
+
+  for (let provider of [provider1,provider2]) {
+    await SessionTypeModel.create({ type: 'wod', title: 'WOD', active: true, provider});
+    await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider});
+    await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider });
+  }
+  await SessionTypeModel.create({ type: 'nut', title: 'Nutrición', active: true, provider: provider2});
+  await SessionTypeModel.create({ type: 'ob', title: 'Fisioterapia', active: true, provider: provider1});
 }

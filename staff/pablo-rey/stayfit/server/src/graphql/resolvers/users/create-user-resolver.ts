@@ -1,12 +1,10 @@
 import * as bcrypt from 'bcryptjs';
-import { IsEmail, IsIn, Length, IsNotEmpty } from 'class-validator';
-import { Arg, Field, InputType, Mutation, Resolver, Ctx } from 'type-graphql';
-import { ValidationError, AuthorizationError } from '../../../common/errors';
-import { ROLES, User, UserModel, GUEST_ROLE, SUPERADMIN_ROLE, USER_ROLE } from '../../../models/user';
-import { isIn, isEmail } from 'validator';
+import { IsIn, IsNotEmpty } from 'class-validator';
+import { Arg, Ctx, Field, InputType, Mutation, Resolver } from 'type-graphql';
+import { isEmail, isIn } from 'validator';
+import { AuthorizationError, ValidationError } from '../../../common/errors';
 import { MyContext } from '../../../common/types/MyContext';
-
-export const AUTH_USER_CREATE = 'AUTH_USER_CREATE';
+import { GUEST_ROLE, ROLES, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../../../models/user';
 
 @InputType()
 export class CreateInput {
@@ -39,7 +37,7 @@ export class CreateUserResolver {
     @Ctx() ctx: MyContext
   ) {
     // Custom Validations
-    if (!isEmail(email)) throw new ValidationError('email must be an email')
+    if (!isEmail(email)) throw new ValidationError('email must be an email');
     const _users = await UserModel.find({ email });
     if (_users.length) throw new ValidationError('email already registered');
 

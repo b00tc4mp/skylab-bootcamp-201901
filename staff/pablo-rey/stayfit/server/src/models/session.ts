@@ -20,20 +20,6 @@ export const PRIVATE = 'PRIVATE';
 
 export const SESSIONVISIBILITY = [PUBLIC, ONLY_REGISTERED, OWN_CUSTOMERS, OWN_STAFF, PRIVATE];
 
-export type Session__Type = {
-  id?: string;
-  _id?: Types.ObjectId;
-  title: string;
-  provider: Provider;
-  coaches: User[];
-  startTime: Date;
-  endTime: Date;
-  maxAttendants: number;
-  type: SessionType;
-  status: string;
-  visibility: string;
-};
-
 @ObjectType()
 export class Session extends Typegoose {
   @Field(() => ID)

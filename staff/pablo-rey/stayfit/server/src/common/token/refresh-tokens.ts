@@ -1,4 +1,4 @@
-import { User } from 'src/models/user';
+import { User } from '../../models/user';
 import { MyContext } from '../types/MyContext';
 import { sign, verify } from 'jsonwebtoken';
 
