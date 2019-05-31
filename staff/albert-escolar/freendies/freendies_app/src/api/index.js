@@ -71,9 +71,30 @@ const freendiesApi = {
 
         return fetch(`${this.url}user`, {
             headers: {
-                authorization:`Bearer ${token}`
+                authorization: `Bearer ${token}`
             }
         })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
+    updateUserEmail(email, token) {
+        if (typeof email !== 'string') throw TypeError(`email is not a string`)
+        if (!email.trim().length) throw Error('email cannot be empty')
+
+        return fetch(`${this.url}user/update`, {
+            method: 'PUT',
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            },
+            body: JSON.stringify({email})
+        })
+
             .then(response => response.json())
             .then(response => {
                 if (response.error) throw Error(response.error)

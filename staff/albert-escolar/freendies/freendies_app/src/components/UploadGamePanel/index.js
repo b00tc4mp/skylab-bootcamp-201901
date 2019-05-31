@@ -41,8 +41,9 @@ class UploadGamePanel extends Component {
 
                 </select>
                 <p>Description</p><input required name="description" placeholder="Insert Game description" type="text" onChange={event => onInputChange(event)} />
-                <p>Images to upload</p><input required multiple name="images[]" placeholder="TO CHANGE: INSERT IMAGES " type="file" onChange={event => onInputChange(event)} />
-                <p>File to upload</p><input required name="gameFile[]" placeholder="TO CHANGE: INSERT A FILE" type="file" onChange={event => onInputChange(event)} />
+                <p>File</p><input required name="coverImage" placeholder="TO CHANGE: INSERT A COVER IMAGE" type="file" onChange={event => onInputChange(event)} />
+                <p>Cover Image</p><input required name="gameFile" placeholder="TO CHANGE: INSERT A FILE" type="file" onChange={event => onInputChange(event)} />
+                <p>Images</p><input required multiple name="images[]" placeholder="TO CHANGE: INSERT IMAGES " type="file" onChange={event => onInputChange(event)} />
                 <br /><button>Upload Game</button>
             </form>
         </div>

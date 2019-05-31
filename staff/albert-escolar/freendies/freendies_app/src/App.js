@@ -7,6 +7,7 @@ import RegisterPanel from './components/RegisterPanel'
 import LoginPanel from './components/LoginPanel'
 import UserPanel from './components/UserPanel'
 import UploadGamePanel from './components/UploadGamePanel'
+import Landing from './components/Landing'
 import logic from './logic'
 
 class App extends Component {
@@ -47,6 +48,11 @@ class App extends Component {
 
   }
 
+  handleUpdateUserEmail =(email) =>{
+    return logic.updateUserEmail(email)
+
+  }
+
   handleGoToRegister = () => {
     this.props.history.push('/register')
   }
@@ -81,7 +87,7 @@ class App extends Component {
   }
   render() {
 
-    const { state: { user }, handleRegister, handleGoToRegister, handleLogin,
+    const { state: { user }, handleRegister, handleGoToRegister, handleLogin,handleUpdateUserEmail,
       handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleGoToUserPanel,
       handleUploadGame, handleLogout } = this
 
@@ -90,25 +96,17 @@ class App extends Component {
         <header className="App-header">
           <Header user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
             handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
-            handleGoToUploadGame={handleGoToUploadGame}></Header>
+            handleGoToUploadGame={handleGoToUploadGame}/>
           <Switch>
-
             <Route exact path="/" render={props => {
-
               return <div>
-                <h1>Landing</h1>
-                {!user && <h2>Welcome to Freendies</h2>}
-                {user && <h2>Welcome to Freendies {user.username}</h2>}
+                <Landing user={user}/>
+                
               </div>
-
-
             }} />
 
-
             <Route path="/register" render={props => {
-
               return <RegisterPanel history={props.history} onRegister={handleRegister} />
-
             }} />
 
             <Route path="/login" render={props => {
@@ -116,7 +114,7 @@ class App extends Component {
             }} />
 
             <Route path="/user" render={props => {
-              return <UserPanel history={props.history} user={user} />
+              return <UserPanel history={props.history} onUpdateUserEmail={handleUpdateUserEmail} user={user} />
             }} />
 
             <Route path="/uploadGame" render={props => {
@@ -124,7 +122,6 @@ class App extends Component {
             }} />
 
           </Switch>
-
         </header>
       </div>
     )

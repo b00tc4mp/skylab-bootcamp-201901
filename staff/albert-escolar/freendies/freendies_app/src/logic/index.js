@@ -70,6 +70,13 @@ const logic = {
         return freendiesApi.retrieveUser(new_token)
     },
 
+    updateUserEmail(email, token) {
+        let new_token = token ? token : this.getUserApiToken()
+        if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
+        if (!email.trim().length) throw Error('email cannot be empty')
+
+        return freendiesApi.updateUserEmail(email,new_token)
+    },
 
     logout() {
         this.deleteUserApiToken()
@@ -77,7 +84,7 @@ const logic = {
 
 
     uploadGame(title, genre, description, images, gameFile) {
-        
+
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw Error('title cannot be empty')
         if (typeof genre !== 'string') throw TypeError(`${genre} is not a string`)
