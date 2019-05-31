@@ -19,10 +19,10 @@ class UserPanel extends Component {
     onSubmit = (event) => {
         event.preventDefault()
 
-        const { onUpdateUser } = this.props
-        const { email, password, passwordConfirmation } = this.state
+        const { onUpdateUserEmail } = this.props
+        const { email } = this.state
 
-        onUpdateUser(email, password, passwordConfirmation)
+        onUpdateUserEmail(email)
 
     }
 
@@ -43,15 +43,18 @@ class UserPanel extends Component {
 
         return <div>
             <h2>{user ? user.username : 'User'}'s Panel</h2>
-            {updateForm ? <button onClick={updateFormHandler}>Close Update Info</button> : <button onClick={updateFormHandler}>Update User info</button>}
+            <div>
+            {updateForm ? <button onClick={updateFormHandler}>Change Email</button> : <button onClick={updateFormHandler}>Change Email</button>}
             {updateForm && < form onSubmit={onSubmit} >
-                <input required name="email" placeholder="insert your user mail" type="text" onChange={event => onInputChange(event)} />
-                <input required name="password" placeholder="insert your user password" type="password" onChange={event => onInputChange(event)} />
-                <input required name="passwordConfirmation" placeholder="confirm you password" type="password" onChange={event => onInputChange(event)} />
-                <br />
+                <input name="email" placeholder="insert your new email" type="text" onChange={event => onInputChange(event)} />
+                <br/>
                 <button>Submit</button>
             </form>}
+            </div>
+            
             <h2>My Uploaded Games</h2>
+
+            <h2>My Favorite Games</h2>
 
 
         </div>

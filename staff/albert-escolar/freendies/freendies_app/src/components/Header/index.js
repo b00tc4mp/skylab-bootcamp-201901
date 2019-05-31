@@ -80,8 +80,8 @@ class Header extends Component {
 
     renderLoggedButtons(goToLogout, goToUserPanel, goToUploadGame) {
         return <div>
-            <button onClick={goToUserPanel}>User</button>
             <button onClick={goToUploadGame}>Upload Game</button>
+            <button onClick={goToUserPanel}>User</button>
             <button onClick={goToLogout}>Logout</button>
 
 
