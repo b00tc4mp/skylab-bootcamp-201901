@@ -11,31 +11,32 @@ const { User, Customer, ElectronicControlModule, Product, Note } = models
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 
 describe('logic', () => {
-    let name, surname, email, password, category, phone, address, nid, notes, text, date, user
+    let name, surname, email, password, category, phone, address, nid, notes, text, date, author, id
     
     before(() => mongoose.connect(url, { useNewUrlParser: true }))
     
+    const categories = ['MASTER', 'TECHNICIAN', 'ASSISTANT']
+
+    beforeEach(async () => {
+        await User.deleteMany()
+
+        name = `name-${Math.random()}`
+        surname = `surname-${Math.random()}`
+        email = `email-${Math.random()}@mail.com`
+        password = `password-${Math.random()}`
+        category = categories[Math.floor(Math.random()*categories.length)]
+        const hash = await argon2.hash(password)
+        await User.create({ name, surname, email, password: hash, category })
+
+    })
+    
     describe('user', () => {
 
-        const categories = ['MASTER', 'TECHNICIAN', 'ASSISTANT']
-
-        beforeEach(async () => {
-            await User.deleteMany()
-    
-            name = `name-${Math.random()}`
-            surname = `surname-${Math.random()}`
-            email = `email-${Math.random()}@mail.com`
-            password = `password-${Math.random()}`
-            category = categories[Math.floor(Math.random()*categories.length)]
-    
-            const hash = await argon2.hash(password)
-            await User.create({ name, surname, email, password: hash, category })
-    
-        })
 
         describe('register user', () => {
             it('should succeed on correct data', async () => {
                 await User.deleteMany()
+                
                 const res = await logic.registerUser(name, surname, email, password, category)
     
                 expect(res).to.be.undefined
@@ -71,80 +72,80 @@ describe('logic', () => {
             })
 
             it('should fail on undefined name', () => {
-                const name = undefined
+                name = undefined
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(RequirementError, `name is not optional`)
             })
 
             it('should fail on null name', () => {
-                const name = null
+                name = null
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(RequirementError, `name is not optional`)
             })
 
             it('should fail on empty name', () => {
-                const name = ''
+                name = ''
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'name is empty')
             })
 
             it('should fail on blank name', () => {
-                const name = ' \t    \n'
+                name = ' \t    \n'
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'name is empty')
             })
 
             it('should fail on undefined surname', () => {
-                const surname = undefined
+                surname = undefined
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(RequirementError, `surname is not optional`)
             })
 
             it('should fail on null surname', () => {
-                const surname = null
+                surname = null
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(RequirementError, `surname is not optional`)
             })
 
             it('should fail on empty surname', () => {
-                const surname = ''
+                surname = ''
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'surname is empty')
             })
 
             it('should fail on blank surname', () => {
-                const surname = ' \t    \n'
+                surname = ' \t    \n'
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'surname is empty')
             })
 
             it('should fail on undefined email', () => {
-                const email = undefined
+                email = undefined
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(RequirementError, `email is not optional`)
 
             })
 
             it('should fail on null email', () => {
-                const email = null
+                email = null
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(RequirementError, `email is not optional`)
             })
 
             it('should fail on empty email', () => {
-                const email = ''
+                email = ''
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'email is empty')
 
             })
 
             it('should fail on blank email', () => {
-                const email = ' \t    \n'
+                email = ' \t    \n'
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'email is empty')
             })
 
-            it('should fail on non-email email', () => {
+            it('should fail on non-email format', () => {
                 const nonEmail = 'non-email'
 
                 expect(() => logic.registerUser(name, surname, nonEmail, password, category)).to.throw(FormatError, `${nonEmail} is not an e-mail`)
@@ -152,51 +153,51 @@ describe('logic', () => {
             })
 
             it('should fail on undefined password', () => {
-                const password = undefined
+                password = undefined
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(RequirementError, `password is not optional`)
             })
 
             it('should fail on null password', () => {
-                const password = null
+                password = null
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(RequirementError, `password is not optional`)
             })
 
             it('should fail on empty password', () => {
-                const password = ''
+                password = ''
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'password is empty')
             })
 
             it('should fail on blank password', () => {
-                const password = ' \t    \n'
+                password = ' \t    \n'
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'password is empty')
             })
 
             it('should fail on undefined category', () => {
-                const category = undefined
+                category = undefined
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(RequirementError, `category is not optional`)
 
             })
 
             it('should fail on null category', () => {
-                const category = null
+                category = null
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(RequirementError, `category is not optional`)
             })
 
             it('should fail on empty category', () => {
-                const category = ''
+                category = ''
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'category is empty')
 
             })
 
             it('should fail on blank category', () => {
-                const category = ' \t    \n'
+                category = ' \t    \n'
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'category is empty')
             })
@@ -214,7 +215,7 @@ describe('logic', () => {
 
             it('should succeed on correct user credential', async () => {
                 const user = await User.findOne({ email })
-                const id = await logic.authenticateUser(email, password)
+                id = await logic.authenticateUser(email, password)
                 expect(id).to.exist
                 expect(id).to.be.a('string')
                 expect(id).to.equal(user.id)
@@ -247,32 +248,32 @@ describe('logic', () => {
             })
 
             it('should fail on undefined email', () => {
-                const email = undefined
+                email = undefined
 
                 expect(() => logic.authenticateUser(email, password)).to.throw(RequirementError, `email is not optional`)
 
             })
 
             it('should fail on null email', () => {
-                const email = null
+                email = null
 
                 expect(() => logic.authenticateUser(email, password)).to.throw(RequirementError, `email is not optional`)
             })
 
             it('should fail on empty email', () => {
-                const email = ''
+                email = ''
 
                 expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'email is empty')
 
             })
 
             it('should fail on blank email', () => {
-                const email = ' \t    \n'
+                email = ' \t    \n'
 
                 expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'email is empty')
             })
 
-            it('should fail on non-email email', () => {
+            it('should fail on non-email format', () => {
                 const nonEmail = 'non-email'
 
                 expect(() => logic.authenticateUser(nonEmail, password)).to.throw(FormatError, `${nonEmail} is not an e-mail`)
@@ -280,25 +281,25 @@ describe('logic', () => {
             })
 
             it('should fail on undefined password', () => {
-                const password = undefined
+                password = undefined
 
                 expect(() => logic.authenticateUser(email, password)).to.throw(RequirementError, `password is not optional`)
             })
 
             it('should fail on null password', () => {
-                const password = null
+                password = null
 
                 expect(() => logic.authenticateUser(email, password)).to.throw(RequirementError, `password is not optional`)
             })
 
             it('should fail on empty password', () => {
-                const password = ''
+                password = ''
 
                 expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'password is empty')
             })
 
             it('should fail on blank password', () => {
-                const password = ' \t    \n'
+                password = ' \t    \n'
 
                 expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'password is empty')
             })
@@ -307,7 +308,7 @@ describe('logic', () => {
         describe('retrieve user', () => {
 
             it('should succeed on correct id from existing user', async () => {
-                const user = await User.findOne({ email })
+                const user = await User.findOne()
                 const _user = await logic.retrieveUser(user.id)
     
                 expect(_user.id).to.be.undefined
@@ -319,7 +320,7 @@ describe('logic', () => {
             })
 
             it('should fail on non-existing user id', async () => {
-                const id = '123456789012345678901234'
+                id = '123456789012345678901234'
                 try {
                     await logic.retrieveUser(id)
 
@@ -333,7 +334,7 @@ describe('logic', () => {
             })
 
             it('should fail on non-24 characters user id', async () => {
-                const id = '12345678901234567890123'
+                id = '12345678901234567890123'
                 try {
                     await logic.retrieveUser(id)
 
@@ -347,27 +348,27 @@ describe('logic', () => {
             })
 
             it('should fail on undefined id', () => {
-                const id = undefined
+                id = undefined
 
                 expect(() => logic.retrieveUser(id)).to.throw(RequirementError, `id is not optional`)
 
             })
 
             it('should fail on null id', () => {
-                const id = null
+                id = null
 
                 expect(() => logic.retrieveUser(id)).to.throw(RequirementError, `id is not optional`)
             })
 
             it('should fail on empty id', () => {
-                const id = ''
+                id = ''
 
                 expect(() => logic.retrieveUser(id)).to.throw(ValueError, 'id is empty')
 
             })
 
             it('should fail on blank id', () => {
-                const id = ' \t    \n'
+                id = ' \t    \n'
 
                 expect(() => logic.retrieveUser(id)).to.throw(ValueError, 'id is empty')
             })
@@ -377,11 +378,11 @@ describe('logic', () => {
         describe('update user', () => {
 
             it('should succeed on correct data', async () => {
-                const user = await User.findOne({ email }).lean()
+                const user = await User.findOne().lean()
 
                 const data = { email: 'e@mail.com' }
 
-                await logic.update(user._id.toString(), data)
+                await logic.updateUser(user._id.toString(), data)
 
                 const userUpdated = await User.findById(user._id.toString()).lean()
 
@@ -399,30 +400,30 @@ describe('logic', () => {
             })
 
             it('should be equal on empty data', async () => {
-                const user = await User.findOne({ email })
+                const user = await User.findOne()
 
                 const data = { }
 
-                await logic.update(user.id, data)
+                await logic.updateUser(user.id, data)
 
                 const userUpdated = await User.findById(user.id)
 
                 expect(userUpdated).to.exist
 
                 expect(userUpdated.id).to.equal(user.id)
-                
+
                 expect(userUpdated).to.deep.equal(user)
             })
 
             it('should fail on tray to update id', async () => {
-                const id = '123456789012345678901234'
+                id = '123456789012345678901234'
                 const emailToUpdate = 'e@mail.com'
                 try {
-                    const user = await User.findOne({ email })
+                    const user = await User.findOne()
 
                     const data = { emailToUpdate, id }
                     
-                    await logic.update(user.id, data)
+                    await logic.updateUser(user.id, data)
 
                     throw Error('should not reach this point')
                 } catch (error) {
@@ -435,54 +436,54 @@ describe('logic', () => {
             })
 
             it('should fail on undefined id', () => {
-                const id = undefined
+                id = undefined
                 const data = {}
 
-                expect(() => logic.update(id, data)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.updateUser(id, data)).to.throw(RequirementError, `id is not optional`)
 
             })
 
             it('should fail on null id', () => {
-                const id = null
+                id = null
                 const data = {}
 
-                expect(() => logic.update(id, data)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.updateUser(id, data)).to.throw(RequirementError, `id is not optional`)
             })
 
             it('should fail on empty id', () => {
-                const id = ''
+                id = ''
                 const data = {}
 
-                expect(() => logic.update(id, data)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.updateUser(id, data)).to.throw(ValueError, 'id is empty')
 
             })
 
             it('should fail on blank id', () => {
-                const id = ' \t    \n'
+                id = ' \t    \n'
                 const data = {}
 
-                expect(() => logic.update(id, data)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.updateUser(id, data)).to.throw(ValueError, 'id is empty')
             })
 
             it('should fail on undefined object data', async () => {
-                const user = await User.findOne({ email })
+                const user = await User.findOne()
 
-                expect(() => logic.update(user.id)).to.throw(RequirementError, `data is not optional`)
+                expect(() => logic.updateUser(user.id)).to.throw(RequirementError, `data is not optional`)
 
             })
 
             it('should fail on null object data', async () => {
-                const user = await User.findOne({ email })
+                const user = await User.findOne()
                 const data = null
 
-                expect(() => logic.update(user.id, data)).to.throw(RequirementError, `data is not optional`)
+                expect(() => logic.updateUser(user.id, data)).to.throw(RequirementError, `data is not optional`)
             })
 
             it('should fail on non object data', async () => {
-                const user = await User.findOne({ email })
+                const user = await User.findOne()
                 const data = ''
 
-                expect(() => logic.update(user.id, data)).to.throw(TypeError, `data ${data} is not a object`)
+                expect(() => logic.updateUser(user.id, data)).to.throw(TypeError, `data ${data} is not a object`)
 
             })
 
@@ -490,16 +491,16 @@ describe('logic', () => {
 
         describe('delete user', () => {
             it('should succeed on correct data', async () => {
-                const user = await User.findOne({ email })
-                await logic.delete(user.id)
+                const user = await User.findOne()
+                await logic.deleteUser(user.id)
                 const userDeleted = await User.findById(user.id)
                 expect(userDeleted).to.not.exist
             })
 
             it('should fail on non-matching user id', async () => {
-                const id = '123456789012345678901234'
+                id = '123456789012345678901234'
                 try {
-                await logic.delete(id)
+                await logic.deleteUser(id)
 
                     throw Error('should not reach this point')
                 } catch (error) {
@@ -511,9 +512,9 @@ describe('logic', () => {
             })
 
             it('should fail on non-24 characters user id', async () => {
-                const id = '12345678901234567890123'
+                id = '12345678901234567890123'
                 try {
-                    await logic.delete(id)
+                    await logic.deleteUser(id)
 
                     throw Error('should not reach this point')
                 } catch (error) {
@@ -525,29 +526,29 @@ describe('logic', () => {
             })
 
             it('should fail on undefined id', () => {
-                const id = undefined
+                id = undefined
 
-                expect(() => logic.delete(id)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.deleteUser(id)).to.throw(RequirementError, `id is not optional`)
 
             })
 
             it('should fail on null id', () => {
-                const id = null
+                id = null
 
-                expect(() => logic.delete(id)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.deleteUser(id)).to.throw(RequirementError, `id is not optional`)
             })
 
             it('should fail on empty id', () => {
-                const id = ''
+                id = ''
 
-                expect(() => logic.delete(id)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.deleteUser(id)).to.throw(ValueError, 'id is empty')
 
             })
 
             it('should fail on blank id', () => {
-                const id = ' \t    \n'
+                id = ' \t    \n'
 
-                expect(() => logic.delete(id)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.deleteUser(id)).to.throw(ValueError, 'id is empty')
             })
 
 
@@ -561,9 +562,9 @@ describe('logic', () => {
 
             name = `name-${Math.random()}`
             surname = `surname-${Math.random()}`
-            phone = `surname-${Math.random()}`
-            address = `surname-${Math.random()}`
-            nid = `surname-${Math.random()}`
+            phone = `phone-${Math.random()}`
+            address = `address-${Math.random()}`
+            nid = `nid-${Math.random()}`
             email = `email-${Math.random()}@mail.com`
             
             await Customer.create({ name, surname, phone, address, nid, email })
@@ -659,617 +660,728 @@ describe('logic', () => {
             })
 
             it('should fail on undefined name', () => {
-                const name = undefined
+                name = undefined
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(RequirementError, `name is not optional`)
             })
 
             it('should fail on null name', () => {
-                const name = null
+                name = null
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(RequirementError, `name is not optional`)
             })
 
             it('should fail on empty name', () => {
-                const name = ''
+                name = ''
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'name is empty')
             })
 
             it('should fail on blank name', () => {
-                const name = ' \t    \n'
+                name = ' \t    \n'
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'name is empty')
             })
 
             it('should fail on empty surname', () => {
-                const surname = ''
+                surname = ''
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'surname is empty')
             })
 
             it('should fail on blank surname', () => {
-                const surname = ' \t    \n'
+                surname = ' \t    \n'
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'surname is empty')
             })
 
             it('should fail on empty phone', () => {
-                const phone = ''
+                phone = ''
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'phone is empty')
             })
 
             it('should fail on blank phone', () => {
-                const phone = ' \t    \n'
+                phone = ' \t    \n'
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'phone is empty')
             })
 
             it('should fail on empty address', () => {
-                const address = ''
+                address = ''
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'address is empty')
             })
 
             it('should fail on blank address', () => {
-                const address = ' \t    \n'
+                address = ' \t    \n'
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'address is empty')
             })
 
             it('should fail on empty nid', () => {
-                const nid = ''
+                nid = ''
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'nid is empty')
             })
 
             it('should fail on blank nid', () => {
-                const nid = ' \t    \n'
+                nid = ' \t    \n'
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'nid is empty')
             })
 
             it('should fail on empty email', () => {
-                const email = ''
+                email = ''
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'email is empty')
 
             })
 
             it('should fail on blank email', () => {
-                const email = ' \t    \n'
+                email = ' \t    \n'
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'email is empty')
             })
 
-            it('should fail on non-email email', () => {
+            it('should fail on non-email format', () => {
                 const nonEmail = 'non-email'
 
-                expect(() => logic.registerUser(name, surname, nonEmail, password, category)).to.throw(FormatError, `${nonEmail} is not an e-mail`)
+                expect(() => logic.registerCustomer(name, surname, phone, address, nid, nonEmail)).to.throw(FormatError, `${nonEmail} is not an e-mail`)
 
             })
         })
 
-        // describe('retrieve user', () => {
+        describe('retrieve customer', () => {
 
-        //     it('should succeed on correct id from existing user', async () => {
-        //         const user = await User.findOne({ email })
-        //         const _user = await logic.retrieveUser(user.id)
-    
-        //         expect(_user.id).to.be.undefined
-        //         expect(_user.name).to.equal(name)
-        //         expect(_user.surname).to.equal(surname)
-        //         expect(_user.email).to.equal(email)
-        //         expect(_user.category).to.equal(category)
-        //         expect(_user.password).to.be.undefined
-        //     })
+            it('should succeed on correct id from existing customer', async () => {
+                const customer = await Customer.findOne()
+                const _customer = await logic.retrieveCustomer(customer.id)
+                expect(_customer.id).to.be.undefined
+                expect(_customer.name).to.equal(name)
+                expect(_customer.surname).to.equal(surname)
+                expect(_customer.phone).to.equal(phone)
+                expect(_customer.address).to.equal(address)
+                expect(_customer.nid).to.equal(nid)
+                expect(_customer.email).to.equal(email)
+                expect(_customer.notes).to.deep.equal(customer.notes)
+ 
+            })
 
-        //     it('should fail on non-existing user id', async () => {
-        //         const id = '123456789012345678901234'
-        //         try {
-        //             await logic.retrieveUser(id)
+            it('should fail on non-existing customer id', async () => {
+                id = '123456789012345678901234'
+                try {
+                    await logic.retrieveCustomer(id)
 
-        //             throw Error('should not reach this point')
-        //         } catch (error) {
-        //             expect(error).to.exist
-        //             expect(error).to.be.instanceOf(LogicError)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.instanceOf(LogicError)
 
-        //             expect(error.message).to.equal(`user with id "${id}" does not exist`)
-        //         }
-        //     })
+                    expect(error.message).to.equal(`customer with id "${id}" does not exist`)
+                }
+            })
 
-        //     it('should fail on non-24 characters user id', async () => {
-        //         const id = '12345678901234567890123'
-        //         try {
-        //             await logic.retrieveUser(id)
+            it('should fail on non-24 characters user id', async () => {
+                id = '12345678901234567890123'
+                try {
+                    await logic.retrieveCustomer(id)
 
-        //             throw Error('should not reach this point')
-        //         } catch (error) {
-        //             expect(error).to.exist
-        //             expect(error).to.be.instanceOf(FormatError)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.instanceOf(FormatError)
 
-        //             expect(error.message).to.equal(`${id} is not a valid id`)
-        //         }
-        //     })
+                    expect(error.message).to.equal(`${id} is not a valid id`)
+                }
+            })
 
-        //     it('should fail on undefined id', () => {
-        //         const id = undefined
+            it('should fail on undefined id', () => {
+                id = undefined
 
-        //         expect(() => logic.retrieveUser(id)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.retrieveCustomer(id)).to.throw(RequirementError, `id is not optional`)
 
-        //     })
+            })
 
-        //     it('should fail on null id', () => {
-        //         const id = null
+            it('should fail on null id', () => {
+                id = null
 
-        //         expect(() => logic.retrieveUser(id)).to.throw(RequirementError, `id is not optional`)
-        //     })
+                expect(() => logic.retrieveCustomer(id)).to.throw(RequirementError, `id is not optional`)
+            })
 
-        //     it('should fail on empty id', () => {
-        //         const id = ''
+            it('should fail on empty id', () => {
+                id = ''
 
-        //         expect(() => logic.retrieveUser(id)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.retrieveCustomer(id)).to.throw(ValueError, 'id is empty')
 
-        //     })
+            })
 
-        //     it('should fail on blank id', () => {
-        //         const id = ' \t    \n'
+            it('should fail on blank id', () => {
+                id = ' \t    \n'
 
-        //         expect(() => logic.retrieveUser(id)).to.throw(ValueError, 'id is empty')
-        //     })
+                expect(() => logic.retrieveCustomer(id)).to.throw(ValueError, 'id is empty')
+            })
 
-        // })
+        })
         
-        // describe('update user', () => {
+        describe('update customer', () => {
 
-        //     it('should succeed on correct data', async () => {
-        //         const user = await User.findOne({ email }).lean()
+            it('should succeed on correct data', async () => {
+                const customer = await Customer.findOne().lean()
 
-        //         const data = { email: 'e@mail.com' }
+                const data = { email: 'e@mail.com' }
 
-        //         await logic.update(user._id.toString(), data)
+                await logic.updateCustomer(customer._id.toString(), data)
 
-        //         const userUpdated = await User.findById(user._id.toString()).lean()
+                const customerUpdated = await Customer.findById(customer._id.toString()).lean()
 
-        //         expect(userUpdated).to.exist
+                expect(customerUpdated).to.exist
 
-        //         expect(userUpdated._id.toString()).to.equal(user._id.toString())
+                expect(customerUpdated._id.toString()).to.equal(customer._id.toString())
                 
-        //         const keys = Object.keys(user)
-        //         expect(userUpdated).to.include.keys(keys)
+                const keys = Object.keys(customer)
+                expect(customerUpdated).to.include.keys(keys)
                 
-        //         expect(Object.keys(userUpdated).length).to.equal(keys.length)
+                expect(Object.keys(customerUpdated).length).to.equal(keys.length)
 
-        //         expect(userUpdated.email).to.not.equal(user.email)
-        //         expect(userUpdated.email).to.equal(data.email)
-        //     })
+                expect(customerUpdated.email).to.not.equal(customer.email)
+                expect(customerUpdated.email).to.equal(data.email)
+            })
 
-        //     it('should be equal on empty data', async () => {
-        //         const user = await User.findOne({ email })
+            it('should be equal on empty data', async () => {// en este caso no funciona "to.deep.equal" en el último expect de esta prueba porque contienen el array "notes" el que a suvez requeriría de otro deep
+                const customer = await Customer.findOne().lean()
 
-        //         const data = { }
+                const data = { }
 
-        //         await logic.update(user.id, data)
+                await logic.updateCustomer(customer._id.toString(), data)
 
-        //         const userUpdated = await User.findById(user.id)
+                const customerUpdated = await Customer.findById(customer._id.toString()).lean()
 
-        //         expect(userUpdated).to.exist
+                expect(customerUpdated).to.exist
 
-        //         expect(userUpdated.id).to.equal(user.id)
+                expect(customerUpdated._id.toString()).to.equal(customer._id.toString())
                 
-        //         expect(userUpdated).to.deep.equal(user)
-        //     })
+                expect(customerUpdated).to.deep.equal(customer)
+            })
 
-        //     it('should fail on tray to update id', async () => {
-        //         const id = '123456789012345678901234'
-        //         const emailToUpdate = 'e@mail.com'
-        //         try {
-        //             const user = await User.findOne({ email })
+            it('should fail on tray to update id', async () => {
+                id = '123456789012345678901234'
+                const emailToUpdate = 'e@mail.com'
+                try {
+                    const customer = await Customer.findOne()
 
-        //             const data = { emailToUpdate, id }
+                    const data = { emailToUpdate, id }
                     
-        //             await logic.update(user.id, data)
+                    await logic.updateCustomer(customer.id, data)
 
-        //             throw Error('should not reach this point')
-        //         } catch (error) {
+                    throw Error('should not reach this point')
+                } catch (error) {
                     
-        //             expect(error).to.exist
-        //             expect(error).to.be.instanceOf(ValueError)
+                    expect(error).to.exist
+                    expect(error).to.be.instanceOf(ValueError)
 
-        //             expect(error.message).to.equal('data id does not match criteria id')
-        //         }
-        //     })
+                    expect(error.message).to.equal('data id does not match criteria id')
+                }
+            })
 
-        //     it('should fail on undefined id', () => {
-        //         const id = undefined
-        //         const data = {}
+            it('should fail on undefined id', () => {
+                id = undefined
+                const data = {}
 
-        //         expect(() => logic.update(id, data)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.updateCustomer(id, data)).to.throw(RequirementError, `id is not optional`)
 
-        //     })
+            })
 
-        //     it('should fail on null id', () => {
-        //         const id = null
-        //         const data = {}
+            it('should fail on null id', () => {
+                id = null
+                const data = {}
 
-        //         expect(() => logic.update(id, data)).to.throw(RequirementError, `id is not optional`)
-        //     })
+                expect(() => logic.updateCustomer(id, data)).to.throw(RequirementError, `id is not optional`)
+            })
 
-        //     it('should fail on empty id', () => {
-        //         const id = ''
-        //         const data = {}
+            it('should fail on empty id', () => {
+                id = ''
+                const data = {}
 
-        //         expect(() => logic.update(id, data)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.updateCustomer(id, data)).to.throw(ValueError, 'id is empty')
 
-        //     })
+            })
 
-        //     it('should fail on blank id', () => {
-        //         const id = ' \t    \n'
-        //         const data = {}
+            it('should fail on blank id', () => {
+                id = ' \t    \n'
+                const data = {}
 
-        //         expect(() => logic.update(id, data)).to.throw(ValueError, 'id is empty')
-        //     })
+                expect(() => logic.updateCustomer(id, data)).to.throw(ValueError, 'id is empty')
+            })
 
-        //     it('should fail on undefined object data', async () => {
-        //         const user = await User.findOne({ email })
+            it('should fail on undefined object data', async () => {
+                const customer = await Customer.findOne()
 
-        //         expect(() => logic.update(user.id)).to.throw(RequirementError, `data is not optional`)
+                expect(() => logic.updateCustomer(customer.id)).to.throw(RequirementError, `data is not optional`)
 
-        //     })
+            })
 
-        //     it('should fail on null object data', async () => {
-        //         const user = await User.findOne({ email })
-        //         const data = null
+            it('should fail on null object data', async () => {
+                const customer = await Customer.findOne()
+                const data = null
 
-        //         expect(() => logic.update(user.id, data)).to.throw(RequirementError, `data is not optional`)
-        //     })
+                expect(() => logic.updateCustomer(customer.id, data)).to.throw(RequirementError, `data is not optional`)
+            })
 
-        //     it('should fail on non object data', async () => {
-        //         const user = await User.findOne({ email })
-        //         const data = ''
+            it('should fail on non object data', async () => {
+                const customer = await Customer.findOne()
+                const data = ''
 
-        //         expect(() => logic.update(user.id, data)).to.throw(TypeError, `data ${data} is not a object`)
+                expect(() => logic.updateCustomer(customer.id, data)).to.throw(TypeError, `data ${data} is not a object`)
 
-        //     })
+            })
 
-        // })
+        })
 
-        // describe('delete user', () => {
-        //     it('should succeed on correct data', async () => {
-        //         const user = await User.findOne({ email })
-        //         await logic.delete(user.id)
-        //         const userDeleted = await User.findById(user.id)
-        //         expect(userDeleted).to.not.exist
-        //     })
+        describe('delete customer', () => {
+            it('should succeed on correct data', async () => {
+                const customer = await Customer.findOne()
+                await logic.deleteCustomer(customer.id)
+                const customerDeleted = await Customer.findById(customer.id)
+                expect(customerDeleted).to.not.exist
+            })
 
-        //     it('should fail on non-matching user id', async () => {
-        //         const id = '123456789012345678901234'
-        //         try {
-        //         await logic.delete(id)
+            it('should fail on non-matching customer id', async () => {
+                id = '123456789012345678901234'
+                try {
+                await logic.deleteCustomer(id)
 
-        //             throw Error('should not reach this point')
-        //         } catch (error) {
-        //             expect(error).to.exist
-        //             expect(error).to.be.instanceOf(LogicError)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.instanceOf(LogicError)
 
-        //             expect(error.message).to.equal(`user with id "${id}" does not exist`)
-        //         }
-        //     })
+                    expect(error.message).to.equal(`customer with id "${id}" does not exist`)
+                }
+            })
 
-        //     it('should fail on non-24 characters user id', async () => {
-        //         const id = '12345678901234567890123'
-        //         try {
-        //             await logic.delete(id)
+            it('should fail on non-24 characters customer id', async () => {
+                id = '12345678901234567890123'
+                try {
+                    await logic.deleteCustomer(id)
 
-        //             throw Error('should not reach this point')
-        //         } catch (error) {
-        //             expect(error).to.exist
-        //             expect(error).to.be.instanceOf(FormatError)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.instanceOf(FormatError)
 
-        //             expect(error.message).to.equal(`${id} is not a valid id`)
-        //         }
-        //     })
+                    expect(error.message).to.equal(`${id} is not a valid id`)
+                }
+            })
 
-        //     it('should fail on undefined id', () => {
-        //         const id = undefined
+            it('should fail on undefined id', () => {
+                id = undefined
 
-        //         expect(() => logic.delete(id)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.deleteCustomer(id)).to.throw(RequirementError, `id is not optional`)
 
-        //     })
+            })
 
-        //     it('should fail on null id', () => {
-        //         const id = null
+            it('should fail on null id', () => {
+                id = null
 
-        //         expect(() => logic.delete(id)).to.throw(RequirementError, `id is not optional`)
-        //     })
+                expect(() => logic.deleteCustomer(id)).to.throw(RequirementError, `id is not optional`)
+            })
 
-        //     it('should fail on empty id', () => {
-        //         const id = ''
+            it('should fail on empty id', () => {
+                id = ''
 
-        //         expect(() => logic.delete(id)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.deleteCustomer(id)).to.throw(ValueError, 'id is empty')
 
-        //     })
+            })
 
-        //     it('should fail on blank id', () => {
-        //         const id = ' \t    \n'
+            it('should fail on blank id', () => {
+                id = ' \t    \n'
 
-        //         expect(() => logic.delete(id)).to.throw(ValueError, 'id is empty')
-        //     })
+                expect(() => logic.deleteCustomer(id)).to.throw(ValueError, 'id is empty')
+            })
+
+        })
+        
+        describe('customer notes', () => {
+
+            let user, customer, text
+
+            beforeEach(async () => {
+                user = await User.findOne() // aquí había shadowing con la búsqueda por email porque el último mail registrado pertenece a la colección de customers y al buscarlo en el de users, la respuesta era indefinida
+                customer = await Customer.findOne()
+                text = 'Hola, Mundo!'
+                customer.notes = []
+                const texts = new Array(10).fill('note-').map(text => `${text}-${Math.random()}`)
+                customer.notes = texts.map(text => new Note({ text, author: user.id }))
+                await customer.save()
+            })
+
+            describe('add customer note', () => {
+
+                beforeEach(async () => {      
+                    customer.notes = []
+                    await customer.save()
+                })
+
+                it('should succeed on existing customer and user', async () => {
+
+                    const res = await logic.addCustomerNote(customer.id, text, user.id)
+        
+                    expect(res).to.be.undefined
+                    
+                    const customerWithNewNote = await Customer.findById(customer.id)
+        
+                    const { notes } = customerWithNewNote
+        
+                    expect(notes).to.exist
+                    expect(notes).to.have.lengthOf(1)
+        
+                    const [note] = notes
+        
+                    expect(note.id).to.exist
+        
+                    expect(note.text).to.equal(text)
+        
+                    expect(note.author.toString()).to.equal(user.id)
+                })
+    
+                it('should fail on non-matching customer id', async () => {
+                    id = '123456789012345678901234'
+                    try {
+                    await logic.addCustomerNote(id, text, user.id)
+    
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).to.exist
+                        expect(error).to.be.instanceOf(LogicError)
+    
+                        expect(error.message).to.equal(`customer with id "${id}" does not exist`)
+                    }
+                })
+    
+                it('should fail on non-24 characters customer id', async () => {
+                    id = '12345678901234567890123'
+                    try {
+                        await logic.addCustomerNote(id, text, user.id)
+    
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).to.exist
+                        expect(error).to.be.instanceOf(FormatError)
+    
+                        expect(error.message).to.equal(`${id} is not a valid id`)
+                    }
+                })
+    
+                it('should fail on undefined customer id', () => {
+                    id = undefined
+    
+                    expect(() => logic.addCustomerNote(id, text, user.id)).to.throw(RequirementError, `customerId is not optional`)
+    
+                })
+    
+                it('should fail on null customer id', () => {
+                    id = null
+    
+                    expect(() => logic.addCustomerNote(id, text, user.id)).to.throw(RequirementError, `customerId is not optional`)
+                })
+    
+                it('should fail on empty customer id', () => {
+                    id = ''
+    
+                    expect(() => logic.addCustomerNote(id, text, user.id)).to.throw(ValueError, 'customerId is empty')
+    
+                })
+    
+                it('should fail on blank customer id', () => {
+                    id = ' \t    \n'
+    
+                    expect(() => logic.addCustomerNote(id, text, user.id)).to.throw(ValueError, 'customerId is empty')
+                })
+    
+                it('should fail on non-matching user id', async () => {
+                    id = '123456789012345678901234'
+                    try {
+                    await logic.addCustomerNote(customer.id, text, id)
+    
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).to.exist
+                        expect(error).to.be.instanceOf(LogicError)
+    
+                        expect(error.message).to.equal(`user with id "${id}" does not exist`)
+                    }
+                })
+    
+                it('should fail on non-24 characters user id', async () => {
+                    id = '12345678901234567890123'
+                    try {
+                        await logic.addCustomerNote(customer.id, text, id)
+    
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).to.exist
+                        expect(error).to.be.instanceOf(FormatError)
+    
+                        expect(error.message).to.equal(`${id} is not a valid id`)
+                    }
+                })
+    
+                it('should fail on undefined user id', () => {
+                    id = undefined
+    
+                    expect(() => logic.addCustomerNote(customer.id, text, id)).to.throw(RequirementError, `userId is not optional`)
+    
+                })
+    
+                it('should fail on null user id', () => {
+                    id = null
+    
+                    expect(() => logic.addCustomerNote(customer.id, text, id)).to.throw(RequirementError, `userId is not optional`)
+                })
+    
+                it('should fail on empty user id', () => {
+                    id = ''
+    
+                    expect(() => logic.addCustomerNote(customer.id, text, id)).to.throw(ValueError, 'userId is empty')
+    
+                })
+    
+                it('should fail on blank user id', () => {
+                    id = ' \t    \n'
+    
+                    expect(() => logic.addCustomerNote(customer.id, text, id)).to.throw(ValueError, 'userId is empty')
+                })
+            })
+        
+            describe('retrieve customer notes', () => {
+                        
+                it('should succeed for existing customer notes', async () => {
+                    const _notes = await logic.retrieveCustomerNotes(customer.id)
+        
+                    expect(_notes).to.exist
+                    expect(_notes).to.have.lengthOf(customer.notes.length)
+        
+                    _notes.forEach(note => {
+                        expect(note._id).to.be.undefined
+                        expect(note.id).to.exist
+                        expect(note.id).to.be.a('string')
+        
+                        expect(note.text).to.exist
+                        expect(note.text).to.be.a('string')
+                        const _note = customer.notes.find(_note => _note.id === note.id)
+                        expect(note.text).to.equal(_note.text)
+        
+                        expect(note.date).to.exist
+                        expect(note.date).to.be.instanceOf(Date)
+        
+                        expect(note.author).to.equal(user.id)
+                    })
+                })
+
+                it('should fail on non-matching customer id', async () => {
+                    id = '123456789012345678901234'
+                    try {
+                    await logic.retrieveCustomerNotes(id)
+    
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).to.exist
+                        expect(error).to.be.instanceOf(LogicError)
+    
+                        expect(error.message).to.equal(`customer with id "${id}" does not exist`)
+                    }
+                })
+    
+                it('should fail on non-24 characters customer id', async () => {
+                    id = '12345678901234567890123'
+                    try {
+                        await logic.retrieveCustomerNotes(id)
+    
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).to.exist
+                        expect(error).to.be.instanceOf(FormatError)
+    
+                        expect(error.message).to.equal(`${id} is not a valid id`)
+                    }
+                })
+    
+                it('should fail on undefined id', () => {
+                    id = undefined
+    
+                    expect(() => logic.retrieveCustomerNotes(id)).to.throw(RequirementError, `customerId is not optional`)
+    
+                })
+    
+                it('should fail on null id', () => {
+                    id = null
+    
+                    expect(() => logic.retrieveCustomerNotes(id)).to.throw(RequirementError, `customerId is not optional`)
+                })
+    
+                it('should fail on empty id', () => {
+                    id = ''
+    
+                    expect(() => logic.retrieveCustomerNotes(id)).to.throw(ValueError, 'customerId is empty')
+    
+                })
+    
+                it('should fail on blank id', () => {
+                    id = ' \t    \n'
+    
+                    expect(() => logic.retrieveCustomerNotes(id)).to.throw(ValueError, 'customerId is empty')
+                })
+            })
+
+            describe('delete customer notes', () => {
+
+                it('should succeed for all existing customer notes', async () => {
+                    await logic.deleteCustomerNotes(customer.id)
+                    const _notes = await logic.retrieveCustomerNotes(customer.id)
+                    expect(_notes.length).to.equal(0)
+                })
+
+                it('should succeed for a specific existing customer note', async () => {
+                    const beforeDeleteNotes = await Customer.findById(customer.id).select('notes')
+                    const indexNote = Math.floor(Math.random()*beforeDeleteNotes.notes.length)
+                    const noteId = beforeDeleteNotes.notes[indexNote].id
+                    await logic.deleteCustomerNotes(customer.id, noteId)
+                    const _notes = await logic.retrieveCustomerNotes(customer.id)
+                    expect(_notes.length).to.equal(beforeDeleteNotes.notes.length - 1)
+
+                    _notes.forEach(note => {
+        
+                        expect(note.text).to.exist
+                        expect(note.text).to.be.a('string')
+                        const _note = customer.notes.find(_note => _note.id === note.id)
+                        expect(note.text).to.equal(_note.text)
+                        expect(note.text).to.not.equal(beforeDeleteNotes.notes[indexNote].text)
+                        expect(note.date).to.exist
+                        expect(note.date).to.be.instanceOf(Date)
+        
+                        expect(note.author).to.equal(user.id)
+                    })
+
+                })
+                it('should fail on non-matching customer id', async () => {
+                    id = '123456789012345678901234'
+                    try {
+                    await logic.deleteCustomerNotes(id)
+    
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).to.exist
+                        expect(error).to.be.instanceOf(LogicError)
+    
+                        expect(error.message).to.equal(`customer with id "${id}" does not exist`)
+                    }
+                })
+    
+                it('should fail on non-24 characters customer id', async () => {
+                    id = '12345678901234567890123'
+                    try {
+                        await logic.deleteCustomerNotes(id)
+    
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).to.exist
+                        expect(error).to.be.instanceOf(FormatError)
+    
+                        expect(error.message).to.equal(`${id} is not a valid id`)
+                    }
+                })
+    
+                it('should fail on undefined customer id', () => {
+                    id = undefined
+    
+                    expect(() => logic.deleteCustomerNotes(id)).to.throw(RequirementError, `customerId is not optional`)
+    
+                })
+    
+                it('should fail on null customer id', () => {
+                    id = null
+    
+                    expect(() => logic.deleteCustomerNotes(id)).to.throw(RequirementError, `customerId is not optional`)
+                })
+    
+                it('should fail on empty customer id', () => {
+                    id = ''
+    
+                    expect(() => logic.deleteCustomerNotes(id)).to.throw(ValueError, 'customerId is empty')
+    
+                })
+    
+                it('should fail on blank customer id', () => {
+                    id = ' \t    \n'
+    
+                    expect(() => logic.deleteCustomerNotes(id)).to.throw(ValueError, 'customerId is empty')
+                })
+
+                it('should fail on non-matching note id', async () => {
+                    id = '123456789012345678901234'
+                    try {
+                    await logic.deleteCustomerNotes(customer.id, id)
+    
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).to.exist
+                        expect(error).to.be.instanceOf(LogicError)
+    
+                        expect(error.message).to.equal(`note with id "${id}" does not exist`)
+                    }
+                })
+    
+                it('should fail on non-24 characters note id', async () => {
+                    id = '12345678901234567890123'
+                    try {
+                        await logic.deleteCustomerNotes(customer.id, id)
+    
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).to.exist
+                        expect(error).to.be.instanceOf(FormatError)
+    
+                        expect(error.message).to.equal(`${id} is not a valid id`)
+                    }
+                })
+    
+                it('should fail on empty note id', () => {
+                    id = ''
+    
+                    expect(() => logic.deleteCustomerNotes(customer.id, id)).to.throw(ValueError, 'noteId is empty')
+    
+                })
+    
+                it('should fail on blank note id', () => {
+                    id = ' \t    \n'
+    
+                    expect(() => logic.deleteCustomerNotes(customer.id, id)).to.throw(ValueError, 'noteId is empty')
+                })
+
+            })
+        })
+    })
+
+    describe('electronic module control', () => {
+
+        beforeEach(async () => {
+            await Customer.deleteMany()
+
+            name = `name-${Math.random()}`
+            surname = `surname-${Math.random()}`
+            phone = `phone-${Math.random()}`
+            address = `address-${Math.random()}`
+            nid = `nid-${Math.random()}`
+            email = `email-${Math.random()}@mail.com`
+            
+            await Customer.create({ name, surname, phone, address, nid, email })
 
 
         })
-        //TODO
-
-
-
-
-    //     describe('add private note', () => {
-    //         let user
-    
-    //         beforeEach(async () => user = await User.create({ name, surname, email, password: await argon2.hash(password) }))
-    
-    //         it('should succeed on existing user', async () => {
-    //             const text = 'Hola, Mundo!'
-    
-    //             const res = await logic.addPrivateNote(user.id, text)
-    
-    //             expect(res).to.be.undefined
-    
-    //             // const notes = await Note.find()
-    //             const _user = await User.findById(user.id)
-    
-    //             const { notes } = _user
-    
-    //             expect(notes).to.exist
-    //             expect(notes).to.have.lengthOf(1)
-    
-    //             const [note] = notes
-    
-    //             expect(note._id).to.exist
-    
-    //             expect(note.text).to.equal(text)
-    
-    //             expect(note.author.toString()).to.equal(user.id)
-    //         })
-    //     })
-    
-    //     describe('retrieve private notes', () => {
-    //         let user
-    
-    //         beforeEach(async () => {
-    //             user = await User.create({ name, surname, email, password: await argon2.hash(password) })
-    
-    //             const texts = new Array(10).fill('note-').map(text => `${text}-${Math.random()}`)
-    
-    //             user.notes = texts.map(text => new Note({ text, author: user.id }))
-    
-    //             await user.save()
-    //         })
-    
-    //         it('should succeed for existing user', async () => {
-    //             const _notes = await logic.retrievePrivateNotes(user.id)
-    
-    //             expect(_notes).to.exist
-    //             expect(_notes).to.have.lengthOf(user.notes.length)
-    
-    //             _notes.forEach(note => {
-    //                 expect(note._id).to.be.undefined
-    //                 expect(note.id).to.exist
-    //                 expect(note.id).to.be.a('string')
-    
-    //                 expect(note.text).to.exist
-    //                 expect(note.text).to.be.a('string')
-    //                 const _note = user.notes.find(_note => _note.id === note.id)
-    //                 expect(note.text).to.equal(_note.text)
-    
-    //                 expect(note.date).to.exist
-    //                 expect(note.date).to.be.instanceOf(Date)
-    
-    //                 expect(note.author).to.equal(user.id)
-    //             })
-    //         })
-    //     })
-    // })
-
-    // describe('electronic module control', () => {
-    //     //TODO
-    //     describe('add private note', () => {
-    //         let user
-    
-    //         beforeEach(async () => user = await User.create({ name, surname, email, password: await argon2.hash(password) }))
-    
-    //         it('should succeed on existing user', async () => {
-    //             const text = 'Hola, Mundo!'
-    
-    //             const res = await logic.addPrivateNote(user.id, text)
-    
-    //             expect(res).to.be.undefined
-    
-    //             // const notes = await Note.find()
-    //             const _user = await User.findById(user.id)
-    
-    //             const { notes } = _user
-    
-    //             expect(notes).to.exist
-    //             expect(notes).to.have.lengthOf(1)
-    
-    //             const [note] = notes
-    
-    //             expect(note._id).to.exist
-    
-    //             expect(note.text).to.equal(text)
-    
-    //             expect(note.author.toString()).to.equal(user.id)
-    //         })
-    //     })
-    
-    //     describe('retrieve private notes', () => {
-    //         let user
-    
-    //         beforeEach(async () => {
-    //             user = await User.create({ name, surname, email, password: await argon2.hash(password) })
-    
-    //             const texts = new Array(10).fill('note-').map(text => `${text}-${Math.random()}`)
-    
-    //             user.notes = texts.map(text => new Note({ text, author: user.id }))
-    
-    //             await user.save()
-    //         })
-    
-    //         it('should succeed for existing user', async () => {
-    //             const _notes = await logic.retrievePrivateNotes(user.id)
-    
-    //             expect(_notes).to.exist
-    //             expect(_notes).to.have.lengthOf(user.notes.length)
-    
-    //             _notes.forEach(note => {
-    //                 expect(note._id).to.be.undefined
-    //                 expect(note.id).to.exist
-    //                 expect(note.id).to.be.a('string')
-    
-    //                 expect(note.text).to.exist
-    //                 expect(note.text).to.be.a('string')
-    //                 const _note = user.notes.find(_note => _note.id === note.id)
-    //                 expect(note.text).to.equal(_note.text)
-    
-    //                 expect(note.date).to.exist
-    //                 expect(note.date).to.be.instanceOf(Date)
-    
-    //                 expect(note.author).to.equal(user.id)
-    //             })
-    //         })
-    //     })
-    // })
-
-
-    
-
-    // describe('add public note', () => {
-    //     let user
-
-    //     beforeEach(async () => user = await User.create({ name, surname, email, password: await argon2.hash(password) }))
-
-    //     it('should succeed for existing user', async () => {
-    //         const text = 'Hola, Mundo!'
-
-    //         const res = await logic.addPublicNote(user.id, text)
-
-    //         expect(res).to.be.undefined
-
-    //         const notes = await Note.find()
-
-    //         expect(notes).to.exist
-    //         expect(notes).to.have.lengthOf(1)
-
-    //         const [note] = notes
-
-    //         expect(note.text).to.equal(text)
-    //         expect(note.author.toString()).to.equal(user.id)
-    //     })
-    // })
-
-    // describe('retrieve public notes', () => {
-    //     let user, notes
-
-    //     beforeEach(async () => {
-    //         user = await User.create({ name, surname, email, password: await argon2.hash(password) })
-
-    //         const texts = new Array(10).fill('note-').map(text => `${text}-${Math.random()}`)
-
-    //         notes = []
-
-    //         await Promise.all(texts.map(async text => notes.push(await Note.create({ text, author: user.id }))))
-    //     })
-
-    //     it('should succeed for existing user', async () => {
-    //         const _notes = await logic.retrievePublicNotes(user.id)
-
-    //         expect(_notes).to.exist
-    //         expect(_notes).to.have.lengthOf(notes.length)
-
-    //         _notes.forEach(note => {
-    //             expect(note._id).to.be.undefined
-    //             expect(note.id).to.exist
-    //             expect(note.id).to.be.a('string')
-
-    //             expect(note.text).to.exist
-    //             expect(note.text).to.be.a('string')
-    //             const _note = notes.find(_note => _note.id === note.id)
-    //             expect(note.text).to.equal(_note.text)
-
-    //             expect(note.date).to.exist
-    //             expect(note.date).to.be.instanceOf(Date)
-
-    //             expect(note.author).to.be.an('object')
-    //             expect(note.author.id).to.be.a('string')
-    //             expect(note.author.name).to.be.a('string')
-    //         })
-    //     })
-    // })
-
-
-    // describe('retrieve all public notes', () => {
-    //     let user, user2, notes, notes2
-
-    //     beforeEach(async () => {
-    //         user = await User.create({ name, surname, email, password: await argon2.hash(password) })
-    //         user2 = await User.create({ name, surname, email: `${Math.random()}-${email}`, password: await argon2.hash(password) })
-
-    //         let texts = new Array(10).fill('note-').map(text => `${text}-${Math.random()}`)
-
-    //         notes = []
-
-    //         await Promise.all(texts.map(async text => notes.push(await Note.create({ text, author: user.id }))))
-
-    //         texts = new Array(10).fill('note-').map(text => `${text}-${Math.random()}`)
-
-    //         notes2 = []
-
-    //         await Promise.all(texts.map(async text => notes2.push(await Note.create({ text, author: user2.id }))))
-    //     })
-
-    //     it('should succeed for existing user', async () => {
-    //         const _notes = await logic.retrieveAllPublicNotes()
-
-    //         expect(_notes).to.exist
-    //         expect(_notes).to.have.lengthOf(notes.length + notes2.length)
-
-    //         _notes.forEach(note => {
-    //             expect(note._id).to.be.undefined
-    //             expect(note.id).to.exist
-    //             expect(note.id).to.be.a('string')
-
-    //             expect(note.text).to.exist
-    //             expect(note.text).to.be.a('string')
-    //             const _note = notes.find(_note => _note.id === note.id) || notes2.find(_note => _note.id === note.id)
-    //             expect(note.text).to.equal(_note.text)
-
-    //             expect(note.date).to.exist
-    //             expect(note.date).to.be.instanceOf(Date)
-
-    //             expect(note.author).to.be.an('object')
-    //             expect(note.author.id).to.be.a('string')
-    //             expect(note.author.name).to.be.a('string')
-
-    //             expect(note.author.id).to.be.oneOf([user.id, user2.id])
-    //         })
-
-    //         expect(_notes.reduce((accum, { author }) => {
-    //             accum[author.id]++
-
-    //             return accum
-    //         }, {
-    //                 [user.id]: 0,
-    //                 [user2.id]: 0
-    //             })).to.deep.equal({
-    //                 [user.id]: notes.length,
-    //                 [user2.id]: notes2.length
-    //             })
-    //     })
-    // })
-
-    
+        
+        describe()
+    })
 
     after(() => mongoose.disconnect())
 })

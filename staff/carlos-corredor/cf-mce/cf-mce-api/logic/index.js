@@ -61,7 +61,7 @@ const logic = {
         })()
     },
 
-    update(id, data) {
+    updateUser(id, data) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'data', value: data, type: 'object' }
@@ -75,7 +75,7 @@ const logic = {
         })()
     },
 
-    delete(id) {
+    deleteUser(id) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
@@ -109,106 +109,119 @@ const logic = {
             await Customer.create({ name, surname, phone, address, nid, email })
         })()
     },
-    // addPublicNote(userId, text) {
-    //     // TODO validate inputs
 
-    //     // TODO implement logic
+    retrieveCustomer(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(id)
+         return (async () => {
+            const customer = await Customer.findById(id)
+            if(!customer) throw new LogicError(`customer with id "${id}" does not exist`)
+ 
+            return await Customer.findById(id).select('name surname phone address nid email notes -_id').lean()
 
-    //     // return Note.create({ author: userId, text }).then(() => {})
+        })()
+    },
 
-    //     return (async () => {
-    //         await Note.create({ author: userId, text })
-    //     })()
-    // },
+    updateCustomer(id, data) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object' }
+        ])
+        validate.idMongodb(id)
+        
+        if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')
 
-    // removePublicNote(userId, notedId) {
-    //     // TODO validate inputs
+        return (async () => {
+                 await Customer.findByIdAndUpdate(id, data)
+        })()
+    },
 
-    //     // TODO implement logic
-    // },
+    deleteCustomer(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(id)
 
-    // retrievePublicNotes(userId) {
-    //     // TODO validate inputs
+         return (async () => {
+            const customer = await Customer.findById(id)
+            if(!customer) throw new LogicError(`customer with id "${id}" does not exist`)
+ 
+            await Customer.findByIdAndRemove(id)
 
-    //     // TODO implement logic
-    //     return (async () => {
-    //         const notes = await Note.find({ author: userId }).populate('author', 'name').lean()
+        })()
+    },
 
-    //         if (notes.length) {
-    //             const [{ author }] = notes
-    //             author.id = author._id.toString()
-    //             delete author._id
+    addCustomerNote(customerId, text, userId) {
+        validate.arguments([
+            { name: 'customerId', value: customerId, type: 'string', notEmpty: true },
+            { name: 'text', value: text, type: 'string', notEmpty: true },
+            { name: 'userId', value: userId, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(customerId)
+        validate.idMongodb(userId)
 
-    //             notes.forEach(note => {
-    //                 note.id = note._id.toString()
-    //                 delete note._id
-    //             })
-    //         }
+        return (async () => {
+            const customer = await Customer.findById(customerId)
+            if(!customer) throw new LogicError(`customer with id "${customerId}" does not exist`)
 
+            const user = await User.findById(userId)
+            if(!user) throw new LogicError(`user with id "${userId}" does not exist`)
 
-    //         return notes
-    //     })()
-    // },
+            customer.notes.push(new Note({ text, author: userId }))
 
-    // retrieveAllPublicNotes() {
-    //     // TODO validate inputs
+            await customer.save()
+        })()
+    },
 
-    //     // TODO implement logic
-    //     return (async () => {
-    //         const notes = await Note.find().populate('author', 'name').lean()
+    retrieveCustomerNotes(customerId) {
+        validate.arguments([
+            { name: 'customerId', value: customerId, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(customerId)
 
-    //         notes.forEach(note => {
-    //             note.id = note._id.toString()
-    //             delete note._id
+        return (async () => {
+            const customer = await Customer.findById(customerId).select('notes').lean()
+            if(!customer) throw new LogicError(`customer with id "${customerId}" does not exist`)
 
-    //             const { author } = note
+            const { notes } = customer
 
-    //             if (!author.id) {
-    //                 author.id = author._id.toString()
-    //                 delete author._id
-    //             }
-    //         })
+            notes.forEach(note => {
+                note.id = note._id.toString()
+                delete note._id
 
-    //         return notes
-    //     })()
-    // },
+                note.author = note.author.toString()
+            })
 
-    // addPrivateNote(userId, text) {
-    //     // TODO validate inputs
+            return notes
+        })()
+    },
 
-    //     // TODO implement logic
-    //     return (async () => {
-    //         const user = await User.findById(userId)
+    deleteCustomerNotes(customerId, noteId) {
+        validate.arguments([
+            { name: 'customerId', value: customerId, type: 'string', notEmpty: true },
+            { name: 'noteId', value: noteId, type: 'string', notEmpty: true, optional: true }
+        ])
+        validate.idMongodb(customerId)
+        if (noteId != null) validate.idMongodb(noteId)
 
-    //         user.notes.push(new Note({ text, author: userId }))
+        return (async () => {
+            const customer = await Customer.findById(customerId)
+            if(!customer) throw new LogicError(`customer with id "${customerId}" does not exist`)
 
-    //         await user.save()
-    //     })()
-    // },
-
-    // removePrivateNote(userId, noteId) {
-    //     // TODO validate inputs
-
-    //     // TODO implement logic
-    // },
-
-    // retrievePrivateNotes(userId) {
-    //     // TODO validate inputs
-
-    //     // TODO implement logic
-    //     return (async () => {
-    //         const { notes } = await User.findById(userId).select('notes').lean()
-
-    //         notes.forEach(note => {
-    //             note.id = note._id.toString()
-    //             delete note._id
-
-    //             note.author = note.author.toString()
-    //         })
-
-    //         return notes
-    //     })()
-    // }
+            if(!noteId) {
+                customer.notes = []
+                await customer.save()
+            } else {
+                if(!customer.notes.some(note => note.id === noteId)) throw new LogicError(`note with id "${noteId}" does not exist`)
+                const note = customer.notes.find(note => note.id === noteId)
+                const index = customer.notes.indexOf(note)
+                customer.notes.splice(index, 1)
+                await customer.save()
+            }
+        })()
+    }
 }
 
 module.exports = logic
