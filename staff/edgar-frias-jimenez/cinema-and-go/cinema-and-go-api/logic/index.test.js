@@ -1,9 +1,8 @@
 const dotenv = require('dotenv')
 const { mongoose, User, Movie, MovieSessions } = require('cinema-and-go-data')
-const {Types:{ObjectId}} = mongoose
+const { Types: { ObjectId } } = mongoose
 const bcrypt = require('bcrypt')
 const logic = require('.')
-// const scrapper = require('../lib/scrapper')
 const { RequirementError, ValueError, FormatError, LogicError } = require('../common/errors')
 
 dotenv.config()
@@ -179,18 +178,17 @@ describe('logic', () => {
             expect(userChange.password).toBeUndefined()
         })
 
-        // it('should fail on incorrect user id', async () => {
-        //     const id = 'aslkfjhsdlkafhjldksjhf'
+        it('should fail on incorrect user id', async () => {
+            const id = 'aslkfjhsdlkafhjldksjhf'
 
-        //     try {
-        //         await logic.updateUser(id, userUpdated)
-        //         throw Error('should not reach this point')
-        //     } catch (error) { // ????
-        //         expect(error).toThrowError(LogicError, `user with id ${id} doesn't exists`)
-        //         expect(error).toBeInstanceOf(TypeError)
-        //         expect(error.message).toEqual(`user with id ${id} doesn't exists`)
-        //     }
-        // })
+            try {
+                await logic.updateUser(id, userUpdated)
+                throw Error('should not reach this point')
+            } catch (error) {
+                expect(error).toBeInstanceOf(LogicError)
+                expect(error.message).toEqual(`user with id "${id}" does not exists`)
+            }
+        })
 
         it('should fail on undefined id', () => {
             expect(() => logic.updateUser(undefined, userUpdated)).toThrowError(RequirementError, `id is not optional`)
@@ -233,7 +231,7 @@ describe('logic', () => {
             id = user.id
         })
 
-        it('should succeed on correct credentials', async () => {
+        it('should succeed on remove a user', async () => {
             try {
                 debugger
                 await logic.removeUser(id, password)
@@ -254,19 +252,16 @@ describe('logic', () => {
             }
         })
 
-        // it('should fail on incorrect user id', async () => {
-        //     const id = 'aslkfjhsdlkafhjldksjhf'
+        it('should fail on incorrect user id', async () => {
+            const id = 'aslkfjhsdlkafhjldksjhf'
 
-        //     try {
-        //         await logic.removeUser(id, password)
-        //         throw Error('should not reach this point')
-        //     } catch (error) {
-
-        //         expect(error).toThrowError(LogicError, `user with id ${id} doesn't exists`)
-        //         expect(error).toBeInstanceOf(LogicError)
-        //         expect(error.message).toEqual(`user with id ${id} doesn't exists`)
-        //     }
-        // })
+            try {
+                await logic.removeUser(id, password)
+                throw Error('should not reach this point')
+            } catch (error) {
+                expect(error.message).toEqual(`Cast to ObjectId failed for value \"aslkfjhsdlkafhjldksjhf\" at path \"_id\" for model \"user\"`)
+            }
+        })
 
         it('should fail on undefined id', () => {
             expect(() => logic.removeUser(undefined, password)).toThrowError(RequirementError, `id is not optional`)
@@ -316,6 +311,7 @@ describe('logic', () => {
 
     describe('Scrap an entire city', () => {
         it('should get all cinemas from a given city', async () => {
+            // debugger
             const cityCinemas = await logic.scrapperCinemaMovies()
             expect(cityCinemas).toBeUndefined()
         })

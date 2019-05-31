@@ -23,10 +23,12 @@ const scrapper = {
         })()
     },
 
-    async __wait(ms) {
-        return new Promise(resolve => {
-            setTimeout(resolve, ms);
-        });
+    __wait(ms) {
+        return (async () => {
+            return new Promise(resolve => {
+                setTimeout(resolve, ms)
+            })
+        })()
     },
 
 
@@ -45,6 +47,7 @@ const scrapper = {
     //     return citiesLinks
     // },
 
+
     // Internal method | Given a fetched url (html) it will returns each cinema urls
     __listCinemas(html) {
         const $ = cheerio.load(html, { decodeEntities: false }) // Decode entities is needed to view correctly accents
@@ -62,12 +65,13 @@ const scrapper = {
     },
 
     // Internal method | Given a fetched url (html) it will return the cinema info: name, phone, direction and projection days
-    async __listCinemaInfo(html) {
+    __listCinemaInfo(html) {
         const $ = cheerio.load(html, { decodeEntities: false }) // Decode entities is needed to view correctly accents
 
-        const cinemaName = $('h1').text()
+        const name = $('h1').text()
         const telephone = $('.prices b').text()
-        const direction = $('.direction').text().split('.')[0]
+        const address = $('.direction').text().split('.')[0]
+        const location = $('.map').first().attr('onclick') ? $('.map').first().attr('onclick').match(/\(([^)]+)\)/)[1].split(', ').map(item => parseFloat(item)) : ''
 
         const projectionDay = $('#days a').first().attr('href')
 
@@ -87,9 +91,7 @@ const scrapper = {
             billboard.push(movie)
         })
 
-        // await logic.registerMovie(name, image, info, cast)
-
-        return {cinemaName, telephone, direction, projectionDay, billboard }
+        return {name, telephone, address, location, projectionDay, billboard }
     },
 
     // getAllCities() {

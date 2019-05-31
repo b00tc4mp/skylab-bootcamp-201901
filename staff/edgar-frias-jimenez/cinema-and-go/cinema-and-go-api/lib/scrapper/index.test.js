@@ -70,9 +70,10 @@ describe('scrapper', () => {
             const cinemaInfo = await scrapper.__listCinemaInfo(html)
             expect(cinemaInfo).toBeDefined()
             expect(cinemaInfo).toEqual({
-                cinemaName: '',
+                name: '',
                 telephone: '',
-                direction: '',
+                address: '',
+                location: '',
                 projectionDay: undefined,
                 billboard: []
             });

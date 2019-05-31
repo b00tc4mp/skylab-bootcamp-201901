@@ -1,10 +1,10 @@
 const bcrypt = require('bcrypt')
-const LogicError = require('../common/errors')
+const { LogicError } = require('../common/errors')
 const validate = require('../common/validate')
 const models = require('cinema-and-go-data')
 const scrapper = require('../lib/scrapper')
 
-const { User, Movie, MovieSessions, City, mongoose } = models
+const { mongoose, User, Movie, MovieSessions, City, Cinema } = models
 const {Types: {ObjectId}} = mongoose
 
 const logic = {
@@ -37,7 +37,7 @@ const logic = {
 
         return (async () => {
             const user = await User.findOne({email})
-            if (!user) throw new LogicError(`user with email "${email}" does not exist`)
+            if (!user) throw new LogicError(`user with email "${email}" does not exists`)
 
             if (await bcrypt.compare(password, user.password)) return user.id
             else throw new LogicError('wrong credentials')
@@ -51,7 +51,7 @@ const logic = {
 
         return (async () => {
             const user = await User.findById(id)
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+            if (!user) throw new LogicError(`user with id "${id}" does not exists`)
 
             const { name, email } = user
 
@@ -75,7 +75,7 @@ const logic = {
                 return result
 
             } catch(error) { // ??? PEta
-                throw new LogicError(`user with id "${id}" does not exist`)
+                throw new LogicError(`user with id "${id}" does not exists`)
             }
         })()
     },
@@ -87,7 +87,7 @@ const logic = {
 
         return (async () => {
             const user = await User.findById(id)
-            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
+            if(!user) throw new LogicError(`user with id "${id}" does not exists`)
 
             return await User.findByIdAndDelete(id)
         })()
@@ -116,16 +116,28 @@ const logic = {
         })()
     },
 
+    registerCinema(name, link, phone, address, location, movieSessions, city) {
+        return (async () => {
+            const exists = await Cinema.findOne({ name })
+            if (exists) return exists._id
+
+            const insertCinema = await Cinema.create({ name, link, phone, address, location, movieSessions, city })
+
+            return insertCinema._id
+        })()
+    },
+
     scrapperCinemaMovies() {
         const bcnCinemas = 'https://www.ecartelera.com/cines/0,9,23.html'
         return (async () => {
             const scrapCity = await scrapper.getAllCinemas(bcnCinemas);
 
             await Promise.all(scrapCity.map(async cinema => {
-                const { billboard } = cinema
+                const { name, link, phone, address, location, billboard } = cinema
                 await Promise.all(billboard.map(async ({title, img, info, cast, movieSessions}) => {
                     const movie = await this.registerMovie(title, img, info, cast)
                     const movieSession = await this.registerSessions(ObjectId(movie), movieSessions)
+                    const cinemas = await this.registerCinema({ name, link, phone, address, location, movieSessions })
                 }))
             }))
         })()
