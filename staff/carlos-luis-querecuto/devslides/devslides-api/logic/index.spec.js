@@ -7,7 +7,7 @@ import bcrypt from 'bcrypt'
 dotenv.config()
 
 const { models, mongoose } = data
-const { User, Presentation, Slide } = models;
+const { User, Presentation } = models;
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 
 describe('logic', () => {
@@ -379,25 +379,45 @@ describe('logic', () => {
                 expect(presentation.title).to.equal(title)
                 expect(presentation.author.toString()).to.equal(user.id)
             })
-            it.only('should update multiple slides data and their childs', async () => {
+
+            it('should update a presentation style', async () => {
+                const style = `{ background-color: red; border: 1px solid #${Math.random()} }`
+                await logic.updateSlideStyle(user.id, presentation._id.toString(),slides[0]._id.toString(), style)
+
+                presentation = await Presentation.findById(presentation._id.toString()).lean()
+                expect(presentation.slides[0]._id.toString()).to.equal(slides[0]._id.toString())
+                expect(presentation.slides[0].style).to.equal(style)
+            })
+            
+            it('should update multiple slides data and their childs', async () => {
                 const element1={
                     _id: slides[0].elements[0]._id,
                     type:`div-${Math.random()}`,
+                    style: `{ background-color: red; border: 1px solid #${Math.random()} }`,
                     content:`Updated-Lorem-ipsum-${Math.random()}`
                 }
                 const element2={
                     _id: slides[1].elements[0]._id,
                     type:`div-${Math.random()}`,
+                    style: `{ background-color: red; border: 1px solid #${Math.random()} }`,
                     content:`Updated-Lorem-ipsum-${Math.random()}`
                 }
                 const updateElements = [element1,element2]
                 const updateSlides = [slides[0].id,slides[1].id]
-                await logic.updateSlide(user.id,presentation._id.toString(),updateElements, updateSlides)
+                await logic.updateSlide(user.id,presentation._id.toString(),updateSlides, updateElements)
 
                 presentation = await Presentation.findById(presentation._id.toString()).lean()
-                expect(presentation.title).to.equal(title)
-                expect(presentation.author.toString()).to.equal(user.id)
-            
+                slides = presentation.slides
+
+                expect(slides[0].elements[0]._id.toString()).to.equal(element1._id.toString())
+                expect(slides[0].elements[0].type).to.equal(element1.type)
+                expect(slides[0].elements[0].style).to.equal(element1.style)
+                expect(slides[0].elements[0].content).to.equal(element1.content)
+
+                expect(slides[1].elements[0]._id.toString()).to.equal(element2._id.toString())
+                expect(slides[1].elements[0].type).to.equal(element2.type)
+                expect(slides[1].elements[0].style).to.equal(element2.style)
+                expect(slides[1].elements[0].content).to.equal(element2.content)
             })
         })
     })

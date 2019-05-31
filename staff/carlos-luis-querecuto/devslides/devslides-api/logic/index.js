@@ -98,53 +98,73 @@ const logic = {
         })()
     },
 
-    deletePresentation(user_id, presentationid) {
+    deletePresentation(user_id, presentationId) {
         validate.arguments([
             { name: 'user_id', value: user_id, type: 'string', notEmpty: true },
-            { name: 'presentationid', value: presentationid, type: 'string', notEmpty: true }
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true }
         ])
         return (async () => {
             const user = await User.findById(user_id)
             if (!user) throw Error('User to delete doesnt exist')
             if (!user.presentations) throw Error('No presentations to delete')
             const presentations = user.presentations.filter(presentation => {
-                return !((presentation._id.toString()) === presentationid)
+                return !((presentation._id.toString()) === presentationId)
             })
-            await Presentation.findByIdAndRemove(presentationid)
+            await Presentation.findByIdAndRemove(presentationId)
             user.presentations = presentations
             await user.save()
         })()
     },
 
-    updatePresentationTitle(user_id, presentationid, title) {
+    updatePresentationTitle(user_id, presentationId, title) {
         validate.arguments([
             { name: 'user_id', value: user_id, type: 'string', notEmpty: true },
-            { name: 'presentationid', value: presentationid, type: 'string', notEmpty: true },
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
             { name: 'title', value: title, type: 'string', notEmpty: true }
         ])
         return (async () => {
-            const user = await User.findById(user_id)
+            const user = await User.findById(user_id).lean()
             if (!user) throw Error('User to delete doesnt exist')
-            if (!user.presentations.find(presentation => presentation._id.toString() === presentationid))
+            if (!user.presentations.find(presentation => presentation._id.toString() === presentationId))
                 throw Error('Presentation doesnt exist')
-            await Presentation.findByIdAndUpdate(presentationid, { title })
-            await user.save()
+            await Presentation.findByIdAndUpdate(presentationId, { title })
         })()
     },
 
-    updateSlide(user_id, presentationid, updateElements, updateSlides) {
+    updateSlideStyle(user_id, presentationId, slideId, style) {
         validate.arguments([
             { name: 'user_id', value: user_id, type: 'string', notEmpty: true },
-            { name: 'presentationid', value: presentationid, type: 'string', notEmpty: true },
-            { name: 'updateElements', value: updateElements, type: 'object', notEmpty: true },
-            { name: 'updateSlides', value: updateSlides, type: 'object', notEmpty: true }
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
+            { name: 'slideId', value: slideId, type: 'string', notEmpty: true },
+            { name: 'title', value: style, type: 'string', notEmpty: true }
+        ])
+        return (async () => {
+            const user = await User.findById(user_id).lean()
+            if (!user) throw Error('User to delete doesnt exist')
+            if (!user.presentations.find(presentation => presentation._id.toString() === presentationId))
+                throw Error('Presentation doesnt exist')
+
+            const presentation = await Presentation.findById(presentationId)
+            presentation.slides.forEach( slide => {
+                if(slide._id.toString() === slideId) slide.style = style
+            })
+            await presentation.save()
+        })()
+    },
+
+    updateSlide(user_id, presentationId, updateSlides, updateElements) {
+        validate.arguments([
+            { name: 'user_id', value: user_id, type: 'string', notEmpty: true },
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
+            { name: 'updateSlides', value: updateSlides, type: 'object', notEmpty: true },
+            { name: 'updateElements', value: updateElements, type: 'object', notEmpty: true }
         ])
         return (async () => {
             const user = await User.findById(user_id)
             if (!user) throw Error('User to delete doesnt exist')
-            if (!user.presentations.find(presentation => presentation._id.toString() === presentationid))
+            if (!user.presentations.find(presentation => presentation._id.toString() === presentationId))
                 throw Error('Presentation doesnt exist')
-            const presentation = await Presentation.findById(presentationid)
+            const presentation = await Presentation.findById(presentationId)
 
             updateSlides.forEach(slideId => {
                 for (let i = 0; i < presentation.slides.length; i++) {
@@ -155,6 +175,7 @@ const logic = {
                                 if (slide.elements[j]._id.toString() === element._id.toString()) {
                                     slide.elements[j].type = element.type
                                     slide.elements[j].content = element.content
+                                    slide.elements[j].style = element.style
 
                                     presentation.slides[i] = slide;
                                     break
@@ -169,17 +190,17 @@ const logic = {
         })()
     },
 
-    retrievePresentation(user_id, presentationid) {
+    retrievePresentation(user_id, presentationId) {
         validate.arguments([
             { name: 'user_id', value: user_id, type: 'string', notEmpty: true },
-            { name: 'presentationid', value: presentationid, type: 'string', notEmpty: true }
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true }
         ])
         return (async () => {
             const user = await User.findById(user_id)
             if (!user) throw Error('User doesnt exist')
-            if (!user.presentations.find(presentation => presentation._id.toString() === presentationid))
+            if (!user.presentations.find(presentation => presentation._id.toString() === presentationId))
                 throw Error('Presentation doesnt exist')
-            return await Presentation.findById(presentationid).lean()
+            return await Presentation.findById(presentationId).lean()
         })()
     },
 

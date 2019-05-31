@@ -20,9 +20,9 @@
     "start": "node .",
     "watch": "nodemon .",
     "debug": "node debug .",
-    "test": "mocha --timeout 100000 -r esm '**/*.spec.js'",
+    "test": "mocha --timeout 10000 -r esm '**/*.spec.js'",
     "test:debug": "mocha debug -r esm '**/*.spec.js'",
-    "test:coverage": "nyc --reporter=text --reporter=html mocha -r esm '**/*.spec.js'"
+    "test:coverage": "nyc --reporter=text --reporter=html mocha -r esm '**/*.spec.js' --timeout 10000"
   },
   "keywords": [],
   "author": "",
