@@ -7,10 +7,3 @@ const city = new Schema({
 })
 
 module.exports = city
-
-
-// {
-//     name: 'Barcelona',
-//     link: 'https://www.ecartelera.com/cines/0,9,23.html',
-//     cinemas: [{}]
-// }

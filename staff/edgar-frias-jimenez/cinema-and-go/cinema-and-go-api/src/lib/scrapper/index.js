@@ -1,6 +1,6 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
-const validate = require('../../src/common/validate')
+const validate = require('../../common/validate')
 // const logic = require('../../logic')
 // const { Movie } = require('cinema-and-go-data')
 
@@ -69,10 +69,9 @@ const scrapper = {
         const $ = cheerio.load(html, { decodeEntities: false }) // Decode entities is needed to view correctly accents
 
         const name = $('h1').text()
-        const telephone = $('.prices b').text()
+        const phone = $('.prices b').text().trim()
         const address = $('.direction').text().split('.')[0]
         const location = $('.map').first().attr('onclick') ? $('.map').first().attr('onclick').match(/\(([^)]+)\)/)[1].split(', ').map(item => parseFloat(item)) : ''
-
         const projectionDay = $('#days a').first().attr('href')
 
         let billboard = []
@@ -91,7 +90,7 @@ const scrapper = {
             billboard.push(movie)
         })
 
-        return {name, telephone, address, location, projectionDay, billboard }
+        return { name, phone, address, location, projectionDay, billboard }
     },
 
     // getAllCities() {

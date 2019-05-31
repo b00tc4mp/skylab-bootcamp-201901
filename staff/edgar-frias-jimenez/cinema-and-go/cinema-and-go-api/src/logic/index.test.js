@@ -1,5 +1,5 @@
 const dotenv = require('dotenv')
-const { mongoose, User, Movie, MovieSessions } = require('cinema-and-go-data/src/models')
+const { mongoose, User, Movie, MovieSessions, Cinema } = require('cinema-and-go-data/src/models')
 const { Types: { ObjectId } } = mongoose
 const bcrypt = require('bcrypt')
 const logic = require('.')
@@ -20,6 +20,7 @@ describe('logic', () => {
         await User.deleteMany()
         await Movie.deleteMany()
         await MovieSessions.deleteMany()
+        await Cinema.deleteMany()
 
         name = `name-${Math.random()}`
         email = `email-${Math.random()}@mail.com`
@@ -311,8 +312,7 @@ describe('logic', () => {
 
     describe('Scrap an entire city', () => {
         it('should get all cinemas from a given city', async () => {
-            // debugger
-            const cityCinemas = await logic.scrapperCinemaMovies()
+            const cityCinemas = await logic.scrapCinemaMovies()
             expect(cityCinemas).toBeUndefined()
         })
     })

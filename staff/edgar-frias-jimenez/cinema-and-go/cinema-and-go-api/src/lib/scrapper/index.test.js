@@ -71,7 +71,7 @@ describe('scrapper', () => {
             expect(cinemaInfo).toBeDefined()
             expect(cinemaInfo).toEqual({
                 name: '',
-                telephone: '',
+                phone: '',
                 address: '',
                 location: '',
                 projectionDay: undefined,
