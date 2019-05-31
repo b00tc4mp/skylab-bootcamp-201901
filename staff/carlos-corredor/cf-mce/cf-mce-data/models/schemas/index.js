@@ -42,7 +42,7 @@ const customer = new Schema({
 
 const electronicControlModule = new Schema({
     received: { type: Date, default: Date.now },
-    reviewed: { type: Date, set: setDate },
+    reviewed: { type: Date },
     budgeted: { type: Date },
     approved: { type: Date },
     repaired: { type: Date },
