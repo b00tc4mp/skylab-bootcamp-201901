@@ -7,7 +7,9 @@ const cors = require('./src/routes/cors')
 const { mongoose } = require('dashboard-data')
 
 
-const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = process;
+//const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = process;
+
+const { env: { PORT, MONGO_URL_CLIENT_SIDE_TEST: url }, argv: [, , port = PORT || 8080], } = process;
 
 (async () => {
     try{

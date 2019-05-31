@@ -113,7 +113,7 @@ describe('logic', ()=>{
             expect(() => logic.loadJirasByMonth(id, month)).to.throw(ValueError, 'id is empty')
         })
     })
-    describe.only('issues', ()=>{
+    describe('issues', ()=>{
         const month='May'
         beforeEach(async()=>{
             await logic.loadJirasByMonth(id, month)
