@@ -5,7 +5,11 @@ const packageJSON = require('./package.json')
 const { mongoose } = require('photopin-data')
 const router = require('./src/routes')
 
-const { env: { PORT, MONGODB_URL: url }, argv: [, , port = PORT || 8080], } = process;
+// Base de datos correcta:
+//const { env: { API_PORT, MONGODB_URL: url }, argv: [, , port = API_PORT || 8080], } = process;
+
+// Base de datos de prueba de front
+const { env: { API_PORT, MONGODB_URL_APP_LOGIC_TEST: url }, argv: [, , port = API_PORT || 8080], } = process;
 
 
 (async () => {
@@ -18,9 +22,9 @@ const { env: { PORT, MONGODB_URL: url }, argv: [, , port = PORT || 8080], } = pr
     
         app.use('/api', router)
 
-        // app.use(function (req, res, next) {
-        //     res.status(404).json({ error: 'Not found.' })
-        // })
+        app.use(function (req, res, next) {
+             res.status(404).json({ error: 'Not found.' })
+        })
 
         app.listen(port, () => console.log(`${packageJSON.name} ${packageJSON.version} up on port ${port}`))
 
@@ -30,11 +34,10 @@ const { env: { PORT, MONGODB_URL: url }, argv: [, , port = PORT || 8080], } = pr
 })()
 
 
-process.on('SIGINT', () => {
-    mongoose.disconnect()
-        .then(() => {
-            console.log('\nsail-away stopped running')
+process.on('SIGINT', async () => {
+    await mongoose.disconnect()
+    
+    console.log('PhotoPin stopped running')
+    process.exit(0)
 
-            process.exit(0)
-        })
 }) 

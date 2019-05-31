@@ -13,7 +13,6 @@
 
 | **Dependency**  | **Use**                                                                            |
 | --------------- | ---------------------------------------------------------------------------------- |
-| axios           | Promise based HTTP client for the browser and node.js                              |
 | bcrypt          | A library to help you hash passwords                                               |
 | body-parser     | Node.js body parsing middleware                                                    |
 | cors            | Provide a Connect/Express middleware that can be used to enable CORS               |

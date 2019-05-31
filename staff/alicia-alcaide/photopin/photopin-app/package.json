@@ -1,0 +1,53 @@
+{
+  "name": "photopin-app",
+  "version": "0.1.0",
+  "private": true,
+  "author": "Alicia Alcaide Beneitez",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "dotenv": "^8.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "photopin-data": "file:../photopin-data",
+    "photopin-errors": "file:../photopin-errors",
+    "photopin-validate": "file:../photopin-validate",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "3.0.1"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "test": "mocha",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
+    "test:coverage": "react-scripts test --coverage --watchAll",
+    "lint": "./node_modules/.bin/eslint **/*.js"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "bcrypt": "^3.0.6",
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "eslint-plugin-react": "^7.13.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  },
+  "nyc": {
+    "exclude": "**/*.spec.js"
+  }
+}

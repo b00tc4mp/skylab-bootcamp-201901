@@ -1,0 +1,20 @@
+mixin duck-detail(duck)
+  section.duck-detail
+    .duck-detail__title-container
+      a(href="/home/search?query=" + query)
+        i.fas.fa-arrow-left.duck-detail__back
+      h3.duck-detail__title #{duck.title}
+    form(method="POST")
+      button.favorite(name="toggleFav" value=duck.id)
+        if duck.isFav
+          i.fa-heart.fas.favorite---on
+        else
+          i.fa-heart.far.favorite---off
+    img.duck-detail__image(src=duck.image)
+    form(method='POST' action='/cart')
+      button.btn.btn--block(name="addToCart" value=duck.id) 
+        span Add to cart
+        div
+          span.duck-detail__price  #{duck.price}  
+          i.fas.fa-cart-plus
+    p.duck-detail__description #{duck.description}

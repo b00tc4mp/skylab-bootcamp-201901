@@ -1,0 +1,8 @@
+mixin cart(items)
+    ul
+        each item in items
+            li
+                a(href=item.url)
+                    h2 #{item.title}
+                    img(src=item.image, alt='duck image')
+                    span #{item.price}

@@ -245,7 +245,7 @@ describe('logic', () => {
 
             it('should succeed on correct credentials', async () => {
                 try {
-                    await logic.removeUser(userId, password)
+                    await logic.removeUser(userId)
                 }
                 catch(error) {
                     throw Error('should not reach this point')
@@ -265,7 +265,7 @@ describe('logic', () => {
                 const wrongId = '342452654635'
 
                 try {
-                    await logic.removeUser(wrongId, password)
+                    await logic.removeUser(wrongId)
                     throw Error('should not reach this point')
                 } catch (error) {
                     
@@ -275,19 +275,19 @@ describe('logic', () => {
             })
 
             it('should fail on undefined id', () => {
-                expect(() => logic.removeUser(undefined, password)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.removeUser(undefined)).to.throw(RequirementError, `id is not optional`)
             })
     
             it('should fail on null id', () => {
-                expect(() => logic.removeUser(null, password)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.removeUser(null)).to.throw(RequirementError, `id is not optional`)
             })
     
             it('should fail on empty id', () => {
-                expect(() => logic.removeUser('', password)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.removeUser('')).to.throw(ValueError, 'id is empty')
             })
     
             it('should fail on blank id', () => {
-                expect(() => logic.removeUser(' \t    \n', password)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.removeUser(' \t    \n')).to.throw(ValueError, 'id is empty')
             })        
 
         })
