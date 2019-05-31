@@ -1,7 +1,7 @@
 require('dotenv').config()
 
 const photopinApi = require('.')
-const expect = require('chai')
+const expect = require('chai').expect
 const bcrypt = require('bcrypt')
 const { LogicError, RequirementError, ValueError } = require ('photopin-errors')
 const { mongoose, models : { User, PMap, Pin } } = require('photopin-data')

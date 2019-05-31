@@ -1,6 +1,6 @@
 import React, { useContext } from 'react'
 import { AppContext } from '../AppContext'
-import literals from './literals'
+import literals from './literals.js'
 
 //import './index.sass'
 
@@ -8,8 +8,8 @@ function Landing({ onRegister, onLogin }) {
 
     const { userLanguage } = useContext(AppContext)
 
-    //const { title, register, login } = literals[userLanguage]
-    const { title, register, login } = literals['en']
+    const { title, register, login } = literals[userLanguage]
+    // const { title, register, login } = literals['en']
     
 
     return <main className='landing' onClick={e => e.preventDefault()}>
