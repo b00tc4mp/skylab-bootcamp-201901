@@ -112,6 +112,7 @@ Game.prototype.startFunction = async function (userId) { //Checked for 1 player
             const timeToStart = this.players.some(x => x.start === false)
 
             if (!timeToStart) {
+                this.start = true
                 return this.init()
 
             } else {
@@ -216,33 +217,34 @@ Game.prototype.nextFunction = async function (userId, gameAction) {
 
     const player = this.playersPackages.find(x => x.player === userId)
 
+    if (!player) throw Error("User not loged in this game")
+
     let { userPuntuation, mapStatus } = player
 
-    let missionStatus
+    let missionStatus = [false, false, false]
 
     // To check striks
     if (!status) {
-        userPuntuation.StrikLevL += 1
-
+        userPuntuation.StrikLvL += 1
         //To check if the user got already the third strik
-        if (userPuntuation.StrikLevL === 3) this.finish = true
+        if (userPuntuation.StrikLvL >= 3) return this.finish = true
     } else {
         mapStatus[position.row][position.column][0] += 1
 
         // To check if the player is done matching the penguins
         let full = 0
 
-        for (let i = 1; i < 4; i++) {
-            const checked = mapStatus[i].some(x => x === 0)
+        for (let i = 1; i <= 4; i++) {
+            const checked = mapStatus[i].some(x => x[0] === 0)
+
             if (!checked) full++
 
             if (i === 4 && full === 4) this.finish = true
+
         }
 
         // To check if the player is done doing the missions
         let completedMissions = 0
-
-        missionStatus = [false, false, false]
 
         for (let i = 0; i <= 3; i++) {
             if (missions[i]) {
@@ -257,12 +259,11 @@ Game.prototype.nextFunction = async function (userId, gameAction) {
                         userPuntuation.missionCards[i].points = this.missionCards[i].first
 
                     } else userPuntuation.missionCards[i].points = this.missionCards[i].second
-                }
-            }
-
-            if (i === 3 && completedMissions === 3) this.finish = true
+                } else continue
+            } else continue
         }
 
+        if (completedMissions === 3) this.finish = true
     }
 
     switch (resource.type) { // resource = {type: string, row: number, column: number, nest: string}
@@ -273,14 +274,16 @@ Game.prototype.nextFunction = async function (userId, gameAction) {
             userPuntuation.ToolsUsed += 1
             break
         case "security":
-            userPuntuation.SecurityLvL += 1
+            userPuntuation.SecurityLvL[resource.row] += 1
             break
         case "fishing":
-            userPuntuation.FishingRoadUsed += 1
+            userPuntuation.FishingRodUsed += 1
             break
         case "upgrade":
             //it should change the level of a picked nest type (not over its limit)
-            userPuntuation[`${resource.nest}EggNestLvL`] += 1
+            if (resource.nest === "One" || resource.nest === "Two" || resource.nest === "Three" || resource.nest === "Four") userPuntuation[`${resource.nest}EggNestLvL`] += 1
+            else throw Error("That is not a valid nest value")
+
             break
         case "strik":
             break
@@ -293,19 +296,16 @@ Game.prototype.nextFunction = async function (userId, gameAction) {
 
     const timeToContinue = this.players.some(x => x.nextRound === false)
 
-    if (!timeToContinue && this.finish === true) return this.__checkWinner__(usersPackage)
+    if (!timeToContinue && this.finish === true) return this.__checkWinner__(userId)
     else if (!timeToContinue) {
         for (i = 0; i < 3; i++) { if (this.missionCardsStatus[i] === false && missionStatus[i] === true) this.missionCardsStatus[i] = true }
 
-        console.log(this.next)
         this.next = true
-        console.log(this.next)
         this.round += 1
-    }
 
-    // return player
-
-    if (this.mode === "solo") return this.__sendNextRound__(userId)
+        if (this.mode === "solo") return this.__sendNextRound__(userId)
+        else return
+    } else return
 }
 
 // //                                                       //
@@ -339,118 +339,124 @@ Game.prototype.__sendNextRound__ = function (userId) {
 // //This function looks for status updates            //
 // //                                                  //
 
-// Game.prototype.update = (userId) => {
+Game.prototype.update = async function(userId){
 
-//     if (!this.cardsFetched) return this.init()
-//     if (!this.start) return
-//     if (this.finish) return this.__results__(userId)
-
-//     if (this.round === 0) return this.__sendInitialPackage__(userId)
-//     else if (this.next) return this.__sendNextRound__(userId)
-//     else return
-// }
+    if(!this.players.some(x => x.id === userId)) throw Error("Player not logged on this game")
+    else if (!this.cardsFetched) return this.init()
+    else if (!this.start) return
+    else if (this.finish) return this.__results__(userId)
+    else if (this.round === 0) return this.__sendInitialPackage__(userId)
+    else if (this.next) return this.__sendNextRound__(userId)
+    else return
+}
 
 // //                                                  //
 // //This function send the player the results         //
 // //                                                  //
 
-// Game.prototype.__results__ = userId => {
-//     if (mode === "solo") return this.playersPackages
+Game.prototype.__results__ = async function (userId) {
 
-//     results = this.usersPackage.sort((a, b) => {
-//         let comparison = 0
+    let results = this.playersPackages.sort((a, b) => {
+        let comparison
 
-//         if (a.puntuation > b.puntuation) comparison = 1
-//         else if (a.puntuation < b.puntuation) comparison = -1
+        if (a.puntuation > b.puntuation) comparison = -1
+        else if (a.puntuation < b.puntuation) comparison = 1
+        else comparison = 0
 
-//         return comparison
-//     })
+        return comparison
+    })
 
-//     let user = this.usersPackage.find(x => x.player === userId)
+    let user = this.playersPackages.find(x => x.player === userId)
 
-//     for (let i = 0; i < results.length; i++) {
-//         if (results[i].puntuation === results[0].puntuation && results[i].player === userId) user.winner = true
-//     }
+    for (let i = 0; i < results.length; i++) {
+        if (results[i].puntuation === results[0].puntuation && results[i].player === userId) user.winner = true
+        else continue
+    }
 
-//     return results
-// }
+    return results
+
+    // I will have to save the results to the user object in memory
+}
 
 // //                                            //
 // //This function checks if there is a winner   //
 // //                                            //
 
-// Game.prototype.__checkWinner__ = async function () {
+Game.prototype.__checkWinner__ = async function () {
+    if (!this.finish) throw Error("Game did not finish")
 
-//     const puntuationSchema = await Result.findById("5cef8d48c2f6140244144ae7").lean()
+    const puntuationSchema = await Result.findById("5cef8d48c2f6140244144ae7").lean()
 
-//     let toolsFirst = []
-//     let toolsSecond = []
-//     let toolsThird = []
+    let toolsFirst = []
+    let toolsSecond = []
+    let toolsThird = []
 
-//     let firstPoints = 0
-//     let secondPoints = 0
-//     let thirdPoints = 0
+    let firstPoints = 0
+    let secondPoints = 0
+    let thirdPoints = 0
 
-//     for (k in this.usersPackage) {
+    for (i = 0; i < this.playersPackages.length; i++) {
 
-//         k.puntuation = (
-//             (puntuationSchema.OneEggNestLvL[k.OneEggNestLvL] * k.OneEggNestAmount) +
-//             (puntuationSchema.TwoEggNestLvL[k.TwoEggNestLvL] * k.TwoEggNestAmount) +
-//             (puntuationSchema.ThreeEggNestLvL[k.ThreeEggNestLvL] * k.ThreeEggNestAmount) +
-//             (puntuationSchema.FourEggNestLvL[k.FourEggNestLvL] * k.FourEggNestAmount) +
-//             (puntuationSchema.SecurityLvL[1][k.SecurityLvL[1]]) +
-//             (puntuationSchema.SecurityLvL[2][k.SecurityLvL[2]]) +
-//             (puntuationSchema.SecurityLvL[3][k.SecurityLvL[3]]) +
-//             (puntuationSchema.SecurityLvL[4][k.SecurityLvL[4]]) +
-//             (k.missionCards[0].points) +
-//             (k.missionCards[1].points) +
-//             (k.missionCards[2].points) +
-//             (puntuationSchema.FishingRoadUsed(k.FishingRoadUsed)) -
-//             (k.StrikLevL)
-//         )
+        const { userPuntuation: k } = this.playersPackages[i]
 
-//         if (this.mode === "solo") {
-//             k.puntuation += puntuationSchema.ToolsPuntuation(3)
-//             k.winner = true
-//             return this.__results__(userId)
-//         }
+        this.playersPackages[i].puntuation =
+            (puntuationSchema.OneEggNestLvL[k.OneEggNestLvL] * k.OneEggNestAmount) +
+            (puntuationSchema.TwoEggNestLvL[k.TwoEggNestLvL] * k.TwoEggNestAmount) +
+            (puntuationSchema.ThreeEggNestLvL[k.ThreeEggNestLvL] * k.ThreeEggNestAmount) +
+            (puntuationSchema.FourEggNestLvL[k.FourEggNestLvL] * k.FourEggNestAmount) +
+            (puntuationSchema.SecurityLvL[1][k.SecurityLvL[1]]) +
+            (puntuationSchema.SecurityLvL[2][k.SecurityLvL[2]]) +
+            (puntuationSchema.SecurityLvL[3][k.SecurityLvL[3]]) +
+            (puntuationSchema.SecurityLvL[4][k.SecurityLvL[4]]) +
+            (k.missionCards[0].points) +
+            (k.missionCards[1].points) +
+            (k.missionCards[2].points) +
+            (puntuationSchema.FishingRodUsed[k.FishingRodUsed]) +
+            (k.StrikLvL)
 
-//         if (k.ToolsUsed > firstPoints) {
-//             toolsThird = toolsSecond
-//             thirdPoints = secondPoints
-//             toolsSecond = toolsFirst
-//             secondPoints = firstPoints
-//             toolsFirst = []
-//             firstPoints = k.ToolsUsed
-//             toolsFirst.push(k)
+        if (k.ToolsUsed > firstPoints) {
+            toolsThird = toolsSecond
+            thirdPoints = secondPoints
+            toolsSecond = toolsFirst
+            secondPoints = firstPoints
+            toolsFirst = []
+            firstPoints = k.ToolsUsed
+            toolsFirst.push(this.playersPackages[i])
 
-//         } else if (k.ToolsUsed === firstPoints) {
-//             toolsFirst.push(k)
+        } else if (k.ToolsUsed === firstPoints) {
+            toolsFirst.push(this.playersPackages[i])
 
-//         } else if (k.ToolsUsed > secondPoints) {
-//             toolsThird = toolsSecond
-//             thirdPoints = secondPoints
-//             toolsSecond = []
-//             secondPoints = k.ToolsUsed
-//             toolsSecond.push(k)
+        } else if (k.ToolsUsed > secondPoints) {
+            toolsThird = toolsSecond
+            thirdPoints = secondPoints
+            toolsSecond = []
+            secondPoints = k.ToolsUsed
+            toolsSecond.push(this.playersPackages[i])
 
-//         } else if (k.ToolsUsed === secondPoints) {
-//             toolsSecond.push(k)
+        } else if (k.ToolsUsed === secondPoints) {
+            toolsSecond.push(this.playersPackages[i])
 
-//         } else if (k.ToolsUsed > thirdPoints) {
-//             toolsThird = []
-//             thirdPoints = k.ToolsUsed
-//             toolsThird.push(k)
+        } else if (k.ToolsUsed > thirdPoints) {
+            toolsThird = []
+            thirdPoints = k.ToolsUsed
+            toolsThird.push(this.playersPackages[i])
 
-//         } else if (k.ToolsUsed === thirdPoints) {
-//             toolsThird.push(k)
-//         }
+        } else if (k.ToolsUsed === thirdPoints) {
+            toolsThird.push(this.playersPackages[i])
+        } else {
+            continue
+        }
+    }
 
-//         for (F in toolsFirst) F.puntuation += puntuationSchema.ToolsPuntuation[3]
-//         for (S in toolsSecond) S.puntuation += puntuationSchema.ToolsPuntuation[2]
-//         for (T in toolsThird) T.puntuation += puntuationSchema.ToolsPuntuation[1]
-//     }
-// }
+    toolsFirst.forEach(P => P.puntuation += puntuationSchema.ToolsPuntuation[3])
+    toolsSecond.forEach(S => S.puntuation += puntuationSchema.ToolsPuntuation[2])
+    toolsThird.forEach(T => T.puntuation += puntuationSchema.ToolsPuntuation[1])
+
+    if (this.mode === "solo") {
+        this.playersPackages[0].winner = true
+        return this.playersPackages[0]
+    } else return
+}
 
 
 module.exports = { aliveGames, Game }

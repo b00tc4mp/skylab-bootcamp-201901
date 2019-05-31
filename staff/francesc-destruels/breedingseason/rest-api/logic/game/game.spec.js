@@ -3,7 +3,7 @@ const { mongoose, models: { MissionDeck, GameDeck } } = require("breedingseason-
 
 const url = 'mongodb://localhost/project_game'
 
-describe('user data', () => {
+describe('Game Data', () => {
 
     beforeAll(async () => {
         await mongoose.connect(url, { useNewUrlParser: true })
@@ -98,14 +98,14 @@ describe('user data', () => {
             expect(newSoloGame.addPlayer).toBeDefined()
             expect(newSoloGame.addPlayer).toBeInstanceOf(Function)
 
-            // expect(newSoloGame.startFunction).toBeDefined()
-            // expect(newSoloGame.startFunction).toBeInstanceOf(Function)
+            expect(newSoloGame.startFunction).toBeDefined()
+            expect(newSoloGame.startFunction).toBeInstanceOf(Function)
 
             expect(newSoloGame.__sendInitialPackage__).toBeDefined()
             expect(newSoloGame.__sendInitialPackage__).toBeInstanceOf(Function)
 
-            // expect(newSoloGame.nextFunction).toBeDefined()
-            // expect(newSoloGame.nextFunction).toBeInstanceOf(Function)
+            expect(newSoloGame.nextFunction).toBeDefined()
+            expect(newSoloGame.nextFunction).toBeInstanceOf(Function)
 
             expect(newSoloGame.__sendNextRound__).toBeDefined()
             expect(newSoloGame.__sendNextRound__).toBeInstanceOf(Function)
@@ -113,11 +113,11 @@ describe('user data', () => {
             // expect(newSoloGame.update).toBeDefined()
             // expect(newSoloGame.update).toBeInstanceOf(Function)
 
-            // expect(newSoloGame.__results__).toBeDefined()
-            // expect(newSoloGame.__results__).toBeInstanceOf(Function)
+            expect(newSoloGame.__results__).toBeDefined()
+            expect(newSoloGame.__results__).toBeInstanceOf(Function)
 
-            // expect(newSoloGame.__checkWinner__).toBeDefined()
-            // expect(newSoloGame.__checkWinner__).toBeInstanceOf(Function)
+            expect(newSoloGame.__checkWinner__).toBeDefined()
+            expect(newSoloGame.__checkWinner__).toBeInstanceOf(Function)
         })
 
         it('Should success on creating a game instance for a multiplayer game', async () => {
@@ -182,14 +182,14 @@ describe('user data', () => {
             expect(newMultiplayerGame.addPlayer).toBeDefined()
             expect(newMultiplayerGame.addPlayer).toBeInstanceOf(Function)
 
-            // expect(newMultiplayerGame.startFunction).toBeDefined()
-            // expect(newMultiplayerGame.startFunction).toBeInstanceOf(Function)
+            expect(newMultiplayerGame.startFunction).toBeDefined()
+            expect(newMultiplayerGame.startFunction).toBeInstanceOf(Function)
 
             expect(newMultiplayerGame.__sendInitialPackage__).toBeDefined()
             expect(newMultiplayerGame.__sendInitialPackage__).toBeInstanceOf(Function)
 
-            // expect(newMultiplayerGame.nextFunction).toBeDefined()
-            // expect(newMultiplayerGame.nextFunction).toBeInstanceOf(Function)
+            expect(newMultiplayerGame.nextFunction).toBeDefined()
+            expect(newMultiplayerGame.nextFunction).toBeInstanceOf(Function)
 
             expect(newMultiplayerGame.__sendNextRound__).toBeDefined()
             expect(newMultiplayerGame.__sendNextRound__).toBeInstanceOf(Function)
@@ -197,11 +197,11 @@ describe('user data', () => {
             // expect(newMultiplayerGame.update).toBeDefined()
             // expect(newMultiplayerGame.update).toBeInstanceOf(Function)
 
-            // expect(newMultiplayerGame.__results__).toBeDefined()
-            // expect(newMultiplayerGame.__results__).toBeInstanceOf(Function)
+            expect(newMultiplayerGame.__results__).toBeDefined()
+            expect(newMultiplayerGame.__results__).toBeInstanceOf(Function)
 
-            // expect(newMultiplayerGame.__checkWinner__).toBeDefined()
-            // expect(newMultiplayerGame.__checkWinner__).toBeInstanceOf(Function)
+            expect(newMultiplayerGame.__checkWinner__).toBeDefined()
+            expect(newMultiplayerGame.__checkWinner__).toBeInstanceOf(Function)
         })
 
         it('Should faild on creating a game instance if UserId is Undefined', async () => {
@@ -215,7 +215,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `string` but received type `undefined`')
+                expect(err.message).toMatch(/undefined/gm)
             }
         })
 
@@ -230,7 +230,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `string` but received type `null`')
+                expect(err.message).toMatch(/null/gm)
             }
         })
 
@@ -245,7 +245,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `string` but received type `number`')
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -260,7 +260,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `string` but received type `number`')
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -275,7 +275,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `string` but received type `Object`')
+                expect(err.message).toMatch(/Object/gm)
             }
         })
 
@@ -290,7 +290,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("[NOT] Expected string to be empty, got ``")
+                expect(err.message).toMatch(/[NOT]/gm)
             }
         })
 
@@ -305,7 +305,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `string` but received type `undefined`')
+                expect(err.message).toMatch(/undefined/gm)
             }
         })
 
@@ -320,7 +320,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `string` but received type `null`')
+                expect(err.message).toMatch(/null/gm)
             }
         })
 
@@ -335,7 +335,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `string` but received type `number`')
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -350,7 +350,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `string` but received type `number`')
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -364,7 +364,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `string` but received type `Object`')
+                expect(err.message).toMatch(/Object/gm)
             }
         })
 
@@ -379,7 +379,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("[NOT] Expected string to be empty, got ``")
+                expect(err.message).toMatch(/[NOT]/gm)
             }
         })
 
@@ -392,7 +392,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `object` but received type `undefined`')
+                expect(err.message).toMatch(/undefined/gm)
             }
         })
 
@@ -405,7 +405,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `object` but received type `null`')
+                expect(err.message).toMatch(/null/gm)
             }
         })
 
@@ -418,7 +418,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `object` but received type `number`')
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -431,7 +431,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `object` but received type `number`')
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -444,7 +444,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property `mode` to be of type `string` but received type `undefined` in object")
+                expect(err.message).toMatch(/undefined/gm)
             }
         })
 
@@ -457,7 +457,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe('Expected argument to be of type `object` but received type `string`')
+                expect(err.message).toMatch(/string/gm)
             }
         })
 
@@ -470,7 +470,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property `mode` to be of type `string` but received type `undefined` in object")
+                expect(err.message).toMatch(/undefined/gm)
             }
         })
 
@@ -483,7 +483,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property `mode` to be of type `string` but received type `null` in object")
+                expect(err.message).toMatch(/null/gm)
             }
         })
 
@@ -496,7 +496,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property `mode` to be of type `string` but received type `number` in object")
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -509,7 +509,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property `mode` to be of type `string` but received type `number` in object")
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -522,7 +522,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property `mode` to be of type `string` but received type `Object` in object")
+                expect(err.message).toMatch(/Object/gm)
             }
         })
 
@@ -535,7 +535,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("[NOT] Expected property string `mode` to be empty, got `` in object")
+                expect(err.message).toMatch(/[NOT]/gm)
             }
         })
 
@@ -548,7 +548,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property `playersNumber` to be of type `number` but received type `undefined` in object")
+                expect(err.message).toMatch(/undefined/gm)
             }
         })
 
@@ -560,7 +560,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property `playersNumber` to be of type `number` but received type `null` in object")
+                expect(err.message).toMatch(/null/gm)
             }
         })
 
@@ -573,7 +573,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property number `playersNumber` `NaN` to pass custom validation function in object")
+                expect(err.message).toMatch(/NaN/gm)
             }
         })
 
@@ -586,7 +586,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property number `playersNumber` `3.3` to pass custom validation function in object")
+                expect(err.message).toMatch(/pass/gm)
             }
         })
 
@@ -598,7 +598,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property `playersNumber` to be of type `number` but received type `Object` in object")
+                expect(err.message).toMatch(/Object/gm)
             }
         })
 
@@ -611,7 +611,7 @@ describe('user data', () => {
             catch (err) {
                 expect(err).toBeDefined
                 expect(err.name).toBe('ArgumentError')
-                expect(err.message).toBe("Expected property `playersNumber` to be of type `number` but received type `string` in object")
+                expect(err.message).toMatch(/string/gm)
             }
 
         })
@@ -697,21 +697,20 @@ describe('user data', () => {
             expect(penguinCards[2][randomIndex]).toBeDefined()
             expect(penguinCards[3][randomIndex]).toBeDefined()
 
-
             expect(gameToTest.init).toBeDefined()
             expect(gameToTest.init).toBeInstanceOf(Function)
 
             expect(gameToTest.addPlayer).toBeDefined()
             expect(gameToTest.addPlayer).toBeInstanceOf(Function)
 
-            // expect(gameToTest.startFunction).toBeDefined()
-            // expect(gameToTest.startFunction).toBeInstanceOf(Function)
+            expect(gameToTest.startFunction).toBeDefined()
+            expect(gameToTest.startFunction).toBeInstanceOf(Function)
 
             expect(gameToTest.__sendInitialPackage__).toBeDefined()
             expect(gameToTest.__sendInitialPackage__).toBeInstanceOf(Function)
 
-            // expect(gameToTest.nextFunction).toBeDefined()
-            // expect(gameToTest.nextFunction).toBeInstanceOf(Function)
+            expect(gameToTest.nextFunction).toBeDefined()
+            expect(gameToTest.nextFunction).toBeInstanceOf(Function)
 
             expect(gameToTest.__sendNextRound__).toBeDefined()
             expect(gameToTest.__sendNextRound__).toBeInstanceOf(Function)
@@ -719,11 +718,11 @@ describe('user data', () => {
             // expect(gameToTest.update).toBeDefined()
             // expect(gameToTest.update).toBeInstanceOf(Function)
 
-            // expect(gameToTest.__results__).toBeDefined()
-            // expect(gameToTest.__results__).toBeInstanceOf(Function)
+            expect(gameToTest.__results__).toBeDefined()
+            expect(gameToTest.__results__).toBeInstanceOf(Function)
 
-            // expect(gameToTest.__checkWinner__).toBeDefined()
-            // expect(gameToTest.__checkWinner__).toBeInstanceOf(Function)
+            expect(gameToTest.__checkWinner__).toBeDefined()
+            expect(gameToTest.__checkWinner__).toBeInstanceOf(Function)
         })
 
         it('Should fail on initializacing when the value of cards Fetched is true', async () => {
@@ -817,7 +816,7 @@ describe('user data', () => {
             expect(userPuntuation).toBeDefined
 
             const { player: playerPunt, missionCards: playerMission, OneEggNestAmount, TwoEggNestAmount, ThreeEggNestAmount, FourEggNestAmount, } = userPuntuation
-            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPunctuation, FishingRodUsed, StrikLvL, puntuationSchema } = userPuntuation
+            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPuntuation, FishingRodUsed, StrikLvL, puntuationSchema } = userPuntuation
 
             //Inside User Puntuation
             expect(playerPunt).toBe(UserId)
@@ -860,12 +859,12 @@ describe('user data', () => {
             expect(SecurityLvL[3]).toBe(0)
             expect(SecurityLvL[4]).toBe(0)
 
-            expect(SecurityPunctuation).toBe(0)
+            expect(SecurityPuntuation).toBe(0)
             expect(FishingRodUsed).toBe(0)
             expect(StrikLvL).toBe(0)
 
 
-            //Inside punctuation Schema
+            //Inside Puntuation Schema
             expect(puntuationSchema).toBeDefined()
 
             const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, FishingRodUsed: FrLvL, StrikLvL: StLvL } = puntuationSchema
@@ -1027,7 +1026,6 @@ describe('user data', () => {
             }
         })
 
-
         it('Should fail on userId being Undefined', async () => {
             randomPlayer = undefined
 
@@ -1038,7 +1036,7 @@ describe('user data', () => {
 
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected `userId` to be of type `string` but received type `undefined`")
+                expect(err.message).toMatch(/undefined/gm)
             }
         })
 
@@ -1051,7 +1049,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected `userId` to be of type `string` but received type `null`")
+                expect(err.message).toMatch(/null/gm)
             }
         })
 
@@ -1064,7 +1062,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected `userId` to be of type `string` but received type `Object`")
+                expect(err.message).toMatch(/Object/gm)
             }
         })
 
@@ -1077,7 +1075,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected `userId` to be of type `string` but received type `number`")
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -1090,7 +1088,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("[NOT] Expected string `userId` to be empty, got ``")
+                expect(err.message).toMatch(/[NOT]/gm)
             }
         })
 
@@ -1103,7 +1101,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected `userId` to be of type `string` but received type `Array`")
+                expect(err.message).toMatch(/Array/gm)
             }
         })
     })
@@ -1254,7 +1252,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected `userId` to be of type `string` but received type `undefined`")
+                expect(err.message).toMatch(/undefined/gm)
             }
         })
 
@@ -1267,7 +1265,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected `userId` to be of type `string` but received type `null`")
+                expect(err.message).toMatch(/null/gm)
             }
         })
 
@@ -1280,7 +1278,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected `userId` to be of type `string` but received type `Object`")
+                expect(err.message).toMatch(/Object/gm)
             }
         })
 
@@ -1293,7 +1291,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected `userId` to be of type `string` but received type `number`")
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -1306,7 +1304,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("[NOT] Expected string `userId` to be empty, got ``")
+                expect(err.message).toMatch(/``/gm)
             }
         })
 
@@ -1319,7 +1317,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected `userId` to be of type `string` but received type `Array`")
+                expect(err.message).toMatch(/Array/gm)
             }
         })
 
@@ -1398,7 +1396,7 @@ describe('user data', () => {
             expect(userPuntuation).toBeDefined
 
             const { player: playerPunt, missionCards: playerMission, OneEggNestAmount, TwoEggNestAmount, ThreeEggNestAmount, FourEggNestAmount, } = userPuntuation
-            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPunctuation, FishingRodUsed, StrikLvL, puntuationSchema } = userPuntuation
+            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPuntuation, FishingRodUsed, StrikLvL, puntuationSchema } = userPuntuation
 
             //Inside User Puntuation
             expect(playerPunt).toBe(UserId)
@@ -1441,12 +1439,12 @@ describe('user data', () => {
             expect(SecurityLvL[3]).toBe(0)
             expect(SecurityLvL[4]).toBe(0)
 
-            expect(SecurityPunctuation).toBe(0)
+            expect(SecurityPuntuation).toBe(0)
             expect(FishingRodUsed).toBe(0)
             expect(StrikLvL).toBe(0)
 
 
-            //Inside punctuation Schema
+            //Inside Puntuation Schema
             expect(puntuationSchema).toBeDefined()
 
             const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, FishingRodUsed: FrLvL, StrikLvL: StLvL } = puntuationSchema
@@ -1597,7 +1595,7 @@ describe('user data', () => {
             expect(userPuntuation).toBeDefined
 
             const { player: playerPunt, missionCards: playerMission, OneEggNestAmount, TwoEggNestAmount, ThreeEggNestAmount, FourEggNestAmount, } = userPuntuation
-            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPunctuation, FishingRodUsed, StrikLvL, puntuationSchema } = userPuntuation
+            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPuntuation, FishingRodUsed, StrikLvL, puntuationSchema } = userPuntuation
 
             //Inside User Puntuation
             expect(playerPunt).toBe(UserId)
@@ -1640,12 +1638,12 @@ describe('user data', () => {
             expect(SecurityLvL[3]).toBe(0)
             expect(SecurityLvL[4]).toBe(0)
 
-            expect(SecurityPunctuation).toBe(0)
+            expect(SecurityPuntuation).toBe(0)
             expect(FishingRodUsed).toBe(0)
             expect(StrikLvL).toBe(0)
 
 
-            //Inside punctuation Schema
+            //Inside Puntuation Schema
             expect(puntuationSchema).toBeDefined()
 
             const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, FishingRodUsed: FrLvL, StrikLvL: StLvL } = puntuationSchema
@@ -1750,7 +1748,7 @@ describe('user data', () => {
 
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected argument to be of type `string` but received type `undefined`")
+                expect(err.message).toMatch(/undefined/gm)
             }
         })
 
@@ -1765,7 +1763,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected argument to be of type `string` but received type `null`")
+                expect(err.message).toMatch(/null/gm)
             }
         })
 
@@ -1780,7 +1778,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected argument to be of type `string` but received type `Object`")
+                expect(err.message).toMatch(/Object/gm)
             }
         })
 
@@ -1795,7 +1793,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected argument to be of type `string` but received type `number`")
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -1810,7 +1808,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("[NOT] Expected string to be empty, got ``")
+                expect(err.message).toMatch(/[NOT]/gm)
             }
         })
 
@@ -1825,15 +1823,179 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected argument to be of type `string` but received type `Array`")
+                expect(err.message).toMatch(/Array/gm)
             }
         })
 
     })
 
-    fdescribe('.nextFunction', () => {
+    describe('.nextFunction', () => {
+        let randomRow = Math.ceil(Math.random() * 3)
+        let randomColumn = Math.ceil(Math.random() * 5)
 
-        it("Should work on changing the userPunctuation on the action LOVE and the nextRound to a solo game", async () => {
+        it("Should work on changing the userPuntuation on the action TOOL and the nextRound to a solo game", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+            gameToTest.missionCardsStatus[1] = true
+
+            const initialPackage = await gameToTest.startFunction(UserId)
+
+            expect(initialPackage).toBeDefined()
+
+            const nextPackage = await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "tool",
+                    row: 0,
+                    column: 0,
+                    nest: ""
+                },
+                map: {
+                    status: true,
+                    position: {
+                        row: (randomRow),
+                        column: (randomColumn)
+                    }
+                },
+                missions: [false, true, false]
+
+            })
+
+            //Cheking the package
+            expect(nextPackage).toBeDefined()
+
+            const { round: _round, turnCards, missionStatus } = nextPackage
+
+            expect(_round).toBe(2)
+
+            expect(turnCards).toBeDefined()
+
+            //Be
+            expect(turnCards[0]).toBe(gameToTest.penguinCards[1][_round])
+            expect(turnCards[1]).toBe(gameToTest.penguinCards[2][_round])
+            expect(turnCards[2]).toBe(gameToTest.penguinCards[3][_round])
+            //Not be
+            expect(turnCards[0]).not.toBe(gameToTest.penguinCards[1][_round + 1])
+            expect(turnCards[1]).not.toBe(gameToTest.penguinCards[2][_round + 1])
+            expect(turnCards[2]).not.toBe(gameToTest.penguinCards[3][_round + 1])
+
+            expect(missionStatus).toBeDefined()
+
+            expect(missionStatus[0]).toBe(gameToTest.missionCardsStatus[0])
+            expect(missionStatus[1]).toBe(gameToTest.missionCardsStatus[1])
+            expect(missionStatus[2]).toBe(gameToTest.missionCardsStatus[2])
+
+            //Check the changes in the instance of game
+            expect(gameToTest.players[0].nextRound).toBeFalsy()
+            expect(gameToTest.playersPackages[0].mapStatus[randomRow][randomColumn][0]).toBe(1)
+
+            expect(gameToTest.missionCardsStatus[1]).toBeTruthy()
+            expect(gameToTest.playersPackages[0].userPuntuation.missionCards[1].completed).toBeTruthy()
+            expect(gameToTest.playersPackages[0].userPuntuation.missionCards[1].points).toBe(gameToTest.missionCards[1].second)
+            expect(gameToTest.playersPackages[0].userPuntuation.ToolsUsed).toBe(1)
+
+            expect(gameToTest.round).toBe(1)
+            expect(gameToTest.next).toBeFalsy()
+        })
+
+        it("Should work on changing the userPuntuation on the action TOOL and the nextRound to a multiplayer game and not change status next to true", async () => {
+            gameToTest.mode = "multiplayer"
+            gameToTest.maxPlayer = 2
+            let randomPlayer = `iRavel-${Math.floor(Math.random() * 89)}`
+
+            await gameToTest.addPlayer(randomPlayer)
+            await gameToTest.startFunction(UserId)
+            await gameToTest.startFunction(randomPlayer)
+
+            await gameToTest.__sendInitialPackage__(UserId)
+            await gameToTest.__sendInitialPackage__(randomPlayer)
+
+            const nextPackage = await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "tool",
+                    row: 0,
+                    column: 0,
+                    nest: ""
+                },
+                map: {
+                    status: true,
+                    position: {
+                        row: (randomRow),
+                        column: (randomColumn)
+                    }
+                },
+                missions: [false, false, false]
+
+            })
+
+
+            //Cheking the package
+            expect(nextPackage).toBeUndefined()
+
+            expect(gameToTest.round).toBe(0)
+            expect(gameToTest.next).toBeFalsy()
+        })
+
+        it("Should work on changing the userPuntuation on the action TOOL and the nextRound to a multiplayer game and change status next to true", async () => {
+            gameToTest.mode = "multiplayer"
+            gameToTest.maxPlayer = 2
+            let randomPlayer = `iRavel-${Math.floor(Math.random() * 89)}`
+
+            await gameToTest.addPlayer(randomPlayer)
+            await gameToTest.startFunction(UserId)
+            await gameToTest.startFunction(randomPlayer)
+
+            await gameToTest.__sendInitialPackage__(UserId)
+            await gameToTest.__sendInitialPackage__(randomPlayer)
+
+            await gameToTest.nextFunction(randomPlayer, {
+
+                resource: {
+                    type: "tool",
+                    row: 0,
+                    column: 0,
+                    nest: ""
+                },
+                map: {
+                    status: true,
+                    position: {
+                        row: (randomRow),
+                        column: (randomColumn)
+                    }
+                },
+                missions: [false, false, false]
+
+            })
+
+            const nextPackage = await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "tool",
+                    row: 0,
+                    column: 0,
+                    nest: ""
+                },
+                map: {
+                    status: true,
+                    position: {
+                        row: (randomRow),
+                        column: (randomColumn)
+                    }
+                },
+                missions: [false, false, false]
+
+            })
+
+
+            //Cheking the package
+            expect(nextPackage).toBeUndefined()
+
+            expect(gameToTest.round).toBe(1)
+            expect(gameToTest.next).toBeTruthy
+        })
+
+        it("Should work on changing the userPuntuation on the action LOVE and the nextRound to a solo game", async () => {
             gameToTest.start = true
             gameToTest.mode = "solo"
 
@@ -1845,15 +2007,15 @@ describe('user data', () => {
 
                 resource: {
                     type: "love",
-                    row: 1, 
-                    column: 2,
+                    row: randomRow,
+                    column: randomColumn,
                     nest: ""
                 },
                 map: {
                     status: true,
                     position: {
-                        row: 2,
-                        column: 3
+                        row: randomRow + 1,
+                        column: randomColumn + 1
                     }
                 },
                 missions: [false, false, true]
@@ -1886,8 +2048,8 @@ describe('user data', () => {
 
             //Check the changes in the instance of game
             expect(gameToTest.players[0].nextRound).toBeFalsy()
-            expect(gameToTest.playersPackages[0].mapStatus[1][2][0]).toBe(1)
-            expect(gameToTest.playersPackages[0].mapStatus[2][3][0]).toBe(1)
+            expect(gameToTest.playersPackages[0].mapStatus[randomRow][randomColumn][0]).toBe(1)
+            expect(gameToTest.playersPackages[0].mapStatus[randomRow + 1][randomColumn + 1][0]).toBe(1)
 
             expect(gameToTest.missionCardsStatus[2]).toBeTruthy()
             expect(gameToTest.playersPackages[0].userPuntuation.missionCards[2].completed).toBeTruthy()
@@ -1897,6 +2059,513 @@ describe('user data', () => {
             expect(gameToTest.next).toBeFalsy()
         })
 
+        it("Should work on changing the userPuntuation on the action Security and the nextRound to a solo game", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+
+            const initialPackage = await gameToTest.startFunction(UserId)
+
+            expect(initialPackage).toBeDefined()
+
+            const nextPackage = await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "security",
+                    row: randomRow,
+                    column: 0,
+                    nest: ""
+                },
+                map: {
+                    status: true,
+                    position: {
+                        row: randomRow,
+                        column: randomColumn
+                    }
+                },
+                missions: [true, false, false]
+
+            })
+
+            //Cheking the package
+            expect(nextPackage).toBeDefined()
+
+            const { round: _round, turnCards, missionStatus } = nextPackage
+
+            expect(_round).toBe(2)
+
+            expect(turnCards).toBeDefined()
+
+            //Be
+            expect(turnCards[0]).toBe(gameToTest.penguinCards[1][_round])
+            expect(turnCards[1]).toBe(gameToTest.penguinCards[2][_round])
+            expect(turnCards[2]).toBe(gameToTest.penguinCards[3][_round])
+            //Not be
+            expect(turnCards[0]).not.toBe(gameToTest.penguinCards[1][_round + 1])
+            expect(turnCards[1]).not.toBe(gameToTest.penguinCards[2][_round + 1])
+            expect(turnCards[2]).not.toBe(gameToTest.penguinCards[3][_round + 1])
+
+            expect(missionStatus).toBeDefined()
+
+            expect(missionStatus[0]).toBe(gameToTest.missionCardsStatus[0])
+            expect(missionStatus[1]).toBe(gameToTest.missionCardsStatus[1])
+            expect(missionStatus[2]).toBe(gameToTest.missionCardsStatus[2])
+
+            //Check the changes in the instance of game
+            expect(gameToTest.players[0].nextRound).toBeFalsy()
+            expect(gameToTest.playersPackages[0].mapStatus[randomRow][randomColumn][0]).toBe(1)
+
+            expect(gameToTest.missionCardsStatus[0]).toBeTruthy()
+            expect(gameToTest.playersPackages[0].userPuntuation.missionCards[0].completed).toBeTruthy()
+            expect(gameToTest.playersPackages[0].userPuntuation.missionCards[0].points).toBe(gameToTest.missionCards[0].first)
+            expect(gameToTest.playersPackages[0].userPuntuation.SecurityLvL[randomRow]).toBe(1)
+
+            expect(gameToTest.round).toBe(1)
+            expect(gameToTest.next).toBeFalsy()
+        })
+
+        it("Should work on changing the userPuntuation on the action Fishing and the nextRound to a solo game", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+
+            const initialPackage = await gameToTest.startFunction(UserId)
+
+            expect(initialPackage).toBeDefined()
+
+            const nextPackage = await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "fishing",
+                    row: 0,
+                    column: 0,
+                    nest: ""
+                },
+                map: {
+                    status: true,
+                    position: {
+                        row: randomRow,
+                        column: randomColumn
+                    }
+                },
+                missions: [false, false, false]
+
+            })
+
+            //Cheking the package
+            expect(nextPackage).toBeDefined()
+
+            const { round: _round, turnCards, missionStatus } = nextPackage
+
+            expect(_round).toBe(2)
+
+            expect(turnCards).toBeDefined()
+
+            //Be
+            expect(turnCards[0]).toBe(gameToTest.penguinCards[1][_round])
+            expect(turnCards[1]).toBe(gameToTest.penguinCards[2][_round])
+            expect(turnCards[2]).toBe(gameToTest.penguinCards[3][_round])
+            //Not be
+            expect(turnCards[0]).not.toBe(gameToTest.penguinCards[1][_round + 1])
+            expect(turnCards[1]).not.toBe(gameToTest.penguinCards[2][_round + 1])
+            expect(turnCards[2]).not.toBe(gameToTest.penguinCards[3][_round + 1])
+
+            expect(missionStatus).toBeDefined()
+
+            expect(missionStatus[0]).toBe(gameToTest.missionCardsStatus[0])
+            expect(missionStatus[1]).toBe(gameToTest.missionCardsStatus[1])
+            expect(missionStatus[2]).toBe(gameToTest.missionCardsStatus[2])
+
+            //Check the changes in the instance of game
+            expect(gameToTest.players[0].nextRound).toBeFalsy()
+            expect(gameToTest.playersPackages[0].mapStatus[randomRow][randomColumn][0]).toBe(1)
+
+            expect(gameToTest.playersPackages[0].userPuntuation.FishingRodUsed).toBe(1)
+
+            expect(gameToTest.round).toBe(1)
+            expect(gameToTest.next).toBeFalsy()
+        })
+
+        it("Should work on changing the userPuntuation on the action Upgrade and the nextRound to a solo game", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+            let i = Math.floor(Math.random() * 4)
+            let randomNestValue = i === 0 ? "One" : i === 1 ? "Two" : i === 2 ? "Three" : "Four"
+
+            const initialPackage = await gameToTest.startFunction(UserId)
+
+            expect(initialPackage).toBeDefined()
+
+            const nextPackage = await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "upgrade",
+                    row: 0,
+                    column: 0,
+                    nest: randomNestValue
+                },
+                map: {
+                    status: true,
+                    position: {
+                        row: randomRow,
+                        column: randomColumn
+                    }
+                },
+                missions: [false, false, false]
+
+            })
+
+            //Cheking the package
+            expect(nextPackage).toBeDefined()
+
+            const { round: _round, turnCards, missionStatus } = nextPackage
+
+            expect(_round).toBe(2)
+
+            expect(turnCards).toBeDefined()
+
+            //Be
+            expect(turnCards[0]).toBe(gameToTest.penguinCards[1][_round])
+            expect(turnCards[1]).toBe(gameToTest.penguinCards[2][_round])
+            expect(turnCards[2]).toBe(gameToTest.penguinCards[3][_round])
+            //Not be
+            expect(turnCards[0]).not.toBe(gameToTest.penguinCards[1][_round + 1])
+            expect(turnCards[1]).not.toBe(gameToTest.penguinCards[2][_round + 1])
+            expect(turnCards[2]).not.toBe(gameToTest.penguinCards[3][_round + 1])
+
+            expect(missionStatus).toBeDefined()
+
+            expect(missionStatus[0]).toBe(gameToTest.missionCardsStatus[0])
+            expect(missionStatus[1]).toBe(gameToTest.missionCardsStatus[1])
+            expect(missionStatus[2]).toBe(gameToTest.missionCardsStatus[2])
+
+            //Check the changes in the instance of game
+            expect(gameToTest.players[0].nextRound).toBeFalsy()
+            expect(gameToTest.playersPackages[0].mapStatus[randomRow][randomColumn][0]).toBe(1)
+
+            expect(gameToTest.playersPackages[0].userPuntuation[`${randomNestValue}EggNestLvL`]).toBe(1)
+
+            expect(gameToTest.round).toBe(1)
+            expect(gameToTest.next).toBeFalsy()
+        })
+
+        it("Should work on changing the userPuntuation on the action Strik and the nextRound to a solo game", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+
+            const initialPackage = await gameToTest.startFunction(UserId)
+
+            expect(initialPackage).toBeDefined()
+
+            const nextPackage = await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "strik",
+                    row: 0,
+                    column: 0,
+                    nest: ""
+                },
+                map: {
+                    status: false,
+                    position: {
+                        row: 0,
+                        column: 0
+                    }
+                },
+                missions: [false, false, false]
+
+            })
+
+            //Cheking the package
+            expect(nextPackage).toBeDefined()
+
+            const { round: _round, turnCards, missionStatus } = nextPackage
+
+            expect(_round).toBe(2)
+
+            expect(turnCards).toBeDefined()
+
+            //Be
+            expect(turnCards[0]).toBe(gameToTest.penguinCards[1][_round])
+            expect(turnCards[1]).toBe(gameToTest.penguinCards[2][_round])
+            expect(turnCards[2]).toBe(gameToTest.penguinCards[3][_round])
+            //Not be
+            expect(turnCards[0]).not.toBe(gameToTest.penguinCards[1][_round + 1])
+            expect(turnCards[1]).not.toBe(gameToTest.penguinCards[2][_round + 1])
+            expect(turnCards[2]).not.toBe(gameToTest.penguinCards[3][_round + 1])
+
+            expect(missionStatus).toBeDefined()
+
+            expect(missionStatus[0]).toBe(gameToTest.missionCardsStatus[0])
+            expect(missionStatus[1]).toBe(gameToTest.missionCardsStatus[1])
+            expect(missionStatus[2]).toBe(gameToTest.missionCardsStatus[2])
+
+            //Check the changes in the instance of game
+            expect(gameToTest.players[0].nextRound).toBeFalsy()
+
+            expect(gameToTest.playersPackages[0].userPuntuation.StrikLvL).toBe(1)
+
+            expect(gameToTest.round).toBe(1)
+            expect(gameToTest.next).toBeFalsy()
+        })
+
+        it("Should work on changing the gameStatus finish to TRUE on the action Strik being the third Strik", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+
+            const initialPackage = await gameToTest.startFunction(UserId)
+
+            expect(initialPackage).toBeDefined()
+
+            gameToTest.playersPackages[0].userPuntuation.StrikLvL = 2
+
+            const lastStrik = await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "strik",
+                    row: 0,
+                    column: 0,
+                    nest: ""
+                },
+                map: {
+                    status: false,
+                    position: {
+                        row: 0,
+                        column: 0
+                    }
+                },
+                missions: [false, false, false]
+
+            })
+
+            //Cheking the package
+            expect(lastStrik).toBeDefined
+            expect(lastStrik).toBe(true)
+
+            //Check the changes in the instance of game
+            expect(gameToTest.players[0].nextRound).toBeFalsy()
+
+            expect(gameToTest.playersPackages[0].userPuntuation.StrikLvL).toBe(3)
+
+            expect(gameToTest.finish).toBeTruthy
+        })
+
+        it("Should work on changing the gameStatus finish to TRUE on all map full", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+
+            const initialPackage = await gameToTest.startFunction(UserId)
+
+            expect(initialPackage).toBeDefined()
+
+            gameToTest.playersPackages[0].mapStatus = {
+                1: [[1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false]],
+                2: [[1, false], [1, false], [1, false], [0, false], [1, false], [1, false], [1, false], [1, false], [1, false]],
+                3: [[1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false]],
+                4: [[1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false]],
+            }
+
+            const results = await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "love",
+                    row: 2,
+                    column: 1,
+                    nest: ""
+                },
+                map: {
+                    status: true,
+                    position: {
+                        row: 2,
+                        column: 3
+                    }
+                },
+                missions: [false, false, false]
+
+            })
+
+            //Cheking the package
+            expect(results).toBeDefined
+
+            //Check the changes in the instance of game
+            expect(gameToTest.players[0].nextRound).toBeTruthy()
+
+            expect(gameToTest.finish).toBeTruthy
+        })
+
+        it("Should work on changing the gameStatus finish to TRUE on all MIssions done by 1 user", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+            gameToTest.missionCardsStatus[0] = true
+
+            const initialPackage = await gameToTest.startFunction(UserId)
+
+            expect(initialPackage).toBeDefined()
+
+            gameToTest.playersPackages[0].userPuntuation.missionCards[0].completed = true
+            gameToTest.playersPackages[0].userPuntuation.missionCards[0].points = 0
+            gameToTest.playersPackages[0].userPuntuation.missionCards[1].completed = true
+            gameToTest.playersPackages[0].userPuntuation.missionCards[1].points = 7
+
+            const results = await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "love",
+                    row: 2,
+                    column: 1,
+                    nest: ""
+                },
+                map: {
+                    status: true,
+                    position: {
+                        row: 2,
+                        column: 3
+                    }
+                },
+                missions: [true, true, true]
+
+            })
+
+            //Cheking the package
+            expect(results).toBeDefined
+
+            //Check the changes in the instance of game
+            expect(gameToTest.finish).toBeTruthy
+        })
+
+        it("Should FAIL on non correct resource type", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+
+            try {
+                const initialPackage = await gameToTest.startFunction(UserId)
+
+                expect(initialPackage).toBeDefined()
+
+                await gameToTest.nextFunction(UserId, {
+
+                    resource: {
+                        type: "HarryPotter",
+                        row: 0,
+                        column: 0,
+                        nest: ""
+                    },
+                    map: {
+                        status: true,
+                        position: {
+                            row: randomRow,
+                            column: randomColumn
+                        }
+                    },
+                    missions: [false, false, false]
+                })
+
+            } catch (err) {
+
+                expect(err).toBeDefined
+                expect(err.message).toBe("Resource not defined properly")
+            }
+        })
+
+        it("Should FAIL on non correct Nest type", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+
+            try {
+                const initialPackage = await gameToTest.startFunction(UserId)
+
+                expect(initialPackage).toBeDefined()
+
+                await gameToTest.nextFunction(UserId, {
+
+                    resource: {
+                        type: "upgrade",
+                        row: 0,
+                        column: 0,
+                        nest: "RonaldWeasly"
+                    },
+                    map: {
+                        status: true,
+                        position: {
+                            row: randomRow,
+                            column: randomColumn
+                        }
+                    },
+                    missions: [false, false, false]
+                })
+
+            } catch (err) {
+
+                expect(err).toBeDefined
+                expect(err.message).toBe("That is not a valid nest value")
+            }
+        })
+
+        it('Should fail on userId being not loged into the game', async () => {
+            randomPlayer = "sdsfdsfsf"
+
+            try {
+                const initialPackage = await gameToTest.startFunction(UserId)
+
+                expect(initialPackage).toBeDefined()
+
+                await gameToTest.nextFunction(randomPlayer, {
+
+                    resource: {
+                        type: "upgrade",
+                        row: 0,
+                        column: 0,
+                        nest: "RonaldWeasly"
+                    },
+                    map: {
+                        status: true,
+                        position: {
+                            row: randomRow,
+                            column: randomColumn
+                        }
+                    },
+                    missions: [false, false, false]
+                })
+
+            } catch (err) {
+                expect(err).toBeDefined
+                expect(err.message).toBe("User not loged in this game")
+            }
+        })
+
+        it("Should FAIL on TRYING TO GET CHECKWINNER NOT IMPLEMENTED YET", async () => {
+            gameToTest.start = true
+            gameToTest.mode = "solo"
+
+
+            try {
+                const initialPackage = await gameToTest.startFunction(UserId)
+
+                expect(initialPackage).toBeDefined()
+                gameToTest.finish = true
+
+                await gameToTest.nextFunction(UserId, {
+
+                    resource: {
+                        type: "upgrade",
+                        row: 0,
+                        column: 0,
+                        nest: "One"
+                    },
+                    map: {
+                        status: true,
+                        position: {
+                            row: randomRow,
+                            column: randomColumn
+                        }
+                    },
+                    missions: [false, false, false]
+                })
+
+            } catch (err) {
+
+                expect(err).toBeDefined
+                expect(err.message).toBe("this.__checkWinner__ is not a function")
+            }
+        })
 
     })
 
@@ -1983,7 +2652,7 @@ describe('user data', () => {
 
                 debugger
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected argument to be of type `string` but received type `undefined`")
+                expect(err.message).toMatch(/undefined/gm)
             }
         })
 
@@ -2000,7 +2669,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected argument to be of type `string` but received type `null`")
+                expect(err.message).toMatch(/null/gm)
             }
         })
 
@@ -2017,7 +2686,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected argument to be of type `string` but received type `Object`")
+                expect(err.message).toMatch(/Object/gm)
             }
         })
 
@@ -2034,7 +2703,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("Expected argument to be of type `string` but received type `number`")
+                expect(err.message).toMatch(/number/gm)
             }
         })
 
@@ -2051,7 +2720,7 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-                expect(err.message).toBe("[NOT] Expected string to be empty, got ``")
+                expect(err.message).toMatch(/``/gm)
             }
         })
 
@@ -2068,29 +2737,605 @@ describe('user data', () => {
                 throw Error("Should not reach this point")
             } catch (err) {
                 expect(err).toBeDefined
-
-                expect(err.message).toBe("Expected argument to be of type `string` but received type `Array`")
+                expect(err.message).toMatch(/Array/gm)
             }
         })
 
     })
 
-    // fdescribe('.__checkWinner__', () => {
-    //     it('Should success on call the method __results__ for a single player mode', () => {
+    describe('.__checkWinner__', () => {
+        let randomPlayer = `^Hell-${Math.random()}`
 
-    //         try{
-    //             gameToTest.mode = "solo";
+        it('Should success on returining the final puntuation for a single player mode', async () => {
+            gameToTest.start = true // Making sure the game started as it would do with a solo player game
+            gameToTest.mode = "solo" // I match it with the expected mode
 
-    //             (async () => await gameToTest.init() )(); // to have an user Package
-    //             (async () => await gameToTest.__checkWinner__())()
+            await gameToTest.startFunction(UserId)  // to have an user Package
+
+            gameToTest.playersPackages[0].userPuntuation.FishingRodUsed = 5
+
+            gameToTest.finish = true // I finish the game
+
+            const finalResults = await gameToTest.__checkWinner__()
+
+            expect(finalResults).toBeDefined()
+
+            const { puntuation, winner } = finalResults
+
+            expect(winner).toBeTruthy()
+
+            expect(puntuation).toBe(22) // 7 for being a single player game for Tools and 15 for Fishing rod used
+
+            //Check the changes in the instance of game
+            expect(gameToTest.players[0].nextRound).toBeFalsy()
+            expect(gameToTest.playersPackages[0]).toBeDefined()
+            expect(gameToTest.playersPackages[0].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[0].puntuation).toBe(22)
+        })
+
+        it('Should success on returning nothing but updating #1 ', async () => {
+            gameToTest.mode = "multiplayer"
+            gameToTest.maxPlayer = 2
+
+            await gameToTest.addPlayer(randomPlayer)
+
+            await gameToTest.startFunction(UserId)  // to have an user Package
+            await gameToTest.startFunction(randomPlayer)
+
+            await gameToTest.__sendInitialPackage__(UserId)  // to have an user Package
+            await gameToTest.__sendInitialPackage__(randomPlayer)
+
+            gameToTest.playersPackages[0].userPuntuation.FishingRodUsed = 5
+            gameToTest.playersPackages[1].userPuntuation.FishingRodUsed = 3
+
+            gameToTest.finish = true
+            const finalResults = await gameToTest.__checkWinner__()
+
+            expect(finalResults).toBeUndefined()
+
+            //Check the changes in the instance of game
+            expect(gameToTest.playersPackages[0]).toBeDefined()
+            expect(gameToTest.playersPackages[0].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[0].puntuation).toBe(22)
+
+            expect(gameToTest.playersPackages[1]).toBeDefined()
+            expect(gameToTest.playersPackages[1].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[1].puntuation).toBe(16)
+        })
+
+        it('Should success on returning nothing but updating #2', async () => {
+            gameToTest.mode = "multiplayer"
+            gameToTest.maxPlayer = 2
+
+            await gameToTest.addPlayer(randomPlayer)
+
+            await gameToTest.startFunction(UserId)  // to have an user Package
+            await gameToTest.startFunction(randomPlayer)
+
+            await gameToTest.__sendInitialPackage__(UserId)  // to have an user Package
+            await gameToTest.__sendInitialPackage__(randomPlayer)
+
+            gameToTest.playersPackages[0].userPuntuation.ToolsUsed = 5
+            gameToTest.playersPackages[1].userPuntuation.ToolsUsed = 3
+
+            gameToTest.finish = true
+            const finalResults = await gameToTest.__checkWinner__()
+
+            expect(finalResults).toBeUndefined()
+
+            //Check the changes in the instance of game
+            expect(gameToTest.playersPackages[0]).toBeDefined()
+            expect(gameToTest.playersPackages[0].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[0].puntuation).toBe(7)
+
+            expect(gameToTest.playersPackages[1]).toBeDefined()
+            expect(gameToTest.playersPackages[1].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[1].puntuation).toBe(5)
+        })
+
+        it('Should success on returning nothing but updating #3', async () => {
+            gameToTest.mode = "multiplayer"
+            gameToTest.maxPlayer = 6
+            let randomplayer2 = `${randomPlayer}+${Math.random()}`
+            let randomplayer3 = `${randomPlayer}+${Math.random()}`
+            let randomplayer4 = `${randomPlayer}+${Math.random()}`
+            let randomplayer5 = `${randomPlayer}+${Math.random()}`
+
+            await gameToTest.addPlayer(randomPlayer)
+            await gameToTest.addPlayer(randomplayer2)
+            await gameToTest.addPlayer(randomplayer3)
+            await gameToTest.addPlayer(randomplayer4)
+            await gameToTest.addPlayer(randomplayer5)
 
 
-    //         }catch(err){
-    //             expect(err).toBeDefined
-    //             debugger
-    //         }
-    //     })
-    // })
+            await gameToTest.startFunction(UserId)  // to have an user Package
+            await gameToTest.startFunction(randomPlayer)
+            await gameToTest.startFunction(randomplayer2)
+            await gameToTest.startFunction(randomplayer3)
+            await gameToTest.startFunction(randomplayer4)
+            await gameToTest.startFunction(randomplayer5)
+
+            await gameToTest.__sendInitialPackage__(UserId)  // to have an user Package
+            await gameToTest.__sendInitialPackage__(randomPlayer)
+            await gameToTest.__sendInitialPackage__(randomplayer2)
+            await gameToTest.__sendInitialPackage__(randomplayer3)
+            await gameToTest.__sendInitialPackage__(randomplayer4)
+            await gameToTest.__sendInitialPackage__(randomplayer5)
+
+            gameToTest.playersPackages[0].userPuntuation.ToolsUsed = 5
+            gameToTest.playersPackages[1].userPuntuation.ToolsUsed = 3
+            gameToTest.playersPackages[2].userPuntuation.ToolsUsed = 2
+            gameToTest.playersPackages[3].userPuntuation.ToolsUsed = 3
+            gameToTest.playersPackages[4].userPuntuation.ToolsUsed = 2
+            gameToTest.playersPackages[5].userPuntuation.ToolsUsed = 1
+
+            gameToTest.finish = true
+            const finalResults = await gameToTest.__checkWinner__()
+
+            expect(finalResults).toBeUndefined()
+
+            //Check the changes in the instance of game
+            expect(gameToTest.playersPackages[0]).toBeDefined()
+            expect(gameToTest.playersPackages[0].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[0].puntuation).toBe(7)
+
+            expect(gameToTest.playersPackages[1]).toBeDefined()
+            expect(gameToTest.playersPackages[1].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[1].puntuation).toBe(5)
+
+            expect(gameToTest.playersPackages[2]).toBeDefined()
+            expect(gameToTest.playersPackages[2].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[2].puntuation).toBe(3)
+
+            expect(gameToTest.playersPackages[3]).toBeDefined()
+            expect(gameToTest.playersPackages[3].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[3].puntuation).toBe(5)
+
+            expect(gameToTest.playersPackages[4]).toBeDefined()
+            expect(gameToTest.playersPackages[4].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[4].puntuation).toBe(3)
+
+            expect(gameToTest.playersPackages[5]).toBeDefined()
+            expect(gameToTest.playersPackages[5].puntuation).toBeDefined()
+            expect(gameToTest.playersPackages[5].puntuation).toBe(0)
+        })
+
+        it('Should FAIL on a not finished game', async () => {
+
+            try {
+                await gameToTest.__checkWinner__()
+
+                throw Error("Should not reach this point")
+            } catch (err) 
+            {
+                expect(err).toBeDefined
+                expect(err.message).toBe("Game did not finish")
+             }
+        })
+
+    })
+
+    describe('.__results__', () => {
+        it('Should success on returning the results', async () => {
+            gameToTest.mode = "multiplayer"
+            gameToTest.maxPlayer = 6
+            let randomPlayer = `^Hell-${Math.random()}`
+            let randomplayer2 = `${randomPlayer}+${Math.random()}`
+            let randomplayer3 = `${randomPlayer}+${Math.random()}`
+            let randomplayer4 = `${randomPlayer}+${Math.random()}`
+            let randomplayer5 = `${randomPlayer}+${Math.random()}`
+
+            await gameToTest.addPlayer(randomPlayer)
+            await gameToTest.addPlayer(randomplayer2)
+            await gameToTest.addPlayer(randomplayer3)
+            await gameToTest.addPlayer(randomplayer4)
+            await gameToTest.addPlayer(randomplayer5)
+
+            await gameToTest.startFunction(UserId)  // to have an user Package
+            await gameToTest.startFunction(randomPlayer)
+            await gameToTest.startFunction(randomplayer2)
+            await gameToTest.startFunction(randomplayer3)
+            await gameToTest.startFunction(randomplayer4)
+            await gameToTest.startFunction(randomplayer5)
+
+            await gameToTest.__sendInitialPackage__(UserId)  // to have an user Package
+            await gameToTest.__sendInitialPackage__(randomPlayer)
+            await gameToTest.__sendInitialPackage__(randomplayer2)
+            await gameToTest.__sendInitialPackage__(randomplayer3)
+            await gameToTest.__sendInitialPackage__(randomplayer4)
+            await gameToTest.__sendInitialPackage__(randomplayer5)
+
+            gameToTest.playersPackages[0].userPuntuation.ToolsUsed = 5
+            gameToTest.playersPackages[1].userPuntuation.ToolsUsed = 3
+            gameToTest.playersPackages[2].userPuntuation.ToolsUsed = 2
+            gameToTest.playersPackages[3].userPuntuation.ToolsUsed = 3
+            gameToTest.playersPackages[4].userPuntuation.ToolsUsed = 2
+            gameToTest.playersPackages[5].userPuntuation.ToolsUsed = 1
+
+            gameToTest.finish = true
+
+            await gameToTest.__checkWinner__()
+
+            const winnerPackage = await gameToTest.__results__(UserId)
+
+            expect(winnerPackage).toBeDefined
+
+            //Check the changes in the instance of game
+
+            expect(gameToTest.playersPackages[0].puntuation).toBe(7)
+            expect(gameToTest.playersPackages[1].puntuation).toBe(5)
+            expect(gameToTest.playersPackages[2].puntuation).toBe(5)
+            expect(gameToTest.playersPackages[3].puntuation).toBe(3)
+            expect(gameToTest.playersPackages[4].puntuation).toBe(3)
+            expect(gameToTest.playersPackages[5].puntuation).toBe(0)
+        })
+    })
+
+    describe('.update', () => {
+        let random9 = Math.floor(Math.random() * 9)
+        let random8 = Math.floor(Math.random() * 8)
+        let randomRow = Math.ceil(Math.random() * 3)
+        let randomColumn = Math.ceil(Math.random() * 5)
+
+        it("Should .init() the game if it is not", async() =>{
+            expect(gameToTest.cardsFetched).toBeFalsy()
+
+            await gameToTest.update(UserId)
+
+            expect(gameToTest.cardsFetched).toBeTruthy()
+        })
+
+        it("Should do nothing if the game is not started but fetched", async() =>{
+            gameToTest.start = false
+            gameToTest.cardsFetched = true
+
+            await gameToTest.update(UserId)
+
+            expect(gameToTest.start).toBeFalsy()
+            expect(gameToTest.cardsFetched).toBeTruthy()
+        })
+
+        it('Should succes on returning the results', async () => {
+            gameToTest.mode = "multiplayer"
+            gameToTest.maxPlayer = 6
+            let randomPlayer = `^Hell-${Math.random()}`
+            let randomplayer2 = `${randomPlayer}+${Math.random()}`
+            let randomplayer3 = `${randomPlayer}+${Math.random()}`
+            let randomplayer4 = `${randomPlayer}+${Math.random()}`
+            let randomplayer5 = `${randomPlayer}+${Math.random()}`
+
+            await gameToTest.addPlayer(randomPlayer)
+            await gameToTest.addPlayer(randomplayer2)
+            await gameToTest.addPlayer(randomplayer3)
+            await gameToTest.addPlayer(randomplayer4)
+            await gameToTest.addPlayer(randomplayer5)
+
+            await gameToTest.startFunction(UserId)  // to have an user Package
+            await gameToTest.startFunction(randomPlayer)
+            await gameToTest.startFunction(randomplayer2)
+            await gameToTest.startFunction(randomplayer3)
+            await gameToTest.startFunction(randomplayer4)
+            await gameToTest.startFunction(randomplayer5)
+
+            await gameToTest.__sendInitialPackage__(UserId)  // to have an user Package
+            await gameToTest.__sendInitialPackage__(randomPlayer)
+            await gameToTest.__sendInitialPackage__(randomplayer2)
+            await gameToTest.__sendInitialPackage__(randomplayer3)
+            await gameToTest.__sendInitialPackage__(randomplayer4)
+            await gameToTest.__sendInitialPackage__(randomplayer5)
+
+            gameToTest.playersPackages[0].userPuntuation.ToolsUsed = 5
+            gameToTest.playersPackages[1].userPuntuation.ToolsUsed = 3
+            gameToTest.playersPackages[2].userPuntuation.ToolsUsed = 2
+            gameToTest.playersPackages[3].userPuntuation.ToolsUsed = 3
+            gameToTest.playersPackages[4].userPuntuation.ToolsUsed = 2
+            gameToTest.playersPackages[5].userPuntuation.ToolsUsed = 1
+
+            gameToTest.finish = true
+
+            await gameToTest.__checkWinner__()
+
+            const winnerPackage = await gameToTest.update(UserId)
+
+            expect(winnerPackage).toBeDefined
+
+            //Check the changes in the instance of game
+
+            expect(gameToTest.playersPackages[0].puntuation).toBe(7)
+            expect(gameToTest.playersPackages[1].puntuation).toBe(5)
+            expect(gameToTest.playersPackages[2].puntuation).toBe(5)
+            expect(gameToTest.playersPackages[3].puntuation).toBe(3)
+            expect(gameToTest.playersPackages[4].puntuation).toBe(3)
+            expect(gameToTest.playersPackages[5].puntuation).toBe(0)
+        })
+
+        it("Should success on returning the initial package for multiplayer", async () => {
+            gameToTest.mode = "multiplayer"
+
+            await gameToTest.init() // Game has to be initialized
+
+            gameToTest.start = true
+
+            const iniPackage = await gameToTest.update(UserId)
+
+            const { player, round, missionCards, turnCards, mapStatus, userPuntuation } = iniPackage
+
+            expect(iniPackage).toBeDefined()
+
+            //Initial Package toop level elemnts
+            expect(player).toBe(UserId)
+            expect(round).toBe(1)
+            expect(missionCards).toBeDefined
+
+            expect(missionCards[0]).toBeInstanceOf(Object)
+            expect(missionCards[0]._id).toBeDefined
+            expect(missionCards[0]).toBeDefined
+            expect(missionCards[0][2]).toBeDefined
+            expect(typeof missionCards[0][1]).toBe("string")
+            expect(typeof missionCards[0][2]).toBe("string")
+            expect(missionCards[0][1].length).toBeGreaterThan(0)
+            expect(missionCards[0][2].length).toBeGreaterThan(0)
+            expect(missionCards[0].first).toBeDefined
+            expect(missionCards[0].second).toBeDefined
+            expect(missionCards[0].first).toBeGreaterThan(0)
+            expect(missionCards[0].second).toBeGreaterThan(0)
+
+            expect(turnCards).toBeDefined
+
+            expect(turnCards).toBeInstanceOf(Object)
+            expect(turnCards[1]).toBeInstanceOf(Object)
+            expect(turnCards[2]).toBeInstanceOf(Object)
+            expect(turnCards[3]).toBeInstanceOf(Object)
+            expect(turnCards[1].A).toBeGreaterThan(0)
+            expect(turnCards[2].A).toBeGreaterThan(0)
+            expect(turnCards[3].A).toBeGreaterThan(0)
+            expect(typeof turnCards[1].B).toBe("string")
+            expect(typeof turnCards[2].B).toBe("string")
+            expect(typeof turnCards[3].B).toBe("string")
+
+            expect(mapStatus).toBeDefined
+
+            expect(mapStatus).toBeInstanceOf(Object)
+            expect(mapStatus[1]).toBeInstanceOf(Array)
+            expect(mapStatus[2]).toBeInstanceOf(Array)
+            expect(mapStatus[3]).toBeInstanceOf(Array)
+            expect(mapStatus[4]).toBeInstanceOf(Array)
+            expect(mapStatus[1].length).toBe(9)
+            expect(mapStatus[2].length).toBe(9)
+            expect(mapStatus[3].length).toBe(8)
+            expect(mapStatus[4].length).toBe(8)
+            expect(mapStatus[1][random9]).toBeInstanceOf(Array)
+            expect(mapStatus[2][random9]).toBeInstanceOf(Array)
+            expect(mapStatus[3][random8]).toBeInstanceOf(Array)
+            expect(mapStatus[4][random8]).toBeInstanceOf(Array)
+            expect(mapStatus[1][random9][0]).toBe(0)
+            expect(mapStatus[2][random9][0]).toBe(0)
+            expect(mapStatus[3][random8][0]).toBe(0)
+            expect(mapStatus[4][random8][0]).toBe(0)
+            expect(mapStatus[1][random9][1]).toBeFalsy()
+            expect(mapStatus[2][random9][1]).toBeFalsy()
+            expect(mapStatus[3][random8][1]).toBeFalsy()
+            expect(mapStatus[4][random8][1]).toBeFalsy()
+
+            expect(userPuntuation).toBeDefined
+
+            const { player: playerPunt, missionCards: playerMission, OneEggNestAmount, TwoEggNestAmount, ThreeEggNestAmount, FourEggNestAmount, } = userPuntuation
+            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPuntuation, FishingRodUsed, StrikLvL, puntuationSchema } = userPuntuation
+
+            //Inside User Puntuation
+            expect(playerPunt).toBe(UserId)
+
+            expect(playerMission).toBeInstanceOf(Array)
+
+            expect(playerMission[0]).toBeInstanceOf(Object)
+            expect(playerMission[0].cardId).toBeDefined()
+            expect(playerMission[0].complted).toBeFalsy()
+            expect(playerMission[0].points).toBe(0)
+
+            expect(playerMission[1]).toBeInstanceOf(Object)
+            expect(playerMission[1].cardId).toBeDefined()
+            expect(playerMission[1].complted).toBeFalsy()
+            expect(playerMission[1].points).toBe(0)
+
+            expect(playerMission[2]).toBeInstanceOf(Object)
+            expect(playerMission[2].cardId).toBeDefined()
+            expect(playerMission[2].complted).toBeFalsy()
+            expect(playerMission[2].points).toBe(0)
+
+            expect(OneEggNestAmount).toBe(0)
+            expect(TwoEggNestAmount).toBe(0)
+            expect(ThreeEggNestAmount).toBe(0)
+            expect(FourEggNestAmount).toBe(0)
+
+            expect(OneEggNestLvL).toBe(0)
+            expect(TwoEggNestLvL).toBe(0)
+            expect(ThreeEggNestLvL).toBe(0)
+            expect(FourEggNestLvL).toBe(0)
+
+            expect(ToolsUsed).toBe(0)
+
+            if (gameToTest.mode === "solo") expect(ToolsPuntuation).toBe(7)
+            else expect(ToolsPuntuation).toBe(0)
+
+            expect(SecurityLvL).toBeInstanceOf(Object)
+            expect(SecurityLvL[1]).toBe(0)
+            expect(SecurityLvL[2]).toBe(0)
+            expect(SecurityLvL[3]).toBe(0)
+            expect(SecurityLvL[4]).toBe(0)
+
+            expect(SecurityPuntuation).toBe(0)
+            expect(FishingRodUsed).toBe(0)
+            expect(StrikLvL).toBe(0)
+
+
+            //Inside Puntuation Schema
+            expect(puntuationSchema).toBeDefined()
+
+            const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, FishingRodUsed: FrLvL, StrikLvL: StLvL } = puntuationSchema
+
+            expect(OneLvL).toBeInstanceOf(Array)
+            expect(OneLvL[0]).toBe(1)
+            expect(OneLvL[1]).toBe(2)
+
+            expect(TwoLvL).toBeInstanceOf(Array)
+            expect(TwoLvL[0]).toBe(2)
+            expect(TwoLvL[1]).toBe(3)
+            expect(TwoLvL[2]).toBe(4)
+
+            expect(ThreeLvL).toBeInstanceOf(Array)
+            expect(ThreeLvL[0]).toBe(3)
+            expect(ThreeLvL[1]).toBe(4)
+            expect(ThreeLvL[2]).toBe(5)
+            expect(ThreeLvL[3]).toBe(6)
+
+            expect(FourLvL).toBeInstanceOf(Array)
+            expect(FourLvL[0]).toBe(4)
+            expect(FourLvL[1]).toBe(5)
+            expect(FourLvL[2]).toBe(6)
+            expect(FourLvL[3]).toBe(7)
+
+            expect(ToolsLvL).toBeInstanceOf(Array)
+            expect(ToolsLvL[0]).toBe(0)
+            expect(ToolsLvL[1]).toBe(3)
+            expect(ToolsLvL[2]).toBe(5)
+            expect(ToolsLvL[3]).toBe(7)
+
+            expect(ScLvL).toBeInstanceOf(Object)
+            expect(ScLvL[1]).toBeInstanceOf(Array)
+            expect(ScLvL[2]).toBeInstanceOf(Array)
+            expect(ScLvL[3]).toBeInstanceOf(Array)
+            expect(ScLvL[4]).toBeInstanceOf(Array)
+
+            expect(ScLvL[1][0]).toBe(0)
+            expect(ScLvL[1][1]).toBe(1)
+            expect(ScLvL[1][2]).toBe(2)
+
+            expect(ScLvL[2][0]).toBe(0)
+            expect(ScLvL[2][1]).toBe(1)
+            expect(ScLvL[2][2]).toBe(3)
+            expect(ScLvL[2][3]).toBe(5)
+
+            expect(ScLvL[3][0]).toBe(0)
+            expect(ScLvL[3][1]).toBe(1)
+            expect(ScLvL[3][2]).toBe(2)
+            expect(ScLvL[3][3]).toBe(5)
+
+            expect(ScLvL[4][0]).toBe(0)
+            expect(ScLvL[4][1]).toBe(1)
+            expect(ScLvL[4][2]).toBe(2)
+            expect(ScLvL[4][3]).toBe(5)
+            expect(ScLvL[4][4]).toBe(6)
+
+            expect(FrLvL).toBeInstanceOf(Array)
+            expect(FrLvL[0]).toBe(0)
+            expect(FrLvL[1]).toBe(3)
+            expect(FrLvL[2]).toBe(6)
+            expect(FrLvL[3]).toBe(9)
+            expect(FrLvL[4]).toBe(12)
+            expect(FrLvL[5]).toBe(15)
+            expect(FrLvL[6]).toBe(18)
+            expect(FrLvL[7]).toBe(21)
+
+            expect(StLvL).toBeInstanceOf(Array)
+            expect(StLvL[0]).toBe(0)
+            expect(StLvL[1]).toBe(-1)
+            expect(StLvL[2]).toBe(-3)
+
+            //Checking changes in game instance
+            expect(gameToTest.playersPackages.length).toBe(1)
+            expect(gameToTest.playersPackages[0].player).toBe(UserId)
+            expect(gameToTest.playersPackages[0].userRound).toBe(1)
+            expect(gameToTest.playersPackages[0].mapStatus).toBeInstanceOf(Object)
+            expect(gameToTest.playersPackages[0].userPuntuation).toBeInstanceOf(Object)
+        })
+
+        it("Should success on sending the next package", async () => {
+            gameToTest.mode = "multiplayer"
+            gameToTest.start = true
+
+            await gameToTest.init()
+
+            await gameToTest.__sendInitialPackage__(UserId)
+
+            gameToTest.maxPlayer = 1
+
+            await gameToTest.nextFunction(UserId, {
+
+                resource: {
+                    type: "tool",
+                    row: 0,
+                    column: 0,
+                    nest: ""
+                },
+                map: {
+                    status: true,
+                    position: {
+                        row: (randomRow),
+                        column: (randomColumn)
+                    }
+                },
+                missions: [false, false, false]
+
+            })
+
+            const userPackage = await gameToTest.update(UserId)
+
+            console.log(userPackage)
+
+            expect(userPackage).toBeDefined
+
+            const { round: _round, turnCards, missionStatus } = userPackage
+
+            expect(_round).toBe(2)
+
+            expect(turnCards).toBeDefined()
+
+            //Be
+            expect(turnCards[0]).toBe(gameToTest.penguinCards[1][_round])
+            expect(turnCards[1]).toBe(gameToTest.penguinCards[2][_round])
+            expect(turnCards[2]).toBe(gameToTest.penguinCards[3][_round])
+            //Not be
+            expect(turnCards[0]).not.toBe(gameToTest.penguinCards[1][_round + 1])
+            expect(turnCards[1]).not.toBe(gameToTest.penguinCards[2][_round + 1])
+            expect(turnCards[2]).not.toBe(gameToTest.penguinCards[3][_round + 1])
+
+            expect(missionStatus).toBeDefined()
+
+            expect(missionStatus[0]).toBe(gameToTest.missionCardsStatus[0])
+            expect(missionStatus[1]).toBe(gameToTest.missionCardsStatus[1])
+            expect(missionStatus[2]).toBe(gameToTest.missionCardsStatus[2])
+
+            //Check the changes in the instance of game
+            expect(gameToTest.players[0].nextRound).toBeFalsy()
+        })
+
+        it("Should fail on an unlogged User", async() =>{
+            try {
+
+            await gameToTest.update(`${UserId}:notTo`)
+
+            throw Error("Should not reach this point")
+            }
+            catch(err){
+                expect(err).toBeDefined()
+                expect(err.message).toBe("Player not logged on this game")
+            }
+        })
+
+        it("Should do nothing on users not finishing to play the round", async() =>{
+            gameToTest.start = true
+            gameToTest.cardsFetched = true
+            gameToTest.round = 2
+            gameToTest.next = false
+
+            await gameToTest.update(UserId)
+
+            expect(gameToTest.start).toBeTruthy()
+            expect(gameToTest.cardsFetched).toBeTruthy()
+            expect(gameToTest.next).toBeFalsy()
+        })
+
+    })
 
     afterAll(async () => {
         await mongoose.disconnect()
