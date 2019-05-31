@@ -6,13 +6,21 @@ import { User } from '../../../models/user';
 import { Provider } from './../../../models/provider';
 
 @Resolver(User)
-export class ListProviderResolver {
+export class ListProvidersResolver {
   @Authorized(ONLY_SUPERADMIN)
   @Query(returns => [Provider])
-  async listAllProvider(@Ctx() ctx: MyContext) {
+  async listProviders(@Ctx() ctx: MyContext) {
     return await ProviderModel.find()
       .populate('admins')
       .populate('customers')
       .populate('coaches');
   }
+
+  @Query(returns => [Provider])
+  async listProvidersPublicInfo(@Ctx() ctx: MyContext) {
+    const providers = await ProviderModel.find();
+    const result = providers.map(({id, name, bannerImageUrl, portraitImageUrl}) => ({id, name, bannerImageUrl, portraitImageUrl}))
+    return result
+  }
+
 }

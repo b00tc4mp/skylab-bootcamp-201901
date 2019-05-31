@@ -7,8 +7,7 @@ import * as mongoose from 'mongoose';
 import * as cookieParser from 'cookie-parser';
 import context from './graphql/middleware/context';
 import { createSchema } from './graphql/schemas/rootSchema';
-import { cleanDb } from './common/test-utils';
-import { populateDb } from './data/db-maintenance';
+import { cleanDb, populateDb } from './data/db-maintenance';
 
 dotenv.config();
 const {
@@ -21,8 +20,8 @@ db.on('error', err => console.error('MongoDB connection error', err));
 
 db.on('open', async () => {
   if (!true) {
-    cleanDb();
-    populateDb();
+    await cleanDb();
+    await populateDb();
   }
   const schema = await createSchema();
 

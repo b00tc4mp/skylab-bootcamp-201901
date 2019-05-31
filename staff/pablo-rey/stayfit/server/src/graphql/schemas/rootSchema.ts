@@ -10,6 +10,8 @@ import { authChecker } from '../middleware/authChecker';
 import { UpdateProviderCoachesResolver } from '../resolvers/providers/update-coaches-resolver';
 import { AddProviderCustomerResolver } from './../resolvers/providers/add-customer-resolver';
 import { RemoveProviderCustomerResolver } from '../resolvers/providers/remove-customer-resolver';
+import { RetrieveUserResolver } from '../resolvers/users/retrieve-user-resolver';
+import { ListProvidersResolver } from './../resolvers/providers/list-providers-resolver';
 
 export async function createSchema() {
   return await buildSchema({
@@ -18,12 +20,14 @@ export async function createSchema() {
       LoginResolver,
       InvalidateCredentialsResolver,
       CreateUserResolver,
+      RetrieveUserResolver,
       ListUsersResolvers,
       CreateProviderResolver,
       UpdateProviderAdminsResolver,
       UpdateProviderCoachesResolver,
       AddProviderCustomerResolver,
-      RemoveProviderCustomerResolver
+      RemoveProviderCustomerResolver,
+      ListProvidersResolver
     ],
     authChecker: authChecker,
   });

@@ -1,7 +1,7 @@
 import { Field, ID, ObjectType, Root } from 'type-graphql';
-import { prop, Typegoose, arrayProp, Ref } from 'typegoose';
+import { prop, Typegoose, arrayProp, Ref, instanceMethod, staticMethod, InstanceType } from 'typegoose';
 import { isEmail } from 'validator';
-import { Provider } from './provider';
+import { Provider, ProviderModel } from './provider';
 import { IsEmail } from 'class-validator';
 
 // Constants
@@ -30,7 +30,6 @@ export class User extends Typegoose {
   // @IsEmail()
   @prop({
     required: true,
-    unique: true,
     trim: true,
     // validate: [{ validator: email => isEmail(email), message: 'email not contains a valid email' }],
   })
@@ -43,14 +42,38 @@ export class User extends Typegoose {
   @prop({ required: true, default: GUEST_ROLE, enum: ROLES })
   role: string;
 
-  @prop({ default: 0})
-  refreshTokenCount: number
+  @prop({ default: '' })
+  uploadedBanner: string;
+  
+  @Field(() => String)
+  @prop() // this will create a virtual property called 'fullName'
+  get bannerImageUrl() {
+    return this.uploadedBanner || 'default' ;
+  }
+  set bannerImageUrl(img) {
+    this.uploadedBanner = img;
+  }
+
+  @prop({ default: '' })
+  uploadedPortrait: string;
+  
+  @Field(() => String)
+  @prop() // this will create a virtual property called 'fullName'
+  get portraitImageUrl() {
+    return this.uploadedPortrait || 'default' ;
+  }
+  set portraitImageUrl(img) {
+    this.uploadedPortrait = img;
+  }
+
+  @prop({ default: 0 })
+  refreshTokenCount: number;
 
   @Field()
   fullName(@Root() parent: User): string {
-    return `${parent.name} ${parent.surname}`;
+    const user = (parent as any)._doc;
+    return `${user.name} ${user.surname}`;
   }
-
 }
 
 export const UserModel = new User().getModelForClass(User, {
