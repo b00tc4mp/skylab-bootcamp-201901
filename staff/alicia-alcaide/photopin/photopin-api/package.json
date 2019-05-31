@@ -8,14 +8,13 @@
     "watch": "nodemon .",
     "lint": "./node_modules/.bin/eslint **/*.js",
     "debug": "node debug src",
-    "test": "npx mocha ./src/**/*.spec.js",
-    "test:debug": "npx mocha debug ./src/**/*.spec.js",
-    "test:coverage": "nyc --reporter=html --reporter=text mocha ./src/**/*.spec.js"
+    "test": "npx mocha ./src/**/*.spec.js --runInBand",
+    "test:debug": "npx mocha debug ./src/**/*.spec.js --runInBand",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./src/**/*.spec.js --runInBand"
   },
   "author": "Alicia Alcaide Beneitez",
   "license": "ISC",
   "dependencies": {
-    "axios": "^0.18.0",
     "bcrypt": "^3.0.6",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
@@ -31,5 +30,8 @@
     "eslint": "^5.16.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1"
+  },
+  "nyc": {
+    "exclude": "**/*.spec.js"
   }
 }

@@ -38,12 +38,7 @@ const logic = {
 
             const hash = await bcrypt.hash(password, 10)
 
-            let newUser
-            try {
-                newUser = await User.create({name, surname, email, password : hash})
-            } catch (error) {
-                throw new LogicError(error.message)
-            }
+            const newUser = await User.create({name, surname, email, password : hash})
             
             return newUser.id
         })()

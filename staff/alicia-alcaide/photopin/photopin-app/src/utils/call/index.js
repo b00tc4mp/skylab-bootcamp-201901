@@ -1,6 +1,12 @@
-const validate = require('../validate')
-const { ConnectionError, HttpError } = require('../errors')
-const axios = require('axios')
+/*
+import validate from 'photopin-validate'
+import { ConnectionError, HttpError } from 'photopin-errors'
+import axios from 'axios'
+*/
+const validate = require('photopin-validate')
+const { ConnectionError, HttpError } = require ('photopin-errors')
+const axios = require ('axios')
+
 
 /**
  * Makes an HTTP call.
@@ -51,4 +57,6 @@ function call(url, options = {}) {
     })()
 }
 
+
 module.exports = call
+//export default call
