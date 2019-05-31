@@ -85,21 +85,23 @@ const logic = {
 
     uploadGame(title, genre, description, images, gameFile) {
 
+        // todo verification
+        let new_token = this.getUserApiToken()
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw Error('title cannot be empty')
         if (typeof genre !== 'string') throw TypeError(`${genre} is not a string`)
         if (!genre.trim().length) throw Error('genre cannot be empty')
         if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
         if (!description.trim().length) throw Error('description cannot be empty')
-        if (typeof images !== 'array') throw TypeError(`${images} is not an array`)
-        if (!images.length) throw Error('images cannot be empty')
-        images.forEach(image => {
-            if (typeof image !== 'string') throw TypeError('image must be a string')
-        })
-        if (typeof gameFile !== 'string') throw TypeError(`${gameFile} is not a string`)
-        if (!gameFile.trim().length) throw Error('gameFile cannot be empty')
+        //if (typeof images !== 'array') throw TypeError(`${images} is not an array`)
+        //if (!images.length) throw Error('images cannot be empty')
+        // images.forEach(image => {
+        //     if (typeof image !== 'string') throw TypeError('image must be a string')
+        // })
+        //if (typeof gameFile !== 'string') throw TypeError(`${gameFile} is not a string`)
+        //if (!gameFile.trim().length) throw Error('gameFile cannot be empty')
 
-        return freendiesApi.uploadGame(title, genre, description, images, gameFile)
+        return freendiesApi.uploadGame(new_token, title, genre, description, images, gameFile)
     }
 }
 

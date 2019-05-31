@@ -104,24 +104,33 @@ const freendiesApi = {
     },
 
 
-    uploadGame(title, genre, description, images, gameFile) {
+    uploadGame(token, title, genre, description, images, gameFile) {
+        //todo verification
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw Error(`${title} cannot be empty`)
         if (typeof genre !== 'string') throw TypeError(`${genre} is not a string`)
         if (!genre.trim().length) throw Error(`${genre}cannot be empty`)
         if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
         if (!description.trim().length) throw Error(`${description} cannot be empty`)
-        if (typeof images !== 'string') throw TypeError(`${images} is not a string`)
-        if (!images.trim().length) throw Error(`${images} cannot be empty`)
-        if (typeof gameFile !== 'string') throw TypeError(`${gameFile} is not a string`)
-        if (!gameFile.trim().length) throw Error(`${gameFile} cannot be empty`)
+        //if (typeof images !== 'string') throw TypeError(`${images} is not a string`)
+        //if (!images.trim().length) throw Error(`${images} cannot be empty`)
+        //if (typeof gameFile !== 'string') throw TypeError(`${gameFile} is not a string`)
+        //if (!gameFile.trim().length) throw Error(`${gameFile} cannot be empty`)
+        
+        let formData = new FormData()
+        formData.append('title', title)
+        formData.append('genre', genre)
+        formData.append('description', description)
+        formData.append('images', images)
+        formData.append('gameFile', gameFile)
 
+        
         return fetch(`${this.url}user/game`, {
             method: 'POST',
             headers: {
-                'content-type': 'application/json'
+                authorization: `Bearer ${token}`,
             },
-            body: JSON.stringify({ title, genre, description, images, gameFile })
+            body: formData
         })
             .then(response => response.json())
             .then(response => {
