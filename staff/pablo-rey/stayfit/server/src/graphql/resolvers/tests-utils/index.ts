@@ -2,10 +2,10 @@ import * as bcrypt from 'bcryptjs';
 import { expect } from 'chai';
 import * as faker from 'faker';
 import * as mongoose from 'mongoose';
-import { ROLES, User, UserModel } from '../../models/user';
-import { random } from '../../utils/random';
-import { SessionModel } from './../../models/session';
-import { SessionTypeModel } from './../../models/session-type';
+import { SessionModel } from '../../../models/session';
+import { SessionTypeModel } from '../../../models/session-type';
+import { ROLES, User, UserModel } from '../../../models/user';
+import { random } from '../../../utils/random';
 
 const { ObjectId } = mongoose.Types;
 

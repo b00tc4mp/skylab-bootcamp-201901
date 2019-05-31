@@ -1,12 +1,12 @@
 import { AuthenticationError } from 'apollo-server';
 import * as bcrypt from 'bcryptjs';
-import { IsEmail, IsNotEmpty } from 'class-validator';
-import { refreshToken } from './../../../common/token/refresh-tokens';
-import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Query, Resolver, Authorized } from 'type-graphql';
-import { UserModel } from '../../../models/user';
-import { MyContext } from './../../../common/types/MyContext';
+import { IsNotEmpty } from 'class-validator';
+import { Arg, Ctx, Field, InputType, Mutation, ObjectType, Resolver } from 'type-graphql';
 import { isEmail } from 'validator';
 import { ValidationError } from '../../../common/errors';
+import { UserModel } from '../../../models/user';
+import { refreshToken } from './../../../common/token/refresh-tokens';
+import { MyContext } from './../../../common/types/MyContext';
 
 @ObjectType()
 export class AuthResponse {
@@ -31,16 +31,9 @@ export class LoginArgs {
 
 @Resolver()
 export class LoginResolver {
-  @Query(() => String)
-  async hello(@Ctx() ctx: MyContext) {
-    if (!ctx.userId) throw Error;
-    return 'hello';
-  }
-
   @Mutation(() => AuthResponse)
   async login(@Arg('input') { email, password }: LoginArgs, @Ctx() ctx: MyContext): Promise<AuthResponse> {
-    
-    if (!isEmail(email)) throw new ValidationError('email must be an email')
+    if (!isEmail(email)) throw new ValidationError('email must be an email');
     const user = await UserModel.findOne({ email });
 
     if (!user) throw new AuthenticationError('wrong credentials');

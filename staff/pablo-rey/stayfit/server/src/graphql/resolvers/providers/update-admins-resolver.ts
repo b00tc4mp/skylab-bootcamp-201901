@@ -3,8 +3,6 @@ import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import { MyContext } from '../../../common/types/MyContext';
 import { Provider, ProviderModel } from '../../../models/provider';
 import { ONLY_SUPERADMIN } from './../../middleware/authChecker';
-import users from 'src/logic/users';
-import { User, UserModel } from 'src/models/user';
 
 @Resolver(Provider)
 export class UpdateProviderAdminsResolver {
