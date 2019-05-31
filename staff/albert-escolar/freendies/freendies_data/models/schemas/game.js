@@ -1,6 +1,8 @@
 const {Schema, ObjectId} = require('mongoose');
 
 const Game = new Schema({
+
+    //todo validation
     ownerId: {
         type: ObjectId,
         required: true,
@@ -23,13 +25,13 @@ const Game = new Schema({
     },
 
     images: [{
-        type:String,
-        requires: false
+        // type:String,
+        // requires: false
     }],
 
     gameFile: {
-        type:String,
-        requires: true
+        // type:String,
+        // requires: true
     }
 
 })

@@ -7,6 +7,7 @@ const tokenHelper = require('./token-helper')
 const { tokenVerifierMiddleware } = tokenHelper
 const package = require('../package.json')
 const cors = require('cors')
+const fileParser = require('./file-parser/index')
 
 const {
     registerUser,
@@ -16,7 +17,15 @@ const {
     uploadGame
 } = require('./routes')
 
-const { env: { DB_URL, PORT, JWT_SECRET }, argv: [, , port = PORT || 8080] } = process
+const logic = require('./logic/index')
+debugger
+const { env: { DB_URL, PORT, JWT_SECRET, FB_API_KEY, FB_AUTH_DOMAIN,FB_DATABASE_URL, FB_STORAGE_BUCKET }, argv: [, , port = PORT || 8080] } = process
+
+logic.apiKey = FB_API_KEY
+logic.authDomain = FB_AUTH_DOMAIN
+logic.databaseURL = FB_DATABASE_URL
+logic.storageBucket = FB_STORAGE_BUCKET
+debugger
 
 const app = express()
 
@@ -34,7 +43,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/user', tokenVerifierMiddleware, retrieveUser)
         router.post('/user/auth', jsonBodyParser, authenticateUser)
         router.put('/user/update',[tokenVerifierMiddleware,jsonBodyParser],updateUser)
-        router.post('/user/game', tokenVerifierMiddleware, uploadGame)
+        router.post('/user/game', [tokenVerifierMiddleware, fileParser], uploadGame)
 
 
         app.use('/api', router)
