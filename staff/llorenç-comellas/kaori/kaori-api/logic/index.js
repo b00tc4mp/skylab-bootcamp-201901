@@ -17,7 +17,6 @@ const logic = {
 
         validate.email(email)
 
-        //TODO LOGIC
         return (async () => {
             const users = await User.find({ email })
             if (users.length) throw new LogicError(`user with email "${email}" already exists`)
@@ -33,7 +32,6 @@ const logic = {
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
-        //TODO LOGIC
         return (async () => {
             const user = await User.findOne({ email })
             if (!user) throw new LogicError(`user with email ${email} doesn't exists`)
@@ -50,7 +48,7 @@ const logic = {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
-        //TODO LOGIC
+
         return (async () => {
             const user = await User.findById(id).select('name surname phone email -_id').lean()
             if (!user) throw new LogicError(`user with id ${id} doesn't exists`)
@@ -117,11 +115,11 @@ const logic = {
         return (async () => {
             const user = await User.findById(userId)
             if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
-            // const cartItem = CartItem.findOne({productId})
-            // debugger
-            const index = user.cart.indexOf(({ id }) => id === productId)
+
+            const index = user.cart.findIndex(product => product.productId.toString() === productId)
+
             if (index < 0) user.cart.push({ productId, quantity: 1 })
-            else user.cart[index].qty++
+            else user.cart[index].quantity++
 
             await user.save()
 
@@ -138,6 +136,7 @@ const logic = {
             const user = await User.findById(userId)
             if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
 
+
             if (user.cart.length) {
                 const index = await user.cart.indexOf(({ id }) => id === productId)
                 user.cart.splice(index, 1)
@@ -150,8 +149,26 @@ const logic = {
         })()
     },
 
-    retrieveToCart() {
+    retrieveCart(userId) {
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true }
+        ])
 
+        return (async () => {
+            const user = await User.findById(userId)
+            if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
+            
+            const { cart } = user
+            
+            if (cart.length){
+                cart.forEach(product =>{
+                    product.id = product._id.toString()
+                    delete product._id
+                })
+            }
+            return cart
+
+        })()
     },
 
     cartToOrder(userId) {

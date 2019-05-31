@@ -25,7 +25,6 @@ describe('logic', () => {
 
     describe('users', () => {
 
-
         describe('register user', () => {
             it('should succed on correct data', async () => {
                 const res = await logic.registerUser(name, surname, phone, email, password)
@@ -280,7 +279,7 @@ describe('logic', () => {
 
         })
 
-        describe('add product', () => {
+        describe('add product to cart', () => {
             let user
             beforeEach(async () => user = await User.create({ name, surname, phone, email, password }))
 
@@ -340,7 +339,7 @@ describe('logic', () => {
                 expect(cart[1].productId.toString()).toEqual(_product.id)
                 expect(cart[1].quantity).toBe(1)
             })
-            fit('should succeed adding the same item', async () => {
+            it('should succeed adding the same item', async () => {
                 const product = await Product.create({
                     title: 'Maki',
                     image: 'url',
@@ -366,11 +365,11 @@ describe('logic', () => {
 
             })
         })
-        describe('delete product', () => {
+        describe('delete product to cart', () => {
             let user
             beforeEach(async () => user = await User.create({ name, surname, phone, email, password }))
 
-            it('should delete product', async () => {
+            it('should delete product to cart', async () => {
                 const product = await Product.create({
                     title: 'Fish-roll',
                     image: 'url',
@@ -379,11 +378,11 @@ describe('logic', () => {
                     category: 'ENTRANTES'
                 })
                 await logic.addToCart(product.id, user.id)
-                       
+
                 await logic.deleteToCart(product.id, user.id)
-                
+
                 const _user = await User.findById(user.id).lean()
-                
+
                 const { cart } = _user
 
                 expect(cart).toBeDefined()
@@ -391,37 +390,82 @@ describe('logic', () => {
 
             })
         }),
-        describe('from cart to order', () => {
-            let user
-            beforeEach(async () => user = await User.create({ name, surname, phone, email, password }))
 
-            it('should create new order', async () => {
-                const productA = await Product.create({
-                    title: 'Fish-roll',
-                    image: 'url',
-                    description: 'Lorem ipsum',
-                    price: 8,
-                    category: 'ENTRANTES'
+            describe('retrieve cart', () => {
+                let user
+                beforeEach(async () => {
+                    user = await User.create({ name, surname, phone, email, password })
+
+                    
                 })
 
-                const productB = await Product.create({
-                    title: 'Fish-roll-sub',
-                    image: 'url',
-                    description: 'Lorem ipsum',
-                    price: 18,
-                    category: 'ENTRANTES'
-                })
-                await logic.addToCart(productA.id, user.id)
+                it('should succed on correct data', async () => {
+                    const product = await Product.create({
+                        title: 'Pack',
+                        image: 'url',
+                        description: 'Lorem ipsum',
+                        price: 12,
+                        category: 'ENTRANTES'
+                    })
 
-                await logic.addToCart(productB.id, user.id)
-                       
-                const order = await logic.cartToOrder(user.id)
-                
-                expect(user.cart.length).toEqual(0)
-                expect(order).toBeDefined()
-                
+                    const _product = await Product.create({
+                        title: 'Oslo',
+                        image: 'url',
+                        description: 'Lorem ipsum',
+                        price: 6,
+                        category: 'MAKIS'
+                    })
+
+                    await logic.addToCart(product.id, user.id)
+                    await logic.addToCart(_product.id, user.id)
+
+                    user.save()
+
+                    const cart = await logic.retrieveCart(user.id)
+                    
+                    expect(cart).toBeDefined()
+                    expect(cart).toHaveLength(2)
+
+                    expect(cart[0].productId.toString()).toBe(product.id)
+                    expect(cart[1].productId.toString()).toBe(_product.id)
+                    expect(cart[0].quantity).toBe(1)
+                    expect(cart[1].quantity).toBe(1)
+                    
+
+                })
+            }),
+
+            describe('from cart to order', () => {
+                let user
+                beforeEach(async () => user = await User.create({ name, surname, phone, email, password }))
+
+                it('should create new order', async () => {
+                    const productA = await Product.create({
+                        title: 'Fish-roll',
+                        image: 'url',
+                        description: 'Lorem ipsum',
+                        price: 8,
+                        category: 'ENTRANTES'
+                    })
+
+                    const productB = await Product.create({
+                        title: 'Fish-roll-sub',
+                        image: 'url',
+                        description: 'Lorem ipsum',
+                        price: 18,
+                        category: 'ENTRANTES'
+                    })
+                    await logic.addToCart(productA.id, user.id)
+
+                    await logic.addToCart(productB.id, user.id)
+
+                    const order = await logic.cartToOrder(user.id)
+
+                    expect(user.cart.length).toEqual(0)
+                    expect(order).toBeDefined()
+
+                })
             })
-        })
     })
 
     afterAll(() => mongoose.disconnect())

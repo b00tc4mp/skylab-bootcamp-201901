@@ -70,13 +70,45 @@ router.get('/products/:category', (req, res) => {
     }, res)
 })
 
-router.post('/products/cart', (req, res) => {
-    const { body: { productId, userId } } = req
-    handleErrors(async () =>{
-        await logic.addToCart(productId, userId)
-        return res.status(201).json({ message: 'Ok, product add to cart.' })
-    },res)
+// Cart
+
+router.post('/products/:id/cart', auth, (req, res) => {
+    const { userId, params: { id } } = req
+
+    handleErrors(async () => {
+        await logic.addToCart(id, userId)
+        return res.status(201).json({ message: 'Ok, product add to cart' })
+    }, res)
 })
+
+router.delete('/products/:id/cart', auth, (req, res) => {
+    const { userId, params: { id } } = req
+
+    handleErrors(async () => {
+        await logic.deleteToCart(id, userId)
+        return res.status(200).json({ message: 'Ok, product delete to cart' })
+    }, res)
+})
+
+router.get('/products/cart/:id', auth, (req, res) => {
+    const { params: { id} } = req
+
+    handleErrors(async () => {
+        const cart = await logic.retrieveCart(id)
+        return res.json(cart)
+    }, res)
+})
+
+//Order:
+
+router.post('/order/:id', auth, (req, res) => {
+    const { params: { id } } = req
+    handleErrors(async () => {
+        await logic.cartToOrder(id)
+        return res.status(200).json({ message: 'Ok, pass cart to order' })
+    }, res)
+})
+
 
 
 module.exports = router
