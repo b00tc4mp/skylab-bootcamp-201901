@@ -30,6 +30,7 @@ const logic = {
             password = await bcrypt.hash(password, 8);
 
             await User.create({ name, surname, email, password })
+            return ("User succesfully registered")
 
         })()
     },
@@ -166,8 +167,7 @@ const logic = {
                 if (item._id.toString() === ticketId.toString())
 
                     rTicket = user.tickets[index]
-            }
-            )
+            })
 
             return rTicket
         })()
@@ -283,7 +283,7 @@ const logic = {
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
-            if(user.tickets.length) return user.tickets
+            if (user.tickets.length) return user.tickets
             else throw new LogicError("No tickets found")
         })()
 
@@ -535,7 +535,8 @@ const logic = {
             })
 
             await user.save()
-            deleted ? ("Alert succesfully deleted") : new LogicError("Alert dosen't exist")
+            if (deleted) return  ("Alert succesfully deleted")
+            else throw new LogicError("Alert dosen't exist")
 
         })()
     },

@@ -36,8 +36,10 @@ router.get('/user/retrieve', auth, (req, res) => {                              
     handleErrors(async () => {
         const { userId } = req
 
-        let user = await logic.retrieveUser(userId)
-        res.json(user)
+        try {
+            let user = await logic.retrieveUser(userId)
+            res.json(user)
+        } catch (error) { throw new Error("User not found") }
     }, res)
 })
 
@@ -61,6 +63,11 @@ router.delete('/user/delete', auth, (req, res) => {                             
     }, res)
 })
 
+
+
+
+
+//----------------------------------------------------------------------------------------------------------------------------------------------
 
 router.get('/tickets', auth, (req, res) => {                        //GET ALL TICKETS
     handleErrors(async () => {
@@ -105,6 +112,7 @@ router.put('/ticket/update/:ticketId', auth, jsonParser, (req, res) => {        
     handleErrors(async () => {
         const { userId, params: { ticketId }, body: { data, position } } = req
 
+
         let user = await logic.updatePrivateTicket(userId, ticketId, data, position)
         res.json(user)
     }, res)
@@ -132,6 +140,9 @@ router.delete('/ticket/delete', auth, (req, res) => {                       //DE
     }, res)
 })
 
+
+
+//--------------------------------------------------------------------------------------------------------------------------------------
 router.put('/alert/addAlert', auth, jsonParser, (req, res) => {                       //ADD ALERT
 
     handleErrors(async () => {
@@ -145,7 +156,7 @@ router.put('/alert/addAlert', auth, jsonParser, (req, res) => {                 
 router.get('/alert/listAlerts', auth, jsonParser, (req, res) => {                       //LIST ALERTS
 
     handleErrors(async () => {
-        const { userId} = req
+        const { userId } = req
 
         let user = await logic.listAlerts(userId)
         res.json(user)
@@ -165,9 +176,9 @@ router.put('/alert/update/:alertId', auth, jsonParser, (req, res) => {          
 router.delete('/alert/delete/:alertId', auth, (req, res) => {                       //DELETE AN ALERT
 
     handleErrors(async () => {
-        const { userId,params: { alertId } } = req
+        const { userId, params: { alertId } } = req
 
-        let user = await logic.deleteAlert(userId,alertId)
+        let user = await logic.deleteAlert(userId, alertId)
         res.json(user)
     }, res)
 })
@@ -175,12 +186,52 @@ router.delete('/alert/delete/:alertId', auth, (req, res) => {                   
 router.delete('/alert/delete/', auth, (req, res) => {                       //DELETE ALL ALERTS
 
     handleErrors(async () => {
-        const { userId} = req
+        const { userId } = req
 
         let user = await logic.deleteAllAlerts(userId)
         res.json(user)
     }, res)
 })
+
+//---------------------------------------------------------------------------------------------------------------------------------------
+
+
+router.post('/prodcuts/retrieveByCat', auth, jsonParser, (req, res) => {             //RETRIVE PRODUCTS BY CAT
+    handleErrors(async () => {
+
+        const { userId, body: { category } } = req
+
+        let user = await logic.retrieveByCategory(userId, category)
+        res.json(user)
+    }, res)
+})
+
+
+router.post('/prodcuts/retrieveAmountByProduct', auth, jsonParser, (req, res) => {             //RETRIVE AMOUNT BY PRODUCT
+    handleErrors(async () => {
+
+       
+        const { userId, body: { product } } = req
+
+
+        let user = await logic.retrieveAmountByProdcut(userId, product)
+        res.json(user)
+    }, res)
+})
+
+
+router.get('/list', (res) => {                     //LIST ITEMS
+
+    return(async()=>{
+
+        let list = await logic.listItems()
+            res.json(list)
+    })()
+
+})
+
+
+
 
 
 

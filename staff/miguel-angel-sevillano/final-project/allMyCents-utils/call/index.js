@@ -12,16 +12,17 @@ const axios = require('axios')
  * @version 4.0.0
  */
 function call(url, options = {}) {
-    const { method = 'GET', headers, data } = options
+    const { method = 'GET', headers, body } = options
 
     validate.arguments([
         { name: 'url', value: url, type: 'string', notEmpty: true },
         { name: 'method', value: method, type: 'string', notEmpty: true },
         { name: 'headers', value: headers, type: 'object', optional: true },
-        { name: 'data', value: data, type: 'object', optional: true }
+        { name: 'body', value: body, type: 'string', optional: true }
     ])
 
     validate.url(url)
+   
 
     return (async () => {
         try {
@@ -29,16 +30,20 @@ function call(url, options = {}) {
                 headers,
                 method,
                 url,
-                data
+                data:body
             })
 
             return response.data
         } catch (error) {
-            if (error.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')
+            throw error.response.data.error
 
+         /*    
+            if (error.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')
+           
             const { response } = error
 
             if (response && response.status) {
+               
                 const err = new HttpError()
 
                 err.status = response.status
@@ -46,7 +51,7 @@ function call(url, options = {}) {
                 throw err
             }
 
-            throw error
+            throw error */
         }
     })()
 }

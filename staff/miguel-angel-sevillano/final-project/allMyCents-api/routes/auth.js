@@ -14,9 +14,13 @@ module.exports = (req, res, next) => {
 
                 const token = authorization.slice(7)
 
-                const { sub } = jwt.verify(token, JWT_SECRET)
+                try{
 
+                const { sub } = jwt.verify(token, JWT_SECRET)
                 req.userId = sub
+                }catch(error){throw new Error("Invalid token")}
+
+                
 
                 next()
             })
