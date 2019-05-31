@@ -1,0 +1,24 @@
+{
+  "name": "notes-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx mocha * --require esm",
+    "test:debug": "npx mocha debug * --require esm"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.23.0",
+    "dotenv": "^8.0.0",
+    "esm": "^3.2.25",
+    "notes-data": "file:../notes-data",
+    "validator": "^11.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
+  }
+}

@@ -1,0 +1,27 @@
+extends ../index
+include ../feedback/index
+include ../search/index
+include ../results/index
+include ../detail/index
+include ../favorites/index
+
+
+
+block content
+
+  h1 Hola, #{name}!
+    form(action='/home/favs' method='get')
+        button myfavs
+    form(action='/cart/details' method='get')
+        button myCart
+    form(action='/logout' method='post')
+      button Logout
+        if message
+              +feedback(message)
+    +search(query)
+  if ducks
+    +results(ducks)
+  if duck
+    +detail(duck)
+  if favs
+    +favorites(favs)

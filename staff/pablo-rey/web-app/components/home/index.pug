@@ -1,0 +1,17 @@
+extends ../index
+
+include ../ducks/duck-list/index
+include ../ducks/duck-detail/index
+
+block content
+  .home
+    h1 Hola, #{name}!
+    form(action='/home/search')
+      input.input(type='text' name='query' placeholder='query' autofocus='' required='' value=query)
+      button.btn.btn--small
+        i.fas.fa-search
+    if query
+      +duck-list(ducks)
+    
+    if duck
+      +duck-detail(duck)
