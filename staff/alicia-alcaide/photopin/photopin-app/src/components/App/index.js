@@ -28,10 +28,9 @@ function App(props) {
     <Fragment>
         <AppContext.Provider value={{ userLanguage, setUserLanguage }}>
           <Header/>
-
-          {/*  <Route exact path="/" render={<Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
- */}
-          <Redirect to="/" />
+          <Route exact path="/" render={()=> <Landing />} />
+ 
+          
         </AppContext.Provider>
     </Fragment>
   )

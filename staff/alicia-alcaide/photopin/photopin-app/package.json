@@ -19,7 +19,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "eject": "react-scripts eject",
-    "test": "mocha",
+    "test": "mocha ./src/**/*.spec.js --runInBand",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "test:coverage": "react-scripts test --coverage --watchAll",
     "lint": "./node_modules/.bin/eslint **/*.js"
