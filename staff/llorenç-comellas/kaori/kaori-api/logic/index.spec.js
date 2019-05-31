@@ -2,7 +2,7 @@ require('dotenv').config()
 const { mongoose, models } = require('kaori-data')
 const logic = require('.')
 const bcrypt = require('bcrypt')
-const { LogicError, RequirementError, ValueError, FormatError } = require('../common/errors')
+const { errors:{ LogicError, RequirementError, ValueError, FormatError }} = require('kaori-utils')
 
 const { User, Product } = models
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
@@ -51,8 +51,11 @@ describe('logic', () => {
                     await User.create({ name, surname, phone, email, password })
                     await logic.registerUser(name, surname, phone, email, password)
                     throw Error('should not reach this point')
-                } catch (error) {
+
+                } 
+                catch (error) {
                     expect(error).toBeDefined()
+                    debugger
                     expect(error).toBeInstanceOf(LogicError)
 
                     expect(error.message).toBe(`user with email "${email}" already exists`)
@@ -135,7 +138,7 @@ describe('logic', () => {
             })
 
             //Email
-            it('should fail on undefined phone', () => {
+            it('should fail on undefined email', () => {
                 const email = undefined
 
                 expect(() => logic.registerUser(name, surname, phone, email, password)).toThrowError(RequirementError, `email is not optional`)
@@ -164,7 +167,30 @@ describe('logic', () => {
                 expect(() => logic.registerUser(name, surname, phone, nonEmail, password)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
             })
 
-            //TODO PASSWORD
+            //Password
+            it('should fail on undefined password', () => {
+                const password = undefined
+
+                expect(() => logic.registerUser(name, surname, phone, email, password)).toThrowError(RequirementError, `password is not optional`)
+            })
+
+            it('should fail on null password', () => {
+                const password = null
+
+                expect(() => logic.registerUser(name, surname, phone, email, password)).toThrowError(RequirementError, `password is not optional`)
+            })
+
+            it('should fail on empty password', () => {
+                const password = ''
+
+                expect(() => logic.registerUser(name, surname, phone, email, password)).toThrowError(ValueError, 'password is empty')
+            })
+
+            it('should fail on blank password', () => {
+                const password = ' \t    \n'
+
+                expect(() => logic.registerUser(name, surname, phone, email, password)).toThrowError(ValueError, 'password is empty')
+            })
         })
 
         describe('authenticate user', () => {
@@ -396,7 +422,7 @@ describe('logic', () => {
                 beforeEach(async () => {
                     user = await User.create({ name, surname, phone, email, password })
 
-                    
+
                 })
 
                 it('should succed on correct data', async () => {
@@ -422,7 +448,7 @@ describe('logic', () => {
                     user.save()
 
                     const cart = await logic.retrieveCart(user.id)
-                    
+
                     expect(cart).toBeDefined()
                     expect(cart).toHaveLength(2)
 
@@ -430,7 +456,7 @@ describe('logic', () => {
                     expect(cart[1].productId.toString()).toBe(_product.id)
                     expect(cart[0].quantity).toBe(1)
                     expect(cart[1].quantity).toBe(1)
-                    
+
 
                 })
             }),

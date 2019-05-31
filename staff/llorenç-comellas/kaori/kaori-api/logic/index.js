@@ -1,5 +1,5 @@
-const validate = require('../common/validate')
-const { LogicError } = require('../common/errors')
+const { validate } = require('kaori-utils')
+const { errors: { LogicError } } = require('kaori-utils')
 const { models, mongoose: { Schema: { Types: { ObjectId } } } } = require('kaori-data')
 const bcrypt = require('bcrypt')
 
@@ -157,11 +157,11 @@ const logic = {
         return (async () => {
             const user = await User.findById(userId)
             if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
-            
+
             const { cart } = user
-            
-            if (cart.length){
-                cart.forEach(product =>{
+
+            if (cart.length) {
+                cart.forEach(product => {
                     product.id = product._id.toString()
                     delete product._id
                 })

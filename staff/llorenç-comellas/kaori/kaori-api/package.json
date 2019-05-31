@@ -17,6 +17,7 @@
     "express": "^4.17.1",
     "jest": "^24.8.0",
     "jsonwebtoken": "^8.5.1",
-    "kaori-data": "file:../kaori-data"
+    "kaori-data": "file:../kaori-data",
+    "kaori-utils": "file:../kaori-utils"
   }
 }
