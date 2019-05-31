@@ -42,6 +42,13 @@ const customer = new Schema({
 
 const electronicControlModule = new Schema({
     received: { type: Date, default: Date.now },
+    reviewed: { type: Date, set: setDate },
+    budgeted: { type: Date },
+    approved: { type: Date },
+    repaired: { type: Date },
+    toCollect: { type: Date },
+    delivered: { type: Date },
+    collected: { type: Date },
     orderNumber: { type: String, required: true },
     brand: { type: String },
     model: { type: String },
@@ -57,7 +64,7 @@ const electronicControlModule = new Schema({
     status: {
         type: String,
         required: true,
-        enum: ['RECEIVED', 'REVIEWED', 'BUDGETED', 'APPROVED', 'REPAIRED', 'COLLECT', 'DELIVERED'],
+        enum: ['RECEIVED', 'REVIEWED', 'BUDGETED', 'APPROVED', 'REPAIRED', 'TO-COLLECT', 'DELIVERED', 'COLLECTED'],
         default: 'RECEIVED',
     },
     notes: [note]
