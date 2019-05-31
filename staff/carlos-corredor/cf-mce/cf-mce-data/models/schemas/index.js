@@ -40,7 +40,7 @@ const customer = new Schema({
     notes: [note]
 })
 
-const electronicControlModule = new Schema({
+const electronicModule = new Schema({
     received: { type: Date, default: Date.now },
     reviewed: { type: Date },
     budgeted: { type: Date },
@@ -71,4 +71,4 @@ const electronicControlModule = new Schema({
 
 })
 
-module.exports = { user, customer, electronicControlModule, product, note }
+module.exports = { user, customer, electronicModule, product, note }
