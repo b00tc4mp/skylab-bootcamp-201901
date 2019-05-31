@@ -1,8 +1,8 @@
 const bcrypt = require('bcrypt')
 const { LogicError } = require('../common/errors')
-const validate = require('../common/validate')
-const models = require('cinema-and-go-data')
-const scrapper = require('../lib/scrapper')
+const validate = require('../src/common/validateate')
+const models = require('cinema-and-go-data/src/models')
+const scrapper = require('../../lib/scrapper')
 
 const { mongoose, User, Movie, MovieSessions, City, Cinema } = models
 const {Types: {ObjectId}} = mongoose

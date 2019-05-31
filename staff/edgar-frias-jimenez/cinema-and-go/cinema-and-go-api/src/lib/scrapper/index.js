@@ -1,6 +1,6 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
-const validate = require('../../common/validate')
+const validate = require('../../src/common/validate')
 // const logic = require('../../logic')
 // const { Movie } = require('cinema-and-go-data')
 

@@ -1,5 +1,5 @@
 const dotenv = require('dotenv')
-const { mongoose, User, Movie, MovieSessions } = require('cinema-and-go-data')
+const { mongoose, User, Movie, MovieSessions } = require('cinema-and-go-data/src/models')
 const { Types: { ObjectId } } = mongoose
 const bcrypt = require('bcrypt')
 const logic = require('.')
