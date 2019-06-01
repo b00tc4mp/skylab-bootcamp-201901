@@ -110,9 +110,9 @@ router.get('/items', jsonParser, (req, res) => {
 
     if(startPrice && endPrice) {
         startPrice = Number(startPrice)
-        endDate = Number(endDate)
+        endPrice = Number(endPrice)
     }
-    
+    debugger
     handleErrors(async () => {
         const items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
         
@@ -127,6 +127,22 @@ router.get('/items/:id', (req, res) => {
         const item = await logic.retrieveItem(id)
         
         return res.json(item)
+    }, res)
+})
+
+router.get('/cities', (req, res) => {
+    handleErrors(async () => {
+        const cities = await logic.retrieveCities()
+
+        return res.json(cities)
+    }, res)
+})
+
+router.get('/categories', (req, res) => {
+    handleErrors(async () => {
+        const categories = await logic.retrieveCategories()
+        
+        return res.json(categories)
     }, res)
 })
 

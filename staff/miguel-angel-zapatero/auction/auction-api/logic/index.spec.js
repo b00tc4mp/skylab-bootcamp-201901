@@ -415,23 +415,21 @@ describe('logic', () => {
     })
 
     describe('items', () => {
-        let items
-        const cities = ['Japan', 'New York', 'Spain', 'London']
+        let items, sDate, fDate
+        const cities = ['Japan', 'London', 'New York', 'Spain']
         const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
 
         beforeEach(async () => {
             items = new Array(25).fill().map(item => {
-                let sDate = new Date(Date.now())
-                let fDate = new Date(Date.now())
-                sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3)))
-                fDate.setDate(fDate.getDate() + (Math.ceil(Math.random() * 5) + 3))
+                sDate = new Date
+                fDate = new Date
 
                 return item = {
                     title: `Car-${Math.random()}`,
                     description: `description-${Math.random()}`,
                     startPrice: Math.ceil(Math.random() * 200),
-                    startDate: sDate,
-                    finishDate: fDate,
+                    startDate: sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3))),
+                    finishDate: fDate.setDate(fDate.getDate() + (Math.floor(Math.random() * 5) + 3)),
                     reservedPrice: Math.floor(Math.random() * 1),
                     city: cities[Math.floor(Math.random() * cities.length)],
 	                category: categories[Math.floor(Math.random() * categories.length)],
@@ -445,8 +443,11 @@ describe('logic', () => {
         describe('create items', () => {
             it('should success on correct data', async () => {
                 let item = items[Math.floor(Math.random() * items.length)]
-                
-                const  { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
+
+                item.startDate = new Date(item.startDate)
+                item.finishDate = new Date(item.finishDate)
+
+                const { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
 
                 await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
                 
@@ -493,17 +494,13 @@ describe('logic', () => {
             it('should success on correct finish range date', async () => {
                 let { text, category, city, startDate, endDate, startPrice, endPrice } = query
 
-                let date1 = new Date('Sun Jun 02 2019 22:00:00 GMT+0200 (hora de verano de Europa central')
-                date1.setDate(date1.getDate() - 1)
-               
-                let date2 = new Date('Wen Jun 05 2019 23:00:00 GMT+0200 (hora de verano de Europa central')
-                date2.setDate(date2.getDate() - 1)
+                sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3)))
+                fDate.setDate(fDate.getDate() + (Math.floor(Math.random() * 5) + 3))
+                
+                let items_ = items.filter(item => (item.finishDate >= sDate && item.finishDate <= fDate))
 
-                let items_ = items.filter(item => (item.finishDate >= date1 && item.finishDate <= date2))
-
-                startDate = new Date('Sun Jun 02 2019 22:00:00 GMT+0200 (hora de verano de Europa central')
-
-                endDate = new Date('Wen Jun 05 2019 23:00:00 GMT+0200 (hora de verano de Europa central')
+                startDate = sDate
+                endDate = fDate
 
                 const _items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
 
@@ -564,6 +561,26 @@ describe('logic', () => {
                 expect(_item.city).toBe(item.city)
                 expect(_item.category).toBe(item.category)
                 expect(_item.images).toBeInstanceOf(Array)
+            })
+        })
+
+        describe('retrieve cities', () => {
+            it('should success and not repeat values', async() => {
+                const _cities = await logic.retrieveCities()
+
+                expect(_cities).toBeDefined()
+                expect(_cities).toBeInstanceOf(Array)
+                expect(_cities).toEqual(cities)
+            })
+        })
+
+        describe('retrieve categories', () => {
+            it('should success and not repeat values', async() => {
+                const _categories = await logic.retrieveCategories()
+
+                expect(_categories).toBeDefined()
+                expect(_categories).toBeInstanceOf(Array)
+                expect(_categories).toEqual(categories)
             })
         })
     })
@@ -640,7 +657,6 @@ describe('logic', () => {
                     await logic.placeBid(item.id, user.id, amount)
                     throw new Error('should not reach this point')
                 } catch (error) {
-                    debugger
                     expect(error).toBeDefined()
                     expect(error).toBeInstanceOf(LogicError)
     
