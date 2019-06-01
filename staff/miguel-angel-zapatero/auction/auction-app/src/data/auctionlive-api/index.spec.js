@@ -431,21 +431,26 @@ describe('auctionlive-api', () => {
     })
 
     describe('items', () => {
-        let items
+        let items, sDate, fDate
         const cities = ['Japan', 'New York', 'Spain', 'London']
         const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
 
         beforeEach(async () => {
-            items = new Array(25).fill().map(item => item = {
-                title: `Car-${Math.random()}`,
-                description: `description-${Math.random()}`,
-                startPrice: Math.ceil(Math.random() * 200),
-                startDate: Date.now(),
-                finishDate: Date.now() + (Math.ceil(Math.random() * 1000000000)),
-                reservedPrice: Math.floor(Math.random() * 1),
-                city: cities[Math.floor(Math.random() * cities.length)],
-	            category: categories[Math.floor(Math.random() * categories.length)],
-	            images: "image1.jpg"
+            items = new Array(25).fill().map(item => {
+                sDate = new Date
+                fDate = new Date
+
+                return item = {
+                    title: `Car-${Math.random()}`,
+                    description: `description-${Math.random()}`,
+                    startPrice: Math.ceil(Math.random() * 200),
+                    startDate: sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3))),
+                    finishDate: fDate.setDate(fDate.getDate() + (Math.floor(Math.random() * 5) + 3)),
+                    reservedPrice: Math.floor(Math.random() * 1),
+                    city: cities[Math.floor(Math.random() * cities.length)],
+	                category: categories[Math.floor(Math.random() * categories.length)],
+	                images: "image1.jpg"
+                }
             })
 
             await Promise.all(items.map(async item => await Item.create(item)))
@@ -456,9 +461,9 @@ describe('auctionlive-api', () => {
                 let item = items[Math.floor(Math.random() * items.length)]
                 
                 let { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
-               
-                startDate = moment(startDate).format('DD-MM-YYYY')
-                finishDate = moment(finishDate).format('DD-MM-YYYY')
+
+                startDate = new Date(startDate)
+                finishDate = new Date(finishDate)
                 
                 await auctionLiveApi.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
                 
@@ -467,12 +472,8 @@ describe('auctionlive-api', () => {
                 expect(_item.title).toBe(title)
                 expect(_item.description).toBe(description)
                 expect(_item.startPrice).toBe(startPrice)
-                
-                const startFormatDate = moment(_item.startDate).format('DD-MM-YYYY') 
-                const endFormatDate = moment(_item.finishDate).format('DD-MM-YYYY')
-                
-                expect(startFormatDate).toEqual(startDate)
-                expect(endFormatDate).toEqual(finishDate)
+                expect(_item.startDate).toEqual(startDate)
+                expect(_item.finishDate).toEqual(finishDate)
                 expect(_item.reservedPrice).toBe(reservedPrice)
                 expect(_item.city).toBe(city)
                 expect(_item.category).toBe(category)
@@ -482,26 +483,84 @@ describe('auctionlive-api', () => {
         })
 
         describe('search items', () => {
-            xit('should success on correct query', async () => {
-                //INCLUDE MULTISEARCH MIDDLEWARE¿?¿¿? AND TESTING¿???
+            let query
 
-                let query = {title: 'hola'}
-                const _items = await auctionLiveApi.searchItems(query)
-
-                expect(_items).toBe(items)
-                expect(_items.length).toBe(5)
+            beforeEach(() => {
+                query = {}
             })
 
-            //TODO MORE CASES WITH WORDS (TITLE AND DESCRIP), PRICE AND DATES
+            it('should success on correct city', async () => {
+                let items_ = items.filter(item => item.city === 'Japan')
+                query.city = 'Japan'
+
+                const _items = await auctionLiveApi.searchItems(query)
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
+            it('should success on correct category', async () => {
+                let items_ = items.filter(item => item.category === 'Art')
+                query.category = 'Art'
+
+                const _items = await auctionLiveApi.searchItems(query)
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
+            it('should success on correct finish range date', async () => { 
+                sDate = new Date
+                fDate = new Date
+                sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3)))
+                fDate.setDate(fDate.getDate() + (Math.floor(Math.random() * 5) + 3))
+
+                let items_ = items.filter(item => (item.finishDate >= sDate && item.finishDate <= fDate))
+
+                query.startDate = sDate
+                query.endDate = fDate
+
+                const _items = await auctionLiveApi.searchItems(query)
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
+            it('should success on correct start price range', async () => {
+                let items_ = items.filter(item => (item.startPrice >= 20 && item.startPrice <= 150))
+
+                query.startPrice = 21 
+                query.endPrice = 149 
+
+                const _items = await auctionLiveApi.searchItems(query)
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
+            it('should success on correct on multiple data', async () => {
+                let items_ = items.filter(item => (item.startPrice >= 20 && item.startPrice <= 150) && (item.city === 'London') && (item.category === 'Jewellery'))
+
+                query.city = 'London'
+                query.category = 'Jewellery'
+                query.startPrice = 21 
+                query.endPrice = 149 
+
+                const _items = await auctionLiveApi.searchItems(query)
+                
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
             it('should list all items with empty query', async () => {
-                const _items = await auctionLiveApi.searchItems({})
+                const _items = await auctionLiveApi.searchItems(query)
 
                 expect(_items).toBeInstanceOf(Array)
                 expect(_items.length).toBe(25)
             })
         })
 
-        fdescribe('retrieve item', () => {
+        describe('retrieve item', () => {
             it('should success on correc item id', async () => {
                 let item_ = items[Math.floor(Math.random() * items.length)]
                 const item = await Item.create(item_)
@@ -525,7 +584,7 @@ describe('auctionlive-api', () => {
     })
 
     describe('bids', () => {
-        let item, user
+        let item, user, token, _password
 
         const cities = ['Japan', 'New York', 'Spain', 'London']
         const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
@@ -543,7 +602,11 @@ describe('auctionlive-api', () => {
 	            images: "image1.jpg"
             })
             
-            user = await User.create({name, surname, email, password})
+            _password = bcrypt.hashSync(password, 10)
+            user = await User.create({name, surname, email, password: _password})
+
+            const res = await auctionLiveApi.authenticateUser(email, password)
+            token = res.token   
         })
 
         describe('place a bid', () => {
@@ -598,7 +661,7 @@ describe('auctionlive-api', () => {
                 } catch (error) {
                     debugger
                     expect(error).toBeDefined()
-                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error).toBeInstanceOf(Error)
     
                     expect(error.message).toBe(`sorry, the current bid "${amount}" is lower than the start price`)
                 }
@@ -615,7 +678,7 @@ describe('auctionlive-api', () => {
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error).toBeInstanceOf(Error)
     
                     expect(error.message).toBe(`sorry, the bid "${amount}" is lower than the current amount`)
                 }
@@ -630,7 +693,7 @@ describe('auctionlive-api', () => {
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error).toBeInstanceOf(Error)
     
                     expect(error.message).toBe(`item with id "${id}" doesn't exist`)
                 }
@@ -645,39 +708,36 @@ describe('auctionlive-api', () => {
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    // expect(error).toBeInstanceOf(LogicError)
-                    // expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                    expect(error).toBeInstanceOf(Error)
                     expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
                 }
             })
 
-            it('should fail on incorrect user id', async () => {
+            it('should fail on incorrect user token', async () => {
                 let amount = 2000
-                let id = '01234567890123456789abcd'
+                token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
                 
                 try {
                     await auctionLiveApi.placeBid(item.id, token, amount)                    
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    expect(error).toBeInstanceOf(LogicError)
-    
-                    expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                    expect(error).toBeInstanceOf(Error)
+                    expect(error.message).toBe('invalid signature')
                 }
             })
 
-            it('should fail on incorrect user id', async () => {
+            it('should fail on incorrect user token', async () => {
                 let amount = 2000
-                let id = 'wrong-id'
+                let token = 'wrong-id'
                 
                 try {
                     await auctionLiveApi.placeBid(item.id, token, amount)                    
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    // expect(error).toBeInstanceOf(LogicError)
-                    // expect(error.message).toBe(`user with id "${id}" doesn't exist`)
-                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
+                    expect(error).toBeInstanceOf(Error)
+                    expect(error.message).toBe('jwt malformed')
                 }
             })
 
@@ -720,13 +780,13 @@ describe('auctionlive-api', () => {
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    expect(error).toBeInstanceOf(LogicError)
-    
+                    expect(error).toBeInstanceOf(Error)
+                    debugger
                     expect(error.message).toBe(`item with id "${id}" doesn't exist`)
                 }
             })
 
-            it('should fail on incorrect item id', async () => {
+            it('should fail on wrong item id', async () => {
                 let id = 'wrong-id'
                 
                 try {
@@ -734,37 +794,35 @@ describe('auctionlive-api', () => {
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    // expect(error).toBeInstanceOf(LogicError)
-                    // expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                    expect(error).toBeInstanceOf(Error)
                     expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
                 }
             })
 
-            it('should fail on incorrect user id', async () => {
-                let id = '01234567890123456789abcd'
+            it('should fail on incorrect user token', async () => {
+                let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
                 
                 try {
                     await auctionLiveApi.retrieveItemBids(item.id, token)              
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error).toBeInstanceOf(Error)
     
-                    expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                    expect(error.message).toBe('invalid signature')
                 }
             })
 
-            it('should fail on incorrect user id', async () => {
-                let id = 'wrong-id'
+            it('should fail on wrong user token', async () => {
+                let token = 'wrong-id'
                 
                 try {
                     await auctionLiveApi.retrieveItemBids(item.id, token)                    
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    // expect(error).toBeInstanceOf(LogicError)
-                    // expect(error.message).toBe(`user with id "${id}" doesn't exist`)
-                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
+                    expect(error).toBeInstanceOf(Error)
+                    expect(error.message).toBe("jwt malformed")
                 }
             })
         })

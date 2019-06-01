@@ -9,10 +9,10 @@ const auctionLiveApi = {
 
     registerUser(name, surname, email, password) {
         validate.arguments([
-            { name: 'name', value: name, type: 'string', notEmpty: true },
-            { name: 'surname', value: surname, type: 'string', notEmpty: true },
-            { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true },
+            { name: 'name', value: name, type: String, notEmpty: true },
+            { name: 'surname', value: surname, type: String, notEmpty: true },
+            { name: 'email', value: email, type: String, notEmpty: true },
+            { name: 'password', value: password, type: String, notEmpty: true },
         ])
 
         validate.email(email)
@@ -27,8 +27,8 @@ const auctionLiveApi = {
 
     authenticateUser(email, password) {
         validate.arguments([
-            { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true }
+            { name: 'email', value: email, type: String, notEmpty: true },
+            { name: 'password', value: password, type: String, notEmpty: true }
         ])
 
         validate.email(email)
@@ -43,7 +43,7 @@ const auctionLiveApi = {
 
     retrieveUser(token) {
         validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true }
+            { name: 'token', value: token, type: String, notEmpty: true }
         ])
 
         return call(`${this.__url__}/users`, {
@@ -54,8 +54,8 @@ const auctionLiveApi = {
 
     updateUser(token, data) {
         validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'data', value: data, type: 'object', notEmpty: true }
+            { name: 'token', value: token, type: String, notEmpty: true },
+            { name: 'data', value: data, type: Object, notEmpty: true }
         ])
 
         return call(`${this.__url__}/users/update`, {
@@ -71,9 +71,9 @@ const auctionLiveApi = {
 
     deleteUser(token, email, password) {
         validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true }
+            { name: 'token', value: token, type: String, notEmpty: true },
+            { name: 'email', value: email, type: String, notEmpty: true },
+            { name: 'password', value: password, type: String, notEmpty: true }
         ])
 
         return call(`${this.__url__}/users/delete`, {
@@ -93,9 +93,9 @@ const auctionLiveApi = {
 
     placeBid(itemId, token, amount) {
         validate.arguments([
-            { name: 'itemId', value: itemId, type: 'string', notEmpty: true },
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'amount', value: amount, type: 'number', notEmpty: true }
+            { name: 'itemId', value: itemId, type: String, notEmpty: true },
+            { name: 'token', value: token, type: String, notEmpty: true },
+            { name: 'amount', value: amount, type: Number, notEmpty: true }
         ])
 
         return call(`${this.__url__}/items/${itemId}/bids`, {
@@ -111,8 +111,8 @@ const auctionLiveApi = {
 
     retrieveItemBids(itemId, token){
         validate.arguments([
-            { name: 'itemId', value: itemId, type: 'string', notEmpty: true },
-            { name: 'token', value: token, type: 'string', notEmpty: true }
+            { name: 'itemId', value: itemId, type: String, notEmpty: true },
+            { name: 'token', value: token, type: String, notEmpty: true }
         ])
 
         return call(`${this.__url__}/items/${itemId}/bids`, {
@@ -127,16 +127,17 @@ const auctionLiveApi = {
 
     searchItems(query) {
         validate.arguments([
-            { name: 'query', value: query, type: 'object', notEmpty: true, optional: true}
+            { name: 'query', value: query, type: Object, optional: true}
         ])
 
-        // const { query, category, city, price, startdate, endDate, startPrice, endPrice} = query
-
         let queryString = ''
+        let acc = 1 
         for(let key in query) {
-            queryString += `${key}=${query[key]}` 
+            queryString += `${key}=${query[key]}`
+            if(acc < Object.keys(query).length) queryString += '&'
+            acc++
         }
-
+        
         return call(`${this.__url__}/items?${queryString}`, {
             method: 'GET',
             header: {
@@ -148,7 +149,7 @@ const auctionLiveApi = {
     
     retrieveItem(id) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true, optional: true}
+            { name: 'id', value: id, type: String, notEmpty: true, optional: true}
         ])
 
         return call(`${this.__url__}/items/${id}`, {
