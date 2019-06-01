@@ -5,11 +5,9 @@ import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import { randomUser } from '../../../common/test-utils';
-import { GUEST_ROLE, ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel } from '../../../models/user';
+import { GUEST_ROLE, ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel, USER_ROLE } from '../../../models/user';
 import { gCall } from '../../../utils/testing-utils/gqlCall';
-import { USER_ROLE } from './../../../models/user';
 import { expectError } from './../../../utils/testing-utils/error-handling';
-import sinon = require('sinon');
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

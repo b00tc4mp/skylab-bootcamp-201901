@@ -8,7 +8,6 @@ import { createTestProvider, deleteModels } from '../../../../common/test-utils'
 import { ACTIVE, PUBLIC, SessionModel } from '../../../../models/session';
 import { SessionTypeModel } from '../../../../models/session-type';
 import { gCall } from '../../../../utils/testing-utils/gqlCall';
-import { CreateSessionsInput } from './create-session-resolver';
 import { random } from './../../../../utils/random';
 
 chai.use(chaiAsPromised);

@@ -1,20 +1,37 @@
-// import { Field, ID, ObjectType } from 'type-graphql';
-// import { arrayProp, prop, Ref, Typegoose } from 'typegoose';
+// import { Field, ID, ObjectType, Root } from 'type-graphql';
+// import { arrayProp, prop, Ref, Typegoose, instanceMethod } from 'typegoose';
 // import { Attendance } from './attendance';
+// import { SessionType } from './session-type';
+
+// export const PAID = '01 - PAID'; // orders the precedence for subscriptions
+// export const OPEN = '02 - OPEN';
+// export const DELINQUENCY = '99 - DELINQUENCY';
+
+// export const SUBCRIPTIONPAYMENTTYPES = [PAID, OPEN, DELINQUENCY];
 
 // @ObjectType()
 // export class SessionsLimit extends Typegoose {
-//   @Field()
-//   @prop()
-//   type: string;
+//   @Field(returns => SessionType)
+//   @prop({ ref: SessionType, required: true })
+//   type: Ref<SessionType>;
 
 //   @Field()
 //   @prop()
 //   limit: number;
 
 //   @Field(() => Attendance)
-//   @arrayProp({ itemsRef: Attendance })
-//   attendance: Ref<Attendance>[];
+//   @arrayProp({ items: Attendance })
+//   attendances: Attendance[];
+
+//   @prop()
+//   get count() : number{
+//     return Attendance.count(this.attendances);
+//   }
+
+//   @prop()
+//   get used(): boolean {
+//     return Attendance.count(this.attendances) >= this.limit;
+//   }
 // }
 
 // @ObjectType()
@@ -23,26 +40,54 @@
 //   id: number;
 
 //   @Field()
-//   status: string;
+//   @prop({ required: true })
+//   title: string;
 
 //   @Field()
+//   @prop({ required: true, default: true })
+//   active: boolean;
+
+//   @Field()
+//   @prop({ required: true, enum: SUBCRIPTIONPAYMENTTYPES })
+//   paymentType: string;
+
+//   @Field()
+//   @prop({ required: true })
+//   paymentMethod: string;
+
+//   @Field()
+//   @prop()
 //   startDate: Date;
 
 //   @Field()
+//   @prop()
 //   endDate: Date;
+
+//   @Field()
+//   @prop()
+//   globalSessionLimit: number;
 
 //   @Field(() => SessionsLimit)
 //   @arrayProp({ items: SessionsLimit })
 //   sessionsLimit: SessionsLimit[];
-//   /*
 
-//   sessionsLimit: {
-//       "wod": {limit : 10, attendance: [Attendances]}
-//       "mobility": {limit : 2, attendance: [Attendances]}
+//   @prop()
+//   get countAttendances(): number {
+//     return this.sessionsLimit.reduce((acc, sl) => acc + Attendance.count(sl.attendances),0);
 //   }
-// */
+
+//   @prop()
+//   get used() : boolean{
+//     return this.countAttendances >= this.globalSessionLimit;
+//   }
+
+//   @Field()
+//   @prop()
+//   get isActive (): boolean {
+//     return (this.active && [PAID, OPEN].includes(this.paymentType))
+//   }
 // }
 
-// export const SubscriptionModel = new Subscription().getModelForClass(Subscription, {
-//   schemaOptions: { collection: 'suscriptions' },
-// });
+// // export const SubscriptionModel = new Subscription().getModelForClass(Subscription, {
+// //   schemaOptions: { collection: 'subscriptions' },
+// // });

@@ -7,7 +7,7 @@ import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../..
 import { STAFF_ROLE, User, UserModel, USER_ROLE } from '../../../models/user';
 import { gCall } from '../../../utils/testing-utils/gqlCall';
 import { Provider, ProviderModel } from './../../../models/provider';
-import { SUPERADMIN_ROLE } from './../../../models/user';
+import { SUPERADMIN_ROLE } from '../../../models/user';
 import faker = require('faker');
 
 chai.use(chaiAsPromised);

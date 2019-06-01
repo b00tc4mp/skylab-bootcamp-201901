@@ -1,6 +1,6 @@
-import { Types } from 'mongoose';
-import { Field, ID, ObjectType, Root } from 'type-graphql';
+import { Field, ID, ObjectType } from 'type-graphql';
 import { arrayProp, instanceMethod, prop, Ref, Typegoose } from 'typegoose';
+import { Attendance, AttendanceModel } from './attendance';
 import { Provider } from './provider';
 import { SessionType } from './session-type';
 import { User } from './user';
@@ -9,8 +9,9 @@ export const ACTIVE = 'ACTIVE';
 export const CANCELLED = 'CANCELLED';
 export const FINISHED = 'FINISHED';
 export const CLOSED = 'CLOSED';
+export const FULL = 'FULL';
 
-export const SESSIONSTATUS = [ACTIVE, CANCELLED, FINISHED, CLOSED];
+export const SESSIONSTATUS = [ACTIVE, CANCELLED, FINISHED, CLOSED, FULL];
 
 export const PUBLIC = 'PUBLIC';
 export const ONLY_REGISTERED = 'ONLY_REGISTERED';
@@ -37,10 +38,9 @@ export class Session extends Typegoose {
   @arrayProp({ itemsRef: User })
   coaches: Ref<User>[];
 
-  @Field()
-  @instanceMethod
-  date(@Root() parent: Session): Date {
-    const { startTime: time } = parent;
+  @prop()
+  get day(): Date {
+    const { startTime: time } = this;
     return new Date(time.getFullYear(), time.getMonth(), time.getDate());
   }
 
@@ -60,17 +60,44 @@ export class Session extends Typegoose {
   @prop({ ref: SessionType, required: true })
   type: Ref<SessionType>;
 
+  @Field(returns => [Attendance])
+  @arrayProp({ itemsRef: Attendance, required: false})
+  attendances: Ref<Attendance>[];
+
+  @instanceMethod
+  async countAttendances(): Promise<number> {
+    const atts: Attendance[] = [];
+    for (let attRef of this.attendances) {
+      const att = await AttendanceModel.findById(attRef);
+      atts.push(att!);
+    }
+    return Attendance.count(atts);
+  }
+
   @Field()
   @prop({ required: true, enum: SESSIONSTATUS })
   status: string;
 
   @Field()
+  @prop()
+  get availabilityStatus(): string {
+    if (this.isFull) return FULL;
+    else return this.status;
+  }
+
+  @Field(returns => Boolean)
+  @instanceMethod
+  async isFull(): Promise<boolean> {
+    const { attendances, maxAttendants } = this;
+    if (maxAttendants >= (await this.countAttendances())) {
+      return true;
+    }
+    return false;
+  }
+
+  @Field()
   @prop({ required: true, enum: SESSIONVISIBILITY })
   visibility: string;
-
-  // @Field(returns => Attendance)
-  // @arrayProp({ itemsRef: Attendance })
-  // attendance: Ref<Attendance>[];
 }
 
 export const SessionModel = new Session().getModelForClass(Session, {

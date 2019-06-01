@@ -7,7 +7,7 @@ import { ONLY_ADMINS_OF_PROVIDER, ONLY_SUPERADMIN } from '../graphql/middleware/
 export class Provider extends Typegoose {
   @Field(() => ID)
   id: number;
-  
+
   @Field()
   @prop({ required: true, trim: true })
   name: string;
@@ -26,11 +26,11 @@ export class Provider extends Typegoose {
 
   @prop({ default: '' })
   uploadedBanner: string;
-  
+
   @Field(() => String)
   @prop() // this will create a virtual property called 'fullName'
   get bannerImageUrl() {
-    return this.uploadedBanner || 'default' ;
+    return this.uploadedBanner || 'default';
   }
   set bannerImageUrl(img) {
     this.uploadedBanner = img;
@@ -38,11 +38,11 @@ export class Provider extends Typegoose {
 
   @prop({ default: '' })
   uploadedPortrait: string;
-  
+
   @Field(() => String)
   @prop() // this will create a virtual property called 'fullName'
   get portraitImageUrl() {
-    return this.uploadedPortrait || 'default' ;
+    return this.uploadedPortrait || 'default';
   }
   set portraitImageUrl(img) {
     this.uploadedPortrait = img;

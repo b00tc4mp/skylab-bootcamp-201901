@@ -64,5 +64,7 @@ describe('list all users', function() {
       .and.to.have.lengthOf(users.length + 1);
     expect(plainListAllUsers).to.deep.members(expectedAllUsers);
   });
+
+  it('should list the customers of a provider')
 });
 //

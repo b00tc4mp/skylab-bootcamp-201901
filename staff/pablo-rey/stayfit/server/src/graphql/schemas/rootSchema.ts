@@ -14,6 +14,8 @@ import { RetrieveUserResolver } from '../resolvers/users/retrieve-user-resolver'
 import { ListProvidersResolver } from './../resolvers/providers/list-providers-resolver';
 import { CreateSessionsResolver } from '../resolvers/sessions/create-session/create-session-resolver';
 import { CreateSessionsInput } from './../resolvers/sessions/create-session/create-session-resolver';
+import { ListSessionsByUserResolvers } from '../resolvers/sessions/list-sessions/list-sessions-by-user-resolvers';
+import { AttendSessionResolvers, AttendanceInput } from '../resolvers/sessions/attend-session/attend-session-resolvers';
 
 export async function createSchema() {
   return await buildSchema({
@@ -21,6 +23,9 @@ export async function createSchema() {
       CreateSessionTypeResolver,
       CreateSessionsResolver,
       CreateSessionsInput,
+      ListSessionsByUserResolvers,
+      AttendSessionResolvers,
+      AttendanceInput,
       LoginResolver,
       InvalidateCredentialsResolver,
       CreateUserResolver,

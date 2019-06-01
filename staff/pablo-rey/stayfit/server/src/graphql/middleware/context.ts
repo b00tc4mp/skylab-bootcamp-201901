@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import { refreshToken as refreshTokenFn, verifyAccessToken, verifyRefreshToken } from '../../common/token/refresh-tokens';
-import { UserModel } from './../../models/user';
+import { UserModel } from '../../models/user';
 
 export default async function({ req, res }: { req: Request; res: Response }) {
   const invalidAuth = { req, res, userId: null };

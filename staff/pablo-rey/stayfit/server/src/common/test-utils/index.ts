@@ -1,3 +1,4 @@
+import { AttendanceModel } from './../../models/attendance';
 import * as bcrypt from 'bcryptjs';
 import { expect } from 'chai';
 import * as faker from 'faker';
@@ -20,6 +21,7 @@ export async function deleteModels() {
   await ProviderModel.deleteMany({});
   await SessionModel.deleteMany({});
   await SessionTypeModel.deleteMany({});
+  await AttendanceModel.deleteMany({});
 }
 
 export function randomUser(_role?: string) {

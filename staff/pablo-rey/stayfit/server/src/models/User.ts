@@ -1,8 +1,6 @@
 import { Field, ID, ObjectType, Root } from 'type-graphql';
-import { prop, Typegoose, arrayProp, Ref, instanceMethod, staticMethod, InstanceType } from 'typegoose';
-import { isEmail } from 'validator';
-import { Provider, ProviderModel } from './provider';
-import { IsEmail } from 'class-validator';
+import { prop, Typegoose } from 'typegoose';
+import moment = require('moment');
 
 // Constants
 export const SUPERADMIN_ROLE = 'SUPERADMIN_ROLE';
@@ -42,13 +40,35 @@ export class User extends Typegoose {
   @prop({ required: true, default: GUEST_ROLE, enum: ROLES })
   role: string;
 
+  // // *+++++++++++++++++++++++++++++++++ Suscriptions not working yet
+  // @Field(returns => Subscription)
+  // @arrayProp({ itemsRef: Subscription })
+  // subscriptions:Subscription[];
+
+  // @instanceMethod
+  // activeSubscriptions(sessionType: SessionType, _date: Date = new Date()) {
+  //   const active: Subscription[] = [];
+  //   for (let sub of this.subscriptions) {
+  //     if (sub.active && moment(_date).isBetween(sub.startDate, sub.endDate) && !sub.used) {
+  //       const sl = sub.sessionsLimit.find(sl => sl.type === sessionType);
+  //       if (sl && !sl.used) active.push(sub);
+  //     }
+  //   }
+  //   return active.sort((a, b) => (a.paymentType > b.paymentType ? 1 : -1));
+  // }
+
+  // @instanceMethod
+  // attend(session: Session) {
+  //   const attendance =
+  // }
+
   @prop({ default: '' })
   uploadedBanner: string;
-  
+
   @Field(() => String)
   @prop() // this will create a virtual property called 'fullName'
-  get bannerImageUrl() {
-    return this.uploadedBanner || 'default' ;
+  get bannerImageUrl() : string {
+    return this.uploadedBanner || 'default';
   }
   set bannerImageUrl(img) {
     this.uploadedBanner = img;
@@ -56,11 +76,11 @@ export class User extends Typegoose {
 
   @prop({ default: '' })
   uploadedPortrait: string;
-  
+
   @Field(() => String)
-  @prop() // this will create a virtual property called 'fullName'
-  get portraitImageUrl() {
-    return this.uploadedPortrait || 'default' ;
+  @prop() // this will create a virtual property
+  get portraitImageUrl() : string {
+    return this.uploadedPortrait || 'default';
   }
   set portraitImageUrl(img) {
     this.uploadedPortrait = img;

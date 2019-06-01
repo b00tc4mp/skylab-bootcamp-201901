@@ -2,7 +2,7 @@ import { DocumentNode, graphql, GraphQLSchema } from 'graphql';
 import { print } from 'graphql/language/printer';
 import Maybe from 'graphql/tsutils/Maybe';
 import { createSchema } from '../../graphql/schemas/rootSchema';
-import { User } from './../../models/User';
+import { User } from '../../models/user';
 import sinon = require('sinon');
 import { MyContext } from './../../common/types/MyContext';
 

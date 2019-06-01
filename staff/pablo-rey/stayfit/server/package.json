@@ -8,7 +8,7 @@
     "dev": "ts-node-dev .",
     "reinstall": "rm -rf node_modules && npm install",
     "test": "mocha --require ts-node/register --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --watch",
-    "test:debug": "mocha --require ts-node/register --watch-extensions ts,tsx \"src/**/*.test.{ts,tsx}\" --watch --inspect",
+    "test:debug": "ts-mocha --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --watch --inspect",
     "test:coverage": "nyc --reporter=html --reporter=text  nyc ts-mocha 'src/**/*.test.{ts,tsx}'"
   },
   "author": "Pablo Javier Rey Sobral",
