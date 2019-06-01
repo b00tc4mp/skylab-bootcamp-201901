@@ -1,5 +1,5 @@
-import { User } from '../../models/user';
-import { MyContext } from '../types/MyContext';
+import { User } from '../../data/models/user';
+import { MyContext } from '../../logic/middleware/MyContext';
 import { sign, verify } from 'jsonwebtoken';
 
 const accessTokenDuration = 1000 * 60; // 15seconds //TODO: change

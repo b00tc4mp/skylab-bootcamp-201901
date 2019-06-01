@@ -1,9 +1,9 @@
 import * as bcrypt from 'bcryptjs';
-import { createSession } from '../graphql/resolvers/sessions/create-session/create-session-resolver';
-import { ACTIVE, PUBLIC } from '../models/session';
-import { STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../models/user';
-import { ProviderModel } from './../models/provider';
-import { SessionTypeModel } from './../models/session-type';
+import { createSession } from '../logic/resolvers/sessions/create-session/create-session-resolver';
+import { ACTIVE, PUBLIC } from './models/session';
+import { STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from './models/user';
+import { ProviderModel } from './models/provider';
+import { SessionTypeModel } from './models/session-type';
 import moment = require('moment');
 
 export async function cleanDb() {
