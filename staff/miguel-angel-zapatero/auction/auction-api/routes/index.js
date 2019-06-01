@@ -130,4 +130,20 @@ router.get('/items/:id', (req, res) => {
     }, res)
 })
 
+router.get('/cities', (req, res) => {
+    handleErrors(async () => {
+        const cities = await logic.retrieveCities()
+
+        return res.json(cities)
+    }, res)
+})
+
+router.get('/categories', (req, res) => {
+    handleErrors(async () => {
+        const categories = await logic.retrieveCategories()
+        
+        return res.json(categories)
+    }, res)
+})
+
 module.exports = router

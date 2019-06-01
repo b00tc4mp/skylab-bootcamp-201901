@@ -416,7 +416,7 @@ describe('logic', () => {
 
     describe('items', () => {
         let items, sDate, fDate
-        const cities = ['Japan', 'New York', 'Spain', 'London']
+        const cities = ['Japan', 'London', 'New York', 'Spain']
         const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
 
         beforeEach(async () => {
@@ -496,7 +496,7 @@ describe('logic', () => {
 
                 sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3)))
                 fDate.setDate(fDate.getDate() + (Math.floor(Math.random() * 5) + 3))
-                debugger
+                
                 let items_ = items.filter(item => (item.finishDate >= sDate && item.finishDate <= fDate))
 
                 startDate = sDate
@@ -561,6 +561,26 @@ describe('logic', () => {
                 expect(_item.city).toBe(item.city)
                 expect(_item.category).toBe(item.category)
                 expect(_item.images).toBeInstanceOf(Array)
+            })
+        })
+
+        describe('retrieve cities', () => {
+            it('should success and not repeat values', async() => {
+                const _cities = await logic.retrieveCities()
+
+                expect(_cities).toBeDefined()
+                expect(_cities).toBeInstanceOf(Array)
+                expect(_cities).toEqual(cities)
+            })
+        })
+
+        describe('retrieve categories', () => {
+            it('should success and not repeat values', async() => {
+                const _categories = await logic.retrieveCategories()
+
+                expect(_categories).toBeDefined()
+                expect(_categories).toBeInstanceOf(Array)
+                expect(_categories).toEqual(categories)
             })
         })
     })
@@ -637,7 +657,6 @@ describe('logic', () => {
                     await logic.placeBid(item.id, user.id, amount)
                     throw new Error('should not reach this point')
                 } catch (error) {
-                    debugger
                     expect(error).toBeDefined()
                     expect(error).toBeInstanceOf(LogicError)
     
