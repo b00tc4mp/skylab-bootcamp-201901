@@ -4,14 +4,14 @@ const argon2 = require ('argon2')
 const {  ValueError, RequirementError } = require('dashboard-errors')
 const restApi = require('.')
 const dotenv = require ('dotenv')
-const moment = require ('moment')
 const helper = require ('./helper')
-const momentRandom = require('moment-random')
+
 
 dotenv.config()
 
 //const { env: { MONGO_URL_LOGIC_TEST: url } } = process
-const url = 'mongodb://localhost/dashboard-api-client'
+const url = 'mongodb://localhost/dashboard-client-side-test'
+
 
 describe('rest api', ()=>{
     let email
@@ -292,7 +292,7 @@ describe('rest api', ()=>{
             it('should fail on blank password', () => {
                 const password = ' \t    \n'
                 
-                expect(() => restApi.registerUser(name, surname, email, password, profile, country)).to.throw(ValueError, 'password is empty')
+                expect(() => restApi.authenticateUser(email, password)).to.throw(ValueError, 'password is empty')
             })
 
 
@@ -525,41 +525,536 @@ describe('rest api', ()=>{
             })
 
         })
-        describe.only('calculate overdue', ()=>{
+        describe('calculate overdue', ()=>{
             let token, month='May'
             beforeEach(async ()=>{
                 await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
                 response = await restApi.authenticateUser(email, password)
                 token= response.token    
-                let _month= moment().month(month)
-                let start = moment(_month).startOf('month').format('YYYY-MM-DD')
-                let end =moment(_month).endOf('month').format('YYYY-MM-DD') 
-                let days = helper.diffBetweenDates(start,end)
-                let countries=['ES', 'PL', 'CO', 'MX', 'TR']
-                let issueType = ['HotFix', 'BugFix', 'Bug', 'Request']
-                let status = ['To Do', 'Done', 'Validation']
-                let resolution = ["Won't Fix", 'Done', 'Is not a bug']
-                let due 
-                due = moment(start).add(1, 'days').format('YYYY-MM-DD')
-                debugger
-                for (let i=0; i<days; i++){
-                    await Issue.create({
-                                key: `DOC-${i}`, 
-                                issueType: helper.randomHelper(issueType),
-                                country: helper.randomHelper(countries),
-                                createdDate: start, 
-                                dueDate : due,
-                                status: helper.randomHelper(status),
-                                resolutionType: helper.randomHelper(resolution),
-                                resolutionDate: momentRandom(end, start).format('YYYY-MM-DD')
-                            })
-                            start=moment(start).add(1, 'days').format('YYYY-MM-DD')
-                            due=moment(due).add(1, 'days').format('YYYY-MM-DD')
-                }
+                await helper.loadDataBase(month)
     
             })
-            it('algo', ()=>{
-                expect(true).to.be.true
+            it('shoul succeed on correct data', async ()=>{
+
+                await restApi.calculateOverdue(token)
+                const issues= await Issue.find()
+                issues.forEach(issue=> {
+                    expect(issue).to.have.property('overdue');
+                })
+                
+            })
+            it('should fail on incorrect format token', async ()=>{
+                const token='LL'
+                try{
+                    await restApi.calculateOverdue(token)
+                    throw Error('should not reach this point')
+    
+                }catch(error){
+                    expect(error).to.exist
+                }
+            })
+            it('should fail on inexistent token', async ()=>{
+                await User.deleteMany()
+                try{
+                    await restApi.calculateOverdue(token)
+                    throw Error('should not reach this point')
+    
+                }catch(error){
+                    expect(error).to.exist
+                }
+            })
+            it('should fail on undefined token', () => {
+                const token = undefined
+                
+                expect(() => restApi.calculateOverdue(token)).to.throw(RequirementError, `token is not optional`)
+            })
+            
+            it('should fail on null token', () => {
+                const token = null
+                
+                expect(() => restApi.calculateOverdue(token)).to.throw(RequirementError, `token is not optional`)
+            })
+            
+            it('should fail on empty token', () => {
+                const token = ''
+                
+                expect(() => restApi.calculateOverdue(token)).to.throw(ValueError, 'token is empty')
+            })
+            
+            it('should fail on blank token', () => {
+                const token = ' \t    \n'
+            
+                expect(() => restApi.calculateOverdue(token)).to.throw(ValueError, 'token is empty')
+            })
+
+        })
+        describe('clean issues', ()=>{
+            let token, month='May'
+            beforeEach(async ()=>{
+                await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                response = await restApi.authenticateUser(email, password)
+                token= response.token    
+                await helper.loadDataBase(month)
+            })
+            it('should clean issues collection', async ()=>{
+                await restApi.clearUp(token)
+                const collection = await Issue.estimatedDocumentCount()
+                expect(collection).is.equal(0)
+            })
+            it('should fail on incorrect format token', async ()=>{
+                const token='LL'
+                try{
+                    await restApi.clearUp(token)
+                    throw Error('should not reach this point')
+    
+                }catch(error){
+                    expect(error).to.exist
+                }
+            })
+            it('should fail on inexistent token', async ()=>{
+                await User.deleteMany()
+                try{
+                    await restApi.clearUp(token)
+                    throw Error('should not reach this point')
+    
+                }catch(error){
+                    expect(error).to.exist
+                }
+            })
+            it('should fail on undefined token', () => {
+                const token = undefined
+                
+                expect(() => restApi.clearUp(token)).to.throw(RequirementError, `token is not optional`)
+            })
+    
+            it('should fail on null token', () => {
+                const token = null
+                
+                expect(() => restApi.clearUp(token)).to.throw(RequirementError, `token is not optional`)
+            })
+    
+            it('should fail on empty token', () => {
+                const token = ''
+                
+                expect(() => restApi.clearUp(token)).to.throw(ValueError, 'token is empty')
+            })
+    
+            it('should fail on blank token', () => {
+                const token = ' \t    \n'
+                
+                expect(() => restApi.clearUp(token)).to.throw(ValueError, 'token is empty')
+            })
+
+        })
+        describe('issues by resolution',()=>{
+            let token, month='May'
+            const startDate = '2019-05-01'
+            const endDate = '2019-05-29'
+            beforeEach(async ()=>{
+                await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                response = await restApi.authenticateUser(email, password)
+                token= response.token    
+                await helper.loadDataBase(month)
+            })
+            it('should sucdeed on correct data', async ()=>{
+                
+                const response= await restApi.retrieveIssuesByResolution(token,'BugFix', 'PL', startDate, endDate)
+                expect(response).to.exist
+
+                let queryA= {$and:[{issueType: 'BugFix'},{country: 'PL'}, { createdDate: { $gte: startDate} }, { createdDate: { $lte: endDate} }, { resolutionType: 'Cannot Reproduce' }]}
+                let _issuesCanNotR = await Issue.find(queryA)
+                expect(response['Cannot Reproduce']).to.equal(_issuesCanNotR.length)
+
+                let queryB= {$and:[{issueType: 'BugFix'},{country: 'PL'}, { createdDate: { $gte: startDate} }, { createdDate: { $lte: endDate} }, { resolutionType: 'Done' }]}
+                let _issuesDone = await Issue.find(queryB)
+                expect(response['Done']).to.equal(_issuesDone.length)
+
+
+                let queryC= {$and:[{issueType: 'BugFix'},{country: 'PL'}, { createdDate: { $gte: startDate} }, { createdDate: { $lte: endDate} }, { resolutionType: 'Duplicate' }]}
+                let _issuesDuplicate = await Issue.find(queryC)
+                expect(response['Duplicate']).to.equal(_issuesDuplicate.length)
+
+                let queryD= {$and:[{issueType: 'BugFix'},{country: 'PL'}, { createdDate: { $gte: startDate} }, { createdDate: { $lte: endDate} }, { resolutionType: 'Incomplete' }]}
+                let _issuesIncomplete = await Issue.find(queryD)
+                expect(response['Incomplete']).to.equal(_issuesIncomplete.length)
+
+                let queryE= {$and:[{issueType: 'BugFix'},{country: 'PL'}, { createdDate: { $gte: startDate} }, { createdDate: { $lte: endDate} }, { resolutionType: 'Is not a Bug' }]}
+                let _issuesIsNot = await Issue.find(queryE)
+                expect(response['Is not a Bug']).to.equal(_issuesIsNot.length)
+
+                let queryF= {$and:[{issueType: 'BugFix'},{country: 'PL'}, { createdDate: { $gte: startDate} }, { createdDate: { $lte: endDate} }, { resolutionType: "Won't Fix" }]}
+                let _issuesWontFix = await Issue.find(queryF)
+                expect(response['Won\'t Fix']).to.equal(_issuesWontFix.length)
+
+            })
+            it('should fail on incorrect range of date', async ()=>{
+                const startDate = '2019-05-02'
+                const endDate = '2019-05-01'
+                try{
+                    await restApi.retrieveIssuesByResolution(token,'Request', 'IT', startDate, endDate)
+                    throw Error('should not reach this point')
+                }catch(error){
+                    expect(error).to.exist
+                }
+            })
+            it('should fail on null issueType', () => {
+                const issueType = null
+                
+                expect(() => restApi.retrieveIssuesByResolution(token, issueType, 'IT', startDate, endDate)).to.throw(RequirementError, `issueType is not optional`)
+            })
+            
+            it('should fail on empty issueType', () => {
+                const issueType = ''
+                
+                expect(() => restApi.retrieveIssuesByResolution(token, issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
+            })
+            
+            it('should fail on blank issueType', () => {
+                const issueType = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesByResolution(token, issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
+            })
+    
+            it('should fail on undefined country', () => {
+                const country = undefined
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
+            })
+            
+            it('should fail on null issueType', () => {
+                const country = null
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
+            })
+            
+            it('should fail on empty country', () => {
+                const country = ''
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+            })
+            
+            it('should fail on blank country', () => {
+                const country = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+            })
+    
+            it('should fail on undefined startDate', () => {
+                const startDate = undefined
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+            })
+            
+            it('should fail on null startDate', () => {
+                const startDate = null
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+            })
+            
+            it('should fail on empty startDate', () => {
+                const startDate = ''
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+            })
+            
+            it('should fail on blank startDate', () => {
+                const startDate = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+            })
+    
+            it('should fail on undefined endDate', () => {
+                const endDate = undefined
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+            })
+            
+            it('should fail on null endDate', () => {
+                const endDate = null
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+            })
+            
+            it('should fail on empty endDate', () => {
+                const endDate = ''
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+            })
+            
+            it('should fail on blank endDate', () => {
+                const endDate = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+            })
+
+            it('should fail on undefined token', () => {
+                const token = undefined
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `token is not optional`)
+            })
+            
+            it('should fail on null token', () => {
+                const token = null
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `token is not optional`)
+            })
+            
+            it('should fail on empty token', () => {
+                const token = ''
+                
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'token is empty')
+            })
+            
+            it('should fail on blank token', () => {
+                const token = ' \t    \n'
+            
+                expect(() => restApi.retrieveIssuesByResolution(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'token is empty')
+            })
+
+
+        })
+        describe('issues by SLA', ()=>{
+            let token, month='May'
+            const startDate = '2019-05-01'
+            const endDate = '2019-05-28'
+            beforeEach(async ()=>{
+                await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                response = await restApi.authenticateUser(email, password)
+                token= response.token    
+                await helper.loadDataBase(month)
+                await helper.setOverdue()
+            })
+            it('should succeed on correct data', async ()=>{
+                const response = await restApi.retrieveIssuesBySLA(token, 'Bug', 'IT', startDate, endDate)
+                expect(response).to.exist
+                response.forEach(e=> {
+                    expect(e).to.have.property('created')
+                    expect(e).to.have.property('overdue')
+                    expect(e).to.have.property('ontime')
+                    expect(e).to.have.property('total')
+                })
+
+            })
+            it('should fail on null issueType', () => {
+                const issueType = null
+                
+                expect(() => restApi.retrieveIssuesBySLA(token, issueType, 'IT', startDate, endDate)).to.throw(RequirementError, `issueType is not optional`)
+            })
+            
+            it('should fail on empty issueType', () => {
+                const issueType = ''
+                
+                expect(() => restApi.retrieveIssuesBySLA(token, issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
+            })
+            
+            it('should fail on blank issueType', () => {
+                const issueType = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesBySLA(token, issueType, 'IT', startDate, endDate)).to.throw(ValueError, 'issueType is empty')
+            })
+    
+            it('should fail on undefined country', () => {
+                const country = undefined
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
+            })
+            
+            it('should fail on null issueType', () => {
+                const country = null
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', country , startDate, endDate)).to.throw(RequirementError, `country is not optional`)
+            })
+            
+            it('should fail on empty country', () => {
+                const country = ''
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+            })
+            
+            it('should fail on blank country', () => {
+                const country = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+            })
+    
+            it('should fail on undefined startDate', () => {
+                const startDate = undefined
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+            })
+            
+            it('should fail on null startDate', () => {
+                const startDate = null
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+            })
+            
+            it('should fail on empty startDate', () => {
+                const startDate = ''
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+            })
+            
+            it('should fail on blank startDate', () => {
+                const startDate = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+            })
+    
+            it('should fail on undefined endDate', () => {
+                const endDate = undefined
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+            })
+            
+            it('should fail on null endDate', () => {
+                const endDate = null
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+            })
+            
+            it('should fail on empty endDate', () => {
+                const endDate = ''
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+            })
+            
+            it('should fail on blank endDate', () => {
+                const endDate = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+            })
+
+            it('should fail on undefined token', () => {
+                const token = undefined
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `token is not optional`)
+            })
+            
+            it('should fail on null token', () => {
+                const token = null
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `token is not optional`)
+            })
+            
+            it('should fail on empty token', () => {
+                const token = ''
+                
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'token is empty')
+            })
+            
+            it('should fail on blank token', () => {
+                const token = ' \t    \n'
+            
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'token is empty')
+            })
+
+
+
+        })
+        describe('issues for table', ()=>{
+            let token, month='May'
+            const startDate = '2019-05-01'
+            const endDate = '2019-05-28'
+            beforeEach(async ()=>{
+                await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                response = await restApi.authenticateUser(email, password)
+                token= response.token    
+                await helper.loadDataBase(month)
+                await helper.setOverdue()
+            })
+            it('should succeed on correct data', async ()=>{
+                const response = await restApi.retrieveIssuesByTable(token, 'IT', startDate, endDate)
+                expect(response).to.exist
+                expect(response[0].issueType).to.equal('HotFix')
+                expect(response[1].issueType).to.equal('BugFix')
+                expect(response[2].issueType).to.equal('Bug')
+                expect(response[3].issueType).to.equal('Request')
+
+                
+            })
+            it('should fail on empty country', () => {
+                const country = ''
+                
+                expect(() => restApi.retrieveIssuesByTable(token, country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+            })
+            
+            it('should fail on blank country', () => {
+                const country = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesByTable(token, country , startDate, endDate)).to.throw(ValueError, 'country is empty')
+            })
+    
+            it('should fail on undefined startDate', () => {
+                const startDate = undefined
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+            })
+            
+            it('should fail on null startDate', () => {
+                const startDate = null
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+            })
+            
+            it('should fail on empty startDate', () => {
+                const startDate = ''
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+            })
+            
+            it('should fail on blank startDate', () => {
+                const startDate = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+            })
+    
+            it('should fail on undefined endDate', () => {
+                const endDate = undefined
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+            })
+            
+            it('should fail on null endDate', () => {
+                const endDate = null
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+            })
+            
+            it('should fail on empty endDate', () => {
+                const endDate = ''
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+            })
+            
+            it('should fail on blank endDate', () => {
+                const endDate = ' \t    \n'
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+            })
+
+            it('should fail on undefined token', () => {
+                const token = undefined
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(RequirementError, `token is not optional`)
+            })
+            
+            it('should fail on null token', () => {
+                const token = null
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(RequirementError, `token is not optional`)
+            })
+            
+            it('should fail on empty token', () => {
+                const token = ''
+                
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(ValueError, 'token is empty')
+            })
+            
+            it('should fail on blank token', () => {
+                const token = ' \t    \n'
+            
+                expect(() => restApi.retrieveIssuesByTable(token, 'IT' , startDate, endDate)).to.throw(ValueError, 'token is empty')
             })
 
         })

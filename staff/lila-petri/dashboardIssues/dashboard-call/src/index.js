@@ -35,7 +35,7 @@ function call(url, options = {}) {
 
         } catch (error) {
             if (error.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')
-
+            debugger
             const { response } = error
 
             if (response && response.status) {

@@ -4,12 +4,13 @@
   "description": "dashboard-api",
   "main": "index.js",
   "scripts": {
-    "test": "npx mocha --timeout 300000",
-    "test:debug": "npx mocha debug ",
-    "test:coverage": "npx  nyc --reporter=text --reporter=html mocha ./**/*.test.js --timeout 300000",
+    
     "start": "node .",
     "watch": "nodemon .",
-    "debug": "node debug ."
+    "debug": "node debug .",
+    "test": "npx mocha",
+    "test:debug": "npx mocha debug ",
+    "test:coverage": "npx  nyc --reporter=text --reporter=html mocha ./**/*.test.js"
   },
   "author": "Lila Petri",
   "license": "ISC",

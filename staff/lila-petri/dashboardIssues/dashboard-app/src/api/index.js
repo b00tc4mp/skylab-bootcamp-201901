@@ -20,7 +20,7 @@ const restApi = {
         ])
 
         validate.email(email)
-
+        debugger
         return call(`${this.__url__}/users`, {
             method: 'POST',
             headers: {
@@ -87,9 +87,67 @@ const restApi = {
             { name: 'month', value: month, type: 'string', notEmpty: true}
         ])
         return call(`${this.__url__}/issues/load?month=${month}`, {
+            method: 'POST',
             headers: { Authorization: `Bearer ${token}` }
         })
-
+    },
+    calculateOverdue(token){
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true}
+        ])
+        debugger
+        return call(`${this.__url__}/issues/overdue`, {
+            method: 'PUT',
+            headers: {Authorization: `Bearer ${token}`}
+        })
+    },
+    clearUp(token){
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true}
+        ])
+        return call(`${this.__url__}/issues/cleanup`, {
+            method: 'PUT',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+    },
+    retrieveIssuesByResolution(token, issueType, country, startDate, endDate){
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true},
+            { name: 'issueType', value: issueType, type: 'string', notEmpty: true},
+            { name: 'country', value: country, type: 'string', notEmpty: true},
+            { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
+            { name: 'endDate', value: endDate, type: 'string', notEmpty: true}
+        ])
+        return call(`${this.__url__}/issues/resolution?issueType=${issueType}&country=${country}&startDate=${startDate}&endDate=${endDate}`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+    },
+    retrieveIssuesBySLA(token, issueType, country, startDate, endDate){
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true},
+            { name: 'issueType', value: issueType, type: 'string', notEmpty: true},
+            { name: 'country', value: country, type: 'string', notEmpty: true},
+            { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
+            { name: 'endDate', value: endDate, type: 'string', notEmpty: true}
+        ])
+        return call(`${this.__url__}/issues/sla?issueType=${issueType}&country=${country}&startDate=${startDate}&endDate=${endDate}`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+    },
+    retrieveIssuesByTable(token, country, startDate, endDate){
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true},
+            { name: 'country', value: country, type: 'string', notEmpty: true},
+            { name: 'startDate', value: startDate, type: 'string', notEmpty: true},
+            { name: 'endDate', value: endDate, type: 'string', notEmpty: true}
+        ])
+        return call(`${this.__url__}/issues/table?country=${country}&startDate=${startDate}&endDate=${endDate}`, {
+            method: 'GET',
+            headers: { Authorization: `Bearer ${token}` }
+        })
     }
+
 }
 module.exports = restApi
