@@ -7,7 +7,7 @@ const argon2 = require('argon2')
 
 dotenv.config()
 
-const { User, Customer, ElectronicControlModule, Product, Note } = models
+const { User, Customer, ElectronicModule, Product, Note } = models
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 
 describe('logic', () => {
@@ -593,7 +593,7 @@ describe('logic', () => {
         
             })
 
-            it('should succeed on correct data with non-optional items to undefined', async () => {
+            it('should succeed on correct data with optional items to undefined', async () => {
                 await Customer.deleteMany()
                 surname = undefined
                 phone = undefined
@@ -618,7 +618,7 @@ describe('logic', () => {
         
             })
 
-            it('should succeed on correct data with non-optional items to null', async () => {
+            it('should succeed on correct data with optional items to null', async () => {
                 await Customer.deleteMany()
                 surname = null
                 phone = null
@@ -717,6 +717,18 @@ describe('logic', () => {
                 address = ' \t    \n'
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'address is empty')
+            })
+
+            it('should fail on undefined nid', () => {
+                nid = undefined
+
+                expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(RequirementError, `nid is not optional`)
+            })
+
+            it('should fail on null nid', () => {
+                nid = null
+
+                expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(RequirementError, `nid is not optional`)
             })
 
             it('should fail on empty nid', () => {
@@ -1364,7 +1376,9 @@ describe('logic', () => {
     })
 
     describe('electronic module control', () => {
+        let orderNumber, brand, model, cylinders, transmission, year, engine, device, serial, fail, owner, status
 
+        const statusList = ['RECEIVED', 'REVIEWED', 'BUDGETED', 'APPROVED', 'REPAIRED', 'TO-COLLECT', 'DELIVERED', 'COLLECTED']
         beforeEach(async () => {
             await Customer.deleteMany()
 
@@ -1376,11 +1390,852 @@ describe('logic', () => {
             email = `email-${Math.random()}@mail.com`
             
             await Customer.create({ name, surname, phone, address, nid, email })
+            const customer = await Customer.findOne()
 
+            orderNumber = `orderNumber-${Math.random()}`
+            brand = `brand-${Math.random()}`
+            model = `model-${Math.random()}`
+            cylinders = `cylinders-${Math.random()}`
+            transmission = `transmission-${Math.random()}`
+            year = `year-${Math.random()}`
+            engine = `engine-${Math.random()}`
+            device = `device-${Math.random()}`
+            serial = `serial-${Math.random()}`
+            fail = `fail-${Math.random()}`
+            owner = customer.id
+            status = statusList[Math.floor(Math.random()*statusList.length)]
+
+            await ElectronicModule.create({
+                orderNumber,
+                brand,
+                model,
+                cylinders,
+                transmission,
+                year,
+                engine,
+                device,
+                serial,
+                fail,
+                owner,
+                status
+            })
 
         })
         
-        describe()
+        describe('register electronic control module', () => {
+
+            it('should succeed on correct data', async () => {
+                await ElectronicModule.deleteMany()
+                const res = await logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)
+    
+                expect(res).to.be.undefined
+    
+                const electronicModules = await ElectronicModule.find()
+    
+                expect(electronicModules).to.exist
+                expect(electronicModules).to.have.lengthOf(1)
+    
+                const [electronicModule] = electronicModules
+    
+                expect(electronicModule.orderNumber).to.equal(orderNumber)
+                expect(electronicModule.brand).to.equal(brand)
+                expect(electronicModule.model).to.equal(model)
+                expect(electronicModule.cylinders).to.equal(cylinders)
+                expect(electronicModule.transmission).to.equal(transmission)
+                expect(electronicModule.year).to.equal(year)
+                expect(electronicModule.engine).to.equal(engine)
+                expect(electronicModule.device).to.equal(device)
+                expect(electronicModule.serial).to.equal(serial)
+                expect(electronicModule.fail).to.equal(fail)
+                expect(electronicModule.owner.toString()).to.equal(owner)
+                expect(electronicModule.status).to.equal(status)
+        
+            })
+
+            it('should succeed on correct data with optional items to undefined', async () => {
+                await ElectronicModule.deleteMany()
+                brand = undefined
+                model = undefined
+                cylinders = undefined
+                transmission = undefined
+                year = undefined
+                engine = undefined
+                serial = undefined
+                fail = undefined
+
+                const res = await logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)
+    
+                expect(res).to.be.undefined
+    
+                const electronicModules = await ElectronicModule.find()
+    
+                expect(electronicModules).to.exist
+                expect(electronicModules).to.have.lengthOf(1)
+    
+                const [electronicModule] = electronicModules
+
+                expect(electronicModule.orderNumber).to.equal(orderNumber)
+                expect(electronicModule.brand).to.not.exist
+                expect(electronicModule.model).to.not.exist
+                expect(electronicModule.cylinders).to.not.exist
+                expect(electronicModule.transmission).to.not.exist
+                expect(electronicModule.year).to.not.exist
+                expect(electronicModule.engine).to.not.exist
+                expect(electronicModule.device).to.equal(device)
+                expect(electronicModule.serial).to.not.exist
+                expect(electronicModule.fail).to.not.exist
+                expect(electronicModule.owner.toString()).to.equal(owner)
+                expect(electronicModule.status).to.equal(status)
+        
+            })
+
+            it('should succeed on correct data with optional items to null', async () => {
+                await ElectronicModule.deleteMany()
+                brand = null
+                model = null
+                cylinders = null
+                transmission = null
+                year = null
+                engine = null
+                serial = null
+                fail = null
+
+                const res = await logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)
+    
+                expect(res).to.be.undefined
+    
+                const electronicModules = await ElectronicModule.find()
+    
+                expect(electronicModules).to.exist
+                expect(electronicModules).to.have.lengthOf(1)
+    
+                const [electronicModule] = electronicModules
+
+                expect(electronicModule.orderNumber).to.equal(orderNumber)
+                expect(electronicModule.brand).to.not.exist
+                expect(electronicModule.model).to.not.exist
+                expect(electronicModule.cylinders).to.not.exist
+                expect(electronicModule.transmission).to.not.exist
+                expect(electronicModule.year).to.not.exist
+                expect(electronicModule.engine).to.not.exist
+                expect(electronicModule.device).to.equal(device)
+                expect(electronicModule.serial).to.not.exist
+                expect(electronicModule.fail).to.not.exist
+                expect(electronicModule.owner.toString()).to.equal(owner)
+                expect(electronicModule.status).to.equal(status)
+        
+            })
+
+            it('should fail when retrying to register on already existing customer', async () => {
+                
+                try {
+                    await logic.registerElectronicModule(
+                        orderNumber,
+                        brand,
+                        model,
+                        cylinders,
+                        transmission,
+                        year,
+                        engine,
+                        device,
+                        serial,
+                        fail,
+                        owner,
+                        status)
+
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.instanceof(LogicError)
+
+                    expect(error.message).to.equal(`electronicModule with orderNumber "${orderNumber}" already exists`)
+                }
+            })
+
+            it('should fail on undefined orderNumber', () => {
+                orderNumber = undefined
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(RequirementError, `orderNumber is not optional`)
+            })
+
+            it('should fail on null orderNumber', () => {
+                orderNumber = null
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(RequirementError, `orderNumber is not optional`)
+            })
+
+            it('should fail on empty orderNumber', () => {
+                orderNumber = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'orderNumber is empty')
+            })
+
+            it('should fail on blank orderNumber', () => {
+                orderNumber = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'orderNumber is empty')
+            })
+
+            it('should fail on empty brand', () => {
+                brand = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'brand is empty')
+            })
+
+            it('should fail on blank brand', () => {
+                brand = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'brand is empty')
+            })
+
+            it('should fail on empty model', () => {
+                model = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'model is empty')
+            })
+
+            it('should fail on blank model', () => {
+                model = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'model is empty')
+            })
+
+            it('should fail on empty cylinders', () => {
+                cylinders = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'cylinders is empty')
+            })
+
+            it('should fail on blank cylinders', () => {
+                cylinders = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'cylinders is empty')
+            })
+
+            it('should fail on empty transmission', () => {
+                transmission = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'transmission is empty')
+            })
+
+            it('should fail on blank transmission', () => {
+                transmission = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'transmission is empty')
+            })
+
+            it('should fail on empty year', () => {
+                year = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'year is empty')
+            })
+
+            it('should fail on blank year', () => {
+                year = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'year is empty')
+            })
+
+            it('should fail on empty engine', () => {
+                engine = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'engine is empty')
+            })
+
+            it('should fail on blank engine', () => {
+                engine = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'engine is empty')
+            })
+
+            it('should fail on undefined device', () => {
+                device = undefined
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(RequirementError, `device is not optional`)
+            })
+
+            it('should fail on null device', () => {
+                device = null
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(RequirementError, `device is not optional`)
+            })
+
+            it('should fail on empty device', () => {
+                device = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'device is empty')
+            })
+
+            it('should fail on blank device', () => {
+                device = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'device is empty')
+            })
+
+            it('should fail on empty serial', () => {
+                serial = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'serial is empty')
+            })
+
+            it('should fail on blank serial', () => {
+                serial = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'serial is empty')
+            })
+
+            it('should fail on empty fail', () => {
+                fail = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'fail is empty')
+            })
+
+            it('should fail on blank fail', () => {
+                fail = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'fail is empty')
+            })
+
+            it('should fail on non-matching owner id', async () => {
+                id = '123456789012345678901234'
+                try {
+                await ElectronicModule.deleteMany()
+                await logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner = id,
+                    status)
+
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.instanceOf(LogicError)
+
+                    expect(error.message).to.equal(`customer with id "${id}" does not exist`)
+                }
+            })
+
+            it('should fail on non-24 characters owner id', async () => {
+                id = '12345678901234567890123'
+                try {
+                    await logic.registerElectronicModule(
+                        orderNumber,
+                        brand,
+                        model,
+                        cylinders,
+                        transmission,
+                        year,
+                        engine,
+                        device,
+                        serial,
+                        fail,
+                        owner = id,
+                        status)
+
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.instanceOf(FormatError)
+
+                    expect(error.message).to.equal(`${id} is not a valid id`)
+                }
+            })
+
+            it('should fail on undefined owner', () => {
+                owner = undefined
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(RequirementError, `owner is not optional`)
+            })
+
+            it('should fail on null owner', () => {
+                owner = null
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(RequirementError, `owner is not optional`)
+            })
+
+            it('should fail on empty owner', () => {
+                owner = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'owner is empty')
+            })
+
+            it('should fail on blank owner', () => {
+                owner = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'owner is empty')
+            })
+
+            it('should fail on undefined status', () => {
+                status = undefined
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(RequirementError, `status is not optional`)
+            })
+
+            it('should fail on null status', () => {
+                status = null
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(RequirementError, `status is not optional`)
+            })
+
+            it('should fail on empty status', () => {
+                status = ''
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'status is empty')
+            })
+
+            it('should fail on blank status', () => {
+                status = ' \t    \n'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(ValueError, 'status is empty')
+            })
+
+            it('should fail on non-status status', () => {
+                const nonStatus = 'non-status'
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    nonStatus)).to.throw(LogicError, `${nonStatus} is not a valid option for status`)
+
+            })
+        })
     })
 
     after(() => mongoose.disconnect())

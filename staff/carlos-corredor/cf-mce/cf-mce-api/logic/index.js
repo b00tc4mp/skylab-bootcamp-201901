@@ -3,7 +3,7 @@ const { models} = require('cf-mce-data')
 const { validate, errors: {LogicError, UnauthorizedError, ValueError}  } = require('cf-mce-common')
 const argon2 = require('argon2')
 
-const { User, Customer, ElectronicControlModule, Product, Note } = models
+const { User, Customer, ElectronicModule, Product, Note } = models
 
 const logic = {
     
@@ -110,7 +110,7 @@ const logic = {
         })()
     },
 
-    retrieveCustomer(id) {
+    retrieveCustomer(id) { // El retrieve se realiza por id y no por nid porque se hace a partir del vínculo con un electronicModule que tiene al id del customer linkado.
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
@@ -221,7 +221,61 @@ const logic = {
                 await customer.save()
             }
         })()
-    }
+    },
+
+    registerElectronicModule(
+        orderNumber,
+        brand,
+        model,
+        cylinders,
+        transmission,
+        year,
+        engine,
+        device,
+        serial,
+        fail,
+        owner,
+        status) {
+        validate.arguments([
+            { name: 'orderNumber', value: orderNumber, type: 'string', notEmpty: true },
+            { name: 'brand', value: brand, type: 'string', notEmpty: true, optional: true },
+            { name: 'model', value: model, type: 'string', notEmpty: true, optional: true },
+            { name: 'cylinders', value: cylinders, type: 'string', notEmpty: true, optional: true },
+            { name: 'transmission', value: transmission, type: 'string', notEmpty: true, optional: true },
+            { name: 'year', value: year, type: 'string', notEmpty: true, optional: true },
+            { name: 'engine', value: engine, type: 'string', notEmpty: true, optional: true },
+            { name: 'device', value: device, type: 'string', notEmpty: true },
+            { name: 'serial', value: serial, type: 'string', notEmpty: true, optional: true },
+            { name: 'fail', value: fail, type: 'string', notEmpty: true, optional: true },
+            { name: 'owner', value: owner, type: 'string', notEmpty: true },
+            { name: 'status', value: status, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(owner)
+        validate.status(status)
+
+        return (async () => {
+            const electronicModule = await ElectronicModule.findOne({orderNumber}).lean()
+            if (electronicModule) throw new LogicError(`electronicModule with orderNumber "${orderNumber}" already exists`)
+
+            const customer = await Customer.findById(owner)
+            if(!customer) throw new LogicError(`customer with id "${owner}" does not exist`)
+
+            await ElectronicModule.create({
+                orderNumber,
+                brand,
+                model,
+                cylinders,
+                transmission,
+                year,
+                engine,
+                device,
+                serial,
+                fail,
+                owner,
+                status
+            })
+        })()
+    },
 }
 
 module.exports = logic

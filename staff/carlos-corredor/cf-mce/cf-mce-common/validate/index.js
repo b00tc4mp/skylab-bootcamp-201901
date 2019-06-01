@@ -34,7 +34,12 @@ const validate = {
 
     idMongodb(id) {
         if(id.length !== 24 ) throw new FormatError(`${id} is not a valid id`)
-    }
+    },
+
+    status(status) {
+        const statusList = ['RECEIVED', 'REVIEWED', 'BUDGETED', 'APPROVED', 'REPAIRED', 'TO-COLLECT', 'DELIVERED', 'COLLECTED']
+        if(statusList.indexOf(status) < 0) throw new LogicError(`${status} is not a valid option for status`)
+    },
 
 }
 
