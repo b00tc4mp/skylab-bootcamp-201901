@@ -3,13 +3,13 @@ require('dotenv').config()
 const photopinApi = require('.')
 const expect = require('chai').expect
 const bcrypt = require('bcrypt')
-const { LogicError, RequirementError, ValueError } = require ('photopin-errors')
+const { RequirementError, ValueError } = require ('photopin-errors')
 const { mongoose, models : { User, PMap, Pin } } = require('photopin-data')
 
 //const { env: { MONGODB_URL_API_LOGIC_TEST : url } } = process
 const url = 'mongodb://localhost/photopin-front-test'
 
-describe('logic', () => {
+describe('photopin-api', () => {
     before(async () => {
         try {
             await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false })
@@ -63,18 +63,15 @@ describe('logic', () => {
                     await photopinApi.registerUser(name, surname, email, password)
                     throw Error('should not reach this point')
                 } catch (error) {
-                    expect(error).to.be.instanceOf(LogicError)
-                    expect(error.message).to.equal(`user with email ${email} already exists`)
+                    expect(error).to.exist
                 }
             })
             
             it('should fail on undefined email', () => {
-    
                 expect(() => photopinApi.registerUser(name, surname, undefined, password)).to.throw(RequirementError, `email is not optional`)
             })
     
             it('should fail on null email', () => {
-    
                 expect(() => photopinApi.registerUser(name, surname, null, password)).to.throw(RequirementError, `email is not optional`)
             })
     
@@ -88,7 +85,6 @@ describe('logic', () => {
 
             //TODO resto de casos síncronos de variables obligatorias (name, surname, password)
 
-
         })
 
         describe('authenticate user', () => {
@@ -97,12 +93,9 @@ describe('logic', () => {
             beforeEach(async () => user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 10) }))
 
             it('should succeed on correct credentials', async () => {
-            
-                const id = await photopinApi.authenticateUser(email, password)
-
-                expect(id).to.exist
-                expect(id).to.be.a('string')
-                expect(id).to.equal(user.id)
+                const res = await photopinApi.authenticateUser(email, password)
+                expect(res.token).to.exist
+                expect(res.token).to.be.a('string')
             })
 
             it('should fail on non-existing user',async () => {
@@ -111,8 +104,7 @@ describe('logic', () => {
                     await photopinApi.authenticateUser(_email, password)
                     throw Error('should not reach this point')
                 } catch (error) {
-                    expect(error).to.be.instanceOf(LogicError)
-                    expect(error.message).to.equal(`user with email ${_email} doesn't exists`)
+                    expect(error).to.exist
                 }
             })
             
@@ -121,47 +113,50 @@ describe('logic', () => {
                     await photopinApi.authenticateUser(email, 'incorrect password')
                     throw Error('should not reach this point')
                 } catch (error) {
-                    expect(error).to.be.instanceOf(LogicError)
-                    expect(error.message).to.equal(`wrong credentials`)
+                    expect(error).to.exist
                 }
             })
 
         })
 
         describe('retrieve user', () => {
-            let user
+            let user, token
 
-            beforeEach(async () => user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 10) }))
+            beforeEach(async () => {
+                user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 10) })
+                const res = await photopinApi.authenticateUser(email, password)
+                token = res.token
+            })
 
-            it('should succeed on correct id from existing user', async () => {
-                const _user = await photopinApi.retrieveUser(user.id)
+            it('should succeed on correct authenticate user', async () => {
+                const _user = await photopinApi.retrieveUser(token)
 
                 expect(_user.id).to.be.undefined
                 expect(_user.name).to.equal(name)
                 expect(_user.surname).to.equal(surname)
                 expect(_user.email).to.equal(email)
-
                 expect(_user.password).to.be.undefined
             })
 
-            it('should fail on incorrect user id', async() => {
-                const wrongId = '342452654635'
+            it('should fail on incorrect token', async() => {
+                const wrongtoken = '342452654635'
                 try {
-                    await photopinApi.retrieveUser(wrongId)
+                    await photopinApi.retrieveUser(wrongtoken)
                     throw Error('should not reach this point')
                 } catch (error) {
-                    expect(error).to.be.instanceOf(LogicError)
-                    expect(error.message).to.equal(`user with id ${wrongId} doesn't exists`)
+                    expect(error).to.exist
                 }
             })
 
         })
 
         describe('update user' , () => {
-            let user, _name, _surname, _email, _avatar, _language, userUp, userId
+            let user, _name, _surname, _email, _avatar, _language, userUp, userId, token
 
             beforeEach(async () => {
                 user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 10) })
+                const res = await photopinApi.authenticateUser(email, password)
+                token = res.token
                 userId = user.id
                 _name = user.name + '-MOD'
                 _surname = user.surname + '-MOD'
@@ -171,11 +166,11 @@ describe('logic', () => {
                 userUp = { name: _name, surname: _surname, email: _email, avatar: _avatar, language: _language }
             }) 
 
-            it('should succeed on correct data', async () => {
+            it('should succeed on correct credentials', async () => {
 
-                await photopinApi.updateUser(userId, userUp)
+                await photopinApi.updateUser(token, userUp)
                 
-                const userMod = photopinApi.retrieveUser(userId)
+                const userMod = photopinApi.retrieveUser(token)
                 
                 expect(userMod.name).to.equal(userUp._name)
                 expect(userMod.surname).to.equal(userUp._surname)
@@ -186,38 +181,36 @@ describe('logic', () => {
 
             })
 
-            it('should fail on incorrect id user', async () => {
+            it('should fail on a not athenticate user', async () => {
 
-                const wrongId = '342452654635'
+                const _token = '342452654635'
 
                 try {
-                    await photopinApi.updateUser(wrongId, userUp)
+                    await photopinApi.updateUser(_token, userUp)
                     throw Error('should not reach this point')
                 } catch (error) {
-                    
-                    expect(error).to.be.instanceOf(LogicError)
-                    expect(error.message).to.equal(`user with id ${wrongId} doesn't exists`)
+                    expect(error).to.exist
                 }
             })
 
             it('should fail on undefined id', () => {
-                expect(() => photopinApi.updateUser(undefined, userUp)).to.throw(RequirementError, `id is not optional`)
+                expect(() => photopinApi.updateUser(undefined, userUp)).to.throw(RequirementError, `token is not optional`)
             })
     
-            it('should fail on null id', () => {
-                expect(() => photopinApi.updateUser(null, userUp)).to.throw(RequirementError, `id is not optional`)
+            it('should fail on null token', () => {
+                expect(() => photopinApi.updateUser(null, userUp)).to.throw(RequirementError, `token is not optional`)
             })
     
-            it('should fail on empty id', () => {
-                expect(() => photopinApi.updateUser('', userUp)).to.throw(ValueError, 'id is empty')
+            it('should fail on empty token', () => {
+                expect(() => photopinApi.updateUser('', userUp)).to.throw(ValueError, 'token is empty')
             })
     
-            it('should fail on blank id', () => {
-                expect(() => photopinApi.updateUser(' \t    \n', userUp)).to.throw(ValueError, 'id is empty')
+            it('should fail on blank token', () => {
+                expect(() => photopinApi.updateUser(' \t    \n', userUp)).to.throw(ValueError, 'token is empty')
             })
     
-            it('should fail on a not string id', () => {
-                expect(() => photopinApi.updateUser(123, userUp)).to.throw(TypeError, `id 123 is not a string`)
+            it('should fail on a not string token', () => {
+                expect(() => photopinApi.updateUser(123, userUp)).to.throw(TypeError, `token 123 is not a string`)
             })
 
             it('should fail on undefined user data', () => {
@@ -235,16 +228,17 @@ describe('logic', () => {
         })
 
         describe('remove user' , () => {
-            let user, userId
+            let user, userId, token
 
             beforeEach(async () => {
                 user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 10) })
-                userId = user.id
+                const res = await photopinApi.authenticateUser(email, password)
+                token = res.token
             }) 
 
             it('should succeed on correct credentials', async () => {
                 try {
-                    await photopinApi.removeUser(userId)
+                    await photopinApi.removeUser(token)
                 }
                 catch(error) {
                     throw Error('should not reach this point')
@@ -252,43 +246,40 @@ describe('logic', () => {
             
                 let _user
                 try {
-                    _user = photopinApi.retrieveUser(userId)
+                    _user = photopinApi.retrieveUser(token)
                 }
                 catch(error) {
-                    expect(_user).to.be.undefined
+                    expect(error).to.exist
                 }
             })
 
-            it('should fail on incorrect id user', async () => {
+            it('should fail on a not authenticate user', async () => {
 
-                const wrongId = '342452654635'
+                const _token = '342452654635'
 
                 try {
-                    await photopinApi.removeUser(wrongId)
+                    await photopinApi.removeUser(_token)
                     throw Error('should not reach this point')
                 } catch (error) {
-                    
-                    expect(error).to.be.instanceOf(LogicError)
-                    expect(error.message).to.equal(`user with id ${wrongId} doesn't exists`)
+                    expect(error).to.exist
                 }
             })
 
-            it('should fail on undefined id', () => {
-                expect(() => photopinApi.removeUser(undefined)).to.throw(RequirementError, `id is not optional`)
+            it('should fail on undefined token', () => {
+                expect(() => photopinApi.removeUser(undefined)).to.throw(RequirementError, `token is not optional`)
             })
     
-            it('should fail on null id', () => {
-                expect(() => photopinApi.removeUser(null)).to.throw(RequirementError, `id is not optional`)
+            it('should fail on null token', () => {
+                expect(() => photopinApi.removeUser(null)).to.throw(RequirementError, `token is not optional`)
             })
     
-            it('should fail on empty id', () => {
-                expect(() => photopinApi.removeUser('')).to.throw(ValueError, 'id is empty')
+            it('should fail on empty token', () => {
+                expect(() => photopinApi.removeUser('')).to.throw(ValueError, 'token is empty')
             })
     
-            it('should fail on blank id', () => {
-                expect(() => photopinApi.removeUser(' \t    \n')).to.throw(ValueError, 'id is empty')
+            it('should fail on blank token', () => {
+                expect(() => photopinApi.removeUser(' \t    \n')).to.throw(ValueError, 'token is empty')
             })        
-
         })
 
     })

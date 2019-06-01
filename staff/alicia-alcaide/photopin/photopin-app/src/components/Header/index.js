@@ -3,13 +3,12 @@ import { AppContext } from '../AppContext'
 import literals from './literals.js'
 import logo from './logo/icono_v2.png'
 
-function Header() {
-    
-    debugger
+function Header({ lang }) {
 
-    const { userLanguage } = useContext(AppContext)
+    //const { userLanguage } = useContext(AppContext)
+    //const { title } = literals[userLanguage]
 
-    const { title } = literals[userLanguage]
+    const { title } = literals[lang]
 
     return <header className="header" onClick={e => e.preventDefault()}>
         <img src={logo} alt="logo-PhotoPin" className='header__logo' />

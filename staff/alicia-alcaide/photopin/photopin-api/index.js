@@ -6,10 +6,10 @@ const { mongoose } = require('photopin-data')
 const router = require('./src/routes')
 
 // Base de datos correcta:
-//const { env: { API_PORT, MONGODB_URL: url }, argv: [, , port = API_PORT || 8080], } = process;
+const { env: { API_PORT, MONGODB_URL: url }, argv: [, , port = API_PORT || 8080], } = process;
 
 // Base de datos de prueba de front
-const { env: { API_PORT, MONGODB_URL_APP_LOGIC_TEST: url }, argv: [, , port = API_PORT || 8080], } = process;
+//const { env: { API_PORT, MONGODB_URL_APP_LOGIC_TEST: url }, argv: [, , port = API_PORT || 8080], } = process;
 
 
 (async () => {

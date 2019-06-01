@@ -9,4 +9,5 @@ const normalize = {
     }
 }
 
+//module.exports = normalize
 export default normalize
