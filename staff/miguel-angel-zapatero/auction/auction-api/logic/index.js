@@ -150,6 +150,11 @@ const logic = {
         })()
     },
 
+    //NO SE SI ES NECESARIA¿??¿?¿?¿
+    retriveUserItemBids() {
+
+    },
+
     /**
      * Add a bid into the item selected
      * 
@@ -251,19 +256,19 @@ const logic = {
             if (city) data.$and.push({city: city})
             if (startDate && endDate)
                 data.$and.push({ finishDate: {
-                    $gte: startDate.setDate(startDate.getDate() - 1),
-                    $lte: endDate.setDate(startDate.getDate() + 1)
+                    $gte: startDate,
+                    $lte: endDate
                 }})
             if (startPrice && endPrice)
                 data.$and.push({startPrice: { 
-                    $gte: startPrice - 1, 
-                    $lte: endPrice + 1 
+                    $gte: startPrice, 
+                    $lte: endPrice 
                 }})
         }
         
         return (async () => {        
             let items = await Item.find(data).select('-__v')
-            debugger
+            
             items = items.map(item => {
                 item.id = item._id
                 delete item._id
@@ -307,10 +312,10 @@ const logic = {
 
         return (async () => {
             const user = await User.findById(userId)
-            if(!user) throw new LogicError(`user with id "${id}" doesn't exist`)
+            if(!user) throw new LogicError(`user with id "${userId}" doesn't exist`)
 
             const item = await Item.findById(itemId)
-            if(!item) throw new LogicError(`item with id "${id}" doesn't exist`)
+            if(!item) throw new LogicError(`item with id "${itemId}" doesn't exist`)
 
             const { bids } = await Item.findById(itemId)
                 .populate({
@@ -352,6 +357,30 @@ const logic = {
         return (async () => {
             await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city})
         })()
+    }, 
+
+    /**
+     * @returns {Array} The cities where the items are auctioned 
+     */
+    async retrieveCities() {
+        const cities = await Item.find()
+            .select('city')
+            .distinct('city')
+            .lean()
+
+        return cities.sort()
+    },
+
+    /**
+     * @returns {Array} The items categories
+     */
+    async retrieveCategories() {
+        const categories = await Item.find()
+            .select('category')
+            .distinct('category')
+            .lean()
+
+        return categories.sort()
     }
 }
 
