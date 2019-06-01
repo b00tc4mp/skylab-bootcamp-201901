@@ -1,0 +1,10 @@
+mixin results(query, ducks)
+    h3= query
+    ul
+        each duck in ducks
+            li
+                a(href=duck.url)
+                    h2= duck.title
+                    img(src=duck.image)
+                    span= duck.price
+            
