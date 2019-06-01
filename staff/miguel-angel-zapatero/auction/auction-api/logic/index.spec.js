@@ -415,23 +415,21 @@ describe('logic', () => {
     })
 
     describe('items', () => {
-        let items
+        let items, sDate, fDate
         const cities = ['Japan', 'New York', 'Spain', 'London']
         const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
 
         beforeEach(async () => {
             items = new Array(25).fill().map(item => {
-                let sDate = new Date(Date.now())
-                let fDate = new Date(Date.now())
-                sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3)))
-                fDate.setDate(fDate.getDate() + (Math.ceil(Math.random() * 5) + 3))
+                sDate = new Date
+                fDate = new Date
 
                 return item = {
                     title: `Car-${Math.random()}`,
                     description: `description-${Math.random()}`,
                     startPrice: Math.ceil(Math.random() * 200),
-                    startDate: sDate,
-                    finishDate: fDate,
+                    startDate: sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3))),
+                    finishDate: fDate.setDate(fDate.getDate() + (Math.floor(Math.random() * 5) + 3)),
                     reservedPrice: Math.floor(Math.random() * 1),
                     city: cities[Math.floor(Math.random() * cities.length)],
 	                category: categories[Math.floor(Math.random() * categories.length)],
@@ -445,8 +443,11 @@ describe('logic', () => {
         describe('create items', () => {
             it('should success on correct data', async () => {
                 let item = items[Math.floor(Math.random() * items.length)]
-                
-                const  { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
+
+                item.startDate = new Date(item.startDate)
+                item.finishDate = new Date(item.finishDate)
+
+                const { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
 
                 await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
                 
@@ -493,17 +494,13 @@ describe('logic', () => {
             it('should success on correct finish range date', async () => {
                 let { text, category, city, startDate, endDate, startPrice, endPrice } = query
 
-                let date1 = new Date('Sun Jun 02 2019 22:00:00 GMT+0200 (hora de verano de Europa central')
-                date1.setDate(date1.getDate() - 1)
-               
-                let date2 = new Date('Wen Jun 05 2019 23:00:00 GMT+0200 (hora de verano de Europa central')
-                date2.setDate(date2.getDate() - 1)
+                sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3)))
+                fDate.setDate(fDate.getDate() + (Math.floor(Math.random() * 5) + 3))
+                debugger
+                let items_ = items.filter(item => (item.finishDate >= sDate && item.finishDate <= fDate))
 
-                let items_ = items.filter(item => (item.finishDate >= date1 && item.finishDate <= date2))
-
-                startDate = new Date('Sun Jun 02 2019 22:00:00 GMT+0200 (hora de verano de Europa central')
-
-                endDate = new Date('Wen Jun 05 2019 23:00:00 GMT+0200 (hora de verano de Europa central')
+                startDate = sDate
+                endDate = fDate
 
                 const _items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
 

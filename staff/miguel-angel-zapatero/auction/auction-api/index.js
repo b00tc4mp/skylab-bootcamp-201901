@@ -6,7 +6,7 @@ const routes = require('./routes')
 const cors = require('cors')
 const { mongoose } = require('auction-data')
 
-const { env: { PORT, MONGO_URL: URL }, argv: [, , port = PORT || 8080], } = process;
+const { env: { PORT, MONGO_URL_LOGIC_TEST: URL }, argv: [, , port = PORT || 8080], } = process;
 
 (async () => {
     try {

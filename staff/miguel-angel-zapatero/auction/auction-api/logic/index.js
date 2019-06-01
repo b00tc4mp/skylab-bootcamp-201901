@@ -251,13 +251,13 @@ const logic = {
             if (city) data.$and.push({city: city})
             if (startDate && endDate)
                 data.$and.push({ finishDate: {
-                    $gte: startDate.setDate(startDate.getDate() - 1),
-                    $lte: endDate.setDate(startDate.getDate() + 1)
+                    $gte: startDate,
+                    $lte: endDate
                 }})
             if (startPrice && endPrice)
                 data.$and.push({startPrice: { 
-                    $gte: startPrice - 1, 
-                    $lte: endPrice + 1 
+                    $gte: startPrice, 
+                    $lte: endPrice 
                 }})
         }
         
@@ -307,10 +307,10 @@ const logic = {
 
         return (async () => {
             const user = await User.findById(userId)
-            if(!user) throw new LogicError(`user with id "${id}" doesn't exist`)
+            if(!user) throw new LogicError(`user with id "${itemId}" doesn't exist`)
 
             const item = await Item.findById(itemId)
-            if(!item) throw new LogicError(`item with id "${id}" doesn't exist`)
+            if(!item) throw new LogicError(`item with id "${itemId}" doesn't exist`)
 
             const { bids } = await Item.findById(itemId)
                 .populate({
