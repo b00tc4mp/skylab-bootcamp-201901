@@ -4,7 +4,10 @@ const validate = {
     arguments(args) {
         args.forEach(({ name, value, type, notEmpty, optional }) => {
             if (value != undefined) {
-                if (typeof value !== type) throw TypeError(`${name} ${value} is not a ${type}`)
+                if (typeof value !== type) {
+                    if(type[0] === ('a' || 'e' || 'i' || 'o' || 'u')) throw TypeError(`${name} ${value} is not an ${type}`)
+                    throw TypeError(`${name} ${value} is not a ${type}`)
+                }
 
                 if (notEmpty)
                     if (type === 'string') {

@@ -153,6 +153,23 @@ const logic = {
         })()
     },
 
+    findCustomers(criteria) {
+        validate.arguments([
+            { name: 'criteria', value: criteria, type: 'object', optional: true }
+        ])
+
+        return (async () => {
+            const customers = await Customer.find(criteria).select('id name surname phone address nid email notes').lean()
+
+            customers.forEach(customer => {
+                customer.id = customer._id.toString()
+                delete customer._id
+            })
+
+            return customers
+        })()
+    },
+
     addCustomerNote(customerId, text, userId) {
         validate.arguments([
             { name: 'customerId', value: customerId, type: 'string', notEmpty: true },
@@ -175,7 +192,7 @@ const logic = {
         })()
     },
 
-    retrieveCustomerNotes(customerId) {
+    listCustomerNotes(customerId) {
         validate.arguments([
             { name: 'customerId', value: customerId, type: 'string', notEmpty: true }
         ])
