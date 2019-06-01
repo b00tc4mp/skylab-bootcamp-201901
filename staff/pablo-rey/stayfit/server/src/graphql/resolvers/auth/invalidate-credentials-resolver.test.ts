@@ -6,9 +6,9 @@ import * as jwt from 'jsonwebtoken';
 import * as mongoose from 'mongoose';
 import { UserModel } from '../../../models/user';
 import { random } from '../../../utils/random';
-import { fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import { expectError } from '../../../utils/testing-utils/error-handling';
 import { gCall } from '../../../utils/testing-utils/gqlCall';
+import { fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

@@ -8,10 +8,10 @@ const refreshTokenDuration = 1000 * 60 * 60 * 24 * 10; // 15min
 export async function refreshToken(user: User, ctx: MyContext) {
 
   //TODO: validate user active
-  const refreshToken = await sign({ sub: user.id, count: user.refreshTokenCount }, process.env.JWT_REFRESH_SECRET!, {
+  const refreshToken = await sign({ userId: user.id, count: user.refreshTokenCount }, process.env.JWT_REFRESH_SECRET!, {
     expiresIn: refreshTokenDuration,
   });
-  const accessToken = await sign({ sub: user.id }, process.env.JWT_ACCESS_SECRET!, {
+  const accessToken = await sign({ userId: user.id }, process.env.JWT_ACCESS_SECRET!, {
     expiresIn: accessTokenDuration,
   });
 

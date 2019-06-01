@@ -7,9 +7,9 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { deleteModels, createTestProvider } from '../../../../common/test-utils';
 import { SessionTypeModel } from '../../../../models/session-type';
 import { createRandomUser } from '../../tests-utils';
+import { deleteModels, createTestProvider } from '../../../../common/test-utils';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

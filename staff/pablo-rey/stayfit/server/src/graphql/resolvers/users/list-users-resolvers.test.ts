@@ -3,10 +3,9 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
-import { UserModel } from '../../../models/user';
-import { gCall } from '../../../utils/testing-utils/gqlCall';
 import { SUPERADMIN_ROLE } from '../../../models/user';
+import { gCall } from '../../../utils/testing-utils/gqlCall';
+import { createRandomUser, deleteModels, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -40,7 +39,7 @@ describe('list all users', function() {
   let users: userAndPlainPassword[];
 
   beforeEach(async () => {
-    await UserModel.deleteMany({});
+    await deleteModels();
     users = [];
     await fillDbRandomUsers(users);
   });
@@ -56,15 +55,27 @@ describe('list all users', function() {
     if (response.errors) console.log(response.errors);
     expect(response).not.to.have.property('errors');
     expect(response).to.have.property('data');
-    const expectedAllUsers = [superadmin, ...users.map(u => u.user)].map(({ id, name, surname, email, role } : any) => ({ id, name, surname, email, role }))
+    const expectedAllUsers = [superadmin, ...users.map(u => u.user)].map(({ id, name, surname, email, role }: any) => ({
+      id,
+      name,
+      surname,
+      email,
+      role,
+    }));
     const { listAllUsers } = response.data as any;
-    const plainListAllUsers = listAllUsers.map(({ id, name, surname, email, role } : any) => ({ id, name, surname, email, role })); 
+    const plainListAllUsers = listAllUsers.map(({ id, name, surname, email, role }: any) => ({
+      id,
+      name,
+      surname,
+      email,
+      role,
+    }));
     expect(listAllUsers)
       .to.be.instanceOf(Array)
       .and.to.have.lengthOf(users.length + 1);
     expect(plainListAllUsers).to.deep.members(expectedAllUsers);
   });
 
-  it('should list the customers of a provider')
+  it('should list the customers of a provider');
 });
 //

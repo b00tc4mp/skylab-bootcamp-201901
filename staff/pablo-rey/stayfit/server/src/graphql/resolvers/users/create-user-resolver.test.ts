@@ -4,10 +4,10 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { randomUser } from '../../../common/test-utils';
 import { GUEST_ROLE, ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel, USER_ROLE } from '../../../models/user';
 import { gCall } from '../../../utils/testing-utils/gqlCall';
 import { expectError } from './../../../utils/testing-utils/error-handling';
+import { randomUser } from '../../../common/test-utils';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

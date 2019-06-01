@@ -1,13 +1,15 @@
-import { AttendanceModel } from './../../models/attendance';
-import * as bcrypt from 'bcryptjs';
-import { expect } from 'chai';
-import * as faker from 'faker';
 import * as mongoose from 'mongoose';
-import { ROLES, UserModel, User, SUPERADMIN_ROLE, STAFF_ROLE, USER_ROLE } from '../../models/user';
+import * as bcrypt from 'bcryptjs';
+import * as faker from 'faker';
+import { ProviderModel } from '../../models/provider';
+import { ROLES, STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../../models/user';
 import { random } from '../../utils/random';
+import { AttendanceModel } from './../../models/attendance';
 import { SessionModel } from './../../models/session';
 import { SessionTypeModel } from './../../models/session-type';
-import { ProviderModel } from '../../models/provider';
+
+import * as chai from 'chai'
+const { expect } = chai;
 
 const { ObjectId } = mongoose.Types;
 

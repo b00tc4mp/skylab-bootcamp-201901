@@ -69,7 +69,7 @@ describe('login user', function() {
     expect(fakeCookie.calledWithMatch('access-token', accessToken)).to.be.true;
     const decodedAccessToken = await jwt.decode(accessToken);
     expect(decodedAccessToken)
-      .to.have.property('sub')
+      .to.have.property('userId')
       .to.be.equal(_user.user.id);
 
     const now = new Date().getTime() / 1000;
