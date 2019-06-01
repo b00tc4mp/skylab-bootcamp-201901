@@ -11,6 +11,7 @@ const cinema = new Schema({
     required: true
   },
   movieSessions: {
+    // type: ObjectId, ref: 'City'
     type:[movieSessions],
     required: true
   },

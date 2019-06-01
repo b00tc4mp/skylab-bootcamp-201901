@@ -1,11 +1,9 @@
 const axios = require('axios')
 const cheerio = require('cheerio')
 const validate = require('../../common/validate')
-// const logic = require('../../logic')
-// const { Movie } = require('cinema-and-go-data')
 
 // const url_cities = 'https://www.ecartelera.com/cartelera/'
-const url_city = 'https://www.ecartelera.com/cines/0,9,23.html' // Bcn city cinemas
+// const url_city = 'https://www.ecartelera.com/cines/0,9,23.html' // Bcn city cinemas
 // const url_cinema = 'https://www.ecartelera.com/cines/89,0,1.html' // a cinema and it's movies
 
 const scrapper = {

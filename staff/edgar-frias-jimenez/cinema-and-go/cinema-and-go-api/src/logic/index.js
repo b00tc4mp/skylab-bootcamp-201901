@@ -36,7 +36,7 @@ const logic = {
         validate.email(email)
 
         return (async () => {
-            const user = await User.findOne({email})
+            const user = await User.findOne({'email': email})
             if (!user) throw new LogicError(`user with email "${email}" does not exists`)
 
             if (await bcrypt.compare(password, user.password)) return user.id
@@ -144,6 +144,28 @@ const logic = {
 
                 const cinema = await this.registerCinema(name, link, phone, address, location, movieSession)
             }))
+        })()
+    },
+
+    retrieveAllCinemas() {
+        return (async() => {
+            const cinemas = await Cinema.find().select('-__v')
+                .populate({
+                    path: 'movieSessions',
+                    // select: 'title',
+                    model: Movie
+                }).lean()
+
+            return cinemas
+        })()
+    },
+
+    retrieveAllMovieSessions() {
+        return (async() => {
+            const sessions = await MovieSessions.find().select('-__v')
+                .populate('movieSessions').lean()
+
+            return sessions
         })()
     }
 }

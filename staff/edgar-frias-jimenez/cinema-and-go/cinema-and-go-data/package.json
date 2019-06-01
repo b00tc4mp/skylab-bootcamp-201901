@@ -2,7 +2,7 @@
   "name": "cinema-and-go-data",
   "version": "1.0.0",
   "description": "",
-  "main": "./models/index.js",
+  "main": "./src/models/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },

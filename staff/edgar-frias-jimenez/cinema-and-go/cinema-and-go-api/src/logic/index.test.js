@@ -12,9 +12,17 @@ const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 jest.setTimeout(1000000)
 
 describe('logic', () => {
-    let name, email, password
+    beforeAll(async () => {
+        try {
+            await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true, })
 
-    beforeAll(() => mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true, }))
+            console.log('connected to database')
+        } catch (error) {
+            console.log(error, error.message)
+        }
+    })
+
+    let name, email, password
 
     beforeEach(async () => {
         await User.deleteMany()
@@ -179,7 +187,7 @@ describe('logic', () => {
             expect(userChange.password).toBeUndefined()
         })
 
-        it('should fail on incorrect user id', async () => {
+        it('should fail on update user with incorrect user id', async () => {
             const id = 'aslkfjhsdlkafhjldksjhf'
 
             try {
@@ -233,34 +241,32 @@ describe('logic', () => {
         })
 
         it('should succeed on remove a user', async () => {
+            let _user
+
             try {
-                debugger
                 await logic.removeUser(id, password)
             }
             catch(error) {
-                debugger
                 throw Error('should not reach this point')
             }
 
-            let _user
             try {
-                debugger
                 _user = logic.retrieveUser(id)
             }
             catch(error) {
-                debugger
                 expect(_user).toBeUndefined
             }
         })
 
-        it('should fail on incorrect user id', async () => {
-            const id = 'aslkfjhsdlkafhjldksjhf'
+        it('should fail on delete user with incorrect user id', async () => {
+            const id = 'aslkfjhsd3141234dksjhf'
 
             try {
                 await logic.removeUser(id, password)
                 throw Error('should not reach this point')
             } catch (error) {
-                expect(error.message).toEqual(`Cast to ObjectId failed for value \"aslkfjhsdlkafhjldksjhf\" at path \"_id\" for model \"user\"`)
+                expect(error.message).toEqual(`Cast to ObjectId failed for value \"aslkfjhsd3141234dksjhf\" at path \"_id\" for model \"user\"`)
+                // expect(error.message).toEqual(`user with id \"aslkfjhsd3141234dksjhf\" does not exists`)
             }
         })
 
