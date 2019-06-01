@@ -256,7 +256,7 @@ describe('logic', () => {
                     data = { name: 'n', surname: 's', email: 'e@e.com', password: 'p'}
                 })
                 it('should succeed on correct data', async () => {    
-                    const response = await logic.updateUser(user.id, data.name, data.surname, data.email, data.password)
+                    const response = await logic.updateUser(user.id, data)
                     expect(response).toBeUndefined()
                     
                     const _user = await User.findById(user.id)
@@ -278,7 +278,7 @@ describe('logic', () => {
                 it('should succeed changing some fields', async () => {    
                     const data = { name: 'n', email: 'e@e.com'}
     
-                    const response = await logic.updateUser(user.id, data.name, data.surname, data.email, data.password)
+                    const response = await logic.updateUser(user.id, data)
                     expect(response).toBeUndefined()
                     
                     const _user = await User.findById(user.id)
@@ -300,7 +300,7 @@ describe('logic', () => {
                     id = '01234567890123456789abcd'
     
                     try {
-                        await logic.updateUser(id, data.name, data.surname, data.email, data.password) 
+                        await logic.updateUser(id, data) 
                         throw Error('should not reach this point')
                     } catch (error) {
                         expect(error).toBeDefined()
@@ -314,7 +314,7 @@ describe('logic', () => {
                     let id = 'wrong-id'
     
                     try {
-                        await logic.updateUser(id, data.name, data.surname, data.email, data.password)
+                        await logic.updateUser(id, data)
                         throw Error('should not reach this point')
                     } catch (error) {
                         expect(error).toBeDefined()
@@ -332,7 +332,7 @@ describe('logic', () => {
                     data.email = 'email@mail.com'
     
                     try {
-                        await logic.updateUser(user.id, data.name, data.surname, data.email, data.password) 
+                        await logic.updateUser(user.id, data) 
                         throw Error('should not reach this point')
                     } catch (error) {
                         expect(error).toBeDefined()
@@ -420,16 +420,23 @@ describe('logic', () => {
         const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
 
         beforeEach(async () => {
-            items = new Array(25).fill().map(item => item = {
-                title: `Car-${Math.random()}`,
-                description: `description-${Math.random()}`,
-                startPrice: Math.ceil(Math.random() * 200),
-                startDate: Date.now(),
-                finishDate: Date.now() + (Math.ceil(Math.random() * 1000000000)),
-                reservedPrice: Math.floor(Math.random() * 1),
-                city: cities[Math.floor(Math.random() * cities.length)],
-	            category: categories[Math.floor(Math.random() * categories.length)],
-	            images: "image1.jpg"
+            items = new Array(25).fill().map(item => {
+                let sDate = new Date(Date.now())
+                let fDate = new Date(Date.now())
+                sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3)))
+                fDate.setDate(fDate.getDate() + (Math.ceil(Math.random() * 5) + 3))
+
+                return item = {
+                    title: `Car-${Math.random()}`,
+                    description: `description-${Math.random()}`,
+                    startPrice: Math.ceil(Math.random() * 200),
+                    startDate: sDate,
+                    finishDate: fDate,
+                    reservedPrice: Math.floor(Math.random() * 1),
+                    city: cities[Math.floor(Math.random() * cities.length)],
+	                category: categories[Math.floor(Math.random() * categories.length)],
+	                images: "image1.jpg"
+                }
             })
 
             await Promise.all(items.map(async item => await Item.create(item)))
@@ -439,11 +446,8 @@ describe('logic', () => {
             it('should success on correct data', async () => {
                 let item = items[Math.floor(Math.random() * items.length)]
                 
-                let { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
-               
-                startDate = moment(startDate).format('DD-MM-YYYY')
-                finishDate = moment(finishDate).format('DD-MM-YYYY')
-                
+                const  { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
+
                 await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
                 
                 const _item = await Item.findOne({title: title})
@@ -451,12 +455,8 @@ describe('logic', () => {
                 expect(_item.title).toBe(title)
                 expect(_item.description).toBe(description)
                 expect(_item.startPrice).toBe(startPrice)
-                
-                const startFormatDate = moment(_item.startDate).format('DD-MM-YYYY') 
-                const endFormatDate = moment(_item.finishDate).format('DD-MM-YYYY')
-                
-                expect(startFormatDate).toEqual(startDate)
-                expect(endFormatDate).toEqual(finishDate)
+                expect(_item.startDate).toEqual(startDate)
+                expect(_item.finishDate).toEqual(finishDate)
                 expect(_item.reservedPrice).toBe(reservedPrice)
                 expect(_item.city).toBe(city)
                 expect(_item.category).toBe(category)
@@ -466,28 +466,89 @@ describe('logic', () => {
         })
 
         describe('search items', () => {
+            let query = {}
 
+            it('should success on correct city', async () => {
+                let { text, category, city, startDate, endDate, startPrice, endPrice } = query
+                let items_ = items.filter(item => item.city === 'Japan')
+                city = 'Japan'
 
-            xit('should success on correct query', async () => {
-                //INCLUDE MULTISEARCH MIDDLEWARE¿?¿¿? AND TESTING¿???
+                const _items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
 
-                let query = {title: 'hola'}
-                const _items = await logic.searchItems(query)
-
-                expect(_items).toBe(items)
-                expect(_items.length).toBe(5)
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
             })
 
-            //TODO MORE CASES WITH WORDS (TITLE AND DESCRIP), PRICE AND DATES
+            it('should success on correct category', async () => {
+                let { text, category, city, startDate, endDate, startPrice, endPrice } = query
+                let items_ = items.filter(item => item.category === 'Art')
+                category = 'Art'
+
+                const _items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
+            it('should success on correct finish range date', async () => {
+                let { text, category, city, startDate, endDate, startPrice, endPrice } = query
+
+                let date1 = new Date('Sun Jun 02 2019 22:00:00 GMT+0200 (hora de verano de Europa central')
+                date1.setDate(date1.getDate() - 1)
+               
+                let date2 = new Date('Wen Jun 05 2019 23:00:00 GMT+0200 (hora de verano de Europa central')
+                date2.setDate(date2.getDate() - 1)
+
+                let items_ = items.filter(item => (item.finishDate >= date1 && item.finishDate <= date2))
+
+                startDate = new Date('Sun Jun 02 2019 22:00:00 GMT+0200 (hora de verano de Europa central')
+
+                endDate = new Date('Wen Jun 05 2019 23:00:00 GMT+0200 (hora de verano de Europa central')
+
+                const _items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
+            it('should success on correct start price range', async () => {
+                let { text, category, city, startDate, endDate, startPrice, endPrice } = query
+                let items_ = items.filter(item => (item.startPrice >= 20 && item.startPrice <= 150))
+
+                startPrice = 21 
+                endPrice = 149 
+
+                const _items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
+            it('should success on correct on multiple data', async () => {
+                let { text, category, city, startDate, endDate, startPrice, endPrice } = query
+                let items_ = items.filter(item => (item.startPrice >= 20 && item.startPrice <= 150) && (item.city === 'London') && (item.category === 'Jewellery'))
+
+                city = 'London'
+                category = 'Jewellery'
+                startPrice = 21 
+                endPrice = 149 
+
+                const _items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
+                
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
             it('should list all items with empty query', async () => {
-                const _items = await logic.searchItems({})
+                query = {}
+                const _items = await logic.searchItems()
 
                 expect(_items).toBeInstanceOf(Array)
                 expect(_items.length).toBe(25)
             })
         })
 
-        describe('retrieve items', () => {
+        describe('retrieve item', () => {
             it('should success on correc item id', async () => {
                 let item_ = items[Math.floor(Math.random() * items.length)]
                 const item = await Item.create(item_)
