@@ -110,8 +110,8 @@ describe('Game Data', () => {
             expect(newSoloGame.__sendNextRound__).toBeDefined()
             expect(newSoloGame.__sendNextRound__).toBeInstanceOf(Function)
 
-            // expect(newSoloGame.update).toBeDefined()
-            // expect(newSoloGame.update).toBeInstanceOf(Function)
+            expect(newSoloGame.update).toBeDefined()
+            expect(newSoloGame.update).toBeInstanceOf(Function)
 
             expect(newSoloGame.__results__).toBeDefined()
             expect(newSoloGame.__results__).toBeInstanceOf(Function)
@@ -194,8 +194,8 @@ describe('Game Data', () => {
             expect(newMultiplayerGame.__sendNextRound__).toBeDefined()
             expect(newMultiplayerGame.__sendNextRound__).toBeInstanceOf(Function)
 
-            // expect(newMultiplayerGame.update).toBeDefined()
-            // expect(newMultiplayerGame.update).toBeInstanceOf(Function)
+            expect(newMultiplayerGame.update).toBeDefined()
+            expect(newMultiplayerGame.update).toBeInstanceOf(Function)
 
             expect(newMultiplayerGame.__results__).toBeDefined()
             expect(newMultiplayerGame.__results__).toBeInstanceOf(Function)
@@ -956,7 +956,6 @@ describe('Game Data', () => {
 
             const message = await gameToTest.startFunction(UserId)
 
-            debugger
             expect(message).toBeDefined()
             expect(message).toBe("Waiting for players to start")
             expect(gameToTest.cardsFetched).toBeFalsy
@@ -971,7 +970,6 @@ describe('Game Data', () => {
 
             const message = await gameToTest.startFunction(UserId)
 
-            debugger
             expect(message).toBeDefined()
             expect(message).toBe("Waiting for players to join")
             expect(gameToTest.cardsFetched).toBeFalsy
@@ -988,7 +986,7 @@ describe('Game Data', () => {
 
             const packageFromStart = await gameToTest.startFunction(UserId)
 
-            expect(packageFromStart).toBeUndefined()
+            expect(packageFromStart).toBe("Cards Fetched")
             expect(gameToTest.cardsFetched).toBeTruthy()
         })
 
@@ -1121,7 +1119,7 @@ describe('Game Data', () => {
 
             const response = gameToTest.addPlayer(randomPlayer)
 
-            expect(response).toBe(`You joined game Id = ${gameToTest.id}`)
+            expect(response).toBe(gameToTest.id)
 
             expect(gameToTest).toBeDefined
 
@@ -1189,26 +1187,26 @@ describe('Game Data', () => {
             expect(gameToTest.addPlayer).toBeDefined()
             expect(gameToTest.addPlayer).toBeInstanceOf(Function)
 
-            // expect(gameToTest.startFunction).toBeDefined()
-            // expect(gameToTest.startFunction).toBeInstanceOf(Function)
+            expect(gameToTest.startFunction).toBeDefined()
+            expect(gameToTest.startFunction).toBeInstanceOf(Function)
 
-            // expect(gameToTest.__sendInitialPackage__).toBeDefined()
-            // expect(gameToTest.__sendInitialPackage__).toBeInstanceOf(Function)
+            expect(gameToTest.__sendInitialPackage__).toBeDefined()
+            expect(gameToTest.__sendInitialPackage__).toBeInstanceOf(Function)
 
-            // expect(gameToTest.nextFunction).toBeDefined()
-            // expect(gameToTest.nextFunction).toBeInstanceOf(Function)
+            expect(gameToTest.nextFunction).toBeDefined()
+            expect(gameToTest.nextFunction).toBeInstanceOf(Function)
 
-            // expect(gameToTest.__sendNextRound__).toBeDefined()
-            // expect(gameToTest.__sendNextRound__).toBeInstanceOf(Function)
+            expect(gameToTest.__sendNextRound__).toBeDefined()
+            expect(gameToTest.__sendNextRound__).toBeInstanceOf(Function)
 
-            // expect(gameToTest.update).toBeDefined()
-            // expect(gameToTest.update).toBeInstanceOf(Function)
+            expect(gameToTest.update).toBeDefined()
+            expect(gameToTest.update).toBeInstanceOf(Function)
 
-            // expect(gameToTest.__results__).toBeDefined()
-            // expect(gameToTest.__results__).toBeInstanceOf(Function)
+            expect(gameToTest.__results__).toBeDefined()
+            expect(gameToTest.__results__).toBeInstanceOf(Function)
 
-            // expect(gameToTest.__checkWinner__).toBeDefined()
-            // expect(gameToTest.__checkWinner__).toBeInstanceOf(Function)
+            expect(gameToTest.__checkWinner__).toBeDefined()
+            expect(gameToTest.__checkWinner__).toBeInstanceOf(Function)
         })
 
         it('Should fail on adding a new player on a multiplayer session without space for it', async () => {
@@ -1824,6 +1822,22 @@ describe('Game Data', () => {
             } catch (err) {
                 expect(err).toBeDefined
                 expect(err.message).toMatch(/Array/gm)
+            }
+        })
+
+        it('Should fail on trying to re-initialice and user', async () => {
+            gameToTest.mode = "multiplayer"
+
+            try {
+                await gameToTest.init() // Game has to be initialized
+
+                await gameToTest.__sendInitialPackage__(UserId)
+                await gameToTest.__sendInitialPackage__(UserId)
+
+                throw Error("Should not reach this point")
+            } catch (err) {
+                expect(err).toBeDefined
+                expect(err.message).toMatch("User already initializated")
             }
         })
 
@@ -2650,7 +2664,6 @@ describe('Game Data', () => {
 
             } catch (err) {
 
-                debugger
                 expect(err).toBeDefined
                 expect(err.message).toMatch(/undefined/gm)
             }
@@ -2977,14 +2990,6 @@ describe('Game Data', () => {
         let randomRow = Math.ceil(Math.random() * 3)
         let randomColumn = Math.ceil(Math.random() * 5)
 
-        it("Should .init() the game if it is not", async() =>{
-            expect(gameToTest.cardsFetched).toBeFalsy()
-
-            await gameToTest.update(UserId)
-
-            expect(gameToTest.cardsFetched).toBeTruthy()
-        })
-
         it("Should do nothing if the game is not started but fetched", async() =>{
             gameToTest.start = false
             gameToTest.cardsFetched = true
@@ -3279,8 +3284,6 @@ describe('Game Data', () => {
             })
 
             const userPackage = await gameToTest.update(UserId)
-
-            console.log(userPackage)
 
             expect(userPackage).toBeDefined
 

@@ -1,8 +1,9 @@
 
-const { models: { User, MissionDeck, GameDeck, GameRecord, Result }, mongoose: { Types: { ObjectId } } } = require("breedingseason-data")
+const { models: { MissionDeck, GameDeck, Result }, mongoose: { Types: { ObjectId } } } = require("breedingseason-data")
 const ow = require('ow')
 
-const aliveGames = []
+const alivePublicGames = []
+const alivePrivateGames = []
 
 function Game(creatorId, gameId, style) {
     ow(creatorId, ow.string.not.empty)
@@ -69,6 +70,8 @@ Game.prototype.init = async function () { //Tested but I need to do the Penguin 
     }
 
     this.cardsFetched = true
+
+    return "Cards Fetched"
 }
 
 //                                                                       //
@@ -84,7 +87,7 @@ Game.prototype.addPlayer = function (playerId) { //Done and Tested
     if (!repeated) this.players.push({ id: playerId, start: false, nextRound: false, winner: false })
     else throw Error("Player already joined")
 
-    return `You joined game Id = ${this.id}`
+    return this.id
 }
 
 // //                                                              //
@@ -183,7 +186,8 @@ Game.prototype.__sendInitialPackage__ = async function (userId) {
 
     const { player, round: userRound, mapStatus, userPuntuation } = initialPackage
 
-    this.playersPackages.push({ player, userRound, mapStatus, userPuntuation })
+    if(!this.playersPackages.some(x => x.player === userId))this.playersPackages.push({ player, userRound, mapStatus, userPuntuation })
+    else throw Error("User already initializated")
 
     return initialPackage
 }
@@ -301,7 +305,7 @@ Game.prototype.nextFunction = async function (userId, gameAction) {
         for (i = 0; i < 3; i++) { if (this.missionCardsStatus[i] === false && missionStatus[i] === true) this.missionCardsStatus[i] = true }
 
         this.next = true
-        this.round += 1
+        this.round++
 
         if (this.mode === "solo") return this.__sendNextRound__(userId)
         else return
@@ -339,10 +343,9 @@ Game.prototype.__sendNextRound__ = function (userId) {
 // //This function looks for status updates            //
 // //                                                  //
 
-Game.prototype.update = async function(userId){
+Game.prototype.update = async function (userId) {
 
-    if(!this.players.some(x => x.id === userId)) throw Error("Player not logged on this game")
-    else if (!this.cardsFetched) return this.init()
+    if (!this.players.some(x => x.id === userId)) throw Error("Player not logged on this game")
     else if (!this.start) return
     else if (this.finish) return this.__results__(userId)
     else if (this.round === 0) return this.__sendInitialPackage__(userId)
@@ -367,6 +370,8 @@ Game.prototype.__results__ = async function (userId) {
     })
 
     let user = this.playersPackages.find(x => x.player === userId)
+
+    user.winner = false
 
     for (let i = 0; i < results.length; i++) {
         if (results[i].puntuation === results[0].puntuation && results[i].player === userId) user.winner = true
@@ -459,4 +464,4 @@ Game.prototype.__checkWinner__ = async function () {
 }
 
 
-module.exports = { aliveGames, Game }
+module.exports = { alivePrivateGames, alivePublicGames, Game }

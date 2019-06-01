@@ -9,7 +9,7 @@ const model = mongoose.model.bind(mongoose)
 
 module.exports = { 
     User: model('User', user),
-    GameRecord: model('Note', gameRecord),
+    GameRecord: model('GameRecord', gameRecord),
     MissionDeck: model('MissionDeck', missionDeck),
     GameDeck: model('GameDeck', gameDeck),
     Result: model('Result', result)
