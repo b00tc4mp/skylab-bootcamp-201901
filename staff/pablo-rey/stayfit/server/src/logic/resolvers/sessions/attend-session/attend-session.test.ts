@@ -8,7 +8,7 @@ import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import { SessionTypeModel } from '../../../../data/models/session-type';
-import { createRandomUser } from '../../tests-utils';
+import { createRandomUser } from '../../../tests-utils';
 import { deleteModels, createTestProvider } from '../../../../common/test-utils';
 
 chai.use(chaiAsPromised);

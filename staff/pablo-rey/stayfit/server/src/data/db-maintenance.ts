@@ -1,5 +1,5 @@
 import * as bcrypt from 'bcryptjs';
-import { createSession } from '../logic/resolvers/sessions/create-session/create-session-resolver';
+import { createSession } from '../logic/resolvers/sessions/create-session/create-session';
 import { ACTIVE, PUBLIC } from './models/session';
 import { STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from './models/user';
 import { ProviderModel } from './models/provider';
