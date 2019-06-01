@@ -4,13 +4,19 @@ const validate = {
     arguments(args) {
         args.forEach(({ name, value, type, notEmpty, optional }) => {
             if (value != undefined) {
-                if (typeof value !== type) throw TypeError(`${name} ${value} is not a ${type}`)
+                if(value.constructor !== type) throw TypeError(`${name} ${value} is not a ${type.name}`)
 
                 if (notEmpty)
-                    if (type === 'string') {
-                        if (!value.trim().length) throw new ValueError(`${name} is empty`)
-                    } else if (type === 'object')
-                        if (!Object.keys(value).length) throw new ValueError(`${name} is empty`)
+                    switch (type) {
+                        case String:
+                            if (!value.trim().length) throw new ValueError(`${name} is empty`)
+                            break;
+                        case Array:
+                            if(!value.length) throw new ValueError(`${name} is empty`)
+                            break;
+                        case Object:
+                            if (!Object.keys(value).length) throw new ValueError(`${name} is empty`)
+                    }
             } else if (!optional) throw new RequirementError(`${name} is not optional`)
         })
     },
