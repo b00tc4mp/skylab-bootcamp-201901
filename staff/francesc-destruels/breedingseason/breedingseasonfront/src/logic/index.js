@@ -64,6 +64,12 @@ const logic = {
     logoutUser() {
         sessionStorage.clear()
     },
+
+    //retrieveUser game history
+    //StartGame
+    //Send Next Action
+    //Update
+    //Join Game
 }
 
 export default logic

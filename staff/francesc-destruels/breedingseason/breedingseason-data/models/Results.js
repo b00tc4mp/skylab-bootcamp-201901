@@ -2,6 +2,7 @@ const { Schema, Schema: { Types: { ObjectId } } } = require('mongoose')
 
 const result = new Schema({
     player: ObjectId,
+    missionCards: {type: Array, required: true},
     OneEggNestAmount: { type: Number, required: true },
     OneEggNestLvL: { type: Number, required: true },
     TwoEggNestAmount: { type: Number, required: true },
@@ -11,10 +12,12 @@ const result = new Schema({
     FourEggNestAmount: {type: Number, required: true},
     FourEggNestLvL: {type: Number, required: true},
     ToolsUsed: {type: Number, required: true},
-    ToolsPunctuation: {type: Number, required: true},
-    SecurityLvL: {type: Number, required: true},
-    SecurityPunctuation: {type: Number, required: true},
-    FishingRoadUsed: {type: Number, required: true}
+    ToolsPuntuation: {type: Number, required: true},
+    SecurityLvL: {type: Object, required: true},
+    SecurityPuntuation: {type: Number, required: true},
+    FishingRodUsed: {type: Number, required: true},
+    StrikLvL: {type: Number, required: true},
+    puntuation: {type: Number, required: true}
 })
 
 module.exports = result

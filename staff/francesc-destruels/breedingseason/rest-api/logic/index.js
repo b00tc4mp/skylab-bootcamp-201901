@@ -1,10 +1,10 @@
 const { LogicError } = require('../common/errors')
 const { ObjectId } = require('mongodb')
-const { aliveGames, Game } = require("./game/game")
+const { alivePrivateGames, alivePublicGames, Game } = require("./game/game")
 const ow = require('ow')
 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
 const { env: { PLACEHOLDERURL } } = process
-const { models: { User, MissionDeck, GameDeck } } = require("breedingseason-data")
+const { models: { User, GameRecord } } = require("breedingseason-data")
 
 const logic = {
     registerUser(nickname, age, email, password) { //OK
@@ -16,9 +16,11 @@ const logic = {
 
         return (async () => {
             const results = await User.findOne({ email })
+            const results2 = await User.findOne({ nickname })
 
-            if (!results) await User.create({ nickname, age, email, password, avatar: `${PLACEHOLDERURL}` })
-            else throw new LogicError(`User with ${email} already exist`)
+            if (!results && !results2) await User.create({ nickname, age, email, password, avatar: `${PLACEHOLDERURL}` })
+            else if (results) throw new LogicError(`User with ${email} already exist`)
+            else throw new LogicError(`User with ${nickname} already exist`)
         })()
     },
 
@@ -39,8 +41,8 @@ const logic = {
             if (user) {
                 const { _id: id } = user
                 return id
-
-            } else throw new LogicError(`user with username \"${email}\" does not exist`)
+            } else if (re.test(String(nicknameOEmail))) throw new LogicError(`Email and Password do not match`)
+            else throw new LogicError(`Nickname and Password do not match`)
         })()
     },
 
@@ -67,16 +69,16 @@ const logic = {
 
         return (async () => {
 
-            const response = await User.findById(ObjectId(id))
+            const response = await User.findById(ObjectId(id)).populate('gameHistory', 'players gameId gameHistory date -_id').lean()
 
             if (response._id.toString() === id) {
                 const { gameHistory } = response
 
                 let userGameHistory = []
 
-                if (gameHistory.length) {
-                    for (let i = 0; i < gameHistory.length || i < 5; i++) gameHistory.push(gameHistory[i])
-                }
+                if (gameHistory.length > 5) {
+                    for (let i = 0; i < 5; i++) userGameHistory.push(gameHistory[i])
+                } else return gameHistory
 
                 return userGameHistory
             } else throw new LogicError("No User for that id")
@@ -84,16 +86,14 @@ const logic = {
         })()
     },
 
-    newGame(id, gameId, style) {
+    newGame(id, gameId, style, privateGame) {
         ow(id, ow.string.not.empty)
         ow(gameId, ow.string.not.empty)
         ow(style, ow.object.exactShape({
             mode: ow.string,
-            conditions: {
-                players: ow.number,
-                private: ow.boolean
-            }
+            playersNumber: ow.number,
         }))
+        ow(privateGame, ow.boolean)
 
         return (async () => {
 
@@ -103,7 +103,10 @@ const logic = {
 
                 const game = new Game(gameId, id, style)
 
-                aliveGames.push(game)
+                if (privateGame) alivePrivateGames.push(game)
+                else alivePublicGames.push(game)
+
+                return gameId
 
             } else throw new LogicError("No User for that id")
 
@@ -120,11 +123,17 @@ const logic = {
 
             if (response._id.toString() === id) {
 
-                const playing = gamesAlive.find(game => game.id === gameId && game.player.includes(id))
+                let playing = alivePrivateGames.find(game => game.id === gameId)
+
+                if (!playing) playing = alivePublicGames.find(game => game.id === gameId)
+                else { }
+
+                if (!playing) throw Error('That Game Id is not an active game one')
 
                 const initialPackage = await playing.startFunction(id)
 
                 return initialPackage
+
             } else throw new LogicError("No User for that id")
 
         })()
@@ -132,7 +141,7 @@ const logic = {
 
     joinGame(id, gameId) {
         ow(id, ow.string.not.empty)
-        ow(gameId, ow.string.not.empty)
+        ow(gameId, ow.string)
 
         return (async () => {
 
@@ -140,28 +149,26 @@ const logic = {
 
             if (response._id.toString() === id) {
 
-                if (gameId) playing = gamesAlive.find(game => game.id === gameId)
-                else playing = gamesAlive.find(game => game.players.length < game.maxPlayer.length)
+                if (gameId !== "searching") playing = alivePrivateGames.find(game => game.id === gameId)
+                else playing = alivePublicGames.find(game => game.players.length < game.maxPlayer)
 
-                const confirm = await playing.addPlayer(id)
+                try {
+                    let joinId = await playing.addPlayer(id)
 
-                return confirm
+                    return joinId
+                } catch (err) {
+                    return err.message
+                }
 
             } else throw new LogicError("No User for that id")
 
         })()
     },
 
-    continueGame(id, gameId, update) {
+    continueGame(id, gameId, choice) {
         ow(id, ow.string.not.empty)
         ow(gameId, ow.string.not.empty)
-        // ow(update, ow.is.object.exactShape({
-        //     mode: ow.string,
-        //     conditions: {
-        //         players: ow.number,
-        //         private: ow.boolean
-        //     }
-        // }))
+        ow(choice, ow.object)
 
         return (async () => {
 
@@ -169,6 +176,16 @@ const logic = {
 
             if (response._id.toString() === id) {
 
+                let playing = alivePrivateGames.find(game => game.id === gameId)
+
+                if (!playing) playing = alivePublicGames.find(game => game.id === gameId)
+                else { }
+
+                if (!playing) throw Error('That Game Id is not an active game one')
+
+                const response = await playing.nextFunction(id, choice)
+
+                return response
 
             } else throw new LogicError("No User for that id")
 
@@ -185,110 +202,21 @@ const logic = {
 
             if (response._id.toString() === id) {
 
-                return await game.update()
+                let playing = alivePrivateGames.find(game => game.id === gameId)
+
+                if (!playing) playing = alivePublicGames.find(game => game.id === gameId)
+                else { }
+
+                if (!playing) throw Error('That Game Id is not an active game one')
+
+                const response = await playing.update(id)
+
+                return response
 
             } else throw new LogicError("No User for that id")
 
         })()
     },
-
-    // async createMissionCartCollection() {
-    //     console.log("Await")
-
-    //     const cards = [
-    //         { 1: "HAVE:3EGGS:2", 2: "HAVE:2EGGS:3", 3: "HAVE:1EGGS:2", first: 6, second: 3 },
-    //         { 1: "USE:TOOLS:4", 2: "HAVE:1SECURITY:2", first: 7, second: 4 },
-    //         { 1: "HAVE:4EGGS:2", 2: "HAVE:1EGGS:3", 3: "HAVE:2EGGS:2", first: 6, second: 4 },
-    //         { 1: "HAVE:1EGGS:2", 2: "HAVE:3EGGS:1", 3: "HAVE:2EGGS:3", first: 8, second: 5 },
-    //         { 1: "HAVE:2SECURITY:3", 2: "USE:TOOLS:3", first: 4, second: 2 },
-
-    //         { 1: "HAVE:2SECURITY:3", 2: "USE:TOOLS:3", first: 7, second: 4 },
-    //         { 1: "HAVE:2EGGS:4", 2: "HAVE:4EGGS:3", first: 6, second: 3 },
-    //         { 1: "HAVE:3EGGS:2", 2: "HAVE:2EGGS:1", 3: "HAVE:1EGGS:4", first: 7, second: 4 },
-    //         { 1: "HAVE:3SECURITY:4", 2: "USE:TOOLS:4", first: 5, second: 3 },
-    //         { 1: "HAVE:3EGGS:1", 2: "HAVE:2EGGS:5", first: 8, second: 5 },
-
-    //         { 1: "HAVE:4SECURITY:4", 2: "USE:TOOLS:3", first: 5, second: 2 },
-    //         { 1: "HAVE:3EGGS:2", 2: "HAVE:2EGGS:3", 3: "HAVE:1EGGS:2", first: 4, second: 3 },
-    //         { 1: "HAVE:4EGGS:1", 2: "HAVE:2EGGS:2", first: 7, second: 5 },
-    //         { 1: "HAVE:3EGGS:2", 2: "HAVE:1EGGS:2", first: 5, second: 3 },
-    //         { 1: "HAVE:4EGGS:1", 2: "HAVE:2EGGS:2", first: 8, second: 4 }
-    //     ]
-
-    //     for(let i = 0; i < cards.length; i++ ) await MissionDeck.create(cards[i])
-    // }
-
-    // async createPenguinCartCollection() {
-    //     console.log("Await")
-
-    //     const cards = [
-    //         // { A: 1, B: "fishing" },
-    //         // { A: 2, B: "fishing" },
-    //         // { A: 3, B: "fishing" },
-    //         // { A: 4, B: "fishing" },
-    //         // { A: 5, B: "fishing" },
-    //         // { A: 6, B: "fishing" },
-    //         // { A: 7, B: "fishing" },
-
-    //         // { A: 1, B: "love" },
-    //         // { A: 2, B: "love" },
-    //         // { A: 3, B: "love" },
-    //         // { A: 4, B: "love" },
-    //         // { A: 5, B: "love" },
-    //         // { A: 6, B: "love" },
-    //         // { A: 7, B: "love" },
-
-    //         // { A: 1, B: "love" },
-    //         // { A: 2, B: "love" },
-    //         // { A: 3, B: "love" },
-    //         // { A: 4, B: "love" },
-    //         // { A: 5, B: "love" },
-    //         // { A: 6, B: "love" },
-    //         // { A: 7, B: "love" },
-
-    //         // { A: 1, B: "security" },
-    //         // { A: 2, B: "security" },
-    //         // { A: 3, B: "security" },
-    //         // { A: 4, B: "security" },
-    //         // { A: 5, B: "security" },
-    //         // { A: 6, B: "security" },
-    //         // { A: 7, B: "security" },
-
-    //         // { A: 1, B: "glue" },
-    //         // { A: 2, B: "glue" },
-    //         // { A: 3, B: "glue" },
-    //         // { A: 4, B: "pick" },
-    //         // { A: 5, B: "pick" },
-    //         // { A: 6, B: "pick" },
-    //         // { A: 7, B: "pick" },
-            
-    //         // { A: 1, B: "upgrade" },
-    //         // { A: 2, B: "upgrade" },
-    //         // { A: 3, B: "upgrade" },
-    //         // { A: 4, B: "upgrade" },
-    //         // { A: 5, B: "upgrade" },
-    //         // { A: 6, B: "upgrade" },
-    //         // { A: 7, B: "upgrade" },
-
-    //         { A: 1, B: "security" },
-    //         { A: 2, B: "pick" },
-    //         { A: 3, B: "love" },
-    //         { A: 4, B: "pick" },
-    //         { A: 5, B: "glue" },
-    //         { A: 6, B: "security" },
-    //         { A: 7, B: "upgrade"},
-
-    //         { A: 1, B: "pick" },
-    //         { A: 2, B: "security" },
-    //         { A: 3, B: "pick" },
-    //         { A: 4, B: "love" },
-    //         { A: 5, B: "pick" },
-    //         { A: 6, B: "upgrade" },
-    //         { A: 7, B: "glue"},
-    //     ]
-
-    //     for (let i = 0; i < cards.length; i++) await GameDeck.create(cards[i])
-    // }
 
 }
 

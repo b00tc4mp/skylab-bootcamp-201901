@@ -39,6 +39,12 @@ const restApi = {
             timeout: this.__timeout__
         })
     },
+
+    //retrieveUser game history
+    //StartGame
+    //Send Next Action
+    //Update
+    //Join Game
 }
 
 export default restApi
