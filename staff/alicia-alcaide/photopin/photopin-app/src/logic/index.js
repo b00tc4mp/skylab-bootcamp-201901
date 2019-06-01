@@ -1,16 +1,21 @@
+//const normalize = require('../utils/normalize')
 import normalize from '../utils/normalize'
-import validate from 'photopin-validate'
-import { LogicError } from 'photopin-errors'
+const validate = require('photopin-validate')
+const { LogicError } = require('photopin-errors')
+const photopinApi = require('../photopin-api')
 
 
 const logic = {
-    set __userToken__(token) {
-        sessionStorage.userToken = token
-    },
 
-    get __userToken__() {
-        return normalize.undefinedOrNull(sessionStorage.userToken)
-    },
+    __userToken__ : null,
+
+    // set __userToken__(token) {
+    //     sessionStorage.userToken = token
+    // },
+
+    // get __userToken__() {
+    //     return normalize.undefinedOrNull(sessionStorage.userToken)
+    // },
 
     get isUserLoggedIn() {
         return !!this.__userToken__
@@ -26,10 +31,17 @@ const logic = {
 
         validate.email(email)
 
-        return restApi.registerUser(name, surname, email, password)
-            .then(({ error }) => {
-                if (error) throw new LogicError(error)
-            })
+        return (async () => {
+            try {
+            
+                await photopinApi.registerUser(name, surname, email, password )
+            
+            } catch (error) {
+            
+                throw new LogicError(error)
+            
+            }
+        })()  
     },
 
     loginUser(email, password) {
@@ -40,80 +52,86 @@ const logic = {
 
         validate.email(email)
 
-        return restApi.authenticateUser(email, password)
-            .then(({ error, token }) => {
-                if (error) throw new LogicError(error)
-
+        return (async () => {
+            try {
+            
+                const token = await photopinApi.authenticateUser(email, password)
+                
                 this.__userToken__ = token
-            })
-    },
 
-    retrieveUser() {
-        return restApi.retrieveUser(this.__userToken__)
-            .then(response => {
-                const { error } = response
-
-                if (error) throw new LogicError(error)
-
-                return response
-            })
+            } catch (error) {
+            
+                throw new LogicError(error)
+            
+            }
+        })()
     },
 
     logoutUser() {
         sessionStorage.clear()
     },
 
-    searchDucks(query) {
-        validate.arguments([
-            { name: 'query', value: query, type: 'string' }
-        ])
+    retrieveUser() {
 
-        return restApi.searchDucks(this.__userToken__, query)
-            .then(response => {
-                const { error } = response
-
-                if (error) throw new LogicError(error)
-
-                return response instanceof Array ? response : []
-            })
+        return (async () => {
+            try {
+            
+                return await photopinApi.retrieve(this.__userToken__) 
+                
+            } catch (error) {
+            
+                throw new LogicError(error)
+            
+            }
+        })()
     },
 
-    retrieveDuck(id) {
+
+    updateUser( data) {
+    //updateUser(name, surname, email, password) {
+        // validate.arguments([
+        //     { name: 'name', value: name, type: 'string', notEmpty: true },
+        //     { name: 'surname', value: surname, type: 'string', notEmpty: true },
+        //     { name: 'email', value: email, type: 'string', notEmpty: true },
+        //     { name: 'password', value: password, type: 'string', notEmpty: true }
+        // ])
+        //validate.email(email)
+        
         validate.arguments([
-            { name: 'id', value: id, type: 'string' }
+            { name: 'data', value: data, type: 'object', notEmpty: true }
         ])
 
-        return restApi.retrieveDuck(this.__userToken__, id)
-            .then(response => {
-                const { error } = response
-
-                if (error) throw new LogicError(error)
-
-                return response
-            })
+        return (async () => {
+            try {
+            
+                await photopinApi.updateUser(this.__userToken__, data)
+            
+            } catch (error) {
+            
+                throw new LogicError(error)
+            
+            }
+        })()
     },
 
-    toggleFavDuck(id) {
-        validate.arguments([
-            { name: 'id', value: id, type: 'string' }
-        ])
-
-        return restApi.toggleFavDuck(this.__userToken__, id)
-            .then(({ error }) => {
-                if (error) throw new LogicError(error)
-            })
-    },
-
-    retrieveFavDucks() {
-        return restApi.retrieveFavDucks(this.__userToken__)
-            .then(response => {
-                const { error } = response
-
-                if (error) throw new LogicError(error)
-
-                return response
-            })
+    removeUser() {
+        
+        return (async () => {
+            try {
+            
+                await photopinApi.removeUser(this.__userToken__)
+            
+            } catch (error) {
+            
+                throw new LogicError(error)
+            
+            }
+        })()
     }
+    
+
+
 }
 
+//module.exports = logic
 export default logic
