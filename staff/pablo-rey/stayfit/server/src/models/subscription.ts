@@ -1,48 +1,93 @@
-import { Field, ID, ObjectType } from 'type-graphql';
-import { arrayProp, prop, Ref, Typegoose } from 'typegoose';
-import { Attendance } from './attendance';
+// import { Field, ID, ObjectType, Root } from 'type-graphql';
+// import { arrayProp, prop, Ref, Typegoose, instanceMethod } from 'typegoose';
+// import { Attendance } from './attendance';
+// import { SessionType } from './session-type';
 
-@ObjectType()
-export class ServiceLimit extends Typegoose {
-  @Field()
-  @prop()
-  type: string;
+// export const PAID = '01 - PAID'; // orders the precedence for subscriptions
+// export const OPEN = '02 - OPEN';
+// export const DELINQUENCY = '99 - DELINQUENCY';
 
-  @Field()
-  @prop()
-  limit: number;
+// export const SUBCRIPTIONPAYMENTTYPES = [PAID, OPEN, DELINQUENCY];
 
-  @Field(() => Attendance)
-  @arrayProp({ itemsRef: Attendance })
-  attendance: Ref<Attendance>[];
-}
+// @ObjectType()
+// export class SessionsLimit extends Typegoose {
+//   @Field(returns => SessionType)
+//   @prop({ ref: SessionType, required: true })
+//   type: Ref<SessionType>;
 
-@ObjectType()
-export class Subscription extends Typegoose {
-  @Field(() => ID)
-  id: number;
+//   @Field()
+//   @prop()
+//   limit: number;
 
-  @Field()
-  status: string;
+//   @Field(() => Attendance)
+//   @arrayProp({ items: Attendance })
+//   attendances: Attendance[];
 
-  @Field()
-  startDate: Date;
+//   @prop()
+//   get count() : number{
+//     return Attendance.count(this.attendances);
+//   }
 
-  @Field()
-  endDate: Date;
+//   @prop()
+//   get used(): boolean {
+//     return Attendance.count(this.attendances) >= this.limit;
+//   }
+// }
 
-  @Field(() => ServiceLimit)
-  @arrayProp({ items: ServiceLimit })
-  serviceLimits: ServiceLimit[];
-  /*
+// @ObjectType()
+// export class Subscription extends Typegoose {
+//   @Field(() => ID)
+//   id: number;
 
-  serviceLimits: {
-      "wod": {limit : 10, attendance: [Attendances]}
-      "mobility": {limit : 2, attendance: [Attendances]}
-  }
-*/
-}
+//   @Field()
+//   @prop({ required: true })
+//   title: string;
 
-export const SubscriptionModel = new Subscription().getModelForClass(Subscription, {
-  schemaOptions: { collection: 'suscriptions' },
-});
+//   @Field()
+//   @prop({ required: true, default: true })
+//   active: boolean;
+
+//   @Field()
+//   @prop({ required: true, enum: SUBCRIPTIONPAYMENTTYPES })
+//   paymentType: string;
+
+//   @Field()
+//   @prop({ required: true })
+//   paymentMethod: string;
+
+//   @Field()
+//   @prop()
+//   startDate: Date;
+
+//   @Field()
+//   @prop()
+//   endDate: Date;
+
+//   @Field()
+//   @prop()
+//   globalSessionLimit: number;
+
+//   @Field(() => SessionsLimit)
+//   @arrayProp({ items: SessionsLimit })
+//   sessionsLimit: SessionsLimit[];
+
+//   @prop()
+//   get countAttendances(): number {
+//     return this.sessionsLimit.reduce((acc, sl) => acc + Attendance.count(sl.attendances),0);
+//   }
+
+//   @prop()
+//   get used() : boolean{
+//     return this.countAttendances >= this.globalSessionLimit;
+//   }
+
+//   @Field()
+//   @prop()
+//   get isActive (): boolean {
+//     return (this.active && [PAID, OPEN].includes(this.paymentType))
+//   }
+// }
+
+// // export const SubscriptionModel = new Subscription().getModelForClass(Subscription, {
+// //   schemaOptions: { collection: 'subscriptions' },
+// // });

@@ -1,12 +1,13 @@
+import 'reflect-metadata';
 import { ApolloServer } from 'apollo-server-express';
 import * as cors from 'cors';
 import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
-import 'reflect-metadata';
-import { buildSchema } from 'type-graphql';
-import { ProviderResolver } from './graphql/provider-resolvers';
-import { UserResolver } from './graphql/user-resolvers';
+import * as cookieParser from 'cookie-parser';
+import context from './graphql/middleware/context';
+import { createSchema } from './graphql/schemas/rootSchema';
+import { cleanDb, populateDb } from './data/db-maintenance';
 
 dotenv.config();
 const {
@@ -18,18 +19,25 @@ const db = mongoose.connection;
 db.on('error', err => console.error('MongoDB connection error', err));
 
 db.on('open', async () => {
-  // const apolloContext = require('./graphql/middleware/apolloContext');
+  if (true) {
+    await cleanDb();
+    await populateDb();
+  }
+  const schema = await createSchema();
 
-  const schema = await buildSchema({
-    resolvers: [UserResolver, ProviderResolver],
+  const apolloServer = new ApolloServer({
+    schema,
+    context,
   });
 
-  const apolloServer = new ApolloServer({ schema });
-
   const app = express();
-  app.use(cors());
+  app.use(
+    cors({
+      credentials: true,
+    })
+  );
+  app.use(cookieParser());
 
   apolloServer.applyMiddleware({ app });
-
   app.listen(PORT, () => console.log(`Server ready at http://localhost:${PORT}${apolloServer.graphqlPath}`));
 });
