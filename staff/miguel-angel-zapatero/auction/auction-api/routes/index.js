@@ -4,7 +4,6 @@ const jwt = require('jsonwebtoken')
 const logic = require('../logic')
 const handleErrors = require('./handle-errors')
 const auth = require('./auth')
-const multisearch = require('./multisearch')
 
 const { env: { JWT_SECRET } } = process
 
@@ -43,10 +42,10 @@ router.get('/users', auth, (req, res) => {
 })
 
 router.put('/users/update', jsonParser, auth, (req, res) => {
-    const { userId, body: { name, surname, email, password } } = req
+    const { userId, body } = req
     
     handleErrors(async () => {
-        await logic.updateUser(userId, name, surname, email, password)
+        await logic.updateUser(userId, body)
         
         return res.status(201).json({ message: 'Ok, user updated.' })
     }, res)
@@ -83,23 +82,39 @@ router.get('/items/:id/bids', auth, (req, res) => {
 })
 
 router.post('/items', jsonParser, (req, res) => {
-    const { body: { 
-        title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city  
-    } } = req
+    const { userId, body } = req
+
+    let { title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city } = body
+
+    //FALTA DE MIRAR LO DEL TEMA DE LAS IMAGENES!!!!!
+    startDate = new Date(startDate)
+    finishDate = new Date(finishDate)
     
+    //FATA PONER LO DEL userID PARA PROTEGER LA CREACIÓN DE OBJETOS
     handleErrors(async () => {
-        //FALTA PASARLE EL userId para proteger lo de crear items?¿?¿
         await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
         
         return res.status(201).json({ message: 'Ok, item created.' })
     }, res)
 })
 
-router.get('/items', jsonParser, multisearch, (req, res) => {
-    const { query } = req 
+router.get('/items', jsonParser, (req, res) => {
+    const { query } = req
 
+    let { query: text, category, city, startDate, endDate, startPrice, endPrice } = query
+
+    if(startDate && endDate) {
+        startDate = new Date(startDate)
+        endDate = new Date(endDate)
+    }
+
+    if(startPrice && endPrice) {
+        startPrice = Number(startPrice)
+        endDate = Number(endDate)
+    }
+    
     handleErrors(async () => {
-        const items = await logic.searchItems(query)
+        const items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
         
         return res.json(items)
     }, res)

@@ -18,10 +18,10 @@ const logic = {
      */
     registerUser(name, surname, email, password) {
         validate.arguments([
-            { name: 'name', value: name, type: 'string', notEmpty: true },
-            { name: 'surname', value: surname, type: 'string', notEmpty: true },
-            { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true }
+            { name: 'name', value: name, type: String, notEmpty: true },
+            { name: 'surname', value: surname, type: String, notEmpty: true },
+            { name: 'email', value: email, type: String, notEmpty: true },
+            { name: 'password', value: password, type: String, notEmpty: true }
         ])
 
         validate.email(email)
@@ -47,8 +47,8 @@ const logic = {
      */
     authenticateUser(email, password) {
         validate.arguments([
-            { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true }
+            { name: 'email', value: email, type: String, notEmpty: true },
+            { name: 'password', value: password, type: String, notEmpty: true }
         ])
 
         validate.email(email)
@@ -75,7 +75,7 @@ const logic = {
      */
     retrieveUser(id) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'id', value: id, type: String, notEmpty: true },
         ])
 
         return (async () => {
@@ -93,14 +93,13 @@ const logic = {
      * @param {String} id The user id
      * @param {Object} data The fields to update de user data
      */
-    updateUser(id, name, surname, email, password) {
+    updateUser(id, data) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'name', value: name, type: 'string', notEmpty: true, optional: true},
-            { name: 'surname', value: surname, type: 'string', notEmpty: true, optional: true },
-            { name: 'email', value: email, type: 'string', notEmpty: true, optional: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true, optional: true }
+            { name: 'id', value: id, type: String, notEmpty: true },
+            { name: 'data', value: data, type: Object, notEmpty: true, optional: true},
         ])
+
+        const { name, surname, email, password } = data
 
         validate.email(email)
 
@@ -125,15 +124,15 @@ const logic = {
     /**
      * Delete an user with the correct user credentials
      * 
-     * @param {*} id The user id
-     * @param {*} email The user email
-     * @param {*} password The user password
+     * @param {String} id The user id
+     * @param {String} email The user email
+     * @param {String} password The user password
      */
     deleteUser(id, email, password) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'password', value: password, type: 'string', notEmpty: true }
+            { name: 'id', value: id, type: String, notEmpty: true },
+            { name: 'email', value: email, type: String, notEmpty: true },
+            { name: 'password', value: password, type: String, notEmpty: true }
         ])
         
         return (async () => {
@@ -160,18 +159,20 @@ const logic = {
      */
     placeBid(itemId, userId, amount) {
         validate.arguments([
-            { name: 'itemId', value: itemId, type: 'string', notEmpty: true },
-            { name: 'userId', value: userId, type: 'string', notEmpty: true },
-            { name: 'amount', value: amount, type: 'number', notEmpty: true }
+            { name: 'itemId', value: itemId, type: String, notEmpty: true },
+            { name: 'userId', value: userId, type: String, notEmpty: true },
+            { name: 'amount', value: amount, type: Number, notEmpty: true }
         ])
 
         return (async () => {
             const user = await User.findById(userId)
-            if(!user) throw new LogicError(`user with id "${id}" doesn't exist`)
+            if(!user) throw new LogicError(`user with id "${userId}" doesn't exist`)
 
             const item = await Item.findById(itemId)
-            if(!item) throw new LogicError(`item with id "${id}" doesn't exist`)
+            if(!item) throw new LogicError(`item with id "${itemId}" doesn't exist`)
             
+            if(item.isClosed()) throw new LogicError(`item with id "${itemId}" is closed`)
+
             if(item.startPrice >= amount) throw new LogicError(`sorry, the current bid "${amount}" is lower than the start price`)
 
             let bid = item.winningBid()
@@ -208,20 +209,61 @@ const logic = {
     },
 
     /**
-     * Search all the documents with the given query
+     * Search all the items with the given data filters
      * 
-     * @param {Object} query The query data to search items
+     * @param {String} text the text title or description to match
+     * @param {String} category the category item 
+     * @param {String} city the city where the auction is held  
+     * @param {Date} startDate the start date when finish the auction
+     * @param {Date} endDate the end date when finish the auction 
+     * @param {Number} startPrice
+     * @param {Number} endPrice
      * 
-     * @returns {Array} An array with the items found
+     * @returns {Array} The finded items
      */
-    searchItems(query) {
+    searchItems(text, category, city, startDate, endDate, startPrice, endPrice) {
         validate.arguments([
-            { name: 'query', value: query, type: 'object'},
+            { name: 'text', value: text, type: String, optional: true },
+            { name: 'category', value: category, type: String, optional: true },
+            { name: 'city', value: city, type: String, optional: true },
+            { name: 'startDate', value: startDate, type: Date, optional: true },
+            { name: 'endDate', value: endDate, type: Date, optional: true },
+            { name: 'startPrice', value: startPrice, type: Number, optional: true },
+            { name: 'endPrice', value: endPrice, type: Number, optional: true }
         ])
         
+        const data = {}
+
+        if (text || category || city || (startDate && endDate) || (startPrice && endPrice)) {
+            data.$and = []
+
+            if(text) {
+                const regex = new RegExp(text, 'i')
+                data.$and.push(
+                    { $or: [
+                        {title: {$regex: regex }},
+                        {description: {$regex: regex }}
+                    ]}
+                )
+            }
+
+            if (category) data.$and.push({category: category})
+            if (city) data.$and.push({city: city})
+            if (startDate && endDate)
+                data.$and.push({ finishDate: {
+                    $gte: startDate.setDate(startDate.getDate() - 1),
+                    $lte: endDate.setDate(startDate.getDate() + 1)
+                }})
+            if (startPrice && endPrice)
+                data.$and.push({startPrice: { 
+                    $gte: startPrice - 1, 
+                    $lte: endPrice + 1 
+                }})
+        }
+        
         return (async () => {        
-            let items = await Item.find(query).select('-__v').lean()
-            
+            let items = await Item.find(data).select('-__v')
+            debugger
             items = items.map(item => {
                 item.id = item._id
                 delete item._id
@@ -241,7 +283,7 @@ const logic = {
      */
     retrieveItem(id) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'id', value: id, type: String, notEmpty: true },
         ])
 
         return (async () => {
@@ -259,8 +301,8 @@ const logic = {
      */
     retrieveItemBids(itemId, userId) {
         validate.arguments([
-            { name: 'itemId', value: itemId, type: 'string', notEmpty: true },
-            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'itemId', value: itemId, type: String, notEmpty: true },
+            { name: 'userId', value: userId, type: String, notEmpty: true },
         ])
 
         return (async () => {
@@ -287,30 +329,27 @@ const logic = {
      * @param {String} title The item title
      * @param {String} description The item description
      * @param {Number} startPrice The start price for the item
-     * @param {String} startDate The date when start the item auction
-     * @param {String} finishDate The date when finish the item auction 
+     * @param {Date} startDate The date when start the item auction
+     * @param {Date} finishDate The date when finish the item auction 
      * @param {Number} reservedPrice The price if the item is reserved 
-     * @param {String} images The item images
+     * @param {Array} images The item images
      * @param {String} category The item category
      * @param {String} city The city where the item auction is showing
      */
     createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city) {
         validate.arguments([
-            { name: 'title', value: title, type: 'string', notEmpty: true },
-            { name: 'description', value: description, type: 'string', notEmpty: true },
-            { name: 'startPrice', value: startPrice, type: 'number', notEmpty: true },
-            { name: 'startDate', value: startDate, type: 'string', notEmpty: true },
-            { name: 'finishDate', value: finishDate, type: 'string', notEmpty: true },
-            { name: 'reservedPrice', value: reservedPrice, type: 'number', optional: true},
-            { name: 'images', value: images, type: 'string', optional: true },
-            { name: 'category', value: category, type: 'string', notEmpty: true },
-            { name: 'city', value: city, type: 'string', notEmpty: true }
+            { name: 'title', value: title, type: String, notEmpty: true },
+            { name: 'description', value: description, type: String, notEmpty: true },
+            { name: 'startPrice', value: startPrice, type: Number, notEmpty: true },
+            { name: 'startDate', value: startDate, type: Date, notEmpty: true },
+            { name: 'finishDate', value: finishDate, type: Date, notEmpty: true },
+            { name: 'reservedPrice', value: reservedPrice, type: Number, optional: true},
+            { name: 'images', value: images, type: String, optional: true },
+            { name: 'category', value: category, type: String, notEmpty: true },
+            { name: 'city', value: city, type: String, notEmpty: true }
         ])
 
         return (async () => {
-            startDate = moment(startDate, 'DD-MM-YYYY', true).format()
-            finishDate = moment(finishDate, 'DD-MM-YYYY', true).format()
-
             await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city})
         })()
     }
