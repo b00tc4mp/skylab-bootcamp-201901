@@ -7,6 +7,8 @@ const moment = require('moment')
 
 const {env: { MONGO_URL_LOGIC_TEST }} = process
 
+jest.setTimeout(100000)
+
 describe('logic', () => {
     beforeAll(async () => {
         try {
@@ -433,7 +435,8 @@ describe('logic', () => {
                     reservedPrice: Math.floor(Math.random() * 1),
                     city: cities[Math.floor(Math.random() * cities.length)],
 	                category: categories[Math.floor(Math.random() * categories.length)],
-	                images: "image1.jpg"
+                    // images: ['image1.jpg', 'image2.jpg', 'image3.jpg']
+                    images: ['./logic/avacyn.png', './logic/avacyn.1.png', './logic/avacyn.2.png']
                 }
             })
 
@@ -441,6 +444,12 @@ describe('logic', () => {
         })
 
         describe('create items', () => {
+            let _user
+
+            beforeEach(async () => {
+                _user = await User.create({name, surname, email, password, role:'ADMIN'})
+            })
+
             it('should success on correct data', async () => {
                 let item = items[Math.floor(Math.random() * items.length)]
 
@@ -449,9 +458,9 @@ describe('logic', () => {
 
                 const { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
 
-                await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
+                await logic.createItem(_user.id, title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
                 
-                const _item = await Item.findOne({title: title})
+                const _item = await Item.findOne({title: title}).lean()
                 
                 expect(_item.title).toBe(title)
                 expect(_item.description).toBe(description)
@@ -462,7 +471,8 @@ describe('logic', () => {
                 expect(_item.city).toBe(city)
                 expect(_item.category).toBe(category)
                 expect(_item.images).toBeInstanceOf(Array)
-                // expect(_item.images).toContain(images)
+                debugger
+                expect(_item.images).toEqual(images)
             })
         })
 
