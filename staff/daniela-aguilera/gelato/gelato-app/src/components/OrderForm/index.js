@@ -85,7 +85,7 @@ export function OrderForm () {
           const { price } = TYPES[typeId]
           const id = `TYPE-${typeId}`
           return (
-            <Fragment>
+            <Fragment key={id}>
               <input type='radio'
                 id={id}
                 name='type'
@@ -111,7 +111,7 @@ export function OrderForm () {
           const { multiplierPrice } = SIZES[sizeId]
           const id = `SIZE-${sizeId}`
           return (
-            <Fragment>
+            <Fragment key={id}>
               <input type='radio'
                 id={id}
                 name='size'

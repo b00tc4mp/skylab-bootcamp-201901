@@ -37,7 +37,7 @@ export function NavBar () {
       <Link to='/create-your-order' className='button is-primary'>
         <strong>Order Now!</strong>
       </Link>
-      <Link to='/user-profile' className='button is-primary'>
+      <Link to='/user/profile' className='button is-primary'>
         <strong>My profile!</strong>
       </Link>
     </div>
@@ -53,6 +53,8 @@ export function NavBar () {
       </Link>
     </div>
   )
+
+  console.log(logic.isUserAdmin)
 
   return (
     <nav className='navbar' role='navigation' aria-label='main navigation'>

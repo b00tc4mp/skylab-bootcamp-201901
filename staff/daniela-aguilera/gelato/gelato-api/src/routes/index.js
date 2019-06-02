@@ -23,18 +23,29 @@ router.post('/user/auth', jsonParser, (req, res) => {
   const { body: { email, password } } = req
 
   handleErrors(async () => {
-    const sub = await logic.authenticateUser(email, password)
-    const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '10h' })
+    const { id, superUser } = await logic.authenticateUser(email, password)
+    const token = jwt.sign({ sub: id, adm: superUser }, JWT_SECRET, { expiresIn: '10h' })
 
-    return res.json({ token })
+    return res.json({ token, isAdmin: superUser })
   }, res)
 })
 
 router.get('/user', auth, (req, res) => {
   handleErrors(async () => {
-    const { userId } = req
+    const { isAdmin, userId } = req
     const user = await logic.retrieveUserBy(userId)
+    user.isAdmin = isAdmin
+
     return res.json(user)
+  }, res)
+})
+
+router.put('/user/profile', auth, jsonParser, (req, res) => {
+  const { userId, body } = req
+  handleErrors(async () => {
+    await logic.updateUser(userId, body)
+
+    return res.status(201).json({ message: 'Ok, user updated.' })
   }, res)
 })
 
@@ -49,7 +60,6 @@ router.delete('/user', auth, (req, res) => {
 router.post('/user/order', auth, jsonParser, (req, res) => {
   const { body, userId } = req
   const { flavors, size, type, totalPrice } = body
-  debugger
   handleErrors(async () => {
     await logic.addOrder({ client: userId, flavors, size, type, totalPrice })
     return res.status(200).json({ message: 'Your order is on the way.' })
@@ -84,9 +94,10 @@ router.delete('/user/order/:id', auth, (req, res) => {
   }, res)
 })
 
-router.get('/store/orders', jsonParser, (req, res) => {
+router.get('/store/orders', auth, jsonParser, (req, res) => {
   handleErrors(async () => {
-    const orders = await logic.retrieveAllOrders()
+    const { isAdmin } = req
+    const orders = await logic.retrieveAllOrders({ isAdmin })
     return res.json(orders)
   }, res)
 })

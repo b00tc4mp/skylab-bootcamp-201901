@@ -124,9 +124,12 @@ describe('logic', () => {
     beforeEach(async () => { user = await User.create({ name, surname, email, password }) })
 
     it('should succeed on correct credentials', async () => {
-      const id = await logic.authenticateUser(email, password)
+      const { id, superUser } = await logic.authenticateUser(email, password)
       expect(id).to.exist
       expect(id).to.be.a('string')
+
+      expect(superUser).to.be.a('boolean')
+      expect(superUser).to.equal(false)
 
       expect(id).to.equal(user.id)
     })
@@ -140,11 +143,11 @@ describe('logic', () => {
       }
     })
     it('should fail on non-existent email', async () => {
-      const email2 = 'a@gmail.com'
+      const email2 = 'aaaaaaaaaaaaaaaaa@gmail.com'
       try {
         await logic.authenticateUser(email2, password)
       } catch (error) {
-        expect(error.message).to.equal("Cannot read property 'password' of null")
+        expect(error.message).to.equal('wrong credentials')
       }
     })
   })
@@ -184,12 +187,16 @@ describe('logic', () => {
         client: user.id,
         type: 'cone',
         size: 'big',
-        flavors: ['vanilla', 'chocolate', 'blackberry rosé']
+        flavors: ['vanilla', 'chocolate', 'blackberry rosé'],
+        totalPrice: 3
       }
+
       const res = await logic.addOrder(order)
       expect(res).to.be.undefined
-      const orders = await Order.find()
-      expect(orders).to.exist
+      const orderDb = await Order.findOne().sort({ _id: -1 }).lean()
+      expect(orderDb).to.exist
+      expect(orderDb.size).to.equal(order.size)
+      expect(orderDb.totalPrice).to.equal(order.totalPrice)
     })
 
     it('should fail adding an order with empty client', async () => {
@@ -265,7 +272,8 @@ describe('logic', () => {
           client: user.id,
           size: `big-${Math.random()}`,
           type: `cone-${Math.random()}`,
-          flavors: [`vanilla-${Math.random()}`]
+          flavors: [`vanilla-${Math.random()}`],
+          totalPrice: 3
         }
         return order
       })
@@ -293,7 +301,8 @@ describe('logic', () => {
           client: user.id,
           size: `big-${Math.random()}`,
           type: `cone-${Math.random()}`,
-          flavors: [`vanilla-${Math.random()}`]
+          flavors: [`vanilla-${Math.random()}`],
+          totalPrice: 5
         }
         return order
       })
@@ -307,7 +316,8 @@ describe('logic', () => {
           client: user2.id,
           size: `small-${Math.random()}`,
           type: `cup-${Math.random()}`,
-          flavors: [`chocolate-${Math.random()}`]
+          flavors: [`chocolate-${Math.random()}`],
+          totalPrice: 5
         }
         return order
       })
@@ -316,8 +326,8 @@ describe('logic', () => {
       await Promise.all(secondGelatosOrders.map(async gelato => allOrdersSecondClient.push(await Order.create(gelato))))
     })
 
-    it('should succeed retrieving all orders', async () => {
-      const allClientsOrders = await logic.retrieveAllOrders()
+    it('should succeed retrieving all orders if user is admin', async () => {
+      const allClientsOrders = await logic.retrieveAllOrders({ isAdmin: true })
 
       expect(allClientsOrders).to.exist
       expect(allClientsOrders).to.have.lengthOf(allOrdersFirstClient.length + allOrdersSecondClient.length)
@@ -330,6 +340,14 @@ describe('logic', () => {
         expect(order.date).to.exist
         expect(order.date).to.be.instanceOf(Date)
       })
+    })
+
+    it.only('should avoid authorization retrieving all orders if user is NOT admin', async () => {
+      try {
+        await logic.retrieveAllOrders({ isAdmin: false })
+      } catch (e) {
+        expect(e).to.exist
+      }
     })
   })
 
@@ -345,7 +363,8 @@ describe('logic', () => {
           client: user.id,
           size: `big-${Math.random()}`,
           type: `cone-${Math.random()}`,
-          flavors: [`vanilla-${Math.random()}`]
+          flavors: [`vanilla-${Math.random()}`],
+          totalPrice: 5
         }
         return order
       })
@@ -382,7 +401,8 @@ describe('logic', () => {
           client: user.id,
           size: `big-${Math.random()}`,
           type: `cone-${Math.random()}`,
-          flavors: [`vanilla-${Math.random()}`]
+          flavors: [`vanilla-${Math.random()}`],
+          totalPrice: 5
         }
         return order
       })
@@ -445,7 +465,8 @@ describe('logic', () => {
           client: user.id,
           size: `big-${Math.random()}`,
           type: `cone-${Math.random()}`,
-          flavors: [`vanilla-${Math.random()}`]
+          flavors: [`vanilla-${Math.random()}`],
+          totalPrice: 5
         }
         return order
       })

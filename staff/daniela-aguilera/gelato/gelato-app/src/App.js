@@ -27,8 +27,8 @@ export function App () {
         <Route exact path='/payment' component={Payment} />
         <Route exact path='/my-basket' component={MyBasket} />
         <Route exact path='/orders/:orderId' component={Order} />
+        <Route exact path='/user/profile' component={UserProfile} />
         <Route component={NotFound} />
-        <Route exact path='/user-profile' component={UserProfile} />
       </Switch>
       <Footer />
 

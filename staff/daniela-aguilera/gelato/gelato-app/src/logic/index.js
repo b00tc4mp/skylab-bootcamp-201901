@@ -7,12 +7,24 @@ export default {
     window.sessionStorage.userToken = token
   },
 
+  set __userIsAdmin__ (isAdmin) {
+    window.sessionStorage.userIsAdmin = isAdmin
+  },
+
   get __userToken__ () {
     return normalize.undefinedOrNull(window.sessionStorage.userToken)
   },
 
+  get __userIsAdmin__ () {
+    return normalize.undefinedOrNull(window.sessionStorage.userIsAdmin)
+  },
+
   get isUserLoggedIn () {
     return !!this.__userToken__
+  },
+
+  get isUserAdmin () {
+    return !!this.__userIsAdmin__
   },
 
   registerUser (name, surname, email, password) {
@@ -36,13 +48,24 @@ export default {
 
     const response = await restApi.authenticateUser(email, password)
     if (response) {
-      const _token = response.token
-      this.__userToken__ = _token
+      console.log(response)
+      const { token, isAdmin } = response
+      console.log({ token, isAdmin })
+      this.__userToken__ = token
+      this.__userIsAdmin__ = isAdmin
     }
   },
 
   retrieveUserBy () {
     return restApi.retrieveUser(this.__userToken__)
+  },
+
+  updateUser (data) {
+    validate.arguments([
+      { name: 'data', value: data, type: 'object', notEmpty: true }
+    ])
+
+    return restApi.updateUser(this.__userToken__, data)
   },
 
   deleteUser () {

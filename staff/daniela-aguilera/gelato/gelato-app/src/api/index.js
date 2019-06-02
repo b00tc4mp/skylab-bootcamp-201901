@@ -60,6 +60,23 @@ const restApi = {
     })
   },
 
+  updateUser (token, data) {
+    validate.arguments([
+      { name: 'token', value: token, type: 'string', notEmpty: true },
+      { name: 'data', value: data, type: 'object', notEmpty: true }
+    ])
+
+    return call(`${this.__url__}/user/profile`, {
+      method: 'PUT',
+      headers: {
+        Authorization: `Bearer ${token}`,
+        'Content-Type': 'application/json'
+      },
+      body: data,
+      timeout: this.__timeout__
+    })
+  },
+
   addOrder (token, flavors, size, type, totalPrice) {
     validate.arguments([
       { name: 'token', value: token, type: 'string', notEmpty: true },

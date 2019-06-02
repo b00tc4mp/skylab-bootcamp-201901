@@ -1,5 +1,5 @@
 const { User, Order } = require('gelato-data')
-const { LogicError } = require('gelato-errors')
+const { LogicError, UnauthorizedError } = require('gelato-errors')
 const validate = require('gelato-validation')
 
 const logic = {
@@ -30,8 +30,9 @@ const logic = {
     return (async () => {
       const user = await User.findOne({ email })
       if (!user) throw new LogicError('wrong credentials')
-      if (user.password === password && email === user.email) return user.id
-      else throw new LogicError('wrong credentials')
+      if (user.password === password && email === user.email) {
+        return { id: user.id, superUser: user.superUser }
+      } else throw new LogicError('wrong credentials')
     })()
   },
 
@@ -44,6 +45,34 @@ const logic = {
       const user = await User.findById(id).lean()
       delete user.password
       return user
+    })()
+  },
+
+  updateUser (id, data) {
+    validate.arguments([
+      { name: 'id', value: id, type: 'string', notEmpty: true },
+      { name: 'data', value: data, type: 'object', notEmpty: true, optional: true }
+    ])
+
+    const { name, surname, email, password } = data
+
+    validate.email(email)
+
+    return (async () => {
+      const user = await User.findById(id)
+      if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+
+      // const existingEmail = await User.findOne({ email: email })
+      // if (existingEmail) throw new LogicError(`email "${email}" already exist`)
+
+      const data = {
+        name: name || user.name,
+        surname: surname || user.surname,
+        email: email || user.email,
+        password: password || user.password
+      }
+
+      await User.findByIdAndUpdate(id, data)
     })()
   },
 
@@ -123,8 +152,14 @@ const logic = {
     })()
   },
 
-  retrieveAllOrders () {
+  retrieveAllOrders ({ isAdmin }) {
+    validate.arguments([
+      { name: 'isAdmin', value: isAdmin, type: 'boolean' }
+    ])
+
     return (async () => {
+      if (!isAdmin) throw new UnauthorizedError('You do not have permission to do this')
+
       let allOrders = await Order.find().populate('client', 'name').lean()
 
       if (allOrders.length >= 1) {

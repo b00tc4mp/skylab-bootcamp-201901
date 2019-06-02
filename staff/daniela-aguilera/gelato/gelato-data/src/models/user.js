@@ -29,6 +29,10 @@ const User = new Schema({
     required: true
   },
 
+  superUser: {
+    type: Boolean,
+    default: false
+  },
   orders: [Order]
 })
 

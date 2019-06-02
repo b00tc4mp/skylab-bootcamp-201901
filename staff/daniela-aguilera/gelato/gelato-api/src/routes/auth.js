@@ -14,9 +14,11 @@ module.exports = (req, res, next) => {
 
         const token = authorization.slice(7)
 
-        const { sub } = jwt.verify(token, JWT_SECRET)
+        const { adm, sub } = jwt.verify(token, JWT_SECRET)
 
         req.userId = sub
+        req.isAdmin = adm
+
         next()
       })
   }, res)
