@@ -116,6 +116,9 @@ const logic = {
             const user = await User.findById(userId)
             if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
 
+            const product = await Product.findById(productId)
+            if (!product) throw new LogicError(`product with id ${productId} doesn't exists`)
+
             const index = user.cart.findIndex(product => product.productId.toString() === productId)
 
             if (index < 0) user.cart.push({ productId, quantity: 1 })

@@ -32,8 +32,8 @@ router.post('/users/auth', jsonParser, (req, res) => {
     }, res)
 })
 
-router.get('/users/:id', auth, (req, res) => {
-    const { params: { id: userId } } = req
+router.get('/users', auth, (req, res) => {
+    const { userId } = req
 
     handleErrors(async () => {
         const user = await logic.retrieveUser(userId)
@@ -90,21 +90,23 @@ router.delete('/products/:id/cart', auth, (req, res) => {
     }, res)
 })
 
-router.get('/products/cart/:id', auth, (req, res) => {
-    const { params: { id} } = req
+router.get('/cart', auth, (req, res) => {
+    const { userId } = req
 
     handleErrors(async () => {
-        const cart = await logic.retrieveCart(id)
+        const cart = await logic.retrieveCart(userId)
         return res.json(cart)
     }, res)
 })
 
+
 //Order:
 
-router.post('/order/:id', auth, (req, res) => {
-    const { params: { id } } = req
+router.post('/order', auth, (req, res) => {
+    const { userId } = req
+
     handleErrors(async () => {
-        await logic.cartToOrder(id)
+        await logic.cartToOrder(userId)
         return res.status(200).json({ message: 'Ok, pass cart to order' })
     }, res)
 })
