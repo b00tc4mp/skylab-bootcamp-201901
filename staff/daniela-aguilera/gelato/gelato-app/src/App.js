@@ -1,17 +1,19 @@
 // import Logo from './components/Logo'
 // import Button from './components/Button'
-import { Home } from './pages/Home/index'
 import React from 'react'
 import { Switch, Route } from 'react-router-dom'
-import { Login } from './pages/Login'
-import { Register } from './pages/Register'
-import { NotFound } from './pages/NotFound'
-import { NavBar } from './components/NavBar'
+
+import { CreateOrder } from './pages/CreateOrder'
 import { Footer } from './components/Footer'
+import { Home } from './pages/Home/index'
+import { Login } from './pages/Login'
+import { MyBasket } from './pages/MyBasket'
+import { NavBar } from './components/NavBar'
+import { NotFound } from './pages/NotFound'
 import { Order } from './pages/Order'
 import { Payment } from './pages/Payment'
-import { MyBasket } from './pages/MyBasket'
-import { Qr } from './pages/Qr'
+import { Register } from './pages/Register'
+import { UserProfile } from './pages/UserProfile'
 
 export function App () {
   return (
@@ -21,11 +23,12 @@ export function App () {
         <Route exact path='/' component={Home} />
         <Route exact path='/login' component={Login} />
         <Route exact path='/register' component={Register} />
-        <Route exact path='/create-your-order' component={Order} />
+        <Route exact path='/create-your-order' component={CreateOrder} />
         <Route exact path='/payment' component={Payment} />
         <Route exact path='/my-basket' component={MyBasket} />
-        <Route exact path='/qr:id' component={Qr} />
+        <Route exact path='/orders/:orderId' component={Order} />
         <Route component={NotFound} />
+        <Route exact path='/user-profile' component={UserProfile} />
       </Switch>
       <Footer />
 

@@ -9,7 +9,7 @@
     "dotenv": "8.0.0",
     "gelato-errors": "file:../gelato-errors",
     "gelato-validation": "file:../gelato-validation",
-    "qr-string": "^1.0.7",
+    "qrious": "^4.0.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
     "react-router-dom": "5.0.0",
