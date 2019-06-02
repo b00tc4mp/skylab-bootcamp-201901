@@ -14,18 +14,17 @@ const {
     authenticateUser,
     retrieveUser,
     updateUser,
-    uploadGame
+    uploadGame,
+    retrieveGameByQuery
 } = require('./routes')
 
 const logic = require('./logic/index')
-debugger
 const { env: { DB_URL, PORT, JWT_SECRET, FB_API_KEY, FB_AUTH_DOMAIN,FB_DATABASE_URL, FB_STORAGE_BUCKET }, argv: [, , port = PORT || 8080] } = process
 
 logic.apiKey = FB_API_KEY
 logic.authDomain = FB_AUTH_DOMAIN
 logic.databaseURL = FB_DATABASE_URL
 logic.storageBucket = FB_STORAGE_BUCKET
-debugger
 
 const app = express()
 
@@ -45,6 +44,8 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.put('/user/update',[tokenVerifierMiddleware,jsonBodyParser],updateUser)
         router.post('/user/game', [tokenVerifierMiddleware, fileParser], uploadGame)
 
+        
+        router.get('/search/:genre/:query', jsonBodyParser, retrieveGameByQuery)
 
         app.use('/api', router)
 
