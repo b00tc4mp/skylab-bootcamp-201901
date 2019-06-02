@@ -58,9 +58,9 @@ const restApi = {
     updateUser(token, name, surname, country){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true},
-            { name: 'name', value: name, type: 'string', notEmpty: true},
-            { name: 'surname', value: surname, type: 'string', notEmpty: true},
-            { name: 'country', value: country, type: 'string', notEmpty: true}
+            { name: 'name', value: name, type: 'string', optional: true},
+            { name: 'surname', value: surname, type: 'string', optional: true},
+            { name: 'country', value: country, type: 'string', optional: true}
         ])
         return call(`${this.__url__}/users`, {
             method: 'PUT',

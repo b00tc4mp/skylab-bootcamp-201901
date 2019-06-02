@@ -1,8 +1,0 @@
-{
-    "name": "dashboard-normalize",
-    "version": "1.0.0",
-    "description": "dashboard-normalize",
-    "main": "src/index.js",
-    "author": "Lila Petri",
-    "license": "ISC"
-}

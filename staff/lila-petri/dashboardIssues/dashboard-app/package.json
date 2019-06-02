@@ -7,6 +7,7 @@
     "body-parser": "^1.19.0",
     "dashboard-call": "file:../dashboard-call",
     "dashboard-errors": "file:../dashboard-errors",
+    "dashboard-normalize": "file:../dashboard-normalize",
     "dashboard-validate": "file:../dashboard-validate",
     "dotenv": "^8.0.0",
     "moment": "^2.24.0",
@@ -17,9 +18,9 @@
     "validator": "^11.0.0"
   },
   "scripts": {
-    "test": "mocha ./src/**/*.test.js --runInBand",
+    "test": "mocha ./src/**/*.test.js --runInBand --require mock-local-storage",
     "test:debug": "mocha debug ./src/**/*.test.js --runInBand",
-    "test:coverage": "nyc --reporter=html --reporter=text mocha ./src/**/*.test.js --runInBand"
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./src/**/*.test.js --runInBand --require mock-local-storage"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -40,6 +41,7 @@
     "chai": "^4.2.0",
     "dashboard-data": "file:../dashboard-data",
     "mocha": "^6.1.4",
+    "mock-local-storage": "^1.1.8",
     "nyc": "^14.1.1"
   }
 }

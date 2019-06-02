@@ -4,7 +4,7 @@ const argon2 = require ('argon2')
 const {  ValueError, RequirementError } = require('dashboard-errors')
 const restApi = require('.')
 const dotenv = require ('dotenv')
-const helper = require ('./helper')
+const helper = require ('../common/helper')
 
 
 dotenv.config()
@@ -381,8 +381,7 @@ describe('rest api', ()=>{
                 const token = undefined
                 
                 expect(() => restApi.updateUser(token, name, surname, country)).to.throw(RequirementError, `token is not optional`)
-            })
-            
+            }) 
             it('should fail on null token', () => {
                 const token = null
                 
@@ -400,6 +399,7 @@ describe('rest api', ()=>{
                 
                 expect(() => restApi.updateUser(token, name, surname, country)).to.throw(ValueError, 'token is empty')
             })
+            
 
         })
         describe('delete user', ()=> {
@@ -417,7 +417,7 @@ describe('rest api', ()=>{
             it('should fail on non-existent user', async ()=>{
                 await User.deleteMany()
                 try{
-                    await restApi.deleteUser(restApi)
+                    await restApi.deleteUser(token)
                 }catch(error){
                     expect(error).to.exist
                 }
@@ -532,7 +532,6 @@ describe('rest api', ()=>{
                 response = await restApi.authenticateUser(email, password)
                 token= response.token    
                 await helper.loadDataBase(month)
-    
             })
             it('shoul succeed on correct data', async ()=>{
 
@@ -656,7 +655,7 @@ describe('rest api', ()=>{
                 token= response.token    
                 await helper.loadDataBase(month)
             })
-            it('should sucdeed on correct data', async ()=>{
+            it('should succeed on correct data', async ()=>{
                 
                 const response= await restApi.retrieveIssuesByResolution(token,'BugFix', 'PL', startDate, endDate)
                 expect(response).to.exist
@@ -880,76 +879,74 @@ describe('rest api', ()=>{
             it('should fail on undefined startDate', () => {
                 const startDate = undefined
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
             })
             
             it('should fail on null startDate', () => {
                 const startDate = null
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `startDate is not optional`)
             })
             
             it('should fail on empty startDate', () => {
                 const startDate = ''
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
             })
             
             it('should fail on blank startDate', () => {
                 const startDate = ' \t    \n'
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'startDate is empty')
             })
     
             it('should fail on undefined endDate', () => {
                 const endDate = undefined
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
             })
             
             it('should fail on null endDate', () => {
                 const endDate = null
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `endDate is not optional`)
             })
             
             it('should fail on empty endDate', () => {
                 const endDate = ''
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
             })
             
             it('should fail on blank endDate', () => {
                 const endDate = ' \t    \n'
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'endDate is empty')
             })
 
             it('should fail on undefined token', () => {
                 const token = undefined
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `token is not optional`)
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `token is not optional`)
             })
             
             it('should fail on null token', () => {
                 const token = null
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(RequirementError, `token is not optional`)
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(RequirementError, `token is not optional`)
             })
             
             it('should fail on empty token', () => {
                 const token = ''
                 
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'token is empty')
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'token is empty')
             })
             
             it('should fail on blank token', () => {
                 const token = ' \t    \n'
             
-                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'MX' , startDate, endDate)).to.throw(ValueError, 'token is empty')
+                expect(() => restApi.retrieveIssuesBySLA(token,'Request', 'IT' , startDate, endDate)).to.throw(ValueError, 'token is empty')
             })
-
-
 
         })
         describe('issues for table', ()=>{
