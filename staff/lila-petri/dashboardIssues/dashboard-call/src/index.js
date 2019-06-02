@@ -20,9 +20,8 @@ function call(url, options = {}) {
         { name: 'headers', value: headers, type: 'object', optional: true },
         { name: 'data', value: data, type: 'object', optional: true }
     ])
-    debugger
     validate.url(url)
-
+    
     return (async () => {
         try {
             const response = await axios({
@@ -31,11 +30,12 @@ function call(url, options = {}) {
                 url,
                 data
             })
-
+            
             return response.data
+
         } catch (error) {
             if (error.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')
-
+            debugger
             const { response } = error
 
             if (response && response.status) {

@@ -1,7 +1,5 @@
 const call = require('dashboard-call')
 const validate = require('dashboard-validate')
-
-// const dotenv = require ('dotenv')
 require('dotenv').config()
 const { env: { JIRA_TOKEN: token } } = process
 

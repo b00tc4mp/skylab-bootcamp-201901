@@ -18,16 +18,18 @@ describe('logic', ()=>{
     const profile = `admin`
     const  country = `PL`
     before(()=> mongoose.connect(url, {useNewUrlParser:true}))
-    beforeEach(async()=>{
-        await Issue.deleteMany()
-        await User.deleteMany()
-        email = `email-${Math.random()}@mail.com`
-        user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
-        id= user.id
-    })
-    describe('load jira', ()=>{
+    describe('load jira', function(){
+        this.timeout(300000)
         const month= 'May'
+        beforeEach(async()=>{
+            await Issue.deleteMany()
+            await User.deleteMany()
+            email = `email-${Math.random()}@mail.com`
+            user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+            id= user.id
+        })
         it('should succeed on correct data', async ()=>{
+            await Issue.deleteMany()
             const res= await logic.loadJirasByMonth(id, month)
             
             expect(res).to.be.undefined
@@ -36,6 +38,7 @@ describe('logic', ()=>{
         })
 
         it('should succeed on correct data loading more tha one month', async ()=>{
+            await Issue.deleteMany()
             const monthBefore= 'April'
             await logic.loadJirasByMonth(id, monthBefore)
             await logic.loadJirasByMonth(id, month)
@@ -113,16 +116,18 @@ describe('logic', ()=>{
             expect(() => logic.loadJirasByMonth(id, month)).to.throw(ValueError, 'id is empty')
         })
     })
-    describe.only('issues', ()=>{
+    describe('issues', ()=>{
         const month='May'
-        beforeEach(async()=>{
+        beforeEach(async function (){
+            this.timeout(300000)
+            await Issue.deleteMany()
+            await User.deleteMany()
             await logic.loadJirasByMonth(id, month)
+            email = `email-${Math.random()}@mail.com`
+            user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+            id= user.id
         })
         describe('calculate overdue',()=>{
-            // const month='May'
-            // beforeEach(async()=>{
-            //     await logic.loadJirasByMonth(month)
-            // })
             it('shoul succeed on correct data', async ()=>{
                 await logic.calculateOverdue(id)
                 const issues= await Issue.find()
@@ -172,66 +177,7 @@ describe('logic', ()=>{
                 expect(() => logic.calculateOverdue(id)).to.throw(ValueError, 'id is empty')
             })
         })
-        describe('clean collection issue', ()=>{
-            // const month='May'
-            // beforeEach(async()=>{
-            //     await logic.loadJirasByMonth(month)
-            // })
-            it('should clean issues collection', async ()=>{
-                await logic.clearUp(id)
-                const collection = await Issue.estimatedDocumentCount()
-                expect(collection).is.equal(0)
-            })
-            it('should fail on incorrect format id', async ()=>{
-                const id='LL'
-                try{
-                    await logic.clearUp(id)
-                    throw Error('should not reach this point')
-    
-                }catch(err){
-                    expect(err.message).to.equals('invalid id')
-                }
-            })
-
-            it('should fail on inexistent id', async ()=>{
-                const id='5cefc8d029db9f0ba2664b16'
-                try{
-                    await logic.clearUp(id)
-                    throw Error('should not reach this point')
-    
-                }catch(err){
-                    expect(err.message).to.equals(`user with id "${id}" does not exist`)
-                }
-            })
-            it('should fail on undefined id', () => {
-                const id = undefined
-                
-                expect(() => logic.clearUp(id)).to.throw(RequirementError, `id is not optional`)
-            })
-    
-            it('should fail on null id', () => {
-                const id = null
-                
-                expect(() => logic.clearUp(id)).to.throw(RequirementError, `id is not optional`)
-            })
-    
-            it('should fail on empty id', () => {
-                const id = ''
-                
-                expect(() => logic.clearUp(id)).to.throw(ValueError, 'id is empty')
-            })
-    
-            it('should fail on blank id', () => {
-                const id = ' \t    \n'
-                
-                expect(() => logic.clearUp(id)).to.throw(ValueError, 'id is empty')
-            })
-        })
         describe('static method', ()=>{
-            // const month='May'
-            // beforeEach(async()=>{
-            //     await logic.loadJirasByMonth(month)
-            // })
             it('should succeed on correct data', async ()=>{
                 let startDate= moment('2019-05-03')
                 let endDate= moment('2019-05-04')
@@ -245,17 +191,6 @@ describe('logic', ()=>{
         
             const startDate = '2019-05-01'
             const endDate = '2019-05-29'
-            // let id
-            // beforeEach(async()=>{
-            //     name = `John`
-            //     surname = `Smith`
-            //     email = `email-${Math.random()}@mail.com`
-            //     password = `123`
-            //     profile = `admin`
-            //     country = `PL`
-            //     user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
-            //     id= user.id
-            // })
             
             it('should sucdeed on correct data', async ()=>{
                 
@@ -825,20 +760,75 @@ describe('logic', ()=>{
             })
     
         })
+        describe('clean collection issue', ()=>{
+            // const month='May'
+            // beforeEach(async()=>{
+            //     await logic.loadJirasByMonth(month)
+            // })
+            it('should clean issues collection', async ()=>{
+                await logic.clearUp(id)
+                const collection = await Issue.estimatedDocumentCount()
+                expect(collection).is.equal(0)
+            })
+            it('should fail on incorrect format id', async ()=>{
+                const id='LL'
+                try{
+                    await logic.clearUp(id)
+                    throw Error('should not reach this point')
+    
+                }catch(err){
+                    expect(err.message).to.equals('invalid id')
+                }
+            })
+
+            it('should fail on inexistent id', async ()=>{
+                const id='5cefc8d029db9f0ba2664b16'
+                try{
+                    await logic.clearUp(id)
+                    throw Error('should not reach this point')
+    
+                }catch(err){
+                    expect(err.message).to.equals(`user with id "${id}" does not exist`)
+                }
+            })
+            it('should fail on undefined id', () => {
+                const id = undefined
+                
+                expect(() => logic.clearUp(id)).to.throw(RequirementError, `id is not optional`)
+            })
+    
+            it('should fail on null id', () => {
+                const id = null
+                
+                expect(() => logic.clearUp(id)).to.throw(RequirementError, `id is not optional`)
+            })
+    
+            it('should fail on empty id', () => {
+                const id = ''
+                
+                expect(() => logic.clearUp(id)).to.throw(ValueError, 'id is empty')
+            })
+    
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+                
+                expect(() => logic.clearUp(id)).to.throw(ValueError, 'id is empty')
+            })
+        })
 
     })
     describe('users',()=>{
-        let name, surname, email, password, profile, country
-        beforeEach(()=>{
-            name = `John`
-            surname = `Smith`
+        beforeEach(async ()=>{
+
+            await User.deleteMany()
             email = `email-${Math.random()}@mail.com`
-            password = `123`
-            profile = `admin`
-            country = `PL`
+            user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+            id= user.id
+        
         })
         describe('registerUser', ()=>{
             it('should succeed on correct data', async ()=>{
+            await User.deleteMany()
             const res = await logic.registerUser(name, surname, email, password, profile, country)
 
             expect(res).to.be.undefined
@@ -862,10 +852,10 @@ describe('logic', ()=>{
             })
 
             it('should fail on existing user', async ()=>{
-                await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
 
                 try{
 
+                    await logic.registerUser(name, surname, email, password, profile, country)
                     await logic.registerUser(name, surname, email, password, profile, country)
                     throw Error('should not reach this point')
 
@@ -1023,9 +1013,13 @@ describe('logic', ()=>{
 
         })
         describe('authenticateUser', ()=>{
-            let user
-            beforeEach(async()=>{
+            beforeEach(async ()=>{
+
+                await User.deleteMany()
+                email = `email-${Math.random()}@mail.com`
                 user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                id= user.id
+            
             })
 
             it('should succeed on correct credentials', async () => {
@@ -1113,9 +1107,7 @@ describe('logic', ()=>{
 
         })
         describe('retrieveUser', ()=>{
-        let user
-            beforeEach(async () => user = await User.create({ name, surname, email, password: await argon2.hash(password), profile, country }))
-
+        
             it('should succeed on correct id from existing user', async () => {
                 const _user = await logic.retrieveUser(user.id)
 
@@ -1165,7 +1157,7 @@ describe('logic', ()=>{
         describe('updateUser',()=>{
             let user, id
             beforeEach(async()=>{
-                user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                //user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
                 id = await logic.authenticateUser(email, password)
             })
             it('should succeed on correct data', async ()=>{
@@ -1215,9 +1207,8 @@ describe('logic', ()=>{
             })
         })
         describe('deleteUser',()=>{
-            let user, id
+            let  id
             beforeEach(async()=>{
-                user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
                 id = await logic.authenticateUser(email, password)
             })
             it('shoul succeed on correct data', async ()=> {

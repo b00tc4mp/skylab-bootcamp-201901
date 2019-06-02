@@ -54,7 +54,7 @@ router.delete('/users',auth, (req, res) => {
         res.status(204).json({ message: 'Ok, user deleted.' })
     },res)
 })
-router.get('/issues/load', auth, (req, res)=>{
+router.post('/issues/load', auth, (req, res)=>{
     handleErrors(async () => {
         const {  userId , query: { month } } = req
         await logic.loadJirasByMonth(userId, month)
