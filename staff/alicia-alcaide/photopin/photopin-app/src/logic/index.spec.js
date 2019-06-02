@@ -94,7 +94,6 @@ describe('logic', () => {
             beforeEach(async () => user = await User.create({ name, surname, email, password: await bcrypt.hash(password, 10) }))
 
             it('should succeed on correct credentials', async () => {
-                debugger
                 await logic.loginUser(email, password)
             })
 

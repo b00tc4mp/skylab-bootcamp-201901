@@ -21,10 +21,10 @@ function Register({ lang, onRegister, error }) {
     return <section className="register">
         <h2>{title}</h2>
         <form onSubmit={handleSubmit}>
-            <input type="text" name="name" placeholder={name} defaultValue="Ali"/>
-            <input type="text" name="surname" placeholder={surname} defaultValue="YO"/>
-            <input type="text" name="email" placeholder={email} defaultValue="ali@mail.com"/>
-            <input type="password" name="password" placeholder={password} defaultValue="123"/>
+            <input type="text" name="name" placeholder={name} />
+            <input type="text" name="surname" placeholder={surname} />
+            <input type="email" name="email" placeholder={email} />
+            <input type="password" name="password" placeholder={password} />
             <button>{title}</button>
             <span>{error}</span>
         </form>

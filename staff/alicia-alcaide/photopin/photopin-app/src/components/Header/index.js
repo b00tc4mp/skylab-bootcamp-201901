@@ -11,9 +11,9 @@ function Header({ lang }) {
     const { title } = literals[lang]
 
     return <header className="header" onClick={e => e.preventDefault()}>
-        <img src={logo} alt="logo-PhotoPin" className='header__logo' />
+        {/* <img src={logo} alt="logo-PhotoPin" className='header__logo'  /> */}
 
-        <p className='header__title'>{title}</p>
+        <h1 className='header__title'>{title}</h1>
 
         {/* TODO: Navegación - Profile (si signIn)
                                Logout  (si signIn)

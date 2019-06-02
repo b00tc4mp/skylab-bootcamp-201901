@@ -9,9 +9,10 @@ import logic from '../../logic'
 import Header from '../Header'
 import Landing from '../Landing'
 import Register from '../Register'
-import RegisterOk from '../RegisterOk'
+import Welcome from '../welcome'
 import Login from '../Login'
 import Home from '../Home'
+import MapPage from '../MapPage'
 
 
 class App extends Component {
@@ -25,7 +26,7 @@ class App extends Component {
     try {
         logic.registerUser(name, surname, email, password)
             .then(() =>
-                this.setState({ visible: 'register-ok', error: null })
+                this.props.history.push('/welcome')
             )
             .catch(error =>
                 this.setState({ error: error.message })
@@ -71,15 +72,15 @@ class App extends Component {
         <Switch>
             <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing lang={lang} onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
 
-            <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> :
-                visible !== 'register-ok' ?
-                    <Register lang={lang} onRegister={handleRegister} error={error} /> :
-                    <RegisterOk lang={lang} onLogin={handleLoginNavigation} />
-            } />
+            <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register lang={lang} onRegister={handleRegister} error={error} /> } />
+
+            <Route path="/welcome" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Welcome lang={lang} onLogin={handleLoginNavigation} error={error} />} />
 
             <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
 
             <Route path="/home" render={() => logic.isUserLoggedIn ? <Home lang={lang} onLogout={handleLogout} /> : <Redirect to="/" />} />
+
+            <Route path="/map/:id" render={() => logic.isUserLoggedIn ? <MapPage lang={lang} /> : <Redirect to="/" />} />
 
             <Redirect to="/" />
         </Switch>

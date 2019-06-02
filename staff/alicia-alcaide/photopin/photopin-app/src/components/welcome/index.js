@@ -1,7 +1,7 @@
 import React from 'react'
 import literals from './literals'
 
-function RegisterOk({ lang, onLogin }) {
+function WelcomePage({ lang, onLogin }) {
     const { successProceedTo, login } = literals[lang]
 
     return <>
@@ -13,4 +13,4 @@ function RegisterOk({ lang, onLogin }) {
     </>
 }
 
-export default RegisterOk
+export default WelcomePage

@@ -1,29 +1,16 @@
-import React, { Component } from 'react'
-import { withRouter } from 'react-router-dom'
+import React from 'react'
 import literals from './literals'
-import logic from '../../logic'
+import YourMaps from '../YourMaps'
 //import './index.sass'
 
+function Home({ lang }) {
 
-class Home extends Component {
-    state = { error: null }
+    const { title } = literals[lang]
 
-    
+    return <main className="home">
+        <YourMaps lang={lang}/>
+    </main>
 
-    render() {
-        const {
-            state: { error },
-            props: { lang }
-            
-        } = this
-
-        const { title } = literals[lang]
-
-        return <main className="home">
-            <h1>Esto es el Home de { title }</h1>
-            
-        </main>
-    }
 }
 
-export default withRouter(Home)
+export default Home

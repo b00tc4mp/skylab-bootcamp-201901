@@ -155,6 +155,99 @@ const logic = {
             return await User.findByIdAndDelete(userId)
 
         })()
+    },
+
+
+    //-------------------------------------------------------------------
+
+
+    /**
+     * Retrieve the complete user data (name, surname, email, avatar, language and )
+     * 
+     * @param {String} userId The user id
+     * 
+     * @returns {Object} The user data
+     */
+    retrieveUserMaps(userId) {
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+            const maps = await PMap.find({author: userId}).lean()
+
+
+    //         const newMap = await PMap.create({
+    //             title: "Beautiful Iceland",
+    // description: "My favorite locations from Iceland",
+    // coverImage: "",
+    // author: userId,
+    // isPublic: false
+    //         })
+    //         const maps = await PMap.find()
+            //.select('-_id -collections')
+
+            if(!maps) throw new LogicError(`no maps for user with id ${userId}`)
+
+            return maps
+        })()
+    },
+
+
+    /**
+     * Retrieve the complete user data (name, surname, email, avatar, language and )
+     * 
+     * @param {String} userId The user id
+     * 
+     * @returns {Object} The user data
+     */
+    retrieveUserMap(userId, mapId) {
+        validate.arguments([
+            { name: 'mapId', value: mapId, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+           
+           const map = await PMap.findById(mapId).populate('collections.pins').lean()
+
+            if(!map) throw new LogicError(`no maps for user with id ${mapId}`)
+
+            if(!map.isPublic && !map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
+
+            return map
+        })()
+    },
+
+    updateMap(userId, mapId, data) {
+
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'mapId', value: mapId, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object', notEmpty: true }
+        ])
+
+        return (async () => {
+
+            debugger
+
+            const map = await PMap.findById(mapId)
+
+            if(!map) throw new LogicError(`no maps for user with id ${mapId}`)
+
+            if(!map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
+
+            try {
+                let result = await PMap.findByIdAndUpdate(mapId, { $set: data }).select('-__v').lean()
+                
+                return result
+
+            } catch (error) {
+                throw new LogicError(`map with id ${mapId} doesn't exists`)
+            }
+
+        })()
+
+
     }
 
 

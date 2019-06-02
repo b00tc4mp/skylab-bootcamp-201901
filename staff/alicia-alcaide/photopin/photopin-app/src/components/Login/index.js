@@ -17,7 +17,7 @@ function Login({ lang, onLogin, error }) {
     return <section className="login">
         <h2>{title}</h2>
         <form onSubmit={handleSubmit}>
-            <input type="text" name="username" placeholder={email} />
+            <input type="email" name="username" placeholder={email} />
             <input type="password" name="password" placeholder={password} />
             <button>{title}</button>
             <span>{error}</span>

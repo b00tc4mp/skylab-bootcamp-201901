@@ -55,9 +55,9 @@ const logic = {
         return (async () => {
             try {
             
-                const token = await photopinApi.authenticateUser(email, password)
+                const res = await photopinApi.authenticateUser(email, password)
                 
-                this.__userToken__ = token
+                this.__userToken__ = res.token
 
             } catch (error) {
             
@@ -76,7 +76,7 @@ const logic = {
         return (async () => {
             try {
             
-                return await photopinApi.retrieve(this.__userToken__) 
+                return await photopinApi.retrieveUser(this.__userToken__) 
                 
             } catch (error) {
             
@@ -127,9 +127,52 @@ const logic = {
             
             }
         })()
-    }
+    },
     
+    //----------------------------------------------------------------------------------
 
+    retrieveUserMaps(){
+        return (async () => {
+            try {
+                return await photopinApi.retrieveUserMaps(this.__userToken__) 
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    retrieveUserMap(mapId) {
+         
+        validate.arguments([
+            { name: 'mapId', value: mapId, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            try {
+                return await photopinApi.retrieveUserMap(this.__userToken__, mapId) 
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()            
+    },
+
+    createMapCollection(mapId, collections) {
+        debugger;
+        validate.arguments([
+            { name: 'mapId', value: mapId, type: 'string', notEmpty: true },
+            { name: 'collections', value: collections, type: 'object', notEmpty: true }
+        ])
+
+        const data = { collections }
+
+        return (async () => {
+            try {
+                return await photopinApi.updateMap(this.__userToken__, mapId, data) 
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()            
+    }
 
 }
 

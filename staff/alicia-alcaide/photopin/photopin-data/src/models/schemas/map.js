@@ -7,11 +7,10 @@ const pmap = new Schema({
     coverImage: { type: String },
     tags: [{ type: String}],
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    lastAuthorAccess: { type: Date, default: Date.now, required: true  },
-    isPublic: { type: Boolean, default:false, required: true  },
+    isPublic: { type: Boolean, default:false},
     collections: [{
         title: String,
-        pin: [{ type: ObjectId, ref: 'Pin' }]
+        pins: [{ type: ObjectId, ref: 'Pin' }]
     }]    
 })
 

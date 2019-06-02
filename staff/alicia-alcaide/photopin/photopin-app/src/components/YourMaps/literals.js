@@ -1,8 +1,8 @@
 export default  {
     en: {
-        title: 'PhotoPin'
+        title: 'My Maps'
     },
     es: {
-        title: 'PhotoPin'
+        title: 'Mis Mapas'
     }
 }
