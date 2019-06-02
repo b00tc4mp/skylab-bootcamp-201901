@@ -2,7 +2,10 @@ const { mongoose: {Types: { ObjectId }}, models: { User, Item, Bid }} = require(
 const { LogicError } = require('auction-errors') 
 const validate = require('auction-validate')
 const bcrypt = require('bcrypt')
-const moment = require('moment')
+const cloudinary = require('cloudinary').v2
+const fs = require('fs')
+
+const { env: { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } } = process
 
 const logic = {
 
@@ -331,6 +334,7 @@ const logic = {
     /**
      * Create an item into the database
      * 
+     * @param {String} userId The userId (admin role)
      * @param {String} title The item title
      * @param {String} description The item description
      * @param {Number} startPrice The start price for the item
@@ -341,21 +345,52 @@ const logic = {
      * @param {String} category The item category
      * @param {String} city The city where the item auction is showing
      */
-    createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city) {
+    createItem(userId, title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city) {
         validate.arguments([
+            { name: 'userId', value: userId, type: String, notEmpty: true },
             { name: 'title', value: title, type: String, notEmpty: true },
             { name: 'description', value: description, type: String, notEmpty: true },
             { name: 'startPrice', value: startPrice, type: Number, notEmpty: true },
             { name: 'startDate', value: startDate, type: Date, notEmpty: true },
             { name: 'finishDate', value: finishDate, type: Date, notEmpty: true },
             { name: 'reservedPrice', value: reservedPrice, type: Number, optional: true},
-            { name: 'images', value: images, type: String, optional: true },
+            { name: 'images', value: images, type: Array, optional: true },
             { name: 'category', value: category, type: String, notEmpty: true },
             { name: 'city', value: city, type: String, notEmpty: true }
         ])
 
         return (async () => {
-            await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city})
+            const user = await User.findById(userId)
+            if(!user) throw new LogicError(`user with id "${userId}" doesn't exist`)
+            
+            if(user.role !== 'ADMIN') throw new LogicError(`Sorry, the username ${user.email} is not and admin.`)
+            
+            let url_images
+            if(images && images.length > 0) {
+                cloudinary.config({
+                    cloud_name: CLOUDINARY_CLOUD_NAME,
+                    api_key: CLOUDINARY_API_KEY,
+                    api_secret: CLOUDINARY_API_SECRET
+                })
+
+                // images = ['./logic/avacyn.png', './logic/avacyn.1.png', './logic/avacyn.2.png']
+                
+                const arr_images = await Promise.all(
+                    images.map(async img => await new Promise((resolve, reject) => {
+                        const upload = cloudinary.uploader.upload_stream((error, result) => {
+                            if (error) return reject(`Image could not be uploaded: ${error}`)
+                            resolve(result)
+                        })
+                        
+                        fs.createReadStream(img).pipe(upload)
+                    }))
+                )
+
+                url_images = arr_images.map(img => img.secure_url)
+            }
+            
+            debugger
+            await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice, images: url_images, category, city})
         })()
     }, 
 

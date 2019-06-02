@@ -10,7 +10,15 @@ const user = new Schema({
         trim: true
     },
     password: {type: String, required: [true, 'password required']},
-    items: [{type: ObjectId, ref: 'Item'}]
+    items: [{type: ObjectId, ref: 'Item'}],
+    role: {
+        type: String,
+        default: 'USER',
+        enum: {
+            values: ['ADMIN', 'USER'],
+            message: 'no es un role valido'
+        }
+    }
 })
 
 const bid = new Schema({
