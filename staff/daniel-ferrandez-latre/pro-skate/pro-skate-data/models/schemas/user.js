@@ -16,9 +16,9 @@ const user = new Schema({
   password: { type: String, required: true },
   age: Number,
   date: { type: Date, default: Date.now },
-  cart: [{type: Schema.Types.ObjectId, ref: 'Product'} ],
+  cart: [ { quantity: { type: Number, required: true }, productId: { type: Schema.Types.ObjectId, ref: 'Product' } } ],
   wishlist: [{type: Schema.Types.ObjectId, ref: 'Product'} ],
-  historic: [{type: Schema.Types.ObjectId, ref: 'Product'} ],
+  historic: [{ quantity: { type: Number, required: true }, productId: { type: Schema.Types.ObjectId, ref: 'Product' }, date : { type: Date, default: Date.now } }],
   isAdmin: {type: Boolean, default: false, required: true}
 })
 

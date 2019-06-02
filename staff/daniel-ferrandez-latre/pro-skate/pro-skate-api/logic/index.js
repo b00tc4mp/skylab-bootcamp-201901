@@ -1,8 +1,9 @@
 //@ts-check
-const  { models } = require('pro-skate-data')
+const  { models, mongoose } = require('pro-skate-data')
 const argon2 = require('argon2')
 const validate = require('../common/validate')
 const { LogicError, UnauthorizedError} = require('../common/errors')
+
 
 
 const { User, Product } = models
@@ -59,7 +60,6 @@ const logic = {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
-        // TODO implement logic
         return (async () => {
             const userDb = await User.findById(id)
             if(!userDb) throw new LogicError(`User with id ${id} doesn't exist`)
@@ -78,11 +78,11 @@ const logic = {
         return (async () => {
             let userDb = await User.findById(id).lean()
 
-            if(!userDb) throw new LogicError( ` That user doesn't exist` )
+            if(!userDb) throw new LogicError( `That user doesn't exist` )
 
-            const userUpdated = Object.assign(userDb, data)
+            // const userUpdated = Object.assign(userDb, data)
   
-            await User.findByIdAndUpdate(id, userUpdated)
+            await User.findByIdAndUpdate(id, data, {new: true})
 
             return true
         })()
@@ -104,7 +104,7 @@ const logic = {
  
     },
 
-    createNewProduct(userId, product){
+    createProduct(userId, product){
         validate.arguments([
             { name: 'userId', value: userId, type: 'string', notEmpty: true },
             { name: 'product', value: product, type: 'object', notEmpty: true }
@@ -114,39 +114,167 @@ const logic = {
             if(!userDb) throw new LogicError(`This user can not create a new product`)
             if(!userDb.isAdmin) throw new UnauthorizedError(`You need admin permissions to perform this action`)
             
-            await Product.create(product)
+            try{
+                await Product.create(product)
+            }catch(err){
+                if(err.code === 11000) throw new LogicError(`Product ${product.name} already exist and can not duplicate`)
+            }
+            return true
+        })()
+
+    },
+    
+    retrieveProduct(id){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+
+        return(async ()=>{
+            const productDb = await Product.findById(id)
+            if(!productDb) throw new LogicError(`Product with id ${id} doesn't exist`)
+            return productDb
+        })()
+    },
+
+    retrieveAllProducts(){
+        return(async ()=>{
+            const allProducts = await Product.find()
+            if(!allProducts) return []
+            return allProducts
+        })()
+
+    },
+
+    retrieveProductsByTag(tag){
+        validate.arguments([
+            { name: 'tag', value: tag, type: 'string', notEmpty: true }
+        ])
+        return(async ()=>{
+            const allProducts = await Product.find()
+            const productsByTag = allProducts.filter( product => {
+                if(product.tag.includes(tag)) return product
+            })
+            return productsByTag
+        })()
+
+    },
+
+    retrieveProductsByPrice(price){
+        validate.arguments([
+            { name: 'price', value: price, type: 'string', notEmpty: true }
+        ])
+        return(async ()=>{
+            const allProducts = await Product.find()
+            const productsByPrice = allProducts.filter( product => {
+                if(parseFloat(product.price) === parseFloat(price)) return product
+            })
+            return productsByPrice
+        })()
+    },
+
+    toggleWhishProduct(idUser, idProduct){
+        validate.arguments([
+            { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
+            { name: 'idProduct', value: idProduct, type: 'string', notEmpty: true }
+        ])
+
+        return( async ()=>{
+            const userBd = await User.findById(idUser)
+            if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
+            const productDB = await Product.findById(idProduct)
+            if (!productDB) throw new LogicError(`product with id "${idProduct}" doesn't exists`)
+            const isInWishList = userBd.wishlist.some( product =>  product._id.toString() === idProduct)
+            if(!isInWishList) {
+                userBd.wishlist.push(productDB._id)}
+            else {userBd.wishlist = userBd.wishlist.filter( product =>  product._id.toString() !== idProduct)}
+            await userBd.save()
+        })()
+    },
+
+    addProductToCart(idUser, idProduct, quantity){
+        validate.arguments([
+            { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
+            { name: 'idProduct', value: idProduct, type: 'string', notEmpty: true },
+            { name: 'quantity', value: quantity, type: 'string', notEmpty: true }
+        ])
+
+        return( async ()=>{
+            const userBd = await User.findById(idUser)
+            if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
+            const productDB = await Product.findById(idProduct)
+            if (!productDB) throw new LogicError(`product with id "${idProduct}" doesn't exists`)
+            const isInCart = userBd.cart.some( product =>  product.productId.toString() === idProduct  )
+            if(!isInCart) {
+                userBd.cart.push({quantity, productId: productDB._id })
+            }else {
+                if( quantity === '0' ) 
+                    userBd.cart = userBd.cart.filter( product => product.productId.toString() !== idProduct)
+                else
+                userBd.cart.forEach( product =>  {
+                    if(product.productId.toString() === idProduct)
+                        product.quantity = quantity
+                })
+            }
+            await userBd.save()
+        })()
+    },
+
+    retrieveCart(idUser){
+        validate.arguments([
+            { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
+        ])
+        return( async ()=>{
+            const userBd = await User.findById(idUser)
+            if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
+            if(userBd.cart.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his cart`)
+            
+            return userBd.cart
+        })()
+    },
+
+    checkoutCart(idUser){
+        validate.arguments([
+            { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
+        ])
+        return( async ()=>{
+            const userBd = await User.findById(idUser)
+            if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
+            if(userBd.cart.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his cart`)
+            userBd.cart.forEach( product => {
+                userBd.historic.push(product) 
+            })
+            userBd.cart = []
+            await userBd.save()
             return true
         })()
 
     },
 
-    addFavProduct(userId, productId){
+    retrieveHistoric(idUser){
         validate.arguments([
-            { name: 'userId', value: userId, type: 'string', notEmpty: true },
-            { name: 'productId', value: productId, type: 'object', notEmpty: true }
+            { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
         ])
+        return( async ()=>{
+            const userBd = await User.findById(idUser)
+            if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
+            if(userBd.historic.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his cart`)
 
-        return(async ()=>{
-            const userDb = await User.findById(userId)
-            if(!userDb) throw new LogicError(`This user can not create a new product`)
-
-    
-            await userDb.wishlist.push(productId)
+            return userBd.historic
         })()
 
-    }
-
-    
+    },
 
 
 
 
+
+    /* */
 
 
     // addPublicNote(userId, text) {
     //     // TODO validate inputs
 
-    //     // TODO implement logic
+    //     // TODO implement logiclist
 
     //     // return Note.create({ author: userId, text }).then(() => {})
 

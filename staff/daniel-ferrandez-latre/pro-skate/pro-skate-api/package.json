@@ -4,8 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "mocha --watch-extensions js,jsx '**/*.test.{js,jxs}' --watch",
-    "test:debug": "mocha  --watch-extensions js,jsx \"src/**/*.test.{ts,tsx}\" --watch --inspect",
+    "test": "mocha --watch-extensions js,jsx '**/*.test.{js,jxs}' --watch --timeout 10000",
+    "test-chrome": "mocha --inspect-brk **/*.test.js --timeout 10000",
+    "test-debug": "mocha  --watch-extensions js,jsx '**/*.test.{js,jsx}' --watch --inspect --timeout 10000",
     "only-test": "mocha --inspect-brk only-test/test.js",
     "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.test.js"
   },
