@@ -1,0 +1,32 @@
+{
+  "name": "wotcontrol-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "watch": "nodemon .",
+    "debug": "node debug .",
+    "test": "npx mocha --timeout 40000",
+    "test:debug": "npx mocha debug ",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.23.0",
+    "dotenv": "^8.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "validator": "^11.0.0",
+    "wotcontrol-call": "file:../wotcontrol-call",
+    "wotcontrol-data": "file:../wotcontrol-data",
+    "wotcontrol-errors": "file:../wotcontrol-errors",
+    "wotcontrol-validate": "file:../wotcontrol-validate"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  },
+  "description": ""
+}

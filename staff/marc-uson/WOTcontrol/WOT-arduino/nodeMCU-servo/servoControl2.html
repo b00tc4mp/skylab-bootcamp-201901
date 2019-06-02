@@ -1,0 +1,44 @@
+<html><head><meta http-equiv="Content-Type" content="text/html; charset=windows-1252">
+    <title>Web controlled Servo</title>
+    <script src="myjquery.js"></script>
+    </head>
+    <body>
+    <h1> <b> Arduino Web Controlled Servo by Electrosome </b> </h1>
+    <h4> <b> Enter the IP address below </b> </h4>
+    <div style="margin: 0; width:500px; height:80px;">
+    </div>
+    <h3> Scroll it to move the servo </h3>
+    <input type="range" min="20" max="170" onmouseup="servo1(this.value)">
+    <input type="range" min="20" max="170" onmouseup="servo2(this.value)">
+    <input type="range" min="20" max="170" onmouseup="servo3(this.value)">
+    <script>
+    $.ajaxSetup({timeout:1000});
+    function servo1(angle)
+    {
+        TextVar = '192.168.0.149';
+        ArduinoVar = "http://" + TextVar + ":80";
+        $.get( ArduinoVar, { "sr1": angle })	;
+        {Connection: close};
+        console.log(ArduinoVar)
+        console.log("sr1:" + angle)
+    }
+    function servo2(angle)
+    {
+        TextVar = '192.168.0.149';
+        ArduinoVar = "http://" + TextVar + ":80";
+        $.get( ArduinoVar, { "sr2": angle })	;
+        {Connection: close};
+        console.log(ArduinoVar)
+        console.log("sr2:" + angle)
+    }
+    function servo3(angle)
+    {
+        TextVar = '192.168.0.149';
+        ArduinoVar = "http://" + TextVar + ":80";
+        $.get( ArduinoVar, { "sr3": angle })	;
+        {Connection: close};
+        console.log(ArduinoVar)
+        console.log("sr3:" + angle)
+    }
+    </script>
+    </body></html>
