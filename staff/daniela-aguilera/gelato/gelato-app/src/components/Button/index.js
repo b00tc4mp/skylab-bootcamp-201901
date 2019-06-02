@@ -12,7 +12,7 @@ export default function Button ({ children, disabled, onClick, secondary, tertia
   })
 
   return (
-    <button disabled={disabled} className={className} onClick={onClick}>
+    <button disabled={disabled} className={className} onClick={onClick} placeholder={}>
       {children}
     </button>
   )

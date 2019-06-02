@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
+import logic from '../../logic'
 
 export function RegisterForm ({ onRegister }) {
-  function _handleSubmit (event) {
+  const [messageError, setErrorMessage] = useState(null)
+
+  async function _handleSubmit (event) {
     event.preventDefault()
 
     const {
@@ -10,12 +14,20 @@ export function RegisterForm ({ onRegister }) {
       email: { value: email },
       password: { value: password }
     } = event.target
+    try {
+      await logic.registerUser(name, surname, email, password)
+      window.location.href = '/'
+    } catch (error) {
+      setErrorMessage(error.message)
+    }
+  }
 
-    onRegister(name, surname, email, password)
+  if (logic.isUserLoggedIn) {
+    return <Redirect to='/' />
   }
 
   return (
-    <form disabled onSubmit={_handleSubmit}>
+    <form onSubmit={_handleSubmit}>
 
       <div className='field'>
         <label className='label'>Name</label>
@@ -46,10 +58,15 @@ export function RegisterForm ({ onRegister }) {
       </div>
 
       <p className='control'>
-        <button className='button is-success'>
-                Register
+        <button className='button is-info is-outlined'>
+          Register
         </button>
       </p>
+      {
+        messageError && <div className='message-body'>
+          <p>{messageError}</p>
+        </div>
+      }
     </form>
   )
 }

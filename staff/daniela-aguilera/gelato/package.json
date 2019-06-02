@@ -34,7 +34,8 @@
       "chai-friendly/no-unused-expressions": 2
     },
     "env": {
-      "mocha": true
+      "mocha": true,
+      "jest": true
     }
   }
 }

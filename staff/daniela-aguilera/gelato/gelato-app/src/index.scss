@@ -1,12 +1,27 @@
-@import './components/Modal/index.scss';
+$primary: #d24070;
 
-@import '../node_modules/bulma/css/bulma.css';
+$modal-background-background-color: rgba(95, 27, 49, 0.55);
+
+@import '../node_modules/bulma/bulma.sass';
+
+@import './components/Logo/index';
+@import './components/OrderForm/index';
+
+@import './pages/Home/index';
+@import './pages/Login/index';
+@import './pages/Register/index';
 
 body {
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
-    "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
-    sans-serif;
+  font-family: $family-sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 0 24px;
+  position: relative;
+}
+
+.g-Layout {
+  padding-top: 24px;
+  padding-bottom: 24px;
 }

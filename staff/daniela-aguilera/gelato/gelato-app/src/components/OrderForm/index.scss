@@ -1,0 +1,43 @@
+.g-Order {
+    box-shadow: 0px 0px 15px rgba(0, 0, 0, .2);
+    border-radius: 4px;
+    margin: 16px auto 32px;
+
+    display: block;
+    max-width: 300px;
+    min-height: 450px;
+    max-height: 100vh;
+
+    overflow: hidden;
+
+    &Scroller {
+        transition: transform .3s ease;
+        display: flex;
+    }
+
+    &Step {
+        padding: 16px;
+        flex: 0 0 100%;
+        width: 100%;
+
+        input {
+            display: none;
+            &:checked + label {
+                background: #eee;
+                border: 1px solid #000;
+            }
+        }
+
+        label {
+            transition: all .3s ease;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            display: block;
+            border: 1px solid #aaa;
+            &:hover {
+                background: #f0f0f0;
+            }
+        }
+    }
+}

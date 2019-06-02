@@ -1,17 +1,14 @@
 import React from 'react'
-import NavBar from '../../components/NavBar'
-import Logo from './logo.svg'
+import { Link } from 'react-router-dom'
 
 export function Home () {
   return (
     <div>
-      <NavBar />
-      <div>
-        <a href='https://bulma.io'>
-          <img src={Logo} width='112' height='28' />
-        </a>
-        <h1>Make your own gelato!</h1>
-        <button className='button is-primary'><strong>Order now!</strong></button>
+      <div className='g-Home-cta' src='/gelato-home.jpeg'>
+        <h1 className='title'>Make your own gelato!</h1>
+        <Link className='button is-primary' to='/create-your-order'>
+          <strong>Order now!</strong>
+        </Link>
       </div>
     </div>
   )

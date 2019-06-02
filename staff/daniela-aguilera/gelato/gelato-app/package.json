@@ -3,18 +3,25 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "bulma": "^0.7.5",
-    "classnames": "^2.2.6",
-    "react": "^16.8.6",
-    "react-dom": "^16.8.6",
-    "react-router-dom": "^5.0.0",
+    "axios": "0.18.0",
+    "bulma": "0.7.5",
+    "classnames": "2.2.6",
+    "dotenv": "8.0.0",
+    "gelato-errors": "file:../gelato-errors",
+    "gelato-validation": "file:../gelato-validation",
+    "qr-string": "^1.0.7",
+    "react": "16.8.6",
+    "react-dom": "16.8.6",
+    "react-router-dom": "5.0.0",
     "react-scripts": "3.0.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test:debug2": "react-scripts debug test --runInBand --no-cache",
+    "test:debug": "node --inspect-brk node_modules/jest/bin/jest.js --runInBand --watchAll"
   },
   "browserslist": {
     "production": [
@@ -29,6 +36,8 @@
     ]
   },
   "devDependencies": {
+    "gelato-data": "file:../gelato-data",
+    "jsonwebtoken": "8.5.1",
     "node-sass": "4.12.0"
   }
 }

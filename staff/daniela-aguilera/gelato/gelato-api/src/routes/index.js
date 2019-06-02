@@ -12,7 +12,6 @@ const { env: { JWT_SECRET } } = process
 
 router.post('/user', jsonParser, (req, res) => {
   const { body: { name, surname, email, password } } = req
-
   handleErrors(async () => {
     await logic.registerUser(name, surname, email, password)
 
@@ -49,10 +48,10 @@ router.delete('/user', auth, (req, res) => {
 
 router.post('/user/order', auth, jsonParser, (req, res) => {
   const { body, userId } = req
-  const { flavors, size, type } = body
-
+  const { flavors, size, type, totalPrice } = body
+  debugger
   handleErrors(async () => {
-    await logic.addOrder({ client: userId, flavors, size, type })
+    await logic.addOrder({ client: userId, flavors, size, type, totalPrice })
     return res.status(200).json({ message: 'Your order is on the way.' })
   }, res)
 })

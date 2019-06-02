@@ -1,15 +1,30 @@
-import React from 'react'
+import React, { useState } from 'react'
+import { Redirect } from 'react-router-dom'
+
+import logic from '../../logic/index'
 
 export function LoginForm ({ onLogin }) {
-  function _handleSubmit (event) {
+  const [messageError, setMessageError] = useState(null)
+
+  async function _handleSubmit (event) {
     event.preventDefault()
+    setMessageError(null)
 
     const {
       email: { value: email },
       password: { value: password }
     } = event.target
 
-    onLogin(email, password)
+    try {
+      await logic.authenticateUser(email, password)
+      window.location.href = '/create-your-order'
+    } catch (error) {
+      setMessageError(error.message)
+    }
+  }
+
+  if (logic.isUserLoggedIn) {
+    return <Redirect to='/' />
   }
 
   return (
@@ -26,7 +41,7 @@ export function LoginForm ({ onLogin }) {
         </p>
       </div>
       <div className='field'>
-        <p className='control has-icons-left'>
+        <p className='control has-icons-left '>
           <input className='input' name='password' type='password' placeholder='Password' />
           <span className='icon is-small is-left'>
             <i className='fas fa-lock' />
@@ -35,11 +50,16 @@ export function LoginForm ({ onLogin }) {
       </div>
       <div className='field'>
         <p className='control'>
-          <button className='button is-success'>
+          <button className='button is-info is-outlined'>
             Login
           </button>
         </p>
       </div>
+      {
+        messageError && <div className='message-body'>
+          <p>{messageError}</p>
+        </div>
+      }
     </form>
   )
 }

@@ -1,81 +1,27 @@
 'use strict'
 
-class ValueError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
-
-class FormatError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
-
-class RequirementError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
-
-class ConnectionError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
-
-class TimeoutError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
-
-class LogicError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
-
-class HttpError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
-
-class UnknownError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
-
-class UnexpectedError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
-
-class UnhandledError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
-
-class UnauthorizedError extends Error {
-  constructor (message) {
-    super(message)
-  }
-}
+class ConnectionError extends Error {}
+class FormatError extends Error {}
+class HttpError extends Error {}
+class LogicError extends Error {}
+class RequirementError extends Error {}
+class TimeoutError extends Error {}
+class UnauthorizedError extends Error {}
+class UnexpectedError extends Error {}
+class UnhandledError extends Error {}
+class UnknownError extends Error {}
+class ValueError extends Error {}
 
 module.exports = {
-  ValueError,
-  FormatError,
-  RequirementError,
   ConnectionError,
-  TimeoutError,
-  LogicError,
+  FormatError,
   HttpError,
-  UnknownError,
+  LogicError,
+  RequirementError,
+  TimeoutError,
+  UnauthorizedError,
   UnexpectedError,
   UnhandledError,
-  UnauthorizedError
+  UnknownError,
+  ValueError
 }

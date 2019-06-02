@@ -29,6 +29,7 @@ const logic = {
     ])
     return (async () => {
       const user = await User.findOne({ email })
+      if (!user) throw new LogicError('wrong credentials')
       if (user.password === password && email === user.email) return user.id
       else throw new LogicError('wrong credentials')
     })()
@@ -46,7 +47,7 @@ const logic = {
     })()
   },
 
-  removeUser (userId) {
+  removeUser (userId, email) {
     validate.arguments([
       { name: 'userId', value: userId, type: 'string', notEmpty: true }
     ])
@@ -62,16 +63,17 @@ const logic = {
     })()
   },
 
-  addOrder ({ client, type, size, flavors }) {
+  addOrder ({ client, type, size, flavors, totalPrice }) {
     validate.arguments([
       { name: 'client', value: client, type: 'string', notEmpty: true },
       { name: 'type', value: type, type: 'string', notEmpty: true },
       { name: 'size', value: size, type: 'string', notEmpty: true },
-      { name: 'flavors', value: flavors, type: 'object', notEmpty: true }
+      { name: 'flavors', value: flavors, type: 'object', notEmpty: true },
+      { name: 'totalPrice', value: totalPrice, type: 'number', notEmpty: true }
     ])
 
     return (async () => {
-      await Order.create({ client, type, size, flavors })
+      await Order.create({ client, type, size, flavors, totalPrice })
     })()
   },
 
@@ -125,16 +127,21 @@ const logic = {
     return (async () => {
       let allOrders = await Order.find().populate('client', 'name').lean()
 
-      allOrders.forEach(order => {
-        order.id = order._id.toString()
-        delete order._id
-        const { client } = order
+      if (allOrders.length >= 1) {
+        allOrders.forEach(order => {
+          order.id = order._id.toString()
+          delete order._id
+          const { client } = order
 
-        if (!client.id) {
-          client.id = client._id.toString()
-          delete client._id
-        }
-      })
+          if (!client.id) {
+            client.id = client._id.toString()
+            delete client._id
+          }
+        })
+      } else {
+        throw new LogicError("Sorry, you don't have any order")
+      }
+
       return allOrders
     })()
   },
@@ -157,7 +164,6 @@ const logic = {
       } else {
         throw new LogicError('order Id not found')
       }
-
       return order
     })()
   }

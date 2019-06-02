@@ -6,9 +6,11 @@ const cors = require('cors')
 const routes = require('./routes')
 const connectToDatabase = require('./db-connection')
 
+const { ENV } = require('./config')
+
 ;(async () => {
   try {
-    await connectToDatabase({ isTest: process.env.NODE_ENV === 'test' })
+    await connectToDatabase({ isTest: ENV === 'test' })
 
     const app = express()
 
@@ -20,7 +22,12 @@ const connectToDatabase = require('./db-connection')
       res.status(404).json({ error: 'Route not found' })
     })
 
-    app.listen(PORT, () => console.log(`🚀 API ready on port ${PORT}`))
+    app.listen(PORT, () => {
+      if (ENV === 'test') {
+        console.log('👀 ⚠️  API RUNNING ON TEST MODE!')
+      }
+      console.log(`🚀 API ready on port ${PORT}`)
+    })
   } catch (error) {
     console.log(error.name, error.message)
   }

@@ -1,49 +1,79 @@
 import React, { useState } from 'react'
-import { Modal } from '../Modal'
-import { RegisterForm } from '../RegisterForm'
-import { LoginForm } from '../LoginForm'
+import { Link } from 'react-router-dom'
+import logic from '../../logic'
+// import { Modal } from '../Modal'
+// import { RegisterForm } from '../RegisterForm'
+// import { LoginForm } from '../LoginForm'
+import { Logo } from '../Logo'
 
-export default function NavBar () {
-  const [showRegisterModal, setShowRegisterModal] = useState(false)
-  const [showLogInModal, setShowLogInModal] = useState(false)
+// {showRegisterModal && <Modal onClose={closeSignUp}><RegisterForm /></Modal>}
+// {showLogInModal && <Modal onClose={closeLogin}><LoginForm /></Modal>}
 
-  const openSignUp = () => setShowRegisterModal(true)
-  const closeSignUp = () => setShowRegisterModal(false)
+export function NavBar () {
+  const [showMenu, setShowMenu] = useState(false)
 
-  const openLogin = () => setShowLogInModal(true)
-  const closeLogin = () => setShowLogInModal(false)
+  // const [showRegisterModal, setShowRegisterModal] = useState(false)
+  // const [showLogInModal, setShowLogInModal] = useState(false)
+
+  // const openSignUp = () => setShowRegisterModal(true)
+  // const closeSignUp = () => setShowRegisterModal(false)
+
+  // const openLogin = () => setShowLogInModal(true)
+  // const closeLogin = () => setShowLogInModal(false)
+
+  async function _handleLogout (event) {
+    await logic.logoutUser()
+    window.location.href = '/'
+  }
+
+  const renderButtonsForLoggedUsers = () => (
+    <div className='buttons'>
+      <button className='button is-primary' onClick={_handleLogout}>
+        <strong>Logout</strong>
+      </button>
+      <Link to='/my-basket' className='button is-primary'>
+        <strong>My Basket</strong>
+      </Link>
+      <Link to='/create-your-order' className='button is-primary'>
+        <strong>Order Now!</strong>
+      </Link>
+    </div>
+  )
+
+  const renderButtonsForNotLoggedUsers = () => (
+    <div className='buttons'>
+      <Link to='/register' className='button is-primary'>
+        <strong>Sign up</strong>
+      </Link>
+      <Link to='/login' className='button is-light'>
+        Log in
+      </Link>
+    </div>
+  )
 
   return (
     <nav className='navbar' role='navigation' aria-label='main navigation'>
       <div className='navbar-brand'>
-        <a className='navbar-item' href='https://bulma.io'>
-          <img src='' width='112' height='28' />
-        </a>
-
-        <a role='button' className='navbar-burger burger' aria-label='menu' aria-expanded='false' data-target='navbarBasicExample'>
+        <Link className='navbar-item' to='/'>
+          <Logo />
+        </Link>
+        <a onClick={() => setShowMenu(!showMenu)} role='button' className={`navbar-burger burger ${showMenu ? 'is-active' : ''}`} aria-label='menu' aria-expanded='false' data-target='navbarBasicExample'>
           <span aria-hidden='true' />
           <span aria-hidden='true' />
           <span aria-hidden='true' />
         </a>
       </div>
-
-      <div id='navbarBasicExample' className='navbar-menu'>
+      <div className={`navbar-menu ${showMenu ? 'is-active' : ''}`}>
         <div className='navbar-end'>
           <div className='navbar-item'>
-            <div className='buttons'>
-              <button className='button is-primary' onClick={openSignUp}>
-                <strong>Sign up</strong>
-              </button>
-              <button className='button is-light' onClick={openLogin}>
-                Log in
-              </button>
-            </div>
+            {
+              logic.isUserLoggedIn
+                ? renderButtonsForLoggedUsers()
+                : renderButtonsForNotLoggedUsers()
+            }
           </div>
         </div>
       </div>
-
-      {showRegisterModal && <Modal onClose={closeSignUp}><RegisterForm /></Modal>}
-      {showLogInModal && <Modal onClose={closeLogin}><LoginForm /></Modal>}
     </nav>
   )
 }

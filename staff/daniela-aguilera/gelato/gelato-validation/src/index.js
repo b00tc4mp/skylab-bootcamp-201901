@@ -4,6 +4,7 @@ const validate = {
   arguments (args) {
     args.forEach(({ name, value, type, notEmpty, optional }) => {
       if (value != undefined) {
+        // eslint-disable-next-line
         if (typeof value !== type) throw TypeError(`${name} ${value} is not a ${type}`)
 
         if (notEmpty) {
