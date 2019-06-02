@@ -4,7 +4,9 @@ async function handleErrors(callback, res) {
     try {
         await callback()
     } catch (error) {
-        let { status = 400, message } = error
+        const { message } = error
+
+        let status = 400
 
         if (error instanceof LogicError) status = 409
 

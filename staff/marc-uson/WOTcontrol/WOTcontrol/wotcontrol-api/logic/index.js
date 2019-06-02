@@ -2,6 +2,7 @@ const validate = require('wotcontrol-validate')
 const { LogicError } = require('wotcontrol-errors')
 const { models } = require('wotcontrol-data')
 const call = require('wotcontrol-call')
+const bcrypt = require('bcrypt')
 
 const { Users, Devices, Inputs, Outputs } = models
 
@@ -18,13 +19,15 @@ const logic = {
         email = email.toLowerCase()
         validate.email(email)
 
+        const encryptedPass = bcrypt.hashSync(password, 10)
+
         return (async () => {
             const user = await Users.findOne({ email })
 
             if (user) throw new LogicError(`user with email "${email}" already exists`)
 
             try {
-                await Users.create({ name, surname, email, password, admin })
+                await Users.create({ name, surname, email, password: encryptedPass, admin })
             } catch (error) {
                 throw new Error(error)
             }
@@ -38,17 +41,17 @@ const logic = {
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
-        email = email.toLowerCase()
-        validate.email(email)
+        let _email = email.toLowerCase()
+        validate.email(_email)
 
         return (async () => {
-            const users = await Users.find({email})
+            const user = await Users.findOne({email: _email})
 
-            if (!users.length) throw new LogicError(`user with email "${email}" does not exist`)
+            if (!user) throw new LogicError(`user with email "${email}" does not exist`)
 
-            const [user] = users
+            const pass = bcrypt.compareSync(password, user.password)
 
-            if (user.password !== password) throw new LogicError('wrong credentials')
+            if(!pass) throw new LogicError('wrong credentials')
 
             return user.id
         })()
@@ -94,7 +97,7 @@ const logic = {
                 name: data.name || name,
                 surname: data.surname || surname,
                 email: _email || email,
-                password: data.password || password
+                password: data.password ? bcrypt.hashSync(data.password, 10) : password
             })
 
             return `User succesfully updated`
@@ -171,6 +174,95 @@ const logic = {
                 throw new LogicError(error.message)
             }
 
+        })()
+    },
+
+    retrieveDevice(id, deviceName){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true }
+        ])
+
+        return(async () => {
+
+            try {
+                const user = await Users.findById(id)
+                if (!user) throw new LogicError(`user with id: ${id} does not exist`)
+
+                let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
+                if (users.length == 0) throw new LogicError(`A device named ${deviceName} does not exist in your collection`)
+
+                const device = users[0].devices.filter(({name}) => name == deviceName)
+
+                return device[0]
+            } catch (error) {
+                throw new LogicError(error.message)
+            }
+        })()
+    },
+
+    activateDevice(id, deviceName, timeInterval){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+            { name: 'timeInterval', value: timeInterval, type: 'number', notEmpty: true }
+        ])
+
+        if(timeInterval < 1000) throw new LogicError(`time interval ${timeInterval} is too low. must be at least 1000`)
+
+        return(async () => {
+
+            try {
+                const user = await Users.findById(id)
+                if (!user) throw new LogicError(`user with id: ${id} does not exist`)
+
+                let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
+                if (users.length == 0) throw new LogicError(`A device named ${deviceName} does not exist in your collection`)
+
+                const device = users[0].devices.filter(({name}) => name == deviceName)
+
+                const url = `http://${device[0].ip}:${device[0].port}/active?status=on&interval=${timeInterval}`
+
+                const response = await call(url)
+
+                return response
+            } catch (error) {
+                throw new LogicError(error.message)
+            }
+        })()
+    },
+
+    changeDeviceId(id, deviceName, newDeviceName){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+            { name: 'newDeviceName', value: newDeviceName, type: 'string', notEmpty: true }
+        ])
+
+        return(async () => {
+
+            try {
+                const user = await Users.findById(id)
+                if (!user) throw new LogicError(`user with id: ${id} does not exist`)
+
+                let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
+                if (users.length == 0) throw new LogicError(`A device named ${deviceName} does not exist in your collection`)
+
+                const device = users[0].devices.filter(({name}) => name == deviceName)
+                const url = `http://${device[0].ip}:${device[0].port}/new?deviceid=${newDeviceName}`
+
+                const response = await call(url)
+
+                if(response.status == 'OK'){
+                    device[0].name = response.deviceid
+                    const index = users[0].devices.findIndex(({name}) => name == deviceName)
+                    users[0].devices[index] = device[0]
+                    await Users.findByIdAndUpdate(id, users[0])
+                }
+                return response
+            } catch (error) {
+                throw new LogicError(error.message)
+            }
         })()
     },
 
@@ -332,101 +424,13 @@ const logic = {
         })()
     },
 
-    retrieveDevice(id, deviceName){
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true }
-        ])
-
-        return(async () => {
-
-            try {
-                const user = await Users.findById(id)
-                if (!user) throw new LogicError(`user with id: ${id} does not exist`)
-
-                let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
-                if (users.length == 0) throw new LogicError(`A device named ${deviceName} does not exist in your collection`)
-
-                const device = users[0].devices.filter(({name}) => name == deviceName)
-
-                return device[0]
-            } catch (error) {
-                throw new LogicError(error.message)
-            }
-        })()
-    },
-
-    activateDevice(id, deviceName, timeInterval){
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
-            { name: 'timeInterval', value: timeInterval, type: 'number', notEmpty: true }
-        ])
-
-        if(timeInterval < 1000) throw new LogicError(`time interval ${timeInterval} is too low. must be at least 1000`)
-
-        return(async () => {
-
-            try {
-                const user = await Users.findById(id)
-                if (!user) throw new LogicError(`user with id: ${id} does not exist`)
-
-                let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
-                if (users.length == 0) throw new LogicError(`A device named ${deviceName} does not exist in your collection`)
-
-                const device = users[0].devices.filter(({name}) => name == deviceName)
-
-                const url = `http://${device[0].ip}:${device[0].port}/active?status=on&interval=${timeInterval}`
-
-                const response = await call(url)
-
-                return response
-            } catch (error) {
-                throw new LogicError(error.message)
-            }
-        })()
-    },
-
-    changeDeviceId(id, deviceName, newDeviceName){
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
-            { name: 'newDeviceName', value: newDeviceName, type: 'string', notEmpty: true }
-        ])
-
-        return(async () => {
-
-            try {
-                const user = await Users.findById(id)
-                if (!user) throw new LogicError(`user with id: ${id} does not exist`)
-
-                let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
-                if (users.length == 0) throw new LogicError(`A device named ${deviceName} does not exist in your collection`)
-
-                const device = users[0].devices.filter(({name}) => name == deviceName)
-                const url = `http://${device[0].ip}:${device[0].port}/new?deviceid=${newDeviceName}`
-
-                const response = await call(url)
-
-                if(response.status == 'OK'){
-                    device[0].name = response.deviceid
-                    const index = users[0].devices.findIndex(({name}) => name == deviceName)
-                    users[0].devices[index] = device[0]
-                    await Users.findByIdAndUpdate(id, users[0])
-                }
-                return response
-            } catch (error) {
-                throw new LogicError(error.message)
-            }
-        })()
-    },
-
     toggleDigitalOutput(id, deviceName, pinNumber){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
             { name: 'pinNumber', value: pinNumber, type: 'number', notEmpty: true }
         ])
+        debugger
         let toggleOnOff='off'
 
         if((pinNumber > 2)||(pinNumber < 1)) throw new LogicError(`${pinNumber} is not a valid digital pinNumber`)

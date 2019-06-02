@@ -1,4 +1,5 @@
 require('dotenv').config()
+const bcrypt = require('bcrypt')
 const { expect } =  require ('chai')
 const logic = require('.')
 const { LogicError, RequirementError, ValueError, FormatError } = require('wotcontrol-errors')
@@ -16,7 +17,7 @@ describe('logic', () => {
     const name = 'Marc'
     const surname = 'Uson'
     let email
-    const password = '123'
+    let password = '123'
     const isAdmin = true;
     let id
     let deviceName
@@ -80,7 +81,11 @@ describe('logic', () => {
             })
 
             describe('on already existing user', () => {
-                beforeEach(() => Users.create({ name, surname, email, password }))
+                let _password
+                beforeEach(async () => {
+                    _password = bcrypt.hashSync(password, 10)
+                    await Users.create({ name, surname, email, password: _password })
+                })
 
                 it('should fail on retrying to register', async () => {
                     try {
@@ -201,15 +206,31 @@ describe('logic', () => {
         })
 
         describe('authenticate user', () => {
-            beforeEach(() =>
-                Users.create({ name, surname, email, password })
-            )
+            let _password
+                beforeEach(async () => {
+                    _password = bcrypt.hashSync(password, 10)
+                    await Users.create({ name, surname, email, password: _password })
+                })
 
             it('should succeed on correct user credential', async () => {
                 const id = await logic.authenticateUser(email, password)
 
                 expect(id).to.be.a('string')
                 expect(id.length).to.be.greaterThan(0)
+            })
+
+            it('should fail on wrong passwotd', async () => {
+                try {
+                    debugger
+                    await logic.authenticateUser(email, password='000')
+
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.instanceOf(LogicError)
+
+                    expect(error.message).to.equal(`wrong credentials`)
+                }
             })
 
             it('should fail on non-existing user', async () => {
@@ -228,9 +249,12 @@ describe('logic', () => {
 
         describe('retrieve user', () => {
             let id
+            let _password
 
             beforeEach(async () => {
-                await Users.create({ name, surname, email, password })
+                _password = bcrypt.hashSync(password, 10)
+
+                await Users.create({ name, surname, email, password: _password })
 
                 const users = await Users.find({email})
 
@@ -266,11 +290,14 @@ describe('logic', () => {
 
         describe('update user', () => {
             let id
+            let _password
 
             beforeEach(async () => {
-                await Users.create({ name, surname, email, password })
+                _password = bcrypt.hashSync(password, 10)
 
-                const users = await Users.find({email})
+                await Users.create({ name, surname, email, password: _password })
+
+                const users = await Users.find({ email })
 
                 id = users[0].id
             })
@@ -365,9 +392,12 @@ describe('logic', () => {
 
         describe('delete user', () => {
             let id
+            let _password
 
             beforeEach(async () => {
-                await Users.create({ name, surname, email, password })
+                _password = bcrypt.hashSync(password, 10)
+
+                await Users.create({ name, surname, email, password: _password })
 
                 const users = await Users.find({email})
 
@@ -3256,7 +3286,9 @@ describe('logic', () => {
 
     })
     after(async () => {
-        await logic.changeDeviceId(id, deviceName, 'newWOTDevice')
+        let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
+        if (users.length > 0) await logic.changeDeviceId(id, deviceName, 'newWOTDevice')
+
         mongoose.disconnect()
     })
 

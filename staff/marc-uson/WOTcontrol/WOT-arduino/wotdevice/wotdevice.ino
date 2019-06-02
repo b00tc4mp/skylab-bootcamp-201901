@@ -108,13 +108,14 @@ void httpSend(String query, String body)
 {
    HTTPClient http;
    //Skylab
-   // http.begin("http://192.168.0.31:8080/api/wotcontrol/" + query);
+   // http.begin("http://192.168.0.31:8080/api/devices/"+ id +"/inputs/" + query);
    //Lleida
-   http.begin("http://192.168.1.202:8080/api/wotcontrol/" + query);
+   http.begin("http://192.168.1.202:8080/api/devices/"+ id +"/inputs/" + query);
 
    http.addHeader("Content-Type", "application/json");
    int httpCode = http.POST(body);
 
+   Serial.println("http://192.168.1.202:8080/api/devices/"+ id +"/inputs/" + query);
    String payload = http.getString();
    Serial.print("POST payload: ");
    Serial.println(payload);
@@ -295,7 +296,7 @@ void handleMotor2()
 String Analog_state(){
    int inputVal = analogRead(analog); // Analog Values 0 to 1023
    String analogValue = String(inputVal);
-   String result = "{\"deviceid\":\"" + id + "\",\"analog\":\"" + analogValue + "\"}";
+   String result = "{\"deviceid\":\"" + id + "\",\"value\":\"" + analogValue + "\"}";
    Serial.println(result);
    return result;
 }
