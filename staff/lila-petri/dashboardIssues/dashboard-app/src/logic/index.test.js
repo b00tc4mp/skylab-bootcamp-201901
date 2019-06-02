@@ -298,6 +298,7 @@ describe('logic',()=>{
             it('shoul succeed on correct user', async()=>{
                 await logic.loginUser(email, password)
                 await logic.logoutUser()
+                expect(logic.isUserLoggedIn).to.equal(false)
             })        
         })
         describe('retrive user', ()=>{
@@ -362,7 +363,7 @@ describe('logic',()=>{
             it('should fail on non-existent user', async ()=>{
                 await User.deleteMany()
                 try{
-                    await restApi.updateUser(name, surname, country)
+                    await logic.updateUser(name, surname, country)
                     throw Error('should not reach this point')
                 }catch(error){
 
@@ -414,7 +415,7 @@ describe('logic',()=>{
         it('should fail on inexistent token', async ()=>{
             await User.deleteMany()
             try{
-                await logic.restApi.loadJirasByMonth(token, month)
+                await logic.loadJirasByMonth(token, month)
                 throw Error('should not reach this point')
 
             }catch(error){
