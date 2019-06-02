@@ -1,11 +1,10 @@
-// require('dotenv').config();
 import auctionLiveApi from '.'
 import { mongoose, models } from 'auction-data'
-import { LogicError, RequirementError, ValueError, FormatError } from 'auction-errors'
+import { RequirementError, ValueError, FormatError } from 'auction-errors'
 import bcrypt from  'bcrypt'
-import moment from 'moment'
 import jwt from 'jsonwebtoken'
-import { start } from 'repl';
+
+// jest.setTimeout(100000)
 
 const { User, Item, Bid } = models
 
@@ -280,8 +279,6 @@ describe('auctionlive-api', () => {
                     const pass = bcrypt.compareSync(data.password, _user.password)
 
                     expect(pass).toBeTruthy()
-                    expect(_user.lastAccess).toBeUndefined()
-                    
                     expect(Object.keys(_user._doc).length).toEqual(Object.keys(user._doc).length)
                 })
 
@@ -389,7 +386,7 @@ describe('auctionlive-api', () => {
                 })
 
                 it('should fail on wrong token', async () => {    
-                    token = 'wrong-id'
+                    token = 'wrong-token'
     
                     try {
                         await auctionLiveApi.deleteUser(token, user.email, user.password)
@@ -432,7 +429,7 @@ describe('auctionlive-api', () => {
 
     describe('items', () => {
         let items, sDate, fDate
-        const cities = ['Japan', 'New York', 'Spain', 'London']
+        const cities = ['Japan', 'London', 'New York', 'Spain']
         const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
 
         beforeEach(async () => {
@@ -579,6 +576,26 @@ describe('auctionlive-api', () => {
                 expect(_item.city).toBe(item.city)
                 expect(_item.category).toBe(item.category)
                 expect(_item.images).toBeInstanceOf(Array)
+            })
+        })
+
+        describe('retrieve cities', () => {
+            it('should success and not repeat values', async() => {
+                const _cities = await auctionLiveApi.retrieveCities()
+
+                expect(_cities).toBeDefined()
+                expect(_cities).toBeInstanceOf(Array)
+                expect(_cities).toEqual(expect.arrayContaining(cities))
+            })
+        })
+
+        describe('retrieve categories', () => {
+            it('should success and not repeat values', async() => {
+                const _categories = await auctionLiveApi.retrieveCategories()
+
+                expect(_categories).toBeDefined()
+                expect(_categories).toBeInstanceOf(Array)
+                expect(_categories).toEqual(expect.arrayContaining(categories))
             })
         })
     })

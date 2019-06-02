@@ -116,7 +116,6 @@ const auctionLiveApi = {
         ])
 
         return call(`${this.__url__}/items/${itemId}/bids`, {
-            method: 'GET',
             headers: {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'
@@ -139,7 +138,6 @@ const auctionLiveApi = {
         }
         
         return call(`${this.__url__}/items?${queryString}`, {
-            method: 'GET',
             header: {
                 'Content-Type': 'appication/json'
             },
@@ -153,7 +151,24 @@ const auctionLiveApi = {
         ])
 
         return call(`${this.__url__}/items/${id}`, {
-            method: 'GET',
+            header: {
+                'Content-Type': 'appication/json'
+            },
+            timeout: this.__timeout__
+        })
+    },
+
+    retrieveCities() {
+        return call(`${this.__url__}/cities`, {
+            header: {
+                'Content-Type': 'appication/json'
+            },
+            timeout: this.__timeout__
+        })
+    },
+
+    retrieveCategories() {
+        return call(`${this.__url__}/categories`, {
             header: {
                 'Content-Type': 'appication/json'
             },

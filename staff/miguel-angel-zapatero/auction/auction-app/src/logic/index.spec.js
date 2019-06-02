@@ -1,543 +1,896 @@
 import logic from '.'
-import { LogicError, RequirementError, ValueError, FormatError } from 'auction-errors'
-import auctionliveApi from '../data/auctionlive-api'
+import { LogicError, RequirementError, ValueError, FormatError, ComparisonError } from 'auction-errors'
+import { mongoose, models } from 'auction-data'
+import bcrypt from  'bcrypt'
+import jwt from 'jsonwebtoken'
+import auctionLiveApi from '../data/auctionlive-api';
 
-jest.setTimeout(100000)
+// jest.setTimeout(100000)
+
+const { User, Item, Bid } = models
+
+const {env: { MONGO_URL_LOGIC_TEST }} = process
 
 describe('logic', () => {
-    const name = 'Manuel'
-    const surname = 'Barzi'
-    let email
-    const password = '123'
-    
-    beforeEach(() => {
-        email = `manuelbarzi-${Math.random()}@gmail.com`
-        
-        logic.__userToken__ = null
+    beforeAll(async () => {
+        try {
+            await mongoose.connect(MONGO_URL_LOGIC_TEST, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
+            
+            console.log('connected to database')
+        } catch (error) {
+            console.log(error, error.message)
+        }
     })
-    
+
+    let name, surname, email, password, confirmPassword
+
+    beforeEach(async () => {
+        const users = new Array(10).fill().map(item => item = {
+            name: `Peter-${Math.random()}`,
+            surname: `Parker-${Math.random()}`,
+            email: `pparker-${Math.random()}@mail.com`,
+            password: `${Math.random()}`
+        })
+        
+        const user = users[Math.floor(Math.random() * users.length)]
+
+        name = user.name
+        surname = user.surname
+        email = user.email
+        password = user.password
+        confirmPassword = user.password
+        
+        await User.deleteMany()
+        await Item.deleteMany()
+        await Bid.deleteMany()
+    })
+
     describe('users', () => {
         describe('register user', () => {
-            it('should succeed on correct user data', () =>
-                logic.registerUser(name, surname, email, password)
-                .then(response => {
-                    expect(response).toBeDefined()
-                    
-                    const { message, error } = response
+            it('should success on correct data', async () => {
+                const res = await logic.registerUser(name, surname, email, password, confirmPassword)
+                expect(res).toBeUndefined()
 
-                    expect(error).toBeUndefined()
-                    expect(message).toBe('Ok, user registered.')
-                })
-            )
+                const user = await User.findOne({email})
+                
+                const samePass = bcrypt.compareSync(password, user.password)
 
-            describe('on already existing user', () => {
-                beforeEach(() => logic.registerUser(name, surname, email, password))
+                expect(user.name).toBe(name)
+                expect(user.surname).toBe(surname)
+                expect(user.email).toBe(email)
+                expect(samePass).toBe(true)
+            })
 
-                it('should fail on retrying to register', () =>
-                    logic.registerUser(name, surname, email, password)
-                        .then(() => { throw Error('should not reach this point') })
-                        .catch(error => {
-                            expect(error).toBeDefined()
-                            expect(error instanceof LogicError).toBeTruthy()
-
-                            expect(error.message).toBe(`user with email \"${email}\" already exists`)
-                        })
-                )
+            it('should fail on already user exists', async () => {
+                try {
+                    await User.create({name, surname, email, password})   
+                    await logic.registerUser(name, surname, email, password, confirmPassword)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error.message).toBe(`user with email "${email}" already exist`)
+                }
             })
 
             it('should fail on undefined name', () => {
                 const name = undefined
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `name is not optional`)
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(RequirementError, `name is not optional`)
             })
 
             it('should fail on null name', () => {
                 const name = null
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `name is not optional`)
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(RequirementError, `name is not optional`)
             })
 
             it('should fail on empty name', () => {
                 const name = ''
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'name is empty')
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(ValueError, 'name is empty')
             })
 
             it('should fail on blank name', () => {
                 const name = ' \t    \n'
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'name is empty')
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(ValueError, 'name is empty')
             })
 
             it('should fail on undefined surname', () => {
                 const surname = undefined
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `surname is not optional`)
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(RequirementError, `surname is not optional`)
             })
 
             it('should fail on null surname', () => {
                 const surname = null
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `surname is not optional`)
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(RequirementError, `surname is not optional`)
             })
 
             it('should fail on empty surname', () => {
                 const surname = ''
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'surname is empty')
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(ValueError, 'surname is empty')
             })
 
             it('should fail on blank surname', () => {
                 const surname = ' \t    \n'
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'surname is empty')
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(ValueError, 'surname is empty')
             })
 
             it('should fail on undefined email', () => {
                 const email = undefined
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `email is not optional`)
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(RequirementError, `email is not optional`)
             })
 
             it('should fail on null email', () => {
                 const email = null
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(RequirementError, `email is not optional`)
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(RequirementError, `email is not optional`)
             })
 
             it('should fail on empty email', () => {
                 const email = ''
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'email is empty')
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword))
+                .toThrowError(ValueError, 'email is empty')
             })
 
             it('should fail on blank email', () => {
                 const email = ' \t    \n'
 
-                expect(() => logic.registerUser(name, surname, email, password)).toThrowError(ValueError, 'email is empty')
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword)).toThrowError(ValueError, 'email is empty')
             })
 
             it('should fail on non-email email', () => {
                 const nonEmail = 'non-email'
 
-                expect(() => logic.registerUser(name, surname, nonEmail, password)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
+                expect(() => logic.registerUser(name, surname, nonEmail, password, confirmPassword)).toThrowError(FormatError, `${nonEmail} is not an e-mail`)
             })
 
-            // TODO password fail cases
+            it('should fail on undefined password', () => {
+                const password = undefined
+
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword)).toThrowError(RequirementError, `password is not optional`)
+            })
+
+            it('should fail on null password', () => {
+                const password = null
+
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword)).toThrowError(RequirementError, `password is not optional`)
+            })
+
+            it('should fail on empty password', () => {
+                const password = ''
+
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword)).toThrowError(ValueError, 'password is empty')
+            })
+
+            it('should fail on blank password', () => {
+                const password = ' \t    \n'
+
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword)).toThrowError(ValueError, 'password is empty')
+            })
+
+            it('should fail on undefined confirmpassword', () => {
+                const confirmPassword = undefined
+
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword)).toThrowError(RequirementError, `confirmPassword is not optional`)
+            })
+
+            it('should fail on null confirmpassword', () => {
+                const confirmPassword = null
+
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword)).toThrowError(RequirementError, `confirmPassword is not optional`)
+            })
+
+            it('should fail on empty confirmpassword', () => {
+                const confirmPassword = ''
+
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword)).toThrowError(ValueError, 'confirmPassword is empty')
+            })
+
+            it('should fail on blank confirmpassword', () => {
+                const confirmPassword = ' \t    \n'
+
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword)).toThrowError(ValueError, 'confirmPassword is empty')
+            })
+
+            it('should fail on password when not coincide with confirmPassword', () => {
+                const confirmPassword = 'hohohoho'
+
+                expect(() => logic.registerUser(name, surname, email, password, confirmPassword)).toThrowError(ComparisonError, 'passwords not match')
+            })
         })
 
-        describe('login user', () => {
-            beforeEach(() =>
-                restApi.registerUser(name, surname, email, password)
-            )
+        describe('after created user', () =>{
+            let user, _password, token
 
-            it('should succeed on correct user credential', () =>
-                logic.loginUser(email, password)
-                    .then(() => {
-                        const { __userToken__ } = logic
-                        
-                        expect(typeof __userToken__).toBe('string')
-                        expect(__userToken__.length).toBeGreaterThan(0)
+            beforeEach(async() => {
+                _password = bcrypt.hashSync(password, 10)
+                user = await User.create({name, surname, email, password: _password})
+               
+                const res = await auctionLiveApi.authenticateUser(email, password)
+                token = res.token 
+            })
 
-                        const [, payloadB64,] = __userToken__.split('.')
-                        const payloadJson = atob(payloadB64)
-                        const payload = JSON.parse(payloadJson)
+            describe('authenticate user', () => {
+                it('should success on correct data', async () => {
+                    const res = await logic.loginUser(email, password)
+                    expect(res).toBeUndefined()
 
-                        expect(typeof payload.sub).toBe('string')
-                        expect(payload.sub.length).toBeGreaterThan(0)
+                    let {sub} = jwt.decode(logic.__userToken__)
+                    
+                    expect(sub).toBe(user.id)
+                    expect(logic.__userToken__).toBe(token)
+                })
 
-                        expect(logic.isUserLoggedIn).toBeTruthy()
-                    })
-            )
-
-            it('should fail on non-existing user', () =>
-                logic.loginUser(email = 'unexisting-user@mail.com', password)
-                    .then(() => { throw Error('should not reach this point') })
-                    .catch(error => {
+                it('should fail on non-existing user', async () => {
+                    try {
+                        await logic.loginUser(email = 'unexisting-user@mail.com', password)
+                        throw Error('should not reach this point')
+                    } catch (error) {
                         expect(error).toBeDefined()
-                        expect(error instanceof LogicError).toBeTruthy()
+                        expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe(`user with email "${email}" doesn't exist`)
+                    }
+                })
 
-                        expect(error.message).toBe(`user with email \"${email}\" does not exist`)
-                    })
-            )
-        })
-
-        describe('retrieve user', () => {
-            beforeEach(() =>
-                restApi.registerUser(name, surname, email, password)
-                    .then(() => restApi.authenticateUser(email, password))
-                    .then(response => {
-                        logic.__userToken__ = response.token
-                    })
-            )
-
-            it('should succeed on correct user id and token', () =>
-                logic.retrieveUser()
-                    .then(user => {
-                        expect(user.id).toBeUndefined()
-                        expect(user.name).toBe(name)
-                        expect(user.surname).toBe(surname)
-                        expect(user.email).toBe(email)
-                        expect(user.password).toBeUndefined()
-                    })
-            )
-
-            it('should fail on incorrect user token', () => {
-                logic.__userToken__ = 'wrong-token'
-
-                return logic.retrieveUser()
-                    .then(() => { throw Error('should not reach this point') })
-                    .catch(error => {
+                it('should fail on wrong password', async () => {
+                    try {
+                        await logic.loginUser(email, password = '123')
+                        throw Error('should not reach this point')
+                    } catch (error) {
                         expect(error).toBeDefined()
-                        expect(error instanceof LogicError).toBeTruthy()
+                        expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe('wrong credentials')
+                    }
+                })
+            })
 
+            describe('retrieve user', () => {
+                it('should success on correct user token', async () => {
+                    logic.__userToken__ = token
+                    const _user = await logic.retrieveUser()
+
+                    expect(_user.id).toBeUndefined()
+                    expect(_user.name).toBe(user.name)
+                    expect(_user.surname).toBe(user.surname)
+                    expect(_user.email).toBe(user.email)
+                    expect(_user.password).toBeUndefined()
+                })
+
+                it('should fail on invalid token', async () => {
+                    logic.__userToken__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
+
+                    try {
+                        await logic.retrieveUser() 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe('invalid signature')
+                    }
+                })
+    
+                it('should fail on wrong token', async () => {
+                    logic.__userToken__ = 'wrong-id'
+    
+                    try {
+                        await logic.retrieveUser() 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)                        
                         expect(error.message).toBe('jwt malformed')
-                    })
+                    }
+                })
+            })
+
+            describe('update', () => {        
+                let data
+
+                beforeEach(async () => {
+                    logic.__userToken__ = token
+                    data = { name: 'n', surname: 's', email: 'ess@ess.com', password: 'p'}
+                })
+
+                it('should succeed on correct data', async () => {    
+                    const response = await logic.updateUser(data)
+                    expect(response).toBeUndefined()
+                    
+                    const _user = await User.findById(user.id)
+                    
+                    expect(_user).toBeDefined()
+                    expect(_user.id).toBe(user.id)
+                    expect(_user.surname).toBe(data.surname)
+                    expect(_user.name).toBe(data.name)
+                    expect(_user.email).toBe(data.email)
+
+                    const pass = bcrypt.compareSync(data.password, _user.password)
+
+                    expect(pass).toBeTruthy()
+                    expect(Object.keys(_user._doc).length).toEqual(Object.keys(user._doc).length)
+                })
+
+                it('should succeed changing some fields', async () => {    
+                    const data = { name: 'n', email: 'e@e.com'}
+    
+                    const response = await logic.updateUser(data)
+                    expect(response).toBeUndefined()
+                    
+                    const _user = await User.findById(user.id)
+                    
+                    expect(_user).toBeDefined()
+                    expect(_user.id).toBe(user.id)
+                    expect(_user.name).toBe(data.name)
+                    expect(_user.email).toBe(data.email)
+                    
+                    expect(_user.name).not.toBe(user.name)
+                    expect(_user.email).not.toBe(user.email)
+                    expect(_user.surname).toBe(user.surname)
+                    expect(_user.password).toBe(user.password)
+    
+                    expect(Object.keys(_user._doc).length).toEqual(Object.keys(user._doc).length)
+                })
+
+                it('should fail on existing email user', async () => {    
+                    await User.create({name, surname, email: 'email2@mail.com', password: _password}) 
+
+                    data.email = 'email2@mail.com'
+    
+                    try {
+                        await logic.updateUser(data) 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe(`email "${data.email}" already exist`)
+                    }
+                })
+    
+                it('should fail on incorrect user token', async () => {    
+                    logic.__userToken__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
+    
+                    try {
+                        await logic.updateUser(data) 
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe('invalid signature')
+                    }
+                })
+                
+                it('should fail on wrong token', async () => {    
+                    logic.__userToken__ = 'wrong-token'
+    
+                    try {
+                        await logic.updateUser(data)
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe('jwt malformed')
+                    }
+                })
+            })
+        
+            describe('delete', () => {
+                beforeEach(()=>{
+                    logic.__userToken__ = token
+                })
+
+                it('should succed on correct token', async () => {
+                    const response = await logic.deleteUser(user.email, password, confirmPassword)
+                    expect(response).toBeUndefined()
+
+                    const _user = await User.findById(user.id)
+
+                    expect(_user).toBeNull()
+                })
+
+                it('should fail on already deleted user', async () => {
+                    let {sub} = jwt.decode(token)
+                    
+                    try {
+                        await logic.deleteUser(user.email, password, confirmPassword)
+
+                        await logic.deleteUser(user.email, password, confirmPassword)
+                        throw new Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(LogicError)
+                        expect(error.message).toBe(`user with id "${sub}" does not exist`)
+                    }
+                })
+        
+                it('should fail on incorrect token', async () => {
+                    logic.__userToken__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
+
+                    try {
+                        await logic.deleteUser(user.email, password, confirmPassword)
+                        throw new Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(Error)
+                        expect(error.message).toBe('invalid signature')
+                    }
+                })
+
+                it('should fail on wrong token', async () => {    
+                    logic.__userToken__ = 'wrong-token'
+    
+                    try {
+                        await logic.deleteUser(user.email, password, confirmPassword)
+                        throw Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(Error)
+                        expect(error.message).toBe('jwt malformed')
+                    }
+                })
+    
+                it('should fail on incorrect email', async () => {
+                    let email = 'fake_email@gmail.com' 
+    
+                    try {
+                        await logic.deleteUser(email, password, confirmPassword)
+                        throw new Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(Error)
+                        expect(error.message).toBe('wrong credentials')
+                    }
+                })
+    
+                it('should fail on incorrect password', async () => {
+                    let password = '423'
+                    confirmPassword = '423'
+    
+                    try {
+                        await logic.deleteUser(user.email, password, confirmPassword)
+                        throw new Error('should not reach this point')
+                    } catch (error) {
+                        expect(error).toBeDefined()
+                        expect(error).toBeInstanceOf(Error)
+                        expect(error.message).toBe('wrong credentials')
+                    }
+                })
+            })
+        })
+    })
+
+    describe('items', () => {
+        let items, sDate, fDate
+        const cities = ['Japan', 'London', 'New York', 'Spain']
+        const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
+
+        beforeEach(async () => {
+            items = new Array(25).fill().map(item => {
+                sDate = new Date
+                fDate = new Date
+
+                return item = {
+                    title: `Car-${Math.random()}`,
+                    description: `description-${Math.random()}`,
+                    startPrice: Math.ceil(Math.random() * 200),
+                    startDate: sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3))),
+                    finishDate: fDate.setDate(fDate.getDate() + (Math.floor(Math.random() * 5) + 3)),
+                    reservedPrice: Math.floor(Math.random() * 1),
+                    city: cities[Math.floor(Math.random() * cities.length)],
+	                category: categories[Math.floor(Math.random() * categories.length)],
+	                images: "image1.jpg"
+                }
+            })
+
+            await Promise.all(items.map(async item => await Item.create(item)))
+        })
+
+        xdescribe('create items', () => {
+            it('should success on correct data', async () => {
+                let item = items[Math.floor(Math.random() * items.length)]
+                
+                let { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
+
+                startDate = new Date(startDate)
+                finishDate = new Date(finishDate)
+                
+                await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
+                
+                const _item = await Item.findOne({title: title})
+                
+                expect(_item.title).toBe(title)
+                expect(_item.description).toBe(description)
+                expect(_item.startPrice).toBe(startPrice)
+                expect(_item.startDate).toEqual(startDate)
+                expect(_item.finishDate).toEqual(finishDate)
+                expect(_item.reservedPrice).toBe(reservedPrice)
+                expect(_item.city).toBe(city)
+                expect(_item.category).toBe(category)
+                expect(_item.images).toBeInstanceOf(Array)
+                // expect(_item.images).toContain(images)
             })
         })
 
-        describe('update', () => {
-            let data, _data 
+        describe('search items', () => {
+            let query
 
             beforeEach(() => {
-                data = { name: 'peter', surname: 'pan', email: 'peterpan@gmail.com' }
-
-                return restApi.registerUser(name, surname, email, password)
-                    .then(() => restApi.authenticateUser(email, password))
-                    .then(response => {
-                        logic.__userToken__ = response.token
-                    })
+                query = {}
             })
 
-            it('should succeed on correct data', () =>
-                logic.updateUser(data)
-                    .then(response => {
-                        const { message } = response
+            it('should success on correct city', async () => {
+                let items_ = items.filter(item => item.city === 'Japan')
+                query.city = 'Japan'
 
-                        expect(message).toBe('Ok, user updated.')
-                    })
-                    .then(() => restApi.retrieveUser(logic.__userToken__))
-                    .then(user => {
-                        expect(user).toBeDefined()
+                const _items = await logic.searchItems(query)
 
-                        expect(user.name).toBe(data.name)
-                        expect(user.surname).toBe(data.surname)
-                        expect(user.email).toBe(data.email)
-                        expect(user.password).toBeUndefined()
-                    })
-            )
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
 
-            it('should succeed on correct data re-updating', () =>
-                logic.updateUser(data)
-                    .then(response => {
-                        const { message } = response
+            it('should success on correct category', async () => {
+                let items_ = items.filter(item => item.category === 'Art')
+                query.category = 'Art'
 
-                        expect(message).toBe('Ok, user updated.')
-                    })
-                    .then(() => {
-                        _data = { name: 'captain', surname: 'hook', email: 'hook@mail.com' }
+                const _items = await logic.searchItems(query)
 
-                        return restApi.updateUser(logic.__userToken__, _data)
-                    })
-                    .then(response => {
-                        const { message } = response
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
 
-                        expect(message).toBe('Ok, user updated.')
-                    })
-                    .then(() => restApi.retrieveUser(logic.__userToken__))
-                    .then(user => {
-                        expect(user).toBeDefined()
+            it('should success on correct finish range date', async () => { 
+                sDate = new Date
+                fDate = new Date
+                sDate.setDate(sDate.getDate() + (Math.floor(Math.random() * 3)))
+                fDate.setDate(fDate.getDate() + (Math.floor(Math.random() * 5) + 3))
 
-                        expect(user.name).toBe(_data.name)
-                        expect(user.surname).toBe(_data.surname)
-                        expect(user.email).toBe(_data.email)
-                        expect(user.password).toBeUndefined()
-                    })
-            )
+                let items_ = items.filter(item => (item.finishDate >= sDate && item.finishDate <= fDate))
+
+                query.startDate = sDate
+                query.endDate = fDate
+
+                const _items = await logic.searchItems(query)
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
+            it('should success on correct start price range', async () => {
+                let items_ = items.filter(item => (item.startPrice >= 20 && item.startPrice <= 150))
+
+                query.startPrice = 21 
+                query.endPrice = 149 
+
+                const _items = await logic.searchItems(query)
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
+            it('should success on correct on multiple data', async () => {
+                let items_ = items.filter(item => (item.startPrice >= 20 && item.startPrice <= 150) && (item.city === 'London') && (item.category === 'Jewellery'))
+
+                query.city = 'London'
+                query.category = 'Jewellery'
+                query.startPrice = 21 
+                query.endPrice = 149 
+
+                const _items = await logic.searchItems(query)
+                
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items).toHaveLength(items_.length)
+            })
+
+            it('should list all items with empty query', async () => {
+                const _items = await logic.searchItems(query)
+
+                expect(_items).toBeInstanceOf(Array)
+                expect(_items.length).toBe(25)
+            })
         })
 
-        describe('delete', () => {
+        describe('retrieve item', () => {
+            it('should success on correc item id', async () => {
+                let item_ = items[Math.floor(Math.random() * items.length)]
+                const item = await Item.create(item_)
 
-            beforeEach(() => restApi.registerUser(name, surname, email, password)
-                    .then(() => restApi.authenticateUser(email, password))
-                    .then(response => {
-                        logic.__userToken__ = response.token
-                    })
-            )
-            
-            it('should succed on correct id', () => {
-                return logic.deleteUser(email, password)
-                    .then(response => {
-                        const { message } = response
-                        expect(message).toBe('Ok, user deleted.')
-                        
-                        return restApi.retrieveUser(logic.__userToken__) 
-                    })
-                    .then(() => { throw Error('should not reach this point') })
-                    .catch(({message}) => {
-                        const [, payloadB64,] = logic.__userToken__.split('.')
-                        const payloadJson = atob(payloadB64)
-                        const payload = JSON.parse(payloadJson)
-                        
-                        expect(typeof payload.sub).toBe('string')
-                        expect(payload.sub.length).toBeGreaterThan(0)
-                        expect(message).toBe(`user with id \"${payload.sub}\" does not exist`)
-                    })
+                const _item = await logic.retrieveItem(item.id)
+                
+                let startDate = new Date(_item.startDate)
+                let finishDate = new Date(_item.finishDate)
+
+                expect(_item.title).toBe(item.title)
+                expect(_item.description).toBe(item.description)
+                expect(_item.startPrice).toBe(item.startPrice)
+                expect(startDate).toEqual(item.startDate)
+                expect(finishDate).toEqual(item.finishDate)
+                expect(_item.reservedPrice).toBe(item.reservedPrice)
+                expect(_item.city).toBe(item.city)
+                expect(_item.category).toBe(item.category)
+                expect(_item.images).toBeInstanceOf(Array)
             })
+        })
+
+        describe('retrieve cities', () => {
+            it('should success and not repeat values', async() => {
+                const _cities = await logic.retrieveCities()
+
+                expect(_cities).toBeDefined()
+                expect(_cities).toBeInstanceOf(Array)
+                expect(_cities).toEqual(cities)
+            })
+        })
+
+        describe('retrieve categories', () => {
+            it('should success and not repeat values', async() => {
+                const _categories = await logic.retrieveCategories()
+
+                expect(_categories).toBeDefined()
+                expect(_categories).toBeInstanceOf(Array)
+                expect(_categories).toEqual(categories)
+            })
+        })
+    })
+
+    describe('bids', () => {
+        let item, user, _password
+
+        const cities = ['Japan', 'New York', 'Spain', 'London']
+        const categories = ['Art', 'Cars', 'Jewellery', 'Watches']
+        
+        beforeEach(async () => {
+            item = await Item.create({
+                title: `Car-${Math.random()}`,
+                description: `description-${Math.random()}`,
+                startPrice: Math.floor(Math.random() * 200) + 10,
+                startDate: Date.now(),
+                finishDate: Date.now() + (Math.ceil(Math.random() * 1000000000)),
+                reservedPrice: Math.floor(Math.random() * 1),
+                city: cities[Math.floor(Math.random() * cities.length)],
+	            category: categories[Math.floor(Math.random() * categories.length)],
+	            images: "image1.jpg"
+            })
+            
+            _password = bcrypt.hashSync(password, 10)
+            user = await User.create({name, surname, email, password: _password})
+
+            const res = await auctionLiveApi.authenticateUser(email, password)
+            logic.__userToken__ = res.token
+        })
+
+        describe('place a bid', () => {
+            it('should success on correct data when bidding first time', async () => {
+                let amount = 1000
+
+                await logic.placeBid(item.id, amount)
+                const _item = await Item.findById(item.id)
+                const _user = await User.findById(user.id)
+
+                expect(_item.bids).toBeInstanceOf(Array)
+                expect(_item.bids.length).toBeGreaterThan(0)
+                
+                expect(_item.bids[0].userId.toString()).toBe(user.id)
+                expect(_item.bids[0].amount).toBe(amount)
+                expect(_item.bids[0].timeStamp).toBeDefined()
+                
+                expect(_user.items).toBeInstanceOf(Array)
+                expect(_user.items.length).toBeGreaterThan(0)
+                expect(_user.items[0].toString()).toBe(item.id)
+            })
+
+            it('should success on correct data when bidding second time', async () => {
+                let amount = 1000
+                await logic.placeBid(item.id, amount)
+
+                let amount2 = 2000
+                await logic.placeBid(item.id, amount2)
+
+                const _item = await Item.findById(item.id)
+                const _user = await User.findById(user.id)
+                
+                expect(_item.bids).toBeInstanceOf(Array)
+                expect(_item.bids.length).toBeGreaterThan(1)
+                expect(_item.bids[0].userId.toString()).toBe(user.id)
+                expect(_item.bids[0].amount).toBe(amount2)
+                expect(_item.bids[0].timeStamp).toBeDefined()
+                expect(_item.bids[1].userId.toString()).toBe(user.id)
+                expect(_item.bids[1].amount).toBe(amount)
+                expect(_item.bids[1].timeStamp).toBeDefined()
+
+                expect(_user.items).toBeInstanceOf(Array)
+                expect(_user.items.length).toBeLessThan(2)
+                expect(_user.items[0].toString()).toBe(item.id)
+            })
+
+            it('should fail if the bid is lower than the start price', async () => {
+                let amount = 5
+                try {
+                    await logic.placeBid(item.id, amount)
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    debugger
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
     
-            it('should fail on incorrect token', () => {
+                    expect(error.message).toBe(`sorry, the current bid "${amount}" is lower than the start price`)
+                }
+            })
+
+            it('should fail if the bid is lower than the current bid', async () => {
+                let amount = 2000
+                try {
+                    await logic.placeBid(item.id, amount)
+                    
+                    amount = 1000
+                    await logic.placeBid(item.id, amount)
+                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`sorry, the bid "${amount}" is lower than the current amount`)
+                }
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let amount = 2000
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.placeBid(id, amount)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                }
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let amount = 2000
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.placeBid(id, amount)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
+                }
+            })
+
+            it('should fail on incorrect user token', async () => {
+                let amount = 2000
+                logic.__userToken__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
+                
+                try {
+                    await logic.placeBid(item.id, amount)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error.message).toBe('invalid signature')
+                }
+            })
+
+            it('should fail on incorrect user token', async () => {
+                let amount = 2000
                 logic.__userToken__ = 'wrong-token'
                 
-                return logic.deleteUser(email, password)
-                    .then(() => { throw new Error('should not reach this point') })
-                    .catch(error => {
-                        expect(error).toBeDefined()
-                        expect(error.message).toBe('jwt malformed')
-                    })
+                try {
+                    await logic.placeBid(item.id, amount)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error.message).toBe('jwt malformed')
+                }
             })
 
-            it('should fail on incorrect email', () => {
-                let email = 'fake_email@gmail.com' 
+        })
 
-                return logic.deleteUser(email, password)
-                    .then(() => { throw new Error('should not reach this point') })
-                    .catch(error => {
-                        expect(error).toBeDefined()
-                        expect(error.message).toBe('wrong credentials')
-                    })
+        describe('retrieve item bids', () => {
+            it('should success on correct item id', async () => {
+                let amount = 1000
+                await logic.placeBid(item.id, amount)
+
+                let amount2 = 1500
+                await logic.placeBid(item.id, amount2)
+
+                const bids = await logic.retrieveItemBids(item.id)
+                
+                expect(bids.length).toBeGreaterThan(0)
+
+                expect(bids[0].amount).toBe(amount2)
+                expect(bids[0].timeStamp).toBeDefined()
+                expect(bids[0].userId.name).toBe(user.name)
+                expect(bids[0].userId.name).toBe(user.name)
+                expect(bids[0].userId.name).toBe(user.name)
+                expect(bids[0].userId.password).toBeUndefined()
+                expect(bids[0].userId._id).toBeUndefined()
+
+                expect(bids[1].amount).toBe(amount)
+                expect(bids[1].timeStamp).toBeDefined()
+                expect(bids[1].userId.name).toBe(user.name)
+                expect(bids[1].userId.surname).toBeUndefined()
+                expect(bids[1].userId.email).toBeUndefined()
+                expect(bids[1].userId.password).toBeUndefined()
+                expect(bids[1].userId._id).toBeUndefined()
             })
 
-            it('should fail on incorrect password', () => {
-                let password = '423'
+            it('should fail on incorrect item id', async () => {
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.retrieveItemBids(id)                   
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+                    debugger
+                    expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                }
+            })
 
-                return logic.deleteUser(email, password)
-                    .then(() => { throw new Error('should not reach this point') })
-                    .catch(error => {
-                        expect(error).toBeDefined()
-                        expect(error.message).toBe('wrong credentials')
-                    })
+            it('should fail on wrong item id', async () => {
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.retrieveItemBids(id)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
+                }
+            })
+
+            it('should fail on incorrect user token', async () => {
+                logic.__userToken__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
+                
+                try {
+                    await logic.retrieveItemBids(item.id)              
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe('invalid signature')
+                }
+            })
+
+            it('should fail on wrong user token', async () => {
+                logic.__userToken__ = 'wrong-token'
+                
+                try {
+                    await logic.retrieveItemBids(item.id)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error.message).toBe("jwt malformed")
+                }
             })
         })
     })
 
-    describe('ducks', () => {
-      
-        beforeEach(() =>
-            restApi.registerUser(name, surname, email, password)
-                .then(() =>
-                    restApi.authenticateUser(email, password)
-                )
-                .then(response => {
-                    logic.__userToken__ = response.token
-                })
-        )
-
-        describe('toggle fav duck', () => {
-            let duckId
-
-            beforeEach(() =>
-                restApi.searchDucks(logic.__userToken__, '')
-                    .then(ducks => duckId = ducks[0].id)
-            )
-
-            it('should succeed adding fav on first time', () =>
-                logic.toggleFavDuck(duckId)
-                    .then(response => {
-                        expect(response.message).toBe('Ok, duck toggled.')
-                    })
-                    .then(() => restApi.retrieveFavDucks(logic.__userToken__))
-                    .then(favs => {
-                        expect(favs).toBeDefined()
-                        expect(favs instanceof Array).toBeTruthy()
-                        expect(favs.length).toBe(1)
-                        expect(favs[0].id).toBe(duckId)
-                    })
-            )
-
-            it('should succeed removing fav on second time', () =>
-                logic.toggleFavDuck(duckId)
-                    .then(() => logic.toggleFavDuck(duckId))
-                    .then(() => restApi.retrieveFavDucks(logic.__userToken__))
-                    .then(favs => {
-                        expect(favs).toBeDefined()
-                        expect(favs instanceof Array).toBeTruthy()
-                        expect(favs.length).toBe(0)
-                    })
-            )
-
-            it('should fail on null duck id', () => {
-                duckId = null
-
-                expect(() => logic.toggleFavDuck(duckId)).toThrowError(RequirementError, 'id is not optional')
-            })
-
-            // TODO more cases
-        })
-
-        describe('retrieve fav ducks', () => {
-            let _favs
-
-            beforeEach(() => {
-                _favs = []
-
-                return restApi.searchDucks(logic.__userToken__, '')
-                    .then(ducks => {
-                        for (let i = 0; i < 10; i++) {
-                            const randomIndex = Math.floor(Math.random() * ducks.length)
-
-                            _favs[i] = ducks.splice(randomIndex, 1)[0].id
-                        }
-                    })
-            })
-
-            it('should succeed adding fav on first time', () =>
-                logic.retrieveFavDucks(logic.__userToken__)
-                    .then(ducks => {
-                        ducks.forEach(({ id, title, imageUrl, description, price }) => {
-                            const isFav = _favs.some(fav => fav === id)
-
-                            expect(isFav).toBeTruthy()
-                            expect(typeof title).toBe('string')
-                            expect(title.length).toBeGreaterThan(0)
-                            expect(typeof imageUrl).toBe('string')
-                            expect(imageUrl.length).toBeGreaterThan(0)
-                            expect(typeof description).toBe('string')
-                            expect(description.length).toBeGreaterThan(0)
-                            expect(typeof price).toBe('string')
-                            expect(price.length).toBeGreaterThan(0)
-                        })
-                    })
-            )
-        })
-
-        describe('search ducks', () => {
-            it('should succeed on correct query', () =>
-                logic.searchDucks('yellow')
-                    .then(ducks => {
-                        expect(ducks).toBeDefined()
-                        expect(ducks instanceof Array).toBeTruthy()
-                        expect(ducks.length).toBe(13)
-                    })
-
-                // TODO other cases
-            )
-        })
-    })
-
-    describe('cart', () => {
-        let duckId, _duckId
-
-        beforeEach(() => {
-            return restApi.registerUser(name, surname, email, password)
-                .then(() => restApi.authenticateUser(email, password))
-                .then(response => {
-                    logic.__userToken__ = response.token
-                    return restApi.searchDucks(logic.__userToken__, '')
-                })
-                .then(ducks => {
-                    duckId = ducks[0].id
-                    _duckId = ducks[1].id
-                })
-        })
-
-        describe('add items', () => {
-            it('should succed adding one item', () => 
-                logic.addToCart(duckId)
-                    .then(response => {
-                        const { message } = response
-
-                        expect(message).toBe('Ok, item added.')
-                    })
-                    .then(() => restApi.retrieveCartItems(logic.__userToken__))
-                    .then(cart => {
-                        expect(cart).toBeDefined()
-                        expect(cart).toBeInstanceOf(Array)
-                        expect(cart).toHaveLength(1)
-                        expect(cart[0]).toBeInstanceOf(Object)
-                        expect(cart[0].id).toBe(duckId)
-                        expect(cart[0].qty).toBe(1)
-                    })
-            )
-
-            it('should succed adding an item twice', () => 
-                logic.addToCart(duckId)
-                    .then(response => {
-                        const { message } = response
-
-                        expect(message).toBe('Ok, item added.')
-                        
-                        return  restApi.addToCart(logic.__userToken__, duckId)
-                    })
-                    .then(response => {
-                        const { message } = response
-
-                        expect(message).toBe('Ok, item added.')
-                    })
-                    .then(() => restApi.retrieveCartItems(logic.__userToken__))
-                    .then(cart => {
-                        expect(cart).toBeDefined()
-                        expect(cart).toBeInstanceOf(Array)
-                        expect(cart).toHaveLength(1)
-                        expect(cart[0]).toBeInstanceOf(Object)
-                        expect(cart[0].id).toBe(duckId)
-                        expect(cart[0].qty).toBe(2)
-                    })
-            )
-
-            it('should succed adding two different items', () => {
-                return logic.addToCart(duckId)
-                    .then(() => logic.addToCart(_duckId))
-                    .then(() => restApi.retrieveCartItems(logic.__userToken__))
-                    .then(cart => {
-                        expect(cart).toBeDefined()
-                        expect(cart).toBeInstanceOf(Array)
-                        expect(cart).toHaveLength(2)
-                        expect(cart[0]).toBeInstanceOf(Object)
-                        expect(cart[0].id).toBe(duckId)
-                        expect(cart[0].qty).toBe(1)
-                        expect(cart[1]).toBeInstanceOf(Object)
-                        expect(cart[1].id).toBe(_duckId)
-                        expect(cart[1].qty).toBe(1)
-                    })
-            })
-        })
-
-        describe('retrieve cart', () => {
-            let _cart
-
-            beforeEach(() => {
-                _cart = []
-
-                return restApi.searchDucks(logic.__userToken__, '')
-                    .then(ducks => {
-                        for (let i = 0; i < 10; i++) {
-                            const randomIndex = Math.floor(Math.random() * ducks.length)
-
-                            _cart[i] = {}
-                            _cart[i].id = ducks.splice(randomIndex, 1)[0].id
-                            _cart[i].qty = Math.ceil(Math.random() * 10)
-                        }
-
-                        return restApi.updateUser(logic.__userToken__, { cart: _cart })
-                    })
-            })
-
-            it('should succeed on correct user id', () =>
-                logic.retrieveCartItems()
-                    .then(cart => {
-                        cart.forEach(({ id: _id, qty, title, price, imageUrl }, i) => {
-                            expect(_id).toBe(_cart[i].id)
-                            expect(typeof _id).toBe('string')
-                            expect(_id.length).toBeGreaterThan(0)
-                            expect(typeof qty).toBe('number')
-                            expect(typeof title).toBe('string')
-                            expect(title.length).toBeGreaterThan(0)
-                            expect(typeof imageUrl).toBe('string')
-                            expect(imageUrl.length).toBeGreaterThan(0)
-                            expect(typeof price).toBe('number')
-                        })
-                    })
-            )
-        })
-    })
+    afterAll(() => mongoose.disconnect())
 })
