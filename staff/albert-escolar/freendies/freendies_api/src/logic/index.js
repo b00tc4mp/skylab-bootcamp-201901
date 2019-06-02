@@ -92,8 +92,10 @@ const logic = {
 
 
     async updateUser(userId, data) {
-        if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
-        if (!userId.trim().length) throw Error(`${userId} cannot be empty`)
+        if (typeof userId !== 'string') throw TypeError(`userId is not a string`)
+        if (!userId.trim().length) throw Error(`userId cannot be empty`)
+        if (typeof data !== 'string') throw TypeError('data is not a string')
+        if (!data.trim().length) throw Error('data cannot be empty')
 
         const user = await User.findByIdAndUpdate(userId, data, { runValidators: true, new: true }).select('-password -__v').lean()
 
@@ -108,19 +110,18 @@ const logic = {
 
 
     async uploadGame(ownerId, title, genre, description, images, gameFile) {
-        debugger
-       // if (typeof ownerId !== 'string') throw TypeError(`${ownerId} is not a string`)
-        //if (!ownerId.trim().length) throw Error(`${ownerId} cannot be empty`)
+        if (typeof ownerId !== 'string') throw TypeError(`${ownerId} is not a string`)
+        if (!ownerId.trim().length) throw Error(`${ownerId} cannot be empty`)
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw Error(`${title} cannot be empty`)
         if (typeof genre !== 'string') throw TypeError(`${genre} is not a string`)
         if (!genre.trim().length) throw Error(`${genre}cannot be empty`)
         if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
         if (!description.trim().length) throw Error(`${description} cannot be empty`)
-        //if (typeof images !== 'string') throw TypeError(`${images} is not a string`)
-        //if (!images.trim().length) throw Error(`${images} cannot be empty`)
-        //if (typeof gameFile !== 'string') throw TypeError(`${gameFile} is not a string`)
-        //if (!gameFile.trim().length) throw Error(`${gameFile} cannot be empty`)
+        // if (typeof images !== 'string') throw TypeError(`${images} is not a string`)
+        // if (!images.trim().length) throw Error(`${images} cannot be empty`)
+        // if (typeof gameFile !== 'string') throw TypeError(`${gameFile} is not a string`)
+        // if (!gameFile.trim().length) throw Error(`${gameFile} cannot be empty`)
 
 
         const ownerUser = await User.findById(ownerId)
@@ -129,7 +130,7 @@ const logic = {
 
         const imageTitle = `image-${title}-${Date.now()}`
         const gameTitle = `game-${title}-${Date.now()}`
-       
+
         const gameUpload = await bucket.file(gameTitle)
 
         const imageUpload = await bucket.file(imageTitle)
@@ -145,14 +146,14 @@ const logic = {
                 contentType: 'image/jpeg'
             }
         })
-      
+
         await streamifier.createReadStream(gameFile.buffer).pipe(gameBlobStream)
 
         let game = await bucket.file(gameTitle)
         let gameFileUploaded = await game.getSignedUrl({
             action: 'read',
             expires: '03-09-2491'
-          })
+        })
 
         await streamifier.createReadStream(images.buffer).pipe(imageBlobStream)
 
@@ -160,8 +161,8 @@ const logic = {
         let imageFileUploaded = await img.getSignedUrl({
             action: 'read',
             expires: '03-09-2491'
-          })
-        
+        })
+
         const newGame = await Game.create({ ownerId, title, genre, description, images: imageFileUploaded[0], gameFile: gameFileUploaded[0] })
 
         ownerUser.uploads.push(newGame.id)
@@ -169,7 +170,39 @@ const logic = {
         ownerUser.save()
 
         return newGame
+    },
+
+
+    async retrieveGameByQuery(genre, query) {
+        console.log(genre,query)
+        if (typeof genre !== 'string') throw TypeError('genre is not a string')
+        if (!genre.trim().length) throw Error('genre cannot be empty')
+        if (typeof query !== 'string') throw TypeError('query is not a string')
+        if (!query.trim().length) throw Error('genre cannot be empty')
+
+        if (genre == 'all') {
+            return Game.find({ 'title': query }).select('-__v').lean()
+                .then(games => {
+                    games.forEach(game => {
+                        game.id = game._id.toString()
+                        delete game._id
+                    })
+                    return games
+
+                })
+        } else {
+            return Game.find({ $or: [{ "title": query }, { "genre": genre }] }).select('-__v').lean()
+                .then(games => {
+                    games.forEach(game => {
+                        game.id = game._id.toString()
+                        delete game._id
+                    })
+                    return games
+                })
         }
+
+    }
+
 
 }
 
