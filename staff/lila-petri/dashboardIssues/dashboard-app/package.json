@@ -14,10 +14,13 @@
     "moment-random": "^1.0.5",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
     "validator": "^11.0.0"
   },
   "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "mocha ./src/**/*.test.js --runInBand --require mock-local-storage",
     "test:debug": "mocha debug ./src/**/*.test.js --runInBand",
     "test:coverage": "nyc --reporter=html --reporter=text mocha ./src/**/*.test.js --runInBand --require mock-local-storage"

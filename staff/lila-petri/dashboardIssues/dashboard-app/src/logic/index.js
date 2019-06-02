@@ -29,14 +29,14 @@ const logic = {
         ])
 
         validate.email(email)
-        debugger
+        
         return(async()=>{
             try{
 
                 await restApi.registerUser(name, surname, email, password, profile, country)
                 
             }catch(error){
-                throw new LogicError(error)
+                throw new LogicError('It was imposible to register the user')
             }
         })()
     },
@@ -51,7 +51,7 @@ const logic = {
             try{
                 const response = await restApi.authenticateUser(email, password)
                 this.__userToken__ = response.token
-                debugger
+                
 
             }catch(error){
                 throw new LogicError(error)

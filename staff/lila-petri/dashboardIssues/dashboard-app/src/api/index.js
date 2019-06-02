@@ -4,10 +4,11 @@ const call = require ('dashboard-call')
 const dotenv = require('dotenv')
 dotenv.config()
 
-const { env: { URL_SERVER: url } } = process
+//const { env: { URL_SERVER: url } } = process
+const port = process.env.REACT_APP_APP_PORT
 
 const restApi = {
-    __url__: url,
+    __url__: `http://localhost:${port}/api`,
 
     registerUser(name, surname, email, password, profile, country){
         validate.arguments([
@@ -20,7 +21,7 @@ const restApi = {
         ])
 
         validate.email(email)
-        debugger
+        
         return call(`${this.__url__}/users`, {
             method: 'POST',
             headers: {

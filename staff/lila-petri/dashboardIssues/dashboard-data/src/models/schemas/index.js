@@ -29,7 +29,10 @@ const user = new Schema({
         required: true,
         default: 'product-expert' },
     
-    country: { type: String, required: true }
+    country: { 
+            type: String, 
+            enum:{values: ['AR', 'BR', 'CL', 'CO', 'CZ', 'ES', 'IT', 'MX', 'PE', 'PL', 'PT', 'TR'], message: 'does not match'},
+            required: true }
     
 })
 
