@@ -16,11 +16,11 @@ function call(url, options = {}) {
     const { method = 'GET', headers, body, timeout = 0 } = options
 
     validate.arguments([
-        { name: 'url', value: url, type: 'string', notEmpty: true },
-        { name: 'method', value: method, type: 'string', notEmpty: true },
-        { name: 'headers', value: headers, type: 'object', optional: true },
-        { name: 'body', value: body, type: 'object', notEmpty: true, optional: true },
-        { name: 'timeout', value: timeout, type: 'number', notEmpty: true, optional: true },
+        { name: 'url', value: url, type: String, notEmpty: true },
+        { name: 'method', value: method, type: String, notEmpty: true },
+        { name: 'headers', value: headers, type: Object, optional: true },
+        { name: 'body', value: body, type: Object, notEmpty: true, optional: true },
+        { name: 'timeout', value: timeout, type: Number, notEmpty: true, optional: true },
     ])
 
     validate.url(url)

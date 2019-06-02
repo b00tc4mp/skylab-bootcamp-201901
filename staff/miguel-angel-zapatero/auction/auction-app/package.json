@@ -14,7 +14,7 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --runInBand --no-cache",
     "eject": "react-scripts eject",
     "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
     "test:coverage": "react-scripts test --coverage --watchAll"
@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "auction-data": "file:../auction-data",
-    "bcrypt": "^3.0.6"
+    "bcrypt": "^3.0.6",
+    "jsonwebtoken": "^8.5.1"
   }
 }

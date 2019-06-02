@@ -18,6 +18,12 @@ class RequirementError extends Error {
     }
 }
 
+class ComparisonError extends Error {
+    constructor(message) {
+        super(message)
+    }
+}
+
 class ConnectionError extends Error {
     constructor(message) {
         super(message)
@@ -70,6 +76,7 @@ module.exports = {
     ValueError,
     FormatError,
     RequirementError,
+    ComparisonError,
     ConnectionError,
     TimeoutError,
     LogicError,

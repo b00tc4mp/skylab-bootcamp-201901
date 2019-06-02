@@ -1,4 +1,4 @@
-const { ValueError, RequirementError, FormatError } = require('auction-errors')
+const { ValueError, RequirementError, FormatError, ComparisonError } = require('auction-errors')
 
 const validate = {
     arguments(args) {
@@ -31,6 +31,10 @@ const validate = {
         const re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 
         if (!re.test(String(url))) throw new FormatError(`${url} is not a url`)
+    },
+
+    samePassword(password, confirmPassword) {
+        if(password !== confirmPassword) throw new ComparisonError('passwords not match')
     }
 }
 
