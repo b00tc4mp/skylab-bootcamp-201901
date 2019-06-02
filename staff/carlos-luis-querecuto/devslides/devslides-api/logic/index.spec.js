@@ -1,8 +1,8 @@
-import dotenv from 'dotenv'
-import data from 'devslides-data'
-import { expect } from 'chai'
-import logic from '.';
-import bcrypt from 'bcrypt'
+const dotenv = require('dotenv')
+const data = require('devslides-data')
+const { expect } = require('chai')
+const logic = require('.');
+const bcrypt = require('bcrypt')
 
 dotenv.config()
 
@@ -86,7 +86,7 @@ describe('logic', () => {
 
             beforeEach(async () => user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) }))
 
-            it('should succeed on correct credentials', async () => {
+            it('should succeed on correct email', async () => {
                 const id = await logic.authenticateUser(email, password)
 
                 expect(id).to.exist
@@ -94,6 +94,16 @@ describe('logic', () => {
 
                 expect(id).to.equal(user.id)
             })
+
+            it('should succeed on correct username', async () => {
+                const id = await logic.authenticateUser(username, password)
+
+                expect(id).to.exist
+                expect(id).to.be.a('string')
+
+                expect(id).to.equal(user.id)
+            })
+
             it('should fail on incorrect credentials', async () => {
                 try {
                     await logic.authenticateUser(email, `wrong-password-${Math.random()}`)
@@ -149,7 +159,7 @@ describe('logic', () => {
             let user
             it('should succeed on delete an user', async () => {
                 user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) })
-                await logic.deleteUser(user.id)
+                await logic.deleteUser(user.id,user.username,user.password)
                 const _user = User.findById(user.id).lean()
                 expect(_user.name).to.undefined
                 expect(_user.surname).to.undefined
@@ -160,7 +170,7 @@ describe('logic', () => {
 
             it('should fail on delete an unexising user', async () => {
                 try {
-                    await logic.deleteUser(user.id)
+                    await logic.deleteUser(user.id, user.username,user.password)
                     throw Error('should not reach this point')
                 }
                 catch (err) {

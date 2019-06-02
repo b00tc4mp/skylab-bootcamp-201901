@@ -1,4 +1,4 @@
-import mongoose from 'mongoose'
-import models from './models'
+const mongoose = require('mongoose')
+const models = require('./models')
 
-export default { models , mongoose }
+module.exports = { models , mongoose }

@@ -1,5 +1,5 @@
-import { Schema } from 'mongoose'
-import { isEmail } from 'validator'
+const { Schema } = require('mongoose')
+const { isEmail } = require('validator')
 
 const element = new Schema({
     type: { type: String, required: true },
@@ -17,8 +17,9 @@ const presentation = new Schema({
     title: { type: String, required: true },
     date: { type: Date, default: Date.now },
     author: { type: Schema.Types.ObjectId, ref: 'User', required: true },
-    slides: [slide]
+    slides: [{ quantity: { type: String, required: true }, product }]
 })
+
 
 const user = new Schema({
     name: { type: String, required: true },
@@ -31,11 +32,11 @@ const user = new Schema({
         validate: isEmail
     },
     password: { type: String, required: true },
-    presentations: [{ type: Schema.Types.ObjectId, ref: 'Presentation'}]
+    presentations: [{ type: Schema.Types.ObjectId, ref: 'Presentation' }]
 })
 
 /* user.methods.wtfholic = function () {
     return this.age > 17 ? 'alcoholic' : 'milkaholic'
 } */
 
-export default { user, presentation , slide , element }
+module.exports = { user, presentation, slide, element }

@@ -1,5 +1,4 @@
 {
-  "esm": "auto",
   "name": "devslides-api",
   "version": "1.0.0",
   "description": "",
@@ -9,6 +8,8 @@
     "devslides-data": "file:../devslides-data",
     "dotenv": "^8.0.0",
     "esm": "^3.2.25",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "validator": "^11.0.0"
   },
   "devDependencies": {
@@ -20,9 +21,9 @@
     "start": "node .",
     "watch": "nodemon .",
     "debug": "node debug .",
-    "test": "mocha --timeout 10000 -r esm '**/*.spec.js'",
+    "test": "mocha --timeout 10000 '**/*.spec.js'",
     "test:debug": "mocha debug -r esm '**/*.spec.js'",
-    "test:coverage": "nyc --reporter=text --reporter=html mocha -r esm '**/*.spec.js' --timeout 10000"
+    "test:coverage": "nyc --reporter=text --reporter=html mocha '**/*.spec.js' --timeout 10000"
   },
   "keywords": [],
   "author": "",

@@ -1,9 +1,9 @@
-import mongoose from 'mongoose'
-import schemas from './schemas'
+const mongoose = require('mongoose')
+const schemas = require('./schemas')
 
-const { user, presentation , slide, element } = schemas
+const { user, presentation, slide, element } = schemas
 
-export default { 
+module.exports = {
     User: mongoose.model('User', user),
     Presentation: mongoose.model('Presentation', presentation),
     Slide: mongoose.model('Slide', slide),

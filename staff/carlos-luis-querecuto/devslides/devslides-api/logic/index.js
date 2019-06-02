@@ -1,6 +1,6 @@
-import data from 'devslides-data'
-import validate from '../common/validate'
-import bcrypt from 'bcrypt'
+const data = require('devslides-data')
+const validate = require('../common/validate')
+const bcrypt = require('bcrypt')
 
 const { models } = data
 const { User, Presentation, Slide, Element } = models
@@ -24,17 +24,18 @@ const logic = {
             if (!!await User.findOne({ username })) throw Error(`User with username ${username} already exists`)
             // TODO end logic, other cases, flows, states... (user already exists check, etc)
 
-            await User.create({ name, surname, username, email, password: hash })
+            return User.create({ name, surname, username, email, password: hash })
         })()
     },
-    authenticateUser(email, password) {
+    authenticateUser(username, password) {
         validate.arguments([
-            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'username', value: username, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
-        validate.email(email)
         return (async () => {
-            const user = await User.findOne({ email })
+
+            let user = await User.findOne({ username }) || await User.findOne({ email: username })
+            if (!user) throw Error('Incorrect data')
 
             if (await bcrypt.compare(password, user.password)) return user.id
             else throw Error('Incorrect data')
@@ -56,8 +57,8 @@ const logic = {
             { name: 'data', value: data, type: 'object', notEmpty: true },
         ])
         return (async () => {
-            if (await User.findOne({ email: data.email })) throw Error(`User with email ${data.email} already exists`)
-            if (await User.findOne({ username: data.username })) throw Error(`User with email ${data.username} already exists`)
+            if (await User.findOne({ email: data.email })) throw Error(`User with ${data.email} already exists`)
+            if (await User.findOne({ username: data.username })) throw Error(`User with ${data.username} already exists`)
 
             await User.findByIdAndUpdate(id, {
                 name: data.name,
@@ -70,17 +71,20 @@ const logic = {
         })()
     },
 
-    deleteUser(id) {
+    deleteUser(id, username, password) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'username', value: username, type: 'string', notEmpty: true }, ,
+            { name: 'password', value: password, type: 'string', notEmpty: true },
         ])
         return (async () => {
+            await logic.authenticateUser(username, password)
             if (!await User.findById(id)) throw Error('User to delete doesnt exist')
             return await User.findByIdAndRemove(id).select('name surname username email password -_id').lean()
         })()
     },
 
-    createPresentation(title, id) {
+    createPresentation(id,title) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'title', value: title, type: 'string', notEmpty: true },
@@ -145,8 +149,8 @@ const logic = {
                 throw Error('Presentation doesnt exist')
 
             const presentation = await Presentation.findById(presentationId)
-            presentation.slides.forEach( slide => {
-                if(slide._id.toString() === slideId) slide.style = style
+            presentation.slides.forEach(slide => {
+                if (slide._id.toString() === slideId) slide.style = style
             })
             await presentation.save()
         })()
@@ -290,4 +294,4 @@ const logic = {
 
 }
 
-export default logic
+module.exports = logic
