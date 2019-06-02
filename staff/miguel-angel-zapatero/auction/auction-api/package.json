@@ -8,7 +8,8 @@
     "watch": "nodemon .",
     "debug": "node inspect .",
     "test": "jest --runInBand",
-    "test:debug": "node inspect ./node_modules/jest/bin/jest.js --runInBand --watchAll"
+    "test:debug": "node inspect ./node_modules/jest/bin/jest.js --runInBand --watchAll",
+    "test:coverage": "jest --coverage --watchAll"
   },
   "repository": {
     "type": "git",
