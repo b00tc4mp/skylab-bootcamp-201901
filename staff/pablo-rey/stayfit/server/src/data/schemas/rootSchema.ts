@@ -5,9 +5,8 @@ import { CreateSessionTypeResolver } from '../../logic/resolvers/session-type/cr
 import { CreateUserResolver } from '../../logic/resolvers/users/create-user';
 import { ListUsersResolvers } from '../../logic/resolvers/users/list-users';
 import { CreateProviderResolver } from '../../logic/resolvers/providers/create-provider';
-import { UpdateProviderAdminsResolver } from '../../logic/resolvers/providers/update-admins';
+import { UpdateProviderStaffResolver } from '../../logic/resolvers/providers/update-staff';
 import { authChecker } from '../../logic/middleware/authChecker';
-import { UpdateProviderCoachesResolver } from '../../logic/resolvers/providers/update-coaches';
 import { AddProviderCustomerResolver } from '../../logic/resolvers/providers/add-customer';
 import { RemoveProviderCustomerResolver } from '../../logic/resolvers/providers/remove-customer';
 import { RetrieveUserResolver } from '../../logic/resolvers/users/retrieve-user';
@@ -32,8 +31,7 @@ export async function createSchema() {
       RetrieveUserResolver,
       ListUsersResolvers,
       CreateProviderResolver,
-      UpdateProviderAdminsResolver,
-      UpdateProviderCoachesResolver,
+      UpdateProviderStaffResolver,
       AddProviderCustomerResolver,
       RemoveProviderCustomerResolver,
       ListProvidersResolver

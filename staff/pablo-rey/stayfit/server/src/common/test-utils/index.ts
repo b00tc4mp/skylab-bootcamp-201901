@@ -3,7 +3,7 @@ import * as bcrypt from 'bcryptjs';
 import * as faker from 'faker';
 import { ProviderModel } from '../../data/models/provider';
 import { ROLES, STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../../data/models/user';
-import { random } from '../random';
+import { random } from '../utils';
 import { AttendanceModel } from '../../data/models/attendance';
 import { SessionModel } from '../../data/models/session';
 import { SessionTypeModel } from '../../data/models/session-type';

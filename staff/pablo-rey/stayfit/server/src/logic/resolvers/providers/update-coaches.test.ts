@@ -3,11 +3,11 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import { UserModel, STAFF_ROLE, User } from '../../../data/models/user';
 import { gCall } from '../../../common/test-utils/gqlCall';
 import { ProviderModel, Provider } from '../../../data/models/provider';
 import { SUPERADMIN_ROLE } from '../../../data/models/user';
+import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import faker = require('faker');
 
 chai.use(chaiAsPromised);
@@ -66,6 +66,7 @@ describe('update coaches of provider', function() {
     expect(_provider!.name).to.be.equal(provider.name);
     const _coachesId: string[] = _provider!.coaches.map(coach => (coach as any).id);
     expect(_coachesId).to.deep.equal(staffUsersId);
+    (_provider!.coaches as User[]).forEach(coach => expect(coach.coachOf).includes(provider.id) )
 
   }
 

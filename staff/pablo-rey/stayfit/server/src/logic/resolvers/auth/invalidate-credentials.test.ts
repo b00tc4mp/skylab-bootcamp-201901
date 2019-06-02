@@ -5,7 +5,7 @@ import * as dotenv from 'dotenv';
 import * as jwt from 'jsonwebtoken';
 import * as mongoose from 'mongoose';
 import { UserModel } from '../../../data/models/user';
-import { random } from '../../../common/random';
+import { random } from '../../../common/utils';
 import { expectError } from '../../../common/test-utils/error-handling';
 import { gCall } from '../../../common/test-utils/gqlCall';
 import { fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';

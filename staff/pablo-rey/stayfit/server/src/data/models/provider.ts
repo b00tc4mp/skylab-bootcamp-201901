@@ -13,15 +13,15 @@ export class Provider extends Typegoose {
   name: string;
 
   @Field(returns => [User], { nullable: 'items' })
-  @arrayProp({ itemsRef: User })
+  @arrayProp({ itemsRef: { name: 'User' } })
   admins: Ref<User>[];
 
   @Field(returns => [User], { nullable: 'items' })
-  @arrayProp({ itemsRef: User })
+  @arrayProp({ itemsRef: { name: 'User' } })
   coaches: Ref<User>[];
 
   @Field(returns => [User], { nullable: 'items' })
-  @arrayProp({ itemsRef: User })
+  @arrayProp({ itemsRef: { name: 'User' } })
   customers: Ref<User>[];
 
   @prop({ default: '' })

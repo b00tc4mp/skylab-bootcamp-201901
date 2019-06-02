@@ -41,17 +41,17 @@ export class User extends Typegoose {
   @prop({ required: true, default: GUEST_ROLE, enum: ROLES })
   role: string;
 
-  // @Field(returns => [Provider], { nullable: 'items' })
-  // @arrayProp({ itemsRef: Provider })
-  // customerOf: Ref<Provider>[];
+  @Field(returns => [Provider], { nullable: 'items' })
+  @arrayProp({ itemsRef: Provider })
+  customerOf: Ref<Provider>[];
 
-  // @Field(returns => [Provider], { nullable: 'items' })
-  // @arrayProp({ itemsRef: Provider })
-  // coachOf: Ref<Provider>[];
+  @Field(returns => [Provider], { nullable: 'items' })
+  @arrayProp({ itemsRef: Provider })
+  coachOf: Ref<Provider>[];
 
-  // @Field(returns => [Provider], { nullable: 'items' })
-  // @arrayProp({ itemsRef: Provider })
-  // adminOf: Ref<Provider>[];
+  @Field(returns => [Provider], { nullable: 'items' })
+  @arrayProp({ itemsRef: Provider })
+  adminOf: Ref<Provider>[];
 
   
 

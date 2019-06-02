@@ -5,7 +5,7 @@ import * as mongoose from 'mongoose';
 import { SessionModel } from '../../data/models/session';
 import { SessionTypeModel } from '../../data/models/session-type';
 import { ROLES, User, UserModel } from '../../data/models/user';
-import { random } from '../../common/random';
+import { random } from '../../common/utils';
 
 const { ObjectId } = mongoose.Types;
 

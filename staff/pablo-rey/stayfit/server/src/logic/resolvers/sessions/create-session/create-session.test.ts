@@ -8,7 +8,7 @@ import { createTestProvider, deleteModels } from '../../../../common/test-utils'
 import { ACTIVE, PUBLIC, SessionModel } from '../../../../data/models/session';
 import { SessionTypeModel } from '../../../../data/models/session-type';
 import { gCall } from '../../../../common/test-utils/gqlCall';
-import { random } from '../../../../common/random';
+import { random } from '../../../../common/utils';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
