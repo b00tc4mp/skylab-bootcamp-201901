@@ -37,8 +37,8 @@ describe('create sessions', function() {
       const type = await SessionTypeModel.findOne({ type: 'wod', provider });
       const title = 'Test session';
       const providerId = provider.id;
-      const startTime = moment(start, 'DD/MM/YYYY hh:mm:ss', true).toDate();
-      const endTime = moment(end, 'DD/MM/YYYY hh:mm:ss', true).toDate();
+      const startTime = moment(start, 'YYYY-MM-DD hh:mm:ss', true).toDate();
+      const endTime = moment(end, 'YYYY-MM-DD hh:mm:ss', true).toDate();
       const maxAttendants = 10;
       const typeId = type!.id;
       const status = ACTIVE;
@@ -68,7 +68,7 @@ describe('create sessions', function() {
       if (response.errors) console.log(response.errors);
       expect(response.errors).not.to.exist;
 
-      let expected = [moment(startTime).format('DD/MM/YYYY'), ...repeat.map(date => moment(date).format('DD/MM/YYYY'))];
+      let expected = [moment(startTime).format('YYYY-MM-DD'), ...repeat.map(date => moment(date).format('YYYY-MM-DD'))];
       expected = expected.filter((value, index) => expected.indexOf(value) === index);
 
       const { createSessions: sessionsId } = response.data!;
@@ -87,7 +87,7 @@ describe('create sessions', function() {
       const start = '04/06/2019';
       const repeat: moment.Moment[] = [];
       for (let ii = 0, ll = 6; ii < ll; ii++) {
-        const day = moment(start, 'DD/MM/YYYY', true)
+        const day = moment(start, 'YYYY-MM-DD', true)
           .startOf('day')
           .add(ii, 'day');
       }
@@ -98,7 +98,7 @@ describe('create sessions', function() {
       const start = '01/06/2019';
       const repeat: moment.Moment[] = [];
       for (let ii = 0, ll = 10; ii < ll; ii++) {
-        const day = moment(start, 'DD/MM/YYYY', true)
+        const day = moment(start, 'YYYY-MM-DD', true)
           .startOf('day')
           .add(random(7), 'day');
         repeat.push(day);

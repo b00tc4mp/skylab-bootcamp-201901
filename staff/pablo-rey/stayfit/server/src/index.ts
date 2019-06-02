@@ -19,7 +19,7 @@ const db = mongoose.connection;
 db.on('error', err => console.error('MongoDB connection error', err));
 
 db.on('open', async () => {
-  if (true) {
+  if (!true) {
     await cleanDb();
     await populateDb();
   }
@@ -31,10 +31,9 @@ db.on('open', async () => {
   });
 
   const app = express();
+
   app.use(
-    cors({
-      credentials: true,
-    })
+    cors()
   );
   app.use(cookieParser());
 

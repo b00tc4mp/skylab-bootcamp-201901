@@ -16,12 +16,12 @@ export async function refreshToken(user: User, ctx: MyContext) {
   });
 
   ctx.res.cookie('refresh-token', refreshToken, {
-    httpOnly: true,
+    // httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     maxAge: refreshTokenDuration,
   });
   ctx.res.cookie('access-token', accessToken, {
-    httpOnly: true,
+    // httpOnly: true,
     secure: process.env.NODE_ENV === 'production',
     maxAge: accessTokenDuration,
   });

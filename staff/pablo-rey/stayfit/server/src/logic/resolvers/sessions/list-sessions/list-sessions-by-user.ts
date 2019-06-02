@@ -11,16 +11,18 @@ import moment = require('moment');
 @Resolver(User)
 export class ListSessionsByUserResolvers {
 
-  @Authorized(ONLY_OWN_USER)
+  // @Authorized(ONLY_OWN_USER)
   @Query(returns => [Session])
-  async listMyAvailableSessions(@Arg('providerId') providerId: string, @Ctx() ctx: MyContext) {
+  async listMyAvailableSessions(@Arg('providerId') providerId: string, @Arg('day') day: string, @Ctx() ctx: MyContext) {
     const user = ctx.user || await UserModel.findById(ctx.userId);
     if (!user) throw new LogicError('user is required')
 
     const provider = ctx.provider || await ProviderModel.findById(providerId, 'customers').populate('customers')
     if (!provider) throw new LogicError('provider is required')
   
-    const sessions = await SessionModel.find({provider}).populate('coaches').populate('type').populate('attendances')
+    const startDay = moment(day, "YYYY-MM-DD").toDate();
+    const endDay = moment(day, "YYYY-MM-DD").endOf('day').toDate();
+    let sessions = await SessionModel.find({provider, startTime : { $gte: startDay, $lte: endDay}}).populate('coaches').populate('type').populate('attendances')
     return sessions;
   }
 }

@@ -40,7 +40,7 @@ export class LoginResolver {
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) throw new AuthenticationError('wrong credentials');
-
+    ctx.res.cookie("pablo", "yo")
     return await refreshToken(user, ctx);
   }
 }

@@ -73,7 +73,7 @@ export async function createSession(data: CreateSessionsInput, provider: Provide
   let { startTime, endTime } = data;
 
   let sessionsId: string[] = [];
-  const duration = moment.duration(moment(startTime).diff(endTime));
+  const duration = moment.duration(moment(endTime).diff(startTime));
   const [startDate, startTimestamp] = moment(startTime)
     .format('YYYY-MM-DD hh:mm:ss')
     .split(' ');

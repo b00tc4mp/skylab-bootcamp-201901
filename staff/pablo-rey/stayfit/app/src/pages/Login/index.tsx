@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
   IonButton,
@@ -11,24 +11,21 @@ import {
   IonRow,
   IonCol,
 } from '@ionic/react';
+import { MainContext } from '../../logic/contexts/main-context';
 
-function LogIn({ history }) {
+function LogIn ({ history }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
 
-  const handleLogin = e => {
+  const context = useContext(MainContext);
+
+  const handleLogin = async e => {
     e.preventDefault();
-    // try {
-    //   logic
-    //     .loginUser(email, password)
-    //     .then(() => {
-    //       if (logic.isLogged) history.push('/');
-    //     })
-    //     .catch(err => setError(err.message));
-    // } catch (err) {
-    //   setError(err.message);
-    // }
+    console.log(context);
+    if (await context.login(email,password)) {
+      history.push("/home")
+    }
   };
   return (
     <IonGrid>

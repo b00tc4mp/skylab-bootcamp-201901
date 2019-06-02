@@ -5,8 +5,8 @@
   "main": "server/index.ts",
   "scripts": {
     "dev": "concurrently \"npm run dev --prefix server\" \"npm run start --prefix app\"",
-    "dev:api": "npm run dev --prefix server",
-    "dev:app": "npm run dev --prefix server",
+    "dev:server": "npm run dev --prefix server",
+    "dev:app": "npm run start --prefix app",
     "server:test": "npm test --prefix server",
     "server:test:debug": "npm run test:debug --prefix server"
   },
@@ -14,5 +14,9 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^4.1.0"
+  },
+  "dependencies": {
+    "@ionic/react": "0.0.5",
+    "moment": "^2.24.0"
   }
 }
