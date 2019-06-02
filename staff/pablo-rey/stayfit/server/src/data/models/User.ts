@@ -1,5 +1,6 @@
 import { Field, ID, ObjectType, Root } from 'type-graphql';
-import { prop, Typegoose } from 'typegoose';
+import { prop, Ref, Typegoose, arrayProp } from 'typegoose';
+import { Provider } from './provider'
 import moment = require('moment');
 
 // Constants
@@ -39,6 +40,20 @@ export class User extends Typegoose {
   @Field()
   @prop({ required: true, default: GUEST_ROLE, enum: ROLES })
   role: string;
+
+  // @Field(returns => [Provider], { nullable: 'items' })
+  // @arrayProp({ itemsRef: Provider })
+  // customerOf: Ref<Provider>[];
+
+  // @Field(returns => [Provider], { nullable: 'items' })
+  // @arrayProp({ itemsRef: Provider })
+  // coachOf: Ref<Provider>[];
+
+  // @Field(returns => [Provider], { nullable: 'items' })
+  // @arrayProp({ itemsRef: Provider })
+  // adminOf: Ref<Provider>[];
+
+  
 
   // // *+++++++++++++++++++++++++++++++++ Suscriptions not working yet
   // @Field(returns => Subscription)

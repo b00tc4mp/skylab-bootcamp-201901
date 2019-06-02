@@ -22,9 +22,8 @@ function LogIn ({ history }) {
 
   const handleLogin = async e => {
     e.preventDefault();
-    console.log(context);
     if (await context.login(email,password)) {
-      history.push("/home")
+      history.push("/")
     }
   };
   return (

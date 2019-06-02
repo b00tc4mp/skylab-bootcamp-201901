@@ -1,9 +1,8 @@
 import gql from 'graphql-tag';
+import jwt from 'jsonwebtoken';
 
 export default {
   gqlClient: null,
-  refreshToken: null,
-  accessToken: null,
 
   async __gCall({ query, mutation, variables }) {
     let context;
@@ -42,19 +41,21 @@ export default {
     const { data, error } = await this.__gCall({
       mutation,
       variables: {
-        email: 'user0@stay.fit',
-        password: '123',
+        email,
+        password,
       },
-    })
+    });
     if (error) throw new Error(error.message);
     const refreshToken: string = data.login.refreshToken;
     const accessToken: string = data.login.accessToken;
-    return { refreshToken, accessToken };
+    const decodedToken = await jwt.decode(refreshToken);
+    const { userId, role } = decodedToken;
+    return { refreshToken, accessToken, userId, role };
   },
 
   async availableSessions(providerId: string, day: string) {
     const query = gql`
-      query ListSessions($providerId: String!, $day: String! ) {
+      query ListSessions($providerId: String!, $day: String!) {
         listMyAvailableSessions(providerId: $providerId, day: $day) {
           id
           title
@@ -75,9 +76,9 @@ export default {
       query,
       variables: {
         providerId,
-        day
+        day,
       },
-    })
+    });
     return data.listMyAvailableSessions;
   },
 };

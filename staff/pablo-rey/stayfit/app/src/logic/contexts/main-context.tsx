@@ -8,6 +8,8 @@ type IMainContext = {
   accessToken?: string | null;
   refreshToken?: string | null;
   errorMessage?: string | null;
+  userId?: string | null;
+  role?: string | null;
   login?: (email: string, password: string) => Promise<boolean>;
   logout?: () => boolean;
 };
@@ -29,21 +31,41 @@ const MainContext = React.createContext(initialState);
 function MainProvider(props) {
   const [accessToken, setAccessToken] = useState(null);
   const [refreshToken, setRefreshToken] = useState(null);
+  const [userId, setUserId] = useState(null);
+  const [role, setRole] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const login = async (email: string, password: string) => {
     try {
-      const result = await logic.login(email, password);
-      setAccessToken(result.accessToken);
-      setRefreshToken(result.refreshToken);
+      const { accessToken, refreshToken, role, userId } = await logic.login(email, password);
+      setAccessToken(accessToken);
+      setRefreshToken(refreshToken);
+      setRole(role);
+      setUserId(userId);
       return true;
     } catch (error) {
       setAccessToken(null);
       setRefreshToken(null);
+      setRole(null);
+      setUserId(null);
       setErrorMessage(error.message);
     }
     return false;
   };
+  const logout = () => {
+    setAccessToken(null);
+    setRefreshToken(null);
+    setRole(null);
+    setUserId(null);
+    return true;
+  };
+
   // const [state, dispatch] = useReducer(reducer, initialState);
-  return <MainContext.Provider value={{ login, accessToken, refreshToken, errorMessage: null, gqlClient: props.gqlClient }}>{props.children}</MainContext.Provider>;
+  return (
+    <MainContext.Provider
+      value={{ login, logout, accessToken, refreshToken, role, userId, errorMessage: null, gqlClient: props.gqlClient }}
+    >
+      {props.children}
+    </MainContext.Provider>
+  );
 }
 export { MainContext, MainProvider };

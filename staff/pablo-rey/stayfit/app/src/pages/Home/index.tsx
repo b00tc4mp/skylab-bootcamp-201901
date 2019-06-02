@@ -28,7 +28,7 @@ const Home: React.FC<any> = ({ history, location }) => {
   return (
     <>
       <Menu />
-      <IonPage id="main">
+      <IonPage id="home">
         <IonHeader>
           <IonToolbar color="primary">
             <IonButtons slot="start">
