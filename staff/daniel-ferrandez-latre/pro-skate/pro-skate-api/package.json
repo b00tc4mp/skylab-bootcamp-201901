@@ -4,6 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "start": "node index.js",
+    "debug_vs" : "node --inspect-brk .",
     "test": "mocha --watch-extensions js,jsx '**/*.test.{js,jxs}' --watch --timeout 10000",
     "test-chrome": "mocha --inspect-brk **/*.test.js --timeout 10000",
     "test-debug": "mocha  --watch-extensions js,jsx '**/*.test.{js,jsx}' --watch --inspect --timeout 10000",
@@ -15,7 +17,9 @@
   "license": "ISC",
   "dependencies": {
     "argon2": "^0.23.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.0.0",
+    "jsonwebtoken": "^8.5.1",
     "pro-skate-data": "file:../pro-skate-data",
     "validator": "^11.0.0"
   },

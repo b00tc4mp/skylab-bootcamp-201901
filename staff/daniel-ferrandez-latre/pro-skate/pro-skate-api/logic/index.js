@@ -9,7 +9,7 @@ const { LogicError, UnauthorizedError} = require('../common/errors')
 const { User, Product } = models
 
 const logic = {
-    registerUser(name, surname, email, imageUrl, password, age ) {
+    registerUser(name, surname, email, password, age, imageUrl ) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
             { name: 'surname', value: surname, type: 'string', notEmpty: true },
@@ -19,7 +19,7 @@ const logic = {
             { name: 'age', value: age, type: 'string', notEmpty: true }
         ])
         validate.email(email)
-        age = parseInt(age)
+        const _age = parseInt(age)
 
         
         return (async () => {
@@ -28,8 +28,8 @@ const logic = {
             if (userDb) throw new LogicError(`user with email "${email}" already exists`)
             const hash = await argon2.hash(password)
 
-
-            await User.create({ name, surname, email, imageUrl, password: hash, age })
+            debugger
+            await User.create({ name, surname, email, password: hash, age: _age, imageUrl })
         })()
     },
 
@@ -262,115 +262,7 @@ const logic = {
             return userBd.historic
         })()
 
-    },
-
-
-
-
-
-    /* */
-
-
-    // addPublicNote(userId, text) {
-    //     // TODO validate inputs
-
-    //     // TODO implement logiclist
-
-    //     // return Note.create({ author: userId, text }).then(() => {})
-
-    //     return (async () => {
-    //         await Note.create({ author: userId, text })
-    //     })()
-    // },
-
-    // removePublicNote(userId, notedId) {
-    //     // TODO validate inputs
-
-    //     // TODO implement logic
-    // },
-
-    // retrievePublicNotes(userId) {
-    //     // TODO validate inputs
-
-    //     // TODO implement logic
-    //     return (async () => {
-    //         const notes = await Note.find({ author: userId }).populate('author', 'name').lean()
-
-    //         if (notes.length) {
-    //             const [{ author }] = notes
-    //             author.id = author._id.toString()
-    //             delete author._id
-
-    //             notes.forEach(note => {
-    //                 note.id = note._id.toString()
-    //                 delete note._id
-    //             })
-    //         }
-
-
-    //         return notes
-    //     })()
-    // },
-
-    // retrieveAllPublicNotes() {
-    //     // TODO validate inputs
-
-    //     // TODO implement logic
-    //     return (async () => {
-    //         const notes = await Note.find().populate('author', 'name').lean()
-
-    //         notes.forEach(note => {
-    //             note.id = note._id.toString()
-    //             delete note._id
-
-    //             const { author } = note
-
-    //             if (!author.id) {
-    //                 author.id = author._id.toString()
-    //                 delete author._id
-    //             }
-    //         })
-
-    //         return notes
-    //     })()
-    // },
-
-    // addPrivateNote(userId, text) {
-    //     // TODO validate inputs
-
-    //     // TODO implement logic
-    //     return (async () => {
-    //         const user = await User.findById(userId)
-
-    //         user.notes.push(new Note({ text, author: userId }))
-
-    //         await user.save()
-    //     })()
-    // },
-
-    // removePrivateNote(userId, noteId) {
-    //     // TODO validate inputs
-
-    //     // TODO implement logic
-    // },
-
-    // retrievePrivateNotes(userId) {
-    //     // TODO validate inputs
-
-    //     // TODO implement logic
-    //     return (async () => {
-    //         const { notes } = await User.findById(userId).select('notes').lean()
-
-    //         notes.forEach(note => {
-    //             note.id = note._id.toString()
-    //             delete note._id
-
-    //             note.author = note.author.toString()
-    //         })
-
-    //         return notes
-    //     })()
-    // }
+    }
 }
 
 module.exports = logic

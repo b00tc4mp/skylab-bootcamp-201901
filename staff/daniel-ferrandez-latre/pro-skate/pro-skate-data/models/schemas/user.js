@@ -14,7 +14,7 @@ const user = new Schema({
       validate: isEmail
   },
   password: { type: String, required: true },
-  age: Number,
+  age: {type: Number},
   date: { type: Date, default: Date.now },
   cart: [ { quantity: { type: Number, required: true }, productId: { type: Schema.Types.ObjectId, ref: 'Product' } } ],
   wishlist: [{type: Schema.Types.ObjectId, ref: 'Product'} ],

@@ -19,7 +19,7 @@ const {
 } = process;
 
 describe("logic", () => {
-  let name, surname, email, imageUrl, password, age;
+  let name, surname, email, imageUrl, password, age
 
   before(() => mongoose.connect(url, { useNewUrlParser: true }));
   after(async () => mongoose.disconnect());
@@ -35,18 +35,18 @@ describe("logic", () => {
   });
 
   describe("user test", () => {
-    describe("register user", function() {
-      this.timeout(10000);
+    describe("register user", async ()=> {
+      
 
       it("should succeed on correct data", async function() {
-        const res = await logic.registerUser(name, surname, email, imageUrl, password, age);
+        console.log(age)
+        const res = await logic.registerUser(name, surname, email, password, age, imageUrl );
         expect(res).to.be.undefined;
 
         const users = await User.find();
 
         expect(users).to.exist;
         expect(users).to.have.lengthOf(1);
-
         const [user] = users;
 
         expect(user.name).to.equal(name);
@@ -68,7 +68,7 @@ describe("logic", () => {
 
         it("should fail on retrying to register", async () => {
           try {
-            await logic.registerUser(name, surname, email, imageUrl, password, age);
+            await logic.registerUser(name, surname, email, password, age, imageUrl );
             throw Error("should not reach this point");
           } catch (error) {
             expect(error).not.to.be.undefined;
@@ -81,7 +81,7 @@ describe("logic", () => {
       it("should fail on undefined name", () => {
         const name = undefined;
 
-        expect(() => logic.registerUser(name, surname, email, imageUrl, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           RequirementError,
           `name is not optional`
         );
@@ -90,7 +90,7 @@ describe("logic", () => {
       it("should fail on empty name", () => {
         const name = "";
 
-        expect(() => logic.registerUser(name, surname, email, imageUrl, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           ValueError,
           "name is empty"
         );
@@ -99,7 +99,7 @@ describe("logic", () => {
       it("should fail on blank name", () => {
         const name = " \t    \n";
 
-        expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           ValueError,
           "name is empty"
         );
@@ -108,7 +108,7 @@ describe("logic", () => {
       it("should fail on undefined surname", () => {
         const surname = undefined;
 
-        expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           RequirementError,
           `surname is not optional`
         );
@@ -117,7 +117,7 @@ describe("logic", () => {
       it("should fail on null surname", () => {
         const surname = null;
 
-        expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           RequirementError,
           `surname is not optional`
         );
@@ -126,7 +126,7 @@ describe("logic", () => {
       it("should fail on empty surname", () => {
         const surname = "";
 
-        expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           ValueError,
           "surname is empty"
         );
@@ -135,7 +135,7 @@ describe("logic", () => {
       it("should fail on blank surname", () => {
         const surname = " \t    \n";
 
-        expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           ValueError,
           "surname is empty"
         );
@@ -144,7 +144,7 @@ describe("logic", () => {
       it("should fail on undefined email", () => {
         const email = undefined;
 
-        expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           RequirementError,
           `email is not optional`
         );
@@ -153,7 +153,7 @@ describe("logic", () => {
       it("should fail on null email", () => {
         const email = null;
 
-        expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           RequirementError,
           `email is not optional`
         );
@@ -162,7 +162,7 @@ describe("logic", () => {
       it("should fail on empty email", () => {
         const email = "";
 
-        expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           ValueError,
           "email is empty"
         );
@@ -171,7 +171,7 @@ describe("logic", () => {
       it("should fail on blank email", () => {
         const email = " \t    \n";
 
-        expect(() => logic.registerUser(name, surname, email, password, age)).to.throw(
+        expect(() => logic.registerUser(name, surname, email, password, age, imageUrl )).to.throw(
           ValueError,
           "email is empty"
         );
