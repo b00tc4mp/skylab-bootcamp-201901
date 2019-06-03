@@ -8,10 +8,10 @@ class Landing extends Component {
     }
 
     render() {
-        const { props: { user } } = this
+        const { props: { user, history, onSearchGame, searchResults } } = this
 
         return <div>
-            <SearchBar />
+            <SearchBar history={history} onSearchGame={onSearchGame} />
             {!user && <h2>Welcome to Freendies</h2>}
             {user && <h2>Welcome to Freendies {user.username}</h2>}
             <section>

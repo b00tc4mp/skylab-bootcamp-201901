@@ -27,7 +27,7 @@ class UploadGamePanel extends Component {
 
     render() {
         const { history } = this.props
-        const { onInputChange, onSubmit } = this
+        const {onSubmit } = this
 
         return <div>
             <h2>Upload a new game</h2>
@@ -39,12 +39,9 @@ class UploadGamePanel extends Component {
                     <option value="Shooter">Shooter</option>
                     <option value="Adventure">Adventure</option>
                     <option value="Sports">Sports</option>
-                    <option value="Uncategorized">Uncategorized</option>
-
                 </select>
                 <p>Description</p><input required name="description" placeholder="Insert Game description" type="text" onChange={event => { event.preventDefault(); this.setState({ description: event.target.value }) }} />
                 <p>File</p><input required name="gameFile" placeholder="TO CHANGE: INSERT A COVER IMAGE" type="file" onChange={event => { event.preventDefault(); this.setState({ gameFile: event.target.files[0] }) }} />
-                {/* <p>Cover Image</p><input required name="coverImage" placeholder="TO CHANGE: INSERT A FILE" type="file" onChange={event => onInputChange(event)} /> */}
                 <p>Images</p><input required name="images" placeholder="TO CHANGE: INSERT IMAGES " type="file" onChange={event => { event.preventDefault(); this.setState({ images: event.target.files[0] }) }} />
                 <br /><button>Upload Game</button>
             </form>

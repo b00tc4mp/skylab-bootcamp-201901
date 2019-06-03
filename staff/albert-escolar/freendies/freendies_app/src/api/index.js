@@ -92,7 +92,7 @@ const freendiesApi = {
                 authorization: `Bearer ${token}`,
                 'content-type': 'application/json'
             },
-            body: JSON.stringify({email})
+            body: JSON.stringify({ email })
         })
 
             .then(response => response.json())
@@ -101,6 +101,25 @@ const freendiesApi = {
 
                 return response
             })
+    },
+
+    retrieveGameByQuery(genre, title) {
+        if (typeof genre !== 'string') throw TypeError('genre is not a string')
+        if (!genre.trim().length) throw Error('genre cannot be empty')
+
+        return fetch(`${this.url}search/${genre}/${title}`, {
+            headers: {
+                'content-type': 'application/jason'
+
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+
     },
 
 
@@ -116,7 +135,7 @@ const freendiesApi = {
         //if (!images.trim().length) throw Error(`${images} cannot be empty`)
         //if (typeof gameFile !== 'string') throw TypeError(`${gameFile} is not a string`)
         //if (!gameFile.trim().length) throw Error(`${gameFile} cannot be empty`)
-        
+
         let formData = new FormData()
         formData.append('title', title)
         formData.append('genre', genre)
@@ -124,7 +143,7 @@ const freendiesApi = {
         formData.append('images', images)
         formData.append('gameFile', gameFile)
 
-        
+
         return fetch(`${this.url}user/game`, {
             method: 'POST',
             headers: {

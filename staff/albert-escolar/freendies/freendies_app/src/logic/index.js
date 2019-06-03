@@ -75,13 +75,22 @@ const logic = {
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
         if (!email.trim().length) throw Error('email cannot be empty')
 
-        return freendiesApi.updateUserEmail(email,new_token)
+        return freendiesApi.updateUserEmail(email, new_token)
     },
 
     logout() {
         this.deleteUserApiToken()
     },
 
+
+    retrieveGameByQuery(genre, title) {
+        if (typeof genre !== 'string') throw TypeError('genre is not a string')
+        if (!genre.trim().length) throw Error('genre cannot be empty')
+        if (typeof title !== 'string') throw TypeError('title is not a string')
+        if (!title.trim().length) throw Error('title cannot be empty')
+
+        return freendiesApi.retrieveGameByQuery(genre, title)
+    },
 
     uploadGame(title, genre, description, images, gameFile) {
 
