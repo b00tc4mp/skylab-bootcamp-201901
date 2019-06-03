@@ -1,6 +1,7 @@
 const validate = require('../../common/validate')
 const { LogicError } = require('../../common/errors')
-const { models, mongoose: { Types: { ObjectId } } } = require('pg-data')
+// const { models, mongoose: { Types: { ObjectId } } } = require('pg-data')
+const { models } = require('../../pg-data')
 const bcrypt = require('bcrypt')
 
 const { UserData, Thing, Location } = models
@@ -90,8 +91,10 @@ const logic = {
         return (async () => {
 
             try {                
-                const thing = await Thing.findById(id).select('status').lean()
+                
+                const thing = await Thing.findByIdAndUpdate(id, {status})
                 if (!thing) throw new LogicError(`thing with id ${id} does not exist`)
+                
                 return thing
             }
             catch (err) {
@@ -106,36 +109,74 @@ const logic = {
             { name: 'category', value: category, type: 'string', notEmpty: true }
         ])
 
-        return (async () => await Thing.find({category}).select('description').lean())()
+        return (async () => {        
+         
+        return await Thing.find({category}).populate('loc', 'name -_id').select('status category description loc -_id').lean()   
+    })()
     },
 
-    searchByLocation(userId, locId) {
+    searchByLocation(location) {
         validate.arguments([
-            { name: 'userId', value: userId, type: 'string', notEmpty: true },
-            { name: 'location', value: locId, type: 'string', notEmpty: true }
+           
+            { name: 'location', value: location, type: 'string', notEmpty: true }
         ])
+
         return (async () =>  {
-            try {
-            const user = await UserData.findById(userId)
+     
+            const findthing = await Thing.find().populate('loc', 'name address -_id').select('-_id -__v -owner')
             
-            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+            const findLoc = findthing.filter(thing => thing.loc.name === location)
+            
+            // .exec( (err, things) => {
+            //     things = things.filter(function(thing) {
+            //         return thing.location
+            //     })
+            // })
 
-            return await Thing.find({loc: locId})
+            return findLoc
+            // return await Thing.find({'loc': location}).populate('loc', 'name').lean()
+            // return await Thing.find({'loc': location}).populate('loc').lean()
+                                     
+            // let currentLoc = await Location.find({location})
+            // debugger
+            // // .select('name -_id')
+            // return currentLoc
+                // let currentLoc = await Location.find({name: location})                
+                // let thing = []
 
-            } catch (err) {
-                throw new LogicError(err.message)
-            }
+                // if(currentLoc)   thing = await Thing.find({currentLoc})
+            //     debugger
+                // return thing
         })()    
 
     },
 
     retrivePrivateThings(userId) { 
         validate.arguments([
-            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },            
+        ])       
+         
+        return (async() => {
+  
+            return await Thing.find({'owner': userId}).populate('owner','-_id -password -__v -email').populate('loc', 'name -_id').select('-_id -__v').lean()
             
-        ])
-        
-        return (async() => await Thing.find({owner:userId}).populate('owner','-_id -__v' ).lean())()
+            
+        })()       
     },
+
+    retrieveThing(thingId) {
+        
+        validate.arguments([
+          
+            { name: 'thingId', value: thingId, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+                  
+            return await Thing.findById(thingId).populate('loc', 'name -_id').select('-owner -__v -_id').lean()            
+        })()
+    }
 }
+
+
 module.exports = logic

@@ -43,30 +43,65 @@ router.post('/things', auth, jsonParser, (req, res) => {
 
     const {body: {category, description, locId}, userId} = req
 
-    handleErrors(async () => {
+    handleErrors(async () => {  
 
         await logic.addPublicThing(category, description, userId, locId)
         return res.status(201).json({message: 'Ok, thing upload'}), res})    
 })
 
-router.get('/search/:category', auth, jsonParser, (req, res) => {
+router.patch('/things/update/:id', auth, jsonParser, (req, res) => {
+
+    const {body: {status}, params: {id}, userId} = req
+
+    handleErrors(async () => {
+
+        await logic.updatePublicThing(userId, id, status)
+        return res.status(201).json({message: 'Ok, thing update'}), res})    
+})
+
+router.get('/search/category/:category', auth, jsonParser, (req, res) => {
     const {params: {category}, userId} = req
     
     handleErrors(async () => {
         
         const categories = await logic.searchByCategory(userId, category)
+        
         return res.json(categories)
     }, res)
 })
 
-router.get('/search/:location', auth, jsonParser, (req, res) => {
+// router.get('/search/locations/:location', auth, jsonParser, (req, res) => {
+router.get('/search/locations/:location', auth, jsonParser, (req, res) => {
     
-    const {params: {location}, userId} = req
-    
+    const {params: {location}} = req
+    debugger
     handleErrors(async () => {
-        
-        const names = await logic.searchByLocation(userId, location)
+        debugger
+        const names = await logic.searchByLocation(location)
+        debugger
         return res.json(names)
+    }, res)
+})
+
+router.get('/search/user/things', auth, jsonParser, (req, res) => {
+    
+    const { userId } = req
+    handleErrors( async () => {
+        
+        const user = await logic.retrivePrivateThings(userId)
+        return res.json(user)
+    }, res)
+})
+
+router.get('/thing/:id', auth, jsonParser, (req, res) => {
+    debugger
+    const {params: {id} } = req
+
+    handleErrors( async () => {
+
+        const thing = await logic.retrieveThing(id)
+      
+        return res.json(thing)
     }, res)
 })
 

@@ -1,5 +1,5 @@
 const {Schema} = require('mongoose')
-const {Types: { ObjectId }} = Schema
+// const {Types: { ObjectId }} = Schema
 const {isEmail} = require('validator')
 
 const user = new Schema({
@@ -15,13 +15,13 @@ const thing = new Schema({
     status: {type: Number, default: 0},
     //linkado
     loc: {
-        type: ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'Location',
         required: true
     },
     //linkado
     owner: {
-        type: ObjectId,
+        type: Schema.Types.ObjectId,
         ref: 'User',
         required: false
     },    

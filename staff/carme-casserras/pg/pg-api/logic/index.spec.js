@@ -4,8 +4,10 @@ const { RequirementError, ValueError, LogicError } = require('../../common/error
 const bcrypt = require('bcrypt')
 require('../../common/util/math-random.polyfill')
 
-const { models, mongoose } = require('pg-data')
+const { models, mongoose } = require('../../pg-data')
 const { UserData, Thing, Location } = models
+
+const { env: { MONGO_URL_TEST: url } } = process
 
 describe('logic', () => {
     let name, email, password
@@ -13,22 +15,24 @@ describe('logic', () => {
     beforeAll(async () => {
 
         try {
-            await mongoose.connect('mongodb://localhost:27017/pg-test', { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
+            await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useCreateIndex: true })
             console.log('connected to database')
         } catch (error) {
             throw Error(error)
         }
     })
 
+    beforeEach(async () => {
+        await UserData.deleteMany()
+        await Thing.deleteMany()
+        await Location.deleteMany()
+        name = 'carme'
+        email = `cc-${Math.random()}@gmail.com`
+        password = '123'
+    })
+
     describe('user', () => {
-        beforeEach(async () => {
-    
-            await UserData.deleteMany()
-            await Thing.deleteMany()
-            name = 'carme'
-            email = `cc-${Math.random()}@gmail.com`
-            password = '123'
-        })
+        
         describe('register user', () => {
 
             it('should succeed on correct user data', async () => {
@@ -150,79 +154,69 @@ describe('logic', () => {
                 expect(_user.email).toEqual(email)
                 expect(_user.password).toBeUndefined()
             })
-            // it('should fail on unexisting user id', async () => {
-            // id = '01234567887654'
-            // try {
-            //     await logic.retrieveUser(user.id)
-            //     throw Error('should not reach this point')
-            // } catch (err) {
-            //     expect(err).toBeDefined()
-            //     expect(err).toBeInstanceOf(LogicError)
-            //     expect(err.message).toBe(`user with id ${id} does not exist`)
-            // }
-            // })
+            it('should fail on unexisting user id', async () => {
+                idUserDelete = user.id
+                try {                    
+                await UserData.findByIdAndDelete(idUserDelete)
+                await logic.retrieveUser(idUserDelete)
+
+                throw Error('should not reach this point')
+            } catch (err) {
+                expect(err).toBeDefined()
+                expect(err).toBeInstanceOf(LogicError)
+                expect(err.message).toBe(`user with id ${idUserDelete} does not exist`)
+            }
+            })
         })
     })
 
     describe('things', () => {
-        let category, description, status
-        let name, address, longitude, latitude
+        let status
         let user, userId
         let loc, locId
+        let thingId, stuff
+
+        const category = 'electrodomesticos'
+        const description = 'nevera'
+        const name = 'Plaça-Catalunya'
+        const address = 'Plaça Catalunya, Barcelona'
+        const longitude = 40.7127837
+        const latitude = -74.0059413
 
         beforeEach(async () => {
-    
-            await UserData.deleteMany()
-            await Thing.deleteMany()
-            category = 'electrodomesticos'
-            description = 'nevera'
-            name = 'Plaça Catalunya'
-            address = 'Plaça Catalunya, Barcelona'
-            longitude = 40.7127837
-            latitude = -74.0059413
-        })
-    
-        describe('add things', () => {
-           
-            beforeEach(async () => {
                 
-                user = await UserData.create({ name, email, password: await bcrypt.hash(password, 5) })
-                userId = user._id.toString()
-                loc = await Location.create({ name, address, latitude, longitude })
-                locId = loc._id.toString()                
-            })
+            user = await UserData.create({ name, email, password: await bcrypt.hash(password, 5) })
+            userId = user._id.toString()
+            loc = await Location.create({ name, address, latitude, longitude })
+            locId = loc._id.toString()                
+            stuff = await Thing.create({category, description, owner: userId, loc: locId})
+            thingId = stuff.id.toString()
+            status = stuff.status
+        })
+            
+        describe('add things', () => {
+                       
             it('should succeed on correct public upload', async () => {
 
                 const res = await logic.addPublicThing(category, description, userId, locId)
                 expect(res).toBeUndefined()
 
                 const things = await Thing.find()
-                expect(things).toHaveLength(1)
                 expect(things).toBeDefined()
+                expect(things).toBeInstanceOf(Array)
 
                 const [thing] = things
                 
                 expect(thing.description).toEqual(description)
                 expect(thing.category).toEqual(category)
-                expect(thing.owner.toString()).toEqual(userId)
-                expect(thing.loc.toString()).toEqual(locId)
+                expect(thing.owner.toString()).toEqual(userId)                
+                expect(thing.loc._id.toString()).toEqual(locId)                
                 expect(thing.status).toBeDefined()
             })
         })
 
         describe('update thing', () => {
-
-            beforeEach(async () => {
-                user = await UserData.create({ name, email, password: await bcrypt.hash(password, 5) })
-                userId = user._id.toString()
-                loc = await Location.create({ name, address, latitude, longitude })
-                locId = loc._id.toString()
-
-                let stuff = await Thing.create({category, description, owner: userId, loc: locId})
-                thingId = stuff.id.toString()
-                status = stuff.status
-                
-            })
+           
             it('should succeed on correct data', async () => {
                 
                 const res = await logic.updatePublicThing(userId, thingId, status)
@@ -233,25 +227,26 @@ describe('logic', () => {
                 expect(things).toHaveLength(1)
                 expect(things).toBeDefined()
 
-                const [thing] = things
+                const [thing] = things                
+                expect(thing.status).toEqual(status) 
                 
-                expect(thing.status).toEqual(status)
             })
-        })
+
+            // it('should fail on incorrect id', async ()=> {
+            //     try {
+            //         await logic.updatePublicThing(id = 'DDf24a0f3a54bd384c2f42d4')
+            //         // throw Error('should not reach this point')
+            //     } catch (err) {
+            //         expect(err).toBeDefined()
+            //         expect(err).toBeInstanceOf(LogicError)
+            //         expect(err.message).toBe(`thing with id ${id} does not exist`)
+            //     }
+            // })    
+        })    
+           
 
         describe('search', () => {
 
-            beforeEach(async () => {
-                
-                
-                user = await UserData.create({ name, email, password: await bcrypt.hash(password, 5) })
-                userId = user._id.toString()
-                loc = await Location.create({ name, address, latitude, longitude })
-                locId = loc._id.toString()
-
-                await Thing.create({category, description, owner: userId, loc: locId})
-            })
-       
             it('should succeed on correct search category', async () => {                
                            
                 const category1 = await logic.searchByCategory(userId, category)
@@ -267,13 +262,22 @@ describe('logic', () => {
                 })
             })
 
-            it('should succeed on correct search location', async () => {
-                                
-                const things = await logic.searchByLocation(userId, locId)
+            it('should fail on incorrect id', async ()=> {
+                try {
+                    await logic.retrieveThing(id = 'DDf24a0f3a54bd384c2f41d4')
+                } catch (err) {
+                    expect(err).toBeDefined()
+                    expect(err).toBeInstanceOf(LogicError)
+                    expect(err.message).toBe(`thing with id ${id} does not exist`)
+                }
+            })
 
+            it('should succeed on correct search location', async () => {
+                
+                const things = await logic.searchByLocation(name)
                 expect(things).toBeDefined()
                 expect(things).toBeInstanceOf(Array)
-                expect(things).toHaveLength(1)
+                // expect(things).toHaveLength(1)
 
                 things.forEach(thing => {
 
@@ -281,23 +285,20 @@ describe('logic', () => {
                     expect(typeof thing.description).toBe('string')
                     expect(thing.category).toBeDefined()
                     expect(typeof thing.category).toBe('string')
-                   
+                                                     
                 })
             })
 
-            // it('should fail on non- exixting user', async () => {
-            //     try {
-            //         await logic.registerUser(name, email, password)
-
-            //         // throw Error('should not reach this point')
-            //     } catch (err) {
-
-            //         expect(err).toBeDefined()
-            //         // expect(err).toBeInstanceOf(LogicError)
-            //         expect(err.message).toBe(`user with id ${userId} does not exists`)
-            //     }
-            // })
-
+            it('should fail on incorrect id', async ()=> {
+                try {
+                    await logic.retrieveThing(id = 'DDf24a0f3a54bd384c2f41d4')
+                } catch (err) {
+                    expect(err).toBeDefined()
+                    expect(err).toBeInstanceOf(LogicError)
+                    expect(err.message).toBe(`thing with id ${id} does not exist`)
+                }
+            })
+            
             it('should succed on correct search by owner', async() => {
                 
                 const owner1 = await logic.retrivePrivateThings(userId)
@@ -316,10 +317,39 @@ describe('logic', () => {
             })
         })
 
+        describe('search thing', () => {
+
+            it('should succedd on correct data', async () => {
+
+                const thing1 = await logic.retrieveThing(thingId)
+                
+                expect(thing1).toBeDefined()
+                expect(thing1).toBeInstanceOf(Object)
+
+
+                expect(thing1.description).toBeDefined()
+                expect(typeof thing1.description).toBe('string')
+                expect(thing1.category).toBeDefined()
+                expect(typeof thing1.category).toBe('string')
+                expect(thing1.loc.name).toBeDefined()
+                expect(typeof thing1.loc.name).toBe('string')                  
+            })
+
+            it('should fail on incorrect id', async ()=> {
+                try {
+                    await logic.retrieveThing(id = 'DDf24a0f3a54bd384c2f41d4')
+                } catch (err) {
+                    expect(err).toBeDefined()
+                    expect(err).toBeInstanceOf(LogicError)
+                    expect(err.message).toBe(`thing with id ${id} does not exist`)
+                }
+            })
+        })
     })
     afterAll(async () => {
         // await UserData.deleteMany()
         // await Thing.deleteMany()
+        // await Location.deleteMany()
         mongoose.disconnect()
     })
 })
