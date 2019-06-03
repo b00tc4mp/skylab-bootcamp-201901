@@ -64,7 +64,7 @@ class MapContainer extends React.Component {
         )}
         <GoogleMapReact
           bootstrapURLKeys={{
-            key: "AIzaSyA_RQQOKEsyjaBzizvL86jhOyeF-Mbex5A",
+            key: process.env.REACT_APP_GOOGLE_MAPS_ID,
             libraries: ["places", "geometry"]
           }} // TODO: extract the key to a ENV prop
           defaultCenter={this.props.center}
