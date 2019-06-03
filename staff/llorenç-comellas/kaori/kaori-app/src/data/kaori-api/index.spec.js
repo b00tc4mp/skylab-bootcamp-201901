@@ -34,11 +34,10 @@ describe('kaori api', () => {
                 expect(res).toBeDefined()
                 expect(res.message).toBe('Ok, user registered.')
 
-                const users = await User.find().lean()
+                const user = await User.findOne({email}).lean()
 
-                expect(users).toBeDefined()
+                expect(user).toBeDefined()
 
-                const [user] = users
 
                 expect(user.name).toBe(name)
                 expect(user.surname).toBe(surname)
@@ -48,7 +47,7 @@ describe('kaori api', () => {
             })
 
             it('should fail on retrying register user', async () => {
-
+                
                 await User.create({ name, surname, phone, email, password })
                 const res = await kaoriApi.registerUser(name, surname, phone, email, password)
 
@@ -203,10 +202,10 @@ describe('kaori api', () => {
             })
 
             it('should succed on correct user credential', async () => {
-                const _token = await kaoriApi.authenticateUser(email, password)
+                // const _token = await kaoriApi.authenticateUser(email, password)
 
-                const { sub } = jwt.decode(_token.token)
-
+                const { sub } = jwt.decode(token)
+                
                 expect(sub).toBeDefined()
                 expect(sub).toEqual(user.id)
 

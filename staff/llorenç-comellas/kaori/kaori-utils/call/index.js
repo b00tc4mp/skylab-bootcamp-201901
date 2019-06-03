@@ -37,7 +37,9 @@ function call(url, options = {}) {
         body,
         signal
     })
+        
         .catch(error => {
+            debugger
             if (error instanceof TypeError) throw new ConnectionError('cannot connect')
             else if (error instanceof DOMException) throw new TimeoutError(`time out, exceeded limit of ${timeout}ms`)
             else throw error
