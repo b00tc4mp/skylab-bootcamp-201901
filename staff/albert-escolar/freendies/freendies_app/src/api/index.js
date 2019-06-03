@@ -109,7 +109,7 @@ const freendiesApi = {
 
         return fetch(`${this.url}search/${genre}/${title}`, {
             headers: {
-                'content-type': 'application/jason'
+                'content-type': 'application/json'
 
             },
         })
@@ -120,6 +120,23 @@ const freendiesApi = {
                 return response
             })
 
+    },
+
+    retrieveGameByGenre(genre) {
+        if (typeof genre !== 'string') throw TypeError('genre is not a string')
+        if (!genre.trim().length) throw Error('genre cannot be empty')
+
+        return fetch(`${this.url}genre/${genre}`, {
+            headers: {
+                'content-type': 'application/json'
+            },
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
     },
 
 

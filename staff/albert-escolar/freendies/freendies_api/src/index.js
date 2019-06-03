@@ -45,7 +45,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.put('/user/update', [tokenVerifierMiddleware, jsonBodyParser], updateUser)
         router.post('/user/game', [tokenVerifierMiddleware, fileParser], uploadGame)
 
-        router.get('/search/:genre', jsonBodyParser, retrieveGameByGenre)
+        router.get('/genre/:genre', jsonBodyParser, retrieveGameByGenre)
         router.get('/search/:genre/:query', jsonBodyParser, retrieveGameByQuery)
 
         app.use('/api', router)

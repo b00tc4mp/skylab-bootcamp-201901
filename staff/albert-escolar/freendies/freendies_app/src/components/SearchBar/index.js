@@ -10,18 +10,17 @@ class SearchBar extends Component {
 
     onSubmit = (event) => {
         event.preventDefault()
-        const { history } = this.props
         let { title, genre } = this.state
         title = title.toLocaleLowerCase()
         genre = genre.toLocaleLowerCase()
 
-        history.push(`search/${genre}/${title}`)
+        this.props.onSearch(genre, title)
+
     }
 
 
     render() {
-
-        const { onSubmit } = this
+        const { onSubmit, props: {onSearch} } = this
         return <div>
             <form onSubmit={onSubmit}>
                 <select required name="genre" onChange={event => { event.preventDefault(); this.setState({ genre: event.target.value }) }}>

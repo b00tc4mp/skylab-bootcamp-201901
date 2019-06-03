@@ -92,6 +92,13 @@ const logic = {
         return freendiesApi.retrieveGameByQuery(genre, title)
     },
 
+    retrieveGameByGenre(genre){
+        if(typeof genre !=='string') throw TypeError('genre is not a string')
+        if(!genre.trim().length) throw Error ('genre cannot be empty')
+
+        return freendiesApi.retrieveGameByGenre(genre)
+    },
+
     uploadGame(title, genre, description, images, gameFile) {
 
         // todo verification
