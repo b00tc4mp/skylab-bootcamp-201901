@@ -3,11 +3,11 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import { UserModel, STAFF_ROLE, User, USER_ROLE } from '../../../data/models/user';
 import { gCall } from '../../../common/test-utils/gqlCall';
 import { ProviderModel, Provider } from '../../../data/models/provider';
 import { SUPERADMIN_ROLE } from '../../../data/models/user';
+import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import faker = require('faker');
 
 chai.use(chaiAsPromised);
@@ -68,6 +68,8 @@ describe('add customer to provider', function() {
     const _customersId: string[] = _provider!.customers.map(customer => customer.toString());
     expect(_customersId).to.have.lengthOf(1)
     expect(_customersId[0]).to.equal(newCustomer.id);
+    const _customer = await UserModel.findById(newCustomer.id);
+    expect(_customer!.customerOf).to.include(provider.id);
   }
 
   it('should add customer of a provider with SUPERADMIN ', async () => {
@@ -99,6 +101,8 @@ describe('add customer to provider', function() {
     expect(_provider).not.to.be.null;
     const _customersId: string[] = _provider!.customers.map(customer => customer.toString());
     expect(_customersId).to.have.lengthOf(customers.length)
+    const _customer = await UserModel.findById(newCustomer.id);
+    expect(_customer!.customerOf).to.include(provider.id);
   });
 
 });

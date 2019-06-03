@@ -18,8 +18,14 @@ export class AddProviderCustomerResolver {
     if (!newUser) throw new ValidationError('newUser is required');
 
     const provider = await ProviderModel.findById(providerId);
-    if (!provider!.isCustomer(newUser)) provider!.customers.push(newUser);
-    await provider!.save();
+    if (!provider!.customers.includes(newUser.id)) {
+      provider!.customers.push(newUser);
+      await provider!.save();
+    }
+    if (!newUser.customerOf.includes(provider!.id)) {
+      newUser.customerOf.push(provider!);
+      await newUser.save();
+    } 
     return true;
   }
 }

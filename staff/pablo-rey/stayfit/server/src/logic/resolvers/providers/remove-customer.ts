@@ -18,9 +18,12 @@ export class RemoveProviderCustomerResolver {
     if (!user) throw new ValidationError('user is required');
 
     const provider = await ProviderModel.findById(providerId);
+    if (!provider) throw new ValidationError('provider is required')
     if (!provider!.isCustomer(user)) return false;
     provider!.customers = provider!.customers.filter(customer => customer.toString() !== userId);
     await provider!.save();
+    user.customerOf = user.customerOf.filter(p => p.toString() !== provider.id);
+    await user.save();
     return true;
   }
 }

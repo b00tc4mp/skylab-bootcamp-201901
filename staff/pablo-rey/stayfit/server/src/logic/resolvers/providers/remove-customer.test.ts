@@ -3,11 +3,11 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import { STAFF_ROLE, User, UserModel, USER_ROLE } from '../../../data/models/user';
 import { gCall } from '../../../common/test-utils/gqlCall';
 import { Provider, ProviderModel } from '../../../data/models/provider';
 import { SUPERADMIN_ROLE } from '../../../data/models/user';
+import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import faker = require('faker');
 
 chai.use(chaiAsPromised);
@@ -43,6 +43,7 @@ describe('remove customer from provider', function() {
     customersId = customers.map(user => user.user.id!.toString());
     admin = await createRandomUser(STAFF_ROLE);
     provider = await ProviderModel.create({ name, admins: [admin], customers: customers.map(up => up.user) });
+    await UserModel.updateMany({_id: customers.map(up => up.user.id)},{customerOf: [provider]});
   });
 
   async function itWithUser(owner: User) {
@@ -66,6 +67,8 @@ describe('remove customer from provider', function() {
     const _customersId: string[] = _provider!.customers.map(customer => customer.toString());
     expect(_customersId).to.have.lengthOf(customers.length - 1);
     expect(_customersId).not.to.include(customer.id);
+    const _customer = await UserModel.findById(customer.id);
+    expect(_customer!.customerOf).not.to.include(provider.id);
   }
 
   it('should remove customer of a provider with SUPERADMIN ', async () => {
@@ -97,5 +100,7 @@ describe('remove customer from provider', function() {
     expect(_provider).not.to.be.null;
     const _customersId: string[] = _provider!.customers.map(customer => customer.toString());
     expect(_customersId).to.have.lengthOf(customers.length);
+    const _customer = await UserModel.findById(customer.id);
+    expect(_customer!.customerOf).not.to.include(provider.id);
   });
 });
