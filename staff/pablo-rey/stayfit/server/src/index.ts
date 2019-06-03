@@ -5,8 +5,8 @@ import * as dotenv from 'dotenv';
 import * as express from 'express';
 import * as mongoose from 'mongoose';
 import * as cookieParser from 'cookie-parser';
-import context from './graphql/middleware/context';
-import { createSchema } from './graphql/schemas/rootSchema';
+import context from './logic/middleware/context';
+import { createSchema } from './data/schemas/rootSchema';
 import { cleanDb, populateDb } from './data/db-maintenance';
 
 dotenv.config();
@@ -19,7 +19,7 @@ const db = mongoose.connection;
 db.on('error', err => console.error('MongoDB connection error', err));
 
 db.on('open', async () => {
-  if (true) {
+  if (!true) {
     await cleanDb();
     await populateDb();
   }
@@ -31,10 +31,9 @@ db.on('open', async () => {
   });
 
   const app = express();
+
   app.use(
-    cors({
-      credentials: true,
-    })
+    cors()
   );
   app.use(cookieParser());
 

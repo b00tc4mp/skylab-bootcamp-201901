@@ -7,8 +7,8 @@
     "start": "ts-node ./src/index.ts",
     "dev": "ts-node-dev .",
     "reinstall": "rm -rf node_modules && npm install",
-    "test": "mocha --require ts-node/register --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --watch",
-    "test:debug": "ts-mocha --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --watch --inspect",
+    "test": "ts-node node_modules/ts-mocha/bin/ts-mocha --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --watch",
+    "test:debug": "ts-node node_modules/ts-mocha/bin/ts-mocha --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --inspect",
     "test:coverage": "nyc --reporter=html --reporter=text  nyc ts-mocha 'src/**/*.test.{ts,tsx}'"
   },
   "author": "Pablo Javier Rey Sobral",

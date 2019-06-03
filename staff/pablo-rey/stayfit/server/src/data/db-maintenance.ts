@@ -1,15 +1,16 @@
 import * as bcrypt from 'bcryptjs';
-import { createSession } from '../graphql/resolvers/sessions/create-session/create-session-resolver';
-import { ACTIVE, PUBLIC } from '../models/session';
-import { STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../models/user';
-import { ProviderModel } from './../models/provider';
-import { SessionTypeModel } from './../models/session-type';
+import { createSession } from '../logic/resolvers/sessions/create-session/create-session';
+import { ACTIVE, PUBLIC, SessionModel } from './models/session';
+import { STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from './models/user';
+import { ProviderModel, Provider } from './models/provider';
+import { SessionTypeModel } from './models/session-type';
 import moment = require('moment');
 
 export async function cleanDb() {
   await UserModel.deleteMany({});
   await ProviderModel.deleteMany({});
   await SessionTypeModel.deleteMany({});
+  await SessionModel.deleteMany({})
 }
 
 export async function populateDb() {
@@ -105,19 +106,39 @@ export async function populateDb() {
 
   // Sessions
 
-  const type = await SessionTypeModel.findOne({ type: 'wod', provider:provider1 });
+  console.log('Creando session types...')
+  const day = moment().format("YYYY-MM-DD");
+  const startTime = moment(`${day} 08:00:00`, 'YYYY-MM-DD hh:mm:ss', true)
+  await populateSessions(provider1, startTime, 10, coaches);
+  await populateSessions(provider1, startTime, 10, coaches);
+  await populateSessions(provider1, startTime, 10, coaches);
+  await populateSessions(provider1, startTime, 10, coaches);
+  await populateSessions(provider1, startTime, 10, coaches);
+  await populateSessions(provider1, startTime, 10, coaches);
+  await populateSessions(provider1, startTime, 10, coaches);
+  await populateSessions(provider1, startTime, 10, coaches);
+  await populateSessions(provider1, startTime, 10, coaches);
+  await populateSessions(provider1, startTime, 10, coaches);
+  await populateSessions(provider1, startTime, 10, coaches);
+
+  // create attendances
+
+}
+
+async function populateSessions(provider: Provider, _startTime: moment.Moment,  numDays: number, coaches: User[]) {
+  const type = await SessionTypeModel.findOne({ type: 'wod', provider:provider });
   const title = 'Test session';
-  const providerId = provider1.id;
-  const startTime = moment('03/06/2019 10:00:00', 'DD/MM/YYYY hh:mm:ss', true).toDate();
-  const endTime = moment('03/06/2019 11:00:00', 'DD/MM/YYYY hh:mm:ss', true).toDate();
+  const providerId = provider.id.toString();
+  const startTime = _startTime.toDate();
+  const endTime = _startTime.add(1, 'hour').toDate();
   const maxAttendants = 10;
   const typeId = type!.id;
   const status = ACTIVE;
   const visibility = PUBLIC;
   const start = '04/06/2019';
   const repeat: Date[] = [];
-  for (let ii = 0, ll = 6; ii < ll; ii++) {
-    const day = moment(start, 'DD/MM/YYYY', true)
+  for (let ii = 0, ll = numDays; ii < ll; ii++) {
+    const day = moment(start, 'YYYY-MM-DD', true)
       .startOf('day')
       .add(ii, 'day');
     repeat.push(day.toDate());
@@ -126,7 +147,7 @@ export async function populateDb() {
     {
       title,
       providerId,
-      coachesId: provider1.coaches.map(c => c.toString()),
+      coachesId: provider.coaches.map(c => c.toString()),
       repeat,
       maxAttendants,
       typeId,
@@ -135,10 +156,7 @@ export async function populateDb() {
       startTime,
       endTime,
     },
-    provider1,
+    provider,
     coaches
   );
-
-  // create attendances
-
 }
