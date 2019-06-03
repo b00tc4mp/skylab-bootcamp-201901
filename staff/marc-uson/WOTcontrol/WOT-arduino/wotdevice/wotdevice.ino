@@ -4,10 +4,10 @@
 #include <elapsedMillis.h>
 #include <Servo.h>
 
-// const char* ssid ="skylabCodersAcademy";     //SKYLAB
-// const char* password = "skylabRocks";        //SKYLAB
-const char* ssid ="bivid_307C";              //Lleida
-const char* password = "71AF092F875E";       //Lleida
+const char* ssid ="skylabCodersAcademy";     //SKYLAB
+const char* password = "skylabRocks";        //SKYLAB
+// const char* ssid ="bivid_307C";              //Lleida
+// const char* password = "71AF092F875E";       //Lleida
 String id = "newWOTDevice";
 
 const int DOut1 = 16; //GPIO16 - D0
@@ -108,9 +108,9 @@ void httpSend(String query, String body)
 {
    HTTPClient http;
    //Skylab
-   // http.begin("http://192.168.0.31:8080/api/devices/"+ id +"/inputs/" + query);
+   http.begin("http://192.168.0.31:8080/api/devices/"+ id +"/inputs/" + query);
    //Lleida
-   http.begin("http://192.168.1.202:8080/api/devices/"+ id +"/inputs/" + query);
+   // http.begin("http://192.168.1.202:8080/api/devices/"+ id +"/inputs/" + query);
 
    http.addHeader("Content-Type", "application/json");
    int httpCode = http.POST(body);

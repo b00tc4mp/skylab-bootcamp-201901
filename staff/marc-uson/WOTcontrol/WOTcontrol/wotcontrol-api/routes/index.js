@@ -173,17 +173,17 @@ router.get('/devices/:name/outputs/motor/:direction/:speed', auth, (req, res) =>
     }, res)
 })
 
-router.post('/devices/:name/inputs/analog', auth, jsonParser, (req, res) => {
+router.post('/devices/:name/inputs/analog', jsonParser, (req, res) => {
     const {userId, params: { name }, body: { value } } = req
     const _value = Number(value)
-    console.log(body)
-    handleErrors(async () => {
-        await logic.saveAnalogInput(userId, name, _value)
-        res.status(201).json({ message: 'Ok, analog value recieved.' })
-    }, res)
+    console.log(`analog value: ${value}`)
+    // handleErrors(async () => {
+    //     await logic.saveAnalogInput(userId, name, _value)
+    //     res.status(201).json({ message: 'Ok, analog value recieved.' })
+    // }, res)
 })
 
-router.get('/devices/:name/inputs/analog', auth, jsonParser, (req, res) => {
+router.get('/devices/:name/inputs/analog', auth,jsonParser, (req, res) => {
     const {userId, params: { name }} = req
 
     handleErrors(async () => {
@@ -192,17 +192,17 @@ router.get('/devices/:name/inputs/analog', auth, jsonParser, (req, res) => {
     }, res)
 })
 
-router.post('/devices/:name/inputs/digital', auth, jsonParser, (req, res) => {
+router.post('/devices/:name/inputs/digital', jsonParser, (req, res) => {
     const {userId, params: { name }, body: { din1, din2 } } = req
     const _value1 = Number(din1)
     const _value2 = Number(din2)
-    console.log(body)
+    console.log(`din1: ${din1}, din2: ${din2}`)
 
-    handleErrors(async () => {
-        await logic.saveDigitalInput(userId, name, _value1)
-        await logic.saveDigitalInput(userId, name, _value2)
-        res.status(201).json({ message: 'Ok, digital values recieved.' })
-    }, res)
+    // handleErrors(async () => {
+    //     await logic.saveDigitalInput(userId, name, _value1)
+    //     await logic.saveDigitalInput(userId, name, _value2)
+    //     res.status(201).json({ message: 'Ok, digital values recieved.' })
+    // }, res)
 })
 
 router.get('/devices/:name/inputs/digital/:direction', auth, jsonParser, (req, res) => {
