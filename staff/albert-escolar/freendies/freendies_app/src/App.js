@@ -8,6 +8,7 @@ import LoginPanel from './components/LoginPanel'
 import UserPanel from './components/UserPanel'
 import UploadGamePanel from './components/UploadGamePanel'
 import Landing from './components/Landing'
+import SearchByQuery from './components/SearchByQuery'
 import logic from './logic'
 
 class App extends Component {
@@ -15,6 +16,7 @@ class App extends Component {
   state = {
     token: null,
     user: null,
+    searchResults: null,
     // userFavs: null,
     // userUploads: null,
   }
@@ -48,7 +50,7 @@ class App extends Component {
 
   }
 
-  handleUpdateUserEmail =(email) =>{
+  handleUpdateUserEmail = (email) => {
     return logic.updateUserEmail(email)
 
   }
@@ -85,23 +87,24 @@ class App extends Component {
   handleGoToUserPanel = () => {
     this.props.history.push('/user')
   }
+
   render() {
 
-    const { state: { user }, handleRegister, handleGoToRegister, handleLogin,handleUpdateUserEmail,
+    const { state: { user, searchResults }, handleRegister, handleGoToRegister, handleLogin, handleUpdateUserEmail,
       handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleGoToUserPanel,
-      handleUploadGame, handleLogout } = this
+      handleUploadGame, handleLogout, handleSearchGame } = this
 
     return (
       <div className="App">
         <header className="App-header">
           <Header user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
             handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
-            handleGoToUploadGame={handleGoToUploadGame}/>
+            handleGoToUploadGame={handleGoToUploadGame} />
           <Switch>
             <Route exact path="/" render={props => {
               return <div>
-                <Landing user={user}/>
-                
+                <Landing user={user} searchResults={searchResults} history={props.history} onSearchGame={handleSearchGame} />
+
               </div>
             }} />
 
@@ -119,6 +122,10 @@ class App extends Component {
 
             <Route path="/uploadGame" render={props => {
               return <UploadGamePanel history={props.history} onUploadGame={handleUploadGame} />
+            }} />
+
+            <Route path="/search/:genre/:query" render={props => {
+              return <SearchByQuery {...props} history={props.history} />
             }} />
 
           </Switch>

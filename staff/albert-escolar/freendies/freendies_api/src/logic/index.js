@@ -180,9 +180,10 @@ const logic = {
         if (typeof query !== 'string') throw TypeError('query is not a string')
         if (!query.trim().length) throw Error('genre cannot be empty')
 
-        if (genre == 'all') {
-            return Game.find({ 'title': query }).select('-__v').lean()
+        if (genre == 'any') {
+            return Game.find({ "title": query }).select('-__v').lean()
                 .then(games => {
+                    console.log(games)
                     games.forEach(game => {
                         game.id = game._id.toString()
                         delete game._id
