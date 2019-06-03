@@ -26,12 +26,12 @@ class App extends Component{
     handleLogin = async (email, password) => {
         try {
             await logic.loginUser(email, password)
-            const { name } = await logic.retrieveUser()
+            const response = await logic.retrieveUser()
         
-            this.setState({ name, error: null }, () => this.props.history.push('/home'))
+            this.setState({ user: response, error: null }, () => this.props.history.push('/home'))
         
-        } catch ({ message }) {
-            this.setState({ error: message })
+        } catch (error) {
+            this.setState({ error })
         }
     }
     handleLogout = () => {
@@ -39,6 +39,32 @@ class App extends Component{
 
         this.props.history.push('/')
     }
+    async componentDidMount() {
+        if(logic.isUserLoggedIn){
+            try{
+                const user = await logic.retrieveUser()
+                this.setState({ user})
+
+            }catch(error){
+                this.setState({ error: error.message })
+            }
+
+        }
+
+        // switch(this.props.location.pathname) {
+        //     case '/orders':
+        //         this.handleOrders()
+        //     break;
+        //     case '/favorites':
+        //         this.handleFavorites()
+        //     break;
+        //     case '/cart':
+        //         this.handleCart()
+        //     break;
+
+
+        }
+    
 
     render(){
 
@@ -57,7 +83,7 @@ class App extends Component{
             <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
             <Route path="/register" render={()=> logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} goLogin={handleLoginNavigation}/> }/>
             <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} error={error} goRegister={handleRegisterNavigation}/>} />
-            <Route path="/home" render={() => logic.isUserLoggedIn ? <Home name={name} onLogout={handleLogout} /> : <Redirect to="/" />} />
+            <Route path="/home" render={() => logic.isUserLoggedIn ? <Home user={user} onLogout={handleLogout} /> : <Redirect to="/" />} />
 
         </Switch>
 

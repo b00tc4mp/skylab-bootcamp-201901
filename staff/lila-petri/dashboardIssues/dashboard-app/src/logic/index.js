@@ -1,4 +1,4 @@
-const { LogicError, RequirementError, ValueError, FormatError } = require ('dashboard-errors')
+const { LogicError } = require ('dashboard-errors')
 const restApi = require('../api')
 const validate = require('dashboard-validate')
 const normalize = require('dashboard-normalize')

@@ -9,8 +9,8 @@ function Landing({onRegister, onLogin}){
                 <div >   
                     <p >Dashboard Issues</p>
                     <p  onClick={e => e.preventDefault()}>
-                        <a  href="" onClick={() => onRegister()}>Sign Up</a>
-                        <a  href="" onClick={() => onLogin()}>Sign In</a>
+                        <a  href="register" onClick={() => onRegister()}>Sign Up</a>
+                        <a  href="login" onClick={() => onLogin()}>Sign In</a>
                     </p>
                 </div>
             </section>

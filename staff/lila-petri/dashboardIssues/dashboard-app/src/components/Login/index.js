@@ -1,6 +1,5 @@
 import React from 'react'
 
-
 function Login({ onLogin, error, goRegister }) {
 
     function handleSubmit(e) {
