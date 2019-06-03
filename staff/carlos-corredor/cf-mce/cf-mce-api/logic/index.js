@@ -56,7 +56,7 @@ const logic = {
             const user = await User.findById(id)
             if(!user) throw new LogicError(`user with id "${id}" does not exist`)
  
-            return await User.findById(id).select('name surname email category -_id').lean()
+            return await User.findById(id).select('name surname email category').lean() //no es necesario en el select indicar la omisión de _id para que no lo traiga (-_id al final de los items)
 
         })()
     },
@@ -68,10 +68,12 @@ const logic = {
         ])
         validate.idMongodb(id)
         
-        if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')
-
+        if (data.id && id !== data.id) throw new ValueError('id can\'t be updated')
+        
         return (async () => {
-                 await User.findByIdAndUpdate(id, data)
+            const user = await User.findOne({email: data.email})
+            if (user) throw new LogicError(`user with email "${data.email}" already exists`)
+            await User.findByIdAndUpdate(id, data)
         })()
     },
 
@@ -110,6 +112,19 @@ const logic = {
         })()
     },
 
+    authenticateCustomer(nid) {
+        validate.arguments([
+            { name: 'nid', value: nid, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            const customer = await Customer.findOne({ nid })
+            if(!customer) throw new LogicError(`customer with nid "${nid}" does not exist`)
+
+            return customer.id
+        })()
+    },
+
     retrieveCustomer(id) { // El retrieve se realiza por id y no por nid porque se hace a partir del vínculo con un electronicModule que tiene al id del customer linkado.
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
@@ -119,7 +134,7 @@ const logic = {
             const customer = await Customer.findById(id)
             if(!customer) throw new LogicError(`customer with id "${id}" does not exist`)
  
-            return await Customer.findById(id).select('name surname phone address nid email notes -_id').lean()
+            return await Customer.findById(id).select('name surname phone address nid email notes').lean()
 
         })()
     },
@@ -134,7 +149,9 @@ const logic = {
         if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')
 
         return (async () => {
-                 await Customer.findByIdAndUpdate(id, data)
+            const customer = await Customer.findOne({nid: data.nid})
+            if (customer) throw new LogicError(`customer with nid "${data.nid}" already exists`)
+            await Customer.findByIdAndUpdate(id, data)
         })()
     },
 
@@ -159,7 +176,7 @@ const logic = {
         ])
 
         return (async () => {
-            const customers = await Customer.find(criteria).select('id name surname phone address nid email notes').lean()
+            const customers = await Customer.find(criteria).select('-__v').lean()
 
             customers.forEach(customer => {
                 customer.id = customer._id.toString()
@@ -291,6 +308,152 @@ const logic = {
                 owner,
                 status
             })
+        })()
+    },
+
+    authenticateElectronicModule(orderNumber) {
+        validate.arguments([
+            { name: 'orderNumber', value: orderNumber, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            const electronicModule = await ElectronicModule.findOne({ orderNumber })
+            if(!electronicModule) throw new LogicError(`electronic module with order number "${orderNumber}" does not exist`)
+
+            return electronicModule.id
+        })()
+    },
+
+    retrieveElectronicModule(id) { // El retrieve se realiza por id y no por número de orden para darle a la api versatilidad de criterios de recuperación de datos cuando esa funcionalidad se implenta en find.
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(id)
+         return (async () => {
+            const electronicModule = await ElectronicModule.findById(id)
+            if(!electronicModule) throw new LogicError(`electronic module with id "${id}" does not exist`)
+ 
+            return await ElectronicModule.findById(id).select('-_id -__v').lean()
+
+        })()
+    },
+
+    updateElectronicModule(id, data) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object' }
+        ])
+        validate.idMongodb(id)
+        
+        if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')
+
+        return (async () => {
+            const electronicModule = await ElectronicModule.findOne({orderNumber: data.orderNumber})
+            if (electronicModule) throw new LogicError(`electronicModule with order number "${data.orderNumber}" already exists`)
+            await ElectronicModule.findByIdAndUpdate(id, data)
+        })()
+    },
+
+    deleteElectronicModule(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(id)
+
+         return (async () => {
+            const electronicModule = await ElectronicModule.findById(id)
+            if(!electronicModule) throw new LogicError(`electronicModule with id "${id}" does not exist`)
+ 
+            await ElectronicModule.findByIdAndRemove(id)
+
+        })()
+    },
+
+    findElectronicModules(criteria) {
+        validate.arguments([
+            { name: 'criteria', value: criteria, type: 'object', optional: true }
+        ])
+
+        return (async () => {
+            const electronicModules = await ElectronicModule.find(criteria).select('-__v').lean()
+
+            electronicModules.forEach(electronicModule => {
+                electronicModule.id = electronicModule._id.toString()
+                delete electronicModule._id
+                electronicModule.owner = electronicModule.owner.toString()
+            })
+
+            return electronicModules
+        })()
+    },
+
+    addElectronicModuleNote(electronicModuleId, text, userId) {
+        validate.arguments([
+            { name: 'electronicModuleId', value: electronicModuleId, type: 'string', notEmpty: true },
+            { name: 'text', value: text, type: 'string', notEmpty: true },
+            { name: 'userId', value: userId, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(electronicModuleId)
+        validate.idMongodb(userId)
+
+        return (async () => {
+            const electronicModule = await ElectronicModule.findById(electronicModuleId)
+            if(!electronicModule) throw new LogicError(`electronic module with id "${electronicModuleId}" does not exist`)
+
+            const user = await User.findById(userId)
+            if(!user) throw new LogicError(`user with id "${userId}" does not exist`)
+
+            electronicModule.notes.push(new Note({ text, author: userId }))
+
+            await electronicModule.save()
+        })()
+    },
+
+    listElectronicModuleNotes(electronicModuleId) {
+        validate.arguments([
+            { name: 'electronicModuleId', value: electronicModuleId, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(electronicModuleId)
+
+        return (async () => {
+            const electronicModule = await ElectronicModule.findById(electronicModuleId).select('notes').lean()
+            if(!electronicModule) throw new LogicError(`electronic module with id "${electronicModuleId}" does not exist`)
+
+            const { notes } = electronicModule
+
+            notes.forEach(note => {
+                note.id = note._id.toString()
+                delete note._id
+
+                note.author = note.author.toString()
+            })
+
+            return notes
+        })()
+    },
+
+    deleteElectronicModuleNotes(electronicModuleId, noteId) {
+        validate.arguments([
+            { name: 'electronicModuleId', value: electronicModuleId, type: 'string', notEmpty: true },
+            { name: 'noteId', value: noteId, type: 'string', notEmpty: true, optional: true }
+        ])
+        validate.idMongodb(electronicModuleId)
+        if (noteId != null) validate.idMongodb(noteId)
+
+        return (async () => {
+            const electronicModule = await ElectronicModule.findById(electronicModuleId)
+            if(!electronicModule) throw new LogicError(`electronic module with id "${electronicModuleId}" does not exist`)
+
+            if(!noteId) {
+                electronicModule.notes = []
+                await electronicModule.save()
+            } else {
+                if(!electronicModule.notes.some(note => note.id === noteId)) throw new LogicError(`note with id "${noteId}" does not exist`)
+                const note = electronicModule.notes.find(note => note.id === noteId)
+                const index = electronicModule.notes.indexOf(note)
+                electronicModule.notes.splice(index, 1)
+                await electronicModule.save()
+            }
         })()
     },
 }
