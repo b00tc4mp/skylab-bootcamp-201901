@@ -12,14 +12,13 @@ export default async function({ req, res }: { req: Request; res: Response }) {
     if (authHeader) refreshToken = authHeader.slice(7);
   }
 
-  res.cookie("pal","asd")
   if (!accessToken && !refreshToken) return invalidAuth;
 
   let validAccess, validRefresh;
   if (accessToken) {
     try {
       validAccess = await verifyAccessToken(accessToken);
-      return { req, res, userId: validAccess.userId };
+      return { req, res, userId: validAccess.userId, role: validAccess.role };
     } catch {}
   }
   try {
@@ -31,8 +30,8 @@ export default async function({ req, res }: { req: Request; res: Response }) {
   const user = await UserModel.findById(validRefresh.userId);
   if (!user) return invalidAuth;
   if (validRefresh.count === user.refreshTokenCount) {
-    await refreshTokenFn(user, { res, req, userId: user.id, user});
-    return { req, res, userId: user.id };
+    await refreshTokenFn(user, { res, req, userId: user.id, user, role: user.role});
+    return { req, res, userId: user.id, role: user.role };
   }
   return invalidAuth;
 }

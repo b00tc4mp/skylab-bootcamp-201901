@@ -8,5 +8,6 @@ export interface MyContext {
   res: Response;
   userId: string | null;
   user?: User | null;
+  role?: string | null;
   provider?: Provider | null;
 }

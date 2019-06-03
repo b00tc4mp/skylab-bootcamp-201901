@@ -1,3 +1,4 @@
+import { AuthorizationError } from './../../../common/errors/index';
 import { Arg, Authorized, Ctx, Query, Resolver } from 'type-graphql';
 import { MyContext } from '../../middleware/MyContext';
 import { ONLY_ADMINS_OF_PROVIDER, ONLY_SUPERADMIN, ALWAYS_OWN_USER, ONLY_OWN_USER } from '../../middleware/authChecker';
@@ -10,14 +11,14 @@ export class RetrieveUserResolver {
   @Authorized([ALWAYS_OWN_USER])
   @Query(returns => [User])
   async retrieveUser(@Arg('userId') userId: string, @Ctx() ctx: MyContext) {
-    return await UserModel.find();
+    if (!userId) throw new ValidationError('user is required')
+    return await UserModel.findById(userId);
   }
 
-  @Query(returns => [Provider])
-  async adminOf(@Arg('userId') userId: string, @Ctx() ctx: MyContext) {
-    const user = await UserModel.findById(userId);
-    if (!user) throw new ValidationError('user is required')
-    const providers = await ProviderModel.find({ admins: user });
-    return providers;
+  @Query(returns => User)
+  async me(@Ctx() ctx: MyContext) {
+    if (!ctx.userId) throw new AuthorizationError('user is required. Maybe you are not authenticated')
+    const user = await UserModel.findById(ctx.userId).populate('adminOf').populate('coachOf').populate('customerOf');
+    return user;
   }
 }

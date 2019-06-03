@@ -5,6 +5,7 @@ import { STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from './model
 import { ProviderModel, Provider } from './models/provider';
 import { SessionTypeModel } from './models/session-type';
 import moment = require('moment');
+import faker = require('faker');
 
 export async function cleanDb() {
   await UserModel.deleteMany({});
@@ -35,8 +36,8 @@ export async function populateDb() {
   for (let ii = 0, ll = 3; ii < ll; ii++) {
     coaches.push(
       await UserModel.create({
-        name: 'Box',
-        surname: 'Coach ' + ii,
+        name: faker.name.firstName(),
+        surname: faker.name.lastName() + ' Coach ' + ii,
         email: `coach${ii}@stay.fit`,
         password: await bcrypt.hash('123', 12),
         role: STAFF_ROLE,
@@ -44,32 +45,36 @@ export async function populateDb() {
     );
   }
 
+  const provider1 = await ProviderModel.create({
+    name: faker.company.companyName(),
+    admins: [admin],
+    coaches,
+    customers: [],
+    bannerImageUrl: 'https://crossfitstreets.com/wp-content/uploads/2016/02/banner-stayatcrossfit.jpg',
+    logoImageUrl: 'https://www.48hourslogo.com/48hourslogo_data/2018/11/12/78999_1542026387.jpg',
+  });
   console.log('Creando customers...')
 
   const customers: User[] = [];
   for (let ii = 0, ll = 15; ii < ll; ii++) {
     customers.push(
       await UserModel.create({
-        name: 'Box',
-        surname: 'User ' + ii,
+        name: faker.name.firstName(),
+        surname: faker.name.lastName(),
         email: `user${ii}@stay.fit`,
         password: await bcrypt.hash('123', 12),
         role: USER_ROLE,
+        adminOf: [],
+        coachOf:[],
+        customerOf: [provider1]
       })
     );
   }
   console.log('Creando provider1...')
-
-  const provider1 = await ProviderModel.create({
-    name: 'Testing provider',
-    admins: [admin],
-    coaches,
-    customers,
-    bannerImageUrl: 'https://crossfitstreets.com/wp-content/uploads/2016/02/banner-stayatcrossfit.jpg',
-    logoImageUrl: 'https://www.48hourslogo.com/48hourslogo_data/2018/11/12/78999_1542026387.jpg',
-  });
-
   
+  provider1.customers= customers;
+  provider1.save()
+
   console.log('Creando admin2...')
   const admin2 = await UserModel.create({
     name: 'Box',
@@ -83,10 +88,10 @@ export async function populateDb() {
   
   console.log('Creando provider2...')
   const provider2 = await ProviderModel.create({
-    name: 'Testing provider 2',
+    name: faker.company.companyName(),
     admins: admins2,
     coaches,
-    customers,
+    customers: [],
     bannerImageUrl:
       'https://blogmedia.dealerfire.com/wp-content/uploads/sites/394/2018/06/Crossfit-training-3-banner.jpg',
     logoImageUrl:
@@ -126,8 +131,8 @@ export async function populateDb() {
 }
 
 async function populateSessions(provider: Provider, _startTime: moment.Moment,  numDays: number, coaches: User[]) {
-  const type = await SessionTypeModel.findOne({ type: 'wod', provider:provider });
-  const title = 'Test session';
+  const type = await SessionTypeModel.findOne({ type: 'wod', provider:provider.id });
+  const title = faker.company.bs();
   const providerId = provider.id.toString();
   const startTime = _startTime.toDate();
   const endTime = _startTime.add(1, 'hour').toDate();
@@ -135,13 +140,13 @@ async function populateSessions(provider: Provider, _startTime: moment.Moment,  
   const typeId = type!.id;
   const status = ACTIVE;
   const visibility = PUBLIC;
-  const start = '04/06/2019';
+  const start = _startTime.format("YYYY-MM-DD");
   const repeat: Date[] = [];
   for (let ii = 0, ll = numDays; ii < ll; ii++) {
     const day = moment(start, 'YYYY-MM-DD', true)
       .startOf('day')
       .add(ii, 'day');
-    repeat.push(day.toDate());
+    if (Math.random() > 0.3) repeat.push(day.toDate());
   }
   const sessionsId = await createSession(
     {

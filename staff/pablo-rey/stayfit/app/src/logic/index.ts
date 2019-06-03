@@ -1,15 +1,17 @@
 import gql from 'graphql-tag';
 import jwt from 'jsonwebtoken';
+import { TUser } from './contexts/main-context';
 
 export default {
   gqlClient: null,
+  token: null,
 
   async __gCall({ query, mutation, variables }) {
     let context;
-    if (this.refreshToken) {
+    if (this.token) {
       context = {
         headers: {
-          Authorization: 'Bearer ' + this.refreshToken,
+          Authorization: 'Bearer ' + this.token,
         },
       };
     }
@@ -51,6 +53,29 @@ export default {
     const decodedToken = await jwt.decode(refreshToken);
     const { userId, role } = decodedToken;
     return { refreshToken, accessToken, userId, role };
+  },
+
+  async retrieveMe(): Promise<TUser> {
+    const query = gql`
+      query {
+        me {
+          id
+          name
+          customerOf {
+            id
+            name
+          }
+          adminOf {
+            id
+            name
+          }
+        }
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      query,
+    });
+    return data.me;
   },
 
   async availableSessions(providerId: string, day: string) {

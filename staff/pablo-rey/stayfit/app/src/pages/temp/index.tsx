@@ -14,10 +14,17 @@ import {
   IonSegmentButton,
   IonIcon,
   IonText,
+  IonPage,
+  IonTabButton,
+  IonBadge,
+  IonTabBar,
+  IonTabs,
+  IonTab,
+  IonRouterOutlet,
 } from '@ionic/react';
 import gql from 'graphql-tag';
 import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
 import logic from '../../logic';
 import moment from 'moment';
 
@@ -30,8 +37,7 @@ const Temp: React.FC<any> = ({ history, location, client }) => {
   const updateSegment = e => {
     const _day = e.detail.value;
     setView(_day);
-    logic.availableSessions('5cf3e7e70029b1470ca300c9', _day)
-    .then (data => {
+    logic.availableSessions('5cf3e7e70029b1470ca300c9', _day).then(data => {
       data.sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
       setSessions(data);
     });
@@ -41,47 +47,36 @@ const Temp: React.FC<any> = ({ history, location, client }) => {
 
   return (
     <>
-      <IonGrid>
-        <IonRow>
-          <IonSegment onIonChange={updateSegment} scrollable>
-            {new Array(15).fill(undefined).map((_, i) => {
-              day.add(1, 'day');
-              return (
-                <IonSegmentButton key={day.format('YYYY-MM-DD')} value={day.format('YYYY-MM-DD')} checked={view === day.format('YYYY-MM-DD')}>
-                  <IonLabel>{day.format('D')}</IonLabel>
-                  <IonText>{day.format('ddd')}</IonText>
-                </IonSegmentButton>
-              );
-            })}
-          </IonSegment>
-        </IonRow>
-        <IonRow>
-          <button onClick={() => logic.login('user0@stay.fit', '123')}>Login</button>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonList>
-              {sessions.map(
-                ({ id, title, coaches, startTime, endTime, maxAttendants, type: { title: typeTitle }, status }) => {
-                  const start = moment(startTime).format('HH:mm');
-                  const end = moment(endTime).format('HH:mm');
-                  return (
-                    <IonItemSliding key={id}>
-                      <IonItem>
-                        <IonLabel>{`${typeTitle} - ${title}`}</IonLabel>
-                        <IonText>{`${start}-${end}`}</IonText>
-                      </IonItem>
-                      <IonItemOptions side="end">
-                        <IonItemOption onClick={() => {}}>Unread</IonItemOption>
-                      </IonItemOptions>
-                    </IonItemSliding>
-                  );
-                }
-              )}
-            </IonList>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
+      <IonPage id="main">
+        <IonTabs>
+          <IonRouterOutlet>
+            {/* <Route path="/:tab(schedule)" component={SchedulePage} exact={true} />
+            <Route path="/:tab(speakers)" component={SpeakerList} exact={true} />
+            <Route path="/:tab(speakers)/speaker/:id" component={SpeakerDetail} />
+            <Route path="/:tab(schedule|speakers)/sessions/:id" component={SessionDetail} />
+            <Route path="/:tab(map)" component={MapView} /> */}
+            <Route path="/temp/:tab(about)" render={() => <p>about</p>} />
+          </IonRouterOutlet>
+          <IonTabBar slot="bottom">
+            <IonTabButton tab="schedule" href="/schedule">
+              <IonIcon name="calendar" />
+              <IonLabel>Schedule</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="speakers" href="/speakers">
+              <IonIcon name="contacts" />
+              <IonLabel>Speakers</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="map" href="/map">
+              <IonIcon name="map" />
+              <IonLabel>Map</IonLabel>
+            </IonTabButton>
+            <IonTabButton tab="about" href="/home/about">
+              <IonIcon name="information-circle" />
+              <IonLabel>About</IonLabel>
+            </IonTabButton>
+          </IonTabBar>
+        </IonTabs>
+      </IonPage>
     </>
   );
 };

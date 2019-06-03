@@ -12,6 +12,7 @@ import Register from '../Register';
 import Admin from '../Admin';
 import Superadmin from '../Superadmin'
 import Temp from '../temp';
+import Temp2 from '../temp2';
 
 import ApolloClient, { InMemoryCache } from 'apollo-boost';
 import { ApolloProvider } from 'react-apollo';
@@ -60,7 +61,9 @@ const App: React.SFC = () => {
                     <Route path="/login" render={() => <Login />} />
                     <Route path="/register" render={() => <Register />} />
                     <Route path="/temp" render={() => <Temp client={gqlClient} />} />
-                    <Route path="/home" render={() => (['USER_ROLE','GUEST_ROLE'].includes(role) ? <Home />: <Redirect to="/"/>)} />
+                    <Route path="/temp2" render={() => <Temp2 client={gqlClient} />} />
+                    <Route path="/home" render={(props) => (['USER_ROLE','GUEST_ROLE'].includes(role) ? <Home {...props}/>: <Redirect to="/"/>)} />
+                    {/* <Route path="/home" component={Home} /> */}
                     <Route path="/admin" render={() => (['ADMIN_ROLE','STAFF_ROLE'].includes(role) ? <Admin />: <Redirect to="/"/>)} />
                     <Route path="/superadmin" render={() => (role === 'SUPERADMIN_ROLE') ? <Superadmin />: <Redirect to="/"/>} />
                     <Route
