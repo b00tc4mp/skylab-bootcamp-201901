@@ -106,4 +106,26 @@ export default {
     });
     return data.listMyAvailableSessions;
   },
+
+  async attendSession(userId: string, sessionId: string, paymentType: string, status: string) {
+    const mutation = gql`
+      mutation AttendSession($data: AttendanceInput!) {
+        attendSession(data: $data)
+      }
+    `;
+
+    const { data, error } = await this.__gCall({
+      mutation,
+      variables: {
+        data: {
+          userId,
+          sessionId,
+          paymentType,
+          status,
+        },
+      },
+    });
+
+    return data.attendSession;
+  },
 };

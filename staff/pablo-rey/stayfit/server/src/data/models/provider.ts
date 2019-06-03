@@ -24,6 +24,10 @@ export class Provider extends Typegoose {
   @arrayProp({ itemsRef: { name: 'User' } })
   customers: Ref<User>[];
 
+  @Field()
+  @prop({ required: true, default: 'fitness'})
+  icon : string;
+
   @prop({ default: '' })
   uploadedBanner: string;
 

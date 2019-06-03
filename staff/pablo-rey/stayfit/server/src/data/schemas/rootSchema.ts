@@ -1,3 +1,4 @@
+import { MeResolver } from './../../logic/resolvers/users/me';
 import { buildSchema } from 'type-graphql';
 import { LoginResolver } from '../../logic/resolvers/auth/login';
 import { InvalidateCredentialsResolver } from '../../logic/resolvers/auth/invalidate-credentials';
@@ -19,6 +20,7 @@ import { AttendSessionResolvers, AttendanceInput } from '../../logic/resolvers/s
 export async function createSchema() {
   return await buildSchema({
     resolvers: [
+      MeResolver,
       CreateSessionTypeResolver,
       CreateSessionsResolver,
       CreateSessionsInput,

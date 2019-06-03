@@ -7,12 +7,11 @@ import { User, UserModel } from '../../../data/models/user';
 import { ValidationError } from '../../../common/errors/index';
 
 @Resolver(User)
-export class RetrieveUserResolver {
-  @Authorized([ALWAYS_OWN_USER])
-  @Query(returns => [User])
-  async retrieveUser(@Arg('userId') userId: string, @Ctx() ctx: MyContext) {
-    if (!userId) throw new ValidationError('user is required')
-    return await UserModel.findById(userId);
+export class MeResolver {
+  @Query(returns => User)
+  async me(@Ctx() ctx: MyContext) {
+    if (!ctx.userId) throw new AuthorizationError('user is required. Maybe you are not authenticated')
+    const user = await UserModel.findById(ctx.userId).populate('adminOf').populate('coachOf').populate('customerOf');
+    return user;
   }
-
 }

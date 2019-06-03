@@ -17,15 +17,19 @@ import {
   IonHeader,
 } from '@ionic/react';
 import gql from 'graphql-tag';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import logic from '../../logic';
 import moment from 'moment';
+import { MainContext } from '../../logic/contexts/main-context';
+
 
 const SessionsAvailable: React.FC<any> = ({ history, location, client, providerId }) => {
   const day = moment();
   const [view, setView] = useState(day.format('YYYY-MM-DD'));
   const [sessions, setSessions] = useState([]);
+
+  const ctx = useContext(MainContext)
 
   useEffect(() => {
     logic.availableSessions(providerId, view).then(data => {
@@ -37,6 +41,10 @@ const SessionsAvailable: React.FC<any> = ({ history, location, client, providerI
   const updateSegment = e => {
     const _day = e.detail.value;
     setView(_day);
+  };
+
+  const attendSession = async sessionId => {
+    await logic.attendSession(ctx.userId,sessionId,'POSTPAID', 'CONFIRMED' )
   };
 
   day.subtract(1, 'day');
@@ -75,7 +83,7 @@ const SessionsAvailable: React.FC<any> = ({ history, location, client, providerI
                           <IonText>{`${start}-${end}`}</IonText>
                         </IonItem>
                         <IonItemOptions side="end">
-                          <IonItemOption onClick={() => {}}>book</IonItemOption>
+                          <IonItemOption onClick={() => attendSession(id)}>book</IonItemOption>
                         </IonItemOptions>
                       </IonItemSliding>
                     );
