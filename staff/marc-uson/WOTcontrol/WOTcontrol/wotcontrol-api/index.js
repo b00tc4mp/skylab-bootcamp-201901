@@ -9,7 +9,7 @@ const { mongoose } = require('wotcontrol-data')
 const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = process;
 
 (async () => {
-    await mongoose.connect(url, { useNewUrlParser: true })
+    await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false })
 
     // express
 
