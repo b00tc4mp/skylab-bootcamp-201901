@@ -174,16 +174,14 @@ const logic = {
 
 
     async retrieveGameByQuery(genre, query) {
-        console.log(genre,query)
         if (typeof genre !== 'string') throw TypeError('genre is not a string')
         if (!genre.trim().length) throw Error('genre cannot be empty')
         if (typeof query !== 'string') throw TypeError('query is not a string')
         if (!query.trim().length) throw Error('genre cannot be empty')
 
         if (genre == 'any') {
-            return Game.find({ "title": query }).select('-__v').lean()
+            return Game.find({ "title": { "$regex": query, "$options": "i" } }).select('-__v').lean()
                 .then(games => {
-                    console.log(games)
                     games.forEach(game => {
                         game.id = game._id.toString()
                         delete game._id
@@ -192,7 +190,7 @@ const logic = {
 
                 })
         } else {
-            return Game.find({ $or: [{ "title": query }, { "genre": genre }] }).select('-__v').lean()
+            return Game.find({ $and: [{ "title": { "$regex": query, "$options": "i" } }, { "genre": genre }] }).select('-__v').lean()
                 .then(games => {
                     games.forEach(game => {
                         game.id = game._id.toString()
@@ -201,6 +199,19 @@ const logic = {
                     return games
                 })
         }
+
+    },
+
+    async retrieveGameByGenre(genre) {
+        if (typeof genre !== 'string') throw TypeError('genre is not a string')
+        if (!genre.trim().length) throw Error('genre cannot be empty')
+
+        const games = await Game.find({ "genre": genre }).select('-__V').lean()
+        games.forEach(game => {
+            game.id = game._id.toString()
+            delete game._id
+        })
+        return games
 
     }
 
