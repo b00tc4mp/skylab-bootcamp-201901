@@ -20,7 +20,7 @@ const { User, Customer, ElectronicModule, Product, Note } = models
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 
 describe('logic', () => {
-    let name, surname, email, password, category, phone, address, nid, notes, text, date, author, id
+    let name, surname, email, password, category, phone, address, nid, id
     
     before(() => mongoose.connect(url, { useNewUrlParser: true }))
     
@@ -104,6 +104,12 @@ describe('logic', () => {
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'name is empty')
             })
 
+            it('should fail on number name', () => {
+                name = 5
+
+                expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(TypeError, `name ${name} is not a string`)
+            })
+
             it('should fail on undefined surname', () => {
                 surname = undefined
 
@@ -126,6 +132,12 @@ describe('logic', () => {
                 surname = ' \t    \n'
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'surname is empty')
+            })
+
+            it('should fail on number surname', () => {
+                surname = 5
+
+                expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(TypeError, `surname ${surname} is not a string`)
             })
 
             it('should fail on undefined email', () => {
@@ -152,6 +164,12 @@ describe('logic', () => {
                 email = ' \t    \n'
 
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'email is empty')
+            })
+
+            it('should fail on number email', () => {
+                email = 5
+
+                expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(TypeError, `email ${email} is not a string`)
             })
 
             it('should fail on non-email format', () => {
@@ -185,6 +203,12 @@ describe('logic', () => {
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'password is empty')
             })
 
+            it('should fail on number password', () => {
+                password = 5
+
+                expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(TypeError, `password ${password} is not a string`)
+            })
+
             it('should fail on undefined category', () => {
                 category = undefined
 
@@ -211,11 +235,16 @@ describe('logic', () => {
                 expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(ValueError, 'category is empty')
             })
 
+            it('should fail on number category', () => {
+                category = 5
+
+                expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(TypeError, `category ${category} is not a string`)
+            })
+
             it('should fail on non-category category', () => {
                 const nonCategory = 'non-category'
                 
                 expect(() => logic.registerUser(name, surname, email, password, nonCategory)).to.throw(LogicError, `${nonCategory} is not a valid option for category`)
-
             })
 
         })
@@ -282,6 +311,12 @@ describe('logic', () => {
                 expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'email is empty')
             })
 
+            it('should fail on number email', () => {
+                email = 5
+
+                expect(() => logic.authenticateUser(email, password)).to.throw(TypeError, `email ${email} is not a string`)
+            })
+
             it('should fail on non-email format', () => {
                 const nonEmail = 'non-email'
 
@@ -311,6 +346,12 @@ describe('logic', () => {
                 password = ' \t    \n'
 
                 expect(() => logic.authenticateUser(email, password)).to.throw(ValueError, 'password is empty')
+            })
+
+            it('should fail on number password', () => {
+                password = 5
+
+                expect(() => logic.authenticateUser(email, password)).to.throw(TypeError, `password ${password} is not a string`)
             })
         })
 
@@ -380,6 +421,12 @@ describe('logic', () => {
                 id = ' \t    \n'
 
                 expect(() => logic.retrieveUser(id)).to.throw(ValueError, 'id is empty')
+            })
+
+            it('should fail on number id', () => {
+                id = 5
+
+                expect(() => logic.retrieveUser(id)).to.throw(TypeError, `id ${id} is not a string`)
             })
 
         })
@@ -492,6 +539,13 @@ describe('logic', () => {
                 expect(() => logic.updateUser(id, data)).to.throw(ValueError, 'id is empty')
             })
 
+            it('should fail on number id', () => {
+                id = 5
+                const data = {}
+
+                expect(() => logic.updateUser(id, data)).to.throw(TypeError, `id ${id} is not a string`)
+            })
+
             it('should fail on undefined data object', async () => {
                 const user = await User.findOne()
 
@@ -578,7 +632,11 @@ describe('logic', () => {
                 expect(() => logic.deleteUser(id)).to.throw(ValueError, 'id is empty')
             })
 
+            it('should fail on number id', () => {
+                id = 5
 
+                expect(() => logic.deleteUser(id)).to.throw(TypeError, `id ${id} is not a string`)
+            })
         })
     })
 
@@ -710,6 +768,12 @@ describe('logic', () => {
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'name is empty')
             })
 
+            it('should fail on number name', () => {
+                name = 5
+
+                expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(TypeError, `name ${name} is not a string`)
+            })
+
             it('should fail on empty surname', () => {
                 surname = ''
 
@@ -720,6 +784,12 @@ describe('logic', () => {
                 surname = ' \t    \n'
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'surname is empty')
+            })
+
+            it('should fail on number surname', () => {
+                surname = 5
+
+                expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(TypeError, `surname ${surname} is not a string`)
             })
 
             it('should fail on empty phone', () => {
@@ -734,6 +804,12 @@ describe('logic', () => {
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'phone is empty')
             })
 
+            it('should fail on number phone', () => {
+                phone = 5
+
+                expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(TypeError, `phone ${phone} is not a string`)
+            })
+
             it('should fail on empty address', () => {
                 address = ''
 
@@ -744,6 +820,12 @@ describe('logic', () => {
                 address = ' \t    \n'
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'address is empty')
+            })
+
+            it('should fail on number address', () => {
+                address = 5
+
+                expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(TypeError, `address ${address} is not a string`)
             })
 
             it('should fail on undefined nid', () => {
@@ -770,6 +852,12 @@ describe('logic', () => {
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'nid is empty')
             })
 
+            it('should fail on number nid', () => {
+                nid = 5
+
+                expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(TypeError, `nid ${nid} is not a string`)
+            })
+
             it('should fail on empty email', () => {
                 email = ''
 
@@ -781,6 +869,12 @@ describe('logic', () => {
                 email = ' \t    \n'
 
                 expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(ValueError, 'email is empty')
+            })
+
+            it('should fail on number email', () => {
+                email = 5
+
+                expect(() => logic.registerCustomer(name, surname, phone, address, nid, email)).to.throw(TypeError, `email ${email} is not a string`)
             })
 
             it('should fail on non-email format', () => {
@@ -838,6 +932,12 @@ describe('logic', () => {
                 nid = ' \t    \n'
 
                 expect(() => logic.authenticateCustomer(nid)).to.throw(ValueError, 'nid is empty')
+            })
+
+            it('should fail on number nid', () => {
+                nid = 5
+
+                expect(() => logic.authenticateCustomer(nid)).to.throw(TypeError, `nid ${nid} is not a string`)
             })
         })
 
@@ -910,7 +1010,12 @@ describe('logic', () => {
 
                 expect(() => logic.retrieveCustomer(id)).to.throw(ValueError, 'id is empty')
             })
+            
+            it('should fail on number id', () => {
+                id = 5
 
+                expect(() => logic.retrieveCustomer(id)).to.throw(TypeError, `id ${id} is not a string`)
+            })
         })
         
         describe('update customer', () => {
@@ -1021,6 +1126,13 @@ describe('logic', () => {
                 expect(() => logic.updateCustomer(id, data)).to.throw(ValueError, 'id is empty')
             })
 
+            it('should fail on number id', () => {
+                id = 5
+                const data = {}
+
+                expect(() => logic.updateCustomer(id, data)).to.throw(TypeError, `id ${id} is not a string`)
+            })
+
             it('should fail on undefined data object', async () => {
                 const customer = await Customer.findOne()
 
@@ -1107,6 +1219,11 @@ describe('logic', () => {
                 expect(() => logic.deleteCustomer(id)).to.throw(ValueError, 'id is empty')
             })
 
+            it('should fail on number id', () => {
+                id = 5
+
+                expect(() => logic.deleteCustomer(id)).to.throw(TypeError, `id ${id} is not a string`)
+            })
         })
 
         describe('list customers', () => {
@@ -1315,6 +1432,12 @@ describe('logic', () => {
     
                     expect(() => logic.addCustomerNote(id, text, user.id)).to.throw(ValueError, 'customerId is empty')
                 })
+
+                it('should fail on number customer id', () => {
+                    id = 5
+    
+                    expect(() => logic.addCustomerNote(id, text, user.id)).to.throw(TypeError, `customerId ${id} is not a string`)
+                })
     
                 it('should fail on non-matching user id', async () => {
                     id = '123456789012345678901234'
@@ -1368,6 +1491,42 @@ describe('logic', () => {
                     id = ' \t    \n'
     
                     expect(() => logic.addCustomerNote(customer.id, text, id)).to.throw(ValueError, 'userId is empty')
+                })
+
+                it('should fail on number user id', () => {
+                    id = 5
+    
+                    expect(() => logic.addCustomerNote(customer.id, text, id)).to.throw(TypeError, `userId ${id} is not a string`)
+                })
+
+                it('should fail on undefined text', () => {
+                    text = undefined
+    
+                    expect(() => logic.addCustomerNote(customer.id, text, user.id)).to.throw(RequirementError, `text is not optional`)
+                })
+    
+                it('should fail on null text', () => {
+                    text = null
+    
+                    expect(() => logic.addCustomerNote(customer.id, text, user.id)).to.throw(RequirementError, `text is not optional`)
+                })
+    
+                it('should fail on empty text', () => {
+                    text = ''
+    
+                    expect(() => logic.addCustomerNote(customer.id, text, user.id)).to.throw(ValueError, 'text is empty')
+                })
+    
+                it('should fail on blank text', () => {
+                    text = ' \t    \n'
+    
+                    expect(() => logic.addCustomerNote(customer.id, text, user.id)).to.throw(ValueError, 'text is empty')
+                })
+
+                it('should fail on number text', () => {
+                    text = 5
+    
+                    expect(() => logic.addCustomerNote(customer.id, text, user.id)).to.throw(TypeError, `text ${text} is not a string`)
                 })
             })
         
@@ -1448,6 +1607,12 @@ describe('logic', () => {
                     id = ' \t    \n'
     
                     expect(() => logic.listCustomerNotes(id)).to.throw(ValueError, 'customerId is empty')
+                })
+
+                it('should fail on number id', () => {
+                    id = 5
+    
+                    expect(() => logic.listCustomerNotes(id)).to.throw(TypeError, `customerId ${id} is not a string`)
                 })
             })
 
@@ -1537,6 +1702,12 @@ describe('logic', () => {
                     expect(() => logic.deleteCustomerNotes(id)).to.throw(ValueError, 'customerId is empty')
                 })
 
+                it('should fail on number customer id', () => {
+                    id = 5
+    
+                    expect(() => logic.deleteCustomerNotes(id)).to.throw(TypeError, `customerId ${id} is not a string`)
+                })
+
                 it('should fail on non-matching note id', async () => {
                     id = '123456789012345678901234'
                     try {
@@ -1578,6 +1749,11 @@ describe('logic', () => {
                     expect(() => logic.deleteCustomerNotes(customer.id, id)).to.throw(ValueError, 'noteId is empty')
                 })
 
+                it('should fail on number note id', () => {
+                    id = 5
+    
+                    expect(() => logic.deleteCustomerNotes(customer.id, id)).to.throw(TypeError, `noteId ${id} is not a string`)
+                })
             })
         })
     })
@@ -1905,6 +2081,24 @@ describe('logic', () => {
                     status)).to.throw(ValueError, 'brand is empty')
             })
 
+            it('should fail on number brand', () => {
+                brand = 5
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `brand ${brand} is not a string`)
+            })
+
             it('should fail on empty model', () => {
                 model = ''
 
@@ -1939,6 +2133,24 @@ describe('logic', () => {
                     fail,
                     owner,
                     status)).to.throw(ValueError, 'model is empty')
+            })
+
+            it('should fail on number model', () => {
+                model = 5
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `model ${model} is not a string`)
             })
 
             it('should fail on empty cylinders', () => {
@@ -1977,6 +2189,24 @@ describe('logic', () => {
                     status)).to.throw(ValueError, 'cylinders is empty')
             })
 
+            it('should fail on number cylinders', () => {
+                cylinders = 5
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `cylinders ${cylinders} is not a string`)
+            })
+
             it('should fail on empty transmission', () => {
                 transmission = ''
 
@@ -2011,6 +2241,24 @@ describe('logic', () => {
                     fail,
                     owner,
                     status)).to.throw(ValueError, 'transmission is empty')
+            })
+
+            it('should fail on number transmission', () => {
+                transmission = 5
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `transmission ${transmission} is not a string`)
             })
 
             it('should fail on empty year', () => {
@@ -2049,6 +2297,24 @@ describe('logic', () => {
                     status)).to.throw(ValueError, 'year is empty')
             })
 
+            it('should fail on number year', () => {
+                year = 5
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `year ${year} is not a string`)
+            })
+
             it('should fail on empty engine', () => {
                 engine = ''
 
@@ -2083,6 +2349,24 @@ describe('logic', () => {
                     fail,
                     owner,
                     status)).to.throw(ValueError, 'engine is empty')
+            })
+
+            it('should fail on number engine', () => {
+                engine = 5
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `engine ${engine} is not a string`)
             })
 
             it('should fail on undefined device', () => {
@@ -2157,6 +2441,24 @@ describe('logic', () => {
                     status)).to.throw(ValueError, 'device is empty')
             })
 
+            it('should fail on number device', () => {
+                device = 5
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `device ${device} is not a string`)
+            })
+
             it('should fail on empty serial', () => {
                 serial = ''
 
@@ -2193,6 +2495,24 @@ describe('logic', () => {
                     status)).to.throw(ValueError, 'serial is empty')
             })
 
+            it('should fail on number serial', () => {
+                serial = 5
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `serial ${serial} is not a string`)
+            })
+
             it('should fail on empty fail', () => {
                 fail = ''
 
@@ -2227,6 +2547,24 @@ describe('logic', () => {
                     fail,
                     owner,
                     status)).to.throw(ValueError, 'fail is empty')
+            })
+
+            it('should fail on number fail', () => {
+                fail = 3
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `fail ${fail} is not a string`)
             })
 
             it('should fail on non-matching owner id', async () => {
@@ -2354,6 +2692,24 @@ describe('logic', () => {
                     status)).to.throw(ValueError, 'owner is empty')
             })
 
+            it('should fail on number owner', () => {
+                owner = 5
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `owner ${owner} is not a string`)
+            })
+
             it('should fail on undefined status', () => {
                 status = undefined
 
@@ -2426,6 +2782,24 @@ describe('logic', () => {
                     status)).to.throw(ValueError, 'status is empty')
             })
 
+            it('should fail on number status', () => {
+                status = 5
+
+                expect(() => logic.registerElectronicModule(
+                    orderNumber,
+                    brand,
+                    model,
+                    cylinders,
+                    transmission,
+                    year,
+                    engine,
+                    device,
+                    serial,
+                    fail,
+                    owner,
+                    status)).to.throw(TypeError, `status ${status} is not a string`)
+            })
+
             it('should fail on non-status status', () => {
                 const nonStatus = 'non-status'
 
@@ -2493,6 +2867,12 @@ describe('logic', () => {
                 orderNumber = ' \t    \n'
 
                 expect(() => logic.authenticateElectronicModule(orderNumber)).to.throw(ValueError, 'orderNumber is empty')
+            })
+
+            it('should fail on number orderNumber', () => {
+                orderNumber = 5
+
+                expect(() => logic.authenticateElectronicModule(orderNumber)).to.throw(TypeError, `orderNumber ${orderNumber} is not a string`)
             })
         })
 
@@ -2602,6 +2982,11 @@ describe('logic', () => {
                 expect(() => logic.retrieveElectronicModule(id)).to.throw(ValueError, 'id is empty')
             })
 
+            it('should fail on number id', () => {
+                id = 5
+
+                expect(() => logic.retrieveElectronicModule(id)).to.throw(TypeError, `id ${id} is not a string`)
+            })
         })
         
         describe('update electronic module', () => {
@@ -2696,6 +3081,13 @@ describe('logic', () => {
                 expect(() => logic.updateElectronicModule(id, data)).to.throw(ValueError, 'id is empty')
             })
 
+            it('should fail on number id', () => {
+                id = 5
+                const data = {}
+
+                expect(() => logic.updateElectronicModule(id, data)).to.throw(TypeError, `id ${id} is not a string`)
+            })
+
             it('should fail on undefined data object', async () => {
                 const electronicModule = await ElectronicModule.findOne()
 
@@ -2782,6 +3174,11 @@ describe('logic', () => {
                 expect(() => logic.deleteElectronicModule(id)).to.throw(ValueError, 'id is empty')
             })
 
+            it('should fail on number id', () => {
+                id = 5
+
+                expect(() => logic.deleteElectronicModule(id)).to.throw(TypeError, `id ${id} is not a string`)
+            })
         })
 
         describe('list electronic module', () => {
@@ -3040,6 +3437,12 @@ describe('logic', () => {
     
                     expect(() => logic.addElectronicModuleNote(id, text, user.id)).to.throw(ValueError, 'electronicModuleId is empty')
                 })
+
+                it('should fail on number electronic module id', () => {
+                    id = 5
+    
+                    expect(() => logic.addElectronicModuleNote(id, text, user.id)).to.throw(TypeError, `electronicModuleId ${id} is not a string`)
+                })
     
                 it('should fail on non-matching user id', async () => { // hay que repetir para customer
                     id = '123456789012345678901234'
@@ -3093,6 +3496,42 @@ describe('logic', () => {
                     id = ' \t    \n'
     
                     expect(() => logic.addElectronicModuleNote(electronicModule.id, text, id)).to.throw(ValueError, 'userId is empty')
+                })
+
+                it('should fail on number user id', () => {
+                    id = 5
+    
+                    expect(() => logic.addElectronicModuleNote(electronicModule.id, text, id)).to.throw(TypeError, `userId ${id} is not a string`)
+                })
+                
+                it('should fail on undefined text', () => {
+                    text = undefined
+    
+                    expect(() => logic.addElectronicModuleNote(electronicModule.id, text, user.id)).to.throw(RequirementError, `text is not optional`)
+                })
+    
+                it('should fail on null text', () => {
+                    text = null
+    
+                    expect(() => logic.addElectronicModuleNote(electronicModule.id, text, user.id)).to.throw(RequirementError, `text is not optional`)
+                })
+    
+                it('should fail on empty text', () => {
+                    text = ''
+    
+                    expect(() => logic.addElectronicModuleNote(electronicModule.id, text, user.id)).to.throw(ValueError, 'text is empty')
+                })
+    
+                it('should fail on blank text', () => {
+                    text = ' \t    \n'
+    
+                    expect(() => logic.addElectronicModuleNote(electronicModule.id, text, user.id)).to.throw(ValueError, 'text is empty')
+                })
+
+                it('should fail on number text', () => {
+                    text = 5
+    
+                    expect(() => logic.addElectronicModuleNote(electronicModule.id, text, user.id)).to.throw(TypeError, `text ${text} is not a string`)
                 })
             })
         
@@ -3173,6 +3612,12 @@ describe('logic', () => {
                     id = ' \t    \n'
     
                     expect(() => logic.listElectronicModuleNotes(id)).to.throw(ValueError, 'electronicModuleId is empty')
+                })
+
+                it('should fail on number id', () => {
+                    id = 5
+    
+                    expect(() => logic.listElectronicModuleNotes(id)).to.throw(TypeError, `electronicModuleId ${id} is not a string`)
                 })
             })
 
@@ -3262,6 +3707,12 @@ describe('logic', () => {
                     expect(() => logic.deleteElectronicModuleNotes(id)).to.throw(ValueError, 'electronicModuleId is empty')
                 })
 
+                it('should fail on number electronic module id', () => {
+                    id = 5
+    
+                    expect(() => logic.deleteElectronicModuleNotes(id)).to.throw(TypeError, `electronicModuleId ${id} is not a string`)
+                })
+
                 it('should fail on non-matching note id', async () => {
                     id = '123456789012345678901234'
                     try {
@@ -3303,56 +3754,63 @@ describe('logic', () => {
                     expect(() => logic.deleteElectronicModuleNotes(electronicModule.id, id)).to.throw(ValueError, 'noteId is empty')
                 })
 
+                it('should fail on number note id', () => {
+                    id = 5
+    
+                    expect(() => logic.deleteElectronicModuleNotes(electronicModule.id, id)).to.throw(TypeError, `noteId ${id} is not a string`)
+                })
             })
         })
 
-        describe.skip('electronic module budget', () => {
+        describe('electronic module budget', () => {
     
-            let user, electronicModule, text
+            let electronicModule, description, price
+            const descriptions = ['REVISION', 'REPAIR', 'RESTORATION', 'MAINTENANCE', 'SPARES', 'REFUND', 'DISCOUNT' ]
     
             beforeEach(async () => {
-                user = await User.findOne() // aquí había shadowing con la búsqueda por email porque el último mail registrado pertenece a la colección de customers y al buscarlo en el de users, la respuesta era indefinida
                 electronicModule = await ElectronicModule.findOne()
-                text = 'Hola, Mundo!'
-                electronicModule.notes = []
-                const texts = new Array(10).fill('note-').map(text => `${text}-${Math.random()}`)
-                electronicModule.notes = texts.map(text => new Note({ text, author: user.id }))
+                description = descriptions.random()
+                price = Math.random(100, 50000)/100
+
+                electronicModule.budget = []
+                const products = new Array(7).fill().map(() => Math.random(100, 50000)/100)
+                electronicModule.budget = products.map(price => new Product({ description: descriptions[products.indexOf(price)], price }))
                 await electronicModule.save()
             })
     
-            describe('add electronic module note', () => {
+            describe('add electronic module budget', () => {
     
                 beforeEach(async () => {      
-                    electronicModule.notes = []
+                    electronicModule.budget = []
                     await electronicModule.save()
                 })
     
-                it('should succeed on existing electronic module and user', async () => {
+                it('should succeed on existing electronic module', async () => {
     
-                    const res = await logic.addElectronicModuleNote(electronicModule.id, text, user.id)
+                    const res = await logic.addElectronicModuleBudget(electronicModule.id, description, price)
         
                     expect(res).to.be.undefined
                     
-                    const electronicModuleWithNewNote = await ElectronicModule.findById(electronicModule.id)
+                    const electronicModuleWithNewBudget = await ElectronicModule.findById(electronicModule.id)
         
-                    const { notes } = electronicModuleWithNewNote
+                    const { budget } = electronicModuleWithNewBudget
         
-                    expect(notes).to.exist
-                    expect(notes).to.have.lengthOf(1)
+                    expect(budget).to.exist
+                    expect(budget).to.have.lengthOf(1)
         
-                    const [note] = notes
+                    const [product] = budget
         
-                    expect(note.id).to.exist
+                    expect(product.id).to.exist
         
-                    expect(note.text).to.equal(text)
+                    expect(product.description).to.equal(description)
+                    expect(product.price).to.equal(price)
         
-                    expect(note.author.toString()).to.equal(user.id)
                 })
     
                 it('should fail on non-matching electronic module id', async () => {
                     id = '123456789012345678901234'
                     try {
-                    await logic.addElectronicModuleNote(id, text, user.id)
+                    await logic.addElectronicModuleBudget(id, description, price)
     
                         throw Error('should not reach this point')
                     } catch (error) {
@@ -3366,7 +3824,7 @@ describe('logic', () => {
                 it('should fail on non-24 characters electronic module id', async () => {
                     id = '12345678901234567890123'
                     try {
-                        await logic.addElectronicModuleNote(id, text, user.id)
+                        await logic.addElectronicModuleBudget(id, description, price)
     
                         throw Error('should not reach this point')
                     } catch (error) {
@@ -3380,113 +3838,121 @@ describe('logic', () => {
                 it('should fail on undefined electronic module id', () => {
                     id = undefined
     
-                    expect(() => logic.addElectronicModuleNote(id, text, user.id)).to.throw(RequirementError, `electronicModuleId is not optional`)
+                    expect(() => logic.addElectronicModuleBudget(id, description, price)).to.throw(RequirementError, `electronicModuleId is not optional`)
     
                 })
     
                 it('should fail on null electronic module id', () => {
                     id = null
     
-                    expect(() => logic.addElectronicModuleNote(id, text, user.id)).to.throw(RequirementError, `electronicModuleId is not optional`)
+                    expect(() => logic.addElectronicModuleBudget(id, description, price)).to.throw(RequirementError, `electronicModuleId is not optional`)
                 })
     
                 it('should fail on empty electronic module id', () => {
                     id = ''
     
-                    expect(() => logic.addElectronicModuleNote(id, text, user.id)).to.throw(ValueError, 'electronicModuleId is empty')
+                    expect(() => logic.addElectronicModuleBudget(id, description, price)).to.throw(ValueError, 'electronicModuleId is empty')
     
                 })
     
                 it('should fail on blank electronic module id', () => {
                     id = ' \t    \n'
     
-                    expect(() => logic.addElectronicModuleNote(id, text, user.id)).to.throw(ValueError, 'electronicModuleId is empty')
+                    expect(() => logic.addElectronicModuleBudget(id, description, price)).to.throw(ValueError, 'electronicModuleId is empty')
                 })
+
+                it('should fail on number electronic module id', () => {
+                    id = 5
     
-                it('should fail on non-matching user id', async () => { // hay que repetir para customer
-                    id = '123456789012345678901234'
-                    try {
-                    await logic.addElectronicModuleNote(electronicModule.id, text, id)
-    
-                        throw Error('should not reach this point')
-                    } catch (error) {
-                        expect(error).to.exist
-                        expect(error).to.be.instanceOf(LogicError)
-    
-                        expect(error.message).to.equal(`user with id "${id}" does not exist`)
-                    }
+                    expect(() => logic.addElectronicModuleBudget(id, description, price)).to.throw(TypeError, `electronicModuleId ${id} is not a string`)
                 })
+
+                it('should fail on undefined electronic module description', () => {
+                    description = undefined
     
-                it('should fail on non-24 characters user id', async () => {
-                    id = '12345678901234567890123'
-                    try {
-                        await logic.addElectronicModuleNote(electronicModule.id, text, id)
-    
-                        throw Error('should not reach this point')
-                    } catch (error) {
-                        expect(error).to.exist
-                        expect(error).to.be.instanceOf(FormatError)
-    
-                        expect(error.message).to.equal(`${id} is not a valid id`)
-                    }
-                })
-    
-                it('should fail on undefined user id', () => {
-                    id = undefined
-    
-                    expect(() => logic.addElectronicModuleNote(electronicModule.id, text, id)).to.throw(RequirementError, `userId is not optional`)
+                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, description, price)).to.throw(RequirementError, `description is not optional`)
     
                 })
     
-                it('should fail on null user id', () => {
-                    id = null
+                it('should fail on null electronic module description', () => {
+                    description = null
     
-                    expect(() => logic.addElectronicModuleNote(electronicModule.id, text, id)).to.throw(RequirementError, `userId is not optional`)
+                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, description, price)).to.throw(RequirementError, `description is not optional`)
                 })
     
-                it('should fail on empty user id', () => {
-                    id = ''
+                it('should fail on empty electronic module description', () => {
+                    description = ''
     
-                    expect(() => logic.addElectronicModuleNote(electronicModule.id, text, id)).to.throw(ValueError, 'userId is empty')
+                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, description, price)).to.throw(ValueError, 'description is empty')
     
                 })
     
-                it('should fail on blank user id', () => {
-                    id = ' \t    \n'
+                it('should fail on blank electronic module description', () => {
+                    description = ' \t    \n'
     
-                    expect(() => logic.addElectronicModuleNote(electronicModule.id, text, id)).to.throw(ValueError, 'userId is empty')
+                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, description, price)).to.throw(ValueError, 'description is empty')
+                })
+
+                it('should fail on number electronic module description', () => {
+                    description = 5
+    
+                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, description, price)).to.throw(TypeError, `description ${description} is not a string`)
+                })
+    
+                it('should fail on non-description description', () => {
+                    const nonDescription = 'non-description'
+                    
+                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, nonDescription, price)).to.throw(LogicError, `${nonDescription} is not a valid option for description`)
+                })
+
+                it('should fail on undefined electronic module price', () => {
+                    price = undefined
+    
+                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, description, price)).to.throw(RequirementError, `price is not optional`)
+    
+                })
+    
+                it('should fail on null electronic module price', () => {
+                    price = null
+    
+                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, description, price)).to.throw(RequirementError, `price is not optional`)
+                })
+    
+                it('should fail on empty electronic module price', () => {
+                    price = ''
+    
+                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, description, price)).to.throw(TypeError, `price ${price} is not a number`)
                 })
             })
         
-            describe('list electronic module notes', () => {
+            describe('list electronic module budgets', () => {
                         
-                it('should succeed for existing electronic module notes', async () => {
-                    const _notes = await logic.listElectronicModuleNotes(electronicModule.id)
+                it('should succeed for existing electronic module budget', async () => {
+                    const _budget = await logic.listElectronicModuleBudgets(electronicModule.id)
         
-                    expect(_notes).to.exist
-                    expect(_notes).to.have.lengthOf(electronicModule.notes.length)
+                    expect(_budget).to.exist
+                    expect(_budget).to.have.lengthOf(electronicModule.budget.length)
         
-                    _notes.forEach(note => {
-                        expect(note._id).to.be.undefined
-                        expect(note.id).to.exist
-                        expect(note.id).to.be.a('string')
+                    _budget.forEach(product => {
+                        expect(product._id).to.be.undefined
+                        expect(product.id).to.exist
+                        expect(product.id).to.be.a('string')
         
-                        expect(note.text).to.exist
-                        expect(note.text).to.be.a('string')
-                        const _note = electronicModule.notes.find(_note => _note.id === note.id)
-                        expect(note.text).to.equal(_note.text)
-        
-                        expect(note.date).to.exist
-                        expect(note.date).to.be.instanceOf(Date)
-        
-                        expect(note.author).to.equal(user.id)
+                        expect(product.description).to.exist
+                        expect(product.description).to.be.a('string')
+                        const _product = electronicModule.budget.find(_product => _product.id === product.id)
+                        expect(product.description).to.equal(_product.description)
+
+                        expect(product.price).to.exist
+                        expect(product.price).to.be.a('number')
+                        expect(product.price).to.equal(_product.price)
                     })
                 })
     
                 it('should fail on non-matching electronic module id', async () => {
                     id = '123456789012345678901234'
                     try {
-                    await logic.listElectronicModuleNotes(id)
+                    await logic.listElectronicModuleBudgets(id)
     
                         throw Error('should not reach this point')
                     } catch (error) {
@@ -3500,7 +3966,7 @@ describe('logic', () => {
                 it('should fail on non-24 characters electronic module id', async () => {
                     id = '12345678901234567890123'
                     try {
-                        await logic.listElectronicModuleNotes(id)
+                        await logic.listElectronicModuleBudgets(id)
     
                         throw Error('should not reach this point')
                     } catch (error) {
@@ -3514,58 +3980,66 @@ describe('logic', () => {
                 it('should fail on electronic module id', () => {
                     id = undefined
     
-                    expect(() => logic.listElectronicModuleNotes(id)).to.throw(RequirementError, `electronicModuleId is not optional`)
+                    expect(() => logic.listElectronicModuleBudgets(id)).to.throw(RequirementError, `electronicModuleId is not optional`)
     
                 })
     
                 it('should fail on null id', () => {
                     id = null
     
-                    expect(() => logic.listElectronicModuleNotes(id)).to.throw(RequirementError, `electronicModuleId is not optional`)
+                    expect(() => logic.listElectronicModuleBudgets(id)).to.throw(RequirementError, `electronicModuleId is not optional`)
                 })
     
                 it('should fail on empty id', () => {
                     id = ''
     
-                    expect(() => logic.listElectronicModuleNotes(id)).to.throw(ValueError, 'electronicModuleId is empty')
+                    expect(() => logic.listElectronicModuleBudgets(id)).to.throw(ValueError, 'electronicModuleId is empty')
     
                 })
     
                 it('should fail on blank id', () => {
                     id = ' \t    \n'
     
-                    expect(() => logic.listElectronicModuleNotes(id)).to.throw(ValueError, 'electronicModuleId is empty')
+                    expect(() => logic.listElectronicModuleBudgets(id)).to.throw(ValueError, 'electronicModuleId is empty')
+                })
+
+                it('should fail on number id', () => {
+                    id = 5
+    
+                    expect(() => logic.listElectronicModuleBudgets(id)).to.throw(TypeError, `electronicModuleId ${id} is not a string`)
                 })
             })
     
-            describe('delete electronic module notes', () => {
+            describe('delete electronic module budgets', () => {
     
-                it('should succeed for all existing electronic module notes', async () => {
-                    await logic.deleteElectronicModuleNotes(electronicModule.id)
-                    const afterDeleteNotes = await ElectronicModule.findById(electronicModule.id)
-                    expect(afterDeleteNotes.notes.length).to.equal(0)
+                it('should succeed for all existing electronic module budget', async () => {
+                    await logic.deleteElectronicModuleBudgets(electronicModule.id)
+                    const afterDeleteBudget = await ElectronicModule.findById(electronicModule.id)
+                    expect(afterDeleteBudget.budget.length).to.equal(0)
                 })
     
                 it('should succeed for a specific existing electronic module note', async () => {
-                    const beforeDeleteNotes = await ElectronicModule.findById(electronicModule.id)
-                    const indexNote = Math.floor(Math.random()*beforeDeleteNotes.notes.length)
-                    const noteId = beforeDeleteNotes.notes[indexNote].id
-                    await logic.deleteElectronicModuleNotes(electronicModule.id, noteId)
-                    const afterDeleteNotes = await ElectronicModule.findById(electronicModule.id)
+                    const beforeDeleteBudget = await ElectronicModule.findById(electronicModule.id)
+                    const indexProduct = Math.floor(Math.random()*beforeDeleteBudget.budget.length)
+                    const noteId = beforeDeleteBudget.budget[indexProduct].id
+                    await logic.deleteElectronicModuleBudgets(electronicModule.id, noteId)
+                    const afterDeleteBudget = await ElectronicModule.findById(electronicModule.id)
     
-                    expect(afterDeleteNotes.notes.length).to.equal(beforeDeleteNotes.notes.length - 1)
+                    expect(afterDeleteBudget.budget.length).to.equal(beforeDeleteBudget.budget.length - 1)
     
-                    afterDeleteNotes.notes.forEach(note => {
+                    afterDeleteBudget.budget.forEach(product => {
         
-                        expect(note.text).to.exist
-                        expect(note.text).to.be.a('string')
-                        const _note = electronicModule.notes.find(_note => _note.id === note.id)
-                        expect(note.text).to.equal(_note.text)
-                        expect(note.text).to.not.equal(beforeDeleteNotes.notes[indexNote].text)
-                        expect(note.date).to.exist
-                        expect(note.date).to.be.instanceOf(Date)
-        
-                        expect(note.author.toString()).to.equal(user.id)
+                        expect(product.description).to.exist
+                        expect(product.description).to.be.a('string')
+                        const _product = electronicModule.budget.find(_product => _product.id === product.id)
+                        expect(product.description).to.equal(_product.description)
+                        expect(product.description).to.not.equal(beforeDeleteBudget.budget[indexProduct].description)
+
+                        expect(product.price).to.exist
+                        expect(product.price).to.be.a('number')
+                        expect(product.price).to.equal(_product.price)
+                        expect(product.price).to.not.equal(beforeDeleteBudget.budget[indexProduct].price)
+
                     })
     
                 })
@@ -3573,7 +4047,7 @@ describe('logic', () => {
                 it('should fail on non-matching electronic module id', async () => {
                     id = '123456789012345678901234'
                     try {
-                    await logic.deleteElectronicModuleNotes(id)
+                    await logic.deleteElectronicModuleBudgets(id)
     
                         throw Error('should not reach this point')
                     } catch (error) {
@@ -3587,7 +4061,7 @@ describe('logic', () => {
                 it('should fail on non-24 characters electronic module id', async () => {
                     id = '12345678901234567890123'
                     try {
-                        await logic.deleteElectronicModuleNotes(id)
+                        await logic.deleteElectronicModuleBudgets(id)
     
                         throw Error('should not reach this point')
                     } catch (error) {
@@ -3601,47 +4075,53 @@ describe('logic', () => {
                 it('should fail on undefined electronic module id', () => {
                     id = undefined
     
-                    expect(() => logic.deleteElectronicModuleNotes(id)).to.throw(RequirementError, `electronicModuleId is not optional`)
+                    expect(() => logic.deleteElectronicModuleBudgets(id)).to.throw(RequirementError, `electronicModuleId is not optional`)
     
                 })
     
                 it('should fail on null electronic module id', () => {
                     id = null
     
-                    expect(() => logic.deleteElectronicModuleNotes(id)).to.throw(RequirementError, `electronicModuleId is not optional`)
+                    expect(() => logic.deleteElectronicModuleBudgets(id)).to.throw(RequirementError, `electronicModuleId is not optional`)
                 })
     
                 it('should fail on empty electronic module id', () => {
                     id = ''
     
-                    expect(() => logic.deleteElectronicModuleNotes(id)).to.throw(ValueError, 'electronicModuleId is empty')
+                    expect(() => logic.deleteElectronicModuleBudgets(id)).to.throw(ValueError, 'electronicModuleId is empty')
     
                 })
     
                 it('should fail on blank electronic module id', () => {
                     id = ' \t    \n'
     
-                    expect(() => logic.deleteElectronicModuleNotes(id)).to.throw(ValueError, 'electronicModuleId is empty')
+                    expect(() => logic.deleteElectronicModuleBudgets(id)).to.throw(ValueError, 'electronicModuleId is empty')
+                })
+
+                it('should fail on number electronic module id', () => {
+                    id = 5
+    
+                    expect(() => logic.deleteElectronicModuleBudgets(id)).to.throw(TypeError, `electronicModuleId ${id} is not a string`)
                 })
     
-                it('should fail on non-matching note id', async () => {
+                it('should fail on non-matching product id', async () => {
                     id = '123456789012345678901234'
                     try {
-                    await logic.deleteElectronicModuleNotes(electronicModule.id, id)
+                    await logic.deleteElectronicModuleBudgets(electronicModule.id, id)
     
                         throw Error('should not reach this point')
                     } catch (error) {
                         expect(error).to.exist
                         expect(error).to.be.instanceOf(LogicError)
     
-                        expect(error.message).to.equal(`note with id "${id}" does not exist`)
+                        expect(error.message).to.equal(`product with id "${id}" does not exist`)
                     }
                 })
     
-                it('should fail on non-24 characters note id', async () => {
+                it('should fail on non-24 characters product id', async () => {
                     id = '12345678901234567890123'
                     try {
-                        await logic.deleteElectronicModuleNotes(electronicModule.id, id)
+                        await logic.deleteElectronicModuleBudgets(electronicModule.id, id)
     
                         throw Error('should not reach this point')
                     } catch (error) {
@@ -3652,24 +4132,27 @@ describe('logic', () => {
                     }
                 })
     
-                it('should fail on empty note id', () => {
+                it('should fail on empty product id', () => {
                     id = ''
     
-                    expect(() => logic.deleteElectronicModuleNotes(electronicModule.id, id)).to.throw(ValueError, 'noteId is empty')
+                    expect(() => logic.deleteElectronicModuleBudgets(electronicModule.id, id)).to.throw(ValueError, 'productId is empty')
     
                 })
     
-                it('should fail on blank note id', () => {
+                it('should fail on blank product id', () => {
                     id = ' \t    \n'
     
-                    expect(() => logic.deleteElectronicModuleNotes(electronicModule.id, id)).to.throw(ValueError, 'noteId is empty')
+                    expect(() => logic.deleteElectronicModuleBudgets(electronicModule.id, id)).to.throw(ValueError, 'productId is empty')
                 })
+
+                it('should fail on number product id', () => {
+                    id = 5
     
+                    expect(() => logic.deleteElectronicModuleBudgets(electronicModule.id, id)).to.throw(TypeError, `productId ${id} is not a string`)
+                })
             })
         })
     })
-
-
 
     after(() => mongoose.disconnect())
 })

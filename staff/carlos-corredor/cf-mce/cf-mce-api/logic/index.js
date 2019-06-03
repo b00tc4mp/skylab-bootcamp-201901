@@ -456,6 +456,71 @@ const logic = {
             }
         })()
     },
+
+    addElectronicModuleBudget(electronicModuleId, description, price) {
+        validate.arguments([
+            { name: 'electronicModuleId', value: electronicModuleId, type: 'string', notEmpty: true },
+            { name: 'description', value: description, type: 'string', notEmpty: true },
+            { name: 'price', value: price, type: 'number', notEmpty: true }
+        ])
+        validate.idMongodb(electronicModuleId)
+        validate.description(description)
+
+        return (async () => {
+            const electronicModule = await ElectronicModule.findById(electronicModuleId)
+            if(!electronicModule) throw new LogicError(`electronic module with id "${electronicModuleId}" does not exist`)
+
+            electronicModule.budget.push(new Product({ description, price }))
+
+            await electronicModule.save()
+        })()
+    },
+
+    listElectronicModuleBudgets(electronicModuleId) {
+        validate.arguments([
+            { name: 'electronicModuleId', value: electronicModuleId, type: 'string', notEmpty: true }
+        ])
+        validate.idMongodb(electronicModuleId)
+
+        return (async () => {
+            const electronicModule = await ElectronicModule.findById(electronicModuleId).select('budget').lean()
+            if(!electronicModule) throw new LogicError(`electronic module with id "${electronicModuleId}" does not exist`)
+
+            const { budget } = electronicModule
+
+            budget.forEach(product => {
+                product.id = product._id.toString()
+                delete product._id
+            })
+
+            return budget
+        })()
+    },
+
+    deleteElectronicModuleBudgets(electronicModuleId, productId) {
+        validate.arguments([
+            { name: 'electronicModuleId', value: electronicModuleId, type: 'string', notEmpty: true },
+            { name: 'productId', value: productId, type: 'string', notEmpty: true, optional: true }
+        ])
+        validate.idMongodb(electronicModuleId)
+        if (productId != null) validate.idMongodb(productId)
+
+        return (async () => {
+            const electronicModule = await ElectronicModule.findById(electronicModuleId)
+            if(!electronicModule) throw new LogicError(`electronic module with id "${electronicModuleId}" does not exist`)
+
+            if(!productId) {
+                electronicModule.budget = []
+                await electronicModule.save()
+            } else {
+                if(!electronicModule.budget.some(product => product.id === productId)) throw new LogicError(`product with id "${productId}" does not exist`)
+                const product = electronicModule.budget.find(product => product.id === productId)
+                const index = electronicModule.budget.indexOf(product)
+                electronicModule.budget.splice(index, 1)
+                await electronicModule.save()
+            }
+        })()
+    }
 }
 
 module.exports = logic

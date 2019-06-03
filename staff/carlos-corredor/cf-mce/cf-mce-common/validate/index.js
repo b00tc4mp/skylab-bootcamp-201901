@@ -44,6 +44,11 @@ const validate = {
         if(statusList.indexOf(status) < 0) throw new LogicError(`${status} is not a valid option for status`)
     },
 
+    description(description) {
+        const descriptions = ['REVISION', 'REPAIR', 'RESTORATION', 'MAINTENANCE', 'SPARES', 'REFUND', 'DISCOUNT' ]
+        if(descriptions.indexOf(description) < 0) throw new LogicError(`${description} is not a valid option for description`)
+    },
+
 }
 
 module.exports = validate
