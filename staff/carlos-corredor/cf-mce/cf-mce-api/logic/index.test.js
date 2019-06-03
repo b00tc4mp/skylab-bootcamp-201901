@@ -3088,6 +3088,25 @@ describe('logic', () => {
                 expect(() => logic.updateElectronicModule(id, data)).to.throw(TypeError, `id ${id} is not a string`)
             })
 
+            it('should fail on tray to update order number', async () => {
+                try {
+                    electronicModule = await ElectronicModule.findOne()
+
+                    const data = { orderNumber }
+                    
+                    await logic.updateElectronicModule(electronicModule.id, data)
+
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    
+                    expect(error).to.exist
+                    expect(error).to.be.instanceOf(LogicError)
+
+                    expect(error.message).to.equal(`electronic module with order number "${orderNumber}" already exists`)
+                }
+            })
+
+
             it('should fail on undefined data object', async () => {
                 const electronicModule = await ElectronicModule.findOne()
 

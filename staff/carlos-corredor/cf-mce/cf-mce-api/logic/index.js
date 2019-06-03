@@ -349,7 +349,7 @@ const logic = {
 
         return (async () => {
             const electronicModule = await ElectronicModule.findOne({orderNumber: data.orderNumber})
-            if (electronicModule) throw new LogicError(`electronicModule with order number "${data.orderNumber}" already exists`)
+            if (electronicModule) throw new LogicError(`electronic module with order number "${data.orderNumber}" already exists`)
             await ElectronicModule.findByIdAndUpdate(id, data)
         })()
     },
