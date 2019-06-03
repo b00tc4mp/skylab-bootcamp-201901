@@ -1,6 +1,5 @@
-// const { Schema } = require('mongoose')
-const { models} = require('cf-mce-data')
-const { validate, errors: {LogicError, UnauthorizedError, ValueError}  } = require('cf-mce-common')
+const { models } = require('cf-mce-data')
+const { validate, errors: { LogicError, UnauthorizedError, ValueError}  } = require('cf-mce-common')
 const argon2 = require('argon2')
 
 const { User, Customer, ElectronicModule, Product, Note } = models
@@ -56,8 +55,7 @@ const logic = {
             const user = await User.findById(id)
             if(!user) throw new LogicError(`user with id "${id}" does not exist`)
  
-            return await User.findById(id).select('name surname email category').lean() //no es necesario en el select indicar la omisión de _id para que no lo traiga (-_id al final de los items)
-
+            return await User.findById(id).select('name surname email category -_id').lean() //Es necesario en el select indicar -_id para que no lo traiga pues en el postman aparece como dato extra, a pesar de lo observado en el debbuger, según lo cual "-" elimina sólo ese algo y trae todo lo restante, mientras que elementos sin el "-" traerían sólo lo indicado, pero tal corpontamiento aún no he descifrado
         })()
     },
 
@@ -77,17 +75,18 @@ const logic = {
         })()
     },
 
-    deleteUser(id) {
+    deleteUser(id, password) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true }
+            { name: 'id', value: id, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
         validate.idMongodb(id)
 
          return (async () => {
             const user = await User.findById(id)
             if(!user) throw new LogicError(`user with id "${id}" does not exist`)
- 
-            await User.findByIdAndRemove(id)
+            if (await argon2.verify(user.password, password)) await User.findByIdAndRemove(id)
+            else throw new UnauthorizedError('wrong credentials')
 
         })()
     },
