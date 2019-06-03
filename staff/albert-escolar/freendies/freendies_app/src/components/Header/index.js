@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import './index.scss'
+import SearchBar from '../SearchBar'
 
 class Header extends Component {
     state = {
@@ -89,16 +90,19 @@ class Header extends Component {
     }
 
 
+
+
     render() {
         const {
             goToRegister, goToLogin, goToLanding, goToLogout,
-            goToUserPanel,goToUploadGame, renderUnloggedButtons, renderLoggedButtons,
+            goToUserPanel,goToUploadGame, renderUnloggedButtons, renderLoggedButtons, props: {onSearch},
             state: { user }
         } = this
         return <div>
             <h1>Header</h1>
             <button onClick={goToLanding}>Go To Landing</button>
             {user ? renderLoggedButtons(goToLogout, goToUserPanel, goToUploadGame) : renderUnloggedButtons(goToRegister, goToLogin)}
+            <SearchBar onSearch={onSearch}/>
         </div>
 
 

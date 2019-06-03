@@ -9,6 +9,7 @@ import UserPanel from './components/UserPanel'
 import UploadGamePanel from './components/UploadGamePanel'
 import Landing from './components/Landing'
 import SearchByQuery from './components/SearchByQuery'
+import SearchByGenre from './components/SearchByGenre';
 import logic from './logic'
 
 class App extends Component {
@@ -88,22 +89,28 @@ class App extends Component {
     this.props.history.push('/user')
   }
 
+  handleOnSearch = (genre, title) => {
+    debugger
+    this.props.history.push(`/search/${genre}/${title}`)
+
+  }
+
   render() {
 
     const { state: { user, searchResults }, handleRegister, handleGoToRegister, handleLogin, handleUpdateUserEmail,
       handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleGoToUserPanel,
-      handleUploadGame, handleLogout, handleSearchGame } = this
+      handleUploadGame, handleLogout, handleOnSearch } = this
 
     return (
       <div className="App">
         <header className="App-header">
-          <Header user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
-            handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
-            handleGoToUploadGame={handleGoToUploadGame} />
-          <Switch>
+            <Route path="/" render={() => <Header onSearch={handleOnSearch} user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
+                handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
+                handleGoToUploadGame={handleGoToUploadGame} searchResults={searchResults} />}/>
+          
             <Route exact path="/" render={props => {
               return <div>
-                <Landing user={user} searchResults={searchResults} history={props.history} onSearchGame={handleSearchGame} />
+                <Landing user={user} searchResults={searchResults} history={props.history} />
 
               </div>
             }} />
@@ -123,12 +130,15 @@ class App extends Component {
             <Route path="/uploadGame" render={props => {
               return <UploadGamePanel history={props.history} onUploadGame={handleUploadGame} />
             }} />
-
+            <Route path="/genres/:genre" render={props => {
+              return <SearchByGenre {...props} history={props.history} />
+            }} />
             <Route path="/search/:genre/:query" render={props => {
+              debugger
               return <SearchByQuery {...props} history={props.history} />
             }} />
 
-          </Switch>
+          
         </header>
       </div>
     )
