@@ -47,7 +47,7 @@ const logic = {
 
             let user = await User.findOne({ email })
 
-            if (!user) throw new LogicError("wrong credentials")
+            if (!user) throw new LogicError("Unexisting user")
             if (!await bcrypt.compare(password, user.password)) throw Error('wrong credentials')
 
             else return user.id
@@ -233,6 +233,7 @@ const logic = {
             let retrivedTickets = []
             let init = false
             let end = false
+            
 
 
             if (data.month) {
@@ -242,7 +243,9 @@ const logic = {
                     if (item.month === data.month) retrivedTickets.push(tickets[index])
                 })
 
-                return retrivedTickets
+                if(retrivedTickets.length>0) return retrivedTickets  
+                else throw new LogicError("No tickets found")
+                
             }
             if (data.day) {
 
@@ -251,19 +254,23 @@ const logic = {
                     if (item.date === data.day) retrivedTickets.push(tickets[index])
                 })
 
-                return retrivedTickets
+                if(retrivedTickets.length>0) return retrivedTickets  
+                else throw new LogicError("No tickets found")
             }
 
             if (data.init && data.end) {
 
+
                 tickets.forEach((item, index) => {
 
-                    if (item.date === data.init && init === false) retrivedTickets.push(tickets[index]), init = true
+
+                    if (item.date === data.init) retrivedTickets.push(tickets[index]), init = true
                     else if (item.date === data.end && init === true) retrivedTickets.push(tickets[index]), end = true
                     else if (init === true && end === false) retrivedTickets.push(tickets[index])
                 })
 
-                return retrivedTickets
+                if(retrivedTickets.length>0) return retrivedTickets  
+                else throw new LogicError("No tickets found")
             }
 
 
@@ -356,9 +363,11 @@ const logic = {
             user.tickets.forEach(ticket => {
                 ticket.items.forEach(item => {
                     if (item.name === product) amount += item.Euro
+                    
                 })
 
             })
+            amunt = amount.toFixed(2)
             return amount
         })()
 
@@ -396,7 +405,7 @@ const logic = {
                                 results.forEach(resItems => {
 
 
-                                    if (resItems.name === first.name) resItems.Euro += first.Euro
+                                    if (resItems.name === first.name) resItems.Euro += first.Euro 
                                     else results.push({ name: first.name, Euro: first.Euro })
 
                                 })
@@ -428,28 +437,35 @@ const logic = {
         ])
 
         return (async () => {
+            debugger
 
-            const { name, maxValue } = alert
+            const { name, Euro, maxValue } = alert
 
             const user = await User.findById(id)
-            const list = await Item.findOne({ text: name })
+            const list = await Item.find({ text: name })
+            
+
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
 
-            if (typeof user.alerts[0] != "undefined") {
+            if (typeof user.alerts[0] === "object") {
 
                 user.alerts.forEach(item => {
 
                     if (item.name === name) throw new LogicError("Alert already added")
                     else {
 
-                        list ? user.alerts.push(new Alert({ name: name, maxValue: maxValue })) : new LogicError(`${name} dont exist`)
+                        if(list.length>0)user.alerts.push(new Alert({ name: name, Euro: Euro, maxValue: maxValue }))
+                        else throw  new LogicError(`${name} dont exist`)
+                        //list.length>0 ? user.alerts.push(new Alert({ name: name, Euro: Euro, maxValue: maxValue })) : new LogicError(`${name} dont exist`)
                     }
                 })
             } else {
-                list ? user.alerts.push(new Alert({ name: name, maxValue: maxValue })) : new LogicError(`${name} dont exist`)
+                if(list.length>0)user.alerts.push(new Alert({ name: name, Euro: Euro, maxValue: maxValue }))
+                        else throw  new LogicError(`${name} dont exist`)
+                //list.length>0 ? user.alerts.push(new Alert({ name: name, Euro, maxValue: maxValue })) : new LogicError(`${name} dont exist`)
 
             }
 
@@ -472,7 +488,20 @@ const logic = {
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
-            if (alerts.length) return alerts
+            if (alerts.length) {
+
+                alerts.forEach(item => {
+                    return (async () => {
+                        const amount = await logic.retrieveAmountByProdcut(id, item.name)
+                        item.Euro = amount
+
+                    })()
+
+
+                })
+
+                return alerts
+            }
             else throw new LogicError("No alerts found")
 
 
@@ -535,7 +564,7 @@ const logic = {
             })
 
             await user.save()
-            if (deleted) return  ("Alert succesfully deleted")
+            if (deleted) return ("Alert succesfully deleted")
             else throw new LogicError("Alert dosen't exist")
 
         })()

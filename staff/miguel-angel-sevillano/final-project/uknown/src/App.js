@@ -4,7 +4,10 @@ import '@synapsestudios/react-drop-n-crop/lib/react-drop-n-crop.min.css';
 import Chart from "./Charts/index"
 import { TesseractWorker } from 'tesseract.js';
 import { format } from 'path';
-const logic = require('./logic')
+//onst restApi = require('./data/rest-api/index')
+import restApi from './data/rest-api/index'
+import TicketScan from './components/ticketScan';
+
 
 let checkInfo = ["manzana", "minimagdalenas", "zumo", "ensalada", "tomate", "napolitana", "tortitas", "galletas", "pan", "bollos", "cookies", "tagliatelle", "craker",
   "apio", "bizcocho", "aceite", "bebida", "bizcocho"]
@@ -49,7 +52,7 @@ class SetStateExample extends Component {
     let imgToTxt = new TesseractWorker()
     imgToTxt.recognize(this.state.show, 'spa+ita+fra')
 
-      .then((result) => {
+      .then(result => {
         let rawTicket = result.words
         let filteredTicket = []
         let finalTicket = []
@@ -99,9 +102,17 @@ class SetStateExample extends Component {
 
     return (async () => {
 
-      const response = await logic.loginUser(email, password)
+      try {
 
-      this.setState({ logged: response })
+        const { token } = await restApi.authenticate(email, password)
+        if (token) this.setState({ logged: "you are logged in" })
+
+      }
+      catch (error) {
+
+        this.setState({ logged: error })
+      }
+
 
     })()
 
@@ -115,28 +126,15 @@ class SetStateExample extends Component {
 
   render() {
     const { reset, clear, imageProcessing, state: { ticket, logged }, handleLogin } = this
-    let email 
+    let email
     let password
 
     return <div>
       <br></br>
-      <DropNCrop onChange={this.onChange} value={this.state} canvasHeight="500px" canvasWidth="500px" maxFileSize={6145728} cropperOptions={{ guides: true, viewMode: 1, autoCropArea: 1 }} />
-      <button onClick={reset} >preview</button>
-      <button onClick={clear} >clear</button>
-      <button onClick={imageProcessing} >send</button>
-      <img id="image" src={this.state.show} width="400px"></img>
-
-
-      <form onSubmit={handleLogin}>
-            <input type="text" name="email" placeholder={email} />
-            <input type="password" name="password" placeholder={password} />
-            <button>log</button>
+      <TicketScan onChange={this.onChange} value={this.state} canvasHeight="500px" canvasWidth="500px" maxFileSize={6145728} cropperOptions={{ guides: true, viewMode: 1, autoCropArea: 1 }} />
     
-        <p>{logged}</p>
-      </form>
 
-
-
+  
       <p>
         {ticket && <Chart data={ticket} />}
       </p>

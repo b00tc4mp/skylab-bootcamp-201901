@@ -220,12 +220,12 @@ router.post('/prodcuts/retrieveAmountByProduct', auth, jsonParser, (req, res) =>
 })
 
 
-router.get('/list', (res) => {                     //LIST ITEMS
+router.get('/listItems', (req,res) => {                     //LIST ITEMS
 
     return(async()=>{
 
         let list = await logic.listItems()
-            res.json(list)
+            return res.json(list)
     })()
 
 })

@@ -2,16 +2,13 @@ require('dotenv').config()
 const expect = require('chai').expect
 const bcrypt = require('bcryptjs');
 const restApi = require('.')
-const { errors: { LogicError } } = require('allMyCents-utils')
-
-
-const { models: { User, Ticket, Item }, mongoose } = require("allMyCents-data")
+const { models: { User, Ticket }, mongoose } = require("allMyCents-data")
 
 
 
 describe('restApi', () => {
 
-    before(() => mongoose.connect("mongodb://localhost/user-api-test", { useNewUrlParser: true }))
+    before(() => mongoose.connect("mongodb+srv://allMyCents:1234@cluster0-re1kf.mongodb.net/test?retryWrites=true&w=majority", { useNewUrlParser: true }))
 
     const name = 'Miguel'
     const surname = 'Sevillano'
@@ -83,7 +80,7 @@ describe('restApi', () => {
                 } catch (error) {
 
                     expect(error).to.exist
-                    expect(error).to.equal("wrong credentials")
+                    expect(error).to.equal("Unexisting user")
                 }
             })
         })
@@ -193,9 +190,9 @@ describe('restApi', () => {
                 const user = await User.findById(id)
 
                 const { tickets } = user
-                tickets.push(new Ticket({ date: "2019/04/01", items: ticket_1 }))
-                tickets.push(new Ticket({ date: "2019/05/01", items: ticket_1 }))
-                tickets.push(new Ticket({ date: "2019/05/31", items: ticket_1 }))
+                tickets.push(new Ticket({ date: "2019/04/01",  month:"2019/04",items: ticket_1 }))
+                tickets.push(new Ticket({ date: "2019/05/01", month:"2019/05", items: ticket_1 }))
+                tickets.push(new Ticket({ date: "2019/05/31", month:"2019/05",items: ticket_1 }))
 
                 await user.save()
 

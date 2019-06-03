@@ -3,9 +3,9 @@ const bcrypt = require('bcryptjs');
 const expect = require('chai').expect
 const logic = require('.')
 const { errors: { LogicError } } = require('allMyCents-utils')
-const { models: { User, Item }, mongoose } = require('allMyCents-data')
+const { models: { User, Item, Ticket,alert }, mongoose } = require('allMyCents-data')
 
-const { env: { MONGO_URL_LOGIC_TEST: url } } = process
+const { env: { MONGO_URL_USER_API_TEST: url } } = process
 
 
 describe('logic', () => {
@@ -22,6 +22,8 @@ describe('logic', () => {
 
     beforeEach(async () => {
 
+        await User.deleteMany()
+
         email = `MiguelAngel-${Math.random()}@gmail.com`
 
     })
@@ -34,7 +36,7 @@ describe('logic', () => {
 
                 const res = await logic.registerUser(name, surname, email, password)
 
-                expect(res).to.be.undefined
+                expect(res).to.be.equal("User succesfully registered")
 
             })
 
@@ -85,7 +87,7 @@ describe('logic', () => {
 
                     expect(error).to.exist
                     expect(error).to.be.instanceOf(LogicError)
-                    expect(error.message).to.equal("wrong credentials")
+                    expect(error.message).to.equal("Unexisting user")
                 }
             })
         })
@@ -220,8 +222,18 @@ describe('logic', () => {
             let ticket_2 = [{ name: 'platano', Euro: 7.65 }, { name: 'naranja', Euro: 4.75 }]
 
             beforeEach(async () => {
-                user = await User.create({ name, surname, email, password })
-                id = user.id
+
+                const { _id } = await User.create({ name, surname, email, password })
+                id = _id.toString()
+
+                const user = await User.findById(id)
+
+                const { tickets } = user
+                tickets.push(new Ticket({ date: "2019/04/01", month: "2019/04", items: ticket_1 }))
+                tickets.push(new Ticket({ date: "2019/05/01", month: "2019/05", items: ticket_1 }))
+                tickets.push(new Ticket({ date: "2019/05/31", month: "2019/05", items: ticket_1 }))
+
+                await user.save()
             })
 
             it('should succeed adding a private ticket', async () => {
@@ -229,7 +241,7 @@ describe('logic', () => {
 
                 await logic.addPrivateTicket(id, ticket_1)
                 const _user = await User.findById(id).lean()
-                const { items } = _user.tickets[0]
+                const { items } = _user.tickets[3]
 
 
                 expect(items).to.exist
@@ -245,14 +257,14 @@ describe('logic', () => {
                 const user = await User.findById(id).lean()
 
                 const { tickets } = user
-                let ticketId = tickets[0]._id.toString()
+                let ticketId = tickets[3]._id.toString()
                 let data = { name: "VENTILADOR" }
                 let position = "1"
 
                 await logic.updatePrivateTicket(id, ticketId, data, position)
 
                 const _user = await User.findById(id).lean()
-                const { items } = _user.tickets[0]
+                const { items } = _user.tickets[3]
 
                 expect(items).to.exist
                 expect(items).to.have.lengthOf(2)
@@ -268,8 +280,8 @@ describe('logic', () => {
                 const _user = await User.findById(id).lean()
                 const { tickets } = _user
 
-                let fTicketId = tickets[0]._id.toString()
-                let sTicketId = tickets[1]._id.toString()
+                let fTicketId = tickets[3]._id.toString()
+                let sTicketId = tickets[4]._id.toString()
 
                 const fTicket = await logic.retrivePrivateTicket(id, fTicketId)
 
@@ -300,20 +312,17 @@ describe('logic', () => {
                 const tickets = await logic.listPrivateTickets(id)
 
                 expect(tickets).to.exist
-                expect(tickets).to.have.lengthOf(2)
+                expect(tickets).to.have.lengthOf(5)
 
             })
 
             it('should succeed removing a private ticket', async () => {
 
-                await logic.addPrivateTicket(id, ticket_1)
-                await logic.addPrivateTicket(id, ticket_2)
-
-
+              
                 const user = await User.findById(id).lean()
                 const { tickets } = user
 
-                let fTicketId = tickets[0]._id.toString()
+                let fTicketId = tickets[2]._id.toString()
 
                 await logic.removePrivateTicket(id, fTicketId)
 
@@ -321,16 +330,13 @@ describe('logic', () => {
 
                 const { tickets: _tickets } = _user
 
-                expect(_tickets).to.have.lengthOf(1)
-                expect(_tickets[0]._id.toString()).to.be.equal(tickets[1]._id.toString())
+                expect(_tickets).to.have.lengthOf(2)
+               
 
             })
             it('should succeed removing all private tickets', async () => {
 
-                await logic.addPrivateTicket(id, ticket_1)
-                await logic.addPrivateTicket(id, ticket_2)
-
-
+               
                 await logic.removeAllPrivateTickets(id)
                 const _user = await User.findById(id)
 
@@ -340,36 +346,30 @@ describe('logic', () => {
             it('should succeed retriving ticket by range of dates', async () => {
 
 
-                let userId = "5cececc4c0b1c93f8c9b6e88"
+                const tickets = await logic.retrivePrivateTicketsByDates(id, { init: "2019/04/01", end: "2019/05/31" })
+               
 
-                const tickets = await logic.retrivePrivateTicketsByDates(userId, { init: "2019/04/28", end: "2019/05/20" })
-
-                debugger
-                expect(tickets[0].date).to.equal("2019/04/28")
-                expect(tickets[1].date).to.equal("2019/05/1")
-                expect(tickets[2].date).to.equal("2019/05/20")
+                expect(tickets[0].date).to.equal("2019/04/01")
+                expect(tickets[1].date).to.equal("2019/05/01")
+                expect(tickets[2].date).to.equal("2019/05/31")
 
             })
 
             it('should succeed retriving ticket by a month', async () => {
 
-                let userId = "5cececc4c0b1c93f8c9b6e88"
 
-                const tickets = await logic.retrivePrivateTicketsByDates(userId, { month: "2019/04" })
+                const tickets = await logic.retrivePrivateTicketsByDates(id, { month: "2019/05" })
 
-                expect(tickets[0].month).to.equal("2019/04")
+                expect(tickets[0].month).to.equal("2019/05")
 
 
             })
 
             it('should succeed retriving ticket by a day', async () => {
 
+                const tickets = await logic.retrivePrivateTicketsByDates(id, { day: "2019/05/31" })
 
-                let userId = "5cececc4c0b1c93f8c9b6e88"
-
-                const tickets = await logic.retrivePrivateTicketsByDates(userId, { day: "2019/04/28" })
-
-                expect(tickets[0].date).to.equal("2019/04/28")
+                expect(tickets[0].date).to.equal("2019/05/31")
 
 
             })
@@ -416,7 +416,7 @@ describe('logic', () => {
 
             let user
             let id
-            let alert = { name: "platano", maxValue: 100 }
+            let alert = { name: "platano", Euro:0, maxValue: 100 }
 
             beforeEach(async () => {
                 user = await User.create({ name, surname, email, password })

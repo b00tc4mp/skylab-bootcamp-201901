@@ -6,16 +6,14 @@
     "@synapsestudios/react-drop-n-crop": "^0.2.0",
     "allMyCents-data": "file:../allMyCents-data",
     "allMyCents-utils": "file:../allMyCents-utils",
-    "axios": "^0.18.0",
-    "bcrypt": "^3.0.6",
-    "bcryptjs": "^2.4.3",
+    "axios": "^0.19.0",
+    "bulma": "^0.7.5",
     "chai": "^4.2.0",
-    "image-filter-core": "^2.0.2",
-    "image-filter-grayscale": "^1.0.1",
-    "mocha": "^6.1.4",
-    "mongoose": "^5.5.11",
+    "materialize-css": "^1.0.0-rc.2",
+    "mongoose": "^5.5.12",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
     "recharts": "^1.6.2",
     "tesseract.js": "^2.0.0-alpha.10"
@@ -23,18 +21,12 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "mocha ./src/logic/index.test.js",
     "eject": "react-scripts eject",
-    "test":"mocha ./src/data/rest-api/index.test.js",
     "test:debug": "mocha debug ./src/data/rest-api/index.test.js"
   },
   "eslintConfig": {
     "extends": "react-app"
-  },
-  "devDependencies": {
-    "jest": "^24.8.0",
-    "chai": "*",
-    "mocha": "*"
   },
   "browserslist": {
     "production": [
@@ -47,5 +39,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "mocha": "^6.1.4"
   }
 }

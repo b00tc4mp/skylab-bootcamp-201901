@@ -10,6 +10,7 @@ const restApi = {
     //---------------------------------------------------------------------------------------USER--------------------------------------------
 
     registerUser(name, surname, email, password) {
+        
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
             { name: 'surname', value: surname, type: 'string', notEmpty: true },
@@ -214,6 +215,7 @@ const restApi = {
 
 
     addAlert(token, alert) {
+        
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'alert', value: alert, type: 'object', notEmpty: true }
@@ -245,7 +247,7 @@ const restApi = {
 
     listItems() {
 
-        return call(`${this.__url__}/list`, {
+        return call(`${this.__url__}/listItems`, {
             method: "GET",
             timeout: this.__timeout__
         })
@@ -305,5 +307,7 @@ const restApi = {
 
 
 }
+
+
 
 module.exports = restApi
