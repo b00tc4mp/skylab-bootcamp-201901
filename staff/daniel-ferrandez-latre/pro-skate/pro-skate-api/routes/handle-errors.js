@@ -1,4 +1,4 @@
-const { LogicError, ValueError, RequirementError, UnknownError, UnauthorizedError } = require('../common/errors')
+const { errors : { LogicError, ValueError, RequirementError, UnknownError, UnauthorizedError } } = require('pro-skate-common')
 
 function handleErrors(callback, res) {
     try {

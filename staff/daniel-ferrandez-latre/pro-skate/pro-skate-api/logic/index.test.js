@@ -3,12 +3,14 @@ require("dotenv").config();
 const { mongoose, models } = require("pro-skate-data");
 const { User, Product } = models;
 const {
+  errors: {
   LogicError,
   RequirementError,
   ValueError,
   FormatError,
   UnauthorizedError
-} = require("../common/errors");
+  }
+} = require("pro-skate-common");
 const chai = require("chai");
 const { expect } = chai;
 const logic = require("../logic");
@@ -1534,8 +1536,6 @@ describe("logic", () => {
             arrayAllProducts = await Product.find();
 
             });
-      
-            
             
             it("should retrieve products by tag on correct data", async () => {
               

@@ -1,5 +1,5 @@
 const handleErrors = require('./handle-errors')
-const { UnauthorizedError } = require('../common/errors')
+const { UnauthorizedError } = require('pro-skate-common')
 const jwt = require('jsonwebtoken')
 
 const { env: { JWT_SECRET } } = process
@@ -11,12 +11,11 @@ module.exports = (req, res, next) => {
                 const { headers: { authorization } } = req
 
                 if (!authorization) throw new UnauthorizedError()
-
                 const token = authorization.slice(7)
-
-                const { sub } = jwt.verify(token, JWT_SECRET)
+                const { sub, isAdmin } = jwt.verify(token, JWT_SECRET)
 
                 req.userId = sub
+                req.isAdmin = isAdmin
 
                 next()
             })

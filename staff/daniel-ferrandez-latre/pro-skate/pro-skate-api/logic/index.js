@@ -1,8 +1,9 @@
 //@ts-check
 const  { models, mongoose } = require('pro-skate-data')
 const argon2 = require('argon2')
-const validate = require('../common/validate')
-const { LogicError, UnauthorizedError} = require('../common/errors')
+const { validate } = require('pro-skate-common')
+
+const { errors: { LogicError, UnauthorizedError} } = require('pro-skate-common')
 
 
 
@@ -46,8 +47,8 @@ const logic = {
             if (!user) throw new LogicError(`user with email "${email}" does not exist`)
             
             if (await argon2.verify(user.password, password)) {
-                
-                return user.id
+                const {id, isAdmin} = user
+                return {sub:id, isAdmin}
             } else{
                 
                 throw new LogicError('wrong credentials')
