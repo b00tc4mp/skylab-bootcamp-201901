@@ -1,5 +1,5 @@
 import { TesseractWorker } from 'tesseract.js';
-import React from 'react';
+
 const { validate, check } = require('allMyCents-utils')
 const restApi = require('../data/rest-api/index')
 
@@ -7,6 +7,9 @@ const restApi = require('../data/rest-api/index')
 
 
 const logic = {
+
+
+
 
 
     register(name, surname, email, password) {
@@ -191,6 +194,7 @@ const logic = {
     },
 
 
+
     deleteAllTickets(token) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -331,23 +335,66 @@ const logic = {
     },
 
 
+
+    globalTicket(token) {
+
+        return (async () => {
+
+            let globalChart = []
+            let conincidence = false
+            let itemPushed = false
+
+            const tickets = await restApi.listPrivateTickets(token)
+            for (let i = 0; i < tickets.length; i++) {
+
+                tickets[i].items.forEach(item => {
+
+                    if (!itemPushed) {
+                        conincidence = false
+
+                        globalChart.forEach(product => {
+                            if (item.name === product.name) {
+                                product.Euro += item.Euro
+                                conincidence = true
+                            }
+                        })
+
+                        if (!conincidence) {
+                            globalChart.push({ name: item.name, Euro: item.Euro })
+                            conincidence = false
+                        }
+                    } else itemPushed = true
+
+                })
+
+            }
+            return globalChart
+
+        })()
+
+
+    },
+
+
+
+
     scanTicket(scanedTicket) {
 
 
         return (async () => {
 
-            const checkInfo = await  logic.listItems()
+            const checkInfo = await logic.listItems()
 
             let imgToTxt = new TesseractWorker()
             const result = await imgToTxt.recognize(scanedTicket, 'spa+ita+fra')
-          
+
             let rawTicket = result.words
             let filteredTicket = []
             let finalTicket = []
             let check = 0
 
             rawTicket.forEach(items => {
-                
+
                 const { text } = items
 
                 const text1 = text.toLowerCase()
@@ -360,13 +407,13 @@ const logic = {
                 }
 
                 else if (check === 0) {
-                    checkInfo.forEach(item=>{
-                      if(item.text === text1){
-                          filteredTicket.push(text1)
-                          check=1
+                    checkInfo.forEach(item => {
+                        if (item.text === text1) {
+                            filteredTicket.push(text1)
+                            check = 1
                         }
                     })
-                  }
+                }
 
             })
             for (let i = 0; i < filteredTicket.length; i++) { if (typeof filteredTicket[i] === 'string') finalTicket.push({ name: filteredTicket[i], Euro: filteredTicket[i + 1] }) }
@@ -379,11 +426,6 @@ const logic = {
         })()
 
     },
-
-
-
-
-
 
 
 }

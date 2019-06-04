@@ -10,6 +10,7 @@
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
     "chai": "^4.2.0",
+    "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "esm": "^3.2.25",
     "express": "^4.16.4",
@@ -32,7 +33,6 @@
     "test": "mocha",
     "test:debug": "node debug node_modules/jest/bin/jest.js --runInBand --watchAll",
     "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.spec.js"
-
   },
   "nyc": {
     "exclude": "**/*.spec.js"

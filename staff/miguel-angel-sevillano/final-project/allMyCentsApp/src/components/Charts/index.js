@@ -9,9 +9,11 @@ import {
 
 function Chart(props) {
 
-    const { data } = props
-    let date
+    const{data}=props
+    let date =new Date().toISOString().replace('-', '/').split('T')[0].replace('-', '/')
     let totalP = 0
+
+    debugger
 
     data.forEach(item => {
 
@@ -48,7 +50,7 @@ function Chart(props) {
             </BarChart>
 
 
-            <h2>Gasto total = {totalP.toFixed(2)} €</h2>
+            <h2>Overall consumption = {totalP.toFixed(2)} €</h2>
         </div>
     </>
 

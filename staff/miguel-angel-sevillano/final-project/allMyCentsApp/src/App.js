@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Route, Switch, withRouter, Redirect } from "react-router-dom";
+import { Route, Switch, withRouter, Redirect, Link } from "react-router-dom";
 import './App.css';
 import logo from '../src/logo.png'
 import Register from './components/Register'
@@ -26,15 +26,6 @@ function App(props) {
   }
 
 
-  function toRegister() {
-
-    props.history.push("/Register")
-
-  }
-  function toLogin() {
-    props.history.push("/Login")
-
-  }
 
   function handleRegister(name, surname, email, password) {
 
@@ -83,7 +74,7 @@ function App(props) {
 
   return <Switch>
 
-    <UserContext.Provider value={{ loggedOk, registerOk, setLogOk, setRegOk ,userName}}>
+    <UserContext.Provider value={{ loggedOk, registerOk, setLogOk, setRegOk, userName }}>
       <Route>
 
 
@@ -91,8 +82,8 @@ function App(props) {
 
         <Route exact path="/" render={() =>
           <div>
-            <button onClick={toRegister}>Register</button>
-            <button onClick={toLogin}>Login</button>
+            <Link className="button is-link" to={'/Register'}>Register</Link>
+            <Link className="button is-link" to={'/Login'}>Login</Link>
           </div>} />
 
         <Route exact path="/Register" render={() =>

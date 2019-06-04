@@ -25,7 +25,7 @@ function Register({ onRegister, message, cancel, clear }) {
     return <div class="containeRegister">
         <form id="registerForm" onSubmit={handleSubmit}>
             <h1>Register</h1>
-            
+
             <div class="field ">
                 <label class="label">Name</label>
                 <div class="control">
