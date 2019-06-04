@@ -192,6 +192,19 @@ const logic = {
         })()
     },
 
+    retrieveWhishList(idUser){
+        validate.arguments([
+            { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
+        ])
+        return( async ()=>{
+            const userBd = await User.findById(idUser)
+            if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
+            if(userBd.wishlist.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his whishlist`)
+            
+            return userBd.wishlist
+        })()
+    },
+
     addProductToCart(idUser, idProduct, quantity){
         validate.arguments([
             { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
@@ -205,6 +218,7 @@ const logic = {
             const productDB = await Product.findById(idProduct)
             if (!productDB) throw new LogicError(`product with id "${idProduct}" doesn't exists`)
             const isInCart = userBd.cart.some( product =>  product.productId.toString() === idProduct  )
+
             if(!isInCart) {
                 userBd.cart.push({quantity, productId: productDB._id })
             }else {
@@ -258,12 +272,12 @@ const logic = {
         return( async ()=>{
             const userBd = await User.findById(idUser)
             if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
-            if(userBd.historic.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his cart`)
+            if(userBd.historic.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his historic`)
 
             return userBd.historic
         })()
-
     }
+
 }
 
 module.exports = logic

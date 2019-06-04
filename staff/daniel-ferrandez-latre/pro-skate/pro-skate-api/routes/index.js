@@ -11,6 +11,7 @@ const { env: { JWT_SECRET } } = process
 
 /** USER */
 
+//registerUser
 router.post('/users', (req, res) => {
     const { body: { name, surname, email, password, age, imageUrl  } } = req
 
@@ -21,6 +22,7 @@ router.post('/users', (req, res) => {
     },res) 
 })
 
+//authenticateUser
 router.post('/users/auth', (req, res) => {
     const { body: { email, password } } = req
 
@@ -28,9 +30,10 @@ router.post('/users/auth', (req, res) => {
        const { sub, isAdmin } = await logic.authenticateUser(email, password)
        const token = jwt.sign({ sub, isAdmin }, JWT_SECRET, { expiresIn: '47m' })
        res.json({ token })
-    }), res })
+    }, res)})
             
 
+//retrieveUser
 router.get('/users', auth, (req, res) => {
     handleErrors(async () => {
         const { userId, isAdmin } = req
@@ -41,6 +44,7 @@ router.get('/users', auth, (req, res) => {
         res)
 })
 
+//updateUser
 router.put('/users', auth, (req, res) =>{
     handleErrors(async () => {
         const { userId, body: { data } } = req
@@ -51,18 +55,87 @@ router.put('/users', auth, (req, res) =>{
         res)
 })
 
+//deleteUser
 router.delete('/users', auth, (req, res) =>{
     handleErrors(async () => {
         const { userId } = req
 
         const isUpdated = await logic.deleteUser(userId)
-        return res.json({ message: `User is deleted ${isUpdated}` })
+        return res.json({ message: `User with id ${userId} is deleted ${isUpdated}` })
     },
         res)
 })
 
+/** USER PRODUCT */
+
+//retrieveCart
+router.get('/users/cart', auth, (req, res) => {
+    handleErrors(async () => {
+        const { userId } = req
+
+        const cart = await logic.retrieveCart(userId)
+        return res.json(cart)
+    },
+        res)
+})
+
+//addProductToCart
+router.post('/users/cart', auth, (req, res)=>{
+    handleErrors( async ()=> {
+        const { userId, body: { productId, quantity } } = req
+        
+        await logic.addProductToCart(userId, productId, quantity)
+        return res.json({ message: `Product with id ${productId} successfully added to cart` })
+    }, res)
+})
+
+//retrieveWhishList
+router.get('/users/whislist', auth, (req, res) => {
+    handleErrors(async () => {
+        const { userId } = req
+
+        const whislist = await logic.retrieveWhishList(userId)
+        return res.json(whislist)
+    },
+        res)
+})
+
+//toggleWhishProduct
+router.post('/users/whislist', auth, (req, res)=>{
+    handleErrors( async ()=> {
+        const { userId, productId } = req
+        
+        await logic.toggleWhishProduct(userId, productId )
+        return res.json({ message: `Product with id ${productId} successfully toggle to cart` })
+    }, res)
+})
+
+//checkoutCart
+router.post('/users/checkout', auth, (req, res)=>{
+    handleErrors( async ()=> {
+        const { userId } = req
+        
+        await logic.checkoutCart(userId)
+        return res.json({ message: `Cart successfully checked out` })
+    }, res)
+})
+
+//retrieveHistoric
+router.get('/users/historic', auth, (req, res) => {
+    handleErrors(async () => {
+        const { userId } = req
+
+        const historic = await logic.retrieveHistoric(userId)
+        return res.json(historic)
+    },
+        res)
+})
+
+
+
 /** PRODUCT */
 
+//createProduct
 router.post('/product', auth, (req, res) => {
     const { userId, body: { name, imagesUrl, description, price, tag } } = req
 
@@ -72,6 +145,7 @@ router.post('/product', auth, (req, res) => {
     },res) 
 })
 
+//retrieveProduct
 router.get('/products/:id', (req, res) => {
     handleErrors(async () => {
         const { params: { id } } = req
@@ -82,6 +156,7 @@ router.get('/products/:id', (req, res) => {
         res)
 })
 
+//retrieveAllProducts
 router.get('/products', (req, res) => {
     handleErrors(async () => {
        
@@ -91,6 +166,7 @@ router.get('/products', (req, res) => {
         res)
 })
 
+//retrieveProductsByTag
 router.get('/products', (req, res) => {
     handleErrors(async () => {
         const { query: { tag } } = req
@@ -100,6 +176,7 @@ router.get('/products', (req, res) => {
         res)
 })
 
+//retrieveProductsByPrice
 router.get('/products', (req, res) => {
     handleErrors(async () => {
         const { query: { price } } = req

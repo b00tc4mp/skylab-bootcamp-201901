@@ -37,11 +37,12 @@ describe("logic", () => {
   });
 
   describe("user test", () => {
+
     describe("register user", async ()=> {
-      
+      beforeEach( async ()=> User.deleteMany())
 
       it("should succeed on correct data", async function() {
-        console.log(age)
+
         const res = await logic.registerUser(name, surname, email, password, age, imageUrl );
         expect(res).to.be.undefined;
 
@@ -187,9 +188,10 @@ describe("logic", () => {
       });
 
       it("should succeed on correct credentials", async () => {
-        const id = await logic.authenticateUser(email, password);
+        const { sub: id, isAdmin } = await logic.authenticateUser(email, password);
         expect(id).to.exist;
         expect(id).to.be.a("string");
+        expect(isAdmin).to.be.false
 
         const user = await User.findById(id);
 
@@ -727,7 +729,7 @@ describe("logic", () => {
       });
     });
     //To finish
-    describe("retrieve all products", async () => {
+    describe("retrieve all products", () => {
       let arrayAllProducts, arrayPromiseProducts;
 
       beforeEach(async () => {
@@ -880,6 +882,103 @@ describe("logic", () => {
         } catch (err) {
           expect(err).to.instanceOf(LogicError);
           expect(err.message).to.equal(`user with id "${idDeletedUser}" doesn't exists`);
+        }
+      });
+    });
+
+    describe('retrieve wishlist', () => {
+      let allProducts, arrayAllProducts, arrayPromiseProducts, _user, _productId1, _productId2, _productId3, _productId4
+
+      beforeEach(async () => {
+        Product.deleteMany();
+        User.deleteMany()
+        arrayAllProducts = new Array(10).fill().map(
+          product =>
+            (product = {
+              name: `name-${Math.random()}`,
+              imagesUrl: [
+                `http://${Math.random()}.com`,
+                `http://${Math.random()}.com`,
+                `http://${Math.random()}.com`
+              ],
+              description: `description-${Math.random()}`,
+              price: `${Math.floor(Math.random() * 100)}`,
+              tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
+            })
+        );
+
+        arrayPromiseProducts = [];
+
+        await Promise.all(
+          arrayAllProducts.map(async product =>
+            arrayPromiseProducts.push(await Product.create(product))
+          )
+        );
+        name = `name-${Math.random()}`;
+        surname = `surname-${Math.random()}`;
+        email = `email-${Math.random()}@mail.com`;
+        password = `password-${Math.random()}`;
+        age = `${Math.floor(Math.random() * 100)}`;
+        _user = await User.create({
+          name,
+          surname,
+          email,
+          password: await argon2.hash(password),
+          age
+        });
+        
+        allProducts = await Product.find();
+
+        const productId1 = allProducts[0];
+        const productId2 = allProducts[1];
+        const productId3 = allProducts[2];
+        const productId4 = allProducts[3];
+
+        let quantity1 = '1';
+         _productId1 = productId1._id.toString();
+        let quantity2 = '2';
+        _productId2 = productId2._id.toString();
+        let quantity3 = '3';
+        _productId3 = productId3._id.toString();
+
+        _productId4 = productId4._id.toString();
+
+
+
+        await logic.toggleWhishProduct(_user.id, _productId1);
+        await logic.toggleWhishProduct(_user.id, _productId2);
+        await logic.toggleWhishProduct(_user.id, _productId3);
+        await logic.toggleWhishProduct(_user.id, _productId4);
+        await logic.toggleWhishProduct(_user.id, _productId4);
+
+        await logic.addProductToCart(_user.id, _productId1, quantity1);
+        await logic.addProductToCart(_user.id, _productId2, quantity2);
+        await logic.addProductToCart(_user.id, _productId3, quantity3);
+
+        await logic.checkoutCart(_user._id.toString())
+
+      });
+
+      it("should retrieve historic on correct user id", async () => {
+        
+        const _user_ = await User.findById(_user.id)
+        const whishlistBd = await logic.retrieveWhishList(_user._id.toString())
+        expect(whishlistBd[0].toString()).to.equal(_user_.wishlist[0].toString())
+        expect(whishlistBd[1].toString()).to.equal(_user_.wishlist[1].toString())
+        expect(whishlistBd[2].toString()).to.equal(_user_.wishlist[2].toString())
+        
+      });
+
+      it("should fail on wrong userId", async () => {
+        const _user_ = await User.findById(_user.id).lean()
+        const idDeleted = _user_._id.toString()
+        await User.findByIdAndDelete(idDeleted)
+
+        try {
+          await logic.retrieveWhishList(idDeleted);
+        } catch (err) {
+          expect(err).to.instanceOf(LogicError);
+          expect(err.message).to.equal(`user with id "${idDeleted}" doesn't exists`);
         }
       });
     });
@@ -1070,11 +1169,11 @@ describe("logic", () => {
     });
 
     describe('retrieve cart products', () => {
-      let arrayAllProducts, arrayPromiseProducts, user;
+      let arrayAllProducts, arrayPromiseProducts, user, quantity1, quantity3, _productId1
 
       beforeEach(async () => {
-        Product.deleteMany();
-        User.deleteMany()
+        // Product.deleteMany();
+        // User.deleteMany()
         arrayAllProducts = new Array(10).fill().map(
           product =>
             (product = {
@@ -1101,7 +1200,7 @@ describe("logic", () => {
         name = `name-${Math.random()}`;
         surname = `surname-${Math.random()}`;
         email = `email-${Math.random()}@mail.com`;
-        password = `password-${Math.random()}`;
+        password = `melocoton`;
         age = `${Math.floor(Math.random() * 100)}`;
         user = await User.create({
           name,
@@ -1117,11 +1216,11 @@ describe("logic", () => {
         const productId2 = allProducts[1];
         const productId3 = allProducts[2];
 
-        let quantity1 = '1';
-        let _productId1 = productId1._id.toString();
+        quantity1 = '1';
+        _productId1 = productId1._id.toString();
         let quantity2 = '2';
         let _productId2 = productId2._id.toString();
-        let quantity3 = '3';
+        quantity3 = '3';
         let _productId3 = productId3._id.toString();
 
         await logic.addProductToCart(user.id, _productId1, quantity1);
@@ -1139,6 +1238,12 @@ describe("logic", () => {
 
         expect(cart[0].productId._id.toString())
         .to.equal(_user.cart[0].productId._id.toString())
+        expect(cart[0].quantity).to.equal(parseInt(quantity1))
+        expect(cart[0].quantity).to.equal(parseInt(quantity1))
+        await logic.addProductToCart(_user._id.toString(), _productId1, quantity3);
+        const _cart = await logic.retrieveCart(_user._id.toString())
+        expect(_cart[0].quantity).to.equal(parseInt(quantity3))
+        expect(_cart).to.have.lengthOf(3)
       });
 
       it("should fail on wrong userId", async () => {
@@ -1156,7 +1261,6 @@ describe("logic", () => {
 
     });
 
-    
     describe('checkout cart products', () => {
       let arrayAllProducts, arrayPromiseProducts, user;
 
@@ -1334,7 +1438,7 @@ describe("logic", () => {
 
     });
 
-    describe('retrieve products by tag', async () => {
+    describe('retrieve products by tag',  () => {
       let arrayAllProducts1, arrayAllProducts2, arrayAllProducts3, arrayPromiseProducts, user, tag1, tag2, tag3, tag4
 
       beforeEach(async () => {
@@ -1458,7 +1562,7 @@ describe("logic", () => {
         })
     })
 
-    describe('retrieve products by price', async () => {
+    describe('retrieve products by price',  () => {
           let arrayAllProducts1, arrayAllProducts2, arrayAllProducts3, arrayPromiseProducts, price1, price2, price3, price4
     
           beforeEach(async () => {
@@ -1568,6 +1672,7 @@ describe("logic", () => {
             })
 
     });
+
   });
 
 });
