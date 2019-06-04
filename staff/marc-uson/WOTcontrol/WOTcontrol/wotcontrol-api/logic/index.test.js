@@ -2101,6 +2101,7 @@ describe('logic', () => {
                 const response = await logic.activateDevice(id, deviceName, timeInterval)
 
                 expect(response).to.exist
+                expect(response.userid).to.equal(id)
                 expect(response.deviceid).to.equal('newWOTDevice')
                 expect(response.status).to.equal('ON')
                 expect(response.interval).to.equal(timeInterval.toString())

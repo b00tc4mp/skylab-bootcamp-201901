@@ -9,6 +9,7 @@ const char* password = "skylabRocks";        //SKYLAB
 // const char* ssid ="bivid_307C";              //Lleida
 // const char* password = "71AF092F875E";       //Lleida
 String id = "newWOTDevice";
+String userId = "notDefined";
 
 const int DOut1 = 16; //GPIO16 - D0
 const int DOut2 = 05; //GPIO05 - D1
@@ -126,7 +127,7 @@ void httpSend(String query, String body)
 }
 
 void info() {
- server.send(200, "text/plain", "{\"HELLO\": \"WORLD!\", \"deviceid\":\""+ id +"\", \"interval\":\"" + intervalStr +"\", \"status\":\""+ activeStr +"\"}");
+ server.send(200, "text/plain", "{\"HELLO\": \"WORLD!\",\"userid\":\"" + userId + "\", \"deviceid\":\""+ id +"\", \"interval\":\"" + intervalStr +"\", \"status\":\""+ activeStr +"\"}");
 }
 
 void activateDevice()
@@ -166,10 +167,12 @@ void activateDevice()
 void writeId()
 {
    id = server.arg("deviceid");
-   server.send(200, "application/json", "{\"deviceid\":\"" + id + "\",\"status\":\"OK\"}");
+   userId = server.arg("userid");
+   server.send(200, "application/json", "{\"userid\":\"" + userId + "\",\"deviceid\":\"" + id + "\",\"status\":\"OK\"}");
 }
 
-void DOut_on(){
+void DOut_on()
+{
    String NUM = server.arg("pin");
    int num = NUM.toInt();
    switch (num)
@@ -187,7 +190,8 @@ void DOut_on(){
    }
 }
 
-void DOut_off(){
+void DOut_off()
+{
  String NUM = server.arg("pin");
    int num = NUM.toInt();
    switch (num)
@@ -205,7 +209,8 @@ void DOut_off(){
    }
 }
 
-void handleServo1(){
+void handleServo1()
+{
   String val = server.arg("val");
   int pos = val.toInt();
   if(pos<5){
@@ -222,7 +227,8 @@ void handleServo1(){
   server.send(200, "application/json","{\"deviceid\":\"" + id + "\",\"status\":\"" + position + "\"}");
 }
 
-void handleServo2(){
+void handleServo2()
+{
   String val = server.arg("val");
   int pos = val.toInt();
   if(pos<5){
@@ -239,7 +245,8 @@ void handleServo2(){
   server.send(200, "application/json","{\"deviceid\":\"" + id + "\",\"status\":\"" + position + "\"}");
 }
 
-void handleServo3(){
+void handleServo3()
+{
 
   String val = server.arg("val");
   int pos = val.toInt();
@@ -293,10 +300,11 @@ void handleMotor2()
    server.send(200, "application/json","{\"deviceid\":\"" + id + "\",\"status\":\"" + velocity + "\"}");
 }
 
-String Analog_state(){
+String Analog_state()
+{
    int inputVal = analogRead(analog); // Analog Values 0 to 1023
    String analogValue = String(inputVal);
-   String result = "{\"deviceid\":\"" + id + "\",\"value\":\"" + analogValue + "\"}";
+   String result = "{\"userid\":\"" + userId + "\",\"deviceid\":\"" + id + "\",\"value\":\"" + analogValue + "\"}";
    Serial.println(result);
    return result;
 }
@@ -308,12 +316,13 @@ String Din_state()
    String dIn2Val  = String(val1);
    String dIn1Val = String(val2);
 
-   String result = "{\"deviceid\":\"" + id + "\",\"din1\":\"" + dIn1Val + "\",\"din2\":\"" + dIn2Val + "\"}";
+   String result = "{\"userid\":\"" + userId + "\",\"deviceid\":\"" + id + "\",\"din1\":\"" + dIn1Val + "\",\"din2\":\"" + dIn2Val + "\"}";
    Serial.println(result);
 
    return result;
 }
 
-void no_encontrado() {
+void no_encontrado()
+{
  server.send(404,"text/plain","{\"error\":\"NOT FOUND\"}");
 }

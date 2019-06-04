@@ -249,7 +249,7 @@ const logic = {
                 if (users.length == 0) throw new LogicError(`A device named ${deviceName} does not exist in your collection`)
 
                 const device = users[0].devices.filter(({name}) => name == deviceName)
-                const url = `http://${device[0].ip}:${device[0].port}/new?deviceid=${newDeviceName}`
+                const url = `http://${device[0].ip}:${device[0].port}/new?deviceid=${newDeviceName}&userid=${id}`
 
                 const response = await call(url)
                 debugger
