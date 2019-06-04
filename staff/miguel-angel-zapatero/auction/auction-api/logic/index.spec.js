@@ -761,7 +761,7 @@ describe('logic', () => {
                 let amount2 = 1500
                 await logic.placeBid(item.id, user.id, amount2)
 
-                const bids = await logic.retrieveItemBids(item.id, user.id)
+                const {bids} = await logic.retrieveItemBids(item.id, user.id)
                 
                 expect(bids.length).toBeGreaterThan(0)
 

@@ -240,7 +240,9 @@ const logic = {
             { name: 'endPrice', value: endPrice, type: Number, optional: true }
         ])
 
-        validate.dates([startDate, endDate])
+        if(startDate && endDate) validate.dates([startDate, endDate])
+        
+        if(startPrice > endPrice) throw new LogicError(`please, the start amount ${startPrice} is above the end amount ${endPrice}`)
         
         const data = {}
         
@@ -272,7 +274,7 @@ const logic = {
         }
         
         return (async () => {        
-            let items = await Item.find(data).select('-__v')
+            let items = await Item.find(data).select('-__v -bids').lean()
             
             items = items.map(item => {
                 item.id = item._id
@@ -297,7 +299,12 @@ const logic = {
         ])
 
         return (async () => {
-            return await Item.findById(id).lean()
+            const item = await Item.findById(id).select('-__v')
+            
+            item.id = item._id
+            delete item._id
+
+            return item
         })()
     },
 
@@ -322,7 +329,7 @@ const logic = {
             const item = await Item.findById(itemId)
             if(!item) throw new LogicError(`item with id "${itemId}" doesn't exist`)
 
-            const { bids } = await Item.findById(itemId)
+            const bids = await Item.findById(itemId)
                 .populate({
                     path: 'bids.userId',
                     model: 'User',
