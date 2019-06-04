@@ -267,338 +267,351 @@ describe('kaori api', () => {
                 }
             })
         })
+    })
 
-        describe('Products', () => {
-            let title, image, description, price, category
+    describe('Products', () => {
+        let title, image, description, price, category
+        beforeEach(async () => {
+            await Product.deleteMany()
+
+            title = `title-${Math.random()}`
+            image = `image-${Math.random()}`
+            description = `description-${Math.random()}`
+            price = Math.random()
+            category = 'MAKIS'
+        })
+
+        describe('create product', () => {
+            it('should succed on correct data', async () => {
+                await logic.createProduct(title, image, description, price, category)
+
+                const products = await Product.find().lean()
+
+                expect(products).toBeDefined()
+                expect(products).toHaveLength(1)
+
+                const [product] = products
+
+                expect(product.title).toBe(title)
+                expect(product.image).toBe(image)
+                expect(product.description).toBe(description)
+                expect(product.price).toBe(price)
+                expect(product.category).toBe(category)
+            })
+        })
+
+        describe('retrieve product', () => {
+            let product, productId
+            beforeEach(async () => product = await Product.create({ title, image, description, price, category }))
+
+            it('should succed on correct id from existing product', async () => {
+
+                const _product = await logic.retrieveProduct(product.id)
+
+
+                expect(_product.id).toBeUndefined()
+                expect(_product.title).toEqual(title)
+                expect(_product.image).toEqual(image)
+                expect(_product.description).toEqual(description)
+                expect(_product.price).toEqual(price)
+                expect(_product.category).toEqual(category)
+            })
+
+            it('should fail on wrong product id', async () => {
+                productId = 'wrong-product-id'
+
+                try {
+                    await logic.retrieveProduct(productId)
+                    throw Error('should not reach this point')
+
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error.message).toBe(`Cast to ObjectId failed for value \"${productId}\" at path \"_id\" for model \"Product\"`)
+                }
+
+            })
+
+            it('should fail on non existing product id', async () => {
+                productId = '5cf2dbfbec1df0e802963bdd'
+                try {
+
+                    await logic.retrieveProduct(productId)
+                } catch (error) {
+
+                    expect(error).toBeDefined()
+                    expect(error.message).toBe(`product whit id \"${productId}\" doesn't exists`)
+                }
+
+            })
+
+        })
+
+        describe('retrieve product by category', () => {
+            let products
+            beforeEach(async () => products = await Product.create({ title, image, phone, description, price, category }))
+
+            it('should succed on correct category from existing product', async () => {
+                const _products = await logic.retrieveProductsByCategory(products.category)
+
+                expect(_products[0].id).toBeUndefined()
+                expect(_products[0].title).toEqual(title)
+                expect(_products[0].image).toEqual(image)
+                expect(_products[0].description).toEqual(description)
+                expect(_products[0].price).toEqual(price)
+                expect(_products[0].category).toEqual(category)
+            })
+
+            it('should succed on correct category from existing product', async () => {
+                const _products = await logic.retrieveProductsByCategory(products.category)
+
+                expect(_products[0].id).toBeUndefined()
+                expect(_products[0].title).toEqual(title)
+                expect(_products[0].image).toEqual(image)
+                expect(_products[0].description).toEqual(description)
+                expect(_products[0].price).toEqual(price)
+                expect(_products[0].category).toEqual(category)
+            })
+
+        })
+
+        describe('add product to cart', () => {
+            let user, token, productId
             beforeEach(async () => {
-                await Product.deleteMany()
-
-                title = `title-${Math.random()}`
-                image = `image-${Math.random()}`
-                description = `description-${Math.random()}`
-                price = Math.random()
-                category = 'MAKIS'
+                user = await User.create({ name, surname, phone, email, password })
+                const response = await kaoriApi.authenticateUser(email, password)
+                token = response.token
             })
 
-            describe('create product', () => {
-                it('should succed on correct data', async () => {
-                    await logic.createProduct(title, image, description, price, category)
-
-                    const products = await Product.find().lean()
-
-                    expect(products).toBeDefined()
-                    expect(products).toHaveLength(1)
-
-                    const [product] = products
-
-                    expect(product.title).toBe(title)
-                    expect(product.image).toBe(image)
-                    expect(product.description).toBe(description)
-                    expect(product.price).toBe(price)
-                    expect(product.category).toBe(category)
-                })
-            })
-
-            describe('retrieve product', () => {
-                let product, productId
-                beforeEach(async () => product = await Product.create({ title, image, description, price, category }))
-
-                it('should succed on correct id from existing product', async () => {
-
-                    const _product = await logic.retrieveProduct(product.id)
-
-
-                    expect(_product.id).toBeUndefined()
-                    expect(_product.title).toEqual(title)
-                    expect(_product.image).toEqual(image)
-                    expect(_product.description).toEqual(description)
-                    expect(_product.price).toEqual(price)
-                    expect(_product.category).toEqual(category)
+            it('should succeed adding product', async () => {
+                const product = await Product.create({
+                    title: 'Maki',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 10,
+                    category: 'ENTRANTES'
                 })
 
-                it('should fail on wrong product id', async () => {
-                    productId = 'wrong-product-id'
+                logic.__userToken__ = token
 
-                    try {
-                        await logic.retrieveProduct(productId)
-                        throw Error('should not reach this point')
+                await logic.addToCart(product.id, token)
 
-                    } catch (error) {
-                        expect(error).toBeDefined()
-                        expect(error.message).toBe(`Cast to ObjectId failed for value \"${productId}\" at path \"_id\" for model \"Product\"`)
-                    }
+                const _user = await User.findById(user.id).lean()
 
-                })
+                const { cart } = _user
 
-                it('should fail on non existing product id', async () => {
-                    productId = '5cf2dbfbec1df0e802963bdd'
-                    try {
+                expect(cart).toBeDefined()
+                expect(cart).toHaveLength(1)
 
-                        await logic.retrieveProduct(productId)
-                    } catch (error) {
-
-                        expect(error).toBeDefined()
-                        expect(error.message).toBe(`product whit id \"${productId}\" doesn't exists`)
-                    }
-
-                })
+                expect(cart[0].productId.toString()).toEqual(product.id)
+                expect(cart[0].quantity).toBe(1)
 
             })
 
-            describe('retrieve product by category', () => {
-                let products
-                beforeEach(async () => products = await Product.create({ title, image, phone, description, price, category }))
-
-                it('should succed on correct category from existing product', async () => {
-                    const _products = await logic.retrieveProductsByCategory(products.category)
-
-                    expect(_products[0].id).toBeUndefined()
-                    expect(_products[0].title).toEqual(title)
-                    expect(_products[0].image).toEqual(image)
-                    expect(_products[0].description).toEqual(description)
-                    expect(_products[0].price).toEqual(price)
-                    expect(_products[0].category).toEqual(category)
+            it('should succed adding more items', async () => {
+                const product = await Product.create({
+                    title: 'Maki',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 10,
+                    category: 'ENTRANTES'
+                })
+                const _product = await Product.create({
+                    title: 'Maki',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 10,
+                    category: 'ENTRANTES'
                 })
 
-                it('should succed on correct category from existing product', async () => {
-                    const _products = await logic.retrieveProductsByCategory(products.category)
+                logic.__userToken__ = token
 
-                    expect(_products[0].id).toBeUndefined()
-                    expect(_products[0].title).toEqual(title)
-                    expect(_products[0].image).toEqual(image)
-                    expect(_products[0].description).toEqual(description)
-                    expect(_products[0].price).toEqual(price)
-                    expect(_products[0].category).toEqual(category)
+                await logic.addToCart(product.id, token)
+                await logic.addToCart(_product.id, token)
+
+                const _user = await User.findById(user.id).lean()
+
+                const { cart } = _user
+
+                expect(cart).toBeDefined()
+                expect(cart).toHaveLength(2)
+
+                expect(cart[0].productId.toString()).toEqual(product.id)
+                expect(cart[0].quantity).toBe(1)
+                expect(cart[1].productId.toString()).toEqual(_product.id)
+                expect(cart[1].quantity).toBe(1)
+            })
+
+            it('should succeed adding the same item', async () => {
+                const product = await Product.create({
+                    title: 'Maki',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 10,
+                    category: 'ENTRANTES'
                 })
+                logic.__userToken__ = token
+
+                await logic.addToCart(product.id, token)
+                await logic.addToCart(product.id, token)
+
+
+                const _user = await User.findById(user.id).lean()
+
+                const { cart } = _user
+
+                expect(cart).toBeDefined()
+                expect(cart).toHaveLength(1)
+
+                expect(cart[0].productId.toString()).toEqual(product.id)
+                expect(cart[0].quantity).toBe(2)
 
             })
 
-            describe('add product to cart', () => {
-                let user, token, productId
-                beforeEach(async () => {
-                    user = await User.create({ name, surname, phone, email, password })
-                    const response = await kaoriApi.authenticateUser(email, password)
-                    token = response.token
-                })
+            it('should fail on wrong product id', async () => {
+                productId = 'wrong-product-id'
+                logic.__userToken__ = token
 
-                it('should succeed adding product', async () => {
-                    const product = await Product.create({
-                        title: 'Maki',
-                        image: 'url',
-                        description: 'Lorem ipsum',
-                        price: 10,
-                        category: 'ENTRANTES'
-                    })
+                try {
+                    await logic.addToCart(productId, token)
 
-                    logic.__userToken__ = token
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error.message).toBe(`Cast to ObjectId failed for value \"${productId}\" at path \"_id\" for model \"Product\"`)
+                }
 
-                    await logic.addToCart(product.id, token)
+            })
+        })
 
-                    const _user = await User.findById(user.id).lean()
-
-                    const { cart } = _user
-
-                    expect(cart).toBeDefined()
-                    expect(cart).toHaveLength(1)
-
-                    expect(cart[0].productId.toString()).toEqual(product.id)
-                    expect(cart[0].quantity).toBe(1)
-
-                })
-
-                it('should succed adding more items', async () => {
-                    const product = await Product.create({
-                        title: 'Maki',
-                        image: 'url',
-                        description: 'Lorem ipsum',
-                        price: 10,
-                        category: 'ENTRANTES'
-                    })
-                    const _product = await Product.create({
-                        title: 'Maki',
-                        image: 'url',
-                        description: 'Lorem ipsum',
-                        price: 10,
-                        category: 'ENTRANTES'
-                    })
-
-                    logic.__userToken__ = token
-
-                    await logic.addToCart(product.id, token)
-                    await logic.addToCart(_product.id, token)
-
-                    const _user = await User.findById(user.id).lean()
-
-                    const { cart } = _user
-
-                    expect(cart).toBeDefined()
-                    expect(cart).toHaveLength(2)
-
-                    expect(cart[0].productId.toString()).toEqual(product.id)
-                    expect(cart[0].quantity).toBe(1)
-                    expect(cart[1].productId.toString()).toEqual(_product.id)
-                    expect(cart[1].quantity).toBe(1)
-                })
-
-                it('should succeed adding the same item', async () => {
-                    const product = await Product.create({
-                        title: 'Maki',
-                        image: 'url',
-                        description: 'Lorem ipsum',
-                        price: 10,
-                        category: 'ENTRANTES'
-                    })
-                    logic.__userToken__ = token
-
-                    await logic.addToCart(product.id, token)
-                    await logic.addToCart(product.id, token)
-
-
-                    const _user = await User.findById(user.id).lean()
-
-                    const { cart } = _user
-
-                    expect(cart).toBeDefined()
-                    expect(cart).toHaveLength(1)
-
-                    expect(cart[0].productId.toString()).toEqual(product.id)
-                    expect(cart[0].quantity).toBe(2)
-
-                })
-
-                it('should fail on wrong product id', async () => {
-                    productId = 'wrong-product-id'
-                    logic.__userToken__ = token
-
-                    try {
-                        await logic.addToCart(productId, token) 
-                        
-                    } catch (error) {
-                        expect(error).toBeDefined()
-                        expect(error.message).toBe(`Cast to ObjectId failed for value \"${productId}\" at path \"_id\" for model \"Product\"`)  
-                    }   
-                    
-                })
+        describe('delete product to cart', () => {
+            let user, token, productId
+            beforeEach(async () => {
+                user = await User.create({ name, surname, phone, email, password })
+                const response = await kaoriApi.authenticateUser(email, password)
+                token = response.token
             })
 
-            //     describe('delete product to cart', () => {
-            //         let user, token, productId
-            //         beforeEach(async () => {
-            //             user = await User.create({ name, surname, phone, email, password })
-            //             const response = await kaoriApi.authenticateUser(email, password)
-            //             token = response.token
-            //         })
+            it('should delete product to cart', async () => {
+                const product = await Product.create({
+                    title: 'Fish-roll',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 8,
+                    category: 'ENTRANTES'
+                })
+                logic.__userToken__ = token
 
-            //         it('should delete product to cart', async () => {
-            //             const product = await Product.create({
-            //                 title: 'Fish-roll',
-            //                 image: 'url',
-            //                 description: 'Lorem ipsum',
-            //                 price: 8,
-            //                 category: 'ENTRANTES'
-            //             })
-            //             await kaoriApi.addToCart(product.id, token)
+                await logic.addToCart(product.id, token)
 
-            //             await kaoriApi.deleteToCart(product.id, token)
+                await logic.deleteToCart(product.id, token)
 
-            //             const _user = await User.findById(user.id).lean()
+                const _user = await User.findById(user.id).lean()
 
-            //             const { cart } = _user
+                const { cart } = _user
 
-            //             expect(cart).toBeDefined()
-            //             expect(cart).toHaveLength(0)
-            //         })
+                expect(cart).toBeDefined()
+                expect(cart).toHaveLength(0)
+            })
 
-            //         // it('should fail on wrong-product-id', async () =>{
-            //         //     productId = 'wrong-id'
+            // it('should fail on wrong-product-id', async () =>{
+            //     productId = 'wrong-id'
+            //     logic.__userToken__ = token
 
-            //         //     const res = await kaoriApi.deleteToCart(productId, token)
-            //         //     
-            //         //     const { error } = res
-            //         //     expect(error).toBeDefined()
-            //         //     expect(error).toBe(`Cast to ObjectId failed for value \"${productId}\" at path \"_id\" for model \"Product\"`)
+            //     try {
+            //         await logic.deleteToCart(productId, token)
+            //         debugger
+            //     } catch (error) {
+            //         debugger
+            //         expect(error).toBeDefined()
+            //         expect(error.message).toBe(`Cast to ObjectId failed for value \"${productId}\" at path \"_id\" for model \"Product\"`) 
+            //     }
 
-            //         // })
-            //     })
+            // })
+        })
 
-            //     describe('retrieve cart', () => {
-            //         let user, token
-            //         beforeEach(async () => {
-            //             user = await User.create({ name, surname, phone, email, password })
-            //             const response = await kaoriApi.authenticateUser(email, password)
-            //             token = response.token
-            //         })
+        describe('retrieve cart', () => {
+            let user, token
+            beforeEach(async () => {
+                user = await User.create({ name, surname, phone, email, password })
+                const response = await kaoriApi.authenticateUser(email, password)
+                token = response.token
+            })
 
 
-            //         it('should succed on correct data', async () => {
-            //             const product = await Product.create({
-            //                 title: 'Pack',
-            //                 image: 'url',
-            //                 description: 'Lorem ipsum',
-            //                 price: 12,
-            //                 category: 'ENTRANTES'
-            //             })
+            it('should succed on correct data', async () => {
+                const product = await Product.create({
+                    title: 'Pack',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 12,
+                    category: 'ENTRANTES'
+                })
 
-            //             const _product = await Product.create({
-            //                 title: 'Oslo',
-            //                 image: 'url',
-            //                 description: 'Lorem ipsum',
-            //                 price: 6,
-            //                 category: 'MAKIS'
-            //             })
+                const _product = await Product.create({
+                    title: 'Oslo',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 6,
+                    category: 'MAKIS'
+                })
 
-            //             await kaoriApi.addToCart(product.id, token)
-            //             await kaoriApi.addToCart(_product.id, token)
+                logic.__userToken__ = token
 
-            //             user.save()
+                await logic.addToCart(product.id, token)
+                await logic.addToCart(_product.id, token)
 
-            //             const cart = await kaoriApi.retrieveCart(token)
+                user.save()
 
-            //             expect(cart).toBeDefined()
-            //             expect(cart).toHaveLength(2)
+                const cart = await logic.retrieveCart(token)
+                
+                expect(cart).toBeDefined()
+                expect(cart).toHaveLength(2)
 
-            //             expect(cart[0].productId.toString()).toBe(product.id)
-            //             expect(cart[1].productId.toString()).toBe(_product.id)
-            //             expect(cart[0].quantity).toBe(1)
-            //             expect(cart[1].quantity).toBe(1)
+                expect(cart[0].productId.toString()).toBe(product.id)
+                expect(cart[1].productId.toString()).toBe(_product.id)
+                expect(cart[0].quantity).toBe(1)
+                expect(cart[1].quantity).toBe(1)
 
-            //         })
-            //     })
+            })
+        })
 
-            //     describe('from cart to order', () => {
-            //         let user, token
-            //         beforeEach(async () => {
-            //             user = await User.create({ name, surname, phone, email, password })
-            //             const response = await kaoriApi.authenticateUser(email, password)
-            //             token = response.token
-            //         })
+        describe('from cart to order', () => {
+            let user, token
+            beforeEach(async () => {
+                user = await User.create({ name, surname, phone, email, password })
+                const response = await kaoriApi.authenticateUser(email, password)
+                token = response.token
+            })
 
-            //         it('should create new order', async () => {
-            //             const productA = await Product.create({
-            //                 title: 'Fish-roll',
-            //                 image: 'url',
-            //                 description: 'Lorem ipsum',
-            //                 price: 8,
-            //                 category: 'ENTRANTES'
-            //             })
+            it('should create new order', async () => {
+                const productA = await Product.create({
+                    title: 'Fish-roll',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 8,
+                    category: 'ENTRANTES'
+                })
 
-            //             const productB = await Product.create({
-            //                 title: 'Fish-roll-sub',
-            //                 image: 'url',
-            //                 description: 'Lorem ipsum',
-            //                 price: 18,
-            //                 category: 'ENTRANTES'
-            //             })
-            //             await kaoriApi.addToCart(productA.id, token)
+                const productB = await Product.create({
+                    title: 'Fish-roll-sub',
+                    image: 'url',
+                    description: 'Lorem ipsum',
+                    price: 18,
+                    category: 'ENTRANTES'
+                })
 
-            //             await kaoriApi.addToCart(productB.id, token)
+                logic.__userToken__ = token
 
-            //             const order = await kaoriApi.cartToOrder(token)
+                await logic.addToCart(productA.id, token)
 
-            //             expect(user.cart.length).toEqual(0)
-            //             expect(order).toBeDefined()
+                await logic.addToCart(productB.id, token)
 
-            //         })
+
+                const order = await logic.cartToOrder(token)
+
+                expect(user.cart.length).toEqual(0)
+                expect(order).toBeDefined()
+
+            })
         })
 
     })

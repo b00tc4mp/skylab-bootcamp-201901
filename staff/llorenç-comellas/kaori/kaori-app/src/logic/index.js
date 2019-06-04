@@ -120,9 +120,38 @@ const logic = {
             const { error } = res
             if (error) throw new LogicError(error)
         })()
+    },
+
+    deleteToCart(productId) {
+        return (async () => {
+            const res = await kaoriApi.deleteToCart(productId, this.__userToken__)
+
+            const { error } = res
+            if (error) throw new LogicError(error)
+        })()
+    },
+
+    retrieveCart() {
+        return (async () => {
+            const res = await kaoriApi.retrieveCart(this.__userToken__)
+
+            const { error } = res
+            if (error) throw new LogicError(error)
+
+            return res
+        })()
+    },
+
+    cartToOrder() {
+        return (async () => {
+            const res = await kaoriApi.cartToOrder(this.__userToken__)
+
+            const { error } = res
+            if (error) throw new LogicError(error)
+
+            return res
+        })()
     }
-
-
 }
 
 export default logic

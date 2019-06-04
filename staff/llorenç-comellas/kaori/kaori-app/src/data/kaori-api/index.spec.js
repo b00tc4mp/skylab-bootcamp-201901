@@ -34,7 +34,7 @@ describe('kaori api', () => {
                 expect(res).toBeDefined()
                 expect(res.message).toBe('Ok, user registered.')
 
-                const user = await User.findOne({email}).lean()
+                const user = await User.findOne({ email }).lean()
 
                 expect(user).toBeDefined()
 
@@ -47,7 +47,7 @@ describe('kaori api', () => {
             })
 
             it('should fail on retrying register user', async () => {
-                
+
                 await User.create({ name, surname, phone, email, password })
                 const res = await kaoriApi.registerUser(name, surname, phone, email, password)
 
@@ -205,7 +205,7 @@ describe('kaori api', () => {
                 // const _token = await kaoriApi.authenticateUser(email, password)
 
                 const { sub } = jwt.decode(token)
-                
+
                 expect(sub).toBeDefined()
                 expect(sub).toEqual(user.id)
 
@@ -262,19 +262,6 @@ describe('kaori api', () => {
                 expect(error).toBe('jwt malformed')
 
             })
-            // Exemple de que amb try catch falla...
-            // it('should fail on wrong token', async () => {
-            //     token = 'wrong-token'
-            //     try {
-            //         await kaoriApi.registerUser(token)
-            //         throw Error('should not reach this point')
-            //     } catch (error) {
-            //         debugger
-            //         expect(error).toBeDefined()
-            //         expect(error).toBeInstanceOf(Error)
-            //         expect(error.message).toBe('jwt malformed')
-            //     }
-            // })
 
         })
 
@@ -501,7 +488,7 @@ describe('kaori api', () => {
                 expect(cart).toHaveLength(0)
             })
 
-            // it('should fail on wrong-product-id', async () =>{
+            // it('should fail on wrong-product-id', async () => {
             //     productId = 'wrong-id'
 
             //     const res = await kaoriApi.deleteToCart(productId, token)
@@ -545,10 +532,10 @@ describe('kaori api', () => {
                 user.save()
 
                 const cart = await kaoriApi.retrieveCart(token)
-                
+
                 expect(cart).toBeDefined()
                 expect(cart).toHaveLength(2)
-                
+
                 expect(cart[0].productId.toString()).toBe(product.id)
                 expect(cart[1].productId.toString()).toBe(_product.id)
                 expect(cart[0].quantity).toBe(1)
