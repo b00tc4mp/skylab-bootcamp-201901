@@ -13,7 +13,7 @@ function Chart(props) {
     let date =new Date().toISOString().replace('-', '/').split('T')[0].replace('-', '/')
     let totalP = 0
 
-    debugger
+   
 
     data.forEach(item => {
 

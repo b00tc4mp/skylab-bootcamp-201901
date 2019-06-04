@@ -77,11 +77,10 @@ function App(props) {
     <UserContext.Provider value={{ loggedOk, registerOk, setLogOk, setRegOk, userName }}>
       <Route>
 
-
-        <img src={logo} ></img>
-
         <Route exact path="/" render={() =>
+        
           <div>
+             <img src={logo} ></img>
             <Link className="button is-link" to={'/Register'}>Register</Link>
             <Link className="button is-link" to={'/Login'}>Login</Link>
           </div>} />
@@ -89,6 +88,7 @@ function App(props) {
         <Route exact path="/Register" render={() =>
           registerOk ? <Redirect to="/Login" /> :
             <div>
+               <img src={logo} ></img>
               <Register onRegister={handleRegister} message={messageReg} cancel={returnLanding} />
             </div>} />
 
@@ -96,10 +96,13 @@ function App(props) {
         <Route exact path="/Login" render={() =>
           loggedOk ? <Redirect to="/Home" /> :
             <div>
+               <img src={logo} ></img>
               <Login onLogin={handleLogin} message={messageLog} cancel={returnLanding} />
             </div>} />
 
 
+       </Route>
+       
         <Route path="/Home" render={() =>
           !loggedOk ? <Redirect to="/" /> :
             <div>
@@ -108,7 +111,6 @@ function App(props) {
 
 
 
-      </Route>
     </UserContext.Provider>
 
 

@@ -7,6 +7,8 @@ import ScanTicket from '../ScanTicket/index'
 import TicketDetail from '../TicketDetail/index'
 import Charts from '../Charts'
 import { Modal } from "../Modal"
+import Navbar from "../Navbar"
+import MyTickets from "../Mytickets"
 
 
 
@@ -18,28 +20,42 @@ function Home(props) {
     let [onError, setError] = useState(null)
     let [generalMessage, setGeneralMessage] = useState(null)
     let [globalChart, setGlobalChart] = useState(null)
+    let [myTickets, setMyTickets] = useState(null)
 
 
 
     useEffect(() => {
-
         return (async () => {
-
             const response = await logic.globalTicket(sessionStorage.token)
             if (response.length) setGlobalChart(response)
-
         })
-
     })
 
     function handleCloseModal() {
         setGeneralMessage(null)
     }
 
+    function toScanTicket() { props.history.push("/Home/ScanTicket") }
+    function toHome() { props.history.push("/Home") }
+
     function toLanding() {
         sessionStorage.clear()
         setLogOk(null)
         props.history.push("/")
+    }
+
+    function handleMyTcikets() {
+
+        return (async () => {
+
+            try {
+                const tickets = await logic.listTickets(sessionStorage.token)
+                setMyTickets(tickets)
+                props.history.push("/Home/MyTickets")  
+            } catch (error) { console.log(error) }
+
+        })()
+
     }
 
     function handleProfile() {
@@ -56,9 +72,7 @@ function Home(props) {
         })()
     }
 
-    function toScanTicket() {
-        props.history.push("/Home/ScanTicket")
-    }
+
 
     function handleScannedTicket(scannedTicket) {
 
@@ -89,6 +103,9 @@ function Home(props) {
 
     return <Fragment>
 
+
+        <Navbar goHome={toHome} goProfile={handleProfile} goScanTicket={toScanTicket} goMytickets={handleMyTcikets} />
+
         {generalMessage && <Modal onClose={handleCloseModal} >
             <div>
                 {generalMessage}
@@ -97,17 +114,12 @@ function Home(props) {
 
 
         <Route>
-            <div>
-
-                <p>Welcome {userName}</p>
-                <button class="button is-link" onClick={toLanding}>LogOut</button>
-                <button class="button is-link" onClick={handleProfile}>User Profile</button>
-                <button class="button is-link" onClick={toScanTicket}>Scan Ticket</button>
-
+            <div class="box">
+                <p>Welcome {userName}</p>    
             </div>
 
 
-            <Route exact path="/Home" render={() => globalChart ? <Charts data={globalChart} /> : <p>Not enough tickets to display global consumption </p>} />
+            <Route exact path="/Home" render={() => globalChart ?<div class="box"> <Charts data={globalChart} /></div> : <p>Not enough tickets to display global consumption </p>} />
 
             <Route exact path="/Home/Profile" render={() =>
 
@@ -120,6 +132,10 @@ function Home(props) {
 
             <Route exact path="/Home/TicketDetail" render={() =>
                 <TicketDetail processedTicket={ticketProcessed} toSaveTicket={handleSaveTicket} />
+            } />
+
+            <Route exact path="/Home/MyTickets" render={() =>
+                <MyTickets data={myTickets} />
             } />
 
         </Route>

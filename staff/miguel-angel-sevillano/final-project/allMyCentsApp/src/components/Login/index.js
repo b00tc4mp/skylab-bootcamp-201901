@@ -20,10 +20,13 @@ function Login({ onLogin, message, cancel, clear }) {
 
     }
 
-    return <div class="containeRegister">
+    return <div class="containeLogin">
         <form id="loginForm" onSubmit={handleSubmit}>
+            <div class="box">
             <h1>Login</h1>
-     
+            </div>
+
+            <div class="box">
             <div class="field">
                 <label class="label">Email</label>
                 <div class="control">
@@ -47,6 +50,7 @@ function Login({ onLogin, message, cancel, clear }) {
                 <div class="control">
                     <button class="button is-text butcancel" onClick={clear}>Clear</button>
                 </div>
+            </div>
             </div>
             {message && <span class="tag is-warning">{message}</span>}
         </form>
