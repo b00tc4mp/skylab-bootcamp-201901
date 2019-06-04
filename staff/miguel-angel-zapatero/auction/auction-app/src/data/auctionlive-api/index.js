@@ -124,18 +124,19 @@ const auctionLiveApi = {
         })
     },
 
-    searchItems(query) {
+    searchItems(data) {
         validate.arguments([
-            { name: 'query', value: query, type: Object, optional: true}
+            { name: 'data', value: data, type: Object, optional: true}
         ])
 
+        const {query, city, category, startDate, endDate, startPrice, endPrice} = data
+
         let queryString = ''
-        let acc = 1 
-        for(let key in query) {
-            queryString += `${key}=${query[key]}`
-            if(acc < Object.keys(query).length) queryString += '&'
-            acc++
-        }
+        if(query) queryString += `query=${query}`
+        if(city) queryString += `&city=${city}`
+        if(category) queryString += `&category=${category}`
+        if(startDate && endDate) queryString += `&startDate=${startDate}&endDate=${endDate}`
+        if(startPrice && endPrice) queryString += `&startPrice=${startPrice}&endPrice=${endPrice}`
         
         return call(`${this.__url__}/items?${queryString}`, {
             header: {
