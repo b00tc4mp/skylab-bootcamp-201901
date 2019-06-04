@@ -56,7 +56,7 @@ const electronicModule = new Schema({
     transmission: { type: String },
     year: { type: String },
     engine: { type: String },
-    device: { type: String, required: true },
+    device: { type: String, required: true, default: 'MCE' },
     serial: { type: String },
     fail: { type: String },
     owner: { type: Schema.Types.ObjectId, ref: 'Customer', required: true },
