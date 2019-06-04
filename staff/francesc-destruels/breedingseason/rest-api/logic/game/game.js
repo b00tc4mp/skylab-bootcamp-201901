@@ -201,7 +201,7 @@ Game.prototype.nextFunction = async function (userId, gameAction) {
     ow(gameAction, ow.object.exactShape({
         missions: ow.array.not.empty,
         resource: ow.object.exactShape({
-            type: ow.string.not.empty,
+            type: ow.string,
             row: ow.number.not.empty,
             column: ow.number.not.empty,
             nest: ow.string
@@ -295,7 +295,8 @@ Game.prototype.nextFunction = async function (userId, gameAction) {
         case "strik":
             break
         default:
-            throw Error("Resource not defined properly")
+            // throw Error("Resource not defined properly")
+            break //(not used)
     }
     const userToUdate = this.players.find(x => x.id === userId)
 

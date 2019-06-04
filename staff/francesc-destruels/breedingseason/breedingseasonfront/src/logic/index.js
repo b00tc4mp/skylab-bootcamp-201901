@@ -15,25 +15,25 @@ const logic = {
         return normalize.undefinedOrNull(sessionStorage.userToken)
     },
 
-    // set __ActualGame__(gameId) {
-    //     sessionStorage.userActualGame = gameId
-    // },
+    set __ActualGame__(gameId) {
+        sessionStorage.userActualGame = gameId
+    },
 
-    // get __ActualGame__() {
-    //     return normalize.undefinedOrNull(sessionStorage.userActualGame)
-    // },
+    get __ActualGame__() {
+        return normalize.undefinedOrNull(sessionStorage.userActualGame)
+    },
 
     get isUserLoggedIn() {
         return !!(this.__userToken__)
     },
 
     async registerUser(nickname, age, email, password) {
-        ow(nickname, ow.string.not.empty)
-        ow(age, ow.number.is(x => x > 13))
-        ow(password, ow.string.not.empty)
-        ow(email, ow.string.is(x => re.test(String(x))))
+        try { ow(nickname, ow.string.not.empty) } catch (err) { throw Error("Nickname can not be empty") }
+        try { ow(age, ow.number.is(x => x > 13)) } catch (err) { throw Error("You have to be older than 13") }
+        try { ow(password, ow.string.not.empty)} catch (err) { throw Error("Password can't be empty") }
+        try { ow(email, ow.string.is(x => re.test(String(x))).not.empty)} catch (err) { throw Error("That is not a proper e-mail") }
 
-        const {error, message} = await restApi.create(nickname, age, email, password)
+        const { error, message } = await restApi.create(nickname, age, email, password)
 
         if (error) {
             throw new LogicError(error)
@@ -41,11 +41,11 @@ const logic = {
     },
 
     loginUser(nicknameOEmail, password) {
-        ow(nicknameOEmail, ow.string.not.empty)
-        ow(password, ow.string.not.empty)
+        try {ow(nicknameOEmail, ow.string.not.empty)}catch(err){throw Error("Nickname or Email required")}
+            try {ow(password, ow.string.not.empty)} catch(err){throw Error("Password can not be empty")}
 
         return (async () => {
-            const {error, token} = await restApi.authenticate(nicknameOEmail, password)
+            const { error, token } = await restApi.authenticate(nicknameOEmail, password)
 
             if (error) throw new LogicError(error)
 
@@ -135,12 +135,12 @@ const logic = {
     //     } else throw new LogicError("Bad Way")
     // },
 
-    // finishedGame(finishedGameData) { // hacer a con la data para poder pintarlo :D
+    finishedGame(finishedGameData) { // hacer a con la data para poder pintarlo :D
 
-    //     localStorage.removeItem("userActualGame")
+        localStorage.removeItem("userActualGame")
 
-    //     return
-    // },
+        return
+    },
 
     logoutUser() {
         sessionStorage.clear()

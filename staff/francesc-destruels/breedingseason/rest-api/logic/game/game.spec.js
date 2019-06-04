@@ -2444,19 +2444,18 @@ describe('Game Data', () => {
             expect(gameToTest.finish).toBeTruthy
         })
 
-        it("Should FAIL on non correct resource type", async () => {
+        it("Should succes on doing nothing for non used resource", async () => {
             gameToTest.start = true
             gameToTest.mode = "solo"
 
-            try {
-                const initialPackage = await gameToTest.startFunction(UserId)
+            const initialPackage = await gameToTest.startFunction(UserId)
 
-                expect(initialPackage).toBeDefined()
+            expect(initialPackage).toBDefined()
 
-                await gameToTest.nextFunction(UserId, {
+            const nextPackage = await gameToTest.nextFunction(UserId, {
 
                     resource: {
-                        type: "HarryPotter",
+                        type: "",
                         row: 0,
                         column: 0,
                         nest: ""
@@ -2471,11 +2470,7 @@ describe('Game Data', () => {
                     missions: [false, false, false]
                 })
 
-            } catch (err) {
-
-                expect(err).toBeDefined
-                expect(err.message).toBe("Resource not defined properly")
-            }
+                expect(nextPackage).toBeDefined()
         })
 
         it("Should FAIL on non correct Nest type", async () => {

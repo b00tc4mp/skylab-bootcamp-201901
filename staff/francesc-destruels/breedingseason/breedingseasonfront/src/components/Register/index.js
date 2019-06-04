@@ -1,19 +1,23 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './index.sass'
+import Feedback from '../Feedback'
+import { GameContext } from '../GameContext'
 
-function Register({ onRegister, error }) {
+function Register({ onSignUp }) {
+
+    const { feedback } = useContext(GameContext)
 
     function handleSubmit(e) {
         e.preventDefault()
 
         const {
-            nickname: { value: name },
+            nickname: { value: nickname },
             age: { value: age },
             email: { value: email },
             password: { value: password }
         } = e.target
 
-        onRegister(name, age, email, password)
+        onSignUp(nickname, parseInt(age), email, password)
     }
 
     return <section className="register">
@@ -24,7 +28,7 @@ function Register({ onRegister, error }) {
             <input type="text" name="email" placeholder="email" />
             <input type="password" name="password" placeholder="password" />
             <button>Register</button>
-            <span>{error}</span>
+            {feedback && <Feedback message={feedback} />}
         </form>
     </section>
 }
