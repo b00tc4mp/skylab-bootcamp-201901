@@ -5,5 +5,6 @@ module.exports = {
     uploadGame: require('./uploadGame'),
     updateUser: require('./update-user'),
     retrieveGameByQuery: require('./retrieve-GameByQuery'),
-    retrieveGameByGenre: require('./retrieve-GameByGenre')
+    retrieveGameByGenre: require('./retrieve-GameByGenre'),
+    retrieveGameById: require('./retrieve-GameById')
 }

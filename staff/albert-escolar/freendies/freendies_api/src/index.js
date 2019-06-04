@@ -16,7 +16,8 @@ const {
     updateUser,
     uploadGame,
     retrieveGameByQuery,
-    retrieveGameByGenre
+    retrieveGameByGenre,
+    retrieveGameById
 } = require('./routes')
 
 const logic = require('./logic/index')
@@ -47,7 +48,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
 
         router.get('/genre/:genre', jsonBodyParser, retrieveGameByGenre)
         router.get('/search/:genre/:query', jsonBodyParser, retrieveGameByQuery)
-
+        router.get('/game/:id', jsonBodyParser, retrieveGameById)
         app.use('/api', router)
 
         app.listen(port, () => console.log(`${package.name} ${package.version} running on port ${port}`))
