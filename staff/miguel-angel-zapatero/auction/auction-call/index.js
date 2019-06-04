@@ -1,5 +1,5 @@
 const validate = require('auction-validate')
-// const { ConnectionError, TimeoutError } = require('auction-errors')
+const { ConnectionError, TimeoutError } = require('auction-errors')
 
 const axios = require('axios')
 
@@ -34,12 +34,16 @@ function call(url, options = {}) {
     })
         .then(response => response.data)
         .catch(err => {
-            // debugger
-            if(!err.response) throw err 
+            if(err.code === 'ENOTFOUND') throw new ConnectionError('can not connect')
+
+            const { response } = err
+            
+            if(!response) throw err 
+            
             const { response: {data: { error }}} = err
+            
             if(error) err.message = error
-            // if (err instanceof TypeError) throw new ConnectionError('cannot connect')
-            // else if (err instanceof DOMException) throw new TimeoutError(`time out, exceeded limit of ${timeout}ms`)
+            
             throw err
         })
 }
