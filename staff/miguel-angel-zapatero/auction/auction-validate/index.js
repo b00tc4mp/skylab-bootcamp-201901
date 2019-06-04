@@ -1,4 +1,4 @@
-const { ValueError, RequirementError, FormatError } = require('auction-errors')
+const { ValueError, RequirementError, FormatError, ComparisonError } = require('auction-errors')
 
 const validate = {
     arguments(args) {
@@ -37,6 +37,10 @@ const validate = {
         dates.forEach(date => {
             if(!(date instanceof Date && !isNaN(date))) throw new FormatError(`${date} is not a date`)
         })
+    },
+
+    samePassword(password, confirmPassword) {
+        if(password !== confirmPassword) throw new ComparisonError('passwords not match')
     }
 }
 
