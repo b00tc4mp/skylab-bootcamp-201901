@@ -31,6 +31,12 @@ const validate = {
         const re = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/
 
         if (!re.test(String(url))) throw new FormatError(`${url} is not a url`)
+    },
+
+    dates(dates) {
+        dates.forEach(date => {
+            if(!(date instanceof Date && !isNaN(date))) throw new FormatError(`${date} is not a date`)
+        })
     }
 }
 
