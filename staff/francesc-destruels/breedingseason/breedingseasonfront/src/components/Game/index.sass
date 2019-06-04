@@ -1,0 +1,37 @@
+.game
+    position: absolute
+    margin: 1%
+    min-height: 100% 
+    min-width: 100%
+    max-height: 100% 
+    max-width: 100%
+    display: grid
+    grid-template-columns: 0.6fr 1.4fr
+    grid-template-rows: 0.3fr 0.2fr 0.4fr 3fr
+    grid-template-areas: "MissionCards Nav" "MissionCards Nav" "MissionCards Map" "TurnCards Map"
+
+    &__MissionCards 
+        grid-area: MissionCards
+
+    &__TurnCards
+        grid-area: TurnCards
+
+    &__Map 
+        grid-area: Map
+        
+    &__Nav
+        display: grid;
+        grid-template-columns: 0.4fr 2.2fr 0.4fr
+        grid-template-rows: 1fr 1.6fr 0.4fr
+        grid-template-areas: "Logo LvLArea Button" "Logo LvLArea Button" "Logo LvLArea ."
+        grid-area: Nav
+        
+    &__Logo 
+        grid-area: Logo
+        
+    &__Button 
+        grid-area: Button
+    
+    &__LvLArea 
+        grid-area: LvLArea
+

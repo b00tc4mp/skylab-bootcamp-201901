@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import './index.sass'
+import Feedback from '../Feedback'
+import { GameContext } from '../GameContext'
 
-function Login({ onLogin, error }) {
+function Login({ onLogin }) {
+
+    const { feedback } = useContext(GameContext)
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -18,7 +22,7 @@ function Login({ onLogin, error }) {
             <input type="text" name="nicknameOEmail" placeholder="Nickname or Email" />
             <input type="password" name="password" placeholder="Password" />
             <button>Login</button>
-            <span>{error}</span>
+            {feedback && <Feedback message={feedback}/>}
         </form>
     </section>
 }
