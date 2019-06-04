@@ -20,7 +20,7 @@ const logic = {
         return(async()=>{
 
             const user = await User.findById(id)
-            debugger
+            
             
             if(!user) throw new LogicError(`user with id "${id}" does not exist`)
 
@@ -339,7 +339,7 @@ const logic = {
                 await User.create({ name, surname, email, password: hash, profile, country })
 
             }catch(err){
-                debugger
+                
                 throw Error (err.message)
 
             }
@@ -379,7 +379,7 @@ const logic = {
         })()
     },
     updateUser(id, name, surname, country ){
-        debugger
+        
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true},
             { name: 'name', value: name, type: 'string', optional: true},

@@ -1,7 +1,7 @@
 import React from 'react'
-import moment from 'moment'
 
-function Sidebar({error, onSwitch, user, onLogout}){
+
+function Sidebar({error, onSwitch, user, onLogout, dateFrom, dateTo, resolution}){
 
     let statisticType
     function onStatisticsChange(e){
@@ -19,15 +19,15 @@ function Sidebar({error, onSwitch, user, onLogout}){
 
         return <>
         <main >
-        <h3>User, {user.name}!</h3>
-        <h3>Profile: {user.profile}!</h3>
-        <h3>Country: {user.country}!</h3>
+        <h3>User, {user.name}</h3>
+        <h3>Profile: {user.profile}</h3>
+        <h3>Country: {user.country}</h3>
         <form onSubmit={handleSubmit}>
             <label>From: </label>
-            <input id="dateFrom" type="date" name="dateFrom" required></input>
+            <input id="dateFrom" type="date" name="dateFrom" required defaultValue={dateFrom}></input>
             <label>To: </label>
-            <input id="dateTo" type="date" name="dateTo" required></input>
-            <select name="city" onChange={event => onStatisticsChange(event.target.value)} defaultValue="byResolution">
+            <input id="dateTo" type="date" name="dateTo" required defaultValue={dateTo}></input>
+            <select name="country" onChange={event => onStatisticsChange(event.target.value)} defaultValue={resolution}>
                         <option value="byResolution">By Resolution</option>
                         <option value="bySLA">By SLA</option>
                     </select>

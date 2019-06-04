@@ -28,7 +28,7 @@ describe('logic',()=>{
     describe('users', ()=>{
         describe('register user', ()=>{
             it('should succeed on correct data', async ()=>{
-                debugger
+                
                 await logic.registerUser(name, surname, email, password, profile, country)
                 
                 const users = await User.find()

@@ -11,22 +11,22 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
     let arrayRequest=[]
 
     arrayHotFix.push(['created','overdue','ontime'])
-    hotfix.forEach(element => {
+    hotfix.length && hotfix.forEach(element => {
         arrayHotFix.push([moment(element.created).format('YY-MM-DD'), element.overdue, element.ontime])
         
     })
     arrayBugFix.push(['created','overdue','ontime'])
-    bugfix.forEach(element => {
+    bugfix.length && bugfix.forEach(element => {
         arrayBugFix.push([moment(element.created).format('YY-MM-DD'), element.overdue, element.ontime])
         
     })
     arrayBug.push(['created','overdue','ontime'])
-    bug.forEach(element => {
+    bug.length && bug.forEach(element => {
         arrayBug.push([moment(element.created).format('YY-MM-DD'), element.overdue, element.ontime])
         
     })
     arrayRequest.push(['created','overdue','ontime'])
-    request.forEach(element => {
+    request.length && request.forEach(element => {
         arrayRequest.push([moment(element.created).format('YY-MM-DD'), element.overdue, element.ontime])
         
     })
@@ -85,7 +85,7 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
             loader={<div>Loading Chart</div>}
             data={arrayRequest}
             options={{
-                title: 'Bug by SLA',
+                title: 'Request by SLA',
                 vAxis: { title: 'Request' },
                 hAxis: { title: 'Days' },
                 seriesType: 'bars',

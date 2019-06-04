@@ -4,10 +4,11 @@ import Landing from './Landing'
 import Register from './Register'
 import Login from './Login'
 import Home from './Home'
+import HomeAdmin from './HomeAdmin'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 
 class App extends Component{
-    state = { user: null, error: null}
+    state = { user: null, error: null , profile: null}
     handleRegisterNavigation = () => this.props.history.push('/register')
 
     handleLoginNavigation = () => this.props.history.push('/login')
@@ -26,14 +27,15 @@ class App extends Component{
     handleLogin = async (email, password) => {
         try {
             await logic.loginUser(email, password)
-            const response = await logic.retrieveUser()
+            const user = await logic.retrieveUser()
         
-            this.setState({ user: response, error: null }, () => this.props.history.push('/home'))
+            this.setState({ user, profile: user.profile, error: null }, () => this.props.history.push('/home'))
         
         } catch (error) {
             this.setState({ error })
         }
     }
+
     handleLogout = () => {
         logic.logoutUser()
 
@@ -43,7 +45,7 @@ class App extends Component{
         if(logic.isUserLoggedIn){
             try{
                 const user = await logic.retrieveUser()
-                this.setState({ user})
+                this.setState({ user, profile: user.profile})
 
             }catch(error){
                 this.setState({ error: error.message })
@@ -69,7 +71,7 @@ class App extends Component{
     render(){
 
         const {
-            state: {user, error},
+            state: {user, error, profile},
             handleRegisterNavigation,
             handleLoginNavigation,
             handleRegister,
@@ -82,9 +84,9 @@ class App extends Component{
         <Switch>
             <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
             <Route path="/register" render={()=> logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} goLogin={handleLoginNavigation}/> }/>
-            <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} error={error} goRegister={handleRegisterNavigation}/>} />
-            <Route path="/home" render={() => logic.isUserLoggedIn ? <Home user={user} onLogout={handleLogout} /> : <Redirect to="/" />} />
-
+            <Route path="/login" render={() => logic.isUserLoggedIn  ? (profile ==='product-expert'? <Redirect to="/home" /> : <Redirect to="/homeAdmin" />): <Login onLogin={handleLogin} error={error} goRegister={handleRegisterNavigation}/>} />
+            <Route path="/home" render={() => logic.isUserLoggedIn ? (profile ==='product-expert'? <Home user={user} onLogout={handleLogout} /> : <Redirect to="/homeAdmin" />) : <Redirect to="/" />} />
+            <Route path="/homeAdmin" render={() => logic.isUserLoggedIn ?(profile !== 'product-expert'? <HomeAdmin onLogout={handleLogout} error={error}/>: <Redirect to="/home" />) : <Redirect to="/" />} />
         </Switch>
 
         </>

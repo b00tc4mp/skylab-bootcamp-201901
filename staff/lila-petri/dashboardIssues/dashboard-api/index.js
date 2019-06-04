@@ -3,8 +3,8 @@ require('dotenv').config()
 const express = require('express')
 const package = require('./package.json')
 const routes = require('./src/routes')
-const cors = require('./src/routes/cors')
 const { mongoose } = require('dashboard-data')
+const cors = require('cors')
 
 // url data base productiom
 const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = process;
@@ -25,8 +25,8 @@ const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = proc
         // express
     
         const app = express()
-    
-        app.use(cors)
+        
+        app.use(cors())
     
         app.use('/api', routes)
     

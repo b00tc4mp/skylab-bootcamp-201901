@@ -16,6 +16,7 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
 
 
         return <div className={"my-pretty-chart-container"}>
+            {hotfix && (
             <Chart
                     width={'500px'}
                     height={'300px'}
@@ -33,15 +34,17 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                     ]}
                     options={{
                         title: 'HotFix by resolution',
+                        is3D: true
                     }}
                 />
+            )}
             <Chart
                     width={'500px'}
                     height={'300px'}
                     chartType="PieChart"
                     loader={<div>Loading Chart</div>}
                     data={[
-                        ['Task', 'Hours per Day'],
+                        ['BugFix', 'byResolution'],
                         ['Cannot Reproduce', bugfixCanNot],
                         ['Done', bugfixDone],
                         ['Duplicate', bugfixDup],
@@ -52,6 +55,7 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                     ]}
                     options={{
                         title: 'BugFix by resolution',
+                        is3D: true
                     }}
                 />
             <Chart
@@ -60,7 +64,7 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                     chartType="PieChart"
                     loader={<div>Loading Chart</div>}
                     data={[
-                        ['Task', 'Hours per Day'],
+                        ['Bug', 'byResolution'],
                         ['Cannot Reproduce', bugCanNot],
                         ['Done', bugDone],
                         ['Duplicate', bugDup],
@@ -80,7 +84,7 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                     chartType="PieChart"
                     loader={<div>Loading Chart</div>}
                     data={[
-                        ['Task', 'Hours per Day'],
+                        ['Request', 'byResolution'],
                         ['Cannot Reproduce', reqCanNot],
                         ['Done', reqDone],
                         ['Duplicate', reqDup],
