@@ -223,6 +223,20 @@ const logic = {
         game.id = game._id.toString()
         delete game._id
         return game
+    },
+
+    async toggleFavs(userId, id) {
+        if (typeof userId !== 'string') throw TypeError('userId is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+        if (typeof id !== 'string') throw TypeError('id is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        const user = await User.findById(userId)
+        let index = user.favoriteGames.indexOf(id)
+        if (index < 0) user.favoriteGames.push(id)
+        else user.favoriteGames.splice(index, 1)
+
+        await user.save()
     }
 
 
