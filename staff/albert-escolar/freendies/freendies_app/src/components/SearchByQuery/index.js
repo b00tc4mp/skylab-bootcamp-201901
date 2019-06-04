@@ -11,7 +11,7 @@ class SearchByQuery extends Component {
     }
 
     async componentDidMount() {
-        debugger
+       
         const { match: { params: { genre, query } } } = this.props
 
         const results = await logic.retrieveGameByQuery(genre, query)
@@ -19,7 +19,7 @@ class SearchByQuery extends Component {
     }
 
    async componentWillReceiveProps(props) {
-       debugger
+       
         const { match: { params: { genre, query } } } = props
 
         const results = await logic.retrieveGameByQuery(genre, query)

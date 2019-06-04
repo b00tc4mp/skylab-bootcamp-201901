@@ -11,8 +11,8 @@ class SearchBar extends Component {
     onSubmit = (event) => {
         event.preventDefault()
         let { title, genre } = this.state
-        title = title.toLocaleLowerCase()
-        genre = genre.toLocaleLowerCase()
+        title = title.toLowerCase()
+        genre = genre.toLowerCase()
 
         this.props.onSearch(genre, title)
 
