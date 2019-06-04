@@ -6,7 +6,7 @@ deleteUser -> post -> /users
         -----   -----
 createPresentation -> post -> /presentations
 deletePresentation -> delete -> /presentations
-retrievePresentation -> get -> /presentations
+retrievePresentation -> get -> /presentations/:id
 updatePresentationTitle -> put -> /presentations
         -----   -----
 updateSlideStyle -> put -> /presentations/slides/style *

@@ -7,11 +7,21 @@
     "react-dom": "^16.8.6",
     "react-scripts": "3.0.1"
   },
+  "devDependencies": {
+    "bcrypt": "^3.0.6",
+    "chai": "^4.2.0",
+    "devslides-data": "file:../devslides-data",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test": "mocha --timeout 30000 '**/*.spec.js'",
+    "test:chrome": "mocha --inspect-brk  '**/*.spec.js' --timeout 30000",
+    "test:debug": "mocha debug  '**/*.spec.js'",
+    "test:coverage": "nyc --reporter=text --reporter=html mocha '**/*.spec.js' --timeout 30000"
   },
   "eslintConfig": {
     "extends": "react-app"

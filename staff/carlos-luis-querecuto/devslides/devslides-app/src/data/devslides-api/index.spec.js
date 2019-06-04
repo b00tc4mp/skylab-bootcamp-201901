@@ -1,27 +1,27 @@
 const dotenv = require('dotenv')
 const data = require('devslides-data')
 const { expect } = require('chai')
-const logic = require('.')
+const api = require('.');
 const bcrypt = require('bcrypt')
 
 dotenv.config()
 
 const { models, mongoose } = data
-const { User, Presentation } = models
+const { User, Presentation } = models;
 const { env: { MONGO_URL_LOGIC_TEST: url } } = process
 
-describe('logic', () => {
+describe('api', () => {
     let name, surname, username, email, password
     before(async () => {
-        mongoose.connect(url, { useNewUrlParser: true })
+        mongoose.connect('mongodb://localhost/devslides-api', { useNewUrlParser: true })
         await User.deleteMany()
         await Presentation.deleteMany()
     })
     describe('users', () => {
 
-        beforeEach(async () => {
+        beforeEach(() => {
             name = `name-${Math.random()}`,
-                surname = `surname-${Math.random()}`,
+                surname = `appsurname-${Math.random()}`,
                 username = `username-${Math.random()}`,
                 email = `email-${Math.random()}@mail.com`,
                 password = `password-${Math.random()}`
@@ -36,9 +36,9 @@ describe('logic', () => {
             it('should succeed on correct data', async () => {
 
 
-                const res = await logic.registerUser(name, surname, username, email, password)
+                const res = await api.registerUser(name, surname, username, email, password)
 
-                expect(res).to.be.undefined
+                expect(res.message).to.equal('Ok, user registered.')
 
                 const users = await User.find()
 
@@ -60,7 +60,8 @@ describe('logic', () => {
                 email = 'used-email@mail.com'
                 await User.create({ name, surname, username, email, password })
                 try {
-                    await logic.registerUser(name, surname, username, email, password)
+                    debugger
+                    await api.registerUser(name, surname, username, email, password)
                     throw Error('should not reach this point')
                 }
                 catch (err) {
@@ -73,7 +74,7 @@ describe('logic', () => {
                 await User.create({ name, surname, username, email, password })
                 email = `email-${Math.random()}@mail.com`
                 try {
-                    await logic.registerUser(name, surname, username, email, password)
+                    await api.registerUser(name, surname, username, email, password)
                     throw Error('should not reach this point')
                 }
                 catch (err) {
@@ -82,21 +83,26 @@ describe('logic', () => {
             })
         })
         describe('authenticate user', () => {
-            let user
 
-            beforeEach(async () => user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) }))
+            beforeEach(async () => await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) }))
 
-            it('should succeed on correct credentials', async () => {
-                const id = await logic.authenticateUser(email, password)
+            it('should succeed on correct email', async () => {
+                const token = await api.authenticateUser(email, password)
 
-                expect(id).to.exist
-                expect(id).to.be.a('string')
-
-                expect(id).to.equal(user.id)
+                expect(token).to.exist
+                expect(token).to.be.a('string')
             })
+
+            it('should succeed on correct username', async () => {
+                const token = await api.authenticateUser(username, password)
+
+                expect(token).to.exist
+                expect(token).to.be.a('string')
+            })
+
             it('should fail on incorrect credentials', async () => {
                 try {
-                    await logic.authenticateUser(email, `wrong-password-${Math.random()}`)
+                    await api.authenticateUser(email, `wrong-password-${Math.random()}`)
                     throw Error('should not reach this point')
                 }
                 catch (err) {
@@ -106,12 +112,12 @@ describe('logic', () => {
         })
 
         describe('retrieve user', () => {
-            let user
 
-            beforeEach(async () => user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) }))
+            beforeEach(async () => await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) }))
 
             it('should succeed on correct id from existing user', async () => {
-                const _user = await logic.retrieveUser(user.id)
+                const token = await api.authenticateUser(username, password)
+                const _user = await api.retrieveUser(token)
 
                 expect(_user.id).to.be.undefined
                 expect(_user.name).to.equal(name)
@@ -122,41 +128,49 @@ describe('logic', () => {
             })
         })
         describe('update user', () => {
-            let user
-            beforeEach(async () => user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) }))
+            let token
+            beforeEach(async () => {
+                await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) })
+                token = await api.authenticateUser(username, password)
+            })
 
             it('should succeed on update an existing user', async () => {
 
-                const name = `name-${Math.random()}`
-                const surname = `surname-${Math.random()}`
-                const username = `surname-${Math.random()}`
-                const email = `email-${Math.random()}@mail.com`
-                const password = `password-${Math.random()}`
+                const _name = `name-${Math.random()}`
+                const _surname = `surname-${Math.random()}`
+                const _username = `surname-${Math.random()}`
+                const _email = `email-${Math.random()}@mail.com`
+                const _password = `password-${Math.random()}`
 
-                const _user = await logic.updateUser(user.id, { name, surname, username, email, password })
-
+                const _user = await api.updateUser(token, { name: _name, surname: _surname, username: _username, email: _email, password: _password })
                 expect(_user.id).to.be.undefined
-                expect(_user.name).to.equal(name)
-                expect(_user.surname).to.equal(surname)
-                expect(_user.username).to.equal(username)
-                expect(_user.email).to.equal(email)
-                expect(await bcrypt.compare(password, _user.password)).to.be.true
+                expect(_user.name).to.equal(_name)
+                expect(_user.surname).to.equal(_surname)
+                expect(_user.username).to.equal(_username)
+                expect(_user.email).to.equal(_email)
+                expect(await bcrypt.compare(_password, _user.password)).to.be.true
 
             })
 
         })
         describe('delete user', () => {
-            let user
-            it('should succeed on delete an user', async () => {
+            let user, token
+            beforeEach(async () => {
                 user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) })
-                await logic.deleteUser(user.id, password)
+                token = await api.authenticateUser(username, password)
+            })
+
+            it('should succeed on delete an user', async () => {
+                await api.deleteUser(token, password)
                 const _user = await User.findById(user.id).lean()
                 expect(_user).to.equal(null)
+
             })
 
             it('should fail on delete an unexising user', async () => {
                 try {
-                    await logic.deleteUser(user.id, password)
+                    await api.deleteUser(token, password)
+                    await api.deleteUser(token, password)
                     throw Error('should not reach this point')
                 }
                 catch (err) {
@@ -178,13 +192,17 @@ describe('logic', () => {
 
         })
         describe('presentation', () => {
-            let user
-            beforeEach(async () => user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) }))
+            let user, token
+            beforeEach(async () => {
+                user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) })
+                token = await api.authenticateUser(username, password)
+            })
             it('should create an empty presentation from an existing user', async () => {
+                debugger
                 const title = `title-${Math.random()}`
-                const res = await logic.createPresentation(user.id, title)
-                expect(res).to.be.undefined
-
+                const res = await api.createPresentation(token, title)
+                expect(res.message).to.equal(`Created new presentation ${title}`)
+                debugger
                 const _user = await User.findById(user.id).lean()
                 const [presentationid] = _user.presentations
                 const presentation = await Presentation.findById(presentationid).lean()
@@ -195,9 +213,9 @@ describe('logic', () => {
             })
             it('should fail when create a presentation with an existing title on user collection', async () => {
                 const title = `title-${Math.random()}`
-                await logic.createPresentation(user.id, title)
+                await api.createPresentation(token, title)
                 try {
-                    await logic.createPresentation(user.id, title)
+                    await api.createPresentation(token, title)
                 }
                 catch (err) {
                     expect(err.message).to.equal(`Presentation with title ${title} already exist`)
@@ -205,14 +223,14 @@ describe('logic', () => {
             })
             it('should delete a presentation from an existing user', async () => {
                 const title = `title-${Math.random()}`
-                await logic.createPresentation(user.id, `presentation-${Math.random()}`)
-                await logic.createPresentation(user.id, title)
+                await api.createPresentation(token, `presentation-${Math.random()}`)
+                await api.createPresentation(token, title)
 
                 let _user = await User.findById(user.id).lean()
                 expect(_user.presentations).to.have.length(2)
                 const [presentationid] = _user.presentations
 
-                await logic.deletePresentation(user.id, presentationid.toString())
+                await api.deletePresentation(token, presentationid.toString())
                 _user = await User.findById(user.id).lean()
                 expect(_user.presentations).to.have.length(1)
 
@@ -222,20 +240,21 @@ describe('logic', () => {
             })
         })
         describe('slide', () => {
-            let user, style
+            let user, style, token
             beforeEach(async () => {
                 style = `{ background-color: red; border: 1px solid #${Math.random()} }`
                 user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) })
-                await logic.createPresentation(user.id, `presentation-${Math.random()}`)
+                token = await api.authenticateUser(username, password)
+                await api.createPresentation(token, `presentation-${Math.random()}`)
             })
             it('should create an empty slide from an existing presentation', async () => {
 
-                const _user = await User.findById(user.id)
+                const _user = await User.findById(user.id).lean()
+                debugger
                 const [presentation] = _user.presentations
-                await logic.createSlide(user.id, presentation.toString(), style)
-                const presentation_slides = await Presentation.findById(presentation).select('slides -_id').lean()
-                const { slides } = presentation_slides
-                const [slide] = slides
+                await api.createSlide(token, presentation.toString(), style)
+                const presentation_Slides = await Presentation.findById(presentation).select('slides -_id').lean()
+                const { slides: [slide] } = presentation_Slides
 
                 expect(slide).to.exist
                 expect(slide.style).to.equal(style)
@@ -243,36 +262,38 @@ describe('logic', () => {
 
             it('should delete an slide from an existing presentation', async () => {
 
-                const _user = await User.findById(user.id)
+                const _user = await User.findById(user.id).lean()
                 const [presentation_Id] = _user.presentations
-                await logic.createSlide(user.id, presentation_Id.toString(), style)
+                await api.createSlide(token, presentation_Id.toString(), style)
+                debugger
                 let presentation_Slides = await Presentation.findById(presentation_Id).select('slides -_id').lean()
                 const { slides: [slide] } = presentation_Slides
-                await logic.deleteSlide(user.id, presentation_Id.toString(), slide._id.toString())
+                await api.deleteSlide(token, presentation_Id.toString(), slide._id.toString())
                 presentation_Slides = await Presentation.findById(presentation_Id)
-
+                debugger
                 expect(presentation_Slides.slides).to.have.length(0)
             })
         })
         describe('element', () => {
-            let user, presentation, style, type, content
+            let user, presentation, style, type, content, token
             beforeEach(async () => {
                 content = `Lorem-ipsum-${Math.random()}`
                 type = `textbox-${Math.random()}`
                 style = `{ background-color: red; border: 1px solid #${Math.random()} }`
                 user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) })
-                await logic.createPresentation(user.id, `presentation-${Math.random()}`)
+                token = await api.authenticateUser(username, password)
+                await api.createPresentation(token, `presentation-${Math.random()}`)
                 const _user = await User.findById(user.id)
                 const { presentations: [_presentation] } = _user
                 presentation = _presentation
-                await logic.createSlide(user.id, presentation.toString(), style)
+                await api.createSlide(token, presentation.toString(), style)
             })
             it('should create an element from an existing slide', async () => {
 
                 let presentation_slides = await Presentation.findById(presentation).lean()
                 const { slides: [slide] } = presentation_slides
 
-                await logic.createElement(user.id, presentation.toString(), slide._id.toString(), style, type, content)
+                await api.createElement(token, presentation.toString(), slide._id.toString(), style, type, content)
 
                 presentation_slides = await Presentation.findById(presentation).lean()
                 const { slides: [slide_element] } = presentation_slides
@@ -286,12 +307,12 @@ describe('logic', () => {
 
                 let presentation_slides = await Presentation.findById(presentation).lean()
                 const { slides: [slide] } = presentation_slides
-                await logic.createElement(user.id, presentation.toString(), slide._id.toString(), style, type, content)
+                await api.createElement(token, presentation.toString(), slide._id.toString(), style, type, content)
 
                 presentation_slides = await Presentation.findById(presentation).lean()
                 const { slides: [slide_element] } = presentation_slides
                 const { elements: [element] } = slide_element
-                await logic.deleteElement(user.id, presentation.toString(), slide._id.toString(), element._id.toString())
+                await api.deleteElement(token, presentation.toString(), slide._id.toString(), element._id.toString())
 
                 presentation_slides = await Presentation.findById(presentation).lean()
                 const { slides: [slideDeletedElement] } = presentation_slides
@@ -302,14 +323,15 @@ describe('logic', () => {
             })
         })
         describe('Retrieve JSON presentation', () => {
-            let user, presentation, slidesQuantity, elementsQuantity, content, type, style
+            let user, presentation, slidesQuantity, elementsQuantity, content, type, style, token
             beforeEach(async () => {
                 content = `Lorem-ipsum-${Math.random()}`
                 type = `textbox-${Math.random()}`
                 style = `{ background-color: red; border: 1px solid #${Math.random()} }`
                 user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) })
+                token = await api.authenticateUser(username, password)
 
-                await logic.createPresentation(user.id, `Presentation-to-JSON-${Math.random()}`)
+                await api.createPresentation(token, `Presentation-to-JSON-${Math.random()}`)
                 const _user = await User.findById(user.id)
                 const { presentations: [presentationId] } = _user
 
@@ -317,18 +339,18 @@ describe('logic', () => {
                 slidesQuantity = Math.floor(Math.random() * 1) + 10
                 elementsQuantity = Math.floor(Math.random() * 5) + 10
                 for (var index = 0; index < slidesQuantity; index++) {
-                    await logic.createSlide(user.id, presentation._id.toString(), style)
+                    await api.createSlide(token, presentation._id.toString(), style)
 
                     presentation = await Presentation.findById(presentationId).lean()
 
                     for (let i = 0; i < elementsQuantity; i++) {
                         const { slides } = presentation
-                        await logic.createElement(user.id, presentation._id.toString(), slides[index]._id.toString(), style, type, content)
+                        await api.createElement(token, presentation._id.toString(), slides[index]._id.toString(), style, type, content)
                     }
                 }
             })
             it('should retrieve presentations and its childrens JSONified', async () => {
-                const objectPresentation = await logic.retrievePresentation(user.id, presentation._id.toString())
+                const objectPresentation = await api.retrievePresentation(token, presentation._id.toString())
 
                 expect(objectPresentation.slides).to.have.length(slidesQuantity)
                 for (let i = 0; i < slidesQuantity; i++) {
@@ -343,25 +365,26 @@ describe('logic', () => {
             })
         })
         describe('Presentation Update', () => {
-            let user, presentation, content, type, style, slides
+            let user, presentation, content, type, style, slides, token
             beforeEach(async () => {
                 content = `Lorem-ipsum-${Math.random()}`
                 type = `textbox-${Math.random()}`
                 style = `{ background-color: red; border: 1px solid #${Math.random()} }`
                 user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) })
+                token = await api.authenticateUser(username, password)
 
-                await logic.createPresentation(user.id, `Presentation-update-${Math.random()}`)
+                await api.createPresentation(token, `Presentation-update-${Math.random()}`)
                 const _user = await User.findById(user.id)
                 const { presentations: [presentationId] } = _user
 
                 presentation = await Presentation.findById(presentationId).lean()
-                await logic.createSlide(user.id, presentation._id.toString(), style)
-                await logic.createSlide(user.id, presentation._id.toString(), style)
+                await api.createSlide(token, presentation._id.toString(), style)
+                await api.createSlide(token, presentation._id.toString(), style)
 
                 presentation = await Presentation.findById(presentationId).lean()
                 slides = presentation.slides
-                await logic.createElement(user.id, presentation._id.toString(), slides[0]._id.toString(), style, type, content)
-                await logic.createElement(user.id, presentation._id.toString(), slides[1]._id.toString(), style, type, content)
+                await api.createElement(token, presentation._id.toString(), slides[0]._id.toString(), style, type, content)
+                await api.createElement(token, presentation._id.toString(), slides[1]._id.toString(), style, type, content)
 
                 presentation = await Presentation.findById(presentationId)
                 slides = presentation.slides
@@ -369,7 +392,7 @@ describe('logic', () => {
 
             it('should update a presentation title', async () => {
                 const title = `Presentation-titleUpdate-${Math.random()}`
-                await logic.updatePresentationTitle(user.id, presentation._id.toString(), title)
+                await api.updatePresentationTitle(token, presentation._id.toString(), title)
 
                 presentation = await Presentation.findById(presentation._id.toString()).lean()
                 expect(presentation.title).to.equal(title)
@@ -378,8 +401,8 @@ describe('logic', () => {
 
             it('should update a presentation style', async () => {
                 const style = `{ background-color: red; border: 1px solid #${Math.random()} }`
-                await logic.updateSlideStyle(user.id, presentation._id.toString(), slides[0]._id.toString(), style)
-
+                const res = await api.updateSlideStyle(token, presentation._id.toString(), slides[0]._id.toString(), style)
+                expect(res.message).to.equal('Ok, style updated.')
                 presentation = await Presentation.findById(presentation._id.toString()).lean()
                 expect(presentation.slides[0]._id.toString()).to.equal(slides[0]._id.toString())
                 expect(presentation.slides[0].style).to.equal(style)
@@ -400,7 +423,7 @@ describe('logic', () => {
                 }
                 const updateElements = [element1, element2]
                 const updateSlides = [slides[0].id, slides[1].id]
-                await logic.updateSlide(user.id, presentation._id.toString(), updateSlides, updateElements)
+                await api.updateSlide(token, presentation._id.toString(), updateSlides, updateElements)
 
                 presentation = await Presentation.findById(presentation._id.toString()).lean()
                 slides = presentation.slides

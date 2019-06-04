@@ -10,38 +10,49 @@ const router = express.Router()
 router.post('/users', (req, res) => {
     const { body: { name, surname, username, email, password } } = req
 
-    handleErrors(() =>
-        logic.registerUser(name, surname, username, email, password)
-            .then(() => res.status(201).json({ message: 'Ok, user registered.' })),
+    handleErrors(async () => {
+        await logic.registerUser(name, surname, username, email, password)
+        return res.status(201).json({ message: 'Ok, user registered.' })
+    },
         res)
 })
 
 router.post('/users/auth', (req, res) => {
     const { body: { username, password } } = req
 
-    handleErrors(() =>
-        logic.authenticateUser(username, password)
-            .then(sub => {
-                const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '47m' })
-                res.json({ token })
-            }),
+    handleErrors(async () => {
+        const sub = await logic.authenticateUser(username, password)
+
+        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '47m' })
+        return res.json({ token })
+    },
         res)
 })
 
-router.get('/users', auth, (req, res) => {
-    handleErrors(() => {
-        const { userId } = req
 
-        return logic.retrieveUser(userId)
-            .then(user => res.json(user))
+router.get('/users', auth, (req, res) => {
+    handleErrors(async () => {
+        const { userId } = req
+        const user = await logic.retrieveUser(userId)
+        return res.json(user)
+    },
+        res)
+})
+
+router.delete('/users', auth, (req, res) => {
+    const { userId, body: { password } } = req
+
+    handleErrors(async () => {
+        await logic.deleteUser(userId, password)
+        return res.status(201).json({ message: 'User Deleted' })
     },
         res)
 })
 
 router.put('/users', auth, (req, res) => {
     handleErrors(() => {
+        debugger
         const { userId, body: { name, surname, username, email, password } } = req
-
         return logic.updateUser(userId, { name, surname, username, email, password })
             .then(user => res.json(user))
     },
@@ -52,7 +63,7 @@ router.put('/users', auth, (req, res) => {
 router.post('/presentations', auth, (req, res) => {
     handleErrors(() => {
         const { userId, body: { title } } = req
-
+        debugger
         return logic.createPresentation(userId, title)
             .then(() => res.json({ message: `Created new presentation ${title}` }))
     },
@@ -90,11 +101,11 @@ router.put('/presentations', auth, (req, res) => {
 })
 
 
-router.get('/presentations/slides/style', auth, (req, res) => {
+router.post('/presentations/slides/style', auth, (req, res) => {
     handleErrors(() => {
-        const { userId, body: { presentationId, slideId } } = req
+        const { userId, body: { presentationId, slideId, style } } = req
 
-        return logic.updateSlideStyle(userId, presentationId, slideId)
+        return logic.updateSlideStyle(userId, presentationId, slideId, style)
             .then(() => res.status(201).json({ message: 'Ok, style updated.' }))
     },
         res)
@@ -102,8 +113,8 @@ router.get('/presentations/slides/style', auth, (req, res) => {
 
 router.post('/presentations/slides', auth, (req, res) => {
     handleErrors(() => {
-        const { userId, body: { id, style } } = req
-        return logic.createSlide(userId, id, style)
+        const { userId, body: { presentationId, style } } = req
+        return logic.createSlide(userId, presentationId, style)
             .then(() => res.status(201).json({ message: 'Ok, style updated.' }))
     },
         res)
@@ -111,9 +122,9 @@ router.post('/presentations/slides', auth, (req, res) => {
 
 router.put('/presentations/slides', auth, (req, res) => {
     handleErrors(() => {
-        const { userId, body: { presentationId, style } } = req
+        const { userId, body: { presentationId, updateSlides, updateElements } } = req
 
-        return logic.updateSlide(userId, presentationId, style)
+        return logic.updateSlide(userId, presentationId, updateSlides, updateElements)
             .then(() => res.status(201).json({ message: 'Ok, slide updated.' }))
     },
         res)
@@ -131,7 +142,7 @@ router.delete('/presentations/slides', auth, (req, res) => {
 
 router.post('/presentations/slides/element', auth, (req, res) => {
     handleErrors(() => {
-        const { userId, body: { presentationId, slideId } } = req
+        const { userId, body: { presentationId, slideId, style, type, content } } = req
 
         return logic.createElement(userId, presentationId, slideId, style, type, content)
             .then(() => res.status(201).json({ message: 'Ok, element created.' }))

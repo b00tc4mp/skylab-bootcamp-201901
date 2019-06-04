@@ -1,5 +1,5 @@
 const validate = require('../validate')
-const { ConnectionError } = require('../errors')
+const { ConnectionError, HttpError } = require('../errors')
 const axios = require('axios')
 
 /**
@@ -31,10 +31,10 @@ function call(url, options = {}) {
                 url,
                 data
             })
-
+            
             return response.data
         } catch (err) {
-            if (err.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')
+            if (err.code === 'ENOTFOUND' || err.code === 'ECONNREFUSED') throw new ConnectionError('cannot connect')
 
             if (!err.response) throw err
                 const { response: { data: { error } } } = err
