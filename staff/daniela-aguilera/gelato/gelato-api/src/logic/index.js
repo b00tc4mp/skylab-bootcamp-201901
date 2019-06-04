@@ -1,6 +1,7 @@
 const { User, Order } = require('gelato-data')
 const { LogicError, UnauthorizedError } = require('gelato-errors')
 const validate = require('gelato-validation')
+const bcrypt = require('bcrypt')
 
 const logic = {
   registerUser (name, surname, email, password) {
@@ -15,7 +16,8 @@ const logic = {
 
     return (async () => {
       try {
-        await User.create({ name, surname, email, password })
+        const hash = await bcrypt.hash(password, 10)
+        await User.create({ name, surname, email, password: hash })
       } catch (error) {
         throw new LogicError(error.message)
       }
@@ -31,7 +33,10 @@ const logic = {
     return (async () => {
       const user = await User.findOne({ email })
       if (!user) throw new LogicError('wrong credentials')
-      if (user.password === password && email === user.email) {
+
+      const match = await bcrypt.compare(password, user.password)
+
+      if (match) {
         return { id: user.id, superUser: user.superUser }
       } else throw new LogicError('wrong credentials')
     })()

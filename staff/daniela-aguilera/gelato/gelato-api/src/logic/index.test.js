@@ -2,8 +2,10 @@ const { User, Order, mongoose } = require('gelato-data')
 
 const { expect } = require('chai')
 const logic = require('./index')
+const bcrypt = require('bcrypt')
 
 const connectToDatabase = require('../db-connection')
+const should = require('chai').should()
 
 describe('logic', () => {
   let name, surname, email, password
@@ -38,6 +40,8 @@ describe('logic', () => {
       expect(user.email).to.equal(email)
 
       expect(user.password).to.exist
+      const match = await bcrypt.compare(password, user.password)
+      should.exist(match)
     })
 
     it('should fail on empty name', async () => {
@@ -121,7 +125,18 @@ describe('logic', () => {
   describe('authenticate user', () => {
     let user
 
-    beforeEach(async () => { user = await User.create({ name, surname, email, password }) })
+    // beforeEach(() =>
+    //   bcrypt.hash(password, 10)
+    //     .then(hash => User.create({ name, email, password: hash }))
+    // )
+
+    beforeEach(async () => {
+      const hash = await bcrypt.hash(password, 10)
+      user = await User.create({ name, surname, email, password: hash
+      })
+    })
+
+    // beforeEach(async () => { user = await User.create({ name, surname, email, password }) })
 
     it('should succeed on correct credentials', async () => {
       const { id, superUser } = await logic.authenticateUser(email, password)
