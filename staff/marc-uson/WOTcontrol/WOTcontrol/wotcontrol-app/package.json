@@ -29,9 +29,9 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "mocha ./src/**/*.test.js --runInBand --require mock-local-storage",
+    "test": "mocha ./src/**/*.test.js --runInBand --require mock-local-storage --timeout 40000",
     "test:debug": "mocha debug ./src/**/*.test.js --runInBand",
-    "test:coverage": "nyc --reporter=html --reporter=text mocha ./src/**/*.test.js --runInBand --require mock-local-storage"
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./src/**/*.test.js --runInBand --require mock-local-storage --timeout 40000"
   },
   "eslintConfig": {
     "extends": "react-app"

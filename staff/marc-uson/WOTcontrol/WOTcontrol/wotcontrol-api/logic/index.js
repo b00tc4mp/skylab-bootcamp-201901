@@ -252,7 +252,7 @@ const logic = {
                 const url = `http://${device[0].ip}:${device[0].port}/new?deviceid=${newDeviceName}`
 
                 const response = await call(url)
-
+                debugger
                 if(response.status == 'OK'){
                     device[0].name = response.deviceid
                     const index = users[0].devices.findIndex(({name}) => name == deviceName)

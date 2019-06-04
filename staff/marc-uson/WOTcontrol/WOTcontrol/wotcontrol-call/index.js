@@ -4,11 +4,11 @@ const axios = require('axios')
 
 /**
  * Makes an HTTP call.
- * 
- * @param {*} url 
- * @param {*} callback 
- * @param {*} options 
- * 
+ *
+ * @param {*} url
+ * @param {*} callback
+ * @param {*} options
+ *
  * @version 4.0.0
  */
 function call(url, options = {}) {
@@ -23,28 +23,19 @@ function call(url, options = {}) {
 
     validate.url(url)
 
-    return axios({
-        headers,
-        method,
-        url,
-        data
-    })
-        .then(response => response.data)
-        .catch(error => {
-            if (error.code === 'ENOTFOUND')  throw new ConnectionError('cannot connect')
-
-            const { response } = error
-
-            if (response && response.status) {
-                const err = new HttpError()
-
-                err.status = response.status
-
-                throw err
-            }
-
-            throw error
-        })
+    return (async () => {
+        try {
+            const response = await axios({
+                headers,
+                method,
+                url,
+                data
+            })
+            return response.data
+        } catch (error) {
+            throw error.response.data.error
+        }
+    })()
 }
 
 module.exports = call

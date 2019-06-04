@@ -8,6 +8,8 @@ const {models, mongoose} = require('wotcontrol-data')
 const { Users, Devices } = models;
 const { env: { MONGO_URL_LOGIC_TEST : url }} = process
 
+const arduinoIp = `192.168.0.59`
+
 describe('logic', () => {
 
     before(async () => {
@@ -2085,7 +2087,7 @@ describe('logic', () => {
             beforeEach(async() =>{
                 email = `marcusontest-${Math.random()}@gmail.com`
                 deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
-                deviceIp = `192.168.1.198`
+                deviceIp = arduinoIp
 
                 await Users.create({ name, surname, email, password, isAdmin })
 
@@ -2217,7 +2219,7 @@ describe('logic', () => {
             beforeEach(async() =>{
                 email = `marcusontest-${Math.random()}@gmail.com`
                 deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
-                deviceIp = `192.168.1.198`
+                deviceIp = arduinoIp
 
                 await Users.create({ name, surname, email, password, isAdmin })
 
@@ -2341,7 +2343,7 @@ describe('logic', () => {
             beforeEach(async() =>{
                 email = `marcusontest-${Math.random()}@gmail.com`
                 deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
-                deviceIp = `192.168.1.198`
+                deviceIp = arduinoIp
                 let type = 'digital'
 
                 await Users.create({ name, surname, email, password, isAdmin })
@@ -2467,7 +2469,7 @@ describe('logic', () => {
             beforeEach(async() =>{
                 email = `marcusontest-${Math.random()}@gmail.com`
                 deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
-                deviceIp = `192.168.1.198`
+                deviceIp = arduinoIp
                 let type = 'servo'
 
                 await Users.create({ name, surname, email, password, isAdmin })
@@ -2593,7 +2595,7 @@ describe('logic', () => {
             beforeEach(async() =>{
                 email = `marcusontest-${Math.random()}@gmail.com`
                 deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
-                deviceIp = `192.168.1.198`
+                deviceIp = arduinoIp
                 let type = 'motor'
 
                 await Users.create({ name, surname, email, password, isAdmin })
@@ -2721,7 +2723,7 @@ describe('logic', () => {
             beforeEach(async() =>{
                 email = `marcusontest-${Math.random()}@gmail.com`
                 deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
-                deviceIp = `192.168.1.198`
+                deviceIp = arduinoIp
                 value = Math.floor(Math.random()*1024)
 
                 scaledValue = (value/10.23).toFixed(2)
@@ -2877,7 +2879,7 @@ describe('logic', () => {
             beforeEach(async() =>{
                 email = `marcusontest-${Math.random()}@gmail.com`
                 deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
-                deviceIp = `192.168.1.198`
+                deviceIp = arduinoIp
                 value = Math.floor(Math.random()*2)
 
                 await Users.create({ name, surname, email, password, isAdmin })
@@ -3030,7 +3032,7 @@ describe('logic', () => {
             beforeEach(async() =>{
                 email = `marcusontest-${Math.random()}@gmail.com`
                 deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
-                deviceIp = `192.168.1.198`
+                deviceIp = arduinoIp
                 value = Math.floor(Math.random()*1024)
 
                 scaledValue = (value/10.23).toFixed(2)
@@ -3162,7 +3164,7 @@ describe('logic', () => {
             beforeEach(async() =>{
                 email = `marcusontest-${Math.random()}@gmail.com`
                 deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
-                deviceIp = `192.168.1.198`
+                deviceIp = arduinoIp
                 value = 0
                 debugger
                 await Users.create({ name, surname, email, password, isAdmin })

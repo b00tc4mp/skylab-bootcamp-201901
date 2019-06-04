@@ -1,4 +1,5 @@
-import validate from 'wotcontrol-validate'
+const validate = require ('wotcontrol-validate')
+const restApi = require ('../rest-api')
 import { LogicError, RequirementError, ValueError, FormatError } from 'wotcontrol-errors'
 
 
@@ -29,20 +30,8 @@ const logic = {
         email = email.toLowerCase()
         validate.email(email)
 
-        const encryptedPass = bcrypt.hashSync(password, 10)
-
         return (async () => {
-            const user = await Users.findOne({ email })
-
-            if (user) throw new LogicError(`user with email "${email}" already exists`)
-
-            try {
-                await Users.create({ name, surname, email, password: encryptedPass, admin })
-            } catch (error) {
-                throw new Error(error)
-            }
-
-
+            restApi.registerUser()
         })()
     },
 
