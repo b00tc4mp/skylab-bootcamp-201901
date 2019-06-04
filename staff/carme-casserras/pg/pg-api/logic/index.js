@@ -51,6 +51,7 @@ const logic = {
     },
 
     retrieveUser(id) {
+        debugger
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])

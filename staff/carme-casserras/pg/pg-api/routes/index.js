@@ -30,10 +30,10 @@ router.post('/users/auth', jsonParser, (req, res) => {
         return res.json({token})}, res)
 })
 
-router.get('/users/:id', auth, (req, res) => {
-    const {params: {id : userId} } = req
+router.get('/users', auth, (req, res) => {
+    const { userId } = req
     handleErrors( async () => {
-
+debugger
         const user = await logic.retrieveUser(userId)
         return res.json(user)
     }, res)

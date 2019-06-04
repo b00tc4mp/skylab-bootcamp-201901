@@ -1,26 +1,45 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, {Component} from 'react'
+import logic from './logic'
+import Register from './components/Register'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
+
+import './index.sass'
+
+class App extends Component {
+
+  state = { visible: null, error: null, name: null }
+
+
+  handleRegister(name, email, password) {
+    try {
+      logic.registerUser(name, email, password)
+        .then(() =>
+          this.setState({ visible: 'register-ok', error: null })
+        )
+        .catch(error =>
+          this.setState({ error: error.message })
+        )
+    } catch ({ message }) {
+      this.setState({ error: message })
+    }
+  }
+
+
+  render() {
+    const {
+      state: { error, name},
+      handleRegister
+    } = this
+
+    return <>
+    <Switch>
+      {/* <Route path="/register" render={() => <Register onRegister={handleRegister} />} /> */}
+      <Route exact path='/register' component={Register} />
+      </Switch>
+    </> 
+
+  }
+
 }
-
-export default App;
+    export default withRouter(App);

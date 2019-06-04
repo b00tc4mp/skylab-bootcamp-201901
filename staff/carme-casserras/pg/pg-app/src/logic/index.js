@@ -1,17 +1,21 @@
-import validate from ('validate')
-import normalize from ('normalize')
-import data from ('.')
-import pgApi from "../data";
+import validate from 'pg-validate'
+import { RequirementError, ValueError, LogicError, HttpError } from 'pg-errors'
+import normalize from 'pg-normalize'
+import pgApi from '../data'
 
 
 const logic = {
 
     set __userToken__(token) {
-        sessionStorage.userToken(token)
+        sessionStorage.userToken = token
     },
 
-    get __userToken__(token) {
+    get __userToken__() {
         return normalize.undefinedOrNull(sessionStorage.userToken)
+    },
+
+    get isUserLoggedIn() {
+        return !!(this.__userToken__) 
     },
 
     registerUser(name, email, password) {
@@ -24,10 +28,37 @@ const logic = {
 
         validate.email(email)
 
-        return pgApi.create(name, email, password)
-            .then(res => {
-                if (res.status === 'OK') return
-                throw new LogicError(res.err)
+        return (async () => {
+            const res = await pgApi.registerUser(name, email, password)            
+            const {err} = res
+                
+        })()
+    },
+
+    loginUser(email, password) {
+
+        validate.arguments([
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true }
+        ])
+
+        validate.email(email)
+
+        return pgApi.authenticateUser(email, password) 
+
+            .then(({ error, token }) => {
+                if (error) throw new LogicError(error)
+
+                this.__userToken__ = token
             })
 
+            // .then(res => {
+            //     if(res.status === 'OK') {
+            //         const { token } = res
+            //         this.__userToken__ = token
+            //     }else throw new LogicError(res.err)
+            // })        
+    }
 }
+
+export default logic

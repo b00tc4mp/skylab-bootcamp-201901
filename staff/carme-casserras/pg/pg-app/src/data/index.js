@@ -40,6 +40,8 @@ const pgApi = {
             body: JSON.stringify({email, password}),
             timeout: this.__timeout__
         })
+
+        
         // con axios no es necesario
         // .then(res => res)
     },
@@ -51,11 +53,9 @@ const pgApi = {
             
         ])
 
-        return call(`${this.__url__}/users/${token}`, {
-            headers: { 
-                Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'},          
-            timeout: this.__timeout__
+        return call(`${this.__url__}/users`, {
+            method: 'GET',
+            headers: {Authorization: `Bearer ${token}`}
         })
         // con axios no es necesario
         // .then(res => res.json())
@@ -121,7 +121,7 @@ const pgApi = {
             { name: 'location', value: location, type: 'string', notEmpty: true }
         ])
 
-        return call(`${this.__url__}/search/locations//${location}`, {
+        return call(`${this.__url__}/search/locations/${location}`, {
             headers: { 
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'},
