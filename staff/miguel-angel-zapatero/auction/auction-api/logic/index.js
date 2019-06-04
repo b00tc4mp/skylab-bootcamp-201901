@@ -239,9 +239,11 @@ const logic = {
             { name: 'startPrice', value: startPrice, type: Number, optional: true },
             { name: 'endPrice', value: endPrice, type: Number, optional: true }
         ])
+
+        validate.dates([startDate, endDate])
         
         const data = {}
-
+        
         if (text || category || city || (startDate && endDate) || (startPrice && endPrice)) {
             data.$and = []
 
@@ -372,8 +374,6 @@ const logic = {
                     api_key: CLOUDINARY_API_KEY,
                     api_secret: CLOUDINARY_API_SECRET
                 })
-
-                // images = ['./logic/avacyn.png', './logic/avacyn.1.png', './logic/avacyn.2.png']
                 
                 const arr_images = await Promise.all(
                     images.map(async img => await new Promise((resolve, reject) => {
@@ -389,7 +389,6 @@ const logic = {
                 url_images = arr_images.map(img => img.secure_url)
             }
             
-            debugger
             await Item.create({title, description, startPrice, startDate, finishDate, reservedPrice, images: url_images, category, city})
         })()
     }, 
