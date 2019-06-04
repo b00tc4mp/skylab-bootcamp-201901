@@ -376,9 +376,7 @@ describe('logic', () => {
                     expect(user.email).toBe(email)
                 })
         })
-
         //TODO NEGATIVE CASES
     })
-
     //TODO RETRIEVE GAME TESTS
 })
