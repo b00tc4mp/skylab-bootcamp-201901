@@ -1,9 +1,10 @@
-import validate from '../../../common/validate'
-import call from '../../../common/call'
+import validate from 'pg-validate'
+import call from 'pg-call'
+
 
 const pgApi = {
 
-    __url__: 'https://localhost:3000/api/',
+    __url__: 'http://localhost:8080/api',
     __timeout__: 0,
 
     registerUser(name, email, password) {
@@ -15,17 +16,13 @@ const pgApi = {
         ])
 
         validate.email(email)
-
         
-
         return call(`${this.__url__}/users`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
             body: JSON.stringify({name, email, password}),
             timeout: this.__timeout__
         })
-
-        .then(res => res.json())
     },
 
     authenticateUser(email, password) {
@@ -43,25 +40,28 @@ const pgApi = {
             body: JSON.stringify({email, password}),
             timeout: this.__timeout__
         })
-
-        .then(res => res.json())
+        // con axios no es necesario
+        // .then(res => res)
     },
 
     retrieveUser(token) {
 
         validate.arguments([
-            { name: 'taken', value: token, type: 'string', notEmpty: true }
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            
         ])
 
-        return call(`${this.__url__}/users/${id}`, {
-            headers: { Authorization: `Bearer ${token}`},           
+        return call(`${this.__url__}/users/${token}`, {
+            headers: { 
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'},          
             timeout: this.__timeout__
         })
-
-        .then(res => res.json())
+        // con axios no es necesario
+        // .then(res => res.json())
     },
 
-    addThing(category, description, token, locId) {
+    addPublicThing(category, description, token, locId) {
 
         validate.arguments([
             // { name: 'image', value: image, type: 'object', notEmpty: true },
@@ -79,11 +79,9 @@ const pgApi = {
             body: JSON.stringify({category, description, locId}),
             timeout: this.__timeout__
         })
-
-        .then(res => res.json())
     },
 
-    updateThing(token, id, status) {
+    updatePublicThing(token, id, status) {
 
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -99,8 +97,6 @@ const pgApi = {
             body: JSON.stringify({id, status}),
             timeout: this.__timeout__
         })
-
-        .then(res => res.json())
     },
 
     searchByCategory(token, category) {
@@ -116,22 +112,21 @@ const pgApi = {
                 'Content-Type': 'application/json'},
             timeout: this.__timeout__
         })
-
-        .then(res => res.json())
     },
 
-    searchByLocation(location) {
+    searchByLocation(token, location) {
 
         validate.arguments([           
+            { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'location', value: location, type: 'string', notEmpty: true }
         ])
 
         return call(`${this.__url__}/search/locations//${location}`, {
-            headers: { 'Content-Type': 'application/json'},
+            headers: { 
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'},
             timeout: this.__timeout__
         })
-
-        .then(res => res.json())
     },
 
     retrivePrivateThings(token) { 
@@ -143,13 +138,12 @@ const pgApi = {
             headers: { Authorization: `Bearer ${token}`},           
             timeout: this.__timeout__
         })
-
-        .then(res => res.json())
     },
     
-    retrieveThing(thingId) {
+    retrieveThing(token, thingId) {
         
         validate.arguments([          
+            { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'thingId', value: thingId, type: 'string', notEmpty: true },
         ])
 
@@ -159,7 +153,6 @@ const pgApi = {
                 'Content-Type': 'application/json'},
             timeout: this.__timeout__
         })
-        .then(res => res.json())
     }
 }
 

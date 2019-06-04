@@ -1,16 +1,16 @@
 require('dotenv').config()
 const logic = require('.')
-const { RequirementError, ValueError, LogicError } = require('../../common/errors')
+const { RequirementError, ValueError, LogicError } = require('pg-errors')
 const bcrypt = require('bcrypt')
-require('../../common/util/math-random.polyfill')
+require('../../pg-util/src/math-random.polyfill')
 
-const { models, mongoose } = require('../../pg-data')
+const { models, mongoose } = require('pg-data')
 const { UserData, Thing, Location } = models
 
 const { env: { MONGO_URL_TEST: url } } = process
 
 describe('logic', () => {
-    let name, email, password
+    let name, email, password, user
     
     beforeAll(async () => {
 
@@ -347,9 +347,7 @@ describe('logic', () => {
         })
     })
     afterAll(async () => {
-        // await UserData.deleteMany()
-        // await Thing.deleteMany()
-        // await Location.deleteMany()
+        
         mongoose.disconnect()
     })
 })

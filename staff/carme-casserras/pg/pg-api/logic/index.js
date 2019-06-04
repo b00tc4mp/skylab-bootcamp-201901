@@ -1,7 +1,7 @@
-const validate = require('../../common/validate')
-const { LogicError } = require('../../common/errors')
+const validate = require('pg-validate')
+const { LogicError } = require('pg-errors')
 // const { models, mongoose: { Types: { ObjectId } } } = require('pg-data')
-const { models } = require('../../pg-data')
+const { models } = require('pg-data')
 const bcrypt = require('bcrypt')
 
 const { UserData, Thing, Location } = models
@@ -123,30 +123,12 @@ const logic = {
 
         return (async () =>  {
      
-            const findthing = await Thing.find().populate('loc', 'name address -_id').select('-_id -__v -owner')
+            const all = await Thing.find().populate('loc', 'name address -_id').select('-_id -__v -owner')
             
-            const findLoc = findthing.filter(thing => thing.loc.name === location)
-            
-            // .exec( (err, things) => {
-            //     things = things.filter(function(thing) {
-            //         return thing.location
-            //     })
-            // })
+            const locationThings = all.filter(thing => thing.loc.name === location)
 
-            return findLoc
-            // return await Thing.find({'loc': location}).populate('loc', 'name').lean()
-            // return await Thing.find({'loc': location}).populate('loc').lean()
-                                     
-            // let currentLoc = await Location.find({location})
-            // debugger
-            // // .select('name -_id')
-            // return currentLoc
-                // let currentLoc = await Location.find({name: location})                
-                // let thing = []
-
-                // if(currentLoc)   thing = await Thing.find({currentLoc})
-            //     debugger
-                // return thing
+            return locationThings
+        
         })()    
 
     },

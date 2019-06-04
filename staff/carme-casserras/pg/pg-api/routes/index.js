@@ -13,9 +13,9 @@ const router = express.Router()
 router.post('/users', jsonParser, (req, res) => {
     const {body: { name, email, password} } = req
     
-     handleErrors(async () =>   {      
+     handleErrors(async () => {      
         await logic.registerUser(name, email, password)
-        return res.status(201).json({ message: 'Ok, user registered.'}), res})
+        return res.status(201).json({ message: 'Ok, user registered.'})}, res)
     
 })
 
@@ -46,7 +46,7 @@ router.post('/things', auth, jsonParser, (req, res) => {
     handleErrors(async () => {  
 
         await logic.addPublicThing(category, description, userId, locId)
-        return res.status(201).json({message: 'Ok, thing upload'}), res})    
+        return res.status(201).json({message: 'Ok, thing upload'})}, res)    
 })
 
 router.patch('/things/update/:id', auth, jsonParser, (req, res) => {
@@ -56,7 +56,7 @@ router.patch('/things/update/:id', auth, jsonParser, (req, res) => {
     handleErrors(async () => {
 
         await logic.updatePublicThing(userId, id, status)
-        return res.status(201).json({message: 'Ok, thing update'}), res})    
+        return res.status(201).json({message: 'Ok, thing update'})}, res)    
 })
 
 router.get('/search/category/:category', auth, jsonParser, (req, res) => {
@@ -70,15 +70,14 @@ router.get('/search/category/:category', auth, jsonParser, (req, res) => {
     }, res)
 })
 
-// router.get('/search/locations/:location', auth, jsonParser, (req, res) => {
 router.get('/search/locations/:location', auth, jsonParser, (req, res) => {
     
     const {params: {location}} = req
-    debugger
+    
     handleErrors(async () => {
-        debugger
+        
         const names = await logic.searchByLocation(location)
-        debugger
+        
         return res.json(names)
     }, res)
 })
@@ -94,7 +93,7 @@ router.get('/search/user/things', auth, jsonParser, (req, res) => {
 })
 
 router.get('/thing/:id', auth, jsonParser, (req, res) => {
-    debugger
+    
     const {params: {id} } = req
 
     handleErrors( async () => {

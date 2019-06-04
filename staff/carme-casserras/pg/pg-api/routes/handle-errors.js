@@ -1,9 +1,10 @@
-const { LogicError, ValueError, RequirementError, UnknownError, UnauthorizedError } = require('../../common/errors')
+const { LogicError, ValueError, RequirementError, UnknownError, UnauthorizedError } = require('pg-errors')
 
 function handleErrors(callback, res) {
     try {
         callback()
             .catch(error => {
+                debugger
                 let { status = 400, message } = error
 
                 if (error instanceof LogicError) status = 409
@@ -12,6 +13,7 @@ function handleErrors(callback, res) {
                 res.status(status).json({ error: message || 'unknown error' })
             })
     } catch (error) {
+        debuggers
         const { message } = error
 
         let status = 400

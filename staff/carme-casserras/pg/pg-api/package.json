@@ -23,6 +23,8 @@
     "jsonwebtoken": "^8.5.1",
     "multer": "^1.4.1",
     "pg-data": "file:../pg-data",
+    "pg-errors": "file:../pg-errors",
+    "pg-validate": "file:../pg-validate",
     "validator": "^11.0.0"
   },
   "devDependencies": {
