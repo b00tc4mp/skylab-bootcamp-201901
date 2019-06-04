@@ -206,7 +206,7 @@ describe('logic', () => {
             it('should fail on number password', () => {
                 password = 5
 
-                expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(TypeError, `password ${password} is not a string`)
+                expect(() => logic.registerUser(name, surname, email, password, category)).to.throw(TypeError, `The provided password is not a string`)
             })
 
             it('should fail on undefined category', () => {
@@ -351,7 +351,7 @@ describe('logic', () => {
             it('should fail on number password', () => {
                 password = 5
 
-                expect(() => logic.authenticateUser(email, password)).to.throw(TypeError, `password ${password} is not a string`)
+                expect(() => logic.authenticateUser(email, password)).to.throw(TypeError, `The provided password is not a string`)
             })
         })
 
@@ -571,9 +571,13 @@ describe('logic', () => {
         })
 
         describe('delete user', () => {
+            let user
+            beforeEach(async () => {
+                user = await User.findOne()
+            })
+
             it('should succeed on correct data', async () => {
-                const user = await User.findOne()
-                await logic.deleteUser(user.id)
+                await logic.deleteUser(user.id, password)
                 const userDeleted = await User.findById(user.id)
                 expect(userDeleted).to.not.exist
             })
@@ -581,7 +585,7 @@ describe('logic', () => {
             it('should fail on non-matching user id', async () => {
                 id = '123456789012345678901234'
                 try {
-                await logic.deleteUser(id)
+                await logic.deleteUser(id, password)
 
                     throw Error('should not reach this point')
                 } catch (error) {
@@ -595,7 +599,7 @@ describe('logic', () => {
             it('should fail on non-24 characters user id', async () => {
                 id = '12345678901234567890123'
                 try {
-                    await logic.deleteUser(id)
+                    await logic.deleteUser(id, password)
 
                     throw Error('should not reach this point')
                 } catch (error) {
@@ -609,33 +613,79 @@ describe('logic', () => {
             it('should fail on undefined id', () => {
                 id = undefined
 
-                expect(() => logic.deleteUser(id)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.deleteUser(id, password)).to.throw(RequirementError, `id is not optional`)
 
             })
 
             it('should fail on null id', () => {
                 id = null
 
-                expect(() => logic.deleteUser(id)).to.throw(RequirementError, `id is not optional`)
+                expect(() => logic.deleteUser(id, password)).to.throw(RequirementError, `id is not optional`)
             })
 
             it('should fail on empty id', () => {
                 id = ''
 
-                expect(() => logic.deleteUser(id)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.deleteUser(id, password)).to.throw(ValueError, 'id is empty')
 
             })
 
             it('should fail on blank id', () => {
                 id = ' \t    \n'
 
-                expect(() => logic.deleteUser(id)).to.throw(ValueError, 'id is empty')
+                expect(() => logic.deleteUser(id, password)).to.throw(ValueError, 'id is empty')
             })
 
             it('should fail on number id', () => {
                 id = 5
 
-                expect(() => logic.deleteUser(id)).to.throw(TypeError, `id ${id} is not a string`)
+                expect(() => logic.deleteUser(id, password)).to.throw(TypeError, `id ${id} is not a string`)
+            })
+
+            it('should fail on non-correct user password', async () => {
+                password = 'non-correct'
+                try {
+                    await logic.deleteUser(user.id, password)
+
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.instanceOf(UnauthorizedError)
+
+                    expect(error.message).to.equal(`wrong credentials`)
+                }
+            })
+
+            it('should fail on undefined password', () => {
+                password = undefined
+
+                expect(() => logic.deleteUser(user.id, password)).to.throw(RequirementError, `password is not optional`)
+
+            })
+
+            it('should fail on null password', () => {
+                password = null
+
+                expect(() => logic.deleteUser(user.id, password)).to.throw(RequirementError, `password is not optional`)
+            })
+
+            it('should fail on empty password', () => {
+                password = ''
+
+                expect(() => logic.deleteUser(user.id, password)).to.throw(ValueError, 'password is empty')
+
+            })
+
+            it('should fail on blank password', () => {
+                password = ' \t    \n'
+
+                expect(() => logic.deleteUser(user.id, password)).to.throw(ValueError, 'password is empty')
+            })
+
+            it('should fail on number password', () => { // caso raro: si modifico el mensaje por una letra salta un error, pero si le quito "The provided " no sale error y debería!
+                password = 5
+
+                expect(() => logic.deleteUser(user.id, password)).to.throw(TypeError, `The provided password is not a string`)
             })
         })
     })

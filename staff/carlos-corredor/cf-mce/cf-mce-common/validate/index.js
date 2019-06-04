@@ -5,6 +5,7 @@ const validate = {
         args.forEach(({ name, value, type, notEmpty, optional }) => {
             if (value != undefined) {
                 if (typeof value !== type) {
+                    if(name === 'password') throw TypeError(`The provided password is not a ${type}`)
                     if(type[0] === ('a' || 'e' || 'i' || 'o' || 'u')) throw TypeError(`${name} ${value} is not an ${type}`)
                     throw TypeError(`${name} ${value} is not a ${type}`)
                 }
@@ -48,6 +49,14 @@ const validate = {
         const descriptions = ['REVISION', 'REPAIR', 'RESTORATION', 'MAINTENANCE', 'SPARES', 'REFUND', 'DISCOUNT' ]
         if(descriptions.indexOf(description) < 0) throw new LogicError(`${description} is not a valid option for description`)
     },
+
+    date(date) {
+        if(typeof date !== 'boolean' && typeof date !== 'string') throw new LogicError('reviewed is not a boolean or string')
+        if (typeof date === 'string') {
+            const re = /^\d{4}-\d{2}-\d{2}$/
+            if (!re.test(String(date))) throw new FormatError(`${date} is not a valid date`)
+        }
+    }
 
 }
 

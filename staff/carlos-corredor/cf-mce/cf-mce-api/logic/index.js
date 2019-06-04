@@ -1,5 +1,5 @@
 const { models } = require('cf-mce-data')
-const { validate, errors: { LogicError, UnauthorizedError, ValueError}  } = require('cf-mce-common')
+const { validate, dateApi, errors: { LogicError, UnauthorizedError, ValueError}  } = require('cf-mce-common')
 const argon2 = require('argon2')
 
 const { User, Customer, ElectronicModule, Product, Note } = models
@@ -111,7 +111,7 @@ const logic = {
         })()
     },
 
-    authenticateCustomer(nid) {
+    authenticateCustomer(nid) { // No implementado
         validate.arguments([
             { name: 'nid', value: nid, type: 'string', notEmpty: true }
         ])
@@ -124,7 +124,7 @@ const logic = {
         })()
     },
 
-    retrieveCustomer(id) { // El retrieve se realiza por id y no por nid porque se hace a partir del vínculo con un electronicModule que tiene al id del customer linkado.
+    retrieveCustomer(id) { // Implementado a través de finCustomers El retrieve se realiza por id y no por nid porque se hace a partir del vínculo con un electronicModule que tiene al id del customer linkado.
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
@@ -175,7 +175,7 @@ const logic = {
         ])
 
         return (async () => {
-            const customers = await Customer.find(criteria).select('-__v').lean()
+            const customers = await Customer.find(criteria).select('-__v -notes').lean()
 
             customers.forEach(customer => {
                 customer.id = customer._id.toString()
@@ -277,14 +277,14 @@ const logic = {
             { name: 'transmission', value: transmission, type: 'string', notEmpty: true, optional: true },
             { name: 'year', value: year, type: 'string', notEmpty: true, optional: true },
             { name: 'engine', value: engine, type: 'string', notEmpty: true, optional: true },
-            { name: 'device', value: device, type: 'string', notEmpty: true },
+            { name: 'device', value: device, type: 'string', notEmpty: true, optional: true },
             { name: 'serial', value: serial, type: 'string', notEmpty: true, optional: true },
             { name: 'fail', value: fail, type: 'string', notEmpty: true, optional: true },
             { name: 'owner', value: owner, type: 'string', notEmpty: true },
-            { name: 'status', value: status, type: 'string', notEmpty: true }
+            { name: 'status', value: status, type: 'string', notEmpty: true, optional: true }
         ])
         validate.idMongodb(owner)
-        validate.status(status)
+        if (status != null)  validate.status(status)
 
         return (async () => {
             const electronicModule = await ElectronicModule.findOne({orderNumber}).lean()
@@ -346,6 +346,16 @@ const logic = {
         
         if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')
 
+        if(data.received) data.received = dateApi.createDate(data.received)
+        
+        if(data.reviewed) data.reviewed = dateApi.createDate(data.reviewed) 
+        if(data.budgeted) data.budgeted = dateApi.createDate(data.budgeted) 
+        if(data.approved) data.approved = dateApi.createDate(data.approved) 
+        if(data.repaired) data.repaired = dateApi.createDate(data.repaired) 
+        if(data.delivered) data.delivered = dateApi.createDate(data.delivered) 
+        if(data.toCollect) data.toCollect = dateApi.createDate(data.toCollect) 
+        if(data.collected) data.collected = dateApi.createDate(data.collected) 
+
         return (async () => {
             const electronicModule = await ElectronicModule.findOne({orderNumber: data.orderNumber})
             if (electronicModule) throw new LogicError(`electronic module with order number "${data.orderNumber}" already exists`)
@@ -374,7 +384,7 @@ const logic = {
         ])
 
         return (async () => {
-            const electronicModules = await ElectronicModule.find(criteria).select('-__v').lean()
+            const electronicModules = await ElectronicModule.find(criteria).select('-__v -notes -budget').lean()
 
             electronicModules.forEach(electronicModule => {
                 electronicModule.id = electronicModule._id.toString()
@@ -459,11 +469,11 @@ const logic = {
     addElectronicModuleBudget(electronicModuleId, description, price) {
         validate.arguments([
             { name: 'electronicModuleId', value: electronicModuleId, type: 'string', notEmpty: true },
-            { name: 'description', value: description, type: 'string', notEmpty: true },
+            { name: 'description', value: description, type: 'string', notEmpty: true, optional: true },
             { name: 'price', value: price, type: 'number', notEmpty: true }
         ])
         validate.idMongodb(electronicModuleId)
-        validate.description(description)
+        if (description != null)  validate.description(description)
 
         return (async () => {
             const electronicModule = await ElectronicModule.findById(electronicModuleId)
