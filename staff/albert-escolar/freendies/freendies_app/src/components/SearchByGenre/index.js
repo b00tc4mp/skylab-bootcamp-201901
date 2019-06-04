@@ -25,7 +25,7 @@ class SearchByGenre extends Component {
         const { results } = this.state
 
         return <div>
-            <ListComponent results={results} />
+           {results && results.length ? <ListComponent results={results}/>: <div>No results</div>}
         </div>
     }
 }

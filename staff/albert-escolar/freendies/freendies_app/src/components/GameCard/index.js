@@ -10,11 +10,20 @@ class GameCard extends Component {
         this.setState({ genre, title, image,id })
     }
 
+    componentWillReceiveProps(props){
+        const { genre, title, image,id } = props
+        this.setState({ genre, title, image,id })
+
+
+    }
+
+
+
     render() {
 
         const { title, genre, image,id } = this.state
 
-        return <div id={id}>
+        return <div id={id} key={id}>
             <img src= {image}/>
             <div>
                 <p>{title}</p>

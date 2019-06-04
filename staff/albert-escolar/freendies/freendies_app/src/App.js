@@ -90,55 +90,58 @@ class App extends Component {
   }
 
   handleOnSearch = (genre, title) => {
-    debugger
     this.props.history.push(`/search/${genre}/${title}`)
 
+  }
+
+  handleToSearchByGenre = (genre) => {
+    this.props.history.push(`/genres/${genre}`)
   }
 
   render() {
 
     const { state: { user, searchResults }, handleRegister, handleGoToRegister, handleLogin, handleUpdateUserEmail,
       handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleGoToUserPanel,
-      handleUploadGame, handleLogout, handleOnSearch } = this
+      handleUploadGame, handleLogout, handleOnSearch, handleToSearchByGenre } = this
 
     return (
       <div className="App">
         <header className="App-header">
-            <Route path="/" render={() => <Header onSearch={handleOnSearch} user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
-                handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
-                handleGoToUploadGame={handleGoToUploadGame} searchResults={searchResults} />}/>
-          
-            <Route exact path="/" render={props => {
-              return <div>
-                <Landing user={user} searchResults={searchResults} history={props.history} />
+          <Route path="/" render={() => <Header onSearch={handleOnSearch} onSearchByGenre={handleToSearchByGenre} user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
+            handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
+            handleGoToUploadGame={handleGoToUploadGame} searchResults={searchResults} />} />
 
-              </div>
-            }} />
+          <Route exact path="/" render={props => {
+            return <div>
+              <Landing user={user} searchResults={searchResults} history={props.history} />
 
-            <Route path="/register" render={props => {
-              return <RegisterPanel history={props.history} onRegister={handleRegister} />
-            }} />
+            </div>
+          }} />
 
-            <Route path="/login" render={props => {
-              return <LoginPanel history={props.history} onLogin={handleLogin} />
-            }} />
+          <Route path="/register" render={props => {
+            return <RegisterPanel history={props.history} onRegister={handleRegister} />
+          }} />
 
-            <Route path="/user" render={props => {
-              return <UserPanel history={props.history} onUpdateUserEmail={handleUpdateUserEmail} user={user} />
-            }} />
+          <Route path="/login" render={props => {
+            return <LoginPanel history={props.history} onLogin={handleLogin} />
+          }} />
 
-            <Route path="/uploadGame" render={props => {
-              return <UploadGamePanel history={props.history} onUploadGame={handleUploadGame} />
-            }} />
-            <Route path="/genres/:genre" render={props => {
-              return <SearchByGenre {...props} history={props.history} />
-            }} />
-            <Route path="/search/:genre/:query" render={props => {
-              debugger
-              return <SearchByQuery {...props} history={props.history} />
-            }} />
+          <Route path="/user" render={props => {
+            return <UserPanel history={props.history} onUpdateUserEmail={handleUpdateUserEmail} user={user} />
+          }} />
 
-          
+          <Route path="/uploadGame" render={props => {
+            return <UploadGamePanel history={props.history} onUploadGame={handleUploadGame} />
+          }} />
+          <Route path="/genres/:genre" render={props => {
+            return <SearchByGenre {...props} history={props.history} />
+          }} />
+          <Route path="/search/:genre/:query" render={props => {
+            
+            return <SearchByQuery {...props} history={props.history} />
+          }} />
+
+
         </header>
       </div>
     )

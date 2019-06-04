@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import './index.scss'
 import SearchBar from '../SearchBar'
+import GenresDropdown from '../GenresDropdown';
 
 class Header extends Component {
     state = {
@@ -95,7 +96,7 @@ class Header extends Component {
     render() {
         const {
             goToRegister, goToLogin, goToLanding, goToLogout,
-            goToUserPanel,goToUploadGame, renderUnloggedButtons, renderLoggedButtons, props: {onSearch},
+            goToUserPanel,goToUploadGame, renderUnloggedButtons, renderLoggedButtons, props: {onSearch, onSearchByGenre},
             state: { user }
         } = this
         return <div>
@@ -103,6 +104,7 @@ class Header extends Component {
             <button onClick={goToLanding}>Go To Landing</button>
             {user ? renderLoggedButtons(goToLogout, goToUserPanel, goToUploadGame) : renderUnloggedButtons(goToRegister, goToLogin)}
             <SearchBar onSearch={onSearch}/>
+            <GenresDropdown onSearchByGenre={onSearchByGenre} />
         </div>
 
 
