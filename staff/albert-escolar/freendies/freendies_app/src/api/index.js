@@ -139,6 +139,23 @@ const freendiesApi = {
             })
     },
 
+    retrieveGameByID(id){
+        if(typeof id !=='string') throw TypeError('id is not a string')
+        if(!id.trim().length) throw Error('genre cannot be empty')
+
+        return fetch(`${this.url}game/${id}`,{
+            headers: {
+                'content-type': 'application/json'
+            },
+        })
+        .then(response => response.json())
+        .then(response =>{
+            if(response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
 
     uploadGame(token, title, genre, description, images, gameFile) {
         //todo verification

@@ -9,7 +9,8 @@ import UserPanel from './components/UserPanel'
 import UploadGamePanel from './components/UploadGamePanel'
 import Landing from './components/Landing'
 import SearchByQuery from './components/SearchByQuery'
-import SearchByGenre from './components/SearchByGenre';
+import SearchByGenre from './components/SearchByGenre'
+import GameDetail from './components/GameDetail'
 import logic from './logic'
 
 class App extends Component {
@@ -18,7 +19,7 @@ class App extends Component {
     token: null,
     user: null,
     searchResults: null,
-    // userFavs: null,
+    // favoriteGames: null,
     // userUploads: null,
   }
 
@@ -98,11 +99,12 @@ class App extends Component {
     this.props.history.push(`/genres/${genre}`)
   }
 
+ 
   render() {
 
     const { state: { user, searchResults }, handleRegister, handleGoToRegister, handleLogin, handleUpdateUserEmail,
       handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleGoToUserPanel,
-      handleUploadGame, handleLogout, handleOnSearch, handleToSearchByGenre } = this
+      handleUploadGame, handleLogout, handleOnSearch, handleToSearchByGenre} = this
 
     return (
       <div className="App">
@@ -137,8 +139,12 @@ class App extends Component {
             return <SearchByGenre {...props} history={props.history} />
           }} />
           <Route path="/search/:genre/:query" render={props => {
-            
+
             return <SearchByQuery {...props} history={props.history} />
+          }} />
+
+          <Route path="/game/:id" render={props => {
+            return <GameDetail {...props} user={user} history={props.history}/>
           }} />
 
 

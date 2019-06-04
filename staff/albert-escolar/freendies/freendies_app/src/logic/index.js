@@ -99,6 +99,13 @@ const logic = {
         return freendiesApi.retrieveGameByGenre(genre)
     },
 
+    retrieveGameById(id){
+        if(typeof id !=='string')throw TypeError('id is not a string')
+        if(!id.trim().length) throw Error('id cannot be empty')
+
+        return freendiesApi.retrieveGameByID(id)
+    },
+
     uploadGame(title, genre, description, images, gameFile) {
 
         // todo verification
