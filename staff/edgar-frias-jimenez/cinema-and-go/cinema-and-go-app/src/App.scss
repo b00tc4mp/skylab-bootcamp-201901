@@ -5,39 +5,39 @@
 @import "../node_modules/bulma/sass/grid/_all";
 
 :root {
-  --yellow: #ffd364;
-  --yellow-dark: #ce9234;
+    --yellow: #ffd364;
+    --yellow-dark: #ce9234;
 
-  --greyed: #444;
-  --intense-blue: #778bd9;
-  --regular-blue: #a9c8f6;
-  --sky-blue: #d8edf5;
-  --clear-blue: #f0f6f7;
+    --greyed: #444;
+    --intense-blue: #778bd9;
+    --regular-blue: #a9c8f6;
+    --sky-blue: #d8edf5;
+    --clear-blue: #f0f6f7;
 
-  --bg: var(--yellow);
+    --bg: var(--yellow);
 
-  --font-montserrat: 'Montserrat', sans-serif;
-  --font-lobster: 'Lobster', cursive;
+    --font-montserrat: 'Montserrat', sans-serif;
+    --font-lobster: 'Lobster', cursive;
 }
 
 html, body {
-  overflow: hidden;
-  width: 100%;
-  height: 100vh;
-  margin: 0;
-  padding: 0;
+    overflow: hidden;
+    width: 100%;
+    height: 100vh;
+    margin: 0;
+    padding: 0;
 
-  * {
-    font-family: var(--font-montserrat);
-  }
+    * {
+        font-family: var(--font-montserrat);
+    }
 }
 
 .hidden {
-  display: none;
+    display: none;
 }
 
-.buttons {
-  .button  {
+
+.button  {
     color: var(--yellow-dark);
     font-weight: bold;
     background-color: white;
@@ -48,5 +48,4 @@ html, body {
     text-align: center;
     margin: 8px auto;
     width: 55%;
-  }
 }

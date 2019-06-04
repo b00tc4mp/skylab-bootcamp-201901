@@ -37,7 +37,7 @@ function App ({ history }) {
         handleSpinner(true)
 
         try{
-            appLogic.registerUser(email, password)
+            appLogic.loginUser(email, password)
                 .then(() => {
                     handleSpinner(null)
                     history.push('/home')

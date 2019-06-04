@@ -35,7 +35,6 @@
   },
   "devDependencies": {
     "bcrypt": "^3.0.6",
-    "cinema-and-go-api": "file:../cinema-and-go-api",
     "cinema-and-go-data": "file:../cinema-and-go-data"
   },
   "jest": {

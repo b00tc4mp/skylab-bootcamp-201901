@@ -1,40 +1,53 @@
-import React, { useContext } from 'react'
+import React, { useContext, useState } from 'react'
 import Header from '../../components/Header'
+import GoogleMaps from '../../components/Maps'
 import { GlobalContext } from '../../components/GlobalContext'
 import Feedback from '../../components/Feedback'
 
 import './index.scss'
 
-const Register = ({ onRegister }) => {
+function Register({ onRegister }) {
 
     const { feedback } = useContext(GlobalContext)
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
+    const [name, setName] = useState(null)
+    const [email, setEmail] = useState(null)
+    const [password, setPassword] = useState(null)
 
-        const {
-            name: { value: name },
-            email: { value: email },
-            password: { value: password }
-        } = e.target
-
+    const handleSubmit = event => {
+        event.preventDefault()
         onRegister(name, email, password)
     }
 
     return (
         <section className="register">
             <section className="register__content">
-                <Header />
+                <section className="main-section">
+                    <Header />
+                    <form className="register__form" onSubmit={handleSubmit}>
+                        <div className="field">
+                            <input type="text" name="name" placeholder="Insert name" onChange={e => setName(e.target.value)} />
+                            <label htmlFor="name" data-label="Insert name"></label>
+                        </div>
+                        <div className="field">
+                            <input type="email" name="email" placeholder="Insert email" onChange={e => setEmail(e.target.value)} />
+                            <label htmlFor="email" data-label="Insert email"></label>
+                        </div>
+                        <div className="field">
+                            <input type="password" name="email" placeholder="Insert password" onChange={e => setPassword(e.target.value)} />
+                            <label htmlFor="password" data-label="Insert password"></label>
+                        </div>
 
-                <form onSubmit={handleSubmit}>
-                    <input type="text" name="name" placeholder="Insert name" />
-                    <input type="email" name="email" placeholder="Insert email" />
-                    <input type="password" name="password" placeholder="Insert password" />
-                    <button>Register</button>
-                    {feedback && <Feedback />}
-                </form>
+                        <button className="button">Register</button>
+                        {feedback && <Feedback />}
+                    </form>
+                </section>
             </section>
-    </section>
+
+            <section className="maps">
+                <GoogleMaps />
+            </section>
+        </section>
     )
 }
 
