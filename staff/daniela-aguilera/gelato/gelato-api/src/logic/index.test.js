@@ -342,7 +342,7 @@ describe('logic', () => {
       })
     })
 
-    it.only('should avoid authorization retrieving all orders if user is NOT admin', async () => {
+    it('should avoid authorization retrieving all orders if user is NOT admin', async () => {
       try {
         await logic.retrieveAllOrders({ isAdmin: false })
       } catch (e) {
@@ -373,10 +373,11 @@ describe('logic', () => {
     })
 
     it('should succeed removing an existing order', async () => {
-      await logic.removeOneOrder({ orderId: orders[0].id, userId: user.id })
+      const order = await logic.retrieveOrdersByUserId(user.id)
+      await logic.removeOneOrder({ userId: order[0].client.id, orderId: order[0].id, isAdmin: false })
       const updatedUserOrders = await logic.retrieveOrdersByUserId(user.id)
       expect(updatedUserOrders).to.have.lengthOf(1)
-      expect(updatedUserOrders[0].id).to.equal(orders[1].id)
+      expect(updatedUserOrders[0].id).to.equal(order[1].id)
     })
 
     it('should fail removing an non-existent order', async () => {

@@ -29,7 +29,7 @@ export function MyBasket () {
       value: `${protocol}//${host}/orders/${orderId}`
     })
 
-    return <img src={qr.toDataURL()} />
+    return <img alt='QR Code' src={qr.toDataURL()} />
   }
 
   const renderResultsRender = () => (

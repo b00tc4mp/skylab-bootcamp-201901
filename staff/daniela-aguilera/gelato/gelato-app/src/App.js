@@ -14,6 +14,7 @@ import { Order } from './pages/Order'
 import { Payment } from './pages/Payment'
 import { Register } from './pages/Register'
 import { UserProfile } from './pages/UserProfile'
+import { StoreOrders } from './pages/StoreOrders'
 
 export function App () {
   return (
@@ -28,6 +29,7 @@ export function App () {
         <Route exact path='/my-basket' component={MyBasket} />
         <Route exact path='/orders/:orderId' component={Order} />
         <Route exact path='/user/profile' component={UserProfile} />
+        <Route exact path='/store/orders' component={StoreOrders} />
         <Route component={NotFound} />
       </Switch>
       <Footer />

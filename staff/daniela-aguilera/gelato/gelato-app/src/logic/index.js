@@ -16,7 +16,10 @@ export default {
   },
 
   get __userIsAdmin__ () {
-    return normalize.undefinedOrNull(window.sessionStorage.userIsAdmin)
+    const userIsAdmin = normalize.undefinedOrNull(window.sessionStorage.userIsAdmin)
+    return typeof userIsAdmin !== 'undefined'
+      ? JSON.parse(userIsAdmin)
+      : false
   },
 
   get isUserLoggedIn () {
@@ -48,9 +51,8 @@ export default {
 
     const response = await restApi.authenticateUser(email, password)
     if (response) {
-      console.log(response)
+      console.log(response.isAdmin)
       const { token, isAdmin } = response
-      console.log({ token, isAdmin })
       this.__userToken__ = token
       this.__userIsAdmin__ = isAdmin
     }
@@ -95,7 +97,7 @@ export default {
   },
 
   retrieveAllUsersOrders () {
-    return restApi.retrieveAllUsersOrders()
+    return restApi.retrieveAllUsersOrders(this.__userToken__)
   },
 
   logoutUser () {

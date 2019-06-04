@@ -27,6 +27,7 @@ const logic = {
       { name: 'email', value: email, type: 'string', notEmpty: true },
       { name: 'password', value: password, type: 'string', notEmpty: true }
     ])
+
     return (async () => {
       const user = await User.findOne({ email })
       if (!user) throw new LogicError('wrong credentials')
@@ -56,7 +57,9 @@ const logic = {
 
     const { name, surname, email, password } = data
 
-    validate.email(email)
+    if (email) {
+      validate.email(email)
+    }
 
     return (async () => {
       const user = await User.findById(id)
@@ -106,30 +109,26 @@ const logic = {
     })()
   },
 
-  removeOneOrder ({ orderId, userId }) {
+  removeOneOrder ({ orderId, isAdmin, userId }) {
     validate.arguments([
       { name: 'userId', value: userId, type: 'string', notEmpty: true },
       { name: 'orderId', value: orderId, type: 'string', notEmpty: true }
     ])
 
     return (async () => {
-      const isHereTheOrder = await Order.find({ _id: orderId, client: userId })
+      const isHereTheOrder = await Order.find({ _id: orderId }).lean()
       if (!isHereTheOrder.length) {
         throw new LogicError('Order not found')
       } else {
-        await Order.deleteOne({ _id: orderId })
+        const order = isHereTheOrder[0]
+        if (isAdmin || userId === order.client.toString()) {
+          await Order.deleteOne({ _id: orderId })
+        } else {
+          throw new UnauthorizedError("You're not authorized to do this")
+        }
       }
     })()
   },
-  // removeAllUserOrders (userId) {
-  //   validate.arguments([
-  //     { name: 'userId', value: userId, type: 'string', notEmpty: true }
-  //   ])
-
-  //   return (async () => {
-  //     await Order.deleteMany({ client: userId })
-  //   })()
-  // },
 
   retrieveOrdersByUserId (userId) {
     validate.arguments([

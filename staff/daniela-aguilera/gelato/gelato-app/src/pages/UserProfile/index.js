@@ -6,21 +6,22 @@ import logic from '../../logic'
 export function UserProfile () {
   const [user, setUserName] = useState([])
   const [loading, setLoading] = useState(false)
+  const [notification, setNotification] = useState({ type: undefined, msg: undefined })
 
   useEffect(function () {
     async function retrieveUser () {
       const userDetails = await logic.retrieveUserBy()
-
-      console.log(userDetails)
       setUserName(userDetails)
     }
 
-    retrieveUser()
-  }, [])
+    if (loading === false) {
+      retrieveUser()
+    }
+  }, [loading])
 
   async function _handleUpdateSubmit (event) {
     event.preventDefault()
-    setLoading(true)
+
     const {
       name: { value: name },
       surname: { value: surname },
@@ -28,10 +29,14 @@ export function UserProfile () {
       password: { value: password }
     } = event.target
 
-    const response = await logic.updateUser({ name, surname, email, password })
+    try {
+      setLoading(true)
+      await logic.updateUser({ name, surname, email, password })
+      setNotification({ type: 'success', msg: "You're profile has been updated!" })
+    } catch (e) {
+      setNotification({ type: 'danger', msg: 'Something went wrong updating your profile' })
+    }
     setLoading(false)
-
-    console.log(response)
   }
 
   async function handleDeleteSubmit (event) {
@@ -42,11 +47,22 @@ export function UserProfile () {
     'is-loading': loading
   })
 
+  const notificationClassName = cx('message', {
+    'is-danger': notification.type === 'danger',
+    'is-success': notification.type === 'success'
+  })
+
   return (
     <Fragment>
       <div>
         <h1><strong>Update your profile, {user.name}</strong></h1>
-
+        {
+          notification.msg && <article className={notificationClassName}>
+            <div className='message-body'>
+              {notification.msg}
+            </div>
+          </article>
+        }
         <form onSubmit={_handleUpdateSubmit}>
           <div className='field'>
             <label className='label'>Name</label>

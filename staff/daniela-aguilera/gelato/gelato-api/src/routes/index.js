@@ -85,11 +85,11 @@ router.get('/user/order/:id', auth, jsonParser, (req, res) => {
 })
 
 router.delete('/user/order/:id', auth, (req, res) => {
-  const { params, userId } = req
+  const { params, userId, isAdmin } = req
   const { id } = params
 
   handleErrors(async () => {
-    await logic.removeOneOrder({ orderId: id, userId })
+    await logic.removeOneOrder({ orderId: id, userId, isAdmin })
     return res.json()
   }, res)
 })

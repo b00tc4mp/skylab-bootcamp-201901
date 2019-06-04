@@ -54,6 +54,17 @@ export function NavBar () {
     </div>
   )
 
+  const renderButtonsForAdmin = () => (
+    <div className='buttons'>
+      <Link to='/store/orders' className='button is-primary'>
+        <strong>All Orders</strong>
+      </Link>
+      <button className='button is-primary' onClick={_handleLogout}>
+        <strong>Logout</strong>
+      </button>
+    </div>
+  )
+
   console.log(logic.isUserAdmin)
 
   return (
@@ -71,11 +82,9 @@ export function NavBar () {
       <div className={`navbar-menu ${showMenu ? 'is-active' : ''}`}>
         <div className='navbar-end'>
           <div className='navbar-item'>
-            {
-              logic.isUserLoggedIn
-                ? renderButtonsForLoggedUsers()
-                : renderButtonsForNotLoggedUsers()
-            }
+            {logic.isUserLoggedIn && !logic.isUserAdmin && renderButtonsForLoggedUsers()}
+            {logic.isUserLoggedIn && logic.isUserAdmin && renderButtonsForAdmin()}
+            {!logic.isUserLoggedIn && renderButtonsForNotLoggedUsers()}
           </div>
         </div>
       </div>

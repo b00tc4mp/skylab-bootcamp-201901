@@ -131,9 +131,10 @@ const restApi = {
     })
   },
 
-  retrieveAllUsersOrders () {
+  retrieveAllUsersOrders (token) {
     return call(`${this.__url__}/store/orders`, {
       method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
       timeout: this.__timeout__
     })
   }

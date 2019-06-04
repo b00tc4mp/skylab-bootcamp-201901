@@ -17,7 +17,11 @@ export function LoginForm ({ onLogin }) {
 
     try {
       await logic.authenticateUser(email, password)
-      window.location.href = '/create-your-order'
+      if (logic.isUserAdmin) {
+        window.location.href = '/store/orders'
+      } else {
+        window.location.href = '/create-your-order'
+      }
     } catch (error) {
       setMessageError(error.message)
     }

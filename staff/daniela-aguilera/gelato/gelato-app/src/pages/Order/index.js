@@ -13,7 +13,7 @@ export function Order ({ match }) {
       setOrder(result)
     }
     getOrder()
-  }, [])
+  }, [orderId])
 
   const renderOrder = () => {
     return (
