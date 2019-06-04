@@ -934,8 +934,9 @@ describe('Game Data', () => {
 
             expect(StLvL).toBeInstanceOf(Array)
             expect(StLvL[0]).toBe(0)
-            expect(StLvL[1]).toBe(-1)
-            expect(StLvL[2]).toBe(-3)
+            expect(StLvL[1]).toBe(0)
+            expect(StLvL[2]).toBe(-1)
+            expect(StLvL[3]).toBe(-3)
 
             //Checking changes in game instance
             expect(gameToTest.cardsFetched).toBeTruthy()
@@ -1512,8 +1513,9 @@ describe('Game Data', () => {
 
             expect(StLvL).toBeInstanceOf(Array)
             expect(StLvL[0]).toBe(0)
-            expect(StLvL[1]).toBe(-1)
-            expect(StLvL[2]).toBe(-3)
+            expect(StLvL[1]).toBe(0)
+            expect(StLvL[2]).toBe(-1)
+            expect(StLvL[3]).toBe(-3)
 
             //Checking changes in game instance
             expect(gameToTest.playersPackages.length).toBe(1)
@@ -1711,8 +1713,9 @@ describe('Game Data', () => {
 
             expect(StLvL).toBeInstanceOf(Array)
             expect(StLvL[0]).toBe(0)
-            expect(StLvL[1]).toBe(-1)
-            expect(StLvL[2]).toBe(-3)
+            expect(StLvL[1]).toBe(0)
+            expect(StLvL[2]).toBe(-1)
+            expect(StLvL[3]).toBe(-3)
 
             //Checking changes in game instance
             expect(gameToTest.playersPackages.length).toBe(1)
@@ -2352,14 +2355,10 @@ describe('Game Data', () => {
 
             //Cheking the package
             expect(lastStrik).toBeDefined
-            expect(lastStrik).toBe(true)
 
-            //Check the changes in the instance of game
-            expect(gameToTest.players[0].nextRound).toBeFalsy()
+            const { puntuation, winner } = lastStrik[0]
 
-            expect(gameToTest.playersPackages[0].userPuntuation.StrikLvL).toBe(3)
-
-            expect(gameToTest.finish).toBeTruthy
+            expect(winner).toBeTruthy()
         })
 
         it("Should work on changing the gameStatus finish to TRUE on all map full", async () => {
@@ -2773,7 +2772,7 @@ describe('Game Data', () => {
 
             expect(finalResults).toBeDefined()
 
-            const { puntuation, winner } = finalResults
+            const { puntuation, winner } = finalResults[0]
 
             expect(winner).toBeTruthy()
 
@@ -3243,8 +3242,9 @@ describe('Game Data', () => {
 
             expect(StLvL).toBeInstanceOf(Array)
             expect(StLvL[0]).toBe(0)
-            expect(StLvL[1]).toBe(-1)
-            expect(StLvL[2]).toBe(-3)
+            expect(StLvL[1]).toBe(0)
+            expect(StLvL[2]).toBe(-1)
+            expect(StLvL[3]).toBe(-3)
 
             //Checking changes in game instance
             expect(gameToTest.playersPackages.length).toBe(1)

@@ -101,7 +101,7 @@ const logic = {
 
             if (response._id.toString() === id) {
 
-                const game = new Game(gameId, id, style)
+                const game = new Game(id, gameId, style)
 
                 if (privateGame) alivePrivateGames.push(game)
                 else alivePublicGames.push(game)

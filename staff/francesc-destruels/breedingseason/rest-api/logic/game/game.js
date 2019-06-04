@@ -186,7 +186,7 @@ Game.prototype.__sendInitialPackage__ = async function (userId) {
 
     const { player, round: userRound, mapStatus, userPuntuation } = initialPackage
 
-    if(!this.playersPackages.some(x => x.player === userId))this.playersPackages.push({ player, userRound, mapStatus, userPuntuation })
+    if (!this.playersPackages.some(x => x.player === userId)) this.playersPackages.push({ player, userRound, mapStatus, userPuntuation })
     else throw Error("User already initializated")
 
     return initialPackage
@@ -231,7 +231,10 @@ Game.prototype.nextFunction = async function (userId, gameAction) {
     if (!status) {
         userPuntuation.StrikLvL += 1
         //To check if the user got already the third strik
-        if (userPuntuation.StrikLvL >= 3) return this.finish = true
+        if (userPuntuation.StrikLvL >= 3) {
+            this.finish = true
+        } else {}
+
     } else {
         mapStatus[position.row][position.column][0] += 1
 
@@ -309,6 +312,7 @@ Game.prototype.nextFunction = async function (userId, gameAction) {
 
         if (this.mode === "solo") return this.__sendNextRound__(userId)
         else return
+
     } else return
 }
 
@@ -417,7 +421,7 @@ Game.prototype.__checkWinner__ = async function () {
             (k.missionCards[1].points) +
             (k.missionCards[2].points) +
             (puntuationSchema.FishingRodUsed[k.FishingRodUsed]) +
-            (k.StrikLvL)
+            (puntuationSchema.StrikLvL[k.StrikLvL])
 
         if (k.ToolsUsed > firstPoints) {
             toolsThird = toolsSecond
@@ -459,7 +463,7 @@ Game.prototype.__checkWinner__ = async function () {
 
     if (this.mode === "solo") {
         this.playersPackages[0].winner = true
-        return this.playersPackages[0]
+        return this.playersPackages
     } else return
 }
 

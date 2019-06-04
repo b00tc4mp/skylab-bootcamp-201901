@@ -1,6 +1,6 @@
 import normalize from '../common/normalize'
 import restApi from '../data/rest-api'
-import { LogicError } from '../common/errors'
+const { LogicError } = require('../common/errors')
 const ow = require('ow')
 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -15,61 +15,137 @@ const logic = {
         return normalize.undefinedOrNull(sessionStorage.userToken)
     },
 
+    // set __ActualGame__(gameId) {
+    //     sessionStorage.userActualGame = gameId
+    // },
+
+    // get __ActualGame__() {
+    //     return normalize.undefinedOrNull(sessionStorage.userActualGame)
+    // },
+
     get isUserLoggedIn() {
         return !!(this.__userToken__)
     },
 
-    registerUser(nickname, age, email, password) {
-
+    async registerUser(nickname, age, email, password) {
         ow(nickname, ow.string.not.empty)
         ow(age, ow.number.is(x => x > 13))
-        ow(email, ow.string.not.empty)
-        ow(password, ow.string.is(x => re.test(String(x))))
+        ow(password, ow.string.not.empty)
+        ow(email, ow.string.is(x => re.test(String(x))))
 
-        return (async () => {
-            const response = await restApi.create(nickname, age, email, password)
+        const {error, message} = await restApi.create(nickname, age, email, password)
 
-            if (!response.ok) throw new LogicError('Email already registred')
-        })()
+        if (error) {
+            throw new LogicError(error)
+        }
     },
 
     loginUser(nicknameOEmail, password) {
-
         ow(nicknameOEmail, ow.string.not.empty)
         ow(password, ow.string.not.empty)
 
         return (async () => {
-            const response = await restApi.authenticate(nicknameOEmail, password)
+            const {error, token} = await restApi.authenticate(nicknameOEmail, password)
 
-            if (response.status === 200) {
-                response.json()
-                this.__userToken__ = response.token
+            if (error) throw new LogicError(error)
 
-            } else throw new LogicError("Bad identification")
+            this.__userToken__ = token
 
         })()
     },
 
     async retrieveUser() {
-        const response = await restApi.retrieveUser(this.__userToken__)
+        const { error, nickname, age, email, avatar } = await restApi.retrieveUser(this.__userToken__)
 
-        if (response.status === 200) {
-            response.json()
-            const { nickname, age, email } = response
-            return { nickname, age, email }
+        if (!error) {
+
+            return { nickname, age, email, avatar }
 
         } else throw new LogicError("Bad Way")
     },
+
+    async retrieveUserGameHistory() {
+        const response = await restApi.retrieveUserGameHistory(this.__userToken__)
+
+        if (response.ok) {
+            const gameData = await response.json()
+            return gameData
+
+        } else throw new LogicError("Bad Way")
+    },
+
+    // //gameLogic
+
+    // async newGame(style, privateGame) {
+    //     const response = await restApi.newGame(this.__userToken__, style, privateGame)
+
+    //     if (response.status === 200) {
+    //         response.json()
+
+    //         this.__ActualGame__ = response
+
+    //     } else throw new LogicError("Bad Way")
+    // },
+
+    // async joinGame(gameId) {
+    //     const response = await restApi.joinGame(this.__userToken__, gameId ? gameId : "searching")
+
+    //     if (response.status === 200) {
+    //         response.json()
+
+    //         this.__ActualGame__ = response
+
+    //     } else throw new LogicError("Bad Way")
+    // },
+
+
+    // async startGame() {
+    //     const response = await restApi.startGame(this.__userToken__, this.__ActualGame__)
+
+    //     if (response.status === 200) {
+    //         response.json()
+
+    //         if (typeof response === Object) return response
+
+    //     } else throw new LogicError("Bad Way")
+    // },
+
+    // async updateGame() {
+    //     const response = await restApi.updateGame(this.__userToken__, this.__ActualGame__)
+
+    //     if (response.status === 200) {
+    //         response.json()
+
+    //         if (typeof response === Object) return response // if length finishedGame()
+
+    //     } else throw new LogicError("Bad Way")
+    // },
+
+    // async nextGame(gamePlay) {
+    //     ow(gamePlay, ow.object)
+
+    //     const response = await restApi.gameAction(this.__userToken__, this.__ActualGame__, gamePlay)
+
+    //     if (response.status === 200) {
+    //         response.json()
+
+    //         if (response.length) return //logic.finishedGame(response)// if length finishedGame()
+    //         else return response
+
+    //     } else throw new LogicError("Bad Way")
+    // },
+
+    // finishedGame(finishedGameData) { // hacer a con la data para poder pintarlo :D
+
+    //     localStorage.removeItem("userActualGame")
+
+    //     return
+    // },
 
     logoutUser() {
         sessionStorage.clear()
     },
 
-    //retrieveUser game history
-    //StartGame
-    //Send Next Action
-    //Update
-    //Join Game
 }
 
 export default logic
