@@ -504,8 +504,9 @@ describe('user data', () => {
 
             expect(StLvL).toBeInstanceOf(Array)
             expect(StLvL[0]).toBe(0)
-            expect(StLvL[1]).toBe(-1)
-            expect(StLvL[2]).toBe(-3)
+            expect(StLvL[1]).toBe(0)
+            expect(StLvL[2]).toBe(-1)
+            expect(StLvL[3]).toBe(-3)
 
             //Checking changes in game instance
             expect(alivePrivateGames[0].cardsFetched).toBeTruthy()
@@ -990,8 +991,9 @@ describe('user data', () => {
 
             expect(StLvL).toBeInstanceOf(Array)
             expect(StLvL[0]).toBe(0)
-            expect(StLvL[1]).toBe(-1)
-            expect(StLvL[2]).toBe(-3)
+            expect(StLvL[1]).toBe(0)
+            expect(StLvL[2]).toBe(-1)
+            expect(StLvL[3]).toBe(-3)
 
             //Checking changes in game instance
             expect(alivePrivateGames[0].cardsFetched).toBeTruthy()
@@ -1077,7 +1079,6 @@ describe('user data', () => {
     afterAll(async () => {
         await GameRecord.deleteMany({})
         await User.deleteMany({})
-
         await mongoose.disconnect()
     })
 })

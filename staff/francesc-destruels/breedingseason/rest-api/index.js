@@ -9,7 +9,7 @@ const { mongoose } = require("breedingseason-data")
 const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 7000] } = process;
 
 (async () => {
-    client = await mongoose.connect(url, { useNewUrlParser: true }) // esperamos que se levabte mongo
+    client = await mongoose.connect('mongodb://localhost/breeding-user-api-test', { useNewUrlParser: true }) // esperamos que se levabte mongo testing!!!
 
     const app = express()
 

@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const logic = require('../logic')
 const jwt = require('jsonwebtoken')
 const auth = require('./auth')
+const { alivePrivateGames, alivePublicGames } = require('../logic/game/game')
 
 const { env: { JWT_SECRET } } = process
 
@@ -17,10 +18,12 @@ router.post('/user', jsonParser, async (req, res) => { //OK
     const { body: { nickname, age, email, password } } = req
 
     try {
+
         await logic.registerUser(nickname, age, email, password)
 
         res.status(201).json({ message: 'Ok, user registered. ' })
     } catch ({ message }) {
+
         res.status(400).json({ error: message })
     }
 })
@@ -33,6 +36,7 @@ router.post('/users/auth', jsonParser, async (req, res) => { //OK
         const id = await logic.authenticateUser(nicknameOEmail, password)
 
         let newtoken = jwt.sign({ sub: id }, JWT_SECRET, { expiresIn: '5h' })
+
         return res.json({ token: newtoken })
 
     } catch ({ message }) {
@@ -57,7 +61,7 @@ router.get('/user', auth, async (req, res) => { //OK
 })
 
 // User game retrieve route
-router.get('/user/gamedata', async (req, res) => {
+router.get('/user/gamedata', auth, async (req, res) => {
     const { userId } = req //sacar token
 
     try {
@@ -73,72 +77,69 @@ router.get('/user/gamedata', async (req, res) => {
 // Game routes
 
 //New Game route 
-router.post('/newGame', async (req, res) => {
-    const { body: { style } } = req //sacar token
+router.post('/newGame', auth, jsonParser, async (req, res) => {
+    const { userId, body: { style, privateGame } } = req //sacar token
 
     try {
-        const gameId = userId + Math.floor(Math.random()*585)
 
-        await logic.newGame(userId, gameId, style)
+        let Game = privateGame === "true" ? true : false
 
-        res.status(201).json({gameId, message: `game with id ${gameId} created waiting to start`})
+        const gameId = userId + Math.floor(Math.random() * 585)
+
+        const response = await logic.newGame(userId, gameId, style, Game)
+
+        res.status(201).json(response) // se guardará en app que eres el creador la instancia para permitir arrancar sin que tocase :D
 
     } catch ({ message }) {
         res.status(400).json({ error: message })
     }
 })
 
-router.post('/joinGame', async (req, res) => {
-    const { userId , body: { gameId } } = req //sacar token
+router.get('/joinGame/:gameId', auth, jsonParser, async (req, res) => {
+    const { userId, params: { gameId } } = req //sacar token
 
     try {
         const game = await logic.joinGame(userId, gameId)
 
-        res.json(game) 
+        res.json(game)
 
     } catch ({ message }) {
         res.status(400).json({ error: message })
     }
 })
 
-router.get('/startGame/:gameId', async (req, res) => {
-    const { userId, param: { gameId } } = req //sacar token
+router.get('/startGame/:gameId', auth, async (req, res) => {
+    const { userId, params: { gameId } } = req //sacar token
 
     try {
+        const intial = await logic.startGame(userId, gameId)
 
-
-        await logic.startGame(userId, gameId)
-
-        res.json({message: "Waiting all players"})
+        res.json(intial)
 
     } catch ({ message }) {
         res.status(400).json({ error: message })
     }
 })
 
-router.get('/updateGame/:gameId', async (req, res) => {
+router.get('/updateGame/:gameId', auth, async (req, res) => {
     const { userId, param: { gameId } } = req //sacar token
 
     try {
         const data = await logic.updateGame(userId, gameId)
 
-        if(data) res.json(data)
-        else res.jason({messaje: "Waitng players"})
+        if (data) res.json(data)
+        else res.jason({ messaje: "Waitng players" })
 
     } catch ({ message }) {
         res.status(400).json({ error: message })
     }
 })
 
-router.post('/continueGame/:gameId', async (req, res) => {
-    const { header: { }, params: { gameId }, body: { update} } = req //sacar token
+router.post('/continueGame/:gameId', auth, jsonParser, async (req, res) => {
+    const { userId, params: { gameId }, body: { update } } = req //sacar token
 
     try {
-        let payload = jwt.verify(token, JWT_SECRET)
-
-        const { sub } = payload
-
-        const nextRoundData = await logic.continueGame(sub, gameId, update)
+        const nextRoundData = await logic.continueGame(userId, gameId, update)
 
         res.json(nextRoundData) // whith contain all the needed data for the next round or the info to finish the game
 
@@ -146,12 +147,6 @@ router.post('/continueGame/:gameId', async (req, res) => {
         res.status(400).json({ error: message })
     }
 })
-
-// router.get('/superSecretAddPenguinCard', async (req, res) => {
-//     await logic.createPenguinCartCollection()
-
-//     res.status(200).json({message: "done"})
-// })
 
 
 module.exports = router
