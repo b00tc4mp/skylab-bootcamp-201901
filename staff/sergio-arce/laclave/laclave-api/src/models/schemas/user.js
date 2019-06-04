@@ -1,4 +1,5 @@
-const { Schema, SchemaType: { ObjectId } } = require('mongoose')
+const { Schema, SchemaTypes: { ObjectId } } = require('mongoose')
+
 
 const User = new Schema({
 
@@ -19,26 +20,25 @@ const User = new Schema({
     email: {
         type: String,
         require: true,
+        unique: true,
         minlength: [2, 'the email of the user is very short'],
         maxlength: [50, 'the email of the user is very long']
     },
 
     password: {
         type: String,
-        require: true,
-        minlength: [2, 'the password of the user is very short'],
-        maxlength: [6, 'the password of the user is very long']
+        require: true
     },
 
     favartists: [{
        type: ObjectId,
-       ref: Artist
+       ref: 'Artist'
     }], 
 
     congresses: [{
         type: ObjectId,
-        ref: Congresss
+        ref: 'Congress'
     }]
 })
 
-module.export = User
+module.exports = User

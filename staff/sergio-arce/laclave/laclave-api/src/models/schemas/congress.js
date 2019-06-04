@@ -1,4 +1,6 @@
-const { Schema, SchemaType: { ObjectId } } = require('mongoose')
+const { Schema, SchemaTypes: { ObjectId } } = require('mongoose')
+
+const Artist = require('./artist')
 
 const Congress = new Schema({
 
@@ -21,7 +23,7 @@ const Congress = new Schema({
     },
 
     category: {
-        type: [String],
+        type: String,
         required: true,
         enum: ['salsa', 'bachata', 'souk', 'mambo'],
         // lowercase: true,
@@ -64,12 +66,12 @@ const Congress = new Schema({
     date: {
         type: Date,
         // required: true
-    },
-
-    artists: {
-        type: ObjectId,
-        ref: 'Artist'
     }
+
+    // artists: {
+    //     type: ObjectId,
+    //     ref: Artist
+    // }
 
 })
 
