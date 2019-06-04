@@ -44,6 +44,8 @@ describe('remove customer from provider', function() {
     admin = await createRandomUser(STAFF_ROLE);
     provider = await ProviderModel.create({ name, admins: [admin], customers: customers.map(up => up.user) });
     await UserModel.updateMany({_id: customers.map(up => up.user.id)},{customerOf: [provider]});
+    admin.adminOf = [provider];
+    await UserModel.updateOne({_id: admin.id}, admin);
   });
 
   async function itWithUser(owner: User) {
@@ -56,6 +58,7 @@ describe('remove customer from provider', function() {
       },
       ctx: {
         userId: owner.id.toString(),
+        role: owner.role,
       },
     });
     if (response.errors) console.log(response.errors);
@@ -90,6 +93,7 @@ describe('remove customer from provider', function() {
       },
       ctx: {
         userId: owner.id.toString(),
+        role: owner.role,
       },
     });
     if (response.errors) console.log(response.errors);

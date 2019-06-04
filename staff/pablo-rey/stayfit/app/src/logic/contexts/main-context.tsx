@@ -3,15 +3,18 @@ import { ApolloClient } from 'apollo-boost';
 import logic from '..';
 
 export type TProvider = {
-  id: string,
-  name: string,
-}
+  id: string;
+  name: string;
+  bannerImageUrl: string;
+  portraitImageUrl: string;
+  registrationUrl: string;
+};
 
 export type TUser = {
-  name: string,
-  customerOf: TProvider[] 
-  adminOf: TProvider[]
-}
+  name: string;
+  customerOf: TProvider[];
+  adminOf: TProvider[];
+};
 
 export type TMainContext = {
   gqlClient?: ApolloClient<{}>;
@@ -54,7 +57,7 @@ function MainProvider(props) {
       logic.token = refreshToken;
       setRole(role);
       setUserId(userId);
-      await refreshUserData()
+      await refreshUserData();
       return true;
     } catch (error) {
       logout();

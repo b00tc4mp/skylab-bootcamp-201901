@@ -3,8 +3,8 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { createTestProvider, deleteModels } from '../../../common/test-utils';
 import { gCall } from '../../../common/test-utils/gqlCall';
+import { createTestProvider, deleteModels } from '../../../common/test-utils';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -48,6 +48,7 @@ describe('list of providers', function() {
         source: query,
         ctx: {
           userId: superadmin.id.toString(),
+          role: superadmin.role
         },
       });
       if (response.errors) console.log(response.errors);

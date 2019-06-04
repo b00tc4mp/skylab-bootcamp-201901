@@ -49,6 +49,7 @@ describe('update admins of a provider', function() {
       },
       ctx: {
         userId: superadmin.id,
+        role: superadmin.role,
       },
     });
     if (response.errors) console.log(response.errors);

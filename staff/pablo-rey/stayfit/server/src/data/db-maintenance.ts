@@ -65,6 +65,9 @@ export async function populateDb() {
     logoImageUrl: 'https://www.48hourslogo.com/48hourslogo_data/2018/11/12/78999_1542026387.jpg',
   });
 
+  admin.adminOf = [provider1];
+  await admin.save()
+
   console.log('Creando provider2...');
   const provider2 = await ProviderModel.create({
     name: faker.company.companyName(),
@@ -76,6 +79,9 @@ export async function populateDb() {
     logoImageUrl:
       'https://image.shutterstock.com/image-vector/modern-vector-professional-sign-logo-260nw-594906506.jpg',
   });
+
+  admin2.adminOf = [provider2];
+  admin2.save();
 
   // 0-9 only provider1
   // 10-19 customer of provider1 and provider2

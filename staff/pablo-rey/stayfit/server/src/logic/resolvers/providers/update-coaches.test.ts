@@ -44,6 +44,8 @@ describe('update coaches of provider', function() {
     staffUsersId = staffUsers.map(user => user.user.id!.toString());
     admin = await createRandomUser(STAFF_ROLE);
     provider = await ProviderModel.create({ name, admins: [admin] });
+    admin.adminOf = [provider];
+    await UserModel.updateOne({_id: admin.id}, admin);
   });
 
   async function itWithUser (owner: User) {
@@ -55,6 +57,7 @@ describe('update coaches of provider', function() {
       },
       ctx: {
         userId: owner.id.toString(),
+        role: owner.role,
       },
     });
     if (response.errors) console.log(response.errors);

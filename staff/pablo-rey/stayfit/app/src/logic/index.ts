@@ -1,6 +1,6 @@
 import gql from 'graphql-tag';
 import jwt from 'jsonwebtoken';
-import { TUser } from './contexts/main-context';
+import { TUser, TProvider } from './contexts/main-context';
 
 export default {
   gqlClient: null,
@@ -55,6 +55,20 @@ export default {
     return { refreshToken, accessToken, userId, role };
   },
 
+  async registerUser(data: {
+    name: string;
+    surname: string;
+    email: string;
+    password: string;
+    phone: string;
+    providerId?: string;
+  }) {
+    const { name, surname, email, password, phone, providerId } = data;
+    const mutation = gql`
+    
+    `;
+    
+  },
   async retrieveMe(): Promise<TUser> {
     const query = gql`
       query {
@@ -127,5 +141,82 @@ export default {
     });
 
     return data.attendSession;
+  },
+
+  async listProviders(): Promise<TProvider[]> {
+    const query = gql`
+      query {
+        listProvidersPublicInfo {
+          id
+          name
+          bannerImageUrl
+          portraitImageUrl
+          registrationUrl
+        }
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      query,
+    });
+
+    return data.listProvidersPublicInfo;
+  },
+
+  async listMyProviders(): Promise<any> {
+    const query = gql`
+      query {
+        listMyProvidersInfo {
+          provider {
+            id
+            name
+          }
+          customerOf
+          adminOf
+          coachOf
+          request {
+            status
+          }
+        }
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      query,
+    });
+    return data.listMyProvidersInfo;
+  },
+
+  async updateRequestCustomer(userId: string, providerId: string, status: string) {
+    const mutation = gql`
+      mutation UpdateRequestCustomer($userId: String!, $providerId: String!, $status: String!) {
+        updateRequestCustomer(userId: $userId, providerId: $providerId, status: $status)
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      mutation,
+      variables: {
+        userId,
+        providerId,
+        status,
+      },
+    });
+    return data.updateRequestCustomer;
+  },
+  async retrieveRequestCustomer(userId: string, providerId: string) {
+    const query = gql`
+      query RetrieveRequestCustomer($userId: String!, $providerId: String!) {
+        retrieveRequestCustomer(userId: $userId, providerId: $providerId) {
+          status
+          type
+        }
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      query,
+      variables: {
+        userId,
+        providerId,
+      },
+    });
+    return data.retrieveRequestCustomer;
   },
 };

@@ -18,19 +18,17 @@ export const authChecker: AuthChecker<MyContext> = async ({ root, args, context,
   let owner: User | null = null;
 
   if (!ownerId || !ownerRole) throw new AuthorizationError('Invalid credentials to authentication');
-
+  
   // ALWAYS checking
   if (ownerRole === SUPERADMIN_ROLE) return true;
 
+  let userId: string = args.userId;
   for (let role of roles) {
-    let userId: string;
     switch (role) {
       case ALWAYS_OWN_USER:
-        userId = info.variableValues.userId;
         if (ownerId === userId) return true;
         break;
       case ALWAYS_OWN_CUSTOMER:
-        userId = info.variableValues.userId;
         if (ownerId === userId) return true;
         break;
     }
@@ -42,11 +40,11 @@ export const authChecker: AuthChecker<MyContext> = async ({ root, args, context,
       case ONLY_SUPERADMIN:
         throw new AuthorizationError('Only SUPERADMIN_ROLE can do this operation');
       case ONLY_OWN_USER:
-        const userId = info.variableValues.userId;
+        const userId = args.userId;
         if (ownerId !== userId) throw new AuthenticationError('Only own user can do that');
         break;
       case ONLY_ADMINS_OF_PROVIDER:
-        const providerId = info.variableValues.providerId;
+        const providerId = args.providerId;
         if (!providerId) throw new LogicError(`Provider is required`);
         owner = context.user = await UserModel.findById(ownerId);
         if (!owner!.adminOf.includes(providerId)) throw new AuthenticationError('Only admins can do that')

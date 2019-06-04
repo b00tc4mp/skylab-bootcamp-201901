@@ -44,7 +44,7 @@ export class User extends Typegoose {
   @Field(returns => [Provider], { nullable: 'items' })
   @arrayProp({ itemsRef: Provider })
   customerOf: Ref<Provider>[];
-
+    
   @Field(returns => [Provider], { nullable: 'items' })
   @arrayProp({ itemsRef: Provider })
   coachOf: Ref<Provider>[];
@@ -53,7 +53,6 @@ export class User extends Typegoose {
   @arrayProp({ itemsRef: Provider })
   adminOf: Ref<Provider>[];
 
-  
 
   // // *+++++++++++++++++++++++++++++++++ Suscriptions not working yet
   // @Field(returns => Subscription)

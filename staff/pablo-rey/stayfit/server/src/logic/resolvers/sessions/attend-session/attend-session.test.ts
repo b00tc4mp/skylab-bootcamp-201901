@@ -76,6 +76,7 @@ describe('attend/unattend session', function() {
         },
         ctx: {
           userId: superadmin.id,
+          role: superadmin.role,
         },
       });
       if (response.errors) console.log(response.errors);
@@ -112,6 +113,7 @@ describe('attend/unattend session', function() {
         },
         ctx: {
           userId: superadmin.id,
+          role: superadmin.role,
         },
       });
       if (response.errors) console.log(response.errors);
@@ -127,6 +129,7 @@ describe('attend/unattend session', function() {
         },
         ctx: {
           userId: superadmin.id,
+          role: superadmin.role,
         },
       });
       if (response.errors) console.log(response.errors);
@@ -181,6 +184,7 @@ describe('attend/unattend session', function() {
         },
         ctx: {
           userId: superadmin.id,
+          role: superadmin.role,
         },
       });
       if (response.errors) console.log(response.errors);
@@ -205,6 +209,7 @@ describe('attend/unattend session', function() {
         },
         ctx: {
           userId: superadmin.id,
+          role: superadmin.role,
         },
       });
       if (response.errors) console.log(response.errors);

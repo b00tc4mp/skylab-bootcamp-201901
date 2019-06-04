@@ -6,6 +6,7 @@
   "scripts": {
     "start": "ts-node ./src/index.ts",
     "dev": "ts-node-dev .",
+    "dev:debug": "ts-node-dev --inspect --respawn .",
     "reinstall": "rm -rf node_modules && npm install",
     "test": "ts-node node_modules/ts-mocha/bin/ts-mocha --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --watch",
     "test:debug": "ts-node node_modules/ts-mocha/bin/ts-mocha --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --inspect",

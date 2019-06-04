@@ -41,7 +41,7 @@ export class Attendance extends Typegoose {
   user: Ref<User>;
 
   @Field(returns => Session)
-  @prop({ ref: Session, required: true })
+  @prop({ ref: {name: 'Session'}, required: true })
   session: Ref<Session>;
 
   @Field()

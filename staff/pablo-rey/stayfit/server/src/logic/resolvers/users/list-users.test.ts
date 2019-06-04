@@ -50,6 +50,7 @@ describe('list all users', function() {
       source: query,
       ctx: {
         userId: superadmin.id,
+        role: superadmin.role,
       },
     });
     if (response.errors) console.log(response.errors);

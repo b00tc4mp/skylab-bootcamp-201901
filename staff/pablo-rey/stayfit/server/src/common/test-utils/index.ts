@@ -1,14 +1,14 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcryptjs';
-import * as faker from 'faker';
-import { ProviderModel } from '../../data/models/provider';
 import { ROLES, STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../../data/models/user';
 import { random } from '../utils';
+import { ProviderModel } from '../../data/models/provider';
 import { AttendanceModel } from '../../data/models/attendance';
 import { SessionModel } from '../../data/models/session';
 import { SessionTypeModel } from '../../data/models/session-type';
 
 import * as chai from 'chai'
+import faker = require('faker');
 const { expect } = chai;
 
 const { ObjectId } = mongoose.Types;
