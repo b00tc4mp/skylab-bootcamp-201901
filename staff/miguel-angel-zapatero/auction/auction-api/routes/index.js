@@ -102,7 +102,7 @@ router.get('/items', jsonParser, (req, res) => {
     const { query } = req
 
     let { query: text, category, city, startDate, endDate, startPrice, endPrice } = query
-
+    
     if(startDate && endDate) {
         startDate = new Date(startDate)
         endDate = new Date(endDate)
@@ -112,7 +112,7 @@ router.get('/items', jsonParser, (req, res) => {
         startPrice = Number(startPrice)
         endPrice = Number(endPrice)
     }
-    debugger
+    
     handleErrors(async () => {
         const items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
         

@@ -33,6 +33,12 @@ const validate = {
         if (!re.test(String(url))) throw new FormatError(`${url} is not a url`)
     },
 
+    dates(dates) {
+        dates.forEach(date => {
+            if(!(date instanceof Date && !isNaN(date))) throw new FormatError(`${date} is not a date`)
+        })
+    },
+
     samePassword(password, confirmPassword) {
         if(password !== confirmPassword) throw new ComparisonError('passwords not match')
     }
