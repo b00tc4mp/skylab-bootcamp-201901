@@ -81,18 +81,17 @@ router.get('/items/:id/bids', auth, (req, res) => {
     }, res)
 })
 
-router.post('/items', jsonParser, (req, res) => {
+router.post('/items', jsonParser, auth, (req, res) => {
     const { userId, body } = req
 
     let { title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city } = body
-
+    debugger
     //FALTA DE MIRAR LO DEL TEMA DE LAS IMAGENES!!!!!
     startDate = new Date(startDate)
     finishDate = new Date(finishDate)
     
-    //FATA PONER LO DEL userID PARA PROTEGER LA CREACIÓN DE OBJETOS
     handleErrors(async () => {
-        await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
+        await logic.createItem(userId, title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
         
         return res.status(201).json({ message: 'Ok, item created.' })
     }, res)
