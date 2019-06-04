@@ -1,5 +1,5 @@
 import auctionLiveApi from '../data/auctionlive-api'
-import normalize from '../../common/normalize'
+import normalize from '../common/normalize'
 import validate from 'auction-validate'
 import { LogicError } from 'auction-errors'
 
@@ -138,7 +138,7 @@ const logic = {
         validate.arguments([
             { name: 'query', value: query, type: Object, optional: true}
         ])
-
+        
         return (async () => {
             try {
                 return await auctionLiveApi.searchItems(query)
