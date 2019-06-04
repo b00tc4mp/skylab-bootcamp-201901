@@ -213,6 +213,16 @@ const logic = {
         })
         return games
 
+    },
+
+    async retrieveGameById(id) {
+        if (typeof id !== 'string') throw TypeError('id is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
+
+        const game = await Game.findById(id).select('-__v').lean()
+        game.id = game._id.toString()
+        delete game._id
+        return game
     }
 
 
