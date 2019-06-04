@@ -28,6 +28,7 @@ export function LoginForm ({ onLogin }) {
   }
 
   console.log(logic.isUserAdmin)
+
   if (logic.isUserLoggedIn) {
     return <Redirect to='/' />
   }

@@ -2,6 +2,7 @@
 
 const User = require('./models/user')
 const Order = require('./models/order')
+const Event = require('./models/events')
 const mongoose = require('mongoose')
 
 const inventory = {
@@ -36,5 +37,6 @@ module.exports = {
   inventory,
   mongoose,
   User: mongoose.model('User', User),
-  Order: mongoose.model('Order', Order)
+  Order: mongoose.model('Order', Order),
+  Event: mongoose.model('Event', Event)
 }

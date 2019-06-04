@@ -137,6 +137,22 @@ const restApi = {
       headers: { Authorization: `Bearer ${token}` },
       timeout: this.__timeout__
     })
+  },
+
+  createEvent (title, description, image, token) {
+    validate.arguments([
+      { name: 'title', value: title, type: 'string', notEmpty: true },
+      { name: 'description', value: description, type: 'string', notEmpty: true },
+      { name: 'image', value: image, type: 'string', notEmpty: true },
+      { name: 'token', value: token, type: 'string', notEmpty: true }
+    ])
+
+    return call(`${this.__url__}/store/event`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: { title, description, image },
+      timeout: this.__timeout__
+    })
   }
 
   //   updateUser (token, data) {

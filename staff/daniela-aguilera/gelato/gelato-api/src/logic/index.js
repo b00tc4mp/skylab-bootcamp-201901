@@ -1,4 +1,4 @@
-const { User, Order } = require('gelato-data')
+const { User, Order, Event } = require('gelato-data')
 const { LogicError, UnauthorizedError } = require('gelato-errors')
 const validate = require('gelato-validation')
 const bcrypt = require('bcrypt')
@@ -204,6 +204,27 @@ const logic = {
         throw new LogicError('order Id not found')
       }
       return order
+    })()
+  },
+
+  createEvent (type, description, image, isAdmin) {
+    validate.arguments([
+      { name: 'type', value: type, type: 'string', notEmpty: true },
+      { name: 'description', value: description, type: 'string', notEmpty: true },
+      { name: 'image', value: image, type: 'string', notEmpty: true },
+      { name: 'isAdmin', value: isAdmin, type: 'boolean' }
+    ])
+
+    return (async () => {
+      if (isAdmin) {
+        try {
+          await Event.create({ type, description, image })
+        } catch (error) {
+          throw new LogicError(error.message)
+        }
+      } else {
+        throw new UnauthorizedError('You do not have permission to do this')
+      }
     })()
   }
 }

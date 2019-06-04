@@ -102,4 +102,14 @@ router.get('/store/orders', auth, jsonParser, (req, res) => {
   }, res)
 })
 
+router.post('/store/event', auth, jsonParser, (req, res) => {
+  const { body: { title, description, image } } = req
+  const { isAdmin } = req
+  handleErrors(async () => {
+    await logic.createEvent(title, description, image, isAdmin)
+
+    return res.status(201).json({ message: 'Event inserted.' })
+  }, res)
+})
+
 module.exports = router

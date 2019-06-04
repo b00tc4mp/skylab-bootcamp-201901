@@ -6,10 +6,12 @@ export function Home () {
     <div>
       <div className='g-Home-cta' src='/gelato-home.jpeg'>
         <h1 className='title'>Make your own gelato!</h1>
-        <Link className='button is-primary' to='/create-your-order'>
+        <Link className='button is-primary is-large' to='/create-your-order'>
           <strong>Order now!</strong>
         </Link>
       </div>
+
+      <div />
     </div>
   )
 }

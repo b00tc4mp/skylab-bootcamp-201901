@@ -6,20 +6,8 @@ import logic from '../../logic'
 // import { LoginForm } from '../LoginForm'
 import { Logo } from '../Logo'
 
-// {showRegisterModal && <Modal onClose={closeSignUp}><RegisterForm /></Modal>}
-// {showLogInModal && <Modal onClose={closeLogin}><LoginForm /></Modal>}
-
 export function NavBar () {
   const [showMenu, setShowMenu] = useState(false)
-
-  // const [showRegisterModal, setShowRegisterModal] = useState(false)
-  // const [showLogInModal, setShowLogInModal] = useState(false)
-
-  // const openSignUp = () => setShowRegisterModal(true)
-  // const closeSignUp = () => setShowRegisterModal(false)
-
-  // const openLogin = () => setShowLogInModal(true)
-  // const closeLogin = () => setShowLogInModal(false)
 
   async function _handleLogout (event) {
     await logic.logoutUser()
@@ -62,6 +50,9 @@ export function NavBar () {
       <button className='button is-primary' onClick={_handleLogout}>
         <strong>Logout</strong>
       </button>
+      <Link to='/store/event' className='button is-primary'>
+        <strong>Create Event</strong>
+      </Link>
     </div>
   )
 

@@ -834,5 +834,12 @@ describe('rest api', () => {
     })
   })
 
+  describe('create event', () => {
+    it('should succeed creating an event', async () => {
+      const res = await restApi.registerUser(name, surname, email, password)
+      const _token = await restApi.authenticateUser(email, password)
+    })
+  })
+
   afterAll(() => mongoose.disconnect())
 })

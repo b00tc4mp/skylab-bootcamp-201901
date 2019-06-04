@@ -84,6 +84,19 @@ export default {
     return restApi.addOrder(this.__userToken__, flavors, size, type, totalPrice)
   },
 
+  createEvent (title, description, image) {
+    validate.arguments([
+      { name: 'title', value: title, type: 'string', notEmpty: true },
+      { name: 'description', value: description, type: 'string', notEmpty: true },
+      { name: 'image', value: image, type: 'string', notEmpty: true }
+    ])
+    return restApi.createEvent(title, description, image, this.__userToken__)
+  },
+
+  retrieveEvents () {
+    return restApi.createEvent(this.__userToken__)
+  },
+
   retrieveUserOrders () {
     return restApi.retrieveOrdersByUserId(this.__userToken__)
   },
