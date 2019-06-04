@@ -259,10 +259,10 @@ describe('logic', () => {
         })
 
         it('should fail on delete user with incorrect user id', async () => {
-            const id = 'aslkfjhsd3141234dksjhf'
+            const id_ = 'aslkfjhsd3141234dksjhf'
 
             try {
-                await logic.removeUser(id, password)
+                await logic.removeUser(id_, password)
                 throw Error('should not reach this point')
             } catch (error) {
                 expect(error.message).toEqual(`Cast to ObjectId failed for value \"aslkfjhsd3141234dksjhf\" at path \"_id\" for model \"user\"`)

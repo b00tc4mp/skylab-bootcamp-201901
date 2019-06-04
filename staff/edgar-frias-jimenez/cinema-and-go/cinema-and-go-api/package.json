@@ -6,6 +6,7 @@
   "scripts": {
     "start": "node index.js",
     "watch": "nodemon index.js",
+    "debug": "node debug index.js",
     "test": "jest --runInBand",
     "test:debug": "node debug ./node_modules/jest/bin/jest.js --runInBand --watchAll"
   },

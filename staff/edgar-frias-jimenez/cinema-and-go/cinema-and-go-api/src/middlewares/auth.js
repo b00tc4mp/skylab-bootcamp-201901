@@ -1,4 +1,4 @@
-const handleErrors = require('./handle-errors')
+const handleErrors = require('./handleErrors')
 const { UnauthorizedError } = require('../common/errors')
 const jwt = require('jsonwebtoken')
 

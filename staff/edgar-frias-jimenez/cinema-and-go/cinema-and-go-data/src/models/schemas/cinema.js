@@ -1,5 +1,5 @@
 const { Schema, ObjectId } = require('mongoose')
-const movieSessions = require('./movie-sessions')
+// const movieSessions = require('./movie-sessions')
 
 const cinema = new Schema({
   name: { type: String, required: true },
@@ -10,11 +10,11 @@ const cinema = new Schema({
     type: [Number],
     required: true
   },
-  movieSessions: {
-    // type: ObjectId, ref: 'City'
-    type:[movieSessions],
+  movieSessions: [{
+    type: ObjectId,
+    ref: 'movieSessions',
     required: true
-  },
+  }],
   city: { type: ObjectId, ref: 'City' }
 })
 

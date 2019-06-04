@@ -1,9 +1,9 @@
 const express = require('express')
 const bodyParser = require('body-parser')
-const logic = require('../logic')
-const handleErrors = require('../middlewares/handle-errors')
-const auth = require('../middlewares/auth')
 const jwt = require('jsonwebtoken')
+const logic = require('../logic')
+const handleErrors = require('../middlewares/handleErrors')
+const auth = require('../middlewares/auth')
 
 const { env: { JWT_SECRET } } = process
 
@@ -26,9 +26,11 @@ router.post('/users/auth', jsonParser, (req, res) => {
 
     handleErrors(async () => {
         const sub = await logic.authenticateUser(email, password)
+
         const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '1h' })
+
         return res.json({ token })
-    }, res)()
+    }, res)
 })
 
 router.get('/users', auth, (req, res) => {
@@ -69,12 +71,32 @@ router.get('/cinemas', auth, (req, res) => {
     }, res)
 })
 
-router.get('/cinemas/sessions', auth, (req, res) => {
+router.get('/cinema/:cinemaId', auth, (req, res) => {
+    const { params: { cinemaId } } = req
+
     handleErrors(async () => {
-        const sessions = await logic.retrieveAllMovieSessions()
+        const cinema = await logic.retrieveCinema(cinemaId)
+
+        return res.json(cinema)
+    }, res)
+})
+
+router.get('/cinema/sessions', auth, (req, res) => {
+    handleErrors(async () => {
+        const sessions = await logic.retrieveAllCinemaSessions()
 
         return res.json(sessions)
     }, res)
+})
+
+router.post('/cinemas/scrapper', auth, (req, res) => {
+
+    return (async() => {
+        await logic.scrapCinemaMovies()
+
+        return res.status(200).json({message: 'Actions were successfully done'})
+    })()
+
 })
 
 module.exports = router

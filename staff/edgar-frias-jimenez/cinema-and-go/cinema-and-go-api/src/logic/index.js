@@ -50,12 +50,10 @@ const logic = {
         ])
 
         return (async () => {
-            const user = await User.findById(id)
+            const user = await User.findById(ObjectId(id)).select('-__v  -password').lean()
             if (!user) throw new LogicError(`user with id "${id}" does not exists`)
 
-            const { name, email } = user
-
-            return { name, email }
+            return user
         })()
     },
 
@@ -74,7 +72,7 @@ const logic = {
 
                 return result
 
-            } catch(error) { // ??? PEta
+            } catch(error) {
                 throw new LogicError(`user with id "${id}" does not exists`)
             }
         })()
@@ -129,7 +127,8 @@ const logic = {
 
     scrapCinemaMovies() {
         const bcnCinemas = 'https://www.ecartelera.com/cines/0,9,23.html'
-        let movieSession
+        const movieSession = []
+
         return (async () => {
             const scrapCity = await scrapper.getAllCinemas(bcnCinemas);
 
@@ -137,9 +136,8 @@ const logic = {
                 const { name, link, phone, address, location, billboard } = item
                 await Promise.all(billboard.map(async ({title, img, info, cast, movieSessions}) => {
                     const movie = await this.registerMovie(title, img, info, cast)
-                    movieSession = await this.registerSessions(ObjectId(movie), movieSessions)
 
-                    return movieSession
+                    movieSession.push(await this.registerSessions(ObjectId(movie), movieSessions))
                 }))
 
                 const cinema = await this.registerCinema(name, link, phone, address, location, movieSession)
@@ -149,18 +147,23 @@ const logic = {
 
     retrieveAllCinemas() {
         return (async() => {
-            const cinemas = await Cinema.find().select('-__v')
-                .populate({
-                    path: 'movieSessions',
-                    // select: 'title',
-                    model: Movie
-                }).lean()
+            const cinemas = await Cinema.find()
+                .populate('MovieSessions')
+                .select('-__v').lean()
 
             return cinemas
         })()
     },
 
-    retrieveAllMovieSessions() {
+    retrieveCinema(id) {
+        return (async() => {
+            const cinema = await Cinema.find({ _id: id }).select('-__v').lean()
+
+            return cinema
+        })()
+    },
+
+    retrieveAllCinemaSessions() {
         return (async() => {
             const sessions = await MovieSessions.find().select('-__v')
                 .populate('movieSessions').lean()
