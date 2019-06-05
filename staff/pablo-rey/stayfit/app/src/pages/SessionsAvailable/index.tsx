@@ -24,6 +24,7 @@ import { withRouter } from 'react-router-dom';
 import logic from '../../logic';
 import moment from 'moment';
 import { MainContext } from '../../logic/contexts/main-context';
+import AttendanceItem from '../../components/AttendanceItem';
 
 const SessionsAvailable: React.FC<any> = ({ history, location, client, providerId }) => {
   const day = moment();
@@ -87,63 +88,13 @@ const SessionsAvailable: React.FC<any> = ({ history, location, client, providerI
             </IonRefresher>
             <IonCol>
               <IonList>
-                {sessions.map(
-                  ({
-                    id,
-                    title,
-                    coaches,
-                    startTime,
-                    endTime,
-                    maxAttendants,
-                    type: { title: typeTitle },
-                    status,
-                    myAttendance,
-                  }) => {
-                    const start = moment(startTime).format('HH:mm');
-                    const end = moment(endTime).format('HH:mm');
-                    const attStatus = myAttendance ? myAttendance.status : null;
-                    return (
-                      <IonItemSliding key={id}>
-                        <IonItem>
-                          {(() => {
-                            switch (attStatus) {
-                              case 'CONFIRMED':
-                              case 'OK':
-                                return <IonIcon name="checkmark-circle-outline" color="success" />;
-                              case 'CANCELLEDBYPROVIDER':
-                                return <IonIcon name="close-circle-outline" color="red" />;
-                              case 'CANCELLEDBYUSER':
-                                return null;
-                              case 'NOSHOW':
-                              case 'ATTENDED':
-                              case 'NOCOUNT':
-                                return <IonIcon name="information-circle-outline" color="red" />;
-                              case 'PENDINGAPPROVAL':
-                              case 'PENDINGCANCELLATION':
-                                return <IonIcon name="help-circle-outline" color="info" />;
-                            }
-                            return null;
-                          })()}
-                          <IonLabel>{`${typeTitle} - ${title}`}</IonLabel>
-                          <IonText>{`${start}-${end}`}</IonText>
-                        </IonItem>
-                        {!myAttendance || ['CANCELLEDBYUSER'].includes(attStatus) ? (
-                          <IonItemOptions side="end">
-                            <IonItemOption onClick={(e: any) => attendSession(e, id)}>book</IonItemOption>
-                          </IonItemOptions>
-                        ) : (
-                          ['CONFIRMED', 'OK', 'PENDINGAPPROVAL'].includes(attStatus) && (
-                            <IonItemOptions side="end">
-                              <IonItemOption color="danger" onClick={e => unattendSession(e, myAttendance.id)}>
-                                cancel
-                              </IonItemOption>
-                            </IonItemOptions>
-                          )
-                        )}
-                      </IonItemSliding>
-                    );
-                  }
-                )}
+                {sessions.map(sessionAttendance => (
+                  <AttendanceItem
+                    sessionAttendance={sessionAttendance}
+                    onAttendSession={attendSession}
+                    onUnattendSession={unattendSession}
+                  />
+                ))}
               </IonList>
             </IonCol>
           </IonRow>

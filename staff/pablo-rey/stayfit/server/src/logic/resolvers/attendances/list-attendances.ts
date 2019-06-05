@@ -1,20 +1,16 @@
-import { AttendanceModel } from './../../../data/models/attendance';
-import { Arg, Authorized, Ctx, Query, Resolver } from 'type-graphql';
-import { MyContext } from '../../middleware/MyContext';
-import { ONLY_ADMINS_OF_PROVIDER, ONLY_SUPERADMIN, ONLY_OWN_USER } from '../../middleware/authChecker';
-import { ProviderModel } from '../../../data/models/provider';
-import { User, UserModel } from '../../../data/models/user';
-import { LogicError } from '../../../common/errors';
-import { Attendance } from '../../../data/models/attendance';
 import * as moment from 'moment';
-import { SessionModel } from '../../../data/models/session';
+import { Arg, Ctx, Query, Resolver } from 'type-graphql';
+import { User } from '../../../data/models/user';
+import { MyContext } from '../../middleware/MyContext';
+import { SessionsWithMyAttendance } from '../sessions/list-sessions/list-sessions-by-user';
+import { AttendanceModel } from './../../../data/models/attendance';
 
 @Resolver(User)
 export class ListAttendancesResolvers {
-  @Query(returns => [Attendance])
-  async listMyAttendances(@Arg('end', { nullable: true }) endDate: Date, @Ctx() ctx: MyContext) {
+  @Query(returns => [SessionsWithMyAttendance])
+  async listMyNextAttendances(@Arg('end', { nullable: true }) endDate: Date, @Ctx() ctx: MyContext) {
     const userId = ctx.userId;
-    const start = moment().toDate();
+    const start = moment().startOf('day').toDate();
     const end =
       endDate ||
       moment()
@@ -24,9 +20,10 @@ export class ListAttendancesResolvers {
 
     let attendances = await AttendanceModel.find({ user: userId }).populate({
       path: 'session',
-      match: { startTime: { $gte: start , $lte: end } },
-    });
+      match: { startTime: { $gte: start, $lte: end } },
+      populate: { path: 'coaches type'}
+    })
     attendances = await attendances.filter((att: any) => att.session);
-    return attendances;
+    return attendances.map(att => ({ myAttendance: att, session: att.session }));
   }
 }

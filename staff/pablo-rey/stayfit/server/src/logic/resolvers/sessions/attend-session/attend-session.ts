@@ -134,13 +134,6 @@ export class AttendSessionResolvers {
       return true;
     }
     return false;
-    // export const CANCELLEDBYPROVIDER = 'CANCELLEDBYPROVIDER';
-    // export const CANCELLEDBYUSER = 'CANCELLEDBYUSER';
-    // export const CONFIRMED = 'CONFIRMED';
-    // export const NOSHOW = 'NOSHOW';
-    // export const ATTENDED = 'ATTENDED';
-    // export const PENDINGAPPROVAL = 'PENDINGAPPROVAL';
-    // export const NOCOUNT = 'NOCOUNT';
   }
 
   @Authorized(ALWAYS_OWN_CUSTOMER)

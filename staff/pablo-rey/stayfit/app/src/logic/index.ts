@@ -214,6 +214,37 @@ export default {
     return data.updateStatusAttendance;
   },
 
+  async listMyNextAttendances(): Promise<any> {
+    const query = gql`
+      query {
+        listMyNextAttendances {
+          session {
+            id
+            title
+            coaches {
+              name
+            }
+            startTime
+            endTime
+            maxAttendants
+            type {
+              title
+            }
+            status
+          }
+          myAttendance {
+            id
+            status
+          }
+        }
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      query,
+    });
+    return data.listMyNextAttendances.map(sa => ({ ...sa.session, myAttendance: sa.myAttendance }));
+  },
+
   async listProviders(): Promise<TProvider[]> {
     const query = gql`
       query {
@@ -274,6 +305,7 @@ export default {
     });
     return data.updateRequestCustomer;
   },
+
   async retrieveRequestCustomer(userId: string, providerId: string) {
     const query = gql`
       query RetrieveRequestCustomer($userId: String!, $providerId: String!) {
