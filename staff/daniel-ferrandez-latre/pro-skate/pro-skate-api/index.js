@@ -21,7 +21,7 @@ const { env: { PORT, MONGO_URL_LOGIC_TEST: url }, argv: [, , port = PORT || 8080
 
     app.use(cors())
 
-    app.use(jsonParser)
+    // app.use(jsonParser)
     
     app.use('/api', routes)
 

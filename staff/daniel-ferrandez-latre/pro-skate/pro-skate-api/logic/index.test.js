@@ -11,9 +11,8 @@ const {
   UnauthorizedError
   }
 } = require("pro-skate-common");
-const chai = require("chai");
-const { expect } = chai;
-const logic = require("../logic");
+const { expect } = require("chai");
+const logic = require(".");
 const argon2 = require("argon2");
 
 const {
@@ -510,7 +509,7 @@ describe("logic", () => {
 
   describe("product test", () => {
     Product.deleteMany()
-    let userId, prod_name, prod_imagesUrl, prod_description, prod_price, prod_tag;
+    let userId, prod_name, prod_imagesUrl, prod_description, prod_price, prod_tag, prod_imageUrlMain
 
     beforeEach(async () => {
       await Product.deleteMany();
@@ -526,155 +525,26 @@ describe("logic", () => {
       userId = _id.toString();
 
       prod_name = `name-${Math.random()}`;
+      prod_imageUrlMain = `http://main-image${Math.random()}.com`;
       prod_imagesUrl = [
         `http://${Math.random()}.com`,
         `http://${Math.random()}.com`,
         `http://${Math.random()}.com`
       ];
       prod_description = `description-${Math.random()}`;
+      prod_size = `${Math.floor(Math.random() * ((46 - 36) + 36))}`;
       prod_price = `${Math.floor(Math.random() * 100)}`;
       prod_tag = [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`];
-    });
-
-    describe("create new product", () => {
-      it("should create a new product on correct data", async () => {
-        const isProductCreated = await logic.createProduct(userId, {
-          name: prod_name,
-          imagesUrl: prod_imagesUrl,
-          description: prod_description,
-          price: prod_price,
-          tag: prod_tag
-        });
-
-        expect(isProductCreated).to.be.true;
-        const productDb = await Product.findOne({ name: prod_name });
-
-        expect(productDb.id).not.to.be.undefined;
-        expect(productDb.name).to.equal(prod_name);
-        expect(productDb.description).to.equal(prod_description);
-        expect(productDb.price).to.equal(parseInt(prod_price));
-        expect(productDb.tag).to.deep.equal(prod_tag);
-      });
-
-      it("should fail on create a new product on user id", async () => {
-        const userDb = await User.findOne({ name });
-        const idUserDeleted = userDb.id;
-        await User.findByIdAndDelete(idUserDeleted);
-        try {
-          await logic.createProduct(idUserDeleted, {
-            name: prod_name,
-            imagesUrl: prod_imagesUrl,
-            description: prod_description,
-            price: prod_price,
-            tag: prod_tag
-          });
-          throw Error("should not reach this point");
-        } catch (err) {
-          expect(err).not.to.be.undefined;
-          expect(err).to.be.instanceOf(LogicError);
-          expect(err.message).to.equal(`This user can not create a new product`);
-        }
-      });
-
-      it("should fail on create a new product on not admin user role", async () => {
-        await User.create({
-          name: "dan",
-          surname: "latre",
-          email: "latre@mail.com",
-          password: await argon2.hash("breakfast"),
-          age: "31",
-          isAdmin: false
-        });
-
-        const userDb = await User.findOne({ name: "dan" });
-        try {
-          await logic.createProduct(userDb.id, {
-            name: prod_name,
-            imagesUrl: prod_imagesUrl,
-            description: prod_description,
-            price: prod_price,
-            tag: prod_tag
-          });
-          throw Error("should not reach this point");
-        } catch (err) {
-          expect(err).not.to.be.undefined;
-          expect(err).to.be.instanceOf(UnauthorizedError);
-          expect(err.message).to.equal(`You need admin permissions to perform this action`);
-        }
-      });
-
-      it("sould fail create new product on exsisting product", async () => {
-        const userDb = await User.findOne({ name });
-        userDb.isAdmin = true;
-
-        try {
-          await logic.createProduct(userDb.id, {
-            name: prod_name,
-            imagesUrl: prod_imagesUrl,
-            description: prod_description,
-            price: prod_price,
-            tag: prod_tag
-          });
-          await logic.createProduct(userDb.id, {
-            name: prod_name,
-            imagesUrl: prod_imagesUrl,
-            description: prod_description,
-            price: prod_price,
-            tag: prod_tag
-          });
-          throw Error("should not reach this point");
-        } catch (err) {
-          expect(err).to.be.instanceOf(LogicError);
-          expect(err.message).to.equal(`Product ${prod_name} already exist and can not duplicate`);
-        }
-      });
-
-      it("should fail on undefined userId", () => {
-        const id = undefined;
-
-        expect(() => logic.createProduct(id, {})).to.throw(
-          RequirementError,
-          `userId is not optional`
-        );
-      });
-
-      it("should fail on null id", () => {
-        const id = null;
-
-        expect(() => logic.createProduct(id, {})).to.throw(
-          RequirementError,
-          `userId is not optional`
-        );
-      });
-
-      it("should fail on empty id", () => {
-        const id = "";
-
-        expect(() => logic.createProduct(id, {})).to.throw(ValueError, "userId is empty");
-      });
-
-      it("should fail on blank id", () => {
-        const id = " \t    \n";
-
-        expect(() => logic.createProduct(id, {})).to.throw(ValueError, "userId is empty");
-      });
-
-      it("should fail on undefined userId", () => {
-        const id = undefined;
-
-        expect(() => logic.createProduct(id, {})).to.throw(
-          RequirementError,
-          `userId is not optional`
-        );
-      });
     });
 
     describe("retrieve product", () => {
       beforeEach(async () => {
         await Product.create({
           name: prod_name,
+          imageUrlMain : prod_imageUrlMain,
           imagesUrl: prod_imagesUrl,
           description: prod_description,
+          size: prod_size,
           price: prod_price,
           tag: prod_tag
         });
@@ -737,12 +607,14 @@ describe("logic", () => {
           product =>
             (product = {
               name: `name-${Math.random()}`,
+              imageUrlMain: prod_imageUrlMain,
               imagesUrl: [
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`
               ],
               description: `description-${Math.random()}`,
+              size: prod_size,
               price: `${Math.floor(Math.random() * 100)}`,
               tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
             })
@@ -789,12 +661,14 @@ describe("logic", () => {
           product =>
             (product = {
               name: `name-${Math.random()}`,
+              imageUrlMain: prod_imageUrlMain,
               imagesUrl: [
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`
               ],
               description: `description-${Math.random()}`,
+              size: prod_size,
               price: `${Math.floor(Math.random() * 100)}`,
               tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
             })
@@ -896,12 +770,14 @@ describe("logic", () => {
           product =>
             (product = {
               name: `name-${Math.random()}`,
+              imageUrlMain: prod_imageUrlMain,
               imagesUrl: [
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`
               ],
               description: `description-${Math.random()}`,
+              size: prod_size,
               price: `${Math.floor(Math.random() * 100)}`,
               tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
             })
@@ -963,9 +839,9 @@ describe("logic", () => {
         
         const _user_ = await User.findById(_user.id)
         const whishlistBd = await logic.retrieveWhishList(_user._id.toString())
-        expect(whishlistBd[0].toString()).to.equal(_user_.wishlist[0].toString())
-        expect(whishlistBd[1].toString()).to.equal(_user_.wishlist[1].toString())
-        expect(whishlistBd[2].toString()).to.equal(_user_.wishlist[2].toString())
+        expect(whishlistBd[0]._id.toString()).to.equal(_user_.wishlist[0]._id.toString())
+        expect(whishlistBd[1]._id.toString()).to.equal(_user_.wishlist[1]._id.toString())
+        expect(whishlistBd[2]._id.toString()).to.equal(_user_.wishlist[2]._id.toString())
         
       });
 
@@ -993,12 +869,14 @@ describe("logic", () => {
           product =>
             (product = {
               name: `name-${Math.random()}`,
+              imageUrlMain: prod_imageUrlMain,
               imagesUrl: [
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`
               ],
               description: `description-${Math.random()}`,
+              size: prod_size,
               price: `${Math.floor(Math.random() * 100)}`,
               tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
             })
@@ -1170,20 +1048,22 @@ describe("logic", () => {
 
     describe('retrieve cart products', () => {
       let arrayAllProducts, arrayPromiseProducts, user, quantity1, quantity3, _productId1
-
+      debugger
       beforeEach(async () => {
-        // Product.deleteMany();
-        // User.deleteMany()
+        Product.deleteMany();
+        User.deleteMany()
         arrayAllProducts = new Array(10).fill().map(
           product =>
             (product = {
               name: `name-${Math.random()}`,
+              imageUrlMain: prod_imageUrlMain,
               imagesUrl: [
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`
               ],
               description: `description-${Math.random()}`,
+              size: prod_size,
               price: `${Math.floor(Math.random() * 100)}`,
               tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
             })
@@ -1222,7 +1102,7 @@ describe("logic", () => {
         let _productId2 = productId2._id.toString();
         quantity3 = '3';
         let _productId3 = productId3._id.toString();
-
+        debugger
         await logic.addProductToCart(user.id, _productId1, quantity1);
         await logic.addProductToCart(user.id, _productId2, quantity2);
         await logic.addProductToCart(user.id, _productId3, quantity3);
@@ -1231,10 +1111,9 @@ describe("logic", () => {
       });
 
       it("should add to cart on correct data", async () => {
-        
         _user = await User.findById(user.id).lean();
-    
         const cart = await logic.retrieveCart(_user._id.toString())
+
 
         expect(cart[0].productId._id.toString())
         .to.equal(_user.cart[0].productId._id.toString())
@@ -1271,12 +1150,14 @@ describe("logic", () => {
           product =>
             (product = {
               name: `name-${Math.random()}`,
+              imageUrlMain: prod_imageUrlMain,
               imagesUrl: [
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`
               ],
               description: `description-${Math.random()}`,
+              size: prod_size,
               price: `${Math.floor(Math.random() * 100)}`,
               tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
             })
@@ -1360,12 +1241,14 @@ describe("logic", () => {
           product =>
             (product = {
               name: `name-${Math.random()}`,
+              imageUrlMain: prod_imageUrlMain,
               imagesUrl: [
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`
               ],
               description: `description-${Math.random()}`,
+              size: prod_size,
               price: `${Math.floor(Math.random() * 100)}`,
               tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
             })
@@ -1453,12 +1336,14 @@ describe("logic", () => {
           product =>
             (product = {
               name: `name-${Math.random()}`,
+              imageUrlMain: prod_imageUrlMain,
               imagesUrl: [
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`
               ],
               description: `description-${Math.random()}`,
+              size: prod_size,
               price: `${Math.floor(Math.random() * 100)}`,
               tag: [tag1]
             })
@@ -1468,12 +1353,14 @@ describe("logic", () => {
           product =>
             (product = {
               name: `name-${Math.random()}`,
+              imageUrlMain: prod_imageUrlMain,
               imagesUrl: [
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`
               ],
               description: `description-${Math.random()}`,
+              size: prod_size,
               price: `${Math.floor(Math.random() * 100)}`,
               tag: [tag1, tag2]
             })
@@ -1483,12 +1370,14 @@ describe("logic", () => {
           product =>
             (product = {
               name: `name-${Math.random()}`,
+              imageUrlMain: prod_imageUrlMain,
               imagesUrl: [
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`,
                 `http://${Math.random()}.com`
               ],
               description: `description-${Math.random()}`,
+              size: prod_size,
               price: `${Math.floor(Math.random() * 100)}`,
               tag: [tag1, tag2, tag3]
             })
@@ -1577,12 +1466,14 @@ describe("logic", () => {
               product =>
                 (product = {
                   name: `name-${Math.random()}`,
+                  imageUrlMain: prod_imageUrlMain,
                   imagesUrl: [
                     `http://${Math.random()}.com`,
                     `http://${Math.random()}.com`,
                     `http://${Math.random()}.com`
                   ],
                   description: `description-${Math.random()}`,
+                  size: prod_size,
                   price: price1,
                   tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
                 })
@@ -1592,12 +1483,14 @@ describe("logic", () => {
               product =>
                 (product = {
                   name: `name-${Math.random()}`,
+                  imageUrlMain: prod_imageUrlMain,
                   imagesUrl: [
                     `http://${Math.random()}.com`,
                     `http://${Math.random()}.com`,
                     `http://${Math.random()}.com`
                   ],
                   description: `description-${Math.random()}`,
+                  size: prod_size,
                   price: price2,
                   tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
                 })
@@ -1607,12 +1500,14 @@ describe("logic", () => {
               product =>
                 (product = {
                   name: `name-${Math.random()}`,
+                  imageUrlMain: prod_imageUrlMain,
                   imagesUrl: [
                     `http://${Math.random()}.com`,
                     `http://${Math.random()}.com`,
                     `http://${Math.random()}.com`
                   ],
                   description: `description-${Math.random()}`,
+                  size: prod_size,
                   price: price3,
                   tag: [`tag1-${Math.random()}`, `tag2-${Math.random()}`, `tag3-${Math.random()}`]
                 })

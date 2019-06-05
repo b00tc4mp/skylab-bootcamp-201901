@@ -4,6 +4,8 @@ const logic = require('../logic')
 const handleErrors = require('./handle-errors')
 const jwt = require('jsonwebtoken')
 const auth = require('./auth')
+const bodyParser  = require('body-parser')
+const jsonParser = bodyParser.json()
 
 const { env: { JWT_SECRET } } = process
 
@@ -12,18 +14,19 @@ const { env: { JWT_SECRET } } = process
 /** USER */
 
 //registerUser
-router.post('/users', (req, res) => {
+router.post('/users', jsonParser, (req, res) => {
     const { body: { name, surname, email, password, age, imageUrl  } } = req
+    debugger
 
     handleErrors(async () => {
         
         await logic.registerUser(name, surname, email, password, age, imageUrl )
         res.status(201).json({ message: 'Ok, user registered.' })
-    },res) 
+    }, res) 
 })
 
 //authenticateUser
-router.post('/users/auth', (req, res) => {
+router.post('/users/auth', jsonParser, (req, res) => {
     const { body: { email, password } } = req
 
     handleErrors(async () =>{

@@ -24,6 +24,7 @@ const logic = {
 
         
         return (async () => {
+            debugger
             const userDb = await User.findOne({email})
 
             if (userDb) throw new LogicError(`user with email "${email}" already exists`)
@@ -104,26 +105,6 @@ const logic = {
         })()
  
     },
-
-    createProduct(userId, product){
-        validate.arguments([
-            { name: 'userId', value: userId, type: 'string', notEmpty: true },
-            { name: 'product', value: product, type: 'object', notEmpty: true }
-        ])
-        return ( async ()=> {
-            const userDb = await User.findById(userId)
-            if(!userDb) throw new LogicError(`This user can not create a new product`)
-            if(!userDb.isAdmin) throw new UnauthorizedError(`You need admin permissions to perform this action`)
-            
-            try{
-                await Product.create(product)
-            }catch(err){
-                if(err.code === 11000) throw new LogicError(`Product ${product.name} already exist and can not duplicate`)
-            }
-            return true
-        })()
-
-    },
     
     retrieveProduct(id){
         validate.arguments([
@@ -197,7 +178,7 @@ const logic = {
             { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
         ])
         return( async ()=>{
-            const userBd = await User.findById(idUser)
+            const userBd = await User.findById(idUser).populate('wishlist')
             if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
             if(userBd.wishlist.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his whishlist`)
             
@@ -211,7 +192,7 @@ const logic = {
             { name: 'idProduct', value: idProduct, type: 'string', notEmpty: true },
             { name: 'quantity', value: quantity, type: 'string', notEmpty: true }
         ])
-
+        debugger
         return( async ()=>{
             const userBd = await User.findById(idUser)
             if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
@@ -235,11 +216,12 @@ const logic = {
     },
 
     retrieveCart(idUser){
+        debugger
         validate.arguments([
             { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
         ])
         return( async ()=>{
-            const userBd = await User.findById(idUser)
+            const userBd = await User.findById(idUser).populate('cart.productId')
             if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
             if(userBd.cart.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his cart`)
             
@@ -270,7 +252,7 @@ const logic = {
             { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
         ])
         return( async ()=>{
-            const userBd = await User.findById(idUser)
+            const userBd = await User.findById(idUser).populate('historic.productId')
             if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
             if(userBd.historic.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his historic`)
 
