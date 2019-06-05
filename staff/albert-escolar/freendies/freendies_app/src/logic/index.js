@@ -106,6 +106,15 @@ const logic = {
         return freendiesApi.retrieveGameByID(id)
     },
 
+    toggleFavs(token, id){
+        if(typeof token !=='string') throw TypeError('token is not a string')
+        if(!token.trim().length) throw Error('token cannot be empty')
+        if(typeof id !=='string') throw TypeError('id is not a string')
+        if(!id.trim().length) throw Error('id cannot be empty')
+
+        return freendiesApi.toggleFavs(token,id)
+    },
+
     uploadGame(title, genre, description, images, gameFile) {
 
         // todo verification

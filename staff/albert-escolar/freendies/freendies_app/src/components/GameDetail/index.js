@@ -6,7 +6,8 @@ import { Link } from 'react-router-dom'
 
 class GameDetail extends Component {
     state = {
-        result: null
+        result: null,
+        isFaved: false
     }
 
     async componentDidMount() {
@@ -22,17 +23,31 @@ class GameDetail extends Component {
 
     }
 
+    handleToggleFavs = async (event) => {
+        event.preventDefault()
+        const {result: { id }, isFaved } = this.state
+        const{token}=this.props
+        const { toggleFavs } = this.props
+        await toggleFavs(token, id)
+        this.setState({isFaved:!isFaved})
+
+
+
+    }
+
+
     render() {
-        const { user, result } = this.state
-        console.log(this.props)
+        const { user, result, isFaved } = this.state
+        const { handleToggleFavs } = this
         return <div>
             {result &&
                 <div>
                     <h3>{result.title}</h3>
                     <img src={result.images[0]} />
                     <p>{result.title}</p>
+                    <p>{result.genre}</p>
                     <a href={result.gameFile} download>Download</a>
-                    {user && < button > add Favorites</button>}
+                    {user && (isFaved ? < button onClick={handleToggleFavs}>-</button> : <button onClick={handleToggleFavs}>+</button>)}
                     {!user && <Link to="/login"><button>Log In to add Favs</button></Link>}
                     <p>{result.description}</p>
                 </div>
