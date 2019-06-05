@@ -119,6 +119,10 @@ const logic = {
         return freendiesApi.retrieveFavs(this.__userApiToken__)
     },
 
+    retrieveUploads(){
+        return freendiesApi.retrieveUploads(this.__userApiToken__)
+    },
+
     uploadGame(title, genre, description, images, gameFile) {
 
         // todo verification
