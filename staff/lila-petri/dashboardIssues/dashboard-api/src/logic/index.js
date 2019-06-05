@@ -146,6 +146,8 @@ const logic = {
             let countIsNot = 0
             let countWF = 0
             let countNone=0
+            let countTotal=0
+            
             
             const issuesByCountryAndDate= await Issue.findIssuesByCountryDateIssueType(issueType, country, startDate, endDate)
             issuesByCountryAndDate.forEach(element => {
@@ -172,6 +174,7 @@ const logic = {
                         countNone++
 
                 }
+                countTotal++
             })
 
             return  {'Cannot Reproduce': countCR, 
@@ -179,8 +182,9 @@ const logic = {
                     'Duplicate' : countDup, 
                     'Incomplete' : countInc, 
                     'Is not a Bug': countIsNot, 
-                    "Won't Fix": countWF, 
-                    'Unresolved': countNone
+                    "Won't Fix" : countWF, 
+                    'Unresolved' : countNone,
+                    'Total' : countTotal
                 }
 
         })()

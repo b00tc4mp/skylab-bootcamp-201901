@@ -4,12 +4,13 @@ import PieChart from '../PieChart'
 import ColumnChart from '../ColumnChart'
 import logic from '../../logic'
 import moment from 'moment'
-import Table from '../Table';
+import TableSLA from '../TableSLA'
+import TableResolution from '../TableResolution'
 
 class Home extends Component{
-    state = { error: null , dateFrom: null, dateTo: null, hotfix: null, bugfix: null, bug: null, request: null, sla: null, resolution: null, table: null}
+    state = { error: null , dateFrom: null, dateTo: null, hotfix: null, bugfix: null, bug: null, request: null, sla: null, resolution: null, tableSLA: null}
     handleSwitch =async (dateFrom, dateTo, statisticType, country)=>{
-        
+        debugger
         try{
             if(statisticType ==='byResolution'){
 
@@ -17,20 +18,19 @@ class Home extends Component{
                 const bugfix = await logic.retrieveIssuesByResolution('BugFix', country, dateFrom, dateTo)
                 const bug = await logic.retrieveIssuesByResolution('Bug', country, dateFrom, dateTo)
                 const request = await logic.retrieveIssuesByResolution('Request', country, dateFrom, dateTo)
-                const table = await logic.retrieveIssuesByTable(country, dateFrom, dateTo)
                 const resolution = true
                 const sla= false
-                this.setState({hotfix , bugfix, bug, request, resolution, table, dateFrom, dateTo, sla})
+                this.setState({hotfix , bugfix, bug, request, resolution, dateFrom, dateTo, sla})
             }
             else{
                 const hotfix = await logic.retrieveIssuesBySLA('HotFix', country, dateFrom, dateTo)
                 const bugfix = await logic.retrieveIssuesBySLA('BugFix', country, dateFrom, dateTo)
                 const bug = await logic.retrieveIssuesBySLA('Bug', country, dateFrom, dateTo)
                 const request = await logic.retrieveIssuesBySLA('Request', country, dateFrom, dateTo)
-                const table = await logic.retrieveIssuesByTable(country, dateFrom, dateTo)
+                const tableSLA = await logic.retrieveIssuesByTable(country, dateFrom, dateTo)
                 const sla= true
                 const resolution = false
-                this.setState({hotfix , bugfix, bug, request, sla, table, dateFrom, dateTo, resolution})
+                this.setState({hotfix , bugfix, bug, request, sla, tableSLA, dateFrom, dateTo, resolution})
 
             }
 
@@ -57,7 +57,7 @@ class Home extends Component{
     render(){
         const {
             props: {user, onLogout},
-            state: {error, hotfix, bugfix, bug, request, sla, resolution, table, dateFrom, dateTo},
+            state: {error, hotfix, bugfix, bug, request, sla, resolution, tableSLA, dateFrom, dateTo},
             handleSwitch
         }=this
         return <>
@@ -65,8 +65,9 @@ class Home extends Component{
         <h2>Dashboard</h2>
         {user && <Sidebar user={user} onLogout={onLogout} error={error} onSwitch={handleSwitch} dateFrom={dateFrom} dateTo={dateTo} resolution={resolution}/>}
         {resolution && <PieChart error={error} hotfix={hotfix} bugfix={bugfix} bug={bug} request={request}/>}
+        {resolution && <TableResolution error={error} hotfix={hotfix} bugfix={bugfix} bug={bug} request={request} />}
         {sla && <ColumnChart error={error} hotfix={hotfix} bugfix={bugfix} bug={bug} request={request} />}
-        {table && <Table error={error} table={table} />}
+        {sla && tableSLA && <TableSLA error={error} tableSLA={tableSLA} />}
         
         </main>
         </>

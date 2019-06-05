@@ -36,7 +36,7 @@ const logic = {
                 await restApi.registerUser(name, surname, email, password, profile, country)
                 
             }catch(error){
-                throw new LogicError('It was imposible to register the user')
+                throw new LogicError('error in user registration')
             }
         })()
     },
@@ -54,7 +54,7 @@ const logic = {
                 
 
             }catch(error){
-                throw new LogicError(error)
+                throw new LogicError('wrong credentials')
             }
         })()
     },

@@ -1,5 +1,6 @@
 import React from 'react'
 import { Chart } from 'react-google-charts'
+import './index.sass'
 
 
 function PieChart({ error, hotfix, bugfix, bug, request }) {
@@ -15,11 +16,11 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
 
 
 
-        return <div className={"my-pretty-chart-container"}>
+        return <div className="container-piechart">
             {hotfix && (
             <Chart
                     width={'500px'}
-                    height={'300px'}
+                    height={'350px'}
                     chartType="PieChart"
                     loader={<div>Loading Chart</div>}
                     data={[
@@ -40,7 +41,7 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
             )}
             <Chart
                     width={'500px'}
-                    height={'300px'}
+                    height={'350px'}
                     chartType="PieChart"
                     loader={<div>Loading Chart</div>}
                     data={[
@@ -60,7 +61,7 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                 />
             <Chart
                     width={'500px'}
-                    height={'300px'}
+                    height={'350px'}
                     chartType="PieChart"
                     loader={<div>Loading Chart</div>}
                     data={[
@@ -80,7 +81,7 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                 />
             <Chart
                     width={'500px'}
-                    height={'300px'}
+                    height={'350px'}
                     chartType="PieChart"
                     loader={<div>Loading Chart</div>}
                     data={[

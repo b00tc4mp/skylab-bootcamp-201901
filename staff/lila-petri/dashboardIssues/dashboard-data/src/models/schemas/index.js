@@ -43,4 +43,5 @@ issue.statics.findIssuesByCountryDateIssueType = function (issueType, country, s
 }
 
 
+
 module.exports = {issue, user}

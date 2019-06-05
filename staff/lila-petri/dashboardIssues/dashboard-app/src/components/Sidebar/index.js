@@ -1,4 +1,6 @@
 import React from 'react'
+import './index.sass'
+import logo from './logo.png'
 
 
 function Sidebar({error, onSwitch, user, onLogout, dateFrom, dateTo, resolution}){
@@ -10,33 +12,37 @@ function Sidebar({error, onSwitch, user, onLogout, dateFrom, dateTo, resolution}
 
     function handleSubmit(e) {
         e.preventDefault()
-
         const dateFrom = e.target.dateFrom.value
         const dateTo = e.target.dateTo.value
-
+        if(!statisticType){
+            statisticType = e.target.statistic.options[e.target.statistic.selectedIndex].value
+        } 
         onSwitch(dateFrom, dateTo, statisticType, user.country)
     }
-
         return <>
-        <main >
-        <h3>User, {user.name}</h3>
-        <h3>Profile: {user.profile}</h3>
-        <h3>Country: {user.country}</h3>
-        <form onSubmit={handleSubmit}>
-            <label>From: </label>
-            <input id="dateFrom" type="date" name="dateFrom" required defaultValue={dateFrom}></input>
-            <label>To: </label>
-            <input id="dateTo" type="date" name="dateTo" required defaultValue={dateTo}></input>
-            <select name="country" onChange={event => onStatisticsChange(event.target.value)} defaultValue={resolution}>
-                        <option value="byResolution">By Resolution</option>
-                        <option value="bySLA">By SLA</option>
-                    </select>
+            <main className="container-sidebar">
+                <img src={logo} alt="Logo" />
+                <h3 class="uk-text-muted">Welcome, {user.name}</h3>
+                <h3 class="uk-text-muted">Profile: {user.profile}</h3>
+                <h3 class="uk-text-muted">Country: {user.country}</h3>
+                <form onSubmit={handleSubmit}>
+                    <label class="uk-label uk-text-muted">From: </label>
+                    <input id="dateFrom" type="date" name="dateFrom" required defaultValue={dateFrom} max={dateTo}></input>
+                    <label class="uk-label uk-text-muted">To:   </label>
+                    <input id="dateTo" type="date" name="dateTo" required defaultValue={dateTo} min={dateFrom}></input>
+                    <select name="statistic" onChange={event => onStatisticsChange(event.target.value)}>
+                                <option value="byResolution" selected>By Resolution</option>
+                                <option value="bySLA" >By SLA</option>
+                            </select>
 
-            <button>Switch to ...</button>
-            <span>{error}</span>
-        </form>
-        <button onClick={onLogout}>Logout</button> 
-        </main>
+                    <button>Switch to ...</button>
+                    <span>{error}</span>
+                </form>
+                <div>
+
+                <button onClick={onLogout}>Logout</button> 
+                </div>
+            </main>
         </>
     
 

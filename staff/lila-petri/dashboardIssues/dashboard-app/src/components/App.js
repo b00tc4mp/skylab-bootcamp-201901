@@ -6,6 +6,8 @@ import Login from './Login'
 import Home from './Home'
 import HomeAdmin from './HomeAdmin'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
+//import '../../node_modules/bulma/css/bulma.css'
+
 
 class App extends Component{
     state = { user: null, error: null , profile: null}
@@ -32,7 +34,7 @@ class App extends Component{
             this.setState({ user, profile: user.profile, error: null }, () => this.props.history.push('/home'))
         
         } catch (error) {
-            this.setState({ error })
+            this.setState({ error: error.message})
         }
     }
 

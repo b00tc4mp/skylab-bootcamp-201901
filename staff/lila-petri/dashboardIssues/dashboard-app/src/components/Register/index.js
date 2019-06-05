@@ -1,4 +1,5 @@
 import React from 'react'
+import './index.sass'
 
 
 function Register({onRegister, error, goLogin}){
@@ -19,20 +20,27 @@ const profile='product-expert'
 
         onRegister(name, surname, email, password, profile, country)
     }
-    return <main className="mainregister">
-        <section className="column is-6-desktop is-6-tablet is-10-mobile is-one-fifth">
-            <div className="has-text-centered field">
-                <h2 className="title is-2">Dashboard Issues</h2>
-                <p className="subtitle"> Sign up with your email address</p>
+    return <main className="uk-container uk-container-large container-register uk-background-muted">
+        <section >
+            <div cclassName="uk-margin">
+                <p className="uk-text-large uk-text-muted"> Sign up with your email address</p>
             </div>
-            <form onSubmit={handleSubmit}>
-                <input className="input field" type="text" name="name" placeholder="name"/>
-                <input className="input field" type="text" name="surname" placeholder="surname"/>
-                <input className="input field" type="text" name="email" placeholder="email"/>
-                <input className="input field" type="password" name="password" placeholder="password" />
-                <div className="select field is-fullwidth">
-                    <select name="city" onChange={event => onCountryChange(event.target.value)}>
-                        <option value="">Country</option>
+            <form className="uk-form-stacked" onSubmit={handleSubmit}>
+                <div className="uk-margin">
+                    <input className="uk-input" type="text" name="name" placeholder="name"/>
+                </div>
+                <div className="uk-margin">
+                    <input className="uk-input" type="text" name="surname" placeholder="surname"/>
+                </div>
+                <div className="uk-margin">
+                    <input className="uk-input" type="text" name="email" placeholder="email"/>
+                </div>
+                <div className="uk-margin">
+                    <input className="uk-input" type="password" name="password" placeholder="password" />
+                </div>
+                <div className="uk-form-controls">
+                    <select className="uk-select" name="country" onChange={event => onCountryChange(event.target.value)}>
+                        <option value="">country</option>
                         <option value="AR">Argentina</option>
                         <option value="BR">Brazil</option>
                         <option value="CL">Chile</option>
@@ -47,10 +55,12 @@ const profile='product-expert'
                         <option value="TR">Turkey</option>
                     </select>
                 </div>
-                <button className="button is-fullwidth is-primary">Sign Up</button>
-                <span>{error}</span>
+                <div className="uk-margin">
+                    <button className="uk-button uk-button-primary uk-width-1-1" >Sign Up</button>
+                    <span className="uk-form-danger">{error}</span>
+                </div>
             </form>
-            <button onClick={goLogin}>Sign In</button>
+            <button className="uk-button uk-button-default uk-width-1-1 uk-button-large-bottom uk-margin-bottom uk-text-muted" onClick={goLogin}>Sign In</button>
         </section>
     </main>
 
