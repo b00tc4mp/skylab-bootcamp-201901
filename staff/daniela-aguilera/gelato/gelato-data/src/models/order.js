@@ -7,7 +7,7 @@ const Order = new Schema({
   size: { type: String, required: true },
   flavors: { type: Array, required: true },
   totalPrice: { type: Number, required: true },
-  status: { type: String, default: 'unpaid' }
+  status: { type: String, default: 'paid' }
 })
 
 module.exports = Order

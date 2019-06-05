@@ -10,6 +10,7 @@ export function UserProfile () {
 
   useEffect(function () {
     async function retrieveUser () {
+      debugger
       const userDetails = await logic.retrieveUserBy()
       setUserName(userDetails)
     }

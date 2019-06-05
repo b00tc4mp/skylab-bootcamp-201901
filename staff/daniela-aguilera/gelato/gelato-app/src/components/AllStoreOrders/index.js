@@ -31,7 +31,7 @@ export function AllStoreOrders () {
                   <p className='card-header-title'>
       Client order:
                   </p>
-                  <a href='#' className='card-header-icon' aria-label='more options'>
+                  <a href='#show' className='card-header-icon' aria-label='more options'>
                     <span className='icon'>
                       <i className='fas fa-angle-down' aria-hidden='true' />
                     </span>
@@ -48,7 +48,7 @@ export function AllStoreOrders () {
                   </div>
                 </div>
                 <footer className='card-footer'>
-                  <a href='#' className='card-footer-item'>Update</a>
+                  <a href='#update' className='card-footer-item'>Update</a>
                   <button href='#' className='card-footer-item' onClick={(e) => {
                     e.preventDefault()
                     handleDeleteSubmit(order.id)

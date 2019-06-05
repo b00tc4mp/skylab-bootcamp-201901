@@ -1,4 +1,7 @@
 import React, { Fragment, useEffect, useState, useRef } from 'react'
+import StripePayment from '../StripePayment'
+import { Redirect } from 'react-router-dom'
+
 import logic from '../../logic'
 
 const FLAVORS = {
@@ -72,9 +75,11 @@ export function OrderForm () {
 
   useEffect(function () {
     const element = orderScrollerElement.current
-    const elementWidth = element.clientWidth
-    const movement = (elementWidth * step * -1) + 'px'
-    element.style = `transform: translate3d(${movement}, 0, 0)`
+    if (element) {
+      const elementWidth = element.clientWidth
+      const movement = (elementWidth * step * -1) + 'px'
+      element.style = `transform: translate3d(${movement}, 0, 0)`
+    }
   }, [step])
 
   const renderTypeInputs = () => (
@@ -167,28 +172,46 @@ export function OrderForm () {
 
   async function _handleSubmit (event) {
     event.preventDefault()
-    const totalPrice = calculatePrice()
-    await logic.addOrder(flavors, size, type, totalPrice)
+    // const totalPrice = calculatePrice()
+    // await logic.addOrder(flavors, size, type, totalPrice)
     setStep(3)
   }
 
+  const handlePurchase = async (token) => {
+    if (token) {
+      setStep(4)
+      const totalPrice = calculatePrice()
+      await logic.addOrder(flavors, size, type, totalPrice)
+    }
+  }
+
   const renderPayment = () => (
+
     <section className='g-OrderStep'>
-      <h2 className='subtitle'>Ñam! Ñam! Your order is almost ready!</h2>
-      <h2>Payment: </h2>
-      <h3> Total price: {calculatePrice()} $</h3>
-      <button>I want my icecream</button>
+      <p className='title is-2 is-spaced'>Your order is almost ready!</p>
+      <p className='subtitle is-4'>Please, click on the button to do the playment</p>
+
+      <h2><strong><i className='fas fa-shopping-basket' />Total Price: </strong> {calculatePrice()} $</h2>
+      <StripePayment onTokenSucces={handlePurchase} cart={calculatePrice()} flavors={flavors} />
     </section>
   )
 
+  if (step === 4) {
+    return (
+      <Redirect to='/my-basket' />
+    )
+  }
+
   return (
-    <form className='g-Order' onSubmit={_handleSubmit}>
-      <div className='g-OrderScroller' ref={orderScrollerElement}>
-        {renderTypeInputs()}
-        {renderSizeInput()}
-        {renderFlavorsInput()}
-        {renderPayment()}
-      </div>
-    </form>
+    <div>
+      <form className='g-Order' onSubmit={_handleSubmit}>
+        <div className='g-OrderScroller' ref={orderScrollerElement}>
+          {renderTypeInputs()}
+          {renderSizeInput()}
+          {renderFlavorsInput()}
+          {renderPayment()}
+        </div>
+      </form>
+    </div>
   )
 }

@@ -64,7 +64,7 @@ export function NavBar () {
         <Link className='navbar-item' to='/'>
           <Logo />
         </Link>
-        <a onClick={() => setShowMenu(!showMenu)} role='button' className={`navbar-burger burger ${showMenu ? 'is-active' : ''}`} aria-label='menu' aria-expanded='false' data-target='navbarBasicExample'>
+        <a href='#show-menu' onClick={() => setShowMenu(!showMenu)} role='button' className={`navbar-burger burger ${showMenu ? 'is-active' : ''}`} aria-label='menu' aria-expanded='false' data-target='navbarBasicExample'>
           <span aria-hidden='true' />
           <span aria-hidden='true' />
           <span aria-hidden='true' />
