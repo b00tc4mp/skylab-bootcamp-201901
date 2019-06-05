@@ -8,7 +8,7 @@ import './index.scss'
 function Landing() {
     return (
         <section className="landing">
-            <section className="landing__content container">
+            <section className="landing__content">
                 <section className="main-section">
                     <Header />
                     <section className=" buttons">

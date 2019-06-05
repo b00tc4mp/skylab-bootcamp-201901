@@ -1,14 +1,55 @@
 .landing {
+    background-color: var(--bg);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
     &__content {
-        background: var(--yellow);
+        display: flex;
+        background: rgba(255, 255, 255, .85);
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
         height: 100vh;
-        overflow: hidden;
+        z-index: 1;
+
+        &:before {
+            background: var(--yellow);
+            border-bottom: 2px solid white;
+            content: '';
+            display: block;
+            height: 25%;
+            position: absolute;
+            top: -55px;
+            transform: skewY(-3deg);
+            width: 100%;
+            z-index: 1;
+        }
+
+        &:after {
+            background: var(--yellow);
+            border-top: 2px solid white;
+            bottom: -40px;
+            content: '';
+            display: block;
+            height: 30%;
+            position: absolute;
+            transform: skewY(-3deg);
+            width: 100%;
+            z-index: 1;
+        }
+
+        .main-section {
+            height: 100vh;
+        }
+
+        .maps {
+            position: absolute;
+        }
 
         .header {
             h1 {
                 color: white;
-                // color: var(--yellow);
-                font-family: 'Lobster', cursive;
                 font-size: 50px;
                 margin: 24px 0 24px;
                 padding: 0;
@@ -20,11 +61,8 @@
                     bottom: -20px;
                     border-top: 1px solid white;
                     color: white;
-                    // color: var(--yellow-dark);
-                    display: block;
                     font-size: 16px;
                     left: calc(50% - 140px);
-                    letter-spacing: -0.5px;
                     padding-top: 2px;
                     position: absolute;
                 }
@@ -37,6 +75,7 @@
 
         .buttons {
             bottom: 20px;
+            left: 0;
             display: flex;
             flex-direction: column;
             position: absolute;
@@ -67,53 +106,6 @@
                 width: 55%;
               }
         }
-
-        .maps {
-            position: relative;
-            overflow: hidden;
-
-            &:before {
-                background: var(--yellow);
-                border-bottom: 2px solid white;
-                content: '';
-                display: block;
-                height: 15%;
-                position: absolute;
-                top: -55px;
-                transform: skewY(-3deg);
-                width: 100%;
-                z-index: 1;
-            }
-
-            &:after {
-                background: var(--yellow);
-                border-top: 2px solid white;
-                bottom: -40px;
-                content: '';
-                display: block;
-                height: 15%;
-                position: absolute;
-                transform: skewY(-3deg);
-                width: 100%;
-                z-index: 1;
-            }
-
-            // Temporal - falta maps bueno
-            .mapouter {
-                position: relative;
-                text-align: right;
-            }
-
-            .gmap_canvas {
-                overflow: hidden;
-                background: none;
-
-                iframe {
-                    height: 600px;
-                    width: 900px;
-                }
-            }
-        }
     }
 
     @media screen and (min-width: 768px) {
@@ -123,6 +115,11 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+
+            &:before,
+            &:after {
+                display: none;
+            }
 
             .main-section {
                 background: var(--yellow);

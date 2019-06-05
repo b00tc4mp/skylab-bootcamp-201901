@@ -6,18 +6,52 @@
 
     &__content {
         display: flex;
+        background: rgba(255, 255, 255, .85);
         flex-direction: row;
         align-items: center;
         justify-content: center;
         height: 100vh;
         z-index: 1;
+
+        &:before {
+            content: '';
+            display: block;
+            border-bottom: 2px solid white;
+            width: 100%;
+            height: 25%;
+            transform: skewY(5deg);
+            background: var(--yellow);
+            position: absolute;
+            z-index: 0;
+            top: -55px;
+            box-shadow: 0px 2px 3px rgba(0, 0, 0, .2);
+        }
+
+        &:after {
+            content: '';
+            display: block;
+            border-top: 2px solid white;
+            width: 100%;
+            height: 20%;
+            transform: skewY(5deg);
+            background: var(--yellow);
+            position: absolute;
+            z-index: 0;
+            bottom: -25px;
+            box-shadow: 0px -2px 3px rgba(0, 0, 0, .2);
+
+        }
+    }
+
+    .main-section {
+        height: 100vh;
     }
 
     &__form {
         display: flex;
         flex-direction: column;
         height: calc(100% - 123px);
-        justify-content: flex-end;
+        justify-content: center;
         position: relative;
         z-index: 0;
 
@@ -30,9 +64,9 @@
 
         .button,
         input {
-            color: var(--yellow-dark);
+            color: white;
             font-weight: bold;
-            background-color: white;
+            background-color: var(--yellow);
             padding: 8px 12px;
             border-radius: 8px;
             border: 0 none;
@@ -48,13 +82,13 @@
         }
 
         .button {
-            margin-top: 55px;
+            margin-top: 45px;
             text-decoration: none;
             z-index: 1;
         }
 
         label {
-            color: var(--yellow-dark);
+            color: white;
             width: 100%;
             position: absolute;
             display: block;
@@ -64,10 +98,10 @@
             pointer-events: none;
             transition: all 0.2s;
 
-            &::after {
+            &:after {
                 content: attr(data-label);
                 display: block;
-                color: var(--yellow-dark);
+                color: white;
                 text-align: center;
                 top: 0;
                 position: absolute;
@@ -94,7 +128,8 @@
 
             &:focus {
                 &::placeholder {
-                    opacity: .2
+                    color: white;
+                    opacity: .5;
                 }
             }
 
@@ -102,7 +137,7 @@
                 transform: translate(-7%, -30px) scale(.85);
 
                 &:after {
-                    color: white;
+                    color: var(--yellow-dark);
                     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
                     text-align: left;
                 }
@@ -112,7 +147,7 @@
                 transform: translate(-7%, -30px) scale(.85);
 
                 &:after {
-                    color: white;
+                    color: var(--yellow-dark);
                     text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.25);
                     text-align: left;
                     opacity: 1;
@@ -122,14 +157,14 @@
     }
 
     .maps {
-        z-index: 1;
+        position: absolute;
     }
 
 
     .header {
         h1 {
             color: white;
-            font-family: 'Lobster', cursive;
+            font-family: var(--font-lobster);
             font-size: 50px;
             margin: 24px 0 24px;
             padding: 0;
@@ -141,7 +176,6 @@
                 bottom: -20px;
                 border-top: 1px solid white;
                 color: white;
-                // color: var(--yellow-dark);
                 display: block;
                 font-size: 16px;
                 left: calc(50% - 140px);
@@ -159,10 +193,15 @@
     @media screen and (min-width: 768px) {
         &__content {
             align-items: center;
-            background: white;
+            background: transparent;
             display: flex;
             flex-direction: column;
             justify-content: center;
+
+            &:after,
+            &:before {
+                display: none;
+            }
 
             .main-section {
                 background: var(--yellow);
@@ -210,6 +249,39 @@
                                 -webkit-linear-gradient(right, var(--yellow-dark) 13px, rgba(0, 0, 0, 0) 10px);
                     background-size: 100% 20px;
                     right: -20px;
+                }
+
+                .login__form {
+                    .button,
+                    input {
+                        color: var(--yellow-dark);
+                        background-color: white;
+                        box-shadow: 2px 2px 0 rgba(0, 0, 0, .2);
+                    }
+
+                    label {
+                        color: var(--yellow-dark);
+
+                        &:after {
+                            color: var(--yellow-dark);
+                        }
+                    }
+
+                    input {
+                        color: var(--yellow-dark);
+
+                        &:focus + label {
+                            &:after {
+                                color: white;
+                            }
+                        }
+
+                        &:not(:placeholder-shown) + label {
+                            &:after {
+                                color: white;
+                            }
+                        }
+                    }
                 }
 
                 .buttons {

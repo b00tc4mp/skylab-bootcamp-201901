@@ -4,7 +4,6 @@
     }
 
     h1 {
-        // color: white;
         color: var(--yellow);
         font-family: var(--font-lobster);
         font-size: 50px;
@@ -12,12 +11,11 @@
         padding: 0;
         position: relative;
         text-align: center;
-        // text-shadow: 1px 1px 0 rgba(0, 0, 0, .3);
+        z-index: 1;
 
         .subtitle {
             bottom: -20px;
             border-top: 1px solid var(--yellow-dark);
-            // color: white;
             color: var(--yellow-dark);
             display: block;
             font-size: 16px;
