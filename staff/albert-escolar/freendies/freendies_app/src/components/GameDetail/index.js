@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import './index.scss'
 import logic from '../../logic';
 import { Link } from 'react-router-dom'
-
+import { withRouter } from 'react-router'
 
 class GameDetail extends Component {
     state = {
@@ -11,25 +11,35 @@ class GameDetail extends Component {
     }
 
     async componentDidMount() {
-        const { user, match: { params: { id } } } = this.props
-        const result = await logic.retrieveGameById(id)
-        this.setState({ user, result })
+        try {
+            const { user, match: { params: { id } } } = this.props
+            const result = await logic.retrieveGameById(id)
+            this.setState({ user, result })
+        } catch (error) {
+            this.props.history.push('/error')
+        }
     }
 
     async componentWillReceiveProps(props) {
-        const { user, match: { params: { id } } } = props
-        const result = await logic.retrieveGameById(id)
-        this.setState({ user, result })
+
+        try {
+            const { user, match: { params: { id } } } = props
+            const result = await logic.retrieveGameById(id)
+            this.setState({ user, result })
+        } catch (error) {
+            this.props.history.push('/error')
+
+        }
 
     }
 
     handleToggleFavs = async (event) => {
         event.preventDefault()
-        const {result: { id }, isFaved } = this.state
-        const{token}=this.props
+        const { result: { id }, isFaved } = this.state
+        const { token } = this.props
         const { toggleFavs } = this.props
         await toggleFavs(token, id)
-        this.setState({isFaved:!isFaved})
+        this.setState({ isFaved: !isFaved })
 
 
 
@@ -37,7 +47,7 @@ class GameDetail extends Component {
 
     downloadFile = (e, file) => {
         e.preventDefault()
-        console.log(file)
+
     }
 
 
@@ -51,7 +61,9 @@ class GameDetail extends Component {
                     <img src={result.images[0]} />
                     <p>{result.title}</p>
                     <p>{result.genre}</p>
-                    <button onClick={(event) => this.downloadFile(event, result.gameFile)} download>Download</button>
+                    <a href={result.gameFile} >
+                        <button>Download</button>
+                    </a>
                     {user && (isFaved ? < button onClick={handleToggleFavs}>-</button> : <button onClick={handleToggleFavs}>+</button>)}
                     {!user && <Link to="/login"><button>Log In to add Favs</button></Link>}
                     <p>{result.description}</p>
@@ -62,4 +74,4 @@ class GameDetail extends Component {
     }
 
 }
-export default GameDetail
+export default withRouter(GameDetail)

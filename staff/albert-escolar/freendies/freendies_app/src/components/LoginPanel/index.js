@@ -11,7 +11,7 @@ class LoginPanel extends Component {
         this.setState({ [event.target.name]: event.target.value })
     }
 
-    onSubmit = (event) => {
+    onSubmit = async (event) => {
         event.preventDefault()
         const { onLogin } = this.props
         const { email, password } = this.state
