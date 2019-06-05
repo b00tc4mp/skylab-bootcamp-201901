@@ -1,19 +1,8 @@
-import React, { useState, useEffect } from 'react';
+import { IonButton, IonCol, IonGrid, IonImg, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast } from '@ionic/react';
+import React, { useContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import {
-  IonButton,
-  IonInput,
-  IonText,
-  IonItem,
-  IonLabel,
-  IonGrid,
-  IonToast,
-  IonRow,
-  IonCol,
-  IonImg,
-} from '@ionic/react';
 import logic from '../../logic';
-import { async } from 'q';
+import { MainContext } from '../../logic/contexts/main-context';
 
 function Register({ history }) {
   const [name, setName] = useState('');
@@ -22,22 +11,48 @@ function Register({ history }) {
   const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
-  const [provider, setProvider] = useState(null)
+  const [provider, setProvider] = useState(null);
 
-  const handleLogin = e => {
+  const ctx = useContext(MainContext);
+
+  const handleLogin = async e => {
     e.preventDefault();
-    //TODO: REGISTER USER 
-
+    let id;
+    if (provider) {
+      id = await logic.registerUser({
+        name,
+        surname,
+        email,
+        password,
+        phone,
+        role: 'USER_ROLE',
+        providerId: provider.id,
+      });
+    } else {
+      id = await logic.registerUser({
+        name,
+        surname,
+        email,
+        password,
+        phone,
+        role: 'GUEST_ROLE',
+        providerId: provider.id,
+      });
+    }
+    await ctx.login(email, password);
+    history.push('/')
   };
 
   const url = window.location.toString();
   useEffect(() => {
     (async () => {
       const providers = await logic.listProviders();
-      const defaultProvider = providers.find(provider => !!provider.registrationUrl && url.includes(provider.registrationUrl))
+      const defaultProvider = providers.find(
+        provider => !!provider.registrationUrl && url.includes(provider.registrationUrl)
+      );
       setProvider(defaultProvider);
-    })()
-  }, [url])
+    })();
+  }, [url]);
 
   return (
     <IonGrid>
@@ -47,11 +62,7 @@ function Register({ history }) {
             <IonText>
               <h2>Register {provider && 'in ' + provider.name}</h2>
             </IonText>
-            {
-              provider && (
-                <IonImg src={provider.bannerImageUrl} alt="logo"/>
-              )
-            }
+            {provider && <IonImg src={provider.bannerImageUrl} alt="logo" />}
           </IonCol>
         </IonRow>
         <IonToast
@@ -147,13 +158,7 @@ function Register({ history }) {
         </IonRow>
         <IonRow>
           <IonCol size="10" push="1">
-            <IonButton
-              margin-top
-              color="secondary"
-              fill="solid"
-              expand="block"
-              onClick={() => history.push('/login')}
-            >
+            <IonButton margin-top color="secondary" fill="solid" expand="block" onClick={() => history.push('/login')}>
               or login here
             </IonButton>
           </IonCol>

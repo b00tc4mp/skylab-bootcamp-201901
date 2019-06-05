@@ -2,7 +2,7 @@ import '@ionic/core';
 // import '@ionic/core/css/core.css';
 import '@ionic/core/css/ionic.bundle.css';
 import { IonApp, IonContent } from '@ionic/react';
-import React from 'react';
+import React, { useEffect } from 'react';
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import '../../style.css';
 import Home from '../Home';
@@ -31,6 +31,9 @@ const gqlClient = new ApolloClient({
 logic.gqlClient = gqlClient;
 
 const App: React.SFC = () => {
+  if (logic.token) {
+
+  }
   return (
     <ApolloProvider client={gqlClient}>
       <Router>
@@ -38,7 +41,8 @@ const App: React.SFC = () => {
           <IonApp>
             <IonContent>
               <MainContext.Consumer>
-                {({ role }) => (
+                {({ role }) => {
+                  return (
                   <Switch>
                     <Route
                       path="/"
@@ -75,7 +79,7 @@ const App: React.SFC = () => {
                     />
                     <Route path="*" render={() => <Redirect to="/" />} />
                   </Switch>
-                )}
+                )}}
               </MainContext.Consumer>
             </IonContent>
           </IonApp>

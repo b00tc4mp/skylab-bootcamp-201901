@@ -25,7 +25,7 @@ import { MainContext } from '../../logic/contexts/main-context';
 import MainUser from '../MainUser';
 import MyBookings from '../MyBookings';
 import MyProviders from '../MyProviders';
-import MySettingsUser from '../MySettingsUser'
+import MySettingsUser from '../MySettingsUser';
 
 const Home: React.FC<any> = ({ history, location }) => {
   const [view, setView] = useState('all');
@@ -35,6 +35,10 @@ const Home: React.FC<any> = ({ history, location }) => {
     const _view = e.detail.value;
     setView(_view);
   };
+
+  if (!ctx.user) {
+    return <p>No user loaded</p>
+  }
 
   return (
     <>
@@ -57,11 +61,11 @@ const Home: React.FC<any> = ({ history, location }) => {
               <IonIcon name="today" />
               <IonLabel>Today</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="bookings" href="/home/bookings">
+            <IonTabButton tab="bookings" href="/home/bookings" disabled={!ctx.user.customerOf.length}>
               <IonIcon name="calendar" />
               <IonLabel>My bookings</IonLabel>
             </IonTabButton>
-            <IonTabButton tab="providers" href="/home/providers">
+            <IonTabButton tab="providers" href="/home/providers" disabled={!ctx.user.customerOf.length}>
               <IonIcon name="paper" />
               <IonLabel>My providers</IonLabel>
             </IonTabButton>

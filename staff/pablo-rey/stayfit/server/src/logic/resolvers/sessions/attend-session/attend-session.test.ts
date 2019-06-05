@@ -1,5 +1,5 @@
 import { gCall } from '../../../../common/test-utils/gqlCall';
-import { PAIDINADVANCE, CONFIRMED, AttendanceModel, TOPAYINSESSION, NOSHOW, Attendance } from '../../../../data/models/attendance';
+import { PAIDINADVANCE, CONFIRMEDBYPROVIDER, AttendanceModel, TOPAYINSESSION, NOSHOW, Attendance } from '../../../../data/models/attendance';
 import { USER_ROLE, SUPERADMIN_ROLE, User } from '../../../../data/models/user';
 import { ACTIVE, PUBLIC, SessionModel, Session } from '../../../../data/models/session';
 import { gql } from 'apollo-server';
@@ -67,7 +67,7 @@ describe('attend/unattend session', function() {
         userId: user.id,
         sessionId: session.id,
         paymentType: PAIDINADVANCE,
-        status: CONFIRMED,
+        status: CONFIRMEDBYPROVIDER,
       };
       const response = await gCall({
         source: mutation,
@@ -88,7 +88,7 @@ describe('attend/unattend session', function() {
       expect(_attendance!.user.toString()).to.be.equal(user.id);
       expect(_attendance!.session.toString()).to.be.equal(session.id);
       expect(_attendance!.paymentType).to.be.equal(PAIDINADVANCE);
-      expect(_attendance!.status).to.be.equal(CONFIRMED);
+      expect(_attendance!.status).to.be.equal(CONFIRMEDBYPROVIDER);
       const _session = await SessionModel.findById(session.id);
       expect(_session).not.to.be.null;
       expect(_session!.attendances).to.have.lengthOf(1);
@@ -103,7 +103,7 @@ describe('attend/unattend session', function() {
         userId: user.id,
         sessionId: session.id,
         paymentType: PAIDINADVANCE,
-        status: CONFIRMED,
+        status: CONFIRMEDBYPROVIDER,
       };
       // create first
       let response = await gCall({
@@ -142,7 +142,7 @@ describe('attend/unattend session', function() {
       expect(_attendance!.user.toString()).to.be.equal(user.id);
       expect(_attendance!.session.toString()).to.be.equal(session.id);
       expect(_attendance!.paymentType).to.be.equal(PAIDINADVANCE);
-      expect(_attendance!.status).to.be.equal(CONFIRMED);
+      expect(_attendance!.status).to.be.equal(CONFIRMEDBYPROVIDER);
       const _session = await SessionModel.findById(session.id);
       expect(_session).not.to.be.null;
       expect(_session!.attendances).to.have.lengthOf(1);
@@ -166,7 +166,7 @@ describe('attend/unattend session', function() {
         user: user.id,
         session: mongoose.Types.ObjectId(session.id),
         paymentType: PAIDINADVANCE,
-        status: CONFIRMED,
+        status: CONFIRMEDBYPROVIDER,
       });
     })
 

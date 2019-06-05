@@ -1,4 +1,4 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import { ApolloClient } from 'apollo-boost';
 import logic from '..';
 
@@ -11,7 +11,9 @@ export type TProvider = {
 };
 
 export type TUser = {
+  id: string;
   name: string;
+  role: string;
   customerOf: TProvider[];
   adminOf: TProvider[];
 };
@@ -48,15 +50,16 @@ function MainProvider(props) {
 
   const refreshUserData = async () => {
     const user = await logic.retrieveMe();
+    setRole(user.role);
+    setUserId(user.id);
     setUser(user);
+    return user;
   };
 
   const login = async (email: string, password: string) => {
     try {
       const { accessToken, refreshToken, role, userId } = await logic.login(email, password);
       logic.token = refreshToken;
-      setRole(role);
-      setUserId(userId);
       await refreshUserData();
       return true;
     } catch (error) {
@@ -72,6 +75,12 @@ function MainProvider(props) {
     setUser(null);
     return true;
   };
+
+  useEffect(() => {
+    if (logic.token) {
+      refreshUserData();
+    }
+  }, [])
 
   // const [state, dispatch] = useReducer(reducer, initialState);
   return (

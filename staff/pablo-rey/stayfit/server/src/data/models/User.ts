@@ -1,7 +1,7 @@
-import { Field, ID, ObjectType, Root } from 'type-graphql';
+import { ONLY_OWN_USER, ONLY_SUPERADMIN } from './../../logic/middleware/authChecker';
+import { Field, ID, ObjectType, Root, Authorized } from 'type-graphql';
 import { prop, Ref, Typegoose, arrayProp } from 'typegoose';
 import { Provider } from './provider'
-import moment = require('moment');
 
 // Constants
 export const SUPERADMIN_ROLE = 'SUPERADMIN_ROLE';
@@ -34,21 +34,29 @@ export class User extends Typegoose {
   })
   email: string;
 
+  @Field()
+  @prop({ required: false, trim: true })
+  phone: string;
+  
   @prop({ required: true })
   password: string;
 
+  @Authorized(ONLY_SUPERADMIN)
   @Field()
   @prop({ required: true, default: GUEST_ROLE, enum: ROLES })
   role: string;
 
+  @Authorized(ONLY_OWN_USER)
   @Field(returns => [Provider], { nullable: 'items' })
   @arrayProp({ itemsRef: Provider })
   customerOf: Ref<Provider>[];
     
+  @Authorized(ONLY_OWN_USER)
   @Field(returns => [Provider], { nullable: 'items' })
   @arrayProp({ itemsRef: Provider })
   coachOf: Ref<Provider>[];
 
+  @Authorized(ONLY_OWN_USER)
   @Field(returns => [Provider], { nullable: 'items' })
   @arrayProp({ itemsRef: Provider })
   adminOf: Ref<Provider>[];

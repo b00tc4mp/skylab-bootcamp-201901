@@ -4,7 +4,16 @@ import { TUser, TProvider } from './contexts/main-context';
 
 export default {
   gqlClient: null,
-  token: null,
+  get token() {
+    const value = sessionStorage.refreshToken;
+    if (value === 'null') return null;
+    if (value === 'undefined') return undefined;
+    return value;
+  },
+
+  set token(_token) {
+    sessionStorage.refreshToken = _token;
+  },
 
   async __gCall({ query, mutation, variables }) {
     let context;
@@ -21,12 +30,14 @@ export default {
         query,
         variables,
         context,
+        fetchPolicy: 'no-cache',
       });
     } else {
       return await this.gqlClient.mutate({
         mutation,
         variables,
         context,
+        fetchPolicy: 'no-cache',
       });
     }
   },
@@ -55,26 +66,63 @@ export default {
     return { refreshToken, accessToken, userId, role };
   },
 
-  async registerUser(data: {
+  async registerUser(userData: {
     name: string;
     surname: string;
     email: string;
     password: string;
     phone: string;
-    providerId?: string;
+    role: string;
+    providerId?: string | null;
   }) {
-    const { name, surname, email, password, phone, providerId } = data;
+    const { name, surname, email, password, phone, role, providerId } = userData;
     const mutation = gql`
-    
+      mutation RegisterUser(
+        $name: String!
+        $surname: String!
+        $email: String!
+        $phone: String!
+        $password: String!
+        $role: String!
+        $providerId: String!
+      ) {
+        createUser(
+          data: {
+            name: $name
+            surname: $surname
+            email: $email
+            password: $password
+            phone: $phone
+            role: $role
+            providerId: $providerId
+          }
+        )
+      }
     `;
-    
+
+    const { data, error } = await this.__gCall({
+      mutation,
+      variables: {
+        name,
+        surname,
+        email,
+        password,
+        phone,
+        role,
+        providerId,
+      },
+    });
+    if (error) throw new Error(error[0]);
+    return data.id;
   },
+
   async retrieveMe(): Promise<TUser> {
     const query = gql`
       query {
         me {
           id
           name
+          role
           customerOf {
             id
             name
@@ -96,18 +144,24 @@ export default {
     const query = gql`
       query ListSessions($providerId: String!, $day: String!) {
         listMyAvailableSessions(providerId: $providerId, day: $day) {
-          id
-          title
-          coaches {
-            name
-          }
-          startTime
-          endTime
-          maxAttendants
-          type {
+          session {
+            id
             title
+            coaches {
+              name
+            }
+            startTime
+            endTime
+            maxAttendants
+            type {
+              title
+            }
+            status
           }
-          status
+          myAttendance {
+            id
+            status
+          }
         }
       }
     `;
@@ -118,10 +172,10 @@ export default {
         day,
       },
     });
-    return data.listMyAvailableSessions;
+    return data.listMyAvailableSessions.map(sa => ({ ...sa.session, myAttendance: sa.myAttendance }));
   },
 
-  async attendSession(userId: string, sessionId: string, paymentType: string, status: string) {
+  async attendSession(userId: string, sessionId: string, paymentType: string, status?: string) {
     const mutation = gql`
       mutation AttendSession($data: AttendanceInput!) {
         attendSession(data: $data)
@@ -141,6 +195,23 @@ export default {
     });
 
     return data.attendSession;
+  },
+
+  async unattendSession(attendanceId: string, status: string) {
+    const mutation = gql`
+      mutation UpdateStatusAttendance($attendanceId: String!, $status: String!) {
+        updateStatusAttendance(attendanceId: $attendanceId, status: $status)
+      }
+    `;
+
+    const { data, error } = await this.__gCall({
+      mutation,
+      variables: {
+        attendanceId,
+        status,
+      },
+    });
+    return data.updateStatusAttendance;
   },
 
   async listProviders(): Promise<TProvider[]> {
@@ -169,6 +240,8 @@ export default {
           provider {
             id
             name
+            bannerImageUrl
+            portraitImageUrl
           }
           customerOf
           adminOf

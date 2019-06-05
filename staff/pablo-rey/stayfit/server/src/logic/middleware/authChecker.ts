@@ -16,9 +16,12 @@ export const authChecker: AuthChecker<MyContext> = async ({ root, args, context,
   const ownerId = context.userId;
   let ownerRole = context.role;
   let owner: User | null = null;
+  const a = info
 
   if (!ownerId || !ownerRole) throw new AuthorizationError('Invalid credentials to authentication');
   
+  if (ONLY_OWN_USER && info.path.prev && info.path.prev.key === 'me') return true
+
   // ALWAYS checking
   if (ownerRole === SUPERADMIN_ROLE) return true;
 

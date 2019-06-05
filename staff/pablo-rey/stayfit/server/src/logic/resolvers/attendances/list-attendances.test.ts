@@ -1,5 +1,5 @@
 import { gCall } from '../../../common/test-utils/gqlCall';
-import { PAIDINADVANCE, CONFIRMED, AttendanceModel, TOPAYINSESSION, NOSHOW, Attendance } from '../../../data/models/attendance';
+import { PAIDINADVANCE, CONFIRMEDBYPROVIDER, AttendanceModel, TOPAYINSESSION, NOSHOW, Attendance } from '../../../data/models/attendance';
 import { USER_ROLE, SUPERADMIN_ROLE, User } from '../../../data/models/user';
 import { ACTIVE, PUBLIC, SessionModel, Session } from '../../../data/models/session';
 import { gql } from 'apollo-server';

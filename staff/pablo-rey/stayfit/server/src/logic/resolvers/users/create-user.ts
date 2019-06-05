@@ -23,6 +23,9 @@ export class CreateInput {
   email: string;
 
   @Field()
+  phone: string;
+
+  @Field()
   password: string;
 
   @Field()
@@ -38,7 +41,7 @@ export class CreateUserResolver {
   @Mutation(returns => String)
   async createUser(
     @Arg('data')
-    { email, name, surname, password, role, providerId}: CreateInput,
+    { email, name, surname, phone, password, role, providerId}: CreateInput,
     @Ctx() ctx: MyContext
   ) {
     // Custom Validations
@@ -60,7 +63,7 @@ export class CreateUserResolver {
 
     const hashPassword = await bcrypt.hash(password!, 12);
     try {
-      const user = await UserModel.create({ name, surname, email, password: hashPassword, role });
+      const user = await UserModel.create({ name, surname, email, phone, password: hashPassword, role });
       if (provider) await RequestCustomerModel.create({ provider, user, type: REQUESTBECUSTOMER, status: PENDING });
       return user.id;
     } catch (err) {

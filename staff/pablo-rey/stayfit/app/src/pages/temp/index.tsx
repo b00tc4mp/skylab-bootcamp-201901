@@ -1,32 +1,8 @@
-import {
-  IonItem,
-  IonLabel,
-  IonList,
-  IonListHeader,
-  IonContent,
-  IonGrid,
-  IonCol,
-  IonRow,
-  IonItemSliding,
-  IonItemOptions,
-  IonItemOption,
-  IonSegment,
-  IonSegmentButton,
-  IonIcon,
-  IonText,
-  IonPage,
-  IonTabButton,
-  IonBadge,
-  IonTabBar,
-  IonTabs,
-  IonTab,
-  IonRouterOutlet,
-} from '@ionic/react';
-import gql from 'graphql-tag';
-import React, { useEffect, useState } from 'react';
-import { withRouter, Route } from 'react-router-dom';
-import logic from '../../logic';
+import { IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
 import moment from 'moment';
+import React, { useState } from 'react';
+import { Route, withRouter } from 'react-router-dom';
+import logic from '../../logic';
 
 const Temp: React.FC<any> = ({ history, location, client }) => {
   const day = moment();

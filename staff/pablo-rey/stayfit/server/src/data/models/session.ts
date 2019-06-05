@@ -1,6 +1,6 @@
 import { Field, ID, ObjectType } from 'type-graphql';
 import { arrayProp, instanceMethod, prop, Ref, Typegoose } from 'typegoose';
-import { Attendance, AttendanceModel } from './attendance';
+import { Attendance, AttendanceModel, ATTENDANCESTATUSES, OK } from './attendance';
 import { Provider } from './provider';
 import { SessionType } from './session-type';
 import { User } from './user';
@@ -59,6 +59,10 @@ export class Session extends Typegoose {
   @Field(returns => SessionType)
   @prop({ ref: SessionType, required: true })
   type: Ref<SessionType>;
+
+  @Field()
+  @prop({ required: false, enum: ATTENDANCESTATUSES, default:OK })
+  attendanceDefaultStatus: string;
 
   @Field(returns => [Attendance])
   @arrayProp({ itemsRef: Attendance, required: false})
