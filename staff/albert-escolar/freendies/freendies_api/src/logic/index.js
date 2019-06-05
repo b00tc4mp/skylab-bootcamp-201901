@@ -242,19 +242,35 @@ const logic = {
     async retrieveFavs(userId) {
         if (typeof userId !== 'string') throw TypeError('userId is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
-        
-        const {favoriteGames} = await User.findById(userId).populate({
+
+        const { favoriteGames } = await User.findById(userId).populate({
             path: 'favoriteGames',
             select: '-__v'
         }).lean()
 
-        favoriteGames.forEach(favorite =>{
+        favoriteGames.forEach(favorite => {
             favorite.id = favorite._id.toString()
             delete favorite._id
         })
-      
+
         return favoriteGames
 
+    },
+
+    async retrieveUploads(userId) {
+        if (typeof userId !== 'string') throw TypeError('userId is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+
+        const { uploads } = await User.findById(userId).populate({
+            path: 'uploads',
+            select: '-__v'
+        }).lean()
+
+        uploads.forEach(upload => {
+            upload.id = upload._id.toString()
+            delete upload._id
+        })
+        return uploads
     }
 
 }

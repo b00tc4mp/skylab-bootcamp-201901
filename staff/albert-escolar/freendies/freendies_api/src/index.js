@@ -19,7 +19,8 @@ const {
     retrieveGameByGenre,
     retrieveGameById,
     toggleFavs,
-    retrieveFavs
+    retrieveFavs,
+    retrieveUploads
 } = require('./routes')
 
 const logic = require('./logic/index')
@@ -53,6 +54,7 @@ mongoose.connect(DB_URL, { useNewUrlParser: true })
         router.get('/search/:genre/:query', jsonBodyParser, retrieveGameByQuery)
         router.get('/game/:id', jsonBodyParser, retrieveGameById)
         router.get('/user/retrieveFavs', tokenVerifierMiddleware, jsonBodyParser,retrieveFavs)
+        router.get('/user/retrieveUploads', tokenVerifierMiddleware,jsonBodyParser,retrieveUploads)
 
         app.use('/api', router)
 
