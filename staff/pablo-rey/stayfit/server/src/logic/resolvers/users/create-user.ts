@@ -32,7 +32,7 @@ export class CreateInput {
   @IsIn(ROLES)
   role: string;
 
-  @Field()
+  @Field({nullable: true})
   providerId?: string;
 }
 

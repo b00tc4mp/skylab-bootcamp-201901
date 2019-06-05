@@ -1,5 +1,12 @@
 import { gCall } from '../../../../common/test-utils/gqlCall';
-import { PAIDINADVANCE, CONFIRMEDBYPROVIDER, AttendanceModel, TOPAYINSESSION, NOSHOW, Attendance } from '../../../../data/models/attendance';
+import {
+  PAIDINADVANCE,
+  CONFIRMEDBYPROVIDER,
+  AttendanceModel,
+  TOPAYINSESSION,
+  NOSHOW,
+  Attendance,
+} from '../../../../data/models/attendance';
 import { USER_ROLE, SUPERADMIN_ROLE, User } from '../../../../data/models/user';
 import { ACTIVE, PUBLIC, SessionModel, Session } from '../../../../data/models/session';
 import { gql } from 'apollo-server';
@@ -94,69 +101,14 @@ describe('attend/unattend session', function() {
       expect(_session!.attendances).to.have.lengthOf(1);
       expect(_session!.attendances[0].toString()).to.be.equal(_attendance!.id);
     });
-
-    it('should not alter the attention if user if already subscribed', async () => {
-      const superadmin = await createRandomUser(SUPERADMIN_ROLE);
-      const session = await createDummySession();
-      const user = await createRandomUser(USER_ROLE);
-      const data = {
-        userId: user.id,
-        sessionId: session.id,
-        paymentType: PAIDINADVANCE,
-        status: CONFIRMEDBYPROVIDER,
-      };
-      // create first
-      let response = await gCall({
-        source: mutation,
-        variableValues: {
-          data,
-        },
-        ctx: {
-          userId: superadmin.id,
-          role: superadmin.role,
-        },
-      });
-      if (response.errors) console.log(response.errors);
-      expect(response.errors).not.to.exist;
-      expect(response).to.have.property('data').and.not.to.be.null;
-      const attendanceId = response.data!.attendSession;
-
-      // create second
-      response = await gCall({
-        source: mutation,
-        variableValues: {
-          data,
-        },
-        ctx: {
-          userId: superadmin.id,
-          role: superadmin.role,
-        },
-      });
-      if (response.errors) console.log(response.errors);
-      expect(response.errors).not.to.exist;
-      expect(response).to.have.property('data').and.not.to.be.null;
-      const attendanceId2 = response.data!.attendSession;
-      expect(attendanceId2).to.be.equal(attendanceId);
-      const _attendance = await AttendanceModel.findById(attendanceId);
-      expect(_attendance).not.to.be.null;
-      expect(_attendance!.user.toString()).to.be.equal(user.id);
-      expect(_attendance!.session.toString()).to.be.equal(session.id);
-      expect(_attendance!.paymentType).to.be.equal(PAIDINADVANCE);
-      expect(_attendance!.status).to.be.equal(CONFIRMEDBYPROVIDER);
-      const _session = await SessionModel.findById(session.id);
-      expect(_session).not.to.be.null;
-      expect(_session!.attendances).to.have.lengthOf(1);
-      expect(_session!.attendances[0].toString()).to.be.equal(_attendance!.id);
-    });
   });
-
   describe('attend session', function() {
     this.timeout(10000);
     beforeEach(() => deleteModels());
-    
+
     let superadmin: User;
     let session: Session;
-    let user : User;
+    let user: User;
     let attendance: Attendance;
     beforeEach(async () => {
       superadmin = await createRandomUser(SUPERADMIN_ROLE);
@@ -168,7 +120,7 @@ describe('attend/unattend session', function() {
         paymentType: PAIDINADVANCE,
         status: CONFIRMEDBYPROVIDER,
       });
-    })
+    });
 
     it('should update session status', async () => {
       const mutation = gql`

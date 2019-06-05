@@ -1,8 +1,7 @@
-import React, { useContext, useState, useEffect } from 'react';
-import { IonContent, IonPage, IonButton } from '@ionic/react';
-import { Link } from 'react-router-dom';
-import { MainContext } from '../../logic/contexts/main-context';
+import React, { useContext, useEffect, useState } from 'react';
+import { IonButton, IonContent, IonPage } from '@ionic/react';
 import logic from '../../logic';
+import { MainContext } from '../../logic/contexts/main-context';
 
 export default function() {
   const ctx = useContext(MainContext);

@@ -7,7 +7,7 @@ import { AttendanceModel } from '../../data/models/attendance';
 import { SessionModel } from '../../data/models/session';
 import { SessionTypeModel } from '../../data/models/session-type';
 
-import * as chai from 'chai'
+import * as chai from 'chai';
 import faker = require('faker');
 const { expect } = chai;
 
@@ -32,7 +32,8 @@ export function randomUser(_role?: string) {
   const email = faker.internet.email();
   const password = faker.internet.password();
   const role = _role || (random(ROLES) as string);
-  return { name, surname, email, password, role };
+  const phone = faker.phone.phoneNumber();
+  return { name, surname, email, password, role, phone };
 }
 
 export function createRandomUser(_role?: string) {
@@ -67,6 +68,11 @@ export async function createTestProvider({
   const customers = customersUserPassword.map(up => up.user);
   const customersId = customersUserPassword.map(up => up.user.id!.toString());
   const provider = await ProviderModel.create({ name, admins: [admin], coaches, customers });
+  admin.adminOf = [provider.id]
+  admin.save();
+  for (let customer of customers) {
+    await UserModel.findByIdAndUpdate(customer.id, {customerOf : [provider.id]});
+  }
   await SessionTypeModel.create({ type: 'wod', title: 'WOD', active: true, provider });
   await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider });
   await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider });
@@ -107,6 +113,9 @@ export function userExpectations(user: any, withPassword: boolean = false): void
     .to.have.property('role')
     .and.be.a('string')
     .and.to.be.oneOf(ROLES);
+  expect(user)
+    .to.have.property('phone')
+    .and.be.a('string');
 }
 
 export function providerExpectations(provider: any): void {
@@ -148,12 +157,4 @@ export function providerExpectations(provider: any): void {
       })
     ).to.be.true;
   }
-}
-
-export async function cleanDb() {
-  await UserModel.deleteMany({});
-  await SessionModel.deleteMany({});
-  await SessionTypeModel.deleteMany({});
-  await SessionTypeModel.create({ type: 'wod', title: 'WOD' });
-  await SessionTypeModel.create({ type: 'pt', title: 'Personal training' });
 }
