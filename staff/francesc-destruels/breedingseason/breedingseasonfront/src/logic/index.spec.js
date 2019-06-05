@@ -289,54 +289,46 @@ describe('user data', () => {
         })
     })
 
-    // describe('newGame', () => {
-    //     let retrievedUserGame
-    //     let GameId
+    describe('newGame', () => {
+        let UserGame
 
-    //     beforeEach(async () => {
-    //         GameId = `Jhaken-${Math.floor(Math.random() * 89)}`
+        beforeEach(async () => {
+            UserGame = new models.User({ nickname: users_[2].nickname, age: users_[2].age, email: users_[2].email, password: users_[2].password, avatar: "hellomotto" })
+            await UserGame.save()
+        })
 
-    //         retrievedUserGame = new User({ nickname: users_[2].nickname, age: users_[2].age, email: users_[2].email, password: users_[2].password, avatar: "hellomotto" })
-    //         await retrievedUserGame.save()
-    //     })
+        it("Should work on creating a solo player game instance", async () => {
+            await logic.loginUser(UserGame.nickname, UserGame.password)
 
-    //     it("Should work on creating a solo player game instance", async () => {
+            const gameRef = await logic.newGame({ mode: "solo", playersNumber: 1 }, true)
 
-    //         const gameRef = await logic.newGame(retrievedUserGame._id.toString(), GameId, { mode: "solo", playersNumber: 1 }, privateGame = true)
+            expect(gameRef).toBeDefined
+            console.log(logic.__ActualGame__)
 
-    //         expect(gameRef).toBeDefined
-    //         expect(gameRef).toBe(GameId)
-    //         expect(alivePrivateGames).toBeDefined
-    //         expect(alivePrivateGames.length).toBe(1)
-    //         expect(alivePublicGames.length).toBe(0)
+        })
 
-    //         alivePrivateGames.pop()
-    //     })
+        it("Should work on creating a multiplayer public player game instance", async () => {
+            await logic.loginUser(UserGame.nickname, UserGame.password)
 
-    //     it("Should work on creating a multiplayer public player game instance", async () => {
+            const gameRef = await logic.newGame({ mode: "multiplayer", playersNumber: 3 }, false)
 
-    //         const gameRef = await logic.newGame(retrievedUserGame._id.toString(), GameId, { mode: "multiplayer", playersNumber: 3 }, privateGame = false)
+            expect(gameRef).toBeDefined
+        })
 
-    //         expect(gameRef).toBeDefined
-    //         expect(gameRef).toBe(GameId)
-    //         expect(alivePublicGames).toBeDefined
-    //         expect(alivePrivateGames.length).toBe(0)
-    //         expect(alivePublicGames.length).toBe(1)
+        it('should fail on not existing iD', async () => {
+            await logic.loginUser(UserGame.nickname, UserGame.password)
+            await UserGame.remove()
 
-    //         alivePublicGames.pop()
-    //     })
+            try {
+                await logic.newGame({ mode: "multiplayer", playersNumber: 3 }, false)
 
-    //     it('should fail on not existing iD', async () => {
-    //         try {
-    //             await logic.newGame(retrievedUserGame._id.toString().toUpperCase(), GameId, { mode: "multiplayer", playersNumber: 3 }, privateGame = false)
-
-    //             throw Error("Should not reach this point")
-    //         } catch (err) {
-    //             expect(err).toBeDefined
-    //             expect(err.message).toBe("No User for that id")
-    //         }
-    //     })
-    // })
+                throw Error("Should not reach this point")
+            } catch (err) {
+                expect(err).toBeDefined
+                expect(err.message).toBe("Bad Way")
+            }
+        })
+    })
 
     // describe('startGame', () => {
     //     let random9 = Math.floor(Math.random() * 9)

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from 'react'
 import { Route, withRouter, Redirect } from 'react-router-dom'
-import { GameContext } from '../GameContext'
+import { AppContext } from '../AppContext'
 import Login from '../Login'
 import Register from '../Register'
 import Landing from '../Landing'
@@ -11,14 +11,12 @@ function App({ history }) {
 
   const [feedback, setFeedback] = useState(null)
   const [Nickname, setNickname] = useState({})
-  const [GameHistory, setGameHistory] = useState()
+
 
   useEffect(() =>  { 
     logic.isUserLoggedIn && logic.retrieveUser()
       .then(user => setNickname(user))
-      .then(() => logic.retrieveUserGameHistory())
-      .then(data =>  setGameHistory(data))
-  })
+  }, [])
 
   const handleSignUp = (nickname, age, email, password) => {
     try {
@@ -40,8 +38,6 @@ function App({ history }) {
       logic.loginUser(nicknameOEmail, password)
         .then(() => logic.retrieveUser())
         .then(user => setNickname(user))
-        .then(() => logic.retrieveUserGameHistory())
-        .then(data =>  setGameHistory(data))
         .then(() => {
           setFeedback(null)
         })
@@ -66,12 +62,12 @@ function App({ history }) {
 
   return (
     <Fragment>
-      <GameContext.Provider value={{ Nickname, feedback, GameHistory }}>
+      <AppContext.Provider value={{ Nickname, setNickname, feedback }}>
         <Route exact path='/' render={() => !logic.isUserLoggedIn ? <Landing toLogin={handleToLogin} toRegister={handleToRegister} /> : <Redirect to='/home' />} />
         <Route path='/login' render={() => !logic.isUserLoggedIn ? <Login onLogin={handleLogIn} /> : <Redirect to='/home' />} />
         <Route path='/register' render={() => !logic.isUserLoggedIn ? <Register onSignUp={handleSignUp} /> : <Redirect to='/home' />} />
         <Route path='/home' render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to='/' />} />
-      </GameContext.Provider>
+      </AppContext.Provider>
     </Fragment>
   )
 

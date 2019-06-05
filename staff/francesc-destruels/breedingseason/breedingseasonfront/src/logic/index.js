@@ -30,8 +30,8 @@ const logic = {
     async registerUser(nickname, age, email, password) {
         try { ow(nickname, ow.string.not.empty) } catch (err) { throw Error("Nickname can not be empty") }
         try { ow(age, ow.number.is(x => x > 13)) } catch (err) { throw Error("You have to be older than 13") }
-        try { ow(password, ow.string.not.empty)} catch (err) { throw Error("Password can't be empty") }
-        try { ow(email, ow.string.is(x => re.test(String(x))).not.empty)} catch (err) { throw Error("That is not a proper e-mail") }
+        try { ow(password, ow.string.not.empty) } catch (err) { throw Error("Password can't be empty") }
+        try { ow(email, ow.string.is(x => re.test(String(x))).not.empty) } catch (err) { throw Error("That is not a proper e-mail") }
 
         const { error, message } = await restApi.create(nickname, age, email, password)
 
@@ -41,8 +41,8 @@ const logic = {
     },
 
     loginUser(nicknameOEmail, password) {
-        try {ow(nicknameOEmail, ow.string.not.empty)}catch(err){throw Error("Nickname or Email required")}
-            try {ow(password, ow.string.not.empty)} catch(err){throw Error("Password can not be empty")}
+        try { ow(nicknameOEmail, ow.string.not.empty) } catch (err) { throw Error("Nickname or Email required") }
+        try { ow(password, ow.string.not.empty) } catch (err) { throw Error("Password can not be empty") }
 
         return (async () => {
             const { error, token } = await restApi.authenticate(nicknameOEmail, password)
@@ -74,18 +74,19 @@ const logic = {
         } else throw new LogicError("Bad Way")
     },
 
-    // //gameLogic
+    //gameLogic
 
-    // async newGame(style, privateGame) {
-    //     const response = await restApi.newGame(this.__userToken__, style, privateGame)
+    async newGame(style, privateGame) {
 
-    //     if (response.status === 200) {
-    //         response.json()
+        const { gameId } = await restApi.newGame(this.__userToken__, style, privateGame)
 
-    //         this.__ActualGame__ = response
+        if (gameId) {
 
-    //     } else throw new LogicError("Bad Way")
-    // },
+            this.__ActualGame__ = gameId
+            return
+
+        } else throw new LogicError("Bad Way")
+    },
 
     // async joinGame(gameId) {
     //     const response = await restApi.joinGame(this.__userToken__, gameId ? gameId : "searching")
@@ -99,16 +100,17 @@ const logic = {
     // },
 
 
-    // async startGame() {
-    //     const response = await restApi.startGame(this.__userToken__, this.__ActualGame__)
+    async startGame() {
+        const initialGameData = await restApi.startGame(this.__userToken__, this.__ActualGame__)
 
-    //     if (response.status === 200) {
-    //         response.json()
+        if (initialGameData) {
 
-    //         if (typeof response === Object) return response
+            const { mapStatus, missionCards, round, turnCards, userPuntuation } = initialGameData
 
-    //     } else throw new LogicError("Bad Way")
-    // },
+            return { mapStatus, missionCards, round, turnCards, userPuntuation }
+
+        } else throw new LogicError("Bad Way")
+    },
 
     // async updateGame() {
     //     const response = await restApi.updateGame(this.__userToken__, this.__ActualGame__)

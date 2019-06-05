@@ -2450,7 +2450,7 @@ describe('Game Data', () => {
 
             const initialPackage = await gameToTest.startFunction(UserId)
 
-            expect(initialPackage).toBDefined()
+            expect(initialPackage).toBeDefined()
 
             const nextPackage = await gameToTest.nextFunction(UserId, {
 

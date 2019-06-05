@@ -1,33 +1,42 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useState, useEffect } from 'react'
 import { Route, withRouter, Redirect } from 'react-router-dom'
 import logic from '../../logic'
-import { GameContext } from "../GameContext"
+import { AppContext } from "../AppContext"
 import Logo from "../Logo"
 import Game from "../Game"
-import userData from "../UserData"
+import HowToPlay from "../HowToPlay"
 import './index.sass'
 import UserData from '../UserData';
 
 function Home({ history }) {
 
-    // const { setUserData, userData } = useContext()
-    const { Nickname } = useContext(GameContext)
+    const { Nickname } = useContext(AppContext)
+
+    useEffect(() =>  { 
+        logic.isUserLoggedIn && logic.retrieveUserGameHistory()
+        .then(data => setGameHistory(data))
+      }, [])
+
+    const [GameHistory, setGameHistory] = useState()
 
     const handleToSignOut = () => {
         logic.logoutUser()
         history.push('/')
     }
 
-    const handleToUser = () => {
-        history.push('home/User')
+    const handleToUser = async () => {
+        logic.retrieveUserGameHistory()
+            .then(data => setGameHistory(data))
+            .then(() =>  history.push('home/User'))
     }
 
     const handleToHowToPlay = () => {
         history.push('/home/HowToPlay')
     }
 
-    const handleToSoloGame = () => {
-        //Here will collect the first data 
+    const handleToSoloGame = async () => {
+        await logic.newGame({ mode: "solo", playersNumber: 1 }, true)
+
         history.push('/home/Game')
     }
 
@@ -59,13 +68,11 @@ function Home({ history }) {
                 </button>
                 </div>} />
 
-            <Route path="/home/User" render={() => <UserData />} />
+            <Route path="/home/User" render={() => logic.isUserLoggedIn ? <UserData user={Nickname} gameData={GameHistory} /> : <Redirect to='/' />} />
 
-            <Route path="/home/HowToPlay" render={() => <div><Logo sizeX={"100px"} sizeY={"100px"} /><p>This is how you play</p><button onClick={handleToSignOut}>
-                LogOut!
-            </button></div>} />
+            <Route path="/home/HowToPlay" render={() => logic.isUserLoggedIn ? <HowToPlay /> : <Redirect to='/' />} />
 
-            <Route path="/home/Game" render={() => <Game className="gameBoard" />} />
+            <Route path="/home/Game" render={() => logic.isUserLoggedIn ? <Game className="gameBoard" /> : <Redirect to='/' />} />
 
         </div>)
 }
