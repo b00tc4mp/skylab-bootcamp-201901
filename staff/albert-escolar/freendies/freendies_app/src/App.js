@@ -99,12 +99,15 @@ class App extends Component {
     this.props.history.push(`/genres/${genre}`)
   }
 
+  handleToggleFavs = (token, id) =>{
+    logic.toggleFavs(token, id)
+  }
  
   render() {
 
-    const { state: { user, searchResults }, handleRegister, handleGoToRegister, handleLogin, handleUpdateUserEmail,
+    const { state: { user, searchResults, token }, handleRegister, handleGoToRegister, handleLogin, handleUpdateUserEmail,
       handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleGoToUserPanel,
-      handleUploadGame, handleLogout, handleOnSearch, handleToSearchByGenre} = this
+      handleUploadGame, handleLogout, handleOnSearch, handleToSearchByGenre,handleToggleFavs} = this
 
     return (
       <div className="App">
@@ -144,7 +147,7 @@ class App extends Component {
           }} />
 
           <Route path="/game/:id" render={props => {
-            return <GameDetail {...props} user={user} history={props.history}/>
+            return <GameDetail {...props} user={user} toggleFavs={handleToggleFavs} token={token} history={props.history}/>
           }} />
 
 
