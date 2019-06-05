@@ -8,6 +8,7 @@ import { Modal } from '../../components/Modal'
 export function MyBasket () {
   const [orders, setOrders] = useState([])
   const [orderId, setOrderId] = useState(null)
+  const [deletedOrderId, setDeletedOrderId] = useState(false)
 
   useEffect(function () {
     async function getOrders () {
@@ -15,10 +16,15 @@ export function MyBasket () {
       setOrders(results)
     }
     getOrders()
-  }, [])
+  }, [deletedOrderId])
 
   const handleCloseModal = () => {
     setOrderId(null)
+  }
+
+  const deleteOrder = async (orderId) => {
+    await logic.removeOneOrderBy(orderId)
+    setDeletedOrderId(orderId)
   }
 
   const renderQR = () => {
@@ -37,17 +43,35 @@ export function MyBasket () {
       {
         orders.map(function (order) {
           return (
-            <div key={order.id}>
+
+            <div className='card' key={order.id}>
+              <header className='card-header'>
+                <p className='card-header-title'> Your Order:
+                </p>
+                <a href='#' className='card-header-icon' aria-label='more options'>
+                  <span className='icon'>
+                    <i className='fas fa-angle-down' aria-hidden='true' />
+                  </span>
+                </a>
+              </header>
               <h2>Flavors: {order.flavors.join(', ')}</h2>
               <h2>Price: {order.totalPrice} $</h2>
               <small>{order.size}</small>
               <h3>Status: {order.status}</h3>
-              <button
-                className='button is-primary'
-                onClick={() => setOrderId(order.id)}>
+
+              <footer className='card-footer'>
+                {/* <Link className='card-footer-item' to={`/orders/${order.id}`}>Go to order</Link> */}
+                <a
+                  className='card-footer-item'
+                  onClick={() => setOrderId(order.id)}>
                   Show QR Code
-              </button>
-              <Link className='button is-info' to={`/orders/${order.id}`}>Go to order</Link>
+                </a>
+                <a href='#' className='card-footer-item' onClick={(e) => {
+                  e.preventDefault()
+                  deleteOrder(order.id)
+                }}>Delete</a>
+              </footer>
+
             </div>
           )
         })

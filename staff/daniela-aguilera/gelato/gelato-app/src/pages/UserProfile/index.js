@@ -3,14 +3,13 @@ import cx from 'classnames'
 
 import logic from '../../logic'
 
-export function UserProfile () {
+export function UserProfile ({ history }) {
   const [user, setUserName] = useState([])
   const [loading, setLoading] = useState(false)
   const [notification, setNotification] = useState({ type: undefined, msg: undefined })
 
   useEffect(function () {
     async function retrieveUser () {
-      debugger
       const userDetails = await logic.retrieveUserBy()
       setUserName(userDetails)
     }
@@ -42,6 +41,8 @@ export function UserProfile () {
 
   async function handleDeleteSubmit (event) {
     await logic.deleteUser()
+    // this will redirect to the
+    history.replace('/')
   }
 
   const buttonClassName = cx('button is-primary', {
@@ -96,7 +97,7 @@ export function UserProfile () {
         </form>
       </div>
       <section>
-        <p>You can also delete your user, but we will be very sad</p>
+        <p>You can also delete your user, but we will be very sad</p> <i className='far fa-frown' />
         <button onClick={handleDeleteSubmit}>Delete my profile</button>
       </section>
     </Fragment>

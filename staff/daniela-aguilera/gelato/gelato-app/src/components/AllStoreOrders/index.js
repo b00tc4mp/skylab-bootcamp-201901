@@ -48,8 +48,7 @@ export function AllStoreOrders () {
                   </div>
                 </div>
                 <footer className='card-footer'>
-                  <a href='#update' className='card-footer-item'>Update</a>
-                  <button href='#' className='card-footer-item' onClick={(e) => {
+                  <button className='card-footer-item' onClick={(e) => {
                     e.preventDefault()
                     handleDeleteSubmit(order.id)
                   }}>Delete</button>
