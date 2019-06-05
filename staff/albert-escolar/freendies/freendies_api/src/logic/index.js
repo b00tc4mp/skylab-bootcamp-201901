@@ -137,7 +137,7 @@ const logic = {
 
         const gameBlobStream = gameUpload.createWriteStream({
             metadata: {
-                contentType: 'image/jpeg'
+                contentType: 'application/zip'
             }
         })
 
