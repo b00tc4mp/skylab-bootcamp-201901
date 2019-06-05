@@ -1,4 +1,3 @@
-'use strict'
 
 const normalize = {
     undefinedOrNull(value) {

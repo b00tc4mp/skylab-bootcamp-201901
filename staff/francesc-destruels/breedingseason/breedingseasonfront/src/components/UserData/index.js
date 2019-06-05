@@ -1,13 +1,10 @@
-import React, { useContext, useState } from 'react'
-import { GameContext } from "../GameContext"
+import React from 'react'
+import { withRouter } from 'react-router-dom'
 import logic from '../../logic'
 import Logo from "../Logo"
 
 
-function UserData({ history }) {
-
-    // const { setUserData, userData } = useContext()
-    const { Nickname, GameHistory } = useContext(GameContext)
+function UserData({ history, user, gameData }) {
 
     const handleToSignOut = () => {
         logic.logoutUser()
@@ -17,7 +14,6 @@ function UserData({ history }) {
     const handleToGoBack = () => {
         history.push('/home')
     }
-
 
     return (
         <div> 
@@ -29,15 +25,16 @@ function UserData({ history }) {
             </div>
             <div>
                 <h3>User Data</h3>
-                <p>Name: {Nickname.nickname}</p>
-                <p>Age: {Nickname.age}</p>
-                <p>Email: {Nickname.email}</p>
-                <h3>Las 5 Games</h3>
-                {GameHistory[0] ? <p>GameHistory[0].points</p> : <p>You should start playing!</p>}
-                {GameHistory[1] ? <p>GameHistory[1].points</p> : <p>You should start playing!</p>}
-                {GameHistory[2] ? <p>GameHistory[2].points</p> : <p>You should start playing!</p>}
-                {GameHistory[3] ? <p>GameHistory[3].points</p> : <p>You should start playing!</p>}
-                {GameHistory[4] ? <p>GameHistory[4].points</p> : <p>You should start playing!</p>}
+                <img src={user.avatar} alt="Breeding Season Logo" height="55px" width="55px"/>
+                <p>Name: {user.nickname}</p>
+                <p>Age: {user.age}</p>
+                <p>Email: {user.email}</p>
+                <h3>Last 5 Games</h3>
+                {gameData ? gameData[0] ? <p>gameData[0].points</p> : <p>You should start playing!</p> : <p>No game Data recived</p>}
+                {gameData ? gameData[1] ? <p>gameData[1].points</p> : <p>You should start playing!</p> : <p>No game Data recived</p>}
+                {gameData ? gameData[2] ? <p>gameData[2].points</p> : <p>You should start playing!</p> : <p>No game Data recived</p>}
+                {gameData ? gameData[3] ? <p>gameData[3].points</p> : <p>You should start playing!</p> : <p>No game Data recived</p>}
+                {gameData ? gameData[4] ? <p>gameData[4].points</p> : <p>You should start playing!</p> : <p>No game Data recived</p>}
             </div>
             <button onClick={handleToGoBack}>
                     Go Back
@@ -45,4 +42,4 @@ function UserData({ history }) {
         </div>)
 }
 
-export default UserData
+export default withRouter(UserData)

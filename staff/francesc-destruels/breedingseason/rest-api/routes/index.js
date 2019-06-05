@@ -88,7 +88,7 @@ router.post('/newGame', auth, jsonParser, async (req, res) => {
 
         const response = await logic.newGame(userId, gameId, style, Game)
 
-        res.status(201).json(response) // se guardará en app que eres el creador la instancia para permitir arrancar sin que tocase :D
+        res.status(201).json({ gameId: response }) // se guardará en app que eres el creador la instancia para permitir arrancar sin que tocase :D
 
     } catch ({ message }) {
         res.status(400).json({ error: message })

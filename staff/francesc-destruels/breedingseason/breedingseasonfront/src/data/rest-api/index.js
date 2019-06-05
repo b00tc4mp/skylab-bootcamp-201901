@@ -65,17 +65,17 @@ const restApi = {
             },
             body: JSON.stringify({ style, privateGame }),
             timeout: this.__timeout__
-        })
+        }).then(response => response.json())
     },
 
-    joinGame(token, gameId) { // my way
-        ow(token, ow.string.not.empty)
+    // joinGame(token, gameId) { // my way
+    //     ow(token, ow.string.not.empty)
 
-        return call(`${this.__url__}/joinGame/${gameId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-            timeout: this.__timeout__
-        })
-    },
+    //     return call(`${this.__url__}/joinGame/${gameId}`, {
+    //         headers: { Authorization: `Bearer ${token}` },
+    //         timeout: this.__timeout__
+    //     })
+    // },
 
     startGame(token, gameId) { // my way
         ow(token, ow.string.not.empty)
@@ -84,34 +84,34 @@ const restApi = {
         return call(`${this.__url__}/startGame/${gameId}`, {
             headers: { Authorization: `Bearer ${token}` },
             timeout: this.__timeout__
-        })
+        }) .then(response => response.json())
     },
 
-    updateGame(token, gameId) { // my way
-        ow(token, ow.string.not.empty)
-        ow(gameId, ow.string.not.empty)
+    // updateGame(token, gameId) { // my way
+    //     ow(token, ow.string.not.empty)
+    //     ow(gameId, ow.string.not.empty)
 
-        return call(`${this.__url__}/updateGame/${gameId}`, {
-            headers: { Authorization: `Bearer ${token}` },
-            timeout: this.__timeout__
-        })
-    },
+    //     return call(`${this.__url__}/updateGame/${gameId}`, {
+    //         headers: { Authorization: `Bearer ${token}` },
+    //         timeout: this.__timeout__
+    //     })
+    // },
 
-    gameAction(token, gamePlay, gameId) {
-        ow(token, ow.string.not.empty)
-        ow(gamePlay, ow.object)
-        ow(gameId, ow.string.not.empty)
+    // gameAction(token, gamePlay, gameId) {
+    //     ow(token, ow.string.not.empty)
+    //     ow(gamePlay, ow.object)
+    //     ow(gameId, ow.string.not.empty)
 
-        return call(`${this.__url__}/continueGame/${gameId}`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                Authorization: `Bearer ${token}`
-            },
-            body: JSON.stringify({ gamePlay }),
-            timeout: this.__timeout__
-        })
-    },
+    //     return call(`${this.__url__}/continueGame/${gameId}`, {
+    //         method: 'POST',
+    //         headers: {
+    //             'Content-Type': 'application/json',
+    //             Authorization: `Bearer ${token}`
+    //         },
+    //         body: JSON.stringify({ gamePlay }),
+    //         timeout: this.__timeout__
+    //     })
+    // },
 
 }
 
