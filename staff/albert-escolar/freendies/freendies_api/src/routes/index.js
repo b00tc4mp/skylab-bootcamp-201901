@@ -7,5 +7,6 @@ module.exports = {
     retrieveGameByQuery: require('./retrieve-GameByQuery'),
     retrieveGameByGenre: require('./retrieve-GameByGenre'),
     retrieveGameById: require('./retrieve-GameById'),
-    toggleFavs: require('./toggle-favs')
+    toggleFavs: require('./toggle-favs'),
+    retrieveFavs: require('./retrieve-userFavs')
 }

@@ -237,8 +237,21 @@ const logic = {
         else user.favoriteGames.splice(index, 1)
 
         await user.save()
-    }
+    },
 
+    async retrieveFavs(userId) {
+        if (typeof userId !== 'string') throw TypeError('userId is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
+        
+        const user = await User.findById(userId).lean()
+        const favs = user.favoriteGames
+        favs.forEach(fav => {
+            fav = fav.toString()
+        })
+        
+        return favs
+
+    }
 
 }
 
