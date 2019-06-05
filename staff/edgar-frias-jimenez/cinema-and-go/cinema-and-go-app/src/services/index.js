@@ -4,33 +4,30 @@ const call = require('../components/Call')
 const port = process.env.REACT_APP_PORT
 
 const cinemaApi = {
-
     __url__: `http://localhost:${port}/api`,
     __timeout__: 0,
 
-    registerUser(name, surname, email, password) {
+    registerUser(name, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
-            { name: 'surname', value: surname, type: 'string', notEmpty: true },
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
-        return call(`${this.__url__}/user`, {
+        return call(`${this.__url__}/users`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
-            data: { name, surname, email, password }
+            data: { name, email, password }
         })
     },
 
     authenticateUser(email, password) {
-
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
 
-        return call(`${this.__url__}/user/auth`, {
+        return call(`${this.__url__}/users/auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             data: { email, password }
@@ -42,7 +39,7 @@ const cinemaApi = {
             { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
 
-        return call(`${this.__url__}/user`, {
+        return call(`${this.__url__}/users`, {
             headers: { Authorization: `Bearer ${token}` }
         })
     },
@@ -53,7 +50,7 @@ const cinemaApi = {
             { name: 'data', value: data, type: 'object', notEmpty: true }
         ])
 
-        return call(`${this.__url__}/user`, {
+        return call(`${this.__url__}/users`, {
             method: 'PUT',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -68,7 +65,7 @@ const cinemaApi = {
             { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
 
-        return call(`${this.__url__}/user`, {
+        return call(`${this.__url__}/users`, {
             method: 'DELETE',
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -77,45 +74,36 @@ const cinemaApi = {
         })
     },
 
-    // //--------------------------------------------------------------
+    retrieveAllCinemas(token) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true }
+        ])
 
-    // retrieveUserMaps(token) {
-    //     validate.arguments([
-    //         { name: 'token', value: token, type: 'string', notEmpty: true }
-    //     ])
+        return call(`${this.__url__}/cinemas`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+    },
 
-    //     return call(`${this.__url__}/user/maps`, {
-    //         headers: { Authorization: `Bearer ${token}` }
-    //     })
-    // },
+    retrieveCinema(token, cinemaId) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'cinemaId', value: cinemaId, type: 'string', notEmpty: true }
+        ])
 
-    // retrieveUserMap(token, mapId) {
-    //     validate.arguments([
-    //         { name: 'token', value: token, type: 'string', notEmpty: true },
-    //         { name: 'mapId', value: mapId, type: 'string', notEmpty: true }
-    //     ])
+        return call(`${this.__url__}/cinema/${cinemaId}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+    },
 
-    //     return call(`${this.__url__}/map/${mapId}`, {
-    //         headers: { Authorization: `Bearer ${token}` }
-    //     })
-    // },
+    retrieveAllSessions(token) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true }
+        ])
 
-    // updateMap(token, mapId, data) {
-    //     validate.arguments([
-    //         { name: 'token', value: token, type: 'string', notEmpty: true },
-    //         { name: 'mapId', value: mapId, type: 'string', notEmpty: true },
-    //         { name: 'data', value: data, type: 'object', notEmpty: true }
-    //     ])
-
-    //     return call(`${this.__url__}/map/${mapId}`, {
-    //         method: 'PUT',
-    //         headers: {
-    //             Authorization: `Bearer ${token}`,
-    //             'Content-Type': 'application/json'
-    //         },
-    //         data
-    //     })
-    // }
+        return call(`${this.__url__}/cinema/sessions`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+    }
 }
 
 module.exports = cinemaApi

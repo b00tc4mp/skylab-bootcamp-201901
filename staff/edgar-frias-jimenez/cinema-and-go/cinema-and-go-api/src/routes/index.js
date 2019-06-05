@@ -90,13 +90,11 @@ router.get('/cinema/sessions', auth, (req, res) => {
 })
 
 router.post('/cinemas/scrapper', auth, (req, res) => {
-
     return (async() => {
         await logic.scrapCinemaMovies()
 
         return res.status(200).json({message: 'Actions were successfully done'})
     })()
-
 })
 
 module.exports = router

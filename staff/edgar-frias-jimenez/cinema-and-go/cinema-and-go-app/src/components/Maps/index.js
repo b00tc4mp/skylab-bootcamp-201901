@@ -5,13 +5,36 @@ const { REACT_APP_MAPS_KEY } = process.env
 
 // const AnyReactComponent = ({ text }) => <div>{text}</div>;
 
+const locate = () => {
+    if (navigator.geolocation) {
+        try {
+            navigator.geolocation.getCurrentPosition(position => {
+                const location = {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                }
+
+                console.log(location)
+
+                return location
+            })
+        } catch (error) {
+            console.error(`Error: The Geolocation service failed. ${error}`)
+        }
+    } else {
+        console.error('Error: Your browser doesn\'t support geolocation.')
+    }
+}
+
+locate()
+
 class GoogleMaps extends Component {
   static defaultProps = {
     center: {
-      lat: 41.40,
-      lng: 2.19
+      lat: 41.3981964,
+      lng: 2.2000285,
     },
-    zoom: 11
+    zoom: 18.9
   };
 
   render() {

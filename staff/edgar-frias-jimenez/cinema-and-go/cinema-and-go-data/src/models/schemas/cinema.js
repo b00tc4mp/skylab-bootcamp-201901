@@ -18,6 +18,6 @@ const cinema = new Schema({
   city: { type: ObjectId, ref: 'City' }
 })
 
-cinema.index({ location: "2dsphere" });
+cinema.index({ location: '2dsphere' });
 
 module.exports = cinema

@@ -1,30 +1,27 @@
-
-// import normalize from '../components/Normalize'
+import normalize from '../components/Normalize'
 const validate = require('../components/Validate')
 const { LogicError } = require('../components/Errors')
 const cinemaApi = require('../services')
 
 
 const appLogic = {
-
     __userToken__ : null,
 
-    // set __userToken__(token) {
-    //     sessionStorage.userToken = token
-    // },
+    set __userToken__(token) {
+        sessionStorage.userToken = token
+    },
 
-    // get __userToken__() {
-    //     return normalize.undefinedOrNull(sessionStorage.userToken)
-    // },
+    get __userToken__() {
+        return normalize.undefinedOrNull(sessionStorage.userToken)
+    },
 
     get isUserLoggedIn() {
         return !!this.__userToken__
     },
 
-    registerUser(name, surname, email, password) {
+    registerUser(name, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
-            { name: 'surname', value: surname, type: 'string', notEmpty: true },
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
         ])
@@ -33,13 +30,10 @@ const appLogic = {
 
         return (async () => {
             try {
-
-                await cinemaApi.registerUser(name, surname, email, password )
-
+                await cinemaApi.registerUser(name, email, password)
             } catch (error) {
-
+                debugger
                 throw new LogicError(error)
-
             }
         })()
     },
@@ -54,15 +48,11 @@ const appLogic = {
 
         return (async () => {
             try {
-
                 const res = await cinemaApi.authenticateUser(email, password)
 
                 this.__userToken__ = res.token
-
             } catch (error) {
-
                 throw new LogicError(error)
-
             }
         })()
     },
@@ -88,22 +78,12 @@ const appLogic = {
 
 
     updateUser( data) {
-    //updateUser(name, surname, email, password) {
-        // validate.arguments([
-        //     { name: 'name', value: name, type: 'string', notEmpty: true },
-        //     { name: 'surname', value: surname, type: 'string', notEmpty: true },
-        //     { name: 'email', value: email, type: 'string', notEmpty: true },
-        //     { name: 'password', value: password, type: 'string', notEmpty: true }
-        // ])
-        //validate.email(email)
-
         validate.arguments([
             { name: 'data', value: data, type: 'object', notEmpty: true }
         ])
 
         return (async () => {
             try {
-
                 await cinemaApi.updateUser(this.__userToken__, data)
 
             } catch (error) {

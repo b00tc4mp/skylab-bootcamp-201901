@@ -127,31 +127,39 @@ const logic = {
 
     scrapCinemaMovies() {
         const bcnCinemas = 'https://www.ecartelera.com/cines/0,9,23.html'
-        const movieSession = []
-
         return (async () => {
-            const scrapCity = await scrapper.getAllCinemas(bcnCinemas);
+            const scrapCinemas = await scrapper.getAllCinemas(bcnCinemas);
 
-            await Promise.all(scrapCity.map(async item => {
-                const { name, link, phone, address, location, billboard } = item
-                await Promise.all(billboard.map(async ({title, img, info, cast, movieSessions}) => {
-                    const movie = await this.registerMovie(title, img, info, cast)
-
-                    movieSession.push(await this.registerSessions(ObjectId(movie), movieSessions))
-                }))
-
-                const cinema = await this.registerCinema(name, link, phone, address, location, movieSession)
-            }))
+            await Promise.all(
+                await scrapCinemas.map(async ({ name, link, phone, address, location, billboard }) => {
+                    const cinemaSessions = await Promise.all(
+                        billboard.map(async ({title, img, info, cast, movieSessions}) => {
+                            const movie = await this.registerMovie(title, img, info, cast)
+                            return await this.registerSessions(ObjectId(movie), movieSessions);
+                        })
+                    )
+                    await this.registerCinema(name, link, phone, address, location, cinemaSessions)
+                })
+            )
         })()
     },
 
     retrieveAllCinemas() {
         return (async() => {
-            const cinemas = await Cinema.find()
-                .populate('MovieSessions')
-                .select('-__v').lean()
-
-            return cinemas
+            return await Cinema.find()
+            .select('-__v').lean()
+            .populate({
+                path: 'movieSessions',
+                model: 'movieSessions',
+                select: '-__v',
+                options: { lean: true },
+                populate: {
+                    path: 'movie',
+                    model: 'movie',
+                    select: '-__v',
+                    options: { lean: true }
+                },
+            })
         })()
     },
 

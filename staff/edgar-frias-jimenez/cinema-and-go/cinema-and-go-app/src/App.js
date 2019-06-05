@@ -52,8 +52,8 @@ function App ({ history }) {
         <Fragment>
             <GlobalContext.Provider value={{ feedback, setFeedback, showSpinner, handleSpinner }}>
                 <Route exact path='/' component={Landing} />
-                <Route exact path='/login' component={Login} onLogin={handleLogin} />
-                <Route exact path='/register' component={Register} onRegister={handleRegister} />
+                <Route exact path='/login' render={() => <Login onLogin={handleLogin} />} />
+                <Route exact path='/register' render={() => <Register onRegister={handleRegister} />} />
                 <Spinner />
             </GlobalContext.Provider>
             {feedback && <Feedback />}
