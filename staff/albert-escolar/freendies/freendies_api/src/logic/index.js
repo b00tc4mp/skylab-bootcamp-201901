@@ -206,12 +206,22 @@ const logic = {
         if (typeof genre !== 'string') throw TypeError('genre is not a string')
         if (!genre.trim().length) throw Error('genre cannot be empty')
 
-        const games = await Game.find({ "genre": genre }).select('-__V').lean()
-        games.forEach(game => {
-            game.id = game._id.toString()
-            delete game._id
-        })
-        return games
+        if (genre == 'any') {
+            const games = await Game.find().select('-__v').lean()
+            games.forEach(game => {
+                game.id = game._id.toString()
+                delete game._id
+            })
+            return games
+        } else {
+
+            const games = await Game.find({ "genre": genre }).select('-__v').lean()
+            games.forEach(game => {
+                game.id = game._id.toString()
+                delete game._id
+            })
+            return games
+        }
 
     },
 
