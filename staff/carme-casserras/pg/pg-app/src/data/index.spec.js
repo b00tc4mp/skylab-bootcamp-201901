@@ -151,9 +151,9 @@ describe('pg-api', () => {
             it('should succeed on correct id from existing user', async () => {
 
                 const { sub } = jwt.decode(token.token)
-                debugger
+                
                 const _user = await pgApi.retrieveUser(token.token)
-debugger
+
                 expect(sub).toEqual(user.id)
                 expect(_user.id).toBeUndefined()
                 expect(_user.name).toEqual(name)
@@ -204,6 +204,8 @@ debugger
             stuff = await Thing.create({ category, description, owner: userId, loc: locId })
             thingId = stuff.id.toString()
             status = stuff.status
+
+            
         })
 
         describe('add things', () => {
