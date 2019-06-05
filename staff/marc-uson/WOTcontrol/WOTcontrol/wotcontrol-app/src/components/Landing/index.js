@@ -1,7 +1,8 @@
 import React, { useContext } from 'react'
 import { Context } from '../Context'
 import Toast from '../Toast'
-import './index.sass' 
+import './index.sass'
+import logoGreen from '../../assets/images/logoTextGreen.png'
 
 function Landing({onRegister, onLogin}){
 
@@ -11,7 +12,7 @@ function Landing({onRegister, onLogin}){
         <div className="container-landing">
             <section className="columns is-mobile has-text-centered is-centered myColumns">
                 <div className="title-landing column is-12-desktop is-12-tablet is-10-mobile ">   
-                    <p className="title is-2">WOTcontrol</p>
+                    <img src={logoGreen}/>
                     <p className="subtitle">The easiest way to monitor & control your process</p>
                     <p className="buttons" onClick={e => e.preventDefault()}>
                         <a className="button is-fullwidth is-primary" href="" onClick={() => onRegister()}>Sign Up</a>

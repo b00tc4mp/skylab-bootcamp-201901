@@ -1,9 +1,6 @@
 const validate = require ('wotcontrol-validate')
 const restApi = require ('../rest-api')
-import { LogicError, RequirementError, ValueError, FormatError } from 'wotcontrol-errors'
-
-
-
+const { LogicError, RequirementError, ValueError, FormatError } = require ('wotcontrol-errors')
 
 const logic = {
 
@@ -12,7 +9,7 @@ const logic = {
     },
 
     get __userToken__() {
-        return normalize.undefinedOrNull(sessionStorage.userToken)
+        return sessionStorage.userToken
     },
 
     get isUserLoggedIn() {
@@ -31,11 +28,16 @@ const logic = {
         validate.email(email)
 
         return (async () => {
-            restApi.registerUser()
+            try {
+                await restApi.registerUser(name, surname, email, password, admin)
+            } catch (error) {
+                throw new LogicError(error)
+            }
+
         })()
     },
 
-    authenticateUser(email, password) {
+    loginUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true }
@@ -44,80 +46,233 @@ const logic = {
         validate.email(_email)
 
         return (async () => {
-            const user = await Users.findOne({email: _email})
-
-            if (!user) throw new LogicError(`user with email "${email}" does not exist`)
-
-            const pass = bcrypt.compareSync(password, user.password)
-
-            if(!pass) throw new LogicError('wrong credentials')
-
-            return user.id
+            try {
+                const { token } = await restApi.authenticateUser(email, password)
+                this.__userToken__ = token
+            } catch (error) {
+                throw new LogicError(error)
+            }
         })()
     },
 
-    retrieveUser(id) {
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true }
-        ])
-
-        return (async () => {
-            const user = await Users.findById(id)
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            const { name, surname, email } = user
-
-            return { name, surname, email }
-        })()
+    logoutUser(){
+        sessionStorage.clear()
     },
 
-    updateUser(id, data) {
-        validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'data', value: data, type: 'object'}
-
-        ])
-
-        let _email
+    retrieveUser() {
 
         return (async () => {
-
-            if(data.email){
-                _email = data.email.toLowerCase()
-                const _user = await Users.findOne({_email})
-                if (_user) throw new LogicError(`user with email "${_email}" already exists`)
+            try {
+                const {name, surname, email, } = await restApi.retrieveUser(this.__userToken__)
+                return {name, surname, email}
+            } catch (error) {
+                throw new LogicError(error)
             }
 
-            const user = await Users.findById(id)
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            const { admin, name, surname, email, password } = user
-
-            await Users.findByIdAndUpdate(id,{
-                admin: data.admin || admin,
-                name: data.name || name,
-                surname: data.surname || surname,
-                email: _email || email,
-                password: data.password ? bcrypt.hashSync(data.password, 10) : password
-            })
-
-            return `User succesfully updated`
         })()
     },
 
-    deleteUser(id) {
+    updateUser(data) {
         validate.arguments([
-            { name: 'id', value: id, type: 'string', notEmpty: true }
+            { name: 'data', value: data, type: 'object'}
         ])
 
         return (async () => {
-
-            const user = await Users.findById(id)
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-
-            await Users.findByIdAndDelete(id)
-
-            return `User succesfully deleted`
+            try {
+                await restApi.updateUser(this.__userToken__, data)
+            } catch (error) {
+                throw new LogicError(error)
+            }
         })()
+    },
+
+    deleteUser() {
+
+        return (async () => {
+            try {
+                await restApi.deleteUser(this.__userToken__)
+                sessionStorage.clear()
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    addDevice(deviceName, deviceIp, devicePort, timeInterval){
+        validate.arguments([
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+            { name: 'deviceIp', value: deviceIp, type: 'string', notEmpty: true },
+            { name: 'devicePort', value: devicePort, type: 'number', notEmpty: true },
+            { name: 'timeInterval', value: timeInterval, type: 'number', notEmpty: true }
+        ])
+
+        return (async () => {
+            try {
+                await restApi.addDevice(this.__userToken__, deviceName, deviceIp, devicePort)
+                for (i = 1; i < 3; i++) {
+                    await restApi.addOutput(this.__userToken__, deviceName, 'digital', i)
+                }
+                for (i = 1; i < 4; i++) {
+                    await restApi.addOutput(this.__userToken__, deviceName, 'servo', i)
+                }
+                for (i = 1; i < 3; i++) {
+                    await restApi.addOutput(this.__userToken__, deviceName, 'motor', i)
+                }
+                for (i = 1; i < 3; i++) {
+                    await restApi.addInput(this.__userToken__, deviceName, 'digital', i)
+                }
+                await restApi.addInput(this.__userToken__, deviceName, 'analog', 1)
+                await restApi.changeDeviceId(this.__userToken__, deviceName, deviceName)
+                await restApi.activateDevice(this.__userToken__, deviceName, timeInterval)
+                return 'Device created'
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    deleteDevice(deviceName){
+        validate.arguments([
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+            try {
+                await restApi.deleteDevice(this.__userToken__, deviceName)
+                return 'Device deleted'
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    retrieveDevice(deviceName){
+        validate.arguments([
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+            try {
+                const device = await restApi.retrieveDevice(this.__userToken__, deviceName)
+                return device
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    renameDevice(deviceName, newDeviceName){
+        validate.arguments([
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+            { name: 'newDeviceName', value: newDeviceName, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            try {
+                await restApi.changeDeviceId(this.__userToken__, deviceName, newDeviceName)
+                return 'Device name changed'
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    changeDeviceTime(deviceName, timeInterval){
+        validate.arguments([
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+            { name: 'timeInterval', value: timeInterval, type: 'number', notEmpty: true }
+        ])
+
+        return (async () => {
+            try {
+                await restApi.activateDevice(this.__userToken__, deviceName, timeInterval)
+                return 'Device refresh time updated'
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    toggleDigitalOutput(deviceName, pinNumber){
+        validate.arguments([
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+            { name: 'pinNumber', value: pinNumber, type: 'number', notEmpty: true },
+        ])
+
+        return (async () => {
+            try {
+                const response = await restApi.toggleDigitalOutput(this.__userToken__,deviceName, pinNumber)
+                return response.status
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    setServo(deviceName, pinNumber, angle){
+        validate.arguments([
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+            { name: 'pinNumber', value: pinNumber, type: 'number', notEmpty: true },
+            { name: 'angle', value: angle, type: 'number', notEmpty: true }
+        ])
+
+        return (async () => {
+            try {
+                const response = await restApi.setServoPosition(this.__userToken__,deviceName, pinNumber,angle)
+                return response.status
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    setMotor(deviceName, pinNumber, speed){
+        validate.arguments([
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+            { name: 'pinNumber', value: pinNumber, type: 'number', notEmpty: true },
+            { name: 'speed', value: speed, type: 'number', notEmpty: true }
+        ])
+
+        return (async () => {
+            try {
+                const response = await restApi.setMotorSpeed(this.__userToken__,deviceName, pinNumber,speed)
+                return Math.round(response.status)
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    retrieveAnalog(deviceName){
+        validate.arguments([
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true }
+        ])
+        let resultsArr = []
+
+        return (async () => {
+            try {
+                const response = await restApi.retrieveAnalog(this.__userToken__,deviceName)
+                response.map(element => {
+                    const { value, date } = element
+                    resultsArr.push({
+                        value,
+                        date
+                    })
+                })
+                return resultsArr
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
+    retrieveDigital(){
+
     }
 }
 
+//TESTING
 module.exports = logic
+
+//REACT
+//  export default logic

@@ -2,7 +2,7 @@ import React from 'react'
 import { toast } from "bulma-toast";
 
 
-function Toast({error}){
+function Toast({ error }) {
 
     toast({
         message: `${error}`,

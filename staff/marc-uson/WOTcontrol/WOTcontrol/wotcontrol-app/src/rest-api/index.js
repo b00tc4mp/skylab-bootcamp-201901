@@ -2,13 +2,15 @@ const validate = require('wotcontrol-validate')
 const call = require('wotcontrol-call')
 require('dotenv').config()
 
-const { env: { URL_SERVER: url}} = process
+// const url = process.env.REACT_APP_URL_SERVER
 //const { env: { MONGO_URL_API_TEST: url}} = process
+const { env: { REACT_APP_URL_SERVER: url}} = process
 
 
 const restApi = {
 
     __url__ : url,
+    // __url__ : 'http://localhost:8080/api',
 
     registerUser(name, surname, email, password, admin = false) {
         validate.arguments([
