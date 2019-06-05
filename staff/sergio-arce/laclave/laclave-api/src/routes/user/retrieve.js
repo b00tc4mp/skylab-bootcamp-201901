@@ -1,6 +1,5 @@
 const logic = require('../../logic')
 
-
 module.exports = (req, res) => {
 
     const { params: { id } } = req
@@ -10,10 +9,7 @@ module.exports = (req, res) => {
             .then(user => res.json(user))
             .catch(({ message }) => res.send({ error: message }))
 
-    } catch ({ message }) {
-
-        res.send({ error: message })
-    }
-
-
+        } catch ({ message }) {
+            res.send({ error: message })
+        }
 }

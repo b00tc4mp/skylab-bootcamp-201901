@@ -2,10 +2,11 @@ const logic = require('../../logic')
 
 module.exports = (req, res) => {
 
-    const { body: { name, username, email, password } } = req
+    // gracias al body parser => req.body.name ...
+    const { body: { name, username, email, password, congresses, favartists } } = req
 
     try {
-        logic.registerUser(name, username, email, password)
+        logic.registerUser(name, username, email, password, congresses, favartists)
             .then(userId => res.json({ userId }))
             .catch(({ message }) => res.send({ error: message }))
 
@@ -13,4 +14,3 @@ module.exports = (req, res) => {
         res.send({ error: message })
     }
 }
-

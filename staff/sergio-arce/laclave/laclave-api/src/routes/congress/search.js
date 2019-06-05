@@ -1,12 +1,13 @@
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
-    const { params: { id } } = req
+    const { query: { q } } = req
 
     try {
-        logic.deleteCongress(id)
-            .then(response => res.json(response))
+        logic.searchCongresses(q)
+            .then(congresses => res.json({ results: congresses }))
             .catch(({ message }) => res.send({ error: message }))
+
 
     } catch ({ message }) {
         res.send({ error: message })

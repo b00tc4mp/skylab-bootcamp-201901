@@ -1,10 +1,9 @@
 const mongoose = require('mongoose')
 
-const { User, Congress } = require('./schemas')
+const { User, Congress, Artist } = require('./schemas')
 
 module.exports = {
     User: mongoose.model('User', User),
-    Congress: mongoose.model('Congress', Congress)
-
+    Congress: mongoose.model('Congress', Congress),
+    Artist: mongoose.model('Artist', Artist)
 }
-

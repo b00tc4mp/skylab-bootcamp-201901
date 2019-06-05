@@ -4,8 +4,8 @@ module.exports = (req, res) => {
     const { params: { id } } = req
 
     try {
-        logic.deleteCongress(id)
-            .then(response => res.json(response))
+        logic.retrieveArtist(id)
+            .then(artist => res.json(artist))
             .catch(({ message }) => res.send({ error: message }))
 
     } catch ({ message }) {
