@@ -180,6 +180,24 @@ const freendiesApi = {
 
     },
 
+    retrieveFavs(token) {
+        if (typeof token !== 'string') throw TypeError('token is not a string')
+        if (!token.trim().length) throw Error('token cannot be empty')
+
+        return fetch(`${this.url}user/retrieveFavs`, {
+            headers: {
+                authorization: `Bearer ${token}`,
+                'content-type': 'application/json'
+            }
+        })
+            .then(response => response.json())
+            .then(response => {
+                if (response.error) throw Error(response.error)
+
+                return response
+            })
+    },
+
     uploadGame(token, title, genre, description, images, gameFile) {
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw Error(`${title} cannot be empty`)

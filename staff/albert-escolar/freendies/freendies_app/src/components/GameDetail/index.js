@@ -35,6 +35,11 @@ class GameDetail extends Component {
 
     }
 
+    downloadFile = (e, file) => {
+        e.preventDefault()
+        console.log(file)
+    }
+
 
     render() {
         const { user, result, isFaved } = this.state
@@ -46,7 +51,7 @@ class GameDetail extends Component {
                     <img src={result.images[0]} />
                     <p>{result.title}</p>
                     <p>{result.genre}</p>
-                    <a href={result.gameFile} download>Download</a>
+                    <button onClick={(event) => this.downloadFile(event, result.gameFile)} download>Download</button>
                     {user && (isFaved ? < button onClick={handleToggleFavs}>-</button> : <button onClick={handleToggleFavs}>+</button>)}
                     {!user && <Link to="/login"><button>Log In to add Favs</button></Link>}
                     <p>{result.description}</p>

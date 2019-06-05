@@ -243,13 +243,17 @@ const logic = {
         if (typeof userId !== 'string') throw TypeError('userId is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
         
-        const user = await User.findById(userId).lean()
-        const favs = user.favoriteGames
-        favs.forEach(fav => {
-            fav = fav.toString()
+        const {favoriteGames} = await User.findById(userId).populate({
+            path: 'favoriteGames',
+            select: '-__v'
+        }).lean()
+
+        favoriteGames.forEach(favorite =>{
+            favorite.id = favorite._id.toString()
+            delete favorite._id
         })
-        
-        return favs
+      
+        return favoriteGames
 
     }
 

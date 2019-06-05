@@ -92,27 +92,31 @@ const logic = {
         return freendiesApi.retrieveGameByQuery(genre, title)
     },
 
-    retrieveGameByGenre(genre){
-        if(typeof genre !=='string') throw TypeError('genre is not a string')
-        if(!genre.trim().length) throw Error ('genre cannot be empty')
+    retrieveGameByGenre(genre) {
+        if (typeof genre !== 'string') throw TypeError('genre is not a string')
+        if (!genre.trim().length) throw Error('genre cannot be empty')
 
         return freendiesApi.retrieveGameByGenre(genre)
     },
 
-    retrieveGameById(id){
-        if(typeof id !=='string')throw TypeError('id is not a string')
-        if(!id.trim().length) throw Error('id cannot be empty')
+    retrieveGameById(id) {
+        if (typeof id !== 'string') throw TypeError('id is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
 
         return freendiesApi.retrieveGameByID(id)
     },
 
-    toggleFavs(token, id){
-        if(typeof token !=='string') throw TypeError('token is not a string')
-        if(!token.trim().length) throw Error('token cannot be empty')
-        if(typeof id !=='string') throw TypeError('id is not a string')
-        if(!id.trim().length) throw Error('id cannot be empty')
+    toggleFavs(token, id) {
+        if (typeof token !== 'string') throw TypeError('token is not a string')
+        if (!token.trim().length) throw Error('token cannot be empty')
+        if (typeof id !== 'string') throw TypeError('id is not a string')
+        if (!id.trim().length) throw Error('id cannot be empty')
 
-        return freendiesApi.toggleFavs(token,id)
+        return freendiesApi.toggleFavs(token, id)
+    },
+
+    retrieveFavs() {
+        return freendiesApi.retrieveFavs(this.__userApiToken__)
     },
 
     uploadGame(title, genre, description, images, gameFile) {
