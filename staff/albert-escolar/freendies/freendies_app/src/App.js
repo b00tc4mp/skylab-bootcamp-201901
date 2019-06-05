@@ -11,7 +11,12 @@ import Landing from './components/Landing'
 import SearchByQuery from './components/SearchByQuery'
 import SearchByGenre from './components/SearchByGenre'
 import GameDetail from './components/GameDetail'
+import ErrorPage from './components/ErrorPage'
 import logic from './logic'
+import feedback from './utils/feedback';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 class App extends Component {
 
@@ -39,16 +44,20 @@ class App extends Component {
     logic.registerUser(username, email, password, passwordConfirmation)
       .then((res) => history.push('/login'))
   }
-  handleLogin = (email, password) => {
+  handleLogin = async (email, password) => {
 
-
-    return logic.authenticateUser(email, password)
-      .then((token) => {
-        this.setState({ token })
-        return logic.retrieveUser()
-          .then(user => this.setState({ user }))
-          .then(() => this.props.history.push('/'))
+    try {
+      debugger
+      const token = await logic.authenticateUser(email, password)
+      const user = logic.retrieveUser()
+      this.setState({ token, user }, () => {
+        this.props.history.push('/')
       })
+		} catch (error) {
+			feedback(error.message, 'error');
+    }
+
+  
 
   }
 
@@ -112,6 +121,7 @@ class App extends Component {
 
     return (
       <div className="App">
+        <ToastContainer />
         <header className="App-header">
           <Route path="/" render={() => <Header onSearch={handleOnSearch} onSearchByGenre={handleToSearchByGenre} user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
             handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
@@ -151,6 +161,9 @@ class App extends Component {
             return <GameDetail {...props} user={user} retrieveFavs={handleRetrieveFavs} toggleFavs={handleToggleFavs} history={props.history} />
           }} />
 
+          <Route path="/error" render ={props =>{
+            return <ErrorPage/>
+          }}/>
 
         </header>
       </div>
