@@ -3,6 +3,7 @@ import Menu from '../Menu'
 import Login from '../Login'
 import Logout from '../Logout'
 import logic from '../../logic'
+import { withRouter } from 'react-router-dom'
 
 function Nav({history}) {
 
@@ -16,7 +17,7 @@ function Nav({history}) {
             const user = await logic.retrieveUser()
             alert('Hello '+user.name)
             
-            // history.push('/')
+            history.push('/')
         } catch ({ message }) {
             alert(message) //mirar de poner en useContext?¿?¿
         }
@@ -25,6 +26,7 @@ function Nav({history}) {
     function handleLogout() {
         logic.logoutUser()
         setIsLogged(logic.isUserLoggedIn)
+        history.push('/')
     }
 
     return <>
@@ -36,4 +38,4 @@ function Nav({history}) {
     </>
 }
 
-export default Nav
+export default withRouter(Nav)

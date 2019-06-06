@@ -1,8 +1,10 @@
-import React, {useState, useEffect} from 'react'
+import React, { useState, useEffect } from 'react'
 import logic from '../../logic'
+import moment from 'moment'
+import RangeSlider from '../RangeSlider'
 
-function Filter({onFilter}) {
-    
+function Filter({ onFilter }) {
+
     const [startDate, setStartDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
     const [startPrice, setStartPrice] = useState(null)
@@ -11,7 +13,7 @@ function Filter({onFilter}) {
     const [category, setCategory] = useState(null)
     const [cities, setCities] = useState(null)
     const [categories, setCategories] = useState(null)
-    
+
     useEffect(() => {
         handleCities()
     }, []);
@@ -28,53 +30,46 @@ function Filter({onFilter}) {
     async function handleCategories() {
         const _categories = await logic.retrieveCategories()
         setCategories(_categories)
-    } 
+    }
 
     function handleChange(e) {
-        let {target: { name, value }} = e
+        let { target: { name, value } } = e
 
         switch (name) {
             case "startDate":
-                if(value) value = new Date(value)
+                if (value) value = new Date(value)
                 setStartDate(value)
-                onFilter({startDate: value, endDate, startPrice, endPrice, city, category})
+                onFilter({ startDate: value, endDate, startPrice, endPrice, city, category })
                 break;
-            
+
             case "endDate":
-                if(value) value = new Date(value + ' 23:59:59')
+                if (value) value = new Date(value + ' 23:59:59')
                 setEndDate(value)
-                onFilter({startDate, endDate: value, startPrice, endPrice, city, category})
+                onFilter({ startDate, endDate: value, startPrice, endPrice, city, category })
                 break;
-            
-            case "startPrice":
-                setStartPrice(value)
-                onFilter({startDate, endDate, startPrice: value, endPrice, city, category})
+
+            case "range":
+                setStartPrice(value[0])
+                setEndPrice(value[1])
+                onFilter({ startDate, endDate, startPrice: value[0], endPrice: value[1], city, category })
                 break;
-            
-            case "endPrice":
-                setEndPrice(value)
-                onFilter({startDate, endDate, startPrice, endPrice: value, city, category})
-                break;
-            
+
             case "city":
                 setCity(value)
-                onFilter({startDate, endDate, startPrice, endPrice: value, city: value, category})
+                onFilter({ startDate, endDate, startPrice, endPrice, city: value, category })
                 break;
-            
+
             case "category":
                 setCategory(value)
-                onFilter({startDate, endDate, startPrice, endPrice, city, category: value})
+                onFilter({ startDate, endDate, startPrice, endPrice, city, category: value })
                 break;
         }
     }
-    
-    function deleteFilters(e) {
-        e.preventDefault()
-        
-        e.target.startDate.value = ""
-        e.target.endDate.value = ""
-        e.target.startPrice.value = ""
-        e.target.endPrice.value = ""
+
+    function deleteFilters() {
+        document.getElementsByName("startDate")[0].value = ""
+        document.getElementsByName("endDate")[0].value = ""
+        document.getElementsByName("search")[0].value = ""
 
         setStartDate(null)
         setEndDate(null)
@@ -87,26 +82,28 @@ function Filter({onFilter}) {
 
     return <>
         <form onChange={handleChange} onSubmit={deleteFilters}>
-            <input type="date" name="startDate" max={endDate}/>
-            <input type="date" name="endDate" min={startDate}/>
-            <br/>
-            <input type="range" name="startPrice"/>
-            <input type="range" name="endPrice"/>
-            <br/>
-            <select>
-            {cities && cities.map(city =>  
-               <option key={city} value={city}>{city}</option>
-            )}
+            <input type="date" name="startDate" max={moment(endDate).format('YYYY-MM-DD')} />
+            <input type="date" name="endDate" min={moment(startDate).format('YYYY-MM-DD')} />
+            <br />
+            {/* <RangeSlider onFilters={handleChange}/> */}
+            <select name="city">
+                {cities && cities.map((city, index) =>
+                    <option key={index} value={city}>{city}</option>
+                )}
             </select>
-            <br/>
-            <select>
-            {categories && categories.map(category =>  
-               <option key={category} value={category}>{category}</option>
-            )}
+            <br />
+            <select name="category">
+                {categories && categories.map((category, index) =>
+                    <option key={index} value={category}>{category}</option>
+                )}
             </select>
-            <button>Delete Filters</button>
         </form>
-    </> 
+        {(startDate && endDate) && <p>Date {moment(startDate).format('D/M/YYYY')} - {moment(endDate).format('D/M/YYYY')}</p>}
+        {endPrice && <p>{startPrice} - {endPrice}</p>}
+        {city && <p>{city}</p>}
+        {category && <p>{category}</p>}
+        <button onClick={deleteFilters}>Delete Filters</button>
+    </>
 }
 
 export default Filter

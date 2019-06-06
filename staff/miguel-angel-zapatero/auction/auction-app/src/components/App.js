@@ -1,15 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import logo from '../logo.svg';
-import './App.css';
+import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
+import logic from '../logic';
 import Nav from './Nav'
 import Register from './Register'
 import Items from './Items'
-import ItemDetail from './ItemDetail'
+import Item from './Item'
 import Search from './Search'
 import Profile from './Profile'
 import Filter from './Filter'
-import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
-import logic from '../logic';
+import NotFound from './NotFound';
+import './App.css';
+import logo from '../logo.svg';
 
 function App({history}) {
 
@@ -28,9 +29,13 @@ function App({history}) {
     })
 
     async function handleSearch() {
-        const _items = await logic.searchItems(query)
-        setItems(_items)
-        setFilters(null)
+        try {
+            const _items = await logic.searchItems(query)
+            setItems(_items)
+            setFilters(null)
+        } catch ({message}) {
+            alert(message)
+        }
     }
 
     async function handleRegister(name, surname, email, password, confirmPassword) {
@@ -45,9 +50,11 @@ function App({history}) {
 
     async function handleRetrieve(id) {
         try {
-            const item = await logic.retrieveItem(id)
-            setItem(item)
-            history.push(`/items/${item._id}`)
+            if (isLogged) {
+                const item = await logic.retrieveItem(id)
+                setItem(item)
+                history.push(`/items/${item.id}`)
+            }
         } catch ({message}) {
             alert(message)
         }
@@ -63,15 +70,16 @@ function App({history}) {
     }
 
     return <>
-        <Nav />
-            <Route exact path="/" render={()=><Search onSearch={handleQuery} filters={filters}/> }/>
-            <Route exact path="/" render={()=><Filter onFilter={handleFilter} /> }/>
+        <Nav path="/" />
+        <Route exact path="/" render={()=><Search onSearch={handleQuery} filters={filters}/> }/>
+        <Route exact path="/" render={()=><Filter onFilter={handleFilter}/>}/>
         <Switch>
             <Route exact path="/" render={()=><Items items={items} onItem={handleRetrieve}/> }/>
-            {isLogged && <Route path="/items/:id" render={()=>< ItemDetail item={item}/> }/>}
+            {isLogged && <Route path="/items/:id" render={(props)=>< Item item={item} getItem={handleRetrieve} itemId={props.match.params.id}/> }/>}
             {isLogged && <Route path="/user" render={()=><Profile/> }/>}
             <Route path="/register" render={()=><Register onRegister={handleRegister} /> }/>
-            <Redirect to="/" />
+            <Route path="/notfound" render={()=><NotFound/>}/>
+        <Redirect to="/" />
         </Switch>
     </>
 }

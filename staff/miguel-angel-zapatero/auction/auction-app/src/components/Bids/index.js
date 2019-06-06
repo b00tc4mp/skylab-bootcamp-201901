@@ -1,8 +1,8 @@
 import React, {useState} from 'react'
 
-function Bids({bids, onBid, currentAmount}) {
+function Bids({bids, onBid, isClosed}) {
     const [amount, setAmount] = useState(null)
-    
+
     function handleSubmit(e){
         e.preventDefault()
         
@@ -11,13 +11,13 @@ function Bids({bids, onBid, currentAmount}) {
     
     return <>
         <ul>
-            {bids && bids.map(bid=>
-                <li key={bid._id}>{bid.userId.name}-{bid.amount}</li>
+            {bids && bids.map((bid, index)=>
+                <li key={index}>{bid.userId.name}-{bid.amount}</li>
             )}
         </ul>
         <form onSubmit={handleSubmit}>
             <input type="text" name="amount" required onChange={e=>setAmount(e.target.value)}/>
-            <button>Place Bid</button>
+            <button className={isClosed ? "disable": "btn-default"}>Place Bid</button>
         </form>
     </>
 }
