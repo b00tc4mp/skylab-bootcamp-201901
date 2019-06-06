@@ -123,19 +123,40 @@ const logic = {
     //     } else throw new LogicError("Bad Way")
     // },
 
-    // async nextGame(gamePlay) {
-    //     ow(gamePlay, ow.object)
+    async nextGame(gamePlay) {
+        ow(gamePlay, ow.object)
 
-    //     const response = await restApi.gameAction(this.__userToken__, this.__ActualGame__, gamePlay)
+        const response = await restApi.gameAction(this.__userToken__, this.__ActualGame__, gamePlay)
 
-    //     if (response.status === 200) {
-    //         response.json()
+        if (response) {
 
-    //         if (response.length) return //logic.finishedGame(response)// if length finishedGame()
-    //         else return response
+            return response
+        }
 
-    //     } else throw new LogicError("Bad Way")
-    // },
+    },
+
+    __isBreedable__(map, position, rocks) {
+
+        const toCheck = map[position[0]][position[1]][1]
+
+        if (toCheck !== 0 || !rocks) return false
+
+        let can = true
+
+        for (let i = 0; i < map[position[0]].length; i++) {
+            if (i < position[1] && map[position[0]][i][1] >= rocks) can = false
+            else if (i > position[1] && (map[position[0]][i][1] <= rocks && map[position[0]][i][1] !== 0)) can = false
+        }
+
+        return can
+    },
+
+    __isLoveable__(map, position, resource) {
+
+        const toCheck = map[position[0]][position[1]]
+
+        return ((resource === "love") && (toCheck[0] !== 0) && (toCheck[0] < 4) && (toCheck[2] === false)) ? true : false
+    },
 
     finishedGame(finishedGameData) { // hacer a con la data para poder pintarlo :D
 
