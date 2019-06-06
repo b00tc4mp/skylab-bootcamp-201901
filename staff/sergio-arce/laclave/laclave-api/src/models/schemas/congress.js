@@ -72,7 +72,7 @@ const Congress = new Schema({
 
     image: {
         type: String,
-        // required: true,
+        required: true,
         default: 'https://scontent.fprg2-1.fna.fbcdn.net/v/t1.0-9/50463155_1982100098564296_1406765015377117184_n.jpg?_nc_cat=105&_nc_ht=scontent.fprg2-1.fna&oh=45d372c223d76935a9c3c59a8fc70545&oe=5D2EB81C'
     },
     

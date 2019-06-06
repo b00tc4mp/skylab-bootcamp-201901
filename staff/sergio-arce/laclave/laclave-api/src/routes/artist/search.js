@@ -2,16 +2,16 @@ const logic = require('../../logic')
 
 module.exports = (req, res) => {
 
-    const { userId, body } = req
+    const { query: { q } } = req
 
-    console.log(userId)
     try {
-
-        logic.createCongress(body, userId)
-            .then(response => res.json({ response }))
+        logic.searchArtists(q)
+            .then(artists => res.json({ results: artists }))
             .catch(({ message }) => res.send({ error: message }))
 
     } catch ({ message }) {
-        res.send({ error: message })
+        res.sed({ error: message })
     }
+    
 }
+

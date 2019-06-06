@@ -8,7 +8,7 @@ module.exports = (req, res) => {
             .then(response => res.json(response))
             .catch(({ message }) => res.send({ error: message }))
 
-    } catch ({ message }) {
-        res.send({ error: message })
+        } catch ({ message }) {
+            res.send({ error: message })
+        }
     }
-}

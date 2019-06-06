@@ -13,11 +13,11 @@ const tokenHelper = {
      * @returns {String} - token
      */
     createToken(data) {
-        return jwt.sign({ sub: data }, this.jwtSecret, { expiresIn: '48h' })
+        return jwt.sign({ userId: data }, this.jwtSecret, { expiresIn: '48h' })
     },
 
     /**
-     * Creates a new token.
+     * verify token
      * 
      * @param {String} token
      * 

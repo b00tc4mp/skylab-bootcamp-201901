@@ -1,10 +1,14 @@
 module.exports = {
+    
     //user
     registerUser: require('./user/register'),
     loginUser: require('./user/login'),
     retrieveUser: require('./user/retrieve'),
     updateUser: require('./user/update'),
     deleteUser: require('./user/delete'),
+
+    favArtist: require('./fav/artist'),
+
     //congress
     createCongress: require('./congress/create'),
     retrieveCongress: require('./congress/retrieve'),
@@ -14,14 +18,15 @@ module.exports = {
     searchCongresses: require('./congress/search'),
 
     //artist
-    listArtists: require('./artist/list'),
-    
-    retrieveArtist: require('./artist/retrieve'),
-
     createArtist: require('./artist/create'),
-
+    retrieveArtist: require('./artist/retrieve'),
+    listArtists: require('./artist/list'),
     searchArtists: require('./artist/search'),
 
+    // search Items mix congress and artist
     searchItems: require('./search/search')
+
+    
+  
     
 }   

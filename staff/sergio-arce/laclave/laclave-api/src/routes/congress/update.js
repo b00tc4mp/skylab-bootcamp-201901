@@ -8,7 +8,7 @@ module.exports = (req, res) => {
             .then(congress => res.json(congress))
             .catch(({ message }) => res.send({ error: message }))
 
-    } catch ({ message }) {
-        res.send({ error: message })
+        } catch ({ message }) {
+            res.send({ error: message })
+        }
     }
-}

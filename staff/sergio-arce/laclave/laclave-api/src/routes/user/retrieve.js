@@ -2,10 +2,10 @@ const logic = require('../../logic')
 
 module.exports = (req, res) => {
 
-    const { params: { id } } = req
+    const { userId } = req
 
     try {
-        logic.retrieveUser(id)
+        logic.retrieveUser(userId)
             .then(user => res.json(user))
             .catch(({ message }) => res.send({ error: message }))
 

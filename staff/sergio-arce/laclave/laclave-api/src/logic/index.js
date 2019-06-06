@@ -1,6 +1,5 @@
 const bcrypt = require('bcrypt')
-const jwt = require('jsonwebtoken')
-
+const tokenHelper = require('../routes/middleware/token-helper')
 const { User, Congress, Artist } = require('../models')
 
 const logic = {
@@ -11,16 +10,14 @@ const logic = {
      * register an user
      * 
      * @param {String} name 
-     * @param {*} username 
-     * @param {*} email 
-     * @param {*} password 
-     * @param {*} favartists 
-     * @param {*} congresses 
+     * @param {String} username 
+     * @param {String} email 
+     * @param {String} password 
      * @throws {Error} - on non valid input parameters
      * 
      * @return {Promise} - resolve with the user id after create it
      */
-    registerUser(name, username, email, password, favartists, congresses) {
+    registerUser(name, username, email, password) {
 
         if (typeof name !== 'string') throw Error(`name is not a string`)
         if (!name.trim().length) throw Error(`name is empty`)
@@ -34,7 +31,6 @@ const logic = {
         if (typeof password !== 'string') throw Error(`password is not a string`)
         if (!password.trim().length) throw Error(`password is empty`)
 
-        //todo congresses arrya type
 
         return User.findOne({ email })
             .then(user => {
@@ -42,12 +38,21 @@ const logic = {
 
                 return bcrypt.hash(password, 10)
                     .then(hash => {
-                        return User.create({ name, username, email, password: hash, congresses, favartists })
+                        return User.create({ name, username, email, password: hash })
                             .then(userCreated => userCreated.id)
                     })
             })
     },
 
+    /**
+     * login user
+     * 
+     * @param {String} email 
+     * @param {String} password 
+     * @throws {Error} - on non valid input parameters
+     * 
+     * @return {Promise} - 
+     */
     loginUser(email, password) {
 
         if (typeof email !== 'string') throw Error(`email is not a string`)
@@ -64,39 +69,62 @@ const logic = {
                     .then(match => {
                         if (!match) throw Error('wrong credentials')
 
-                        const token = jwt.sign({ userId: user.id }, 'secret', { expiresIn: '232200h' })
+                        // const token = jwt.sign({ userId: user.id }, 'secret', { expiresIn: '3200h' })
 
-                        const response = { id: user.id, token }
+                        const token = tokenHelper.createToken(user.id)
+
+                        const response = { token }
 
                         return response
                     })
             })
     },
 
-
-
-
+    /**
+     * return user object profile
+     * 
+     * @param {String} userId 
+     * @throws {Error} - on non valid input parameters
+     * 
+     * @param {Promise} - object with user data
+     */
     retrieveUser(userId) {
         if (typeof userId !== 'string') throw Error(`userId is not a string`)
         if (!userId.trim().length) throw Error(`userId is empty`)
 
-        return User.findById(userId).populate('createdCongresses').populate('createdArtists').lean()
+        return User.findById(userId).lean()
+            .populate('createdCongresses')
+            .populate('createdArtists', '-__v')
+            .populate('favartists', '-__v')
+            .select('-password -__v')
             .then(user => {
                 if (!user) throw Error(`user not exists`)
 
-                delete user.password
-
+                // delete user.password
+                // delete user.__v
                 return user
             })
 
     },
 
+
+    /**
+     * 
+     * 
+     * @param {String} userId 
+     * @param {Object} userData 
+     * @throws {Error} - on non valid input parameters
+     * 
+     * @param {Promise}
+     */
     updateUser(userId, userData) {
+
         if (typeof userId !== 'string') throw Error(`userId is not a string`)
         if (!userId.trim().length) throw Error(`userId is empty`)
 
         if (userData.constructor !== Object) throw TypeError(`userData is not an object`)
 
+        // error en los test => (node:31342) DeprecationWarning: Mongoose: `findOneAndU...
         return User.findByIdAndUpdate(userId, { $set: userData }, { useFindAndModify: false })
 
             .then(user => {
@@ -109,74 +137,68 @@ const logic = {
 
     },
 
-    // deleteUser(userId) {
-    //     if (typeof userId !== 'string') throw Error(`userId is not a string`)
-    //     if (!userId.trim().length) throw Error(`userId is empty`)
-
-    //     return User.findByIdAndDelete(userId)
-
-    //         .then(user => {
-
-    //             if (!user) throw Error('user not found')
-
-    //             // el id me muestra como undefined
-    //             const response = { message: `user deleted ` }
-    //             return response
-    //         })
-    // },  
-
     // CONGRESS
 
+    /**
+     * 
+     * @param {Object} congressData 
+     * @param {String} userId
+     * @throws {Error} - on non valid input parameters
+     * 
+     * @param {Promise}
+     */
     createCongress(congressData, userId) {
 
-         if (congressData.constructor !== Object) throw TypeError(`congressData is not an object`)
-
-         if (typeof userId !== 'string') throw Error(`userId is not a string`)
-         if (!userId.trim().length) throw Error(`userId is empty`)
-
-        return User.findById(userId)
-            .then(user => {
-                if (!user) throw Error(`user not exists`)
-
-                return Congress.create({...congressData, owner: userId} )
-                    .then(congress => {
-                        
-                        return User.findById(userId)
-                                .then(user => {
-                                    user.createdCongresses.push(congress.id)
-                                    user.save()
-                                    return congress
-                                })
-                
-            })
-        })
-    },
-
-    retrieveCongress(congressId, userId) {
-
-        //TODO VERIFIY USERID
-        
-        if (typeof congressId !== 'string') throw Error(`congressId is not a string`)
-        if (!congressId.trim().length) throw Error(`congressId is empty`)
+        if (congressData.constructor !== Object) throw TypeError(`congressData is not an object`)
 
         if (typeof userId !== 'string') throw Error(`userId is not a string`)
         if (!userId.trim().length) throw Error(`userId is empty`)
 
-        return User.findById(userId)
-            .then(user => {
-                if (!user) throw Error(`user not exists`)
+       return User.findById(userId)
+           .then(user => {
+               if (!user) throw Error(`user not exists`)
 
-                return Congress.findById(congressId).lean()
-                    .then(congress => {
-                        debugger
-                        if (!congress) throw Error(`congress does not exists`)
-                        return congress
-                    })
+               return Congress.create({...congressData, owner: userId} )
+                   .then(congress => {
+                       
+                       return User.findById(userId)
+                               .then(user => {
+                                   user.createdCongresses.push(congress.id)
+                                   user.save()
+                                   return congress
+                               })
+               
+           })
+       })
+   },
+
+   /**
+    * 
+    * @param {String} congressId 
+    * @throws {Error} - on non valid input parameters
+    * @param {Promise}
+    */
+
+    retrieveCongress(congressId) {
+        
+        if (typeof congressId !== 'string') throw Error(`congressId is not a string`)
+        if (!congressId.trim().length) throw Error(`congressId is empty`)
+
+        return Congress.findById(congressId).populate('artists').lean()
+
+            .then(congress => {
+                if (!congress) throw Error(`congress not exists`)
+                return congress
             })
     },
 
-    // updateCongress
-
+    /**
+     * 
+     * @param {String} congressId 
+     * @param {Object} congressData 
+     * 
+     *  @param {Promise}
+     */
     updateCongress(congressId, congressData) {
 
         if (typeof congressId !== 'string') throw Error(`congressId is not a string`)
@@ -184,7 +206,6 @@ const logic = {
 
         if (congressData.constructor !== Object) throw TypeError(`congressData is not an object`)
 
-        // .select('-__v') te limpia y te elimina los campos de respuesta
         return Congress.findByIdAndUpdate(congressId, congressData, { new: true }).select('-__v')
 
             .then(congress => {
@@ -196,7 +217,13 @@ const logic = {
             })
     },
 
-    // deleteCongress
+
+    /**
+     * 
+     * @param {String} congressId
+     * 
+     * @param {Promise}
+     */
     deleteCongress(congressId) {
 
         if (typeof congressId !== 'string') throw Error(`congressId is not a string`)
@@ -204,8 +231,6 @@ const logic = {
 
         return Congress.findOneAndDelete(congressId).lean()
             .then(congress => {
-                // ** 1 cambiar todos los métodos para que comprueben esto
-                // findByIdAndUpdate, findOneAndDelete....
                 if (!congress) throw Error('congress not found')
 
                 const response = { message: `congress with ID ${congress._id} deleted` }
@@ -213,36 +238,90 @@ const logic = {
             })
     },
 
+    /**
+     * 
+     * @param {String} query
+     * 
+     * @param {Promise}
+     */
+    searchItems(query) {
+
+        if (typeof query !== 'string') throw Error(`query is not a string`)
+        if (!query.trim().length) throw Error(`query is empty`)
+
+        return Artist.find({ 'name': new RegExp(query, 'i')})
+            .then(artists => {
+
+                return Congress.find({ 'name': new RegExp(query, 'i')})
+                    .then(congresses => {
+
+                        const response = {}
+                        response.artists = artists
+                        // response.push({ congresses })
+                        response.congresses = congresses
+
+                        return response
+
+                    })
+
+
+            })
+    },
+
+    /**
+     * 
+     * @param {String} query 
+     * 
+     * @param {Promise}
+     */
     searchCongresses(query) {
 
         if (typeof query !== 'string') throw Error(`query is not a string`)
         if (!query.trim().length) throw Error(`query is empty`)
 
-
         return Congress.find({ name: query })
             .then(congresses => {
+
                 return congresses
             })
 
     },
 
-    listCongresses() {
+    /**
+     * 
+     * @param {String} query 
+     * 
+     * @param {Promise}
+     */
+    searchArtists(query) {
 
-        return Congress.find()
+        if (typeof query !== 'string') throw Error(`query is not a string`)
+        if (!query.trim().length) throw Error(`query is empty`)
+
+        return Artist.find({})
+            .then(artists => artists)
+
+    },
+
+    listCongresses() {
+        return Congress.find().populate('owner').populate('artists')
             .then(congresses => {
                 return { results: congresses }
             })
     },
 
-
-    // ARTIST
-
     listArtists() {
-
         return Artist.find()
             .then(artists => artists)
     },
 
+    /**
+     * 
+     * @param {Object} artistData 
+     * @param {String} userId 
+     * 
+     * @param {Promise}
+     */
     createArtist(artistData, userId) {
 
         if (artistData.constructor !== Object) throw TypeError(`artistData is not an object`)
@@ -251,63 +330,61 @@ const logic = {
         if (!userId.trim().length) throw Error(`userId is empty`)
 
         
-        return Artist.create({ ...artistData, owner: userId }) //rest operator
+        return Artist.create({ ...artistData, owner: userId })
         
             .then(artist => {
             
                 return  User.findById(userId)
-                .then(user => { // user conectado a la base de datos aun 
+                .then(user => {
                     user.createdArtists.push(artist.id)
                     user.save()
+
                     return artist
                 })
 
             })
     },
 
+    /**
+     * 
+     * @param {String} artistId 
+     * 
+     * @param {Promise}
+     */
     retrieveArtist(artistId) {
 
         if (typeof artistId !== 'string') throw Error(`artistId is not a string`)
         if (!artistId.trim().length) throw Error(`artistId is empty`)
 
-        return Artist.findById(artistId).lean()
+        return Artist.findById(artistId).populate('owner').lean()
             .then(artist => {
                 if (!artist) throw Error(`artist not exists`)
                 return artist
             })
-
     },
 
-    searchArtists(query) {
+    favArtist(artistId, userId) {
+        // todo
+        return User.findById(userId)
+            .then(user => {
+                if (!user) throw Error('user not exist')
 
-        if (typeof query !== 'string') throw Error(`query is not a string`)
-        if (!query.trim().length) throw Error(`query is empty`)
+                const results = user.favartists
 
-        return Artist.find({ name: query })
-            .then(artists => artists)
+                const index = results.indexOf(artistId)
 
-    },
+                if (index < 0 ) results.push(artistId)
+                else results.splice(index, 1)
 
-    searchItems(query) {
+                user.favartists = results
 
-        if (typeof query !== 'string') throw Error(`query is not a string`)
-        if (!query.trim().length) throw Error(`query is empty`)
+                user.save()
 
-        return Artist.find({ name: query })
-            .then(artist => {
-
-                return Congress.find({ name: query })
-                    .then(congress => {
-
-                        const response = []
-                        response.push(artist)
-                        response.push(congress)
-                        return response
-                    })
-
-
+                return
             })
+
     }
+
 
 }
 
