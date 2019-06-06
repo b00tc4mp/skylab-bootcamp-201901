@@ -24,7 +24,7 @@ class App extends Component {
     token: null,
     user: null,
     searchResults: null,
-    
+
     // userUploads: null,
   }
 
@@ -39,25 +39,30 @@ class App extends Component {
         })
   }
 
-  handleRegister = (username, email, password, passwordConfirmation) => {
-    const { history } = this.props
-    logic.registerUser(username, email, password, passwordConfirmation)
-      .then((res) => history.push('/login'))
+  handleRegister = async (username, email, password, passwordConfirmation) => {
+    try {
+      const { history } = this.props
+      await logic.registerUser(username, email, password, passwordConfirmation)
+      history.push('/login')
+    } catch (error) {
+      feedback(error.message, 'error');
+
+    }
+
   }
   handleLogin = async (email, password) => {
 
     try {
-      debugger
       const token = await logic.authenticateUser(email, password)
-      const user = logic.retrieveUser()
+      const user = await logic.retrieveUser()
       this.setState({ token, user }, () => {
         this.props.history.push('/')
       })
-		} catch (error) {
-			feedback(error.message, 'error');
+    } catch (error) {
+      feedback(error.message, 'error');
     }
 
-  
+
 
   }
 
@@ -108,8 +113,8 @@ class App extends Component {
     this.props.history.push(`/genres/${genre}`)
   }
 
-  handleToggleFavs = (token, id) => {
-    logic.toggleFavs(token, id)
+  handleToggleFavs = (id) => {
+    logic.toggleFavs(id)
   }
 
 
@@ -123,7 +128,7 @@ class App extends Component {
       <div className="App">
         <ToastContainer />
         <header className="App-header">
-          <Route path="/" render={() => <Header onSearch={handleOnSearch} onSearchByGenre={handleToSearchByGenre} user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
+          <Route path="/" render={() => <Header user={user} onSearch={handleOnSearch} onSearchByGenre={handleToSearchByGenre} user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
             handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
             handleGoToUploadGame={handleGoToUploadGame} searchResults={searchResults} />} />
 
@@ -143,7 +148,7 @@ class App extends Component {
           }} />
 
           <Route path="/user" render={props => {
-            return <UserPanel user={user} history={props.history} retrieveFavs={handleRetrieveFavs} onUpdateUserEmail={handleUpdateUserEmail}  />
+            return <UserPanel user={user} history={props.history} retrieveFavs={handleRetrieveFavs} onUpdateUserEmail={handleUpdateUserEmail} />
           }} />
 
           <Route path="/uploadGame" render={props => {
@@ -161,9 +166,9 @@ class App extends Component {
             return <GameDetail {...props} user={user} retrieveFavs={handleRetrieveFavs} toggleFavs={handleToggleFavs} history={props.history} />
           }} />
 
-          <Route path="/error" render ={props =>{
-            return <ErrorPage/>
-          }}/>
+          <Route path="/error" render={props => {
+            return <ErrorPage />
+          }} />
 
         </header>
       </div>
