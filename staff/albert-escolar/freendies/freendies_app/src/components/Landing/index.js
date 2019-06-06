@@ -1,14 +1,23 @@
 import React, { Component } from 'react'
 import SearchBar from '../SearchBar'
 import './index.scss'
+import ListComponent from '../ListComponent'
 
 class Landing extends Component {
     state = {
         user: ""
     }
 
+
+    async componentDidMount() {
+        const { listAllGames } = this.props
+        const games = await listAllGames()
+        this.setState({games})
+    }
+
     render() {
         const { props: { user, history, onSearchGame, searchResults } } = this
+        const {games}=this.state
 
         return <div>
             <div>
@@ -18,6 +27,7 @@ class Landing extends Component {
 
             <section>
                 <h2>Games</h2>
+                <ListComponent results={games} />
             </section>
 
         </div>

@@ -18,7 +18,6 @@ class UserPanel extends Component {
 
     async componentDidMount() {
         try {
-            debugger
             const { user } = this.props
             const favs = await logic.retrieveFavs()
             const uploads = await logic.retrieveUploads()

@@ -217,6 +217,20 @@ const freendiesApi = {
 
     },
 
+    retrieveAllGames(){
+        return fetch(`${this.url}games`,{
+            headers:{
+                'content-type':'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(response =>{
+            if(response.error) throw Error(response.error)
+
+            return response
+        })
+    },
+
     uploadGame(token, title, genre, description, images, gameFile) {
         if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
         if (!title.trim().length) throw Error(`${title} cannot be empty`)

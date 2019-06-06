@@ -62,8 +62,10 @@ class App extends Component {
       feedback(error.message, 'error');
     }
 
+  }
 
-
+  handleRetrieveAllGames = ()=>{
+    return logic.retrieveAllGames()
   }
 
   handleUpdateUserEmail = (email) => {
@@ -120,7 +122,7 @@ class App extends Component {
 
   render() {
 
-    const { state: { user, searchResults }, handleRegister, handleGoToRegister, handleLogin, handleUpdateUserEmail,
+    const { state: { user, searchResults }, handleRegister,handleRetrieveAllGames, handleGoToRegister, handleLogin, handleUpdateUserEmail,
       handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleGoToUserPanel,
       handleUploadGame, handleLogout, handleOnSearch, handleToSearchByGenre, handleToggleFavs, handleRetrieveFavs } = this
 
@@ -134,7 +136,7 @@ class App extends Component {
 
           <Route exact path="/" render={props => {
             return <div>
-              <Landing user={user} searchResults={searchResults} history={props.history} />
+              <Landing user={user} searchResults={searchResults} listAllGames={handleRetrieveAllGames} history={props.history} />
 
             </div>
           }} />
