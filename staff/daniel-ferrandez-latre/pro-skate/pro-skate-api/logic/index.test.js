@@ -471,10 +471,10 @@ describe("logic", () => {
             password: await argon2.hash(password),
             age
           });
-          const userDb = User.findOne({ email });
+          const userDb = await User.findOne({ email });
           const deletedUserId = userDb.id;
-          User.findByIdAndDelete(deletedUserId);
-          logic.deleteUser(deletedUserId);
+          await User.findByIdAndDelete(deletedUserId);
+          await logic.deleteUser(deletedUserId);
           throw Error("should not reach this point");
         } catch (err) {
           expect(err).to.exist;

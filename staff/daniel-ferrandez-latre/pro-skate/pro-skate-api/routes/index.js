@@ -84,31 +84,33 @@ router.get('/users/cart', auth, (req, res) => {
 })
 
 //addProductToCart
-router.post('/users/cart', auth, (req, res)=>{
+router.post('/users/cart', auth, jsonParser, (req, res)=>{
     handleErrors( async ()=> {
-        const { userId, body: { productId, quantity } } = req
+        const { userId, body: { productId , quantity } } = req
         
-        await logic.addProductToCart(userId, productId, quantity)
+        await logic.addProductToCart(userId, quantity, productId)
         return res.json({ message: `Product with id ${productId} successfully added to cart` })
     }, res)
 })
 
 //retrieveWhishList
-router.get('/users/whislist', auth, (req, res) => {
+router.get('/users/whishlist', auth, (req, res) => {
+    debugger
     handleErrors(async () => {
+        debugger
         const { userId } = req
-
-        const whislist = await logic.retrieveWhishList(userId)
-        return res.json(whislist)
+        debugger
+        const whishlist = await logic.retrieveWhishList(userId)
+        return res.json(whishlist)
     },
         res)
 })
 
 //toggleWhishProduct
-router.post('/users/whislist', auth, (req, res)=>{
+router.post('/users/whishlist' , auth, jsonParser, (req, res)=>{
+
     handleErrors( async ()=> {
-        const { userId, productId } = req
-        
+        const { userId , body: { productId }  } = req
         await logic.toggleWhishProduct(userId, productId )
         return res.json({ message: `Product with id ${productId} successfully toggle to cart` })
     }, res)
@@ -140,7 +142,7 @@ router.get('/users/historic', auth, (req, res) => {
 /** PRODUCT */
 
 //createProduct
-router.post('/product', auth, (req, res) => {
+router.post('/product', jsonParser,auth, (req, res) => {
     const { userId, body: { name, imagesUrl, description, price, tag } } = req
 
     handleErrors(async () => {
@@ -153,9 +155,9 @@ router.post('/product', auth, (req, res) => {
 router.get('/products/:id', (req, res) => {
     handleErrors(async () => {
         const { params: { id } } = req
-
+        debugger
         const product = await logic.retrieveProduct(id)
-        return res.json(product)
+        return res.json( product )
     },
         res)
 })
@@ -174,8 +176,8 @@ router.get('/products', (req, res) => {
 router.get('/products', (req, res) => {
     handleErrors(async () => {
         const { query: { tag } } = req
-        const products = await logic.retrieveProductsByTag(tag)
-        return res.json(products)
+        const productsByTag = await logic.retrieveProductsByTag(tag)
+        return res.json(productsByTag)
     },
         res)
 })
@@ -184,8 +186,8 @@ router.get('/products', (req, res) => {
 router.get('/products', (req, res) => {
     handleErrors(async () => {
         const { query: { price } } = req
-        const products = await logic.retrieveProductsByPrice(price)
-        return res.json(products)
+        const productsByPrice = await logic.retrieveProductsByPrice(price)
+        return res.json(productsByPrice)
     },
         res)
 })

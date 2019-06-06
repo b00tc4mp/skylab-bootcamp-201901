@@ -78,13 +78,10 @@ const logic = {
 
         ])
         return (async () => {
-            debugger
             let userDb = await User.findById(id).lean()
 
             if(!userDb) throw new LogicError( `That user doesn't exist` )
 
-            // const userUpdated = Object.assign(userDb, data)
-  
             await User.findByIdAndUpdate(id, data, {new: true})
 
             return true
@@ -111,7 +108,6 @@ const logic = {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
-
         return(async ()=>{
             const productDb = await Product.findById(id)
             if(!productDb) throw new LogicError(`Product with id ${id} doesn't exist`)
