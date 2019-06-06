@@ -24,6 +24,7 @@ export type TMainContext = {
   user?: TUser | null;
   userId?: string | null;
   role?: string | null;
+  provider?: TProvider | null;
   login?: (email: string, password: string) => Promise<boolean>;
   logout?: () => boolean;
 };
@@ -45,6 +46,7 @@ const MainContext = React.createContext(initialState);
 function MainProvider(props) {
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
+  const [provider, setProvider] = useState(null);
   const [role, setRole] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -53,6 +55,9 @@ function MainProvider(props) {
     setRole(user.role);
     setUserId(user.id);
     setUser(user);
+    if (user.adminOf.length) {
+      setProvider(user.adminOf[0]);
+    }
     return user;
   };
 
@@ -73,6 +78,7 @@ function MainProvider(props) {
     setRole(null);
     setUserId(null);
     setUser(null);
+    setProvider(null)
     return true;
   };
 
@@ -80,11 +86,13 @@ function MainProvider(props) {
     if (logic.token) {
       refreshUserData();
     }
-  }, [])
+  }, []);
 
   // const [state, dispatch] = useReducer(reducer, initialState);
   return (
-    <MainContext.Provider value={{ login, logout, role, userId, user, errorMessage: null, gqlClient: props.gqlClient }}>
+    <MainContext.Provider
+      value={{ login, logout, role, userId, user, provider, errorMessage: null, gqlClient: props.gqlClient }}
+    >
       {props.children}
     </MainContext.Provider>
   );

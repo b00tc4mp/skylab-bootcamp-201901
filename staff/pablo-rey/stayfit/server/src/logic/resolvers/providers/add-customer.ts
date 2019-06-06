@@ -135,4 +135,14 @@ export class AddProviderCustomerResolver {
     const req = await RequestCustomerModel.findOne({ user, provider });
     return req;
   }
+
+  @Authorized(ONLY_ADMINS_OF_PROVIDER)
+  @Query(returns => [RequestCustomer], { nullable: true })
+  async retrievePendingRequest(@Arg('providerId') providerId: string, @Ctx() ctx: MyContext) {
+    const provider = ctx.provider || await ProviderModel.findById(providerId);
+    if (!provider) throw new ValidationError('provider is required');
+
+    const req = await RequestCustomerModel.find({ provider }).populate('user');
+    return req;
+  }
 }

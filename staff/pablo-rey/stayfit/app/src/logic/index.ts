@@ -1,9 +1,11 @@
 import gql from 'graphql-tag';
 import jwt from 'jsonwebtoken';
 import { TUser, TProvider } from './contexts/main-context';
+import moment from 'moment';
 
 export default {
   gqlClient: null,
+  providerId: null,
   get token() {
     const value = sessionStorage.refreshToken;
     if (value === 'null') return null;
@@ -126,8 +128,31 @@ export default {
           customerOf {
             id
             name
+            bannerImageUrl
+            portraitImageUrl
           }
           adminOf {
+            id
+            name
+            bannerImageUrl
+            portraitImageUrl
+          }
+        }
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      query,
+    });
+    return data.me;
+  },
+
+  async retrieveProvider(providerId: string): Promise<TUser> {
+    const query = gql`
+      query RetrieveProvider($providerId: String!) {
+        retrieveProvider(providerId: $providerId) {
+          id
+          name
+          customers {
             id
             name
           }
@@ -173,6 +198,46 @@ export default {
       },
     });
     return data.listMyAvailableSessions.map(sa => ({ ...sa.session, myAttendance: sa.myAttendance }));
+  },
+
+  async listSessions(providerId: string, day: moment.Moment) {
+    const query = gql`
+      query ListSessions($providerId: String!, $day: String!) {
+        listSessions(providerId: $providerId, day: $day) {
+          id
+          title
+          coaches {
+            id
+            name
+          }
+          startTime
+          endTime
+          maxAttendants
+          type {
+            id
+            title
+          }
+          attendanceDefaultStatus
+          attendances {
+            id
+            user {
+              id
+              name
+            }
+            paymentType
+            status
+          }
+        }
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      query,
+      variables: {
+        providerId,
+        day: day.format('YYYY-MM-DD'),
+      },
+    });
+    return data.listSessions;
   },
 
   async attendSession(userId: string, sessionId: string, paymentType: string, status?: string) {
@@ -287,6 +352,52 @@ export default {
       query,
     });
     return data.listMyProvidersInfo;
+  },
+
+  async listCustomers(providerId: string): Promise<any> {
+    const query = gql`
+      query ListCustomers($providerId: String!) {
+        listCustomers(providerId: $providerId) {
+          customer {
+            id
+            name
+          }
+          request {
+            id
+            status
+          }
+        }
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      query,
+      variables: {
+        providerId,
+      },
+    });
+    return data.listCustomers;
+  },
+
+  async retrievePendingRequest(providerId: string): Promise<any> {
+    const query = gql`
+      query RetrievePendingRequest($providerId: String!) {
+        retrievePendingRequest(providerId: $providerId) {
+          id
+          status
+          user {
+            id
+            name
+          }
+        }
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      query,
+      variables: {
+        providerId,
+      },
+    });
+    return data.retrievePendingRequest;
   },
 
   async updateRequestCustomer(userId: string, providerId: string, status: string) {

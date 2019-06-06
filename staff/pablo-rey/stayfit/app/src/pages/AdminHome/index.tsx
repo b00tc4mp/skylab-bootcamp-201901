@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import {
   IonPage,
   IonHeader,
@@ -19,29 +19,31 @@ import {
   IonLabel,
 } from '@ionic/react';
 import { IonIcon, IonButton } from '@ionic/react';
-import Menu from '../../components/Menu/';
+import Menu from '../../components/Menu';
 import { withRouter, Route } from 'react-router-dom';
 import { MainContext } from '../../logic/contexts/main-context';
-import MainUser from '../MainUser';
+import MainAdmin from '../MainAdmin';
 import MyBookings from '../MyBookings';
-import MyProviders from '../MyProviders';
-import MySettingsUser from '../MySettingsUser';
+// import MyProviders from '../MyProviders';
+import MySettingsAdmin from '../MySettingsAdmin';
+import AdminSessions from '../AdminSessions';
+import AdminCustomers from '../AdminCustomers';
+import logic from '../../logic';
 
-const Home: React.FC<any> = ({ history, location }) => {
-  const [view, setView] = useState('all');
+const AdminHome: React.FC<any> = ({ history, location }) => {
   const ctx = useContext(MainContext);
+  const [pendingRequests, setPendingRequests] = useState([]);
 
-  const updateSegment = (e: CustomEvent) => {
-    const _view = e.detail.value;
-    setView(_view);
-  };
+  useEffect(() => {
+    ctx.provider && logic.retrievePendingRequest(ctx.provider.id).then(pending => setPendingRequests(pending || []));
+  }, [ctx.provider]);
 
   if (!ctx.user) {
     return <p>No user loaded</p>;
   }
 
   return (
-    <IonPage id="main">
+    <IonPage id="admin_home">
       <IonTabs>
         <IonRouterOutlet>
           {/* <Route path="/:tab(schedule)" component={SchedulePage} exact={true} />
@@ -49,25 +51,26 @@ const Home: React.FC<any> = ({ history, location }) => {
             <Route path="/:tab(speakers)" component={SpeakerList} exact={true} />
             <Route path="/:tab(schedule|speakers)/sessions/:id" component={SessionDetail} />
           <Route path="/:tab(map)" component={MapView} /> */}
-          <Route path="/home/:tab(bookings)" component={MyBookings} />
-          <Route path="/home/:tab(providers)" component={MyProviders} />
-          <Route path="/home/:tab(settings)" component={MySettingsUser} />
-          <Route path="/home/" component={MainUser} exact={true} />
+          <Route path="/admin/:tab(sessions)" component={AdminSessions} />
+          <Route path="/admin/:tab(customers)" component={AdminCustomers} />
+          <Route path="/admin/:tab(settings)" component={MySettingsAdmin} />
+          <Route path="/admin/" render={() => <MainAdmin pendingRequest={pendingRequests}/>} exact={true} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">
-          <IonTabButton tab="today" href="/home">
+          <IonTabButton tab="today" href="/admin">
             <IonIcon name="today" />
             <IonLabel>Today</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="bookings" href="/home/bookings" disabled={!ctx.user.customerOf.length}>
+          <IonTabButton tab="sessions" href="/admin/sessions">
             <IonIcon name="calendar" />
-            <IonLabel>My bookings</IonLabel>
+            <IonLabel>My sessions</IonLabel>
           </IonTabButton>
-          <IonTabButton tab="providers" href="/home/providers" disabled={!ctx.user.customerOf.length}>
+          <IonTabButton tab="customers" href="/admin/customers">
             <IonIcon name="paper" />
-            <IonLabel>My providers</IonLabel>
+            <IonLabel>My customers</IonLabel>
+            {!!pendingRequests.length && <IonBadge>{pendingRequests.length}</IonBadge>}
           </IonTabButton>
-          <IonTabButton tab="settings" href="/home/settings">
+          <IonTabButton tab="settings" href="/admin/settings">
             <IonIcon name="settings" />
             <IonLabel>Settings</IonLabel>
           </IonTabButton>
@@ -77,4 +80,4 @@ const Home: React.FC<any> = ({ history, location }) => {
   );
 };
 
-export default withRouter(Home);
+export default withRouter(AdminHome);
