@@ -1,5 +1,6 @@
 import React from 'react'
 import { Chart } from 'react-google-charts'
+import './index.sass'
 
 function TableResolution({ error, hotfix, bugfix, bug, request }) {
     let arrayTable = []
@@ -56,16 +57,18 @@ function TableResolution({ error, hotfix, bugfix, bug, request }) {
         ])
     arrayTable.push(['Total', totalCNR,  totalDone, totalDuplicate, totalIncomplete, totalIsNot, totalWontFix, totalUnresolved, totalTotal])
 
-    return <Chart
-            width={'800px'}
-            height={'300px'}
-            chartType="Table"
-            loader={<div>Loading Chart</div>}
-            data={arrayTable}
-            options={{
-            }}
-    
-    />
+    return <div className="container-tableresolution">
+        <Chart
+                width={'800px'}
+                height={'300px'}
+                chartType="Table"
+                loader={<div>Loading Chart</div>}
+                data={arrayTable}
+                options={{
+                }}
+        
+        />
+    </div>
 }
 
 export default TableResolution

@@ -10,7 +10,9 @@ import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 
 
 class App extends Component{
+
     state = { user: null, error: null , profile: null}
+    
     handleRegisterNavigation = () => this.props.history.push('/register')
 
     handleLoginNavigation = () => this.props.history.push('/login')
@@ -89,6 +91,7 @@ class App extends Component{
             <Route path="/login" render={() => logic.isUserLoggedIn  ? (profile ==='product-expert'? <Redirect to="/home" /> : <Redirect to="/homeAdmin" />): <Login onLogin={handleLogin} error={error} goRegister={handleRegisterNavigation}/>} />
             <Route path="/home" render={() => logic.isUserLoggedIn ? (profile ==='product-expert'? <Home user={user} onLogout={handleLogout} /> : <Redirect to="/homeAdmin" />) : <Redirect to="/" />} />
             <Route path="/homeAdmin" render={() => logic.isUserLoggedIn ?(profile !== 'product-expert'? <HomeAdmin onLogout={handleLogout} error={error}/>: <Redirect to="/home" />) : <Redirect to="/" />} />
+            <Redirect to="/" />
         </Switch>
 
         </>

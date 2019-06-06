@@ -10,7 +10,7 @@ import TableResolution from '../TableResolution'
 class Home extends Component{
     state = { error: null , dateFrom: null, dateTo: null, hotfix: null, bugfix: null, bug: null, request: null, sla: null, resolution: null, tableSLA: null}
     handleSwitch =async (dateFrom, dateTo, statisticType, country)=>{
-        debugger
+        
         try{
             if(statisticType ==='byResolution'){
 
@@ -61,7 +61,7 @@ class Home extends Component{
             handleSwitch
         }=this
         return <>
-        <main >
+        <main className="container-piechart">
         <h2>Dashboard</h2>
         {user && <Sidebar user={user} onLogout={onLogout} error={error} onSwitch={handleSwitch} dateFrom={dateFrom} dateTo={dateTo} resolution={resolution}/>}
         {resolution && <PieChart error={error} hotfix={hotfix} bugfix={bugfix} bug={bug} request={request}/>}

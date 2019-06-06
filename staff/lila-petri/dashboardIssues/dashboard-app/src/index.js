@@ -4,6 +4,7 @@ import './index.css';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import { HashRouter as Router } from 'react-router-dom';
+import 'uikit';
 
 ReactDOM.render(<Router><App /></Router>, document.getElementById('root'));
 

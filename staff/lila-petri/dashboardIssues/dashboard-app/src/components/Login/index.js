@@ -14,7 +14,7 @@ function Login({ onLogin, error, goRegister }) {
 
     return <main className="uk-container uk-container-large container-login uk-background-muted">
         <section>
-        <div cclassName="uk-margin">
+        <div className="uk-margin">
                 <p className="uk-text-large uk-text-muted"> Sign in with your email address</p>
             </div>
             <form  className="uk-form-stacked" onSubmit={handleSubmit}>

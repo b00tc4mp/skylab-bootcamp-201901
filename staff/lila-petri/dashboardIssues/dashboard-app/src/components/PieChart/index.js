@@ -17,51 +17,57 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
 
 
         return <div className="container-piechart">
-            {hotfix && (
+            <div>
+                {hotfix && (
+                <Chart
+                        width={'400px'}
+                        height={'225px'}
+                        chartType="PieChart"
+                        loader={<div>Loading Chart</div>}
+                        data={[
+                            ['HotFix', 'byResolution'],
+                            ['Cannot Reproduce',hotfixCanNot ],
+                            ['Done', hotfixDone],
+                            ['Duplicate', hotfixDup],
+                            ['Incomplete', hotfixInc], 
+                            ['Is not a Bug', hotfixIsNot],
+                            ["Won't Fix", hotfixWontF],
+                            ['Unresolved', hotfixUnre],
+                        ]}
+                        options={{
+                            title: 'HotFix by resolution',
+                            is3D: true
+                        }}
+                    />
+                )}
+                {bugfix && (
+                <Chart
+                        width={'400px'}
+                        height={'225px'}
+                        chartType="PieChart"
+                        loader={<div>Loading Chart</div>}
+                        data={[
+                            ['BugFix', 'byResolution'],
+                            ['Cannot Reproduce', bugfixCanNot],
+                            ['Done', bugfixDone],
+                            ['Duplicate', bugfixDup],
+                            ['Incomplete', bugfixInc], 
+                            ['Is not a Bug', bugfixIsNot], 
+                            ["Won't Fix", bugfixWontF],
+                            ['Unresolved', bugfixUnre],
+                        ]}
+                        options={{
+                            title: 'BugFix by resolution',
+                            is3D: true
+                        }}
+                    />
+                )}
+            </div>
+            <div>
+            {bug && (
             <Chart
-                    width={'500px'}
-                    height={'350px'}
-                    chartType="PieChart"
-                    loader={<div>Loading Chart</div>}
-                    data={[
-                        ['HotFix', 'byResolution'],
-                        ['Cannot Reproduce',hotfixCanNot ],
-                        ['Done', hotfixDone],
-                        ['Duplicate', hotfixDup],
-                        ['Incomplete', hotfixInc], 
-                        ['Is not a Bug', hotfixIsNot],
-                        ["Won't Fix", hotfixWontF],
-                        ['Unresolved', hotfixUnre],
-                    ]}
-                    options={{
-                        title: 'HotFix by resolution',
-                        is3D: true
-                    }}
-                />
-            )}
-            <Chart
-                    width={'500px'}
-                    height={'350px'}
-                    chartType="PieChart"
-                    loader={<div>Loading Chart</div>}
-                    data={[
-                        ['BugFix', 'byResolution'],
-                        ['Cannot Reproduce', bugfixCanNot],
-                        ['Done', bugfixDone],
-                        ['Duplicate', bugfixDup],
-                        ['Incomplete', bugfixInc], 
-                        ['Is not a Bug', bugfixIsNot], 
-                        ["Won't Fix", bugfixWontF],
-                        ['Unresolved', bugfixUnre],
-                    ]}
-                    options={{
-                        title: 'BugFix by resolution',
-                        is3D: true
-                    }}
-                />
-            <Chart
-                    width={'500px'}
-                    height={'350px'}
+                    width={'400px'}
+                    height={'225px'}
                     chartType="PieChart"
                     loader={<div>Loading Chart</div>}
                     data={[
@@ -79,9 +85,11 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                         is3D: true
                     }}
                 />
+            )}
+            {request && (
             <Chart
-                    width={'500px'}
-                    height={'350px'}
+                    width={'400px'}
+                    height={'225px'}
                     chartType="PieChart"
                     loader={<div>Loading Chart</div>}
                     data={[
@@ -99,7 +107,9 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                         is3D: true
                     }}
                 />
-                <span>{error}</span>
+            )}
+            </div>
+            <span>{error}</span>
         </div>
         
 
