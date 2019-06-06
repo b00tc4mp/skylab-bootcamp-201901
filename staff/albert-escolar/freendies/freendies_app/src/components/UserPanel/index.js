@@ -13,14 +13,16 @@ class UserPanel extends Component {
         password: '',
         passwordConfirmation: '',
         favs: [],
-        uploads:[]
+        uploads: []
     }
 
     async componentDidMount() {
         try {
+            debugger
+            const { user } = this.props
             const favs = await logic.retrieveFavs()
             const uploads = await logic.retrieveUploads()
-            this.setState({ favs, uploads })
+            this.setState({ user,favs, uploads })
 
         } catch ({ message }) {
             console.log('Error when retriving')
@@ -70,11 +72,11 @@ class UserPanel extends Component {
             </div>
 
             <h2>My Uploaded Games</h2>
-            <ListComponent results = {uploads}/>
+            <ListComponent results={uploads} />
 
 
             <h2>My Favorite Games</h2>
-            <ListComponent results = {favs}/>
+            <ListComponent results={favs} />
 
 
         </div>

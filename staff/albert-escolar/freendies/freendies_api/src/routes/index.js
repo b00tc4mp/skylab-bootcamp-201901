@@ -9,5 +9,6 @@ module.exports = {
     retrieveGameById: require('./retrieve-GameById'),
     toggleFavs: require('./toggle-favs'),
     retrieveFavs: require('./retrieve-userFavs'),
-    retrieveUploads: require('./retrieve-uploads')
+    retrieveUploads: require('./retrieve-uploads'),
+    retrieveAllGames: require('./retrieve-AllGames')
 }

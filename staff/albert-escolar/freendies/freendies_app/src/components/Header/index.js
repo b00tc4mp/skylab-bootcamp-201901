@@ -80,13 +80,12 @@ class Header extends Component {
 
     }
 
-    renderLoggedButtons(goToLogout, goToUserPanel, goToUploadGame) {
+    renderLoggedButtons=(goToLogout, goToUserPanel, goToUploadGame)=> {
+        const{user:{username}}=this.state
         return <div>
             <button onClick={goToUploadGame}>Upload Game</button>
-            <button onClick={goToUserPanel}>User</button>
+            <button onClick={goToUserPanel}>{username}</button>
             <button onClick={goToLogout}>Logout</button>
-
-
         </div>
     }
 

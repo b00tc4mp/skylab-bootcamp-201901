@@ -281,6 +281,15 @@ const logic = {
             delete upload._id
         })
         return uploads
+    },
+
+    async retrieveAllGames(){
+        const games = await Game.find().select('-__v')
+        games.forEach(game=>{
+            game.id=game._id.toString()
+            delete game._id
+        })
+        return games
     }
 
 }

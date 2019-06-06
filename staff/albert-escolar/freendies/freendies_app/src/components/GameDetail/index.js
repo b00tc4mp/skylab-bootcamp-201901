@@ -36,9 +36,8 @@ class GameDetail extends Component {
     handleToggleFavs = async (event) => {
         event.preventDefault()
         const { result: { id }, isFaved } = this.state
-        const { token } = this.props
         const { toggleFavs } = this.props
-        await toggleFavs(token, id)
+        await toggleFavs(id)
         this.setState({ isFaved: !isFaved })
 
 
