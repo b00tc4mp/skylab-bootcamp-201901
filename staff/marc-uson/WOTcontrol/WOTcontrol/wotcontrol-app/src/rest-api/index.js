@@ -4,7 +4,7 @@ require('dotenv').config()
 
 // const url = process.env.REACT_APP_URL_SERVER
 //const { env: { MONGO_URL_API_TEST: url}} = process
-const { env: { REACT_APP_URL_SERVER: url}} = process
+const { REACT_APP_URL_SERVER: url } = process.env
 
 
 const restApi = {

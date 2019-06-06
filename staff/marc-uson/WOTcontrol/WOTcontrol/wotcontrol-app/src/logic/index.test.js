@@ -1094,10 +1094,81 @@ describe.only('Logic', () => {
                 expect(() =>logic.retrieveAnalog(deviceName)).to.throw(ValueError, 'deviceName is empty')
             })
         })
+
+        describe('set device digital input', () => {
+            let pinNumber= 1
+            let value = 0
+            it('should succed retrieving a digital input', async () => {
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                await restApi.changeDeviceId(logic.__userToken__, deviceName, deviceName)
+                await restApi.addInput(logic.__userToken__, deviceName, 'digital', pinNumber)
+                user = await Users.findOne({ email })
+                user.devices[0].inputs[0].values.push({ value, date: Date.now() })
+                value = Math.floor(Math.random() * 2)
+                user.devices[0].inputs[0].values.push({ value, date: Date.now() })
+                value = Math.floor(Math.random() * 2)
+                user.devices[0].inputs[0].values.push({ value, date: Date.now() })
+                await user.save()
+                const response = await logic.retrieveDigital(deviceName, pinNumber)
+
+                expect(response).to.exist
+                expect(response).to.have.lengthOf(3)
+                expect(response[0].value).to.exist
+                expect(response[0].date).to.exist
+                expect(response[0]._id).to.not.exist
+            })
+
+            it('should fail on undefined deviceName', () => {
+                const deviceName = undefined
+
+                expect(() =>logic.retrieveDigital(deviceName, pinNumber)).to.throw(RequirementError, `deviceName is not optional`)
+            })
+
+            it('should fail on null deviceName', () => {
+                const deviceName = null
+
+                expect(() =>logic.retrieveDigital(deviceName, pinNumber)).to.throw(RequirementError, `deviceName is not optional`)
+            })
+
+            it('should fail on empty deviceName', () => {
+                const deviceName = ''
+
+                expect(() =>logic.retrieveDigital(deviceName, pinNumber)).to.throw(ValueError, 'deviceName is empty')
+            })
+
+            it('should fail on blank deviceName', () => {
+                const deviceName = ' \t    \n'
+
+                expect(() =>logic.retrieveDigital(deviceName, pinNumber)).to.throw(ValueError, 'deviceName is empty')
+            })
+
+            it('should fail on undefined pinNumber', () => {
+                const pinNumber = undefined
+
+                expect(() => logic.retrieveDigital(deviceName, pinNumber)).to.throw(RequirementError, `pinNumber is not optional`)
+            })
+
+            it('should fail on null pinNumber', () => {
+                const pinNumber = null
+
+                expect(() => logic.retrieveDigital(deviceName, pinNumber)).to.throw(RequirementError, `pinNumber is not optional`)
+            })
+
+            it('should fail on empty pinNumber', () => {
+                const pinNumber = ''
+
+                expect(() => logic.retrieveDigital(deviceName, pinNumber)).to.throw(TypeError, `pinNumber ${pinNumber} is not a number`)
+            })
+
+            it('should fail on blank pinNumber', () => {
+                const pinNumber = ' \t    \n'
+
+                expect(() => logic.retrieveDigital(deviceName, pinNumber)).to.throw(TypeError, `pinNumber ${pinNumber} is not a number`)
+            })
+        })
+
     })
     after(async () => {
-        // let users = await Users.find({ $and: [{ email }, { 'devices.name': deviceName }] })
-        // if (users.length > 0) await restApi.changeDeviceId(token, deviceName, 'newWOTDevice')
         mongoose.disconnect()
     })
 })

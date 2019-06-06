@@ -1,6 +1,6 @@
 import React, { useContext }  from 'react'
 import { Context } from '../Context'
-import Toast from '../Toast'
+import Alert from '../Alert'
 import './index.sass' 
 import logoGreen from '../../assets/images/logoTextGreen.png'
 
@@ -18,21 +18,21 @@ function Login({ onLogin, navigateToRegister }) {
         onLogin(username, password)
     }
 
-    return <main className="mainlogin">
-        <section className="login column is-4-desktop is-4-tablet is-10-mobile is-one-fifth">
-            <div className="has-text-centered field">
-                <img src={logoGreen} />
+    return <div className='uk-flex uk-flex-center'>
+        <div className='uk-container uk-text-center'>
+            <div>
+                <img width="371" height="294" src={logoGreen} />
                 <p className="subtitle"> Sign in with your email address</p>
             </div >
-            <form onSubmit={handleSubmit}>
-                <input className="input field" type="text" name="username" placeholder="email"/>
-                <input className="input field" type="password" name="password" placeholder="password" />
-                <button className="button is-fullwidth is-primary">Sign In</button>
+            <form className="uk-form-stacked" onSubmit={handleSubmit} >
+                <input className="uk-input uk-form-small" type="text" name="username" placeholder="email" />
+                <input className="uk-input uk-form-small" type="password" name="password" placeholder="password" />
+                <button className="uk-button uk-button-default">Sign In</button>
             </form>
             <p>or <a onClick={navigateToRegister}>Register</a></p>
-            {error && <Toast error={error} />}
-        </section>
-    </main>
+            {error && <Alert error={error} />}
+        </div>
+    </div>
 }
 
 export default Login

@@ -1,33 +1,88 @@
 import React from 'react'
+import DeviceList from '../DeviceList'
+import Alert from '../Alert'
 import logo from '../../assets/images/logoGreen.png'
+import Uikit from '../../../node_modules/uikit/dist/js/uikit.min.js'
 
-function Navbar({onLogout}){
+function Navbar({user, onLogout, onUserUpdate, onDeviceAdd, error}){
 
+    const updateUser = (e) => {
+        e.preventDefault()
+        Uikit.modal('#profilePreferences').hide();
+        const {
+            name: { value: name },
+            surname: { value: surname },
+            email: { value: email },
+        } = e.target
+        onUserUpdate({name, surname, email})
+    }
 
-    return <>
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <img src={logo} width="61" height="60" />
+    const addDevice = (e) => {
+        e.preventDefault()
+        Uikit.modal('#newDevice').hide();
+        const {
+            name: { value: name },
+            ip: { value: ip },
+            port: { value: port },
+            time: { value: time }
+        } = e.target
+        onDeviceAdd(name, ip, port, time)
+    }
+
+    return <div>
+        <nav className="uk-navbar-container" data-uk-navbar="mode: click">
+            <div className="uk-navbar-left uk-margin-left">
+                <img width="31" height="32" src={logo} alt="WOTcontrol" />
+            </div>
+            <div className="uk-navbar-center">
+                <ul className="uk-navbar-nav">
+                    <li><a data-uk-toggle="target: #profilePreferences">Profile</a></li>
+                    <li>
+                        <a href="#">Devices</a>
+                        <div className="uk-navbar-dropdown">
+                            <ul className="uk-nav uk-navbar-dropdown-nav">
+                                <DeviceList/>
+                                <li><a data-uk-toggle="target: #newDevice">+ Add device</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
             </div>
 
-            <div class="navbar-menu">
-                <div class="navbar-start">
-                    <select>
-                        <p>Add device</p>
-                    </select>
-                </div>
-
-                <div class="navbar-end">
-                    <a class="navbar-item">
-                        Profile
-                    </a>
-                    <div class="navbar-item">
-                        <a onClick={onLogout}>Logout</a>
-                    </div>
+            <div className="uk-navbar-right">
+                <div className="uk-navbar-item">
+                    <div><a onClick={onLogout}>Logout</a></div>
                 </div>
             </div>
         </nav>
-    </>
+
+        <div id="newDevice" data-uk-modal>
+            <div className="uk-modal-dialog uk-modal-body">
+                <h2 className="uk-modal-title">New Device</h2>
+                <form className="uk-form-stacked" onSubmit={event => addDevice(event)}>
+                    <input className="uk-input uk-form-small" type="text" name="name" placeholder="name" />
+                    <input className="uk-input uk-form-small" type="text" name="ip" placeholder="ip" />
+                    <input className="uk-input uk-form-small" type="number" name="port" placeholder="port" />
+                    <input className="uk-input uk-form-small" type="number" name="time" placeholder="time(ms)" />
+                    {error && <Alert error={error} />}
+                    <div><button className="uk-button uk-button-default">Add</button></div>
+                </form>
+            </div>
+        </div>
+        <div id="profilePreferences" data-uk-modal>
+            <div className="uk-modal-dialog uk-modal-body">
+                <h2 className="uk-modal-title">Profile preferences</h2>
+                <form className="uk-form-stacked" onSubmit={event => updateUser(event)}>
+                    <input className="uk-input uk-form-small" type="text" name="name" placeholder="name" />
+                    <input className="uk-input uk-form-small" type="text" name="surname" placeholder="surname" />
+                    <input className="uk-input uk-form-small" type="text" name="email" placeholder="email" />
+                    {error && <Alert error={error} />}
+                    <div><button className="uk-button uk-button-default">Update</button></div>
+                </form>
+            </div>
+        </div>
+    </div>
+
 }
 
 export default Navbar

@@ -109,16 +109,16 @@ const logic = {
         return (async () => {
             try {
                 await restApi.addDevice(this.__userToken__, deviceName, deviceIp, devicePort)
-                for (i = 1; i < 3; i++) {
+                for (let i = 1; i < 3; i++) {
                     await restApi.addOutput(this.__userToken__, deviceName, 'digital', i)
                 }
-                for (i = 1; i < 4; i++) {
+                for (let i = 1; i < 4; i++) {
                     await restApi.addOutput(this.__userToken__, deviceName, 'servo', i)
                 }
-                for (i = 1; i < 3; i++) {
+                for (let i = 1; i < 3; i++) {
                     await restApi.addOutput(this.__userToken__, deviceName, 'motor', i)
                 }
-                for (i = 1; i < 3; i++) {
+                for (let i = 1; i < 3; i++) {
                     await restApi.addInput(this.__userToken__, deviceName, 'digital', i)
                 }
                 await restApi.addInput(this.__userToken__, deviceName, 'analog', 1)
@@ -266,13 +266,33 @@ const logic = {
         })()
     },
 
-    retrieveDigital(){
+    retrieveDigital(deviceName, pinNumber){
+        validate.arguments([
+            { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
+            { name: 'pinNumber', value: pinNumber, type: 'number', notEmpty: true }
+        ])
+        let resultsArr = []
 
-    }
+        return (async () => {
+            try {
+                const response = await restApi.retrieveDigital(this.__userToken__,deviceName, pinNumber)
+                response.map(element => {
+                    const { value, date } = element
+                    resultsArr.push({
+                        value,
+                        date
+                    })
+                })
+                return resultsArr
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
 }
 
 //TESTING
-module.exports = logic
+// module.exports = logic
 
 //REACT
-//  export default logic
+ export default logic
