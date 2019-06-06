@@ -1,7 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import Header from '../../components/Header'
-import GoogleMaps from '../../components/Maps'
 
 import './index.scss'
 
@@ -16,10 +15,6 @@ function Landing() {
                         <span className="separator">Or</span>
                         <Link className="button" to="/register">Register</Link>
                     </section>
-                </section>
-
-                <section className="maps">
-                    <GoogleMaps />
                 </section>
             </section>
         </section>

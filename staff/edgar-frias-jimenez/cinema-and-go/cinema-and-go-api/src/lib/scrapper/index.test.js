@@ -73,7 +73,7 @@ describe('scrapper', () => {
                 name: '',
                 phone: '',
                 address: '',
-                location: '',
+                location: [ 41.4071804, 2.1386014 ],
                 projectionDay: undefined,
                 billboard: []
             });

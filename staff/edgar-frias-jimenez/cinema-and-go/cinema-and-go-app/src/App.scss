@@ -32,10 +32,14 @@ html, body {
     }
 }
 
+.maps {
+    position: absolute;
+    top: 0;
+}
+
 .hidden {
     display: none;
 }
-
 
 .button  {
     color: var(--yellow-dark);

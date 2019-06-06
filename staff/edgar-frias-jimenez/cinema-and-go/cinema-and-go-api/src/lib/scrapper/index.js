@@ -69,7 +69,13 @@ const scrapper = {
         const name = $('h1').text()
         const phone = $('.prices b').text().trim()
         const address = $('.direction').text().split('.')[0]
-        const location = $('.map').first().attr('onclick') ? $('.map').first().attr('onclick').match(/\(([^)]+)\)/)[1].split(', ').map(item => parseFloat(item)) : ''
+        let location = $('.map').first().attr('onclick') ? $('.map').first().attr('onclick').match(/\(([^)]+)\)/)[1].split(', ').map(item => Number(item)) : ''
+
+        if(Array.from(location).every((val, i, arr) => val === arr[0])) {
+            location = [Number(41.4071804), Number(2.1386014)]
+        }
+        console.log('\n', '--------------', location, location instanceof Array, '\n', '------------------')
+
         const projectionDay = $('#days a').first().attr('href')
 
         let billboard = []

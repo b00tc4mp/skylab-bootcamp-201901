@@ -1,4 +1,5 @@
 const { Schema, ObjectId } = require('mongoose')
+const point = require('./point')
 // const movieSessions = require('./movie-sessions')
 
 const cinema = new Schema({
@@ -7,7 +8,7 @@ const cinema = new Schema({
   phone: { type: String, required: true },
   address: { type: String, required: true },
   location: {
-    type: [Number],
+    type: point,
     required: true
   },
   movieSessions: [{
@@ -18,6 +19,6 @@ const cinema = new Schema({
   city: { type: ObjectId, ref: 'City' }
 })
 
-cinema.index({ location: '2dsphere' });
+cinema.index({ location: '2dsphere' })
 
 module.exports = cinema

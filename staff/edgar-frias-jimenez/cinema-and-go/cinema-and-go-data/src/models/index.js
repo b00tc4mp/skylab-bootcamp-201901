@@ -6,7 +6,8 @@ const {
   cinema,
   movie,
   movieSessions,
-  user
+  user,
+  point
 } = schemas
 
 module.exports = {
@@ -15,5 +16,6 @@ module.exports = {
   Cinema: mongoose.model('cinema', cinema),
   Movie: mongoose.model('movie', movie),
   MovieSessions: mongoose.model('movieSessions', movieSessions, 'movie-sessions'),
-  User: mongoose.model('user', user)
+  User: mongoose.model('user', user),
+  Point: mongoose.model('point', point)
 }

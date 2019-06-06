@@ -2,11 +2,12 @@ import React, { Fragment, useState } from 'react';
 import { Route, withRouter } from 'react-router-dom'
 
 import { GlobalContext } from './components/GlobalContext'
-import Feedback from './components/Feedback'
-import Spinner from './components/Spinner'
 
 import appLogic from './logic'
 
+import GoogleMaps from './components/Maps'
+import Feedback from './components/Feedback'
+import Spinner from './components/Spinner'
 import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Register from './pages/Register'
@@ -57,6 +58,9 @@ function App ({ history }) {
                 <Spinner />
             </GlobalContext.Provider>
             {feedback && <Feedback />}
+            <section className="maps">
+                <GoogleMaps />
+            </section>
         </Fragment>
     )
 }

@@ -1,12 +1,11 @@
 .landing {
-    background-color: var(--bg);
+    background-color: transparent;
     position: relative;
     display: flex;
     flex-direction: column;
 
     &__content {
         display: flex;
-        background: rgba(255, 255, 255, .85);
         flex-direction: row;
         align-items: center;
         justify-content: center;
@@ -49,13 +48,16 @@
 
         .header {
             h1 {
-                color: white;
-                font-size: 50px;
                 margin: 24px 0 24px;
                 padding: 0;
                 position: relative;
                 text-align: center;
-                text-shadow: 1px 1px 0 rgba(0, 0, 0, .3);
+
+                a {
+                    color: white;
+                    font-size: 50px;
+                    text-shadow: 1px 1px 0 rgba(0, 0, 0, .3);
+                }
 
                 .subtitle {
                     bottom: -20px;
@@ -111,7 +113,6 @@
     @media screen and (min-width: 768px) {
         &__content {
             align-items: center;
-            background: white;
             display: flex;
             flex-direction: column;
             justify-content: center;

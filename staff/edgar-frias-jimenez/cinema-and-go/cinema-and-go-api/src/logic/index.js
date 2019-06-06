@@ -4,7 +4,7 @@ const validate = require('../common/validate')
 const models = require('cinema-and-go-data/src/models')
 const scrapper = require('../lib/scrapper')
 
-const { mongoose, User, Movie, MovieSessions, City, Cinema } = models
+const { mongoose, User, Movie, MovieSessions, City, Cinema, Point } = models
 const {Types: {ObjectId}} = mongoose
 
 const logic = {
@@ -119,7 +119,7 @@ const logic = {
             const exists = await Cinema.findOne({ name })
             if (exists) return exists._id
 
-            const insertCinema = await Cinema.create({ name, link, phone, address, location, movieSessions, city })
+            const insertCinema = await Cinema.create({ name, link, phone, address, location: new Point({ coordinates: location }), movieSessions, city })
 
             return insertCinema._id
         })()
@@ -129,7 +129,6 @@ const logic = {
         const bcnCinemas = 'https://www.ecartelera.com/cines/0,9,23.html'
         return (async () => {
             const scrapCinemas = await scrapper.getAllCinemas(bcnCinemas);
-
             await Promise.all(
                 await scrapCinemas.map(async ({ name, link, phone, address, location, billboard }) => {
                     const cinemaSessions = await Promise.all(

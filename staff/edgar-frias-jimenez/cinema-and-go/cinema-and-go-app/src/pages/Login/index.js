@@ -1,6 +1,5 @@
 import React, { useContext, useState } from 'react'
 import Header from '../../components/Header'
-import GoogleMaps from '../../components/Maps'
 import { GlobalContext } from '../../components/GlobalContext'
 import Feedback from '../../components/Feedback'
 
@@ -37,10 +36,6 @@ function Login({ onLogin }) {
                         {feedback && <Feedback />}
                     </form>
                 </section>
-            </section>
-
-            <section className="maps">
-                <GoogleMaps />
             </section>
         </section>
     )
