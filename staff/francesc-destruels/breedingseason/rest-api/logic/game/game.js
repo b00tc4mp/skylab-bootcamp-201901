@@ -46,7 +46,7 @@ Game.prototype.init = async function () { //Tested but I need to do the Penguin 
 
         const random = Math.floor(Math.random() * 13)
 
-        const card = await MissionDeck.findOne().skip(random).lean()
+        const card = await MissionDeck.findOne().skip(random).select('1 3 first -_id').lean()
 
         this.missionCards.push(card)
     }
@@ -55,7 +55,7 @@ Game.prototype.init = async function () { //Tested but I need to do the Penguin 
     // The penguin Cards that will be send witheach round         //
     //  async function bringPenguinCards                          //
 
-    let cards = await GameDeck.find({}).lean()
+    let cards = await GameDeck.find({}).select('A B -_id').lean()
 
     cards.sort(() => Math.random() - 0.5)
 
@@ -63,7 +63,7 @@ Game.prototype.init = async function () { //Tested but I need to do the Penguin 
 
     for (let i = 0; i < cards.length;) {
 
-        if (this.penguinCards[j].length !== 21) {
+        if (this.penguinCards[j].length !== 37) {
             this.penguinCards[j].push(cards[i])
             i++
         } else j = j + 1
@@ -150,10 +150,10 @@ Game.prototype.__sendInitialPackage__ = async function (userId) {
             3: this.penguinCards[3][this.round]
         },
         mapStatus: {
-            1: [[0, false], [0, false], [0, false], [0, false], [0, false], [0, false], [0, false], [0, false], [0, false]],
-            2: [[0, false], [0, false], [0, false], [0, false], [0, false], [0, false], [0, false], [0, false], [0, false]],
-            3: [[0, false], [0, false], [0, false], [0, false], [0, false], [0, false], [0, false], [0, false]],
-            4: [[0, false], [0, false], [0, false], [0, false], [0, false], [0, false], [0, false], [0, false]],
+            1: [[0, 0, false], [0, 0, false], [0, 0,  false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false]],
+            2: [[0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false]],
+            3: [[0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false]],
+            4: [[0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false]],
         },
         userPuntuation: {
             player: userId,

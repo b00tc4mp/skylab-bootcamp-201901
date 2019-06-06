@@ -121,25 +121,25 @@ router.get('/startGame/:gameId', auth, async (req, res) => {
     }
 })
 
-router.get('/updateGame/:gameId', auth, async (req, res) => {
-    const { userId, param: { gameId } } = req //sacar token
+// router.get('/updateGame/:gameId', auth, async (req, res) => {
+//     const { userId, param: { gameId } } = req //sacar token
 
-    try {
-        const data = await logic.updateGame(userId, gameId)
+//     try {
+//         const data = await logic.updateGame(userId, gameId)
 
-        if (data) res.json(data)
-        else res.jason({ messaje: "Waitng players" })
+//         if (data) res.json(data)
+//         else res.jason({ messaje: "Waitng players" })
 
-    } catch ({ message }) {
-        res.status(400).json({ error: message })
-    }
-})
+//     } catch ({ message }) {
+//         res.status(400).json({ error: message })
+//     }
+// })
 
 router.post('/continueGame/:gameId', auth, jsonParser, async (req, res) => {
-    const { userId, params: { gameId }, body: { update } } = req //sacar token
+    const { userId, params: { gameId }, body: { gamePlay } } = req //sacar token
 
     try {
-        const nextRoundData = await logic.continueGame(userId, gameId, update)
+        const nextRoundData = await logic.continueGame(userId, gameId, gamePlay)
 
         res.json(nextRoundData) // whith contain all the needed data for the next round or the info to finish the game
 

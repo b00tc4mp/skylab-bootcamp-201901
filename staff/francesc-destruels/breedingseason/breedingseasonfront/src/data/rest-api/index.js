@@ -84,7 +84,7 @@ const restApi = {
         return call(`${this.__url__}/startGame/${gameId}`, {
             headers: { Authorization: `Bearer ${token}` },
             timeout: this.__timeout__
-        }) .then(response => response.json())
+        }).then(response => response.json())
     },
 
     // updateGame(token, gameId) { // my way
@@ -97,21 +97,21 @@ const restApi = {
     //     })
     // },
 
-    // gameAction(token, gamePlay, gameId) {
-    //     ow(token, ow.string.not.empty)
-    //     ow(gamePlay, ow.object)
-    //     ow(gameId, ow.string.not.empty)
+    gameAction(token, gameId, gamePlay) {
+        ow(token, ow.string.not.empty)
+        ow(gamePlay, ow.object)
+        ow(gameId, ow.string.not.empty)
 
-    //     return call(`${this.__url__}/continueGame/${gameId}`, {
-    //         method: 'POST',
-    //         headers: {
-    //             'Content-Type': 'application/json',
-    //             Authorization: `Bearer ${token}`
-    //         },
-    //         body: JSON.stringify({ gamePlay }),
-    //         timeout: this.__timeout__
-    //     })
-    // },
+        return call(`${this.__url__}/continueGame/${gameId}`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                Authorization: `Bearer ${token}`
+            },
+            body: JSON.stringify({ gamePlay }),
+            timeout: this.__timeout__
+        }).then(response => response.json())
+    },
 
 }
 
