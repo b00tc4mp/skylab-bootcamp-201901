@@ -1,23 +1,24 @@
 import React from 'react';
+import Toast from '../Toast'
 
 
 
-function MyTickets(props) {
+function MyTickets({data,deleteTicket , ticketOkDeleted}) {
 
     let tickets = []
     let ticketsProccesed = []
 
 
-    const { data } = props
+    
 
     function handleDetail(id) {
-        debugger
+
         alert(id)
     }
 
     function handleDelete(id) {
-        debugger
-        alert(id)
+
+        deleteTicket(id)
     }
 
     ticketsProccesed = data.map(({ date, _id, items }) => {
@@ -27,8 +28,8 @@ function MyTickets(props) {
             {
                 items.map(item => {
                     return <div class="box">
-                       <p>name: {item.name}</p> 
-                       <p> price:{item.Euro}</p>
+                        <p>name: {item.name}</p>
+                        <p> price:{item.Euro}</p>
                     </div>
                 })
             }
@@ -40,6 +41,7 @@ function MyTickets(props) {
 
     return <div>
         <div class="box"><button class="button is-danger" >Delete All Tickets</button></div>
+        {ticketOkDeleted && <Toast error={ticketOkDeleted} toastType="is-danger" />}
         {ticketsProccesed}
     </div>
 

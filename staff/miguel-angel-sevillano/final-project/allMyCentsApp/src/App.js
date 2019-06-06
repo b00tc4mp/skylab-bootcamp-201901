@@ -26,7 +26,6 @@ function App(props) {
   }
 
 
-
   function handleRegister(name, surname, email, password) {
 
     return (async () => {
@@ -52,14 +51,11 @@ function App(props) {
 
       try {
         const response = await logic.logIn(email, password)
-        if (response.token) {
-          setLogOk(true)
-          const { name } = await logic.retrieveUser(response.token)
-          setName(name)
-          sessionStorage.setItem('token', response.token)
-          props.history.push("/Home")
-        }
-        else return isLogin(response)
+        sessionStorage.setItem('token', response.token)
+        const { name } = await logic.retrieveUser(response.token)
+        setLogOk(true)
+        setName(name)
+        props.history.push("/Home")
       }
       catch (error) {
         isLogin(error.message)
@@ -78,9 +74,9 @@ function App(props) {
       <Route>
 
         <Route exact path="/" render={() =>
-        
+
           <div>
-             <img src={logo} ></img>
+            <img src={logo} ></img>
             <Link className="button is-link" to={'/Register'}>Register</Link>
             <Link className="button is-link" to={'/Login'}>Login</Link>
           </div>} />
@@ -88,7 +84,7 @@ function App(props) {
         <Route exact path="/Register" render={() =>
           registerOk ? <Redirect to="/Login" /> :
             <div>
-               <img src={logo} ></img>
+              <img src={logo} ></img>
               <Register onRegister={handleRegister} message={messageReg} cancel={returnLanding} />
             </div>} />
 
@@ -96,18 +92,18 @@ function App(props) {
         <Route exact path="/Login" render={() =>
           loggedOk ? <Redirect to="/Home" /> :
             <div>
-               <img src={logo} ></img>
+              <img src={logo} ></img>
               <Login onLogin={handleLogin} message={messageLog} cancel={returnLanding} />
             </div>} />
 
 
-       </Route>
-       
-        <Route path="/Home" render={() =>
-          !loggedOk ? <Redirect to="/" /> :
-            <div>
-              <Home />
-            </div>} />
+      </Route>
+
+      <Route path="/Home" render={() =>
+        !loggedOk ? <Redirect to="/" /> :
+          <div>
+            <Home />
+          </div>} />
 
 
 

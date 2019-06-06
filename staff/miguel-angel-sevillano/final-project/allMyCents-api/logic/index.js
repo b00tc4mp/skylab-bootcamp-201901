@@ -233,7 +233,7 @@ const logic = {
             let retrivedTickets = []
             let init = false
             let end = false
-            
+
 
 
             if (data.month) {
@@ -243,9 +243,9 @@ const logic = {
                     if (item.month === data.month) retrivedTickets.push(tickets[index])
                 })
 
-                if(retrivedTickets.length>0) return retrivedTickets  
+                if (retrivedTickets.length > 0) return retrivedTickets
                 else throw new LogicError("No tickets found")
-                
+
             }
             if (data.day) {
 
@@ -254,7 +254,7 @@ const logic = {
                     if (item.date === data.day) retrivedTickets.push(tickets[index])
                 })
 
-                if(retrivedTickets.length>0) return retrivedTickets  
+                if (retrivedTickets.length > 0) return retrivedTickets
                 else throw new LogicError("No tickets found")
             }
 
@@ -269,7 +269,7 @@ const logic = {
                     else if (init === true && end === false) retrivedTickets.push(tickets[index])
                 })
 
-                if(retrivedTickets.length>0) return retrivedTickets  
+                if (retrivedTickets.length > 0) return retrivedTickets
                 else throw new LogicError("No tickets found")
             }
 
@@ -352,23 +352,26 @@ const logic = {
             { name: 'product', value: product, type: 'string', notEmpty: true },
         ])
 
+        let amount = 0
+
+
         return (async () => {
             const user = await User.findById(id)
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
-            let amount = 0
+
 
             user.tickets.forEach(ticket => {
                 ticket.items.forEach(item => {
                     if (item.name === product) amount += item.Euro
-                    
+
                 })
 
             })
-            amunt = amount.toFixed(2)
-            return amount
+
+            return amount.toFixed(2)
         })()
 
 
@@ -392,8 +395,8 @@ const logic = {
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
-            const { items } = await Cat.findOne({ category }).lean()
-
+            const  items  = await Cat.findOne({category}).lean()
+console.log(items,category)
             user.tickets.forEach(ticket => {
                 ticket.items.forEach(first => {
 
@@ -405,7 +408,7 @@ const logic = {
                                 results.forEach(resItems => {
 
 
-                                    if (resItems.name === first.name) resItems.Euro += first.Euro 
+                                    if (resItems.name === first.name) resItems.Euro += first.Euro
                                     else results.push({ name: first.name, Euro: first.Euro })
 
                                 })
@@ -443,7 +446,8 @@ const logic = {
 
             const user = await User.findById(id)
             const list = await Item.find({ text: name })
-            
+            let coincidence = true
+
 
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
@@ -455,16 +459,17 @@ const logic = {
                 user.alerts.forEach(item => {
 
                     if (item.name === name) throw new LogicError("Alert already added")
-                    else {
-
-                        if(list.length>0)user.alerts.push(new Alert({ name: name, Euro: Euro, maxValue: maxValue }))
-                        else throw  new LogicError(`${name} dont exist`)
-                        //list.length>0 ? user.alerts.push(new Alert({ name: name, Euro: Euro, maxValue: maxValue })) : new LogicError(`${name} dont exist`)
-                    }
+                    else coincidence = false
                 })
+                if (!coincidence) {
+
+                    if (list.length > 0) user.alerts.push(new Alert({ name: name, Euro: Euro, maxValue: maxValue }))
+                    else throw new LogicError(`${name} dont exist`)
+                    //list.length>0 ? user.alerts.push(new Alert({ name: name, Euro: Euro, maxValue: maxValue })) : new LogicError(`${name} dont exist`)
+                }
             } else {
-                if(list.length>0)user.alerts.push(new Alert({ name: name, Euro: Euro, maxValue: maxValue }))
-                        else throw  new LogicError(`${name} dont exist`)
+                if (list.length > 0) user.alerts.push(new Alert({ name: name, Euro: Euro, maxValue: maxValue }))
+                else throw new LogicError(`${name} dont exist`)
                 //list.length>0 ? user.alerts.push(new Alert({ name: name, Euro, maxValue: maxValue })) : new LogicError(`${name} dont exist`)
 
             }
@@ -481,28 +486,30 @@ const logic = {
         ])
 
         return (async () => {
-
-            let user = await User.findById(id)
-            const { alerts } = user
+            let amount = 0
+            const user = await User.findById(id)
+            let { alerts, tickets } = user
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
-            if (alerts.length) {
+            if (alerts[0]) {
 
-                alerts.forEach(item => {
-                    return (async () => {
-                        const amount = await logic.retrieveAmountByProdcut(id, item.name)
-                        item.Euro = amount
+                for (let i = 0; i < tickets.length; i++) {
 
-                    })()
+                    tickets[i].items.forEach(item => {
+                        alerts.forEach(_item => {
+                            if (item.name == _item.name) _item.Euro += item.Euro.toFixed(2)
+                        })
+                    })
 
-
-                })
+                }
 
                 return alerts
-            }
-            else throw new LogicError("No alerts found")
+
+
+
+            } else throw new LogicError("No alerts found")
 
 
         })()

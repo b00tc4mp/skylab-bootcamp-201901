@@ -11,7 +11,7 @@ debugger
             <div class="modal-content">
                 <div class="box">
                     <div class="content">
-                        <p>{children}</p>
+                        <span>{children}</span>
                     </div>
                 </div>
             </div>

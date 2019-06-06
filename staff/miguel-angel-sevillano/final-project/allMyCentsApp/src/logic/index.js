@@ -25,7 +25,7 @@ const logic = {
             try {
                 return await restApi.registerUser(name, surname, email, password)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
 
@@ -44,7 +44,7 @@ const logic = {
             try {
                 return await restApi.authenticate(email, password)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -58,7 +58,7 @@ const logic = {
             try {
                 return await restApi.retrieveUser(token)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
 
@@ -74,7 +74,7 @@ const logic = {
             try {
                 return await restApi.updateUser(token, updateInfo)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
 
@@ -90,7 +90,7 @@ const logic = {
             try {
                 return await restApi.deleteUser(token)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -107,7 +107,7 @@ const logic = {
             try {
                 return await restApi.addPrivateTicket(token, ticket)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -122,7 +122,7 @@ const logic = {
             try {
                 return await restApi.retrievePrivateTicket(token, ticketId)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -141,7 +141,7 @@ const logic = {
             try {
                 return await restApi.updatePrivateTicket(token, ticketId, data, position)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -157,7 +157,7 @@ const logic = {
             try {
                 const res = await restApi.retrivePrivateTicketsByDates(token, dates)
                 return res
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
 
@@ -174,7 +174,7 @@ const logic = {
             try {
                 return await restApi.removePrivateTicket(token, ticketId)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -188,7 +188,7 @@ const logic = {
             try {
                 return await restApi.listPrivateTickets(token)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -205,7 +205,7 @@ const logic = {
             try {
                 return await restApi.removeAllPrivateTickets(token)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -221,7 +221,7 @@ const logic = {
             try {
                 return await restApi.retrieveAmountByProdcut(token, product)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -235,9 +235,10 @@ const logic = {
 
         return (async () => {
             try {
+                
                 return await restApi.retrieveByCategory(token, category)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -248,7 +249,7 @@ const logic = {
             try {
                 return await restApi.listItems()
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -264,7 +265,7 @@ const logic = {
             try {
                 return await restApi.addAlert(token, alert)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -281,7 +282,7 @@ const logic = {
             try {
                 return await restApi.edditAlert(token, alertId, data)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -298,7 +299,7 @@ const logic = {
             try {
                 return await restApi.deleteAlert(token, alertId)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -314,7 +315,7 @@ const logic = {
             try {
                 return await restApi.deleteAllAlerts(token)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },
@@ -329,7 +330,7 @@ const logic = {
             try {
                 return await restApi.listAlerts(token)
 
-            } catch (error) { return error }
+            } catch (error) { throw  Error(error) }
 
         })()
     },

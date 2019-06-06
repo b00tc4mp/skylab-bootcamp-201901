@@ -19,14 +19,10 @@ function Chart(props) {
 
         if (item.date) {
             date = item.date
-            data.splice(data.length - 1, 1)
         }
         else if (item.Euro) totalP += item.Euro
 
-
     })
-
-
 
     return <>
 

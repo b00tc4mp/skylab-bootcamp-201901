@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 
-function Navbar({ goHome, goProfile, goMytickets, goAlerts, goScanTicket }) {
+function Navbar({ goHome, goProfile, goMytickets, goMyAlerts, goScanTicket ,goMyEstadistics}) {
 
 
 
@@ -15,7 +15,8 @@ function Navbar({ goHome, goProfile, goMytickets, goAlerts, goScanTicket }) {
                     <a class="navbar-item" onClick={goProfile}>Profile</a>
                     <a class="navbar-item" onClick={goScanTicket}>Scan Ticket</a>
                     <a class="navbar-item" onClick={goMytickets}>My Tickets</a>
-                    <a class="navbar-item" onClick={goAlerts}>My Alerts</a>
+                    <a class="navbar-item" onClick={goMyAlerts}>My Alerts</a>
+                    <a class="navbar-item" onClick={goMyEstadistics}>Stadistics</a>
                     <div class="navbar-end"></div>
                     <div class="navbar-item">
                         <div class="buttons">
