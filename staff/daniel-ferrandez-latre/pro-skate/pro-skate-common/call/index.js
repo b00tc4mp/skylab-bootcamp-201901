@@ -13,7 +13,6 @@ const axios = require('axios')
  */
 function call(url, options = {}) {
     const { method = 'GET', headers, data } = options
-
     validate.arguments([
         { name: 'url', value: url, type: 'string', notEmpty: true },
         { name: 'method', value: method, type: 'string', notEmpty: true },
@@ -25,6 +24,7 @@ function call(url, options = {}) {
 
     return (async () => {
         try {
+            
             const response = await axios({
                 headers,
                 method,
@@ -33,20 +33,28 @@ function call(url, options = {}) {
             })
 
             return response.data
-        } catch (error) {
-            if (error.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')
+        } catch (err) {
+            debugger
+            if (err.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')
 
-            const { response } = error
+            if(!err.response) throw err
+                const { response: {data: {error}}} = err
+            if(error) err.message = error
 
-            if (response && response.status) {
-                const err = new HttpError()
+            throw err
 
-                err.status = response.status
+            // const { response } = error
 
-                throw err
-            }
+            // if (response && response.status) {
+            //     debugger
+            //     const err = new HttpError()
 
-            throw error
+            //     err.status = response.status
+            //     err.message = response.data.error
+
+            //     throw err
+            // }
+
         }
     })()
 }

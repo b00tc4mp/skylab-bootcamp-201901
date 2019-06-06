@@ -16,7 +16,6 @@ const { env: { JWT_SECRET } } = process
 //registerUser
 router.post('/users', jsonParser, (req, res) => {
     const { body: { name, surname, email, password, age, imageUrl  } } = req
-    debugger
 
     handleErrors(async () => {
         
@@ -48,11 +47,13 @@ router.get('/users', auth, (req, res) => {
 })
 
 //updateUser
-router.put('/users', auth, (req, res) =>{
+router.put('/users', auth, jsonParser,(req, res) =>{
+    debugger
     handleErrors(async () => {
-        const { userId, body: { data } } = req
+        debugger
+        const { userId, body: { name, surname, email, age, imageUrl } } = req
 
-        const isUpdated = await logic.updateUser(userId, data)
+        const isUpdated = await logic.updateUser(userId, { name, surname, email, age, imageUrl })
         return res.json({ message: `User is updated ${isUpdated}` })
     },
         res)
