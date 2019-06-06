@@ -139,6 +139,7 @@ const logic = {
 
         return (async () => {
             try {
+                
                 return await restApi.updatePrivateTicket(token, ticketId, data, position)
 
             } catch (error) { throw  Error(error) }

@@ -1,6 +1,6 @@
 import React, { PureComponent, Component } from 'react';
 import {
-    BarChart, Bar, Cell, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label
+    BarChart, Bar, Brush, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label
 } from 'recharts';
 
 
@@ -9,9 +9,20 @@ import {
 
 function Chart(props) {
 
+
+    function getRandomColor() {
+        var letters = '0123456789ABCDEF';
+        var color = '#';
+        for (var i = 0; i < 6; i++) {
+          color += letters[Math.floor(Math.random() * 16)];
+        }
+        return color;
+      }
+
     const{data}=props
     let date =new Date().toISOString().replace('-', '/').split('T')[0].replace('-', '/')
     let totalP = 0
+    let color = getRandomColor()
 
    
 
@@ -30,7 +41,7 @@ function Chart(props) {
             <h1>{date}</h1>
 
             <BarChart
-                width={1100}
+                width={1600}
                 height={500}
                 data={data}
                 margin={{ top: 50, right: 30, left: 50, bottom: 15 }}>
@@ -40,8 +51,8 @@ function Chart(props) {
                 <Tooltip />
 
                 <YAxis label={{ value: '€', angle: 0, position: 'left', fontSize: "2em" }} />
-
-                <Bar dataKey="Euro" fill="#8884d8" stackOffset="expnad" />
+                <Brush dataKey='name' height={30} stroke="#8884d8"/>
+                <Bar dataKey="Euro" fill={color} stackOffset="expnad" />
 
             </BarChart>
 

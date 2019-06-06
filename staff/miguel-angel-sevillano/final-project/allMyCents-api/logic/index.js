@@ -182,7 +182,7 @@ const logic = {
             { name: 'position', value: position, type: 'string', notEmpty: true }
 
         ])
-
+        
         return (async () => {
 
 
@@ -193,20 +193,23 @@ const logic = {
             if (user.id != id) throw new LogicError(`worng credentials `)
 
             tickets.forEach(ticket => {
-                if (ticket._id.toString() === ticketId.toString()) {
-
+    
+                if (ticket._id.toString() === ticketId) {
+                  
                     if (data.name) ticket.items[Number(position)].name = data.name
+                   
                     if (data.Euro) ticket.items[Number(position)].Euro = data.Euro
+                   
                 }
             })
 
             if (user.alerts.length) {
-
-                user.alert.forEach(item => {
+                user.alerts.forEach(item => {
+                    
                     if (item.name === data.name) item.Euro += data.Euro
                 })
             }
-
+        
             await user.save()
             return ("tikcet succecfuly updated")
         })()
@@ -353,6 +356,7 @@ const logic = {
         ])
 
         let amount = 0
+        let coincidence= false
 
 
         return (async () => {
@@ -365,11 +369,11 @@ const logic = {
 
             user.tickets.forEach(ticket => {
                 ticket.items.forEach(item => {
-                    if (item.name === product) amount += item.Euro
-
+                    if (item.name === product) amount += item.Euro, coincidence=true
                 })
 
             })
+            if(!coincidence) throw new LogicError("Product not found")
 
             return amount.toFixed(2)
         })()
@@ -389,14 +393,15 @@ const logic = {
         return (async () => {
 
             let results = []
+            let coincidence = false
             const user = await User.findById(id)
 
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
-            const  items  = await Cat.findOne({category}).lean()
-console.log(items,category)
+            const { items } = await Cat.findOne({ category }).lean()
+
             user.tickets.forEach(ticket => {
                 ticket.items.forEach(first => {
 
@@ -404,27 +409,26 @@ console.log(items,category)
                         if (first.name === items[i]) {
 
 
-                            if (results.length) {
+                            if (results.length > 0) {
+
                                 results.forEach(resItems => {
-
-
-                                    if (resItems.name === first.name) resItems.Euro += first.Euro
-                                    else results.push({ name: first.name, Euro: first.Euro })
+                                    if (resItems.name === first.name) resItems.Euro += first.Euro, coincidence = true
 
                                 })
+
+                                if (!coincidence) results.push({ name: first.name, Euro: first.Euro }), coincidence = false
+
                             } else results.push({ name: first.name, Euro: first.Euro })
 
                         }
 
                     }
-
                 })
-
 
             })
 
             if (results.length) return results
-            else return ("No results")
+            else throw LogicError("No results found")
 
         })()
 

@@ -4,16 +4,16 @@ import { Modal } from "../Modal"
 
 
 function TicketDetail({ processedTicket, toSaveTicket }) {
+debugger
+    let [modalActive, setModal] = useState(false)
+    let [errorMessage, setError] = useState(null)
 
-    const [modalActive, setModal] = useState(false)
-    const [errorMessage, setError] = useState(null)
 
 
+    let savedTicket = []
+    let errorFound = false
 
-    const savedTicket = []
-    const errorFound = false
-
-    const ticket = processedTicket.map(item => {
+    let ticket = processedTicket.map(item => {
 
         return (<div class="control">
             Product <input class="input" type="text" name="item" placeholder={item.name} /> Euro <input class="input" type="text" name="Euro" placeholder={item.Euro} />
@@ -34,8 +34,8 @@ function TicketDetail({ processedTicket, toSaveTicket }) {
 
         e.preventDefault()
 
-        const string = []
-        const number = []
+        let string = []
+        let number = []
 
         for (let i = 0; i < e.target.item.length; i++) {
 
@@ -50,7 +50,7 @@ function TicketDetail({ processedTicket, toSaveTicket }) {
 
 
         for (let i = 0; i < string.length; i++) { savedTicket.push({ name: string[i], Euro: Number(number[i].replace(/,/g, ".")) }) }
-
+debugger
         savedTicket.forEach(item => { if (isNaN(item.Euro)) errorFound = true })
         if (errorFound){ 
             setError("Wrong information detected , please check your ticket")
@@ -60,7 +60,7 @@ function TicketDetail({ processedTicket, toSaveTicket }) {
 
 
             return (async () => {
-                const res = await toSaveTicket(savedTicket)
+                let res = await toSaveTicket(savedTicket)
                 if (res) {
                     setError(res)
                     setModal(true)

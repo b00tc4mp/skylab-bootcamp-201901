@@ -1,7 +1,13 @@
 import React from 'react';
 
 
-function Navbar({ goHome, goProfile, goMytickets, goMyAlerts, goScanTicket ,goMyEstadistics}) {
+function Navbar({ goHome,
+    goProfile,
+    goMytickets,
+    goMyAlerts,
+    goScanTicket,
+    goMyEstadistics,
+    logOut }) {
 
 
 
@@ -20,7 +26,7 @@ function Navbar({ goHome, goProfile, goMytickets, goMyAlerts, goScanTicket ,goMy
                     <div class="navbar-end"></div>
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button is-primary">
+                            <a class="button is-primary" onClick={logOut}>
                                 <strong>Log Out</strong>
                             </a>
                         </div>
