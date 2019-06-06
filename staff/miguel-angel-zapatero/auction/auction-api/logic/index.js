@@ -4,6 +4,7 @@ const validate = require('auction-validate')
 const bcrypt = require('bcrypt')
 const cloudinary = require('cloudinary').v2
 const fs = require('fs')
+const moment = require('moment')
 
 const { env: { CLOUDINARY_CLOUD_NAME, CLOUDINARY_API_KEY, CLOUDINARY_API_SECRET } } = process
 
@@ -185,13 +186,16 @@ const logic = {
 
             let bid = item.winningBid()
             if(bid && bid.amount >= amount) throw new LogicError(`sorry, the bid "${amount}" is lower than the current amount`)
-
-            userId = ObjectId(userId)            
-            bid = await Bid.create({userId, amount})
             
-            this._addBiddedItem(user, itemId)
+            //To continue the auction 1 minute more 
+            const now = moment()
+            const endDate = moment(item.finishDate)
+            const diff = endDate.diff(now)
+            if(diff < 60000) item.finishDate = endDate.add(60000 - diff, 'ms') 
 
-            item.bids.push(bid) //tambien puedo poner unshift
+            this._addBiddedItem(user, itemId)
+            
+            item.bids.push({userId, amount})
             
             item.bids.sort(function (a, b) {
                 return b.amount - a.amount;
@@ -299,7 +303,7 @@ const logic = {
         ])
 
         return (async () => {
-            const item = await Item.findById(id).select('-__v')
+            const item = await Item.findById(id).select('-__v').lean()
             
             item.id = item._id
             delete item._id
