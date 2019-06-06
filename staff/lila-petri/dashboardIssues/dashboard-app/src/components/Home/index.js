@@ -6,6 +6,7 @@ import logic from '../../logic'
 import moment from 'moment'
 import TableSLA from '../TableSLA'
 import TableResolution from '../TableResolution'
+import './index.sass'
 
 class Home extends Component{
     state = { error: null , dateFrom: null, dateTo: null, hotfix: null, bugfix: null, bug: null, request: null, sla: null, resolution: null, tableSLA: null}
@@ -61,8 +62,7 @@ class Home extends Component{
             handleSwitch
         }=this
         return <>
-        <main className="container-piechart">
-        <h2>Dashboard</h2>
+        <main className="container-home">
         {user && <Sidebar user={user} onLogout={onLogout} error={error} onSwitch={handleSwitch} dateFrom={dateFrom} dateTo={dateTo} resolution={resolution}/>}
         {resolution && <PieChart error={error} hotfix={hotfix} bugfix={bugfix} bug={bug} request={request}/>}
         {resolution && <TableResolution error={error} hotfix={hotfix} bugfix={bugfix} bug={bug} request={request} />}

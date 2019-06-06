@@ -41,7 +41,7 @@ function TableSLA({ error, tableSLA }) {
 
     return <div className="container-tablesla">
     <Chart
-            width={'500px'}
+            width={'400px'}
             height={'300px'}
             chartType="Table"
             loader={<div>Loading Chart</div>}

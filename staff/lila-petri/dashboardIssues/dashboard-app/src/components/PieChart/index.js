@@ -14,8 +14,6 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
     const { 'Cannot Reproduce' : reqCanNot , Done : reqDone, Duplicate : reqDup, Incomplete : reqInc, 'Is not a Bug' : reqIsNot, "Won't Fix" : reqWontF, Unresolved : reqUnre } = request
 
 
-
-
         return <div className="container-piechart">
             <div>
                 {hotfix && (
@@ -36,7 +34,9 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                         ]}
                         options={{
                             title: 'HotFix by resolution',
-                            is3D: true
+                            slices: [{color: '#2176FF'}, {color: '#06D6A0'}, {color: '#FFD166'}, {color: '#118AB2'},{color: '#BF211E'}, {color: '#073B4C'}, {color: '#EF476F'}],    
+                            is3D: true,
+                            backgroundColor : '#CDD7DC'
                         }}
                     />
                 )}
@@ -58,7 +58,9 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                         ]}
                         options={{
                             title: 'BugFix by resolution',
-                            is3D: true
+                            slices: [{color: '#2176FF'}, {color: '#06D6A0'}, {color: '#FFD166'}, {color: '#118AB2'},{color: '#BF211E'}, {color: '#073B4C'}, {color: '#EF476F'}],    
+                            is3D: true,
+                            backgroundColor : '#CDD7DC'
                         }}
                     />
                 )}
@@ -82,7 +84,9 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                     ]}
                     options={{
                         title: 'Bugs by resolution',
-                        is3D: true
+                        slices: [{color: '#2176FF'}, {color: '#06D6A0'}, {color: '#FFD166'}, {color: '#118AB2'},{color: '#BF211E'}, {color: '#073B4C'}, {color: '#EF476F'}],    
+                        is3D: true,
+                        backgroundColor : '#CDD7DC'
                     }}
                 />
             )}
@@ -104,7 +108,9 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                     ]}
                     options={{
                         title: 'Request by resolution',
-                        is3D: true
+                        slices: [{color: '#2176FF'}, {color: '#06D6A0'}, {color: '#FFD166'}, {color: '#118AB2'},{color: '#BF211E'}, {color: '#073B4C'}, {color: '#EF476F'}],    
+                        is3D: true,
+                        backgroundColor : '#CDD7DC'
                     }}
                 />
             )}

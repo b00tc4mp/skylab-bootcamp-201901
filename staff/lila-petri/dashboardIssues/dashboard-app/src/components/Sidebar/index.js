@@ -1,6 +1,6 @@
 import React from 'react'
 import './index.sass'
-import logo from './logoRectangle.png'
+import logo from './logo.jpeg'
 
 
 function Sidebar({error, onSwitch, user, onLogout, dateFrom, dateTo, resolution}){
