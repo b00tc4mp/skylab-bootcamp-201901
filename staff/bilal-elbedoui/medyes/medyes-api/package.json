@@ -1,0 +1,30 @@
+{
+  "name": "medyes-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx mocha ./**/*.spec.js --timeout 30000",
+    "test:debug": "npx mocha debug ./**/*.spec.js --timeout 30000",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha '**/*.spec.js' --timeout 30000"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^15.0.3",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "joi-objectid": "^2.0.0",
+    "joi-password-complexity": "^2.0.1",
+    "jsonwebtoken": "^8.5.1",
+    "medyes-data": "file:../medyes-data"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  }
+}
