@@ -9,8 +9,8 @@
     "dev:debug": "ts-node-dev --inspect --respawn .",
     "reinstall": "rm -rf node_modules && npm install",
     "test": "ts-node node_modules/ts-mocha/bin/ts-mocha --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --watch",
-    "test:debug": "ts-node node_modules/ts-mocha/bin/ts-mocha --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --inspect",
-    "test:coverage": "nyc --reporter=html --reporter=text  nyc ts-mocha 'src/**/*.test.{ts,tsx}'"
+    "test:debug": "ts-node node_modules/ts-mocha/bin/ts-mocha --watch-extensions ts,tsx 'src/**/*.test.{ts,tsx}' --inspect --timeout=1000000",
+    "test:coverage": "nyc --reporter=html --reporter=text  nyc ts-mocha 'src/**/*.test.{ts,tsx}' --timeout 10000"
   },
   "author": "Pablo Javier Rey Sobral",
   "license": "ISC",
@@ -57,6 +57,7 @@
     "chai-as-promised": "^7.1.1",
     "faker": "^4.1.0",
     "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
     "source-map-support": "^0.5.12",
     "ts-mocha": "^6.0.0",
     "ts-node": "^8.1.1",

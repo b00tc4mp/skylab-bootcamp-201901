@@ -1,16 +1,14 @@
-import { ACCEPT, DENIEDBYUSER } from './../../../data/models/request';
-import { gql } from 'apollo-server';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { UserModel, STAFF_ROLE, User, USER_ROLE } from '../../../data/models/user';
+import { gql } from 'apollo-server';
 import { gCall } from '../../../common/test-utils/gqlCall';
-import { ProviderModel, Provider } from '../../../data/models/provider';
-import { SUPERADMIN_ROLE } from '../../../data/models/user';
-import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
+import { Provider, ProviderModel } from '../../../data/models/provider';
+import { ACCEPT, DENIEDBYUSER, REQUESTBECUSTOMER, RequestCustomerModel } from '../../../data/models/request';
+import { STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../../../data/models/user';
+import { createRandomUser, deleteModels, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import faker = require('faker');
-import { RequestCustomerModel, REQUESTBECUSTOMER } from '../../../data/models/request';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -21,7 +19,10 @@ const {
 } = process;
 
 describe('add customer to provider', function() {
-  before(() => mongoose.connect(MONGODB_URL_TESTING!, { useNewUrlParser: true }));
+  before(async () => {
+    await mongoose.connect(MONGODB_URL_TESTING!, { useNewUrlParser: true });
+    await deleteModels();
+  });
   after(async () => await mongoose.disconnect());
   this.timeout(10000);
 
@@ -38,8 +39,6 @@ describe('add customer to provider', function() {
   let provider: Provider | null;
 
   beforeEach(async () => {
-    await UserModel.deleteMany({});
-    await ProviderModel.deleteMany({});
     name = faker.company.companyName();
     customers = [];
     await fillDbRandomUsers(customers, 5, USER_ROLE);
@@ -160,5 +159,4 @@ describe('add customer to provider', function() {
   it('should fail if requestCustomer is not present', async () => {
     await itWithBadRequest(admin, DENIEDBYUSER);
   });
-
 });

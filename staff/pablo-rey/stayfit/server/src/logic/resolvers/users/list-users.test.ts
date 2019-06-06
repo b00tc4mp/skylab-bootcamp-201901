@@ -1,3 +1,5 @@
+import { request } from 'https';
+import { PENDING, RequestCustomerModel, REQUESTBECUSTOMER } from './../../../data/models/request';
 import { gql } from 'apollo-server';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
@@ -83,13 +85,27 @@ describe('list all users', function() {
     expect(plainListAllUsers).to.deep.members(expectedAllUsers);
   });
 
-  it.only('should list the customers of a provider', async () => {
+  it('should list the customers of a provider', async () => {
     const { admin, customers, provider } = await createTestProvider({ maxCustomers: 20, maxCoaches: 1 });
+    const request = await RequestCustomerModel.create({
+      provider,
+      user: customers[0],
+      status: PENDING,
+      type: REQUESTBECUSTOMER,
+    });
 
     const query = gql`
     query ListCustomers ($providerId: String!){
       listCustomers (providerId: $providerId) {
+        pending
+        customer {
         ${userFields}
+        }
+        request {
+          id
+          type
+          status          
+        }
       }
     }
     `;
@@ -112,7 +128,22 @@ describe('list all users', function() {
     expect(listCustomers)
       .to.be.instanceOf(Array)
       .and.to.have.lengthOf(customers.length);
-      expect((listCustomers as any[]).map(({id, name,email}) => ({id, name, email}))).to.deep.equal(customers.map(({id, name, email}) => ({id, name, email})));
+    listCustomers.forEach((x: any) => expect(x).to.have.property('customer'));
+    listCustomers.forEach((x: any) =>
+      expect(x)
+        .to.have.property('pending')
+        .and.to.be.a('boolean')
+    );
+    expect((listCustomers as any[]).map(({ customer: { id, name, email } }) => ({ id, name, email }))).to.deep.equal(
+      customers.map(({ id, name, email }) => ({ id, name, email }))
+    );
+    listCustomers.forEach((x: any) =>
+      expect(x)
+        .to.have.property('pending')
+        .and.to.be.a('boolean')
+    );
+    expect(listCustomers[0].request).not.to.be.null;
+    expect(listCustomers[0].request.id).to.be.equal(request.id);
+    listCustomers.slice(1).forEach((c: any) => expect(c.request).to.be.null);
   });
 });
-

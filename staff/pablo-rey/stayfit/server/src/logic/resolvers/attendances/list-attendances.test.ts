@@ -1,15 +1,10 @@
-import { gCall } from '../../../common/test-utils/gqlCall';
-import { PAIDINADVANCE, CONFIRMEDBYPROVIDER, AttendanceModel, TOPAYINSESSION, NOSHOW, Attendance } from '../../../data/models/attendance';
-import { USER_ROLE, SUPERADMIN_ROLE, User } from '../../../data/models/user';
-import { ACTIVE, PUBLIC, SessionModel, Session } from '../../../data/models/session';
-import { gql } from 'apollo-server';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
+import { ACTIVE, PUBLIC, SessionModel } from '../../../data/models/session';
 import { SessionTypeModel } from '../../../data/models/session-type';
-import { createRandomUser } from '../../tests-utils';
-import { deleteModels, createTestProvider } from '../../../common/test-utils';
+import { createTestProvider } from '../../../common/test-utils';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

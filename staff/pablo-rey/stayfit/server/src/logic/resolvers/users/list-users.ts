@@ -37,8 +37,8 @@ export class ListUsersResolvers {
     const requests = await RequestCustomerModel.find({ provider }).populate('user');
     const requestsUsers = requests.map(request => request.user) as User[]
     customers.push(...requestsUsers);
-    customers = customers.filter((v,i,a) => a.findIndex(x => x.id === v.id) === i)
-    const result = (provider.customers as User[]).map(customer => ({
+    customers = customers.filter((v,i,a) => a.findIndex(x => x.id.toString() === v.id.toString()) === i)
+    const result = (customers as User[]).map(customer => ({
       customer,
       pending: false,
       request: requests.find(req => (req.user as User).id.toString() === customer.id.toString()),
