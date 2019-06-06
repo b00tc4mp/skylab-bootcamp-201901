@@ -1,8 +1,10 @@
-import React from 'react'
+import React, {useState} from 'react'
 import './index.sass'
 import logic from '../../logic'
 
-function Login({ onLogin, error}) {
+function Login({}) {
+    const [messageError, setMessageError] = useState(null)
+    const [success, setSuccessMessage] = useState(null)
 
     async function handleSubmit(e) {
 
@@ -14,8 +16,22 @@ function Login({ onLogin, error}) {
 
         } = e.target
 
+    try {
+        
         await logic.loginUser(email, password)
+        setSuccessMessage(true)
+    } catch (error) {
+        setMessageError(error.message)
     }
+    }
+
+    // if(success){
+    //     return(
+    //         <div>
+    //             <h1>Funciona</h1>
+    //         </div>
+    //     )
+    // }
 
     return (
         <form onSubmit={handleSubmit}>            
@@ -45,6 +61,7 @@ function Login({ onLogin, error}) {
                     </button>
                 </div>
             </div>
+            <p>{messageError}</p>
         </form>
     )
 }

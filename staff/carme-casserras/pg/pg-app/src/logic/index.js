@@ -5,13 +5,13 @@ import pgApi from '../data'
 
 
 const logic = {
-
+    
     set __userToken__(token) {
         sessionStorage.userToken = token
     },
 
     get __userToken__() {
-        return normalize.undefinedOrNull(sessionStorage.userToken)
+        return sessionStorage.userToken
     },
 
     get isUserLoggedIn() {
@@ -126,7 +126,7 @@ const logic = {
             
             const carme = await pgApi.retrivePrivateThings(this.__userToken__)    
             
-            debugger
+            
             return carme 
         })()           
     },

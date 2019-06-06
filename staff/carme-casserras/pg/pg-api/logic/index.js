@@ -94,6 +94,7 @@ const logic = {
             try {                
                 
                 const thing = await Thing.findByIdAndUpdate(id, {status})
+                
                 if (!thing) throw new LogicError(`thing with id ${id} does not exist`)
                 
                 return thing
