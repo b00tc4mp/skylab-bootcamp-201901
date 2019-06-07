@@ -21,10 +21,10 @@ describe('api', () => {
 
         beforeEach(() => {
             name = `name-${Math.random()}`,
-                surname = `appsurname-${Math.random()}`,
-                username = `username-${Math.random()}`,
-                email = `email-${Math.random()}@mail.com`,
-                password = `password-${Math.random()}`
+            surname = `appsurname-${Math.random()}`,
+            username = `username-${Math.random()}`,
+            email = `email-${Math.random()}@mail.com`,
+            password = `password-${Math.random()}`
 
         })
 
@@ -127,6 +127,26 @@ describe('api', () => {
                 expect(_user.password).to.be.undefined
             })
         })
+
+        describe.only('retrieve user presentations', () => {
+
+            beforeEach(async () => await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) }))
+
+            it('should succeed on correct id from existing user', async () => {
+                const token = await api.authenticateUser(username, password)
+                const title1 = `title-${Math.random()}`
+                const title2 = `title-${Math.random()}`
+                await api.createPresentation(token, title1)
+                await api.createPresentation(token, title2)
+                const presentations = await api.retrievePresentations(token)
+
+
+                expect(presentations).to.exist
+                expect(presentations[0].title).to.equal(title1)
+                expect(presentations[1].title).to.equal(title2)
+            })
+        })
+
         describe('update user', () => {
             let token
             beforeEach(async () => {

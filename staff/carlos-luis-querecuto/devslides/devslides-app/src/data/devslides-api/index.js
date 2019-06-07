@@ -82,6 +82,18 @@ const api = {
         }))()
     },
 
+    retrievePresentations(token) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true }
+        ])
+        return (async () => await call(`${this.__url__}/users/presentations`, {
+            method: 'GET',
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        }))()
+    },
+
     createPresentation(token, title) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },

@@ -31,13 +31,13 @@ function call(url, options = {}) {
                 url,
                 data
             })
-            
+
             return response.data
         } catch (err) {
             if (err.code === 'ENOTFOUND' || err.code === 'ECONNREFUSED') throw new ConnectionError('cannot connect')
 
             if (!err.response) throw err
-                const { response: { data: { error } } } = err
+            const { response: { data: { error } } } = err
             if (error) err.message = error
 
             throw err
