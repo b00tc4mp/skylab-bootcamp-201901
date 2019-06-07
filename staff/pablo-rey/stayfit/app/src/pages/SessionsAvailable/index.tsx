@@ -90,6 +90,7 @@ const SessionsAvailable: React.FC<any> = ({ history, location, client, providerI
               <IonList>
                 {sessions.map(sessionAttendance => (
                   <AttendanceItem
+                    key={sessionAttendance.id}
                     sessionAttendance={sessionAttendance}
                     onAttendSession={attendSession}
                     onUnattendSession={unattendSession}

@@ -5,7 +5,8 @@ import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import { gCall } from '../../../common/test-utils/gqlCall';
 import { ProviderModel } from '../../../data/models/provider';
-import { SUPERADMIN_ROLE, UserModel } from '../../../data/models/user';
+import { UserModel } from '../../../data/models/user';
+import { SUPERADMIN_ROLE } from '../../../data/enums';
 import { createRandomUser } from '../../../common/test-utils';
 import faker = require('faker');
 
@@ -31,8 +32,8 @@ describe('create provider', function() {
   `;
 
   const mutation = gql`
-    mutation CreateProvider ($name: String!) {
-      createProvider (name: $name)
+    mutation CreateProvider($name: String!) {
+      createProvider(name: $name)
     }
   `;
 
@@ -51,7 +52,7 @@ describe('create provider', function() {
       },
       ctx: {
         userId: superadmin.id,
-        role: superadmin.role
+        role: superadmin.role,
       },
     });
     if (response.errors) console.log(response.errors);

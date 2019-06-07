@@ -6,7 +6,8 @@ import * as moment from 'moment';
 import * as mongoose from 'mongoose';
 import { gCall } from '../../../../common/test-utils/gqlCall';
 import { random } from '../../../../common/utils';
-import { ACTIVE, PUBLIC, SessionModel } from '../../../../data/models/session';
+import { ACTIVE, PUBLIC } from '../../../../data/enums';
+import { SessionModel } from '../../../../data/models/session';
 import { SessionTypeModel } from '../../../../data/models/session-type';
 import { createTestProvider, deleteModels } from '../../../../common/test-utils';
 

@@ -5,7 +5,6 @@ import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
 import { UserModel } from '../../../data/models/user';
 import { gCall } from '../../../common/test-utils/gqlCall';
-import { SUPERADMIN_ROLE } from '../../../data/models/user';
 import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 
 chai.use(chaiAsPromised);

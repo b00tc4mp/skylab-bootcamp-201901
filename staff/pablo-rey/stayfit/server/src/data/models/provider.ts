@@ -1,7 +1,6 @@
 import { Field, ID, ObjectType, Authorized } from 'type-graphql';
 import { arrayProp, instanceMethod, prop, Ref, Typegoose } from 'typegoose';
 import { User } from './user';
-import { ONLY_ADMINS_OF_PROVIDER, ONLY_SUPERADMIN } from '../../logic/middleware/authChecker';
 
 @ObjectType()
 export class Provider extends Typegoose {

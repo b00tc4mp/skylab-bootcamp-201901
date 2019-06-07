@@ -3,10 +3,10 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { UserModel, STAFF_ROLE, User } from '../../../data/models/user';
+import { UserModel, User } from '../../../data/models/user';
 import { gCall } from '../../../common/test-utils/gqlCall';
 import { ProviderModel, Provider } from '../../../data/models/provider';
-import { SUPERADMIN_ROLE } from '../../../data/models/user';
+import { SUPERADMIN_ROLE, STAFF_ROLE } from '../../../data/enums';
 import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import faker = require('faker');
 

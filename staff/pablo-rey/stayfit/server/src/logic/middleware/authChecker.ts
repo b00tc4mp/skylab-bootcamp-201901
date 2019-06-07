@@ -1,10 +1,9 @@
 import { AuthenticationError } from './../../common/errors/index';
 import { AuthChecker } from 'type-graphql';
 import { AuthorizationError, LogicError } from '../../common/errors';
-import { Provider, ProviderModel } from '../../data/models/provider';
 import { UserModel, User } from '../../data/models/user';
 import { MyContext } from './MyContext';
-import { SUPERADMIN_ROLE } from '../../data/models/user';
+import { SUPERADMIN_ROLE } from '../../data/enums';
 
 export const ONLY_SUPERADMIN = 'ONLY_SUPERADMIN';
 export const ONLY_OWN_USER = 'ONLY_OWN_USER';

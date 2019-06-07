@@ -2,9 +2,10 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { ACTIVE, PUBLIC, SessionModel } from '../../../data/models/session';
+import { SessionModel } from '../../../data/models/session';
 import { SessionTypeModel } from '../../../data/models/session-type';
 import { createTestProvider } from '../../../common/test-utils';
+import { ACTIVE, PUBLIC } from '../../../data/enums';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

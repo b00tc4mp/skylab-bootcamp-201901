@@ -1,7 +1,8 @@
 import * as bcrypt from 'bcryptjs';
 import { createSession } from '../logic/resolvers/sessions/create-session/create-session';
-import { ACTIVE, PUBLIC, SessionModel } from './models/session';
-import { STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from './models/user';
+import { ACTIVE, PUBLIC, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE } from './enums';
+import { SessionModel } from './models/session';
+import { User, UserModel } from './models/user';
 import { ProviderModel, Provider } from './models/provider';
 import { SessionTypeModel } from './models/session-type';
 import moment = require('moment');
@@ -22,6 +23,10 @@ export async function populateDb() {
     email: 'superadmin@stay.fit',
     password: await bcrypt.hash('123', 12),
     role: SUPERADMIN_ROLE,
+    uploadedPortrait: `https://randomuser.me/api/portraits/${faker.random.arrayElement([
+      'men',
+      'women',
+    ])}/${faker.random.number(80)}.jpg`,
   });
 
   console.log('Creando admin...');
@@ -31,6 +36,10 @@ export async function populateDb() {
     email: 'admin1@stay.fit',
     password: await bcrypt.hash('123', 12),
     role: STAFF_ROLE,
+    uploadedPortrait: `https://randomuser.me/api/portraits/${faker.random.arrayElement([
+      'men',
+      'women',
+    ])}/${faker.random.number(80)}.jpg`,
   });
 
   console.log('Creando admin2...');
@@ -40,6 +49,10 @@ export async function populateDb() {
     email: 'admin2@stay.fit',
     password: await bcrypt.hash('123', 12),
     role: STAFF_ROLE,
+    uploadedPortrait: `https://randomuser.me/api/portraits/${faker.random.arrayElement([
+      'men',
+      'women',
+    ])}/${faker.random.number(80)}.jpg`,
   });
 
   console.log('Creando coaches...');
@@ -52,6 +65,10 @@ export async function populateDb() {
         email: `coach${ii}@stay.fit`,
         password: await bcrypt.hash('123', 12),
         role: STAFF_ROLE,
+        uploadedPortrait: `https://randomuser.me/api/portraits/${faker.random.arrayElement([
+          'men',
+          'women',
+        ])}/${faker.random.number(80)}.jpg`,
       })
     );
   }
@@ -66,7 +83,7 @@ export async function populateDb() {
   });
 
   admin.adminOf = [provider1];
-  await admin.save()
+  await admin.save();
 
   console.log('Creando provider2...');
   const provider2 = await ProviderModel.create({
@@ -103,6 +120,10 @@ export async function populateDb() {
         adminOf: [],
         coachOf: [],
         customerOf: providers,
+        uploadedPortrait: `https://randomuser.me/api/portraits/${faker.random.arrayElement([
+          'men',
+          'women',
+        ])}/${faker.random.number(80)}.jpg`,
       })
     );
   }

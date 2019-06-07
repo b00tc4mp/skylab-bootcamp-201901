@@ -18,7 +18,7 @@ export default function ({sessionAttendance, onAttendSession, onUnattendSession}
   const end = moment(endTime).format('HH:mm');
   const attStatus = myAttendance ? myAttendance.status : null;
   return (
-    <IonItemSliding key={id}>
+    <IonItemSliding>
       <IonItem>
         {(() => {
           switch (attStatus) {

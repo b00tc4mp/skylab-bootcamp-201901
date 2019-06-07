@@ -1,14 +1,17 @@
 import { gCall } from '../../../../common/test-utils/gqlCall';
+import { AttendanceModel, Attendance } from '../../../../data/models/attendance';
+import { User } from '../../../../data/models/user';
+import { SessionModel, Session } from '../../../../data/models/session';
 import {
   PAIDINADVANCE,
-  CONFIRMEDBYPROVIDER,
-  AttendanceModel,
+  CONFIRMED,
   TOPAYINSESSION,
   NOSHOW,
-  Attendance,
-} from '../../../../data/models/attendance';
-import { USER_ROLE, SUPERADMIN_ROLE, User } from '../../../../data/models/user';
-import { ACTIVE, PUBLIC, SessionModel, Session } from '../../../../data/models/session';
+  USER_ROLE,
+  SUPERADMIN_ROLE,
+  ACTIVE,
+  PUBLIC,
+} from '../../../../data/enums';
 import { gql } from 'apollo-server';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
@@ -74,7 +77,7 @@ describe('attend/unattend session', function() {
         userId: user.id,
         sessionId: session.id,
         paymentType: PAIDINADVANCE,
-        status: CONFIRMEDBYPROVIDER,
+        status: CONFIRMED,
       };
       const response = await gCall({
         source: mutation,
@@ -95,7 +98,7 @@ describe('attend/unattend session', function() {
       expect(_attendance!.user.toString()).to.be.equal(user.id);
       expect(_attendance!.session.toString()).to.be.equal(session.id);
       expect(_attendance!.paymentType).to.be.equal(PAIDINADVANCE);
-      expect(_attendance!.status).to.be.equal(CONFIRMEDBYPROVIDER);
+      expect(_attendance!.status).to.be.equal(CONFIRMED);
       const _session = await SessionModel.findById(session.id);
       expect(_session).not.to.be.null;
       expect(_session!.attendances).to.have.lengthOf(1);
@@ -118,7 +121,7 @@ describe('attend/unattend session', function() {
         user: user.id,
         session: mongoose.Types.ObjectId(session.id),
         paymentType: PAIDINADVANCE,
-        status: CONFIRMEDBYPROVIDER,
+        status: CONFIRMED,
       });
     });
 

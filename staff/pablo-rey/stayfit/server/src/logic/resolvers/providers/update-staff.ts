@@ -2,11 +2,10 @@ import { Types } from 'mongoose';
 import { Arg, Authorized, Ctx, Mutation, Resolver } from 'type-graphql';
 import { MyContext } from '../../middleware/MyContext';
 import { Provider, ProviderModel } from '../../../data/models/provider';
-import { ONLY_SUPERADMIN } from '../../middleware/authChecker';
 import { UserModel } from '../../../data/models/user';
 import { compareArrays, distinct } from '../../../common/utils';
 import { ValidationError } from '../../../common/errors';
-import { ONLY_ADMINS_OF_PROVIDER } from '../../middleware/authChecker';
+import { ONLY_ADMINS_OF_PROVIDER, ONLY_SUPERADMIN } from '../../middleware/authChecker';
 
 @Resolver(Provider)
 export class UpdateProviderStaffResolver {

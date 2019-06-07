@@ -1,13 +1,11 @@
-import { SessionModel } from '../../../../data/models/session';
-import { Arg, Authorized, Ctx, Query, Resolver, ObjectType, Field } from 'type-graphql';
-import { MyContext } from '../../../middleware/MyContext';
-import { ONLY_OWN_USER } from '../../../middleware/authChecker';
-import { ProviderModel } from '../../../../data/models/provider';
-import { Session } from '../../../../data/models/session';
-import { User, UserModel } from '../../../../data/models/user';
+import { Arg, Ctx, Field, ObjectType, Query, Resolver } from 'type-graphql';
 import { LogicError } from '../../../../common/errors/index';
-import moment = require('moment');
 import { Attendance } from '../../../../data/models/attendance';
+import { ProviderModel } from '../../../../data/models/provider';
+import { Session, SessionModel } from '../../../../data/models/session';
+import { User, UserModel } from '../../../../data/models/user';
+import { MyContext } from '../../../middleware/MyContext';
+import moment = require('moment');
 
 @ObjectType()
 export class SessionsWithMyAttendance {

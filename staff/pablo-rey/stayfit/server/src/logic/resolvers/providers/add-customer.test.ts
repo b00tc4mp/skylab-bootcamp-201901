@@ -5,8 +5,9 @@ import * as mongoose from 'mongoose';
 import { gql } from 'apollo-server';
 import { gCall } from '../../../common/test-utils/gqlCall';
 import { Provider, ProviderModel } from '../../../data/models/provider';
-import { ACCEPT, DENIEDBYUSER, REQUESTBECUSTOMER, RequestCustomerModel } from '../../../data/models/request';
-import { STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../../../data/models/user';
+import { ACCEPT, DENIEDBYUSER, REQUESTBECUSTOMER,  STAFF_ROLE, SUPERADMIN_ROLE,USER_ROLE  } from '../../../data/enums';
+import { RequestCustomerModel } from '../../../data/models/request';
+import { User, UserModel, } from '../../../data/models/user';
 import { createRandomUser, deleteModels, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import faker = require('faker');
 

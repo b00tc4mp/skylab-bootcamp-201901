@@ -3,9 +3,8 @@ import { IsIn } from 'class-validator';
 import { Arg, Authorized, Ctx, Field, InputType, Mutation, Resolver } from 'type-graphql';
 import { isIn } from 'validator';
 import { LogicError, ValidationError } from '../../../../common/errors/index';
+import { Attendance, AttendanceModel } from '../../../../data/models/attendance';
 import {
-  Attendance,
-  AttendanceModel,
   ATTENDANCEPAYMENTTYPES,
   ATTENDANCESTATUSES,
   ATTENDED,
@@ -17,7 +16,7 @@ import {
   OK,
   PENDINGAPPROVAL,
   PENDINGCANCELLATION,
-} from '../../../../data/models/attendance';
+} from '../../../../data/enums';
 import { SessionModel } from '../../../../data/models/session';
 import { User, UserModel } from '../../../../data/models/user';
 import { ALWAYS_OWN_CUSTOMER } from '../../../middleware/authChecker';
@@ -36,7 +35,7 @@ export class AttendanceInput {
   @IsIn(ATTENDANCEPAYMENTTYPES)
   paymentType: string;
 
-  @Field({nullable: true})
+  @Field({ nullable: true })
   @IsIn(ATTENDANCESTATUSES)
   status?: string;
 }
@@ -85,7 +84,7 @@ export class AttendSessionResolvers {
 
     let defaultStatus = (session as Session).attendanceDefaultStatus;
     if (isUser && status && status !== defaultStatus) {
-      throw new LogicError('user only can book with ' + defaultStatus)
+      throw new LogicError('user only can book with ' + defaultStatus);
     }
     if (isUser && defaultStatus) {
       status = defaultStatus;

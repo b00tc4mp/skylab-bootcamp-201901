@@ -4,18 +4,21 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as mongoose from 'mongoose';
 import { gCall } from '../../../common/test-utils/gqlCall';
-import { User, UserModel, USER_ROLE, ADMIN_ROLE } from '../../../data/models/user';
-import { Provider, ProviderModel } from '../../../data/models/provider';
+import { User, UserModel } from '../../../data/models/user';
 import {
   ACCEPT,
+  CANCELLEDBYPROVIDER,
   PENDING,
   DENIEDBYPROVIDER,
   DENIEDBYUSER,
   REQUESTBECUSTOMER,
   REQUESTBEPROVIDER,
-  RequestCustomer,
-  RequestCustomerModel,
-} from '../../../data/models/request';
+  CANCEL,
+  USER_ROLE,
+  ADMIN_ROLE,
+} from '../../../data/enums';
+import { Provider, ProviderModel } from '../../../data/models/provider';
+import { RequestCustomer, RequestCustomerModel } from '../../../data/models/request';
 import { createRandomUser, deleteModels } from '../../../common/test-utils';
 
 chai.use(chaiAsPromised);
@@ -28,10 +31,7 @@ const {
 
 describe('update a request to be customer', function() {
   this.timeout(10000);
-  before(async () => {
-    await mongoose.connect(MONGODB_URL_TESTING!, { useNewUrlParser: true });
-    await deleteModels();
-  });
+  before(async () => await mongoose.connect(MONGODB_URL_TESTING!, { useNewUrlParser: true }));
   after(async () => await mongoose.disconnect());
 
   const mutation = gql`
@@ -46,6 +46,7 @@ describe('update a request to be customer', function() {
   let request: RequestCustomer;
 
   beforeEach(async () => {
+    await deleteModels();
     user = await createRandomUser(USER_ROLE);
     admin = await createRandomUser(ADMIN_ROLE);
     provider = await ProviderModel.create({ name: 'test', admins: [admin] });
@@ -86,7 +87,7 @@ describe('update a request to be customer', function() {
     expect(response).to.have.property('data').and.not.to.be.null;
     expect(response.data!.updateRequestCustomer).to.be.false;
     const _request = await RequestCustomerModel.findOne({ provider, user });
-    expect(_request).not.to.be.null;   
+    expect(_request).not.to.be.null;
     expect(_request!.status).to.be.equal(oldStatus);
   }
 
@@ -122,6 +123,22 @@ describe('update a request to be customer', function() {
   it('should update a request from PENDING(from provider) to DENIED(from customer)', async () => {
     const res = await send(REQUESTBEPROVIDER, PENDING, DENIEDBYUSER, user);
     await expectToBeOk(res, DENIEDBYUSER);
+  });
+  it('should delete the request from PENDING(from customer) to CANCEL(from customer)', async () => {
+    const res = await send(REQUESTBECUSTOMER, PENDING, CANCEL, user);
+    expect(res).not.to.have.property('error');
+    expect(res).to.have.property('data').and.not.to.be.null;
+    expect(res.data!.updateRequestCustomer).to.be.true;
+    const _request = await RequestCustomerModel.findOne({ provider, user });
+    expect(_request).to.be.null;
+  });
+  it('should delete the request from PENDING(from provider) to CANCEL(from provider)', async () => {
+    const res = await send(REQUESTBEPROVIDER, PENDING, CANCEL, admin);
+    expect(res).not.to.have.property('error');
+    expect(res).to.have.property('data').and.not.to.be.null;
+    expect(res.data!.updateRequestCustomer).to.be.true;
+    const _request = await RequestCustomerModel.findOne({ provider, user });
+    expect(_request).to.be.null;
   });
 
   describe('fails', () => {

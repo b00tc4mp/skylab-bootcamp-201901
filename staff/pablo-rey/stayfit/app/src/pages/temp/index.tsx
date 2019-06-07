@@ -1,59 +1,59 @@
-import { IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
+import {
+  IonIcon,
+  IonLabel,
+  IonPage,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
+  IonContent,
+  IonGrid,
+  IonRow,
+  IonCol,
+  IonItem,
+  IonInput,
+  IonCheckbox,
+  IonListHeader,
+  IonList,
+  IonDatetime,
+  IonSelect,
+  IonSelectOption,
+  IonFab,
+  IonFabButton,
+  IonImg,
+} from '@ionic/react';
 import moment from 'moment';
 import React, { useState } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import logic from '../../logic';
+import { CalendarWeek } from '../../components/CalendarWeek';
+import { ATTENDANCEDEFAULTS, SESSIONVISIBILITY, SESSIONSTATUS } from '../../enums';
+import CreateSession from '../../components/CreateSession';
 
 const Temp: React.FC<any> = ({ history, location, client }) => {
-  const day = moment();
-  const [view, setView] = useState(day.format('YYYY-MM-DD'));
-  const [sessions, setSessions] = useState([]);
-  // const refreshToken =
-
-  const updateSegment = e => {
-    const _day = e.detail.value;
-    setView(_day);
-    logic.availableSessions('5cf3e7e70029b1470ca300c9', _day).then(data => {
-      data.sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
-      setSessions(data);
-    });
-  };
-
-  moment.locale('es');
+  const [title, setTitle] = useState('');
+  const [provider, setProvider] = useState(null);
+  const [coaches, setCoaches] = useState(['Dani', 'Manuel']);
+  const [days, setDays] = useState([]);
+  const [startTime, setStartTime] = useState(moment().format('hh:mm'));
+  const [endTime, setEndTime] = useState(
+    moment()
+      .add(1, 'hour')
+      .format('hh:mm')
+  );
+  const [maxAttendants, setMaxAttendants] = useState(10);
+  const [type, setType] = useState(null);
+  const [attendanceDefaultStatus, setAttendanceDefaultStatus] = useState('OK');
+  const [attendances, setAttendances] = useState([]);
+  const [visibility, setVisibility] = useState(null);
+  const [status, setStatus] = useState(null);
 
   return (
-    <>
-      <IonPage id="main">
-        <IonTabs>
-          <IonRouterOutlet>
-            {/* <Route path="/:tab(schedule)" component={SchedulePage} exact={true} />
-            <Route path="/:tab(speakers)" component={SpeakerList} exact={true} />
-            <Route path="/:tab(speakers)/speaker/:id" component={SpeakerDetail} />
-            <Route path="/:tab(schedule|speakers)/sessions/:id" component={SessionDetail} />
-            <Route path="/:tab(map)" component={MapView} /> */}
-            <Route path="/temp/:tab(about)" render={() => <p>about</p>} />
-          </IonRouterOutlet>
-          <IonTabBar slot="bottom">
-            <IonTabButton tab="schedule" href="/schedule">
-              <IonIcon name="calendar" />
-              <IonLabel>Schedule</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="speakers" href="/speakers">
-              <IonIcon name="contacts" />
-              <IonLabel>Speakers</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="map" href="/map">
-              <IonIcon name="map" />
-              <IonLabel>Map</IonLabel>
-            </IonTabButton>
-            <IonTabButton tab="about" href="/home/about">
-              <IonIcon name="information-circle" />
-              <IonLabel>About</IonLabel>
-            </IonTabButton>
-          </IonTabBar>
-        </IonTabs>
-      </IonPage>
-    </>
+    <IonPage id="main">
+      <IonContent>
+        <CreateSession />
+      </IonContent>
+    </IonPage>
   );
 };
 

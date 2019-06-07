@@ -1,16 +1,10 @@
-import { ONLY_OWN_USER, ONLY_SUPERADMIN } from './../../logic/middleware/authChecker';
+import { ONLY_OWN_USER, ONLY_SUPERADMIN } from '../../logic/middleware/authChecker';
 import { Field, ID, ObjectType, Root, Authorized } from 'type-graphql';
 import { prop, Ref, Typegoose, arrayProp } from 'typegoose';
-import { Provider } from './provider'
+import { Provider } from './provider';
 
 // Constants
-export const SUPERADMIN_ROLE = 'SUPERADMIN_ROLE';
-export const BUSINESS_ROLE = 'BUSINESS_ROLE';
-export const ADMIN_ROLE = 'ADMIN_ROLE';
-export const STAFF_ROLE = 'STAFF_ROLE';
-export const USER_ROLE = 'USER_ROLE';
-export const GUEST_ROLE = 'GUEST_ROLE';
-export const ROLES = [SUPERADMIN_ROLE, BUSINESS_ROLE, ADMIN_ROLE, STAFF_ROLE, USER_ROLE, GUEST_ROLE];
+import { SUPERADMIN_ROLE, BUSINESS_ROLE, ADMIN_ROLE, STAFF_ROLE, USER_ROLE, GUEST_ROLE, ROLES } from '../enums';
 
 @ObjectType()
 export class User extends Typegoose {
@@ -37,7 +31,7 @@ export class User extends Typegoose {
   @Field()
   @prop({ required: false, trim: true })
   phone: string;
-  
+
   @prop({ required: true })
   password: string;
 
@@ -50,7 +44,7 @@ export class User extends Typegoose {
   @Field(returns => [Provider], { nullable: 'items' })
   @arrayProp({ itemsRef: Provider })
   customerOf: Ref<Provider>[];
-    
+
   @Authorized(ONLY_OWN_USER)
   @Field(returns => [Provider], { nullable: 'items' })
   @arrayProp({ itemsRef: Provider })
@@ -60,7 +54,6 @@ export class User extends Typegoose {
   @Field(returns => [Provider], { nullable: 'items' })
   @arrayProp({ itemsRef: Provider })
   adminOf: Ref<Provider>[];
-
 
   // // *+++++++++++++++++++++++++++++++++ Suscriptions not working yet
   // @Field(returns => Subscription)
@@ -89,7 +82,7 @@ export class User extends Typegoose {
 
   @Field(() => String)
   @prop() // this will create a virtual property called 'fullName'
-  get bannerImageUrl() : string {
+  get bannerImageUrl(): string {
     return this.uploadedBanner || 'default';
   }
   set bannerImageUrl(img) {
@@ -101,7 +94,7 @@ export class User extends Typegoose {
 
   @Field(() => String)
   @prop() // this will create a virtual property
-  get portraitImageUrl() : string {
+  get portraitImageUrl(): string {
     return this.uploadedPortrait || 'default';
   }
   set portraitImageUrl(img) {
@@ -117,7 +110,6 @@ export class User extends Typegoose {
     return `${user.name} ${user.surname}`;
   }
 }
-
 export const UserModel = new User().getModelForClass(User, {
   schemaOptions: { collection: 'users' },
 });

@@ -1,18 +1,17 @@
 import {
-  RequestCustomerModel,
   ACCEPT,
   PENDING,
   REQUESTBEPROVIDER,
   BLOCKEDBYPROVIDER,
   BLOCKEDBYUSER,
   REQUESTBECUSTOMER,
-  RequestCustomer,
   DENIEDBYPROVIDER,
   DENIEDBYUSER,
-} from './../../../data/models/request';
+} from './../../../data/enums';
 import { Arg, Authorized, Ctx, Mutation, Resolver, Query } from 'type-graphql';
 import { ValidationError, LogicError } from '../../../common/errors';
 import { MyContext } from '../../middleware/MyContext';
+import { RequestCustomer, RequestCustomerModel } from './../../../data/models/request';
 import { Provider, ProviderModel } from '../../../data/models/provider';
 import { UserModel } from '../../../data/models/user';
 import { ONLY_ADMINS_OF_PROVIDER, ALWAYS_OWN_CUSTOMER } from '../../middleware/authChecker';
@@ -139,7 +138,7 @@ export class AddProviderCustomerResolver {
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Query(returns => [RequestCustomer], { nullable: true })
   async retrievePendingRequest(@Arg('providerId') providerId: string, @Ctx() ctx: MyContext) {
-    const provider = ctx.provider || await ProviderModel.findById(providerId);
+    const provider = ctx.provider || (await ProviderModel.findById(providerId));
     if (!provider) throw new ValidationError('provider is required');
 
     const req = await RequestCustomerModel.find({ provider }).populate('user');

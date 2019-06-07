@@ -5,7 +5,7 @@ import logic from '../../logic';
 import { MainContext } from '../../logic/contexts/main-context';
 import moment from 'moment';
 
-export default function MainAdmin({ pendingRequest }) {
+export default function MainAdmin() {
   const [sessions, setSessions] = useState([]);
   const ctx = useContext(MainContext);
 
@@ -29,11 +29,10 @@ export default function MainAdmin({ pendingRequest }) {
     <IonPage id="main-admin">
       <IonContent>
         <h1>Admin Main</h1>
-
         <h2>Clientes pendientes de confirmación</h2>
-        {pendingRequest.length}
+        {ctx.pendingRequests && ctx.pendingRequests.length}
         <ul>
-          {pendingRequest.map(c => (
+          {ctx.pendingRequests && ctx.pendingRequests.map(c => (
             <li key={c.id}>
               <p>{c.user.name}</p>
               <IonButton onClick={() => handleAcceptRequest(c.user.id)}>Accept</IonButton>

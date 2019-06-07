@@ -1,13 +1,10 @@
-import { SessionModel } from '../../../../data/models/session';
-import { Arg, Authorized, Ctx, Query, Resolver, ObjectType, Field } from 'type-graphql';
-import { MyContext } from '../../../middleware/MyContext';
-import { ONLY_OWN_USER, ONLY_ADMINS_OF_PROVIDER } from '../../../middleware/authChecker';
-import { ProviderModel } from '../../../../data/models/provider';
-import { Session } from '../../../../data/models/session';
-import { User, UserModel } from '../../../../data/models/user';
+import { Arg, Authorized, Ctx, Query, Resolver } from 'type-graphql';
 import { LogicError } from '../../../../common/errors/index';
+import { ProviderModel } from '../../../../data/models/provider';
+import { Session, SessionModel } from '../../../../data/models/session';
+import { ONLY_ADMINS_OF_PROVIDER } from '../../../middleware/authChecker';
+import { MyContext } from '../../../middleware/MyContext';
 import moment = require('moment');
-import { Attendance } from '../../../../data/models/attendance';
 
 @Resolver(Session)
 export class ListSessionsAdminsResolvers {
@@ -26,7 +23,7 @@ export class ListSessionsAdminsResolvers {
       .populate('type')
       .populate({
         path: 'attendances',
-        populate: { path: 'user'}
+        populate: { path: 'user' },
       });
     return sessions;
   }

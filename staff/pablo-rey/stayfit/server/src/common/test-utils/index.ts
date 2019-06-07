@@ -1,11 +1,13 @@
 import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcryptjs';
-import { ROLES, STAFF_ROLE, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../../data/models/user';
 import { random } from '../utils';
+import { ROLES, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE } from '../../data/enums';
+import {  User, UserModel } from '../../data/models/user';
 import { ProviderModel } from '../../data/models/provider';
 import { AttendanceModel } from '../../data/models/attendance';
 import { SessionModel } from '../../data/models/session';
 import { SessionTypeModel } from '../../data/models/session-type';
+import { RequestCustomerModel } from './../../data/models/request';
 
 import * as chai from 'chai';
 import faker = require('faker');
@@ -24,6 +26,7 @@ export async function deleteModels() {
   await SessionModel.deleteMany({});
   await SessionTypeModel.deleteMany({});
   await AttendanceModel.deleteMany({});
+  await RequestCustomerModel.deleteMany({});
 }
 
 export function randomUser(_role?: string) {
