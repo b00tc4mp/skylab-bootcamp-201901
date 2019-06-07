@@ -152,14 +152,10 @@ const restApi = {
     })
   },
 
-  retrieveEvents (token) {
-    validate.arguments([
-      { name: 'token', value: token, type: 'string', notEmpty: true }
-    ])
-
-    return call(`${this.__url__}/store/events`, {
+  retrieveEvents () {
+    return call(`${this.__url__}/events`, {
       method: 'GET',
-      headers: { Authorization: `Bearer ${token}` },
+      // headers: { Authorization: `Bearer ${token}` },
       timeout: this.__timeout__
     })
   }

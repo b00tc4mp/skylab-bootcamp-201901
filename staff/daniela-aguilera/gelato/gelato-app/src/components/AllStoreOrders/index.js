@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from 'react'
 import { Redirect } from 'react-router-dom'
 import logic from '../../logic'
+import { Loading } from '../Loading'
 
 export function AllStoreOrders () {
   const [storeOrders, setStoreOrders] = useState([])
   const [deletedOrderId, setDeletedOrderId] = useState(false)
+  const [loading, setLoading] = useState(true)
 
   useEffect(function () {
     async function getOrders () {
+      setLoading(true)
       const clientsOrders = await logic.retrieveAllUsersOrders()
+      setLoading(false)
       setStoreOrders(clientsOrders)
     }
 
@@ -24,9 +28,13 @@ export function AllStoreOrders () {
     return <Redirect to='/' />
   }
 
+  if (loading) {
+    return <Loading />
+  }
+
   if (storeOrders.length === 0) {
     return <div className='notification is-warning'>
-    You don't have orders to check!
+      You don't have orders to check!
     </div>
   }
 
@@ -40,11 +48,6 @@ export function AllStoreOrders () {
                 <p className='card-header-title'>
     Client order:
                 </p>
-                <a href='#show' className='card-header-icon' aria-label='more options'>
-                  <span className='icon'>
-                    <i className='fas fa-angle-down' aria-hidden='true' />
-                  </span>
-                </a>
               </header>
               <div className='card-content'>
                 <div className='content'>

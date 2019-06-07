@@ -1,5 +1,6 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
+import { Events } from '../../components/Events'
 
 export function Home () {
   return (
@@ -10,7 +11,7 @@ export function Home () {
           <strong>Order now!</strong>
         </Link>
       </div>
-
+      <Events />
       <div />
     </div>
   )

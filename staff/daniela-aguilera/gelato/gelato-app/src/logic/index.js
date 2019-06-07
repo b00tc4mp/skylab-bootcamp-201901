@@ -84,24 +84,26 @@ export default {
     return restApi.addOrder(this.__userToken__, flavors, size, type, totalPrice)
   },
 
-  createEvent (title, description, image) {
+  createEvent (title, description, date, image) {
     validate.arguments([
       { name: 'title', value: title, type: 'string', notEmpty: true },
       { name: 'description', value: description, type: 'string', notEmpty: true },
-      { name: 'image', value: image, type: 'object', optional: false }
+      { name: 'image', value: image, type: 'object', optional: false },
+      { name: 'date', value: date, type: 'string', optional: false }
     ])
 
     const formData = new window.FormData()
 
     formData.append('title', title)
     formData.append('description', description)
+    formData.append('date', date)
     formData.append('image', image)
 
     return restApi.createEvent(formData, this.__userToken__)
   },
 
   retrieveEvents () {
-    return restApi.retrieveEvents(this.__userToken__)
+    return restApi.retrieveEvents()
   },
 
   retrieveUserOrders () {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { Fragment, useState, useEffect } from 'react'
 
 import logic from '../../logic'
 import QRious from 'qrious'
@@ -27,31 +27,32 @@ export function MyBasket () {
   }
 
   const renderQR = () => {
+    // host -> "localhost:3000"
+    // protocol -> "http"
     const { host, protocol } = window.location
 
     const qr = new QRious({
-      size: 300,
-      value: `${protocol}//${host}/orders/${orderId}`
+      size: 300, // size of the image
+      value: `${protocol}//${host}/orders/${orderId}` // string to transform to qr
     })
 
     return <img alt='QR Code' src={qr.toDataURL()} />
   }
 
+  const renderNoResults = () => (
+    <div className='notification is-warning'>
+      You don't have orders to check!
+    </div>
+  )
+
   const renderResultsRender = () => (
-    <section className='g-Layout'>
+    <Fragment>
       {
         orders.map(function (order) {
           return (
-
             <div className='card' key={order.id}>
               <header className='card-header'>
-                <p className='card-header-title'> Your Order:
-                </p>
-                <a href='#' className='card-header-icon' aria-label='more options'>
-                  <span className='icon'>
-                    <i className='fas fa-angle-down' aria-hidden='true' />
-                  </span>
-                </a>
+                <p className='card-header-title'> Your Order:</p>
               </header>
               <h2>Flavors: {order.flavors.join(', ')}</h2>
               <h2>Price: {order.totalPrice} $</h2>
@@ -60,33 +61,42 @@ export function MyBasket () {
 
               <footer className='card-footer'>
                 {/* <Link className='card-footer-item' to={`/orders/${order.id}`}>Go to order</Link> */}
-                <a
-                  className='card-footer-item'
-                  onClick={() => setOrderId(order.id)}>
-                  Show QR Code
-                </a>
-                <a href='#' className='card-footer-item' onClick={(e) => {
-                  e.preventDefault()
-                  deleteOrder(order.id)
-                }}>Delete</a>
+                <div className='card-footer-item'>
+                  <button
+                    className='button is-fullwidth'
+                    onClick={() => setOrderId(order.id)}>
+                    <span className='icon is-small'>
+                      <i className='fas fa-qrcode' />
+                    </span>
+                    <span>Show QR Code</span>
+                  </button>
+                </div>
+                <div className='card-footer-item'>
+                  <button className='button is-danger is-fullwidth' onClick={(e) => {
+                    e.preventDefault()
+                    deleteOrder(order.id)
+                  }}>Delete</button>
+                </div>
               </footer>
 
             </div>
           )
         })
       }
-      {orderId !== null && <Modal onClose={handleCloseModal}>
-        <div className='g-Qr-Code'>
-          {renderQR()}
-        </div>
-      </Modal>
+      {
+        orderId !== null && <Modal onClose={handleCloseModal}>
+          <div className='g-Qr-Code'>
+            {renderQR()}
+          </div>
+        </Modal>
       }
-    </section>
+    </Fragment>
   )
 
   return (
-    <section>
-      {renderResultsRender()}
+    <section className='g-Layout'>
+      {orders.length === 0 && renderNoResults()}
+      {orders.length > 0 && renderResultsRender()}
     </section>
   )
 }

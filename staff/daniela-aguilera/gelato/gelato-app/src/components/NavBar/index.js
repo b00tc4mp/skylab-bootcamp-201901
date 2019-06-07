@@ -16,25 +16,25 @@ export function NavBar () {
 
   const renderButtonsForLoggedUsers = () => (
     <div className='buttons'>
-      <button className='button is-primary' onClick={_handleLogout}>
-        <strong>Logout</strong>
-      </button>
       <Link to='/my-basket' className='button is-primary'>
-        <strong>My Basket</strong>
+        My Basket
       </Link>
       <Link to='/create-your-order' className='button is-primary'>
-        <strong>Order Now!</strong>
+        Order Now!
       </Link>
       <Link to='/user/profile' className='button is-primary'>
-        <strong>My profile!</strong>
+        My profile!
       </Link>
+      <button className='button is-primary' onClick={_handleLogout}>
+        <i className='fas fa-sign-out-alt' /> Logout
+      </button>
     </div>
   )
 
   const renderButtonsForNotLoggedUsers = () => (
     <div className='buttons'>
       <Link to='/register' className='button is-primary'>
-        <strong>Sign up</strong>
+        Sign up
       </Link>
       <Link to='/login' className='button is-light'>
         Log in
@@ -45,14 +45,17 @@ export function NavBar () {
   const renderButtonsForAdmin = () => (
     <div className='buttons'>
       <Link to='/store/orders' className='button is-primary'>
-        <strong>All Orders</strong>
+        All Orders
       </Link>
-      <button className='button is-primary' onClick={_handleLogout}>
-        <strong>Logout</strong>
-      </button>
       <Link to='/store/event' className='button is-primary'>
-        <strong>Create Event</strong>
+        Create Event
       </Link>
+      <button className='button' onClick={_handleLogout}>
+        <span className='icon is-small'>
+          <i className='fas fa-sign-out-alt' />
+        </span>
+        <span>Logout</span>
+      </button>
     </div>
   )
 

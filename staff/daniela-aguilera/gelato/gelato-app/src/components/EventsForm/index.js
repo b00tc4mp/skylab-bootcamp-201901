@@ -1,26 +1,38 @@
-import React, { useState } from 'react'
+import React, { Fragment, useState } from 'react'
 import logic from '../../logic'
+import { Loading } from '../Loading'
 
 export function EventsForm () {
   const [image, setImage] = useState([])
+  const [isEventInserted, setIsEventInserted] = useState(false)
+  const [isLoading, setIsLoading] = useState(false)
 
   async function _hadleSubmit (event) {
     event.preventDefault()
     const {
       title: { value: title },
-      description: { value: description }
+      description: { value: description },
+      date: { value: date }
     } = event.target
 
-    await logic.createEvent(title, description, image)
+    setIsLoading(true)
+    await logic.createEvent(title, description, date, image)
+    setIsEventInserted(true)
+    setIsLoading(false)
   }
 
-  return (
-
+  const renderForm = () => (
     <form onSubmit={_hadleSubmit}>
       <div className='field'>
         <label className='label'>Title</label>
         <div className='control'>
           <input className='input' name='title' type='text' placeholder='Text input' />
+        </div>
+      </div>
+      <div className='field'>
+        <label className='label'>Date</label>
+        <div className='control'>
+          <input className='input' type='date' name='date' placeholder='Date' />
         </div>
       </div>
 
@@ -44,5 +56,24 @@ export function EventsForm () {
         </div>
       </div>
     </form>
+  )
+
+  const renderEventInserted = () => (
+    <Fragment>
+      <div className='notification is-warning'>
+      Event inserted!
+      </div>
+      <button className='button' onClick={() => setIsEventInserted(false)}>
+        Insert another event
+      </button>
+    </Fragment>
+  )
+
+  return (
+    <section className='g-Layout'>
+      {isLoading && <Loading />}
+      {isEventInserted && renderEventInserted()}
+      {!isLoading && !isEventInserted && renderForm()}
+    </section>
   )
 }

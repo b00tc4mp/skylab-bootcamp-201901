@@ -99,7 +99,7 @@ export function OrderForm () {
                 onChange={handleTypeChange}
               />
               <label className='g-Order-stepLabel g-Order-stepLabel--type' htmlFor={id}>
-                <img src={`/images/${typeId}.jpg`} />
+                <img alt={typeId} src={`/images/${typeId}.jpg`} />
                 <div>
                   <h2>{typeId}</h2>
                   <h3>{price} $</h3>
@@ -128,7 +128,7 @@ export function OrderForm () {
                 onChange={handleSizeChange}
               />
               <label className='g-Order-stepLabel g-Order-stepLabel--size' htmlFor={id}>
-                <img src={`/images/${type}_${sizeId}.jpg`} />
+                <img alt={`${type} ${sizeId}`} src={`/images/${type}_${sizeId}.jpg`} />
                 <div>
                   <h2>{sizeId}</h2>
                   {type !== null && <h3>{multiplierPrice * TYPES[type].price} $</h3>}
@@ -165,7 +165,7 @@ export function OrderForm () {
                   value={literal}
                   onChange={handleFlavorsChange} />
                 <label className='g-Order-stepLabel g-Order-stepLabel--flavor' htmlFor={id}>
-                  <img src={`/images/${id}.jpg`} />
+                  <img alt={id} src={`/images/${id}.jpg`} />
                   <h2>{literal}</h2>
                 </label>
               </Fragment>

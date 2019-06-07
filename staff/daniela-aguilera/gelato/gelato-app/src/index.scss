@@ -4,6 +4,7 @@ $modal-background-background-color: rgba(95, 27, 49, 0.55);
 
 @import '../node_modules/bulma/bulma.sass';
 
+@import './components/Events/index';
 @import './components/Footer/index';
 @import './components/Logo/index';
 @import './components/OrderForm/index';
@@ -27,4 +28,9 @@ body {
   padding-top: 24px;
   padding-bottom: 24px;
   min-height: calc(100vh - 137px);
+}
+
+.is-centered {
+  display: flex;
+  justify-content: center;
 }

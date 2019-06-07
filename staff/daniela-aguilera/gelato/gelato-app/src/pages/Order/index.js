@@ -12,6 +12,7 @@ export function Order ({ match }) {
       let result = await logic.retrieveOneOrder(orderId)
       setOrder(result)
     }
+
     getOrder()
   }, [orderId])
 
@@ -20,9 +21,9 @@ export function Order ({ match }) {
       <div>
         <h1><strong>Client's order</strong></h1>
         {
-          order.map(function (detail) {
+          order.map(function (detail, idx) {
             return (
-              <div>
+              <div key={idx}>
                 <h2>Flavors: {detail.flavors.join(', ')}</h2>
                 <h2>Type: {detail.type}</h2>
                 <h2>Size: {detail.size}</h2>
