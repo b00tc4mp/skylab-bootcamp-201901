@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { Route, Redirect, withRouter } from 'react-router-dom'
 import './index.sass'
 import CategoryResults from '../Categoryresults';
+import logic from '../../logic';
 
 const nameCategory = {
    0: 'electrodomesticos',
@@ -10,17 +12,25 @@ const nameCategory = {
    4: 'ropa'
 }
 
-function CategorySearch() {
+function CategorySearch(props) {
 
    const [query, setQuery] = useState(null)
 
-   const handleQuery = e => {
 
+   const handleQuery = e => {
       
       const { value } = e.target
-      setQuery(value)
+      setQuery(value)      
    }
 
+   const handleSearchByCategory = id => {
+
+     if(!logic.isUserLoggedIn) props.history.push('/login')
+     else props.history.push('/search/category/' + id)
+
+
+   }
+        
    const renderCategory = () => (
       <div>
          {
@@ -28,11 +38,11 @@ function CategorySearch() {
                const id = nameCategory[cat]
 
                return (
-                  <div key={id}>
-                     <input type="checkbox" onChange={handleQuery} value={id} name={id} />
+                  <div key={id} onClick={() => handleSearchByCategory(id)}>
+                     {/* <input type="checkbox" onChange={handleQuery} value={id} name={id} /> */}
                      <label htmlFor={id}>
                         <h1>{id}</h1>
-                        <img src={`../../../public/images/${id}.png`} />
+                        <img src={`../../../images/${id}.png`} />
                      </label>
                   </div>
                )
@@ -46,9 +56,11 @@ function CategorySearch() {
          <form>
             {renderCategory()}
          </form>
-         {query && <CategoryResults  query={query}/> }
+         {query && <CategoryResults  query={query}/>}
+         {/* { !query || !logic.isUserLoggedIn ? <Redirect to='/register' /> : query && <CategoryResults  query={query}/> } */}
+         {/* <CategoryResults  query={query}/> */}
       </div>
    )
 }
-export default CategorySearch
+export default withRouter(CategorySearch)
 

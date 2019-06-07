@@ -113,7 +113,7 @@ const logic = {
 
         return (async () => {        
          
-        return await Thing.find({category}).populate('loc', 'name -_id').select('status category description loc -_id').lean()   
+        return await Thing.find({category}).populate('loc', 'name -_id').select('status category description loc').lean()   
     })()
     },
 

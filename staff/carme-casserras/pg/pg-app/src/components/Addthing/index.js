@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { Route, Redirect } from 'react-router-dom'
 import './index.sass'
 import logic from '../../logic'
 
@@ -16,52 +17,55 @@ function AddThing({ }) {
         } = e.target
 
         try {
-            const carme = await logic.addPublicThings(category, description, localitation)
+            await logic.addPublicThings(category, description, localitation)
         } catch (error) {
             setMessageError(error.message)
         }
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="field">
-                <label className="label"></label>
-                <div className="control">
-                    <div className="select">
-                        <select name="category">
-                            <option>Books</option>
-                            <option>Clothes</option>
-                            <option>Electronics</option>
-                            <option>Home</option>
-                            <option>Home appliance</option>
-                        </select>
+        <div>
+            <form onSubmit={handleSubmit}>
+                <div className="field">
+                    <label className="label"></label>
+                    <div className="control">
+                        <div className="select">
+                            <select name="category">
+                                <option>Books</option>
+                                <option>Clothes</option>
+                                <option>Electronics</option>
+                                <option>Home</option>
+                                <option>Home appliance</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="field">
-                <label className="label"></label>
-                <div className="control">
-                    <input className="input" type="text" name="description" placeholder="Description" />
-                </div>
-            </div>
-            <div className="field">
-                <label className="label"></label>
-                <div className="control">
-                    <div className="select">
-                        <select name="localitation">
-                            <option value="5cf8be92d106202038f0e099">Plaça Urquinaona</option>
-                            <option valeu="5cf8bf3ed106202038f0e09a">Plaça Catalunya</option>
-                            <option value="5cf8bf71d106202038f0e09b">Glories</option>
-                            <option>Sant Andreu</option>
-                            <option>Sagrada Familia</option>
-                        </select>
+                <div className="field">
+                    <label className="label"></label>
+                    <div className="control">
+                        <input className="input" type="text" name="description" placeholder="Description" />
                     </div>
                 </div>
-            </div>
-            <div className="control">
-                <button className="button is-primary">Submit</button>
-            </div>
-            <p>{messageError}</p>
-        </form>
+                <div className="field">
+                    <label className="label"></label>
+                    <div className="control">
+                        <div className="select">
+                            <select name="localitation">
+                                <option value="5cf8be92d106202038f0e099">Plaça Urquinaona</option>
+                                <option valeu="5cf8bf3ed106202038f0e09a">Plaça Catalunya</option>
+                                <option value="5cf8bf71d106202038f0e09b">Glories</option>
+                                <option>Sant Andreu</option>
+                                <option>Sagrada Familia</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <div className="control">
+                    <button className="button is-primary">Submit</button>
+                </div>
+                <p>{messageError}</p>
+            </form>
+            {<Redirect to='/search/category'/>}
+        </div>
     )
 
 }

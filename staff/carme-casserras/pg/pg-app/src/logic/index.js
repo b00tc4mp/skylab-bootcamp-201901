@@ -11,7 +11,7 @@ const logic = {
     },
 
     get __userToken__() {
-        return sessionStorage.userToken
+        return normalize.undefinedOrNull(sessionStorage.userToken)
     },
 
     get isUserLoggedIn() {
@@ -45,7 +45,6 @@ const logic = {
         validate.email(email)
         
         return pgApi.authenticateUser(email, password) 
-
             .then(({ token }) => {
                 this.__userToken__ = token
             })
