@@ -24,7 +24,7 @@ class App extends Component {
     token: null,
     user: null,
     searchResults: null,
-
+    favoriteGames: []
     // userUploads: null,
   }
 
@@ -33,9 +33,7 @@ class App extends Component {
     if (logic.getUserApiToken() || token)
       logic.retrieveUser(token)
         .then(user => {
-
-          this.setState({ user, token })
-
+          this.setState({ user, token, favoriteGames: user.favoriteGames })
         })
   }
 
@@ -122,7 +120,7 @@ class App extends Component {
 
   render() {
 
-    const { state: { user, searchResults }, handleRegister,handleRetrieveAllGames, handleGoToRegister, handleLogin, handleUpdateUserEmail,
+    const { state: { user, searchResults, favoriteGames }, handleRegister,handleRetrieveAllGames, handleGoToRegister, handleLogin, handleUpdateUserEmail,
       handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleGoToUserPanel,
       handleUploadGame, handleLogout, handleOnSearch, handleToSearchByGenre, handleToggleFavs, handleRetrieveFavs } = this
 
@@ -165,7 +163,7 @@ class App extends Component {
           }} />
 
           <Route path="/game/:id" render={props => {
-            return <GameDetail {...props} user={user} retrieveFavs={handleRetrieveFavs} toggleFavs={handleToggleFavs} history={props.history} />
+            return <GameDetail {...props} favoriteGames={favoriteGames} retrieveFavs={handleRetrieveFavs} toggleFavs={handleToggleFavs} history={props.history} />
           }} />
 
           <Route path="/error" render={props => {

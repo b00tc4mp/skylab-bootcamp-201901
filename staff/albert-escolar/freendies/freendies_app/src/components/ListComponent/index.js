@@ -18,7 +18,6 @@ class ListComponent extends Component {
     }
 
     listResults = (results) => {
-
         return results.map(result => {
             return <GameCard id={result.id} title={result.title} genre={result.genre} image={result.images[0]} />
         })

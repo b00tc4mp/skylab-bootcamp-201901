@@ -376,7 +376,126 @@ describe('logic', () => {
                     expect(user.email).toBe(email)
                 })
         })
-        //TODO NEGATIVE CASES
+
+        it('should fail on boolean id', () => {
+            expect(() => {
+                logic.retrieveUser(true)
+                    .toThrow(Error(`true is not a string`))
+            })
+        })
+
+        it('should fail on object id', () => {
+            expect(() => {
+                logic.retrieveUser({})
+                    .toThrow(Error(`{} is not a string`))
+            })
+        })
+
+        it('should fail on numeric id', () => {
+            expect(() => {
+                logic.retrieveUser(123)
+                    .toThrow(Error(`123 is not string`))
+            })
+        })
+
+        it('should fail on undefined id', () => {
+            expect(() => {
+                logic.retrieveUser(undefined)
+                    .toThrow(Error(`undefined is not string`))
+            })
+        })
+
+
+        describe('update user', () => {
+            const username = 'TestUser'
+            const email = `testmail-${Math.random()}@mail.com`
+            const password = `123-${Math.random()}`
+
+            let userId
+
+            beforeEach(() =>
+                bcrypt.hash(password, 10)
+                    .then(hash => User.create({ username, email, password: hash }))
+                    .then(({ id }) => userId = id)
+            )
+
+            it('should succeed on updating user info', async () => {
+                const newData = {
+                    'email': 'updatedmail@mail.com'
+                }
+                const user = await logic.updateUser(userId, newData)
+                expect(user).toBeTruthy()
+                expect(user.email).toBe(newData.email)
+                expect(user.username).toBe(username)
+            })
+
+            it('should fail on wrong userId', () => {
+                const wrongId = 234223
+                const newData = {
+                    'email': 'updatedmail@mail.com'
+                }
+                expect(() => {
+                    logic.updateUser(wrongId, newData)
+                        .toThrow(Error('userId is not a string'))
+                })
+            })
+        })
+
+        describe('upload game', () => {
+
+            const username = 'TestUser'
+            const email = `testmail-${Math.random()}@mail.com`
+            const password = `123-${Math.random()}`
+
+            let userId
+
+            beforeEach(() =>
+                bcrypt.hash(password, 10)
+                    .then(hash => User.create({ username, email, password: hash }))
+                    .then(({ id }) => userId = id)
+            )
+            it('should succeed on creating a game', async () => {
+                let ownerId = userId
+                const title = "testGameTitle"
+                const genre = "testGamegenre"
+                const description = "testGameGenre"
+                const game = await logic.uploadGame(userId, title, genre, description, images)
+
+            })
+        })
+
+        describe('retrieve game by query', () => {
+            const username = 'TestUser'
+            const email = `testmail-${Math.random()}@mail.com`
+            const password = `123-${Math.random()}`
+
+            const ownerId='FakeId'
+            const title = 'FakeTitle'
+            const genre = 'FakeTitle'
+            const description ='FakeDecription'
+            const images = ['FakeImageUrl']
+            const gameFile = ['gameFileUrl']
+            let userId
+            
+            beforeEach(() =>
+                bcrypt.hash(password, 10)
+                    .then(hash => User.create({ username, email, password: hash }))
+                    .then(({ id }) => userId = id)
+                    .then(() => Game.create({ ownerId, title, genre, description, images:images[0], gameFile:gameFile[0] }))
+                    .then(newGame)
+            )
+
+            it('should succeed on retrieving a game on correct id', async () => {
+                const id = "5cf9264ab46ff310f42cf55f"
+                const title = "testGameTitle"
+                const genre = "any"
+                const description = "testGameDescription"
+                const gameFile = "testGameFile"
+
+                const game = await logic.retrieveGameByQuery(genre, title)
+                expect(game).toBeTruthy()
+                expect(game.title).toBe(title)
+            })
+        })
     })
-    //TODO RETRIEVE GAME TESTS
 })

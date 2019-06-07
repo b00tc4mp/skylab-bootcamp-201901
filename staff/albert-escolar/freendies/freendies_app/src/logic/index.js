@@ -107,7 +107,6 @@ const logic = {
     },
 
     toggleFavs(id) {
-        debugger    
         if (typeof id !== 'string') throw TypeError('id is not a string')
         if (!id.trim().length) throw Error('id cannot be empty')
 
