@@ -1,26 +1,22 @@
+import 'uikit'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './components/App';
 import * as serviceWorker from './serviceWorker';
 import { HashRouter as Router } from 'react-router-dom'
 import logic from './logic'
-//const normalize = require('../utils/normalize')
-import normalize from './utils/normalize'
-
-//TODO: styles
-//import './components/index.css';
+import './index.css'
+const normalize = require('photopin-normalize')
 
 
 Object.defineProperties(logic, {
 
     __userToken__: {
         set(token) {
-            //sessionStorage.setItem('token', token)
             sessionStorage.userToken = token
         },
 
         get() {
-            //return normalize.undefinedOrNull(sessionStorage.getItem('token'))
             return normalize.undefinedOrNull(sessionStorage.userToken)
         }
     }

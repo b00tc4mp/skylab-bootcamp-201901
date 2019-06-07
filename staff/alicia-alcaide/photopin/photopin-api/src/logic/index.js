@@ -1,6 +1,6 @@
-const { models: { User, PMap, Pin } } = require('photopin-data')
+const { models: { User, PMap, Pin, Collection } } = require('photopin-data')
 const bcrypt = require('bcrypt')
-const {LogicError} = require('photopin-errors')
+const { LogicError } = require('photopin-errors')
 const validate = require('photopin-validate')
 
 
@@ -31,15 +31,15 @@ const logic = {
         validate.email(email)
 
         return (async () => {
-            
-            const user = await User.findOne({email})
 
-            if(user) throw new LogicError(`user with email ${email} already exists`)
+            const user = await User.findOne({ email })
+
+            if (user) throw new LogicError(`user with email ${email} already exists`)
 
             const hash = await bcrypt.hash(password, 10)
 
-            const newUser = await User.create({name, surname, email, password : hash})
-            
+            const newUser = await User.create({ name, surname, email, password: hash })
+
             return newUser.id
         })()
     },
@@ -61,9 +61,9 @@ const logic = {
         validate.email(email)
 
         return (async () => {
-            const user = await User.findOne({email})
+            const user = await User.findOne({ email })
 
-            if(!user) throw new LogicError(`user with email ${email} doesn't exists`)
+            if (!user) throw new LogicError(`user with email ${email} doesn't exists`)
 
             if (await bcrypt.compare(password, user.password)) return user.id
             else throw new LogicError('wrong credentials')
@@ -86,7 +86,7 @@ const logic = {
         return (async () => {
             const user = await User.findById(userId).select('-_id name surname email avatar language favoritePublicMap').lean()
 
-            if(!user) throw new LogicError(`user with id ${userId} doesn't exists`)
+            if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
 
             delete user.password
 
@@ -114,10 +114,10 @@ const logic = {
 
             try {
                 let result = await User.findByIdAndUpdate(userId, { $set: data }).select('-__v  -password').lean()
-                
+
                 result.id = result._id.toString()
                 delete result._id
-                
+
                 return result
 
             } catch (error) {
@@ -145,12 +145,11 @@ const logic = {
         return (async () => {
 
             const user = await User.findById(userId)
-            if(!user) throw new LogicError(`user with id ${userId} doesn't exists`)
-            
-            await Pin.deleteMany({author: userId})
+            if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
 
-            await PMap.deleteMany({author: userId})
-            //TODO: Al borrar mapas se han de eliminar sus referencias en los favoritos de usuarios !!!
+            await Pin.deleteMany({ author: userId })
+
+            await PMap.deleteMany({ author: userId })
 
             return await User.findByIdAndDelete(userId)
 
@@ -158,7 +157,7 @@ const logic = {
     },
 
 
-    //-------------------------------------------------------------------
+    //-------------------------------------------------------------------------------------------
 
 
     /**
@@ -174,20 +173,9 @@ const logic = {
         ])
 
         return (async () => {
-            const maps = await PMap.find({author: userId}).lean()
+            const maps = await PMap.find({ author: userId }).lean()
 
-
-    //         const newMap = await PMap.create({
-    //             title: "Beautiful Iceland",
-    // description: "My favorite locations from Iceland",
-    // coverImage: "",
-    // author: userId,
-    // isPublic: false
-    //         })
-    //         const maps = await PMap.find()
-            //.select('-_id -collections')
-
-            if(!maps) throw new LogicError(`no maps for user with id ${userId}`)
+            if (!maps) throw new LogicError(`no maps for user with id ${userId}`)
 
             return maps
         })()
@@ -207,19 +195,35 @@ const logic = {
         ])
 
         return (async () => {
-           
-           const map = await PMap.findById(mapId).populate('collections.pins').lean()
 
-            if(!map) throw new LogicError(`no maps for user with id ${mapId}`)
+            const map = await PMap.findById(mapId).populate('collections.pins').lean()
 
-            if(!map.isPublic && !map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
+            if (!map) throw new LogicError(`no maps for user with id ${mapId}`)
+
+            if (!map.isPublic && !map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
 
             return map
         })()
     },
 
-    updateMap(userId, mapId, data) {
 
+    createMap(userId, title, description, coverImage, tags) {
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'title', value: title, type: 'string', notEmpty: true },
+            { name: 'description', value: description, type: 'string', notEmpty: true },
+            { name: 'coverImage', value: coverImage, type: 'string', notEmpty: true },
+            { name: 'tags', value: tags, type: 'object', notEmpty: true }
+        ])
+
+        return (async () => {
+            const newMap = await PMap.create({ title, description, coverImage, tags, author: userId })
+            return newMap.id
+        })()
+    },
+
+
+    updateMap(userId, mapId, data) {
         validate.arguments([
             { name: 'userId', value: userId, type: 'string', notEmpty: true },
             { name: 'mapId', value: mapId, type: 'string', notEmpty: true },
@@ -228,29 +232,206 @@ const logic = {
 
         return (async () => {
 
-            debugger
-
             const map = await PMap.findById(mapId)
 
-            if(!map) throw new LogicError(`no maps for user with id ${mapId}`)
+            if (!map) throw new LogicError(`no map with id ${mapId}`)
 
-            if(!map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
+            if (!map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
 
             try {
-                let result = await PMap.findByIdAndUpdate(mapId, { $set: data }).select('-__v').lean()
-                
-                return result
-
+                const mapUpdated = await PMap.findByIdAndUpdate(mapId, { $set: data }).select('-__v').lean()
+                return mapUpdated
             } catch (error) {
                 throw new LogicError(`map with id ${mapId} doesn't exists`)
             }
 
         })()
+    },
 
 
-    }
+    createCollection(userId, mapId, collectionTitle) {
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'mapId', value: mapId, type: 'string', notEmpty: true },
+            { name: 'collectionTitle', value: collectionTitle, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+
+            const map = await PMap.findById(mapId)
+
+            if (!map) throw new LogicError(`no maps with id ${mapId}`)
+
+            if (!map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
+
+            try {
+                const mapUpdated = map.collections.push({ title: collectionTitle, pins: [] })
+                await map.save()
+                return mapUpdated
+            } catch (error) {
+                throw new LogicError(`error creating new collection on map ${mapId}`)
+            }
+        })()
+    },
+
+    updateCollection(userId, mapId, collectionTitle, newTitle) {
+
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'mapId', value: mapId, type: 'string', notEmpty: true },
+            { name: 'collectionTitle', value: collectionTitle, type: 'string', notEmpty: true },
+            { name: 'newTitle', value: newTitle, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+
+            const map = await PMap.findById(mapId)
+
+            if (!map) throw new LogicError(`no maps with id ${mapId}`)
+
+            if (!map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
+
+            try {
+                const colIndex = map.collections.findIndex(col => col.id === collectionTitle)
+                const colIndexNewTitle = map.collections.findIndex(col => col.id === newTitle)
+                if (colIndexNewTitle > 0) throw new LogicError(`error updating, collection ${newTitle} already exist on map ${mapId}`)
+                map.collections[colIndex].title = newTitle
+                await map.save()
+            } catch (error) {
+                throw new LogicError(`error updating collection ${collectionTitle} on map ${mapId}`)
+            }
+        })()
+    },
 
 
+    createPin(userId, mapId, collectionTitle, newPin) {
+
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'mapId', value: mapId, type: 'string', notEmpty: true },
+            { name: 'collectionTitle', value: collectionTitle, type: 'string', notEmpty: true },
+            { name: 'newPin', value: newPin, type: 'object', notEmpty: true }
+        ])
+
+        return (async () => {
+
+            const map = await PMap.findById(mapId)
+
+            if (!map) throw new LogicError(`no maps for user with id ${mapId}`)
+
+            if (!map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
+
+            try {
+                const pinCreated = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: newPin.title,
+                    description: newPin.description,
+                    urlImage: newPin.urlImage,
+                    bestTimeOfYear: newPin.bestTimeOfYear,
+                    bestTimeOfDay: newPin.bestTimeOfDay,
+                    photographyTips: newPin.photographyTips,
+                    travelInformation: newPin.travelInformation,
+                    coordinates: {
+                        latitude: newPin.coordinates.latitude,
+                        longitude: newPin.coordinates.longitude
+                    }
+                })
+                const colIndex = map.collections.findIndex(col => col.title === collectionTitle)
+                if (colIndex < 0) throw new LogicError(`collection ${collectionTitle} not found`)
+                map.collections[colIndex].pins.push(pinCreated.id)
+                await map.save()
+                return pinCreated.id
+            } catch (error) {
+                throw new LogicError(`error creating new pin on map ${mapId}`)
+            }
+        })()
+    },
+
+    updatePin(userId, pinId, data) {
+
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'pinId', value: pinId, type: 'string', notEmpty: true },
+            { name: 'data', value: data, type: 'object', notEmpty: true }
+        ])
+
+        return (async () => {
+
+            const pin = await Pin.findById(pinId)
+
+            if (!pin) throw new LogicError(`no pin with id ${pinId}`)
+
+            if (!pin.author.equals(userId)) throw new LogicError(`pin ${pinId} is not from user ${userId}`)
+
+            try {
+                let result = await Pin.findByIdAndUpdate(pinId, { $set: data }).select('-__v').lean()
+                return result
+            } catch (error) {
+                throw new LogicError(`error updating pin with id ${pinId}`)
+            }
+
+        })()
+    },
+
+    removeMap(userId, mapId) {
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'mapId', value: mapId, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            const map = await PMap.findById(mapId)
+            if (!map) throw new LogicError(`map with id ${mapId} doesn't exists`)
+
+            if (!map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
+
+            await Pin.deleteMany({ mapId })
+
+            return await PMap.findByIdAndDelete(mapId)
+        })()
+    },
+
+    removeCollection(userId, mapId, collectionTitle) {
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'mapId', value: mapId, type: 'string', notEmpty: true },
+            { name: 'collectionTitle', value: collectionTitle, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            const map = await PMap.findById(mapId)
+            if (!map) throw new LogicError(`map with id ${mapId} doesn't exists`)
+
+            if (!map.author.equals(userId)) throw new LogicError(`map ${mapId} is not from user ${userId}`)
+
+            const colIndex = map.collections.findIndex(col => col.id === collectionTitle)
+            map.collections.splice(colIndex, 1)
+            await map.save()
+
+            map.collections[colIndex].pins.forEach(async pin => {
+                await Pin.findByIdAndDelete(pin)
+            })
+
+            return map
+        })()
+    },
+
+    removePin(userId, pinId) {
+        validate.arguments([
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+            { name: 'pinId', value: pinId, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            const pin = await Pin.findById(pinId)
+            if (!pin) throw new LogicError(`pin with id ${pinId} doesn't exists`)
+
+            if (!pin.author.equals(userId)) throw new LogicError(`pin ${pinId} is not from user ${userId}`)
+
+            return await User.findByIdAndDelete(pinId)
+        })()
+    },
 
 }
 

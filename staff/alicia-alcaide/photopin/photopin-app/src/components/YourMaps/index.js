@@ -3,7 +3,6 @@ import { withRouter } from 'react-router-dom'
 import literals from './literals'
 import logic from '../../logic'
 import MapList from '../MapList';
-//import './index.sass'
 
 
 class YourMaps extends Component {
@@ -22,20 +21,18 @@ class YourMaps extends Component {
     }
 
 
-
     render() {
         const {
             state: { maps },
             props: { lang }
-            
         } = this
 
 
-        const { title } = literals[this.props.lang]
+        const { title } = literals[lang]
 
         return <main className="home">
             <h3>{title}</h3>
-            { maps && <MapList lang={lang} maps={maps} /> }
+            {maps && <MapList lang={lang} maps={maps} />}
         </main>
     }
 }
