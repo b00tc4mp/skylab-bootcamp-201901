@@ -6,9 +6,9 @@
   "scripts": {
     "start": "node src",
     "watch": "nodemon src",
-    "debug": "node debug src",
+    "debug": "node --inspect-brk src",
     "test": "jest --runInBand",
-    "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watchAll"
   },
   "keywords": [],
   "author": "",

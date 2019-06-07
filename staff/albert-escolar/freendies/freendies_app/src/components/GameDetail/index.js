@@ -7,14 +7,18 @@ import { withRouter } from 'react-router'
 class GameDetail extends Component {
     state = {
         result: null,
-        isFaved: false
+        isFaved: false,
+        favoriteGames: []
     }
 
     async componentDidMount() {
         try {
-            const { user, match: { params: { id } } } = this.props
+            const { favoriteGames, match: { params: { id } } } = this.props
             const result = await logic.retrieveGameById(id)
-            this.setState({ user, result })
+            this.setState({ result , favoriteGames})
+            if (favoriteGames.includes(id)) {
+                this.setState({isFaved: true})
+            }
         } catch (error) {
             this.props.history.push('/error')
         }
@@ -23,9 +27,13 @@ class GameDetail extends Component {
     async componentWillReceiveProps(props) {
 
         try {
-            const { user, match: { params: { id } } } = props
+            const { favoriteGames, match: { params: { id } } } = props
             const result = await logic.retrieveGameById(id)
-            this.setState({ user, result })
+            this.setState({ result, favoriteGames })
+            if (favoriteGames.includes(id)) {
+                this.setState({isFaved: true})
+            }
+
         } catch (error) {
             this.props.history.push('/error')
 
@@ -44,15 +52,11 @@ class GameDetail extends Component {
 
     }
 
-    downloadFile = (e, file) => {
-        e.preventDefault()
-
-    }
-
 
     render() {
-        const { user, result, isFaved } = this.state
+        const { user, result, isFaved, favoriteGames } = this.state
         const { handleToggleFavs } = this
+        // const {favoriteGames}=this.props
         return <div>
             {result &&
                 <div>
@@ -63,8 +67,8 @@ class GameDetail extends Component {
                     <a href={result.gameFile} >
                         <button>Download</button>
                     </a>
-                    {user && (isFaved ? < button onClick={handleToggleFavs}>-</button> : <button onClick={handleToggleFavs}>+</button>)}
-                    {!user && <Link to="/login"><button>Log In to add Favs</button></Link>}
+                    {(isFaved ? < button onClick={handleToggleFavs}>-</button> : <button onClick={handleToggleFavs}>+</button>)}
+                    {!favoriteGames && <Link to="/login"><button>Log In to add Favs</button></Link>}
                     <p>{result.description}</p>
                 </div>
             }

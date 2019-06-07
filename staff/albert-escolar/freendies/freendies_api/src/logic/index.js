@@ -62,7 +62,6 @@ const logic = {
         if (typeof password !== 'string') throw TypeError(`${password} is not a string`)
         if (!password.trim().length) throw TypeError(`${password} is not a string`)
 
-
         let user = await User.findOne({ email })
         if (!user) throw Error(`User with ${email} does not exist`)
 
@@ -76,7 +75,6 @@ const logic = {
 
 
     async retrieveUser(userId) {
-
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error(`${userId} cannot be empty`)
 
@@ -94,8 +92,8 @@ const logic = {
     async updateUser(userId, data) {
         if (typeof userId !== 'string') throw TypeError(`userId is not a string`)
         if (!userId.trim().length) throw Error(`userId cannot be empty`)
-        if (typeof data !== 'string') throw TypeError('data is not a string')
-        if (!data.trim().length) throw Error('data cannot be empty')
+        // if (typeof data !== 'string') throw TypeError('data is not a string')
+        // if (!data.trim().length) throw Error('data cannot be empty')
 
         const user = await User.findByIdAndUpdate(userId, data, { runValidators: true, new: true }).select('-password -__v').lean()
 
@@ -118,10 +116,6 @@ const logic = {
         if (!genre.trim().length) throw Error(`${genre}cannot be empty`)
         if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
         if (!description.trim().length) throw Error(`${description} cannot be empty`)
-        // if (typeof images !== 'string') throw TypeError(`${images} is not a string`)
-        // if (!images.trim().length) throw Error(`${images} cannot be empty`)
-        // if (typeof gameFile !== 'string') throw TypeError(`${gameFile} is not a string`)
-        // if (!gameFile.trim().length) throw Error(`${gameFile} cannot be empty`)
 
 
         const ownerUser = await User.findById(ownerId)
@@ -283,10 +277,10 @@ const logic = {
         return uploads
     },
 
-    async retrieveAllGames(){
-        const games = await Game.find().select('-__v')
-        games.forEach(game=>{
-            game.id=game._id.toString()
+    async retrieveAllGames() {
+        const games = await Game.find().select('-__v').lean()
+        games.forEach(game => {
+            game.id = game._id.toString()
             delete game._id
         })
         return games

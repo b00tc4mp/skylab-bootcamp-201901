@@ -40,7 +40,7 @@ class UploadGamePanel extends Component {
                     <option value="Adventure">Adventure</option>
                     <option value="Sports">Sports</option>
                 </select>
-                <p>Description</p><input required name="description" placeholder="Insert Game description" type="text" onChange={event => { event.preventDefault(); this.setState({ description: event.target.value }) }} />
+                <p>Description</p><textarea required name="description" placeholder="Insert Game description" type="text" onChange={event => { event.preventDefault(); this.setState({ description: event.target.value }) }} />
                 <p>File</p><input required name="gameFile" placeholder="TO CHANGE: INSERT A COVER IMAGE" type="file" onChange={event => { event.preventDefault(); this.setState({ gameFile: event.target.files[0] }) }} />
                 <p>Images</p><input required name="images" placeholder="TO CHANGE: INSERT IMAGES " type="file" onChange={event => { event.preventDefault(); this.setState({ images: event.target.files[0] }) }} />
                 <br /><button>Upload Game</button>

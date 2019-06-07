@@ -5,23 +5,9 @@ import './index.scss'
 class GameCard extends Component {
     state = {}
 
-
-    componentDidMount() {
-        const { genre, title, image, id } = this.props
-        this.setState({ genre, title, image, id })
-    }
-
-    componentWillReceiveProps(props) {
-        const { genre, title, image, id } = props
-        this.setState({ genre, title, image, id })
-
-
-    }
-
-
     render() {
 
-        const { title, genre, image, id } = this.state
+        const { title, genre, image, id } = this.props
 
         return <div>
 
