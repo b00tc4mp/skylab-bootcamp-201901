@@ -1,9 +1,9 @@
 import React from 'react'
 import './index.sass'
-import logo from './logo.jpeg'
+import logo from './images/logo.jpeg'
 
 
-function Sidebar({error, onSwitch, user, onLogout, dateFrom, dateTo, resolution}){
+function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, resolution, goProfile}){
 
     let statisticType
     function onStatisticsChange(e){
@@ -28,15 +28,15 @@ function Sidebar({error, onSwitch, user, onLogout, dateFrom, dateTo, resolution}
                     <div>
                         <form onSubmit={handleSubmit}>
                             <div className="uk-margin-top">
-                                <label className="uk-legend uk-text-meta uk-text-bold uk-text-secondary">Date from: </label>
-                                <input className="uk-input uk-form-small" data-uk-tooltip="title: set start date" id="dateFrom" type="date" name="dateFrom" required defaultValue={dateFrom} max={dateTo}></input>
+                                <label className="uk-legend uk-text-meta uk-text-bold uk-text-muted">Date from: </label>
+                                <input className="uk-input uk-form-small" data-uk-tooltip="title: start date" id="dateFrom" type="date" name="dateFrom" required defaultValue={dateFrom} max={dateTo}></input>
                             </div> 
                             <div className="uk-margin-bottom">
-                                <label className="uk-legend uk-text-meta uk-text-bold uk-text-secondary">Date to:</label>
-                                <input className="uk-input uk-form-small" data-uk-tooltip="title: set end date" id="dateTo" type="date" name="dateTo" required defaultValue={dateTo} min={dateFrom}></input>
+                                <label className="uk-legend uk-text-meta uk-text-bold uk-text-muted">Date to:</label>
+                                <input className="uk-input uk-form-small" data-uk-tooltip="title: end date" id="dateTo" type="date" name="dateTo" required defaultValue={dateTo} min={dateFrom}></input>
                             </div>
                             <div className="uk-form-controls">
-                                <select className="uk-select uk-form-small" data-uk-tooltip="title: select statistic type" name="statistic" onChange={event => onStatisticsChange(event.target.value)} defaultValue={resolution}>
+                                <select className="uk-select uk-form-small" data-uk-tooltip="title: statistic type" name="statistic" onChange={event => onStatisticsChange(event.target.value)} defaultValue={resolution}>
                                     <option value="byResolution">By Resolution</option>
                                     <option value="bySLA" >By SLA</option>
                                 </select>
@@ -64,7 +64,7 @@ function Sidebar({error, onSwitch, user, onLogout, dateFrom, dateTo, resolution}
                                     <li><p>{user.name} {user.surname} - {user.country}</p></li>
                                     <li><p>{user.profile}</p></li>
                                     <li className="uk-nav-divider"></li>
-                                    <li><a className="uk-nav-header" href="Profile">Profile</a></li>
+                                    <li><a className="uk-nav-header" href="" onClick={goProfile}>Profile</a></li>
                                     <li><a href="#" onClick={onLogout}>Logout</a></li>
                                 </ul>
                             </div>

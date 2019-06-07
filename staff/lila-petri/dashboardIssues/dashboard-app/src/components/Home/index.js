@@ -57,13 +57,13 @@ class Home extends Component{
 
     render(){
         const {
-            props: {user, onLogout},
+            props: {user, onLogout, goProfile},
             state: {error, hotfix, bugfix, bug, request, sla, resolution, tableSLA, dateFrom, dateTo},
             handleSwitch
         }=this
         return <>
         <main className="container-home">
-        {user && <Sidebar user={user} onLogout={onLogout} error={error} onSwitch={handleSwitch} dateFrom={dateFrom} dateTo={dateTo} resolution={resolution}/>}
+        {user && <Sidebar user={user} onLogout={onLogout} error={error} onSwitch={handleSwitch} dateFrom={dateFrom} dateTo={dateTo} resolution={resolution} goProfile={goProfile}/>}
         {resolution && <PieChart error={error} hotfix={hotfix} bugfix={bugfix} bug={bug} request={request}/>}
         {resolution && <TableResolution error={error} hotfix={hotfix} bugfix={bugfix} bug={bug} request={request} />}
         {sla && <ColumnChart error={error} hotfix={hotfix} bugfix={bugfix} bug={bug} request={request} />}

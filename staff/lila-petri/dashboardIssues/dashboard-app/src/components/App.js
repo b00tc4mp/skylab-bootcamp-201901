@@ -5,17 +5,25 @@ import Register from './Register'
 import Login from './Login'
 import Home from './Home'
 import HomeAdmin from './HomeAdmin'
+import Profile from './Profile'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
-//import '../../node_modules/bulma/css/bulma.css'
+
 
 
 class App extends Component{
 
     state = { user: null, error: null , profile: null}
     
-    handleRegisterNavigation = () => this.props.history.push('/register')
+    handleRegisterNavigation = () => {
+    
+        this.setState({ error: null }, () => this.props.history.push('/register'))
+            
+    }
+        
+    handleLoginNavigation = () => {
 
-    handleLoginNavigation = () => this.props.history.push('/login')
+        this.setState({ error: null }, () => this.props.history.push('/login'))
+    }
 
     handleRegister = async (name, surname, email, password, profile, country) => {
         try {
@@ -45,6 +53,33 @@ class App extends Component{
 
         this.props.history.push('/')
     }
+
+    handleProfileNavigation = () => this.props.history.push('/profile')
+
+    handleUpdateUser = async (name, surname, country)=>{
+        try{
+            await logic.updateUser(name, surname, country)
+            const user = await logic.retrieveUser()
+            this.setState({ user})
+
+        }catch(error){
+
+            this.setState({ error: error.message })
+
+        }
+
+    }
+    handleComeBack = () => {
+        logic.retrieveUser()
+            .then((response) => {
+                this.setState({ user: response, error: null }, () => this.props.history.push('/home'))
+            })
+            .catch(error =>
+                this.setState({ error: error.message })
+            )
+        }
+
+    
     async componentDidMount() {
         if(logic.isUserLoggedIn){
             try{
@@ -80,7 +115,12 @@ class App extends Component{
             handleLoginNavigation,
             handleRegister,
             handleLogin,
-            handleLogout
+            handleLogout,
+            handleProfileNavigation,
+            handleUpdateUser,
+            handleComeBack
+            
+            
 
         } = this
         return <>
@@ -89,9 +129,10 @@ class App extends Component{
             <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
             <Route path="/register" render={()=> logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} goLogin={handleLoginNavigation}/> }/>
             <Route path="/login" render={() => logic.isUserLoggedIn  ? (profile ==='product-expert'? <Redirect to="/home" /> : <Redirect to="/homeAdmin" />): <Login onLogin={handleLogin} error={error} goRegister={handleRegisterNavigation}/>} />
-            <Route path="/home" render={() => logic.isUserLoggedIn ? (profile ==='product-expert'? <Home user={user} onLogout={handleLogout} /> : <Redirect to="/homeAdmin" />) : <Redirect to="/" />} />
+            <Route path="/home" render={() => logic.isUserLoggedIn ? (profile ==='product-expert'? <Home user={user} onLogout={handleLogout} goProfile={handleProfileNavigation} /> : <Redirect to="/homeAdmin" />) : <Redirect to="/" />} />
             <Route path="/homeAdmin" render={() => logic.isUserLoggedIn ?(profile !== 'product-expert'? <HomeAdmin onLogout={handleLogout} error={error}/>: <Redirect to="/home" />) : <Redirect to="/" />} />
-            <Redirect to="/" />
+            <Route path="/profile" render={() => logic.isUserLoggedIn && (profile ==='product-expert') ? <Profile user={user} onReturn={handleComeBack} onUpdate={handleUpdateUser}/> : <Redirect to="/" />} />  
+            {/* <Redirect to="/" /> */}
         </Switch>
 
         </>

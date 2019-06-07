@@ -48,7 +48,9 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
                     seriesType: 'bars',
                     series: { 5: { type: 'line' } },
                     isStacked: true,
-                    backgroundColor : '#CDD7DC'
+                    backgroundColor : '#CDD7DC',
+                    legend:{position: 'top', alignment: 'end'},
+                    colors: ['#931621', '#06D6A0']
                 }}
             />
             <Chart
@@ -64,7 +66,9 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
                     seriesType: 'bars',
                     series: { 5: { type: 'line' } },
                     isStacked: true,
-                    backgroundColor : '#CDD7DC'
+                    backgroundColor : '#CDD7DC',
+                    legend:{position: 'top', alignment: 'end'},
+                    colors: ['#931621', '#06D6A0']
                 }}
             />
         </div>
@@ -82,7 +86,9 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
                     seriesType: 'bars',
                     series: { 5: { type: 'line' } },
                     isStacked: true,
-                    backgroundColor : '#CDD7DC'
+                    backgroundColor : '#CDD7DC',
+                    legend:{position: 'top', alignment: 'end'},
+                    colors: ['#931621', '#06D6A0']
                 }}
             />
             <Chart
@@ -98,7 +104,9 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
                     seriesType: 'bars',
                     series: { 5: { type: 'line' } },
                     isStacked: true,
-                    backgroundColor : '#CDD7DC'
+                    backgroundColor : '#CDD7DC',
+                    legend:{position: 'top', alignment: 'end'},
+                    colors: ['#931621', '#06D6A0']
                 }}
             />
         </div>
