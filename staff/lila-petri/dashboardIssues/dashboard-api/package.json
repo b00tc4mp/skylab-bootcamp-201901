@@ -4,7 +4,6 @@
   "description": "dashboard-api",
   "main": "index.js",
   "scripts": {
-    
     "start": "node .",
     "watch": "nodemon .",
     "debug": "node debug .",
@@ -17,17 +16,18 @@
   "dependencies": {
     "argon2": "^0.23.0",
     "axios": "^0.18.0",
+    "body-parser": "^1.19.0",
     "chai": "^4.2.0",
+    "cors": "^2.8.5",
     "dashboard-data": "file:../dashboard-data",
     "dashboard-errors": "file:../dashboard-errors",
     "dashboard-validate": "file:../dashboard-validate",
     "dotenv": "^8.0.0",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.5.1",
     "mocha": "^6.1.4",
     "moment": "^2.24.0",
-    "validator": "^11.0.0",
-    "body-parser": "^1.19.0",
-    "express": "^4.16.4",
-    "jsonwebtoken": "^8.5.1"
+    "validator": "^11.0.0"
   },
   "devDependencies": {
     "chai": "^4.2.0",

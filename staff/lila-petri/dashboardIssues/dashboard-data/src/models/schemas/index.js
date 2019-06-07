@@ -13,6 +13,7 @@ const issue= new Schema({
     overdue : {type: String}
 
 })
+
 const user = new Schema({
     name: { type: String, required: true },
     surname: { type: String, required: true },
@@ -29,7 +30,10 @@ const user = new Schema({
         required: true,
         default: 'product-expert' },
     
-    country: { type: String, required: true }
+    country: { 
+            type: String, 
+            enum:{values: ['AR', 'BR', 'CL', 'CO', 'CZ', 'ES', 'IT', 'MX', 'PE', 'PL', 'PT', 'TR'], message: 'does not match'},
+            required: true }
     
 })
 
@@ -38,6 +42,7 @@ issue.statics.findIssuesByCountryDateIssueType = function (issueType, country, s
     
     return this.find(query)
 }
+
 
 
 module.exports = {issue, user}

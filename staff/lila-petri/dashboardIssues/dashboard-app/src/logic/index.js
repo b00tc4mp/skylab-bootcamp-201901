@@ -1,4 +1,4 @@
-const { LogicError, RequirementError, ValueError, FormatError } = require ('dashboard-errors')
+const { LogicError } = require ('dashboard-errors')
 const restApi = require('../api')
 const validate = require('dashboard-validate')
 const normalize = require('dashboard-normalize')
@@ -29,14 +29,14 @@ const logic = {
         ])
 
         validate.email(email)
-        debugger
+        
         return(async()=>{
             try{
 
                 await restApi.registerUser(name, surname, email, password, profile, country)
                 
             }catch(error){
-                throw new LogicError(error)
+                throw new LogicError('error in user registration')
             }
         })()
     },
@@ -51,10 +51,10 @@ const logic = {
             try{
                 const response = await restApi.authenticateUser(email, password)
                 this.__userToken__ = response.token
-                debugger
+                
 
             }catch(error){
-                throw new LogicError(error)
+                throw new LogicError('wrong credentials')
             }
         })()
     },

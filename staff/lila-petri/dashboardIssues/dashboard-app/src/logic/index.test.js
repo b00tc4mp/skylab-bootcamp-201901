@@ -1,5 +1,5 @@
 const logic = require ('.')
-const { LogicError, RequirementError, ValueError, FormatError } = require('dashboard-errors')
+const {  RequirementError, ValueError } = require('dashboard-errors')
 const {models:{Issue, User}, mongoose} = require ('dashboard-data')
 const { expect } = require ('chai') 
 const argon2 = require ('argon2')
@@ -28,7 +28,7 @@ describe('logic',()=>{
     describe('users', ()=>{
         describe('register user', ()=>{
             it('should succeed on correct data', async ()=>{
-                debugger
+                
                 await logic.registerUser(name, surname, email, password, profile, country)
                 
                 const users = await User.find()

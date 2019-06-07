@@ -20,7 +20,7 @@ const logic = {
         return(async()=>{
 
             const user = await User.findById(id)
-            debugger
+            
             
             if(!user) throw new LogicError(`user with id "${id}" does not exist`)
 
@@ -146,6 +146,8 @@ const logic = {
             let countIsNot = 0
             let countWF = 0
             let countNone=0
+            let countTotal=0
+            
             
             const issuesByCountryAndDate= await Issue.findIssuesByCountryDateIssueType(issueType, country, startDate, endDate)
             issuesByCountryAndDate.forEach(element => {
@@ -172,6 +174,7 @@ const logic = {
                         countNone++
 
                 }
+                countTotal++
             })
 
             return  {'Cannot Reproduce': countCR, 
@@ -179,8 +182,9 @@ const logic = {
                     'Duplicate' : countDup, 
                     'Incomplete' : countInc, 
                     'Is not a Bug': countIsNot, 
-                    "Won't Fix": countWF, 
-                    'Unresolved': countNone
+                    "Won't Fix" : countWF, 
+                    'Unresolved' : countNone,
+                    'Total' : countTotal
                 }
 
         })()
@@ -339,7 +343,7 @@ const logic = {
                 await User.create({ name, surname, email, password: hash, profile, country })
 
             }catch(err){
-                debugger
+                
                 throw Error (err.message)
 
             }
@@ -379,7 +383,7 @@ const logic = {
         })()
     },
     updateUser(id, name, surname, country ){
-        debugger
+        
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true},
             { name: 'name', value: name, type: 'string', optional: true},
