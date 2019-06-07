@@ -1,4 +1,4 @@
-const {models:{Issue, User}, jiraApi, mongoose:{Types}} = require ('dashboard-data')
+const {models:{Issue, Bufferissue, User}, jiraApi, mongoose:{Types}} = require ('dashboard-data')
 const moment = require('moment')
 const validate = require('dashboard-validate')
 const { LogicError , RequirementError , FormatError }= require('dashboard-errors')
@@ -45,7 +45,7 @@ const logic = {
                             resolutionDate= moment(element.fields.resolutiondate).format('YYYY-MM-DD')
                         }
 
-                        await Issue.create({
+                        await Bufferissue.create({
                             key: element.key, 
                             issueType: element.fields.issuetype.name,
                             country: element.fields.customfield_11528.value,
@@ -61,6 +61,36 @@ const logic = {
                 startDate=moment(startDate).add(1, 'days').format('YYYY-MM-DD')
                 endDate=moment(endDate).add(1, 'days').format('YYYY-MM-DD')
             }
+        })()
+
+    },
+    saveIssues(id){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true}
+        ])
+
+        if (!Types.ObjectId.isValid(id)) throw new FormatError('invalid id')
+
+        return (async()=>{
+            const user = await User.findById(id)
+            
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
+            const issues = await Bufferissue.retrieveIssues()
+
+            issues.forEach(async issue =>{
+                await Issue.create({
+                    key : issue.key, 
+                    issueType : issue.issueType,
+                    country : issue.country,
+                    createdDate:  issue.createdDate, 
+                    dueDate : issue. dueDate,
+                    status : issue. status,
+                    resolutionType : issue.resolutionType,
+                    resolutionDate : issue.resolutionDate
+                })
+
+            })
+
         })()
 
     },
@@ -109,6 +139,21 @@ const logic = {
             if(!user) throw new LogicError(`user with id "${id}" does not exist`)
 
             await Issue.deleteMany()
+        })()
+    },
+    clearUpBuffer(id){
+        validate.arguments([
+            { name: 'id', value: id, type: 'string', notEmpty: true}
+        ])
+
+        if (!Types.ObjectId.isValid(id)) throw new FormatError('invalid id')
+
+        return(async ()=>{
+            const user = await User.findById(id)
+            
+            if(!user) throw new LogicError(`user with id "${id}" does not exist`)
+
+            await Bufferissue.deleteMany()
         })()
     },
     retrieveIssuesByResolution(id, issueType, country, startDate, endDate){

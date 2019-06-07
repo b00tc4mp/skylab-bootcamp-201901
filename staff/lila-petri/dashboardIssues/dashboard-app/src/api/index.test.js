@@ -1,4 +1,4 @@
-const {models:{Issue, User}, mongoose} = require ('dashboard-data')
+const {models:{Issue, User, Bufferissue}, mongoose} = require ('dashboard-data')
 const { expect } = require ('chai') 
 const argon2 = require ('argon2')
 const {  ValueError, RequirementError } = require('dashboard-errors')
@@ -23,6 +23,7 @@ describe('rest api', ()=>{
     before(()=> mongoose.connect(url, {useNewUrlParser:true}))
     beforeEach(async()=>{
         await Issue.deleteMany()
+        await Bufferissue.deleteMany()
         await User.deleteMany()
         email = `email-${Math.random()}@mail.com`
     })
@@ -525,6 +526,46 @@ describe('rest api', ()=>{
             })
 
         })
+        describe('save issues', ()=>{
+            let token, month='May'
+            beforeEach(async ()=>{
+                await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                response = await restApi.authenticateUser(email, password)
+                token= response.token    
+                await helper.loadBuffer(month)
+            })
+            it('should succeed on correct data', async ()=>{
+                await restApi.saveIssues(token)
+            
+                const issues= await Issue.find()
+                expect(issues).to.exist
+    
+            })
+            it('should fail on undefined token', () => {
+                const token = undefined
+                
+                expect(() => logic.saveIssues(token)).to.throw(RequirementError, `token is not optional`)
+            })
+    
+            it('should fail on null token', () => {
+                const token = null
+                
+                expect(() => logic.saveIssues(token)).to.throw(RequirementError, `token is not optional`)
+            })
+    
+            it('should fail on empty token', () => {
+                const token = ''
+                
+                expect(() => logic.saveIssues(token)).to.throw(ValueError, 'token is empty')
+            })
+    
+            it('should fail on blank token', () => {
+                const token = ' \t    \n'
+                
+                expect(() => logic.saveIssues(token)).to.throw(ValueError, 'token is empty')
+            })
+
+        })
         describe('calculate overdue', ()=>{
             let token, month='May'
             beforeEach(async ()=>{
@@ -644,6 +685,9 @@ describe('rest api', ()=>{
                 expect(() => restApi.clearUp(token)).to.throw(ValueError, 'token is empty')
             })
 
+        })
+        describe('clean buffer', ()=>{
+            
         })
         describe('issues by resolution',()=>{
             let token, month='May'

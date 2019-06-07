@@ -1,6 +1,6 @@
 const dotenv = require ('dotenv')
 const moment =require ('moment')
-const {models:{Issue, User}, mongoose} = require ('dashboard-data')
+const {models:{Issue, User, Bufferissue}, mongoose} = require ('dashboard-data')
 const { expect } = require ('chai') 
 const logic = require('.')
 const argon2 = require('argon2')
@@ -18,22 +18,23 @@ describe('logic', ()=>{
     const profile = `admin`
     const  country = `PL`
     before(()=> mongoose.connect(url, {useNewUrlParser:true}))
-    describe('load jira', function(){
+    describe('load buffer from jira', function(){
         this.timeout(300000)
         const month= 'May'
         beforeEach(async()=>{
             await Issue.deleteMany()
             await User.deleteMany()
+            await Bufferissue.deleteMany()
             email = `email-${Math.random()}@mail.com`
             user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
             id= user.id
         })
         it('should succeed on correct data', async ()=>{
-            await Issue.deleteMany()
+            await Bufferissue.deleteMany()
             const res= await logic.loadJirasByMonth(id, month)
             
             expect(res).to.be.undefined
-            const issues= await Issue.find()
+            const issues= await Bufferissue.find()
             expect(issues).to.exist
         })
 
@@ -42,7 +43,7 @@ describe('logic', ()=>{
             const monthBefore= 'April'
             await logic.loadJirasByMonth(id, monthBefore)
             await logic.loadJirasByMonth(id, month)
-            const issues= await Issue.find()
+            const issues= await Bufferissue.find()
             expect(issues).to.exist
         })
 
@@ -116,16 +117,125 @@ describe('logic', ()=>{
             expect(() => logic.loadJirasByMonth(id, month)).to.throw(ValueError, 'id is empty')
         })
     })
-    describe('issues', ()=>{
-        const month='May'
-        beforeEach(async function (){
-            this.timeout(300000)
+    describe('save jiras on issues', function(){
+        this.timeout(300000)
+        const month= 'May'
+        beforeEach(async()=>{
             await Issue.deleteMany()
             await User.deleteMany()
-            await logic.loadJirasByMonth(id, month)
+            await Bufferissue.deleteMany()
             email = `email-${Math.random()}@mail.com`
             user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
             id= user.id
+            await logic.loadJirasByMonth(id, month)
+        })
+        it('should succeed on correct data', async ()=>{
+            await logic.saveIssues(id)
+        
+            const issues= await Issue.find()
+            expect(issues).to.exist
+
+        })
+        it('should fail on undefined id', () => {
+            const id = undefined
+            
+            expect(() => logic.saveIssues(id)).to.throw(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on null id', () => {
+            const id = null
+            
+            expect(() => logic.saveIssues(id)).to.throw(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on empty id', () => {
+            const id = ''
+            
+            expect(() => logic.saveIssues(id)).to.throw(ValueError, 'id is empty')
+        })
+
+        it('should fail on blank id', () => {
+            const id = ' \t    \n'
+            
+            expect(() => logic.saveIssues(id)).to.throw(ValueError, 'id is empty')
+        })
+    })
+    describe('clean collection buffer', function(){
+        this.timeout(300000)
+        const month= 'May'
+        beforeEach(async()=>{
+            await Issue.deleteMany()
+            await User.deleteMany()
+            await Bufferissue.deleteMany()
+            email = `email-${Math.random()}@mail.com`
+            user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+            id= user.id
+            await logic.loadJirasByMonth(id, month)
+            await logic.saveIssues(id)
+        })
+        it('should clean issues collection', async ()=>{
+            await logic.clearUpBuffer(id)
+            const collection = await Bufferissue.estimatedDocumentCount()
+            expect(collection).is.equal(0)
+        })
+        it('should fail on incorrect format id', async ()=>{
+            const id='LL'
+            try{
+                await logic.clearUpBuffer(id)
+                throw Error('should not reach this point')
+
+            }catch(err){
+                expect(err.message).to.equals('invalid id')
+            }
+        })
+
+        it('should fail on inexistent id', async ()=>{
+            const id='5cefc8d029db9f0ba2664b16'
+            try{
+                await logic.clearUpBuffer(id)
+                throw Error('should not reach this point')
+
+            }catch(err){
+                expect(err.message).to.equals(`user with id "${id}" does not exist`)
+            }
+        })
+        it('should fail on undefined id', () => {
+            const id = undefined
+            
+            expect(() => logic.clearUpBuffer(id)).to.throw(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on null id', () => {
+            const id = null
+            
+            expect(() => logic.clearUpBuffer(id)).to.throw(RequirementError, `id is not optional`)
+        })
+
+        it('should fail on empty id', () => {
+            const id = ''
+            
+            expect(() => logic.clearUpBuffer(id)).to.throw(ValueError, 'id is empty')
+        })
+
+        it('should fail on blank id', () => {
+            const id = ' \t    \n'
+            
+            expect(() => logic.clearUpBuffer(id)).to.throw(ValueError, 'id is empty')
+        })
+    })
+    describe('retrieve issues', function(){
+        this.timeout(300000)
+        const month='May'
+        let id
+        beforeEach(async function (){
+            await Issue.deleteMany()
+            await User.deleteMany()
+            await Bufferissue.deleteMany()
+            email = `email-${Math.random()}@mail.com`
+            user = await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+            id= user.id
+            await logic.loadJirasByMonth(id, month)
+            await logic.saveIssues(id)
         })
         describe('calculate overdue',()=>{
             it('shoul succeed on correct data', async ()=>{

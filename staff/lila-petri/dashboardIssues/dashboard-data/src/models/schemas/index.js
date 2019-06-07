@@ -14,6 +14,19 @@ const issue= new Schema({
 
 })
 
+const bufferissue= new Schema({
+    key: {type: String, required: true},
+    issueType: {type: String, required: true},
+    country: {type: String, required: true},
+    createdDate :{type: Date, required: true},
+    dueDate : {type: Date, required: true},
+    status: {type: String, required: true},
+    resolutionType : {type: String, required: true},
+    resolutionDate : {type: Date, required: true},
+    overdue : {type: String}
+
+})
+
 const user = new Schema({
     name: { type: String, required: true },
     surname: { type: String, required: true },
@@ -42,7 +55,10 @@ issue.statics.findIssuesByCountryDateIssueType = function (issueType, country, s
     
     return this.find(query)
 }
+bufferissue.statics.retrieveIssues = function () {
+    
+    return this.find()
+}
 
 
-
-module.exports = {issue, user}
+module.exports = {issue, bufferissue, user}
