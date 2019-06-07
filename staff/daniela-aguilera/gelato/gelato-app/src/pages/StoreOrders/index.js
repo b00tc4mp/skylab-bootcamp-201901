@@ -3,8 +3,8 @@ import { AllStoreOrders } from '../../components/AllStoreOrders'
 
 export function StoreOrders () {
   return (
-    <div>
+    <section className='g-Layout'>
       <AllStoreOrders />
-    </div>
+    </section>
   )
 }

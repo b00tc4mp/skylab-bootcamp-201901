@@ -7,6 +7,7 @@ const logic = require('../logic')
 const bodyParser = require('body-parser')
 const jsonParser = bodyParser.json()
 const auth = require('./auth')
+const imageparse = require('./image-parse')
 
 const { env: { JWT_SECRET } } = process
 
@@ -102,11 +103,11 @@ router.get('/store/orders', auth, jsonParser, (req, res) => {
   }, res)
 })
 
-router.post('/store/event', auth, jsonParser, (req, res) => {
-  const { body: { title, description, image } } = req
-  const { isAdmin } = req
+router.post('/store/event', auth, imageparse, (req, res) => {
+  const { body: { title, description }, file: { buffer }, isAdmin } = req
+
   handleErrors(async () => {
-    await logic.createEvent(title, description, image, isAdmin)
+    await logic.createEvent(title, description, buffer, isAdmin)
 
     return res.status(201).json({ message: 'Event inserted.' })
   }, res)

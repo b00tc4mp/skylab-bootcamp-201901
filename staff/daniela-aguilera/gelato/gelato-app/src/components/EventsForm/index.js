@@ -1,12 +1,13 @@
-import React from 'react'
+import React, { useState } from 'react'
 import logic from '../../logic'
 
 export function EventsForm () {
+  const [image, setImage] = useState([])
+
   async function _hadleSubmit (event) {
     event.preventDefault()
     const {
       title: { value: title },
-      image: { value: image },
       description: { value: description }
     } = event.target
 
@@ -26,7 +27,7 @@ export function EventsForm () {
       <div className='field'>
         <label className='label'>Image</label>
         <div className='control'>
-          <input className='' name='image' type='file' />
+          <input className='' name='image' type='file' onChange={e => setImage(e.target.files[0])} />
         </div>
       </div>
 

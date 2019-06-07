@@ -18,7 +18,7 @@ function call (url, options = {}) {
     { name: 'url', value: url, type: 'string', notEmpty: true },
     { name: 'method', value: method, type: 'string', notEmpty: true },
     { name: 'headers', value: headers, type: 'object', optional: true },
-    { name: 'body', value: body, type: 'object', notEmpty: true, optional: true },
+    { name: 'body', value: body, type: 'object', optional: true },
     { name: 'timeout', value: timeout, type: 'number', notEmpty: true, optional: true }
   ])
 

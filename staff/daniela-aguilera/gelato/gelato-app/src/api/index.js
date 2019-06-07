@@ -139,108 +139,30 @@ const restApi = {
     })
   },
 
-  createEvent (title, description, image, token) {
+  createEvent (formData, token) {
     validate.arguments([
-      { name: 'title', value: title, type: 'string', notEmpty: true },
-      { name: 'description', value: description, type: 'string', notEmpty: true },
-      { name: 'image', value: image, type: 'string', notEmpty: true },
-      { name: 'token', value: token, type: 'string', notEmpty: true }
+      { name: 'formData', value: formData, type: 'object', optional: false }
     ])
 
     return call(`${this.__url__}/store/event`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: { title, description, image },
+      headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'multipart/form-data' },
+      body: formData,
+      timeout: this.__timeout__
+    })
+  },
+
+  retrieveEvents (token) {
+    validate.arguments([
+      { name: 'token', value: token, type: 'string', notEmpty: true }
+    ])
+
+    return call(`${this.__url__}/store/events`, {
+      method: 'GET',
+      headers: { Authorization: `Bearer ${token}` },
       timeout: this.__timeout__
     })
   }
-
-  //   updateUser (token, data) {
-  //     validate.arguments([
-  //       { name: 'token', value: token, type: 'string', notEmpty: true },
-  //       { name: 'data', value: data, type: 'object', notEmpty: true }
-  //     ])
-
-  //     return call(`${this.__url__}/users/update`, {
-  //       method: 'PATCH',
-  //       headers: {
-  //         Authorization: `Bearer ${token}`,
-  //         'Content-Type': 'application/json'
-  //       },
-  //       body: data,
-  //       timeout: this.__timeout__
-  //     })
-  //   },
-
-  //   searchDucks (token, query) {
-  //     validate.arguments([
-  //       { name: 'token', value: token, type: 'string', notEmpty: true },
-  //       { name: 'query', value: query, type: 'string' }
-  //     ])
-
-  //     return call(`${this.__url__}/ducks?query=${query}`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       },
-  //       timeout: this.__timeout__
-  //     })
-  //   },
-
-  //   toggleFavDuck (token, id) {
-  //     validate.arguments([
-  //       { name: 'token', value: token, type: 'string', notEmpty: true },
-  //       { name: 'id', value: id, type: 'string', notEmpty: true }
-  //     ])
-
-  //     return call(`${this.__url__}/ducks/${id}/fav`, {
-  //       method: 'POST',
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       },
-  //       timeout: this.__timeout__
-  //     })
-  //   },
-
-  //   retrieveFavDucks (token) {
-  //     validate.arguments([
-  //       { name: 'token', value: token, type: 'string', notEmpty: true }
-  //     ])
-
-  //     return call(`${this.__url__}/ducks/fav`, {
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       },
-  //       timeout: this.__timeout__
-  //     })
-  //   },
-
-  //   addToCart (token, id) {
-  //     validate.arguments([
-  //       { name: 'token', value: token, type: 'string', notEmpty: true },
-  //       { name: 'id', value: id, type: 'string', notEmpty: true }
-  //     ])
-
-  //     return call(`${this.__url__}/cart/${id}/add`, {
-  //       method: 'POST',
-  //       headers: {
-  //         Authorization: `Bearer ${token}`
-  //       },
-  //       timeout: this.__timeout__
-  //     })
-  //   },
-
-  //   retrieveCartItems (token) {
-  //     validate.arguments([
-  //       { name: 'token', value: token, type: 'string', notEmpty: true }
-  //     ])
-
-//     return call(`${this.__url__}/cart`, {
-//       headers: {
-//         Authorization: `Bearer ${token}`
-//       },
-//       timeout: this.__timeout__
-//     })
-//   }
 }
 
 export default restApi

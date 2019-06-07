@@ -83,10 +83,11 @@ export function OrderForm () {
   }, [step])
 
   const renderTypeInputs = () => (
-    <section className='g-OrderStep'>
-      <h2 className='subtitle'>Select your type!</h2>
+    <section className='g-Order-step'>
+      <h2 className='subtitle is-3'>Select your type!</h2>
       {
         Object.keys(TYPES).map(typeId => {
+          console.log(typeId)
           const { price } = TYPES[typeId]
           const id = `TYPE-${typeId}`
           return (
@@ -97,9 +98,12 @@ export function OrderForm () {
                 value={typeId}
                 onChange={handleTypeChange}
               />
-              <label htmlFor={id}>
-                {typeId}
-                <h3>{price} $</h3>
+              <label className='g-Order-stepLabel g-Order-stepLabel--type' htmlFor={id}>
+                <img src={`/images/${typeId}.jpg`} />
+                <div>
+                  <h2>{typeId}</h2>
+                  <h3>{price} $</h3>
+                </div>
               </label>
             </Fragment>
           )
@@ -109,8 +113,8 @@ export function OrderForm () {
   )
 
   const renderSizeInput = () => (
-    <section className='g-OrderStep'>
-      <h2 className='subtitle'>Select your size!</h2>
+    <section className='g-Order-step'>
+      <h2 className='subtitle is-3'>Select your size!</h2>
       {
         Object.keys(SIZES).map(sizeId => {
           const { multiplierPrice } = SIZES[sizeId]
@@ -123,9 +127,12 @@ export function OrderForm () {
                 value={sizeId}
                 onChange={handleSizeChange}
               />
-              <label htmlFor={id}>
-                {sizeId}
-                {type !== null && <h3>{multiplierPrice * TYPES[type].price} $</h3>}
+              <label className='g-Order-stepLabel g-Order-stepLabel--size' htmlFor={id}>
+                <img src={`/images/${type}_${sizeId}.jpg`} />
+                <div>
+                  <h2>{sizeId}</h2>
+                  {type !== null && <h3>{multiplierPrice * TYPES[type].price} $</h3>}
+                </div>
               </label>
             </Fragment>
           )
@@ -140,27 +147,32 @@ export function OrderForm () {
   )
 
   const renderFlavorsInput = () => (
-    <section className='g-OrderStep'>
-      <h2 className='subtitle'>Select your flavors!</h2>
+    <section className='g-Order-step'>
+      <h2 className='subtitle is-3'>Select your flavors!</h2>
       <small>You could selector {LIMIT_FLAVORS[size]} flavors</small>
-      {
-        Object.keys(FLAVORS).map(flavorId => {
-          const { literal } = FLAVORS[flavorId]
-          const id = `flavor-${flavorId}`
-
-          return (
-            <div key={id}>
-              <input
-                type='checkbox'
-                id={id}
-                name={id}
-                value={literal}
-                onChange={handleFlavorsChange} />
-              <label htmlFor={id}>{literal}</label>
-            </div>
-          )
-        })
-      }
+      <div className='g-Order-stepGrid'>
+        {
+          Object.keys(FLAVORS).map(flavorId => {
+            const { literal } = FLAVORS[flavorId]
+            const id = `flavor-${flavorId}`
+            console.log(id)
+            return (
+              <Fragment key={id}>
+                <input
+                  type='checkbox'
+                  id={id}
+                  name={id}
+                  value={literal}
+                  onChange={handleFlavorsChange} />
+                <label className='g-Order-stepLabel g-Order-stepLabel--flavor' htmlFor={id}>
+                  <img src={`/images/${id}.jpg`} />
+                  <h2>{literal}</h2>
+                </label>
+              </Fragment>
+            )
+          })
+        }
+      </div>
       <button onClick={(e) => {
         e.preventDefault()
         setStep(1)
@@ -187,9 +199,9 @@ export function OrderForm () {
 
   const renderPayment = () => (
 
-    <section className='g-OrderStep'>
-      <p className='title is-2 is-spaced'>Your order is almost ready!</p>
-      <p className='subtitle is-4'>Please, click on the button to do the playment</p>
+    <section className='g-Order-step g-Order-step--payment'>
+      <h2 className='subtitle is-3'>Your order is almost ready!</h2>
+      <small>Please, click on the button to do the playment</small>
 
       <h2><strong><i className='fas fa-shopping-basket' />Total Price: </strong> {calculatePrice()} $</h2>
       <StripePayment onTokenSucces={handlePurchase} cart={calculatePrice()} flavors={flavors} />
@@ -205,7 +217,7 @@ export function OrderForm () {
   return (
     <div>
       <form className='g-Order' onSubmit={_handleSubmit}>
-        <div className='g-OrderScroller' ref={orderScrollerElement}>
+        <div className='g-Order-scroller' ref={orderScrollerElement}>
           {renderTypeInputs()}
           {renderSizeInput()}
           {renderFlavorsInput()}

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
 
 import logic from '../../logic'
 import QRious from 'qrious'
@@ -39,7 +38,7 @@ export function MyBasket () {
   }
 
   const renderResultsRender = () => (
-    <div>
+    <section className='g-Layout'>
       {
         orders.map(function (order) {
           return (
@@ -82,7 +81,7 @@ export function MyBasket () {
         </div>
       </Modal>
       }
-    </div>
+    </section>
   )
 
   return (

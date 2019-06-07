@@ -4,11 +4,13 @@ $modal-background-background-color: rgba(95, 27, 49, 0.55);
 
 @import '../node_modules/bulma/bulma.sass';
 
+@import './components/Footer/index';
 @import './components/Logo/index';
 @import './components/OrderForm/index';
 
 @import './pages/Home/index';
 @import './pages/Login/index';
+@import './pages/MyBasket/index';
 @import './pages/Register/index';
 
 body {
@@ -24,4 +26,5 @@ body {
 .g-Layout {
   padding-top: 24px;
   padding-bottom: 24px;
+  min-height: calc(100vh - 137px);
 }

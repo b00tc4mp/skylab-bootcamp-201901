@@ -6,9 +6,9 @@ import { OrderForm } from '../../components/OrderForm'
 export function CreateOrder () {
   if (logic.isUserLoggedIn) {
     return (
-      <div>
+      <section className='g-Layout'>
         <OrderForm />
-      </div>
+      </section>
     )
   } else {
     return (

@@ -88,13 +88,20 @@ export default {
     validate.arguments([
       { name: 'title', value: title, type: 'string', notEmpty: true },
       { name: 'description', value: description, type: 'string', notEmpty: true },
-      { name: 'image', value: image, type: 'string', notEmpty: true }
+      { name: 'image', value: image, type: 'object', optional: false }
     ])
-    return restApi.createEvent(title, description, image, this.__userToken__)
+
+    const formData = new window.FormData()
+
+    formData.append('title', title)
+    formData.append('description', description)
+    formData.append('image', image)
+
+    return restApi.createEvent(formData, this.__userToken__)
   },
 
   retrieveEvents () {
-    return restApi.createEvent(this.__userToken__)
+    return restApi.retrieveEvents(this.__userToken__)
   },
 
   retrieveUserOrders () {
