@@ -2,28 +2,36 @@ const logic = require('../logic');
 const express = require('express');
 const handleErrors = require('../middleware/handle-errors')
 const router = express.Router();
+const auth= require('../middleware/auth')
 
-router.get('/', async (req, res) => {
-    handleErrors(async()=>{
+
+router.get('/', auth,async (req, res) => {
+    handleErrors(async () => {
         const eventType = await logic.getAllEventType();
         res.json(eventType);
-    },res)
+    }, res)
 })
 
-router.get('/:id', async (req,res) => {
-    handleErrors(async()=> {
-        const eventType = await logic.getOneEventType(req.params.id)
+router.get('/:id', auth, async (req, res) => {
+    handleErrors(async () => {
+
+        const { params: { id } } = req
+
+        const eventType = await logic.getOneEventType(id)
         res.json(eventType);
-    },res)
+    }, res)
 })
 
-router.post('/', async (req,res)=> {
+router.post('/',auth, async (req, res) => {
     debugger
-    handleErrors(async()=>{
-        const result = await logic.createEventType(req.body)
+    handleErrors(async () => {
+
+        const { body: { name } } = req
+
+        const result = await logic.createEventType(name)
         res.json(result);
-    },res)
+    }, res)
 
 })
 
-module.exports=router;
+module.exports = router;

@@ -2,9 +2,10 @@ const logic = require('../logic');
 const express = require('express');
 const router = express.Router();
 const handleErrors = require('../middleware/handle-errors')
+const auth= require('../middleware/auth')
 
 
-router.get('/', (req, res) => {
+router.get('/', auth, (req, res) => {
 
     handleErrors(async () => {
         const fields = await logic.getAllfields()
@@ -13,17 +14,24 @@ router.get('/', (req, res) => {
     }, res)
 })
 
-router.get('/:id', async (req, res) => {
+router.get('/:id', auth, async (req, res) => {
 
-    handleErrors(async() => {
-        const field = await logic.getOnefield(req.params.id)
+    handleErrors(async () => {
+
+        const { params: { id } } = req
+
+        const field = await logic.getOnefield(id)
+
         res.json(field)
     }, res)
 })
 
-router.post('/', async (req, res) => {
+router.post('/', auth, async (req, res) => {
     handleErrors(async () => {
-        const result = await logic.createMedicalField(req.body)
+
+        const { body: { name } } = req
+
+        const result = await logic.createMedicalField(name)
         res.json(result)
     }, res)
 })

@@ -1,25 +1,39 @@
-const mongoose = require('mongoose')
+require('dotenv').config()
+const { mongoose } = require('medyes-data')
 const express = require('express')
 
-const { env: { MONGO_URL, PORT = 8080 }} = process
+const { env: { MONGO_URL, PORT = 8080 } } = process;
 
 (async () => {
     try {
-        mongoose.connect(MONGO_URL, { useNewUrlParser: true, useCreateIndex: true })
+
+        await mongoose.connect(MONGO_URL, { useNewUrlParser: true })
+
         
-        const app = express()
-        app.use(express.json())
-        app.use('/api/medical-fields', require('./routes/medical-fields'))
-        app.use('/api/eventtype', require('./routes/eventType'))
-        app.use('/api/organization', require('./routes/organization'))
-        app.use('/api/users', require('./routes/users'))
-        app.use('/api/events', require('./routes/events'))
-        app.use('/api/purchase', require('./routes/purchase'))
 
         console.log('Connected to the project database...')
 
-        app.listen(PORT, () => console.log(`listening to the port ${PORT}...`))
+
     } catch (error) {
         console.log('Cannot connecte to the db...')
     }
 })()
+
+debugger
+        const app = express()
+        debugger
+        app.use(express.json())
+        debugger
+        app.use('/api/medical-field', require('./routes/medical-fields'))
+        debugger
+        app.use('/api/eventtype', require('./routes/event-type'))
+
+        app.use('/api/organization', require('./routes/organization'))
+
+        app.use('/api/user', require('./routes/user'))
+
+        app.use('/api/event', require('./routes/events'))
+
+        app.use('/api/purchase', require('./routes/purchase'))
+
+        app.listen(PORT, () => console.log(`listening to the port ${PORT}...`))

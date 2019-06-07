@@ -1,5 +1,6 @@
 const Joi = require('@hapi/joi')
 const PasswordComplexity = require('joi-password-complexity')
+Joi.objectId = require('joi-objectid')(Joi)
 
 const password = {
     min: 5,
@@ -20,10 +21,10 @@ const password = {
 const user = {
     fullname: Joi.string().min(5).required(),
     email: Joi.string().min(2).email().required(),
-    phoneNumber: Joi.string().min(9).required(),
+    phone: Joi.string().min(9).required(),
     role: Joi.string().required(),
     organization: Joi.string(),
-    situation: Joi.string().required(),
+    position: Joi.string().required(),
     password: new PasswordComplexity(password).required()
 
 }
@@ -42,23 +43,21 @@ function validateCredentials(_credentials) {
 }
 
 const organization = {
-    organizationName: Joi.string().min(5).required(),
-    organizationPhone: Joi.string().min(9).required(),
-    organizationMail: Joi.string().min(9).email().required(),
-    organizationAddress: Joi.string().required(),
-    password: new PasswordComplexity(password).required()
+    name: Joi.string().min(5).required(),
+    phone: Joi.string().min(9).required(),
+    address: Joi.string().required(),
+    mail: Joi.string().min(5).email().required(),
 }
 
 function validateOrganization(_organization) {
     return Joi.validate(_organization, organization)
 }
-
 const event = {
     userId: Joi.objectId().required(),
-    organizationId: Joi.objectId().required(),
+    // organizationId: Joi.string().required(),
     title: Joi.string().min(5).max(50).required(),
     description: Joi.string().min(200).required(),
-    field: Joi.objectId().required(),
+    medicalField: Joi.objectId().required(),
     eventType: Joi.objectId().required(),
     location: Joi.object().min(1).required(),
     date: Joi.date().required(),

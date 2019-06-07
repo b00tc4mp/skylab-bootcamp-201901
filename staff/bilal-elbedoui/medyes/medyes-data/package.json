@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "joi-objectid": "^2.0.0",
     "mongoose": "^5.5.12"
   }
 }
