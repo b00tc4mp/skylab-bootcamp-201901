@@ -14,7 +14,7 @@ router.get('/', auth, (req, res) => {
     }, res)
 })
 
-router.get('/:id', auth, async (req, res) => {
+router.get('/:id', auth, async (req, res) => { // TODO required? otherwise remove
 
     handleErrors(async () => {
 

@@ -63,7 +63,7 @@ const logic = {
         })()
     },
 
-    getAllEventType() {
+    getAllEventTypes() {
         return(async()=>{
             return await EventType.find()
         })()
@@ -162,9 +162,9 @@ const logic = {
 
             let info
             if (user.role === 'admin') {
-                info = { sub: user.id, org: user.organization }
+                info = { userId: user.id, orgId: user.organization } // TODO use role instead of organization
             } else {
-                info = { sub: user.id }
+                info = { userId: user.id }
             }
             return info
         })()
@@ -172,12 +172,13 @@ const logic = {
     },
     retrieveUser(id) {
         return (async () => {
-            let user = await User.findById(id).select('-password');
-            if (!user) throw Error('User does not exist')
+            let user = await User.findById(id).select('-password'); // TODO do not return a mongoose-connected object, but a plain object (use .lean())
+            if (!user) throw Error('User does not exist') // TODO use LogicError instead
 
+            // TODO clean user, return _id value in id property and remove _id property
+            
             return user
         })()
-
     },
 
     /**************************************EVENTS FUNCTIONS************************************************/
@@ -219,7 +220,7 @@ const logic = {
                     }
                 }
             } else {
-                throw Error('You do not belong anymore to this organization')
+                throw Error('You do not belong anymore to this organization') // TODO use LogicError
             }
         })()
     },
@@ -318,7 +319,7 @@ const logic = {
         })()
     },
 
-    retrievePosts(eventId) {
+    retrievePosts(eventId) { // TODO comments are embed! not linked, check model schema!
         return (async () => {
             const posts = await Comment.find({ 'event': eventId })
             return posts
@@ -330,15 +331,16 @@ const logic = {
     makePurchase(eventId, customerId, numberOfTickets) {
 
         const { error } = validatePurchase({ eventId, customerId })
+
         if (error) throw new ValidateError(error.details[0].message)
 
         return (async () => {
 
                 const event = await Event.findById(eventId)
 
-                if (event.numberTicketsAvailable === 0) return 'SOLD OUT'
-                let purchase = new Purchase({
-
+                if (event.numberTicketsAvailable === 0) return 'SOLD OUT' // TODO avoid returning messages on unexpected situtation. throw logic error instead.
+                
+                const purchase = new Purchase({
                     customer: customerId,
                     event: eventId,
                     numberOfTickets
@@ -356,12 +358,12 @@ const logic = {
                     return result;
                 } catch (ex) {
 
-                    throw Error('Something failed')
+                    throw Error('Something failed') // TODO LogicError instead, and send the ex.message
                 }
             })()
     },
 
-    retrievePurchases(userId, orgaId) {
+    retrievePurchases(userId, orgId) { // TODO is orgId required?
         return(async()=>{
             const purchases = await Purchase.find()
             return purchases

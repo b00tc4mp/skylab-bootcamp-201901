@@ -2,7 +2,7 @@ const mongoose = require('mongoose')
 const { Schema, SchemaTypes: { ObjectId } } = mongoose
 
 const comment = new Schema({
-    event: {
+    event: { // TODO remove event from here. comments are already embed in an event.
         type: ObjectId,
         ref: 'Event',
         required: true
