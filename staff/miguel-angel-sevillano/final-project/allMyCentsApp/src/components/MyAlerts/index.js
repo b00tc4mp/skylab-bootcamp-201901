@@ -8,17 +8,17 @@ function MyAlerts({ data, addAlert, addOneAlertError, deleteAlert, addedOk, dele
     let alerts = []
 
 
-    let [noAlerts, setNoAlerts] = useState(true)
+    let [noAlerts, setNoAlerts] = useState(false)
 
-    useEffect(() => {
-        setNoAlerts(!noAlerts)
-    }, [addOneAlertError])
+
     function handleCloseModal() { setNoAlerts(false) }
 
 
 
 
     function handleAlert(e) {
+
+        setNoAlerts(true)
         e.preventDefault()
 
         const { name, maxValue } = e.target
@@ -40,18 +40,19 @@ function MyAlerts({ data, addAlert, addOneAlertError, deleteAlert, addedOk, dele
         alerts = data.map(({ name, _id, Euro, maxValue }) => {
             let progressStatus = ""
 
-            if (Euro < maxValue / 2.5) progressStatus = "progress is-success"
+            if (Euro < maxValue / 2.2) progressStatus = "progress is-success"
             if (Euro > maxValue / 2.2 && Euro < maxValue / 1.5) progressStatus = "progress is-warning"
             if (Euro > maxValue / 1.5) progressStatus = "progress is-danger"
             return <div class="box">
                 <div class="box">
-                    Product name : {name}
-                    <button class="button is-danger" onClick={() => hanldeDeleteAlert(_id)}>Delete</button>
+                    <span class="tag is-warning">Product name : {name}</span>
+                    <button class="button is-danger" onClick={() => hanldeDeleteAlert(_id)}>Delete Alert</button>
                 </div>
                 <div class="box">
-                    Actual : {Euro} €
+                    <span class="tag is-warning">Actual : {Euro} €</span>
                     <progress class={progressStatus} value={Euro} max={maxValue}></progress>
-                    Max : {maxValue} €
+                    <span class="tag is-warning">Max : {maxValue} €</span>
+
                 </div>
             </div>
         })
@@ -61,12 +62,11 @@ function MyAlerts({ data, addAlert, addOneAlertError, deleteAlert, addedOk, dele
 
 
     return <div>
-        {
-            noAlerts && <Modal onClose={handleCloseModal} >
-                <div calss="box">
-                    {addOneAlertError}
-                </div>
-            </Modal>
+        {noAlerts && addOneAlertError && <Modal onClose={handleCloseModal} >
+            <div calss="box">
+                {addOneAlertError}
+            </div>
+        </Modal>
         }
 
         {addedOk && <Toast error={addedOk} toastType="is-success" />}
@@ -79,7 +79,7 @@ function MyAlerts({ data, addAlert, addOneAlertError, deleteAlert, addedOk, dele
             <form id="registerForm" onSubmit={handleAlert}>
                 <input class="input field" type="text" name="name" placeholder="Product name" />
                 <input class="input field" type="number" name="maxValue" placeholder="Alert value" />
-                <button class="button is-link">Add Alert</button>
+                <button class="button is-success">Add Alert</button>
             </form>
         </div>
 

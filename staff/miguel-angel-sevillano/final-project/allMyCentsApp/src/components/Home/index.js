@@ -18,9 +18,12 @@ import EditTicket from '../EditTicket'
 
 function Home(props) {
 
+    let{checkAlerts} = props
+
+    debugger
+
+
     const { loggedOk, registerOk, setLogOk, setRegOk, userName } = useContext(UserContext)
-
-
 
     const [profile, setProfile] = useState(null)
 
@@ -36,11 +39,14 @@ function Home(props) {
     const [myTickets, setMyTickets] = useState(null)
     const [noTickets, setNoTickets] = useState(null)
     const [ticketToEdit, setTicketToEddit] = useState(null)
-    const [ticketEditedOk,setTicketEditedOk]=useState(null)
+    const [ticketEditedOk, setTicketEditedOk] = useState(null)
+    const [ticketEditedError, setTicketEditedError] = useState(null)
     const [ticketDeleted, setTicketDeleted] = useState(null)
     const [ticketProcessed, setTiketToProcess] = useState(null)
 
+    //ticketDetail
 
+    const [ticketDetailError, setTicketDetailError] = useState(null)
 
     //list Alerts
     const [myAlerts, setMyAlerts] = useState(null)
@@ -72,22 +78,27 @@ function Home(props) {
     const [productsError, setProductsError] = useState(null)
 
 
+    
+
 
     function mountGlobalChart() {
 
         return (async () => {
-            const response = await logic.globalTicket(sessionStorage.token)
-            if (response.length) setGlobalChart(response)
+
+            try {
+                const response = await logic.globalTicket(sessionStorage.token)
+                setGlobalChart(response)
+
+            } catch{ setGlobalChart(null) }
+
         })()
 
     }
-
 
     if (!updateChart) {
         mountGlobalChart()
         setChart(true)
     }
-
 
     function handleCloseModal() {
         setGlobalMessage(null)
@@ -96,9 +107,16 @@ function Home(props) {
     function toScanTicket() { props.history.push("/Home/ScanTicket") }
 
     function toHome() {
-        setChart(null)
-        props.history.push("/Home")
+
+        return (async () => {
+            await mountGlobalChart()
+            props.history.push("/Home")
+
+        })()
+
     }
+
+
 
     function toEstadistics() {
         setProducts([])
@@ -115,11 +133,12 @@ function Home(props) {
     }
 
     function handleMyTcikets() {
-        setTicketDeleted(null)
-        setMyTickets(null)
-
 
         return (async () => {
+
+            setTicketDeleted(null)
+            setTicketEditedOk(null)
+
 
             try {
                 const tickets = await logic.listTickets(sessionStorage.token)
@@ -166,6 +185,7 @@ function Home(props) {
     function handleEditTicket(ticketId, data, position) {
 
         return (async () => {
+            setTicketEditedError(null)
 
             try {
                 const ticketUpdated = await logic.editTicket(sessionStorage.token, ticketId, data, position)
@@ -173,7 +193,10 @@ function Home(props) {
                 setTicketToEddit(ticketDetail)
                 setTicketEditedOk(ticketUpdated)
             }
-            catch (error) { }
+            catch (error) {
+                setTicketEditedOk(false)
+                setTicketEditedError(error.message)
+            }
         })()
 
     }
@@ -194,7 +217,10 @@ function Home(props) {
 
 
     function handleSaveTicket(ticketToSave) {
+
+
         return (async () => {
+            setTicketDetailError(null)
             try {
 
                 const res = await logic.saveTicket(sessionStorage.token, ticketToSave)
@@ -203,7 +229,7 @@ function Home(props) {
                 setChart(false)
 
 
-            } catch (error) { }
+            } catch (error) { setTicketDetailError(error.message) }
         })()
 
     }
@@ -215,8 +241,11 @@ function Home(props) {
 
                 const res = await logic.deleteTicket(sessionStorage.token, ticketId)
                 setTicketDeleted(res)
+                const tickets = await logic.listTickets(sessionStorage.token)
+                setTicketDeleted(null)
+                setMyTickets(tickets)
                 setChart(false)
-                handleMyTcikets()
+
 
 
             } catch (error) { setGlobalMessage(error.message) }
@@ -231,9 +260,6 @@ function Home(props) {
                 const res = await logic.deleteAllTickets(sessionStorage.token)
                 setChart(false)
                 setMyTickets(null)
-                handleMyTcikets()
-
-
 
             } catch (error) { setGlobalMessage(error) }
         })()
@@ -255,12 +281,18 @@ function Home(props) {
 
     function handleNewAlert(newAlert) {
 
+
         return (async () => {
+
+            setAddAlerToK(null)
+            setAddAlertError(null)
             try {
 
                 const res = await logic.addAlert(sessionStorage.token, newAlert)
-                if ("succesfully") setAddAlerToK(res)
-                handleMyAlerts()
+                setAddAlerToK(res)
+                const alerts = await logic.listAlerts(sessionStorage.token)
+                setAddAlerToK(null)
+                setMyAlerts(alerts)
 
 
             } catch (error) { setAddAlertError(error.message) }
@@ -274,14 +306,17 @@ function Home(props) {
         return (async () => {
 
             try {
-                setMyAlerts(null)
                 const res = await logic.deleteAlert(sessionStorage.token, id)
-                const alerts = await logic.listAlerts(sessionStorage.token)
-                setMyAlerts(alerts)
                 setdeleteAlerToK(res)
 
+                const ale = await logic.listAlerts(sessionStorage.token, id)
+                setdeleteAlerToK(null)
+                setMyAlerts(ale)
+
+
             } catch (error) {
-                setAddAlertError(error.message)
+                setdeleteAlerToK(null)
+                setMyAlerts(null)
             }
 
         })()
@@ -305,20 +340,22 @@ function Home(props) {
         })()
     }
 
-    
-    function handleSelectedMonth(mon) {
+
+    function handleSelectedMonth(mon, monthString) {
         return (async () => {
 
             try {
 
-                const res = await logic.retrieveTicketsByDates(sessionStorage.token, mon)
+                const res = await logic.monthTicket(sessionStorage.token, mon)
 
-                setMonth({ res, mon })
+                setMonth({ monthString, res })
                 setMonthError(null)
 
             } catch (error) {
+                debugger
+                setMonthError(error)
                 setMonth(null)
-                setMonthError(error.message)
+
             }
 
         })()
@@ -327,8 +364,10 @@ function Home(props) {
     function handleMyAlerts() {
 
         return (async () => {
+
             setAddAlerToK(null)
             setdeleteAlerToK(null)
+            setAddAlertError(null)
 
             try {
 
@@ -338,7 +377,6 @@ function Home(props) {
                 props.history.push("/Home/MyAlerts")
             } catch (error) {
                 props.history.push("/Home/MyAlerts")
-                setGlobalMessage(error.message)
             }
 
         })()
@@ -359,6 +397,12 @@ function Home(props) {
         {globalMessage && <Modal onClose={handleCloseModal} >
             <div>
                 {globalMessage}
+            </div>
+        </Modal>}
+
+        {checkAlerts && <Modal onClose={handleCloseModal} >
+            <div>
+                {checkAlerts}
             </div>
         </Modal>}
 
@@ -383,7 +427,9 @@ function Home(props) {
             <Route exact path="/Home/TicketDetail" render={() =>
                 <TicketDetail
                     processedTicket={ticketProcessed}
-                    toSaveTicket={handleSaveTicket} />
+                    toSaveTicket={handleSaveTicket}
+                    getTicketDetailError={ticketDetailError}
+                    toScanAgain={toScanTicket} />
             } />
 
             <Route exact path="/Home/MyTickets" render={() =>
@@ -415,7 +461,7 @@ function Home(props) {
                     recivedMonth={month}
                     recivedMonthError={monthError}
                     clearCategory={() => setCategory(null)}
-                    clearMonth={()=>setMonth(null)}
+                    clearMonth={() => setMonth(null)}
                     recivedCategoryError={categoryError}
                     findProduct={handleFindProduct}
                     recivedProductsError={productsError}
@@ -428,6 +474,7 @@ function Home(props) {
                 <EditTicket ticketToEdit={ticketToEdit}
                     onUpdate={handleEditTicket}
                     ticketOkEdited={ticketEditedOk}
+                    ticketError={ticketEditedError}
 
                 />
 

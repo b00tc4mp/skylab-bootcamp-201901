@@ -20,6 +20,8 @@ function App(props) {
 
   const [userName, setName] = useState(null)
 
+  let [checkedAlerts, setCheckedAlerts] = useState(null)
+
 
   function returnLanding() {
     props.history.push("/")
@@ -36,6 +38,7 @@ function App(props) {
 
           isRegistered(response.message)
           props.history.push("/Login")
+
         } else isRegistered(response.message)
       }
       catch (error) {
@@ -48,14 +51,19 @@ function App(props) {
   function handleLogin(email, password) {
 
     return (async () => {
+      isLogin(false)
 
       try {
+
         const response = await logic.logIn(email, password)
         sessionStorage.setItem('token', response.token)
         const { name } = await logic.retrieveUser(response.token)
-        setLogOk(true)
+
+        const areAlerts = await logic.getAlertOverload(sessionStorage.token)
+        debugger
+        if (areAlerts) setCheckedAlerts(areAlerts)
         setName(name)
-        props.history.push("/Home")
+        setLogOk(true)
       }
       catch (error) {
         isLogin(error.message)
@@ -74,17 +82,23 @@ function App(props) {
       <Route>
 
         <Route exact path="/" render={() =>
+          <>
 
-          <div>
-            <img src={logo} ></img>
-            <Link className="button is-link" to={'/Register'}>Register</Link>
-            <Link className="button is-link" to={'/Login'}>Login</Link>
-          </div>} />
+            <div>
+              <img src={logo} width="500" ></img>
+
+            </div>
+            <div>
+
+              <Link className="button is-link" to={'/Register'}>Register</Link>
+              <Link className="button is-link" to={'/Login'}>Login</Link>
+            </div> </>} />
+
 
         <Route exact path="/Register" render={() =>
           registerOk ? <Redirect to="/Login" /> :
             <div>
-              <img src={logo} ></img>
+              <img src={logo} width="500" ></img>
               <Register onRegister={handleRegister} message={messageReg} cancel={returnLanding} />
             </div>} />
 
@@ -92,7 +106,7 @@ function App(props) {
         <Route exact path="/Login" render={() =>
           loggedOk ? <Redirect to="/Home" /> :
             <div>
-              <img src={logo} ></img>
+              <img src={logo} width="500" ></img>
               <Login onLogin={handleLogin} message={messageLog} cancel={returnLanding} />
             </div>} />
 
@@ -102,7 +116,7 @@ function App(props) {
       <Route path="/Home" render={() =>
         !loggedOk ? <Redirect to="/" /> :
           <div>
-            <Home />
+            <Home checkAlerts={checkedAlerts} />
           </div>} />
 
 

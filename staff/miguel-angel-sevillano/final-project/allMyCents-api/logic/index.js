@@ -127,6 +127,21 @@ const logic = {
 
         return (async () => {
             const user = await User.findById(id)
+            const products = await Item.find()
+
+
+            let coincidence = false
+
+            ticket.forEach(item => {
+                products.forEach(product => {
+
+                    if (item.name === product.text) coincidence = true
+                })
+            })
+
+            if (!coincidence) throw new LogicError("Product dont exist")
+
+
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
@@ -182,34 +197,43 @@ const logic = {
             { name: 'position', value: position, type: 'string', notEmpty: true }
 
         ])
-        
+
         return (async () => {
 
 
             let user = await User.findById(id)
             let { tickets } = user
+            let products = await Item.find()
+
+            let coincidence = false
+
+
+            products.forEach(item => {
+                if (item.text === data.name) coincidence = true
+            })
+            if (!coincidence) throw new LogicError("This product dont exist")
 
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
             tickets.forEach(ticket => {
-    
+
                 if (ticket._id.toString() === ticketId) {
-                  
+
                     if (data.name) ticket.items[Number(position)].name = data.name
-                   
+
                     if (data.Euro) ticket.items[Number(position)].Euro = data.Euro
-                   
+
                 }
             })
 
             if (user.alerts.length) {
                 user.alerts.forEach(item => {
-                    
+
                     if (item.name === data.name) item.Euro += data.Euro
                 })
             }
-        
+
             await user.save()
             return ("tikcet succecfuly updated")
         })()
@@ -356,7 +380,7 @@ const logic = {
         ])
 
         let amount = 0
-        let coincidence= false
+        let coincidence = false
 
 
         return (async () => {
@@ -369,11 +393,11 @@ const logic = {
 
             user.tickets.forEach(ticket => {
                 ticket.items.forEach(item => {
-                    if (item.name === product) amount += item.Euro, coincidence=true
+                    if (item.name === product) amount += item.Euro, coincidence = true
                 })
 
             })
-            if(!coincidence) throw new LogicError("Product not found")
+            if (!coincidence) throw new LogicError("Product not found")
 
             return amount.toFixed(2)
         })()

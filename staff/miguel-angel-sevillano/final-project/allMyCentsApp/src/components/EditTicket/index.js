@@ -4,19 +4,26 @@ import { Modal } from '../Modal'
 import Toast from '../Toast'
 
 
-function EditTicket({ ticketToEdit, onUpdate,ticketOkEdited }) {
+function EditTicket({ ticketToEdit, onUpdate, ticketOkEdited, ticketError }) {
 
     const [notNumber, setNotNumber] = useState(false)
+    const [notProuct, setNotProduct] = useState(true)
+    const [noErrors, setNoErrors] = useState(true)
+
 
     function handleCloseModal() {
-
         setNotNumber(false)
+        setNotProduct(false)
+        setNoErrors(false)
     }
-
 
 
     function handleUpdateTicket(e) {
         e.preventDefault()
+        setNoErrors(true)
+        setNotProduct(true)
+        setNotNumber(false)
+        
 
         let updatedInput
         let string = ""
@@ -31,7 +38,7 @@ function EditTicket({ ticketToEdit, onUpdate,ticketOkEdited }) {
         if (isNaN(number)) setNotNumber(true)
         else {
 
-            updatedInput= { name: string, Euro: number }
+            updatedInput = { name: string, Euro: number }
 
             let position = e.target[2].value
 
@@ -51,23 +58,29 @@ function EditTicket({ ticketToEdit, onUpdate,ticketOkEdited }) {
         return (<>
             <form id="updateForm" onSubmit={handleUpdateTicket}>
                 Product <input class="input" type="text" name="item" placeholder={name} /> Euro <input class="input" type="text" name="Euro" placeholder={Euro} />
-                <button class="button is-primary" value={index} >Update</button>
+                <button class="button is-success" value={index} >Update</button>
             </form>
         </>)
     })
 
 
-    return<Fragment>
+    return <Fragment>
         {!notNumber && <div class="box">{ticket}</div>}
         {notNumber && <Modal onClose={handleCloseModal} >
             <div>
                 {"Wrong information detected , please check the filed"}
             </div>
         </Modal>}
-        {ticketOkEdited && <Toast error={ticketOkEdited} toastType="is-success" />}
+        {notProuct && ticketError && <Modal onClose={handleCloseModal} >
+            <div>
+                {ticketError}
+            </div>
+        </Modal>}
+
+        {!notNumber && noErrors && ticketOkEdited && <Toast error={ticketOkEdited} toastType="is-success" />}
     </Fragment>
 
-    
+
 }
 
 export default EditTicket

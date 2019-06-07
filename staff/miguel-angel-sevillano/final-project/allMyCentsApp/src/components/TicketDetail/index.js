@@ -3,10 +3,13 @@ import { stringTypeAnnotation } from '@babel/types';
 import { Modal } from "../Modal"
 
 
-function TicketDetail({ processedTicket, toSaveTicket }) {
-debugger
+function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toScanAgain }) {
+    debugger
     let [modalActive, setModal] = useState(false)
     let [errorMessage, setError] = useState(null)
+    let [errorFromSaeve, setErrorFs] = useState(true)
+    let [ticketLength, setTicketLength] = useState(false)
+
 
 
 
@@ -23,14 +26,19 @@ debugger
     })
 
 
-    function handleCloseModal() {
 
+    function handleCloseModal() {
+        errorFound = false
+        setErrorFs(false)
         setModal(false)
+
+
     }
 
 
 
     function handleSubmit(e) {
+        setErrorFs(true)
 
         e.preventDefault()
 
@@ -50,42 +58,41 @@ debugger
 
 
         for (let i = 0; i < string.length; i++) { savedTicket.push({ name: string[i], Euro: Number(number[i].replace(/,/g, ".")) }) }
-debugger
+        debugger
         savedTicket.forEach(item => { if (isNaN(item.Euro)) errorFound = true })
-        if (errorFound){ 
+        if (errorFound) {
             setError("Wrong information detected , please check your ticket")
             setModal(true)
         }
         else {
-
-
-            return (async () => {
-                let res = await toSaveTicket(savedTicket)
-                if (res) {
-                    setError(res)
-                    setModal(true)
-                }
-
-            })()
-
+            toSaveTicket(savedTicket)
         }
-
-
-
-
     }
 
 
     return <div>
 
-        <form id="registerForm" onSubmit={handleSubmit}>
-            <button class="button is-success" >Save Ticket</button>
+        {ticket.length ? <form id="registerForm" onSubmit={handleSubmit}>
             {ticket}
-        </form>
+            <button class="button is-success" >Save Ticket</button>
+        </form> :
 
-        {modalActive && <Modal onClose={handleCloseModal} >
+            <div class="box">
+                <p>No results from scanned ticket</p>
+                <button class="button is-success" onClick={() => toScanAgain()} >Scan ticket again</button>
+
+            </div>}
+
+        {modalActive && !getTicketDetailError && <Modal onClose={handleCloseModal} >
             <div>
                 {errorMessage}
+            </div>
+        </Modal>}
+
+
+        {getTicketDetailError && errorFromSaeve && <Modal onClose={handleCloseModal} >
+            <div>
+                {getTicketDetailError}
             </div>
         </Modal>}
 

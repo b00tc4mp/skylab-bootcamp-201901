@@ -1,14 +1,15 @@
 import React, { PureComponent, Component } from 'react';
 import {
-    BarChart, Bar, Brush, XAxis, YAxis, CartesianGrid, Tooltip, Legend, Label
+    BarChart, Bar, Brush, XAxis, YAxis, CartesianGrid, Tooltip,Area,AreaChart,ResponsiveContainer
 } from 'recharts';
 
 
 
 
 
-function Chart(props) {
+function MonthChart({data}) {
 
+    let{monthString,res}=data
 
     function getRandomColor() {
         var letters = '0123456789ABCDEF';
@@ -19,31 +20,41 @@ function Chart(props) {
         return color;
       }
 
-    const{data}=props
-    let date =new Date().toISOString().replace('-', '/').split('T')[0].replace('-', '/')
-    let totalP = 0
-    let color = getRandomColor()
+      
+
 
    
+    let totalP = 0
+    let width = 0
+    let color = getRandomColor()
 
-    data.forEach(item => {
+    if(res.length<5)width = 600
+    else width=1500
 
-        if (item.date) {
-            date = item.date
-        }
-        else if (item.Euro) totalP += item.Euro
 
-    })
+    if (typeof (res) != "string") {
+        debugger
+        res.forEach(item => {
+
+         totalP += item.Euro
+
+        })
+    }else res=false
 
     return <>
 
-        <div>
-            <span class=" tag is-warning">{date}</span>
+       {res && <div class="box">
+            
+
+            <div class="box">
+                {monthString}
+            </div>
+
 
             <BarChart
-                width={1600}
+                width={width}
                 height={500}
-                data={data}
+                data={res}
                 margin={{ top: 50, right: 30, left: 50, bottom: 15 }}>
 
                 <CartesianGrid strokeDasharray="3 3" />
@@ -52,14 +63,14 @@ function Chart(props) {
 
                 <YAxis label={{ value: '€', angle: 0, position: 'left', fontSize: "2em" }} />
                 <Brush dataKey='name' height={30} stroke="#8884d8"/>
-                <Bar dataKey="Euro" fill={color} stackOffset="expnad" />
+                <Bar dataKey="Euro" fill={color} stackOffset="expnad"  />
 
             </BarChart>
 
+            <h2>Overall consumption = {totalP.toFixed(2)} €</h2>
+        </div>}
 
-            <span class="tag is-warning">Overall consumption = {totalP.toFixed(2)} €</span>
-        </div>
     </>
 
 }
-export default Chart
+export default MonthChart

@@ -25,7 +25,7 @@ const logic = {
             try {
                 return await restApi.registerUser(name, surname, email, password)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
 
@@ -44,7 +44,7 @@ const logic = {
             try {
                 return await restApi.authenticate(email, password)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -58,7 +58,7 @@ const logic = {
             try {
                 return await restApi.retrieveUser(token)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
 
@@ -74,7 +74,7 @@ const logic = {
             try {
                 return await restApi.updateUser(token, updateInfo)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
 
@@ -90,7 +90,7 @@ const logic = {
             try {
                 return await restApi.deleteUser(token)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -107,7 +107,7 @@ const logic = {
             try {
                 return await restApi.addPrivateTicket(token, ticket)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -122,7 +122,7 @@ const logic = {
             try {
                 return await restApi.retrievePrivateTicket(token, ticketId)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -139,10 +139,10 @@ const logic = {
 
         return (async () => {
             try {
-                
+
                 return await restApi.updatePrivateTicket(token, ticketId, data, position)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -158,7 +158,7 @@ const logic = {
             try {
                 const res = await restApi.retrivePrivateTicketsByDates(token, dates)
                 return res
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
 
@@ -175,7 +175,7 @@ const logic = {
             try {
                 return await restApi.removePrivateTicket(token, ticketId)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -189,7 +189,7 @@ const logic = {
             try {
                 return await restApi.listPrivateTickets(token)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -206,7 +206,7 @@ const logic = {
             try {
                 return await restApi.removeAllPrivateTickets(token)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -222,7 +222,7 @@ const logic = {
             try {
                 return await restApi.retrieveAmountByProdcut(token, product)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -236,10 +236,10 @@ const logic = {
 
         return (async () => {
             try {
-                
+
                 return await restApi.retrieveByCategory(token, category)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -250,7 +250,7 @@ const logic = {
             try {
                 return await restApi.listItems()
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -266,7 +266,7 @@ const logic = {
             try {
                 return await restApi.addAlert(token, alert)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -283,7 +283,7 @@ const logic = {
             try {
                 return await restApi.edditAlert(token, alertId, data)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -300,7 +300,7 @@ const logic = {
             try {
                 return await restApi.deleteAlert(token, alertId)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -316,7 +316,7 @@ const logic = {
             try {
                 return await restApi.deleteAllAlerts(token)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -331,7 +331,7 @@ const logic = {
             try {
                 return await restApi.listAlerts(token)
 
-            } catch (error) { throw  Error(error) }
+            } catch (error) { throw Error(error) }
 
         })()
     },
@@ -371,6 +371,62 @@ const logic = {
 
             }
             return globalChart
+
+        })()
+
+
+    },
+
+
+    getAlertOverload(token) {
+
+        return (async () => {
+
+            const list = await logic.listAlerts(token)
+            let alertMessage = null
+
+            list.forEach(product => {if (product.Euro > product.maxValue) alertMessage= "Check your alerts!"})
+            debugger
+            return alertMessage
+        })()
+
+    },
+
+
+
+    monthTicket(token, date) {
+
+        return (async () => {
+
+            let monthChart = []
+            let conincidence = false
+            let itemPushed = false
+
+            const tickets = await restApi.retrivePrivateTicketsByDates(token, date)
+            for (let i = 0; i < tickets.length; i++) {
+
+                tickets[i].items.forEach(item => {
+
+                    if (!itemPushed) {
+                        conincidence = false
+
+                        monthChart.forEach(product => {
+                            if (item.name === product.name) {
+                                product.Euro += item.Euro
+                                conincidence = true
+                            }
+                        })
+
+                        if (!conincidence) {
+                            monthChart.push({ name: item.name, Euro: item.Euro })
+                            conincidence = false
+                        }
+                    } else itemPushed = true
+
+                })
+
+            }
+            return monthChart
 
         })()
 

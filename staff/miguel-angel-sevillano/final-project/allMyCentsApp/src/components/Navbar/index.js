@@ -26,7 +26,7 @@ function Navbar({ goHome,
                     <div class="navbar-end"></div>
                     <div class="navbar-item">
                         <div class="buttons">
-                            <a class="button is-primary" onClick={logOut}>
+                            <a class="button is-danger" onClick={logOut}>
                                 <strong>Log Out</strong>
                             </a>
                         </div>

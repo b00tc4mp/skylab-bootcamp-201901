@@ -1,5 +1,6 @@
 import React, { useState, Fragment } from 'react'
 import CategoryChart from '../CategoryChart'
+import MonthChart from '../MonthChart'
 
 function Estadistics({ selectedCategory,
     recivedCategory,
@@ -18,7 +19,7 @@ function Estadistics({ selectedCategory,
 
 
     let categoryChoosen
-    let monthChoosen
+  
     let productQuery
     let products
 
@@ -45,10 +46,11 @@ function Estadistics({ selectedCategory,
 
         let date =new Date().toISOString().replace('-', '/').split('T')[0].replace('-', '/')
         let e = document.getElementsByName("Month");
-        monthChoosen = e[0].options[e[0].selectedIndex].value
+        let  monthChoosen = e[0].options[e[0].selectedIndex].value
+        let monthString = e[0].options[e[0].selectedIndex].label
         date = date.slice(0,4)
         debugger
-        selectedMonth(date+"/"+monthChoosen)
+        selectedMonth({month:date+"/"+monthChoosen},monthString)
 
 
 
@@ -81,7 +83,7 @@ function Estadistics({ selectedCategory,
                 </div>
             </div>
             <div class="control">
-                <button type="submit" class="button is-primary" onClick={handleCategory}>Choose</button>
+                <button type="submit" class="button is-success" onClick={handleCategory}>Choose</button>
             </div>
         </div>
         {!recivedCategoryError && recivedCategory && <div class="box">
@@ -98,27 +100,27 @@ function Estadistics({ selectedCategory,
             <div class="control is-expanded">
                 <div class="select is-fullwidth">
                     <select name="Month">
-                        <option value="01">January</option>
-                        <option value="02">February</option>
-                        <option value="03">March</option>
-                        <option value="04">April</option>
-                        <option value="05">May</option>
-                        <option value="06">June</option>
-                        <option value="07">July</option>
-                        <option value="08">Aogust</option>
-                        <option value="09">September</option>
-                        <option value="10">October</option>
-                        <option value="11">November</option>
-                        <option value="12">December</option>
+                        <option value="01" name="January">January</option>
+                        <option value="02" name="February">February</option>
+                        <option value="03" name="March">March</option>
+                        <option value="04"name="April">April</option>
+                        <option value="05" name="May">May</option>
+                        <option value="06" name="June">June</option>
+                        <option value="07" name="July">July</option>
+                        <option value="08"name="Agoust">Agoust</option>
+                        <option value="09"name="September">September</option>
+                        <option value="10"name="October">October</option>
+                        <option value="11"name="Novermber">November</option>
+                        <option value="12" name="December">December</option>
                     </select>
                 </div>
             </div>
             <div class="control">
-                <button type="submit" class="button is-primary" onClick={handleMonth}>Choose</button>
+                <button type="submit" class="button is-success" onClick={handleMonth}>Choose</button>
             </div>
         </div>
         {!recivedMonthError && recivedMonth && <div class="box">
-            <CategoryChart data={recivedMonth} />
+            <MonthChart data={recivedMonth} />
             <button class="button is-danger" onClick={clearMonth}>Clear</button>
         </div>}
         {recivedMonthError && <div class="box">
@@ -137,7 +139,7 @@ function Estadistics({ selectedCategory,
             <div class="field has-addons">
                 <div class="control">
                     <input class="input" type="text" name="query" placeholder="Search product" />
-                    <button type="submit" class="button is-primary" onClick={handleSearch} >Find</button>
+                    <button type="submit" class="button is-success" onClick={handleSearch} >Find</button>
                 </div>
             </div>
             {products && <span>{products}</span>}

@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 
 
 
-export function ConfirmAlert({ onSelectYes,onSelectNo }) {
+export function LoadingModal({ children, onClose }) {
 debugger
     return ReactDOM.createPortal(
         <div class="modal is-active">
@@ -11,14 +11,12 @@ debugger
             <div class="modal-content">
                 <div class="box">
                     <div class="content">
-                        <span>
-                        Are you sure ?
-                        <button class="button is-success"  onClick={onSelectYes}>Yes</button>
-                        <button class="button is-danger"  onClick={onSelectNo}>No</button>
-                        </span>
+                        <span>{children}</span>
                     </div>
                 </div>
             </div>
         </div>
         , document.getElementById('modal'))
 }
+
+

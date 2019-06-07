@@ -33,7 +33,7 @@ function CategoryChart({data}) {
 
 
     if (typeof (res) != "string") {
-
+debugger
         res.forEach(item => {
 
             if (item.date) {
@@ -48,11 +48,11 @@ function CategoryChart({data}) {
 
        {res && <div class="box">
             <div class="box">
-                {date}
+                <span class="tag is-warning">{date}</span>
             </div>
 
             <div class="box">
-                {cat}
+            <span class="tag is-warning">{cat}</span>
             </div>
 
 
@@ -72,7 +72,7 @@ function CategoryChart({data}) {
 
             </BarChart>
 
-            <h2>Overall consumption = {totalP.toFixed(2)} €</h2>
+            <span class="tag is-warning">Overall consumption = {totalP.toFixed(2)} €</span>
         </div>}
 
     </>
