@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
+import React, { Component } from "react";
+import styled from "styled-components";
 
 const Wrapper = styled.div`
   position: relative;
@@ -17,39 +17,31 @@ class SearchBox extends Component {
 
   componentDidMount({ map, mapApi } = this.props) {
     this.searchBox = new mapApi.places.SearchBox(this.searchInput);
-    this.searchBox.addListener('places_changed', this.onPlacesChanged);
-    this.searchBox.bindTo('bounds', map);
+    this.searchBox.addListener("places_changed", this.onPlacesChanged);
+    this.searchBox.bindTo("bounds", map);
   }
 
   componentWillUnmount({ mapApi } = this.props) {
     mapApi.event.clearInstanceListeners(this.searchInput);
   }
 
-  onPlacesChanged = ({ map, addplace } = this.props) => {
+  onPlacesChanged = ({ map, onSearchResult } = this.props) => {
     const selected = this.searchBox.getPlaces();
     const { 0: place } = selected;
     if (!place.geometry) return;
-    if (place.geometry.viewport) {
-      map.fitBounds(place.geometry.viewport);
-    } else {
-      map.setCenter(place.geometry.location);
-      map.setZoom(17);
-    }
-
-    debugger
-    addplace(selected);
+    onSearchResult(place);
     this.searchInput.blur();
   };
 
   clearSearchBox() {
-    this.searchInput.value = '';
+    this.searchInput.value = "";
   }
 
   render() {
     return (
       <Wrapper>
         <input
-          ref={(ref) => {
+          ref={ref => {
             this.searchInput = ref;
           }}
           type="text"

@@ -8,14 +8,18 @@
     "google-map-react": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
     "node-sass": "^4.12.0",
+    "photopin-call": "file:../photopin-call",
     "photopin-data": "file:../photopin-data",
     "photopin-errors": "file:../photopin-errors",
+    "photopin-normalize": "file:../photopin-normalize",
     "photopin-validate": "file:../photopin-validate",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
+    "react-modal": "^3.8.1",
     "react-router-dom": "^5.0.0",
     "react-scripts": "3.0.1",
-    "styled-components": "^4.2.1"
+    "styled-components": "^4.2.1",
+    "uikit": "^3.1.5"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -40,6 +44,7 @@
   "devDependencies": {
     "bcrypt": "^3.0.6",
     "chai": "^4.2.0",
+    "dotenv": "^8.0.0",
     "mocha": "^6.1.4",
     "nyc": "^14.1.1"
   },

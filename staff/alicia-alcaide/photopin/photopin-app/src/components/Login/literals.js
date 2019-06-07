@@ -1,11 +1,13 @@
 export default {
     en: {
-        title: 'Login',
+        title: 'PhotoPin',
+        subtitle: 'Login',
         email: 'E-mail',
         password: 'Password'
     },
     es: {
-        title: 'Iniciar sesión',
+        title: 'PhotoPin',
+        subtitle: 'Iniciar sesión',
         email: 'Correo electrónico',
         password: 'Contraseña'
     }
