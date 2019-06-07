@@ -109,7 +109,7 @@ const logic = {
 
     // order
 
-    addOrder( ubication) {
+    addOrder(ubication) {
         const validator = {
             ubication: Joi.string().required()
         }
@@ -119,7 +119,7 @@ const logic = {
 
         return (async () => {
             try {
-                await dataApi.createOrder(this.__userToken__, ubication)
+                await dataApi.createOrder(ubication, this.__userToken__)
             } catch (err) {
                 throw Error(err.message)
             }

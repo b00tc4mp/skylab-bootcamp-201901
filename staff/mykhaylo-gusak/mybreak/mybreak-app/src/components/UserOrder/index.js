@@ -12,6 +12,10 @@ function UserOrder({ user, handleAddCard, handleCloseCard, userCard, total, setT
     debugger
     const { card } = user
 
+    const [xxx, setXxx] = useState(0)
+
+    console.log(card)
+    console.log(xxx)
     const className1 = cx({
         'g-Home__order-user-back g-Home__order-user-back--opened': userCard,
         'g-Home__order-user-back': !userCard
@@ -19,13 +23,12 @@ function UserOrder({ user, handleAddCard, handleCloseCard, userCard, total, setT
 
     useEffect(() => {
         let acc = 0
-        const { card } = user
         card.map(elem => {
             acc += Number(elem.price)
         })
-        setTotal(acc)
-    }, [])
-    
+        setXxx(acc)
+    }, [card])
+
     return (
         <section className={className1}>
             <div className='g-Home__order-user'>
@@ -38,7 +41,7 @@ function UserOrder({ user, handleAddCard, handleCloseCard, userCard, total, setT
                 <TitleSubCategory subTitle={'bakery'} />
                 <MyProducts card={card} categoryOfProduct={'Bakery'} handleAddCard={handleAddCard} />
                 <div className='g-Home__order-user-total'>
-                    <ProductPrice  price={`TOTAL: ${total}`}/>
+                    <ProductPrice price={`TOTAL: ${xxx}`} />
                 </div>
                 <button onClick={handleAddOrder}>Order</button>
             </div>

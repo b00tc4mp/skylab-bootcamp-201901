@@ -59,6 +59,7 @@ function App() {
     }
     else setMenu(false)
   }
+
   const handleCloseMenu = () => setMenu(false)
 
   const handleOpenCard = () => {
@@ -72,11 +73,9 @@ function App() {
   const handleAddOrder = async () => {
     try {
       await logic.addOrder('calle bla bla')
-      setOrder(true)
-    } catch (err) {
+     } catch (err) {
       setOrderError(err.message)
     }
-
   }
 
   const handleCloseCard = () => setCard(false)

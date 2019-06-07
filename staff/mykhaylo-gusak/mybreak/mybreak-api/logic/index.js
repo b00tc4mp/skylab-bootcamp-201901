@@ -215,6 +215,7 @@ const logic = {
 
                 const order = await Order.create({ author: user._id, products: user.card, ubication })
                 user.orders.push(order._id)
+                user.card = []
                 await User.findByIdAndUpdate(id, user)
 
             } catch (err) {

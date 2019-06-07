@@ -11,7 +11,7 @@ import { CSSTransition } from 'react-transition-group'
 
 import logic from '../../logic'
 
-function Home({ user, handleAddCard, logOut, userMenu, userCard, handleCloseMenu, handleCloseCard, total, setTotal, order, handleAddOrder }) {
+function Home({ user, handleAddCard, logOut, userMenu, userCard, handleCloseMenu, handleCloseCard, total, setTotal, handleAddOrder }) {
     debugger
     const [products, setProducts] = useState(false);
     const [showError, setErrorMessage] = useState(false);
@@ -30,7 +30,7 @@ function Home({ user, handleAddCard, logOut, userMenu, userCard, handleCloseMenu
 
     return (
         <>
-            {<UserMenu logOut={logOut} handleCloseMenu={handleCloseMenu} userMenu={userMenu} order={order} />}
+            {user && <UserMenu logOut={logOut} handleCloseMenu={handleCloseMenu} userMenu={userMenu} user={user} />}
 
             {user && < UserOrder user={user} handleAddCard={handleAddCard} handleCloseCard={handleCloseCard} total={total} setTotal={setTotal} handleAddOrder={handleAddOrder} />}
 

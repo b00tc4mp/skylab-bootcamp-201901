@@ -13,7 +13,9 @@ import '../../../node_modules/bulma/bulma.sass'
 const cx = require('classnames');
 
 
-function UserMenu({ logOut, handleOpenMenu, handleCloseMenu, userMenu, order}) {
+function UserMenu({ logOut, handleOpenMenu, handleCloseMenu, userMenu, user }) {
+
+    const { orders } = user
 
     const className1 = cx({
         'g-UserMenu g-UserMenu--opened': userMenu,
@@ -31,12 +33,16 @@ function UserMenu({ logOut, handleOpenMenu, handleCloseMenu, userMenu, order}) {
             <div className={className2}>
 
                 <section className='g-UserMenu__category'>
-                    <FontAwesomeIcon icon={faArchive} />
-                    <h2>Orders</h2>
-                { order && order.map(elem => {
-                    debugger
-                    return <h1>{elem.date}</h1>
-                })}
+                    <div className='g-UserMenu__category-title'>
+                        <FontAwesomeIcon icon={faArchive} />
+                        <h2>Orders</h2>
+                    </div>
+                    <div className='g-UserMenu__category-products'>
+                        {orders && orders.map(elem => {
+                            debugger
+                            return <h1>{elem.date}</h1>
+                        })}
+                    </div>
                 </section>
 
                 <section className='g-UserMenu__category'>
