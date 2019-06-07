@@ -115,7 +115,6 @@ function PieChart({ error, hotfix, bugfix, bug, request }) {
                 />
             )}
             </div>
-            <span>{error}</span>
         </div>
         
 

@@ -57,7 +57,7 @@ function TableResolution({ error, hotfix, bugfix, bug, request }) {
         ])
     arrayTable.push(['Total', totalCNR,  totalDone, totalDuplicate, totalIncomplete, totalIsNot, totalWontFix, totalUnresolved, totalTotal])
 
-    return <div className="container-tableresolution">
+    return <div className="container-tableresolution uk-box-shadow-bottom">
         <Chart
                 width={'800px'}
                 height={'300px'}

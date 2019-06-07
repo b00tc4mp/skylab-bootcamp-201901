@@ -39,7 +39,7 @@ function TableSLA({ error, tableSLA }) {
 
     arrayTable.push(['Total', `${totalOverdue}`, `${totalOverdueP}%`, `${totalOntime}`, `${totalOntimeP}%`, `${totalTotal}`])
 
-    return <div className="container-tablesla">
+    return <div className="container-tablesla uk-box-shadow-bottom">
     <Chart
             width={'400px'}
             height={'300px'}
