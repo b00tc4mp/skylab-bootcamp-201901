@@ -1,0 +1,36 @@
+.g-UserMenu
+    position: absolute
+    width: 0
+    height: 100vh
+    overflow: hidden
+    background-color: rgba(158,158,158,0)
+    transition: background-color ease-in 0.3s
+    z-index: 1
+
+    &--opened
+        width: 100%
+        background-color: rgba(158,158,158,0.5)
+
+
+    &__menu
+        width: 0
+        height: 100vh
+        background-color: white
+        transition: width ease-in 0.3s
+        display: flex
+        align-items: center
+        flex-direction: column
+ 
+
+        &--opened
+            width: 70%
+            max-width: 300px
+    
+    
+    &__category
+        width: 100%
+        display: flex
+        justify-content: space-evenly
+
+
+

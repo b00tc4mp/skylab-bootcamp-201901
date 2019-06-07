@@ -3,10 +3,14 @@ import './index.sass'
 import Button from '../../components/Button'
 import Logo from '../../components/Logo'
 
-function Landing({handleProductsByCategory}) {
-        return (
+function Landing({ openRegister, openLogin }) {
+    return (
         <section className='g-Landing'>
-            <Button start={true} primary={true} click={handleProductsByCategory}/>
+            {/* <Logo/> */}
+            <div className='g-Landing__buttons' >
+                <Button primary={true} register={true} click={openRegister} />
+                <Button secondary={true} login={true} click={openLogin} />
+            </div>
         </section>
     );
 }

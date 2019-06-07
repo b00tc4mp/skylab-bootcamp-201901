@@ -74,7 +74,7 @@ const dataApi = {
                     headers: { Authorization: `Bearer ${token}` },
                     timeout: this.__timeout__
                 })
-                debugger
+
                 return await response.json()
             } catch (err) {
                 throw Error(err.message)
@@ -84,14 +84,54 @@ const dataApi = {
 
     // Order
 
-    createOrder() {
-
+    createOrder(ubication, token) {
+        const validator = {
+            token: Joi.string().required(),
+            ubication: Joi.string().required()
+        }
+        const validation = Joi.validate({ token, ubication }, validator);
+        debugger
+        if (validation.error) throw new ValidationError(validation.error.message)
+        debugger
+        return (async () => {
+            try {
+                debugger
+                await call(`${this.__url__}/order/add`, {
+                    method: 'POST',
+                    headers: {
+                        Authorization: `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ ubication }),
+                    timeout: this.__timeout__
+                })
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
 
 
     },
 
-    retrieveOrders() {
+    retrieveOrders(token) {
+        const validator = {
+            token: Joi.string().required()
+        }
+        const validation = Joi.validate({ token }, validator);
 
+        if (validation.error) throw new ValidationError(validation.error.message)
+
+        return (async () => {
+            try {
+                const orders = await call(`${this.__url__}/order/retrieve`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                    timeout: this.__timeout__
+                })
+                return await orders.json()
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
 
     },
 
@@ -123,12 +163,35 @@ const dataApi = {
         })()
     },
 
+
+    retrieveProducts(category, token) {
+        const validator = {
+            category: Joi.string().required(),
+            token: Joi.string().required()
+        }
+        const validation = Joi.validate({ category, token }, validator);
+
+        if (validation.error) throw new ValidationError(validation.error.message)
+
+        return (async () => {
+            try {
+                const response = await call(`${this.__url__}/products/${category}`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                    timeout: this.__timeout__
+                })
+                return await response.json()
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
+    },
+
     cardUpdate(productId, token) {
         const validator = {
             productId: Joi.string().required(),
             token: Joi.string().required()
         }
-        debugger
+
         const validation = Joi.validate({ productId, token }, validator);
 
         if (validation.error) throw new ValidationError(validation.error.message)

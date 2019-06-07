@@ -69,13 +69,13 @@ const logic = {
 
         return (async () => {
             try {
-                debugger
+                
                 const _id = mongoose.Types.ObjectId(id)
-                debugger
+                
                 const user = await User.findOne({ _id }).select('name surname email age card orders -_id').populate('card orders').lean()
-                debugger
+                
                 if (!user) throw new LogicError(`User with id:${id} not exists.`)
-                debugger
+                
                 return user
             } catch (err) {
                 throw Error(err.message)
@@ -87,21 +87,21 @@ const logic = {
         const validator = {
             id: Joi.string().required()
         }
-        debugger
+        
         const validation = Joi.validate({ id }, validator);
         if (validation.error) throw new ValidationError(validation.error.message)
         return (async () => {
             try {
                 const user = await User.findById(id).select('name surname email age orders card -_id').lean()
-                debugger
+                
                 if (!user) throw new LogicError(`User with id:${id} not exists.`)
-                debugger
+                
                 if (data.name) user.name = data.name
                 if (data.surname) user.surname = data.surname
-                debugger
+                
                 if (data.email) user.email = data.email
                 if (data.age) user.age = data.age
-                debugger
+                
                 await User.findByIdAndUpdate(id, user)
 
                 return user
@@ -141,9 +141,24 @@ const logic = {
         return (async () => {
             try {
                 const products = await Product.find({ category }).lean()
-                debugger
+                
                 if (!products) throw Error(`Product with category:${category} not exists.`)
-                debugger
+                
+                return products
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
+    },
+
+    retrieveAllProducts() {
+
+        return (async () => {
+            try {
+                const products = await Product.find({ }).lean()
+                
+                if (!products) throw Error(`There are no products.`)
+                
                 return products
             } catch (err) {
                 throw Error(err.message)
@@ -161,20 +176,20 @@ const logic = {
             productId: Joi.string().required()
         }
         const validation = Joi.validate({ id, productId }, validator);
-        debugger
+        
         if (validation.error) throw new ValidationError(validation.error.message)
 
         return (async () => {
             try {
-                debugger
+                
                 const user = await User.findById(id).select('card -_id').lean()
                 if (!user) throw new LogicError(`User with id:${id} not exists.`)
-                debugger
+                
                 const _productId = mongoose.Types.ObjectId(productId)
                 const index = user.card.findIndex(elem => elem.toString() == productId)
                 if (index > -1) user.card.splice(index, 1)
                 else user.card.push(_productId)
-                debugger
+                
                 await User.findByIdAndUpdate(id, user)
 
             } catch (err) {
@@ -213,17 +228,17 @@ const logic = {
         const validator = {
             author: Joi.string().required()
         }
-        debugger
+        
         const validation = Joi.validate({ author }, validator);
-        debugger
+        
         if (validation.error) throw new ValidationError(validation.error.message)
-        debugger
+        
         return (async () => {
             try {
-                debugger
+                
                 const orders = await Order.find({ author }).select('date products ubication -_id').populate('products').lean()
                 if (!orders) throw new LogicError(`Orders made by author with id:${author} not exists.`)
-                debugger
+                
                 return orders
             } catch (err) {
                 throw Error(err.message)

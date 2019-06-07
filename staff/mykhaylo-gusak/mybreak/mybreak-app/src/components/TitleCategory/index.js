@@ -1,4 +1,5 @@
 import React from 'react'
+import './index.sass'
 
 
 
@@ -7,7 +8,7 @@ function TitleCategory({title}) {
 
     return (<>
         <div className='g-TitleCategory'>
-            <h1>{title}</h1>
+            <h2>{title}</h2>
         </div>
 
     </>)

@@ -21,7 +21,6 @@ function Button({ primary, secondary, accept, cancel, register, login, start, cl
         'LogOut': logOut
     })
 
-
     return (
         <button className={className} onClick={click}>{text}</button>
     )

@@ -5,11 +5,11 @@ import logic from '../../logic'
 import './index.sass'
 import '../../../node_modules/bulma/bulma.sass'
 
-function Header({ initSession, userLogged }) {
+function Header({ handleRetrieveUser, logOut, user, showRetrieveUser, handleOpenMenu, handleOpenCard }) {
 
   const [showLogin, setLogin] = useState(false);
   const [showRegister, setRegister] = useState(false);
-  const [userinfo, setUserInfo] = useState(false);
+
 
   const openLogin = () => setLogin(true)
   const closeLogin = () => setLogin(false)
@@ -20,22 +20,10 @@ function Header({ initSession, userLogged }) {
     setLogin(true)
   }
 
-  const logOut = () => {
-    logic.logOut()
-    window.location.href = '/'
-  }
-
-  const handleUserInfo = async ()=> {
-    const user = await logic.retrieveUser()
-    setUserInfo(user)
-  }
-
-
-
   return (
-    <header className='header'>
-      <div className='header__cnt'>
-        {logic.isUserLoggedIn && userinfo ? <UserInfo logOut={logOut} user={userinfo} /> : <UserAccount showLogin={showLogin} showRegister={showRegister} userRegistered={userRegistered} userLogged={userLogged} closeRegister={closeRegister} openRegister={openRegister} closeLogin={closeLogin} openLogin={openLogin}/>}
+    <header className='g-header'>
+      <div className='g-header__cnt'>
+        {logic.isUserLoggedIn ? !showRetrieveUser && <UserInfo user={user} logOut={logOut} handleOpenMenu={handleOpenMenu} handleOpenCard={handleOpenCard} /> : <UserAccount showLogin={showLogin} openLogin={openLogin} closeLogin={closeLogin} showRegister={showRegister} openRegister={openRegister} closeRegister={closeRegister} userRegistered={userRegistered} handleRetrieveUser={handleRetrieveUser} />}
       </div>
     </header>
   );

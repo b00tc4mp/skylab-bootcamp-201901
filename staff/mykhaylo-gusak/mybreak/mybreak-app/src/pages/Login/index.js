@@ -14,20 +14,21 @@ import logic from '../../logic/index.js'
 import '../../../node_modules/bulma/bulma.sass'
 import './index.sass'
 
-function Login({ closeLogin }) {
+function Login({ closeLogin, handleRetrieveUser }) {
+
     const [showError, setErrorMessage] = useState(false);
 
     function handleSubmit(event) {
-        debugger
+
         event.preventDefault()
 
         const email = document.getElementsByName("email")[0].value
         const password = document.getElementsByName("password")[0].value
-        debugger
+
         return (async () => {
             try {
                 await logic.loginUser(email, password)
-                window.location.href = '/home'
+                handleRetrieveUser()
             } catch (error) {
                 setErrorMessage(error.message)
             }

@@ -57,7 +57,7 @@ describe('logic', () => {
         })
         // it('should fail on already existing user', async () => {
         //     const response = await logic.registerUser(userData.name, userData.surname, userData.email, userData.password)
-        //     debugger
+        //     
         //     expect(response).to.throw(Error)
 
 
@@ -157,7 +157,7 @@ describe('logic', () => {
             expect(id).to.have.lengthOf(24)
 
             let user = await User.findOne({ email }).lean()
-            debugger
+
             expect(user).to.exist
             expect(user._id.toString()).to.equal(id)
 
@@ -274,11 +274,11 @@ describe('logic', () => {
             await Product.deleteMany()
             await Order.deleteMany()
 
-            await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image:'https://picsum.photos/200' })
-            await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image:'https://picsum.photos/200' })
-            await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image:'https://picsum.photos/200' })
-            await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image:'https://picsum.photos/200' })
-            await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image:'https://picsum.photos/200' })
+            await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+            await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+            await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+            await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+            await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
 
 
         })
@@ -294,11 +294,11 @@ describe('logic', () => {
                 email = `email-${Math.random()}`
                 password = `password-${Math.random()}`
                 age = Math.random()
-                debugger
+
                 await User.create({ name, surname, email, password, age })
                 user = await User.findOne({ email }).lean()
                 author = user._id.toString()
-                debugger
+
             })
 
             it.only('should succed on correct data order', async () => {
@@ -306,10 +306,10 @@ describe('logic', () => {
                 expect(order).not.to.exist
                 author = mongoose.Types.ObjectId(author)
                 const _order = await Order.find({ author }).lean()
-                debugger
+
                 expect(_order).to.exist
                 expect(_order[0].author).to.deep.equal(author)
-                debugger
+
                 expect(_order[0].products[0]).to.deep.equal(products[0]._id)
                 expect(_order[0].products[1]).to.deep.equal(products[1]._id)
                 expect(_order[0].products[2]).to.deep.equal(products[2]._id)

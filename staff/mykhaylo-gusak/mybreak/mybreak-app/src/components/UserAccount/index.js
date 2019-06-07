@@ -5,7 +5,7 @@ import Login from '../../pages/Login'
 import Register from '../../pages/Register'
 import '../../../node_modules/bulma/bulma.sass'
 
-function UserAccount({ showLogin, showRegister, userRegistered, closeRegister, openLogin, openRegister, closeLogin }) {
+function UserAccount({ handleRetrieveUser, showLogin, showRegister, userRegistered, closeRegister, openLogin, openRegister, closeLogin }) {
 
     return (<>
         <div className='g-UserAccount'>
@@ -13,7 +13,7 @@ function UserAccount({ showLogin, showRegister, userRegistered, closeRegister, o
             <Button secondary={true} login={true} click={openLogin} />
         </div>
 
-        {showLogin && <Modal><Login closeLogin={closeLogin} /></Modal>}
+        {showLogin && <Modal><Login handleRetrieveUser={handleRetrieveUser} closeLogin={closeLogin} /></Modal>}
         {showRegister && <Modal><Register closeRegister={closeRegister} userRegistered={userRegistered} /></Modal>}
     </>);
 }

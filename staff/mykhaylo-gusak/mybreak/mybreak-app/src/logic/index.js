@@ -71,9 +71,9 @@ const logic = {
     retrieveUser() {
         return (async () => {
             try {
-                debugger
+
                 const user = await dataApi.retrieve(this.__userToken__)
-                debugger
+
                 if (!user) throw new LogicError(`Incorrect token:${this.__userToken__}.`)
                 return user
             } catch (err) {
@@ -109,8 +109,21 @@ const logic = {
 
     // order
 
-    addOrder(products, author) {
+    addOrder( ubication) {
+        const validator = {
+            ubication: Joi.string().required()
+        }
+        const validation = Joi.validate({ ubication }, validator);
 
+        if (validation.error) throw new ValidationError(validation.error.message)
+
+        return (async () => {
+            try {
+                await dataApi.createOrder(this.__userToken__, ubication)
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
 
     },
 

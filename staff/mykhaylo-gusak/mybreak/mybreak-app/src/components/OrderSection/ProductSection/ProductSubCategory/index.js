@@ -1,16 +1,15 @@
 import React from 'react'
-import TitleSubCategory from './TitleSubCategory'
+import TitleSubCategory from '../../../TitleSubCategory'
 import Products from './Products'
 
 
+function ProductSubCategory({ products, subCategoryOfProduct, categoryOfProduct, handleAddCard, card }) {
 
-function ProductSubCategory({ products }) {
-    debugger
 
     return (
-        <div className='g-ProductSubCategory'>
-            <TitleSubCategory subTitle={'Beer'} />
-            <Products products={products} />
+        <div className='g-Home__order-section-products-category-subCategory'>
+            <TitleSubCategory subTitle={subCategoryOfProduct} />
+            <Products products={products} subCategoryOfProduct={subCategoryOfProduct} categoryOfProduct={categoryOfProduct} handleAddCard={handleAddCard} card={card} />
         </div>
 
     )

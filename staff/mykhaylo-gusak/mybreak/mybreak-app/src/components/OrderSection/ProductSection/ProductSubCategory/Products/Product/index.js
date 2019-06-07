@@ -3,13 +3,17 @@ import ProductTitle from './ProductTitle'
 import ProductPrice from './ProductPrice'
 import ProductImg from './ProductImg'
 import './index.sass'
+const cx = require('classnames');
 
+function Product({ image, titleProduct, priceProduct, click, selected }) {
 
-function Product({ image, titleProduct, priceProduct, click }) {
+    const className = cx({
+        'g-Home__order-section-products-category-subCategory-products-product g-Home__order-section-products-category-subCategory-products-product--selected': selected,
+        'g-Home__order-section-products-category-subCategory-products-product': !selected
+    })
 
-    debugger
     return (<>
-        <a href='#' onClick={click} className='g-Product'>
+        <a href='#' onClick={click} className={className}>
             <ProductImg image={image} titleProduct={titleProduct} />
             <ProductTitle titleProduct={titleProduct} />
             <ProductPrice priceProduct={priceProduct} />

@@ -7,7 +7,7 @@ function Footer() {
 
 
     return (
-        <footer className='footer__container'>
+        <footer className='g-footer'>
         <nav></nav>
     </footer>
     );

@@ -1,19 +1,28 @@
-import React, { useState } from 'react'
-import Button from '../Button'
+import React, { useState, useEffect } from 'react'
+import ShoppingBasket from '../ShoppingBasket'
+import logic from '../../logic'
+import './index.sass'
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faAlignJustify } from '@fortawesome/free-solid-svg-icons';
 
 import '../../../node_modules/bulma/bulma.sass'
 
-function UserInfo({ logOut, user }) {
-    const { name, surname, age, card, orders } = user
+function UserInfo({ user, handleOpenMenu, handleOpenCard }) {
+
+    const { card } = user
+
     return (
         <header className='g-UserInfo'>
-            <p>{name}</p>
-            <p>{surname}</p>
-            <p>{age}</p>
-            <p>{card}</p>
-            <p>{orders}</p>
-            <Button secondary={true} logOut={true} click={logOut} />
-        </header>
+            <div className='g-UserInfo__icon'>
+                <FontAwesomeIcon icon={faAlignJustify} onClick={handleOpenMenu} />
+            </div>
+            <h1 className='g-UserInfo__title'>MyBreakfast</h1>
+
+            <div className='g-UserInfo__icon'>
+                {card && <ShoppingBasket card={card} click={handleOpenCard} />}
+            </div>
+        </header >
     );
 }
 

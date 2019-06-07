@@ -1,5 +1,5 @@
 import React from 'react'
-import Bybreak from './logo.svg'
+import Logotip from './logo.svg'
 
 
 function Logo() {
@@ -7,7 +7,7 @@ function Logo() {
     return (
 
         <div className='g-Logo'>
-            <Bybreak />
+            <Logotip />
         </div>
 
     );
