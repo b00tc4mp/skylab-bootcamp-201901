@@ -1,10 +1,13 @@
+import { ProviderModel, Provider } from './../../../data/models/provider';
 import * as bcrypt from 'bcryptjs';
 import { IsIn, IsNotEmpty } from 'class-validator';
 import { Arg, Ctx, Field, InputType, Mutation, Resolver } from 'type-graphql';
 import { isEmail, isIn } from 'validator';
 import { AuthorizationError, ValidationError } from '../../../common/errors';
 import { MyContext } from '../../middleware/MyContext';
-import { GUEST_ROLE, ROLES, SUPERADMIN_ROLE, User, UserModel, USER_ROLE } from '../../../data/models/user';
+import { GUEST_ROLE, ROLES, SUPERADMIN_ROLE, REQUESTBECUSTOMER, PENDING, USER_ROLE } from './../../../data/enums';
+import { RequestCustomerModel } from './../../../data/models/request';
+import { User, UserModel } from '../../../data/models/user';
 
 @InputType()
 export class CreateInput {
@@ -21,11 +24,17 @@ export class CreateInput {
   email: string;
 
   @Field()
+  phone: string;
+
+  @Field()
   password: string;
 
   @Field()
   @IsIn(ROLES)
   role: string;
+
+  @Field({ nullable: true })
+  providerId?: string;
 }
 
 @Resolver(User)
@@ -33,7 +42,7 @@ export class CreateUserResolver {
   @Mutation(returns => String)
   async createUser(
     @Arg('data')
-    { email, name, surname, password, role }: CreateInput,
+    { email, name, surname, phone, password, role, providerId }: CreateInput,
     @Ctx() ctx: MyContext
   ) {
     // Custom Validations
@@ -50,9 +59,13 @@ export class CreateUserResolver {
     }
 
     // Create
+    const provider = !!providerId ? await ProviderModel.findById(providerId) : null;
+    if (providerId && !provider) throw new ValidationError('provider not found');
+
     const hashPassword = await bcrypt.hash(password!, 12);
     try {
-      const user = await UserModel.create({ name, surname, email, password: hashPassword, role });
+      const user = await UserModel.create({ name, surname, email, phone, password: hashPassword, role });
+      if (provider) await RequestCustomerModel.create({ provider, user, type: REQUESTBECUSTOMER, status: PENDING });
       return user.id;
     } catch (err) {
       const { errors } = err;

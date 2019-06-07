@@ -3,7 +3,8 @@ import { Arg, Authorized, Ctx, Field, InputType, Mutation, Resolver } from 'type
 import { LogicError } from '../../../../common/errors';
 import { MyContext } from '../../../middleware/MyContext';
 import { Provider, ProviderModel } from '../../../../data/models/provider';
-import { SessionModel, SESSIONSTATUS, SESSIONVISIBILITY } from '../../../../data/models/session';
+import { SessionModel } from '../../../../data/models/session';
+import { SESSIONSTATUS, SESSIONVISIBILITY } from '../../../../data/enums';
 import { SessionTypeModel } from '../../../../data/models/session-type';
 import { User, UserModel } from '../../../../data/models/user';
 import { ONLY_ADMINS_OF_PROVIDER } from '../../../middleware/authChecker';
@@ -44,7 +45,6 @@ export class CreateSessionsInput {
   @Field()
   @IsIn(SESSIONVISIBILITY)
   visibility: string;
-
 }
 
 @Resolver(Provider)

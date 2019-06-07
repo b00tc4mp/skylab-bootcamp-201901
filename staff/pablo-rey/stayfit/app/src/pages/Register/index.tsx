@@ -1,46 +1,68 @@
-import React, { useState } from 'react';
+import { IonButton, IonCol, IonGrid, IonImg, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast } from '@ionic/react';
+import React, { useContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
-import {
-  IonButton,
-  IonInput,
-  IonText,
-  IonItem,
-  IonLabel,
-  IonGrid,
-  IonToast,
-  IonRow,
-  IonCol,
-} from '@ionic/react';
+import logic from '../../logic';
+import { MainContext } from '../../logic/contexts/main-context';
 
 function Register({ history }) {
   const [name, setName] = useState('');
   const [surname, setSurname] = useState('');
   const [email, setEmail] = useState('');
+  const [phone, setPhone] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [provider, setProvider] = useState(null);
 
-  const handleLogin = e => {
+  const ctx = useContext(MainContext);
+
+  const handleLogin = async e => {
     e.preventDefault();
-    // try {
-    //   logic
-    //     .registerUser(name, surname, email, password)
-    //     .then(() => {
-    //       return logic.loginUser(email, password);
-    //     })
-    //     .then(() => logic.isLogged && history.push('/'))
-    //     .catch(err => setError(err.message));
-    // } catch (err) {
-    //   setError(err.message);
-    // }
+    let id;
+    if (provider) {
+      id = await logic.registerUser({
+        name,
+        surname,
+        email,
+        password,
+        phone,
+        role: 'USER_ROLE',
+        providerId: provider.id,
+      });
+    } else {
+      id = await logic.registerUser({
+        name,
+        surname,
+        email,
+        password,
+        phone,
+        role: 'GUEST_ROLE',
+        providerId: provider.id,
+      });
+    }
+    await ctx.login(email, password);
+    history.push('/')
   };
+
+  const url = window.location.toString();
+  useEffect(() => {
+    (async () => {
+      const providers = await logic.listProviders();
+      const defaultProvider = providers.find(
+        provider => !!provider.registrationUrl && url.includes(provider.registrationUrl)
+      );
+      setProvider(defaultProvider);
+    })();
+  }, [url]);
+
   return (
     <IonGrid>
       <form onSubmit={handleLogin}>
         <IonRow>
           <IonCol size="10" push="1">
             <IonText>
-              <h2>Register</h2>
+              <h2>Register {provider && 'in ' + provider.name}</h2>
             </IonText>
+            {provider && <IonImg src={provider.bannerImageUrl} alt="logo" />}
           </IonCol>
         </IonRow>
         <IonToast
@@ -60,7 +82,7 @@ function Register({ history }) {
         <IonRow>
           <IonCol size="10" push="1">
             <IonItem>
-              <IonLabel position="stacked">name</IonLabel>
+              <IonLabel position="stacked">Name</IonLabel>
               <IonInput
                 type="text"
                 name="name"
@@ -74,7 +96,7 @@ function Register({ history }) {
         <IonRow>
           <IonCol size="10" push="1">
             <IonItem>
-              <IonLabel position="stacked">surname</IonLabel>
+              <IonLabel position="stacked">Surname</IonLabel>
               <IonInput
                 type="text"
                 name="surname"
@@ -88,7 +110,21 @@ function Register({ history }) {
         <IonRow>
           <IonCol size="10" push="1">
             <IonItem>
-              <IonLabel position="stacked">email</IonLabel>
+              <IonLabel position="stacked">Phone</IonLabel>
+              <IonInput
+                type="text"
+                name="phone"
+                placeholder="Phone"
+                value={phone}
+                onIonChange={e => setPhone(e.detail.value)}
+              />
+            </IonItem>
+          </IonCol>
+        </IonRow>
+        <IonRow>
+          <IonCol size="10" push="1">
+            <IonItem>
+              <IonLabel position="stacked">Email</IonLabel>
               <IonInput
                 type="text"
                 name="email"
@@ -102,7 +138,7 @@ function Register({ history }) {
         <IonRow margin-top>
           <IonCol size="10" push="1">
             <IonItem>
-              <IonLabel position="floating">password</IonLabel>
+              <IonLabel position="floating">Password</IonLabel>
               <IonInput
                 type="password"
                 name="password"
@@ -122,13 +158,7 @@ function Register({ history }) {
         </IonRow>
         <IonRow>
           <IonCol size="10" push="1">
-            <IonButton
-              margin-top
-              color="secondary"
-              fill="solid"
-              expand="block"
-              onClick={() => history.push('/login')}
-            >
+            <IonButton margin-top color="secondary" fill="solid" expand="block" onClick={() => history.push('/login')}>
               or login here
             </IonButton>
           </IonCol>

@@ -4,7 +4,8 @@ import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { GUEST_ROLE, ROLES, STAFF_ROLE, SUPERADMIN_ROLE, UserModel, USER_ROLE } from '../../../data/models/user';
+import { GUEST_ROLE, ROLES, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE } from '../../../data/enums';
+import { UserModel } from '../../../data/models/user';
 import { gCall } from '../../../common/test-utils/gqlCall';
 import { expectError } from '../../../common/test-utils/error-handling';
 import { randomUser } from '../../../common/test-utils';
@@ -23,12 +24,21 @@ describe('create users', function() {
   this.timeout(5000);
 
   const mutation = gql`
-    mutation Register($name: String!, $surname: String!, $email: String!, $password: String!, $role: String!) {
-      createUser(data: { name: $name, surname: $surname, email: $email, password: $password, role: $role })
+    mutation Register(
+      $name: String!
+      $surname: String!
+      $email: String!
+      $phone: String!
+      $password: String!
+      $role: String!
+    ) {
+      createUser(
+        data: { name: $name, surname: $surname, email: $email, phone: $phone, password: $password, role: $role }
+      )
     }
   `;
 
-  let name: string, surname: string, email: string, password: string, role: string;
+  let name: string, surname: string, email: string, password: string, role: string, phone: string;
 
   beforeEach(async () => {
     await UserModel.deleteMany({});
@@ -41,6 +51,7 @@ describe('create users', function() {
     email = user.email;
     password = user.password!;
     role = user.role;
+    phone = user.phone;
   });
 
   it('should register a guest user without provide any owner correct data', async () => {
@@ -55,6 +66,7 @@ describe('create users', function() {
           email: user.email,
           password: user.password!,
           role: user.role,
+          phone: user.phone,
         },
       });
       if (response.errors) console.log(response.errors);
@@ -87,6 +99,7 @@ describe('create users', function() {
         email,
         password,
         role,
+        phone,
       },
     });
     expectError(response, 'Error', 'email already registered');
@@ -107,6 +120,7 @@ describe('create users', function() {
             email: user.email,
             password: user.password,
             role,
+            phone: user.phone,
           },
           ctx: {
             userId: owner.id.toString(),
@@ -135,6 +149,7 @@ describe('create users', function() {
             email: user.email,
             password: user.password,
             role,
+            phone: user.phone,
           },
           ctx: {
             userId: owner.id.toString(),

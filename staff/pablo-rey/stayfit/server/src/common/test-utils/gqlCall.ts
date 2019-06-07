@@ -2,9 +2,6 @@ import { DocumentNode, graphql, GraphQLSchema } from 'graphql';
 import { print } from 'graphql/language/printer';
 import Maybe from 'graphql/tsutils/Maybe';
 import { createSchema } from '../../data/schemas/rootSchema';
-import { User } from '../../data/models/user';
-import sinon = require('sinon');
-import { MyContext } from '../../logic/middleware/MyContext';
 
 interface Options {
   source: string | DocumentNode;

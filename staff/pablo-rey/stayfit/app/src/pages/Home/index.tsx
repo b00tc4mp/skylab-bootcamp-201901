@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import {
   IonPage,
   IonHeader,
@@ -12,50 +12,68 @@ import {
   IonLoading,
   IonBadge,
   IonModal,
+  IonTabs,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonLabel,
 } from '@ionic/react';
 import { IonIcon, IonButton } from '@ionic/react';
 import Menu from '../../components/Menu/';
-import { withRouter } from 'react-router-dom';
+import { withRouter, Route } from 'react-router-dom';
+import { MainContext } from '../../logic/contexts/main-context';
+import MainUser from '../MainUser';
+import MyBookings from '../MyBookings';
+import MyProviders from '../MyProviders';
+import MySettingsUser from '../MySettingsUser';
 
 const Home: React.FC<any> = ({ history, location }) => {
   const [view, setView] = useState('all');
+  const ctx = useContext(MainContext);
 
   const updateSegment = (e: CustomEvent) => {
     const _view = e.detail.value;
     setView(_view);
   };
 
-  return (
-    <>
-      <Menu />
-      <IonPage id="home">
-        <IonHeader>
-          <IonToolbar color="primary">
-            <IonButtons slot="start">
-              <IonMenuButton />
-            </IonButtons>
+  if (!ctx.user) {
+    return <p>No user loaded</p>;
+  }
 
-            <IonSegment onIonChange={updateSegment}>
-              <IonSegmentButton value="all" checked={view === 'all'}>
-                All <IonIcon name="search" />
-              </IonSegmentButton>
-              <IonSegmentButton value="favorites" checked={view === 'favorites'}>
-                Favorites <IonIcon name="heart" />
-              </IonSegmentButton>
-              <IonSegmentButton value="cart" checked={view === 'cart'}>
-                Cart <IonIcon name="cart" />{' '}
-                <IonBadge color="secondary" slot="end">
-                  2
-                </IonBadge>
-              </IonSegmentButton>
-            </IonSegment>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-        home
-        </IonContent>
-      </IonPage>
-    </>
+  return (
+    <IonPage id="main">
+      <IonTabs>
+        <IonRouterOutlet>
+          {/* <Route path="/:tab(schedule)" component={SchedulePage} exact={true} />
+            <Route path="/:tab(speakers)/speaker/:id" component={SpeakerDetail} />
+            <Route path="/:tab(speakers)" component={SpeakerList} exact={true} />
+            <Route path="/:tab(schedule|speakers)/sessions/:id" component={SessionDetail} />
+          <Route path="/:tab(map)" component={MapView} /> */}
+          <Route path="/home/:tab(bookings)" component={MyBookings} />
+          <Route path="/home/:tab(providers)" component={MyProviders} />
+          <Route path="/home/:tab(settings)" component={MySettingsUser} />
+          <Route path="/home/" component={MainUser} exact={true} />
+        </IonRouterOutlet>
+        <IonTabBar slot="bottom">
+          <IonTabButton tab="today" href="/home">
+            <IonIcon name="today" />
+            <IonLabel>Today</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="bookings" href="/home/bookings" disabled={!ctx.user.customerOf.length}>
+            <IonIcon name="calendar" />
+            <IonLabel>My bookings</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="providers" href="/home/providers" disabled={!ctx.user.customerOf.length}>
+            <IonIcon name="paper" />
+            <IonLabel>My providers</IonLabel>
+          </IonTabButton>
+          <IonTabButton tab="settings" href="/home/settings">
+            <IonIcon name="settings" />
+            <IonLabel>Settings</IonLabel>
+          </IonTabButton>
+        </IonTabBar>
+      </IonTabs>
+    </IonPage>
   );
 };
 

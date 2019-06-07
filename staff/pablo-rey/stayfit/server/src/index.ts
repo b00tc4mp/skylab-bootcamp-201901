@@ -33,7 +33,9 @@ db.on('open', async () => {
   const app = express();
 
   app.use(
-    cors()
+    cors({
+      allowedHeaders: ['Content-Type', 'Authorization']
+    })
   );
   app.use(cookieParser());
 

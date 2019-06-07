@@ -14,76 +14,95 @@ import {
   IonSegmentButton,
   IonIcon,
   IonText,
+  IonHeader,
+  IonRefresherContent,
+  IonRefresher,
 } from '@ionic/react';
 import gql from 'graphql-tag';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { withRouter } from 'react-router-dom';
 import logic from '../../logic';
 import moment from 'moment';
+import { MainContext } from '../../logic/contexts/main-context';
+import AttendanceItem from '../../components/AttendanceItem';
 
-const Temp: React.FC<any> = ({ history, location, client }) => {
+const SessionsAvailable: React.FC<any> = ({ history, location, client, providerId }) => {
   const day = moment();
   const [view, setView] = useState(day.format('YYYY-MM-DD'));
   const [sessions, setSessions] = useState([]);
-  // const refreshToken =
+
+  const ctx = useContext(MainContext);
+
+  function refresh(event?: any) {
+    logic.availableSessions(providerId, view).then(data => {
+      data.sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
+      setSessions(data);
+      if (event) event.target.complete();
+    });
+  }
+
+  useEffect(() => {
+    refresh();
+  }, [view]);
 
   const updateSegment = e => {
     const _day = e.detail.value;
     setView(_day);
-    logic.availableSessions('5cf3e7e70029b1470ca300c9', _day)
-    .then (data => {
-      data.sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
-      setSessions(data);
-    });
   };
 
-  moment.locale('es');
+  const attendSession = (event, sessionId) => {
+    event.target.parentElement.parentElement.closeOpened();
+    logic.attendSession(ctx.userId, sessionId, 'POSTPAID').then(() => refresh());
+  };
 
+  const unattendSession = (event, attendanceId) => {
+    event.target.parentElement.parentElement.closeOpened();
+    logic.unattendSession(attendanceId, 'CANCELLEDBYUSER').then(() => refresh());
+  };
+
+  day.subtract(1, 'day');
   return (
-    <>
-      <IonGrid>
-        <IonRow>
-          <IonSegment onIonChange={updateSegment} scrollable>
-            {new Array(15).fill(undefined).map((_, i) => {
-              day.add(1, 'day');
-              return (
-                <IonSegmentButton key={day.format('YYYY-MM-DD')} value={day.format('YYYY-MM-DD')} checked={view === day.format('YYYY-MM-DD')}>
-                  <IonLabel>{day.format('D')}</IonLabel>
-                  <IonText>{day.format('ddd')}</IonText>
-                </IonSegmentButton>
-              );
-            })}
-          </IonSegment>
-        </IonRow>
-        <IonRow>
-          <button onClick={() => logic.login('user0@stay.fit', '123')}>Login</button>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonList>
-              {sessions.map(
-                ({ id, title, coaches, startTime, endTime, maxAttendants, type: { title: typeTitle }, status }) => {
-                  const start = moment(startTime).format('HH:mm');
-                  const end = moment(endTime).format('HH:mm');
-                  return (
-                    <IonItemSliding key={id}>
-                      <IonItem>
-                        <IonLabel>{`${typeTitle} - ${title}`}</IonLabel>
-                        <IonText>{`${start}-${end}`}</IonText>
-                      </IonItem>
-                      <IonItemOptions side="end">
-                        <IonItemOption onClick={() => {}}>Unread</IonItemOption>
-                      </IonItemOptions>
-                    </IonItemSliding>
-                  );
-                }
-              )}
-            </IonList>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-    </>
+    <React.Fragment>
+      <IonHeader>
+        <IonSegment onIonChange={updateSegment} scrollable>
+          {new Array(15).fill(undefined).map((_, i) => {
+            day.add(1, 'day');
+            return (
+              <IonSegmentButton
+                key={day.format('YYYY-MM-DD')}
+                value={day.format('YYYY-MM-DD')}
+                checked={view === day.format('YYYY-MM-DD')}
+              >
+                <IonLabel>{day.format('D')}</IonLabel>
+                <IonText>{day.format('ddd')}</IonText>
+              </IonSegmentButton>
+            );
+          })}
+        </IonSegment>
+      </IonHeader>
+      <IonContent>
+        <IonGrid>
+          <IonRow>
+            <IonRefresher slot="fixed" onIonRefresh={refresh}>
+              <IonRefresherContent />
+            </IonRefresher>
+            <IonCol>
+              <IonList>
+                {sessions.map(sessionAttendance => (
+                  <AttendanceItem
+                    key={sessionAttendance.id}
+                    sessionAttendance={sessionAttendance}
+                    onAttendSession={attendSession}
+                    onUnattendSession={unattendSession}
+                  />
+                ))}
+              </IonList>
+            </IonCol>
+          </IonRow>
+        </IonGrid>
+      </IonContent>
+    </React.Fragment>
   );
 };
 
-export default withRouter(Temp);
+export default withRouter(SessionsAvailable);

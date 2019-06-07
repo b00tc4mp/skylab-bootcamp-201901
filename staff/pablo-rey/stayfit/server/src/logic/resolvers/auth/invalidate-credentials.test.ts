@@ -31,6 +31,7 @@ describe('invalidate credentials', function() {
 
   let users: userAndPlainPassword[];
   let id: string;
+  let role: string;
   let user: userAndPlainPassword;
 
   beforeEach(async () => {
@@ -39,6 +40,7 @@ describe('invalidate credentials', function() {
     await fillDbRandomUsers(users);
     user = random(users);
     id = user.user.id.toString();
+    role= user.user.role;
   });
 
   it('should invalidate credential', async () => {
@@ -49,6 +51,7 @@ describe('invalidate credentials', function() {
       },
       ctx: {
         userId: id,
+        role,
       },
     });
     expect(response).not.to.have.property('errors');
@@ -69,8 +72,9 @@ describe('invalidate credentials', function() {
       },
       ctx: {
         userId: id,
+        role,
       },
     });
-    expectError(response, undefined, 'Invalid credentials provider to authentication');
+    expectError(response, undefined, 'user not found');
   });
 });

@@ -7,7 +7,7 @@ import { UserModel, User } from '../../../data/models/user';
 import { ProviderModel } from '../../../data/models/provider';
 import { gCall } from '../../../common/test-utils/gqlCall';
 import { createRandomUser, fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
-import { SUPERADMIN_ROLE } from '../../../data/models/user';
+import { SUPERADMIN_ROLE } from '../../../data/enums';
 import faker = require('faker');
 
 chai.use(chaiAsPromised);
@@ -49,6 +49,7 @@ describe('update admins of a provider', function() {
       },
       ctx: {
         userId: superadmin.id,
+        role: superadmin.role,
       },
     });
     if (response.errors) console.log(response.errors);

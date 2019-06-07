@@ -5,21 +5,22 @@ import { Provider } from './provider';
 import { SessionType } from './session-type';
 import { User } from './user';
 
-export const ACTIVE = 'ACTIVE';
-export const CANCELLED = 'CANCELLED';
-export const FINISHED = 'FINISHED';
-export const CLOSED = 'CLOSED';
-export const FULL = 'FULL';
-
-export const SESSIONSTATUS = [ACTIVE, CANCELLED, FINISHED, CLOSED, FULL];
-
-export const PUBLIC = 'PUBLIC';
-export const ONLY_REGISTERED = 'ONLY_REGISTERED';
-export const OWN_CUSTOMERS = 'OWN_CUSTOMERS';
-export const OWN_STAFF = 'OWN_STAFF';
-export const PRIVATE = 'PRIVATE';
-
-export const SESSIONVISIBILITY = [PUBLIC, ONLY_REGISTERED, OWN_CUSTOMERS, OWN_STAFF, PRIVATE];
+import {
+  ACTIVE,
+  CANCELLED,
+  FINISHED,
+  CLOSED,
+  FULL,
+  SESSIONSTATUS,
+  PUBLIC,
+  ONLY_REGISTERED,
+  OWN_CUSTOMERS,
+  OWN_STAFF,
+  PRIVATE,
+  SESSIONVISIBILITY,
+  ATTENDANCESTATUSES,
+  OK,
+} from '../enums';
 
 @ObjectType()
 export class Session extends Typegoose {
@@ -60,8 +61,12 @@ export class Session extends Typegoose {
   @prop({ ref: SessionType, required: true })
   type: Ref<SessionType>;
 
+  @Field()
+  @prop({ required: false, enum: ATTENDANCESTATUSES, default: OK })
+  attendanceDefaultStatus: string;
+
   @Field(returns => [Attendance])
-  @arrayProp({ itemsRef: Attendance, required: false})
+  @arrayProp({ itemsRef: Attendance, required: false })
   attendances: Ref<Attendance>[];
 
   @instanceMethod

@@ -1,88 +1,59 @@
 import {
-  IonItem,
+  IonIcon,
   IonLabel,
-  IonList,
-  IonListHeader,
+  IonPage,
+  IonRouterOutlet,
+  IonTabBar,
+  IonTabButton,
+  IonTabs,
   IonContent,
   IonGrid,
-  IonCol,
   IonRow,
-  IonItemSliding,
-  IonItemOptions,
-  IonItemOption,
-  IonSegment,
-  IonSegmentButton,
-  IonIcon,
-  IonText,
+  IonCol,
+  IonItem,
+  IonInput,
+  IonCheckbox,
+  IonListHeader,
+  IonList,
+  IonDatetime,
+  IonSelect,
+  IonSelectOption,
+  IonFab,
+  IonFabButton,
+  IonImg,
 } from '@ionic/react';
-import gql from 'graphql-tag';
-import React, { useEffect, useState } from 'react';
-import { withRouter } from 'react-router-dom';
-import logic from '../../logic';
 import moment from 'moment';
+import React, { useState } from 'react';
+import { Route, withRouter } from 'react-router-dom';
+import logic from '../../logic';
+import { CalendarWeek } from '../../components/CalendarWeek';
+import { ATTENDANCEDEFAULTS, SESSIONVISIBILITY, SESSIONSTATUS } from '../../enums';
+import CreateSession from '../../components/CreateSession';
 
 const Temp: React.FC<any> = ({ history, location, client }) => {
-  const day = moment();
-  const [view, setView] = useState(day.format('YYYY-MM-DD'));
-  const [sessions, setSessions] = useState([]);
-  // const refreshToken =
-
-  const updateSegment = e => {
-    const _day = e.detail.value;
-    setView(_day);
-    logic.availableSessions('5cf3e7e70029b1470ca300c9', _day)
-    .then (data => {
-      data.sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
-      setSessions(data);
-    });
-  };
-
-  moment.locale('es');
+  const [title, setTitle] = useState('');
+  const [provider, setProvider] = useState(null);
+  const [coaches, setCoaches] = useState(['Dani', 'Manuel']);
+  const [days, setDays] = useState([]);
+  const [startTime, setStartTime] = useState(moment().format('hh:mm'));
+  const [endTime, setEndTime] = useState(
+    moment()
+      .add(1, 'hour')
+      .format('hh:mm')
+  );
+  const [maxAttendants, setMaxAttendants] = useState(10);
+  const [type, setType] = useState(null);
+  const [attendanceDefaultStatus, setAttendanceDefaultStatus] = useState('OK');
+  const [attendances, setAttendances] = useState([]);
+  const [visibility, setVisibility] = useState(null);
+  const [status, setStatus] = useState(null);
 
   return (
-    <>
-      <IonGrid>
-        <IonRow>
-          <IonSegment onIonChange={updateSegment} scrollable>
-            {new Array(15).fill(undefined).map((_, i) => {
-              day.add(1, 'day');
-              return (
-                <IonSegmentButton key={day.format('YYYY-MM-DD')} value={day.format('YYYY-MM-DD')} checked={view === day.format('YYYY-MM-DD')}>
-                  <IonLabel>{day.format('D')}</IonLabel>
-                  <IonText>{day.format('ddd')}</IonText>
-                </IonSegmentButton>
-              );
-            })}
-          </IonSegment>
-        </IonRow>
-        <IonRow>
-          <button onClick={() => logic.login('user0@stay.fit', '123')}>Login</button>
-        </IonRow>
-        <IonRow>
-          <IonCol>
-            <IonList>
-              {sessions.map(
-                ({ id, title, coaches, startTime, endTime, maxAttendants, type: { title: typeTitle }, status }) => {
-                  const start = moment(startTime).format('HH:mm');
-                  const end = moment(endTime).format('HH:mm');
-                  return (
-                    <IonItemSliding key={id}>
-                      <IonItem>
-                        <IonLabel>{`${typeTitle} - ${title}`}</IonLabel>
-                        <IonText>{`${start}-${end}`}</IonText>
-                      </IonItem>
-                      <IonItemOptions side="end">
-                        <IonItemOption onClick={() => {}}>Unread</IonItemOption>
-                      </IonItemOptions>
-                    </IonItemSliding>
-                  );
-                }
-              )}
-            </IonList>
-          </IonCol>
-        </IonRow>
-      </IonGrid>
-    </>
+    <IonPage id="main">
+      <IonContent>
+        <CreateSession />
+      </IonContent>
+    </IonPage>
   );
 };
 

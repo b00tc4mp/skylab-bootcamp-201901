@@ -4,11 +4,12 @@ import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as moment from 'moment';
 import * as mongoose from 'mongoose';
-import { createTestProvider, deleteModels } from '../../../../common/test-utils';
-import { ACTIVE, PUBLIC, SessionModel } from '../../../../data/models/session';
-import { SessionTypeModel } from '../../../../data/models/session-type';
 import { gCall } from '../../../../common/test-utils/gqlCall';
 import { random } from '../../../../common/utils';
+import { ACTIVE, PUBLIC } from '../../../../data/enums';
+import { SessionModel } from '../../../../data/models/session';
+import { SessionTypeModel } from '../../../../data/models/session-type';
+import { createTestProvider, deleteModels } from '../../../../common/test-utils';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -63,6 +64,7 @@ describe('create sessions', function() {
         },
         ctx: {
           userId: superadmin.id.toString(),
+          role: superadmin.role,
         },
       });
       if (response.errors) console.log(response.errors);
@@ -81,21 +83,21 @@ describe('create sessions', function() {
         .and.to.have.lengthOf(expected.length);
     }
 
-    it('create single session ', async () => await itWithParams('03/06/2019 10:00:00', '03/06/2019 10:00:00', []));
+    it('create single session ', async () => await itWithParams('2019-06-03 10:00:00', '2019-06-03 10:00:00', []));
 
     it('create repeating sessions ', async () => {
-      const start = '04/06/2019';
+      const start = '2019-06-04';
       const repeat: moment.Moment[] = [];
       for (let ii = 0, ll = 6; ii < ll; ii++) {
         const day = moment(start, 'YYYY-MM-DD', true)
           .startOf('day')
           .add(ii, 'day');
       }
-      await itWithParams('03/06/2019 10:00:00', '03/06/2019 10:00:00', repeat.map(m => m.toDate()));
+      await itWithParams('2019-06-01 10:00:00', '2019-06-03 10:00:00', repeat.map(m => m.toDate()));
     });
 
     it('create repeating sessions without repeating same dates ', async () => {
-      const start = '01/06/2019';
+      const start = '2019-06-04';
       const repeat: moment.Moment[] = [];
       for (let ii = 0, ll = 10; ii < ll; ii++) {
         const day = moment(start, 'YYYY-MM-DD', true)
@@ -103,7 +105,7 @@ describe('create sessions', function() {
           .add(random(7), 'day');
         repeat.push(day);
       }
-      await itWithParams('03/06/2019 10:00:00', '03/06/2019 10:00:00', repeat.map(m => m.toDate()));
+      await itWithParams('2019-06-03 10:00:00', '2019-06-03 10:00:00', repeat.map(m => m.toDate()));
     });
   });
 });

@@ -19,7 +19,7 @@ export class RemoveProviderCustomerResolver {
 
     const provider = await ProviderModel.findById(providerId);
     if (!provider) throw new ValidationError('provider is required')
-    if (!provider!.isCustomer(user)) return false;
+    if (!provider.customers.includes(user.id)) return false;
     provider!.customers = provider!.customers.filter(customer => customer.toString() !== userId);
     await provider!.save();
     user.customerOf = user.customerOf.filter(p => p.toString() !== provider.id);

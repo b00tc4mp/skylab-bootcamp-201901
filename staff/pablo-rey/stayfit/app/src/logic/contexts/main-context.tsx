@@ -1,15 +1,32 @@
-import React, { useReducer, useState } from 'react';
+import React, { useReducer, useState, useEffect } from 'react';
 import { ApolloClient } from 'apollo-boost';
-import Login from '../../pages/Login';
 import logic from '..';
 
-type IMainContext = {
+export type TProvider = {
+  id: string;
+  name: string;
+  bannerImageUrl: string;
+  portraitImageUrl: string;
+  registrationUrl: string;
+};
+
+export type TUser = {
+  id: string;
+  name: string;
+  role: string;
+  customerOf: TProvider[];
+  adminOf: TProvider[];
+};
+
+export type TMainContext = {
   gqlClient?: ApolloClient<{}>;
-  accessToken?: string | null;
-  refreshToken?: string | null;
   errorMessage?: string | null;
+  user?: TUser | null;
   userId?: string | null;
   role?: string | null;
+  provider?: TProvider | null;
+  pendingRequests?: any,
+  setPendingRequests?: any,
   login?: (email: string, password: string) => Promise<boolean>;
   logout?: () => boolean;
 };
@@ -25,44 +42,59 @@ type IMainContext = {
 //   }
 // };
 
-const initialState: IMainContext = { accessToken: null, refreshToken: null, errorMessage: null };
+const initialState: TMainContext = { errorMessage: null };
 const MainContext = React.createContext(initialState);
 
 function MainProvider(props) {
-  const [accessToken, setAccessToken] = useState(null);
-  const [refreshToken, setRefreshToken] = useState(null);
   const [userId, setUserId] = useState(null);
+  const [user, setUser] = useState(null);
+  const [provider, setProvider] = useState(null);
+  const [pendingRequests, setPendingRequests] = useState(null);
   const [role, setRole] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+
+  const refreshUserData = async () => {
+    const user = await logic.retrieveMe();
+    setRole(user.role);
+    setUserId(user.id);
+    setUser(user);
+    if (user.adminOf.length) {
+      setProvider(user.adminOf[0]);
+    }
+    return user;
+  };
+
   const login = async (email: string, password: string) => {
     try {
       const { accessToken, refreshToken, role, userId } = await logic.login(email, password);
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
-      setRole(role);
-      setUserId(userId);
+      logic.token = refreshToken;
+      await refreshUserData();
       return true;
     } catch (error) {
-      setAccessToken(null);
-      setRefreshToken(null);
-      setRole(null);
-      setUserId(null);
+      logout();
       setErrorMessage(error.message);
     }
     return false;
   };
   const logout = () => {
-    setAccessToken(null);
-    setRefreshToken(null);
+    logic.token = null;
     setRole(null);
     setUserId(null);
+    setUser(null);
+    setProvider(null)
     return true;
   };
+
+  useEffect(() => {
+    if (logic.token) {
+      refreshUserData();
+    }
+  }, []);
 
   // const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <MainContext.Provider
-      value={{ login, logout, accessToken, refreshToken, role, userId, errorMessage: null, gqlClient: props.gqlClient }}
+      value={{ login, logout, role, userId, user, provider, pendingRequests, setPendingRequests,  errorMessage: null, gqlClient: props.gqlClient }}
     >
       {props.children}
     </MainContext.Provider>
