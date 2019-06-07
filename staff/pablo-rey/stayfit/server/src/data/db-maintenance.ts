@@ -1,18 +1,20 @@
 import * as bcrypt from 'bcryptjs';
 import { createSession } from '../logic/resolvers/sessions/create-session/create-session';
-import { ACTIVE, PUBLIC, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE } from './enums';
+import { ACTIVE, PUBLIC, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE, ACCEPT, REQUESTBECUSTOMER } from './enums';
 import { SessionModel } from './models/session';
 import { User, UserModel } from './models/user';
 import { ProviderModel, Provider } from './models/provider';
 import { SessionTypeModel } from './models/session-type';
 import moment = require('moment');
 import faker = require('faker');
+import { RequestCustomerModel } from './models/request';
 
 export async function cleanDb() {
   await UserModel.deleteMany({});
   await ProviderModel.deleteMany({});
   await SessionTypeModel.deleteMany({});
   await SessionModel.deleteMany({});
+  await RequestCustomerModel.deleteMany({});
 }
 
 export async function populateDb() {
@@ -110,22 +112,24 @@ export async function populateDb() {
     const providers = [];
     if (ii < 20) providers.push(provider1);
     if (ii >= 10 && ii < 30) providers.push(provider2);
-    customers.push(
-      await UserModel.create({
-        name: faker.name.firstName(),
-        surname: faker.name.lastName(),
-        email: `user${ii}@stay.fit`,
-        password: await bcrypt.hash('123', 12),
-        role: USER_ROLE,
-        adminOf: [],
-        coachOf: [],
-        customerOf: providers,
-        uploadedPortrait: `https://randomuser.me/api/portraits/${faker.random.arrayElement([
-          'men',
-          'women',
-        ])}/${faker.random.number(80)}.jpg`,
-      })
-    );
+    const user = await UserModel.create({
+      name: faker.name.firstName(),
+      surname: faker.name.lastName(),
+      email: `user${ii}@stay.fit`,
+      password: await bcrypt.hash('123', 12),
+      role: USER_ROLE,
+      adminOf: [],
+      coachOf: [],
+      customerOf: providers,
+      uploadedPortrait: `https://randomuser.me/api/portraits/${faker.random.arrayElement([
+        'men',
+        'women',
+      ])}/${faker.random.number(80)}.jpg`,
+    });
+    for (let provider of providers) {
+      await RequestCustomerModel.create({provider, user, type:REQUESTBECUSTOMER, status: ACCEPT, })
+    }
+    customers.push(user);
   }
 
   console.log('Creando provider1...');

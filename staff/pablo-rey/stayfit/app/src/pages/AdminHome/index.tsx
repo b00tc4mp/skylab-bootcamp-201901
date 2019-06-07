@@ -29,13 +29,18 @@ import MySettingsAdmin from '../MySettingsAdmin';
 import AdminSessions from '../AdminSessions';
 import AdminCustomers from '../AdminCustomers';
 import logic from '../../logic';
+import { PENDING } from '../../enums';
 let count = 0;
 
 const AdminHome: React.FC<any> = ({ history, location }) => {
   const ctx = useContext(MainContext);
 
   useEffect(() => {
-    ctx.provider && logic.retrievePendingRequest(ctx.provider.id).then(pending => ctx.setPendingRequests(pending));
+    (async () => {
+      if (!ctx.provider) return;
+      const crs = await logic.listCustomers(ctx.provider.id)
+      ctx.setCustomers(crs);
+    })()
   }, [ctx.provider]);
 
   if (!ctx.user) {
@@ -46,6 +51,7 @@ const AdminHome: React.FC<any> = ({ history, location }) => {
     return <Route path={path} exact={exact} render={() => React.createElement(component, otherProps)} />
   }
 
+  const pendingNum = ctx.customers ? ctx.customers.reduce((acc,cr) => acc + (cr.request && cr.request.status === PENDING ? 1 : 0),0) : 0
 
   return (
     <IonPage id="admin_home">
@@ -74,7 +80,7 @@ const AdminHome: React.FC<any> = ({ history, location }) => {
           <IonTabButton tab="customers" href="/admin/customers">
             <IonIcon name="paper" />
             <IonLabel>My customers</IonLabel>
-            {ctx.pendingRequests && !!ctx.pendingRequests.length && <IonBadge>{ctx.pendingRequests.length}</IonBadge>}
+            {!!pendingNum && <IonBadge>{pendingNum}</IonBadge>}
           </IonTabButton>
           <IonTabButton tab="settings" href="/admin/settings">
             <IonIcon name="settings" />

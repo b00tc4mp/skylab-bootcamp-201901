@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import logic from '../../logic';
 import { MainContext } from '../../logic/contexts/main-context';
 import moment from 'moment';
+import ListCustomers from '../../components/users/ListCustomers';
 
 export default function MainAdmin() {
   const [sessions, setSessions] = useState([]);
@@ -29,17 +30,7 @@ export default function MainAdmin() {
     <IonPage id="main-admin">
       <IonContent>
         <h1>Admin Main</h1>
-        <h2>Clientes pendientes de confirmación</h2>
-        {ctx.pendingRequests && ctx.pendingRequests.length}
-        <ul>
-          {ctx.pendingRequests && ctx.pendingRequests.map(c => (
-            <li key={c.id}>
-              <p>{c.user.name}</p>
-              <IonButton onClick={() => handleAcceptRequest(c.user.id)}>Accept</IonButton>
-              <IonButton onClick={() => handleDenyRequest(c.user.id)}>Deny</IonButton>
-            </li>
-          ))}
-        </ul>
+        {ctx.customers && <ListCustomers customersAndRequests={ctx.customers} showActive={false}/>}
         <h2>Reservas para hoy</h2>
         <ul>
           {!!sessions &&

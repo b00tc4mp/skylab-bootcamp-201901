@@ -125,6 +125,8 @@ export default {
           id
           name
           role
+          bannerImageUrl
+          portraitImageUrl
           customerOf {
             id
             name
@@ -361,6 +363,9 @@ export default {
           customer {
             id
             name
+            surname
+            bannerImageUrl
+            portraitImageUrl
           }
           request {
             id

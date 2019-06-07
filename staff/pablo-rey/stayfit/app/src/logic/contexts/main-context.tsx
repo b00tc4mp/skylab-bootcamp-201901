@@ -16,6 +16,8 @@ export type TUser = {
   role: string;
   customerOf: TProvider[];
   adminOf: TProvider[];
+  bannerImageUrl: string;
+  portraitImageUrl: string;
 };
 
 export type TMainContext = {
@@ -25,8 +27,8 @@ export type TMainContext = {
   userId?: string | null;
   role?: string | null;
   provider?: TProvider | null;
-  pendingRequests?: any,
-  setPendingRequests?: any,
+  customers?: any,
+  setCustomers?: any,
   login?: (email: string, password: string) => Promise<boolean>;
   logout?: () => boolean;
 };
@@ -49,7 +51,7 @@ function MainProvider(props) {
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
   const [provider, setProvider] = useState(null);
-  const [pendingRequests, setPendingRequests] = useState(null);
+  const [customers, setCustomers] = useState(null);
   const [role, setRole] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
 
@@ -82,6 +84,7 @@ function MainProvider(props) {
     setUserId(null);
     setUser(null);
     setProvider(null)
+    setCustomers(null)
     return true;
   };
 
@@ -94,7 +97,7 @@ function MainProvider(props) {
   // const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <MainContext.Provider
-      value={{ login, logout, role, userId, user, provider, pendingRequests, setPendingRequests,  errorMessage: null, gqlClient: props.gqlClient }}
+      value={{ login, logout, role, userId, user, provider, customers, setCustomers,  errorMessage: null, gqlClient: props.gqlClient }}
     >
       {props.children}
     </MainContext.Provider>
