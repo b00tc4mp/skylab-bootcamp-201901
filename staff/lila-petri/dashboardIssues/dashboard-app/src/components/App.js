@@ -3,10 +3,10 @@ import logic  from '../logic'
 import Landing from './Landing'
 import Register from './Register'
 import Login from './Login'
-import Home from './Home'
+import HomePE from './HomePE'
 import HomeAdmin from './HomeAdmin'
 import Profile from './Profile'
-import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
+import { Route, withRouter, Redirect, Switch, BrowserRouter, Link} from 'react-router-dom'
 
 
 
@@ -40,8 +40,9 @@ class App extends Component{
         try {
             await logic.loginUser(email, password)
             const user = await logic.retrieveUser()
-        
+    
             this.setState({ user, profile: user.profile, error: null }, () => this.props.history.push('/home'))
+        
         
         } catch (error) {
             this.setState({ error: error.message})
@@ -54,7 +55,7 @@ class App extends Component{
         this.props.history.push('/')
     }
 
-    handleProfileNavigation = () => this.props.history.push('/profile')
+    handleProfileNavigation = () => this.props.history.push('/home/profile')
 
     handleUpdateUser = async (name, surname, country)=>{
         try{
@@ -69,15 +70,18 @@ class App extends Component{
         }
 
     }
-    handleComeBack = () => {
-        logic.retrieveUser()
-            .then((response) => {
-                this.setState({ user: response, error: null }, () => this.props.history.push('/home'))
-            })
-            .catch(error =>
-                this.setState({ error: error.message })
-            )
+    handleComeBack = async () => {
+
+        try{
+
+            const user = await logic.retrieveUser()
+            this.setState({ user, error: null }, () => this.props.history.push('/home'))
+
+        } catch(error){
+            this.setState({ error: error.message })
+
         }
+    }
 
     
     async componentDidMount() {
@@ -124,21 +128,21 @@ class App extends Component{
 
         } = this
         return <>
-        
-        <Switch>
-            <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
-            <Route path="/register" render={()=> logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} goLogin={handleLoginNavigation}/> }/>
-            <Route path="/login" render={() => logic.isUserLoggedIn  ? (profile ==='product-expert'? <Redirect to="/home" /> : <Redirect to="/homeAdmin" />): <Login onLogin={handleLogin} error={error} goRegister={handleRegisterNavigation}/>} />
-            <Route path="/home" render={() => logic.isUserLoggedIn ? (profile ==='product-expert'? <Home user={user} onLogout={handleLogout} goProfile={handleProfileNavigation} /> : <Redirect to="/homeAdmin" />) : <Redirect to="/" />} />
-            <Route path="/homeAdmin" render={() => logic.isUserLoggedIn ?(profile !== 'product-expert'? <HomeAdmin onLogout={handleLogout} error={error}/>: <Redirect to="/home" />) : <Redirect to="/" />} />
-            <Route path="/profile" render={() => logic.isUserLoggedIn && (profile ==='product-expert') ? <Profile user={user} onReturn={handleComeBack} onUpdate={handleUpdateUser}/> : <Redirect to="/" />} />  
-            {/* <Redirect to="/" /> */}
-        </Switch>
+        <BrowserRouter>
+                <Switch>
+                    <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
+                    <Route path="/register" render={()=> logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} goLogin={handleLoginNavigation}/> }/>
+                    <Route path="/login" render={() => logic.isUserLoggedIn  ? (profile ==='product-expert'? <Redirect to="/home" /> : <Redirect to="/homeAdmin" />): <Login onLogin={handleLogin} error={error} goRegister={handleRegisterNavigation}/>} />
+                    <Route path="/home" render={() => logic.isUserLoggedIn ? (profile ==='product-expert'? <HomePE user={user} onLogout={handleLogout} goProfile={handleProfileNavigation} /> : <Redirect to="/homeAdmin" />) : <Redirect to="/" />} />
+                    <Route path="/home/profile" render={() => logic.isUserLoggedIn && (profile ==='product-expert') ? <Profile user={user} onReturn={handleComeBack} onUpdate={handleUpdateUser}/> : <Redirect to="/" />} />
+                    <Route path="/homeAdmin" render={() => logic.isUserLoggedIn ?(profile !== 'product-expert'? <HomeAdmin onLogout={handleLogout} error={error}/>: <Redirect to="/home" />) : <Redirect to="/" />} />
+                </Switch>
+        </BrowserRouter>
+                
 
         </>
     }
 
 }
-
 
 export default withRouter(App)

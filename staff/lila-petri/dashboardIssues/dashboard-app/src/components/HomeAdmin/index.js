@@ -3,6 +3,7 @@ import React, { Component } from 'react'
 import logic from '../../logic'
 import {  BarLoader } from 'react-spinners'
 import './index.sass'
+import { withRouter } from 'react-router-dom'
 
 class HomeAdmin extends Component{
     state = { visibleLoad: true , visibleSave: true, loading: false, loadingSave: false, loadingLoad: false, error: null}
@@ -48,7 +49,6 @@ class HomeAdmin extends Component{
             </header>
             <ul className="uk-list uk-list-divider">
                 <li></li>
-                <li></li>
                 <div className="boundary-align uk-panel uk-placeholder">
                     <li className="uk-float-left uk-text-emphasis">Retrieve issues from source(JIRA)</li>
                     {visibleLoad && <button className="uk-button uk-button-primary uk-button-small uk-border-rounded uk-float-right bottom-justify" onClick={handlerLoad} disabled={loadingSave}>Run</button>}
@@ -79,4 +79,4 @@ class HomeAdmin extends Component{
     }
 }
 
-export default HomeAdmin
+export default withRouter(HomeAdmin)

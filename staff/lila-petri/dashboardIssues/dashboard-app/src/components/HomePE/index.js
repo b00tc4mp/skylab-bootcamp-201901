@@ -8,7 +8,7 @@ import TableSLA from '../TableSLA'
 import TableResolution from '../TableResolution'
 import './index.sass'
 
-class Home extends Component{
+class HomePE extends Component{
     state = { error: null , dateFrom: null, dateTo: null, hotfix: null, bugfix: null, bug: null, request: null, sla: null, resolution: null, tableSLA: null}
     handleSwitch =async (dateFrom, dateTo, statisticType, country)=>{
         
@@ -74,4 +74,4 @@ class Home extends Component{
     }
 
 }
-export default Home
+export default HomePE

@@ -4,13 +4,13 @@ import './index.sass'
 
 function TableSLA({ error, tableSLA }) {
     let arrayTable=[]
-    let overdueP
+    let overdueP 
     let ontimeP
     let totalOverdue = 0
     let totalOntime = 0
     let totalTotal = 0
-    let totalOverdueP
-    let totalOntimeP
+    let totalOverdueP 
+    let totalOntimeP 
 
     arrayTable.push( [
         { type: 'string', label: 'IssueType' },
@@ -22,13 +22,18 @@ function TableSLA({ error, tableSLA }) {
 
     ])
     tableSLA.length && tableSLA.forEach(element => {
-        overdueP = (element.overdue / element.total)*100
-        overdueP = Math.round( overdueP )
-        ontimeP = (element.ontime / element.total)*100
-        ontimeP = Math.round( ontimeP )
-        totalOverdue += element.overdue
-        totalOntime += element.ontime
-        totalTotal += element.total
+        if(element.total===0){
+            ontimeP = 0
+            overdueP = 0
+        }else{
+            overdueP = (element.overdue / element.total)*100
+            overdueP = Math.round( overdueP )
+            ontimeP = (element.ontime / element.total)*100
+            ontimeP = Math.round( ontimeP )
+            totalOverdue += element.overdue
+            totalOntime += element.ontime
+            totalTotal += element.total
+        }
         arrayTable.push([`${element.issueType}`, `${element.overdue}`, `${overdueP}%`, `${element.ontime}`, `${ontimeP}%`, `${element.total}`])
     })
     totalOverdueP = (totalOverdue / totalTotal)*100
@@ -39,7 +44,7 @@ function TableSLA({ error, tableSLA }) {
 
     arrayTable.push(['Total', `${totalOverdue}`, `${totalOverdueP}%`, `${totalOntime}`, `${totalOntimeP}%`, `${totalTotal}`])
 
-    return <div className="container-tablesla uk-box-shadow-bottom">
+    return <div className="container-tablesla uk-box-shadow-bottom" data-uk-scrollspy="cls:uk-animation-fade"> 
     <Chart
             width={'400px'}
             height={'300px'}
@@ -47,6 +52,7 @@ function TableSLA({ error, tableSLA }) {
             loader={<div>Loading Chart</div>}
             data={arrayTable}
             options={{
+                
             }}
     
     />
