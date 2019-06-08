@@ -1,6 +1,9 @@
 require('dotenv').config()
 
 const {
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_SECRET_KEY,
+  CLOUDINARY_NAME,
   MONGO_URL_LOGIC,
   MONGO_URL_LOGIC_TEST,
   NODE_ENV,
@@ -8,14 +11,11 @@ const {
 } = process.env
 
 module.exports = {
+  CLOUDINARY_API_KEY,
+  CLOUDINARY_SECRET_KEY,
+  CLOUDINARY_NAME,
   MONGO_URL_LOGIC,
   MONGO_URL_LOGIC_TEST,
   ENV: NODE_ENV,
   PORT
 }
-
-// cloudinary.config({
-//   cloud_name: CLOUDINARY_CLOUD_NAME,
-//   api_key: CLOUDINARY_API_KEY,
-//   api_secret: CLOUDINARY_API_SECRET
-// })

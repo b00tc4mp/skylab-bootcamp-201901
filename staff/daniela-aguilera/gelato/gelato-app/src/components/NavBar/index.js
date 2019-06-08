@@ -50,6 +50,9 @@ export function NavBar () {
       <Link to='/store/event' className='button is-primary'>
         Create Event
       </Link>
+      <Link to='/store/manage-events' className='button is-primary'>
+        Check Events
+      </Link>
       <button className='button' onClick={_handleLogout}>
         <span className='icon is-small'>
           <i className='fas fa-sign-out-alt' />

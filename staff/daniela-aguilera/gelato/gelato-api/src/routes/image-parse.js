@@ -9,7 +9,7 @@ const storage = multer.memoryStorage()
 
 const limits = {
   files: 1,
-  fileSize: 1024 * 1024
+  fileSize: 7024 * 7024
 }
 
 const fileFilter = function (req, file, callback) {

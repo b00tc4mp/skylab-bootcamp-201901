@@ -2,9 +2,9 @@ const { User, Order, Event } = require('gelato-data')
 const { LogicError, UnauthorizedError } = require('gelato-errors')
 const validate = require('gelato-validation')
 const bcrypt = require('bcrypt')
-const fs = require('fs')
 const streamifier = require('streamifier')
 const cloudinary = require('cloudinary').v2
+const { CLOUDINARY_API_KEY, CLOUDINARY_NAME, CLOUDINARY_SECRET_KEY } = require('../config')
 
 const logic = {
   registerUser (name, surname, email, password) {
@@ -159,29 +159,30 @@ const logic = {
     })()
   },
 
-  retrieveAllOrders ({ isAdmin }) {
+  async retrieveAllOrders ({ isAdmin }) {
     validate.arguments([
       { name: 'isAdmin', value: isAdmin, type: 'boolean' }
     ])
 
-    return (async () => {
-      if (!isAdmin) throw new UnauthorizedError('You do not have permission to do this')
+    if (!isAdmin) throw new UnauthorizedError('You do not have permission to do this')
 
-      let allOrders = await Order.find().sort('-date').populate('client', 'name').lean()
+    let allOrders = await Order.find().sort('-date').populate('client', 'name').lean()
+    console.log(allOrders)
 
+    if (allOrders.length >= 1) {
       allOrders.forEach(order => {
         order.id = order._id.toString()
         delete order._id
         const { client } = order
 
-        if (!client.id) {
+        if (client !== null) {
           client.id = client._id.toString()
           delete client._id
         }
       })
+    }
 
-      return allOrders
-    })()
+    return allOrders
   },
 
   retrieveOneOrderByOrderId ({ orderId, userId }) {
@@ -206,18 +207,19 @@ const logic = {
     })()
   },
 
-  async createEvent (title, description, buffer, isAdmin) {
+  async createEvent (title, description, date, buffer, isAdmin) {
     validate.arguments([
       { name: 'title', value: title, type: 'string', notEmpty: true },
       { name: 'description', value: description, type: 'string', notEmpty: true },
       { name: 'buffer', value: buffer, type: 'object', optional: false },
-      { name: 'isAdmin', value: isAdmin, type: 'boolean' }
+      { name: 'isAdmin', value: isAdmin, type: 'boolean' },
+      { name: 'date', value: date, type: 'string', notEmpty: true }
     ])
 
     cloudinary.config({
-      cloud_name: 'do6uedhjl',
-      api_key: '548828136726648',
-      api_secret: 'x2YKoAwxRl6rtG3glHNi4Fcjo3Y'
+      cloud_name: CLOUDINARY_NAME,
+      api_key: CLOUDINARY_API_KEY,
+      api_secret: CLOUDINARY_SECRET_KEY
     })
 
     const image = await new Promise((resolve, reject) => {
@@ -231,7 +233,7 @@ const logic = {
     return (async () => {
       if (isAdmin) {
         try {
-          await Event.create({ title, description, image: image.secure_url })
+          await Event.create({ title, description, date, image: image.secure_url })
         } catch (error) {
           throw new LogicError(error.message)
         }
@@ -239,6 +241,20 @@ const logic = {
         throw new UnauthorizedError('You do not have permission to do this')
       }
     })()
+  },
+
+  async retrieveEvents () {
+    const events = await Event.find().lean()
+    console.log(events)
+
+    events.forEach(event => {
+      if (event._id) {
+        event.id = event._id.toString()
+        delete event._id
+      }
+    })
+
+    return events
   }
 }
 
