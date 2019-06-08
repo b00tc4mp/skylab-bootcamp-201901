@@ -97,10 +97,11 @@ const restApi = {
     //     })
     // },
 
-    gameAction(token, gameId, gamePlay) {
+    gameAction(token, gameId, gamePlay, updatedAmount) {
         ow(token, ow.string.not.empty)
         ow(gamePlay, ow.object)
         ow(gameId, ow.string.not.empty)
+        ow(updatedAmount, ow.object)
 
         return call(`${this.__url__}/continueGame/${gameId}`, {
             method: 'POST',
@@ -108,7 +109,7 @@ const restApi = {
                 'Content-Type': 'application/json',
                 Authorization: `Bearer ${token}`
             },
-            body: JSON.stringify({ gamePlay }),
+            body: JSON.stringify({ gamePlay, updatedAmount }),
             timeout: this.__timeout__
         }).then(response => response.json())
     },

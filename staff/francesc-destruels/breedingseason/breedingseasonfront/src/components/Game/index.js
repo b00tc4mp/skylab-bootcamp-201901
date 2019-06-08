@@ -3,10 +3,10 @@ import { withRouter } from 'react-router-dom'
 import { GameContext } from '../GameContext'
 import logic from '../../logic'
 import Logo from "../Logo"
-import NavLvLs from "./GameComponents/NavLvLs"
-import OptionCards from "./GameComponents/OptionCards"
-import PenguinsMap from "./GameComponents/PenguinsMap"
-import MissionCards from "./GameComponents/MissionCards"
+import NavLvLs from "./NavLvLs"
+import OptionCards from "./OptionCards"
+import PenguinsMap from "./PenguinsMap"
+import MissionCards from "./MissionCards"
 import './index.sass'
 
 function Game({ history }) {
@@ -43,10 +43,24 @@ function Game({ history }) {
 
     const handleToSend = async () => {
 
+        if (PenguinTurn) setMap({ ...Map, ...Map[PenguinTurn.where[0][0]][PenguinTurn.where[0][1]][1] = NumberToUse.rocks })
+        else setPuntuation({ ...puntuation, ...puntuation.StrikeLvL++ })
+
+        if (ActionTurn) {
+            switch (ActionTurn.resource) {
+                case "security":
+                    setPuntuation({ ...puntuation, ...puntuation["SecurityLvL"][ActionTurn.row]++ })
+                    break
+                default:
+                    break
+            }
+        } else { }
+
+        const updatedAmount = logic.__updatedValues__(Map)
 
         const { round, turnCards } = await logic.nextGame({
             resource: {
-                type: PenguinTurn ? ActionTurn ? ActionTurn.resource : "" : "strik",
+                type: PenguinTurn ? ActionTurn ? ActionTurn.resource : "" : "strike",
                 row: ActionTurn ? ActionTurn.row : 0,
                 column: ActionTurn ? ActionTurn.column : 0,
                 nest: ActionTurn ? ActionTurn.nest : ""
@@ -59,14 +73,12 @@ function Game({ history }) {
                 }
             },
             missions: missionsDone
-        })
+        }, updatedAmount)
 
-        if(PenguinTurn) setMap({ ...Map, ...Map[PenguinTurn.where[0][0]][PenguinTurn.where[0][1]][1] = NumberToUse.rocks })
-        else setPuntuation({...puntuation, ...puntuation.StrikLvL++})
-
-        if (ActionTurn && ActionTurn.resource === "love") setMap({ ...Map, ...Map[ActionTurn.row][ActionTurn.column][0]++ })
         setNextCards(turnCards)
         setRound(round)
+        setActionTurn(false)
+        setPenguinTurn(null)
         setActionUsed(false)
         setNumberUsed(false)
         setNumberToUse(false)
@@ -80,26 +92,18 @@ function Game({ history }) {
 
     useEffect(() => () => { logic.finishedGame() }, [])
 
-    return <div className="game">
-        {!start && <button className="game__StartButton" onClick={handleStart}>Start Game!</button>}
+    return <div className="Game">
+        {!start && <button className="Game__StartButton" onClick={handleStart}>Start Game!</button>}
         {Round &&
             <GameContext.Provider value={{ InitialTurnCards, missionCards, setActionUsed, missionsDone, setMissionsDone, ActionUsed, ActionTurn, setActionTurn, setNumberUsed, NumberUsed, puntuation, setPuntuation, Map, setMap, Round, NextCards, NumberToUse, setNumberToUse, ActionToUse, setActionToUse, PenguinTurn, setPenguinTurn }}>
-                <div className="game__playing">
-                    <MissionCards Cards={missionCards} />
-                    <OptionCards />
-                    <div className="game__Nav">
-                        <div className="game__Logo">
-                            <Logo sizeX={"100px"} sizeY={"100px"} />
-                        </div>
-                        <NavLvLs resource={ActionToUse} puntuation={puntuation} />
-                        <div className="game__Button" >
-                            <button onClick={handleToEndGame}>
-                                Abandon Game
-                    </button>
-                        </div>
-                    </div>
-                    <PenguinsMap send={handleToSend} />
+                <MissionCards send={handleToSend} Cards={missionCards} />
+                <OptionCards />
+                <div className="Game__Logo">
+                    <Logo classToUse={"Game__Logo"} sizeX={""} sizeY={""} />
                 </div>
+                <NavLvLs send={handleToSend} resource={ActionToUse} puntuation={puntuation} />
+                <div className="Game__Button " ><button onClick={handleToEndGame}> Abandon Game </button></div>
+                <PenguinsMap send={handleToSend} />
             </GameContext.Provider>
         }</div>
 }

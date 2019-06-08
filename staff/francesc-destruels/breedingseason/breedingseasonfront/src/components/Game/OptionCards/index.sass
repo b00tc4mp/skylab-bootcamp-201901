@@ -1,0 +1,28 @@
+
+.TurnArea 
+    display: grid
+    grid-template-columns: 1fr
+    grid-template-rows: 1fr 1fr 1fr
+
+    &__Selection
+        display: grid
+        grid-template-columns: 0.2fr 1.8fr 1.8fr 0.2fr
+        grid-template-rows: 1fr
+        grid-template-areas: ". PenguinCard ResourceCard ."
+
+
+    &__Selection--Selected
+        transform: scale(1.1)
+
+    &__Resource--toUse
+        transform: scale(1.1)
+
+    &__Penguin
+        grid-area: PenguinCard
+
+    &__Resource
+        grid-area: ResourceCard
+
+    &__Card
+        height: 90%
+        width: 90%

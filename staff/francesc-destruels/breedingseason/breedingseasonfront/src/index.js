@@ -1,6 +1,6 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import './index.css'
+import './index.sass'
 import App from './components/App'
 import * as serviceWorker from './serviceWorker'
 import { HashRouter as Router } from 'react-router-dom'

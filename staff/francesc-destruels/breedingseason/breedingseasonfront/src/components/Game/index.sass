@@ -1,37 +1,49 @@
-.game
+.Game
     position: absolute
-    margin: 1%
-    min-height: 100% 
-    min-width: 100%
-    max-height: 100% 
-    max-width: 100%
+    height: 98vh 
+    width: 98vw
     display: grid
-    grid-template-columns: 0.6fr 1.4fr
-    grid-template-rows: 0.3fr 0.2fr 0.4fr 3fr
-    grid-template-areas: "MissionCards Nav" "MissionCards Nav" "MissionCards Map" "TurnCards Map"
-
-    &__MissionCards 
-        grid-area: MissionCards
-
-    &__TurnCards
-        grid-area: TurnCards
-
-    &__Map 
-        grid-area: Map
-        
-    &__Nav
-        display: grid;
-        grid-template-columns: 0.4fr 2.2fr 0.4fr
-        grid-template-rows: 1fr 1.6fr 0.4fr
-        grid-template-areas: "Logo LvLArea Button" "Logo LvLArea Button" "Logo LvLArea ."
-        grid-area: Nav
-        
+    grid-template-columns: 0.1fr 1.3fr 0.5fr 0.7fr 3fr 0.4fr
+    grid-template-rows: 0.3fr 0.3fr 2.4fr
+    grid-template-areas: "MissionCards MissionCards MissionCards Logo NavLvL Button" "MissionCards MissionCards MissionCards Logo NavLvL Button" "TurnCards TurnCards Map Map Map Map"
+   
     &__Logo 
         grid-area: Logo
+        justify-self: center
+        height: 90%
+        width: 90%
         
     &__Button 
         grid-area: Button
+        height: 100%
+        width: 100%
     
-    &__LvLArea 
-        grid-area: LvLArea
+    &__NavLvL
+        grid-area: NavLvL
+        display: flex
+        justify-content: space-around
+        align-items: center
+        height: 100%
+        width: 100%
+        border: 1px solid green
+    
+    &__MissionCards
+        grid-area: MissionCards
+        height: 100%
+        width: 100%
+    
+    &__TurnCards
+        grid-area: TurnCards
+        justify-self: center
+        height: 100%
+        width: 100%
+
+    &__Map 
+        grid-area: Map
+        height: 100%
+        width: 100%
+
+
+
+
 

@@ -123,17 +123,50 @@ const logic = {
     //     } else throw new LogicError("Bad Way")
     // },
 
-    async nextGame(gamePlay) {
+    async nextGame(gamePlay, updatedAmount) {
         ow(gamePlay, ow.object)
+        ow(updatedAmount, ow.object)
 
-        const response = await restApi.gameAction(this.__userToken__, this.__ActualGame__, gamePlay)
+        const response = await restApi.gameAction(this.__userToken__, this.__ActualGame__, gamePlay, updatedAmount)
 
         if (response) {
-
+            console.log(response)
             return response
         }
 
     },
+
+    __updatedValues__(Map) {
+
+        let One = 0, Two = 0, Three = 0, Four = 0
+
+        for (let j = 1; j <= 4; j++) {
+            for (let i = 0; i < Map[j].length; i++) {
+                switch (Map[j][i][0]) {
+                    case 0:
+                        break
+                    case 1:
+                        One++
+                        break
+                    case 2:
+                        Two++
+                        break
+                    case 3:
+                        Three++
+                        break
+                    case 4:
+                        Four++
+                        break
+                    default:
+                        console.log("Algo raro paaaaasaaa")
+                        break
+                }
+            }
+        }
+
+        return { One, Two, Three, Four }
+    },
+
 
     __isBreedable__(map, position, rocks) {
 
@@ -151,11 +184,60 @@ const logic = {
         return can
     },
 
-    __isLoveable__(map, position, resource) {
-
+    __isUsable__(map, position, resource) {
         const toCheck = map[position[0]][position[1]]
+        const toCompare = map[position[0]][position[1]][1]
 
-        return ((resource === "love") && (toCheck[0] !== 0) && (toCheck[0] < 4) && (toCheck[2] === false)) ? true : false
+        if (toCheck[0] !== 0) {
+            let can = true
+            console.log(map)
+
+            switch (resource) {
+                case "love":
+                    return ((toCheck[0] < 4) && (toCheck[2] === false)) ? true : false
+
+                case "glue":
+                
+                    if (toCompare === 1 || toCompare === 0) return false
+                    else {
+
+                        for (let i = 0; i < map[position[0]].length; i++) {
+                            console.log(position[1], map[position[0]][i][1], toCompare)
+                            if (i < position[1] && map[position[0]][i][1] === toCompare - 1) return false
+                            else if (i >= position[1]) break
+                            else continue
+                        }
+
+                        return can
+                    }
+
+                case "pick":
+
+                    for (let i = 0; i < map[position[0]].length; i++) {
+                        if (i > position[1] && map[position[0]][i][1] === toCompare + 1) return false
+                        else continue
+                    }
+                    return can
+
+                default:
+                    return false
+            }
+        } else return false
+
+    },
+
+    __isSecurityAvailable__(number, toCompare, maximum) {
+
+        console.log(number, toCompare, maximum, toCompare[number] < maximum[number].length)
+        return toCompare[number] < maximum[number].length - 1 ? true : false
+
+    },
+
+    __isUpgradeAvailable__(toCompare, maximum) {
+
+        console.log(toCompare, maximum, toCompare < maximum.length)
+        return toCompare < maximum.length - 1 ? true : false
+
     },
 
     finishedGame(finishedGameData) { // hacer a con la data para poder pintarlo :D

@@ -1,11 +1,12 @@
 import React, { useState, useEffect, Fragment } from 'react'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 import { AppContext } from '../AppContext'
 import Login from '../Login'
 import Register from '../Register'
 import Landing from '../Landing'
 import Home from '../Home'
 import logic from '../../logic'
+import './index.sass'
 
 function App({ history }) {
 
@@ -13,7 +14,7 @@ function App({ history }) {
   const [Nickname, setNickname] = useState({})
 
 
-  useEffect(() =>  { 
+  useEffect(() => {
     logic.isUserLoggedIn && logic.retrieveUser()
       .then(user => setNickname(user))
   }, [])
@@ -62,12 +63,20 @@ function App({ history }) {
 
   return (
     <Fragment>
-      <AppContext.Provider value={{ Nickname, setNickname, feedback }}>
-        <Route exact path='/' render={() => !logic.isUserLoggedIn ? <Landing toLogin={handleToLogin} toRegister={handleToRegister} /> : <Redirect to='/home' />} />
-        <Route path='/login' render={() => !logic.isUserLoggedIn ? <Login onLogin={handleLogIn} /> : <Redirect to='/home' />} />
-        <Route path='/register' render={() => !logic.isUserLoggedIn ? <Register onSignUp={handleSignUp} /> : <Redirect to='/home' />} />
-        <Route path='/home' render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to='/' />} />
-      </AppContext.Provider>
+      <div className="App App__Pages">
+        <AppContext.Provider value={{ Nickname, setNickname, feedback }}>
+          <Switch>
+            <Route exact path='/' render={() => !logic.isUserLoggedIn ? <Landing toLogin={handleToLogin} toRegister={handleToRegister} /> : <Redirect to='/home' />} />
+            <Route path='/login' render={() => !logic.isUserLoggedIn ? <Login onLogin={handleLogIn} /> : <Redirect to='/home' />} />
+            <Route path='/register' render={() => !logic.isUserLoggedIn ? <Register onSignUp={handleSignUp} /> : <Redirect to='/home' />} />
+            <Route path='/home' render={() => logic.isUserLoggedIn ? <Home /> : <Redirect to='/' />} />
+            <Route render={() => <Redirect to="/" />} />
+          </Switch>
+        </AppContext.Provider>
+      </div>
+      <div className="App App__Pages--BadResolution">
+          <p>This game requires at least 1024px of resolution to play! Sorry!</p>
+      </div>
     </Fragment>
   )
 

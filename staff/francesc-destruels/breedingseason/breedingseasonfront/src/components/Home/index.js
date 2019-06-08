@@ -45,7 +45,7 @@ function Home({ history }) {
     }
 
     return (
-        <div>
+        <div className="home">
             <Route exact path="/home" render={() =>
 
                 <div>
@@ -72,7 +72,7 @@ function Home({ history }) {
 
             <Route path="/home/HowToPlay" render={() => logic.isUserLoggedIn ? <HowToPlay /> : <Redirect to='/' />} />
 
-            <Route path="/home/Game" render={() => logic.isUserLoggedIn ? <Game className="gameBoard" /> : <Redirect to='/' />} />
+            <Route path="/home/Game" render={() => logic.isUserLoggedIn ? <Game /> : <Redirect to='/' />} />
 
         </div>)
 }
