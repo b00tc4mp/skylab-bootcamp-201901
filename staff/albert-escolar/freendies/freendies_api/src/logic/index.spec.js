@@ -1,7 +1,8 @@
 'use strict'
 
 require('dotenv').config()
-
+const fs = require('fs')
+const path = require('path')
 const { User, Game, mongoose } = require('freendies_data')
 const logic = require('.')
 const bcrypt = require('bcrypt')
@@ -441,61 +442,325 @@ describe('logic', () => {
             })
         })
 
-        describe('upload game', () => {
+    })
+    describe('retrieve game by query', () => {
 
-            const username = 'TestUser'
-            const email = `testmail-${Math.random()}@mail.com`
-            const password = `123-${Math.random()}`
+        const username = 'TestUser'
+        const email = `testmail-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
 
-            let userId
+        let userId
 
-            beforeEach(() =>
-                bcrypt.hash(password, 10)
-                    .then(hash => User.create({ username, email, password: hash }))
-                    .then(({ id }) => userId = id)
-            )
-            it('should succeed on creating a game', async () => {
-                let ownerId = userId
-                const title = "testGameTitle"
-                const genre = "testGamegenre"
-                const description = "testGameGenre"
-                const game = await logic.uploadGame(userId, title, genre, description, images)
+
+        const title = `title-${Math.random()}`
+        const genre = `genre-${Math.random()}`
+        const description = `description ${Math.random()}`
+        const images = [`images ${Math.random()}`]
+        const gameFile = `gamefile ${Math.random()}`
+        let game
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => {
+
+                    game = Game.create({ ownerId: userId, title, genre, description, images, gameFile })
+                    return game
+                })
+        )
+
+        it('should succed on retrieving a game by query', async () => {
+            const retrievedGame = await logic.retrieveGameByQuery(genre, title)
+            expect(retrievedGame).toBeTruthy()
+            expect(retrievedGame[0].title).toBe(title)
+        })
+        it('should succed on retrieving a game by query and "any" genre', async () => {
+            const any = 'any'
+            const retrievedGame = await logic.retrieveGameByQuery(any, title)
+            expect(retrievedGame).toBeTruthy()
+            expect(retrievedGame[0].title).toBe(title)
+        })
+
+        it('should fail on wrong genre', async () => {
+            const wrongGenre = 'wrong'
+            expect(async () => {
+                await logic.retrieveGameByQuery(wrongGenre, title)
+                    .toThrow(Error('wrong genre'))
 
             })
         })
 
-        describe('retrieve game by query', () => {
-            const username = 'TestUser'
-            const email = `testmail-${Math.random()}@mail.com`
-            const password = `123-${Math.random()}`
+    })
 
-            const ownerId='FakeId'
-            const title = 'FakeTitle'
-            const genre = 'FakeTitle'
-            const description ='FakeDecription'
-            const images = ['FakeImageUrl']
-            const gameFile = ['gameFileUrl']
-            let userId
-            
-            beforeEach(() =>
-                bcrypt.hash(password, 10)
-                    .then(hash => User.create({ username, email, password: hash }))
-                    .then(({ id }) => userId = id)
-                    .then(() => Game.create({ ownerId, title, genre, description, images:images[0], gameFile:gameFile[0] }))
-                    .then(newGame)
-            )
+    describe('retrieve game by genre', () => {
+        const username = 'TestUser'
+        const email = `testmail-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
 
-            it('should succeed on retrieving a game on correct id', async () => {
-                const id = "5cf9264ab46ff310f42cf55f"
-                const title = "testGameTitle"
-                const genre = "any"
-                const description = "testGameDescription"
-                const gameFile = "testGameFile"
+        let userId
 
-                const game = await logic.retrieveGameByQuery(genre, title)
-                expect(game).toBeTruthy()
-                expect(game.title).toBe(title)
+
+        const title = `title-${Math.random()}`
+        const genre = `genre-${Math.random()}`
+        const description = `description ${Math.random()}`
+        const images = [`images ${Math.random()}`]
+        const gameFile = `gamefile ${Math.random()}`
+        let game
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => {
+
+                    game = Game.create({ ownerId: userId, title, genre, description, images, gameFile })
+                    return game
+                })
+        )
+
+
+        it('should succeed on retrieve a game by genre', async () => {
+            const retrievedGame = await logic.retrieveGameByGenre(genre)
+            expect(retrievedGame).toBeTruthy()
+            expect(retrievedGame[0].title).toBe(title)
+        })
+
+        it('should succeed on retrieve a game by "any" genre', async () => {
+            const any = 'any'
+            const retrievedGame = await logic.retrieveGameByGenre(any)
+            expect(retrievedGame).toBeTruthy()
+            expect(retrievedGame[0].title).toBe(title)
+        })
+
+        it('should fail on wrong genre', () => {
+            const wrongGenre = 'wrong'
+            expect(async () => {
+                await logic.retrieveGameByGenre(wrongGenre)
+                    .toThrow(Error('wrong genre'))
+            })
+        })
+
+        it('should fail on empty genre', () => {
+            const wrongGenre = ''
+            expect(async () => {
+                await logic.retrieveGameByGenre(wrongGenre)
+                    .toThrow(Error('wrong genre'))
+            })
+        })
+        it('should fail on wrong genre', () => {
+            const wrongGenre = undefined
+            expect(async () => {
+                await logic.retrieveGameByGenre(wrongGenre)
+                    .toThrow(Error('wrong genre'))
+            })
+        })
+
+
+    })
+
+    describe('retrieve game by id', () => {
+        const username = 'TestUser'
+        const email = `testmail-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+
+        let userId
+
+
+        const title = `title-${Math.random()}`
+        const genre = `genre-${Math.random()}`
+        const description = `description ${Math.random()}`
+        const images = [`images ${Math.random()}`]
+        const gameFile = `gamefile ${Math.random()}`
+        let game
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => {
+                    return Game.create({ ownerId: userId, title, genre, description, images, gameFile })
+                })
+                .then(response => game = response)
+        )
+
+        it('should succeed to retrieve game by id with correct id', async () => {
+            const retrievedGame = await logic.retrieveGameById(game.id)
+            expect(retrievedGame).toBeTruthy()
+            expect(retrievedGame.title).toBe(title)
+
+        })
+
+        it('should fail retrieving a game by id on wrong id', async () => {
+            const wrongId = ':D'
+            expect(async () => {
+                await logic.retrieveGameById(wrongId)
+                    .toThrow(Error('wrong id'))
+            })
+        })
+        it('should fail retrieving a game by id on empty id', async () => {
+            const wrongId = ''
+            expect(async () => {
+                await logic.retrieveGameById(wrongId)
+                    .toThrow(Error('wrong id'))
+            })
+        })
+        it('should fail retrieving a game by id on undefined id', async () => {
+            const wrongId = undefined
+            expect(async () => {
+                await logic.retrieveGameById(wrongId)
+                    .toThrow(Error('wrong id'))
             })
         })
     })
+
+    describe('retrieve all games', () => {
+        const username = 'TestUser'
+        const email = `testmail-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+
+        let userId
+
+
+        const title = `title-${Math.random()}`
+        const genre = `genre-${Math.random()}`
+        const description = `description ${Math.random()}`
+        const images = [`images ${Math.random()}`]
+        const gameFile = `gamefile ${Math.random()}`
+        let game
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => {
+
+                    game = Game.create({ ownerId: userId, title, genre, description, images, gameFile })
+                    return game
+                })
+        )
+
+        it('should succeed on retrieving all games', async () => {
+            const retrievedGame = await logic.retrieveAllGames()
+            expect(retrievedGame).toBeTruthy()
+            expect(retrievedGame[0].title).toBe(title)
+        })
+    })
+
+    // describe('retrieve user uploads', () => {
+    //     const username = 'TestUser'
+    //     const email = `testmail-${Math.random()}@mail.com`
+    //     const password = `123-${Math.random()}`
+
+    //     let userId
+
+
+    //     const title = `title-${Math.random()}`
+    //     const genre = `genre-${Math.random()}`
+    //     const description = `description ${Math.random()}`
+    //     const images = [`images ${Math.random()}`]
+    //     const gameFile = `gamefile ${Math.random()}`
+    //     let game
+
+    //     beforeEach(() =>
+    //         bcrypt.hash(password, 10)
+    //             .then(hash => User.create({ username, email, password: hash }))
+    //             .then(({ id }) => userId = id)
+    //             .then(() => {
+
+    //                 return Game.create({ ownerId: userId, title, genre, description, images, gameFile })
+    //             })
+    //             .then(response => game = response)
+    //     )
+
+    //     it('should succed to retrieve user uploads on correct userId', async () => {
+    //         const retrievedUpload = await logic.retrieveUploads(userId)
+    //         expect(retrievedUpload).toBeTruthy()
+    //     })
+
+    //     it('should fail to retrieve user uploads on wrong userId', async () => {
+    //         const wrongUserId = 'wrongUserId'
+    //         expect(async () => {
+    //             await logic.retrieveUploads(wrongUserId).toThrow(Error('wrong userId'))
+    //         })
+    //     })
+    //     it('should fail to retrieve user uploads on undefined userId', async () => {
+    //         const wrongUserId = undefined
+    //         expect(async () => {
+    //             await logic.retrieveUploads(wrongUserId).toThrow(Error('wrong userId'))
+    //         })
+    //     })
+    //     it('should fail to retrieve user uploads on empty userId', async () => {
+    //         const wrongUserId = ''
+    //         expect(async () => {
+    //             await logic.retrieveUploads(wrongUserId).toThrow(Error('wrong userId'))
+    //         })
+    //     })
+
+    // })
+
+    describe('toggle favs', () => {
+        const username = 'TestUser'
+        const email = `testmail-${Math.random()}@mail.com`
+        const password = `123-${Math.random()}`
+
+        let userId
+
+
+        const title = `title-${Math.random()}`
+        const genre = `genre-${Math.random()}`
+        const description = `description ${Math.random()}`
+        const images = [`images ${Math.random()}`]
+        const gameFile = `gamefile ${Math.random()}`
+        let game
+
+        beforeEach(() =>
+            bcrypt.hash(password, 10)
+                .then(hash => User.create({ username, email, password: hash }))
+                .then(({ id }) => userId = id)
+                .then(() => {
+
+                    return Game.create({ ownerId: userId, title, genre, description, images, gameFile })
+                })
+                .then(response => game = response)
+        )
+
+        it('should succeed on toggling a game to fav', async () => {
+            await logic.toggleFavs(userId, game.id)
+            const user = await logic.retrieveUser(userId)
+            expect(user.favoriteGames[0].toString()).toBe(game.id)
+
+        })
+
+        it('should succeed on untoggling a game to fav', async () => {
+            await logic.toggleFavs(userId, game.id)
+            await logic.toggleFavs(userId, game.id)
+            const user = await logic.retrieveUser(userId)
+            debugger
+            expect(user.favoriteGames[0]).toBe(undefined)
+        })
+
+        it('should fail on undefined userId',async ()=>{
+            const wrongId=undefined
+            expect(async()=> await logic.toggleFavs(wrongId,game.id).toThrow(Error('wrong userId')))
+        })
+
+        it('should fail on empty userId',async ()=>{
+            const wrongId=''
+            expect(async()=> await logic.toggleFavs(wrongId,game.id).toThrow(Error('wrong userId')))
+        })
+
+        it('should fail on undefined game.id',async ()=>{
+            const wrongGameId=undefined
+            expect(async()=> await logic.toggleFavs(userId,wrongGameId).toThrow(Error('wrong userId')))
+        })
+        it('should fail on empty game.id',async ()=>{
+            const wrongGameId=''
+            expect(async()=> await logic.toggleFavs(userId,wrongGameId).toThrow(Error('wrong userId')))
+        })
+    })
+
+
+
+
 })
