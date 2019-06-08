@@ -544,25 +544,25 @@ describe('rest api', ()=>{
             it('should fail on undefined token', () => {
                 const token = undefined
                 
-                expect(() => logic.saveIssues(token)).to.throw(RequirementError, `token is not optional`)
+                expect(() => restApi.saveIssues(token)).to.throw(RequirementError, `token is not optional`)
             })
     
             it('should fail on null token', () => {
                 const token = null
                 
-                expect(() => logic.saveIssues(token)).to.throw(RequirementError, `token is not optional`)
+                expect(() => restApi.saveIssues(token)).to.throw(RequirementError, `token is not optional`)
             })
     
             it('should fail on empty token', () => {
                 const token = ''
                 
-                expect(() => logic.saveIssues(token)).to.throw(ValueError, 'token is empty')
+                expect(() => restApi.saveIssues(token)).to.throw(ValueError, 'token is empty')
             })
     
             it('should fail on blank token', () => {
                 const token = ' \t    \n'
                 
-                expect(() => logic.saveIssues(token)).to.throw(ValueError, 'token is empty')
+                expect(() => restApi.saveIssues(token)).to.throw(ValueError, 'token is empty')
             })
 
         })
@@ -687,6 +687,61 @@ describe('rest api', ()=>{
 
         })
         describe('clean buffer', ()=>{
+            let token, month='May'
+            beforeEach(async ()=>{
+                await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                response = await restApi.authenticateUser(email, password)
+                token= response.token    
+                await helper.loadBuffer(month)
+            })
+            it('should clean issues collection', async ()=>{
+                await restApi.clearUpBuffer(token)
+                const collection = await Bufferissue.estimatedDocumentCount()
+                expect(collection).is.equal(0)
+            })
+            it('should fail on incorrect format token', async ()=>{
+                const token='LL'
+                try{
+                    await restApi.clearUpBuffer(token)
+                    throw Error('should not reach this point')
+    
+                }catch(error){
+                    expect(error).to.exist
+                }
+            })
+            it('should fail on inexistent token', async ()=>{
+                await User.deleteMany()
+                try{
+                    await restApi.clearUpBuffer(token)
+                    throw Error('should not reach this point')
+    
+                }catch(error){
+                    expect(error).to.exist
+                }
+            })
+            it('should fail on undefined token', () => {
+                const token = undefined
+                
+                expect(() => restApi.clearUpBuffer(token)).to.throw(RequirementError, `token is not optional`)
+            })
+    
+            it('should fail on null token', () => {
+                const token = null
+                
+                expect(() => restApi.clearUpBuffer(token)).to.throw(RequirementError, `token is not optional`)
+            })
+    
+            it('should fail on empty token', () => {
+                const token = ''
+                
+                expect(() => restApi.clearUpBuffer(token)).to.throw(ValueError, 'token is empty')
+            })
+    
+            it('should fail on blank token', () => {
+                const token = ' \t    \n'
+                
+                expect(() => restApi.clearUpBuffer(token)).to.throw(ValueError, 'token is empty')
+            })
             
         })
         describe('issues by resolution',()=>{

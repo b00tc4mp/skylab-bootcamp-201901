@@ -62,7 +62,7 @@ function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, resolution
                                 <ul className="uk-nav uk-dropdown-nav">
                                     <li><p>You have logged in as:</p></li>
                                     <li><p>{user.name} {user.surname} - {user.country}</p></li>
-                                    <li><p>{user.profile}</p></li>
+                                    <li><p>Product Expert</p></li>
                                     <li className="uk-nav-divider"></li>
                                     <li><a className="uk-nav-header" href="" onClick={goProfile}>Profile</a></li>
                                     <li><a href="#" onClick={onLogout}>Logout</a></li>
