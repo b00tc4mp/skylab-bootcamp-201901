@@ -177,6 +177,14 @@ const logic = {
 
             return sessions
         })()
+    },
+
+    retireveNearestCinemas(lng, lat, dist) {
+        return (async () => {
+            const cinemaLocations = await Cinema.find({ "location": {$near: { $geometry: { type: "Point", coordinates: [lng, lat] }, $maxDistance: dist }}}, 'location.coordinates').lean()
+
+            return cinemaLocations
+        })()
     }
 }
 

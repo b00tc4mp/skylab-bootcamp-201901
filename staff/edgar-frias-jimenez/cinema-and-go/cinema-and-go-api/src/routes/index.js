@@ -97,4 +97,12 @@ router.post('/cinemas/scrapper', auth, (req, res) => {
     })()
 })
 
+router.get('/cinemas/near', auth, (req, res) => {
+    return (async () => {
+        const cinemas = await logic.retireveNearestCinemas(parseFloat(req.query.lng), parseFloat(req.query.lat), parseFloat(req.query.dist))
+
+        return res.json(cinemas)
+    })()
+})
+
 module.exports = router

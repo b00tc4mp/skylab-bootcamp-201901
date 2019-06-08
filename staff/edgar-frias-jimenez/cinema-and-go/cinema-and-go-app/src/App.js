@@ -1,18 +1,19 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useState } from 'react'
 import { Route, withRouter } from 'react-router-dom'
 
 import { GlobalContext } from './components/GlobalContext'
 
 import appLogic from './logic'
 
-import GoogleMaps from './components/Maps'
+// import GoogleMaps from './components/Maps'
 import Feedback from './components/Feedback'
 import Spinner from './components/Spinner'
 import Landing from './pages/Landing'
 import Login from './pages/Login'
 import Register from './pages/Register'
+import Home from './pages/Home'
 
-import './App.scss';
+import './App.scss'
 
 function App ({ history }) {
 
@@ -49,21 +50,38 @@ function App ({ history }) {
         }
     }
 
+//     const locate = () => {
+//         try{
+//             debugger
+//             appLogic.handleInitialLocation()
+//                 .then((res) => console.log(res) )
+//         } catch (error) {
+//             debugger
+
+//         }
+//     }
+
+//    useEffect(() => {
+//     locate()
+//    },[])
+
+
+
     return (
         <Fragment>
             <GlobalContext.Provider value={{ feedback, setFeedback, showSpinner, handleSpinner }}>
                 <Route exact path='/' component={Landing} />
                 <Route exact path='/login' render={() => <Login onLogin={handleLogin} />} />
                 <Route exact path='/register' render={() => <Register onRegister={handleRegister} />} />
+                <Route exact path='/home' render={() => <Home />} />
                 <Spinner />
             </GlobalContext.Provider>
             {feedback && <Feedback />}
-            <section className="maps">
+            {/* <section className="maps">
                 <GoogleMaps />
-            </section>
+    </section>*/}
         </Fragment>
     )
 }
-
 
 export default withRouter(App)

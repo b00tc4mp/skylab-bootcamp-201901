@@ -3,7 +3,6 @@ const validate = require('../components/Validate')
 const { LogicError } = require('../components/Errors')
 const cinemaApi = require('../services')
 
-
 const appLogic = {
     __userToken__ : null,
 
@@ -32,7 +31,6 @@ const appLogic = {
             try {
                 await cinemaApi.registerUser(name, email, password)
             } catch (error) {
-                debugger
                 throw new LogicError(error)
             }
         })()
@@ -49,7 +47,6 @@ const appLogic = {
         return (async () => {
             try {
                 const res = await cinemaApi.authenticateUser(email, password)
-
                 this.__userToken__ = res.token
             } catch (error) {
                 throw new LogicError(error)
@@ -62,22 +59,16 @@ const appLogic = {
     },
 
     retrieveUser() {
-
         return (async () => {
             try {
-
                 return await cinemaApi.retrieveUser(this.__userToken__)
-
             } catch (error) {
-
                 throw new LogicError(error)
-
             }
         })()
     },
 
-
-    updateUser( data) {
+    updateUser(data) {
         validate.arguments([
             { name: 'data', value: data, type: 'object', notEmpty: true }
         ])
@@ -85,75 +76,63 @@ const appLogic = {
         return (async () => {
             try {
                 await cinemaApi.updateUser(this.__userToken__, data)
-
             } catch (error) {
-
                 throw new LogicError(error)
-
             }
         })()
     },
 
     removeUser() {
-
         return (async () => {
             try {
-
                 await cinemaApi.removeUser(this.__userToken__)
-
-            } catch (error) {
-
-                throw new LogicError(error)
-
-            }
-        })()
-    },
-
-    //----------------------------------------------------------------------------------
-
-    retrieveUserMaps(){
-        return (async () => {
-            try {
-                return await cinemaApi.retrieveUserMaps(this.__userToken__)
             } catch (error) {
                 throw new LogicError(error)
             }
         })()
     },
 
-    retrieveUserMap(mapId) {
-
-        validate.arguments([
-            { name: 'mapId', value: mapId, type: 'string', notEmpty: true }
-        ])
-
-        return (async () => {
+    handleInitialLocation() {
+        if (navigator.geolocation) {
             try {
-                return await cinemaApi.retrieveUserMap(this.__userToken__, mapId)
+                const geoLocation = new Promise((resolve, reject) => {
+                    var options = {
+                        timeout: 10000,
+                        enableHighAccuracy: true,
+                        maximumAge: Infinity
+                    }
+
+                    const success = pos => {
+                      const crd = pos.coords
+                      const locationCoords = [crd.longitude, crd.latitude]
+                      resolve(locationCoords)
+                    }
+
+                    const error = err => {
+                      reject(`ERROR(${err.code}): ${err.message}`)
+                    }
+
+                    navigator.geolocation.getCurrentPosition(success, error, options)
+                })
+
+                return geoLocation.then(locationCoords => locationCoords)
             } catch (error) {
-                throw new LogicError(error)
+                console.error(`Error: The Geolocation service failed. ${error}`)
             }
-        })()
+        } else {
+            console.error('Error: Your browser doesn\'t support geolocation.')
+        }
     },
 
-    createMapCollection(mapId, collections) {
-
-        validate.arguments([
-            { name: 'mapId', value: mapId, type: 'string', notEmpty: true },
-            { name: 'collections', value: collections, type: 'object', notEmpty: true }
-        ])
-
-        const data = { collections }
-
+    retrieveNearestCinemas(userPosition, dist) {
         return (async () => {
             try {
-                return await cinemaApi.updateMap(this.__userToken__, mapId, data)
+                return await cinemaApi.retrieveNearestCinemas(this.__userToken__, userPosition, dist)
             } catch (error) {
                 throw new LogicError(error)
             }
         })()
     }
-
 }
 
 export default appLogic

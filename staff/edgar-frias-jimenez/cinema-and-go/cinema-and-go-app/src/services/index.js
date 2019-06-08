@@ -103,6 +103,18 @@ const cinemaApi = {
         return call(`${this.__url__}/cinema/sessions`, {
             headers: { Authorization: `Bearer ${token}` }
         })
+    },
+
+    retrieveNearestCinemas(token, userPosition, dist) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'userPosition', value: userPosition, type: 'object', notEmpty: true },
+            { name: 'dist', value: dist, type: 'number', notEmpty: true }
+        ])
+
+        return call(`${this.__url__}/cinemas/near?lng=${userPosition.lng}&lat=${userPosition.lat}&dist=${dist}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
     }
 }
 

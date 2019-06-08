@@ -74,7 +74,6 @@ const scrapper = {
         if(Array.from(location).every((val, i, arr) => val === arr[0])) {
             location = [Number(41.4071804), Number(2.1386014)]
         }
-        console.log('\n', '--------------', location, location instanceof Array, '\n', '------------------')
 
         const projectionDay = $('#days a').first().attr('href')
 
