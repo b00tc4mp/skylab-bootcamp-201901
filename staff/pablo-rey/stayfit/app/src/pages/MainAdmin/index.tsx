@@ -1,10 +1,10 @@
-import React, { useEffect, useState, useContext } from 'react';
-import { IonContent, IonPage, IonImg, IonButton } from '@ionic/react';
-import { Link } from 'react-router-dom';
+import { IonContent, IonPage } from '@ionic/react';
+import moment from 'moment';
+import React, { useContext, useEffect, useState } from 'react';
+import ListSessionsCustomer from '../../components/sessions/ListSessionsCustomer';
+import ListCustomers from '../../components/users/ListCustomers';
 import logic from '../../logic';
 import { MainContext } from '../../logic/contexts/main-context';
-import moment from 'moment';
-import ListCustomers from '../../components/users/ListCustomers';
 
 export default function MainAdmin() {
   const [sessions, setSessions] = useState([]);
@@ -22,8 +22,12 @@ export default function MainAdmin() {
     // disparar una actualización
   };
 
-  useEffect(() => {
+  const refresh = () => {
     ctx.provider && logic.listSessions(ctx.provider.id, moment()).then(sessions => setSessions(sessions));
+  }
+
+  useEffect(() => {
+    refresh()
   }, [ctx.provider]);
 
   return (
@@ -31,19 +35,8 @@ export default function MainAdmin() {
       <IonContent>
         <h1>Admin Main</h1>
         {ctx.customers && <ListCustomers customersAndRequests={ctx.customers} showActive={false}/>}
-        <h2>Reservas para hoy</h2>
-        <ul>
-          {!!sessions &&
-            sessions.map(s => {
-              return (
-                <li key={s.id}>
-                  <p>{s.title}</p>
-                  <p>{s.startTime}</p>
-                  <p>{s.attendances.length}</p>
-                </li>
-              );
-            })}
-        </ul>
+        <h2>Sesiones para hoy</h2>
+          {!!sessions && <ListSessionsCustomer sessions={sessions} onChange={refresh}/>}
       </IonContent>
     </IonPage>
   );

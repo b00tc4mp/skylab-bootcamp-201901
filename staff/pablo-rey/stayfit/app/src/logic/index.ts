@@ -17,7 +17,7 @@ export default {
     sessionStorage.refreshToken = _token;
   },
 
-  async __gCall({ query, mutation, variables }) {
+  __gCall({ query, mutation, variables }) {
     let context;
     if (this.token) {
       context = {
@@ -28,14 +28,14 @@ export default {
     }
 
     if (query) {
-      return await this.gqlClient.query({
+      return this.gqlClient.query({
         query,
         variables,
         context,
         fetchPolicy: 'no-cache',
       });
     } else {
-      return await this.gqlClient.mutate({
+      return this.gqlClient.mutate({
         mutation,
         variables,
         context,
@@ -174,12 +174,18 @@ export default {
           session {
             id
             title
+            provider {
+              id
+              name
+              portraitImageUrl
+            }
             coaches {
               name
             }
             startTime
             endTime
             maxAttendants
+            countAttendances
             type {
               title
             }
@@ -208,6 +214,11 @@ export default {
         listSessions(providerId: $providerId, day: $day) {
           id
           title
+          provider {
+            id
+            name
+            portraitImageUrl
+          }
           coaches {
             id
             name
@@ -215,6 +226,7 @@ export default {
           startTime
           endTime
           maxAttendants
+          countAttendances
           type {
             id
             title
@@ -288,12 +300,18 @@ export default {
           session {
             id
             title
+            provider {
+              id
+              name
+              portraitImageUrl
+            }
             coaches {
               name
             }
             startTime
             endTime
             maxAttendants
+            countAttendances
             type {
               title
             }
@@ -309,7 +327,9 @@ export default {
     const { data, error } = await this.__gCall({
       query,
     });
-    return data.listMyNextAttendances.map(sa => ({ ...sa.session, myAttendance: sa.myAttendance }));
+    const result = data.listMyNextAttendances.map(sa => ({ ...sa.session, myAttendance: sa.myAttendance }));
+    result.sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
+    return result;
   },
 
   async listProviders(): Promise<TProvider[]> {

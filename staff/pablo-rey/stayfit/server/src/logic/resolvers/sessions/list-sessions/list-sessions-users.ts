@@ -34,6 +34,7 @@ export class ListSessionsByUserResolvers {
     let sessions = await SessionModel.find({ provider, startTime: { $gte: startDay, $lte: endDay } })
       .populate('coaches')
       .populate('type')
+      .populate('provider')
       .populate('attendances');
     const result: any[] = [];
     for (let session of sessions) {

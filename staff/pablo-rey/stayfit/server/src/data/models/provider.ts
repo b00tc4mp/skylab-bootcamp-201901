@@ -33,10 +33,10 @@ export class Provider extends Typegoose {
   @Field(() => String)
   @prop() // this will create a virtual property called 'fullName'
   get bannerImageUrl() {
-    return this.uploadedBanner || 'default';
+    return (this as any)._doc.uploadedBanner || 'default';
   }
   set bannerImageUrl(img) {
-    this.uploadedBanner = img;
+    (this as any)._doc.uploadedBanner = img;
   }
 
   @prop({ default: '' })
@@ -45,10 +45,10 @@ export class Provider extends Typegoose {
   @Field(() => String)
   @prop() // this will create a virtual property called 'fullName'
   get portraitImageUrl() {
-    return this.uploadedPortrait || 'default';
+    return (this as any)._doc.uploadedPortrait || 'default';
   }
   set portraitImageUrl(img) {
-    this.uploadedPortrait = img;
+    (this as any)._doc.uploadedPortrait = img;
   }
 
   @Field()

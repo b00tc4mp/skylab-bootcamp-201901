@@ -1,6 +1,6 @@
 import * as bcrypt from 'bcryptjs';
 import { createSession } from '../logic/resolvers/sessions/create-session/create-session';
-import { ACTIVE, PUBLIC, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE, ACCEPT, REQUESTBECUSTOMER } from './enums';
+import { ACTIVE, PUBLIC, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE, ACCEPT, REQUESTBECUSTOMER, ATTENDANCEPAYMENTTYPES, ATTENDANCESTATUSES} from './enums';
 import { SessionModel } from './models/session';
 import { User, UserModel } from './models/user';
 import { ProviderModel, Provider } from './models/provider';
@@ -8,6 +8,8 @@ import { SessionTypeModel } from './models/session-type';
 import moment = require('moment');
 import faker = require('faker');
 import { RequestCustomerModel } from './models/request';
+import { random } from '../common/utils';
+import { AttendanceModel } from './models/attendance';
 
 export async function cleanDb() {
   await UserModel.deleteMany({});
@@ -15,6 +17,7 @@ export async function cleanDb() {
   await SessionTypeModel.deleteMany({});
   await SessionModel.deleteMany({});
   await RequestCustomerModel.deleteMany({});
+  await AttendanceModel.deleteMany({})
 }
 
 export async function populateDb() {
@@ -80,8 +83,8 @@ export async function populateDb() {
     admins: [admin],
     coaches,
     customers: [],
-    bannerImageUrl: 'https://crossfitstreets.com/wp-content/uploads/2016/02/banner-stayatcrossfit.jpg',
-    logoImageUrl: 'https://www.48hourslogo.com/48hourslogo_data/2018/11/12/78999_1542026387.jpg',
+    uploadedBanner: 'https://crossfitstreets.com/wp-content/uploads/2016/02/banner-stayatcrossfit.jpg',
+    uploadedPortrait: 'https://www.48hourslogo.com/48hourslogo_data/2018/11/12/78999_1542026387.jpg',
   });
 
   admin.adminOf = [provider1];
@@ -93,9 +96,9 @@ export async function populateDb() {
     admins: [admin2],
     coaches,
     customers: [],
-    bannerImageUrl:
+    uploadedBanner:
       'https://blogmedia.dealerfire.com/wp-content/uploads/sites/394/2018/06/Crossfit-training-3-banner.jpg',
-    logoImageUrl:
+    uploadedPortrait:
       'https://image.shutterstock.com/image-vector/modern-vector-professional-sign-logo-260nw-594906506.jpg',
   });
 
@@ -169,6 +172,19 @@ export async function populateDb() {
   await populateSessions(provider1, startTime, 10, coaches);
 
   // create attendances
+  const sessions = await SessionModel.find({}).populate('provider');
+  for (let session of sessions) {
+    let s = new Set();
+    let ll= Math.max(random(session.maxAttendants), random(10) < 4 ? session.maxAttendants : 0);
+    for (let ii=0; ii < ll; ii++){
+      s.add(random((session.provider as Provider).customers))
+    }
+    for (let user of s) {
+      const attendance = await AttendanceModel.create({user, session, paymentType: random(ATTENDANCEPAYMENTTYPES), status: random(ATTENDANCESTATUSES)})
+      session.attendances.push(attendance)
+      await session.save();
+    }
+  }
 }
 
 async function populateSessions(provider: Provider, _startTime: moment.Moment, numDays: number, coaches: User[]) {

@@ -19,6 +19,7 @@ export class ListSessionsAdminsResolvers {
       .endOf('day')
       .toDate();
     const sessions = await SessionModel.find({ provider, startTime: { $gte: startDay, $lte: endDay } })
+      .populate('provider')
       .populate('coaches')
       .populate('type')
       .populate({

@@ -1,49 +1,37 @@
-import React, { useEffect, useState } from 'react';
-import { IonContent, IonPage, IonImg } from '@ionic/react';
+import React, { useEffect, useState, useContext } from 'react';
+import { IonContent, IonPage, IonImg, IonList } from '@ionic/react';
 import { Link } from 'react-router-dom';
 import logic from '../../logic';
+import ListSessionsCustomer from '../../components/sessions/ListSessionsCustomer';
+import { MainContext } from '../../logic/contexts/main-context';
+import ListProviders from '../../components/providers/ListProviders';
 
-export default function Landing() {
+export default function MainUser() {
   const [providers, setProviders] = useState([]);
 
+  const ctx = useContext(MainContext);
+
+  const refresh = () => {
+    logic.listMyProviders().then(providers => setProviders(providers));
+  };
+
   useEffect(() => {
-    (async () => {
-      setProviders(await logic.listMyProviders());
-    })();
+    refresh();
   }, []);
 
   return (
     <IonPage id="main-user">
       <IonContent>
-        <h1>User Main</h1>
-        <h2>Proveedores activos</h2>
-        <ul>
-          {providers
-            .filter(({ request }) => request && request.status === 'ACCEPT')
-            .map(({ id, name, bannerImageUrl, portraitImageUrl }) => {
-              return (
-                <li key={id}>
-                  <IonImg src={portraitImageUrl} />
-                  <p>{name}</p>
-                </li>
-              );
-            })}
-        </ul>
-
         <h2>Proveedores pendientes de confirmación</h2>
-        <ul>
-          {providers
-            .filter(({ request }) => request && request.status === 'PENDING')
-            .map(({ id, name, bannerImageUrl, portraitImageUrl }) => {
-              return (
-                <li key={id}>
-                  <IonImg src={portraitImageUrl} />
-                  <p>{name}</p>
-                </li>
-              );
-            })}
-        </ul>
+        <ListProviders providers={ctx.myProviders} onlyPending /> 
         <h2>Reservas para hoy</h2>
+        <ListSessionsCustomer
+          sessions={ctx.nextAttendances}
+          showToday
+          onChange={() => {
+            ctx.refreshUserData();
+          }}
+        />
       </IonContent>
     </IonPage>
   );

@@ -69,36 +69,16 @@ export class Session extends Typegoose {
   @arrayProp({ itemsRef: Attendance, required: false })
   attendances: Ref<Attendance>[];
 
-  @instanceMethod
-  async countAttendances(): Promise<number> {
-    const atts: Attendance[] = [];
-    for (let attRef of this.attendances) {
-      const att = await AttendanceModel.findById(attRef);
-      atts.push(att!);
-    }
+  @Field()
+  @prop()
+  get countAttendances(): number {
+    const atts: Attendance[] = (this as any)._doc.attendances;
     return Attendance.count(atts);
   }
 
   @Field()
   @prop({ required: true, enum: SESSIONSTATUS })
   status: string;
-
-  @Field()
-  @prop()
-  get availabilityStatus(): string {
-    if (this.isFull) return FULL;
-    else return this.status;
-  }
-
-  @Field(returns => Boolean)
-  @instanceMethod
-  async isFull(): Promise<boolean> {
-    const { attendances, maxAttendants } = this;
-    if (maxAttendants >= (await this.countAttendances())) {
-      return true;
-    }
-    return false;
-  }
 
   @Field()
   @prop({ required: true, enum: SESSIONVISIBILITY })

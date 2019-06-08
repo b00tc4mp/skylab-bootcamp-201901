@@ -1,6 +1,5 @@
 import React from 'react';
 import { IonItem, IonImg, IonAvatar, IonLabel } from '@ionic/react';
-import { userInfo } from 'os';
 
 export function UserBasic({ user }) {
   return(

@@ -21,34 +21,160 @@ const Temp = ({ history, location, client }) => {
   moment.locale('es');
 
   return (
-    <>
-      <ion-page id="main">
-        <ion-tabs>
-          <ion-tab tab="home">
-            <p>Home</p>
-          </ion-tab>
-          <ion-tab tab="bookings">My bookings</ion-tab>
-          <ion-tab tab="settings">Settings Content</ion-tab>
+    <ion-page id="main">
+      <ion-grid>
+        <ion-row class="ion-justify-content-start">
+          <ion-col size="3">
+            <div>1 of 2</div>
+          </ion-col>
+          <ion-col size="3">
+            <div>2 of 2</div>
+          </ion-col>
+        </ion-row>
 
-          <ion-tab-bar slot="bottom">
-            <ion-tab-button tab="home">
-              <ion-label>Home</ion-label>
-              <ion-icon name="home" />
-              <ion-badge>6</ion-badge>
-            </ion-tab-button>
+        <ion-row class="ion-justify-content-center">
+          <ion-col size="3">
+            <div>1 of 2</div>
+          </ion-col>
+          <ion-col size="3">
+            <div>2 of 2</div>
+          </ion-col>
+        </ion-row>
 
-            <ion-tab-button tab="bookings">
-              <ion-label>My bookings</ion-label>
-              <ion-icon name="fitness" />
-            </ion-tab-button>
-            <ion-tab-button tab="settings">
-              <ion-label>Settings</ion-label>
-              <ion-icon name="settings" />
-            </ion-tab-button>
-          </ion-tab-bar>
-        </ion-tabs>
-      </ion-page>
-    </>
+        <ion-row class="ion-justify-content-end">
+          <ion-col size="3">
+            <div>1 of 2</div>
+          </ion-col>
+          <ion-col size="3">
+            <div>2 of 2</div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-around">
+          <ion-col size="3">
+            <div>1 of 2</div>
+          </ion-col>
+          <ion-col size="3">
+            <div>2 of 2</div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-between">
+          <ion-col size="3">
+            <div>1 of 2</div>
+          </ion-col>
+          <ion-col size="3">
+            <div>2 of 2</div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-justify-content-evenly">
+          <ion-col size="3">
+            <div>1 of 2</div>
+          </ion-col>
+          <ion-col size="3">
+            <div>2 of 2</div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+
+      <ion-grid>
+        <ion-row class="ion-align-items-start">
+          <ion-col>
+            <div>1 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>2 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>3 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>
+              4 of 4 <br />
+              # <br />
+              # <br />#
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-align-items-end">
+          <ion-col>
+            <div>1 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>2 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>3 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>
+              4 of 4 <br />
+              # <br />
+              # <br />#
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-align-items-center">
+          <ion-col>
+            <div>1 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>2 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>3 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>
+              4 of 4 <br />
+              # <br />
+              # <br />#
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-align-items-baseline">
+          <ion-col>
+            <div>1 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>2 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>3 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>
+              4 of 4 <br />
+              # <br />
+              # <br />#
+            </div>
+          </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-align-items-stretch">
+          <ion-col>
+            <div>1 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>2 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>3 of 4</div>
+          </ion-col>
+          <ion-col>
+            <div>
+              4 of 4 <br />
+              # <br />
+              # <br />#
+            </div>
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-page>
   );
 };
 
