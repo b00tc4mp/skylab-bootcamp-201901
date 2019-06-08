@@ -1,7 +1,7 @@
 import React from 'react'
 import literals from './literals.js'
 import logic from '../../logic'
-import logo from '../../asserts/logo/icono_v2.png'
+import logo from '../../asserts/logo/icon_v2_black.png'
 
 function NavBar({ lang, onLogout }) {
 
@@ -13,18 +13,18 @@ function NavBar({ lang, onLogout }) {
     const { title, logout, home } = literals[lang]
 
     return <>
-        <div className="uk-position-top">
-            <nav class="uk-navbar-container  uk-navbar-transparent" data-uk-navbar>
-                <div class="uk-margin-top">
-                    <ul class="uk-navbar-nav">
-                        <li class="uk-margin-left uk-margin-right"><img src={logo} alt="logo-PhotoPin" width="60" height="60" /></li>
-                        <li class="uk-margin-top uk-margin-left"><h1>{title}</h1></li>
+        <div>
+            <nav className="uk-navbar-container  uk-navbar-transparent" data-uk-navbar>
+                <div className="mini-margin-top">
+                    <ul className="uk-navbar-nav">
+                        <li className="uk-margin-left"><img src={logo} alt="logo-PhotoPin" width="40" height="40" /></li>
+                        <li className="uk-margin-left"><h2>{title}</h2></li>
                     </ul>
                 </div>
-                <div class="uk-navbar-right">
-                    <ul class="uk-navbar-nav">
-                        <li class="uk-margin-top uk-margin-right uk-active"><a href="#">{home}</a></li>
-                        {logic.isUserLoggedIn && <li class="uk-margin-top"><a onClick={handleLogout}>{logout}</a></li>}
+                <div className="uk-navbar-right">
+                    <ul className="uk-navbar-nav">
+                        <li className="uk-active"><a href="#">{home}</a></li>
+                        {logic.isUserLoggedIn && <li><a onClick={handleLogout}>{logout}</a></li>}
                     </ul>
                 </div>
             </nav>

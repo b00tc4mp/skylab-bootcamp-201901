@@ -32,7 +32,7 @@ class CollectionSection extends Component {
 
 
         return <>
-            <section className="collections__addCollection">
+            <div className="collections__addCollection">
                 <button className="button--addCollection" onClick={() => handleNewCollection()}>{addCollection}</button>
                 {addingCollection &&
                     <form onSubmit={handleSubmit}>
@@ -41,16 +41,16 @@ class CollectionSection extends Component {
                         {error && <span>{error}</span>}
                     </form>
                 }
-            </section>
-            <section className="collections">
+            </div>
+            <div className="collections">
                 {pmap && pmap.collections &&
                     <ul uk-accordion="multiple: true">
                         {pmap.collections.map(collection => {
                             return (
                                 <li key={collection.title}>
-                                    <h6 class="uk-margin-left uk-accordion-title">{collection.title}</h6>
+                                    <h6 className="uk-margin-left uk-accordion-title">{collection.title}</h6>
                                     {collection.pins &&
-                                        <ul class="uk-margin-left uk-accordion-content">
+                                        <ul className="uk-margin-left uk-accordion-content">
                                             {collection.pins.map(pin => {
                                                 return (
                                                     <li key={pin._id}>
@@ -66,7 +66,7 @@ class CollectionSection extends Component {
                         }
                     </ul>
                 }
-            </section>
+            </div>
         </>
     }
 }

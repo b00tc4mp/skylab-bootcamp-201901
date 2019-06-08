@@ -1,16 +1,12 @@
 import React from 'react'
-import literals from './literals'
 import YourMaps from '../YourMaps'
+import NavBar from '../NavBar'
 
-function Home({ lang }) {
-
-    const { title } = literals[lang]
-
+function Home({ lang, onLogout }) {
 
     return <section className="home">
-        <div className="uk-position-center">
-            <YourMaps lang={lang} />
-        </div>
+        <NavBar lang={lang} onLogout={onLogout} />
+        <YourMaps lang={lang} />
     </section>
 
 }

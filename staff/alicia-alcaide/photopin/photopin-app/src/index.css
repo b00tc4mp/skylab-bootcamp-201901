@@ -1,4 +1,5 @@
-@import "../node_modules/uikit/dist/css/uikit.min.css";
+@import "../node_modules/uikit/dist/css/uikit.css";
+/* @import "../node_modules/uikit/dist/css/uikit.min.css"; */
 
 @import url("https://fonts.googleapis.com/css?family=Lato|Montserrat&display=swap");
 
@@ -13,4 +14,28 @@ h4,
 h5,
 h6 {
   font-family: "Lato", sans-serif;
+}
+
+.card-transparent {
+  background: #ffffff8c;
+  color: #666;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.36);
+}
+
+.white-title {
+  color: #e5e5e5;
+}
+
+.white-button {
+  background-color: transparent;
+  color: #e5e5e5;
+  border: 1px solid #e5e5e5;
+}
+
+.mini-margin-top {
+  margin-top: 20px;
+}
+
+ul {
+  list-style-type: none;
 }

@@ -5,7 +5,8 @@ export default {
         name: 'Name',
         surname: 'Surname',
         email: 'E-mail',
-        password: 'Password'
+        password: 'Password',
+        enter: 'Enter'
     },
     es: {
         title: 'PhotoPin',
@@ -13,6 +14,7 @@ export default {
         name: 'Nombre',
         surname: 'Apellido',
         email: 'Correo electrónico',
-        password: 'Contraseña'
+        password: 'Contraseña',
+        enter: 'Entrar'
     }
 }

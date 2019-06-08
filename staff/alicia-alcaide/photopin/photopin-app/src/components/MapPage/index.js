@@ -2,8 +2,10 @@ import React, { Component } from "react"
 import { withRouter } from "react-router-dom"
 import PropTypes from "prop-types"
 import logic from "../../logic"
+import NavBar from '../NavBar'
 import MapSection from "./MapSection"
 import CollectionSection from "./CollectionSection"
+import './index.css'
 
 class MapPage extends Component {
   state = { pmap: null, mapId: this.props.match.params.id, newPlace: null };
@@ -64,25 +66,25 @@ class MapPage extends Component {
   render() {
     const {
       state: { pmap, mapId, newPlace },
-      props: { lang },
+      props: { lang, onLogout },
       handleNewCollection,
       handleNewPin
     } = this;
 
-    return (< section>
-      <div className="">
-        {pmap && <h2>{pmap.title}</h2>}
-        <section class="uk-flex uk-flex-between" className="mapPage">
-          <section className="mapPage__Collections">
+    return <div className="map-page">
+      <NavBar lang={lang} onLogout={onLogout} />
+      <div>
+        {pmap && <h2 className='uk-text-center'>{pmap.title}</h2>}
+        <div className="custom-flex">
+          <section className="custom-flex_items-bar">
             <CollectionSection pmap={pmap} lang={lang} onNewCollection={handleNewCollection} />
           </section>
-          <section className="mapPage__Map">
+          <section className="custom-flex__content" >
             <MapSection pmap={pmap} lang={lang} onNewPin={handleNewPin} />
           </section>
-        </section>
+        </div>
       </div>
-    </section>
-    )
+    </div>
   }
 }
 

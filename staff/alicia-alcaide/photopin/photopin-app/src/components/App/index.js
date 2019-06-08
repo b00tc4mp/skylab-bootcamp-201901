@@ -68,7 +68,6 @@ class App extends Component {
         } = this
 
         return <div>
-
             <Switch>
                 <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing lang={lang} onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
 
@@ -78,9 +77,12 @@ class App extends Component {
 
                 <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login lang={lang} onLogin={handleLogin} error={error} />} />
 
-                <Route path="/home" render={() => logic.isUserLoggedIn ? <> <NavBar lang={lang} onLogout={handleLogout} /> <Home lang={lang} /> </> : <Redirect to="/" />} />
+                {/* <Route path="/home" render={() => logic.isUserLoggedIn ? <> <NavBar lang={lang} onLogout={handleLogout} /> <Home lang={lang} /> </> : <Redirect to="/" />} /> */}
+                {/* <Route path="/map/:id" render={() => logic.isUserLoggedIn ? <> <NavBar lang={lang} onLogout={handleLogout} /> <MapPage lang={lang} /> </> : <Redirect to="/" />} /> */}
 
-                <Route path="/map/:id" render={() => logic.isUserLoggedIn ? <> <NavBar lang={lang} onLogout={handleLogout} /> <MapPage lang={lang} /> </> : <Redirect to="/" />} />
+                <Route path="/home" render={() => logic.isUserLoggedIn ? <Home lang={lang} onLogout={handleLogout} /> : <Redirect to="/" />} />
+
+                <Route path="/map/:id" render={() => logic.isUserLoggedIn ? <MapPage lang={lang} onLogout={handleLogout} /> : <Redirect to="/" />} />
 
                 <Redirect to="/" />
             </Switch>

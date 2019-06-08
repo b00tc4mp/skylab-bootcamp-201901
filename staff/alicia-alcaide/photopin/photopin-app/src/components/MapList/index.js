@@ -2,16 +2,16 @@ import React from 'react'
 import { Link } from 'react-router-dom'
 import literals from './literals'
 
-function MapList({ lang, maps }) {
+function MapList({ maps }) {
 
-    //const { title } = literals[lang]
-
+    debugger
     return <section className="mapList">
         <ul>
             {
                 maps.map(map => {
                     return (
                         <li key={map._id}>
+                            <img src={map.coverImage} />
                             <Link to={`/map/${map._id}`}>{map.title}</Link>
                         </li>)
                 })
