@@ -3,12 +3,14 @@ export default {
         title: 'PhotoPin',
         subtitle: 'Login',
         email: 'E-mail',
-        password: 'Password'
+        password: 'Password',
+        enter: 'Enter'
     },
     es: {
         title: 'PhotoPin',
         subtitle: 'Iniciar sesión',
         email: 'Correo electrónico',
-        password: 'Contraseña'
+        password: 'Contraseña',
+        enter: 'Entrar'
     }
 }

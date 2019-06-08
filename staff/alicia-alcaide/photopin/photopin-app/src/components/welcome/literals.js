@@ -1,12 +1,12 @@
 export default {
     en: {
-        title: 'PhotoPin',
-        successProceedTo: 'User successfully registered, you can proceed to',
-        login: 'Login'
+        welcome: 'Welcome to PhotoPin!',
+        subtitle: 'You can now start saving your photographic locations',
+        login: 'Sig-in'
     },
     es: {
-        title: 'PhotoPin',
-        successProceedTo: 'Usuario registrado correctamente',
-        login: 'Iniciar sesión'
+        welcome: 'PhotoPin',
+        subtitle: 'Ahora ya puedes guardar tus localizaciones fotográficas',
+        login: 'Inicia sesión'
     }
 }
