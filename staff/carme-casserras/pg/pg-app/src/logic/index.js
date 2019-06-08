@@ -3,7 +3,6 @@ import { RequirementError, ValueError, LogicError, HttpError } from 'pg-errors'
 import normalize from 'pg-normalize'
 import pgApi from '../data'
 
-
 const logic = {
     
     set __userToken__(token) {
@@ -30,8 +29,7 @@ const logic = {
 
         return (async () => {
             const res = await pgApi.registerUser(name, email, password)            
-            const {err} = res
-                
+            const {err} = res                
         })()
     },
 
@@ -74,11 +72,9 @@ const logic = {
             { name: 'locId', value: locId, type: 'string', notEmpty: true },
         ])
 
-        return (async () => { 
-        
+        return (async () => {         
         const res =  await pgApi.addPublicThing(category, description, this.__userToken__, locId)      
-        return res
-                  
+        return res                          
         })()
     },
 
@@ -101,8 +97,7 @@ const logic = {
         ])
 
         return (async () =>{
-            return await pgApi.searchByCategory(this.__userToken__, category) 
-            
+            return await pgApi.searchByCategory(this.__userToken__, category)             
         })()           
     },
 
@@ -113,20 +108,15 @@ const logic = {
         ])
 
         return (async () =>{
-            return await pgApi.searchByLocation(this.__userToken__, location) 
-            
+            return await pgApi.searchByLocation(this.__userToken__, location)             
         })()           
     },
 
     retrivePrivateThings() {
         
         return (async () =>{
-
             
-            const carme = await pgApi.retrivePrivateThings(this.__userToken__)    
-            
-            
-            return carme 
+            return await pgApi.retrivePrivateThings(this.__userToken__)                          
         })()           
     },
 
@@ -137,11 +127,9 @@ const logic = {
 
         return (async () =>{
 
-            return await pgApi.retrieveThing(this.__userToken__, thingId) 
-            
+            return await pgApi.retrieveThing(this.__userToken__, thingId)             
         })()    
     }
 }
-
 
 export default logic

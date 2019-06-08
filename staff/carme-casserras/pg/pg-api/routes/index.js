@@ -5,7 +5,6 @@ const handleErrors = require ('./handle-errors')
 const jwt = require('jsonwebtoken')
 const auth = require('./auth')
 
-
 const  {env: { JWT_SECRET} } = process
 const jsonParser = bodyParser.json()
 const router = express.Router()
@@ -15,8 +14,7 @@ router.post('/users', jsonParser, (req, res) => {
     
      handleErrors(async () => {      
         await logic.registerUser(name, email, password)
-        return res.status(201).json({ message: 'Ok, user registered.'})}, res)
-    
+        return res.status(201).json({ message: 'Ok, user registered.'})}, res)    
 })
 
 router.post('/users/auth', jsonParser, (req, res) => {
@@ -41,11 +39,11 @@ debugger
 
 router.post('/things', auth, jsonParser, (req, res) => {
 
-    const {body: {category, description, locId}, userId} = req
+    const {body: {image, category, description, locId}, userId} = req
 
     handleErrors(async () => {  
 
-        await logic.addPublicThing(category, description, userId, locId)
+        await logic.addPublicThing(image, category, description, userId, locId)
         return res.status(201).json({message: 'Ok, thing upload'})}, res)    
 })
 
@@ -103,6 +101,5 @@ router.get('/thing/:id', auth, jsonParser, (req, res) => {
         return res.json(thing)
     }, res)
 })
-
 
 module.exports = router

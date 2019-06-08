@@ -25,14 +25,6 @@ function Login({ }) {
         }
     }
 
-    // if(success){
-    //     return(
-    //         <div>
-    //             <h1>Funciona</h1>
-    //         </div>
-    //     )
-    // }
-
     return (
         <form onSubmit={handleSubmit}>
             <div className="field">
@@ -61,10 +53,13 @@ function Login({ }) {
                     </button>
                 </div>
             </div>
-            <p>{messageError}</p>
-            <div>
-                <iframe src="https://www.google.com/maps/d/embed?mid=16P1m6IsdnoO_Jb9whdflYnq3tsAF8lfy" width="640" height="480"></iframe>
-            </div>
+            {messageError && <div className="message-error">
+                <p>{messageError}</p>
+            </div>}
+
+            {/* <div>
+               <iframe src="https://www.google.com/maps/d/embed?mid=16P1m6IsdnoO_Jb9whdflYnq3tsAF8lfy" width="640" height="800"></iframe>
+            </div> */}
         </form>
     )
 }

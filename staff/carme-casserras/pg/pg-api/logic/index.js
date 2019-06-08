@@ -1,10 +1,9 @@
 const validate = require('pg-validate')
 const { LogicError } = require('pg-errors')
-// const { models, mongoose: { Types: { ObjectId } } } = require('pg-data')
 const { models } = require('pg-data')
 const bcrypt = require('bcrypt')
 
-const { UserData, Thing, Location } = models
+const { UserData, Thing } = models
 
 const logic = {
 
@@ -113,7 +112,7 @@ const logic = {
 
         return (async () => {        
          
-        return await Thing.find({category}).populate('loc', 'name -_id').select('status category description loc').lean()   
+        return await Thing.find({category}).populate('loc', 'name -_id').select('status image category description loc').lean()   
     })()
     },
 
@@ -142,9 +141,8 @@ const logic = {
          
         return (async() => {
   
-            return await Thing.find({'owner': userId}).populate('owner','-_id -password -__v -email').populate('loc', 'name -_id').select('-_id -__v').lean()
-            
-            
+            return await Thing.find({'owner': userId}).populate('owner','-_id -password -__v -email').populate('loc name', '-_id').select('-_id -__v').lean()
+                        
         })()       
     },
 
@@ -161,6 +159,5 @@ const logic = {
         })()
     }
 }
-
 
 module.exports = logic

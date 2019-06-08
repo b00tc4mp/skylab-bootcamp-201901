@@ -17,9 +17,13 @@ function AddThing({ }) {
         } = e.target
 
         try {
+            
             await logic.addPublicThings(category, description, localitation)
+            
         } catch (error) {
+            
             setMessageError(error.message)
+            
         }
     }
     return (
@@ -62,12 +66,13 @@ function AddThing({ }) {
                 <div className="control">
                     <button className="button is-primary">Submit</button>
                 </div>
-                <p>{messageError}</p>
+                {messageError && <div className="message-error">
+                    <p>{messageError}</p>
+                </div>}
             </form>
-            {<Redirect to='/search/category'/>}
+            {/* {<Redirect to='/search/category' />} */}
         </div>
     )
-
 }
 
 export default AddThing

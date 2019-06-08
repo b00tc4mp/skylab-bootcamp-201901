@@ -1,7 +1,6 @@
 import validate from 'pg-validate'
 import call from 'pg-call'
 
-
 const pgApi = {
 
     __url__: 'http://localhost:8080/api',
@@ -40,7 +39,6 @@ const pgApi = {
             body: JSON.stringify({email, password}),
             timeout: this.__timeout__
         })
-
         
         // con axios no es necesario
         // .then(res => res)

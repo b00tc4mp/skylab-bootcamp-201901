@@ -1,43 +1,43 @@
 import React, { useState } from 'react'
+import { withRouter } from 'react-router-dom'
 import './index.sass'
 import logic from '../../logic'
-
+import LocationResults from '../Locationresults'
 
 const nameLocation = {
 
     0: 'Poblenou',
     1: 'Glories',
     2: 'Plaça Catalunya',
-    3: 'Plaça Urquinaona',
-    4: 'Sants',
-    5: 'Sagrada Familia',
-    6: 'Gracia',
-    7: 'Sant Andreu',
-    8: 'Gotic'
+    3: 'Sagrada Familia',
+    4: 'Enric Granados',
+    5: 'Gotic',
+
+    // 6: 'Gracia',
+    // 7: 'Sant Andreu',
+    // 8: 'Gotic'
 }
 
 function LocationSearch() {
 
     const [query, setQuery] = useState(null)
 
-    const handleQuery = e => {
-        const { value } = e.target
-        setQuery(value)
+    const handleSearchByLocation = id => {
+
+        // if (!logic.isUserLoggedIn) props.history.push('./login')
+        // else props.history.push('/search/locations/')
     }
 
     const renderLocation = () => (
         <div>
             {
-                Object.keys(nameLocation).map(cat => {
-                    const id = nameLocation[cat]
-
+                Object.values(nameLocation).map(name => {
+                    
                     return (
 
-                        <div key={id}>
-                            <input type="checbox" onchange={handleQuery} value={id} name={id} />
-                            <label htmlFor={id}>
-                                <h1>{id}</h1>
-                                <img />
+                        <div key={name} onClick={()=> handleSearchByLocation(name)}>
+                            <label htmlFor={name}>
+                                <h1>{name}</h1>
                             </label>
                         </div>
                     )
@@ -51,10 +51,11 @@ function LocationSearch() {
             <form>
                 {renderLocation()}
             </form>
-            <div>
+            {query && <LocationResults query={query}/>}
+            {/* <div>
                 <iframe src="https://www.google.com/maps/d/embed?mid=16P1m6IsdnoO_Jb9whdflYnq3tsAF8lfy" width="640" height="480"></iframe>
-            </div>
+            </div> */}
         </div>
     )
 }
-export default LocationSearch
+export default withRouter(LocationSearch)
