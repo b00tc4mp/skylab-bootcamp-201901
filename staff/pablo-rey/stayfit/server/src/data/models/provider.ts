@@ -31,24 +31,18 @@ export class Provider extends Typegoose {
   uploadedBanner: string;
 
   @Field(() => String)
-  @prop() // this will create a virtual property called 'fullName'
+  @prop()
   get bannerImageUrl() {
     return (this as any)._doc.uploadedBanner || 'default';
-  }
-  set bannerImageUrl(img) {
-    (this as any)._doc.uploadedBanner = img;
   }
 
   @prop({ default: '' })
   uploadedPortrait: string;
 
   @Field(() => String)
-  @prop() // this will create a virtual property called 'fullName'
+  @prop()
   get portraitImageUrl() {
     return (this as any)._doc.uploadedPortrait || 'default';
-  }
-  set portraitImageUrl(img) {
-    (this as any)._doc.uploadedPortrait = img;
   }
 
   @Field()

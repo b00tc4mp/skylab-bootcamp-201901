@@ -55,14 +55,6 @@ export class myProvidersInfo {
 
   @Query(returns => [Provider])
   async listProvidersPublicInfo(@Ctx() ctx: MyContext) {
-    const providers = await ProviderModel.find();
-    const result = providers.map(({ id, name, bannerImageUrl, portraitImageUrl, registrationUrl }) => ({
-      id,
-      name,
-      bannerImageUrl,
-      portraitImageUrl,
-      registrationUrl,      
-    }));
-    return result;
+    return await ProviderModel.find();
   }
 }

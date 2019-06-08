@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import { withRouter } from 'react-router-dom';
 import {
   IonButton,
@@ -11,6 +11,7 @@ import {
   IonRow,
   IonCol,
   IonPage,
+  IonImg,
 } from '@ionic/react';
 import { MainContext } from '../../logic/contexts/main-context';
 
@@ -18,6 +19,7 @@ function LogIn({ history }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
+  const [provider, setProvider] = useState(null);
 
   const ctx = useContext(MainContext);
 
@@ -27,6 +29,18 @@ function LogIn({ history }) {
       history.push('/');
     }
   };
+
+  const url = window.location.toString();
+  useEffect(() => {
+    (async () => {
+      const providers = await ctx.logic.listProviders();
+      const defaultProvider = providers.find(
+        provider => !!provider.registrationUrl && url.includes(provider.registrationUrl)
+      );
+      setProvider(defaultProvider);
+    })();
+  }, [url]);
+
   return (
     <IonPage id="login">
       <form onSubmit={handleLogin}>
@@ -34,8 +48,9 @@ function LogIn({ history }) {
           <IonRow>
             <IonCol size="10" push="1">
               <IonText>
-                <h2>Login</h2>
+                <h2>Login {provider && provider.name}</h2>
               </IonText>
+              {provider && <IonImg src={provider.bannerImageUrl} alt="logo" />}
             </IonCol>
           </IonRow>
           <IonRow>

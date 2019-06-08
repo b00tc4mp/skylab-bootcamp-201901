@@ -45,7 +45,7 @@ function Register({ history }) {
 
   const url = window.location.toString();
   useEffect(() => {
-    (async () => {
+    (async () => {      
       const providers = await logic.listProviders();
       const defaultProvider = providers.find(
         provider => !!provider.registrationUrl && url.includes(provider.registrationUrl)
@@ -65,20 +65,6 @@ function Register({ history }) {
             {provider && <IonImg src={provider.bannerImageUrl} alt="logo" />}
           </IonCol>
         </IonRow>
-        <IonToast
-          isOpen={!!error}
-          onDidDismiss={() => setError('')}
-          message={error}
-          position="top"
-          duration={3000}
-          buttons={[
-            {
-              text: 'Close',
-              role: 'cancel',
-              handler: () => setError(''),
-            },
-          ]}
-        />
         <IonRow>
           <IonCol size="10" push="1">
             <IonItem>
