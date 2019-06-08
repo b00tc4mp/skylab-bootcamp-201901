@@ -1,6 +1,6 @@
 const logic = require ('.')
 const {  RequirementError, ValueError } = require('dashboard-errors')
-const {models:{Issue, User}, mongoose} = require ('dashboard-data')
+const {models:{Issue, User, Bufferissue}, mongoose} = require ('dashboard-data')
 const { expect } = require ('chai') 
 const argon2 = require ('argon2')
 const restApi = require('../api')
@@ -23,6 +23,8 @@ describe('logic',()=>{
     beforeEach(async()=>{
         await Issue.deleteMany()
         await User.deleteMany()
+        await Bufferissue.deleteMany()
+
         email = `email-${Math.random()}@mail.com`
     })
     describe('users', ()=>{
@@ -213,6 +215,10 @@ describe('logic',()=>{
             it('should succeed on correct credentials', async () => {
 
                 await logic.loginUser(email, password)
+                const { __userToken__ } = logic
+
+                expect(typeof __userToken__).to.be.an('string')
+                expect(__userToken__.length).to.be.gt(0)
                 
             })
             it('should fail on non existing user', async () => {
@@ -425,6 +431,32 @@ describe('logic',()=>{
     
         })
     describe('issues', ()=>{
+        describe('save issues', ()=>{
+            let token, month='May'
+            beforeEach(async ()=>{
+                await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                response = await restApi.authenticateUser(email, password)
+                token= response.token 
+                logic.__userToken__ = token    
+                await helper.loadBuffer(month)
+            })
+            it('should succeed on correct data', async ()=>{
+                await logic.saveIssues()
+            
+                const issues= await Issue.find()
+                expect(issues).to.exist
+    
+            }),
+            it('should fail on inexisten user', async ()=>{
+                await User.deleteMany()
+                try{
+                    await logic.saveIssues()
+
+                }catch(error){
+                    expect(error).to.exist
+                }
+            })
+        })
         describe('calculate overdue', ()=>{
             let token, month='May'
             beforeEach(async ()=>{
@@ -454,7 +486,7 @@ describe('logic',()=>{
             })
 
         })
-        describe('clean issues', ()=>{
+        describe('clean issues collection', ()=>{
             let token, month='May'
             beforeEach(async ()=>{
                 await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
@@ -472,6 +504,32 @@ describe('logic',()=>{
                 await User.deleteMany()
                 try{
                     await logic.clearUp()
+                    throw Error('should not reach this point')
+    
+                }catch(error){
+                    expect(error).to.exist
+                }
+            })
+
+        })
+        describe('clean buffer collection', ()=>{
+            let token, month='May'
+            beforeEach(async ()=>{
+                await User.create({name, surname, email, password: await argon2.hash(password), profile, country})
+                response = await restApi.authenticateUser(email, password)
+                token= response.token 
+                logic.__userToken__ = token 
+                await helper.loadBuffer(month)
+            })
+            it('should clean issues collection', async ()=>{
+                await logic.clearUpBuffer()
+                const collection = await Bufferissue.estimatedDocumentCount()
+                expect(collection).is.equal(0)
+            })
+            it('should fail on inexistent token', async ()=>{
+                await User.deleteMany()
+                try{
+                    await logic.clearUpBuffer()
                     throw Error('should not reach this point')
     
                 }catch(error){

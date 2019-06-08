@@ -92,6 +92,15 @@ const restApi = {
             headers: { Authorization: `Bearer ${token}` }
         })
     },
+    saveIssues(token){
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true}
+        ])
+        return call(`${this.__url__}/issues/save`, {
+            method: 'POST',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+    },
     calculateOverdue(token){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true}
@@ -109,6 +118,17 @@ const restApi = {
         ])
         debugger
         return call(`${this.__url__}/issues/cleanup`, {
+            method: 'PUT',
+            headers: { Authorization: `Bearer ${token}` }
+        })
+    },
+    clearUpBuffer(token){
+        
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true}
+        ])
+        
+        return call(`${this.__url__}/issues/cleanupbuffer`, {
             method: 'PUT',
             headers: { Authorization: `Bearer ${token}` }
         })

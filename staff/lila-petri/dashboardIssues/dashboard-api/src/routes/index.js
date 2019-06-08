@@ -61,6 +61,14 @@ router.post('/issues/load', auth, (req, res)=>{
         res.status(200).json({ message: 'Database loaded successfully' })
     },res)
 })
+router.post('/issues/save', auth, (req, res)=>{
+    handleErrors(async () => {
+        const {  userId  } = req
+        await logic.saveIssues(userId)
+        res.status(200).json({ message: 'Database saved successfully' })
+
+    },res)
+})
 router.put('/issues/overdue', auth, (req, res)=>{
     handleErrors(async () => {
         const {  userId  } = req
@@ -72,6 +80,13 @@ router.put('/issues/cleanup', auth, (req, res)=>{
     handleErrors(async () => {
         const {  userId  } = req
         await logic.clearUp(userId)
+        res.status(200).json({ message: 'Database cleaned successfully' })
+    },res)
+})
+router.put('/issues/cleanupbuffer', auth, (req, res)=>{
+    handleErrors(async () => {
+        const {  userId  } = req
+        await logic.clearUpBuffer(userId)
         res.status(200).json({ message: 'Database cleaned successfully' })
     },res)
 })

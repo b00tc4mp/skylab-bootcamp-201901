@@ -116,6 +116,15 @@ const logic = {
             }
         })()
     },
+    saveIssues(){
+        return(async()=>{
+            try{
+                await restApi.saveIssues(this.__userToken__)
+            }catch(error){
+                throw new LogicError(error)
+            }
+        })()
+    },
     calculateOverdue(){
         return(async()=>{
             try{
@@ -129,6 +138,16 @@ const logic = {
         return(async()=>{
             try{
                 await restApi.clearUp(this.__userToken__)
+            }catch(error){
+                throw new LogicError(error)
+            }
+
+        })()
+    },
+    clearUpBuffer(){
+        return(async()=>{
+            try{
+                await restApi.clearUpBuffer(this.__userToken__)
             }catch(error){
                 throw new LogicError(error)
             }
