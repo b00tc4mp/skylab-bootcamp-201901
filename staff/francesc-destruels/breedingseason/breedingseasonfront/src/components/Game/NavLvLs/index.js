@@ -22,7 +22,7 @@ function NavLvLs({ send }) {
             logic.__isUpgradeAvailable__(OneEggNestLvL, puntuationSchema.OneEggNestLvL),
             logic.__isUpgradeAvailable__(TwoEggNestLvL, puntuationSchema.TwoEggNestLvL),
             logic.__isUpgradeAvailable__(ThreeEggNestLvL, puntuationSchema.ThreeEggNestLvL),
-            logic.__isUpgradeAvailable__(FourEggNestLvL, puntuationSchema.OneEggNestLvL)])
+            logic.__isUpgradeAvailable__(FourEggNestLvL, puntuationSchema.FourEggNestLvL)])
 
 
     }, [ActionToUse])

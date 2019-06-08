@@ -9,6 +9,7 @@ import nest3Egg from '../img/3EGGNest.png'
 import nest3Hatched from '../img/3Hatched.png'
 import nest4Egg from '../img/4EGGNest.png'
 import nest4Hatched from '../img/4Hatched.png'
+import './index.sass'
 
 import { GameContext } from "../../GameContext"
 
@@ -103,7 +104,7 @@ function Penguin({ position }) {
     }
 
     return (
-        <div>
+        <div className={`P${position[0]}${position[1]}`}>
             {Map && <div className={Clickable ? "penguinMap__penguin--Clickable" : Actionable ?  "penguinMap__penguin--Actionable": null } onClick={Clickable ? () => handleClick() : Actionable && !ActionUsed ? () => handleAction() : null}>
                 <p>{Map[position[0]][position[1]][1] !== 0 ? Map[position[0]][position[1]][1] : "<3"}</p>
                 <img src={penguinImg} alt="Breeding Season Logo" height="55px" width="55px" />

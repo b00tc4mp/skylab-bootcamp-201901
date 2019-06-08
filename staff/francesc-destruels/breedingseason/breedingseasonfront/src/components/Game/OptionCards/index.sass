@@ -6,10 +6,12 @@
 
     &__Selection
         display: grid
+        height: 100%
+        width: 100%
         grid-template-columns: 0.2fr 1.8fr 1.8fr 0.2fr
         grid-template-rows: 1fr
         grid-template-areas: ". PenguinCard ResourceCard ."
-
+        align-items: center
 
     &__Selection--Selected
         transform: scale(1.1)
@@ -24,5 +26,6 @@
         grid-area: ResourceCard
 
     &__Card
-        height: 90%
-        width: 90%
+        position: relative
+        min-height: 85%
+        max-width: 90%

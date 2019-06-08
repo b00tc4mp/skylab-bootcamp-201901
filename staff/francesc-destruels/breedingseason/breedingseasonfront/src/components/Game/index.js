@@ -46,16 +46,6 @@ function Game({ history }) {
         if (PenguinTurn) setMap({ ...Map, ...Map[PenguinTurn.where[0][0]][PenguinTurn.where[0][1]][1] = NumberToUse.rocks })
         else setPuntuation({ ...puntuation, ...puntuation.StrikeLvL++ })
 
-        if (ActionTurn) {
-            switch (ActionTurn.resource) {
-                case "security":
-                    setPuntuation({ ...puntuation, ...puntuation["SecurityLvL"][ActionTurn.row]++ })
-                    break
-                default:
-                    break
-            }
-        } else { }
-
         const updatedAmount = logic.__updatedValues__(Map)
 
         const { round, turnCards } = await logic.nextGame({

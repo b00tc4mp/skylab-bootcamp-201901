@@ -6,9 +6,41 @@
     height: 100%
     border: 1px solid black
 
-    &__penguinRow
-        display: flex
-        justify-content: space-around
+    &__penguinRow1
+        display: grid
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+        grid-template-rows: 1fr
+        grid-template-areas: "p10 p11 p12 p13 p14 p15 Foc"
+        justify-items: center
+        align-items: center
+
+    &__penguinRow2
+        display: grid
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr
+        grid-template-rows: 1fr
+        grid-template-areas: "p20 p21 p22 p23 p24 p25 Foc"
+        justify-items: center
+        align-items: center
+
+    &__penguinRow3
+        display: grid
+        grid-template-columns: 1fr  1fr 1fr 1fr 1fr 1fr 1fr 1fr
+        grid-template-rows: 1fr
+        grid-template-areas: "p30 p31 p32 p33 p34 p35 p36 Foc"
+        justify-items: center
+        align-items: center
+
+    // &__penguinRow4
+    //     display: grid
+    //     grid-template-columns: 1fr  1fr 1fr 1fr 1fr 1fr 1fr 1fr
+    //     grid-template-rows: 1fr
+    //     grid-template-areas: "p40 p41 p42 p43 p44 p45 p46 Foc"
+    //     justify-items: end
+
+    &__Foc
+        grid-area: Foc
+        
+    &__Foc--Clickable
     
     &__penguin--Clickable
         background-color: green
