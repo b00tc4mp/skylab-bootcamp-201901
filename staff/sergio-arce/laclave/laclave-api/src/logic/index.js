@@ -13,6 +13,7 @@ const logic = {
      * @param {String} username 
      * @param {String} email 
      * @param {String} password 
+     * 
      * @throws {Error} - on non valid input parameters
      * 
      * @return {Promise} - resolve with the user id after create it
@@ -49,9 +50,10 @@ const logic = {
      * 
      * @param {String} email 
      * @param {String} password 
+     * 
      * @throws {Error} - on non valid input parameters
      * 
-     * @return {Promise} - 
+     * @return {Promise} - resolve with the token the user
      */
     loginUser(email, password) {
 
@@ -84,9 +86,10 @@ const logic = {
      * return user object profile
      * 
      * @param {String} userId 
-     * @throws {Error} - on non valid input parameters
      * 
-     * @param {Promise} - object with user data
+     * @throws {Error} - on non valid userId parameters
+     * 
+     * @param {Promise} - solve with user data
      */
     retrieveUser(userId) {
         if (typeof userId !== 'string') throw Error(`userId is not a string`)
@@ -99,9 +102,6 @@ const logic = {
             .select('-password -__v')
             .then(user => {
                 if (!user) throw Error(`user not exists`)
-
-                // delete user.password
-                // delete user.__v
                 return user
             })
 
@@ -109,13 +109,15 @@ const logic = {
 
 
     /**
-     * 
+     * update user through his userId
      * 
      * @param {String} userId 
      * @param {Object} userData 
-     * @throws {Error} - on non valid input parameters
      * 
-     * @param {Promise}
+     * @throws {Error} - on non valid input parameters
+     * @throws {TypeError} - on non valid input parameters
+     * 
+     * @param {Promise}- results with an updated user message
      */
     updateUser(userId, userData) {
 
@@ -132,7 +134,7 @@ const logic = {
                 if (!user) throw Error('user not found')
 
                 const response = { message: `user whith ID ${user.id} modify` }
-                return response
+                return response 
             })
 
     },
@@ -140,12 +142,15 @@ const logic = {
     // CONGRESS
 
     /**
+     * create a congress with the user's credentials
      * 
      * @param {Object} congressData 
      * @param {String} userId
-     * @throws {Error} - on non valid input parameters
      * 
-     * @param {Promise}
+     * @throws {TypeError} - on non valid congressData parameters
+    * @throws {Error} - on non valid congressId parameters
+     * 
+     * @param {Promise} - results with a congress object created
      */
     createCongress(congressData, userId) {
 
@@ -173,10 +178,13 @@ const logic = {
    },
 
    /**
+    * retrieve one congress by his ID
     * 
     * @param {String} congressId 
-    * @throws {Error} - on non valid input parameters
-    * @param {Promise}
+    * 
+    * @throws {Error} - on non valid congressId parameters
+    * 
+    * @param {Promise} - object the congress
     */
 
     retrieveCongress(congressId) {
@@ -193,11 +201,15 @@ const logic = {
     },
 
     /**
+     * update congress through his congressId
      * 
      * @param {String} congressId 
      * @param {Object} congressData 
      * 
-     *  @param {Promise}
+     * @throws {Error} - on non valid congressId parameters
+     * @throws {TypeError} - on non valid congressData parameters
+     * 
+     *  @param {Promise} - solved with the message of the modified congress
      */
     updateCongress(congressId, congressData) {
 
@@ -219,10 +231,13 @@ const logic = {
 
 
     /**
+     * deleted congress through his congressId
      * 
      * @param {String} congressId
      * 
-     * @param {Promise}
+     * @throws {Error} - when the parameters of the congressId are invalid
+     * 
+     * @param {Promise} - solved with the message of the deleted congress
      */
     deleteCongress(congressId) {
 
@@ -239,40 +254,51 @@ const logic = {
     },
 
     /**
+     * look for congresses or artists
      * 
      * @param {String} query
      * 
-     * @param {Promise}
+     * @throws {Error} - when the query is not correct
+     * 
+     * @param {Promise} - returns the query search
      */
     searchItems(query) {
 
         if (typeof query !== 'string') throw Error(`query is not a string`)
         if (!query.trim().length) throw Error(`query is empty`)
 
-        return Artist.find({ 'name': new RegExp(query, 'i')})
+        return Artist.find({ 'name': new RegExp(query, 'i')}).lean()
             .then(artists => {
 
-                return Congress.find({ 'name': new RegExp(query, 'i')})
+                return Congress.find({ 'name': new RegExp(query, 'i')}).lean()
                     .then(congresses => {
 
                         const response = {}
-                        response.artists = artists
-                        // response.push({ congresses })
-                        response.congresses = congresses
+                           
+                        response.artists = artists.map(e => {
+                            const obj = {...e, resultsType: 'artist'
+                            }
+                            return obj
+                        })
+                        console.log()
+                        response.congresses = congresses.map(e => {
+                            const obj = {...e, resultsType: 'congress'}
+                            return obj
+                        })
 
                         return response
-
                     })
-
-
             })
     },
 
     /**
+     * look for congresses
      * 
      * @param {String} query 
      * 
-     * @param {Promise}
+     * @throws {Error} - when the query is not correct
+     * 
+     * @param {Promise} - resolved with the congress found
      */
     searchCongresses(query) {
 
@@ -280,18 +306,17 @@ const logic = {
         if (!query.trim().length) throw Error(`query is empty`)
 
         return Congress.find({ name: query })
-            .then(congresses => {
-
-                return congresses
-            })
-
+            .then(congresses => congresses)
     },
 
     /**
+     * look for artist
      * 
      * @param {String} query 
      * 
-     * @param {Promise}
+     * @throws {Error} - when the query is not correct
+     * 
+     * @param {Promise} - resolved with the artists found
      */
     searchArtists(query) {
 
@@ -303,6 +328,11 @@ const logic = {
 
     },
 
+    /**
+     * congresses list
+     * 
+     * @param {Promise} - resolved with the list of congresses
+     */
     listCongresses() {
         return Congress.find().populate('owner').populate('artists')
             .then(congresses => {
@@ -310,17 +340,27 @@ const logic = {
             })
     },
 
+     /**
+     * artist list
+     * 
+     * @param {Promise} - resolved with the list of artist
+     */
     listArtists() {
         return Artist.find()
             .then(artists => artists)
+            
     },
 
     /**
+     * create a artist with the user's credentials
      * 
      * @param {Object} artistData 
-     * @param {String} userId 
+     * @param {String} userId
      * 
-     * @param {Promise}
+     * @throws {TypeError} - on non valid artistData parameters
+    * @throws {Error} - on non valid userId parameters
+     * 
+     * @param {Promise} - results with a artist object created
      */
     createArtist(artistData, userId) {
 
@@ -346,11 +386,15 @@ const logic = {
     },
 
     /**
-     * 
-     * @param {String} artistId 
-     * 
-     * @param {Promise}
-     */
+    * retrieve one aritist by his ID
+    * 
+    * @param {String} aritistId 
+    * 
+    * @throws {Error} - on non valid aritistId parameters
+    * 
+    * @param {Promise} - object the aritist
+    */
+
     retrieveArtist(artistId) {
 
         if (typeof artistId !== 'string') throw Error(`artistId is not a string`)
@@ -363,10 +407,29 @@ const logic = {
             })
     },
 
+    /**
+    * Add or remove favorite artists
+    * 
+    * @param {String} artistId 
+    * @param {String} userId 
+    * 
+    * @throws {Error} - when the invalid aritistId and userId parameters
+    * 
+    * @param {Promise} - resolved with undefined
+    * 
+    */ 
+
     favArtist(artistId, userId) {
-        // todo
+       
+        if (typeof artistId !== 'string') throw Error(`artistId is not a string`)
+        if (!artistId.trim().length) throw Error(`artistId is empty`)
+    
+        if (typeof userId !== 'string') throw Error(`userId is not a string`)
+        if (!userId.trim().length) throw Error(`userId is empty`)
+        
         return User.findById(userId)
             .then(user => {
+                
                 if (!user) throw Error('user not exist')
 
                 const results = user.favartists
@@ -380,9 +443,8 @@ const logic = {
 
                 user.save()
 
-                return
+                return 
             })
-
     }
 
 

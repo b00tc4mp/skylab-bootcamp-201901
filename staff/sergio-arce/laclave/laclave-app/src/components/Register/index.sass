@@ -1,0 +1,67 @@
+.register
+    display: flex
+    flex-direction: column
+    &__header
+        background-image: url('https://images.unsplash.com/photo-1558203254-a664330e559a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80') 
+        padding: 12px
+        width: 50%
+        height: 100vh
+        background-repeat: no-repeat
+        display: none
+        +tablet
+            display: block
+        &__icon
+            color: white
+            font-size: 30px
+        & h1
+            padding-top: 30px
+            margin-bottom: 16px
+            font-weight: 700
+        & p
+            padding-bottom: 30px
+            font-weight: 600
+            font-weight: 600
+            font-size: 17px
+    
+    &__form
+        display: flex
+        flex-direction: column
+    &__letter
+        display: flex
+        flex-direction: column
+    
+        & h1
+            color: black
+            text-align: center
+            margin-bottom: 16px
+            font-weight: 700
+            padding-top: 30px
+        & p 
+            color: black
+            text-align: center
+        & a
+             color: $grey 
+    &__passGroup
+        display: flex
+        justify-content: center
+    & fieldset
+        display: flex
+        flex-direction: column
+        align-content: center
+        margin: 0
+        border: 0 
+        flex-grow: 1
+    & label
+        color: black
+    & input // => sacar a mixins
+        +inputs
+    & button
+        +btnLogin
+        margin: 15px
+    +tablet
+        display: flex
+        flex-flow: row nowrap
+    &__header
+       background-image: url('https://images.unsplash.com/photo-1558203254-a664330e559a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1050&q=80') 
+       padding: 12px
+       width: 50%    

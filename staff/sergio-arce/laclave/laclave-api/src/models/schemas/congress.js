@@ -4,14 +4,11 @@ const Congress = new Schema({
     name: {
         type: String,
         required: true,
-        minlength: [2, 'very short congress name'],
-        maxlength: [50, 'very long congress name']
+        minlength: [2, 'very short congress name']    
     },
     description: {
         type: String,
-        required: true,
-        minlength: [10, 'the description is very short'],
-        maxlength: [1200, 'the description is very long']
+        minlength: [10, 'the description is very short']
     },
 
     category: {
@@ -28,9 +25,6 @@ const Congress = new Schema({
 
     city: {
         type: String,
-        required: true,
-        minlength: [2, 'very short city name '],
-        maxlength: [50, 'very long city name']
     },
 
     hotel: {

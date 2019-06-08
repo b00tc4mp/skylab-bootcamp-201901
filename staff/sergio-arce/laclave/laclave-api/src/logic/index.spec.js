@@ -721,10 +721,65 @@ describe('logic', () => {
             })
     
         })
+
+        describe('listArtists', () => {
+
+            it('should succeed when the artists is an array',  () => {
+
+                const artists = []
+                return logic.listArtists()
+                    .then(artists => expect(artists).to.exist )
+    
+            })
+        })
+
+        describe('favArtist', () => {
+
+            it('should throw error when artistId is an array', () => {
+                const artistId = []
+                const userId = '5cefbe0a5077690727cd6d84'
+    
+                expect(() => logic.favArtist(artistId, userId)).to.throw(Error, 'artistId is not a string')
+            })
+    
+            it('should throw error when userId is empty', () => {
+                const artistId = ''
+                const userId = '5cefbe0a5077690727cd6d80'
+    
+                expect(() => logic.favArtist(artistId, userId)).to.throw(Error, 'artistId is empty')
+            })
+           
+
+            it('should throw error when userId is an array', () => {
+                const artistId = '5cefbe0a5077690727cd6d80'
+                const userId = []
+    
+                expect(() => logic.favArtist(artistId, userId)).to.throw(Error, 'userId is not a string')
+            })
+    
+            it('should throw error when userId is empty', () => {
+                const artistId = '5cefbe0a5077690727cd6d80'
+                const userId = ''
+    
+                expect(() => logic.favArtist(artistId, userId)).to.throw(Error, 'userId is empty')
+            })
+
+            it('should throw an error when the user not exist ', () => {
+
+                const artistId = '5cefbe0a5077690727cd6d80'
+                const userId = '5ce159c70ef8035d9e86079d'
+
+                return logic.favArtist(artistId, userId)
+                    .then()
+                    .catch(error => expect(error.message).to.equal('user not exist'))
+
+            })
+
+        })
     })
 
     after(() => {
-        //eliminar y limpiar base de datos después de test
+    
         mongoose.disconnect()
     })
 })
