@@ -13,7 +13,7 @@ const axios = require('axios')
  */
 function call(url, options = {}) {
     const { method = 'GET', headers, data } = options
-
+    let timeout = 15000
     validate.arguments([
         { name: 'url', value: url, type: 'string', notEmpty: true },
         { name: 'method', value: method, type: 'string', notEmpty: true },
@@ -29,11 +29,16 @@ function call(url, options = {}) {
                 headers,
                 method,
                 url,
+                timeout: timeout,
                 data
             })
             return response.data
         } catch (error) {
-            throw error.response.data.error
+
+            if(error.code == `ECONNABORTED`) throw new ConnectionError(`Connection timed out`)
+            if(error.code == `ECONNREFUSED`) throw new ConnectionError(`Connection refused`)
+            if (error.response) throw error.response.data.error
+            else throw error
         }
     })()
 }

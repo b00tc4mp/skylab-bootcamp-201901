@@ -1,16 +1,11 @@
-import React, { useContext }  from 'react'
-import { Context } from '../Context'
-import Alert from '../Alert'
+import React from 'react'
 import './index.sass' 
 import logoGreen from '../../assets/images/logoTextGreen.png'
 
 function Login({ onLogin, navigateToRegister }) {
 
-    const { error, setError } = useContext(Context)
-
     function handleSubmit(e) {
         e.preventDefault()
-        setError(null)
 
         const username = e.target.username.value
         const password = e.target.password.value
@@ -18,19 +13,24 @@ function Login({ onLogin, navigateToRegister }) {
         onLogin(username, password)
     }
 
-    return <div className='uk-flex uk-flex-center'>
+    return <div className='uk-flex uk-flex-center uk-position-center'>
         <div className='uk-container uk-text-center'>
             <div>
                 <img width="371" height="294" src={logoGreen} />
                 <p className="subtitle"> Sign in with your email address</p>
             </div >
             <form className="uk-form-stacked" onSubmit={handleSubmit} >
-                <input className="uk-input uk-form-small" type="text" name="username" placeholder="email" />
-                <input className="uk-input uk-form-small" type="password" name="password" placeholder="password" />
-                <button className="uk-button uk-button-default">Sign In</button>
+                <div>
+                    <input className="uk-input uk-form-small uk-form-width-medium" type="text" name="username" placeholder="email" />
+                </div>
+                <div>
+                    <input className="uk-input uk-form-small uk-form-width-medium" type="password" name="password" placeholder="password" />
+                </div>
+                <div className="uk-margin">
+                    <button className="uk-button uk-button-default">Sign In</button>
+                </div>
             </form>
             <p>or <a onClick={navigateToRegister}>Register</a></p>
-            {error && <Alert error={error} />}
         </div>
     </div>
 }

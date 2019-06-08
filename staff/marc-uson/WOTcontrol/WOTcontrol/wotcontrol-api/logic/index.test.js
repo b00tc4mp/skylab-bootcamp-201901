@@ -223,7 +223,6 @@ describe('logic', () => {
 
             it('should fail on wrong passwotd', async () => {
                 try {
-                    debugger
                     await logic.authenticateUser(email, password='000')
 
                     throw Error('should not reach this point')
@@ -445,6 +444,137 @@ describe('logic', () => {
     })
 
     describe('WOTdevices', () => {
+
+        describe('check if WOTdevice exists', () => {
+            beforeEach(async() =>{
+                email = `marcusontest-${Math.random()}@gmail.com`
+                deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
+                deviceIp = arduinoIp
+
+                await Users.create({ name, surname, email, password, isAdmin })
+
+                user = await Users.findOne({email})
+                id = user.id
+            })
+
+            it('should succed on checking the selected WOTdevice', async () => {
+                const response = await logic.checkDevice(id, deviceIp, devicePort)
+
+                expect(response).to.exist
+                expect(response.HELLO).to.equal('WORLD!')
+                expect(response.userid).to.exist
+                expect(response.deviceid).to.exist
+                expect(response.status).to.exist
+                expect(response.interval).to.exist
+            })
+
+            it('should fail on checking a WOTdevice from unexisting user', async () => {
+                let _id = 'unexistingId'
+
+                try {
+                    await logic.checkDevice(_id, deviceIp,devicePort)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.an.instanceOf(LogicError)
+
+                    expect(error.message).to.equal(`user with id: ${_id} does not exist`)
+                }
+            })
+
+            it('should fail on checking a unexisting WOTdevice ip', async () => {
+                const _deviceIp = '99.99.99.99'
+
+                try {
+                    await logic.checkDevice(id, _deviceIp, devicePort)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.an.instanceOf(LogicError)
+
+                    expect(error.message).to.equal(`Connection timed out`)
+                }
+            })
+
+            it('should fail on checking a wrong WOTdevice port', async () => {
+                let _devicePort = 90
+
+                try {
+                    await logic.checkDevice(id, deviceIp, _devicePort)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.be.an.instanceOf(LogicError)
+
+                    expect(error.message).to.equal(`Connection refused`)
+                }
+            })
+
+
+            it('should fail on null id', () => {
+                const id = null
+
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(RequirementError, `id is not optional`))
+            })
+
+            it('should fail on empty id', () => {
+                const id = ''
+
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(ValueError, 'id is empty'))
+            })
+
+            it('should fail on blank id', () => {
+                const id = ' \t    \n'
+
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(ValueError, 'deviceName is empty'))
+            })
+
+            it('should fail on undefined deviceIp', () => {
+                const deviceIp = undefined
+
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(RequirementError, `deviceIp is not optional`))
+            })
+
+            it('should fail on null deviceIp', () => {
+                const deviceIp = null
+
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(RequirementError, `deviceIp is not optional`))
+            })
+
+            it('should fail on empty deviceIp', () => {
+                const deviceIp = ''
+
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(ValueError, 'deviceIp is empty'))
+            })
+
+            it('should fail on blank deviceIp', () => {
+                const deviceIp = ' \t    \n'
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(ValueError, 'deviceIp is empty'))
+            })
+
+            it('should fail on undefined devicePort', () => {
+                const devicePort = undefined
+
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(RequirementError, `devicePort is not optional`))
+            })
+
+            it('should fail on null devicePort', () => {
+                const devicePort = null
+
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(RequirementError, `devicePort is not optional`))
+            })
+
+            it('should fail on empty devicePort', () => {
+                const devicePort = ''
+
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(ValueError, `devicePort is empty`))
+            })
+
+            it('should fail on blank devicePort', () => {
+                const devicePort = ' \t    \n'
+                expect(() => logic.checkDevice(id, deviceIp, devicePort).to.throw(ValueError, `devicePort is empty`))
+            })
+        })
 
         describe('register WOTdevice', () => {
 
@@ -795,6 +925,7 @@ describe('logic', () => {
                 it('should succed adding a new WOTdevice digital input', async()=>{
                     inputType = 'digital'
                     inputDirection = 1
+
                     const response = await logic.addInput(id, deviceName, inputType, inputDirection)
 
                     expect(response).to.not.exist
@@ -1073,6 +1204,7 @@ describe('logic', () => {
                     await logic.addInput(id, deviceName, inputType, inputDirection)
                     inputDirection = 2
                     await logic.addInput(id, deviceName, inputType, inputDirection)
+                    debugger
                     const response = await logic.deleteInput(id, deviceName, inputType, inputDirection)
                     inputType = 'analog'
                     inputDirection = 1
@@ -2101,7 +2233,7 @@ describe('logic', () => {
                 const response = await logic.activateDevice(id, deviceName, timeInterval)
 
                 expect(response).to.exist
-                expect(response.userid).to.equal(id)
+                expect(response.userid).to.equal(undefined)
                 expect(response.deviceid).to.equal('newWOTDevice')
                 expect(response.status).to.equal('ON')
                 expect(response.interval).to.equal(timeInterval.toString())
@@ -2234,6 +2366,7 @@ describe('logic', () => {
                 const response = await logic.changeDeviceId(id, deviceName, newDeviceName)
 
                 expect(response).to.exist
+                expect(response.userid).to.equal(id)
                 expect(response.deviceid).to.equal(newDeviceName)
                 expect(response.status).to.equal('OK')
 
@@ -3167,7 +3300,6 @@ describe('logic', () => {
                 deviceName = `WOTdevice${Math.floor(Math.random()*999)}`
                 deviceIp = arduinoIp
                 value = 0
-                debugger
                 await Users.create({ name, surname, email, password, isAdmin })
 
                 user = await Users.findOne({email})
@@ -3289,8 +3421,8 @@ describe('logic', () => {
 
     })
     after(async () => {
-        let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
-        if (users.length > 0) await logic.changeDeviceId(id, deviceName, 'newWOTDevice')
+        // let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
+        // if (users.length > 0) await logic.changeDeviceId(id, deviceName, 'newWOTDevice')
 
         mongoose.disconnect()
     })

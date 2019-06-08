@@ -1,21 +1,28 @@
 import React from 'react'
 
-function ServArm({name}){
+function ServArm({deviceName, servo1, servo2, servo3, onServoChange}){
 
-    return <div className="uk-card uk-height-medium uk-card-default uk-card-hover">
+    return <div className="uk-card uk-height-large uk-card-default uk-card-hover">
         <div className="uk-card-header">
-            <h3 className="uk-card-title">{name}</h3>
+            <h3 className="uk-card-title">Servo Arm</h3>
         </div>
         <div className="uk-card-body">
+            <div className='uk-container'>
                 <div>
-                    <input type="range" min="1" max="100" className="slider" id="myRange" />
+                    <p>Servo 1</p>
+                    <input type="range" min="5" max="175" className="uk-range" id="myRange" onMouseUp={e => onServoChange(deviceName, servo1, e.target.value)} />
                 </div>
+                <hr className="uk-divider-small"></hr>
                 <div>
-                    <input type="range" min="1" max="100" className="slider" id="myRange" />
+                    <p>Servo 2</p>
+                    <input type="range" min="5" max="175" className="uk-range" id="myRange" onMouseUp={e => onServoChange(deviceName, servo2, e.target.value)} />
                 </div>
+                <hr className="uk-divider-small"></hr>
                 <div>
-                    <input type="range" min="1" max="100" className="slider" id="myRange" />
+                    <p>Servo 3</p>
+                    <input type="range" min="5" max="175" className="uk-range" id="myRange" onMouseUp={e => onServoChange(deviceName, servo3, e.target.value)} />
                 </div>
+            </div>
         </div>
     </div>
 

@@ -1,10 +1,14 @@
 import React from 'react'
-import DeviceList from '../DeviceList'
-import Alert from '../Alert'
 import logo from '../../assets/images/logoGreen.png'
-import Uikit from '../../../node_modules/uikit/dist/js/uikit.min.js'
+import Uikit from 'uikit/dist/js/uikit.min.js'
 
-function Navbar({user, onLogout, onUserUpdate, onDeviceAdd, error}){
+function Navbar({
+    onLogout,
+    onUserUpdate,
+    onDeviceAdd,
+    deviceList,
+    onDeviceSelect
+}) {
 
     const updateUser = (e) => {
         e.preventDefault()
@@ -15,6 +19,12 @@ function Navbar({user, onLogout, onUserUpdate, onDeviceAdd, error}){
             email: { value: email },
         } = e.target
         onUserUpdate({name, surname, email})
+    }
+
+    const retrieveDevice = (e,name) =>{
+        e.preventDefault()
+        Uikit.dropdown('#deviceDropdown').hide();
+        onDeviceSelect(name)
     }
 
     const addDevice = (e) => {
@@ -30,7 +40,7 @@ function Navbar({user, onLogout, onUserUpdate, onDeviceAdd, error}){
     }
 
     return <div>
-        <nav className="uk-navbar-container" data-uk-navbar="mode: click">
+        <nav className="uk-navbar-container" data-uk-navbar>
             <div className="uk-navbar-left uk-margin-left">
                 <img width="31" height="32" src={logo} alt="WOTcontrol" />
             </div>
@@ -39,10 +49,15 @@ function Navbar({user, onLogout, onUserUpdate, onDeviceAdd, error}){
                     <li><a data-uk-toggle="target: #profilePreferences">Profile</a></li>
                     <li>
                         <a href="#">Devices</a>
-                        <div className="uk-navbar-dropdown">
-                            <ul className="uk-nav uk-navbar-dropdown-nav">
-                                <DeviceList/>
-                                <li><a data-uk-toggle="target: #newDevice">+ Add device</a></li>
+                        <div id="deviceDropdown" className="uk-navbar-dropdown" >
+                            <ul className="uk-nav uk-dropdown-nav">
+                                {deviceList && (
+                                    deviceList.map(name => {
+                                        return <li key={name} onClick={(e) => retrieveDevice(e,name)} >{name}</li>
+                                    })
+                                )}
+                                <li className="uk-nav-divider"></li>
+                                <li><a data-uk-toggle="target: #newDevice">Add device</a></li>
                             </ul>
                         </div>
                     </li>
@@ -60,28 +75,28 @@ function Navbar({user, onLogout, onUserUpdate, onDeviceAdd, error}){
             <div className="uk-modal-dialog uk-modal-body">
                 <h2 className="uk-modal-title">New Device</h2>
                 <form className="uk-form-stacked" onSubmit={event => addDevice(event)}>
-                    <input className="uk-input uk-form-small" type="text" name="name" placeholder="name" />
-                    <input className="uk-input uk-form-small" type="text" name="ip" placeholder="ip" />
-                    <input className="uk-input uk-form-small" type="number" name="port" placeholder="port" />
-                    <input className="uk-input uk-form-small" type="number" name="time" placeholder="time(ms)" />
-                    {error && <Alert error={error} />}
+                    <input className="uk-input uk-form-small" type="text" name="name" placeholder="Device name" />
+                    <input className="uk-input uk-form-small" type="text" name="ip" placeholder="Device ip" />
+                    <input className="uk-input uk-form-small" type="number" name="port" placeholder="Device port" />
+                    <input className="uk-input uk-form-small" type="number" name="time" placeholder="input update time(ms)" />
                     <div><button className="uk-button uk-button-default">Add</button></div>
                 </form>
             </div>
         </div>
+
         <div id="profilePreferences" data-uk-modal>
             <div className="uk-modal-dialog uk-modal-body">
                 <h2 className="uk-modal-title">Profile preferences</h2>
                 <form className="uk-form-stacked" onSubmit={event => updateUser(event)}>
-                    <input className="uk-input uk-form-small" type="text" name="name" placeholder="name" />
-                    <input className="uk-input uk-form-small" type="text" name="surname" placeholder="surname" />
-                    <input className="uk-input uk-form-small" type="text" name="email" placeholder="email" />
-                    {error && <Alert error={error} />}
+                    <input className="uk-input uk-form-small" type="text" name="name" placeholder='name' />
+                    <input className="uk-input uk-form-small" type="text" name="surname" placeholder='surname' />
+                    <input className="uk-input uk-form-small" type="text" name="email" placeholder='email' />
                     <div><button className="uk-button uk-button-default">Update</button></div>
                 </form>
             </div>
         </div>
     </div>
+
 
 }
 

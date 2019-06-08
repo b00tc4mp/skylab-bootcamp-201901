@@ -66,6 +66,17 @@ router.post('/devices', auth, jsonParser, (req, res) => {
     }, res)
 })
 
+router.get('/devices/check/:ip/:port', auth, (req, res) => {
+    const {userId, params: { ip, port } } = req
+
+    const _port = Number(port)
+
+    handleErrors(async () => {
+        const response = await logic.checkDevice(userId, ip, _port)
+        res.status(202).json(response)
+    }, res)
+})
+
 router.get('/devices/:name', auth, (req, res) => {
     const {userId, params: { name } } = req
 

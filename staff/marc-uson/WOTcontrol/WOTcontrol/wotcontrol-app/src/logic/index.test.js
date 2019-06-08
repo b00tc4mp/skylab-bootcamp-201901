@@ -12,7 +12,7 @@ const { Users, Devices } = models
 
 const arduinoIp = `192.168.0.59`
 
-describe.only('Logic', () => {
+describe('Logic', () => {
 
     before(async () => {
         await mongoose.connect(url, { useNewUrlParser: true })
@@ -446,7 +446,7 @@ describe.only('Logic', () => {
         })
     })
 
-    describe.only('devices', ()=> {
+    describe('devices', ()=> {
         let _password
         deviceName = 'newWOTdevice'
         deviceIp = arduinoIp
@@ -457,6 +457,84 @@ describe.only('Logic', () => {
 
             const { token: _token } = await restApi.authenticateUser(email, password)
             logic.__userToken__ = _token
+        })
+
+        describe('check if WOTdevice exists', () => {
+            it('should succed on checking the selected WOTdevice', async () => {
+                const response = await logic.checkDevice(deviceIp, devicePort)
+
+                expect(response).to.not.exist
+            })
+
+            it('should fail on checking a unexisting WOTdevice ip', async () => {
+                const _deviceIp = '99.99.99.99'
+
+                try {
+                    await logic.checkDevice(_deviceIp, devicePort)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`Can't find any device with ip: ${_deviceIp} and port: ${devicePort}`)
+                }
+            })
+
+            it('should fail on checking a wrong WOTdevice port', async () => {
+                let _devicePort = 90
+
+                try {
+                    await logic.checkDevice(deviceIp, _devicePort)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`Can't find any device with ip: ${deviceIp} and port: ${_devicePort}`)
+                }
+            })
+
+            it('should fail on undefined deviceIp', () => {
+                const deviceIp = undefined
+
+                expect(() => logic.checkDevice(deviceIp, devicePort).to.throw(RequirementError, `deviceIp is not optional`))
+            })
+
+            it('should fail on null deviceIp', () => {
+                const deviceIp = null
+
+                expect(() => logic.checkDevice(deviceIp, devicePort).to.throw(RequirementError, `deviceIp is not optional`))
+            })
+
+            it('should fail on empty deviceIp', () => {
+                const deviceIp = ''
+
+                expect(() => logic.checkDevice(deviceIp, devicePort).to.throw(ValueError, 'deviceIp is empty'))
+            })
+
+            it('should fail on blank deviceIp', () => {
+                const deviceIp = ' \t    \n'
+                expect(() => logic.checkDevice(deviceIp, devicePort).to.throw(ValueError, 'deviceIp is empty'))
+            })
+
+            it('should fail on undefined devicePort', () => {
+                const devicePort = undefined
+
+                expect(() => logic.checkDevice(deviceIp, devicePort).to.throw(RequirementError, `devicePort is not optional`))
+            })
+
+            it('should fail on null devicePort', () => {
+                const devicePort = null
+
+                expect(() => logic.checkDevice(deviceIp, devicePort).to.throw(RequirementError, `devicePort is not optional`))
+            })
+
+            it('should fail on empty devicePort', () => {
+                const devicePort = ''
+
+                expect(() => logic.checkDevice(deviceIp, devicePort).to.throw(ValueError, `devicePort is empty`))
+            })
+
+            it('should fail on blank devicePort', () => {
+                const devicePort = ' \t    \n'
+                expect(() => logic.checkDevice(deviceIp, devicePort).to.throw(ValueError, `devicePort is empty`))
+            })
         })
 
         describe('add device', () => {

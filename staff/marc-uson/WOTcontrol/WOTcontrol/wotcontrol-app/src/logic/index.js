@@ -1,6 +1,6 @@
 const validate = require ('wotcontrol-validate')
 const restApi = require ('../rest-api')
-const { LogicError, RequirementError, ValueError, FormatError } = require ('wotcontrol-errors')
+const { LogicError } = require('wotcontrol-errors')
 
 const logic = {
 
@@ -63,8 +63,8 @@ const logic = {
 
         return (async () => {
             try {
-                const {name, surname, email, } = await restApi.retrieveUser(this.__userToken__)
-                return {name, surname, email}
+                const {name, surname, email, devices} = await restApi.retrieveUser(this.__userToken__)
+                return {name, surname, email, devices}
             } catch (error) {
                 throw new LogicError(error)
             }
@@ -98,6 +98,24 @@ const logic = {
         })()
     },
 
+    checkDevice(deviceIp, devicePort){
+        validate.arguments([
+            { name: 'deviceIp', value: deviceIp, type: 'string', notEmpty: true },
+            { name: 'devicePort', value: devicePort, type: 'number', notEmpty: true }
+        ])
+
+        return (async () => {
+            try {
+                const response = await restApi.checkDevice(this.__userToken__, deviceIp, devicePort)
+                return response
+            } catch (error) {
+                if ((error == 'Connection refused') || (error.message == 'Connection timed out'))
+                throw new LogicError(`Can't find any device with ip: ${deviceIp} and port: ${devicePort}`)
+                else throw new LogicError(error)
+            }
+        })()
+    },
+
     addDevice(deviceName, deviceIp, devicePort, timeInterval){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
@@ -106,9 +124,13 @@ const logic = {
             { name: 'timeInterval', value: timeInterval, type: 'number', notEmpty: true }
         ])
 
+        if(deviceName.includes(' ')) throw new LogicError('The device name can not include spaces')
+
         return (async () => {
             try {
-                await restApi.addDevice(this.__userToken__, deviceName, deviceIp, devicePort)
+                const response = await restApi.addDevice(this.__userToken__, deviceName, deviceIp, devicePort)
+                if (response.error) throw Error('NOT FOUND')
+
                 for (let i = 1; i < 3; i++) {
                     await restApi.addOutput(this.__userToken__, deviceName, 'digital', i)
                 }
@@ -202,7 +224,8 @@ const logic = {
         return (async () => {
             try {
                 const response = await restApi.toggleDigitalOutput(this.__userToken__,deviceName, pinNumber)
-                return response.status
+                if(response.status) return response.status
+                else return 'no response'
             } catch (error) {
                 throw new LogicError(error)
             }
@@ -215,10 +238,11 @@ const logic = {
             { name: 'pinNumber', value: pinNumber, type: 'number', notEmpty: true },
             { name: 'angle', value: angle, type: 'number', notEmpty: true }
         ])
-
+        console.log('entra')
         return (async () => {
             try {
                 const response = await restApi.setServoPosition(this.__userToken__,deviceName, pinNumber,angle)
+                console.log(response)
                 return response.status
             } catch (error) {
                 throw new LogicError(error)
@@ -232,6 +256,8 @@ const logic = {
             { name: 'pinNumber', value: pinNumber, type: 'number', notEmpty: true },
             { name: 'speed', value: speed, type: 'number', notEmpty: true }
         ])
+
+        console.log('entra')
 
         return (async () => {
             try {

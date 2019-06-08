@@ -1,10 +1,13 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
-function DeviceList(){
+function DeviceList({onDeviceSelect, deviceList}){
 
     return <>
-        <li><a href="#">Device 1</a></li>
-        <li><a href="#">Device 2</a></li>
+        {
+            deviceList.map(name =>{
+                return <li key={name} onClick={() => onDeviceSelect(name)}>{name}</li>
+            })
+        }
     </>
 }
 

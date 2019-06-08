@@ -70,7 +70,7 @@ const restApi = {
         })()
     },
 
-    updateUser(token, data) { // TODO refactor
+    updateUser(token, data) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'data', value: data, type: 'object', notEmpty: true }
@@ -99,6 +99,24 @@ const restApi = {
                 method: 'DELETE',
                 headers: { Authorization: `Bearer ${token}` }
             })
+        })()
+    },
+
+    checkDevice(token, deviceIp, devicePort){
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'deviceIp', value: deviceIp, type: 'string', notEmpty: true },
+            { name: 'devicePort', value: devicePort, type: 'number', notEmpty: true }
+        ])
+
+        return (async () => {
+            const response = await call(`${this.__url__}/devices/check/${deviceIp}/${devicePort}`, {
+                headers: {
+                    'Content-Type': 'application/json',
+                    Authorization: `Bearer ${token}`
+                },
+            })
+            return response
         })()
     },
 

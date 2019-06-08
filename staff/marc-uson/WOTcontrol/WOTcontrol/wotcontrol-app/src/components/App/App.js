@@ -1,19 +1,32 @@
-import React, { useState } from "react"
+import React, { useState, useEffect } from "react"
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
-import { Context } from "../Context"
 import logic from '../../logic'
 import Landing from '../Landing'
 import Login from '../Login'
 import Register from '../Register'
 import Home from '../Home'
 import './App.sass'
+import Uikit from 'uikit/dist/js/uikit.min.js'
+import 'uikit/dist/js/uikit.min.js'
+import 'uikit/dist/js/uikit-icons.min.js'
 
 function App(props) {
-    const [isLogedIn, setIsLogedIn] = useState('')
-    const [error, setError] = useState('')
-    const [user, setUser] = useState('')
+    const [user, setUser] = useState(null)
     const [devices, setDevices] = useState([])
+    const [device, setDevice]= useState(null)
+    const [deviceStatus, setDeviceStatus]= useState(null)
+    const [analogVal, setAnalogVal] = useState([])
+    const [Digital1Val, setDigital1Val] = useState([])
+    const [Digital2Val, setDigital2Val] = useState([])
+    const[interval, setInterval] = useState(null)
 
+    useEffect(() => {
+        const [, main, device] = props.location.pathname.split('/')
+        if (main == "home") {
+            if(device)handleRetrieveDevice(device)
+            handleUpdate()
+        }
+    },[])
 
     const handleRegisterNavigation = () => props.history.push('/register')
 
@@ -22,23 +35,19 @@ function App(props) {
     const handleRegister = async (name, surname, email, password) => {
         try {
             await logic.registerUser(name, surname, email, password)
-            setError(null)
             props.history.push('/login')
         } catch (error) {
-            setError(error.message)
+            Uikit.notification({ message: error.message, status: 'danger' })
         }
     }
 
     const handleLogin = async (email, password) => {
         try {
             await logic.loginUser(email, password)
-            setError(null)
-            const _user = await logic.registerUser()
-            setUser({name: _user.name, surname: _user.surname, email: _user.email})
-            console.log(user)
+            handleUpdate()
             props.history.push('/home')
         } catch (error) {
-            setError(error.message)
+            Uikit.notification({ message: error.message, status: 'danger' })
         }
     }
 
@@ -46,47 +55,171 @@ function App(props) {
         logic.logoutUser()
         setUser(null)
         setDevices(null)
-        setError(null)
+        setDevice(null)
+        setDeviceStatus(null)
         props.history.push('/')
     }
 
     const handleUserUpdate = async (data) => {
         try {
             await logic.updateUser(data)
-            const _user  = await logic.retrieveUser()
-            console.log(_user)
+            Uikit.notification({ message: 'user succesfully updated', status: 'succes' })
+            handleUpdate()
         } catch (error) {
-            setError('error')
+            Uikit.notification({ message: error.message, status: 'danger' })
         }
     }
 
     const handleDeviceAdd = async (deviceName, deviceIp, devicePort, timeInterval) => {
-        console.log('llega')
         const _devicePort = Number(devicePort)
         const _timeInterval = Number(timeInterval)
         try {
-            const response = await logic.addDevice(deviceName, deviceIp, _devicePort, _timeInterval)
-            console.log(response)
-            const _device  = await logic.retrieveDevice(deviceName)
-            setDevices(devices.push(_device))
-            console.log(devices)
+            await logic.checkDevice(deviceIp, _devicePort)
+            await logic.addDevice(deviceName, deviceIp, _devicePort, _timeInterval)
+            Uikit.notification({ message: `Device ${deviceName} added`, status: 'succes' })
+            setInterval(_timeInterval)
+            handleUpdate()
         } catch (error) {
-            //setError(error)
-            console.log(error)
+            Uikit.notification({ message: error.message, status: 'danger' })
+        }
+    }
+    const handleDeviceDelete = async (deviceName) =>{
+        try {
+            await logic.deleteDevice(deviceName)
+            handleUpdate()
+            setDevice(null)
+            setDeviceStatus(null)
+            props.history.push('/home')
+            Uikit.notification({ message: `Device ${deviceName} succesfully deleted`, status: 'succes' })
+        } catch (error) {
+            Uikit.notification({ message: error.message, status: 'danger' })
+        }
+    }
+
+    const handleRetrieveDevice = async (deviceName) => {
+
+        props.history.push(`/home/${deviceName}`)
+        try {
+            const device = await logic.retrieveDevice(deviceName)
+            const response = await logic.checkDevice(device.ip, device.port )
+            setDevice(device)
+            setDeviceStatus(response.status)
+            const _interval = Number(response.interval)
+            setInterval(_interval)
+        } catch (error) {
+            Uikit.notification({ message: error.message, status: 'danger' })
+        }
+    }
+
+    const handleUpdate = async () => {
+        let devicesArr = []
+        try {
+            const _user = await logic.retrieveUser()
+            setUser(_user)
+            if (_user.devices) _user.devices.forEach(device => devicesArr.push(device.name))
+        setDevices(devicesArr)
+        } catch (error) {
+            Uikit.notification({ message: error.message, status: 'danger' })
+        }
+    }
+
+    const handleToggleDout= async(name, pin) => {
+        try {
+            await logic.toggleDigitalOutput(name, pin)
+            handleUpdate()
+        } catch (error) {
+            Uikit.notification({ message: error.message, status: 'danger' })
+        }
+    }
+
+    const handleSetMotor= async(name, pin, speed) => {
+        console.log(name, pin, speed)
+        const _pin = Number(pin)
+        const _speed = Number(speed)
+        try {
+            await logic.setMotor(name, _pin, _speed)
+            handleUpdate()
+        } catch (error) {
+            Uikit.notification({ message: error.message, status: 'danger' })
+        }
+    }
+
+    const handleSetServo= async(name, pin, angle) => {
+        const _pin= Number(pin)
+        const _angle = Number(angle)
+        try {
+            const response = await logic.setServo(name, _pin, _angle)
+            handleUpdate()
+        } catch (error) {
+            Uikit.notification({ message: error.message, status: 'danger' })
+        }
+    }
+
+    const handleRetrieveInputs = async () => {
+        try {
+            const analogInput = await logic.retrieveAnalog(device.name)
+            const digitalInput1 = await logic.retrieveDigital(device.name, 1)
+            const digitalInput2 = await logic.retrieveDigital(device.name, 2)
+            setAnalogVal(analogInput)
+            setDigital1Val(digitalInput1)
+            setDigital2Val(digitalInput2)
+            console.log(digitalInput1)
+            console.log(digitalInput2)
+            console.log(analogInput)
+        } catch (error) {
+            Uikit.notification({ message: error.message, status: 'danger' })
         }
     }
 
     return (
-        <Context.Provider value={{ isLogedIn, setIsLogedIn, error, setError}}>
-            <Switch>
-                <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
-                <Route path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} navigateToLogin={handleLoginNavigation} />} />
-                <Route path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} navigateToRegister={handleRegisterNavigation}/>} />
-                <Route path="/home" render={() => logic.isUserLoggedIn ? <Home onLogout={handleLogout} onUserUpdate={handleUserUpdate} onDeviceAdd={handleDeviceAdd} user={user} /> : <Redirect to ="/" /> }/>
+        <Switch>
+            <Route exact path="/" render={() =>
+                logic.isUserLoggedIn ?
+                    <Redirect to="/home" />
+                    : <Landing
+                        onRegister={handleRegisterNavigation}
+                        onLogin={handleLoginNavigation}
+                    />}
+            />
+            <Route path="/register" render={() =>
+                logic.isUserLoggedIn ?
+                    <Redirect to="/home" />
+                    : <Register
+                        onRegister={handleRegister}
+                        navigateToLogin={handleLoginNavigation}
+                    />}
+            />
+            <Route path="/login" render={() =>
+                logic.isUserLoggedIn ?
+                    <Redirect to="/home" />
+                    : <Login
+                        onLogin={handleLogin}
+                        navigateToRegister={handleRegisterNavigation}
+                    />}
+            />
+            <Route path="/home" render={() =>
+                logic.isUserLoggedIn ?
+                    <Home
+                        user={user}
+                        device={device}
+                        deviceStatus={deviceStatus}
+                        deviceList={devices}
+                        timeInterval={interval}
+                        retrieveInputs={handleRetrieveInputs}
+                        onLogout={handleLogout}
+                        onUserUpdate={handleUserUpdate}
+                        onDeviceAdd={handleDeviceAdd}
+                        onDeviceDelete={handleDeviceDelete}
+                        onDeviceSelect={handleRetrieveDevice}
+                        onDoutChange={handleToggleDout}
+                        onMotorChange={handleSetMotor}
+                        onServoChange={handleSetServo}
+                    />
+                    : <Redirect to="/" />}
+            />
 
-                <Redirect to="/" />
-            </Switch>
-        </Context.Provider >
+            <Redirect to="/" />
+        </Switch>
     )
 }
 

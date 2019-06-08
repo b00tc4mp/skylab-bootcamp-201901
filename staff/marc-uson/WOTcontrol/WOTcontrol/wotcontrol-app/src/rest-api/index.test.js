@@ -571,11 +571,140 @@ describe('restApi', () => {
 
     describe('WOTdevices', () => {
 
+        describe('check if WOTdevice exists', () => {
+            let token
+            let _password
+            deviceIp = arduinoIp
+            let devicePort = 80
+
+            beforeEach(async() =>{
+                _password = bcrypt.hashSync(password, 10)
+                email = `marcusontest-${Math.random()}@gmail.com`
+                await Users.create({ name, surname, email, password: _password, admin: true })
+
+                const { token: _token } = await restApi.authenticateUser(email,password)
+                token = _token
+            })
+
+            it('should succed on checking the selected WOTdevice', async () => {
+                const response = await restApi.checkDevice(token, deviceIp, devicePort)
+
+                expect(response).to.exist
+                expect(response.HELLO).to.equal('WORLD!')
+                expect(response.userid).to.exist
+                expect(response.deviceid).to.exist
+                expect(response.status).to.exist
+                expect(response.interval).to.exist
+            })
+
+            it('should fail on checking a WOTdevice from unexisting user', async () => {
+                let _token = 'unexistingToken'
+
+                try {
+                    await restApi.checkDevice(_token, deviceIp,devicePort)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.equal(`jwt malformed`)
+                }
+            })
+
+            it('should fail on checking a unexisting WOTdevice ip', async () => {
+                const _deviceIp = '99.99.99.99'
+
+                try {
+                    await restApi.checkDevice(token, _deviceIp, devicePort)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    debugger
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`Connection timed out`)
+                }
+            })
+
+            it('should fail on checking a wrong WOTdevice port', async () => {
+                let _devicePort = 90
+
+                try {
+                    await restApi.checkDevice(token, deviceIp, _devicePort)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error).to.equal(`Connection refused`)
+                }
+            })
+
+
+            it('should fail on null token', () => {
+                const token = null
+
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(RequirementError, `token is not optional`))
+            })
+
+            it('should fail on empty token', () => {
+                const token = ''
+
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(ValueError, 'token is empty'))
+            })
+
+            it('should fail on blank token', () => {
+                const token = ' \t    \n'
+
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(ValueError, 'deviceName is empty'))
+            })
+
+            it('should fail on undefined deviceIp', () => {
+                const deviceIp = undefined
+
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(RequirementError, `deviceIp is not optional`))
+            })
+
+            it('should fail on null deviceIp', () => {
+                const deviceIp = null
+
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(RequirementError, `deviceIp is not optional`))
+            })
+
+            it('should fail on empty deviceIp', () => {
+                const deviceIp = ''
+
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(ValueError, 'deviceIp is empty'))
+            })
+
+            it('should fail on blank deviceIp', () => {
+                const deviceIp = ' \t    \n'
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(ValueError, 'deviceIp is empty'))
+            })
+
+            it('should fail on undefined devicePort', () => {
+                const devicePort = undefined
+
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(RequirementError, `devicePort is not optional`))
+            })
+
+            it('should fail on null devicePort', () => {
+                const devicePort = null
+
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(RequirementError, `devicePort is not optional`))
+            })
+
+            it('should fail on empty devicePort', () => {
+                const devicePort = ''
+
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(ValueError, `devicePort is empty`))
+            })
+
+            it('should fail on blank devicePort', () => {
+                const devicePort = ' \t    \n'
+                expect(() => restApi.checkDevice(token, deviceIp, devicePort).to.throw(ValueError, `devicePort is empty`))
+            })
+        })
+
         describe('register WOTdevice', () => {
             let token
             let _password
             deviceName = 'newWOTdevice'
-            deviceIp = '192.168.0.54'
+            deviceIp = '192.168.0.59'
 
             beforeEach(async() =>{
                 _password = bcrypt.hashSync(password, 10)
