@@ -37,6 +37,11 @@
             }
         }
 
+        &Buttons {
+            display: flex;
+            justify-content: space-between;
+        }
+
         &Grid {
             display: flex;
             flex-direction: row;

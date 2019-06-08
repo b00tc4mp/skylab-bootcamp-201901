@@ -3,6 +3,7 @@ import logic from '../../logic'
 
 export function Events () {
   const [events, setEvents] = useState([])
+  const [deletedEvent, setDeletedEvent] = useState(null)
 
   useEffect(function () {
     async function getEvents () {
@@ -12,11 +13,17 @@ export function Events () {
     }
 
     getEvents()
-  }, [])
+  }, [deletedEvent])
 
   const renderDate = (date) => {
     const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' }
     return new Date(date).toLocaleDateString('en-EN', options)
+  }
+
+  const deleteEvent = async (eventId) => {
+    debugger
+    await logic.deleteEvent(eventId)
+    setDeletedEvent(true)
   }
 
   return (
@@ -33,7 +40,12 @@ export function Events () {
                 <h1 className='subtitle is-marginless'>{e.title}</h1>
                 <strong>{renderDate(e.date)}</strong>
                 <p>{e.description}</p>
+                <p>{e.id}</p>
               </div>
+              {logic.__userIsAdmin__ && <button className='button is-primary' onClick={(event) => {
+                event.preventDefault()
+                deleteEvent(e.id)
+              }}>delete event</button>}
             </article>
           )
         })

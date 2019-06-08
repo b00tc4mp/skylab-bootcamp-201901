@@ -20,12 +20,13 @@ export function NavBar () {
         My Basket
       </Link>
       <Link to='/create-your-order' className='button is-primary'>
-        Order Now!
+        <i className='fas fa-shopping-cart' />
+        <span>Order Now!</span>
       </Link>
       <Link to='/user/profile' className='button is-primary'>
         My profile!
       </Link>
-      <button className='button is-primary' onClick={_handleLogout}>
+      <button className='button is-white' onClick={_handleLogout}>
         <i className='fas fa-sign-out-alt' /> Logout
       </button>
     </div>
@@ -50,10 +51,7 @@ export function NavBar () {
       <Link to='/store/event' className='button is-primary'>
         Create Event
       </Link>
-      <Link to='/store/manage-events' className='button is-primary'>
-        Check Events
-      </Link>
-      <button className='button' onClick={_handleLogout}>
+      <button className='button is-white' onClick={_handleLogout}>
         <span className='icon is-small'>
           <i className='fas fa-sign-out-alt' />
         </span>

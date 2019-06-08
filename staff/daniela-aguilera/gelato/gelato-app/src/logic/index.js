@@ -106,6 +106,10 @@ export default {
     return restApi.retrieveEvents()
   },
 
+  deleteEvent (eventId) {
+    return restApi.deleteEvent(this.__userToken__, eventId)
+  },
+
   retrieveUserOrders () {
     return restApi.retrieveOrdersByUserId(this.__userToken__)
   },

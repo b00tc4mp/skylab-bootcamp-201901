@@ -46,7 +46,7 @@ export function UserProfile ({ history }) {
   }
 
   const buttonClassName = cx('button is-primary', {
-    'is-loading': loading
+    'is-loading': loading // si loading es true agrego este className al boton
   })
 
   const notificationClassName = cx('message', {

@@ -16,7 +16,6 @@ import { Register } from './pages/Register'
 import { UserProfile } from './pages/UserProfile'
 import { StoreOrders } from './pages/StoreOrders'
 import { StoreCreateEvent } from './pages/StoreCreateEvent'
-import { StoreManageEvents } from './pages/StoreManageEvents'
 
 export function App () {
   return (
@@ -33,7 +32,6 @@ export function App () {
         <Route exact path='/user/profile' component={UserProfile} />
         <Route exact path='/store/orders' component={StoreOrders} />
         <Route exact path='/store/event' component={StoreCreateEvent} />
-        <Route exact path='/store/manage-events' component={StoreManageEvents} />
         <Route component={NotFound} />
       </Switch>
       <Footer />

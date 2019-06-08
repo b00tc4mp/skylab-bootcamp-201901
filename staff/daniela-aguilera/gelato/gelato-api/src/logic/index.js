@@ -255,7 +255,28 @@ const logic = {
     })
 
     return events
+  },
+
+  async deleteEvent ({ id, isAdmin }) {
+    validate.arguments([
+      { name: 'id', value: id, type: 'string', notEmpty: true },
+      { name: 'isAdmin', value: isAdmin, type: 'boolean', notEmpty: true }
+    ])
+
+    if (!isAdmin) {
+      throw new UnauthorizedError("You're not authorized to do this")
+    }
+
+    return (async () => {
+      const isHereTheEvent = await Event.find({ _id: id }).lean()
+      if (!isHereTheEvent.length) {
+        throw new LogicError('Event not found')
+      } else {
+        await Event.deleteOne({ _id: id })
+      }
+    })()
   }
+
 }
 
 module.exports = logic

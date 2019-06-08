@@ -74,13 +74,19 @@ export function OrderForm () {
   }
 
   useEffect(function () {
+    // tomamos el element que hemos guardado en la referencia
     const element = orderScrollerElement.current
+    // comprobamos si tenemos un elemento
     if (element) {
+      // tomamos el ancho del elemento
       const elementWidth = element.clientWidth
+      // multiplicamos el ancho del elemento por el paso actual y lo hacemos negativo
+      // ya que el movimiento es hacia la izquierda.
       const movement = (elementWidth * step * -1) + 'px'
+      // usamos translate3d porque usa la aceleración del hardware
       element.style = `transform: translate3d(${movement}, 0, 0)`
     }
-  }, [step])
+  }, [step]) // este efecto lo ejecutamos sólo cuando cambia el valor de step
 
   const renderTypeInputs = () => (
     <section className='g-Order-step'>
@@ -139,10 +145,15 @@ export function OrderForm () {
         })
       }
 
-      <button onClick={(e) => {
+      <button className='button is-light' onClick={(e) => {
         e.preventDefault()
         setStep(0)
-      }}>Previous</button>
+      }}>
+        <span className='icon is-small'>
+          <i className='fas fa-chevron-left' />
+        </span>
+        <span>Previous</span>
+      </button>
     </section>
   )
 
@@ -173,11 +184,25 @@ export function OrderForm () {
           })
         }
       </div>
-      <button onClick={(e) => {
-        e.preventDefault()
-        setStep(1)
-      }}>Previous</button>
-      <button>Confirm Order</button>
+      <div className='g-Order-stepButtons'>
+        <button className='button is-light' onClick={(e) => {
+          e.preventDefault()
+          setStep(1)
+        }}>
+          <span className='icon is-small'>
+            <i className='fas fa-chevron-left' />
+          </span>
+          <span>Previous</span>
+        </button>
+        <button className='button is-success'>
+          <span className='icon is-small'>
+            <i className='fas fa-check' />
+          </span>
+          <span>
+        Confirm Order
+          </span>
+        </button>
+      </div>
       <h2>Total price: {calculatePrice()} $</h2>
     </section>
   )

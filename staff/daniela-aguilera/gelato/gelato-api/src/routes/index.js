@@ -120,4 +120,14 @@ router.get('/events', (req, res) => {
   }, res)
 })
 
+router.delete('/events/:id', auth, (req, res) => {
+  const { params, isAdmin } = req
+  const { id } = params
+
+  handleErrors(async () => {
+    await logic.deleteEvent({ id, isAdmin })
+    return res.json()
+  }, res)
+})
+
 module.exports = router

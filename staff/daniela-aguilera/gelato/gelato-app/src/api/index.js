@@ -158,6 +158,18 @@ const restApi = {
       // headers: { Authorization: `Bearer ${token}` },
       timeout: this.__timeout__
     })
+  },
+
+  deleteEvent (token, eventId) {
+    validate.arguments([
+      { name: 'token', value: token, type: 'string', notEmpty: true }
+    ])
+
+    return call(`${this.__url__}/events/${eventId}`, {
+      method: 'DELETE',
+      headers: { Authorization: `Bearer ${token}` },
+      timeout: this.__timeout__
+    })
   }
 }
 
