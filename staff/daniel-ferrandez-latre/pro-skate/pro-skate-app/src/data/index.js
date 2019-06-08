@@ -18,16 +18,13 @@ const dataApi = {
             { name: 'surname', value: surname, type: 'string', notEmpty: true },
             { name: 'email', value: email, type: 'string', notEmpty: true },
             { name: 'password', value: password, type: 'string', notEmpty: true },
-            { name: 'age', value: age, type: 'string', notEmpty: true },
-            { name: 'imageUrl', value: imageUrl, type: 'string' },
-
+            { name: 'age', value: age, type: 'string', notEmpty: true }
         ])
         return (async ()=> {
             const isCreated = await call(`${this.__url__}/users`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                data: { name, surname, email, password, age, imageUrl },
-                timeout: this.__timeout__
+                data: { name, surname, email, password, age }
             })
                 return isCreated
         })()
@@ -161,7 +158,7 @@ const dataApi = {
             { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
         return( async () => {
-            debugger
+            
             const res = await call(`${this.__url__}/users/whishlist`, {
                 method: 'GET',
                 headers: { 
@@ -261,6 +258,7 @@ const dataApi = {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
+        debugger
         return( async () => {
             const res = await call(`${this.__url__}/products/?tag=`, {
                 method: 'GET',

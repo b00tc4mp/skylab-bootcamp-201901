@@ -5,7 +5,8 @@ const user = new Schema({
   name: { type: String, required: true },
   surname: { type: String, required: true },
   imageUrl: { type: String,
-              validate: isURL
+              validate: isURL,
+              required: false
             },
   email: {
       type: String,

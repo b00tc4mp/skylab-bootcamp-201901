@@ -505,6 +505,7 @@ describe("logic", () => {
         expect(() => logic.updateUser(id, {})).to.throw(ValueError, "id is empty");
       });
     });
+    
   });
 
   describe("product test", () => {

@@ -15,7 +15,6 @@ const logic = {
             { name: 'name', value: name, type: 'string', notEmpty: true },
             { name: 'surname', value: surname, type: 'string', notEmpty: true },
             { name: 'email', value: email, type: 'string', notEmpty: true },
-            { name: 'imageUrl', value: imageUrl, type: 'string'},
             { name: 'password', value: password, type: 'string', notEmpty: true },
             { name: 'age', value: age, type: 'string', notEmpty: true }
         ])
@@ -125,14 +124,16 @@ const logic = {
     },
 
     retrieveProductsByTag(tag){
+        debugger
         validate.arguments([
             { name: 'tag', value: tag, type: 'string', notEmpty: true }
         ])
+        debugger
         return(async ()=>{
-            const allProducts = await Product.find()
-            const productsByTag = allProducts.filter( product => {
-                if(product.tag.includes(tag)) return product
-            })
+            const productsByTag = await Product.find({tag:{$in:[tag]}})
+            // const productsByTag = allProducts.filter( product => {
+            //     if(product.tag.includes(tag)) return product
+            // })
             return productsByTag
         })()
 

@@ -1,4 +1,3 @@
-require('dotenv').config()
 
 const { mongoose, models: { User, Product } } = require("pro-skate-data");
 const {
@@ -14,7 +13,7 @@ const chai = require("chai");
 const { expect } = chai;
 const dataApi = require(".");
 const argon2 = require("argon2");
-
+require('dotenv').config()
 const {
   env: { MONGO_URL_LOGIC_TEST: url }
 } = process;
@@ -43,7 +42,7 @@ describe("data-api", () => {
 
       })
 
-      it("should succeed on correct data", async function() {
+      it.only("should succeed on correct data", async function() {
 
         const res = await dataApi.createUser(name, surname, email, _password, age, imageUrl );
         const { message } = res
@@ -58,7 +57,7 @@ describe("data-api", () => {
         expect(user.name).to.equal(name);
         expect(user.surname).to.equal(surname);
         expect(user.email).to.equal(email);
-        expect(user.imageUrl).to.equal(imageUrl);
+        // expect(user.imageUrl).to.equal(imageUrl);
         expect(user.password).to.exist;
         expect(user.age).to.equal(parseInt(age));
         expect(user.cart).to.be.an("array");
@@ -679,7 +678,7 @@ describe("data-api", () => {
 
     describe('retrieve cart products', () => {
       let arrayAllProducts, arrayPromiseProducts, user, quantity1, quantity3, _productId1, token
-      debugger
+      
       beforeEach(async () => {
         Product.deleteMany();
         User.deleteMany()
@@ -919,7 +918,7 @@ describe("data-api", () => {
         let quantity3 = '3';
         _productId3 = productId3._id.toString();
 
-        token = await dataApi.authenticate( email, password ) 
+        token = await dataApi.authenticate( email, require('dotenv').config() ) 
 
         await dataApi.addProductToCart( token , _productId1, quantity1);
         await dataApi.addProductToCart( token , _productId2, quantity2);
@@ -955,7 +954,7 @@ describe("data-api", () => {
 
     });
 
-    describe.only('retrieve products by tag',  () => {
+    describe('retrieve products by tag',  () => {
       let arrayAllProducts1, arrayAllProducts2, arrayAllProducts3, arrayPromiseProducts, user, tag1, tag2, tag3, tag4, token
 
       beforeEach(async () => {
@@ -1036,18 +1035,20 @@ describe("data-api", () => {
             arrayPromiseProducts.push(await Product.create(product)))
         );
         
-        token = await dataApi.authenticate( email, password ) 
         
         arrayAllProducts = await Product.find();
         });
   
         
         
-        it.only("should retrieve products by tag on correct data", async () => {
+        it("should retrieve products by tag on correct data", async () => {
           
           const productsDbTag1 = await dataApi.retrieveProductsByTag(tag1)
+          
           expect(productsDbTag1[0].tag[0]).to.equal('tag1')
+          
           expect(productsDbTag1[1].tag[0]).to.equal('tag1')
+          
           expect(productsDbTag1[2].tag[0]).to.equal('tag1')
           expect(productsDbTag1[3].tag[0]).to.equal('tag1')
           expect(productsDbTag1[4].tag[0]).to.equal('tag1')

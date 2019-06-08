@@ -48,9 +48,8 @@ router.get('/users', auth, (req, res) => {
 
 //updateUser
 router.put('/users', auth, jsonParser,(req, res) =>{
-    debugger
+    
     handleErrors(async () => {
-        debugger
         const { userId, body: { name, surname, email, age, imageUrl } } = req
 
         const isUpdated = await logic.updateUser(userId, { name, surname, email, age, imageUrl })
@@ -95,11 +94,9 @@ router.post('/users/cart', auth, jsonParser, (req, res)=>{
 
 //retrieveWhishList
 router.get('/users/whishlist', auth, (req, res) => {
-    debugger
     handleErrors(async () => {
-        debugger
+        
         const { userId } = req
-        debugger
         const whishlist = await logic.retrieveWhishList(userId)
         return res.json(whishlist)
     },
@@ -155,7 +152,6 @@ router.post('/product', jsonParser,auth, (req, res) => {
 router.get('/products/:id', (req, res) => {
     handleErrors(async () => {
         const { params: { id } } = req
-        debugger
         const product = await logic.retrieveProduct(id)
         return res.json( product )
     },
