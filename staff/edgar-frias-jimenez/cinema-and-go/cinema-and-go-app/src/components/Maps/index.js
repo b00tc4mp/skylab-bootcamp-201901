@@ -1,25 +1,31 @@
 import React from 'react'
-import GoogleMapReact from 'google-map-react'
+import { GoogleMap, LoadScript } from '@react-google-maps/api'
 
 import { defaultMapProps, defaultMapZoom } from './config'
 const { REACT_APP_MAPS_KEY } = process.env
 
-function GoogleMaps({ defaultPos, markers }) {
-    const mapOptions = defaultMapProps
+function GoogleMaps({ defaultPos, children }) {
+    const userPosition = {
+        lat: defaultPos[0],
+        lng: defaultPos[1]
+    }
     const zoom = defaultMapZoom
 
     return (
-        <section style={{ height: '100vh', width: '100vw' }}>
-            <GoogleMapReact
-                bootstrapURLKeys={{ key: REACT_APP_MAPS_KEY }}
-                defaultCenter={defaultPos}
-                defaultZoom={zoom}
-                yesIWantToUseGoogleMapApiInternals
-                options={mapOptions}
+        <LoadScript
+            id="script-loader"
+            googleMapsApiKey={REACT_APP_MAPS_KEY}
+        >
+            <GoogleMap
+                id='example-map'
+                center={userPosition}
+                mapContainerClassName='map-container'
+                mapContainerStyle={{ height: '100vh', width: '100vw' }}
+                zoom={zoom}
             >
-                {markers}
-            </GoogleMapReact>
-        </section>
+                {children}
+            </GoogleMap>
+        </LoadScript>
     )
 }
 

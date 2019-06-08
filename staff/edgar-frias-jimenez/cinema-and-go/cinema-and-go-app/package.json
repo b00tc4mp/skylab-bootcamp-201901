@@ -25,7 +25,6 @@
     "bulma": "^0.7.5",
     "create-react-app": "^3.0.1",
     "dotenv": "^8.0.0",
-    "google-map-react": "^1.1.4",
     "jsonwebtoken": "^8.5.1",
     "node-sass": "^4.11.0",
     "query-string": "^6.5.0",

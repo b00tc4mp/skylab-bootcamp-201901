@@ -1,31 +1,20 @@
 import React from "react"
-// import PropTypes from "prop-types"
+import { Marker } from '@react-google-maps/api'
 
-const Marker = ({ text })  => {
-
-  const pointStyles = {
-    border: "3px solid red",
-    borderRadius: "50%",
-    height: 16,
-    width: 16,
-    backgroundColor: "blue",
-    cursor: "pointer",
-    zIndex: 10
-  }
+const CustomMarker = ({ customPosition })  => {
+    const pointPosition = {
+        lat: customPosition[0],
+        lng: customPosition[1]
+    }
 
     return (
-        <Marker style={pointStyles}>
-            {text}
-        </Marker>
+        <Marker
+            onClick={marker => {
+                console.log('click', marker)
+            }}
+            position={pointPosition}
+        />
     )
 }
 
-// Marker.defaultProps = {
-//     onClick: null
-// }
-
-// Marker.propTypes = {
-//     onClick: PropTypes.func,
-// }
-
-export default Marker
+export default CustomMarker

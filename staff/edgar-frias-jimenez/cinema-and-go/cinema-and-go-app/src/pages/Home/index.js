@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import appLogic from '../../logic'
 import GoogleMaps from '../../components/Maps'
-import Marker from '../../components/Marker'
+import CustomMarker from '../../components/Marker'
 
 const Home = () => {
 
@@ -44,7 +44,6 @@ const Home = () => {
             })
         })
         .catch(console.error)
-
     return (
         <section className="home">
             <section className="home__content">
@@ -53,13 +52,8 @@ const Home = () => {
                     <GoogleMaps
                         defaultPos={locate}
                     >
-                        <div className="hola" style={{fontSize: '90px', color: 'lime', width: '200px', height: '200px', display: 'block'}}>
-                            <p>hola mundo</p>
-                        </div>
-                        <Marker
-                            lat={locate[0]}
-                            lng={locate[1]}
-                            text="My Marker"
+                        <CustomMarker
+                            customPosition={locate}
                         />
                     </GoogleMaps>
                 </section>
