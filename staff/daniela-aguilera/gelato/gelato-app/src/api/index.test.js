@@ -21,8 +21,10 @@ describe('rest api', () => {
   describe('register user', () => {
     it('should succeed on correct data', async () => {
       const res = await restApi.registerUser(name, surname, email, password)
+      debugger
       const user = await User.findOne({ email })
 
+      debugger
       expect(res.message).toBe('User registered.')
       expect(user.name).toBe(name)
       expect(user.surname).toBe(surname)
@@ -251,8 +253,9 @@ describe('rest api', () => {
       let type = 'cone'
       let size = 'big'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
 
-      const orderResponse = await restApi.addOrder(_token, flavors, size, type)
+      const orderResponse = await restApi.addOrder(_token, flavors, size, type, totalPrice)
       expect(orderResponse).toBeDefined()
       const orders = await Order.find()
       expect(orders).toBeDefined()
@@ -267,9 +270,10 @@ describe('rest api', () => {
       let type = 'cone'
       let size = 'big'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
 
       try {
-        await restApi.addOrder(client, flavors, size, type)
+        await restApi.addOrder(client, flavors, size, type, totalPrice)
       } catch (error) {
         expect(error.message).toBe('token is empty')
       }
@@ -281,9 +285,10 @@ describe('rest api', () => {
       let type = 'cone'
       let size = 'big'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
 
       try {
-        await restApi.addOrder(client, flavors, size, type)
+        await restApi.addOrder(client, flavors, size, type, totalPrice)
       } catch (error) {
         expect(error.message).toBe('jwt malformed')
       }
@@ -295,9 +300,10 @@ describe('rest api', () => {
       let type = 'cone'
       let size = 'big'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
 
       try {
-        await restApi.addOrder(client, flavors, size, type)
+        await restApi.addOrder(client, flavors, size, type, totalPrice)
       } catch (error) {
         expect(error.message).toBe('token is not optional')
       }
@@ -309,9 +315,10 @@ describe('rest api', () => {
       let type = 'cone'
       let size = 'big'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
 
       try {
-        await restApi.addOrder(client, flavors, size, type)
+        await restApi.addOrder(client, flavors, size, type, totalPrice)
       } catch (error) {
         expect(error.message).toBe('token  is not a string')
       }
@@ -324,9 +331,10 @@ describe('rest api', () => {
       let type = ' \t    \n'
       let size = 'big'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
 
       try {
-        await restApi.addOrder(_token, flavors, size, type)
+        await restApi.addOrder(_token, flavors, size, type, totalPrice)
       } catch (error) {
         expect(error.message).toBe('type is empty')
       }
@@ -339,9 +347,10 @@ describe('rest api', () => {
       let type
       let size = 'big'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
 
       try {
-        await restApi.addOrder(_token, flavors, size, type)
+        await restApi.addOrder(_token, flavors, size, type, totalPrice)
       } catch (error) {
         expect(error.message).toBe('type is not optional')
       }
@@ -354,9 +363,10 @@ describe('rest api', () => {
       let type = 'cone'
       let size = ' \t    \n'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
 
       try {
-        await restApi.addOrder(_token, flavors, size, type)
+        await restApi.addOrder(_token, flavors, size, type, totalPrice)
       } catch (error) {
         expect(error.message).toBe('size is empty')
       }
@@ -369,9 +379,10 @@ describe('rest api', () => {
       let type = 'cone'
       let size
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
 
       try {
-        await restApi.addOrder(_token, flavors, size, type)
+        await restApi.addOrder(_token, flavors, size, type, totalPrice)
       } catch (error) {
         expect(error.message).toBe('size is not optional')
       }
@@ -450,8 +461,10 @@ describe('rest api', () => {
       let type = 'cone'
       let size = 'big'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-      await restApi.addOrder(id, flavors, size, type)
-      await restApi.addOrder(id, flavors, size, type)
+      let totalPrice = 12
+
+      await restApi.addOrder(id, flavors, size, type, totalPrice)
+      await restApi.addOrder(id, flavors, size, type, totalPrice)
       const orders = await restApi.retrieveOrdersByUserId(id)
       expect(orders).toBeDefined()
       expect(orders).toHaveLength(2)
@@ -464,8 +477,9 @@ describe('rest api', () => {
         let type = 'cone'
         let size = 'big'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        await restApi.addOrder(id, flavors, size, type)
-        await restApi.addOrder(id, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(id, flavors, size, type, totalPrice)
+        await restApi.addOrder(id, flavors, size, type, totalPrice)
         const orders = await restApi.retrieveOrdersByUserId(id)
         expect(orders).toBeDefined()
         expect(orders).toHaveLength(2)
@@ -481,8 +495,10 @@ describe('rest api', () => {
         let type = 'cone'
         let size = 'big'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        await restApi.addOrder(id, flavors, size, type)
-        await restApi.addOrder(id, flavors, size, type)
+        let totalPrice = 12
+
+        await restApi.addOrder(id, flavors, size, type, totalPrice)
+        await restApi.addOrder(id, flavors, size, type, totalPrice)
         const orders = await restApi.retrieveOrdersByUserId(id)
         expect(orders).toBeDefined()
         expect(orders).toHaveLength(2)
@@ -498,8 +514,10 @@ describe('rest api', () => {
         let type = 'cone'
         let size = 'big'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        await restApi.addOrder(id, flavors, size, type)
-        await restApi.addOrder(id, flavors, size, type)
+        let totalPrice = 12
+
+        await restApi.addOrder(id, flavors, size, type, totalPrice)
+        await restApi.addOrder(id, flavors, size, type, totalPrice)
         const orders = await restApi.retrieveOrdersByUserId(id)
         expect(orders).toBeDefined()
         expect(orders).toHaveLength(2)
@@ -519,7 +537,9 @@ describe('rest api', () => {
       let type = 'cone'
       let size = 'big'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-      await restApi.addOrder(_token.token, flavors, size, type)
+      let totalPrice = 12
+
+      await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
       const allorders = await restApi.retrieveOrdersByUserId(userToken)
       const orderId = allorders[0].id
       const retrievedOrderByUserAndOrderId = await restApi.retrieveOneOrder(userToken, orderId)
@@ -533,7 +553,9 @@ describe('rest api', () => {
         let type = 'cone'
         let size = 'big'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        await restApi.addOrder(_token.token, flavors, size, type)
+        let totalPrice = 12
+
+        await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
         const allorders = await restApi.retrieveOrdersByUserId(userToken)
         const orderId = allorders[0].id
         await restApi.retrieveOneOrder(userToken, orderId)
@@ -549,7 +571,8 @@ describe('rest api', () => {
         let type = 'cone'
         let size = 'big'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        await restApi.addOrder(_token.token, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
         const allorders = await restApi.retrieveOrdersByUserId(userToken)
         const orderId = allorders[0].id
         await restApi.retrieveOneOrder(userToken, orderId)
@@ -565,7 +588,8 @@ describe('rest api', () => {
         let type = 'cone'
         let size = 'big'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        await restApi.addOrder(_token.token, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
         const allorders = await restApi.retrieveOrdersByUserId(userToken)
         const orderId = allorders[0].id
         await restApi.retrieveOneOrder(userToken, orderId)
@@ -581,7 +605,8 @@ describe('rest api', () => {
         let type = 'cone'
         let size = 'big'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        await restApi.addOrder(_token.token, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
         const orderId = []
         await restApi.retrieveOneOrder(userToken, orderId)
       } catch (error) {
@@ -596,7 +621,8 @@ describe('rest api', () => {
         let type = 'cone'
         let size = 'big'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        await restApi.addOrder(_token.token, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
         const orderId = '\t    \n'
         await restApi.retrieveOneOrder(userToken, orderId)
       } catch (error) {
@@ -611,7 +637,8 @@ describe('rest api', () => {
         let type = 'cone'
         let size = 'big'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        await restApi.addOrder(userToken, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(userToken, flavors, size, type, totalPrice)
         const orderId = undefined
         await restApi.retrieveOneOrder(userToken, orderId)
       } catch (error) {
@@ -635,16 +662,17 @@ describe('rest api', () => {
       let size2 = 'small'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
       let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-      await restApi.addOrder(userToken, flavors2, size2, type2)
-      await restApi.addOrder(userToken, flavors, size, type)
+      let totalPrice = 12
+      await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
+      await restApi.addOrder(userToken, flavors, size, type, totalPrice)
       const allorders = await restApi.retrieveOrdersByUserId(userToken)
       const orderId = allorders[0].id
       await restApi.removeOneOrder(userToken, orderId)
 
       const updatedOrders = await restApi.retrieveOrdersByUserId(userToken)
       expect(updatedOrders).toHaveLength(1)
-      expect(updatedOrders[0].size).toBe(size)
-      expect(updatedOrders[0].type).toBe(type)
+      expect(updatedOrders[0].size).toBe('small')
+      expect(updatedOrders[0].type).toBe('cone')
     })
 
     it('should fail removing an order by sending undefined orderId', async () => {
@@ -657,8 +685,10 @@ describe('rest api', () => {
         let size2 = 'small'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
         let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-        await restApi.addOrder(userToken, flavors2, size2, type2)
-        await restApi.addOrder(userToken, flavors, size, type)
+        let totalPrice = 12
+        let totalPrice2 = 4
+        await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
+        await restApi.addOrder(userToken, flavors, size, type, totalPrice2)
         const orderId = undefined
         await restApi.removeOneOrder(userToken, orderId)
       } catch (error) {
@@ -676,8 +706,9 @@ describe('rest api', () => {
         let size2 = 'small'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
         let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-        await restApi.addOrder(userToken, flavors2, size2, type2)
-        await restApi.addOrder(userToken, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
+        await restApi.addOrder(userToken, flavors, size, type, totalPrice)
         const orderId = ''
         await restApi.removeOneOrder(userToken, orderId)
       } catch (error) {
@@ -695,8 +726,9 @@ describe('rest api', () => {
         let size2 = 'small'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
         let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-        await restApi.addOrder(userToken, flavors2, size2, type2)
-        await restApi.addOrder(userToken, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
+        await restApi.addOrder(userToken, flavors, size, type, totalPrice)
         const orderId = []
         await restApi.removeOneOrder(userToken, orderId)
       } catch (error) {
@@ -715,8 +747,8 @@ describe('rest api', () => {
         let size2 = 'small'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
         let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-        await restApi.addOrder(userToken, flavors2, size2, type2)
-        await restApi.addOrder(userToken, flavors, size, type)
+        await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
+        await restApi.addOrder(userToken, flavors, size, type, totalPrice)
         const allorders = await restApi.retrieveOrdersByUserId(userToken)
         const orderId = allorders[0].id
         await restApi.removeOneOrder(userToken, orderId)
@@ -736,8 +768,9 @@ describe('rest api', () => {
         let size2 = 'small'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
         let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-        await restApi.addOrder(userToken, flavors2, size2, type2)
-        await restApi.addOrder(userToken, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
+        await restApi.addOrder(userToken, flavors, size, type, totalPrice)
         const allorders = await restApi.retrieveOrdersByUserId(userToken)
         const orderId = allorders[0].id
         await restApi.removeOneOrder(userToken, orderId)
@@ -757,8 +790,9 @@ describe('rest api', () => {
         let size2 = 'small'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
         let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-        await restApi.addOrder(userToken, flavors2, size2, type2)
-        await restApi.addOrder(userToken, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
+        await restApi.addOrder(userToken, flavors, size, type, totalPrice)
         const allorders = await restApi.retrieveOrdersByUserId(userToken)
         const orderId = allorders[0].id
         await restApi.removeOneOrder(userToken, orderId)
@@ -778,8 +812,9 @@ describe('rest api', () => {
         let size2 = 'small'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
         let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-        await restApi.addOrder(userToken, flavors2, size2, type2)
-        await restApi.addOrder(userToken, flavors, size, type)
+        let totalPrice = 12
+        await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
+        await restApi.addOrder(userToken, flavors, size, type, totalPrice)
         const allorders = await restApi.retrieveOrdersByUserId(userToken)
         const orderId = allorders[0].id
         await restApi.removeOneOrder(userToken, orderId)
@@ -811,8 +846,9 @@ describe('rest api', () => {
       let size2 = 'small'
       let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
       let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-      await restApi.addOrder(userToken, flavors2, size2, type2)
-      await restApi.addOrder(userToken1, flavors, size, type)
+      let totalPrice = 12
+      await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
+      await restApi.addOrder(userToken1, flavors, size, type, totalPrice)
 
       const allUsersOrders = await restApi.retrieveAllUsersOrders()
       expect(allUsersOrders).toBeDefined()
@@ -833,13 +869,10 @@ describe('rest api', () => {
       }
     })
   })
-
-  describe('create event', () => {
-    it('should succeed creating an event', async () => {
-      const res = await restApi.registerUser(name, surname, email, password)
-      const _token = await restApi.authenticateUser(email, password)
-    })
+  afterAll(async () => {
+    await User.deleteMany()
+    await Order.deleteMany()
+    mongoose.disconnect()
   })
-
-  afterAll(() => mongoose.disconnect())
+  // afterAll(() => mongoose.disconnect())
 })

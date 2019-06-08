@@ -4,6 +4,7 @@ import logic from '../../logic'
 export function Events () {
   const [events, setEvents] = useState([])
   const [deletedEvent, setDeletedEvent] = useState(null)
+  const [disableButton, setDisableButton] = useState(false)
 
   useEffect(function () {
     async function getEvents () {
@@ -23,7 +24,8 @@ export function Events () {
   const deleteEvent = async (eventId) => {
     debugger
     await logic.deleteEvent(eventId)
-    setDeletedEvent(true)
+    setDeletedEvent(false)
+    setDisableButton(false)
   }
 
   return (
@@ -42,8 +44,9 @@ export function Events () {
                 <p>{e.description}</p>
                 <p>{e.id}</p>
               </div>
-              {logic.__userIsAdmin__ && <button className='button is-primary' onClick={(event) => {
+              {logic.__userIsAdmin__ && !disableButton && <button className='button is-primary' onClick={(event) => {
                 event.preventDefault()
+                setDisableButton(true)
                 deleteEvent(e.id)
               }}>delete event</button>}
             </article>

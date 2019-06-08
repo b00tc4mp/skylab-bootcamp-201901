@@ -185,5 +185,63 @@ describe('logic', () => {
     })
   })
 
-  afterAll(() => mongoose.disconnect())
+  describe('retrieve user', () => {
+    beforeEach(async () => { await logic.registerUser(name, surname, email, password) })
+
+    it('should succeed retrieving an existing user with correct id', async () => {
+      const _token = await logic.authenticateUser(email, password)
+      // let { sub } = jwt.decode(_token.token)
+
+      const _user = await logic.retrieveUserBy(_token.token)
+      // expect(_user.id).toBe(undefined)
+      expect(_user.name).toEqual(name)
+      expect(_user.surname).toEqual(surname)
+      expect(_user.email).toEqual(email)
+      expect(_user.password).toBe(undefined)
+    })
+
+    it('should fail retrieving an existing user with in-correct id', async () => {
+      const token = '64646446464644'
+      try {
+        await logic.retrieveUserBy(token)
+      } catch (error) {
+        expect(error.message).toEqual('jwt malformed')
+      }
+    })
+
+    it('should fail retrieving an existing user with in-correct id', async () => {
+      const token2 = ' \t    \n'
+      try {
+        await logic.retrieveUserBy(token2)
+      } catch (error) {
+        expect(error.message).toEqual('token is empty')
+      }
+    })
+
+    it('should fail retrieving an existing user with in-correct id', async () => {
+      const token3 = undefined
+      try {
+        await logic.retrieveUserBy(token3)
+      } catch (error) {
+        expect(error.message).toEqual('token is not optional')
+      }
+    })
+
+    it('should fail retrieving an existing user with in-correct id', async () => {
+      const token4 = ''
+      try {
+        await logic.retrieveUserBy(token4)
+      } catch (error) {
+        expect(error.message).toEqual('token is empty')
+      }
+    })
+  })
+
+  afterAll(async () => {
+    await User.deleteMany()
+    await Order.deleteMany()
+    mongoose.disconnect()
+  })
+
+  // afterAll(() => mongoose.disconnect())
 })
