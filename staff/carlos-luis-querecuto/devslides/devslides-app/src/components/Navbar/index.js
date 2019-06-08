@@ -6,7 +6,7 @@ import Login from '../Login'
 
 function Navbar({ history, onLogin, onLoginError }) {
 
-    const [toggleLogin, setToggleLogin] = useState(false)
+    const [togglenav, setToggleNav] = useState(false)
 
     const handleLogout = () => {
         logic.logoutUser()
@@ -20,14 +20,14 @@ function Navbar({ history, onLogin, onLoginError }) {
                     DEVSLIDES
                 </a>
 
-                <a role="button" class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                <a role="button" onClick={() => setToggleNav(!togglenav)} class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                     <span aria-hidden="true"></span>
                 </a>
             </div>
 
-            <div id="navbarBasicExample" class="navbar-menu">
+            <div id="navbarBasicExample" class={"navbar-menu"  + (togglenav ? "is-active" : "")}>
                 <div class="navbar-start">
                     <a class="navbar-item">
                         Home

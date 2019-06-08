@@ -59,6 +59,14 @@ router.put('/users', auth, (req, res) => {
         res)
 })
 
+router.get('/users/presentations', auth, (req, res) => {
+    const { userId } = req
+    handleErrors(async () => {
+        const presentations = await logic.retrievePresentations(userId)
+        return res.json(presentations)
+    },
+        res)
+}),
 
 router.post('/presentations', auth, (req, res) => {
     handleErrors(() => {

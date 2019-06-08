@@ -121,6 +121,27 @@ describe('logic', () => {
                 expect(_user.password).to.be.undefined
             })
         })
+
+        describe('retrieve presentations', () => {
+            let user
+
+            beforeEach(async () => user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) }))
+
+            it('should succeed on correct id from existing user', async () => {
+
+                const title1 = `title-${Math.random()}`
+                const title2 = `title-${Math.random()}`
+                await logic.createPresentation(user.id, title1)
+                await logic.createPresentation(user.id, title2)
+
+                const presentations = await logic.retrievePresentations(user.id)
+
+                expect(presentations).to.exist
+                expect(presentations[0].title).to.equal(title1)
+                expect(presentations[1].title).to.equal(title2)
+            })
+        })
+
         describe('update user', () => {
             let user
             beforeEach(async () => user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) }))

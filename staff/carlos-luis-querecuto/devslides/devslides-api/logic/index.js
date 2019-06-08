@@ -196,6 +196,22 @@ const logic = {
         })()
     },
 
+    retrievePresentations(id) {
+        return (async () => {
+            debugger
+            const presentations = []
+            const user = await User.findById(id).lean()
+            if (!user) throw Error(`User with ID ${id.toString()} does not exist`)
+            await Promise.all(
+                user.presentations.map(async presentationid => {
+                    const presentation = await Presentation.findById(presentationid).select('title').lean()
+                    presentations.push(presentation)
+                })
+            )
+            return presentations
+        })()
+    },
+
     retrievePresentation(user_id, presentationId) {
         validate.arguments([
             { name: 'user_id', value: user_id, type: 'string', notEmpty: true },
