@@ -53,7 +53,7 @@ function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, resolution
                 <div className="container-sidebar__bottom">
                     <ul className="uk-subnav uk-subnav-pill" data-uk-margin>
                         <li>
-                            <span className="" data-uk-icon="user"></span>
+                            <span className="container-sidebar__bottom--pointer" data-uk-icon="user"></span>
                             <div uk-dropdown="animation: uk-animation-slide-top-small; duration: 1000; pos: bottom-justify">
                                 <ul className="uk-nav uk-dropdown-nav">
                                     <li><p>You have logged in as:</p></li>
