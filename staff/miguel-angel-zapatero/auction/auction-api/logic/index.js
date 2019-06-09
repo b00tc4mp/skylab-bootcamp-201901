@@ -83,7 +83,7 @@ const logic = {
         ])
 
         return (async () => {
-            const user = await User.findById(id).select('-_id name surname email').lean()
+            const user = await User.findById(id).select('-_id name surname email avatar').lean()
     
             if(!user) throw new LogicError(`user with id "${id}" doesn't exist`)
 
@@ -96,6 +96,8 @@ const logic = {
      * 
      * @param {String} id The user id
      * @param {Object} data The fields to update de user data
+     * 
+     * @return {Object} The user data
      */
     updateUser(id, data) {
         validate.arguments([
@@ -105,7 +107,7 @@ const logic = {
 
         const { name, surname, email, password } = data
 
-        validate.email(email)
+        if(email) validate.email(email)
 
         return (async () => {
             const user = await User.findById(id)
@@ -121,8 +123,12 @@ const logic = {
                 password: password ? bcrypt.hashSync(password, 10) : user.password
             }
             
-            await User.findByIdAndUpdate(id, data)
+            return await User.findByIdAndUpdate(id, data, {new: true}).select('-_id name surname email avatar').lean()
         })()
+    },
+
+    updateUserAvatar() {
+        //TODO
     },
 
     /**
@@ -154,9 +160,55 @@ const logic = {
         })()
     },
 
-    //NO SE SI ES NECESARIA¿??¿?¿?¿
-    retriveUserItemBids() {
+    retrieveUserItems(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: String, notEmpty: true }
+        ])
 
+        return (async() => {
+            const {items} = await User.findById(id).select('items').lean()
+            
+            return items
+        })()
+    },
+
+    /**
+     * Retrieve only the user bids from the item with the given userId
+     * 
+     * @param {*} itemId The item id
+     * @param {*} userId The user id
+     * 
+     * @return {Object} the item with the user bids filtered
+     */
+    retriveUserItemBids(itemId, userId) {
+        validate.arguments([
+            { name: 'itemId', value: itemId, type: String, notEmpty: true },
+            { name: 'userId', value: userId, type: String, notEmpty: true }
+        ])
+
+        return(async() => {
+            const user = await User.findById(userId)
+            if(!user) throw new LogicError(`user with id "${userId}" doesn't exist`)
+
+            const item = await Item.findById(itemId)
+            if(!item) throw new LogicError(`item with id "${itemId}" doesn't exist`)
+
+            const [itemUserBids] = await Item.aggregate([
+                { $match: {"_id": ObjectId(itemId) }},
+                { $project: { "_id": 0, "title": 1 ,"images": 1, "bids": { 
+                    $filter: {
+                        "input": "$bids",
+                        "as": "bid",
+                        "cond": { $eq: ["$$bid.userId", ObjectId(userId)]} 
+                }}}}
+            ])
+
+            itemUserBids.bids.forEach(item => {
+                delete item._id
+            })
+
+            return itemUserBids
+        })()
     },
 
     /**
@@ -290,6 +342,9 @@ const logic = {
         })()
     },
 
+    //ESTA YA NO LA NECESITO PORQUE CON LA DE retrieveItemBids tengo todos los datos!!!
+    //Preguntar a Manu para eliminar esta función o no?¿??¿??¿¿? o tengo que hacer
+    // 2 llamadas?¿ 1 para los datos del item y la otra para los datos de los bids?¿¿?
     /**
      * Retrieve an item with the given item id
      * 
@@ -308,6 +363,10 @@ const logic = {
             item.id = item._id
             delete item._id
 
+            item.bids.forEach(item => {
+                delete item._id
+            })
+
             return item
         })()
     },
@@ -318,7 +377,7 @@ const logic = {
      * @param {String} itemId The item id
      * @param {String} userId The user id
      * 
-     * @returns {Array} The item bids 
+     * @returns {Object} The item with all your bids 
      */
     retrieveItemBids(itemId, userId) {
         validate.arguments([
@@ -330,15 +389,22 @@ const logic = {
             const user = await User.findById(userId)
             if(!user) throw new LogicError(`user with id "${userId}" doesn't exist`)
 
+            //YA LO HE ARREGLADO PERO HABLAR CON MANU PARA MIRAR SI ES CORRECTO!!!
             const item = await Item.findById(itemId)
             if(!item) throw new LogicError(`item with id "${itemId}" doesn't exist`)
 
             const bids = await Item.findById(itemId)
+                .select("-_id -__v -images -city -category -title -description -bids._id")
                 .populate({
                     path: 'bids.userId',
                     model: 'User',
-                    select: 'name -_id'
+                    select: 'name avatar'
                 }).lean()
+ 
+            bids.bids.forEach(bid => {
+                bid.userId.id = bid.userId._id
+                delete bid.userId._id
+            })
 
             return bids
         })()

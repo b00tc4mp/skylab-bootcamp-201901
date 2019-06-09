@@ -45,9 +45,9 @@ router.put('/users/update', jsonParser, auth, (req, res) => {
     const { userId, body } = req
     
     handleErrors(async () => {
-        await logic.updateUser(userId, body)
+        const user = await logic.updateUser(userId, body)
         
-        return res.status(201).json({ message: 'Ok, user updated.' })
+        return res.json(user)
     }, res)
 })
 
@@ -58,6 +58,26 @@ router.delete('/users/delete', jsonParser, auth, (req, res) => {
         await logic.deleteUser(userId, email, password)
 
         return res.json({ message: 'Ok, user deleted.' })
+    }, res)
+})
+
+router.get('/users/items', auth, (req, res) => {
+    const { userId } = req
+
+    handleErrors(async () => {
+        const userItems = await logic.retrieveUserItems(userId)
+        
+        return res.json(userItems)
+    }, res)
+})
+
+router.get('/users/items/bids', jsonParser, auth, (req, res) => {
+    const { userId, body: { itemId } } = req
+
+    handleErrors(async () => {
+        const userItemBids = await logic.retriveUserItemBids(itemId, userId)
+        
+        return res.json(userItemBids)
     }, res)
 })
 
