@@ -1,6 +1,7 @@
 import React, { useContext } from 'react'
 import './index.sass'
 import Feedback from '../Feedback'
+import Logo from "../Logo"
 import { GameContext } from '../GameContext'
 
 function Register({ onSignUp }) {
@@ -21,6 +22,7 @@ function Register({ onSignUp }) {
     }
 
     return <section className="register">
+        <Logo sizeX={"20%"} sizeY={"100%"} main={true} />
         <h2>Register</h2>
         <form onSubmit={handleSubmit}>
             <input type="text" name="nickname" placeholder="Nickname" />

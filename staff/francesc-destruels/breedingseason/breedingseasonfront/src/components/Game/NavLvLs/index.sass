@@ -1,9 +1,19 @@
 .NavLvL
-
+    grid-area: NavLvL
+    display: flex
+    justify-content: space-around
+    
     &__Points
+        display: grid
+        grid-template-rows: 40% 60%
+        grid-template-areas: "A" "B"
         border: 1px solid black
-        height: 50%
-        width: 10%
+        background-color: white
+        height: 70%
+        width: 100%
+        align-self: flex-end
+        justify-content: center
+        
 
     &--Clickable
         background-color: green
@@ -11,3 +21,13 @@
     &--Danger
         background-color: red
     
+    &__Level
+        grid-area: B 
+        justify-self: center
+        font-size: 2em
+
+    &__Element
+        grid-area: A
+        justify-self: center
+        align-self: center
+        font-size: 1.8em

@@ -47,8 +47,7 @@ function PenguinsMap({ send }) {
                 <Penguin position={[1, 4]} />
                 <Penguin position={[1, 5]} />
                 <div className={clickable[0] ? "penguinMap__Foc penguinMap__Foc--Clickable" : "penguinMap__Foc"}>
-                    {/* <p>LvL: {puntuation.SecurityLvL[1]}</p> */}
-                    <img height="200p" src={foc} onClick={clickable[0] ? () => handleSecurity(1) : null} />
+                    <img  className="penguinMap__Foc--img" src={foc} onClick={clickable[0] ? () => handleSecurity(1) : null} />
                 </div>
             </div>
 
@@ -60,8 +59,7 @@ function PenguinsMap({ send }) {
                 <Penguin position={[2, 4]} />
                 <Penguin position={[2, 5]} />
                 <div className={clickable[1] ? "penguinMap__Foc penguinMap__Foc--Clickable" : "penguinMap__Foc"}>
-                    {/* <p>LvL: {puntuation.SecurityLvL[2]}</p> */}
-                    <img height="200vp" src={foc} onClick={clickable[1] ? () => handleSecurity(1) : null} />
+                    <img  className="penguinMap__Foc--img" src={foc} onClick={clickable[1] ? () => handleSecurity(2) : null} />
                 </div>
             </div>
 
@@ -74,12 +72,11 @@ function PenguinsMap({ send }) {
                 <Penguin position={[3, 5]} />
                 <Penguin position={[3, 6]} />
                 <div className={clickable[2] ? "penguinMap__Foc penguinMap__Foc--Clickable" : "penguinMap__Foc"}>
-                    {/* <p>LvL: {puntuation.SecurityLvL[3]}</p> */}
-                    <img  height="200vp" src={foc} onClick={clickable[2] ? () => handleSecurity(1) : null} />
+                    <img className="penguinMap__Foc--img" src={foc} onClick={clickable[2] ? () => handleSecurity(3) : null} />
                 </div>
             </div>
 
-            <div>
+            <div className="penguinMap__Buttons">
                 <button onClick={PenguinTurn ? () => send() : () => { "Nothing to send" }}>Send</button>
                 <button onClick={() => {
                     setPenguinTurn(false)

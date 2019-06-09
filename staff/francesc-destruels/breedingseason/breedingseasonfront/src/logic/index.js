@@ -130,9 +130,9 @@ const logic = {
         const response = await restApi.gameAction(this.__userToken__, this.__ActualGame__, gamePlay, updatedAmount)
 
         if (response) {
-            console.log(response)
-            return response
-        }
+             if(response.turnCards) return { ...response, continue: true}
+             else return response
+        } else throw LogicError("Not response from the server")
 
     },
 
@@ -158,7 +158,6 @@ const logic = {
                         Four++
                         break
                     default:
-                        console.log("Algo raro paaaaasaaa")
                         break
                 }
             }
@@ -190,19 +189,17 @@ const logic = {
 
         if (toCheck[0] !== 0) {
             let can = true
-            console.log(map)
 
             switch (resource) {
                 case "love":
                     return ((toCheck[0] < 4) && (toCheck[2] === false)) ? true : false
 
                 case "glue":
-                
+
                     if (toCompare === 1 || toCompare === 0) return false
                     else {
 
                         for (let i = 0; i < map[position[0]].length; i++) {
-                            console.log(position[1], map[position[0]][i][1], toCompare)
                             if (i < position[1] && map[position[0]][i][1] === toCompare - 1) return false
                             else if (i >= position[1]) break
                             else continue
@@ -226,16 +223,85 @@ const logic = {
 
     },
 
-    __isSecurityAvailable__(number, toCompare, maximum) {
+    __isCompleted__(map, puntuation, mission) {
+        let ohNo = { toComplete: false }
+        let toHatch = []
 
-        console.log(number, toCompare, maximum, toCompare[number] < maximum[number].length)
+        switch (mission[0][0]) {
+            case "tools":
+                if (puntuation.ToolsUsed >= mission[0][1]) return { toComplete: true, type: "tools" }
+                else return ohNo
+            case "Security[1]":
+                if (puntuation.SecurityLvL[1] >= mission[0][1]) return { toComplete: true, type: "security" }
+                else return ohNo
+            case "Security[2]":
+                if (puntuation.SecurityLvL[2] >= mission[0][1]) return { toComplete: true, type: "security" }
+                else return ohNo
+            case "Security[3]":
+                if (puntuation.SecurityLvL[3] >= mission[0][1]) return { toComplete: true, type: "security" }
+                else return ohNo
+
+            case "1EGG":
+                if (puntuation.OneEggNestAmount >= mission[0][1]) {
+                    for (let j = 1; j <= 3 && toHatch.length < mission[0][1]; j++) {
+                        for (let i = 0; i < map[j].length && toHatch.length < mission[0][1]; i++) {
+                            if (map[j][i][0] === 1) {
+                                toHatch.push({ row: j, column: i })
+                            }
+                        }
+                    }
+
+                    return { toComplete: true, toHatch, type: "love" }
+                } else return ohNo
+
+            case "2EGG":
+                if (puntuation.TwoEggNestAmount >= mission[0][1]) {
+                    for (let j = 1; j <= 3 && toHatch.length < mission[0][1]; j++) {
+                        for (let i = 0; i < map[j].length && toHatch.length < mission[0][1]; i++) {
+                            if (map[j][i][0] === 1) {
+                                toHatch.push({ row: j, column: i })
+                            }
+                        }
+                    }
+
+                    return { toComplete: true, toHatch, type: "love" }
+                } else return ohNo
+
+            case "3EGG":
+                if (puntuation.ThreeEggNestAmount >= mission[0][1]) {
+                    for (let j = 1; j <= 3 && toHatch.length < mission[0][1]; j++) {
+                        for (let i = 0; i < map[j].length && toHatch.length < mission[0][1]; i++) {
+                            if (map[j][i][0] === 1) {
+                                toHatch.push({ row: j, column: i })
+                            }
+                        }
+                    }
+                    return { toComplete: true, toHatch, type: "love" }
+
+                } else return ohNo
+
+
+            case "4EGG":
+                if (puntuation.FourEggNestAmount >= mission[0][1]) {
+                    for (let j = 1; j <= 3 && toHatch.length < mission[0][1]; j++) {
+                        for (let i = 0; i < map[j].length && toHatch.length < mission[0][1]; i++) {
+                            if (map[j][i][0] === 1) {
+                                toHatch.push({ row: j, column: i })
+                            }
+                        }
+                    }
+
+                    return { toComplete: true, toHatch, type: "love" }
+                } else return ohNo
+        }
+    },
+
+    __isSecurityAvailable__(number, toCompare, maximum) {
         return toCompare[number] < maximum[number].length - 1 ? true : false
 
     },
 
     __isUpgradeAvailable__(toCompare, maximum) {
-
-        console.log(toCompare, maximum, toCompare < maximum.length)
         return toCompare < maximum.length - 1 ? true : false
 
     },

@@ -7,7 +7,7 @@ import { GameContext } from "../../GameContext"
 function NavLvLs({ send }) {
 
     const { puntuation, setPuntuation, ActionToUse, setActionUsed, ActionUsed, setActionTurn } = useContext(GameContext)
-    const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, FishingRodUsed, StrikeLvL, puntuationSchema } = puntuation
+    const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, StrikeLvL, puntuationSchema } = puntuation
 
     const [clickable, setClickable] = useState(false)
 
@@ -53,34 +53,29 @@ function NavLvLs({ send }) {
 
     return (
         <div className="Game__NavLvL NavLvL">
-            <h4>Levels</h4>
             <div className={clickable[0] ? 'NavLvL__Points NavLvL--Clickable' : "NavLvL__Points"} onClick={clickable[0] ? () => { handleClick("One") } : null}>
-                <p>1Egg Nest</p>
-                <p>{OneEggNestLvL}/1</p>
+                <h4 className={"NavLvL__Element"}>1Egg <br /> Nest</h4>
+                <p className={"NavLvL__Level"}>{OneEggNestLvL}/1</p>
             </div>
             <div className={clickable[1] ? 'NavLvL__Points NavLvL--Clickable' : "NavLvL__Points"} onClick={clickable[1] ? () => { handleClick("Two") } : null}>
-                <p>2Egg Nest</p>
-                <p>{TwoEggNestLvL}/2</p>
+                <h4 className={"NavLvL__Element"}>2Egg <br /> Nest</h4>
+                <p className={"NavLvL__Level"}>{TwoEggNestLvL}/2</p>
             </div>
             <div className={clickable[2] ? 'NavLvL__Points NavLvL--Clickable' : "NavLvL__Points"} onClick={clickable[2] ? () => { handleClick("Three") } : null}>
-                <p>3Egg Nest</p>
-                <p>{ThreeEggNestLvL}/3</p>
+                <h4 className={"NavLvL__Element"}>3Egg <br /> Nest</h4>
+                <p className={"NavLvL__Level"}>{ThreeEggNestLvL}/3</p>
             </div>
-            <div className={clickable[3] ? 'NavLvL__Points NavLvL--Clickable' : "NavLvL__Points"} onClick={clickable[0] ? () => { handleClick("Four") } : null}>
-                <p>4Egg Nest</p>
-                <p>{FourEggNestLvL}/3</p>
+            <div className={clickable[3] ? 'NavLvL__Points NavLvL--Clickable' : "NavLvL__Points"} onClick={clickable[3] ? () => { handleClick("Four") } : null}>
+                <h4 className={"NavLvL__Element"}>4Egg <br /> Nest</h4>
+                <p className={"NavLvL__Level"}>{FourEggNestLvL}/3</p>
             </div>
-            <div className="NavLvL__Points">
-                <p>Tools</p>
-                <p>{ToolsUsed}</p>
-            </div>
-            <div className="NavLvL__Points" >
-                <p>F.Rod</p>
-                <p>{FishingRodUsed}/5</p>
+            <div className="NavLvL__Points NavLvL__Tool">
+                <h4 className={"NavLvL__Element"}>Tools</h4>
+                <p className={"NavLvL__Level"}>{ToolsUsed}</p>
             </div>
             <div className={StrikeLvL === 2 ? 'NavLvL__Points NavLvL--Danger' : "NavLvL__Points"}>
-                <p>Strikes</p>
-                <p>{StrikeLvL}/3 End Game!</p>
+                <h4 className={"NavLvL__Element"}>Strikes</h4>
+                <p className={"NavLvL__Level"}>{StrikeLvL}</p>
             </div>
         </div>)
 }

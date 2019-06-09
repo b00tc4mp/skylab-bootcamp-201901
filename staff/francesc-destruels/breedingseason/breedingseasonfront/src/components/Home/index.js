@@ -35,8 +35,6 @@ function Home({ history }) {
     }
 
     const handleToSoloGame = async () => {
-        await logic.newGame({ mode: "solo", playersNumber: 1 }, true)
-
         history.push('/home/Game')
     }
 
@@ -49,7 +47,7 @@ function Home({ history }) {
             <Route exact path="/home" render={() =>
 
                 <div>
-                    <Logo sizeX={"150px"} sizeY={"150px"} />
+                    <Logo sizeX={"20%"} sizeY={"100%"} main={true} />
                     <p>Welcome Hell {Nickname.nickname}!</p>
                     <button onClick={handleToUser}>
                         User Data
