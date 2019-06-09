@@ -76,6 +76,21 @@ const logic = {
         })()
     },
 
+    deletePresentation(presentationId) {
+        validate.arguments([
+            { name: 'presentationId', value: presentationId, type: 'string' }
+        ])
+
+        return (async () => {
+            try {
+                await api.deletePresentation(this.__userToken__, presentationId)
+            }
+            catch (error) {
+                throw error
+            }
+        })()
+    },
+
     retrievePresentations() {
         return (async () => {
             try {

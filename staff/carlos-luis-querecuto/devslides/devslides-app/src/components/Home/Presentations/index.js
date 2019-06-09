@@ -1,18 +1,30 @@
 import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Switch } from 'react-router-dom'
 //import IntroLanding from './IntroLanding'
-import logic from '../../../logic'
-import './index.sass'
 import PresentationCard from './PresentationCard';
+import tippy from 'tippy.js'
+import 'tippy.js/themes/light.css'
+import './index.sass'
 
+import logic from '../../../logic'
 
 function Presentations() {
 
-
-    const [createToggle, setCreateToggle] = useState(false)
     const [cards, setCards] = useState(null)
 
     useEffect(() => {
+
+        const template = document.querySelector('#presentationForm')
+
+        tippy('#createPresentation', {
+            content: template,
+            animation: 'fade',
+            placement: 'bottom',
+            theme: 'light',
+            trigger: 'click',
+            interactive: true,
+        })
+
         async function retrieve() {
             const presentations = await logic.retrievePresentations()
             console.log(presentations.length)
@@ -24,6 +36,7 @@ function Presentations() {
 
     const handleCreate = async (e) => {
         e.preventDefault()
+        console.log(e.title)
 
         const {
             title: { value: title },
@@ -31,7 +44,16 @@ function Presentations() {
         try {
             await logic.createPresentation(title)
             setCards(await logic.retrievePresentations())
-            setCreateToggle(!createToggle)
+        }
+        catch (error) {
+            console.log(error)
+        }
+    }
+
+    const handleDelete = async (id) => {
+        try {
+            await logic.deletePresentation(id)
+            setCards(await logic.retrievePresentations())
         }
         catch (error) {
             console.log(error)
@@ -41,31 +63,29 @@ function Presentations() {
 
 
     return (<section >
-        {createToggle ?
-            <form class="breadcrumb is-centered" aria-label="breadcrumbs" onSubmit={handleCreate} >
-                <div class="field is-horizontal" onClick={e => { e.preventDefault(); setCreateToggle(false) }}>
-                    <div class="field-label is-normal">
-                        <label class="label">Title</label>
-                    </div>
-                    <div class="field-body">
-                        <div class="field">
-                            <p class="control" onClick={e => e.stopPropagation()}>
-                                <input class="input" name="title" />
-                            </p>
-                        </div>
-                    </div>
-                    <div>
-                        <button onClick={e => e.stopPropagation()} class="button is-primary">Create</button>
+        <form id="presentationForm" class="breadcrumb is-centered" aria-label="breadcrumbs" onSubmit={e => handleCreate(e)} >
+            <div class="field is-horizontal" >
+        
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control">
+                            <input class="input" name="title" />
+                        </p>
                     </div>
                 </div>
-            </form>
-            :
-            <a onClick={e => { e.preventDefault(); setCreateToggle(true) }} href="#">
-                Create Presentation
-        </a>}
+                <div>
+                    <button class="button is-primary">Create</button>
+                </div>
+            </div>
+        </form>
+        <nav class="level">
+            <p class="level-item has-text-centered">
+                <a id="createPresentation"  class="button is-primary">Create Presentation</a>
+            </p>
+        </nav>
         <div class="breadcrumb is-centered">
             <section class="container">
-                {!cards ? <div></div> : cards.length > 0 ? <PresentationCard presentations={cards} /> : "No presentations"}
+                {!cards ? <div></div> : cards.length > 0 ? <PresentationCard presentations={cards} deletepresentation={handleDelete} /> : "No presentations"}
             </section>
         </div>
     </section>)

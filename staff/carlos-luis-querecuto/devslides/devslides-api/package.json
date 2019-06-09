@@ -5,6 +5,7 @@
   "main": "index.js",
   "dependencies": {
     "bcrypt": "^3.0.6",
+    "cors": "^2.8.5",
     "devslides-data": "file:../devslides-data",
     "dotenv": "^8.0.0",
     "esm": "^3.2.25",

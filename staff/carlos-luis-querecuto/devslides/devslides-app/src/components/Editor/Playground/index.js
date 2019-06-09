@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react'
 import Element from './Element'
-import './index.sass'
+import { Carousel } from 'react-responsive-carousel'
+import 'tippy.js/themes/light.css'
+import tippy from 'tippy.js'
+
 import 'react-responsive-carousel/lib/styles/carousel.css'
-var ReactDOM = require('react-dom');
-var Carousel = require('react-responsive-carousel').Carousel;
+
+import './index.sass'
 
 function Playground() {
     const [domlist, setDomlist] = useState([])
@@ -12,8 +15,17 @@ function Playground() {
         const basic = <Element key={domlist.length} />
         setDomlist(domlist.concat(basic))
     }
-    useEffect(() => {
 
+    useEffect(() => {
+        const template = document.querySelector('.slideForm')
+        tippy('.createSlide', {
+            content: template,
+            animation: 'fade',
+            placement: 'bottom',
+            theme: 'light',
+            trigger: 'click',
+            interactive: true,
+        })
 
     }, []);
 
@@ -31,8 +43,8 @@ function Playground() {
                         Element
                     </a>
 
-                    <a class="navbar-item" >
-                        Slides
+                    <a class="createSlide navbar-item" >
+                        Slide
                     </a>
                 </div>
             </div>
@@ -42,7 +54,7 @@ function Playground() {
             useKeyboardArrows
             className="presentation-mode"
         >
-            <div className="my-slide secondary complex">
+            <div className="my-slide primary complex">
                 <div className="manager">
                     {domlist}
                 </div>
@@ -52,13 +64,27 @@ function Playground() {
                     {domlist}
                 </div>
             </div>
-
         </Carousel>
-
         {/* <div className="manager">
             {domlist}
         </div> */}
-
+        <form class="slideForm breadcrumb is-centered" aria-label="breadcrumbs" onSubmit={handleCreate} >
+            <div class="field is-horizontal" >
+                <div class="field-label is-normal">
+                    <label class="label">Title</label>
+                </div>
+                <div class="field-body">
+                    <div class="field">
+                        <p class="control">
+                            <input class="input" name="title" />
+                        </p>
+                    </div>
+                </div>
+                <div>
+                    <button class="button is-primary">Create</button>
+                </div>
+            </div>
+        </form>
     </>
     );
 

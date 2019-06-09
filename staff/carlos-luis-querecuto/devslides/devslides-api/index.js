@@ -2,7 +2,8 @@ const dotenv = require('dotenv')
 const express = require('express')
 const package = require('./package.json')
 const routes = require('./routes')
-const cors = require('./routes/cors')
+/* const cors = require('./routes/cors') */
+const cors = require('cors')
 const bodyParser = require('body-parser')
 
 const jsonParser = bodyParser.json()
@@ -16,7 +17,7 @@ mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false, useCreat
 
 const app = express()
 
-app.use(cors)
+app.use(cors())
 
 app.use(jsonParser)
 
