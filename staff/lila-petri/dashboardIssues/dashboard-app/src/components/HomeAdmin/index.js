@@ -6,7 +6,7 @@ import './index.sass'
 import { withRouter } from 'react-router-dom'
 
 class HomeAdmin extends Component{
-    state = { visibleLoad: true , visibleSave: true, loading: false, loadingSave: false, loadingLoad: false, error: null}
+    state = { visibleLoad: true , visibleSave: true, loading: false, loadingSave: false, loadingLoad: false}
 
     handlerLoad = async () => {
         try{
@@ -37,7 +37,7 @@ class HomeAdmin extends Component{
 
     render(){
         const {
-            props: {onLogout, error},
+            props: {onLogout},
             state: {loading, loadingSave, loadingLoad, visibleLoad, visibleSave},
             handlerLoad,
             handlerSavingData

@@ -53,16 +53,14 @@ function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, resolution
                 <div className="container-sidebar__bottom">
                     <ul className="uk-subnav uk-subnav-pill" data-uk-margin>
                         <li>
-                            <a href="#">
-                                <span className="" data-uk-icon="user"></span>
-                            </a>
+                            <span className="" data-uk-icon="user"></span>
                             <div uk-dropdown="animation: uk-animation-slide-top-small; duration: 1000; pos: bottom-justify">
                                 <ul className="uk-nav uk-dropdown-nav">
                                     <li><p>You have logged in as:</p></li>
                                     <li><p>{user.name} {user.surname} - {user.country}</p></li>
                                     <li><p>Product Expert</p></li>
                                     <li className="uk-nav-divider"></li>
-                                    <li><a className="uk-nav-header" href="" onClick={goProfile}>Profile</a></li>
+                                    <li><a className="uk-nav-header" href="#/profile" onClick={goProfile}>Profile</a></li>
                                     <li><a href="#" onClick={onLogout}>Logout</a></li>
                                 </ul>
                             </div>
