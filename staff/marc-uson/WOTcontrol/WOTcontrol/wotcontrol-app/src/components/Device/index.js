@@ -14,32 +14,41 @@ function Device({
     onDoutChange,
     onMotorChange,
     onServoChange,
-    retrieveInputs
+    retrieveInputs,
+    analogData,
+    din1Data,
+    din2Data,
+    onDeviceRefresh
 }) {
 
     useEffect(() => {
-        console.log(timeInterval)
-        if(timeInterval > 1000){
-            const interval = timeInterval
-            const retrieveInterval = setInterval(async () => {
-                console.log('interval')
-                retrieveInputs()
-            }, interval);
-            return () => clearInterval(retrieveInterval)
-        }
+        let interval
+        if(timeInterval > 1000) interval = timeInterval
+        else interval = 1000
+        const retrieveInterval = setInterval(async () => {
+            retrieveInputs()
+        }, interval);
+        return () => clearInterval(retrieveInterval)
+        
 
-    }, [timeInterval]);
+    }, [timeInterval, device]);
 
-    const deleteDevice = (name) =>{
+    const deleteDevice = () => {
         Uikit.modal('#delete-modal').hide();
-        onDeviceDelete(name)
+        onDeviceDelete(device.name)
+    }
+
+    const refreshDevice = (e) => {
+        e.preventDefault()
+        Uikit.modal('#refresh-modal').hide();
+        onDeviceRefresh(device.name, e.target.time.value)
     }
 
     return <div>
-        <div className="uk-container uk-text-center uk-height-1-1 uk-width-1-1 uk-padding-remove-horizontal uk-padding-remove-bottom" >
+        <div className="uk-container uk-text-center uk-height-1-1 uk-width-1-1 uk-padding-remove-horizontal uk-padding-remove-bottom uk-margin-remove" >
             <div className='uk-flex uk-flex-middle uk-flex-between'>
                 <div>
-                    <a ><span className="uk-padding uk-icon-link" data-uk-icon="future"></span></a>
+                    <a data-uk-toggle="target: #refresh-modal"><span className="uk-padding uk-icon-link" data-uk-icon="future"></span></a>
                 </div>
                 <div>
                     <h2 className='uk-padding-remove uk-margin-remove-bottom'>{device.name}</h2>
@@ -64,6 +73,7 @@ function Device({
                         <DAnalog
                             deviceName={device.name}
                             values={device.inputs[2].values}
+                            analogData={analogData}
                         />
                     </div>
                 </div>
@@ -88,7 +98,7 @@ function Device({
                         <Din
                             deviceName={device.name}
                             pinNumber={1}
-                            values={device.inputs[0].values}
+                            dinData={din1Data}
                         />
                     </div>
                     <div>
@@ -111,7 +121,7 @@ function Device({
                         <Din
                             deviceName={device.name}
                             pinNumber={2}
-                            values={device.inputs[1].values}
+                            dinData={din2Data}
                         />
                     </div>
                 </div>
@@ -123,8 +133,22 @@ function Device({
                 <p>Are you sure to delete the current device?</p>
                 <p className="uk-text-right">
                     <button className="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
-                    <button className="uk-button uk-button-danger" type="button" onClick={() => deleteDevice(device.name)} >delete</button>
+                    <button className="uk-button uk-button-danger" type="button" onClick={() => deleteDevice()} >delete</button>
                 </p>
+            </div>
+        </div>
+
+        <div id="refresh-modal" data-uk-modal>
+            <div className="uk-modal-dialog uk-modal-body">
+                <h2 className="uk-modal-title">Refresh device</h2>
+                <form  onSubmit={event => refreshDevice(event)}>
+                    <label className="uk-form-label" >time interval: </label>
+                    <input className="uk-input uk-form-small uk-form-width-small" type="text" name="time" placeholder='time interval' />
+                    <p className="uk-text-right">
+                        <button className="uk-button uk-button-default uk-modal-close" type="button" >Cancel</button>
+                        <button className="uk-button uk-button-primary">Update</button>
+                    </p>
+                </form>
             </div>
         </div>
     </div>

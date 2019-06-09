@@ -9,6 +9,7 @@ import './App.sass'
 import Uikit from 'uikit/dist/js/uikit.min.js'
 import 'uikit/dist/js/uikit.min.js'
 import 'uikit/dist/js/uikit-icons.min.js'
+import { anyTypeAnnotation } from "@babel/types";
 
 function App(props) {
     const [user, setUser] = useState(null)
@@ -133,7 +134,6 @@ function App(props) {
     }
 
     const handleSetMotor= async(name, pin, speed) => {
-        console.log(name, pin, speed)
         const _pin = Number(pin)
         const _speed = Number(speed)
         try {
@@ -148,7 +148,8 @@ function App(props) {
         const _pin= Number(pin)
         const _angle = Number(angle)
         try {
-            const response = await logic.setServo(name, _pin, _angle)
+            const angle = await logic.setServo(name, _pin, _angle)
+
             handleUpdate()
         } catch (error) {
             Uikit.notification({ message: error.message, status: 'danger' })
@@ -157,15 +158,27 @@ function App(props) {
 
     const handleRetrieveInputs = async () => {
         try {
+            await logic.checkDevice(device.ip, device.port)
             const analogInput = await logic.retrieveAnalog(device.name)
             const digitalInput1 = await logic.retrieveDigital(device.name, 1)
             const digitalInput2 = await logic.retrieveDigital(device.name, 2)
+            const value1 = digitalInput1[digitalInput1.length -1]
+            const value2 = digitalInput2[digitalInput2.length -1]
             setAnalogVal(analogInput)
-            setDigital1Val(digitalInput1)
-            setDigital2Val(digitalInput2)
-            console.log(digitalInput1)
-            console.log(digitalInput2)
-            console.log(analogInput)
+            setDigital1Val(value1)
+            setDigital2Val(value2)
+        } catch (error) {
+            Uikit.notification({ message: error.message, status: 'danger' })
+            setDeviceStatus('OFF')
+        }
+    }
+
+    const handleRefreshDevice = async (name) => {
+        try {
+            await logic.renameDevice(name, name)
+            await logic.changeDeviceTime(name, interval)
+            await handleRetrieveDevice(name)
+            Uikit.notification({ message: `Device ${name} succesfully refreshed`, status: 'succes' })
         } catch (error) {
             Uikit.notification({ message: error.message, status: 'danger' })
         }
@@ -211,9 +224,13 @@ function App(props) {
                         onDeviceAdd={handleDeviceAdd}
                         onDeviceDelete={handleDeviceDelete}
                         onDeviceSelect={handleRetrieveDevice}
+                        onDeviceRefresh={handleRefreshDevice}
                         onDoutChange={handleToggleDout}
                         onMotorChange={handleSetMotor}
                         onServoChange={handleSetServo}
+                        analogData={analogVal}
+                        din1Data={Digital1Val}
+                        din2Data={Digital2Val}
                     />
                     : <Redirect to="/" />}
             />

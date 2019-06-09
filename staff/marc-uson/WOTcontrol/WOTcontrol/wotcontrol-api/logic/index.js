@@ -614,7 +614,7 @@ const logic = {
                 let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
                 if (users.length == 0) throw new LogicError(`A device named ${deviceName} does not exist in your collection`)
 
-                const device = users[0].devices.filter(({ name }) => name == deviceName)
+                const device = user.devices.filter(({ name }) => name == deviceName)
 
                 const inputIndex = device[0].inputs.findIndex(({ type }) => (type == 'analog'))
 
@@ -654,7 +654,7 @@ const logic = {
                 let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
                 if (users.length == 0) throw new LogicError(`A device named ${deviceName} does not exist in your collection`)
 
-                const device = users[0].devices.filter(({ name }) => name == deviceName)
+                const device = user.devices.filter(({ name }) => name == deviceName)
 
                 const inputIndex = device[0].inputs.findIndex(({ type, direction }) => (type == 'digital') && (direction == pinNumber))
 
@@ -689,7 +689,7 @@ const logic = {
                 let users = await Users.find({ $and: [{ _id: id }, { 'devices.name': deviceName }] })
                 if (users.length == 0) throw new LogicError(`A device named ${deviceName} does not exist in your collection`)
 
-                const device = users[0].devices.filter(({ name }) => name == deviceName)
+                const device = user.devices.filter(({ name }) => name == deviceName)
 
                 const inputIndex = device[0].inputs.findIndex(({ type }) => (type == 'analog'))
 

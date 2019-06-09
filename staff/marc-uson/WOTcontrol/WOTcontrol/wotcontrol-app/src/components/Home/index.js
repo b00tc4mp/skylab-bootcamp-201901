@@ -8,6 +8,9 @@ function Home({
     device,
     deviceStatus,
     timeInterval,
+    analogData,
+    din1Data,
+    din2Data,
     retrieveInputs,
     onLogout,
     onUserUpdate,
@@ -17,7 +20,8 @@ function Home({
     onDeviceSelect,
     onDoutChange,
     onMotorChange,
-    onServoChange
+    onServoChange,
+    onDeviceRefresh
 }) {
 
     return <main >
@@ -33,11 +37,15 @@ function Home({
             device={device}
             deviceStatus={deviceStatus}
             onDeviceDelete={onDeviceDelete}
+            onDeviceRefresh={onDeviceRefresh}
             timeInterval={timeInterval}
             retrieveInputs={retrieveInputs}
             onDoutChange={onDoutChange}
             onMotorChange={onMotorChange}
             onServoChange={onServoChange}
+            analogData={analogData}
+            din1Data={din1Data}
+            din2Data={din2Data}
         />}
         {!device && <h1 className='uk-position-center'>Please, select any device</h1>}
     </main>

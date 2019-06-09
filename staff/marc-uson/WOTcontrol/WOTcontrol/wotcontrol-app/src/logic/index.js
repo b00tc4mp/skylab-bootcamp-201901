@@ -109,9 +109,10 @@ const logic = {
                 const response = await restApi.checkDevice(this.__userToken__, deviceIp, devicePort)
                 return response
             } catch (error) {
-                if ((error == 'Connection refused') || (error.message == 'Connection timed out'))
+                if ((error == 'Connection refused') || (error.message == 'Connection timed out')||(error.includes('ENOTFOUND')))
                 throw new LogicError(`Can't find any device with ip: ${deviceIp} and port: ${devicePort}`)
-                else throw new LogicError(error)
+                else {console.log(error)
+                throw new LogicError(error)}
             }
         })()
     },
@@ -238,11 +239,9 @@ const logic = {
             { name: 'pinNumber', value: pinNumber, type: 'number', notEmpty: true },
             { name: 'angle', value: angle, type: 'number', notEmpty: true }
         ])
-        console.log('entra')
         return (async () => {
             try {
                 const response = await restApi.setServoPosition(this.__userToken__,deviceName, pinNumber,angle)
-                console.log(response)
                 return response.status
             } catch (error) {
                 throw new LogicError(error)
@@ -256,9 +255,6 @@ const logic = {
             { name: 'pinNumber', value: pinNumber, type: 'number', notEmpty: true },
             { name: 'speed', value: speed, type: 'number', notEmpty: true }
         ])
-
-        console.log('entra')
-
         return (async () => {
             try {
                 const response = await restApi.setMotorSpeed(this.__userToken__,deviceName, pinNumber,speed)

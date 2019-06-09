@@ -1,7 +1,7 @@
 import React from 'react'
 import Chart from '../Chart'
 
-function DAnalog({name, value}){
+function DAnalog({analogData}){
 
     return <div className="uk-card uk-height-large uk-card-default uk-card-hover">
         <div className="uk-card-header">
@@ -9,7 +9,7 @@ function DAnalog({name, value}){
         </div>
         <div className="uk-card-body">
             <div className="uk-flex uk-flex-center">
-                <Chart/>
+                <Chart analogData={analogData} />
             </div>
         </div>
     </div>

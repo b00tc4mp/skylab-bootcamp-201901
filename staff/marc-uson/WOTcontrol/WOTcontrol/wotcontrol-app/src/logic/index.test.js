@@ -448,7 +448,7 @@ describe('Logic', () => {
 
     describe('devices', ()=> {
         let _password
-        deviceName = 'newWOTdevice'
+        deviceName = 'newWOTDevice'
         deviceIp = arduinoIp
 
         beforeEach(async () => {
@@ -463,7 +463,11 @@ describe('Logic', () => {
             it('should succed on checking the selected WOTdevice', async () => {
                 const response = await logic.checkDevice(deviceIp, devicePort)
 
-                expect(response).to.not.exist
+                expect(response).to.exist
+                expect(response).to.be.instanceof(Object)
+                expect(response.HELLO).to.equal("WORLD!")
+                expect(response.userid).to.exist
+                expect(response.status).to.exist
             })
 
             it('should fail on checking a unexisting WOTdevice ip', async () => {

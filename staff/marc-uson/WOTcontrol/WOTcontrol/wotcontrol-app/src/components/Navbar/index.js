@@ -18,6 +18,9 @@ function Navbar({
             surname: { value: surname },
             email: { value: email },
         } = e.target
+        e.target.name.value=''
+        e.target.surname.value=''
+        e.target.email.value=''
         onUserUpdate({name, surname, email})
     }
 
@@ -36,6 +39,10 @@ function Navbar({
             port: { value: port },
             time: { value: time }
         } = e.target
+        e.target.name.value=''
+        e.target.ip.value=''
+        e.target.port.value=''
+        e.target.time.value=''
         onDeviceAdd(name, ip, port, time)
     }
 
@@ -86,7 +93,7 @@ function Navbar({
 
         <div id="profilePreferences" data-uk-modal>
             <div className="uk-modal-dialog uk-modal-body">
-                <h2 className="uk-modal-title">Profile preferences</h2>
+                <h2 className="uk-modal-title">Profile update</h2>
                 <form className="uk-form-stacked" onSubmit={event => updateUser(event)}>
                     <input className="uk-input uk-form-small" type="text" name="name" placeholder='name' />
                     <input className="uk-input uk-form-small" type="text" name="surname" placeholder='surname' />
