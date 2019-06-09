@@ -219,7 +219,8 @@ describe('logic', () => {
         client: ' \t    \n',
         type: 'cone',
         size: 'big',
-        flavors: ['vanilla', 'chocolate', 'blackberry rosé']
+        flavors: ['vanilla', 'chocolate', 'blackberry rosé'],
+        totalPrice: 3
       }
 
       try {
@@ -234,7 +235,8 @@ describe('logic', () => {
         client: user.id,
         type: ' \t    \n',
         size: 'big',
-        flavors: ['vanilla', 'chocolate', 'blackberry rosé']
+        flavors: ['vanilla', 'chocolate', 'blackberry rosé'],
+        totalPrice: 3
       }
 
       try {
@@ -249,7 +251,8 @@ describe('logic', () => {
         client: user.id,
         type: 'cone',
         size: ' \t    \n',
-        flavors: ['vanilla', 'chocolate', 'blackberry rosé']
+        flavors: ['vanilla', 'chocolate', 'blackberry rosé'],
+        totalPrice: 3
       }
 
       try {
@@ -535,5 +538,11 @@ describe('logic', () => {
     })
   })
 
-  after(() => mongoose.disconnect())
+  afterAll(async () => {
+    await User.deleteMany()
+    await Order.deleteMany()
+    mongoose.disconnect()
+  })
+
+  // after(() => mongoose.disconnect())
 })

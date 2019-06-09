@@ -1,5 +1,5 @@
 const { default: logic } = require('.')
-
+const { default: restApi } = require('../../src/api')
 const { User, Order, mongoose } = require('gelato-data')
 const { env: { MONGO_URL_LOGIC_TEST } } = process
 
@@ -115,9 +115,12 @@ describe('logic', () => {
     })
 
     it('should succeed on correct user credential', async () => {
-      await logic.authenticateUser(email, password)
+      debugger
+      const res = await logic.authenticateUser(email, password)
 
+      debugger
       expect(logic.__userToken__).toBeDefined()
+      debugger
       expect(logic.__userIsAdmin__).toBeDefined()
     })
 
@@ -189,10 +192,11 @@ describe('logic', () => {
     beforeEach(async () => { await logic.registerUser(name, surname, email, password) })
 
     it('should succeed retrieving an existing user with correct id', async () => {
-      const _token = await logic.authenticateUser(email, password)
+      const _token = await restApi.authenticateUser(email, password)
       // let { sub } = jwt.decode(_token.token)
 
       const _user = await logic.retrieveUserBy(_token.token)
+
       // expect(_user.id).toBe(undefined)
       expect(_user.name).toEqual(name)
       expect(_user.surname).toEqual(surname)
