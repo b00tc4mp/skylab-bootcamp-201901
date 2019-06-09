@@ -127,6 +127,10 @@ const logic = {
         })()
     },
 
+    updateUserAvatar() {
+        //TODO
+    },
+
     /**
      * Delete an user with the correct user credentials
      * 
@@ -156,8 +160,55 @@ const logic = {
         })()
     },
 
-    retriveUserItemBids() {
-        //TODO
+    retrieveUserItems(id) {
+        validate.arguments([
+            { name: 'id', value: id, type: String, notEmpty: true }
+        ])
+
+        return (async() => {
+            const {items} = await User.findById(id).select('items').lean()
+            
+            return items
+        })()
+    },
+
+    /**
+     * Retrieve only the user bids from the item with the given userId
+     * 
+     * @param {*} itemId The item id
+     * @param {*} userId The user id
+     * 
+     * @return {Object} the item with the user bids filtered
+     */
+    retriveUserItemBids(itemId, userId) {
+        validate.arguments([
+            { name: 'itemId', value: itemId, type: String, notEmpty: true },
+            { name: 'userId', value: userId, type: String, notEmpty: true }
+        ])
+
+        return(async() => {
+            const user = await User.findById(userId)
+            if(!user) throw new LogicError(`user with id "${userId}" doesn't exist`)
+
+            const item = await Item.findById(itemId)
+            if(!item) throw new LogicError(`item with id "${itemId}" doesn't exist`)
+
+            const [itemUserBids] = await Item.aggregate([
+                { $match: {"_id": ObjectId(itemId) }},
+                { $project: { "_id": 0, "title": 1 ,"images": 1, "bids": { 
+                    $filter: {
+                        "input": "$bids",
+                        "as": "bid",
+                        "cond": { $eq: ["$$bid.userId", ObjectId(userId)]} 
+                }}}}
+            ])
+
+            itemUserBids.bids.forEach(item => {
+                delete item._id
+            })
+
+            return itemUserBids
+        })()
     },
 
     /**
@@ -301,7 +352,7 @@ const logic = {
      * 
      * @returns {Object} An item with the given id
      */
-    retrieveItem(id, ) {
+    retrieveItem(id) {
         validate.arguments([
             { name: 'id', value: id, type: String, notEmpty: true },
         ])
@@ -311,6 +362,10 @@ const logic = {
             
             item.id = item._id
             delete item._id
+
+            item.bids.forEach(item => {
+                delete item._id
+            })
 
             return item
         })()
@@ -322,7 +377,7 @@ const logic = {
      * @param {String} itemId The item id
      * @param {String} userId The user id
      * 
-     * @returns {Array} The item bids 
+     * @returns {Object} The item with all your bids 
      */
     retrieveItemBids(itemId, userId) {
         validate.arguments([
@@ -334,15 +389,22 @@ const logic = {
             const user = await User.findById(userId)
             if(!user) throw new LogicError(`user with id "${userId}" doesn't exist`)
 
+            //YA LO HE ARREGLADO PERO HABLAR CON MANU PARA MIRAR SI ES CORRECTO!!!
             const item = await Item.findById(itemId)
             if(!item) throw new LogicError(`item with id "${itemId}" doesn't exist`)
 
             const bids = await Item.findById(itemId)
+                .select("-_id -__v -images -city -category -title -description -bids._id")
                 .populate({
                     path: 'bids.userId',
                     model: 'User',
                     select: 'name avatar'
                 }).lean()
+ 
+            bids.bids.forEach(bid => {
+                bid.userId.id = bid.userId._id
+                delete bid.userId._id
+            })
 
             return bids
         })()

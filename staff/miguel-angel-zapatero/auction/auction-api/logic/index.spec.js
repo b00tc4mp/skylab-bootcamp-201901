@@ -257,9 +257,10 @@ describe('logic', () => {
                 beforeEach(() => {
                     data = { name: 'n', surname: 's', email: 'e@e.com', password: 'p'}
                 })
+                
                 it('should succeed on correct data', async () => {    
                     const response = await logic.updateUser(user.id, data)
-                    expect(response).toBeUndefined()
+                    expect(response).toBeDefined()
                     
                     const _user = await User.findById(user.id)
                     
@@ -281,7 +282,7 @@ describe('logic', () => {
                     const data = { name: 'n', email: 'e@e.com'}
     
                     const response = await logic.updateUser(user.id, data)
-                    expect(response).toBeUndefined()
+                    expect(response).toBeDefined()
                     
                     const _user = await User.findById(user.id)
                     
@@ -321,7 +322,7 @@ describe('logic', () => {
                     } catch (error) {
                         expect(error).toBeDefined()
                         
-                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR
+                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR?
                         // expect(error).toBeInstanceOf(FormatError)
                         // expect(error.message).toBe('invalid id')
                         expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
@@ -378,7 +379,7 @@ describe('logic', () => {
                     } catch (error) {
                         expect(error).toBeDefined()
                         
-                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR
+                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR?
                         // expect(error).toBeInstanceOf(FormatError)
                         // expect(error.message).toBe('invalid id')
                         expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
@@ -413,6 +414,28 @@ describe('logic', () => {
                     }
                 })
             })
+
+            describe('update user avatar', () => {
+
+            })
+
+            describe('retrieve user items', () => {
+                let item, _user
+
+                beforeEach(async() => {
+                    item = await Item.create({title: 'Ferrari', description: 'Fantastic car', startDate: Date.now(), finishDate: Date.now(), startPrice: 2000, city: 'Japan', category: 'Cars'})
+
+                    await logic._addBiddedItem(user, item.id)
+                })
+                
+                it('should success on correct id user', async() =>{
+                    const items = await logic.retrieveUserItems(user.id)
+
+                    expect(items).toBeInstanceOf(Array)
+                    expect(items.length).toBeGreaterThan(0)
+                    expect(items[0].toString()).toBe(item.id)
+                })
+            })
         })
     })
 
@@ -436,7 +459,7 @@ describe('logic', () => {
                     city: cities[Math.floor(Math.random() * cities.length)],
 	                category: categories[Math.floor(Math.random() * categories.length)],
                     // images: ['image1.jpg', 'image2.jpg', 'image3.jpg']
-                    images: ['./logic/avacyn.png', './logic/avacyn.1.png', './logic/avacyn.2.png']
+                    // images: ['./logic/avacyn.png', './logic/avacyn.1.png', './logic/avacyn.2.png']
                 }
             })
 
@@ -471,8 +494,8 @@ describe('logic', () => {
                 expect(_item.city).toBe(city)
                 expect(_item.category).toBe(category)
                 expect(_item.images).toBeInstanceOf(Array)
-                debugger
-                expect(_item.images).toEqual(images)
+                
+                // expect(_item.images).toEqual(images)
             })
         })
 
@@ -834,6 +857,84 @@ describe('logic', () => {
                     expect(error).toBeDefined()
                     // expect(error).toBeInstanceOf(LogicError)
                     // expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
+                }
+            })
+        })
+
+        describe('retrieve item user bids', ()=> {
+            let _user
+
+            beforeEach(async() => {
+                _user = await User.create({name: "Carmelo", surname, email:"c.zapa@gmail.com", password})
+            })
+
+            it('should success on correct item and user id', async () =>{
+                let amount = 1000
+                await logic.placeBid(item.id, user.id, amount)
+
+                let amount2 = 1500
+                await logic.placeBid(item.id, _user.id, amount2)
+
+                const _item = await logic.retriveUserItemBids(item.id, _user.id)
+            
+                expect(_item).toBeInstanceOf(Object)
+                expect(_item.bids.length).toBe(1)
+                expect(_item.bids[0].userId.toString()).toBe(_user.id)
+                expect(_item.bids[0].amount).toBe(amount2)
+                expect(_item.bids[1]).toBeUndefined()
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.retriveUserItemBids(id, user.id)                   
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                }
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.retriveUserItemBids(id, user.id)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.retriveUserItemBids(item.id, id)              
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.retriveUserItemBids(item.id, id)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+            
                     expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
                 }
             })

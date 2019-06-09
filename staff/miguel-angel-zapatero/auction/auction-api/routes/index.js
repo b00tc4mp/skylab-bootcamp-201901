@@ -61,6 +61,26 @@ router.delete('/users/delete', jsonParser, auth, (req, res) => {
     }, res)
 })
 
+router.get('/users/items', auth, (req, res) => {
+    const { userId } = req
+
+    handleErrors(async () => {
+        const userItems = await logic.retrieveUserItems(userId)
+        
+        return res.json(userItems)
+    }, res)
+})
+
+router.get('/users/items/bids', jsonParser, auth, (req, res) => {
+    const { userId, body: { itemId } } = req
+
+    handleErrors(async () => {
+        const userItemBids = await logic.retriveUserItemBids(itemId, userId)
+        
+        return res.json(userItemBids)
+    }, res)
+})
+
 router.post('/items/:id/bids', jsonParser, auth, (req, res) => {
     const { userId, params: { id }, body: { amount } } = req
     
