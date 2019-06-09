@@ -91,6 +91,38 @@ const logic = {
         })()
     },
 
+    retrievePresentation(presentationId) {
+        validate.arguments([
+            { name: 'presentationId', value: presentationId, type: 'string' }
+        ])
+
+        return (async () => {
+            try {
+                const res = await api.retrievePresentation(this.__userToken__,presentationId)
+                return res
+            }
+            catch (error) {
+                throw error
+            }
+        })()
+    },
+
+    createSlide(presentationId, styles) {
+        validate.arguments([
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
+            { name: 'styles', value: styles, type: 'string', notEmpty: true },
+        ])
+        return (async () => {
+            try {
+                const res = await api.createSlide(this.__userToken__,presentationId, styles)
+                return res
+            }
+            catch (error) {
+                throw error
+            }
+        })()
+    },
+
     retrievePresentations() {
         return (async () => {
             try {

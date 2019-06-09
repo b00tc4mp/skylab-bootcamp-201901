@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useTransition, animated } from 'react-spring'
 import Feerdback from '../Feedback';
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
@@ -10,16 +10,40 @@ import './index.sass'
 
 function Editor({ history, match }) {
 
-    const [actual, setActual] = useState(null)
+    const [dbSlides, setdbSlides] = useState(null)
+    const [slides, setSlides] = useState([])
+    const [slidesCounter, setSlidesCounter] = useState(0)
     const [Globalstyles, setGlobalstyles] = useState(null)
     const { params: { id } } = match
 
-    const handleactual = (e) => {
-        setActual(e)
+    useEffect(() => {
+        refreshSlides()
+    }, []);
+
+    const refreshSlides = () => {
+        async function retrievePresentation() {
+            const presentation = await logic.retrievePresentation(id)
+            setdbSlides(presentation.slides)
+        }
+        retrievePresentation()
     }
 
+    useEffect(() => {
+        if (dbSlides) {
+            let slidesStyle = ''
+            const renderSlide = dbSlides.map(slide => {
+                const { _id, style } = slide
+                slidesStyle += `.S${_id}{ \n ${style} }`
+                return {
+                    class: `S${_id}`
+                }
+            })
+            handleStyle(slidesStyle)
+            setSlides(renderSlide)
+        }
+    }, [dbSlides]);
+
     const handleStyle = (styles) => {
-        styles = `.basic { ${styles} }`
         if (Globalstyles) {
             let style = document.createElement('style');
             style.type = "text/css"
@@ -46,8 +70,8 @@ function Editor({ history, match }) {
                     </aside>
                     <Manager styles={handleStyle} />
                 </div>
-                <div class="column">
-                    <Playground clicked={handleactual} /> 
+                <div class="column is-four-fifths">
+                    <Playground renderSlides={slides} presentationId={id} refreshSlide={refreshSlides} />
                 </div>
             </div>
         </section>

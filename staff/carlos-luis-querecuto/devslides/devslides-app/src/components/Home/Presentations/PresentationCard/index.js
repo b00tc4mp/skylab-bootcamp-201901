@@ -17,7 +17,7 @@ function PresentationCard({ presentations, deletepresentation, history }) {
                         <div class="card-image">
                                 <img class="presentationcard_image" src="https://static.thenounproject.com/png/980579-200.png" alt={`Presentation ${title}`} />
                         </div>
-                        <div class="card-body">
+                        <div class="card-body buttons are-medium">
                             <button class="button is-primary" onClick={() => history.push(`/Editor/${id}`)} >Edit</button>
                             <button class="button is-primary" onClick={() => deletepresentation(id)} >delete</button>
                         </div>

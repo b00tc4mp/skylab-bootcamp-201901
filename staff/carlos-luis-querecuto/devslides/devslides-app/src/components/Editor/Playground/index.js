@@ -3,18 +3,28 @@ import Element from './Element'
 import { Carousel } from 'react-responsive-carousel'
 import 'tippy.js/themes/light.css'
 import tippy from 'tippy.js'
+import logic from '../../../logic'
 
 import 'react-responsive-carousel/lib/styles/carousel.css'
 
 import './index.sass'
 
-function Playground() {
+function Playground({ refreshSlide , renderSlides, presentationId }) {
+    const [slides, setSlides] = useState([])
+    const [syncreate, setsyncCreate] = useState([])
     const [domlist, setDomlist] = useState([])
+
     const handleCreate = () => {
         //const basic = React.createElement('div', { key:this.state.domlist.length , className: 'basic', onClick:this.handleclick }, 'hola');
         const basic = <Element key={domlist.length} />
         setDomlist(domlist.concat(basic))
     }
+
+    const handleCreateSlide = async () => {
+        await logic.createSlide(presentationId,"background-color: green")
+        refreshSlide()
+    }
+        //const basic = React.createElement('div', { key:this.state.domlist.length , className: 'basic', onClick:this.handleclick }, 'hola');
 
     useEffect(() => {
         const template = document.querySelector('.slideForm')
@@ -26,8 +36,28 @@ function Playground() {
             trigger: 'click',
             interactive: true,
         })
+    }, [])
 
-    }, []);
+    useEffect(() => {
+        if(renderSlides && slides.length<renderSlides.length){
+            renderSlides.forEach(element => {
+                const dbsync = slides.concat(
+                    (<div className="my-slide primary complex">
+                        <div className={"manager " + renderSlides[slides.length].class}>
+                            {renderSlides[slides.length].class}
+                        </div>
+                    </div>)
+                    )
+                setSlides(dbsync) 
+            })
+        } 
+    }, [slides])
+
+    useEffect(() => {
+        if(renderSlides){
+            setSlides([]) 
+        } 
+    }, [renderSlides])
 
     return (<>
         <nav class="navbar" role="navigation" aria-label="main navigation">
@@ -43,28 +73,38 @@ function Playground() {
                         Element
                     </a>
 
-                    <a class="createSlide navbar-item" >
+                    <a class="createSlide navbar-item" onClick={handleCreateSlide} >
                         Slide
                     </a>
                 </div>
             </div>
         </nav>
-        <Carousel showThumbs={false}
+        <div class="container">
+            <Carousel showThumbs={false}
             showStatus={false}
             useKeyboardArrows
             className="presentation-mode"
-        >
-            <div className="my-slide primary complex">
-                <div className="manager">
-                    {domlist}
-                </div>
+            >
+            {slides}
+            </Carousel>
+        </div>
+        {/* <Carousel showThumbs={false}
+        showStatus={false}
+        useKeyboardArrows
+        className="presentation-mode"
+    >
+        
+        <div className="my-slide primary complex">
+            <div className="manager">
+                {domlist}
             </div>
-            <div className="my-slide secondary complex">
-                <div className="manager">
-                    {domlist}
-                </div>
+        </div>
+        <div className="my-slide secondary complex">
+            <div className="manager">
+                {domlist}
             </div>
-        </Carousel>
+        </div> 
+        </Carousel> */}
         {/* <div className="manager">
             {domlist}
         </div> */}
