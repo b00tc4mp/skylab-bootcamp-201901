@@ -855,7 +855,7 @@ describe('rest api', () => {
       debugger
       await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
       await restApi.addOrder(userToken2, flavors, size, type, totalPrice2)
-      // let type = 'cones
+      // let type = 'cones'
       // let type2 = 'tarrina'
       // let size = 'big'
       // let size2 = 'small'
