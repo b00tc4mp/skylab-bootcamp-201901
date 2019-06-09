@@ -286,6 +286,8 @@ export default {
           endTime
           maxAttendants
           countAttendances
+          visibility
+          status
           type {
             id
             title
@@ -296,6 +298,8 @@ export default {
             user {
               id
               name
+              surname
+              portraitImageUrl
             }
             paymentType
             status
@@ -335,7 +339,7 @@ export default {
     return data.attendSession;
   },
 
-  async unattendSession(attendanceId: string, status: string) {
+  async updateAttendance(attendanceId: string, status: string) {
     const mutation = gql`
       mutation UpdateStatusAttendance($attendanceId: String!, $status: String!) {
         updateStatusAttendance(attendanceId: $attendanceId, status: $status)
@@ -370,12 +374,13 @@ export default {
             startTime
             endTime
             maxAttendants
+            visibility
             countAttendances
+            status
             type {
               type
               title
             }
-            status
           }
           myAttendance {
             id

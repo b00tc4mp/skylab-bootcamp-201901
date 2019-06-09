@@ -5,7 +5,7 @@ import { MainContext } from '../../logic/contexts/main-context';
 import AttendanceCustomerSlidingButtons from './AttendanceCustomerSlidingButtons';
 import { AttendanceStatus } from './AttendanceStatus';
 
-export default function AttendanceItem({ session, onChange, isAdmin=false }) {
+export default function AttendanceItem({ session, onDetail, onChange, isAdmin = false }) {
   const ctx = useContext(MainContext);
 
   const isUser = !isAdmin;
@@ -36,7 +36,7 @@ export default function AttendanceItem({ session, onChange, isAdmin=false }) {
             {type.type}
           </IonBadge>
         </IonAvatar>
-        <IonGrid>
+        <IonGrid onClick={() => onDetail(session)}>
           <IonRow>
             <IonCol size="8">
               <IonRow>

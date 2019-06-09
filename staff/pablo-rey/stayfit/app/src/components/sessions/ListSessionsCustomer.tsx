@@ -1,7 +1,20 @@
-import { IonItemDivider, IonLabel, IonList } from '@ionic/react';
+import {
+  IonItemDivider,
+  IonLabel,
+  IonList,
+  IonModal,
+  IonToolbar,
+  IonButtons,
+  IonButton,
+  IonTitle,
+  IonContent,
+  IonPage,
+  IonHeader,
+} from '@ionic/react';
 import moment from 'moment';
-import React from 'react';
+import React, { useState } from 'react';
 import AttendanceItem from '../attendances/AttendanceItem';
+import ViewSession from './ViewSession';
 
 export default function ListSessionsCustomer({
   sessions,
@@ -10,6 +23,12 @@ export default function ListSessionsCustomer({
   showOthers = false,
   onChange,
 }) {
+  const [showDetail, setShowDetail] = useState(null);
+
+  const handleDetail = session => {
+    setShowDetail(session);
+  };
+
   if (!sessions || sessions.length === 0) return null;
   if (!showToday && !showWeek && !showOthers) {
     showToday = showWeek = showOthers = true;
@@ -28,37 +47,54 @@ export default function ListSessionsCustomer({
   }
 
   return (
-    <IonList>
-      {!!groups.today.length && showToday && (
-        <>
-          <IonItemDivider>
-            <IonLabel>Today</IonLabel>
-          </IonItemDivider>
-          {groups.today.map(session => {
-            return <AttendanceItem key={session.id} session={session} onChange={onChange} />;
-          })}
-        </>
-      )}
-      {!!groups.thisWeek.length && showWeek && (
-        <>
-          <IonItemDivider>
-            <IonLabel>This week</IonLabel>
-          </IonItemDivider>
-          {groups.thisWeek.map(session => {
-            return <AttendanceItem key={session.id} session={session} onChange={onChange} />;
-          })}
-        </>
-      )}
-      {!!groups.others.length && showOthers && (
-        <>
-          <IonItemDivider>
-            <IonLabel>Later</IonLabel>
-          </IonItemDivider>
-          {groups.others.map(session => {
-            return <AttendanceItem key={session.id} session={session} onChange={onChange} />;
-          })}
-        </>
-      )}
-    </IonList>
+    <>
+      <IonModal isOpen={!!showDetail} onDidDismiss={() => setShowDetail(null)} animated>
+        <IonPage>
+          <IonHeader>
+            <IonToolbar>
+              <IonButtons slot="start">
+                <IonButton onClick={() => setShowDetail(null)}>Close</IonButton>
+              </IonButtons>
+              <IonTitle>Session details</IonTitle>
+            </IonToolbar>
+          </IonHeader>
+          <IonContent>
+            <ViewSession session={showDetail} />
+          </IonContent>
+        </IonPage>
+      </IonModal>
+      <IonList>
+        {!!groups.today.length && showToday && (
+          <>
+            <IonItemDivider>
+              <IonLabel>Today</IonLabel>
+            </IonItemDivider>
+            {groups.today.map(session => {
+              return <AttendanceItem key={session.id} session={session} onChange={onChange} onDetail={handleDetail} />;
+            })}
+          </>
+        )}
+        {!!groups.thisWeek.length && showWeek && (
+          <>
+            <IonItemDivider>
+              <IonLabel>This week</IonLabel>
+            </IonItemDivider>
+            {groups.thisWeek.map(session => {
+              return <AttendanceItem key={session.id} session={session} onChange={onChange} onDetail={handleDetail} />;
+            })}
+          </>
+        )}
+        {!!groups.others.length && showOthers && (
+          <>
+            <IonItemDivider>
+              <IonLabel>Later</IonLabel>
+            </IonItemDivider>
+            {groups.others.map(session => {
+              return <AttendanceItem key={session.id} session={session} onChange={onChange} onDetail={handleDetail} />;
+            })}
+          </>
+        )}
+      </IonList>
+    </>
   );
 }

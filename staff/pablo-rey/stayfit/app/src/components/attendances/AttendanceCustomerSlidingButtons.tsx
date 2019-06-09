@@ -19,7 +19,7 @@ export default function AttendanceCustomerSlidingButtons ({session, attendance, 
   const handleUnattendSession = (event, attendance) => {
     event.target.parentElement.parentElement.closeOpened();
     ctx.logic
-      .unattendSession(attendance.id, 'CANCELLEDBYUSER')
+      .updateAttendance(attendance.id, 'CANCELLEDBYUSER')
       .then(() => onChange())
       .catch(error => ctx.setErrorMessage(error.message));
   };

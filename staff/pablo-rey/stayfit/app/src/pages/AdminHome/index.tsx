@@ -17,7 +17,7 @@ import logic from '../../logic';
 import { MainContext } from '../../logic/contexts/main-context';
 import AdminCustomers from './AdminCustomers';
 import AdminSessions from './AdminSessions';
-import CreateSession from './CreateSession';
+import CreateSession from '../Session/CreateSession';
 import MainAdmin from './MainAdmin';
 import MySettingsAdmin from './MySettingsAdmin';
 

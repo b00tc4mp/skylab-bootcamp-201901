@@ -20,7 +20,7 @@ import { ApolloProvider } from 'react-apollo';
 import { SERVER_URL } from '../../config';
 import logic from '../../logic';
 import { MainProvider, MainContext } from '../../logic/contexts/main-context';
-import CreateSession from '../AdminHome/CreateSession';
+import CreateSession from '../Session/CreateSession';
 
 const gqlClient = new ApolloClient({
   uri: SERVER_URL + '/graphql',
