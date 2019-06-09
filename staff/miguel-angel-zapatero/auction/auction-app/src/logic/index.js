@@ -2,6 +2,7 @@ import auctionLiveApi from '../data/auctionlive-api'
 import normalize from '../common/normalize'
 import validate from 'auction-validate'
 import { LogicError } from 'auction-errors'
+import jwt from 'jsonwebtoken'
 
 const logic = {
     set __userToken__(token) {
@@ -14,6 +15,12 @@ const logic = {
 
     get isUserLoggedIn() {
         return !!this.__userToken__
+    },
+
+    getUserId() {
+        const {sub} = jwt.decode(this.__userToken__);
+
+        return sub 
     },
 
     registerUser(name, surname, email, password, confirmPassword) {
@@ -35,11 +42,6 @@ const logic = {
                 throw new LogicError(message)
             }
         })()
-
-        // return auctionLiveApi.registerUser(name, surname, email, password)
-        //     .catch(error => {
-        //         if (error) throw new LogicError(error.message)
-        //     })
     },
 
     loginUser(email, password) {
@@ -58,14 +60,6 @@ const logic = {
                 throw new LogicError(message)
             }
         })()
-
-        // return auctionLiveApi.authenticateUser(email, password)
-        //     .then(({ token }) => {
-        //         this.__userToken__ = token
-        //     })
-        //     .catch(error => {
-        //         if (error) throw new LogicError(error.message)
-        //     })
     },
 
     async retrieveUser() {
@@ -76,16 +70,6 @@ const logic = {
         } catch ({message}) {
             throw new LogicError(message)
         }
-
-        // return auctionLiveApi.retrieveUser(this.__userToken__)
-        //     .then(response => {
-        //         const { name, surname, email } = response
-
-        //         return { name, surname, email }
-        //     })
-        //     .catch(error => {
-        //         if (error) throw new LogicError(error.message)
-        //     })
     },
 
     logoutUser() {
@@ -99,16 +83,13 @@ const logic = {
 
         return (async () => {
             try {
-                await auctionLiveApi.updateUser(this.__userToken__, data)
+                const user = await auctionLiveApi.updateUser(this.__userToken__, data)
+                
+                return user
             } catch ({message}) {
                 throw new LogicError(message)
             }
         })()
-
-        // return auctionLiveApi.updateUser(this.__userToken__, data)
-        //     .catch(error => {
-        //         if (error) throw new LogicError(error.message)
-        //     })
     },
 
     deleteUser(email, password, confirmPassword) {
@@ -128,10 +109,6 @@ const logic = {
                 throw new LogicError(message)
             }
         })()
-        // return auctionLiveApi.deleteUser(this.__userToken__, email, password)
-        //     .catch(error => {
-        //         if (error) throw new LogicError(error.message)
-        //     })
     },
 
     searchItems(query) {

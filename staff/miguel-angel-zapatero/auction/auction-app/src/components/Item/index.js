@@ -15,6 +15,7 @@ function Item({item, getItem, itemId, history}) {
     const [totalBids, setTotalBids] = useState(0)
     const [date, setDate] = useState(null)
     const [now, setNow] = useState(null)
+    const [userId, setUserId] = useState(null)
     const [isClosed, setIsClosed] = useState(null)
 
     useEffect(() => {
@@ -27,7 +28,9 @@ function Item({item, getItem, itemId, history}) {
             try {
                 const _bids = await logic.retrieveItemBids(itemId)
                 const { bids: arrBids } = _bids
+                const _userId = logic.getUserId()
 
+                setUserId(_userId)
                 setBids(arrBids)
                 setCity(item.city)
                 setTotalBids(arrBids.length)
@@ -48,21 +51,34 @@ function Item({item, getItem, itemId, history}) {
     }, [item]);
 
     async function handleBid(amount) {
-        try {
-            amount = Number(amount)
-            await logic.placeBid(item.id, amount)
+        try { 
+            await logic.placeBid(item.id, Number(amount))
         } catch ({message}) {
             alert(message)
         }
     }
 
     return <>
-        { item && <> 
-        <ItemDetail item={item}/>
-        <Link to="/">Back</Link>
-        {isClosed === null ? <span>Loading...</span> : isClosed ? <span>Closed</span> : <CountDown nowDate={now} endDate={date}/>}
-        <BidsInfo currentAmount={amount} totalBids={totalBids} date={date} city={city} />
-        <Bids bids={bids} onBid={handleBid} isClosed={isClosed}/> 
+        { item && <>
+        <div className="uk-grid-match uk-grid-small" data-uk-grid>
+            <div className="uk-width-1-2@m"> 
+                <ItemDetail item={item}/>
+                {/* <Link className="uk-button uk-button-primary" to="/">Back</Link> */}
+            </div>
+            <div className="uk-width-1-2@m uk-text-center">
+                <div className="uk-card uk-card-default uk-card-body">
+                {isClosed === null ? <div data-uk-spinner></div> : isClosed ? 
+                    <><span className="uk-label uk-label-danger">Closed</span>
+                    <hr className="uk-divider-icon"/>
+                    <Link className="uk-button uk-button-danger" to="/">Back to home</Link></> : 
+                    <><CountDown nowDate={now} endDate={date}/>
+                    <BidsInfo currentAmount={amount} totalBids={totalBids} date={date} city={city} />
+                    <Bids bids={bids} onBid={handleBid} isClosed={isClosed} quickBid={amount} userId={userId}/>
+                    </>
+                }
+                </div>
+            </div>
+        </div>
         </>}
     </>
 }
