@@ -6,9 +6,9 @@
     "start": "node .",
     "watch": "nodemon .",
     "debug": "node debug .",
-    "test": "npx mocha --timeout 40000",
-    "test:debug": "npx mocha debug ",
-    "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.test.js"
+    "test": "mocha ./**/*.test.js --runInBand --timeout 40000",
+    "test:debug": "mocha debug ./**/*.test.js --runInBand",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.test.js --timeout 40000"
   },
   "keywords": [],
   "author": "",
@@ -16,6 +16,7 @@
   "dependencies": {
     "argon2": "^0.23.0",
     "bcrypt": "^3.0.6",
+    "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
     "validator": "^11.0.0",

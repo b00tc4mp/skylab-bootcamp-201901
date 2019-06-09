@@ -3,10 +3,10 @@ require('dotenv').config()
 const express = require('express')
 const package = require('./package.json')
 const routes = require('./routes')
-const cors = require('./routes/cors')
+const cors = require('cors')
 const { mongoose } = require('wotcontrol-data')
 
-const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = process;
+const { env: { PORT, MONGO_URL_LOGIC_TEST: url }, argv: [, , port = PORT || 8080], } = process;
 
 (async () => {
     await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false })
@@ -15,7 +15,7 @@ const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = proc
 
     const app = express()
 
-    app.use(cors)
+    app.use(cors())
 
     app.use('/api', routes)
 

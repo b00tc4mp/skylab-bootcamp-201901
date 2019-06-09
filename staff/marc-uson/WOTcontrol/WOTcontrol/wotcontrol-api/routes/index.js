@@ -26,7 +26,7 @@ router.post('/users/auth', jsonParser, (req, res) => {
     handleErrors(async () => {
         const sub = await logic.authenticateUser(email, password)
         const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '24h' })
-        res.json({ token })
+        res.status(202).json({ token })
     }, res)
 })
 
@@ -35,7 +35,7 @@ router.get('/users', auth, (req, res) => {
 
     handleErrors(async () => {
         const user = await logic.retrieveUser(userId)
-        res.json(user)
+        res.status(202).json(user)
     }, res)
 })
 
@@ -44,7 +44,7 @@ router.put('/users', auth, jsonParser, (req, res) => {
 
     handleErrors(async () => {
         await logic.updateUser(userId, data)
-        res.status(200).json({ message: 'Ok, user data updated.' })
+        res.status(202).json({ message: 'Ok, user data updated.' })
     }, res)
 })
 
@@ -66,12 +66,23 @@ router.post('/devices', auth, jsonParser, (req, res) => {
     }, res)
 })
 
+router.get('/devices/check/:ip/:port', auth, (req, res) => {
+    const {userId, params: { ip, port } } = req
+
+    const _port = Number(port)
+
+    handleErrors(async () => {
+        const response = await logic.checkDevice(userId, ip, _port)
+        res.status(202).json(response)
+    }, res)
+})
+
 router.get('/devices/:name', auth, (req, res) => {
     const {userId, params: { name } } = req
 
     handleErrors(async () => {
         const device = await logic.retrieveDevice(userId, name)
-        res.status(201).json(device)
+        res.status(202).json(device)
     }, res)
 })
 
@@ -80,7 +91,7 @@ router.post('/devices/:name', auth, jsonParser, (req, res) => {
 
     handleErrors(async () => {
         const response = await logic.changeDeviceId(userId, name, newName)
-        res.status(201).json(response)
+        res.status(202).json(response)
     }, res)
 })
 
@@ -90,7 +101,7 @@ router.get('/devices/:name/activate/:time', auth, (req, res) => {
 
     handleErrors(async () => {
         const device = await logic.activateDevice(userId, name, _time)
-        res.status(201).json(device)
+        res.status(202).json(device)
     }, res)
 })
 
@@ -100,7 +111,7 @@ router.delete('/devices/:name', auth, (req, res) => {
     handleErrors(async () => {
 
         await logic.deleteDevice(userId, name)
-        res.status(204).json({ message: 'Ok, device deleted.' })
+        res.status(202).json({ message: 'Ok, device deleted.' })
     }, res)
 })
 
@@ -119,7 +130,7 @@ router.delete('/devices/:name/inputs/:type/:direction', auth, (req, res) => {
 
     handleErrors(async () => {
         await logic.deleteInput(userId, name, type, _direction)
-        res.status(204).json({ message: 'Ok, device input deleted.' })
+        res.status(201).json({ message: 'Ok, device input deleted.' })
     }, res)
 })
 
@@ -137,14 +148,14 @@ router.delete('/devices/:name/outputs/:type/:direction', auth, (req, res) => {
     const _direction = Number(direction)
     handleErrors(async () => {
         await logic.deleteOutput(userId, name, type, _direction)
-        res.status(204).json({ message: 'Ok, device output deleted.' })
+        res.status(200).json({ message: 'Ok, device output deleted.' })
     }, res)
 })
 
 router.get('/devices/:name/outputs/digital/:direction', auth, (req, res) => {
     const {userId, params: { name, direction } } = req
     const _direction = Number(direction)
-    debugger
+
     handleErrors(async () => {
         const response = await logic.toggleDigitalOutput(userId, name, _direction)
         res.status(201).json(response)
@@ -174,13 +185,13 @@ router.get('/devices/:name/outputs/motor/:direction/:speed', auth, (req, res) =>
 })
 
 router.post('/devices/:name/inputs/analog', jsonParser, (req, res) => {
-    const {userId, params: { name }, body: { value } } = req
+    const {params: { name }, body: { userid: userId, value } } = req
     const _value = Number(value)
-    console.log(`analog value: ${value}`)
-    // handleErrors(async () => {
-    //     await logic.saveAnalogInput(userId, name, _value)
-    //     res.status(201).json({ message: 'Ok, analog value recieved.' })
-    // }, res)
+
+    handleErrors(async () => {
+        await logic.saveAnalogInput(userId, name, _value)
+        res.status(201).json({ message: 'Ok, analog value recieved.' })
+    }, res)
 })
 
 router.get('/devices/:name/inputs/analog', auth,jsonParser, (req, res) => {
@@ -193,16 +204,17 @@ router.get('/devices/:name/inputs/analog', auth,jsonParser, (req, res) => {
 })
 
 router.post('/devices/:name/inputs/digital', jsonParser, (req, res) => {
-    const {userId, params: { name }, body: { din1, din2 } } = req
+    const {params: { name }, body: { userid: userId, din1, din2 } } = req
+    console.log(userId, din1, din2)
     const _value1 = Number(din1)
     const _value2 = Number(din2)
-    console.log(`din1: ${din1}, din2: ${din2}`)
+    console.log('numbers:'+_value1+', '+_value2)
 
-    // handleErrors(async () => {
-    //     await logic.saveDigitalInput(userId, name, _value1)
-    //     await logic.saveDigitalInput(userId, name, _value2)
-    //     res.status(201).json({ message: 'Ok, digital values recieved.' })
-    // }, res)
+    handleErrors(async () => {
+        await logic.saveDigitalInput(userId, name, _value1, 1)
+        await logic.saveDigitalInput(userId, name, _value2, 2)
+        res.status(201).json({ message: 'Ok, digital values recieved.' })
+    }, res)
 })
 
 router.get('/devices/:name/inputs/digital/:direction', auth, jsonParser, (req, res) => {

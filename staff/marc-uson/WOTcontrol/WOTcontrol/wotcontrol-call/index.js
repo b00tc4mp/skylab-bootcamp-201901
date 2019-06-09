@@ -4,16 +4,16 @@ const axios = require('axios')
 
 /**
  * Makes an HTTP call.
- * 
- * @param {*} url 
- * @param {*} callback 
- * @param {*} options 
- * 
+ *
+ * @param {*} url
+ * @param {*} callback
+ * @param {*} options
+ *
  * @version 4.0.0
  */
 function call(url, options = {}) {
     const { method = 'GET', headers, data } = options
-
+    let timeout = 15000
     validate.arguments([
         { name: 'url', value: url, type: 'string', notEmpty: true },
         { name: 'method', value: method, type: 'string', notEmpty: true },
@@ -23,28 +23,24 @@ function call(url, options = {}) {
 
     validate.url(url)
 
-    return axios({
-        headers,
-        method,
-        url,
-        data
-    })
-        .then(response => response.data)
-        .catch(error => {
-            if (error.code === 'ENOTFOUND')  throw new ConnectionError('cannot connect')
+    return (async () => {
+        try {
+            const response = await axios({
+                headers,
+                method,
+                url,
+                timeout: timeout,
+                data
+            })
+            return response.data
+        } catch (error) {
 
-            const { response } = error
-
-            if (response && response.status) {
-                const err = new HttpError()
-
-                err.status = response.status
-
-                throw err
-            }
-
-            throw error
-        })
+            if(error.code == `ECONNABORTED`) throw new ConnectionError(`Connection timed out`)
+            if(error.code == `ECONNREFUSED`) throw new ConnectionError(`Connection refused`)
+            if (error.response) throw error.response.data.error
+            else throw error
+        }
+    })()
 }
 
 module.exports = call
