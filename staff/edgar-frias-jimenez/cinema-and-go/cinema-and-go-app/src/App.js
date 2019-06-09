@@ -46,7 +46,7 @@ function App ({ history }) {
                     history.push('/home')
                 })
         } catch ({ message }) {
-            showSpinner(null)
+            handleSpinner(null)
             setFeedback(message)
         }
     }
@@ -66,16 +66,14 @@ function App ({ history }) {
         setCurrentPosition()
     },[])
 
-    console.log('appLogic.isUserLoggedIn', appLogic.isUserLoggedIn)
-
     return (
         <Fragment>
             <GlobalContext.Provider value={{ feedback, setFeedback, showSpinner, handleSpinner }}>
+                <Spinner />
                 <Route exact path='/' render={() => !appLogic.isUserLoggedIn ? <Landing  locate={locate} /> : <Redirect to="/home" /> } />
                 <Route exact path='/login' render={() => appLogic.isUserLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} locate={locate} />} />
                 <Route exact path='/register' render={() => appLogic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} locate={locate} />} />
                 <Route exact path='/home' render={() => !appLogic.isUserLoggedIn ? <Redirect to="/" /> : <Home locate={locate} />} />
-                <Spinner />
             </GlobalContext.Provider>
             {feedback && <Feedback />}
         </Fragment>

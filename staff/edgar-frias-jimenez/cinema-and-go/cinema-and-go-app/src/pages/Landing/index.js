@@ -6,9 +6,6 @@ import GoogleMaps from '../../components/Maps'
 import './index.scss'
 
 function Landing({ locate }) {
-
-    console.log('landing locate', locate)
-
     return (
         <section className="landing">
             <section className="landing__content">

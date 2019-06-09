@@ -112,7 +112,9 @@ const appLogic = {
                       reject(`ERROR(${err.code}): ${err.message}`)
                     }
 
-                    navigator.geolocation.getCurrentPosition(success, error, options)
+                    setInterval (
+                        navigator.geolocation.watchPosition(success, error, options)
+                    , 3000)
                 })
 
                 return geoLocation.then(locationCoords => locationCoords)

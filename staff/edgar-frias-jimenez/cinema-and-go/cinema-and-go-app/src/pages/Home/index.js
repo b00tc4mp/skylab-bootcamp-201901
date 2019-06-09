@@ -1,21 +1,11 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import appLogic from '../../logic'
 import GoogleMaps from '../../components/Maps'
 import CustomMarker from '../../components/Marker'
 import { Circle } from '@react-google-maps/api'
 
 const Home = ({ locate }) => {
-
-    const [locateUser, setLocateUser] = useState(null)
     const [cinemaPoi, setCinemaPoi] = useState(null)
-
-
-    const [ temp, setTemp ] = useState(null)
-
-
-    useEffect(() => {
-        setLocateUser(locateUser)
-    },[])
 
     const threshold = 1500
 
@@ -36,32 +26,14 @@ const Home = ({ locate }) => {
         })
         .catch(console.error)
 
-
-
-
-    const setCurrentPosition = () => {
-        try{
-            appLogic.handleInitialLocation()
-                .then(res => {
-                    setTemp(res.reverse())
-                })
-        } catch ({ message }) {
-            console.log(message)
-        }
-    }
-
-    useEffect(() => {
-        setCurrentPosition()
-    },[])
-
     return (
         <section className="home">
             <section className="home__content">
-            {temp &&
+            {locate &&
                 <section className="maps">
                     <GoogleMaps
                         customZoom={14.5}
-                        defaultPos={temp}
+                        defaultPos={locate}
                     >
                         <Circle
                             // optional
@@ -74,8 +46,8 @@ const Home = ({ locate }) => {
                             }}
 
                             center={{
-                                lat: temp[0],
-                                lng: temp[1]
+                                lat: locate[0],
+                                lng: locate[1]
                             }}
                             options={{
                                 strokeColor: '#ce9234',
@@ -94,7 +66,7 @@ const Home = ({ locate }) => {
 
                         <CustomMarker
                             clickable={false}
-                            customPosition={temp}
+                            customPosition={locate}
                         />
 
                         {cinemaPoi &&

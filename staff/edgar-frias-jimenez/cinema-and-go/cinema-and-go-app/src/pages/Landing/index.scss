@@ -17,7 +17,7 @@
             border-bottom: 2px solid white;
             content: '';
             display: block;
-            height: 25%;
+            height: 20%;
             position: absolute;
             top: -55px;
             transform: skewY(-3deg);
@@ -31,7 +31,7 @@
             bottom: -40px;
             content: '';
             display: block;
-            height: 30%;
+            height: 25%;
             position: absolute;
             transform: skewY(-3deg);
             width: 100%;
@@ -76,7 +76,7 @@
         }
 
         .buttons {
-            bottom: 20px;
+            bottom: 60px;
             left: 0;
             display: flex;
             flex-direction: column;
