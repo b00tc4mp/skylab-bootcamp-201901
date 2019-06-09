@@ -45,9 +45,9 @@ router.put('/users/update', jsonParser, auth, (req, res) => {
     const { userId, body } = req
     
     handleErrors(async () => {
-        await logic.updateUser(userId, body)
+        const user = await logic.updateUser(userId, body)
         
-        return res.status(201).json({ message: 'Ok, user updated.' })
+        return res.json(user)
     }, res)
 })
 

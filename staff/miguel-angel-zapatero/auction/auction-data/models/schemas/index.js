@@ -1,4 +1,5 @@
 const { Schema, Schema: { Types: { ObjectId }} } = require('mongoose')
+const crypto = require('crypto')
 
 const user = new Schema({
     name: {type: String, required: [true, 'name required'], trim: true},
@@ -18,7 +19,18 @@ const user = new Schema({
             values: ['ADMIN', 'USER'],
             message: 'no es un role valido'
         }
+    },
+    avatar: String
+})
+
+user.pre('save', function(next) {
+    if(!this.gravatar) {
+        const md5 = crypto.createHash('md5').update(this.email).digest('hex')
+        const gravatar = `https://gravatar.com/avatar/${md5}?s=200&d=retro`
+        this.avatar = gravatar
     }
+
+    next()
 })
 
 const bid = new Schema({

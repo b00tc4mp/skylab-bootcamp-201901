@@ -83,7 +83,7 @@ const logic = {
         ])
 
         return (async () => {
-            const user = await User.findById(id).select('-_id name surname email').lean()
+            const user = await User.findById(id).select('-_id name surname email avatar').lean()
     
             if(!user) throw new LogicError(`user with id "${id}" doesn't exist`)
 
@@ -96,6 +96,8 @@ const logic = {
      * 
      * @param {String} id The user id
      * @param {Object} data The fields to update de user data
+     * 
+     * @return {Object} The user data
      */
     updateUser(id, data) {
         validate.arguments([
@@ -105,7 +107,7 @@ const logic = {
 
         const { name, surname, email, password } = data
 
-        validate.email(email)
+        if(email) validate.email(email)
 
         return (async () => {
             const user = await User.findById(id)
@@ -121,7 +123,7 @@ const logic = {
                 password: password ? bcrypt.hashSync(password, 10) : user.password
             }
             
-            await User.findByIdAndUpdate(id, data)
+            return await User.findByIdAndUpdate(id, data, {new: true}).select('-_id name surname email avatar').lean()
         })()
     },
 
@@ -154,9 +156,8 @@ const logic = {
         })()
     },
 
-    //NO SE SI ES NECESARIA¿??¿?¿?¿
     retriveUserItemBids() {
-
+        //TODO
     },
 
     /**
@@ -290,6 +291,9 @@ const logic = {
         })()
     },
 
+    //ESTA YA NO LA NECESITO PORQUE CON LA DE retrieveItemBids tengo todos los datos!!!
+    //Preguntar a Manu para eliminar esta función o no?¿??¿??¿¿? o tengo que hacer
+    // 2 llamadas?¿ 1 para los datos del item y la otra para los datos de los bids?¿¿?
     /**
      * Retrieve an item with the given item id
      * 
@@ -297,7 +301,7 @@ const logic = {
      * 
      * @returns {Object} An item with the given id
      */
-    retrieveItem(id) {
+    retrieveItem(id, ) {
         validate.arguments([
             { name: 'id', value: id, type: String, notEmpty: true },
         ])
@@ -337,7 +341,7 @@ const logic = {
                 .populate({
                     path: 'bids.userId',
                     model: 'User',
-                    select: 'name -_id'
+                    select: 'name avatar'
                 }).lean()
 
             return bids
