@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react'
 import Header from '../../components/Header'
 import { GlobalContext } from '../../components/GlobalContext'
+import GoogleMaps from '../../components/Maps'
 import Feedback from '../../components/Feedback'
 
 import './index.scss'
 
-function Register({ onRegister }) {
+function Register({ onRegister, locate }) {
 
     const { feedback } = useContext(GlobalContext)
 
@@ -41,6 +42,13 @@ function Register({ onRegister }) {
                         {feedback && <Feedback />}
                     </form>
                 </section>
+                {locate &&
+                    <section className="maps">
+                        <GoogleMaps
+                            defaultPos={locate}
+                        />
+                    </section>
+                }
             </section>
         </section>
     )

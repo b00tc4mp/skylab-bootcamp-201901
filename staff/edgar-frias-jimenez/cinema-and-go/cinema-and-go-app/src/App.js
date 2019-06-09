@@ -1,5 +1,5 @@
-import React, { Fragment, useState } from 'react'
-import { Route, withRouter } from 'react-router-dom'
+import React, { Fragment, useState, useEffect } from 'react'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 
 import { GlobalContext } from './components/GlobalContext'
 
@@ -17,6 +17,7 @@ import './App.scss'
 
 function App ({ history }) {
 
+    const [ locate, setLocate ] = useState(null)
     const [ feedback, setFeedback ] = useState(null)
     const [ showSpinner, handleSpinner ] = useState(null)
 
@@ -50,36 +51,33 @@ function App ({ history }) {
         }
     }
 
-//     const locate = () => {
-//         try{
-//             debugger
-//             appLogic.handleInitialLocation()
-//                 .then((res) => console.log(res) )
-//         } catch (error) {
-//             debugger
+    const setCurrentPosition = () => {
+        try{
+            appLogic.handleInitialLocation()
+                .then(res => {
+                    setLocate(res.reverse())
+                })
+        } catch ({ message }) {
+            console.log(message)
+        }
+    }
 
-//         }
-//     }
+    useEffect(() => {
+        setCurrentPosition()
+    },[])
 
-//    useEffect(() => {
-//     locate()
-//    },[])
-
-
+    console.log('appLogic.isUserLoggedIn', appLogic.isUserLoggedIn)
 
     return (
         <Fragment>
             <GlobalContext.Provider value={{ feedback, setFeedback, showSpinner, handleSpinner }}>
-                <Route exact path='/' component={Landing} />
-                <Route exact path='/login' render={() => <Login onLogin={handleLogin} />} />
-                <Route exact path='/register' render={() => <Register onRegister={handleRegister} />} />
-                <Route exact path='/home' render={() => <Home />} />
+                <Route exact path='/' render={() => !appLogic.isUserLoggedIn ? <Landing  locate={locate} /> : <Redirect to="/home" /> } />
+                <Route exact path='/login' render={() => appLogic.isUserLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} locate={locate} />} />
+                <Route exact path='/register' render={() => appLogic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} locate={locate} />} />
+                <Route exact path='/home' render={() => !appLogic.isUserLoggedIn ? <Redirect to="/" /> : <Home locate={locate} />} />
                 <Spinner />
             </GlobalContext.Provider>
             {feedback && <Feedback />}
-            {/* <section className="maps">
-                <GoogleMaps />
-    </section>*/}
         </Fragment>
     )
 }

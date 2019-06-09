@@ -4,7 +4,7 @@ import { GoogleMap, LoadScript } from '@react-google-maps/api'
 import { defaultMapProps, defaultMapZoom } from './config'
 const { REACT_APP_MAPS_KEY } = process.env
 
-function GoogleMaps({ defaultPos, children }) {
+function GoogleMaps({ defaultPos, customZoom, children }) {
     const userPosition = {
         lat: defaultPos[0],
         lng: defaultPos[1]
@@ -21,7 +21,7 @@ function GoogleMaps({ defaultPos, children }) {
                 center={userPosition}
                 mapContainerClassName='map-container'
                 mapContainerStyle={{ height: '100vh', width: '100vw' }}
-                zoom={zoom}
+                zoom={customZoom ? customZoom : zoom}
             >
                 {children}
             </GoogleMap>

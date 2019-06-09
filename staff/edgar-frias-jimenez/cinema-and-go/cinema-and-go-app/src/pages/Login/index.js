@@ -1,11 +1,12 @@
 import React, { useContext, useState } from 'react'
 import Header from '../../components/Header'
 import { GlobalContext } from '../../components/GlobalContext'
+import GoogleMaps from '../../components/Maps'
 import Feedback from '../../components/Feedback'
 
 import './index.scss'
 
-function Login({ onLogin }) {
+function Login({ onLogin, locate }) {
 
     const { feedback } = useContext(GlobalContext)
 
@@ -34,8 +35,16 @@ function Login({ onLogin }) {
 
                         <button className="button">Log in</button>
                         {feedback && <Feedback />}
-                    </form>
+
+                        </form>
                 </section>
+                {locate &&
+                    <section className="maps">
+                        <GoogleMaps
+                            defaultPos={locate}
+                        />
+                    </section>
+                }
             </section>
         </section>
     )

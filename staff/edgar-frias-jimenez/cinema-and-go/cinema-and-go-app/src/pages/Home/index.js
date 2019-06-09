@@ -2,16 +2,48 @@ import React, { useEffect, useState } from 'react'
 import appLogic from '../../logic'
 import GoogleMaps from '../../components/Maps'
 import CustomMarker from '../../components/Marker'
+import { Circle } from '@react-google-maps/api'
 
-const Home = () => {
+const Home = ({ locate }) => {
 
-    const [locate, setLocate] = useState(null)
+    const [locateUser, setLocateUser] = useState(null)
+    const [cinemaPoi, setCinemaPoi] = useState(null)
+
+
+    const [ temp, setTemp ] = useState(null)
+
+
+    useEffect(() => {
+        setLocateUser(locateUser)
+    },[])
+
+    const threshold = 1500
+
+    const cinemas = async () => {
+        if(locate) {
+            const userPosition = {
+                lat: locate[1],
+                lng: locate[0]
+            }
+
+            return await appLogic.retrieveNearestCinemas(userPosition, threshold)
+        }
+    }
+
+    cinemas()
+        .then(cinemaLocations => {
+            setCinemaPoi(cinemaLocations)
+        })
+        .catch(console.error)
+
+
+
 
     const setCurrentPosition = () => {
         try{
             appLogic.handleInitialLocation()
                 .then(res => {
-                    setLocate(res.reverse())
+                    setTemp(res.reverse())
                 })
         } catch ({ message }) {
             console.log(message)
@@ -22,39 +54,53 @@ const Home = () => {
         setCurrentPosition()
     },[])
 
-    const threshold = 1500
-
-    const cinemas = async () => {
-        if(locate) {
-            const userPosition = {
-                lat: locate[0],
-                lng: locate[1]
-            }
-
-            console.log('userPosition', userPosition)
-
-            return await appLogic.retrieveNearestCinemas(userPosition, threshold)
-        }
-    }
-
-    cinemas()
-        .then(cinemaLocations => {
-            cinemaLocations.forEach(element => {
-                console.log(element.location.coordinates[0], element.location.coordinates[1])
-            })
-        })
-        .catch(console.error)
     return (
         <section className="home">
             <section className="home__content">
-            {locate &&
+            {temp &&
                 <section className="maps">
                     <GoogleMaps
-                        defaultPos={locate}
+                        customZoom={14.5}
+                        defaultPos={temp}
                     >
-                        <CustomMarker
-                            customPosition={locate}
+                        <Circle
+                            // optional
+                            onLoad={circle => {
+                                console.log('Circle onLoad circle: ', circle)
+                            }}
+                            // optional
+                            onUnmount={circle => {
+                                console.log('Circle onUnmount circle: ', circle)
+                            }}
+
+                            center={{
+                                lat: temp[0],
+                                lng: temp[1]
+                            }}
+                            options={{
+                                strokeColor: '#ce9234',
+                                strokeOpacity: 0.85,
+                                strokeWeight: 2,
+                                fillColor: '#ffd364',
+                                fillOpacity: 0.35,
+                                clickable: false,
+                                draggable: false,
+                                editable: false,
+                                visible: true,
+                                radius: 1500,
+                                zIndex: 1
+                            }}
                         />
+
+                        <CustomMarker
+                            clickable={false}
+                            customPosition={temp}
+                        />
+
+                        {cinemaPoi &&
+                            cinemaPoi.map(
+                            ({ location, _id: id }) => <CustomMarker key={id} customPosition={location.coordinates} />
+                        )}
                     </GoogleMaps>
                 </section>
             }

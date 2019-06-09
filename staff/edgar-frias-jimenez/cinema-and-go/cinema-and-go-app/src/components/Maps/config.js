@@ -1,6 +1,6 @@
 // Config file for Maps
 
-const defaultMapZoom = 16
+const defaultMapZoom = 17
 
 const defaultMapProps = {
     disableDefaultUI: true,
