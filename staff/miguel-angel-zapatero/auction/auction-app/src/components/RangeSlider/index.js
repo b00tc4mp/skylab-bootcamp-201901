@@ -8,24 +8,24 @@ const Range = createSliderWithTooltip(Slider.Range);
 
 const wrapperStyle = { width: 'auto', margin: 10 };
 
-function RangeSlider({min, max, deleteRange, onFilters}) {
+function RangeSlider({onFilters}) {
 
-    // const [minValue, setMinValue] = useState(min)
-    // const [maxValue, setMaxValue] = useState(max)
+    const [minValue, setMinValue] = useState(0)
+    const [maxValue, setMaxValue] = useState(0)
 
-    // useEffect(() => {
-    //     handleSearchItems()
-    // })
+    useEffect(() => {
+        handleSearchItems()
+    },[])
 
-    // async function handleSearchItems() {
-    //     try {
-    //         const items = await logic.searchItems({})
-    //         setMinValue(Math.min.apply(Math, items.map(item => item.startPrice)))
-    //         setMaxValue(Math.max.apply(Math, items.map(item => item.startPrice)))
-    //     } catch (error) {
-            
-    //     }
-    // }
+    async function handleSearchItems() {
+        try {
+            const items = await logic.searchItems({})
+            setMinValue(Math.min.apply(Math, items.map(item => item.startPrice)))
+            setMaxValue(Math.max.apply(Math, items.map(item => item.startPrice)))
+        } catch ({message}) {
+            alert(message)
+        }
+    }
 
     function handleRange(e) {
         const minValue = e[0]
@@ -34,11 +34,8 @@ function RangeSlider({min, max, deleteRange, onFilters}) {
     }
 
     return <>
-        {/* <div style={wrapperStyle}>
-        <Range onAfterChange={handleRange} min={minValue} max={maxValue} defaultValue={[minValue, maxValue]} pushable tipFormatter={value => value} />
-        </div> */}
         <div style={wrapperStyle}>
-        <Range onAfterChange={handleRange} min={0} max={5000} defaultValue={[0, 5000]} pushable tipFormatter={value => value} />
+        <Range onAfterChange={handleRange} min={minValue} max={maxValue} defaultValue={[minValue, maxValue]} pushable tipFormatter={value => value} />
         </div>
     </>
 }

@@ -2,12 +2,6 @@ import React, {useState, useEffect} from 'react'
 import moment from 'moment'
 
 function CountDown({nowDate, endDate}) {
-
-    // const [months, setMonths] = useState(null)
-    // const [days, setDays] = useState(null)
-    // const [hours, setHours] = useState(null)
-    // const [minutes, setMinutes] = useState(null)
-    // const [seconds, setSeconds] = useState(null)
     const [countDown, setCountDown] = useState(null)
 
     useEffect(() => {
@@ -35,8 +29,7 @@ function CountDown({nowDate, endDate}) {
     }
 
     return <>
-        <h3>CountDown</h3>
-        <p>{countDown}</p>
+        <h4>{countDown}</h4>
     </>
 }
 
