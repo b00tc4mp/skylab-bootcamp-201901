@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonList } from '@ionic/react';
-import ProviderBasic from '../ProviderBasic';
-import { PENDING, ACTIVE } from '../../../enums';
+import ProviderBasic from './ProviderBasic';
+import { PENDING, ACTIVE } from '../../enums';
 
 export default function ListProviders({ providers: __providers, onlyPending = false, onlyActive = false }) {
   if (!__providers) return null;

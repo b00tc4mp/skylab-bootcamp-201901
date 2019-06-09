@@ -2,7 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import { MainContext } from '../../logic/contexts/main-context';
 import moment from 'moment';
 import logic from '../../logic';
-import AttendanceItem from '../../components/AttendanceItem';
+import AttendanceItem from '../../components/attendances/AttendanceItem';
 import {
   IonPage,
   IonButton,

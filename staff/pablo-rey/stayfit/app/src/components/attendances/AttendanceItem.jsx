@@ -10,7 +10,7 @@ import {
   IonItemOption,
   IonButton,
 } from '@ionic/react';
-import { AttendanceStatus } from '../attendances/AttendanceStatus';
+import { AttendanceStatus } from './AttendanceStatus';
 import { MainContext } from '../../logic/contexts/main-context';
 
 export default function AttendanceItem({ session, onChange }) {

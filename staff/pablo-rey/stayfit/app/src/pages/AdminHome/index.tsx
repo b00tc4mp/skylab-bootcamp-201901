@@ -19,18 +19,14 @@ import {
   IonLabel,
 } from '@ionic/react';
 import { IonIcon, IonButton } from '@ionic/react';
-import Menu from '../../components/Menu';
 import { withRouter, Route, Switch } from 'react-router-dom';
 import { MainContext } from '../../logic/contexts/main-context';
-import MainAdmin from '../MainAdmin';
-import MyBookings from '../MyBookings';
-// import MyProviders from '../MyProviders';
-import MySettingsAdmin from '../MySettingsAdmin';
-import AdminSessions from '../AdminSessions';
-import AdminCustomers from '../AdminCustomers';
+import MainAdmin from './MainAdmin';
+import MySettingsAdmin from './MySettingsAdmin';
+import AdminSessions from './AdminSessions';
+import AdminCustomers from './AdminCustomers';
 import logic from '../../logic';
 import { PENDING } from '../../enums';
-let count = 0;
 
 const AdminHome: React.FC<any> = ({ history, location }) => {
   const ctx = useContext(MainContext);

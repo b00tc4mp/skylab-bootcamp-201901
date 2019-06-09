@@ -1,6 +1,5 @@
 import { IonContent, IonPage, IonButton } from '@ionic/react';
 import React, { useContext } from 'react';
-import { Link } from 'react-router-dom';
 import { MainContext } from '../../logic/contexts/main-context';
 
 export default function Superadmin() {

@@ -1,18 +1,4 @@
 import React from 'react';
-// import {
-//   ion-item,
-//   ion-text,
-//   ion-img,
-//   ion-ion-badge,
-//   ion-badge,
-//   ion-grid,
-//   ion-row,
-//   ion-col,
-//   ion-note,
-//   ion-label,
-//   ion-anchor,
-//   ion-button,
-// } from '@ionic/react';
 import moment from 'moment';
 
 export default function SessionBasic({ session }) {

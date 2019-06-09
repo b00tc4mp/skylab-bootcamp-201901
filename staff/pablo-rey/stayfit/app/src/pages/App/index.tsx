@@ -5,12 +5,12 @@ import { IonApp, IonContent, IonToast } from '@ionic/react';
 import React, { useEffect } from 'react';
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
 import '../../style.css';
-import Home from '../Home';
+import Home from '../UserHome';
 import Landing from '../Landing';
 import Login from '../Login';
 import Register from '../Register';
 import Admin from '../AdminHome';
-import Superadmin from '../Superadmin';
+import Superadmin from '../SuperadminHome';
 import Temp from '../temp';
 import Temp2 from '../temp2';
 

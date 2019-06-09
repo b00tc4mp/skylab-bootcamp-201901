@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
 import { IonItem, IonImg, IonAvatar, IonLabel, IonButton, IonIcon } from '@ionic/react';
-import { PENDING, ACTIVE } from '../../../enums';
-import { MainContext } from '../../../logic/contexts/main-context';
+import { PENDING, ACTIVE } from '../../enums';
+import { MainContext } from '../../logic/contexts/main-context';
 
 export default function ProviderBasic({ provider: __provider }) {
   

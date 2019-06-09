@@ -1,5 +1,5 @@
 import React from 'react';
-import { CustomerBasic } from '../CustomerBasic';
+import { CustomerBasic } from './CustomerBasic';
 import {
   IonList,
   IonItemDivider,
@@ -10,7 +10,7 @@ import {
   IonItemSliding,
   IonIcon,
 } from '@ionic/react';
-import { PENDING, ACCEPT } from '../../../enums';
+import { PENDING, ACCEPT } from '../../enums';
 
 export default function ListCustomers({
   customersAndRequests: crs,

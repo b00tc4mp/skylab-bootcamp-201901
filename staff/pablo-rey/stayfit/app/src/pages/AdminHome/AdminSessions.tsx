@@ -1,6 +1,5 @@
-import { IonContent, IonPage, IonRow, IonGrid, IonCol, IonText } from '@ionic/react';
-import React, { useState } from 'react';
-import moment from 'moment';
+import React from 'react';
+import { IonContent, IonPage } from '@ionic/react';
 import { CalendarWeek } from '../../components/CalendarWeek';
 
 export default function() {

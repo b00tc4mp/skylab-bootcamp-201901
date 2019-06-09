@@ -1,7 +1,6 @@
 import React from 'react';
 import { IonItem, IonImg, IonAvatar, IonLabel, IonIcon } from '@ionic/react';
-import { userInfo } from 'os';
-import { ACCEPT, DENIEDBYPROVIDER, DENIEDBYUSER, PENDING } from '../../../enums';
+import { ACCEPT, DENIEDBYPROVIDER, DENIEDBYUSER, PENDING } from '../../enums';
 
 export function CustomerBasic({ customerRequest }) {
   return (

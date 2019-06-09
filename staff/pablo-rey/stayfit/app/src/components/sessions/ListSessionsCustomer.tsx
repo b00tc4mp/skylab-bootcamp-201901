@@ -1,8 +1,7 @@
-import React from 'react';
-import SessionBasic from '../SessionBasic';
-import { IonList, IonItemDivider, IonLabel } from '@ionic/react';
+import { IonItemDivider, IonLabel, IonList } from '@ionic/react';
 import moment from 'moment';
-import AttendanceItem from '../../AttendanceItem';
+import React from 'react';
+import AttendanceItem from '../attendances/AttendanceItem';
 
 export default function ListSessionsCustomer({
   sessions,

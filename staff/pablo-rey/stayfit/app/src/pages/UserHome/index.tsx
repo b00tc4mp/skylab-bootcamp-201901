@@ -19,13 +19,12 @@ import {
   IonLabel,
 } from '@ionic/react';
 import { IonIcon, IonButton } from '@ionic/react';
-import Menu from '../../components/Menu/';
 import { withRouter, Route } from 'react-router-dom';
 import { MainContext } from '../../logic/contexts/main-context';
-import MainUser from '../MainUser';
-import MyBookings from '../MyBookings';
-import MyProviders from '../MyProviders';
-import MySettingsUser from '../MySettingsUser';
+import MainUser from './MainUser';
+import MyBookings from './MyBookings';
+import MyProviders from './MyProviders';
+import MySettingsUser from './MySettingsUser';
 
 const Home: React.FC<any> = ({ history, location }) => {
   const [view, setView] = useState('all');
