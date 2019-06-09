@@ -2,7 +2,9 @@ const validate = require('pg-validate')
 const { LogicError } = require('pg-errors')
 const { models } = require('pg-data')
 const bcrypt = require('bcrypt')
-
+const streamifier = require('streamifier')
+const cloudinary = require('cloudinary').v2
+const {CLOUDINARY_API_KEY, CLOUDINARY_SECRET_KEY, CLOUDINARY_NAME} = require('../config')
 const { UserData, Thing } = models
 
 const logic = {
@@ -64,19 +66,35 @@ const logic = {
         })()
     },
 
-    addPublicThing(category, description, userId, locId) {
+    addPublicThing(buffer, category, description, userId, locId) {
 
         validate.arguments([
-            // { name: 'image', value: image, type: 'object', notEmpty: true },
+            { name: 'buffer', value: buffer, type: 'object', notEmpty: true },
             { name: 'category', value: category, type: 'string', notEmpty: true },
             { name: 'description', value: description, type: 'string', notEmpty: true },
             { name: 'userId', value: userId, type: 'string', notEmpty: true },
             { name: 'locId', value: locId, type: 'string', notEmpty: true },
         ])
 
+        cloudinary.config({
+            cloud_name: CLOUDINARY_NAME,
+            api_key: CLOUDINARY_API_KEY,
+            api_secret: CLOUDINARY_SECRET_KEY
+        })
+
+        const image = new Promise(( resolve, reject) => {
+            const uploadStream = cloudinary.uploader.upload_stream((err, image) => {
+                if(err) throw new LogicError('Image could not be uploaded')
+                resolve(image)
+            })
+            streamifier.createReadStream(buffer).pipe(uploadStream)
+            
+        })
+
         return (async () => {
             
-            await Thing.create({ category, description, owner: userId, loc: locId}) 
+            const carme = await Thing.create({ image: image.secure_url, category, description, owner: userId, loc: locId}) 
+            console.log(carme)
             
         })()
     },
@@ -86,16 +104,13 @@ const logic = {
             { name: 'userId', value: userId, type: 'string', notEmpty: true },
             { name: 'id', value: id, type: 'string', notEmpty: true },
             { name: 'status', value: status, type: 'number'}
-        ])
+        ])        
 
         return (async () => {
 
-            try {                
-                
-                const thing = await Thing.findByIdAndUpdate(id, {status})
-                
-                if (!thing) throw new LogicError(`thing with id ${id} does not exist`)
-                
+            try {                                
+                const thing = await Thing.findByIdAndUpdate(id, {status})                
+                if (!thing) throw new LogicError(`thing with id ${id} does not exist`)                
                 return thing
             }
             catch (err) {

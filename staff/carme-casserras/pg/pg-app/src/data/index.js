@@ -59,22 +59,19 @@ const pgApi = {
         // .then(res => res.json())
     },
 
-    addPublicThing(category, description, token, locId) {
+    addPublicThing(formData, token) {
 
         validate.arguments([
-            // { name: 'image', value: image, type: 'object', notEmpty: true },
-            { name: 'category', value: category, type: 'string', notEmpty: true },
-            { name: 'description', value: description, type: 'string', notEmpty: true },
-            { name: 'token', value: token, type: 'string', notEmpty: true },
-            { name: 'locId', value: locId, type: 'string', notEmpty: true },
+            { name: 'formData', value: formData, type: 'object', optional: false },          
+            { name: 'token', value: token, type: 'string', notEmpty: true },            
         ])
 
         return call(`${this.__url__}/things`, {
             method: 'POST',
             headers: { 
                 Authorization: `Bearer ${token}`,
-                'Content-Type': 'application/json'},
-            body: JSON.stringify({category, description, locId}),
+                'Content-Type': 'multipart/form-data'},
+            body: formData,
             timeout: this.__timeout__
         })
     },

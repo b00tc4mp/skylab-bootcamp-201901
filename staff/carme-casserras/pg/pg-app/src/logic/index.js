@@ -64,17 +64,25 @@ const logic = {
         })
     },
 
-    addPublicThings(category, description, locId) {
+    addPublicThings(image, category, description, locId) {
         validate.arguments([
-            // { name: 'image', value: image, type: 'object', notEmpty: true },
+            { name: 'image', value: image, type: 'object', optional: false },
             { name: 'category', value: category, type: 'string', notEmpty: true },
             { name: 'description', value: description, type: 'string', notEmpty: true },
             { name: 'locId', value: locId, type: 'string', notEmpty: true },
         ])
 
-        return (async () => {         
-        const res =  await pgApi.addPublicThing(category, description, this.__userToken__, locId)      
-        return res                          
+        const formData = new window.FormData()
+
+        formData.append('image', image)
+        formData.append('category', category)
+        formData.append('description', description)
+        formData.append('locId', locId)
+
+        return (async () => {      
+               
+        return await pgApi.addPublicThing(formData, this.__userToken__)      
+                               
         })()
     },
 

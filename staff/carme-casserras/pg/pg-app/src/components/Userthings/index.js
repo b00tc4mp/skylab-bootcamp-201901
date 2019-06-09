@@ -15,13 +15,15 @@ function UserThings() {
     }, [])
 
     return (<ul>
+        <div>
+            <p>LOREM IPSUM</p>
+        </div>
+
         {results &&
             results.map(({ image, category, description, loc: { name } }) => {
 
                 return (
-                    // <div>
-                    //     <p>LOREM IPSUM</p>
-                    // </div>
+
                     <li key={category}>
                         <img src={image} />
                         <h2>{category}</h2>

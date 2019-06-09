@@ -28,7 +28,6 @@ function CategoryResults(props) {
             results.map(({ _id : id, status, image, category, description, loc: { name } }) => {
                 return status == 0 &&
                     (<li key={id} onClick={() => handleThing(id)}>
-                        {/* <p>{id}</p> */}
                         <img src={image}/>
                         <h2>{category}</h2>
                         <p>{description}</p>

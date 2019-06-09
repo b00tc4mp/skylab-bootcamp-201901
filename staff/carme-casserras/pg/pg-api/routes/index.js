@@ -4,10 +4,11 @@ const logic = require('../logic')
 const handleErrors = require ('./handle-errors')
 const jwt = require('jsonwebtoken')
 const auth = require('./auth')
-
-const  {env: { JWT_SECRET} } = process
+const imageparse = require ('./image-parse')
 const jsonParser = bodyParser.json()
 const router = express.Router()
+
+const  {env: { JWT_SECRET} } = process
 
 router.post('/users', jsonParser, (req, res) => {
     const {body: { name, email, password} } = req
@@ -31,19 +32,19 @@ router.post('/users/auth', jsonParser, (req, res) => {
 router.get('/users', auth, (req, res) => {
     const { userId } = req
     handleErrors( async () => {
-debugger
+
         const user = await logic.retrieveUser(userId)
         return res.json(user)
     }, res)
 })
 
-router.post('/things', auth, jsonParser, (req, res) => {
+router.post('/things', auth, imageparse, (req, res) => {
 
-    const {body: {image, category, description, locId}, userId} = req
+    const { file: {buffer}, body: {category, description, locId}, userId} = req
 
     handleErrors(async () => {  
 
-        await logic.addPublicThing(image, category, description, userId, locId)
+        await logic.addPublicThing(buffer, category, description, userId, locId)
         return res.status(201).json({message: 'Ok, thing upload'})}, res)    
 })
 
