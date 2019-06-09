@@ -115,12 +115,8 @@ describe('logic', () => {
     })
 
     it('should succeed on correct user credential', async () => {
-      debugger
-      const res = await logic.authenticateUser(email, password)
-
-      debugger
+      await logic.authenticateUser(email, password)
       expect(logic.__userToken__).toBeDefined()
-      debugger
       expect(logic.__userIsAdmin__).toBeDefined()
     })
 
@@ -192,53 +188,156 @@ describe('logic', () => {
     beforeEach(async () => { await logic.registerUser(name, surname, email, password) })
 
     it('should succeed retrieving an existing user with correct id', async () => {
-      const _token = await restApi.authenticateUser(email, password)
-      // let { sub } = jwt.decode(_token.token)
+      await logic.authenticateUser(email, password)
+      const _user = await logic.retrieveUserBy()
 
-      const _user = await logic.retrieveUserBy(_token.token)
-
-      // expect(_user.id).toBe(undefined)
       expect(_user.name).toEqual(name)
       expect(_user.surname).toEqual(surname)
       expect(_user.email).toEqual(email)
       expect(_user.password).toBe(undefined)
     })
+  })
 
-    it('should fail retrieving an existing user with in-correct id', async () => {
-      const token = '64646446464644'
+  describe('add an order', () => {
+    beforeEach(() => {
+      return logic.registerUser(name, surname, email, password)
+    })
+
+    it('should succeed adding an order on existing user', async () => {
+      await logic.authenticateUser(email, password)
+      // let { sub } = jwt.decode(res.token)
+
+      let type = 'cone'
+      let size = 'big'
+      let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
+
+      const orderResponse = await logic.addOrder(flavors, size, type, totalPrice)
+      expect(orderResponse).toBeDefined()
+      const orders = await Order.find()
+      expect(orders).toBeDefined()
+      expect(orders[0].type).toBe('cone')
+      expect(orders[0].size).toBe('big')
+      expect.arrayContaining(orders[0].flavors)
+    })
+
+    it('should fail adding an order with empty type', async () => {
+      await logic.authenticateUser(email, password)
+
+      let type = ' \t    \n'
+      let size = 'big'
+      let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
+
       try {
-        await logic.retrieveUserBy(token)
+        await logic.addOrder(flavors, size, type, totalPrice)
       } catch (error) {
-        expect(error.message).toEqual('jwt malformed')
+        expect(error.message).toBe('type is empty')
       }
     })
 
-    it('should fail retrieving an existing user with in-correct id', async () => {
-      const token2 = ' \t    \n'
+    it('should fail adding an order with undefined type', async () => {
+      await logic.authenticateUser(email, password)
+
+      let type
+      let size = 'big'
+      let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
+
       try {
-        await logic.retrieveUserBy(token2)
+        await logic.addOrder(flavors, size, type, totalPrice)
       } catch (error) {
-        expect(error.message).toEqual('token is empty')
+        expect(error.message).toBe('type is not optional')
       }
     })
 
-    it('should fail retrieving an existing user with in-correct id', async () => {
-      const token3 = undefined
+    it('should fail adding an order with empty size', async () => {
+      await logic.authenticateUser(email, password)
+
+      let type = 'cone'
+      let size = ' \t    \n'
+      let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
+
       try {
-        await logic.retrieveUserBy(token3)
+        await logic.addOrder(flavors, size, type, totalPrice)
       } catch (error) {
-        expect(error.message).toEqual('token is not optional')
+        expect(error.message).toBe('size is empty')
       }
     })
 
-    it('should fail retrieving an existing user with in-correct id', async () => {
-      const token4 = ''
+    it('should fail adding an order with undefined size', async () => {
+      await logic.authenticateUser(email, password)
+      let type = 'cone'
+      let size
+      let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      let totalPrice = 12
+
       try {
-        await logic.retrieveUserBy(token4)
+        await logic.addOrder(flavors, size, type, totalPrice)
       } catch (error) {
-        expect(error.message).toEqual('token is empty')
+        expect(error.message).toBe('size is not optional')
       }
     })
+  })
+
+  describe('delete an user', () => {
+    beforeEach(() => {
+      return logic.registerUser(name, surname, email, password)
+    })
+
+    it('should succeed eliminating an existing user', async () => {
+      await logic.authenticateUser(email, password)
+      const res = await logic.deleteUser()
+      expect(res).toBeDefined()
+      const res2 = await User.findOne({ email }).lean()
+      expect(res2).toBeNull()
+    })
+
+    it('should fail eliminating an existing user with undefined user', async () => {
+      try {
+        await logic.deleteUser()
+      } catch (error) {
+        expect(error.message).toBe('User not found')
+      }
+    })
+
+    describe('retrieve orders by user id', () => {
+      beforeEach(async () => {
+        await logic.registerUser(name, surname, email, password)
+      })
+      it('should succeed retrieving orders by user id', async () => {
+        await logic.authenticateUser(email, password)
+        let type = 'cone'
+        let size = 'big'
+        let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+        let totalPrice = 12
+  
+        await logic.addOrder(id, flavors, size, type, totalPrice)
+        await logic.addOrder(id, flavors, size, type, totalPrice)
+        const orders = await logic.retrieveUserOrders(id)
+        expect(orders).toBeDefined()
+        expect(orders).toHaveLength(2)
+      })
+  
+      // it('should fail retrieving orders by empty id', async () => {
+      //   try {
+      //     await .authenticateUser(email, password)
+      //     const id = ''
+      //     let type = 'cone'
+      //     let size = 'big'
+      //     let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      //     let totalPrice = 12
+      //     await restApi.addOrder(id, flavors, size, type, totalPrice)
+      //     await restApi.addOrder(id, flavors, size, type, totalPrice)
+      //     const orders = await restApi.retrieveOrdersByUserId(id)
+      //     expect(orders).toBeDefined()
+      //     expect(orders).toHaveLength(2)
+      //   } catch (error) {
+      //     expect(error.message).toBe('token is empty')
+      //   }
+      // })
+  
   })
 
   afterAll(async () => {

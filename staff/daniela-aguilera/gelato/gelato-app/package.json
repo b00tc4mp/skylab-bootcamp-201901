@@ -7,6 +7,7 @@
     "bulma": "0.7.5",
     "classnames": "2.2.6",
     "dotenv": "8.0.0",
+    "faker": "^4.1.0",
     "gelato-errors": "file:../gelato-errors",
     "gelato-validation": "file:../gelato-validation",
     "qrious": "^4.0.2",

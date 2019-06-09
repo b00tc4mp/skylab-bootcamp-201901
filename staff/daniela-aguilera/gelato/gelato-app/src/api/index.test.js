@@ -1,10 +1,10 @@
 const { default: restApi } = require('.')
-
 const { User, Order, mongoose } = require('gelato-data')
 const { env: { MONGO_URL_LOGIC_TEST } } = process
+const faker = require('faker')
 
 describe('rest api', () => {
-  let name, surname, email, password
+  let name, surname, email, password, name1, surname1, email1, password1
 
   beforeAll(() => mongoose.connect(MONGO_URL_LOGIC_TEST, { useNewUrlParser: true }))
 
@@ -12,19 +12,22 @@ describe('rest api', () => {
     await User.deleteMany()
     await Order.deleteMany()
 
-    name = `apptest-${Math.random()}`
-    surname = `apptest-${Math.random()}`
-    email = `apptest-${Math.random()}@mail.com`
-    password = `apptest-${Math.random()}`
+    name = faker.name.firstName()
+    surname = faker.name.lastName()
+    email = faker.internet.email()
+    password = faker.internet.password()
+    name1 = faker.name.firstName()
+    surname1 = faker.name.lastName()
+    email1 = faker.internet.email()
+    password1 = faker.internet.password()
   })
 
   describe('register user', () => {
     it('should succeed on correct data', async () => {
       const res = await restApi.registerUser(name, surname, email, password)
-      debugger
+
       const user = await User.findOne({ email })
 
-      debugger
       expect(res.message).toBe('User registered.')
       expect(user.name).toBe(name)
       expect(user.surname).toBe(surname)
@@ -125,9 +128,8 @@ describe('rest api', () => {
     })
 
     it('should fail on incorrect email', async () => {
-      let email2 = 'daniela@gmail.com'
       try {
-        await restApi.authenticateUser(email2, password)
+        await restApi.authenticateUser(email1, password)
       } catch (error) {
         expect(error.message).toBe('wrong credentials')
       }
@@ -671,8 +673,8 @@ describe('rest api', () => {
 
       const updatedOrders = await restApi.retrieveOrdersByUserId(userToken)
       expect(updatedOrders).toHaveLength(1)
-      expect(updatedOrders[0].size).toBe('small')
-      expect(updatedOrders[0].type).toBe('cone')
+      expect(updatedOrders[0].size).toBe(size2)
+      expect(updatedOrders[0].type).toBe(type2)
     })
 
     it('should fail removing an order by sending undefined orderId', async () => {
@@ -747,6 +749,7 @@ describe('rest api', () => {
         let size2 = 'small'
         let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
         let flavors2 = ['lemon', 'strawberry', 'cheesecake']
+        let totalPrice = 12
         await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
         await restApi.addOrder(userToken, flavors, size, type, totalPrice)
         const allorders = await restApi.retrieveOrdersByUserId(userToken)
@@ -825,32 +828,43 @@ describe('rest api', () => {
   })
 
   describe('retrieve all users orders', () => {
-    let name1 = 'test1'
-    let surname1 = 'test1'
-    let email1 = 'test1@gmail.com'
-    let password1 = '123'
+    let type, type2, size, size2, flavors, flavors2, totalPrice, totalPrice2, userToken, userToken2
+    
     beforeEach(async () => {
+    })
+    
+    it('should succeed retrieving all users orders', async () => {
+      debugger
+      type = faker.commerce.product()
+      type2 = faker.commerce.product()
+      size = faker.commerce.productAdjective()
+      size2 = faker.commerce.productAdjective()
+      flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      flavors2 = ['lemon', 'strawberry', 'cheesecake']
+      totalPrice = 12
+      totalPrice2 = 16
       await restApi.registerUser(name, surname, email, password)
       await restApi.registerUser(name1, surname1, email1, password1)
-    })
-    it('should succeed retrieving all users orders', async () => {
       const _token = await restApi.authenticateUser(email, password)
+      debugger
+
       const _token1 = await restApi.authenticateUser(email1, password1)
-
-      const userToken = _token.token
-      const userToken1 = _token1.token
-
-      let type = 'cone'
-      let type2 = 'tarrina'
-      let size = 'big'
-      let size2 = 'small'
-      let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-      let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-      let totalPrice = 12
+      debugger
+      userToken = _token.token
+      userToken2 = _token1.token
+      debugger
       await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
-      await restApi.addOrder(userToken1, flavors, size, type, totalPrice)
+      await restApi.addOrder(userToken2, flavors, size, type, totalPrice2)
+      // let type = 'cones
+      // let type2 = 'tarrina'
+      // let size = 'big'
+      // let size2 = 'small'
+      // let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
+      // let flavors2 = ['lemon', 'strawberry', 'cheesecake']
+      // let totalPrice = 12
 
       const allUsersOrders = await restApi.retrieveAllUsersOrders()
+      debugger
       expect(allUsersOrders).toBeDefined()
       expect(allUsersOrders).toHaveLength(2)
       expect(allUsersOrders[0].type).toBe(type2)
