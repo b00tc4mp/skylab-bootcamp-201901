@@ -9,7 +9,7 @@ export default function ProviderBasic({ provider: __provider }) {
   
   let provider;
   let request;
-  if (__provider.request) {
+  if (__provider.request !== undefined) {
     provider = __provider.provider;
     request = __provider.request;
   } else {

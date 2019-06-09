@@ -3,7 +3,20 @@ import { MainContext } from '../../logic/contexts/main-context';
 import moment from 'moment';
 import logic from '../../logic';
 import AttendanceItem from '../../components/AttendanceItem';
-import { IonPage, IonSegmentButton, IonSegment, IonRefresher, IonRefresherContent } from '@ionic/react';
+import {
+  IonPage,
+  IonButton,
+  IonButtons,
+  IonIcon,
+  IonSegmentButton,
+  IonSegment,
+  IonRefresher,
+  IonRefresherContent,
+  IonImg,
+  IonAvatar,
+  IonThumbnail,
+  IonItem,
+} from '@ionic/react';
 
 export default function MyProviders({ history, location }) {
   const ctx = useContext(MainContext);
@@ -11,21 +24,34 @@ export default function MyProviders({ history, location }) {
   const { customerOf } = ctx.user;
 
   const [providerNum, setProviderNum] = useState(0);
-  const day = moment();
-  const [view, setView] = useState(day.format('YYYY-MM-DD'));
+  const [provider, setProvider] = useState(customerOf[0]);
+  const [view, setView] = useState(moment().format('YYYY-MM-DD'));
   const [sessions, setSessions] = useState([]);
 
   function refresh(event) {
-    logic.availableSessions(customerOf[0].id, view).then(data => {
+    logic.availableSessions(provider.id, view).then(data => {
       data.sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
       setSessions(data);
       if (event) event.target.complete();
     });
   }
 
+  const handleProviderPlus = () => {
+    if (providerNum < customerOf.length - 1) {
+      setProvider(customerOf[providerNum + 1]);
+      setProviderNum(providerNum + 1);
+    }
+  };
+  const handleProviderMinus = () => {
+    if (providerNum > 0) {
+      setProvider(customerOf[providerNum - 1]);
+      setProviderNum(providerNum - 1);
+    }
+  };
+
   useEffect(() => {
     refresh();
-  }, [view]);
+  }, [view, provider]);
 
   const updateSegment = e => {
     const _day = e.detail.value;
@@ -36,10 +62,26 @@ export default function MyProviders({ history, location }) {
     <IonPage id="providers-user">
       <ion-header>
         <ion-toolbar>
-          <ion-title>{customerOf[0].name}</ion-title>
+          <IonButtons slot="start">
+            <IonButton onClick={handleProviderMinus} disabled={providerNum <= 0}>
+              <IonIcon name="arrow-dropleft" />
+            </IonButton>
+          </IonButtons>
+          <IonItem>
+            <IonThumbnail slot="start">
+              <IonImg src={provider.portraitImageUrl} />
+            </IonThumbnail>
+            <ion-title>{provider.name}</ion-title>
+          </IonItem>
+          <IonButtons slot="end">
+            <IonButton onClick={handleProviderPlus} disabled={providerNum >= customerOf.length -1}>
+              <IonIcon name="arrow-dropright" />
+            </IonButton>
+          </IonButtons>
         </ion-toolbar>
         <IonSegment onIonChange={updateSegment} scrollable>
           {new Array(15).fill(undefined).map((_, i) => {
+            const day = moment();
             day.add(1, 'day');
             return (
               <IonSegmentButton
@@ -60,11 +102,7 @@ export default function MyProviders({ history, location }) {
         </IonRefresher>
         <ion-list>
           {sessions.map(sessionAttendance => (
-            <AttendanceItem
-              key={sessionAttendance.id}
-              session={sessionAttendance}
-              onChange={refresh}
-            />
+            <AttendanceItem key={sessionAttendance.id} session={sessionAttendance} onChange={refresh} />
           ))}
         </ion-list>
       </ion-content>

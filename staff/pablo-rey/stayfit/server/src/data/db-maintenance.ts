@@ -79,11 +79,11 @@ export async function populateDb() {
   }
 
   const provider1 = await ProviderModel.create({
-    name: faker.company.companyName(),
+    name: "Agogé Physical Training",
     admins: [admin],
     coaches,
     customers: [],
-    uploadedBanner: 'https://crossfitstreets.com/wp-content/uploads/2016/02/banner-stayatcrossfit.jpg',
+    uploadedBanner: 'https://www.agoge.ovh/images/logo_agoge.jpg',
     uploadedPortrait: 'https://www.48hourslogo.com/48hourslogo_data/2018/11/12/78999_1542026387.jpg',
   });
 
@@ -158,7 +158,7 @@ export async function populateDb() {
 
   console.log('Creando session types...');
   const day = moment().format('YYYY-MM-DD');
-  const startTime = moment(`${day} 08:00:00`, 'YYYY-MM-DD hh:mm:ss', true);
+  let startTime = moment(`${day} 08:00:00`, 'YYYY-MM-DD hh:mm:ss', true);
   await populateSessions(provider1, startTime, 10, coaches);
   await populateSessions(provider1, startTime, 10, coaches);
   await populateSessions(provider1, startTime, 10, coaches);
@@ -170,6 +170,10 @@ export async function populateDb() {
   await populateSessions(provider1, startTime, 10, coaches);
   await populateSessions(provider1, startTime, 10, coaches);
   await populateSessions(provider1, startTime, 10, coaches);
+
+  startTime = moment(`${day} 08:00:00`, 'YYYY-MM-DD hh:mm:ss', true);
+  await populateSessions(provider2, startTime, 10, coaches);
+  await populateSessions(provider2, startTime, 10, coaches);
 
   // create attendances
   const sessions = await SessionModel.find({}).populate('provider');
