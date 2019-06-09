@@ -2,10 +2,17 @@ import React, { useState } from 'react'
 import appLogic from '../../logic'
 import GoogleMaps from '../../components/Maps'
 import CustomMarker from '../../components/Marker'
+import CinemaModal from '../../components/CinemaModal'
 import { Circle } from '@react-google-maps/api'
 
 const Home = ({ locate }) => {
     const [cinemaPoi, setCinemaPoi] = useState(null)
+    const [ modalVisible, setModalVisible ] = useState(false)
+
+    const handleCloseModal = () => {
+        console.log('handle close click')
+        setModalVisible(false)
+    }
 
     const threshold = 1500
 
@@ -28,6 +35,11 @@ const Home = ({ locate }) => {
 
     return (
         <section className="home">
+            {
+                modalVisible && <CinemaModal onClose={handleCloseModal} />
+            }
+
+
             <section className="home__content">
             {locate &&
                 <section className="maps">
@@ -70,9 +82,18 @@ const Home = ({ locate }) => {
                         />
 
                         {cinemaPoi &&
-                            cinemaPoi.map(
-                            ({ location, _id: id }) => <CustomMarker key={id} customPosition={location.coordinates} />
-                        )}
+                            cinemaPoi.map (
+                                ({ location, _id: id }) =>
+                                    <CustomMarker
+                                        key={id}
+                                        customPosition={location.coordinates}
+                                        customHandler={() => {
+                                            setModalVisible(true)
+                                            console.log('handleClick here', modalVisible)
+                                        }}
+                                    />
+                            )
+                        }
                     </GoogleMaps>
                 </section>
             }

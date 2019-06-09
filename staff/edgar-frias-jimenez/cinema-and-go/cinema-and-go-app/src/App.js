@@ -5,7 +5,6 @@ import { GlobalContext } from './components/GlobalContext'
 
 import appLogic from './logic'
 
-// import GoogleMaps from './components/Maps'
 import Feedback from './components/Feedback'
 import Spinner from './components/Spinner'
 import Landing from './pages/Landing'

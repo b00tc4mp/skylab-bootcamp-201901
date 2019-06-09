@@ -7,10 +7,10 @@ const Spinner = () => {
 
     const { showSpinner } = useContext(GlobalContext)
 
-    const visible = showSpinner ? `spinner` : 'spinner hidden'
+    const spinnerClasses = showSpinner ? `spinner` : 'spinner hidden'
 
     return (
-        <div className={visible}>
+        <div className={spinnerClasses}>
             <div className='spinner__content'>
                 <div className="sk-folding-cube">
                     <div className="sk-cube1 sk-cube"></div>

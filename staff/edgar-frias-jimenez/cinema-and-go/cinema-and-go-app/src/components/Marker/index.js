@@ -1,7 +1,7 @@
 import React from "react"
 import { Marker } from '@react-google-maps/api'
 
-const CustomMarker = ({ customPosition })  => {
+const CustomMarker = ({ customPosition, customHandler })  => {
     const pointPosition = {
         lat: customPosition[0],
         lng: customPosition[1]
@@ -9,10 +9,8 @@ const CustomMarker = ({ customPosition })  => {
 
     return (
         <Marker
-            onClick={marker => {
-                console.log('click', marker)
-            }}
             position={pointPosition}
+            onClick={customHandler}
         />
     )
 }
