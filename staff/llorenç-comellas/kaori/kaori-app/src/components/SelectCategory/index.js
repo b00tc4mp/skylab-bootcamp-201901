@@ -14,14 +14,14 @@ function SelectCategory({ onCategory }) {
                 <div className="select is-fullwidth">
                     <select className='select-category' onChange={getCategory}>
                         <option value='ENTRANTES' >Entrantes</option>
-                        <option value='PACKS'>Packs</option>
+                        <option value='PACKS' >Packs</option>
                         <option value='FISH_ROLLS'>Fish-rolls</option>
                         <option value='MAKIS'>Makis</option>
                     </select>
                 </div>
             </div>
         </div>
-        
+
     </>
 }
 

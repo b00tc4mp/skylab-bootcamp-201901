@@ -17,11 +17,11 @@ const logic = {
 
         validate.email(email)
 
+        const encryptPassword = bcrypt.hashSync(password, 10)
         return (async () => {
             const users = await User.find({ email })
             if (users.length) throw new LogicError(`user with email "${email}" already exists`)
 
-            const encryptPassword = bcrypt.hashSync(password, 10)
             await User.create({ name, surname, phone, email, password: encryptPassword })
         })()
     },
@@ -36,10 +36,11 @@ const logic = {
             const user = await User.findOne({ email })
             if (!user) throw new LogicError(`user with email ${email} doesn't exists`)
 
-            const encryptPassword = bcrypt.hashSync(password, 10)
+            const encryptPassword = bcrypt.compareSync(password, user.password)
 
-            if (await bcrypt.compareSync(password, encryptPassword)) return user.id //REVISAR
-            else throw new LogicError('wrong credentials')
+            if (!encryptPassword) throw new LogicError('wrong credentials')
+            
+            return user.id
 
         })()
     },

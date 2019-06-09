@@ -40,7 +40,6 @@ class Cart extends Component {
         } = this
 
         return <>
-            <h1>Cesta</h1>
             <Route path="/cart" render={() => < ProductCart items={cart} deleteCart={handleDeleteToCart} error={error} />} />
         </>
     }

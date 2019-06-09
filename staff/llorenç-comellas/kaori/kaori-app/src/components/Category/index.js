@@ -14,18 +14,18 @@ function Category({ products, onLogin, addCart }) {
                         return <>
 
                             <li key={id} className="" >
-                                <div class="columns is-mobile">
-                                    <div class="image-padding column ">
+                                <div className="columns is-mobile">
+                                    <div className="image-padding column ">
                                         <img src={image} />
                                         <p className='price' >{price + '€'}</p>
                                     </div>
-                                    <div class="column is-three-fifths-mobile">
+                                    <div className="column is-three-fifths-mobile">
                                         <h2>{title}</h2>
                                         <p>{description}</p>
                                         {logic.isUserLoggedIn && <button className="button" onClick={() => addCart(id)}>Añadir</button>}
                                     </div>
                                 </div>
-                                        <hr></hr>
+                                <hr></hr>
                             </li>
                         </>
                     })

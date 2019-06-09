@@ -136,7 +136,7 @@ const logic = {
     retrieveCart() {
         return (async () => {
             const res = await kaoriApi.retrieveCart(this.__userToken__)
-
+            
             const { error } = res
             if (error) throw new LogicError(error)
 

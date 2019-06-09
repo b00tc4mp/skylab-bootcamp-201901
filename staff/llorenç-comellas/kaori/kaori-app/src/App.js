@@ -21,7 +21,17 @@ class App extends Component {
 
   handleCart = () => this.props.history.push('/cart')
 
-  handleStarters = () => this.props.history.push('/menu/ENTRANTES')
+  handleStarters = () => {
+    try {
+      logic.retrieveProductsByCategory('ENTRANTES')
+        .then(() => this.props.history.push(`/menu/ENTRANTES`))
+        .catch(error =>
+          this.setState({ error: error.message })
+        )
+    } catch ({ message }) {
+      this.setState({ error: message })
+    }
+  }
 
   handlePacks = () => this.props.history.push('/menu/PACKS')
 
@@ -32,6 +42,10 @@ class App extends Component {
   handleRegisterNavigation = () => this.props.history.push('/register')
 
   handleLoginNavigation = () => this.props.history.push('/login')
+
+  handleLogout = () => {
+    logic.logoutUser()
+  }
 
   handleRegister = (name, surname, phone, email, password) => {
     try {
@@ -49,7 +63,10 @@ class App extends Component {
   handleLogin = (email, password) => {
     try {
       logic.loginUser(email, password)
-      this.props.history.push('/menu')
+        .then(() => this.props.history.push('/menu'))
+        .catch(error =>
+          this.setState({ error: error.message })
+        )
 
     } catch ({ message }) {
       this.setState({ error: message })
@@ -69,15 +86,16 @@ class App extends Component {
       handleRegister,
       handleLogin,
       handleRegisterNavigation,
-      handleLoginNavigation
+      handleLoginNavigation,
+      handleLogout
     } = this
 
     return <>
-      <Route path="/" render={() => <Nav onHome={handleHome} onMenu={handleMenu} onCart={handleCart} />} />
+      <Route path="/" render={() => <Nav onHome={handleHome} onMenu={handleMenu} onCart={handleCart} onLogout={handleLogout} />} />
       <Route exact path="/" render={() => <MainImage />} />
       <Route exact path="/" render={() => <MainCategory onStarter={handleStarters} onPacks={handlePacks} onRolls={handleRolls} onMakis={handleMakis} />} />
-      <Route exact path="/login" render={() => <Login onLogin={handleLogin} error={error} onRegister={handleRegisterNavigation} />} />
-      <Route exact path="/register" render={() => <Register onRegister={handleRegister} onLogin={handleLoginNavigation} error={error} />} />
+      <Route exact path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/" /> : <Login onLogin={handleLogin} onRegister={handleRegisterNavigation} error={error} />} />
+      <Route exact path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/" /> : <Register onRegister={handleRegister} onLogin={handleLoginNavigation} error={error} />} />
       <Route path="/menu" render={() => <Menu />} />
       <Route path="/cart" render={() => <Cart />} />
       <Route path="/" render={() => <Footer />} />

@@ -1,0 +1,19 @@
+@import '../../index.scss';
+
+.fa-trash-alt{
+    font-size:25px;
+    color:$main-color;
+}
+
+.cart{
+    margin: 0 8px;
+}
+
+.cart p{
+    font-size:18px;
+    line-height: 1.8em;
+}
+
+.cart button{
+    margin-bottom:20px;
+}
