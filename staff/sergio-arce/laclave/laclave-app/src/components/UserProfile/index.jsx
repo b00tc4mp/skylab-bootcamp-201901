@@ -8,6 +8,7 @@ import Favorites from '../Favorites'
 import Congresses from '../Congresses'
 
 import Artists from '../Artists'
+import { toast } from 'react-toastify';
 
 
 class UserProfile extends Component {
@@ -27,6 +28,7 @@ class UserProfile extends Component {
                 this.setState({ userData })
                 //this.props.history.push('/profile')
             })
+            .catch(error => toast(error.message))
     }
 
     handleSubmit = event => {
@@ -38,6 +40,7 @@ class UserProfile extends Component {
         }
 
         this.props.onUpdateProfile(userData)
+        this.handleRetrieveUser()
     }
 
     showFavorites = () => {
@@ -133,7 +136,7 @@ class UserProfile extends Component {
                 }
 
                 {favoritesShow &&
-                <Favorites onFavorites={userData.favartists} />
+                <Favorites onFavorites={userData.favorites} />
                 }
 
                 {congressesShow &&

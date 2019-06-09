@@ -1,34 +1,30 @@
 import userApi from '../api/user-api'
 
 const logic = {
-
-    create(img) {
-        console.log('logic', img)
-    },
     
     registerUser(name, username, email, emailConfirm, password, passwordConfirm) {
     
-        if (typeof name !== 'string') throw Error(`name is not a string`)
+        if (typeof name !== 'string') throw TypeError(`name is not a string`)
         if (!name.trim().length) throw Error(`name is empty`)
 
-        if (typeof username !== 'string') throw Error(`username is not a string`)
+        if (typeof username !== 'string') throw TypeError(`username is not a string`)
         if (!username.trim().length) throw Error(`username is empty`)
 
-        if (typeof email !== 'string') throw Error(`email is not a string`)
+        if (typeof email !== 'string') throw TypeError(`email is not a string`)
         if (!email.trim().length) throw Error(`email is empty`)
 
-        if (typeof emailConfirm !== 'string') throw Error(`emailConfirm is not a string`)
+        if (typeof emailConfirm !== 'string') throw TypeError(`emailConfirm is not a string`)
         if (!emailConfirm.trim().length) throw Error(`emailConfirm is empty`)
 
         if (email !== emailConfirm ) throw Error(`email and emailConfirm are diferent`)
 
-        if (typeof password !== 'string') throw Error(`password is not a string`)
+        if (typeof password !== 'string') throw TypeError(`password is not a string`)
         if (!password.trim().length) throw Error(`password is empty`)
 
-        if (typeof passwordConfirm !== 'string') throw Error(`passwordConfirm is not a string`)
+        if (typeof passwordConfirm !== 'string') throw TypeError(`passwordConfirm is not a string`)
         if (!passwordConfirm.trim().length) throw Error(`passwordConfirm is empty`)
 
-        if (password !== passwordConfirm ) throw Error(`${password} and ${passwordConfirm} are diferent`)
+        if (password !== passwordConfirm ) throw Error(`password and passwordConfirm are diferent`)
 
         return userApi.registerUser(name, username, email, password)
         
@@ -61,13 +57,14 @@ const logic = {
     retrieveUser() {
         
         const userToken =  sessionStorage.userToken
+        
         return userApi.retrieveUser(userToken)
 
     },
 
     updateUser(userData) {
 
-        if (userData.constructor !== Object) throw TypeError(`${userData} is not an Object`)
+        if (userData.constructor !== Object) throw TypeError(`userData is not an Object`)
        
         
         const userToken =  sessionStorage.userToken
@@ -104,7 +101,7 @@ const logic = {
 
     createArtist(artistData){
         
-        if (artistData.constructor !== Object) throw TypeError(`${artistData} is not an Object`)
+        if (artistData.constructor !== Object) throw TypeError(`artistData is not an Object`)
     
         const userToken = sessionStorage.userToken
         return userApi.createArtist(artistData, userToken)
@@ -117,12 +114,20 @@ const logic = {
 
     createCongress(data) {
 
-        if (data.constructor !== Object) throw TypeError(`${data} is not an Object`)
+        if (data.constructor !== Object) throw TypeError(`data is not an Object`)
 
         const token = sessionStorage.userToken
 
         return userApi.createCongress(data, token) 
 
+    },
+
+    toggleFavorites(itemId) {
+
+        if (typeof itemId !== 'string') throw Error(`itemId is not a string`)
+        if (!itemId.trim().length) throw Error(`itemId is empty`)
+
+        return userApi.toggleFavorites(itemId, sessionStorage.userToken)
     }
 }
 

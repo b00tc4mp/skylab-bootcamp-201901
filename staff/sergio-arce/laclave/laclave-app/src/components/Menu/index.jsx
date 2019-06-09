@@ -1,5 +1,6 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faHome, faSearch, faEye } from "@fortawesome/free-solid-svg-icons"
 
 import { Link } from 'react-router-dom'
 
@@ -20,7 +21,7 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToCr
             <nav className="menu__nav-icons">
 
                 <Link to="/" className="menu__nav-icons__icon">
-                    <FontAwesomeIcon icon="home" />
+                    <FontAwesomeIcon icon={faHome} />
                 </Link>
                 {/* <Link to="/" className="menu__nav-icons__icon">
                     <FontAwesomeIcon icon="home" />
@@ -29,7 +30,7 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToCr
                     <FontAwesomeIcon icon="home" />
                 </Link> */}
                 <Link to="/" className="menu__nav-icons__icon">
-                    <FontAwesomeIcon icon="search" />
+                    <FontAwesomeIcon icon={faSearch} />
                 </Link>
 
             </nav> 
@@ -54,11 +55,11 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToCr
 
                 <div className="menu__topbar__left">
                     <Link to="/">
-                        <FontAwesomeIcon icon="eye" className="menu__topbar__left__logo"/>
+                        <FontAwesomeIcon icon={faEye} className="menu__topbar__left__logo"/>
                     </Link>
 
                     <form onSubmit={handleSearch} className="menu__topbar__left__search">                   
-                        <FontAwesomeIcon icon="search" className="menu__topbar__left__search-icon" />
+                        <FontAwesomeIcon icon={faSearch} className="menu__topbar__left__search-icon" />
                         <input name="query" placeholder="Search your congress" className="menu__topbar__left__search-input" autoCorrect={false}/>
                     </form>
                 </div>

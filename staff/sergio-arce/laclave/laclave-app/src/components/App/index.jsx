@@ -7,13 +7,10 @@ import UserProfile from '../UserProfile'
 import Menu from '../Menu'
 import Results from '../Results'
 import Slider from '../Slider'
-// import Results from '../Results'
 import Create from '../Create'
 import HomePage from '../HomePage'
 
 import CreateArtist from '../CreateArtist'
-
-
 
 // toast notification
 import { ToastContainer, toast } from "react-toastify"
@@ -24,14 +21,8 @@ import { Route, withRouter, Redirect, Switch } from "react-router-dom"
 // normalize
 import "normalize.css"
 
-// font awesome config
-import { library } from "@fortawesome/fontawesome-svg-core"
-import { faHome, faSearch, faEye, faHeart, faMapMarkerAlt, faEuroSign, faCalendarAlt } from "@fortawesome/free-solid-svg-icons"
-library.add(faHome, faSearch, faEye, faHeart, faMapMarkerAlt, faEuroSign, faCalendarAlt )
-
-
-
 class App extends Component {
+
     state = { results: false }
 
 
@@ -67,7 +58,7 @@ class App extends Component {
     // logout session (salir de la sesión)
     handleLogout = () => {
         logic.logOutUser()
-        this.setState({ userData: {} })
+        this.setState({ userLogged: false })
         toast('you have successfully logged out!')
         this.props.history.push('/')
     }
@@ -114,7 +105,7 @@ class App extends Component {
     }
 
     handleCreateArtist = (name) => {
-        
+        // todo create artists  
         logic.createArtist(name)
 
     }
@@ -165,7 +156,6 @@ class App extends Component {
                     <Route exact path="/"
                         render={() => <HomePage 
                                         onResults={this.state.results} 
-                                        
                                         // todo => búsqueda de congresos y artistas
                                         onSearchItems={this.handleSearchItems} 
                                       />} 

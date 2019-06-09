@@ -96,9 +96,9 @@ const logic = {
         if (!userId.trim().length) throw Error(`userId is empty`)
 
         return User.findById(userId).lean()
+            .populate('favorites')
             .populate('createdCongresses')
             .populate('createdArtists', '-__v')
-            .populate('favartists', '-__v')
             .select('-password -__v')
             .then(user => {
                 if (!user) throw Error(`user not exists`)
@@ -419,10 +419,10 @@ const logic = {
     * 
     */ 
 
-    favArtist(artistId, userId) {
+   toggleFav(userId, itemId) {
        
-        if (typeof artistId !== 'string') throw Error(`artistId is not a string`)
-        if (!artistId.trim().length) throw Error(`artistId is empty`)
+        if (typeof itemId !== 'string') throw Error(`itemId is not a string`)
+        if (!itemId.trim().length) throw Error(`itemId is empty`)
     
         if (typeof userId !== 'string') throw Error(`userId is not a string`)
         if (!userId.trim().length) throw Error(`userId is empty`)
@@ -432,22 +432,20 @@ const logic = {
                 
                 if (!user) throw Error('user not exist')
 
-                const results = user.favartists
+                const results = user.favorites
 
-                const index = results.indexOf(artistId)
+                const index = results.indexOf(itemId)
 
-                if (index < 0 ) results.push(artistId)
+                if (index < 0 ) results.push(itemId)
                 else results.splice(index, 1)
 
-                user.favartists = results
+                user.favorites = results
 
                 user.save()
 
                 return 
             })
     }
-
-
 }
 
 module.exports = logic

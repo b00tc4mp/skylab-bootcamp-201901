@@ -1,6 +1,7 @@
 import React from 'react'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faSearch } from "@fortawesome/free-solid-svg-icons"
 
 import video from '../../img/video.mp4'
 
@@ -28,7 +29,7 @@ function Slider({ onSearchItems }) {
                     </header>
 
                     <form onSubmit={handleSearch} className="slider__search" >
-                        <FontAwesomeIcon icon="search" className="slider__search-icon" />
+                        <FontAwesomeIcon icon={faSearch} className="slider__search-icon" />
                         <input name="query" placeholder="Search your congress" className="slider__search-input" autoCorrect={false} />
                     </form>
 

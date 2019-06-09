@@ -1,5 +1,7 @@
 import React from 'react'
 
+import Results from '../Results'
+
 function Congresses({ onCongresses }) {
 
     return (
@@ -8,24 +10,8 @@ function Congresses({ onCongresses }) {
 
             <h1>Your Congresses</h1>
 
-            {
-
-                !onCongresses.length ?
-
-                    <p>You have no favorites yet</p> :
-
-                    onCongresses.map( fav=> 
-
-                        <section>
-                              <h3>{fav.name}</h3>
-                              <h4>{fav.category}</h4>
-                              <h4>{fav.country}</h4>
-                              <h4>{fav.year}</h4>
-                              <img src={fav.image} alt={fav.name} /> 
-                        </section>
-                        
-                    )
-            }
+            <Results onResults={onCongresses} />
+            
         </section>
     )
 }
