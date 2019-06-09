@@ -5,6 +5,7 @@ import logic from '../../logic';
 import ListSessionsCustomer from '../../components/sessions/ListSessionsCustomer';
 import { MainContext } from '../../logic/contexts/main-context';
 import ListProviders from '../../components/providers/ListProviders';
+import { PENDING } from '../../enums';
 
 export default function MainUser() {
   const [providers, setProviders] = useState([]);
@@ -22,8 +23,12 @@ export default function MainUser() {
   return (
     <IonPage id="main-user">
       <IonContent>
-        <h2>Proveedores pendientes de confirmación</h2>
-        <ListProviders providers={ctx.myProviders} onlyPending /> 
+        {!!providers && providers.some(({ request }) => request && request.status === PENDING) && (
+          <>
+            <h2>Proveedores pendientes de confirmación</h2>
+            <ListProviders providers={ctx.myProviders} onlyPending />
+          </>
+        )}
         <h2>Reservas para hoy</h2>
         <ListSessionsCustomer
           sessions={ctx.nextAttendances}

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { CustomerBasic } from './CustomerBasic';
 import {
   IonList,
@@ -10,7 +10,9 @@ import {
   IonItemSliding,
   IonIcon,
 } from '@ionic/react';
-import { PENDING, ACCEPT } from '../../enums';
+import { PENDING, ACCEPT, DENIEDBYPROVIDER } from '../../enums';
+import { MainContext } from '../../logic/contexts/main-context';
+import logic from '../../logic';
 
 export default function ListCustomers({
   customersAndRequests: crs,
@@ -18,11 +20,30 @@ export default function ListCustomers({
   showActive = true,
   showOthers = false,
 }) {
+
+  const ctx = useContext(MainContext)
+
+  const handleResponse = async (customerAndRequest, status) => {
+    const userId = customerAndRequest.customer.id
+    const providerId = ctx.provider.id
+    await ctx.logic.updateRequestCustomer(userId, providerId, status);
+    if (status === ACCEPT) {
+      await ctx.logic.addCustomer(userId,providerId)
+    } 
+    await ctx.refreshUserData({refreshCustomers: true})
+  };
+
   const pending = crs.filter(cr => cr.request && cr.request.status === PENDING);
   const accepted = crs.filter(cr => cr.request && cr.request.status === ACCEPT);
   const others = crs.filter(cr => !cr.request || ![PENDING, ACCEPT].includes(cr.request.status));
 
-  const sortFn = (a,b) => a.customer.name < b.customer.name ? -1 : 1;
+  let itemsToShow = showPending ? pending.length : 0;
+  itemsToShow += showActive ? accepted.length : 0;
+  itemsToShow += showOthers ? others.length : 0;
+
+  if (!itemsToShow) return null;
+
+  const sortFn = (a, b) => (a.customer.name < b.customer.name ? -1 : 1);
 
   pending.sort(sortFn);
   accepted.sort(sortFn);
@@ -39,14 +60,14 @@ export default function ListCustomers({
             pending.map(cr => (
               <IonItemSliding>
                 <IonItemOptions side="start">
-                  <IonItemOption color="warning" onClick={() => {}}>
+                  <IonItemOption color="warning" onClick={() => handleResponse(cr, DENIEDBYPROVIDER)}>
                     DENY
                   </IonItemOption>
                 </IonItemOptions>
                 <CustomerBasic key={cr.customer.id} customerRequest={cr} />
 
                 <IonItemOptions side="end">
-                  <IonItemOption onClick={() => {}}>
+                  <IonItemOption onClick={() => handleResponse(cr, ACCEPT)}>
                     <IonIcon name="thumbs-up" />
                     <IonLabel>Accept</IonLabel>
                   </IonItemOption>

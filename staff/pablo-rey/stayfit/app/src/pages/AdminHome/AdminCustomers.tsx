@@ -3,6 +3,7 @@ import { IonContent, IonPage, IonButton } from '@ionic/react';
 import { Link } from 'react-router-dom';
 import logic from '../../logic';
 import { MainContext } from '../../logic/contexts/main-context';
+import ListCustomers from '../../components/users/ListCustomers';
 
 export default function AdminCustomers() {
   const [customers, setCustomers] = useState([]);
@@ -10,15 +11,13 @@ export default function AdminCustomers() {
   const ctx = useContext(MainContext);
 
   const handleAcceptRequest = async (userId: string) => {
-    await logic.updateRequestCustomer(userId, ctx.provider.id, "ACCEPT")
+    await logic.updateRequestCustomer(userId, ctx.provider.id, 'ACCEPT');
     logic.listCustomers(ctx.provider.id).then(customers => setCustomers(customers));
-  
   };
 
   const handleDenyRequest = async (userId: string) => {
-    await logic.updateRequestCustomer(userId, ctx.provider.id, "DENIEDBYPROVIDER")
+    await logic.updateRequestCustomer(userId, ctx.provider.id, 'DENIEDBYPROVIDER');
     logic.listCustomers(ctx.provider.id).then(customers => setCustomers(customers));
-
   };
 
   useEffect(() => {
@@ -28,24 +27,7 @@ export default function AdminCustomers() {
   return (
     <IonPage id="admin_customers">
       <IonContent>
-        <h1>Admin customers</h1>
-        <p>{customers.length}</p>
-        <h2>Customers pendientes</h2>
-        {customers
-          .filter(c => !!c.request && c.request.status === 'PENDING')
-          .map(c => (
-            <>
-            <p>{c.customer.name}</p>
-            <IonButton onClick={() => handleAcceptRequest(c.customer.id)}>Accept</IonButton>
-            <IonButton onClick={() => handleDenyRequest(c.customer.id)}>Deny</IonButton>
-            </>
-          ))}
-        <h2>Customers acceptados</h2>
-        {customers
-          .filter(c => !c.request || c.request.status !== 'PENDING')
-          .map(c => (
-            <p>{c.customer.name}</p>
-          ))}
+        {ctx.customers && <ListCustomers customersAndRequests={ctx.customers} showActive showPending showOthers />}
       </IonContent>
     </IonPage>
   );

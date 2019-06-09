@@ -35,7 +35,7 @@ describe('create sessions', function() {
 
     async function itWithParams(start: string, end: string, repeat: Date[]) {
       const { name, superadmin, provider, coachesId } = await createTestProvider({});
-      const type = await SessionTypeModel.findOne({ type: 'wod', provider });
+      const type = random(provider.sessionTypes)
       const title = 'Test session';
       const providerId = provider.id;
       const startTime = moment(start, 'YYYY-MM-DD hh:mm:ss', true).toDate();
@@ -44,6 +44,7 @@ describe('create sessions', function() {
       const typeId = type!.id;
       const status = ACTIVE;
       const visibility = PUBLIC;
+      const notes = "Test note"
 
       const data = {
         title,
@@ -56,6 +57,7 @@ describe('create sessions', function() {
         typeId,
         status,
         visibility,
+        notes,
       };
       const response = await gCall({
         source: mutation,

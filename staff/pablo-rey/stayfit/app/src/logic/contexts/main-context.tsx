@@ -5,9 +5,18 @@ import logic from '..';
 export type TProvider = {
   id: string;
   name: string;
+  coaches: TUser[];
+  sessionTypes: TSessionType[];
   bannerImageUrl: string;
   portraitImageUrl: string;
   registrationUrl: string;
+};
+
+export type TSessionType = {
+  id: string;
+  title: string;
+  type: string;
+  active: boolean;
 };
 
 export type TUser = {
@@ -51,21 +60,35 @@ function MainContextProvider(props) {
   const [errorMessage, setErrorMessage] = useState(null);
   const [nextAttendances, setNextAttendances] = useState(null);
 
-  const refreshUserData = async () => {
-    const user = await logic.retrieveMe();
-    setRole(user.role);
-    setUserId(user.id);
-    setUser(user);
-    if (user.adminOf.length) {
-      setProvider(user.adminOf[0]);
-    } else {
-      const providers = await logic.listMyProviders();
-      setMyProviders(providers);
-      const data = await logic.listMyNextAttendances();
-      if (data) {
-        setNextAttendances(data);
+  const refreshUserData = async (options?: { refreshCustomers?: boolean; refreshAttendances?: boolean, refreshProviders?: boolean }) => {
+    if (!options) {
+      const user = await logic.retrieveMe();
+      setRole(user.role);
+      setUserId(user.id);
+      setUser(user);
+      if (user.adminOf.length) {
+        setProvider(user.adminOf[0]);
       } else {
-        setNextAttendances(null);
+        options = { refreshProviders: true, refreshAttendances: true}
+      }
+    }
+    if (options) {
+      if (options.refreshCustomers) {
+        const _customers = await logic.listCustomers(provider.id);
+        setCustomers(_customers);
+        return _customers;
+      }
+      if (options.refreshProviders) {
+        const providers = await logic.listMyProviders();
+        setMyProviders(providers);
+      }
+      if (options.refreshAttendances) {
+        const data = await logic.listMyNextAttendances();
+        if (data) {
+          setNextAttendances(data);
+        } else {
+          setNextAttendances(null);
+        }
       }
     }
     return user;

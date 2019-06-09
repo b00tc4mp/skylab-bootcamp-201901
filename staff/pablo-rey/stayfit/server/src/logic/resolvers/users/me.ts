@@ -7,7 +7,10 @@ export class MeResolver {
   @Authorized()
   @Query(returns => User)
   async me(@Ctx() ctx: MyContext) {
-    const user = await UserModel.findById(ctx.userId).populate('adminOf').populate('coachOf').populate('customerOf');
+    const user = await UserModel.findById(ctx.userId)
+      .populate({ path: 'adminOf', populate: { path: 'coaches sessionTypes' } })
+      .populate('coachOf')
+      .populate('customerOf')
     return user;
   }
 }

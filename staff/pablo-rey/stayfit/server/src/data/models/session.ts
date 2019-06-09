@@ -83,6 +83,10 @@ export class Session extends Typegoose {
   @Field()
   @prop({ required: true, enum: SESSIONVISIBILITY })
   visibility: string;
+
+  @Field()
+  @prop({ required: false, default: '' })
+  notes: string;
 }
 
 export const SessionModel = new Session().getModelForClass(Session, {

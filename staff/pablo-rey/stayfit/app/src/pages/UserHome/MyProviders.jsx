@@ -57,7 +57,8 @@ export default function MyProviders({ history, location }) {
     const _day = e.detail.value;
     setView(_day);
   };
-
+  
+  const day = moment();
   return (
     <IonPage id="providers-user">
       <ion-header>
@@ -81,7 +82,6 @@ export default function MyProviders({ history, location }) {
         </ion-toolbar>
         <IonSegment onIonChange={updateSegment} scrollable>
           {new Array(15).fill(undefined).map((_, i) => {
-            const day = moment();
             day.add(1, 'day');
             return (
               <IonSegmentButton

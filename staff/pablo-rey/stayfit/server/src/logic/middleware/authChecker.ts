@@ -46,7 +46,8 @@ export const authChecker: AuthChecker<MyContext> = async ({ root, args, context,
         if (ownerId !== userId) throw new AuthenticationError('Only own user can do that');
         break;
       case ONLY_ADMINS_OF_PROVIDER:
-        const providerId = args.providerId;
+        let providerId = args.providerId;
+        if (!providerId && !!args.data) providerId = args.data.providerId;
         if (!providerId) throw new LogicError(`Provider is required`);
         owner = context.user = await UserModel.findById(ownerId);
         if (!owner!.adminOf.includes(providerId)) throw new AuthenticationError('Only admins can do that')

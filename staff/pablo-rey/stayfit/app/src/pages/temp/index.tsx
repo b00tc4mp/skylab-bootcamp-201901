@@ -1,69 +1,28 @@
-import {
-  IonIcon,
-  IonLabel,
-  IonPage,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-  IonContent,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonItem,
-  IonInput,
-  IonCheckbox,
-  IonListHeader,
-  IonList,
-  IonDatetime,
-  IonSelect,
-  IonSelectOption,
-  IonFab,
-  IonFabButton,
-  IonImg,
-} from '@ionic/react';
-import moment from 'moment';
-import React, { useState, useContext, useEffect } from 'react';
-import { Route, withRouter } from 'react-router-dom';
-import logic from '../../logic';
-import { CalendarWeek } from '../../components/CalendarWeek';
-import { ATTENDANCEDEFAULTS, SESSIONVISIBILITY, SESSIONSTATUS } from '../../enums';
-import CreateSession from '../../components/CreateSession';
-import { MainContext } from '../../logic/contexts/main-context';
-import { UserBasic } from '../../components/users/UserBasic';
-import { CustomerBasic } from '../../components/users/CustomerBasic';
+import { IonContent, IonPage, IonHeader, IonToolbar, IonButtons, IonBackButton } from '@ionic/react';
+import React, { useContext, useEffect, useState } from 'react';
+import { withRouter } from 'react-router-dom';
 import ListCustomers from '../../components/users/ListCustomers';
+import logic from '../../logic';
+import { MainContext } from '../../logic/contexts/main-context';
 
 const Temp: React.FC<any> = ({ history, location, client }) => {
-  // const [title, setTitle] = useState('');
-  // const [provider, setProvider] = useState(null);
-  // const [coaches, setCoaches] = useState(['Dani', 'Manuel']);
-  // const [days, setDays] = useState([]);
-  // const [startTime, setStartTime] = useState(moment().format('hh:mm'));
-  // const [endTime, setEndTime] = useState(
-  //   moment()
-  //     .add(1, 'hour')
-  //     .format('hh:mm')
-  // );
-  // const [maxAttendants, setMaxAttendants] = useState(10);
-  // const [type, setType] = useState(null);
-  // const [attendanceDefaultStatus, setAttendanceDefaultStatus] = useState('OK');
-  // const [attendances, setAttendances] = useState([]);
-  // const [visibility, setVisibility] = useState(null);
-  // const [status, setStatus] = useState(null);
-
   const [user, setUser] = useState(null);
-  const [customers, setCustomers] = useState([])
+  const [customers, setCustomers] = useState([]);
 
   const ctx = useContext(MainContext);
   useEffect(() => {
-    logic.listCustomers("5cfad518677c8826b46fe1d3")
-      .then(customers => setCustomers(customers));
-  }, [])
-
+    logic.listCustomers('5cfad518677c8826b46fe1d3').then(customers => setCustomers(customers));
+  }, []);
 
   return (
     <IonPage id="main">
+      <IonHeader>
+        <IonToolbar>
+          <IonButtons slot="start">
+            <IonBackButton goBack={() => {}} text="buttonText" icon="buttonIcon" />
+          </IonButtons>
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
         {/* <CreateSession/> */}
         {customers && <ListCustomers customersAndRequests={customers} />}

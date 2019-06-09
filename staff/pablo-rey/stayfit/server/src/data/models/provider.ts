@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType, Authorized } from 'type-graphql';
 import { arrayProp, instanceMethod, prop, Ref, Typegoose } from 'typegoose';
 import { User } from './user';
+import { SessionType } from './session-type';
 
 @ObjectType()
 export class Provider extends Typegoose {
@@ -22,6 +23,10 @@ export class Provider extends Typegoose {
   @Field(returns => [User], { nullable: 'items' })
   @arrayProp({ itemsRef: { name: 'User' } })
   customers: Ref<User>[];
+
+  @Field(returns => [SessionType])
+  @arrayProp({ itemsRef: SessionType, default: []})
+  sessionTypes: SessionType[];
 
   @Field()
   @prop({ required: true, default: 'fitness'})

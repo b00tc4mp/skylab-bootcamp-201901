@@ -136,6 +136,17 @@ export default {
           adminOf {
             id
             name
+            coaches {
+              id
+              name
+              surname
+            }
+            sessionTypes {
+              id
+              type
+              title
+              active
+            }
             bannerImageUrl
             portraitImageUrl
           }
@@ -165,6 +176,54 @@ export default {
       query,
     });
     return data.me;
+  },
+
+  async CreateSessions({
+    title,
+    provider,
+    coaches,
+    startTime: __startTime,
+    endTime: __endTime,
+    repeat: __repeat,
+    maxAttendants,
+    type,
+    status,
+    visibility,
+    notes,
+  }) {
+    const mutation = gql`
+      mutation CreateSession($data: CreateSessionsInput!) {
+        createSessions(data: $data)
+      }
+    `;
+    const firstDay = __repeat[0];
+    const repeat = __repeat.slice(1);
+
+    const startTime = moment(`${firstDay} ${__startTime}`, 'YYYY-MM-DD hh:mm').toDate();
+    const endTime = moment(`${firstDay} ${__endTime}`, 'YYYY-MM-DD hh:mm').toDate();
+
+    const dataSession = {
+      title,
+      providerId: provider.id,
+      coachesId: coaches.map(coach => coach.id),
+      startTime,
+      endTime,
+      repeat,
+      maxAttendants,
+      typeId: type.id,
+      status,
+      visibility,
+      notes,
+    };
+
+    const { data, error } = await this.__gCall({
+      mutation,
+      variables: {
+        data: dataSession,
+      },
+    });
+    if (error) throw new Error(error[0]);
+    return data.id;
   },
 
   async availableSessions(providerId: string, day: string) {
@@ -313,6 +372,7 @@ export default {
             maxAttendants
             countAttendances
             type {
+              type
               title
             }
             status
@@ -440,6 +500,22 @@ export default {
       },
     });
     return data.updateRequestCustomer;
+  },
+
+  async addCustomer(userId: string, providerId: string) {
+    const mutation = gql`
+      mutation AddProviderCustomer($providerId: String!, $userId: String!) {
+        addProviderCustomer(providerId: $providerId, userId: $userId)
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      mutation,
+      variables: {
+        userId,
+        providerId,
+      },
+    });
+    return data.addProviderCustomer;
   },
 
   async retrieveRequestCustomer(userId: string, providerId: string) {

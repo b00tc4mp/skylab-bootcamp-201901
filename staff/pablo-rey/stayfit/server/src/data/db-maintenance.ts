@@ -1,8 +1,8 @@
 import * as bcrypt from 'bcryptjs';
 import { createSession } from '../logic/resolvers/sessions/create-session/create-session';
 import { ACTIVE, PUBLIC, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE, ACCEPT, REQUESTBECUSTOMER, ATTENDANCEPAYMENTTYPES, ATTENDANCESTATUSES} from './enums';
-import { SessionModel } from './models/session';
 import { User, UserModel } from './models/user';
+import { SessionModel } from './models/session';
 import { ProviderModel, Provider } from './models/provider';
 import { SessionTypeModel } from './models/session-type';
 import moment = require('moment');
@@ -138,21 +138,20 @@ export async function populateDb() {
   console.log('Creando provider1...');
 
   provider1.customers = customers.slice(0, 20);
-  provider1.save();
-
   provider2.customers = customers.slice(10, 20);
-  provider2.save();
 
   // Session Types
 
   console.log('Creando session types...');
   for (let provider of [provider1, provider2]) {
-    await SessionTypeModel.create({ type: 'wod', title: 'WOD', active: true, provider });
-    await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider });
-    await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider });
+    provider.sessionTypes.push(await SessionTypeModel.create({ type: 'wod', title: 'WOD', active: true, provider }));
+    provider.sessionTypes.push(await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider }));
+    provider.sessionTypes.push(await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider }));
   }
-  await SessionTypeModel.create({ type: 'nut', title: 'Nutrición', active: true, provider: provider2 });
-  await SessionTypeModel.create({ type: 'ob', title: 'Fisioterapia', active: true, provider: provider1 });
+  provider2.sessionTypes.push(await SessionTypeModel.create({ type: 'nut', title: 'Nutrición', active: true, provider: provider2 }));
+  provider1.sessionTypes.push(await SessionTypeModel.create({ type: 'ob', title: 'Fisioterapia', active: true, provider: provider1 }));
+  await provider1.save();
+  await provider2.save()
 
   // Sessions
 
@@ -192,7 +191,7 @@ export async function populateDb() {
 }
 
 async function populateSessions(provider: Provider, _startTime: moment.Moment, numDays: number, coaches: User[]) {
-  const type = await SessionTypeModel.findOne({ type: 'wod', provider: provider.id });
+  const type = random(provider.sessionTypes)
   const title = faker.company.bs();
   const providerId = provider.id.toString();
   const startTime = _startTime.toDate();
@@ -221,6 +220,7 @@ async function populateSessions(provider: Provider, _startTime: moment.Moment, n
       visibility,
       startTime,
       endTime,
+      notes: '*'
     },
     provider,
     coaches

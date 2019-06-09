@@ -20,6 +20,7 @@ import { ApolloProvider } from 'react-apollo';
 import { SERVER_URL } from '../../config';
 import logic from '../../logic';
 import { MainProvider, MainContext } from '../../logic/contexts/main-context';
+import CreateSession from '../AdminHome/CreateSession';
 
 const gqlClient = new ApolloClient({
   uri: SERVER_URL + '/graphql',
@@ -87,6 +88,7 @@ const App: React.SFC = () => {
                           }
                         />
                         {/* <Route path="/home" component={Home} /> */}
+                        <Route path="/admin/createSession" render={(props) => <CreateSession {...props}/>} />
                         <Route
                           path="/admin"
                           render={() => (['ADMIN_ROLE', 'STAFF_ROLE'].includes(role) ? <Admin /> : <Redirect to="/" />)}
