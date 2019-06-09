@@ -1,24 +1,21 @@
 import React, { useState, useEffect } from 'react';
-
+import { Route, Redirect } from 'react-router-dom'
 import Header from '../Header'
 import Home from '../../pages/Home'
 import Footer from '../Footer'
 import Landing from '../../pages/Landing'
-import NotFound from '../../pages/NotFound'
-
-import { Switch, Route, Redirect } from 'react-router-dom'
-
 import logic from '../../logic'
 
 function App() {
 
-  const [user, setUser] = useState(false);
-  const [showRetrieveUser, setRetrieveUser] = useState(false);
-  const [userMenu, setMenu] = useState(false);
-  const [userCard, setCard] = useState(false);
-  const [total, setTotal] = useState(0)
+  const [user, setUser] = useState(false)
 
-  const [order, setOrder] = useState(false)
+  const [userMenu, setUserMenu] = useState(false)
+  const [userCard, setUserCard] = useState(false)
+
+  const [card, setCard] = useState(false)
+
+  const [orders, setOrders] = useState(false)
   const [orderError, setOrderError] = useState(false)
 
   const handleAddCard = async (id) => {
@@ -26,13 +23,34 @@ function App() {
     handleRetrieveUser()
   }
 
-  const handleRetrieveUser = async () => {
-    try {
-      const _user = await logic.retrieveUser()
-      setUser(_user)
-    } catch (err) {
-      setRetrieveUser(err.message)
-    }
+  const handleRetrieveUser = () => {
+    return (async () => {
+      try {
+        const _user = await logic.retrieveUser()
+        setUser(_user)
+      } catch (err) {
+        setUser(err.message)
+      }
+    })()
+  }
+
+  const handleAddOrder = () => {
+    return (async () => {
+      try {
+        await logic.addOrder('ubication')
+        handleRetrieveUser()
+        handleUpdateMyOrders()
+      } catch (err) {
+        setOrderError(err.message)
+      }
+    })()
+  }
+
+  const handleUpdateMyOrders = () => {
+    return (async () => {
+      const _orders = await logic.retrieveMyOrders()
+      setOrders(_orders)
+    })()
   }
 
   useEffect(() => {
@@ -40,8 +58,9 @@ function App() {
       try {
         const _user = await logic.retrieveUser()
         setUser(_user)
+        handleUpdateMyOrders()
       } catch (err) {
-        setRetrieveUser(err.message)
+        setUser(err.message)
       }
     })()
   }, [])
@@ -54,39 +73,29 @@ function App() {
 
   const handleOpenMenu = () => {
     if (!userMenu) {
-      setMenu(true)
-      setCard(false)
+      setUserMenu(true)
+      setUserCard(false)
     }
-    else setMenu(false)
+    else setUserMenu(false)
   }
 
-  const handleCloseMenu = () => setMenu(false)
+  const handleCloseMenu = () => setUserMenu(false)
 
   const handleOpenCard = () => {
     if (!userCard) {
-      setCard(true)
-      setMenu(false)
+      setUserCard(true)
+      setUserMenu(false)
     }
-    else setCard(false)
+    else setUserCard(false)
   }
 
-  const handleAddOrder = async () => {
-    try {
-      await logic.addOrder('calle bla bla')
-     } catch (err) {
-      setOrderError(err.message)
-    }
-  }
-
-  const handleCloseCard = () => setCard(false)
+  const handleCloseCard = () => setUserCard(false)
 
   return (
     <>
-      <Header showRetrieveUser={showRetrieveUser} user={user} handleRetrieveUser={handleRetrieveUser} handleOpenCard={handleOpenCard} handleOpenMenu={handleOpenMenu} />
-      <Switch>
-        <Route exact path='/' render={() => !logic.isUserLoggedIn ? <Landing /> : <Redirect to='/home' />} />
-        <Route exact path='/home' render={() => logic.isUserLoggedIn ? <Home user={user} handleAddCard={handleAddCard} logOut={logOut} userMenu={userMenu} userCard={userCard} handleCloseMenu={handleCloseMenu} handleCloseCard={handleCloseCard} total={total} setTotal={setTotal} order={order} handleAddOrder={handleAddOrder} /> : <Redirect to='/' />} />
-      </Switch>
+      <Header user={user} handleRetrieveUser={handleRetrieveUser} handleOpenCard={handleOpenCard} handleOpenMenu={handleOpenMenu} />
+      <Route exact path='/' render={() => !logic.isUserLoggedIn ? <Landing /> : <Redirect to='/home' />} />
+      <Route exact path='/home' render={() => logic.isUserLoggedIn ? <Home user={user} handleUpdateMyOrders={handleUpdateMyOrders} handleAddCard={handleAddCard} handleAddOrder={handleAddOrder} logOut={logOut} userMenu={userMenu} userCard={userCard} handleCloseMenu={handleCloseMenu} handleCloseCard={handleCloseCard} orders={orders} /> : <Redirect to='/' />} />
       <Footer />
     </>
   );

@@ -21,11 +21,11 @@ const logic = {
     registerUser(name, surname, email, password, age) {
 
         const validator = {
-            name: Joi.string().min(3).max(30).required(),
-            surname: Joi.string().min(3).max(30).required(),
-            email: Joi.string().required(),
-            password: Joi.string().required(),
-            age: Joi.number().required(),
+            email: Joi.string().email({ minDomainSegments: 2 }).required(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+            name: Joi.string().alphanum().min(3).max(15).required(),
+            surname: Joi.string().alphanum().min(3).max(15).required(),
+            age: Joi.number().required()
         }
 
         const validation = Joi.validate({ name, surname, email, password, age }, validator);
@@ -45,8 +45,8 @@ const logic = {
     loginUser(email, password) {
 
         const validator = {
-            email: Joi.string().required(),
-            password: Joi.string().required(),
+            email: Joi.string().email({ minDomainSegments: 2 }).required(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
 
         const validation = Joi.validate({ email, password }, validator);
@@ -71,15 +71,12 @@ const logic = {
     retrieveUser() {
         return (async () => {
             try {
-
                 const user = await dataApi.retrieve(this.__userToken__)
-
                 if (!user) throw new LogicError(`Incorrect token:${this.__userToken__}.`)
                 return user
             } catch (err) {
                 throw Error(err.message)
             }
-            // return name,surname, email
         })()
     },
 
@@ -87,11 +84,9 @@ const logic = {
         sessionStorage.clear()
     },
 
-    // products
-
     retrieveProducts(category) {
         const validator = {
-            category: Joi.string().required()
+            category: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
         const validation = Joi.validate({ category }, validator);
 
@@ -107,12 +102,21 @@ const logic = {
 
     },
 
-    // order
+    retrieveAllProducts() {
+        return (async () => {
+            try {
+                return await dataApi.retrieveAllProducts(this.__userToken__)
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
+    },
 
     addOrder(ubication) {
         const validator = {
-            ubication: Joi.string().required()
+            ubication: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
+
         const validation = Joi.validate({ ubication }, validator);
 
         if (validation.error) throw new ValidationError(validation.error.message)
@@ -127,20 +131,29 @@ const logic = {
 
     },
 
-    retrieveOrders() {
-
-
+    retrieveMyOrders() {
+        return (async () => {
+            try {
+                return await dataApi.retrieveOrder(this.__userToken__)
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
     },
 
-    retrieveOrder(id) {
-
-
-
+    retrieveAllOrders() {
+        return (async () => {
+            try {
+                return await dataApi.retrieveAllOrders(this.__userToken__)
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
     },
 
     cardUpdate(id) {
         const validator = {
-            id: Joi.string().required()
+            id: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
 
         const validation = Joi.validate({ id }, validator);

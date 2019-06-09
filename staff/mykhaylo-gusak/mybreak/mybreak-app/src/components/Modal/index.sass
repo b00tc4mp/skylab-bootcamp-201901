@@ -1,3 +1,5 @@
+@import '../config.sass'
+    
 .m-Modal
     width: 100vw
     height: 100vh
@@ -6,7 +8,7 @@
     align-items: center
     position: fixed
     top: 0
-    background-color: rgba(250,165,0,0.8)
+    background-color: $modalColorBack 
 
     &__form
         padding: 30px
@@ -18,3 +20,11 @@
         height: 600px
         background-color: white
         border-radius: 10px
+
+@media screen and (max-width: $break-mobile ) 
+    .m-Modal
+
+        &__form
+            width: 100%
+            height: 100%
+            border-radius: 0

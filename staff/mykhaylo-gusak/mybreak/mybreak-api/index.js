@@ -91,8 +91,6 @@ const { env: { JWT_SECRET, MONGO_URL } } = process
                 })()
             });
 
-            // CARD
-
             app.post('/card/update', auth, (req, res) => {
                 const { userId, body: { productId } } = req
 
@@ -105,8 +103,6 @@ const { env: { JWT_SECRET, MONGO_URL } } = process
                     }
                 })()
             });
-
-            // PRODUCTS
 
             app.get('/products/:category', auth, (req, res) => {
                 const { body: { email, password }, params: { category } } = req
@@ -131,8 +127,6 @@ const { env: { JWT_SECRET, MONGO_URL } } = process
                     }
                 })()
             })
-
-            // ORDERS
 
             app.post('/order/add', auth, (req, res) => {
                 const { userId, body: { ubication } } = req

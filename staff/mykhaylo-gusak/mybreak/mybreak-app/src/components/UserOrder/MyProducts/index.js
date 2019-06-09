@@ -11,7 +11,7 @@ function MyProducts({ card, categoryOfProduct, handleAddCard }) {
         <div className='g-Home__order-user-myProducts' >
             {card &&
                 card.map(({ _id, title, price, category , image}) => {
-                    if (category === categoryOfProduct) return <MyProduct title={title} price={price} image={image} key={_id} />
+                    if (category === categoryOfProduct) return <MyProduct title={title} price={price} image={image} handleAddCard={handleAddCard} id={_id} />
                 })
             }
         </div>

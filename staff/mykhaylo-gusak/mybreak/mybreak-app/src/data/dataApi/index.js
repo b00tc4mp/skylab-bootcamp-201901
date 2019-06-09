@@ -8,12 +8,17 @@ const dataApi = {
 
     create(email, password, data) {
 
+        const { name, surname, age } = data
         const validator = {
-            data: Joi.object().required(),
-            password: Joi.string().required(),
-            email: Joi.string().required(),
+            email: Joi.string().email({ minDomainSegments: 2 }).required(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+            name: Joi.string().alphanum().min(3).max(15).required(),
+            surname: Joi.string().alphanum().min(3).max(15).required(),
+            age: Joi.number().required()
         }
-        const validation = Joi.validate({ email, password, data }, validator);
+
+        const validation = Joi.validate({ email, password, name, surname, age }, validator);
+
         if (validation.error) throw new ValidationError(validation.error.message)
 
         return (async () => {
@@ -34,8 +39,8 @@ const dataApi = {
     authenticate(email, password) {
 
         const validator = {
-            password: Joi.string().required(),
-            email: Joi.string().required()
+            email: Joi.string().email({ minDomainSegments: 2 }).required(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
 
         const validation = Joi.validate({ email, password }, validator);
@@ -60,10 +65,10 @@ const dataApi = {
     },
 
     retrieve(token) {
-
         const validator = {
-            token: Joi.string().required()
+            token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required()
         }
+
         const validation = Joi.validate({ token }, validator);
 
         if (validation.error) throw new ValidationError(validation.error.message)
@@ -82,20 +87,15 @@ const dataApi = {
         })()
     },
 
-    // Order
-
     createOrder(ubication, token) {
         const validator = {
-            token: Joi.string().required(),
-            ubication: Joi.string().required()
+            token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required(),
+            ubication: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
         const validation = Joi.validate({ token, ubication }, validator);
-        debugger
         if (validation.error) throw new ValidationError(validation.error.message)
-        debugger
         return (async () => {
             try {
-                debugger
                 await call(`${this.__url__}/order/add`, {
                     method: 'POST',
                     headers: {
@@ -113,9 +113,9 @@ const dataApi = {
 
     },
 
-    retrieveOrders(token) {
+    retrieveAllOrders(token) {
         const validator = {
-            token: Joi.string().required()
+            token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required()
         }
         const validation = Joi.validate({ token }, validator);
 
@@ -123,7 +123,7 @@ const dataApi = {
 
         return (async () => {
             try {
-                const orders = await call(`${this.__url__}/order/retrieve`, {
+                const orders = await call(`${this.__url__}/orders`, {
                     headers: { Authorization: `Bearer ${token}` },
                     timeout: this.__timeout__
                 })
@@ -135,19 +135,34 @@ const dataApi = {
 
     },
 
-    retrieveOrder(id) {
+    retrieveOrder(token) {
+        const validator = {
+            token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required()
+        }
+        const validation = Joi.validate({ token }, validator);
 
+        if (validation.error) throw new ValidationError(validation.error.message)
 
-
+        return (async () => {
+            try {
+                const response = await call(`${this.__url__}/order/retrieve`, {
+                    headers: { Authorization: `Bearer ${token}` },
+                    timeout: this.__timeout__
+                })
+                return await response.json()
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
     },
 
     retrieveProducts(category, token) {
         const validator = {
-            category: Joi.string().required(),
-            token: Joi.string().required()
+            category: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+            token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required()
         }
-        const validation = Joi.validate({ category, token }, validator);
 
+        const validation = Joi.validate({ category, token }, validator);
         if (validation.error) throw new ValidationError(validation.error.message)
 
         return (async () => {
@@ -163,19 +178,17 @@ const dataApi = {
         })()
     },
 
-
-    retrieveProducts(category, token) {
+    retrieveAllProducts(token) {
         const validator = {
-            category: Joi.string().required(),
-            token: Joi.string().required()
+            token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required()
         }
-        const validation = Joi.validate({ category, token }, validator);
+        const validation = Joi.validate({ token }, validator);
 
         if (validation.error) throw new ValidationError(validation.error.message)
 
         return (async () => {
             try {
-                const response = await call(`${this.__url__}/products/${category}`, {
+                const response = await call(`${this.__url__}/products`, {
                     headers: { Authorization: `Bearer ${token}` },
                     timeout: this.__timeout__
                 })
@@ -188,8 +201,8 @@ const dataApi = {
 
     cardUpdate(productId, token) {
         const validator = {
-            productId: Joi.string().required(),
-            token: Joi.string().required()
+            productId: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+            token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required()
         }
 
         const validation = Joi.validate({ productId, token }, validator);

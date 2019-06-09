@@ -1,21 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import logic from '../../logic'
-
-import Button from '../Button'
-
-
+import Order from './Order'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArchive, faUser } from '@fortawesome/free-solid-svg-icons';
-
 import './index.sass'
 import '../../../node_modules/bulma/bulma.sass'
-
 const cx = require('classnames');
 
+function UserMenu({ logOut, handleOpenMenu, handleCloseMenu, userMenu, orders, setOrders }) {
 
-function UserMenu({ logOut, handleOpenMenu, handleCloseMenu, userMenu, user }) {
-
-    const { orders } = user
 
     const className1 = cx({
         'g-UserMenu g-UserMenu--opened': userMenu,
@@ -26,6 +19,7 @@ function UserMenu({ logOut, handleOpenMenu, handleCloseMenu, userMenu, user }) {
         'g-UserMenu__menu g-UserMenu__menu--opened': userMenu,
         'g-UserMenu__menu': !userMenu
     })
+
 
 
     return (
@@ -40,8 +34,9 @@ function UserMenu({ logOut, handleOpenMenu, handleCloseMenu, userMenu, user }) {
                     <div className='g-UserMenu__category-products'>
                         {orders && orders.map(elem => {
                             debugger
-                            return <h1>{elem.date}</h1>
-                        })}
+                            return <Order products={elem.products} date={elem.date} />
+                        })
+                        }
                     </div>
                 </section>
 
@@ -51,7 +46,11 @@ function UserMenu({ logOut, handleOpenMenu, handleCloseMenu, userMenu, user }) {
 
                 </section>
 
-                <Button secondary={true} logOut={true} />
+                <a onClick={(e) => {
+                    e.stopPropagation()
+                    logOut()
+                }
+                } >Log out</a>
             </div>
         </section>
 

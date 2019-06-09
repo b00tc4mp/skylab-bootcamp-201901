@@ -5,17 +5,25 @@ import logic from '../../logic'
 import './index.sass'
 import '../../../node_modules/bulma/bulma.sass'
 
-function Header({ handleRetrieveUser, logOut, user, showRetrieveUser, handleOpenMenu, handleOpenCard }) {
+function Header({ handleRetrieveUser, logOut, user, handleOpenMenu, handleOpenCard }) {
 
   const [showLogin, setLogin] = useState(false);
   const [showRegister, setRegister] = useState(false);
 
 
-  const openLogin = () => setLogin(true)
-  const closeLogin = () => setLogin(false)
-  const openRegister = () => setRegister(true)
-  const closeRegister = () => setRegister(false)
-  const userRegistered = () => {
+  const handleOpenLogin = () => {
+    setRegister(false)
+    setLogin(true)
+  }
+  const handleCloseLogin = () => setLogin(false)
+
+  const handleOpenRegister = () => {
+    setLogin(false)
+    setRegister(true)
+  }
+  const handleCloseRegister = () => setRegister(false)
+  
+  const handleUserRegistered = () => {
     setRegister(false)
     setLogin(true)
   }
@@ -23,7 +31,7 @@ function Header({ handleRetrieveUser, logOut, user, showRetrieveUser, handleOpen
   return (
     <header className='g-header'>
       <div className='g-header__cnt'>
-        {logic.isUserLoggedIn ? !showRetrieveUser && <UserInfo user={user} logOut={logOut} handleOpenMenu={handleOpenMenu} handleOpenCard={handleOpenCard} /> : <UserAccount showLogin={showLogin} openLogin={openLogin} closeLogin={closeLogin} showRegister={showRegister} openRegister={openRegister} closeRegister={closeRegister} userRegistered={userRegistered} handleRetrieveUser={handleRetrieveUser} />}
+        {logic.isUserLoggedIn ? <UserInfo user={user} logOut={logOut} handleOpenMenu={handleOpenMenu} handleOpenCard={handleOpenCard} /> : <UserAccount showLogin={showLogin} handleOpenLogin={handleOpenLogin} handleCloseLogin={handleCloseLogin} showRegister={showRegister} handleOpenRegister={handleOpenRegister} handleCloseRegister={handleCloseRegister} handleUserRegistered={handleUserRegistered} handleRetrieveUser={handleRetrieveUser} />}
       </div>
     </header>
   );

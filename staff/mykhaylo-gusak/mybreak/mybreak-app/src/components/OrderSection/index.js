@@ -1,26 +1,29 @@
 import React, { useState } from 'react'
-import ReactDOM from 'react-dom'
-import logic from '../../logic/index.js'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEnvelope, faCheck, faLock } from '@fortawesome/free-solid-svg-icons';
-import '../../../node_modules/bulma/bulma.sass'
 import './index.sass'
 import ProductSection from './ProductSection'
-import Landing from '../../pages/Landing'
-
-const cx = require('classnames')
+import Button from '../Button'
 
 function OrderSection({ products, showError, handleAddCard, card }) {
 
-    const icons = cx({
+    const [step, setStep] = useState(0)
 
-    })
+    const handlenNextStep = () => {
+        if (step < 4) setStep(step + 1)
+    }
 
-    return (<>
-        <section className='g-Home__order-section'>
-            {products && <ProductSection products={products} showError={showError} handleAddCard={handleAddCard} card={card} />}
-        </section>
-    </>);
+    const handlenPrevStep = () => {
+        if (step > 0) setStep(step - 1)
+    }
+
+    return (
+        <div className='g-Home__order-ctn'>
+            <Button click={handlenPrevStep} prev={true} primary={true} />
+            <section className='g-Home__order-section'>
+                {products && <ProductSection products={products} showError={showError} card={card} handleAddCard={handleAddCard} />}
+            </section>
+            <Button click={handlenNextStep} prev={true} primary={true} />
+        </div>
+    );
 }
 
 export default OrderSection

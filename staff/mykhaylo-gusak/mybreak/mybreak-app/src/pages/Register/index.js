@@ -13,7 +13,7 @@ import ErrorMessage from '../../components/ErrorMessage'
 import '../../../node_modules/bulma/bulma.sass'
 import './index.sass'
 
-function Register({ closeRegister, userRegistered }) {
+function Register({ handleCloseRegister, handleUserRegistered, handleOpenLogin }) {
     const [showError, setErrorMessage] = useState(false);
 
     async function handleSubmit(event) {
@@ -27,10 +27,8 @@ function Register({ closeRegister, userRegistered }) {
 
         return (async () => {
             try {
-
                 await logic.registerUser(name, surname, email, password, age)
-                // window.location.href = '/create-your-order'
-                userRegistered()
+                handleUserRegistered()
             } catch (error) {
                 setErrorMessage(error.message)
             }
@@ -38,7 +36,7 @@ function Register({ closeRegister, userRegistered }) {
     }
 
     return (<>
-        <CloserX close={closeRegister} />
+        <CloserX close={handleCloseRegister} />
         <form>
             <TitleOne text={'Sign in Mybreak'} />
             <LayoutPrimary />
@@ -53,7 +51,7 @@ function Register({ closeRegister, userRegistered }) {
             {showError && <ErrorMessage message={showError} />}
             <Button primary={true} accept={true} click={handleSubmit} />
         </form>
-        <FormSugesstion register={true} />
+        <FormSugesstion register={true} click={handleOpenLogin} />
     </>);
 }
 

@@ -3,43 +3,32 @@ import './index.sass'
 import ProductSubCategory from './ProductSubCategory'
 import TitleCategory from '../../TitleCategory'
 import Maps from '../../Maps'
+import StripePayament from '../../StripePayament'
+import QrCode from '../../QrCode'
+import Button from '../../Button'
 
 
-
-function ProductSection({ products, showError, handleAddCard, card }) {
+function ProductSection({ products, showError, handleAddCard, card, total, email, handlenNextStep, handlenPrevStep }) {
 
     const orderCategory = useRef()
-    const [step, setStep] = useState(0)
+    // const [step, setStep] = useState(0)
 
-    useEffect(() => {
-        const element = orderCategory.current
-        debugger
-        if (element) {
-            const elementHeight = element.clientHeight
-            debugger
-            const movement = (elementHeight * step * -1) + 'px'
-            debugger
-            element.style = `transform: translate3d(0, ${movement},0)`
-        }
-    }, [step])
+    // useEffect(() => {
+    //     const element = orderCategory.current
+    //     if (element) {
+    //         const elementHeight = element.clientHeight
+    //         const movement = (elementHeight * step * -1) + 'px'
+    //         element.style = `transform: translate3d(0, ${movement},0)`
+    //     }
+    // }, [step])
 
-    const handlenNextStep = () => {
-        debugger
-        if (step < 4) setStep(step + 1)
-        debugger
-    }
-
-
-    const handlenPrevStep = () => {
-        if (step > 0) setStep(step - 1)
+    const handlePurchase = () => {
+        //payment
     }
 
     return (
         <>
-            <div>
-                <button onClick={handlenPrevStep}>Prev</button>
-                <button onClick={handlenNextStep}>Next</button>
-            </div>
+
             <div className='g-Home__order-section-products' ref={orderCategory} >
                 <div className='g-Home__order-section-products-category'>
                     <Maps />
@@ -60,7 +49,11 @@ function ProductSection({ products, showError, handleAddCard, card }) {
                     <TitleCategory title={'Bakery'} />
                     <ProductSubCategory products={products} categoryOfProduct={'Bakery'} subCategoryOfProduct={'Bakery'} handleAddCard={handleAddCard} card={card} />
                 </div>
-                {showError && <h1>{showError}</h1>}
+
+                <div className='g-Home__order-section-products-category'>
+                    <QrCode text={'Primer qr'}/>
+                    <StripePayament onTokenSucces={handlePurchase} email={email} total={total} />
+                </div>
             </div>
         </>
     )

@@ -14,7 +14,7 @@ import logic from '../../logic/index.js'
 import '../../../node_modules/bulma/bulma.sass'
 import './index.sass'
 
-function Login({ closeLogin, handleRetrieveUser }) {
+function Login({ handleCloseLogin, handleRetrieveUser, handleOpenRegister }) {
 
     const [showError, setErrorMessage] = useState(false);
 
@@ -36,7 +36,7 @@ function Login({ closeLogin, handleRetrieveUser }) {
     }
 
     return (<>
-        <CloserX close={closeLogin} />
+        <CloserX close={handleCloseLogin} />
         <form>
             <TitleOne text={'Log in Mybreak'} />
             <LayoutPrimary />
@@ -47,7 +47,7 @@ function Login({ closeLogin, handleRetrieveUser }) {
             {showError && <ErrorMessage message={showError} />}
             <Button primary={true} accept={true} click={handleSubmit} />
         </form>
-        <FormSugesstion login={true} />
+        <FormSugesstion login={true} click={handleOpenRegister}/>
     </>);
 }
 

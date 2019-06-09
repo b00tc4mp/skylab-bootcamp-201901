@@ -2,30 +2,27 @@
 const { mongoose, models } = require('mybreak-data')
 const { User, Product, Order } = models
 const Joi = require('@hapi/joi');
-const { LogicError, ValidationError, UnauthorizedError } = require('../common/error/index')
+const { LogicError, ValidationError, UnauthorizedError } = require('../common/error')
 
 const logic = {
 
-    // USER
-
     registerUser(name, surname, email, password, age) {
-
         const validator = {
-            name: Joi.string().min(3).max(30).required(),
-            surname: Joi.string().min(3).max(30).required(),
-            email: Joi.string().required(),
-            password: Joi.string().required(),
+            name: Joi.string().alphanum().min(3).max(15).required(),
+            surname: Joi.string().alphanum().min(3).max(15).required(),
+            email: Joi.string().email({ minDomainSegments: 2 }).required(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
             age: Joi.number().required(),
         }
-        const validation = Joi.validate({ name, surname, email, password, age }, validator);
 
+        const validation = Joi.validate({ name, surname, email, password, age }, validator)
         if (validation.error) throw new ValidationError(validation.error.message)
 
         return (async () => {
             try {
-                const user = await User.find({ email }).lean()
+                const user = await User.findOne({ email })
 
-                if (user === true) throw new LogicError(`User with email:${email} already exists!`)
+                if (user === true) throw new LogicError(`User with email:${email} already exists`)
                 const _user = await new User({ name, surname, email, password, age })
                 await _user.save()
             } catch (err) {
@@ -36,12 +33,11 @@ const logic = {
 
     authenticateUser(email, password) {
         const validator = {
-            email: Joi.string().required(),
-            password: Joi.string().required(),
+            email: Joi.string().email({ minDomainSegments: 2 }).required(),
+            password: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
 
-        const validation = Joi.validate({ email, password }, validator);
-
+        const validation = Joi.validate({ email, password }, validator)
         if (validation.error) throw new ValidationError(validation.error.message)
 
         return (async () => {
@@ -61,21 +57,21 @@ const logic = {
 
     retrieveUser(id) {
         const validator = {
-            id: Joi.string().required()
+            id: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
-        const validation = Joi.validate({ id }, validator);
 
+        const validation = Joi.validate({ id }, validator)
         if (validation.error) throw new ValidationError(validation.error.message)
 
         return (async () => {
             try {
-                
+
                 const _id = mongoose.Types.ObjectId(id)
-                
+
                 const user = await User.findOne({ _id }).select('name surname email age card orders -_id').populate('card orders').lean()
-                
+
                 if (!user) throw new LogicError(`User with id:${id} not exists.`)
-                
+
                 return user
             } catch (err) {
                 throw Error(err.message)
@@ -87,21 +83,22 @@ const logic = {
         const validator = {
             id: Joi.string().required()
         }
-        
+
         const validation = Joi.validate({ id }, validator);
         if (validation.error) throw new ValidationError(validation.error.message)
+
         return (async () => {
             try {
                 const user = await User.findById(id).select('name surname email age orders card -_id').lean()
-                
+
                 if (!user) throw new LogicError(`User with id:${id} not exists.`)
-                
+
                 if (data.name) user.name = data.name
                 if (data.surname) user.surname = data.surname
-                
+
                 if (data.email) user.email = data.email
                 if (data.age) user.age = data.age
-                
+
                 await User.findByIdAndUpdate(id, user)
 
                 return user
@@ -117,8 +114,9 @@ const logic = {
             password: Joi.string().required(),
         }
 
-        const validation = Joi.validate({ id, password }, validator);
+        const validation = Joi.validate({ id, password }, validator)
         if (validation.error) throw new ValidationError(validation.error.message)
+
         return (async () => {
             try {
                 const user = await User.findById(id).select('password -_id').lean()
@@ -132,18 +130,20 @@ const logic = {
         })()
     },
 
-    // PRODUCTS
-
     retrieveProducts(category) {
-        // TODO validate ??
+        const validator = {
+            category: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
+        }
 
+        const validation = Joi.validate({ category }, validator)
+        if (validation.error) throw new ValidationError(validation.error.message)
 
         return (async () => {
             try {
                 const products = await Product.find({ category }).lean()
-                
+
                 if (!products) throw Error(`Product with category:${category} not exists.`)
-                
+
                 return products
             } catch (err) {
                 throw Error(err.message)
@@ -152,13 +152,10 @@ const logic = {
     },
 
     retrieveAllProducts() {
-
         return (async () => {
             try {
                 const products = await Product.find({ }).lean()
-                
                 if (!products) throw Error(`There are no products.`)
-                
                 return products
             } catch (err) {
                 throw Error(err.message)
@@ -166,32 +163,27 @@ const logic = {
         })()
     },
 
-
-    // CARD
-
     updateCard(id, productId) {
-
         const validator = {
-            id: Joi.string().required(),
-            productId: Joi.string().required()
+            id: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+            productId: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
-        const validation = Joi.validate({ id, productId }, validator);
-        
+
+        const validation = Joi.validate({ id, productId }, validator)
         if (validation.error) throw new ValidationError(validation.error.message)
 
         return (async () => {
             try {
-                
                 const user = await User.findById(id).select('card -_id').lean()
                 if (!user) throw new LogicError(`User with id:${id} not exists.`)
-                
-                const _productId = mongoose.Types.ObjectId(productId)
+
                 const index = user.card.findIndex(elem => elem.toString() == productId)
+                const _productId = mongoose.Types.ObjectId(productId)
+
                 if (index > -1) user.card.splice(index, 1)
                 else user.card.push(_productId)
-                
-                await User.findByIdAndUpdate(id, user)
 
+                await User.findByIdAndUpdate(id, user)
             } catch (err) {
                 throw Error(err.message)
             }
@@ -199,15 +191,15 @@ const logic = {
 
     },
 
-    // ORDERS
-
     addOrder(id, ubication) {
         const validator = {
-            id: Joi.string().required(),
-            ubication: Joi.string()
+            id: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+            ubication: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
-        const validation = Joi.validate({ id, ubication }, validator);
+
+        const validation = Joi.validate({ id, ubication }, validator)
         if (validation.error) throw new ValidationError(validation.error.message)
+
         return (async () => {
             try {
                 const user = await User.findById(id).select('card orders').lean()
@@ -216,30 +208,26 @@ const logic = {
                 const order = await Order.create({ author: user._id, products: user.card, ubication })
                 user.orders.push(order._id)
                 user.card = []
-                await User.findByIdAndUpdate(id, user)
 
+                await User.findByIdAndUpdate(id, user)
             } catch (err) {
                 throw Error(err.message)
             }
         })()
-
     },
 
     retrieveOrderByAuthor(author) {
         const validator = {
-            author: Joi.string().required()
+            author: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
         }
-        
-        const validation = Joi.validate({ author }, validator);
-        
+
+        const validation = Joi.validate({ author }, validator)
         if (validation.error) throw new ValidationError(validation.error.message)
-        
+
         return (async () => {
             try {
-                
                 const orders = await Order.find({ author }).select('date products ubication -_id').populate('products').lean()
                 if (!orders) throw new LogicError(`Orders made by author with id:${author} not exists.`)
-                
                 return orders
             } catch (err) {
                 throw Error(err.message)

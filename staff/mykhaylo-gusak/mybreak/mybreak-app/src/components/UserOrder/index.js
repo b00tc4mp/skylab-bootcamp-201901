@@ -8,40 +8,41 @@ import './index.sass'
 
 const cx = require('classnames');
 
-function UserOrder({ user, handleAddCard, handleCloseCard, userCard, total, setTotal, handleAddOrder }) {
-    debugger
+function UserOrder({ user,handleUpdateMyOrders, handleAddCard, handleCloseCard, userCard, handleAddOrder, orders }) {
     const { card } = user
 
-    const [xxx, setXxx] = useState(0)
-
-    console.log(card)
-    console.log(xxx)
     const className1 = cx({
-        'g-Home__order-user-back g-Home__order-user-back--opened': userCard,
-        'g-Home__order-user-back': !userCard
+        'g-Home__order-back g-Home__order-back--opened': userCard,
+        'g-Home__order-back': !userCard
     })
+
+    const [total, setTotal] = useState(0)
+    const [myCard, setCard] = useState(0)
 
     useEffect(() => {
         let acc = 0
         card.map(elem => {
             acc += Number(elem.price)
         })
-        setXxx(acc)
-    }, [card])
+        setTotal(acc)
+        setCard(card)
+    }, [card, orders])
 
     return (
         <section className={className1}>
             <div className='g-Home__order-user'>
-                <CloserX close={handleCloseCard} />
+                <div className='g-Home__order-user-close' >
+                    <CloserX close={handleCloseCard} />
+                </div>
                 <TitleCategory title={'Your order'} />
                 <TitleSubCategory subTitle={'Drinks'} />
-                <MyProducts card={card} categoryOfProduct={'drink'} handleAddCard={handleAddCard} />
+                <MyProducts card={myCard} categoryOfProduct={'drink'} handleAddCard={handleAddCard} />
                 <TitleSubCategory subTitle={'Food'} />
-                <MyProducts card={card} categoryOfProduct={'Food'} handleAddCard={handleAddCard} />
+                <MyProducts card={myCard} categoryOfProduct={'Food'} handleAddCard={handleAddCard} />
                 <TitleSubCategory subTitle={'bakery'} />
-                <MyProducts card={card} categoryOfProduct={'Bakery'} handleAddCard={handleAddCard} />
+                <MyProducts card={myCard} categoryOfProduct={'Bakery'} handleAddCard={handleAddCard} />
                 <div className='g-Home__order-user-total'>
-                    <ProductPrice price={`TOTAL: ${xxx}`} />
+                    <ProductPrice price={`TOTAL: ${total}`} />
                 </div>
                 <button onClick={handleAddOrder}>Order</button>
             </div>

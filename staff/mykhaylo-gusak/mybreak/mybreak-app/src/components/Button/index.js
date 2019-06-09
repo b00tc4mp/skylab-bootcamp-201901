@@ -3,13 +3,13 @@ import './index.sass'
 import '../../../node_modules/bulma/bulma.sass'
 const cx = require('classnames');
 
-function Button({ primary, secondary, accept, cancel, register, login, start, click, logOut }) {
+function Button({ primary, secondary, accept, cancel, register, login, start, click, logOut, next, prev }) {
 
 
     const className = cx({
         'button is-primary is-rounded': primary,
         'button is-rounded': secondary,
-        'button g-Button--circular': start
+        'button g-Button--circular': start || next || prev
     })
 
     const text = cx({
@@ -18,7 +18,10 @@ function Button({ primary, secondary, accept, cancel, register, login, start, cl
         'Register': register,
         'Login': login,
         'Start': start,
-        'LogOut': logOut
+        'LogOut': logOut,
+        'Next': next,
+        'Prev': prev
+
     })
 
     return (
