@@ -1,9 +1,9 @@
 import { validate, call } from 'kaori-utils'
 
-const { REACT_PORT } = process.env
+const { REACT_APP_PORT } = process.env
 
 const kaoriApi = {
-    __url__: `http://localhost:${REACT_PORT}/api`,
+    __url__: `http://localhost:${REACT_APP_PORT}/api`,
     __timeout__: 0,
 
     registerUser(name, surname, phone, email, password) {

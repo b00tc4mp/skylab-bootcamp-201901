@@ -86,7 +86,7 @@ const logic = {
         ])
 
         return (async () => {
-            const product = await Product.findById(id).select('-_id title image description price category').lean()
+            const product = await Product.findById(id).select('_id title image description price category').lean()
             if (!product) throw new LogicError(`product whit id "${id}" doesn't exists`)
             return product
         })()
@@ -99,8 +99,14 @@ const logic = {
         ])
 
         return (async () => {
-            const product = await Product.find({ category }).select('-_id title image description price category').lean()
+            const product = await Product.find({ category }).select('_id title image description price category').lean()
+
             if (!product) throw new LogicError(`product whit category ${category} doesn't exists`)
+
+            product.forEach(item => {
+                item.id = item._id.toString()
+                delete item._id
+            })
 
             return product
         })()
@@ -130,25 +136,43 @@ const logic = {
         })()
     },
 
-    deleteToCart(productId, userId) {
+    deleteToCart(idProduct, userId) {
         validate.arguments([
-            { name: 'productId', value: productId, type: 'string', notEmpty: true },
+            { name: 'idProduct', value: idProduct, type: 'string', notEmpty: true },
             { name: 'userId', value: userId, type: 'string', notEmpty: true }
         ])
+
         return (async () => {
-            const user = await User.findById(userId)
+            const user = await User.findById(userId).lean()
+
             if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
 
+            if (user.cart.length > 0) {
+                const cart = user.cart
+                const index = cart.findIndex(p => p.productId.toString() === idProduct)
 
-            if (user.cart.length) {
-                const index = await user.cart.indexOf(({ id }) => id === productId)
                 user.cart.splice(index, 1)
             }
 
-            await user.save()
+            user.id = user._id.toString()
 
-            return user.cart
 
+            const newUser = await User.findByIdAndUpdate(user.id, { cart: user.cart }, { new: true }).populate({
+                path: 'cart.productId',
+                select: '-__v'
+            }).lean()
+
+            const { cart } = newUser
+
+            return cart.map(product => {
+                product.id = product._id.toString()
+                delete product._id
+                product.productId.id = product.productId._id.toString()
+                delete product.productId._id
+                product.product = product.productId
+                delete product.productId
+                return product
+            })
         })()
     },
 
@@ -159,17 +183,24 @@ const logic = {
 
         return (async () => {
             const user = await User.findById(userId)
+                .populate({
+                    path: 'cart.productId',
+                    select: '-__v'
+                }).lean()
+
             if (!user) throw new LogicError(`user with id ${userId} doesn't exists`)
 
             const { cart } = user
 
-            if (cart.length) {
-                cart.forEach(product => {
-                    product.id = product._id.toString()
-                    delete product._id
-                })
-            }
-            return cart
+            return cart.map(product => {
+                product.id = product._id.toString()
+                delete product._id
+                product.productId.id = product.productId._id.toString()
+                delete product.productId._id
+                product.product = product.productId
+                delete product.productId
+                return product
+            })
 
         })()
     },

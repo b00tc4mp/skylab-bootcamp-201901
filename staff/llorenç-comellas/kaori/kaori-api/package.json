@@ -5,6 +5,7 @@
   "main": "src/index.js",
   "scripts": {
     "start": "nodemon src/index.js",
+    "debug": "node --inspect-brk",
     "test": "jest --runInBand",
     "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"
   },

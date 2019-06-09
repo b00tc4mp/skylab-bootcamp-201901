@@ -347,7 +347,7 @@ describe('kaori api', () => {
             it('should succed on correct category from existing product', async () => {
                 const _products = await kaoriApi.retrieveProductsByCategory(products.category)
 
-                expect(_products[0].id).toBeUndefined()
+                expect(_products[0].id).toBeDefined()
                 expect(_products[0].title).toEqual(title)
                 expect(_products[0].image).toEqual(image)
                 expect(_products[0].description).toEqual(description)
@@ -536,8 +536,8 @@ describe('kaori api', () => {
                 expect(cart).toBeDefined()
                 expect(cart).toHaveLength(2)
 
-                expect(cart[0].productId.toString()).toBe(product.id)
-                expect(cart[1].productId.toString()).toBe(_product.id)
+                expect(cart[0].product.id.toString()).toBe(product.id)
+                expect(cart[1].product.id.toString()).toBe(_product.id)
                 expect(cart[0].quantity).toBe(1)
                 expect(cart[1].quantity).toBe(1)
 

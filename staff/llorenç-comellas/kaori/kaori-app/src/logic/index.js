@@ -106,7 +106,7 @@ const logic = {
 
         return (async () => {
             const res = await kaoriApi.retrieveProductsByCategory(category)
-
+            
             const { error } = res
             if (error) throw new LogicError(error)
 
@@ -128,6 +128,8 @@ const logic = {
 
             const { error } = res
             if (error) throw new LogicError(error)
+
+            return res
         })()
     },
 

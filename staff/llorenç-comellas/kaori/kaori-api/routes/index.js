@@ -85,8 +85,8 @@ router.delete('/products/:id/cart', auth, (req, res) => {
     const { userId, params: { id } } = req
 
     handleErrors(async () => {
-        await logic.deleteToCart(id, userId)
-        return res.status(200).json({ message: 'Ok, product delete to cart' })
+        const cart = await logic.deleteToCart(id, userId)
+        return res.json(cart)
     }, res)
 })
 
