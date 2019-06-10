@@ -5,11 +5,9 @@ import Landing from '../Landing'
 import Login from '../Login'
 import Register from '../Register'
 import Home from '../Home'
-import './App.sass'
+import './index.css'
 import Uikit from 'uikit/dist/js/uikit.min.js'
-import 'uikit/dist/js/uikit.min.js'
-import 'uikit/dist/js/uikit-icons.min.js'
-import { anyTypeAnnotation } from "@babel/types";
+
 
 function App(props) {
     const [user, setUser] = useState(null)
@@ -28,6 +26,18 @@ function App(props) {
             handleUpdate()
         }
     },[])
+
+    const handleUpdate = async () => {
+        let devicesArr = []
+        try {
+            const _user = await logic.retrieveUser()
+            setUser(_user)
+            if (_user.devices) _user.devices.forEach(device => devicesArr.push(device.name))
+        setDevices(devicesArr)
+        } catch (error) {
+            Uikit.notification({ message: error.message, status: 'danger' })
+        }
+    }
 
     const handleRegisterNavigation = () => props.history.push('/register')
 
@@ -71,6 +81,16 @@ function App(props) {
         }
     }
 
+    const handleUserDelete = async (data) => {
+        try {
+            await logic.deleteUser(user.name)
+            Uikit.notification({ message: 'user succesfully deleted', status: 'succes' })
+            handleLogout()
+        } catch (error) {
+            Uikit.notification({ message: error.message, status: 'danger' })
+        }
+    }
+
     const handleDeviceAdd = async (deviceName, deviceIp, devicePort, timeInterval) => {
         const _devicePort = Number(devicePort)
         const _timeInterval = Number(timeInterval)
@@ -84,6 +104,7 @@ function App(props) {
             Uikit.notification({ message: error.message, status: 'danger' })
         }
     }
+
     const handleDeviceDelete = async (deviceName) =>{
         try {
             await logic.deleteDevice(deviceName)
@@ -107,18 +128,18 @@ function App(props) {
             setDeviceStatus(response.status)
             const _interval = Number(response.interval)
             setInterval(_interval)
+            console.log(device)
         } catch (error) {
             Uikit.notification({ message: error.message, status: 'danger' })
         }
     }
 
-    const handleUpdate = async () => {
-        let devicesArr = []
+    const handleRefreshDevice = async (name) => {
         try {
-            const _user = await logic.retrieveUser()
-            setUser(_user)
-            if (_user.devices) _user.devices.forEach(device => devicesArr.push(device.name))
-        setDevices(devicesArr)
+            await logic.renameDevice(name, name)
+            await logic.changeDeviceTime(name, interval)
+            await handleRetrieveDevice(name)
+            Uikit.notification({ message: `Device ${name} succesfully refreshed`, status: 'succes' })
         } catch (error) {
             Uikit.notification({ message: error.message, status: 'danger' })
         }
@@ -173,17 +194,6 @@ function App(props) {
         }
     }
 
-    const handleRefreshDevice = async (name) => {
-        try {
-            await logic.renameDevice(name, name)
-            await logic.changeDeviceTime(name, interval)
-            await handleRetrieveDevice(name)
-            Uikit.notification({ message: `Device ${name} succesfully refreshed`, status: 'succes' })
-        } catch (error) {
-            Uikit.notification({ message: error.message, status: 'danger' })
-        }
-    }
-
     return (
         <Switch>
             <Route exact path="/" render={() =>
@@ -214,13 +224,14 @@ function App(props) {
                 logic.isUserLoggedIn ?
                     <Home
                         user={user}
+                        onUserUpdate={handleUserUpdate}
+                        onUserDelete={handleUserDelete}
+                        onLogout={handleLogout}
+                        timeInterval={interval}
                         device={device}
                         deviceStatus={deviceStatus}
                         deviceList={devices}
-                        timeInterval={interval}
                         retrieveInputs={handleRetrieveInputs}
-                        onLogout={handleLogout}
-                        onUserUpdate={handleUserUpdate}
                         onDeviceAdd={handleDeviceAdd}
                         onDeviceDelete={handleDeviceDelete}
                         onDeviceSelect={handleRetrieveDevice}

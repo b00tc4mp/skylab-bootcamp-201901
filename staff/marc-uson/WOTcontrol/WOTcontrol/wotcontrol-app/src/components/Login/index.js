@@ -1,6 +1,5 @@
 import React from 'react'
-import './index.sass' 
-import logoGreen from '../../assets/images/logoTextGreen.png'
+import logoGreen from '../../assets/images/logoTextShortGreen.png'
 
 function Login({ onLogin, navigateToRegister }) {
 
@@ -13,11 +12,11 @@ function Login({ onLogin, navigateToRegister }) {
         onLogin(username, password)
     }
 
-    return <div className='uk-flex uk-flex-center uk-position-center'>
-        <div className='uk-container uk-text-center'>
+    return <div className='card uk-flex uk-flex-center uk-position-center'>
+        <div className='uk-card-body uk-width-xlarge uk-padding uk-text-center'>
             <div>
-                <img width="371" height="294" src={logoGreen} />
-                <p className="subtitle"> Sign in with your email address</p>
+                <img width="232" height="184" src={logoGreen} />
+                <p className="select-none subtitle"> The easiest way to monitor & control your process</p>
             </div >
             <form className="uk-form-stacked" onSubmit={handleSubmit} >
                 <div>
@@ -30,7 +29,7 @@ function Login({ onLogin, navigateToRegister }) {
                     <button className="uk-button uk-button-default">Sign In</button>
                 </div>
             </form>
-            <p>or <a onClick={navigateToRegister}>Register</a></p>
+            <p className="select-none" >or <a onClick={navigateToRegister}>Register</a></p>
         </div>
     </div>
 }

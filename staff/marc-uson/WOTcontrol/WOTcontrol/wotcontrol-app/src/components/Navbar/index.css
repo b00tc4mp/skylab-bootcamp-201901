@@ -1,0 +1,6 @@
+.navbar-container{
+    height: 15vh;
+    background-color: white;
+    opacity: 0.9;
+    box-shadow: 2px 2px 6px slategray;
+}

@@ -1,10 +1,10 @@
 import React from 'react'
 import Navbar from '../Navbar'
 import Device from '../Device'
-import './index.sass'
+import './index.css'
 
 function Home({
-    user,
+    onLogout,
     device,
     deviceStatus,
     timeInterval,
@@ -12,8 +12,8 @@ function Home({
     din1Data,
     din2Data,
     retrieveInputs,
-    onLogout,
     onUserUpdate,
+    onUserDelete,
     onDeviceAdd,
     onDeviceDelete,
     deviceList,
@@ -24,20 +24,22 @@ function Home({
     onDeviceRefresh
 }) {
 
-    return <main >
+    return <div>
         <Navbar
             onLogout={onLogout}
-            onUserUpdate={onUserUpdate}
-            user={user}
-            onDeviceAdd={onDeviceAdd}
+            device={device}
+            deviceStatus={deviceStatus}
             deviceList={deviceList}
+            onDeviceAdd={onDeviceAdd}
             onDeviceSelect={onDeviceSelect}
+            onDeviceDelete={onDeviceDelete}
+            onUserUpdate={onUserUpdate}
+            onUserDelete={onUserDelete}
+            onDeviceRefresh={onDeviceRefresh}
         />
         {device && <Device
             device={device}
             deviceStatus={deviceStatus}
-            onDeviceDelete={onDeviceDelete}
-            onDeviceRefresh={onDeviceRefresh}
             timeInterval={timeInterval}
             retrieveInputs={retrieveInputs}
             onDoutChange={onDoutChange}
@@ -47,8 +49,8 @@ function Home({
             din1Data={din1Data}
             din2Data={din2Data}
         />}
-        {!device && <h1 className='uk-position-center'>Please, select any device</h1>}
-    </main>
+        {!device && <h1 className='home-text uk-position-center'>Please, select or add a device</h1>}
+    </div>
 }
 
 export default Home
