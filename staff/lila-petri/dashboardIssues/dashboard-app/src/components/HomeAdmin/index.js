@@ -43,7 +43,7 @@ class HomeAdmin extends Component{
     render(){
         const {
             props: {onLogout},
-            state: {loading, loadingSave, loadingLoad, visibleLoad, visibleSave},
+            state: {loadingSave, loadingLoad, visibleLoad, visibleSave},
             handlerLoad,
             handlerSavingData
         }=this

@@ -2,11 +2,8 @@ import React from 'react'
 import './index.sass'
 import logo from './images/logo.jpeg'
 
-
-
-
-function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, resolution, goProfile}){
-    debugger
+function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, statistic, goProfile}){
+    
     let statisticType
     function onStatisticsChange(e){
         statisticType=e
@@ -16,6 +13,7 @@ function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, resolution
         e.preventDefault()
         const dateFrom = e.target.dateFrom.value
         const dateTo = e.target.dateTo.value
+
         if(!statisticType){
             statisticType = e.target.statistic.options[e.target.statistic.selectedIndex].value
         } 
@@ -38,9 +36,9 @@ function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, resolution
                                 <input className="uk-input uk-form-small" data-uk-tooltip="title: end date" id="dateTo" type="date" name="dateTo" required defaultValue={dateTo} min={dateFrom}></input>
                             </div>
                             <div className="uk-form-controls">
-                                <select className="uk-select uk-form-small" data-uk-tooltip="title: statistic type" name="statistic" onChange={event => onStatisticsChange(event.target.value)} defaultValue={resolution}>
-                                    <option value="byResolution">By Resolution</option>
-                                    <option value="bySLA" >By SLA</option>
+                                <select className="uk-select uk-form-small" value={statistic || ""} data-uk-tooltip="title: statistic type" name="statistic" defaultValue={statistic} onChange={event => onStatisticsChange(event.target.value)}>
+                                    <option value="0">By Resolution</option>
+                                    <option value="1" >By SLA</option>
                                 </select>
                             </div>
                             <div className="uk-margin">
@@ -61,7 +59,7 @@ function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, resolution
                                     <li><p>Product Expert</p></li>
                                     <li className="uk-nav-divider"></li>
                                     <li><a className="uk-nav-header" href="#/profile" onClick={goProfile}>Profile</a></li>
-                                    <li><a href="#" onClick={onLogout}>Logout</a></li>
+                                    <li><a href="" onClick={onLogout}>Logout</a></li>
                                 </ul>
                             </div>
                         </li>

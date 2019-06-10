@@ -112,11 +112,11 @@ const restApi = {
         })
     },
     clearUp(token){
-        debugger
+        
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true}
         ])
-        debugger
+        
         return call(`${this.__url__}/issues/cleanup`, {
             method: 'PUT',
             headers: { Authorization: `Bearer ${token}` }
