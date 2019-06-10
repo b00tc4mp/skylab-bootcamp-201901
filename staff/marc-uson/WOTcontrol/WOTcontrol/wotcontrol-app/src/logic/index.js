@@ -314,7 +314,7 @@ const logic = {
 }
 
 //TESTING
-// module.exports = logic
+module.exports = logic
 
 //REACT
- export default logic
+//  export default logic

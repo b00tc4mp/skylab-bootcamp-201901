@@ -1,13 +1,19 @@
 import React from 'react'
 import logo from '../../assets/images/logoGreen.png'
 import Uikit from 'uikit/dist/js/uikit.min.js'
+import './index.css'
 
 function Navbar({
+    device,
     onLogout,
-    onUserUpdate,
-    onDeviceAdd,
+    deviceStatus,
     deviceList,
-    onDeviceSelect
+    onDeviceSelect,
+    onDeviceAdd,
+    onDeviceDelete,
+    onDeviceRefresh,
+    onUserUpdate,
+    onUserDelete
 }) {
 
     const updateUser = (e) => {
@@ -22,12 +28,6 @@ function Navbar({
         e.target.surname.value=''
         e.target.email.value=''
         onUserUpdate({name, surname, email})
-    }
-
-    const retrieveDevice = (e,name) =>{
-        e.preventDefault()
-        Uikit.dropdown('#deviceDropdown').hide();
-        onDeviceSelect(name)
     }
 
     const addDevice = (e) => {
@@ -46,21 +46,70 @@ function Navbar({
         onDeviceAdd(name, ip, port, time)
     }
 
-    return <div>
-        <nav className="uk-navbar-container" data-uk-navbar>
-            <div className="uk-navbar-left uk-margin-left">
+    const refreshDevice = (e) => {
+        e.preventDefault()
+        Uikit.modal('#refresh-modal').hide();
+        onDeviceRefresh(device.name, e.target.time.value)
+    }
+
+    const deleteDevice = () => {
+        Uikit.modal('#delete-modal').hide();
+        onDeviceDelete(device.name)
+    }
+
+    const logout = (e) => {
+        e.preventDefault()
+        Uikit.modal('#profilePreferences').hide();
+        onLogout()
+    }
+
+    const retrieveDevice = (e,name) =>{
+        e.preventDefault()
+        Uikit.dropdown('#deviceDropdown').hide();
+        onDeviceSelect(name)
+    }
+
+    const deleteUser = (e) => {
+        e.preventDefault()
+        Uikit.modal('#delete-user').hide();
+        onUserDelete()
+    }
+
+    return <div data-uk-sticky>
+        <nav className="navbar-container uk-navbar uk-sticky" data-uk-navbar>
+            <div className="uk-navbar-left uk-margin-left uk-visible@s">
                 <img width="31" height="32" src={logo} alt="WOTcontrol" />
             </div>
-            <div className="uk-navbar-center">
+            <div className="uk-navbar-left uk-margin-left-small uk-hidden@s">
+                <div className="uk-navbar-item uk-text-center">
+                    <a className="uk-navbar-item uk-logo uk-center" href="#">
+                        {device && <div  data-uk-scrollspy="cls:uk-animation-fade" >{device.name}<div className="uk-navbar-subtitle">{device.ip} - {deviceStatus}</div></div>}
+                    </a>
+                </div>
+            </div>
+            <div className="uk-navbar-center uk-visible@s">
+                {device && <div data-uk-scrollspy="cls:uk-animation-fade" >
+                    <a data-uk-toggle="target: #refresh-modal"><span className="uk-padding uk-icon-link" data-uk-icon="future"></span></a>
+                </div>}
+                <div className="uk-navbar-item uk-text-center">
+                    <a className="uk-navbar-item uk-logo uk-center" href="#">
+                        {device && <div  data-uk-scrollspy="cls:uk-animation-fade" >{device.name}<div className="uk-navbar-subtitle">{device.ip} - {deviceStatus}</div></div>}
+                    </a>
+                </div>
+                {device && <div data-uk-scrollspy="cls:uk-animation-fade" >
+                    <a data-uk-toggle="target: #delete-modal"><span className="uk-padding uk-icon-link" data-uk-icon="trash"></span></a>
+                </div>}
+            </div>
+
+            <div className="uk-navbar-right">
                 <ul className="uk-navbar-nav">
-                    <li><a data-uk-toggle="target: #profilePreferences">Profile</a></li>
                     <li>
                         <a href="#">Devices</a>
                         <div id="deviceDropdown" className="uk-navbar-dropdown" >
                             <ul className="uk-nav uk-dropdown-nav">
                                 {deviceList && (
                                     deviceList.map(name => {
-                                        return <li key={name} onClick={(e) => retrieveDevice(e,name)} >{name}</li>
+                                        return <li className="select-none" key={name} onClick={(e) => retrieveDevice(e, name)} >{name}</li>
                                     })
                                 )}
                                 <li className="uk-nav-divider"></li>
@@ -68,15 +117,32 @@ function Navbar({
                             </ul>
                         </div>
                     </li>
+                    <li><a data-uk-toggle="target: #profilePreferences">Profile</a></li>
                 </ul>
             </div>
-
-            <div className="uk-navbar-right">
-                <div className="uk-navbar-item">
-                    <div><a onClick={onLogout}>Logout</a></div>
-                </div>
-            </div>
         </nav>
+
+        <div id="profilePreferences" data-uk-modal>
+            <div className="uk-modal-dialog uk-modal-body">
+                <h2 className="uk-modal-title">Profile update</h2>
+                <form className="uk-form-stacked" onSubmit={event => updateUser(event)}>
+                    <input className="uk-input uk-form-small" type="text" name="name" placeholder='name' />
+                    <input className="uk-input uk-form-small" type="text" name="surname" placeholder='surname' />
+                    <input className="uk-input uk-form-small" type="text" name="email" placeholder='email' />
+                    <div className="uk-flex uk-flex-between uk-position-medium">
+                        <div>
+                            <button className="uk-button uk-button-default">Update</button>
+                        </div>
+                        <div>
+                            <a onClick={(e) => logout(e)}>Logout</a>
+                        </div>
+                        <div>
+                            <button data-uk-toggle="target: #delete-user" className="uk-button uk-button-danger" type="button" >delete</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
 
         <div id="newDevice" data-uk-modal>
             <div className="uk-modal-dialog uk-modal-body">
@@ -91,17 +157,42 @@ function Navbar({
             </div>
         </div>
 
-        <div id="profilePreferences" data-uk-modal>
+        <div id="delete-modal" data-uk-modal>
             <div className="uk-modal-dialog uk-modal-body">
-                <h2 className="uk-modal-title">Profile update</h2>
-                <form className="uk-form-stacked" onSubmit={event => updateUser(event)}>
-                    <input className="uk-input uk-form-small" type="text" name="name" placeholder='name' />
-                    <input className="uk-input uk-form-small" type="text" name="surname" placeholder='surname' />
-                    <input className="uk-input uk-form-small" type="text" name="email" placeholder='email' />
-                    <div><button className="uk-button uk-button-default">Update</button></div>
+                <h2 className="uk-modal-title">Delete device</h2>
+                <p>Are you sure to delete the current device?</p>
+                <p className="uk-text-right">
+                    <button className="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button className="uk-button uk-button-danger" type="button" onClick={(e) => deleteDevice(e)} >delete</button>
+                </p>
+            </div>
+        </div>
+
+        <div id="delete-user" data-uk-modal>
+            <div className="uk-modal-dialog uk-modal-body">
+                <h2 className="uk-modal-title">Delete device</h2>
+                <p>Are you sure to delete the current device?</p>
+                <p className="uk-text-right">
+                    <button className="uk-button uk-button-default uk-modal-close" type="button">Cancel</button>
+                    <button className="uk-button uk-button-danger" type="button" onClick={(e) => deleteUser(e)} >delete</button>
+                </p>
+            </div>
+        </div>
+
+        <div id="refresh-modal" data-uk-modal>
+            <div className="uk-modal-dialog uk-modal-body">
+                <h2 className="uk-modal-title">Refresh device</h2>
+                <form  onSubmit={event => refreshDevice(event)}>
+                    <label className="uk-form-label" >time interval: </label>
+                    <input className="uk-input uk-form-small uk-form-width-small" type="text" name="time" placeholder='miliseconds' />
+                    <p className="uk-text-right">
+                        <button className="uk-button uk-button-default uk-modal-close" type="button" >Cancel</button>
+                        <button className="uk-button uk-button-primary">Update</button>
+                    </p>
                 </form>
             </div>
         </div>
+
     </div>
 
 

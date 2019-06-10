@@ -77,7 +77,7 @@ describe('Logic', () => {
                 expect(_user[0].admin).to.be.false
             })
 
-            describe('on already existing user', () => {
+            describe('already existing user', () => {
                 beforeEach(async () => {
                     await Users.create({ name, surname, email, password})
                 })
@@ -313,6 +313,17 @@ describe('Logic', () => {
                 expect(user.email).to.equal(email)
                 expect(user.password).to.not.exist
             })
+
+            it('should fail on incorrect user token', async () => {
+                logic.__userToken__ ='invalid token'
+                try {
+                    await logic.retrieveUser()
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`jwt malformed`)
+                }
+            })
         })
 
         describe('update user', () => {
@@ -393,6 +404,17 @@ describe('Logic', () => {
                 expect(_token.length).to.be.greaterThan(0)
             })
 
+            it('should fail on wrong token', async () => {
+                let newPassword = 'newpassword'
+                logic.__userToken__ ='invalid token'
+                try {
+                    await logic.updateUser({ password: newPassword })
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`jwt malformed`)
+                }
+            })
 
             it('should fail on undefined data', () => {
                 const data = undefined
@@ -443,6 +465,17 @@ describe('Logic', () => {
                 }
             })
 
+            it('should fail on undefined token', async () => {
+                logic.__userToken__ ='invalid token'
+                try {
+                    await logic.deleteUser()
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`jwt malformed`)
+                }
+            })
+
         })
     })
 
@@ -459,7 +492,7 @@ describe('Logic', () => {
             logic.__userToken__ = _token
         })
 
-        describe('check if WOTdevice exists', () => {
+        describe.only('check if WOTdevice exists', () => {
             it('should succed on checking the selected WOTdevice', async () => {
                 const response = await logic.checkDevice(deviceIp, devicePort)
 
@@ -491,6 +524,18 @@ describe('Logic', () => {
                 } catch (error) {
                     expect(error).to.exist
                     expect(error.message).to.equal(`Can't find any device with ip: ${deviceIp} and port: ${_devicePort}`)
+                }
+            })
+
+            it('should fail on undefined token', async () => {
+                logic.__userToken__ = 'invalid token'
+
+                try {
+                    await logic.checkDevice(deviceIp, devicePort)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`jwt malformed`)
                 }
             })
 
