@@ -29,7 +29,7 @@ export class CreateSessionsInput {
   @Field(() => Date)
   endTime: Date;
 
-  @Field(() => [Date])
+  @Field(() => [Date], {nullable: true})
   repeat?: Date[];
 
   @Field()
@@ -60,7 +60,7 @@ export class CreateSessionsResolver {
     const provider = ctx.provider || (await ProviderModel.findById(providerId));
     if (!provider) throw new LogicError('provider is required');
 
-    const coaches = await UserModel.find({id: coachesId})
+    const coaches = await UserModel.find({ _id: coachesId})
 
     return await createSession(data, provider, coaches);
   }

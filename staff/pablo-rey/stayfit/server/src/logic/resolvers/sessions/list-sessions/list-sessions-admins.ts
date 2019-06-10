@@ -1,10 +1,11 @@
-import { Arg, Authorized, Ctx, Query, Resolver } from 'type-graphql';
+import { AuthorizationError } from './../../../../common/errors/index';
+import { Arg, Authorized, Ctx, Query, Resolver, Args } from 'type-graphql';
 import { LogicError } from '../../../../common/errors/index';
-import { ProviderModel } from '../../../../data/models/provider';
+import { ProviderModel, Provider } from '../../../../data/models/provider';
 import { Session, SessionModel } from '../../../../data/models/session';
 import { ONLY_ADMINS_OF_PROVIDER } from '../../../middleware/authChecker';
 import { MyContext } from '../../../middleware/MyContext';
-import moment = require('moment');
+import * as moment from 'moment';
 
 @Resolver(Session)
 export class ListSessionsAdminsResolvers {
@@ -27,5 +28,22 @@ export class ListSessionsAdminsResolvers {
         populate: { path: 'user' },
       });
     return sessions;
+  }
+
+  @Authorized(ONLY_ADMINS_OF_PROVIDER)
+  @Query(returns => Session)
+  async retrieveSession(@Arg('sessionId') sessionId: string, @Arg('providerId') providerId: string) {
+    const session = await SessionModel.findById(sessionId)
+      .populate('provider')
+      .populate('coaches')
+      .populate('type')
+      .populate({
+        path: 'attendances',
+        populate: { path: 'user' },
+      });
+    if (!session) throw new LogicError('session not found');
+    if (providerId !== (session.provider as Provider).id.toString())
+      throw new AuthorizationError('provider does match in session');
+    return session;
   }
 }

@@ -4,6 +4,7 @@ import React, { useContext } from 'react';
 import { MainContext } from '../../logic/contexts/main-context';
 import AttendanceCustomerSlidingButtons from './AttendanceCustomerSlidingButtons';
 import { AttendanceStatus } from './AttendanceStatus';
+import AttendanceAdminSlidingButtons from './AttendanceAdminSlidingButtons';
 
 export default function AttendanceItem({ session, onDetail, onChange, isAdmin = false }) {
   const ctx = useContext(MainContext);
@@ -79,6 +80,7 @@ export default function AttendanceItem({ session, onDetail, onChange, isAdmin = 
         </IonGrid>
       </IonItem>
       {isUser && <AttendanceCustomerSlidingButtons attendance={myAttendance} session={session} onChange={onChange} />}
+              {isAdmin && <AttendanceAdminSlidingButtons session={session} /> }
     </IonItemSliding>
   );
 }

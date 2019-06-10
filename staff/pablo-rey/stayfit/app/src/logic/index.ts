@@ -1,7 +1,7 @@
 import gql from 'graphql-tag';
 import jwt from 'jsonwebtoken';
-import { TUser, TProvider } from './contexts/main-context';
 import moment from 'moment';
+import { TProvider, TUser } from './contexts/main-context';
 
 export default {
   gqlClient: null,
@@ -178,7 +178,7 @@ export default {
     return data.me;
   },
 
-  async CreateSessions({
+  async createSessions({
     title,
     provider,
     coaches,
@@ -223,7 +223,115 @@ export default {
       },
     });
     if (error) throw new Error(error[0]);
-    return data.id;
+    return data.createSessions;
+  },
+
+  async updateSession(
+    sessionId: string,
+    {
+      title,
+      provider,
+      coaches,
+      startTime: __startTime,
+      endTime: __endTime,
+      maxAttendants,
+      type,
+      status,
+      visibility,
+      notes,
+    }
+  ) {
+    const mutation = gql`
+      mutation UpdateSession($sessionId: String!, $data: CreateSessionsInput!) {
+        updateSession(sessionId: $sessionId, data: $data)
+      }
+    `;
+    const firstDay = moment(__startTime).format('YYYY-MM-DD');
+
+    const startTime = moment(`${firstDay} ${__startTime}`, 'YYYY-MM-DD hh:mm').toDate();
+    const endTime = moment(`${firstDay} ${__endTime}`, 'YYYY-MM-DD hh:mm').toDate();
+
+    const dataSession = {
+      title,
+      providerId: provider.id,
+      coachesId: coaches.map(coach => coach.id),
+      startTime,
+      endTime,
+      maxAttendants,
+      typeId: type.id,
+      status,
+      visibility,
+      notes,
+    };
+
+    const { data, error } = await this.__gCall({
+      mutation,
+      variables: {
+        sessionId,
+        data: dataSession,
+      },
+    });
+    if (error) throw new Error(error[0]);
+    return data.updateSession;
+  },
+
+  async retrieveSession(sessionId: string) {
+    const query = gql`
+      query RetrieveSession($sessionId: String!, $providerId: String!) {
+        retrieveSession(sessionId: $sessionId, providerId: $providerId) {
+          id
+          title
+          coaches {
+            id
+            name
+          }
+          startTime
+          endTime
+          maxAttendants
+          status
+          visibility
+          notes
+          type {
+            id
+            title
+          }
+          attendanceDefaultStatus
+          attendances {
+            id
+            user {
+              id
+              name
+            }
+            paymentType
+            status
+          }
+        }
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      query,
+      variables: {
+        sessionId,
+        providerId: this.providerId,
+      },
+    });
+    return data.retrieveSession;
+  },
+
+  async deleteSession(sessionId: string) {
+    const mutation = gql`
+      mutation DeleteSession($sessionId: String!, $providerId: String!) {
+        deleteSession(sessionId: $sessionId, providerId: $providerId)
+      }
+    `;
+    const { data, error } = await this.__gCall({
+      mutation,
+      variables: {
+        sessionId,
+        providerId: this.providerId,
+      },
+    });
+    return data.deleteSession;
   },
 
   async availableSessions(providerId: string, day: string) {

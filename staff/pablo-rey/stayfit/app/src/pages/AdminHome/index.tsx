@@ -20,17 +20,18 @@ import AdminSessions from './AdminSessions';
 import CreateSession from '../Session/CreateSession';
 import MainAdmin from './MainAdmin';
 import MySettingsAdmin from './MySettingsAdmin';
+import EditSession from '../Session/EditSession';
 
 const AdminHome: React.FC<any> = ({ history, location }) => {
   const ctx = useContext(MainContext);
 
-  useEffect(() => {
-    (async () => {
-      if (!ctx.provider) return;
-      const crs = await logic.listCustomers(ctx.provider.id);
-      ctx.setCustomers(crs);
-    })();
-  }, [ctx.provider]);
+  // useEffect(() => {
+  //   (async () => {
+  //     if (!ctx.provider) return;
+  //     const crs = await logic.listCustomers(ctx.provider.id);
+  //     ctx.setCustomers(crs);
+  //   })();
+  // }, [ctx.provider]);
 
   if (!ctx.user) {
     return <p>No user loaded</p>;
@@ -47,6 +48,8 @@ const AdminHome: React.FC<any> = ({ history, location }) => {
           <Route path="/admin/:tab(sessions)" component={AdminSessions} />
           <Route path="/admin/:tab(customers)" component={AdminCustomers} />
           <Route path="/admin/:tab(settings)" component={MySettingsAdmin} />
+          <Route path="/admin/createSession" render={() => <CreateSession />} />
+          <Route path="/admin/editSession/:id" render={() => <EditSession />} />
           <Route path="/admin/" component={MainAdmin} exact={true} />
         </IonRouterOutlet>
         <IonTabBar slot="bottom">

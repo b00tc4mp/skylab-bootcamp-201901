@@ -43,11 +43,6 @@ const Home: React.FC<any> = ({ history, location }) => {
     <IonPage id="main">
       <IonTabs>
         <IonRouterOutlet>
-          {/* <Route path="/:tab(schedule)" component={SchedulePage} exact={true} />
-            <Route path="/:tab(speakers)/speaker/:id" component={SpeakerDetail} />
-            <Route path="/:tab(speakers)" component={SpeakerList} exact={true} />
-            <Route path="/:tab(schedule|speakers)/sessions/:id" component={SessionDetail} />
-          <Route path="/:tab(map)" component={MapView} /> */}
           <Route path="/home/:tab(bookings)" component={MyBookings} />
           <Route path="/home/:tab(providers)" component={MyProviders} />
           <Route path="/home/:tab(settings)" component={MySettingsUser} />

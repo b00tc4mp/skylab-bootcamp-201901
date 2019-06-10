@@ -1,45 +1,32 @@
 import {
+  IonBackButton,
+  IonButton,
+  IonButtons,
   IonCol,
+  IonContent,
   IonDatetime,
-  IonFab,
-  IonFabButton,
-  IonGrid,
-  IonIcon,
-  IonImg,
+  IonHeader,
   IonInput,
   IonItem,
   IonLabel,
+  IonPage,
   IonRow,
   IonSelect,
   IonSelectOption,
-  IonButton,
-  IonPage,
-  IonContent,
   IonTextarea,
-  IonToolbar,
-  IonButtons,
-  IonBackButton,
   IonTitle,
-  IonHeader,
+  IonToolbar,
 } from '@ionic/react';
 import moment from 'moment';
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useContext, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import { CalendarWeek } from '../../components/CalendarWeek';
 import { ATTENDANCEDEFAULTS, SESSIONSTATUS, SESSIONVISIBILITY } from '../../enums';
-import { MainContext } from '../../logic/contexts/main-context';
 import logic from '../../logic';
+import { MainContext } from '../../logic/contexts/main-context';
 
-const CreateSession: React.FC<any> = ({ history, location, client }) => {
+function CreateSession({ history }) {
   const ctx = useContext(MainContext);
-
-  useEffect(() => {
-    (async () => {
-      if (!ctx.provider) return;
-      const crs = await ctx.logic.listCustomers(ctx.provider.id);
-      ctx.setCustomers(crs);
-    })();
-  }, [ctx.provider]);
 
   const [title, setTitle] = useState('');
   const [coaches, setCoaches] = useState([]);
@@ -61,7 +48,7 @@ const CreateSession: React.FC<any> = ({ history, location, client }) => {
   const [repeat, setRepeat] = repeatState;
 
   const handleSave = async () => {
-    const session = await logic.CreateSessions({
+    const session = await ctx.logic.createSessions({
       title,
       provider: ctx.provider,
       coaches,
@@ -74,7 +61,7 @@ const CreateSession: React.FC<any> = ({ history, location, client }) => {
       visibility,
       notes,
     });
-    if (session) history.goBack();
+    if (session) history.push('/admin');
   };
 
   return (
@@ -107,9 +94,18 @@ const CreateSession: React.FC<any> = ({ history, location, client }) => {
             <IonCol>
               <IonItem>
                 <IonLabel position="stacked">Coaches</IonLabel>
-                <IonSelect multiple={true} onIonChange={(e: any) => setCoaches(e.target.value)}>
+                <IonSelect
+                  multiple={true}
+                  onIonChange={(e: any) =>
+                    setCoaches(e.target.value.map(id => ctx.provider.coaches.find(coach => coach.id === id)))
+                  }
+                >
                   {ctx.provider.coaches.map(coach => (
-                    <IonSelectOption key={coach.id} value={coach}>
+                    <IonSelectOption
+                      key={coach.id}
+                      value={coach.id}
+                      selected={coaches.map(({ id }) => id).includes(coach.id)}
+                    >
                       {coach.name}
                     </IonSelectOption>
                   ))}
@@ -202,9 +198,12 @@ const CreateSession: React.FC<any> = ({ history, location, client }) => {
             <IonCol>
               <IonItem>
                 <IonLabel position="stacked">Session type</IonLabel>
-                <IonSelect value={type} onIonChange={(e: any) => setType(e.target.value)}>
+                <IonSelect
+                  value={type.id}
+                  onIonChange={(e: any) => setType(ctx.provider.sessionTypes.find(st => st.id === e.target.value))}
+                >
                   {ctx.provider.sessionTypes.map(sessionType => (
-                    <IonSelectOption key={sessionType.id} value={sessionType}>
+                    <IonSelectOption key={sessionType.id} value={sessionType.id}>
                       {sessionType.type}
                     </IonSelectOption>
                   ))}
@@ -236,6 +235,6 @@ const CreateSession: React.FC<any> = ({ history, location, client }) => {
       </IonContent>
     </IonPage>
   );
-};
+}
 
 export default withRouter(CreateSession);

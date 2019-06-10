@@ -1,6 +1,7 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import { ApolloClient } from 'apollo-boost';
 import logic from '..';
+import moment from 'moment';
 
 export type TProvider = {
   id: string;
@@ -56,6 +57,7 @@ function MainContextProvider(props) {
   const [myProviders, setMyProviders] = useState(null);
   const [provider, setProvider] = useState(null);
   const [customers, setCustomers] = useState(null);
+  const [sessions, setSessions] = useState(null)
   const [role, setRole] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
   const [nextAttendances, setNextAttendances] = useState(null);
@@ -68,6 +70,7 @@ function MainContextProvider(props) {
       setUser(user);
       if (user.adminOf.length) {
         setProvider(user.adminOf[0]);
+        logic.providerId = user.adminOf[0].id;
       } else {
         options = { refreshProviders: true, refreshAttendances: true}
       }
@@ -118,10 +121,8 @@ function MainContextProvider(props) {
   };
 
   useEffect(() => {
-    if (logic.token) {
-      refreshUserData();
-    }
-  }, []);
+    refreshUserData();
+  }, [userId]);
 
   return (
     <MainContext.Provider
