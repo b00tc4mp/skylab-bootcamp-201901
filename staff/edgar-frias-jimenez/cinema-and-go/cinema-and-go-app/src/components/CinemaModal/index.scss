@@ -4,7 +4,6 @@
     left: 0;
     height: 100vh;
     width: 100vw;
-    background: rgba(255, 255, 255, .65);
     z-index: 2;
 
     &__content {
@@ -23,6 +22,11 @@
             right: 24px;
             background: red;
             position: absolute;
+            z-index: 2;
+
+            &:hover {
+                cursor: pointer;
+            }
         }
 
         .cinema {
@@ -32,6 +36,7 @@
             border-radius: 12px;
             padding: 24px;
             background: white;
+            z-index: 2;
 
             &__title {
                 font-size: 24px;
@@ -48,6 +53,16 @@
                     width: 120px;
                 }
             }
+        }
+
+        .layer {
+            background: rgba(255, 255, 255, .65);
+            height: 100vh;
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            z-index: 1;
         }
     }
 }

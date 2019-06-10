@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 
 import './index.scss'
 
@@ -23,6 +23,7 @@ const CinemaModal = ({ handleCloseModal }) => {
                         </li>
                     </ul>
                 </section>
+                <div className="layer" onClick={handleCloseModal}></div>
             </div>
         </div>
     )
