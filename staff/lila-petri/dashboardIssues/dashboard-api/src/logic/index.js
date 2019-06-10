@@ -5,6 +5,13 @@ const { LogicError , RequirementError , FormatError }= require('dashboard-errors
 const argon2 = require('argon2')
 
 const logic = {
+    /**
+     * It makes a request to Jira (on an specific project) to retrieve all the issues from the specific month,
+     * and save them on the buffer collection
+     * @param {string} id to identify an authenticated user 
+     * @param {string} month to retrieve a speficit month
+     * 
+     */
     loadJirasByMonth(id, month){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true},
@@ -64,6 +71,11 @@ const logic = {
         })()
 
     },
+
+    /**
+     * It copies the buffer collection to issues collection
+     * @param {string} id to identify an authenticated user 
+     */
     saveIssues(id){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true}
@@ -94,6 +106,11 @@ const logic = {
         })()
 
     },
+
+    /**
+     * Calulate if every issue is overdue or ontime
+     * @param {string} id to identify an authenticated user
+     */
     calculateOverdue(id){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true}
@@ -126,6 +143,11 @@ const logic = {
             
         })()
     },
+
+    /**
+     * Cleanup issues collection
+     * @param {string} id to identify an authenticated user
+     */
     clearUp(id){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true}
@@ -141,6 +163,11 @@ const logic = {
             await Issue.deleteMany()
         })()
     },
+
+    /**
+     * Cleanup buffer collection
+     * @param {string} id to identify an authenticated user
+     */
     clearUpBuffer(id){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true}
@@ -156,6 +183,7 @@ const logic = {
             await Bufferissue.deleteMany()
         })()
     },
+    
     retrieveIssuesByResolution(id, issueType, country, startDate, endDate){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true},

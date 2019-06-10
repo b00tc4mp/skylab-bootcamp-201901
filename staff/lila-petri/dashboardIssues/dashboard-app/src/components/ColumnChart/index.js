@@ -34,7 +34,7 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
 
 
     return <div className="container-columnchart">
-        <div>
+        <div className="uk-box-shadow-bottom" data-uk-scrollspy="cls:uk-animation-fade">
             <Chart
                 width={'400px'}
                 height={'250px'}
@@ -48,7 +48,7 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
                     seriesType: 'bars',
                     series: { 5: { type: 'line' } },
                     isStacked: true,
-                    backgroundColor : '#CDD7DC',
+                    backgroundColor : '#eaebed',
                     legend:{position: 'top', alignment: 'end'},
                     colors: ['#931621', '#06D6A0']
                 }}
@@ -66,13 +66,13 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
                     seriesType: 'bars',
                     series: { 5: { type: 'line' } },
                     isStacked: true,
-                    backgroundColor : '#CDD7DC',
+                    backgroundColor : '#eaebed',
                     legend:{position: 'top', alignment: 'end'},
                     colors: ['#931621', '#06D6A0']
                 }}
             />
         </div>
-        <div>
+        <div className="uk-box-shadow-bottom" data-uk-scrollspy="cls:uk-animation-fade">
             <Chart
                 width={'400px'}
                 height={'250px'}
@@ -86,7 +86,7 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
                     seriesType: 'bars',
                     series: { 5: { type: 'line' } },
                     isStacked: true,
-                    backgroundColor : '#CDD7DC',
+                    backgroundColor : '#eaebed',
                     legend:{position: 'top', alignment: 'end'},
                     colors: ['#931621', '#06D6A0']
                 }}
@@ -104,7 +104,7 @@ function ColumnChart({ error, hotfix, bugfix, bug, request }) {
                     seriesType: 'bars',
                     series: { 5: { type: 'line' } },
                     isStacked: true,
-                    backgroundColor : '#CDD7DC',
+                    backgroundColor : '#eaebed',
                     legend:{position: 'top', alignment: 'end'},
                     colors: ['#931621', '#06D6A0']
                 }}

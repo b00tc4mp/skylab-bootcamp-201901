@@ -3,9 +3,12 @@ import React, { Component } from 'react'
 import logic from '../../logic'
 import {  BarLoader } from 'react-spinners'
 import './index.sass'
+import { withRouter } from 'react-router-dom'
+import 'uikit/dist/js/uikit.min.js'
+import UIkit from 'uikit/dist/js/uikit.min.js'
 
 class HomeAdmin extends Component{
-    state = { visibleLoad: true , visibleSave: true, loading: false, loadingSave: false, loadingLoad: false, error: null}
+    state = { visibleLoad: true , visibleSave: true, loading: false, loadingSave: false, loadingLoad: false}
 
     handlerLoad = async () => {
         try{
@@ -15,10 +18,12 @@ class HomeAdmin extends Component{
             await logic.loadJirasByMonth('April')
             await logic.loadJirasByMonth('May')
             await logic.loadJirasByMonth('June')
+            UIkit.notification("<span uk-icon='icon: check'></span> Data saved successfully", {status:'success'}, {timeout: 5})
             this.setState({loadingLoad: false, visibleLoad: true})
             
         }catch(error){
-            this.setState({ error: error.message })
+            
+            UIkit.notification({message: error.message , status:'danger'})
         }
     }
     handlerSavingData = async () => {
@@ -27,17 +32,18 @@ class HomeAdmin extends Component{
             await logic.clearUp()
             await logic.saveIssues() 
             await logic.calculateOverdue()
+            UIkit.notification("<span uk-icon='icon: check'></span> Data saved successfully", {status:'success'}, {timeout: 5})
             this.setState({loadingSave: false, visibleSave: true})
 
         }catch(error){
-            this.setState({ error: error.message })
+            UIkit.notification({message: error.message , status:'danger'})
         }
     }
 
     render(){
         const {
-            props: {onLogout, error},
-            state: {loading, loadingSave, loadingLoad, visibleLoad, visibleSave},
+            props: {onLogout},
+            state: {loadingSave, loadingLoad, visibleLoad, visibleSave},
             handlerLoad,
             handlerSavingData
         }=this
@@ -47,7 +53,6 @@ class HomeAdmin extends Component{
                 <button className="uk-button uk-button-default uk-width-small uk-margin-bottom uk-text-muted uk-float-right" onClick={onLogout}>Logout</button> 
             </header>
             <ul className="uk-list uk-list-divider">
-                <li></li>
                 <li></li>
                 <div className="boundary-align uk-panel uk-placeholder">
                     <li className="uk-float-left uk-text-emphasis">Retrieve issues from source(JIRA)</li>
@@ -79,4 +84,4 @@ class HomeAdmin extends Component{
     }
 }
 
-export default HomeAdmin
+export default withRouter(HomeAdmin)
