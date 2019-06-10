@@ -136,6 +136,16 @@ const appLogic = {
                 throw new LogicError(error)
             }
         })()
+    },
+
+    retrieveCinemaInfo(id) {
+        return (async () => {
+            try {
+                return await cinemaApi.retrieveCinema(this.__userToken__, id)
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
     }
 }
 
