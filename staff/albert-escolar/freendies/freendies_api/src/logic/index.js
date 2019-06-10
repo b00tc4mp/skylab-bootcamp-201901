@@ -107,64 +107,64 @@ const logic = {
     },
 
 
-    // async uploadGame(ownerId, title, genre, description, images, gameFile) {
-    //     if (typeof ownerId !== 'string') throw TypeError(`${ownerId} is not a string`)
-    //     if (!ownerId.trim().length) throw Error(`${ownerId} cannot be empty`)
-    //     if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
-    //     if (!title.trim().length) throw Error(`${title} cannot be empty`)
-    //     if (typeof genre !== 'string') throw TypeError(`${genre} is not a string`)
-    //     if (!genre.trim().length) throw Error(`${genre}cannot be empty`)
-    //     if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
-    //     if (!description.trim().length) throw Error(`${description} cannot be empty`)
+    async uploadGame(ownerId, title, genre, description, images, gameFile) {
+        if (typeof ownerId !== 'string') throw TypeError(`${ownerId} is not a string`)
+        if (!ownerId.trim().length) throw Error(`${ownerId} cannot be empty`)
+        if (typeof title !== 'string') throw TypeError(`${title} is not a string`)
+        if (!title.trim().length) throw Error(`${title} cannot be empty`)
+        if (typeof genre !== 'string') throw TypeError(`${genre} is not a string`)
+        if (!genre.trim().length) throw Error(`${genre}cannot be empty`)
+        if (typeof description !== 'string') throw TypeError(`${description} is not a string`)
+        if (!description.trim().length) throw Error(`${description} cannot be empty`)
 
 
-    //     const ownerUser = await User.findById(ownerId)
+        const ownerUser = await User.findById(ownerId)
 
-    //     const bucket = admin.storage().bucket()
+        const bucket = admin.storage().bucket()
 
-    //     const imageTitle = `image-${title}-${Date.now()}`
-    //     const gameTitle = `game-${title}-${Date.now()}`
+        const imageTitle = `image-${title}-${Date.now()}`
+        const gameTitle = `game-${title}-${Date.now()}`
 
-    //     const gameUpload = await bucket.file(gameTitle)
+        const gameUpload = await bucket.file(gameTitle)
 
-    //     const imageUpload = await bucket.file(imageTitle)
+        const imageUpload = await bucket.file(imageTitle)
 
-    //     const gameBlobStream = gameUpload.createWriteStream({
-    //         metadata: {
-    //             contentType: 'application/zip'
-    //         }
-    //     })
+        const gameBlobStream = gameUpload.createWriteStream({
+            metadata: {
+                contentType: 'application/zip'
+            }
+        })
 
-    //     const imageBlobStream = imageUpload.createWriteStream({
-    //         metadata: {
-    //             contentType: 'image/jpeg'
-    //         }
-    //     })
+        const imageBlobStream = imageUpload.createWriteStream({
+            metadata: {
+                contentType: 'image/jpeg'
+            }
+        })
 
-    //     await streamifier.createReadStream(gameFile.buffer).pipe(gameBlobStream)
+        await streamifier.createReadStream(gameFile.buffer).pipe(gameBlobStream)
 
-    //     let game = await bucket.file(gameTitle)
-    //     let gameFileUploaded = await game.getSignedUrl({
-    //         action: 'read',
-    //         expires: '03-09-2491'
-    //     })
+        let game = await bucket.file(gameTitle)
+        let gameFileUploaded = await game.getSignedUrl({
+            action: 'read',
+            expires: '03-09-2491'
+        })
 
-    //     await streamifier.createReadStream(images.buffer).pipe(imageBlobStream)
+        await streamifier.createReadStream(images.buffer).pipe(imageBlobStream)
 
-    //     let img = await bucket.file(imageTitle)
-    //     let imageFileUploaded = await img.getSignedUrl({
-    //         action: 'read',
-    //         expires: '03-09-2491'
-    //     })
+        let img = await bucket.file(imageTitle)
+        let imageFileUploaded = await img.getSignedUrl({
+            action: 'read',
+            expires: '03-09-2491'
+        })
 
-    //     const newGame = await Game.create({ ownerId, title, genre, description, images: imageFileUploaded[0], gameFile: gameFileUploaded[0] })
+        const newGame = await Game.create({ ownerId, title, genre, description, images: imageFileUploaded[0], gameFile: gameFileUploaded[0] })
 
-    //     ownerUser.uploads.push(newGame.id)
+        ownerUser.uploads.push(newGame.id)
 
-    //     ownerUser.save()
+        ownerUser.save()
 
-    //     return newGame
-    // },
+        return newGame
+    },
 
 
     async retrieveGameByQuery(genre, query) {
@@ -243,39 +243,39 @@ const logic = {
         await user.save()
     },
 
-    // async retrieveFavs(userId) {
-    //     if (typeof userId !== 'string') throw TypeError('userId is not a string')
-    //     if (!userId.trim().length) throw Error('userId cannot be empty')
+    async retrieveFavs(userId) {
+        if (typeof userId !== 'string') throw TypeError('userId is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
 
-    //     const { favoriteGames } = await User.findById(userId).populate({
-    //         path: 'favoriteGames',
-    //         select: '-__v'
-    //     }).lean()
+        const { favoriteGames } = await User.findById(userId).populate({
+            path: 'favoriteGames',
+            select: '-__v'
+        }).lean()
 
-    //     favoriteGames.forEach(favorite => {
-    //         favorite.id = favorite._id.toString()
-    //         delete favorite._id
-    //     })
+        favoriteGames.forEach(favorite => {
+            favorite.id = favorite._id.toString()
+            delete favorite._id
+        })
 
-    //     return favoriteGames
+        return favoriteGames
 
-    // },
+    },
 
-    // async retrieveUploads(userId) {
-    //     if (typeof userId !== 'string') throw TypeError('userId is not a string')
-    //     if (!userId.trim().length) throw Error('userId cannot be empty')
+    async retrieveUploads(userId) {
+        if (typeof userId !== 'string') throw TypeError('userId is not a string')
+        if (!userId.trim().length) throw Error('userId cannot be empty')
 
-    //     const { uploads } = await User.findById(userId).populate({
-    //         path: 'uploads',
-    //         select: '-__v'
-    //     }).lean()
+        const { uploads } = await User.findById(userId).populate({
+            path: 'uploads',
+            select: '-__v'
+        }).lean()
 
-    //     uploads.forEach(upload => {
-    //         upload.id = upload._id.toString()
-    //         delete upload._id
-    //     })
-    //     return uploads
-    // },
+        uploads.forEach(upload => {
+            upload.id = upload._id.toString()
+            delete upload._id
+        })
+        return uploads
+    },
 
     async retrieveAllGames() {
         const games = await Game.find().select('-__v').lean()

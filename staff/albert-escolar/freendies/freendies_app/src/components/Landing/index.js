@@ -19,14 +19,14 @@ class Landing extends Component {
         const { props: { user, history, onSearchGame, searchResults } } = this
         const {games}=this.state
 
-        return <div>
+        return <div className="Landing">
             <div>
-                {!user && <h2>Welcome to Freendies</h2>}
-                {user && <h2>Welcome to Freendies {user.username}</h2>}
+                {!user && <h2 className="Landing__welcome">Welcome to Freendies</h2>}
+                {user && <h2 className="Landing__welcome">Welcome to Freendies {user.username}</h2>}
             </div>
 
-            <section>
-                <h2>Games</h2>
+            <section className="Landing__section">
+                <h2 className="Landing__sectionTitle">Games</h2>
                 <ListComponent results={games} />
             </section>
 

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Route, Redirect, withRouter, Switch } from 'react-router-dom'
 import logo from './logo.svg';
-import './App.css';
+import './App.scss';
 import Header from './components/Header'
 import RegisterPanel from './components/RegisterPanel'
 import LoginPanel from './components/LoginPanel'
@@ -62,7 +62,7 @@ class App extends Component {
 
   }
 
-  handleRetrieveAllGames = ()=>{
+  handleRetrieveAllGames = () => {
     return logic.retrieveAllGames()
   }
 
@@ -120,17 +120,17 @@ class App extends Component {
 
   render() {
 
-    const { state: { user, searchResults, favoriteGames }, handleRegister,handleRetrieveAllGames, handleGoToRegister, handleLogin, handleUpdateUserEmail,
+    const { state: { user, searchResults, favoriteGames }, handleRegister, handleRetrieveAllGames, handleGoToRegister, handleLogin, handleUpdateUserEmail,
       handleGoToLogin, handleGoToLanding, handleGoToUploadGame, handleGoToUserPanel,
       handleUploadGame, handleLogout, handleOnSearch, handleToSearchByGenre, handleToggleFavs, handleRetrieveFavs } = this
 
     return (
       <div className="App">
         <ToastContainer />
-        <header className="App-header">
-          <Route path="/" render={() => <Header user={user} onSearch={handleOnSearch} onSearchByGenre={handleToSearchByGenre} user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
-            handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
-            handleGoToUploadGame={handleGoToUploadGame} searchResults={searchResults} />} />
+        <Header user={user} onSearch={handleOnSearch} onSearchByGenre={handleToSearchByGenre} user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
+          handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
+          handleGoToUploadGame={handleGoToUploadGame} searchResults={searchResults} />
+        <div className="content">
 
           <Route exact path="/" render={props => {
             return <div>
@@ -170,7 +170,7 @@ class App extends Component {
             return <ErrorPage />
           }} />
 
-        </header>
+        </div>
       </div>
     )
   }

@@ -23,9 +23,11 @@ class SearchByGenre extends Component {
 
     render() {
         const { results } = this.state
+        const { match: { params: { genre } } } = this.props
 
-        return <div>
-           {results && results.length ? <ListComponent results={results}/>: <div>No results</div>}
+        return <div className="searchByGenre">
+            <h2 className="searchByGenre__title">{genre} games</h2>
+            {results && results.length ? <ListComponent results={results} /> : <div className="searchByGenre__noResult">no results found</div>}
         </div>
     }
 }

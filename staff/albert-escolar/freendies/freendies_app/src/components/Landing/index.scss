@@ -1,0 +1,23 @@
+.Landing {
+    font-family: Montserrat;
+    text-transform: capitalize;
+    height:100%;
+
+    &__welcome {
+        font-weight: bold;
+        font-size: 55px;
+        margin-bottom: 0px;
+    }
+
+    &__section{
+        display:flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left:100px;
+    }
+
+    &__sectionTitle{
+        font-size:30px;
+        padding-left: 10px;
+    }
+}

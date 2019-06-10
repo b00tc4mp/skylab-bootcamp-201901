@@ -1,0 +1,45 @@
+.Search {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: center;
+    justify-content: center;
+    justify-items: center;
+    width: 550px;
+    font-family: Montserrat;
+    height: 40px;
+    margin-top:18px;
+
+    &__button {
+        color: black;
+        border: 0px;
+        background: none;
+        font-size: 20px;
+        background-color: white;
+        height: 100%;
+
+    }
+
+    &__categoriesButton {
+        border: 0px;
+        background: none;
+        cursor: pointer;
+        color: black;
+        background-color: white;
+        font-size: 15px;
+        text-transform: capitalize;
+        font-family: Montserrat;
+        font-weight: bold;
+        height: 100%;
+        border-right: solid black 1px;
+        padding-left: 10px;
+    }
+
+    &__inputBox {
+        border: none;
+        height: 100%;
+        width: 400px;
+        padding: 0;
+        padding-left: 10px
+    }
+}

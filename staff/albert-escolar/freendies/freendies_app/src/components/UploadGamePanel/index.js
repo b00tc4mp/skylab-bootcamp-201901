@@ -29,21 +29,21 @@ class UploadGamePanel extends Component {
         const { history } = this.props
         const {onSubmit } = this
 
-        return <div>
-            <h2>Upload a new game</h2>
+        return <div className="uploadGame">
+            <h2 className="uploadGame__title">Upload a new game</h2>
             <form action="/profile" method="post" enctype="multipart/form-data" onSubmit={onSubmit}>
-                <p>Title</p><input required name="title" placeholder="Insert Game Title" type="text" onChange={event => { event.preventDefault(); this.setState({ title: event.target.value }) }} />
-                <p>Genre</p><select required name="genre" onChange={event => { event.preventDefault(); this.setState({ genre: event.target.value }) }}>
+                <p className="uploadGame__headers">Title</p><input required className ="uploadGame__input" name="title" placeholder="Insert Game Title" type="text" onChange={event => { event.preventDefault(); this.setState({ title: event.target.value }) }} />
+                <p className="uploadGame__headers">Genre</p><select className="uploadGame__genresSelect"required name="genre" onChange={event => { event.preventDefault(); this.setState({ genre: event.target.value }) }}>
                     <option value="Action">Action</option>
                     <option value="Platforms">Platforms</option>
                     <option value="Shooter">Shooter</option>
                     <option value="Adventure">Adventure</option>
                     <option value="Sports">Sports</option>
                 </select>
-                <p>Description</p><textarea required name="description" placeholder="Insert Game description" type="text" onChange={event => { event.preventDefault(); this.setState({ description: event.target.value }) }} />
-                <p>File</p><input required name="gameFile" placeholder="TO CHANGE: INSERT A COVER IMAGE" type="file" onChange={event => { event.preventDefault(); this.setState({ gameFile: event.target.files[0] }) }} />
-                <p>Images</p><input required name="images" placeholder="TO CHANGE: INSERT IMAGES " type="file" onChange={event => { event.preventDefault(); this.setState({ images: event.target.files[0] }) }} />
-                <br /><button>Upload Game</button>
+                <p className="uploadGame__headers">Description</p><textarea className="uploadGame__descriptionBox"required name="description" placeholder="Insert Game description" type="text" onChange={event => { event.preventDefault(); this.setState({ description: event.target.value }) }} />
+                <p className="uploadGame__headers">File</p><input className ="uploadGame__button"required name="gameFile"  type="file" onChange={event => { event.preventDefault(); this.setState({ gameFile: event.target.files[0] }) }} />
+                <p className="uploadGame__headers">Images</p><input className ="uploadGame__button"required name="images"  type="file" onChange={event => { event.preventDefault(); this.setState({ images: event.target.files[0] }) }} />
+                <br/><button className="uploadGame__uploadButton fas fa-upload"></button>
             </form>
         </div>
     }

@@ -15,9 +15,9 @@ class GameDetail extends Component {
         try {
             const { favoriteGames, match: { params: { id } } } = this.props
             const result = await logic.retrieveGameById(id)
-            this.setState({ result , favoriteGames})
+            this.setState({ result, favoriteGames })
             if (favoriteGames.includes(id)) {
-                this.setState({isFaved: true})
+                this.setState({ isFaved: true })
             }
         } catch (error) {
             this.props.history.push('/error')
@@ -31,7 +31,7 @@ class GameDetail extends Component {
             const result = await logic.retrieveGameById(id)
             this.setState({ result, favoriteGames })
             if (favoriteGames.includes(id)) {
-                this.setState({isFaved: true})
+                this.setState({ isFaved: true })
             }
 
         } catch (error) {
@@ -59,17 +59,16 @@ class GameDetail extends Component {
         // const {favoriteGames}=this.props
         return <div>
             {result &&
-                <div>
-                    <h3>{result.title}</h3>
-                    <img src={result.images[0]} />
-                    <p>{result.title}</p>
-                    <p>{result.genre}</p>
-                    <a href={result.gameFile} >
-                        <button>Download</button>
-                    </a>
-                    {(isFaved ? < button onClick={handleToggleFavs}>-</button> : <button onClick={handleToggleFavs}>+</button>)}
-                    {!favoriteGames && <Link to="/login"><button>Log In to add Favs</button></Link>}
-                    <p>{result.description}</p>
+                <div className="gameDetail">
+                    <h2 className="gameDetail__title">{result.title}</h2>
+                    <img className="gameDetail__img" classname src={result.images[0]} />
+                    <div className="gameDetail__iconsContainer">
+                        <a href={result.gameFile} className="gameDetail__icons fas fa-download" />
+                        {(isFaved ? < a className="gameDetail__icons fas fa-star" onClick={handleToggleFavs} /> : <a className="gameDetail__icons far fa-star" onClick={handleToggleFavs} />)}
+                        {!favoriteGames && <Link to="/login"><button>Log In to add Favs</button></Link>}
+                    </div>
+                    <p className="gameDetail__genreDetail">{result.genre}</p>
+                    <p className= "gameDetail__descriptionBox">{result.description}</p>
                 </div>
             }
         </div>

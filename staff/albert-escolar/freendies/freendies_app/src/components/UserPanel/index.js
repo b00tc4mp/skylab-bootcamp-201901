@@ -59,8 +59,8 @@ class UserPanel extends Component {
     render() {
         const { state: { updateForm, favs, uploads }, props: { user }, updateFormHandler, onInputChange, onSubmit } = this
 
-        return <div>
-            <h2>{user ? user.username : 'User'}'s Panel</h2>
+        return <div className="userPanel">
+            {/* <h2>{user ? user.username : 'User'}'s Panel</h2>
             <div>
                 {updateForm ? <button onClick={updateFormHandler}>Change Email</button> : <button onClick={updateFormHandler}>Change Email</button>}
                 {updateForm && < form onSubmit={onSubmit} >
@@ -68,14 +68,16 @@ class UserPanel extends Component {
                     <br />
                     <button>Submit</button>
                 </form>}
-            </div>
-
-            <h2>My Uploaded Games</h2>
+            </div> */}
+            <section className="userPanel__section">
+            <h2 className="userPanel__sectionTitle">My Uploaded Games</h2>
             <ListComponent results={uploads} />
+            </section>
 
-
-            <h2>My Favorite Games</h2>
+            <section className="userPanel__section">
+            <h2 className="userPanel__sectionTitle">My Favorite Games</h2>
             <ListComponent results={favs} />
+            </section>
 
 
         </div>
