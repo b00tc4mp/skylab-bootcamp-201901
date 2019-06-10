@@ -23,11 +23,13 @@ function Bids({bids, onBid, isClosed, quickBid, userId}) {
     
     return <>
         <ul id="bids" className="uk-list uk-list-striped bids">
-            {bids && bids.map((bid, index) => <BidsDetail bid={bid} index={index} userId={userId}/>)}
+            {bids && bids.map((bid, index) =>
+                <BidsDetail key={index} bid={bid} userId={userId}/>
+            )}
         </ul>
         <form onSubmit={handleSubmit}>
-            <input className="uk-input uk-text-center" type="number" min={quickBid + 500} name="amount" onChange={e=>setAmount(e.target.value)} placeholder="SET YOUR MAXIMUM BID" disabled={isClosed}/>
-            <button name="quickbid" value={quickBid + 500} className="uk-button uk-button-primary uk-width-1-1" disabled={isClosed}>Place Bid: {quickBid + 500} €</button>
+            <input className="uk-input uk-text-center" type="number" min={quickBid} name="amount" onChange={e=>setAmount(e.target.value)} placeholder="SET YOUR MAXIMUM BID" disabled={isClosed}/>
+            <button name="quickbid" value={quickBid} className="uk-button uk-button-primary uk-width-1-1" disabled={isClosed}>Place next Bid: {quickBid} €</button>
         </form>
     </>
 }

@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 
-function Search({onSearch, filters}) {
+function Search({onSearch}) {
     const [query, setQuery] = useState(null)
 
     function handleSubmit(e) {
         e.preventDefault()
-        onSearch(query, filters)
+        onSearch(query)
     }
 
     return <>

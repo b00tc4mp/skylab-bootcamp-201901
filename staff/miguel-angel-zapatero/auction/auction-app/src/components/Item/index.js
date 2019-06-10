@@ -6,6 +6,7 @@ import BidsInfo from '../BidsInfo'
 import CountDown from '../CountDown'
 import logic from '../../logic';
 import moment from 'moment'
+import handleErrors from '../../common/handleErrors';
 
 function Item({item, getItem, itemId, history}) {
 
@@ -13,10 +14,14 @@ function Item({item, getItem, itemId, history}) {
     const [amount, setAmound] = useState(null)
     const [city, setCity] = useState(null)
     const [totalBids, setTotalBids] = useState(0)
-    const [date, setDate] = useState(null)
+    const [startDate, setStartDate] = useState(null)
+    const [endDate, setEndDate] = useState(null)
     const [now, setNow] = useState(null)
     const [userId, setUserId] = useState(null)
     const [isClosed, setIsClosed] = useState(null)
+    const [isUpcoming, setIsUpcoming] = useState(null)
+    const [quickBid, setQuickBid] = useState(null)
+    const [isWin, setIsWin] = useState(false)
 
     useEffect(() => {
         getItem(itemId)
@@ -29,20 +34,35 @@ function Item({item, getItem, itemId, history}) {
                 const _bids = await logic.retrieveItemBids(itemId)
                 const { bids: arrBids } = _bids
                 const _userId = logic.getUserId()
+                
+                if(arrBids.length && _userId === arrBids[0].userId.id) setIsWin(true)
+                else setIsWin(false)
 
                 setUserId(_userId)
                 setBids(arrBids)
                 setCity(item.city)
                 setTotalBids(arrBids.length)
                 arrBids.length ? setAmound(arrBids[0].amount) : setAmound(item.startPrice)
-                setIsClosed(moment().isSameOrAfter(_bids.finishDate))
-                setDate(_bids.finishDate)
+                setIsClosed(moment().isAfter(_bids.finishDate))
+                setIsUpcoming(moment().isBefore(_bids.startDate))
+                setStartDate(_bids.startDate)
+                setEndDate(_bids.finishDate)
                 setNow(moment())
 
+                if(arrBids.length) {
+                    if (arrBids.length >= 1 && arrBids.length < 10) {
+                        setQuickBid(arrBids[0].amount + 100)
+                    } else if (arrBids.length >= 10 && arrBids.length < 15) {
+                        setQuickBid(arrBids[0].amount + 500)
+                    } else if (arrBids.length >= 15) {
+                        setQuickBid(arrBids[0].amount + 1000)
+                    }
+                } else setQuickBid(item.startPrice + 100)
+
                 if(isClosed) clearInterval(auction)
-            } catch ({message}) {
+            } catch (error) {
                 clearInterval(auction)
-                alert(message)
+                handleErrors(error)
                 history.push("/notfound")
             }
         }, interval); 
@@ -53,8 +73,8 @@ function Item({item, getItem, itemId, history}) {
     async function handleBid(amount) {
         try { 
             await logic.placeBid(item.id, Number(amount))
-        } catch ({message}) {
-            alert(message)
+        } catch (error) {
+            handleErrors(error)
         }
     }
 
@@ -63,17 +83,21 @@ function Item({item, getItem, itemId, history}) {
         <div className="uk-grid-match uk-grid-small" data-uk-grid>
             <div className="uk-width-1-2@m"> 
                 <ItemDetail item={item}/>
-                {/* <Link className="uk-button uk-button-primary" to="/">Back</Link> */}
             </div>
             <div className="uk-width-1-2@m uk-text-center">
                 <div className="uk-card uk-card-default uk-card-body">
-                {isClosed === null ? <div data-uk-spinner></div> : isClosed ? 
+                {isUpcoming === null || isClosed === null ? <div data-uk-spinner></div> : isUpcoming ? 
+                    <><span className="uk-label uk-label-primary">Upcoming</span>
+                    <CountDown nowDate={now} startDate={startDate} />
+                    <hr className="uk-divider-icon"/>
+                    <Link className="uk-button uk-button-primary" to="/">Back to home</Link></> :
+                    isClosed ? 
                     <><span className="uk-label uk-label-danger">Closed</span>
                     <hr className="uk-divider-icon"/>
                     <Link className="uk-button uk-button-danger" to="/">Back to home</Link></> : 
-                    <><CountDown nowDate={now} endDate={date}/>
-                    <BidsInfo currentAmount={amount} totalBids={totalBids} date={date} city={city} />
-                    <Bids bids={bids} onBid={handleBid} isClosed={isClosed} quickBid={amount} userId={userId}/>
+                    <><CountDown nowDate={now} endDate={endDate}/>
+                    <BidsInfo currentAmount={amount} totalBids={totalBids} date={endDate} city={city} win={isWin}/>
+                    <Bids bids={bids} onBid={handleBid} isClosed={isClosed} quickBid={quickBid} userId={userId}/>
                     </>
                 }
                 </div>

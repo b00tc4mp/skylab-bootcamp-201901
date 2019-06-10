@@ -3,8 +3,10 @@ import logic from '../../logic'
 import moment from 'moment'
 import RangeSlider from '../RangeSlider'
 import FiltersDelete from '../FiltersDelete'
+import handleErrors from '../../common/handleErrors';
+import { withRouter } from 'react-router-dom'
 
-function Filter({ onFilter }) {
+function Filter({ onFilter, query, filters, history }) {
 
     const [startDate, setStartDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
@@ -23,14 +25,29 @@ function Filter({ onFilter }) {
         handleCategories()
     }, []);
 
+    useEffect(() => {
+        if(filters && Object.keys(filters).length) {
+            const {city} = filters
+            setCity(city)
+        }
+    }, [query, filters])
+
     async function handleCities() {
-        const _cities = await logic.retrieveCities()
-        setCities(_cities)
+        try {
+            const _cities = await logic.retrieveCities()
+            setCities(_cities)
+        } catch (error) {
+            handleErrors(error)
+        }
     }
 
     async function handleCategories() {
-        const _categories = await logic.retrieveCategories()
-        setCategories(_categories)
+        try {
+            const _categories = await logic.retrieveCategories()
+            setCategories(_categories)
+        } catch (error) {
+            handleErrors(error)
+        }
     }
 
     function handleChange(e) {
@@ -77,7 +94,9 @@ function Filter({ onFilter }) {
         setEndPrice(null)
         setCity(null)
         setCategory(null)
-        onFilter({})
+        onFilter(null)
+        history.push('/')
+
     }
 
     return <div className='home__section-filter'> 
@@ -126,4 +145,4 @@ function Filter({ onFilter }) {
     </div>
 }
 
-export default Filter
+export default withRouter(Filter)

@@ -17,11 +17,9 @@ function Profile({user, onUpdate}) {
             <img className="uk-width-auto" src={user && user.avatar} alt="user avatar photo"/>
             <form>
                 <h3 className="uk-text-uppercase">{user && `${user.name} ${user.surname}`}</h3>
-                {/* <div class="uk-margin"> */}
                 <div data-uk-form-custom>
                     <input type="file"/>
                     <button className="uk-button uk-button-default" type="button" tabIndex="-1">Select your photo</button>
-                {/* </div> */}
                 </div>
             </form>
         </div>

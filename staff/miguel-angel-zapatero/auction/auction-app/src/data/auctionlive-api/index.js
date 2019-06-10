@@ -87,8 +87,18 @@ const auctionLiveApi = {
         })
     },
 
-    createItem() {
-        //TODO
+    retrieveUserItemsBids(token) {
+        validate.arguments([
+            { name: 'token', value: token, type: String, notEmpty: true }
+        ])
+
+        return call(`${this.__url__}/users/items/bids`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            },
+            timeout: this.__timeout__
+        })
     },
 
     placeBid(itemId, token, amount) {
@@ -139,21 +149,23 @@ const auctionLiveApi = {
         if(startPrice && endPrice) queryString += `&startPrice=${startPrice}&endPrice=${endPrice}`
         
         return call(`${this.__url__}/items?${queryString}`, {
-            header: {
-                'Content-Type': 'appication/json'
+            headers: {
+                'Content-Type': 'application/json'
             },
             timeout: this.__timeout__
         })
     },
     
-    retrieveItem(id) {
+    retrieveItem(itemId, token) {
         validate.arguments([
-            { name: 'id', value: id, type: String, notEmpty: true, optional: true}
+            { name: 'itemId', value: itemId, type: String, notEmpty: true},
+            { name: 'token', value: token, type: String, notEmpty: true }
         ])
-
-        return call(`${this.__url__}/items/${id}`, {
-            header: {
-                'Content-Type': 'appication/json'
+        
+        return call(`${this.__url__}/items/${itemId}`, {
+            headers: {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
             },
             timeout: this.__timeout__
         })
@@ -161,8 +173,8 @@ const auctionLiveApi = {
 
     retrieveCities() {
         return call(`${this.__url__}/cities`, {
-            header: {
-                'Content-Type': 'appication/json'
+            headers: {
+                'Content-Type': 'application/json'
             },
             timeout: this.__timeout__
         })
@@ -170,8 +182,8 @@ const auctionLiveApi = {
 
     retrieveCategories() {
         return call(`${this.__url__}/categories`, {
-            header: {
-                'Content-Type': 'appication/json'
+            headers: {
+                'Content-Type': 'application/json'
             },
             timeout: this.__timeout__
         })
