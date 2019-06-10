@@ -107,8 +107,7 @@ function Game({ history }) {
                     <Logo sizeX={"150%"} sizeY={"100%"} main={false} />
                 </div>
                 <NavLvLs send={handleToSend} resource={ActionToUse} puntuation={puntuation} />
-                <div className="Game__Button " ><button onClick={handleToEndGame}> Abandon Game </button></div>
-                <PenguinsMap send={handleToSend} />
+                <PenguinsMap leftGame={handleToEndGame} send={handleToSend} />
             </GameContext.Provider>}
             {finish &&
             <GameContext.Provider value={{results }}>

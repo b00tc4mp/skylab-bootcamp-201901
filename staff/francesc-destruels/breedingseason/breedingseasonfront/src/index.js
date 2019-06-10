@@ -1,4 +1,5 @@
 import React from 'react'
+import 'bulma/bulma.sass'
 import ReactDOM from 'react-dom'
 import './index.sass'
 import App from './components/App'

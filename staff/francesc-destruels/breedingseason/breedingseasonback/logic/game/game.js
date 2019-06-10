@@ -1,5 +1,5 @@
 
-const { models: { MissionDeck, GameDeck, Result }, mongoose: { Types: { ObjectId } } } = require("breedingseason-data")
+const { models: { MissionDeck, GameDeck, Result, GameRecord, User }, mongoose: { Types: { ObjectId } } } = require("breedingseason-data")
 const ow = require('ow')
 
 const alivePublicGames = []
@@ -150,10 +150,9 @@ Game.prototype.__sendInitialPackage__ = async function (userId) {
             3: this.penguinCards[3][this.round]
         },
         mapStatus: {
-            1: [[0, 0, false], [0, 0, false], [0, 0,  false], [0, 0, false], [0, 0, false], [0, 0, false]],
+            1: [[0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false]],
             2: [[0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false]],
-            3: [[0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false]],
-            4: [[0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false]],
+            3: [[0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false], [0, 0, false]],
         },
         userPuntuation: {
             player: userId,
@@ -178,7 +177,6 @@ Game.prototype.__sendInitialPackage__ = async function (userId) {
                 4: 0,
             },
             SecurityPuntuation: 0,
-            FishingRodUsed: 0,
             StrikeLvL: 0,
             puntuationSchema: puntuationSchema
         }
@@ -225,13 +223,13 @@ Game.prototype.nextFunction = async function (userId, gameAction, updatedAmount)
 
     if (!player) throw Error("User not loged in this game")
     let { userPuntuation, mapStatus } = player
-    
+
     const { One, Two, Three, Four } = updatedAmount // I have to test this
 
-    userPuntuation.OneEggNestAmount = One
-    userPuntuation.TwoEggNestAmount = Two
-    userPuntuation.ThreeEggNestAmount = Three
-    userPuntuation.FourEggNestAmount = Four
+    userPuntuation.OneEggNestAmount = One ? One : 0
+    userPuntuation.TwoEggNestAmount = Two ? Two : 0
+    userPuntuation.ThreeEggNestAmount = Three ? Three : 0
+    userPuntuation.FourEggNestAmount = Four ? Four : 0
 
     let missionStatus = [false, false, false]
 
@@ -239,8 +237,8 @@ Game.prototype.nextFunction = async function (userId, gameAction, updatedAmount)
     if (!status) {
         userPuntuation.StrikeLvL += 1
         //To check if the user got already the third strike
-        if (userPuntuation.StrikeLvL >= 3) this.finish = true 
-        else {}
+        if (userPuntuation.StrikeLvL >= 3) this.finish = true
+        else { }
 
     } else {
         mapStatus[position.row][position.column][0] += 1
@@ -248,12 +246,12 @@ Game.prototype.nextFunction = async function (userId, gameAction, updatedAmount)
         // To check if the player is done matching the penguins
         let full = 0
 
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 1; i <= 3; i++) {
             const checked = mapStatus[i].some(x => x[0] === 0)
 
             if (!checked) full++
 
-            if (i === 4 && full === 4) this.finish = true
+            if (i === 3 && full === 3) this.finish = true
 
         }
 
@@ -290,14 +288,10 @@ Game.prototype.nextFunction = async function (userId, gameAction, updatedAmount)
         case "security":
             userPuntuation.SecurityLvL[resource.row] += 1
             break
-        case "fishing":
-            userPuntuation.FishingRodUsed += 1
-            break
         case "upgrade":
             //it should change the level of a picked nest type (not over its limit)
             if (resource.nest === "One" || resource.nest === "Two" || resource.nest === "Three" || resource.nest === "Four") userPuntuation[`${resource.nest}EggNestLvL`] += 1
             else throw Error("That is not a valid nest value")
-
             break
         case "strike":
             break
@@ -428,7 +422,6 @@ Game.prototype.__checkWinner__ = async function () {
             (k.missionCards[0].points) +
             (k.missionCards[1].points) +
             (k.missionCards[2].points) +
-            (puntuationSchema.FishingRodUsed[k.FishingRodUsed]) +
             (puntuationSchema.StrikeLvL[k.StrikeLvL])
 
         if (k.ToolsUsed > firstPoints) {
@@ -471,7 +464,57 @@ Game.prototype.__checkWinner__ = async function () {
 
     if (this.mode === "solo") {
         this.playersPackages[0].winner = true
+
+        const { missionCards,
+            OneEggNestAmount,
+            OneEggNestLvL,
+            TwoEggNestAmount,
+            TwoEggNestLvL,
+            ThreeEggNestAmount,
+            ThreeEggNestLvL,
+            FourEggNestAmount,
+            FourEggNestLvL,
+            ToolsUsed,
+            ToolsPuntuation,
+            SecurityLvL,
+            SecurityPuntuation,
+            StrikeLvL, } = this.playersPackages[0].userPuntuation
+
+        const retrievedUserGame = await User.findById(this.creator)
+
+        const newHistory = new GameRecord({ gameId: this.id, players: [this.creator] })
+
+        await newHistory.save()
+
+        newResults = new Result({
+            player: this.creator,
+            missionCards,
+            OneEggNestAmount,
+            OneEggNestLvL,
+            TwoEggNestAmount,
+            TwoEggNestLvL,
+            ThreeEggNestAmount,
+            ThreeEggNestLvL,
+            FourEggNestAmount,
+            FourEggNestLvL,
+            ToolsUsed,
+            ToolsPuntuation,
+            SecurityLvL,
+            SecurityPuntuation,
+            StrikeLvL,
+            puntuation: this.playersPackages[0].puntuation
+        })
+
+        newHistory.gameHistory.push(newResults)
+
+        await newHistory.save()
+
+        retrievedUserGame.gameHistory.push(newHistory._id)
+
+        await retrievedUserGame.save()
+
         return this.playersPackages
+
     } else return
 }
 

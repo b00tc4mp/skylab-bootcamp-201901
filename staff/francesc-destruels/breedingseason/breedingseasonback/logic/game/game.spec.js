@@ -1,7 +1,7 @@
 const { Game } = require('./game')
-const { mongoose, models: { MissionDeck, GameDeck } } = require("breedingseason-data")
+const { mongoose, models: { MissionDeck, GameDeck, User } } = require("breedingseason-data")
 
-const url = 'mongodb://localhost/project_game'
+const url = 'mongodb://localhost/breeding-test'
 
 describe('Game Data', () => {
 
@@ -11,9 +11,11 @@ describe('Game Data', () => {
 
     let gameToTest, toPlay, UserId, GameId, mode
 
-    beforeEach(() => {
+    beforeEach(async () => {
         toPlay = Math.floor(Math.random() + 1 * 89)
-        UserId = `Aendai-${Math.floor(Math.random() * 89)}`
+        const player = new User({nickname: `Aendai${Math.random()}`, age: Math.ceil(Math.random()+15*15), email: `Aendai${Math.random()}@mail.com`, password: `Aendai${Math.random()}${Math.random()}${Math.random()}`, avatar: "so desu" })
+        await player.save()
+        UserId = player._id.toString()
         GameId = `Jhaken-${Math.floor(Math.random() * 89)}`
 
         mode = Math.floor(Math.random() + 1 * 2) === 1 ? "solo" : "multiplayer"
@@ -673,15 +675,10 @@ describe('Game Data', () => {
             expect(missionCards[0]).toBeInstanceOf(Object)
             expect(missionCards[0]._id).toBeDefined
             expect(missionCards[0][1]).toBeDefined
-            expect(missionCards[0][2]).toBeDefined
             expect(typeof missionCards[0][1]).toBe("string")
-            expect(typeof missionCards[0][2]).toBe("string")
             expect(missionCards[0][1].length).toBeGreaterThan(0)
-            expect(missionCards[0][2].length).toBeGreaterThan(0)
-            expect(missionCards[0].first).toBeDefined
-            expect(missionCards[0].second).toBeDefined
+            expect(missionCards[0].first).toBeDefined()
             expect(missionCards[0].first).toBeGreaterThan(0)
-            expect(missionCards[0].second).toBeGreaterThan(0)
 
             expect(penguinCards).toBeDefined()
             expect(penguinCards[1]).toBeDefined()
@@ -690,9 +687,9 @@ describe('Game Data', () => {
             expect(penguinCards[1]).toBeInstanceOf(Array)
             expect(penguinCards[2]).toBeInstanceOf(Array)
             expect(penguinCards[3]).toBeInstanceOf(Array)
-            expect(penguinCards[1].length).toBe(21)
-            expect(penguinCards[2].length).toBe(21)
-            expect(penguinCards[3].length).toBe(21)
+            expect(penguinCards[1].length).toBe(37)
+            expect(penguinCards[2].length).toBe(37)
+            expect(penguinCards[3].length).toBe(37)
             expect(penguinCards[1][randomIndex]).toBeDefined()
             expect(penguinCards[2][randomIndex]).toBeDefined()
             expect(penguinCards[3][randomIndex]).toBeDefined()
@@ -744,8 +741,8 @@ describe('Game Data', () => {
     })
 
     describe('.startFunction', () => {
-        let random9 = Math.floor(Math.random() * 9)
-        let random8 = Math.floor(Math.random() * 8)
+        let random9 = Math.floor(Math.random() * 6)
+        let random8 = Math.floor(Math.random() * 7)
         let randomPlayer = `iRavel-${Math.floor(Math.random() * 89)}`
 
         it("Should success on sending the Initial Package on a single player game", async () => {
@@ -766,15 +763,11 @@ describe('Game Data', () => {
             expect(missionCards[0]).toBeInstanceOf(Object)
             expect(missionCards[0]._id).toBeDefined
             expect(missionCards[0]).toBeDefined
-            expect(missionCards[0][2]).toBeDefined
             expect(typeof missionCards[0][1]).toBe("string")
-            expect(typeof missionCards[0][2]).toBe("string")
             expect(missionCards[0][1].length).toBeGreaterThan(0)
-            expect(missionCards[0][2].length).toBeGreaterThan(0)
             expect(missionCards[0].first).toBeDefined
             expect(missionCards[0].second).toBeDefined
             expect(missionCards[0].first).toBeGreaterThan(0)
-            expect(missionCards[0].second).toBeGreaterThan(0)
 
             expect(turnCards).toBeDefined
 
@@ -795,23 +788,18 @@ describe('Game Data', () => {
             expect(mapStatus[1]).toBeInstanceOf(Array)
             expect(mapStatus[2]).toBeInstanceOf(Array)
             expect(mapStatus[3]).toBeInstanceOf(Array)
-            expect(mapStatus[4]).toBeInstanceOf(Array)
-            expect(mapStatus[1].length).toBe(9)
-            expect(mapStatus[2].length).toBe(9)
-            expect(mapStatus[3].length).toBe(8)
-            expect(mapStatus[4].length).toBe(8)
+            expect(mapStatus[1].length).toBe(6)
+            expect(mapStatus[2].length).toBe(6)
+            expect(mapStatus[3].length).toBe(7)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
-            expect(mapStatus[4][random8]).toBeInstanceOf(Array)
             expect(mapStatus[1][random9][0]).toBe(0)
             expect(mapStatus[2][random9][0]).toBe(0)
             expect(mapStatus[3][random8][0]).toBe(0)
-            expect(mapStatus[4][random8][0]).toBe(0)
             expect(mapStatus[1][random9][1]).toBeFalsy()
             expect(mapStatus[2][random9][1]).toBeFalsy()
             expect(mapStatus[3][random8][1]).toBeFalsy()
-            expect(mapStatus[4][random8][1]).toBeFalsy()
 
             expect(userPuntuation).toBeDefined
 
@@ -824,18 +812,15 @@ describe('Game Data', () => {
             expect(playerMission).toBeInstanceOf(Array)
 
             expect(playerMission[0]).toBeInstanceOf(Object)
-            expect(playerMission[0].cardId).toBeDefined()
             expect(playerMission[0].complted).toBeFalsy()
             expect(playerMission[0].points).toBe(0)
 
             expect(playerMission[1]).toBeInstanceOf(Object)
-            expect(playerMission[1].cardId).toBeDefined()
-            expect(playerMission[1].complted).toBeFalsy()
+            expect(playerMission[1].completed).toBeFalsy()
             expect(playerMission[1].points).toBe(0)
 
             expect(playerMission[2]).toBeInstanceOf(Object)
-            expect(playerMission[2].cardId).toBeDefined()
-            expect(playerMission[2].complted).toBeFalsy()
+            expect(playerMission[2].completed).toBeFalsy()
             expect(playerMission[2].points).toBe(0)
 
             expect(OneEggNestAmount).toBe(0)
@@ -860,7 +845,6 @@ describe('Game Data', () => {
             expect(SecurityLvL[4]).toBe(0)
 
             expect(SecurityPuntuation).toBe(0)
-            expect(FishingRodUsed).toBe(0)
             expect(StrikeLvL).toBe(0)
 
 
@@ -1323,8 +1307,8 @@ describe('Game Data', () => {
     })
 
     describe('.__sendInitialPackage__', () => {
-        let random9 = Math.floor(Math.random() * 9)
-        let random8 = Math.floor(Math.random() * 8)
+        let random9 = Math.floor(Math.random() * 6)
+        let random8 = Math.floor(Math.random() * 7)
 
         it("Should success on returning the initial package for solo player", async () => {
             gameToTest.mode = "solo"
@@ -1345,15 +1329,10 @@ describe('Game Data', () => {
             expect(missionCards[0]).toBeInstanceOf(Object)
             expect(missionCards[0]._id).toBeDefined
             expect(missionCards[0]).toBeDefined
-            expect(missionCards[0][2]).toBeDefined
             expect(typeof missionCards[0][1]).toBe("string")
-            expect(typeof missionCards[0][2]).toBe("string")
             expect(missionCards[0][1].length).toBeGreaterThan(0)
-            expect(missionCards[0][2].length).toBeGreaterThan(0)
             expect(missionCards[0].first).toBeDefined
-            expect(missionCards[0].second).toBeDefined
             expect(missionCards[0].first).toBeGreaterThan(0)
-            expect(missionCards[0].second).toBeGreaterThan(0)
 
             expect(turnCards).toBeDefined
 
@@ -1374,23 +1353,18 @@ describe('Game Data', () => {
             expect(mapStatus[1]).toBeInstanceOf(Array)
             expect(mapStatus[2]).toBeInstanceOf(Array)
             expect(mapStatus[3]).toBeInstanceOf(Array)
-            expect(mapStatus[4]).toBeInstanceOf(Array)
-            expect(mapStatus[1].length).toBe(9)
-            expect(mapStatus[2].length).toBe(9)
-            expect(mapStatus[3].length).toBe(8)
-            expect(mapStatus[4].length).toBe(8)
+            expect(mapStatus[1].length).toBe(6)
+            expect(mapStatus[2].length).toBe(6)
+            expect(mapStatus[3].length).toBe(7)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
-            expect(mapStatus[4][random8]).toBeInstanceOf(Array)
             expect(mapStatus[1][random9][0]).toBe(0)
             expect(mapStatus[2][random9][0]).toBe(0)
             expect(mapStatus[3][random8][0]).toBe(0)
-            expect(mapStatus[4][random8][0]).toBe(0)
             expect(mapStatus[1][random9][1]).toBeFalsy()
             expect(mapStatus[2][random9][1]).toBeFalsy()
             expect(mapStatus[3][random8][1]).toBeFalsy()
-            expect(mapStatus[4][random8][1]).toBeFalsy()
 
             expect(userPuntuation).toBeDefined
 
@@ -1403,18 +1377,15 @@ describe('Game Data', () => {
             expect(playerMission).toBeInstanceOf(Array)
 
             expect(playerMission[0]).toBeInstanceOf(Object)
-            expect(playerMission[0].cardId).toBeDefined()
             expect(playerMission[0].complted).toBeFalsy()
             expect(playerMission[0].points).toBe(0)
 
             expect(playerMission[1]).toBeInstanceOf(Object)
-            expect(playerMission[1].cardId).toBeDefined()
-            expect(playerMission[1].complted).toBeFalsy()
+            expect(playerMission[1].completed).toBeFalsy()
             expect(playerMission[1].points).toBe(0)
 
             expect(playerMission[2]).toBeInstanceOf(Object)
-            expect(playerMission[2].cardId).toBeDefined()
-            expect(playerMission[2].complted).toBeFalsy()
+            expect(playerMission[2].completed).toBeFalsy()
             expect(playerMission[2].points).toBe(0)
 
             expect(OneEggNestAmount).toBe(0)
@@ -1439,14 +1410,13 @@ describe('Game Data', () => {
             expect(SecurityLvL[4]).toBe(0)
 
             expect(SecurityPuntuation).toBe(0)
-            expect(FishingRodUsed).toBe(0)
             expect(StrikeLvL).toBe(0)
 
 
             //Inside Puntuation Schema
             expect(puntuationSchema).toBeDefined()
 
-            const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, FishingRodUsed: FrLvL, StrikeLvL: StLvL } = puntuationSchema
+            const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, StrikeLvL: StLvL } = puntuationSchema
 
             expect(OneLvL).toBeInstanceOf(Array)
             expect(OneLvL[0]).toBe(1)
@@ -1500,16 +1470,6 @@ describe('Game Data', () => {
             expect(ScLvL[4][2]).toBe(2)
             expect(ScLvL[4][3]).toBe(5)
             expect(ScLvL[4][4]).toBe(6)
-
-            expect(FrLvL).toBeInstanceOf(Array)
-            expect(FrLvL[0]).toBe(0)
-            expect(FrLvL[1]).toBe(3)
-            expect(FrLvL[2]).toBe(6)
-            expect(FrLvL[3]).toBe(9)
-            expect(FrLvL[4]).toBe(12)
-            expect(FrLvL[5]).toBe(15)
-            expect(FrLvL[6]).toBe(18)
-            expect(FrLvL[7]).toBe(21)
 
             expect(StLvL).toBeInstanceOf(Array)
             expect(StLvL[0]).toBe(0)
@@ -1545,15 +1505,10 @@ describe('Game Data', () => {
             expect(missionCards[0]).toBeInstanceOf(Object)
             expect(missionCards[0]._id).toBeDefined
             expect(missionCards[0]).toBeDefined
-            expect(missionCards[0][2]).toBeDefined
             expect(typeof missionCards[0][1]).toBe("string")
-            expect(typeof missionCards[0][2]).toBe("string")
             expect(missionCards[0][1].length).toBeGreaterThan(0)
-            expect(missionCards[0][2].length).toBeGreaterThan(0)
             expect(missionCards[0].first).toBeDefined
-            expect(missionCards[0].second).toBeDefined
             expect(missionCards[0].first).toBeGreaterThan(0)
-            expect(missionCards[0].second).toBeGreaterThan(0)
 
             expect(turnCards).toBeDefined
 
@@ -1574,28 +1529,23 @@ describe('Game Data', () => {
             expect(mapStatus[1]).toBeInstanceOf(Array)
             expect(mapStatus[2]).toBeInstanceOf(Array)
             expect(mapStatus[3]).toBeInstanceOf(Array)
-            expect(mapStatus[4]).toBeInstanceOf(Array)
-            expect(mapStatus[1].length).toBe(9)
-            expect(mapStatus[2].length).toBe(9)
-            expect(mapStatus[3].length).toBe(8)
-            expect(mapStatus[4].length).toBe(8)
+            expect(mapStatus[1].length).toBe(6)
+            expect(mapStatus[2].length).toBe(6)
+            expect(mapStatus[3].length).toBe(7)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
-            expect(mapStatus[4][random8]).toBeInstanceOf(Array)
             expect(mapStatus[1][random9][0]).toBe(0)
             expect(mapStatus[2][random9][0]).toBe(0)
             expect(mapStatus[3][random8][0]).toBe(0)
-            expect(mapStatus[4][random8][0]).toBe(0)
             expect(mapStatus[1][random9][1]).toBeFalsy()
             expect(mapStatus[2][random9][1]).toBeFalsy()
             expect(mapStatus[3][random8][1]).toBeFalsy()
-            expect(mapStatus[4][random8][1]).toBeFalsy()
 
             expect(userPuntuation).toBeDefined
 
             const { player: playerPunt, missionCards: playerMission, OneEggNestAmount, TwoEggNestAmount, ThreeEggNestAmount, FourEggNestAmount, } = userPuntuation
-            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPuntuation, FishingRodUsed, StrikeLvL, puntuationSchema } = userPuntuation
+            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPuntuation, StrikeLvL, puntuationSchema } = userPuntuation
 
             //Inside User Puntuation
             expect(playerPunt).toBe(UserId)
@@ -1603,17 +1553,14 @@ describe('Game Data', () => {
             expect(playerMission).toBeInstanceOf(Array)
 
             expect(playerMission[0]).toBeInstanceOf(Object)
-            expect(playerMission[0].cardId).toBeDefined()
             expect(playerMission[0].complted).toBeFalsy()
             expect(playerMission[0].points).toBe(0)
 
             expect(playerMission[1]).toBeInstanceOf(Object)
-            expect(playerMission[1].cardId).toBeDefined()
             expect(playerMission[1].complted).toBeFalsy()
             expect(playerMission[1].points).toBe(0)
 
             expect(playerMission[2]).toBeInstanceOf(Object)
-            expect(playerMission[2].cardId).toBeDefined()
             expect(playerMission[2].complted).toBeFalsy()
             expect(playerMission[2].points).toBe(0)
 
@@ -1639,14 +1586,13 @@ describe('Game Data', () => {
             expect(SecurityLvL[4]).toBe(0)
 
             expect(SecurityPuntuation).toBe(0)
-            expect(FishingRodUsed).toBe(0)
             expect(StrikeLvL).toBe(0)
 
 
             //Inside Puntuation Schema
             expect(puntuationSchema).toBeDefined()
 
-            const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, FishingRodUsed: FrLvL, StrikeLvL: StLvL } = puntuationSchema
+            const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, StrikeLvL: StLvL } = puntuationSchema
 
             expect(OneLvL).toBeInstanceOf(Array)
             expect(OneLvL[0]).toBe(1)
@@ -1700,16 +1646,6 @@ describe('Game Data', () => {
             expect(ScLvL[4][2]).toBe(2)
             expect(ScLvL[4][3]).toBe(5)
             expect(ScLvL[4][4]).toBe(6)
-
-            expect(FrLvL).toBeInstanceOf(Array)
-            expect(FrLvL[0]).toBe(0)
-            expect(FrLvL[1]).toBe(3)
-            expect(FrLvL[2]).toBe(6)
-            expect(FrLvL[3]).toBe(9)
-            expect(FrLvL[4]).toBe(12)
-            expect(FrLvL[5]).toBe(15)
-            expect(FrLvL[6]).toBe(18)
-            expect(FrLvL[7]).toBe(21)
 
             expect(StLvL).toBeInstanceOf(Array)
             expect(StLvL[0]).toBe(0)
@@ -1847,8 +1783,8 @@ describe('Game Data', () => {
     })
 
     describe('.nextFunction', () => {
-        let randomRow = Math.ceil(Math.random() * 3)
-        let randomColumn = Math.ceil(Math.random() * 5)
+        let randomRow = Math.ceil(Math.random() * 2)
+        let randomColumn = Math.ceil(Math.random() * 3)
 
         it("Should work on changing the userPuntuation on the action TOOL and the nextRound to a solo game", async () => {
             gameToTest.start = true
@@ -1875,8 +1811,7 @@ describe('Game Data', () => {
                     }
                 },
                 missions: [false, true, false]
-
-            })
+            }, { One: 1, Two: 0, Three: 0, Four: 0 })
 
             //Cheking the package
             expect(nextPackage).toBeDefined()
@@ -1944,7 +1879,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            })
+            }, { One: 0, Two: 2, Three: 0, Four: 0 })
 
 
             //Cheking the package
@@ -1983,7 +1918,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            })
+            }, { One: 0, Two: 0, Three: 3, Four: 0 })
 
             const nextPackage = await gameToTest.nextFunction(UserId, {
 
@@ -2002,8 +1937,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            })
-
+            }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
             //Cheking the package
             expect(nextPackage).toBeUndefined()
@@ -2037,7 +1971,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, true]
 
-            })
+            }, { One: 0, Two: 0, Three: 0, Four: 4 })
 
             //Cheking the package
             expect(nextPackage).toBeDefined()
@@ -2101,7 +2035,7 @@ describe('Game Data', () => {
                 },
                 missions: [true, false, false]
 
-            })
+            }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
             //Cheking the package
             expect(nextPackage).toBeDefined()
@@ -2140,67 +2074,6 @@ describe('Game Data', () => {
             expect(gameToTest.next).toBeFalsy()
         })
 
-        it("Should work on changing the userPuntuation on the action Fishing and the nextRound to a solo game", async () => {
-            gameToTest.start = true
-            gameToTest.mode = "solo"
-
-            const initialPackage = await gameToTest.startFunction(UserId)
-
-            expect(initialPackage).toBeDefined()
-
-            const nextPackage = await gameToTest.nextFunction(UserId, {
-
-                resource: {
-                    type: "fishing",
-                    row: 0,
-                    column: 0,
-                    nest: ""
-                },
-                map: {
-                    status: true,
-                    position: {
-                        row: randomRow,
-                        column: randomColumn
-                    }
-                },
-                missions: [false, false, false]
-
-            })
-
-            //Cheking the package
-            expect(nextPackage).toBeDefined()
-
-            const { round: _round, turnCards, missionStatus } = nextPackage
-
-            expect(_round).toBe(2)
-
-            expect(turnCards).toBeDefined()
-
-            //Be
-            expect(turnCards[0]).toBe(gameToTest.penguinCards[1][_round])
-            expect(turnCards[1]).toBe(gameToTest.penguinCards[2][_round])
-            expect(turnCards[2]).toBe(gameToTest.penguinCards[3][_round])
-            //Not be
-            expect(turnCards[0]).not.toBe(gameToTest.penguinCards[1][_round + 1])
-            expect(turnCards[1]).not.toBe(gameToTest.penguinCards[2][_round + 1])
-            expect(turnCards[2]).not.toBe(gameToTest.penguinCards[3][_round + 1])
-
-            expect(missionStatus).toBeDefined()
-
-            expect(missionStatus[0]).toBe(gameToTest.missionCardsStatus[0])
-            expect(missionStatus[1]).toBe(gameToTest.missionCardsStatus[1])
-            expect(missionStatus[2]).toBe(gameToTest.missionCardsStatus[2])
-
-            //Check the changes in the instance of game
-            expect(gameToTest.players[0].nextRound).toBeFalsy()
-            expect(gameToTest.playersPackages[0].mapStatus[randomRow][randomColumn][0]).toBe(1)
-
-            expect(gameToTest.playersPackages[0].userPuntuation.FishingRodUsed).toBe(1)
-
-            expect(gameToTest.round).toBe(1)
-            expect(gameToTest.next).toBeFalsy()
-        })
-
         it("Should work on changing the userPuntuation on the action Upgrade and the nextRound to a solo game", async () => {
             gameToTest.start = true
             gameToTest.mode = "solo"
@@ -2228,7 +2101,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            })
+            }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
             //Cheking the package
             expect(nextPackage).toBeDefined()
@@ -2289,7 +2162,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            })
+            }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
             //Cheking the package
             expect(nextPackage).toBeDefined()
@@ -2351,7 +2224,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            })
+            }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
             //Cheking the package
             expect(lastStrike).toBeDefined
@@ -2370,10 +2243,9 @@ describe('Game Data', () => {
             expect(initialPackage).toBeDefined()
 
             gameToTest.playersPackages[0].mapStatus = {
-                1: [[1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false]],
-                2: [[1, false], [1, false], [1, false], [0, false], [1, false], [1, false], [1, false], [1, false], [1, false]],
-                3: [[1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false]],
-                4: [[1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false]],
+                1: [[1, false], [1, false], [1, false], [1, false], [1, false], [1, false]],
+                2: [[1, false], [1, false], [1, false], [0, false], [1, false], [1, false]],
+                3: [[1, false], [1, false], [1, false], [1, false], [1, false], [1, false], [1, false]],
             }
 
             const results = await gameToTest.nextFunction(UserId, {
@@ -2393,7 +2265,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            })
+            }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
             //Cheking the package
             expect(results).toBeDefined
@@ -2414,9 +2286,10 @@ describe('Game Data', () => {
             expect(initialPackage).toBeDefined()
 
             gameToTest.playersPackages[0].userPuntuation.missionCards[0].completed = true
-            gameToTest.playersPackages[0].userPuntuation.missionCards[0].points = 0
+            gameToTest.playersPackages[0].userPuntuation.missionCards[0].points = 1
             gameToTest.playersPackages[0].userPuntuation.missionCards[1].completed = true
             gameToTest.playersPackages[0].userPuntuation.missionCards[1].points = 7
+            gameToTest.playersPackages[0].userPuntuation.missionCards[2].points = 7
 
             const results = await gameToTest.nextFunction(UserId, {
 
@@ -2435,7 +2308,7 @@ describe('Game Data', () => {
                 },
                 missions: [true, true, true]
 
-            })
+            }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
             //Cheking the package
             expect(results).toBeDefined
@@ -2468,7 +2341,7 @@ describe('Game Data', () => {
                         }
                     },
                     missions: [false, false, false]
-                })
+                }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
                 expect(nextPackage).toBeDefined()
         })
@@ -2498,7 +2371,7 @@ describe('Game Data', () => {
                         }
                     },
                     missions: [false, false, false]
-                })
+                }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
             } catch (err) {
 
@@ -2531,50 +2404,13 @@ describe('Game Data', () => {
                         }
                     },
                     missions: [false, false, false]
-                })
+                }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
             } catch (err) {
                 expect(err).toBeDefined
                 expect(err.message).toBe("User not loged in this game")
             }
         })
-
-        it("Should FAIL on TRYING TO GET CHECKWINNER NOT IMPLEMENTED YET", async () => {
-            gameToTest.start = true
-            gameToTest.mode = "solo"
-
-
-            try {
-                const initialPackage = await gameToTest.startFunction(UserId)
-
-                expect(initialPackage).toBeDefined()
-                gameToTest.finish = true
-
-                await gameToTest.nextFunction(UserId, {
-
-                    resource: {
-                        type: "upgrade",
-                        row: 0,
-                        column: 0,
-                        nest: "One"
-                    },
-                    map: {
-                        status: true,
-                        position: {
-                            row: randomRow,
-                            column: randomColumn
-                        }
-                    },
-                    missions: [false, false, false]
-                })
-
-            } catch (err) {
-
-                expect(err).toBeDefined
-                expect(err.message).toBe("this.__checkWinner__ is not a function")
-            }
-        })
-
     })
 
     describe('__sendNextRound__', () => {
@@ -2759,8 +2595,6 @@ describe('Game Data', () => {
 
             await gameToTest.startFunction(UserId)  // to have an user Package
 
-            gameToTest.playersPackages[0].userPuntuation.FishingRodUsed = 5
-
             gameToTest.finish = true // I finish the game
 
             const finalResults = await gameToTest.__checkWinner__()
@@ -2771,13 +2605,13 @@ describe('Game Data', () => {
 
             expect(winner).toBeTruthy()
 
-            expect(puntuation).toBe(22) // 7 for being a single player game for Tools and 15 for Fishing rod used
+            expect(puntuation).toBe(7) /
 
             //Check the changes in the instance of game
             expect(gameToTest.players[0].nextRound).toBeFalsy()
             expect(gameToTest.playersPackages[0]).toBeDefined()
             expect(gameToTest.playersPackages[0].puntuation).toBeDefined()
-            expect(gameToTest.playersPackages[0].puntuation).toBe(22)
+            expect(gameToTest.playersPackages[0].puntuation).toBe(7)
         })
 
         it('Should success on returning nothing but updating #1 ', async () => {
@@ -2792,9 +2626,6 @@ describe('Game Data', () => {
             await gameToTest.__sendInitialPackage__(UserId)  // to have an user Package
             await gameToTest.__sendInitialPackage__(randomPlayer)
 
-            gameToTest.playersPackages[0].userPuntuation.FishingRodUsed = 5
-            gameToTest.playersPackages[1].userPuntuation.FishingRodUsed = 3
-
             gameToTest.finish = true
             const finalResults = await gameToTest.__checkWinner__()
 
@@ -2803,11 +2634,11 @@ describe('Game Data', () => {
             //Check the changes in the instance of game
             expect(gameToTest.playersPackages[0]).toBeDefined()
             expect(gameToTest.playersPackages[0].puntuation).toBeDefined()
-            expect(gameToTest.playersPackages[0].puntuation).toBe(22)
+            expect(gameToTest.playersPackages[0].puntuation).toBe(7)
 
             expect(gameToTest.playersPackages[1]).toBeDefined()
             expect(gameToTest.playersPackages[1].puntuation).toBeDefined()
-            expect(gameToTest.playersPackages[1].puntuation).toBe(16)
+            expect(gameToTest.playersPackages[1].puntuation).toBe(7)
         })
 
         it('Should success on returning nothing but updating #2', async () => {
@@ -2979,10 +2810,10 @@ describe('Game Data', () => {
     })
 
     describe('.update', () => {
-        let random9 = Math.floor(Math.random() * 9)
-        let random8 = Math.floor(Math.random() * 8)
-        let randomRow = Math.ceil(Math.random() * 3)
-        let randomColumn = Math.ceil(Math.random() * 5)
+        let random9 = Math.floor(Math.random() * 6)
+        let random8 = Math.floor(Math.random() * 7)
+        let randomRow = Math.ceil(Math.random() * 2)
+        let randomColumn = Math.ceil(Math.random() * 4)
 
         it("Should do nothing if the game is not started but fetched", async() =>{
             gameToTest.start = false
@@ -3069,15 +2900,11 @@ describe('Game Data', () => {
             expect(missionCards[0]).toBeInstanceOf(Object)
             expect(missionCards[0]._id).toBeDefined
             expect(missionCards[0]).toBeDefined
-            expect(missionCards[0][2]).toBeDefined
             expect(typeof missionCards[0][1]).toBe("string")
-            expect(typeof missionCards[0][2]).toBe("string")
             expect(missionCards[0][1].length).toBeGreaterThan(0)
-            expect(missionCards[0][2].length).toBeGreaterThan(0)
             expect(missionCards[0].first).toBeDefined
             expect(missionCards[0].second).toBeDefined
             expect(missionCards[0].first).toBeGreaterThan(0)
-            expect(missionCards[0].second).toBeGreaterThan(0)
 
             expect(turnCards).toBeDefined
 
@@ -3098,23 +2925,18 @@ describe('Game Data', () => {
             expect(mapStatus[1]).toBeInstanceOf(Array)
             expect(mapStatus[2]).toBeInstanceOf(Array)
             expect(mapStatus[3]).toBeInstanceOf(Array)
-            expect(mapStatus[4]).toBeInstanceOf(Array)
-            expect(mapStatus[1].length).toBe(9)
-            expect(mapStatus[2].length).toBe(9)
-            expect(mapStatus[3].length).toBe(8)
-            expect(mapStatus[4].length).toBe(8)
+            expect(mapStatus[1].length).toBe(6)
+            expect(mapStatus[2].length).toBe(6)
+            expect(mapStatus[3].length).toBe(7)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
-            expect(mapStatus[4][random8]).toBeInstanceOf(Array)
             expect(mapStatus[1][random9][0]).toBe(0)
             expect(mapStatus[2][random9][0]).toBe(0)
             expect(mapStatus[3][random8][0]).toBe(0)
-            expect(mapStatus[4][random8][0]).toBe(0)
             expect(mapStatus[1][random9][1]).toBeFalsy()
             expect(mapStatus[2][random9][1]).toBeFalsy()
             expect(mapStatus[3][random8][1]).toBeFalsy()
-            expect(mapStatus[4][random8][1]).toBeFalsy()
 
             expect(userPuntuation).toBeDefined
 
@@ -3127,17 +2949,14 @@ describe('Game Data', () => {
             expect(playerMission).toBeInstanceOf(Array)
 
             expect(playerMission[0]).toBeInstanceOf(Object)
-            expect(playerMission[0].cardId).toBeDefined()
             expect(playerMission[0].complted).toBeFalsy()
             expect(playerMission[0].points).toBe(0)
 
             expect(playerMission[1]).toBeInstanceOf(Object)
-            expect(playerMission[1].cardId).toBeDefined()
             expect(playerMission[1].complted).toBeFalsy()
             expect(playerMission[1].points).toBe(0)
 
             expect(playerMission[2]).toBeInstanceOf(Object)
-            expect(playerMission[2].cardId).toBeDefined()
             expect(playerMission[2].complted).toBeFalsy()
             expect(playerMission[2].points).toBe(0)
 
@@ -3163,7 +2982,6 @@ describe('Game Data', () => {
             expect(SecurityLvL[4]).toBe(0)
 
             expect(SecurityPuntuation).toBe(0)
-            expect(FishingRodUsed).toBe(0)
             expect(StrikeLvL).toBe(0)
 
 
@@ -3276,7 +3094,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            })
+            }, { One: 0, Two: 0, Three: 0, Four: 0 })
 
             const userPackage = await gameToTest.update(UserId)
 

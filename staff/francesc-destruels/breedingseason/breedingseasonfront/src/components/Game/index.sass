@@ -4,7 +4,7 @@
     width: 100%
     overflow: hidden
     display: grid
-    grid-template-columns: 10% 13% 15% 9% 48.5% 4%
+    grid-template-columns: 10% 14% 15% 10% 50%
     grid-template-rows: 10% 10% 79.5%
     grid-template-areas: "MissionCards MissionCards MissionCards Logo NavLvL Button" "MissionCards MissionCards MissionCards Logo NavLvL Button" "TurnCards TurnCards Map Map Map Map"
    
@@ -14,13 +14,8 @@
         align-self: center
         height: 85%
         width: 90%
-        transform: translate(-25%, +10%)
+        transform: translate(-5%, +30%) scale(1.5)
         
-    &__Button 
-        grid-area: Button
-        height: 100%
-        width: 100%
-    
     &__NavLvL
         height: 100%
         width: 100%
@@ -42,6 +37,10 @@
         width: 100%
 
 
+    &__Results
+        position: absolute
+        left: 50%
+        right: 50%
 
 
 

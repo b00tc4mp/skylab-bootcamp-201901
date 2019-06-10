@@ -15,8 +15,7 @@ const result = new Schema({
     ToolsPuntuation: {type: Number, required: true},
     SecurityLvL: {type: Object, required: true},
     SecurityPuntuation: {type: Number, required: true},
-    FishingRodUsed: {type: Number, required: true},
-    StrikLvL: {type: Number, required: true},
+    StrikeLvL: {type: Number, required: true},
     puntuation: {type: Number, required: true}
 })
 

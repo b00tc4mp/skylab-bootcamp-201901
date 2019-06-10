@@ -43,12 +43,12 @@ function Home({ history }) {
     }
 
     return (
-        <div className="home">
+        <div className="Home">
             <Route exact path="/home" render={() =>
 
-                <div>
-                    <Logo sizeX={"20%"} sizeY={"100%"} main={true} />
-                    <p>Welcome Hell {Nickname.nickname}!</p>
+                <div className="Home__Panel Panel">
+                    <Logo classToUse={"Panel__Logo"} sizeX={"300vh"} main={true} />
+                    <p>Nice to see you here, {Nickname.nickname}!</p>
                     <button onClick={handleToUser}>
                         User Data
                 </button>

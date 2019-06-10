@@ -1,11 +1,15 @@
 @import ../../config
 
 .App
+    display: grid
     height: 100%
     width: 100%
+    grid-template-columns: 99%
+    grid-template-rows: 99%
+    grid-template-areas: "A"
 
     &__Pages
-        display: flex
+        grid-area: A
         justify-content: center
 
     &__Pages--BadResolution
@@ -18,8 +22,8 @@
             display: none
 
         &__Pages--BadResolution
-            display: flex
-            justify-content: center
+            display: block
+            grid-area: A
     
 
 @media screen and (orientation:portrait)
@@ -29,6 +33,6 @@
             display: none
 
         &__Pages--BadResolution
-            display: flex
-            justify-content: center
+            display: block
+            grid-area: A
     

@@ -1,14 +1,15 @@
 import React, { useContext, useState, useEffect } from 'react'
 import Penguin from '../Penguin'
 import logic from '../../../logic'
-
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faPowerOff } from '@fortawesome/free-solid-svg-icons'
 import { GameContext } from "../../GameContext"
 import './index.sass'
-import foc from '../img/FOC.PNG'
+import foc from '../img/FOC.png'
 
-function PenguinsMap({ send }) {
+function PenguinsMap({ send, leftGame }) {
 
-    const { PenguinTurn, setPenguinTurn, ActionToUse, setActionUsed, ActionUsed, setActionTurn, setPuntuation, puntuation, puntuation: { puntuationSchema: { SecurityLvL: SecurityLvLPoints }, SecurityLvL: SecurityLvLAmounts } } = useContext(GameContext)
+    const { PenguinTurn, setPenguinTurn, ActionToUse, setActionUsed, ActionUsed, setActionTurn, setPuntuation, puntuation, puntuation: { puntuationSchema: { SecurityLvL: SecurityLvLPoints }, SecurityLvL: SecurityLvLAmounts, StrikeLvL } } = useContext(GameContext)
 
     const [clickable, setClickable] = useState([false, false, false])
 
@@ -70,18 +71,20 @@ function PenguinsMap({ send }) {
                 <Penguin position={[3, 3]} />
                 <Penguin position={[3, 4]} />
                 <Penguin position={[3, 5]} />
-                <Penguin position={[3, 6]} />
                 <div className={clickable[2] ? "penguinMap__Foc penguinMap__Foc--Clickable" : "penguinMap__Foc"}>
                     <img className="penguinMap__Foc--img" src={foc} onClick={clickable[2] ? () => handleSecurity(3) : null} />
                 </div>
             </div>
 
             <div className="penguinMap__Buttons">
-                <button onClick={PenguinTurn ? () => send() : () => { "Nothing to send" }}>Send</button>
-                <button onClick={() => {
+                <button className={ PenguinTurn? "penguinMap__ButtonA button is-link" :  " penguinMap__ButtonA button is-link is-outlined"  }  disabled={!PenguinTurn} onClick={PenguinTurn ? () => send() : false}>Next Round</button>
+                <button  className="penguinMap__ButtonB button is-danger is-outlined" onClick={() => {
                     setPenguinTurn(false)
                     send()
-                }}>Strike!</button>
+                }}>{StrikeLvL === 0 ? "0 Strikes!" : StrikeLvL === 1 ? "1 Strike!" : "ONLY ONE MORE!" }</button>
+                <button  className="penguinMap__ButtonC" onClick={() => {
+                    leftGame()
+                }}><FontAwesomeIcon icon={faPowerOff} /></button>
             </div>
         </div>)
 }

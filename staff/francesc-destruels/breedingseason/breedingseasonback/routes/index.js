@@ -113,7 +113,6 @@ router.get('/startGame/:gameId', auth, async (req, res) => {
 
     try {
         const intial = await logic.startGame(userId, gameId)
-
         res.json(intial)
 
     } catch ({ message }) {
@@ -137,7 +136,7 @@ router.get('/startGame/:gameId', auth, async (req, res) => {
 
 router.post('/continueGame/:gameId', auth, jsonParser, async (req, res) => {
     const { userId, params: { gameId }, body: { gamePlay, updatedAmount } } = req //sacar token
-    
+
     try {
         const nextRoundData = await logic.continueGame(userId, gameId, gamePlay, updatedAmount)
         res.json(nextRoundData) // whith contain all the needed data for the next round or the info to finish the game

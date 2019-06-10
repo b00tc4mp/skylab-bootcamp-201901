@@ -1,20 +1,25 @@
+@import ../../../config
 .NavLvL
     grid-area: NavLvL
     display: flex
+    color: black
     justify-content: space-around
+    background-image: $bg-imgMission
+    background-repeat: no-repeat
+    background-size: 110% 110%
+    background-position-x: 50%
     
     &__Points
         display: grid
         grid-template-rows: 40% 60%
         grid-template-areas: "A" "B"
         border: 1px solid black
-        background-color: white
         height: 70%
         width: 100%
         align-self: flex-end
         justify-content: center
+        overflow: hidden
         
-
     &--Clickable
         background-color: green
 
@@ -31,3 +36,4 @@
         justify-self: center
         align-self: center
         font-size: 1.8em
+        

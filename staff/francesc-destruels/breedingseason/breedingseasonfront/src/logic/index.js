@@ -103,8 +103,9 @@ const logic = {
     async startGame() {
         const initialGameData = await restApi.startGame(this.__userToken__, this.__ActualGame__)
 
-        if (initialGameData) {
+        const { player } = initialGameData
 
+        if (player) {
             const { mapStatus, missionCards, round, turnCards, userPuntuation } = initialGameData
 
             return { mapStatus, missionCards, round, turnCards, userPuntuation }
@@ -129,18 +130,21 @@ const logic = {
 
         const response = await restApi.gameAction(this.__userToken__, this.__ActualGame__, gamePlay, updatedAmount)
 
-        if (response) {
-             if(response.turnCards) return { ...response, continue: true}
-             else return response
-        } else throw LogicError("Not response from the server")
+        if (!response.error) {
+
+            if (response.turnCards) return { ...response, continue: true }
+            else return response
+
+        } else throw new LogicError("Not response from the server")
 
     },
 
     __updatedValues__(Map) {
+        ow(Map, ow.object)
 
         let One = 0, Two = 0, Three = 0, Four = 0
 
-        for (let j = 1; j <= 4; j++) {
+        for (let j = 1; j <= 3; j++) {
             for (let i = 0; i < Map[j].length; i++) {
                 switch (Map[j][i][0]) {
                     case 0:
@@ -168,6 +172,9 @@ const logic = {
 
 
     __isBreedable__(map, position, rocks) {
+        ow(map, ow.object)
+        ow(position, ow.object)
+        ow(rocks, ow.number)
 
         const toCheck = map[position[0]][position[1]][1]
 
@@ -184,6 +191,10 @@ const logic = {
     },
 
     __isUsable__(map, position, resource) {
+        ow(map, ow.object)
+        ow(position, ow.object)
+        ow(resource, ow.string)
+
         const toCheck = map[position[0]][position[1]]
         const toCompare = map[position[0]][position[1]][1]
 
@@ -224,6 +235,10 @@ const logic = {
     },
 
     __isCompleted__(map, puntuation, mission) {
+        ow(map, ow.object)
+        ow(puntuation, ow.object)
+        ow(mission, ow.object)
+
         let ohNo = { toComplete: false }
         let toHatch = []
 
@@ -297,20 +312,24 @@ const logic = {
     },
 
     __isSecurityAvailable__(number, toCompare, maximum) {
-        return toCompare[number] < maximum[number].length - 1 ? true : false
+        ow(toCompare, ow.object)
+        ow(number, ow.number)
+        ow(maximum, ow.object)
 
+        return toCompare[number] < maximum[number].length - 1 ? true : false
     },
 
     __isUpgradeAvailable__(toCompare, maximum) {
+        ow(toCompare, ow.number)
+        ow(maximum, ow.object)
+
         return toCompare < maximum.length - 1 ? true : false
 
     },
 
-    finishedGame(finishedGameData) { // hacer a con la data para poder pintarlo :D
+    finishedGame() { // hacer a con la data para poder pintarlo :D
 
         localStorage.removeItem("userActualGame")
-
-        return
     },
 
     logoutUser() {

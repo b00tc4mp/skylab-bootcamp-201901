@@ -74,9 +74,9 @@ function App({ history }) {
           </Switch>
         </AppContext.Provider>
       </div>
-      <div className="App App__Pages--BadResolution">
+      {<div className="App App__Pages--BadResolution">
           <p>This game requires at least 1024px of resolution to play! Sorry!</p>
-      </div>
+      </div>}
     </Fragment>
   )
 

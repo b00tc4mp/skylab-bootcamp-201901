@@ -18,7 +18,7 @@ describe('user data', () => {
 
         await User.deleteMany()
 
-        users_ = new Array(Math.random(100) * 15).fill().map(() => ({
+        users_ = new Array(Math.random(100) +2 * 15).fill().map(() => ({
             nickname: `${names.random()}*sdf${Math.random()}`,
             age: Math.ceil(Math.random() * 15 + 13),
             email: `grillo-${Math.random()}@mail.com`,
@@ -177,7 +177,6 @@ describe('user data', () => {
                 ToolsPuntuation: 0,
                 SecurityLvL: {},
                 SecurityPuntuation: 0,
-                FishingRodUsed: 0,
                 StrikeLvL: 0,
                 puntuation: 7
             })
@@ -303,8 +302,8 @@ describe('user data', () => {
     })
 
     describe('startGame', () => {
-        let random9 = Math.floor(Math.random() * 9)
-        let random8 = Math.floor(Math.random() * 8)
+        let random9 = Math.floor(Math.random() * 6)
+        let random8 = Math.floor(Math.random() * 7)
 
         beforeEach(async () => {
             alivePrivateGames.pop()
@@ -334,17 +333,10 @@ describe('user data', () => {
             expect(missionCards).toBeDefined
 
             expect(missionCards[0]).toBeInstanceOf(Object)
-            expect(missionCards[0]._id).toBeDefined
-            expect(missionCards[0]).toBeDefined
-            expect(missionCards[0][2]).toBeDefined
             expect(typeof missionCards[0][1]).toBe("string")
-            expect(typeof missionCards[0][2]).toBe("string")
             expect(missionCards[0][1].length).toBeGreaterThan(0)
-            expect(missionCards[0][2].length).toBeGreaterThan(0)
-            expect(missionCards[0].first).toBeDefined
-            expect(missionCards[0].second).toBeDefined
+            expect(missionCards[0].first).toBeDefined()
             expect(missionCards[0].first).toBeGreaterThan(0)
-            expect(missionCards[0].second).toBeGreaterThan(0)
 
             expect(turnCards).toBeDefined
 
@@ -365,28 +357,23 @@ describe('user data', () => {
             expect(mapStatus[1]).toBeInstanceOf(Array)
             expect(mapStatus[2]).toBeInstanceOf(Array)
             expect(mapStatus[3]).toBeInstanceOf(Array)
-            expect(mapStatus[4]).toBeInstanceOf(Array)
-            expect(mapStatus[1].length).toBe(9)
-            expect(mapStatus[2].length).toBe(9)
-            expect(mapStatus[3].length).toBe(8)
-            expect(mapStatus[4].length).toBe(8)
+            expect(mapStatus[1].length).toBe(6)
+            expect(mapStatus[2].length).toBe(6)
+            expect(mapStatus[3].length).toBe(7)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
-            expect(mapStatus[4][random8]).toBeInstanceOf(Array)
             expect(mapStatus[1][random9][0]).toBe(0)
             expect(mapStatus[2][random9][0]).toBe(0)
             expect(mapStatus[3][random8][0]).toBe(0)
-            expect(mapStatus[4][random8][0]).toBe(0)
             expect(mapStatus[1][random9][1]).toBeFalsy()
             expect(mapStatus[2][random9][1]).toBeFalsy()
             expect(mapStatus[3][random8][1]).toBeFalsy()
-            expect(mapStatus[4][random8][1]).toBeFalsy()
 
             expect(userPuntuation).toBeDefined
 
             const { player: playerPunt, missionCards: playerMission, OneEggNestAmount, TwoEggNestAmount, ThreeEggNestAmount, FourEggNestAmount, } = userPuntuation
-            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPuntuation, FishingRodUsed, StrikeLvL, puntuationSchema } = userPuntuation
+            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPuntuation, StrikeLvL, puntuationSchema } = userPuntuation
 
             //Inside User Puntuation
             expect(playerPunt).toBe(alivePrivateGames[0].creator)
@@ -394,18 +381,15 @@ describe('user data', () => {
             expect(playerMission).toBeInstanceOf(Array)
 
             expect(playerMission[0]).toBeInstanceOf(Object)
-            expect(playerMission[0].cardId).toBeDefined()
             expect(playerMission[0].complted).toBeFalsy()
             expect(playerMission[0].points).toBe(0)
 
             expect(playerMission[1]).toBeInstanceOf(Object)
-            expect(playerMission[1].cardId).toBeDefined()
-            expect(playerMission[1].complted).toBeFalsy()
+            expect(playerMission[1].completed).toBeFalsy()
             expect(playerMission[1].points).toBe(0)
 
             expect(playerMission[2]).toBeInstanceOf(Object)
-            expect(playerMission[2].cardId).toBeDefined()
-            expect(playerMission[2].complted).toBeFalsy()
+            expect(playerMission[2].completed).toBeFalsy()
             expect(playerMission[2].points).toBe(0)
 
             expect(OneEggNestAmount).toBe(0)
@@ -430,14 +414,13 @@ describe('user data', () => {
             expect(SecurityLvL[4]).toBe(0)
 
             expect(SecurityPuntuation).toBe(0)
-            expect(FishingRodUsed).toBe(0)
             expect(StrikeLvL).toBe(0)
 
 
             //Inside Puntuation Schema
             expect(puntuationSchema).toBeDefined()
 
-            const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, FishingRodUsed: FrLvL, StrikeLvL: StLvL } = puntuationSchema
+            const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, StrikeLvL: StLvL } = puntuationSchema
 
             expect(OneLvL).toBeInstanceOf(Array)
             expect(OneLvL[0]).toBe(1)
@@ -491,16 +474,6 @@ describe('user data', () => {
             expect(ScLvL[4][2]).toBe(2)
             expect(ScLvL[4][3]).toBe(5)
             expect(ScLvL[4][4]).toBe(6)
-
-            expect(FrLvL).toBeInstanceOf(Array)
-            expect(FrLvL[0]).toBe(0)
-            expect(FrLvL[1]).toBe(3)
-            expect(FrLvL[2]).toBe(6)
-            expect(FrLvL[3]).toBe(9)
-            expect(FrLvL[4]).toBe(12)
-            expect(FrLvL[5]).toBe(15)
-            expect(FrLvL[6]).toBe(18)
-            expect(FrLvL[7]).toBe(21)
 
             expect(StLvL).toBeInstanceOf(Array)
             expect(StLvL[0]).toBe(0)
@@ -661,7 +634,7 @@ describe('user data', () => {
                 },
                 missions: [false, false, false]
 
-            })
+            }, { One: 1, Two: 0, Three: 0, Four: 0 })
 
             expect(nextGameByCont).toBeDefined()
 
@@ -716,7 +689,7 @@ describe('user data', () => {
                 },
                 missions: [false, false, false]
 
-            })
+            }, { One: 1, Two: 0, Three: 0, Four: 0 })
 
             expect(nextGameByCont).toBeUndefined()
 
@@ -742,7 +715,7 @@ describe('user data', () => {
                     },
                     missions: [false, false, false]
     
-                })
+                }, { One: 1, Two: 0, Three: 0, Four: 0 })
 
                 throw Error("Should not reach this point")
             } catch (err) {
@@ -770,7 +743,7 @@ describe('user data', () => {
                     },
                     missions: [false, false, false]
     
-                })
+                }, { One: 1, Two: 0, Three: 0, Four: 0 })
 
                 throw Error("Should not reach this point")
             } catch (err) {
@@ -782,8 +755,8 @@ describe('user data', () => {
 
     describe('updateGame', () => {
         let userToAdd, GameId, creator
-        let random9 = Math.floor(Math.random() * 9)
-        let random8 = Math.floor(Math.random() * 8)
+        let random9 = Math.floor(Math.random() * 5)
+        let random8 = Math.floor(Math.random() * 6)
 
         beforeEach(async () => {
             alivePrivateGames.pop()
@@ -821,17 +794,11 @@ describe('user data', () => {
             expect(missionCards).toBeDefined
 
             expect(missionCards[0]).toBeInstanceOf(Object)
-            expect(missionCards[0]._id).toBeDefined
             expect(missionCards[0]).toBeDefined
-            expect(missionCards[0][2]).toBeDefined
             expect(typeof missionCards[0][1]).toBe("string")
-            expect(typeof missionCards[0][2]).toBe("string")
             expect(missionCards[0][1].length).toBeGreaterThan(0)
-            expect(missionCards[0][2].length).toBeGreaterThan(0)
             expect(missionCards[0].first).toBeDefined
-            expect(missionCards[0].second).toBeDefined
             expect(missionCards[0].first).toBeGreaterThan(0)
-            expect(missionCards[0].second).toBeGreaterThan(0)
 
             expect(turnCards).toBeDefined
 
@@ -852,28 +819,22 @@ describe('user data', () => {
             expect(mapStatus[1]).toBeInstanceOf(Array)
             expect(mapStatus[2]).toBeInstanceOf(Array)
             expect(mapStatus[3]).toBeInstanceOf(Array)
-            expect(mapStatus[4]).toBeInstanceOf(Array)
-            expect(mapStatus[1].length).toBe(9)
-            expect(mapStatus[2].length).toBe(9)
-            expect(mapStatus[3].length).toBe(8)
-            expect(mapStatus[4].length).toBe(8)
+            expect(mapStatus[1].length).toBe(6)
+            expect(mapStatus[2].length).toBe(6)
+            expect(mapStatus[3].length).toBe(7)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
-            expect(mapStatus[4][random8]).toBeInstanceOf(Array)
             expect(mapStatus[1][random9][0]).toBe(0)
             expect(mapStatus[2][random9][0]).toBe(0)
             expect(mapStatus[3][random8][0]).toBe(0)
-            expect(mapStatus[4][random8][0]).toBe(0)
             expect(mapStatus[1][random9][1]).toBeFalsy()
             expect(mapStatus[2][random9][1]).toBeFalsy()
-            expect(mapStatus[3][random8][1]).toBeFalsy()
-            expect(mapStatus[4][random8][1]).toBeFalsy()
 
             expect(userPuntuation).toBeDefined
 
             const { player: playerPunt, missionCards: playerMission, OneEggNestAmount, TwoEggNestAmount, ThreeEggNestAmount, FourEggNestAmount, } = userPuntuation
-            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPuntuation, FishingRodUsed, StrikeLvL, puntuationSchema } = userPuntuation
+            const { OneEggNestLvL, TwoEggNestLvL, ThreeEggNestLvL, FourEggNestLvL, ToolsUsed, ToolsPuntuation, SecurityLvL, SecurityPuntuation, StrikeLvL, puntuationSchema } = userPuntuation
 
             //Inside User Puntuation
             expect(playerPunt).toBe(alivePrivateGames[0].creator)
@@ -881,18 +842,15 @@ describe('user data', () => {
             expect(playerMission).toBeInstanceOf(Array)
 
             expect(playerMission[0]).toBeInstanceOf(Object)
-            expect(playerMission[0].cardId).toBeDefined()
-            expect(playerMission[0].complted).toBeFalsy()
+            expect(playerMission[0].completed).toBeFalsy()
             expect(playerMission[0].points).toBe(0)
 
             expect(playerMission[1]).toBeInstanceOf(Object)
-            expect(playerMission[1].cardId).toBeDefined()
-            expect(playerMission[1].complted).toBeFalsy()
+            expect(playerMission[1].completed).toBeFalsy()
             expect(playerMission[1].points).toBe(0)
 
             expect(playerMission[2]).toBeInstanceOf(Object)
-            expect(playerMission[2].cardId).toBeDefined()
-            expect(playerMission[2].complted).toBeFalsy()
+            expect(playerMission[2].completed).toBeFalsy()
             expect(playerMission[2].points).toBe(0)
 
             expect(OneEggNestAmount).toBe(0)
@@ -917,14 +875,13 @@ describe('user data', () => {
             expect(SecurityLvL[4]).toBe(0)
 
             expect(SecurityPuntuation).toBe(0)
-            expect(FishingRodUsed).toBe(0)
             expect(StrikeLvL).toBe(0)
 
 
             //Inside Puntuation Schema
             expect(puntuationSchema).toBeDefined()
 
-            const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, FishingRodUsed: FrLvL, StrikeLvL: StLvL } = puntuationSchema
+            const { OneEggNestLvL: OneLvL, TwoEggNestLvL: TwoLvL, ThreeEggNestLvL: ThreeLvL, FourEggNestLvL: FourLvL, ToolsPuntuation: ToolsLvL, SecurityLvL: ScLvL, StrikeLvL: StLvL } = puntuationSchema
 
             expect(OneLvL).toBeInstanceOf(Array)
             expect(OneLvL[0]).toBe(1)
@@ -978,16 +935,6 @@ describe('user data', () => {
             expect(ScLvL[4][2]).toBe(2)
             expect(ScLvL[4][3]).toBe(5)
             expect(ScLvL[4][4]).toBe(6)
-
-            expect(FrLvL).toBeInstanceOf(Array)
-            expect(FrLvL[0]).toBe(0)
-            expect(FrLvL[1]).toBe(3)
-            expect(FrLvL[2]).toBe(6)
-            expect(FrLvL[3]).toBe(9)
-            expect(FrLvL[4]).toBe(12)
-            expect(FrLvL[5]).toBe(15)
-            expect(FrLvL[6]).toBe(18)
-            expect(FrLvL[7]).toBe(21)
 
             expect(StLvL).toBeInstanceOf(Array)
             expect(StLvL[0]).toBe(0)

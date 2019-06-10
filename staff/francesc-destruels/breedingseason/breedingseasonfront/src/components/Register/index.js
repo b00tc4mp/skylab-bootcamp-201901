@@ -22,7 +22,7 @@ function Register({ onSignUp }) {
     }
 
     return <section className="register">
-        <Logo sizeX={"20%"} sizeY={"100%"} main={true} />
+        <Logo sizeX={"500vh"} main={true} />
         <h2>Register</h2>
         <form onSubmit={handleSubmit}>
             <input type="text" name="nickname" placeholder="Nickname" />

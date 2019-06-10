@@ -23,19 +23,19 @@ function Penguin({ position }) {
                 break
             case 1:
                 if (toCheck[2] === false) setPenguinImg(numberImg.OneEgg[number -1])
-                else setPenguinImg(numberImg.OneEgg[number -1])
+                else setPenguinImg(numberImg.OneHatch[number -1])
                 break
             case 2:
                 if (toCheck[2] === false) setPenguinImg(numberImg.TwoEgg[number -1])
-                else setPenguinImg(numberImg.TwoEgg[number -1])
+                else setPenguinImg(numberImg.TwoHatch[number -1])
                 break
             case 3:
                 if (toCheck[2] === false) setPenguinImg(numberImg.ThreeEgg[number -1])
-                else setPenguinImg(numberImg.ThreeEgg[number -1])
+                else setPenguinImg(numberImg.ThreeHatch[number -1])
                 break
             case 4:
                 if (toCheck[2] === false) setPenguinImg(numberImg.FourEgg[number -1])
-                else setPenguinImg(numberImg.FourEgg[number -1])
+                else setPenguinImg(numberImg.FourHatch[number -1])
                 break
         }
 

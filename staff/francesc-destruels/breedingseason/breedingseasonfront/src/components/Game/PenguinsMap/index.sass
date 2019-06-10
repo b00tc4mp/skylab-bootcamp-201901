@@ -26,9 +26,9 @@
 
     &__penguinRow3
         display: grid
-        grid-template-columns: 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5% 12.5%
+        grid-template-columns: 13.75% 13.75% 13.75% 13.75% 13.75% 13.75% 13.75%
         grid-template-rows: 1fr
-        grid-template-areas: "p30 p31 p32 p33 p34 p35 p36 Foc"
+        grid-template-areas: "p20 p21 p22 p23 p24 p25 Foc"
         justify-items: center
         align-items: center
 
@@ -40,7 +40,31 @@
     //     justify-items: end
 
     &__Buttons
-        align-self: center
+        display: flex
+        justify-content: space-around
+        width: 100%
+
+    &__ButtonA
+        font-size: 2vh
+        transform: scale(1.2)
+        width: 20vh
+
+    &__ButtonA--Clickable
+        transform: scale(1.1)
+
+    &__ButtonB
+        font-size: 2vh
+        transform: scale(1.2)
+        width: 20vh
+
+    &__ButtonC
+        font-size: 2vh
+        background: none
+        border: none
+        color: black
+        transform: scale(1.5) translateX(70%)
+        width: 20vh
+        text-align: start
 
     &__Foc
         grid-area: Foc
@@ -50,13 +74,18 @@
         max-width: 100%
         
     &__Foc--Clickable
+        background-image: radial-gradient(green 10%, rgba(255, 0, 0, 0) 60%)
+        transform: scale(1.1)
+        cursor: pointer
 
     &__penguin
         width: 100%
     
     &__penguin--Clickable
         background-image: radial-gradient(yellow 20% , orange 30%, yellow 10%, rgba(255, 0, 0, 0) 60%)
+        cursor: pointer
     
     &__penguin--Actionable
         background-image: radial-gradient(green 10%, rgba(255, 0, 0, 0) 60%)
+        cursor: pointer
 

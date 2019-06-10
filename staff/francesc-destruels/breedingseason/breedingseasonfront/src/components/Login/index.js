@@ -18,7 +18,7 @@ function Login({ onLogin }) {
     }
 
     return <section className="login">
-        <Logo sizeX={"20%"} sizeY={"100%"} main={true} />
+        <Logo sizeX={"500vh"} main={true} />
         <h2>Login</h2>
         <form onSubmit={handleSubmit}>
             <input type="text" name="nicknameOEmail" placeholder="Nickname or Email" />
