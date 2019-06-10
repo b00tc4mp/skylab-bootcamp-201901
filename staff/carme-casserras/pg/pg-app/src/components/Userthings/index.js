@@ -16,7 +16,8 @@ function UserThings() {
 
     return (<ul>
         <div>
-            <p>LOREM IPSUM</p>
+            <h1>AWARDS</h1>
+            <p>For each </p>
         </div>
 
         {results &&

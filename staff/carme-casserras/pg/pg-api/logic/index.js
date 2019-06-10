@@ -25,6 +25,7 @@ const logic = {
             if (users.length) throw new LogicError(`user with email ${email} already exists`)
 
             const encryptPassword = await bcrypt.hash(password, 5)
+            
 
             await UserData.create({ name, email, password: encryptPassword })
         })()
@@ -52,7 +53,7 @@ const logic = {
     },
 
     retrieveUser(id) {
-        debugger
+        
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
@@ -66,7 +67,7 @@ const logic = {
         })()
     },
 
-    addPublicThing(buffer, category, description, userId, locId) {
+    async addPublicThing(buffer, category, description, userId, locId) {
 
         validate.arguments([
             { name: 'buffer', value: buffer, type: 'object', notEmpty: true },
@@ -82,7 +83,7 @@ const logic = {
             api_secret: CLOUDINARY_SECRET_KEY
         })
 
-        const image = new Promise(( resolve, reject) => {
+        const image = await new Promise(( resolve, reject) => {
             const uploadStream = cloudinary.uploader.upload_stream((err, image) => {
                 if(err) throw new LogicError('Image could not be uploaded')
                 resolve(image)

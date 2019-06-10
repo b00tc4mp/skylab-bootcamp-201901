@@ -17,11 +17,13 @@ const pgApi = {
         validate.email(email)
         
         return call(`${this.__url__}/users`, {
+            
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify({name, email, password}),
+            body: {name, email, password},
             timeout: this.__timeout__
         })
+        
     },
 
     authenticateUser(email, password) {
@@ -36,7 +38,7 @@ const pgApi = {
         return call(`${this.__url__}/users/auth`, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json'},
-            body: JSON.stringify({email, password}),
+            body: {email, password},
             timeout: this.__timeout__
         })
         

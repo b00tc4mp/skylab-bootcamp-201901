@@ -1,0 +1,43 @@
+#navbar-top
+  background-color: white
+  width: 100%
+  display: flex
+  justify-content: space-between
+  position: fixed
+  top: 0
+  -webkit-box-shadow: 0px 10px 12px -10px rgba(0, 0, 0, 0.28)
+  -moz-box-shadow: 0px 10px 12px -10px rgba(0, 0, 0, 0.28)
+  box-shadow: 0px 10px 12px -10px rgba(0, 0, 0, 0.28)
+
+.navbar-left
+  width: 20%
+  justify-content: flex-start
+  float: left
+
+.navbar-right
+  width: 30%
+  float: right
+
+.navigation
+  margin: 0
+  display: -webkit-box
+  display: -moz-box
+  display: -ms-flexbox
+  display: -webkit-flex
+  display: flex
+  -webkit-flex-flow: row wrap
+  justify-content: space-evenly
+
+
+a
+  text-decoration: none
+  display: block
+  padding: 0.3rem
+  &:hover
+    opacity: 0.5
+
+ul li img
+  // abans 2 rem
+  height: 2.5rem
+  object-fit: cover
+  object-position: center

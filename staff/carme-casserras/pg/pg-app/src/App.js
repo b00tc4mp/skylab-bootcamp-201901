@@ -10,6 +10,8 @@ import LocationSearch from './components/Locationsearch'
 import CategoryResults from './components/Categoryresults'
 import RetrieveThing from './components/Retrievething'
 import UserThings from './components/Userthings'
+import Nav from './components/Nav'
+import Footer from './components/Footer'
 
 export default function App() {
 
@@ -22,6 +24,8 @@ export default function App() {
       {/* <Route exact path="/login" render={() => <Login onLogin={handleLogin} error={error}/>} /> */}
       {/* <Route exact path='/search/category' render={() => logic.isUserLoggedIn ? <Redirect to='/register' /> : <CategorySearch/>} /> */}
       {/* <Route exact path='things' render={() => logic.isUserLoggedIn ? <Redirect to='/register' /> : <AddThing/>} /> */}
+      <Nav/>
+      <Footer/>
       <Route exact path='/register' component={Register} />
       <Route exact path='/login' component={Login} />
       <Route exact path='/search/category' component={CategorySearch} />

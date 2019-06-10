@@ -26,10 +26,17 @@ const logic = {
         ])
 
         validate.email(email)
+        
 
         return (async () => {
-            const res = await pgApi.registerUser(name, email, password)            
-            const {err} = res                
+            try{
+                
+                return await pgApi.registerUser(name, email, password)    
+                
+            } catch (err) {
+                
+                throw Error(err.message)
+            }           
         })()
     },
 

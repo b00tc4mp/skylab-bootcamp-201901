@@ -11,9 +11,9 @@ import axios from 'axios'
  * 
  * @version 1.0.0
  */
-function call (url, options = {}) {
+function call(url, options = {}) {
     const { method = 'GET', headers, body, timeout = 0 } = options
-
+    
     validate.arguments([
         { name: 'url', value: url, type: 'string', notEmpty: true },
         { name: 'method', value: method, type: 'string', notEmpty: true },
@@ -23,8 +23,9 @@ function call (url, options = {}) {
     ])
 
     validate.url(url)
-
+    
     return (async () => {
+        
         try {
             const response = await axios({
                 url,
@@ -34,7 +35,7 @@ function call (url, options = {}) {
                 timeout
 
             })
-
+            
             return response.data
         } catch (error) {
             if (error.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')

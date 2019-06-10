@@ -2,14 +2,15 @@ import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import './index.sass'
 import CategoryResults from '../Categoryresults'
+import Footer from '../Footer'
 import logic from '../../logic'
 
 const nameCategory = {
-   0: 'electrodomesticos',
-   1: 'libros',
-   2: 'hogar',
-   3: 'electronica',
-   4: 'ropa'
+   0: 'Books',
+   1: 'Clothes',
+   2: 'Electronics',
+   3: 'Home',
+   4: 'Home appliance',
 }
 
 function CategorySearch(props) {
@@ -23,20 +24,22 @@ function CategorySearch(props) {
    }
         
    const renderCategory = () => (
-      <div>
+      <div className="contens1">
+         <div className="navigation-body">
+            <ul> 
          {
             Object.values(nameCategory).map(id => {
                
-               return (
-                  <div key={id} onClick={() => handleSearchByCategory(id)}>                     
-                     <label htmlFor={id}>
-                        <h1>{id}</h1>
-                        <img src={`../../../images/${id}.png`} />
-                     </label>
-                  </div>
+               return (                    
+                  <li key={id} onClick={() => handleSearchByCategory(id)} className="lisearch" htmlFor={id}>
+                     <img className="imgsearch" src={`../../../images/${id}.png`} />
+                  </li>
                )
             })
          }
+            </ul>
+         </div>
+         {<Footer/>}
       </div>
    )
 

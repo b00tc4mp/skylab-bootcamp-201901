@@ -8,14 +8,10 @@ const nameLocation = {
 
     0: 'Poblenou',
     1: 'Glories',
-    2: 'Plaça Catalunya',
-    3: 'Sagrada Familia',
-    4: 'Enric Granados',
+    2: 'urquinaona',
+    3: 'mallorca',
+    4: 'valencia',
     5: 'Gotic',
-
-    // 6: 'Gracia',
-    // 7: 'Sant Andreu',
-    // 8: 'Gotic'
 }
 
 function LocationSearch() {

@@ -9,7 +9,7 @@ const user = new Schema({
     })
 
 const thing = new Schema({
-    image: {type: String, required: false},
+    image: {type: String, required: true},
     category: {type: String, required: true},
     description: {type: String, required: true},
     status: {type: Number, default: 0},

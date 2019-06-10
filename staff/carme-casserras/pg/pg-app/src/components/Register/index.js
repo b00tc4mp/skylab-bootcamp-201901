@@ -2,9 +2,11 @@ import React, { useState } from 'react';
 import './index.sass'
 import logic from '../../logic';
 
-function Register({ }) {
+function Register(props) {
 
     const [messageError, setMessageError] = useState(null)
+
+    const { match: { params: { login } } } = props
 
     async function handleSubmit(e) {
 
@@ -18,17 +20,17 @@ function Register({ }) {
         } = e.target
         try {
 
-            const carme = await logic.registerUser(name, email, password)
-            console.log(carme)
-
-
+            await logic.registerUser(name, email, password)
+            props.history.push('/login')
+            
         } catch (error) {
             setMessageError(error.message)
         }
     }
+    
     return (
 
-        < form onSubmit={handleSubmit} >
+        < form className="contens" onSubmit={handleSubmit} >
             <div className='field'>
                 <label className='label'>REGISTER</label>
                 <div className='control'>
@@ -73,8 +75,7 @@ function Register({ }) {
                 <label>{messageError}</label>
             </div>}
         </form >
-
-    )
+        )
 }
 
 export default Register

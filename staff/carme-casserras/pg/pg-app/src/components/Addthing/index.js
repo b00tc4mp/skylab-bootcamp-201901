@@ -1,14 +1,17 @@
-import React, { useState } from 'react'
+import React, { useState, Fragment } from 'react'
 import { Route, Redirect } from 'react-router-dom'
 import './index.sass'
 import logic from '../../logic'
 
-function AddThing({ }) {
+function AddThing(props) {
 
     const [messageError, setMessageError] = useState(null)
     const [image, setImage] = useState([])
-    const [isLoading, setIsLoading] = useState(false)
-    const [isEventInserted, setIsEventInserted] = useState(false)
+    const [thingUpload, setThingUpoad] = useState(false)
+
+    
+    if(!logic.isUserLoggedIn) props.history.push('/login')
+       
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -18,25 +21,28 @@ function AddThing({ }) {
             description: { value: description },
             location: { value: location }
         } = e.target
-
+       
         try {
-        setIsLoading(true)
-        await logic.addPublicThings(image, category, description, location)
-        setIsEventInserted(true)
-        setIsLoading(false)
+
+            await logic.addPublicThings(image, category, description, location)
+            
+            setThingUpoad(true)
         } catch (error) {
 
             setMessageError(error.message)
         }
+
+        // const thingInserted = () => {
+        //     <Fragment>
+        //     <div class="notification is-primary">
+        //                             Thing upload
+        //     </div>    
+        //     </Fragment>
+        // }
+
     }
     return (
-        <form onSubmit={handleSubmit}>
-            <div className="field">
-                <label className="label">Image</label>
-                <div className="control">
-                    <input className="" name="image" type="file" onChange={e => setImage(e.target.files[0])} />
-                </div>
-            </div>
+        <form className="contens" onSubmit={handleSubmit}>
             <div className="field">
                 <label className="label">Category</label>
                 <div className="control">
@@ -53,24 +59,32 @@ function AddThing({ }) {
             </div>
             <div className="field">
                 <label className="label">Description</label>
-                <div className="control">
-                    <input className="input" type="text" name="description" placeholder="Description" />
-                </div>
+                <textarea className="textarea" name="description"></textarea>
             </div>
-
             <div className="field">
                 <label className="label">Location</label>
                 <div className="control">
                     <div className="select">
                         <select name="location">
-                            <option value="5cfb87cee171ff0fc8f44465">Sagrada Familia</option>
-                            <option valeu="5cfb86dee171ff0fc8f44464">Plaça Catalunya</option>
-                            <option value="5cfb895ee171ff0fc8f44467">Glories</option>
                             <option value="5cfb8925e171ff0fc8f44466">Poblenou</option>
-                            <option value="5cfb89a6e171ff0fc8f44468">Enric Granados</option>
+                            <option valeu="5cfb86dee171ff0fc8f44464">Urquinaona</option>
+                            <option value="5cfb895ee171ff0fc8f44467">Glories</option>
+                            <option value="5cfb87cee171ff0fc8f44465">Mallorca</option>
+                            <option value="5cfb89a6e171ff0fc8f44468">Valencia</option>
                             <option value="5cfb8e36e171ff0fc8f44469">Gotic</option>
                         </select>
                     </div>
+                </div>
+            </div>
+            {/* <div className="file-upload">
+                <label htmlFor="upload" className="file-upload__label"></label>
+                <input id="upload" className="file-upload__input" type="file" name="file-upload"  />
+            </div> */}
+            <div className="file">
+                <div className="file has-name">
+                    <label className="file-label">
+                        <input className="file-inputd" name="image" type="file" onChange={e => setImage(e.target.files[0])} />
+                    </label>
                 </div>
             </div>
             <div className="control">
@@ -80,19 +94,12 @@ function AddThing({ }) {
                 <p>{messageError}</p>
             </div>}
         </form>
-            // {/* {<Redirect to='/search/category' />} */ }
-        
+
     )
-    // const renderEventInserted = () => (
-    //     <Fragment>
-    //         <div className='notification is-warning'>
-    //             Event inserted!
-    //       </div>
-    //         <button className='button' onClick={() => setIsEventInserted(false)}>
-    //             Insert another event
-    //       </button>
-    //     </Fragment>
-    // )
+    // {thingUpload && thingInserted}
+    {/* {!thingUpload && form} */ }
+
+
 }
 
 export default AddThing
