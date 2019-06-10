@@ -1,6 +1,6 @@
 import React from 'react'
 import literals from './literals'
-import logo from '../../asserts/logo/icon_v2_white.png'
+import logo from '../../assets/logo/icon_v2_white.png'
 import './index.css'
 
 function Login({ lang, onLogin, error }) {
@@ -27,20 +27,20 @@ function Login({ lang, onLogin, error }) {
             </nav>
         </div>
         <div className="uk-position-center uk-card uk-card-default uk-card-body card-transparent">
-            <h1 className='uk-card-title uk-text-center'>{subtitle}</h1>
-            <form className="uk-form " onSubmit={handleSubmit}>
+            <h2 className='uk-text-center'>{subtitle}</h2>
+            <form className="uk-form" onSubmit={handleSubmit}>
                 <div className="uk-margin">
                     <div className="uk-form-controls">
-                        <input className="uk-input uk-form-width-large" id="form-stacked-text" type="email" name="username" placeholder={email} value="ali@mail.com" />
+                        <input className="uk-input uk-form-width-large" id="form-stacked-text" type="email" name="username" placeholder={email} defaultValue="ali@mail.com" />
                     </div>
                 </div>
                 <div className="uk-margin">
                     <div className="uk-form-controls">
-                        <input className="uk-input uk-form-width-large" id="form-stacked-text" type="password" name="password" placeholder={password} value="123" />
+                        <input className="uk-input uk-form-width-large" id="form-stacked-text" type="password" name="password" placeholder={password} defaultValue="123" />
                     </div>
                 </div>
 
-                <button className="uk-button uk-button-default uk-text-bold uk-width-1-1" >{enter}</button>
+                <button className="uk-button default-button uk-text-bold uk-width-1-1" >{enter}</button>
                 <span>{error}</span>
             </form>
         </div>
@@ -48,21 +48,3 @@ function Login({ lang, onLogin, error }) {
 }
 
 export default Login
-
-
-
-
-
-
-
-
-
-{/* <section className="login">
-        <h2>{title}</h2>
-        <form onSubmit={handleSubmit}>
-            <input type="email" name="username" placeholder={email} />
-            <input type="password" name="password" placeholder={password} />
-            <button>{title}</button>
-            <span>{error}</span>
-        </form>
-    </section> */}

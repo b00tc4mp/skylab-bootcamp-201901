@@ -1,0 +1,14 @@
+.card-link {
+  color: #666;
+}
+
+.card-link:link,
+:visited,
+:hover,
+:active {
+  text-decoration: none;
+}
+
+.card-link::hover {
+  color: rgb(54, 54, 54);
+}

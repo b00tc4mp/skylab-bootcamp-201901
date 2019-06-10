@@ -1,6 +1,6 @@
 import React from "react";
 import literals from "./literals";
-import logo from '../../asserts/logo/icon_v2_white.png'
+import logo from '../../assets/logo/icon_v2_white.png'
 import './index.css'
 
 function WelcomePage({ lang, onLogin }) {
@@ -20,18 +20,3 @@ function WelcomePage({ lang, onLogin }) {
 }
 
 export default WelcomePage;
-
-
-
-// {welcome}{" "}
-// {subtitle}{" "}
-// <a
-//   href=""
-//   onClick={e => {
-//     e.preventDefault();
-
-//     onLogin();
-//   }}
-// >
-//   {login}
-// </a>

@@ -37,3 +37,9 @@ https://images.unsplash.com/photo-1547707981-eeb6a7ac3c25?ixlib=rb-1.2.1&ixid=ey
 
 PUESTA DE SOL, PLAYA
 https://images.unsplash.com/photo-1547532182-bf296f6be875?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2200&q=80
+
+PUESTA DE SOL, PLAGO
+https://images.unsplash.com/photo-1559626627-cb31b201e27f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60
+
+CANADIAN ROCKIES
+https://images.unsplash.com/photo-1539667547529-84c607280d20?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2086&q=80

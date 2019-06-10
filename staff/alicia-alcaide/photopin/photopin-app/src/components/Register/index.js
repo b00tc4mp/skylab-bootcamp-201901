@@ -1,7 +1,7 @@
 import React from 'react'
 import literals from './literals'
 import './index.css'
-import logo from '../../asserts/logo/icon_v2_white.png'
+import logo from '../../assets/logo/icon_v2_white.png'
 
 function Register({ lang, onRegister, error }) {
     const { title, subtitle, name, surname, email, password, enter } = literals[lang]
@@ -31,7 +31,7 @@ function Register({ lang, onRegister, error }) {
             </nav>
         </div>
         <div className="uk-position-center  uk-card uk-card-default uk-card-body card-transparent">
-            <h1 className='uk-card-title uk-text-center'>{subtitle}</h1>
+            <h2 className='uk-text-center'>{subtitle}</h2>
             <form className="uk-form-stacked" onSubmit={handleSubmit}>
                 <div className="uk-margin">
                     <div className="uk-form-controls">
@@ -53,7 +53,7 @@ function Register({ lang, onRegister, error }) {
                         <input className="uk-input uk-form-width-large" id="form-stacked-text" type="password" name="password" placeholder={password} />
                     </div>
                 </div>
-                <button className="uk-button uk-button-default uk-text-bold uk-width-1-1" >{enter}</button>
+                <button className="uk-button default-button uk-text-bold uk-width-1-1" >{enter}</button>
                 <span>{error}</span>
             </form>
         </div>

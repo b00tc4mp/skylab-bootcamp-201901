@@ -1,32 +1,33 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
+import { pmapType } from "../../../types";
 import { withRouter } from "react-router-dom";
 import MapContainer from "../GoogleMap/MapContainer";
-
-const MAP_ZOOM_DEFAULT = 6;
-const MAP_ZOOM_ON_SEARCH_RESULT = 10;
 
 class MapSection extends Component {
   state = {
     places: [],
-    mapCenter: null,
     mapCollections: []
   };
 
   componentWillReceiveProps(props) {
-    const { pmap } = props;
     let places = [];
-    let mapCenter = null;
     let mapCollections = [];
-    pmap &&
-      pmap.collections &&
-      pmap.collections.forEach(collection => {
+    props.pmap &&
+      props.pmap.collections &&
+      props.pmap.collections.forEach(collection => {
         mapCollections.push(collection.title);
         collection.pins &&
           collection.pins.forEach(pin => {
             places.push({
               id: pin._id,
               title: pin.title,
+              description: pin.description,
+              urlImage: pin.urlImage,
+              bestTimeOfYear: pin.bestTimeOfYear,
+              bestTimeOfDay: pin.bestTimeOfDay,
+              photographyTips: pin.photographyTips,
+              travelInformation: pin.travelInformation,
               collection: collection.title,
               geometry: {
                 location: {
@@ -34,65 +35,59 @@ class MapSection extends Component {
                   lng: pin.coordinates.longitude
                 }
               },
-              showInfo: false
+              visible: props.visibleCollections[collection.title] ? true : false,
+              showInfo: this.shouldEnableInfoWidowForPin(props, pin)
             });
-            if (!mapCenter) {
-              mapCenter = {
-                lat: pin.coordinates.latitude,
-                lng: pin.coordinates.longitude
-              };
-              //mapCenter = [pin.coordinates.latitude, pin.coordinates.longitude]
-            }
           });
       });
-    this.setState({ places, mapCenter, mapCollections });
+    this.setState({ places, mapCollections });
   }
 
-  handleMarkerClick = id => {
+  pinToPlace = pin => {};
+
+  handleMarkerClicked = placeId => {
+    this.togglePlaceInfoWindowVisibility(placeId);
+  };
+
+  handleMapClicked = e => {
+    this.hideAllPlaceInfoWindows();
+  };
+
+  hideAllPlaceInfoWindows = () => {
     this.setState(state => {
-      state.places.map(place => {
-        place.id === id
-          ? (place.showInfo = !place.showInfo)
-          : (place.showInfo = false);
-      });
+      state.places.forEach(place => (place.showInfo = false));
       return { places: state.places };
     });
   };
 
-  handleMapClick = e => {
+  shouldEnableInfoWidowForPin = (props, pin) => pin._id === props.newPinId || pin._id === props.selectedPinId;
+
+  togglePlaceInfoWindowVisibility = pinIdToToggle => {
     this.setState(state => {
-      state.places.map(place => {
-        place.showInfo = false;
-      });
+      state.places.forEach(place =>
+        pinIdToToggle && place.id === pinIdToToggle ? (place.showInfo = !place.showInfo) : (place.showInfo = false)
+      );
       return { places: state.places };
     });
-  };
-
-  handleNewPin = pin => {
-    this.props.onNewPin(pin);
   };
 
   render() {
     const {
-      state: { places, mapCenter, mapCollections },
-      props: { lang },
-      handleMarkerClick,
-      handleMapClick,
-      handleNewPin
+      state: { places, mapCollections },
+      props: { lang, onNewPin, onPinEdited, onPinDelete },
+      handleMarkerClicked,
+      handleMapClicked
     } = this;
 
-    /* TODO: Si se pasa mapCenter por props no pinta el mapa, si se deja 
-                por defecto sique funciona 
-               center={mapCenter}  */
     return (
       <MapContainer
         lang={lang}
         places={places}
-        defaultZoom={MAP_ZOOM_DEFAULT}
-        zoomOnSearchResult={MAP_ZOOM_ON_SEARCH_RESULT}
-        onMarkerClick={handleMarkerClick}
-        onMapClick={handleMapClick}
-        onNewPin={handleNewPin}
+        onMarkerClick={handleMarkerClicked}
+        onMapClick={handleMapClicked}
+        onNewPin={onNewPin}
+        onPinEdited={onPinEdited}
+        onPinDelete={onPinDelete}
         mapCollections={mapCollections}
       />
     );
@@ -100,9 +95,14 @@ class MapSection extends Component {
 }
 
 MapSection.propTypes = {
-  lang: PropTypes.string,
-  handleNewPin: PropTypes.func,
-  pmap: PropTypes.object
+  lang: PropTypes.string.isRequired,
+  onNewPin: PropTypes.func.isRequired,
+  onPinEdited: PropTypes.func.isRequired,
+  onPinDelete: PropTypes.func.isRequired,
+  pmap: pmapType,
+  newPinId: PropTypes.string,
+  selectedPinId: PropTypes.string,
+  visibleCollections: PropTypes.object.isRequired
 };
 
 export default withRouter(MapSection);

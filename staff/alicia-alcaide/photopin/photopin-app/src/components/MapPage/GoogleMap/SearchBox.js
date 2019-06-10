@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import PropTypes from "prop-types";
 import styled from "styled-components";
 
 const Wrapper = styled.div`
@@ -7,6 +8,8 @@ const Wrapper = styled.div`
   justify-content: center;
   width: 100%;
   padding: 20px;
+  z-index: 1;
+  margin-bottom: -60px;
 `;
 
 class SearchBox extends Component {
@@ -22,10 +25,10 @@ class SearchBox extends Component {
   }
 
   componentWillUnmount({ mapApi } = this.props) {
-    mapApi.event.clearInstanceListeners(this.searchInput);
+    mapApi && mapApi.event && mapApi.event.clearInstanceListeners(this.searchInput);
   }
 
-  onPlacesChanged = ({ map, onSearchResult } = this.props) => {
+  onPlacesChanged = ({ onSearchResult } = this.props) => {
     const selected = this.searchBox.getPlaces();
     const { 0: place } = selected;
     if (!place.geometry) return;
@@ -52,5 +55,11 @@ class SearchBox extends Component {
     );
   }
 }
+
+SearchBox.propTypes = {
+  map: PropTypes.object.isRequired,
+  mapApi: PropTypes.object.isRequired,
+  onSearchResult: PropTypes.func.isRequired
+};
 
 export default SearchBox;
