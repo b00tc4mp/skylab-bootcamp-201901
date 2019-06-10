@@ -7,9 +7,12 @@ import moment from 'moment'
 import TableSLA from '../TableSLA'
 import TableResolution from '../TableResolution'
 import './index.sass'
+import {  withRouter } from 'react-router-dom'
+import queryString from 'query-string'
 
 class HomePE extends Component{
     state = { error: null , dateFrom: null, dateTo: null, hotfix: null, bugfix: null, bug: null, request: null, sla: null, resolution: null, tableSLA: null}
+    
     handleSwitch =async (dateFrom, dateTo, statisticType, country)=>{
         
         try{
@@ -21,9 +24,10 @@ class HomePE extends Component{
                 const request = await logic.retrieveIssuesByResolution('Request', country, dateFrom, dateTo)
                 const resolution = true
                 const sla= false
+                debugger
                 this.setState({hotfix , bugfix, bug, request, resolution, dateFrom, dateTo, sla})
             }
-            else{
+            else if(statisticType ==='bySLA'){
                 const hotfix = await logic.retrieveIssuesBySLA('HotFix', country, dateFrom, dateTo)
                 const bugfix = await logic.retrieveIssuesBySLA('BugFix', country, dateFrom, dateTo)
                 const bug = await logic.retrieveIssuesBySLA('Bug', country, dateFrom, dateTo)
@@ -31,8 +35,11 @@ class HomePE extends Component{
                 const tableSLA = await logic.retrieveIssuesByTable(country, dateFrom, dateTo)
                 const sla= true
                 const resolution = false
+                debugger
                 this.setState({hotfix , bugfix, bug, request, sla, tableSLA, dateFrom, dateTo, resolution})
 
+            }else{
+                throw Error ('wrong url')
             }
 
         }catch(error){
@@ -40,6 +47,18 @@ class HomePE extends Component{
             this.setState({ error: error.message })
         }
 
+    }
+    async componentWillReceiveProps(props){
+        debugger
+        if (props.location.search) {
+            const { from, to, statistic } = queryString.parse(props.location.search)
+            await this.handleSwitch(from, to, statistic, props.user.country)
+            debugger
+            console.log(from)
+
+        } else {
+
+        }
     }
     componentDidMount(){
         let dateFrom = moment().subtract(1, 'month').format('YYYY-MM-DD')
@@ -61,6 +80,7 @@ class HomePE extends Component{
             state: {error, hotfix, bugfix, bug, request, sla, resolution, tableSLA, dateFrom, dateTo},
             handleSwitch
         }=this
+        debugger
         return <>
         <main className="container-home">
         {user && <Sidebar user={user} onLogout={onLogout} error={error} onSwitch={handleSwitch} dateFrom={dateFrom} dateTo={dateTo} resolution={resolution} goProfile={goProfile}/>}
@@ -74,4 +94,4 @@ class HomePE extends Component{
     }
 
 }
-export default HomePE
+export default withRouter(HomePE)

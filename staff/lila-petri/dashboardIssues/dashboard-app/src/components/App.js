@@ -7,12 +7,14 @@ import HomePE from './HomePE'
 import HomeAdmin from './HomeAdmin'
 import Profile from './Profile'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
+import 'uikit/dist/js/uikit.min.js'
+import UIkit from 'uikit/dist/js/uikit.min.js'
 
 
 
 class App extends Component{
 
-    state = { user: null, error: null , profile: null}
+    state = { user: null, error: null , profile: 'product-expert'}
     
     handleRegisterNavigation = () => {
     
@@ -45,6 +47,7 @@ class App extends Component{
         
         
         } catch (error) {
+            
             this.setState({ error: error.message})
         }
     }
@@ -61,9 +64,13 @@ class App extends Component{
         try{
             await logic.updateUser(name, surname, country)
             const user = await logic.retrieveUser()
+            
+            UIkit.notification("<span uk-icon='icon: check'></span> Successfully saved", {status:'success'}, {timeout: 5})
             this.setState({ user})
 
         }catch(error){
+            
+            UIkit.notification( error.message, {status:'danger'}, {timeout: 5})
 
             this.setState({ error: error.message })
 
@@ -83,18 +90,17 @@ class App extends Component{
         }
     }
 
-    
     async componentDidMount() {
         if(logic.isUserLoggedIn){
 
+            if(this.props.location.pathname ==='/profile'){
+                this.handleProfileNavigation()
+            }
             
             try{
                 const user = await logic.retrieveUser()
                 this.setState({ user, profile: user.profile})
                 
-                if(this.props.location.pathname ==='/profile'){
-                    this.handleProfileNavigation()
-                }
 
             }catch(error){
                 this.setState({ error: error.message })
@@ -102,21 +108,8 @@ class App extends Component{
 
         }
 
+    }
 
-        // switch(this.props.location.pathname) {
-        //     case '/orders':
-        //         this.handleOrders()
-        //     break;
-        //     case '/favorites':
-        //         this.handleFavorites()
-        //     break;
-        //     case '/cart':
-        //         this.handleCart()
-        //     break;
-
-
-        }
-    
 
     render(){
 
@@ -130,20 +123,18 @@ class App extends Component{
             handleProfileNavigation,
             handleUpdateUser,
             handleComeBack
-            
-            
-
         } = this
+        
+        
         return <>
                 <Switch>
                     <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
                     <Route path="/register" render={()=> logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} goLogin={handleLoginNavigation}/> }/>
                     <Route path="/login" render={() => logic.isUserLoggedIn  ? (profile ==='product-expert'? <Redirect to="/home" /> : <Redirect to="/homeAdmin" />): <Login onLogin={handleLogin} error={error} goRegister={handleRegisterNavigation}/>} />
                     <Route path="/home" render={() => logic.isUserLoggedIn ? (profile ==='product-expert'? <HomePE user={user} onLogout={handleLogout} goProfile={handleProfileNavigation} /> : <Redirect to="/homeAdmin" />) : <Redirect to="/" />} />
-                    <Route path="/profile" render={() => logic.isUserLoggedIn && (profile ==='product-expert') ? <Profile user={user} onReturn={handleComeBack} onUpdate={handleUpdateUser}/> : <Redirect to="/" />} />
+                    {user && <Route path="/profile" render={() => logic.isUserLoggedIn && (profile ==='product-expert') ? <Profile user={user} onReturn={handleComeBack} onUpdate={handleUpdateUser}/> : <Redirect to="/" />} />}
                     <Route path="/homeAdmin" render={() => logic.isUserLoggedIn ?(profile !== 'product-expert'? <HomeAdmin onLogout={handleLogout} error={error}/>: <Redirect to="/home" />) : <Redirect to="/" />} />
                 </Switch>
-
         </>
     }
 

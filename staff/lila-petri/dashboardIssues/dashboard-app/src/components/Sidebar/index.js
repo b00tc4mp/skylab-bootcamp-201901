@@ -6,7 +6,7 @@ import logo from './images/logo.jpeg'
 
 
 function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, resolution, goProfile}){
-
+    debugger
     let statisticType
     function onStatisticsChange(e){
         statisticType=e

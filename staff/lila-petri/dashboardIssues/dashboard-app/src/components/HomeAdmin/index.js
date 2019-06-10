@@ -4,6 +4,8 @@ import logic from '../../logic'
 import {  BarLoader } from 'react-spinners'
 import './index.sass'
 import { withRouter } from 'react-router-dom'
+import 'uikit/dist/js/uikit.min.js'
+import UIkit from 'uikit/dist/js/uikit.min.js'
 
 class HomeAdmin extends Component{
     state = { visibleLoad: true , visibleSave: true, loading: false, loadingSave: false, loadingLoad: false}
@@ -16,10 +18,12 @@ class HomeAdmin extends Component{
             await logic.loadJirasByMonth('April')
             await logic.loadJirasByMonth('May')
             await logic.loadJirasByMonth('June')
+            UIkit.notification("<span uk-icon='icon: check'></span> Data saved successfully", {status:'success'}, {timeout: 5})
             this.setState({loadingLoad: false, visibleLoad: true})
             
         }catch(error){
-            this.setState({ error: error.message })
+            
+            UIkit.notification({message: error.message , status:'danger'})
         }
     }
     handlerSavingData = async () => {
@@ -28,10 +32,11 @@ class HomeAdmin extends Component{
             await logic.clearUp()
             await logic.saveIssues() 
             await logic.calculateOverdue()
+            UIkit.notification("<span uk-icon='icon: check'></span> Data saved successfully", {status:'success'}, {timeout: 5})
             this.setState({loadingSave: false, visibleSave: true})
 
         }catch(error){
-            this.setState({ error: error.message })
+            UIkit.notification({message: error.message , status:'danger'})
         }
     }
 
