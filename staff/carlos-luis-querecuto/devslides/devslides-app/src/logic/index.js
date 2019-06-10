@@ -142,6 +142,23 @@ const logic = {
         })()
     },
 
+    updateSlideStyles(presentationId, slideId, style){
+        validate.arguments([
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
+            { name: 'slideId', value: slideId, type: 'string', notEmpty: true },
+            { name: 'style', value: style, type: 'string', notEmpty: true }
+        ])
+        return (async () => {
+            try {
+                const res = await api.updateSlideStyle(this.__userToken__, presentationId, slideId, style)
+                return res
+            }
+            catch (error) {
+                throw error
+            }
+        })()
+    },
+
     retrievePresentations() {
         return (async () => {
             try {

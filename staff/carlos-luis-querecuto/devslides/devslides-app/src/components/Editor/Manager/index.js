@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 
-function Manager({ dbStyles }) {
+function Manager({ dbStyles, setActualSlideStyle }) {
 
     const [Globalstyles, setGlobalstyles] = useState(null)
     const handleStyle = (styles) => {
@@ -25,8 +25,9 @@ function Manager({ dbStyles }) {
 
     const handleMods = () => {
         let css = document.getElementById("modifier").value
+        setActualSlideStyle(css)
         handleStyle(css)
-        console.log(css)
+        
     }
 
     return (

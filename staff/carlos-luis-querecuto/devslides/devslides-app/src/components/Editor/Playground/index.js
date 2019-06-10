@@ -27,7 +27,7 @@ function Playground({ slideCounterSetter, refreshSlide , renderSlides, presentat
     },[actual])
 
     const handleCreateSlide = async () => {
-        await logic.createSlide(presentationId,"background-color: blue")
+        await logic.createSlide(presentationId,`.Slide-${slides.length}{\nbackground-color: white \n} `)
         refreshSlide()
     }
         //const basic = React.createElement('div', { key:this.state.domlist.length , className: 'basic', onClick:this.handleclick }, 'hola');

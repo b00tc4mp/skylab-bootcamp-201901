@@ -100,7 +100,7 @@ const logic = {
             const presentation = await Presentation.create({ title, author: id })
             user.presentations.push(presentation.id)
             await user.save()
-            await this.createSlide(id,presentation.id,"background-color: white;")
+            await this.createSlide(id,presentation.id,`.Slide-0{\nbackground-color: white \n}`)
         })()
     },
 

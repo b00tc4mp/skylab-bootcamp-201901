@@ -41,8 +41,10 @@ function Slide({ presentationId, slideid, slideClass, elements }) {
         e.preventDefault()
         const {
             content: { value: content },
+            classname: { value: classname },
+            style: { value: style },
         } = e.target
-        const element = await logic.createElement(presentationId, slideid, "background-color: red", "basic", content)
+        const element = await logic.createElement(presentationId, slideid, "color: white",classname, content)
         const div = syncformatElement(element)
         setslideElements(slideElements.concat(div))
     }
@@ -54,6 +56,16 @@ function Slide({ presentationId, slideid, slideClass, elements }) {
                     <div class="field">
                         <p class="control">
                             <input class="input" name="content" />
+                        </p>
+                    </div>
+                    <div class="field">
+                        <p class="control">
+                            <input class="input" name="classname" />
+                        </p>
+                    </div>
+                    <div class="field">
+                        <p class="control">
+                            <input class="input" name="style" />
                         </p>
                     </div>
                 </div>

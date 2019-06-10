@@ -16,7 +16,7 @@ function Editor({ history, match }) {
     const [slides, setSlides] = useState([])
     const [actualSlide, setActualSlide] = useState(0)
     const [slidesCounter, setSlidesCounter] = useState(0)
-    const [Globalstyles, setGlobalstyles] = useState(null)
+    const [actualStyle, setActualstyle] = useState(null)
     const { params: { id } } = match
 
     useEffect(() => {
@@ -30,20 +30,26 @@ function Editor({ history, match }) {
         }
         retrievePresentation()
     }
-    useEffect(() =>{
-        console.log(slidesCounter)
-    },[slidesCounter])
+    useEffect(() => {
+
+    }, [slidesCounter])
+
+    async function updateSlide() {
+        const res = await logic.updateSlideStyles(id, dbSlides[slidesCounter]._id, actualStyle)
+        slidesEditor[slidesCounter]=actualStyle
+        console.log(res)
+    }
 
     useEffect(() => {
         if (dbSlides) {
-            let stylesPerSlide= []
+            let stylesPerSlide = []
             let slidesStyle = ''
-            const renderSlide = dbSlides.map((slide,index) => {
+            const renderSlide = dbSlides.map((slide, index) => {
                 const { _id, style, elements } = slide
-                slidesStyle = `.Slide-${index}{ \n ${style} \n}\n\n`
-                elements.forEach((element) => {
+                slidesStyle = `${style}\n\n`
+                /* elements.forEach((element) => {
                     slidesStyle += `.${element.type}{ \n ${element.style} \n}\n\n`
-                })
+                }) */
                 stylesPerSlide.push(slidesStyle)
                 return {
                     _id,
@@ -51,9 +57,9 @@ function Editor({ history, match }) {
                     class: `Slide-${index}`
                 }
             })
-            setslidesEditor(stylesPerSlide) 
+            setslidesEditor(stylesPerSlide)
             setdbStyles(slidesStyle)
-       /*      handleStyle(slidesStyle) */
+            setActualstyle(slidesEditor[0])
             setSlides(renderSlide)
         }
     }, [dbSlides]);
@@ -82,9 +88,9 @@ function Editor({ history, match }) {
                         <p class="menu-label" onClick={() => console.log(id)}>
                             Editor
                         </p>
-
+                        <button class="button is-primary" onClick={() => updateSlide()}>Update </button>
                     </aside>
-                    <Manager dbStyles={slidesEditor[slidesCounter]}/>
+                    <Manager dbStyles={slidesEditor[slidesCounter]} setActualSlideStyle={setActualstyle} />
                 </div>
                 <div class="column is-four-fifths">
                     <Playground slideCounterSetter={setSlidesCounter} renderSlides={slides} presentationId={id} refreshSlide={refreshSlides} />
