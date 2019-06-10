@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import logic from '../../logic';
+import handleErrors from '../../common/handleErrors';
 
 const createSliderWithTooltip = Slider.createSliderWithTooltip;
 const Range = createSliderWithTooltip(Slider.Range);
@@ -22,8 +23,8 @@ function RangeSlider({onFilters}) {
             const items = await logic.searchItems({})
             setMinValue(Math.min.apply(Math, items.map(item => item.startPrice)))
             setMaxValue(Math.max.apply(Math, items.map(item => item.startPrice)))
-        } catch ({message}) {
-            alert(message)
+        } catch (error) {
+            handleErrors(error)
         }
     }
 

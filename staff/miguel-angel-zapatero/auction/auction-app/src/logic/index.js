@@ -111,6 +111,26 @@ const logic = {
         })()
     },
 
+    async retrieveUserItems() {
+        try {
+            const items = await auctionLiveApi.retrieveUserItems(this.__userToken__)
+
+            return items
+        } catch ({message}) {
+            throw new LogicError(message)
+        }
+    },
+
+    async retrieveUserItemsBids() {
+        try {
+            const itemsBids = await auctionLiveApi.retrieveUserItemsBids(this.__userToken__)
+
+            return itemsBids
+        } catch ({message}) {
+            throw new LogicError(message)
+        }
+    },
+
     searchItems(query) {
         validate.arguments([
             { name: 'query', value: query, type: Object, optional: true}
@@ -125,22 +145,18 @@ const logic = {
         })()
     },
 
-    retrieveItem(id) {
+    retrieveItem(itemId) {
         validate.arguments([
-            { name: 'id', value: id, type: String, notEmpty: true }
+            { name: 'itemId', value: itemId, type: String, notEmpty: true }
         ])
 
         return (async () => {
             try {
-                return await auctionLiveApi.retrieveItem(id)
+                return await auctionLiveApi.retrieveItem(itemId, this.__userToken__)
             } catch ({message}) {
                 throw new LogicError(message)
             }
         })()
-    },
-
-    createItem() {
-        //TODO
     },
 
     async retrieveCities() {

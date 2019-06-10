@@ -1,15 +1,18 @@
 import React, {useState, useEffect} from 'react'
 import moment from 'moment'
 
-function CountDown({nowDate, endDate}) {
+function CountDown({nowDate, startDate, endDate}) {
     const [countDown, setCountDown] = useState(null)
 
     useEffect(() => {
         calculateCountDown()
-    }, [nowDate, endDate])
+    }, [nowDate, endDate, startDate])
 
     function calculateCountDown() {
-        const diff = moment(endDate).diff(moment())
+        let diff
+        if(startDate) diff = moment(startDate).diff(moment())
+        else diff = moment(endDate).diff(moment())
+        
         const duration = moment.duration(diff)
         
         const months = duration._data.months
@@ -29,7 +32,8 @@ function CountDown({nowDate, endDate}) {
     }
 
     return <>
-        <h4>{countDown}</h4>
+        <p className="uk-margin-remove uk-padding-remove">{startDate ? "Begins on:" : "Ends in:"}</p>
+        <h4 className="uk-margin-remove uk-padding-remove">{countDown}</h4>
     </>
 }
 
