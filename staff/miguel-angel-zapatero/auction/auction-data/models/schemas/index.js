@@ -60,12 +60,20 @@ item.methods.isClosed = function() {
     return Date.now() > this.finishDate
 }
 
+item.methods.isInDate = function() {
+    return Date.now() < this.startDate
+}
+
 item.methods.winningBid = function() {
     this.bids.sort(function (a, b) {
         return b.amount - a.amount;
       });
 
     return this.bids[0]
+}
+
+item.methods.countBids = function() {
+    return this.bids.length
 }
 
 module.exports = {

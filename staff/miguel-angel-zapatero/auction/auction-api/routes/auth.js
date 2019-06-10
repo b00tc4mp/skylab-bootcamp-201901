@@ -9,7 +9,7 @@ module.exports = (req, res, next) => {
         return Promise.resolve()
             .then(() => {
                 const { headers: { authorization } } = req
-
+                
                 if (!authorization) throw new UnauthorizedError()
 
                 const token = authorization.slice(7)

@@ -416,25 +416,7 @@ describe('logic', () => {
             })
 
             describe('update user avatar', () => {
-
-            })
-
-            describe('retrieve user items', () => {
-                let item, _user
-
-                beforeEach(async() => {
-                    item = await Item.create({title: 'Ferrari', description: 'Fantastic car', startDate: Date.now(), finishDate: Date.now(), startPrice: 2000, city: 'Japan', category: 'Cars'})
-
-                    await logic._addBiddedItem(user, item.id)
-                })
-                
-                it('should success on correct id user', async() =>{
-                    const items = await logic.retrieveUserItems(user.id)
-
-                    expect(items).toBeInstanceOf(Array)
-                    expect(items.length).toBeGreaterThan(0)
-                    expect(items[0].toString()).toBe(item.id)
-                })
+                //TODO
             })
         })
     })
@@ -579,11 +561,16 @@ describe('logic', () => {
         })
 
         describe('retrieve item', () => {
+            let user
+            beforeEach(async ()=> {
+                user = await User.create({name, surname, email, password})   
+            })
+
             it('should success on correc item id', async () => {
                 let item_ = items[Math.floor(Math.random() * items.length)]
                 const item = await Item.create(item_)
 
-                const _item = await logic.retrieveItem(item.id)
+                const _item = await logic.retrieveItem(item.id, user.id)
                 
                 expect(_item.title).toBe(item.title)
                 expect(_item.description).toBe(item.description)
@@ -876,47 +863,20 @@ describe('logic', () => {
                 let amount2 = 1500
                 await logic.placeBid(item.id, _user.id, amount2)
 
-                const _item = await logic.retriveUserItemBids(item.id, _user.id)
+                const _item = await logic.retriveUserItemsBids(_user.id)
             
-                expect(_item).toBeInstanceOf(Object)
-                expect(_item.bids.length).toBe(1)
-                expect(_item.bids[0].userId.toString()).toBe(_user.id)
-                expect(_item.bids[0].amount).toBe(amount2)
-                expect(_item.bids[1]).toBeUndefined()
-            })
-
-            it('should fail on incorrect item id', async () => {
-                let id = '01234567890123456789abcd'
-                
-                try {
-                    await logic.retriveUserItemBids(id, user.id)                   
-                    throw new Error('should not reach this point')
-                } catch (error) {
-                    expect(error).toBeDefined()
-                    expect(error).toBeInstanceOf(LogicError)
-    
-                    expect(error.message).toBe(`item with id "${id}" doesn't exist`)
-                }
-            })
-
-            it('should fail on incorrect item id', async () => {
-                let id = 'wrong-id'
-                
-                try {
-                    await logic.retriveUserItemBids(id, user.id)                    
-                    throw new Error('should not reach this point')
-                } catch (error) {
-                    expect(error).toBeDefined()
-                    
-                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
-                }
+                expect(_item).toBeInstanceOf(Array)
+                expect(_item[0].bids.length).toBe(1)
+                expect(_item[0].bids[0].userId.toString()).toBe(_user.id)
+                expect(_item[0].bids[0].amount).toBe(amount2)
+                expect(_item[0].bids[1]).toBeUndefined()
             })
 
             it('should fail on incorrect user id', async () => {
                 let id = '01234567890123456789abcd'
                 
                 try {
-                    await logic.retriveUserItemBids(item.id, id)              
+                    await logic.retriveUserItemsBids(id)              
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
@@ -930,7 +890,7 @@ describe('logic', () => {
                 let id = 'wrong-id'
                 
                 try {
-                    await logic.retriveUserItemBids(item.id, id)                    
+                    await logic.retriveUserItemsBids(id)                    
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
