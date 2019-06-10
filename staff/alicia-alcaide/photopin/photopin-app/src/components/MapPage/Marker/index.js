@@ -21,6 +21,10 @@ const Marker = props => {
     setShowPinForm(true);
   };
 
+  const handleShow = () => {
+    setShowPinForm(true);
+  };
+
   const handleFormCancel = () => setShowPinForm(false);
 
   return (
@@ -41,6 +45,7 @@ const Marker = props => {
           onEdit={handleEdit}
           onDelete={props.onPinDelete}
           onCancel={props.onInfoWindowClosed}
+          onShow={handleShow}
         />
       )}
     </>

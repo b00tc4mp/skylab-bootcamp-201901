@@ -41,7 +41,6 @@ class CollectionForm extends React.Component {
       title: e.target.title.value
     };
 
-    debugger;
     this.setState({ showModal: false });
     this.props.onSubmit(newCollection);
   };

@@ -54,7 +54,6 @@ class PinForm extends React.Component {
       collection: this.isEditing() ? this.props.place.collection : e.target.collectionSel.value
     };
 
-    debugger;
     this.setState({ showModal: false });
     this.props.onSubmit(newPin);
   };

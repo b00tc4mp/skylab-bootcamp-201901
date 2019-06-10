@@ -141,7 +141,7 @@ class MapContainer extends React.Component {
     const { places, newPlace, mapApiLoaded, mapInstance, mapApi, mapCenter, mapZoom } = this.state;
     return (
       // Important! Always set the container height explicitly
-      <div style={{ height: "100vh", width: "100%" }}>
+      <div style={{ height: "calc(100vh - 130px)", width: "calc(100vw - 300px)" }}>
         {mapApiLoaded && <SearchBox map={mapInstance} mapApi={mapApi} onSearchResult={this.handleSearchResult} />}
         <GoogleMapReact
           bootstrapURLKeys={{
