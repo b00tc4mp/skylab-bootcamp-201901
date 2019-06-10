@@ -1,15 +1,19 @@
-import React from "react";
-import { withRouter  } from 'react-router-dom'
-import logo from '../../assets/img/logo.png'
+import React , {useState} from "react";
+import { withRouter } from "react-router-dom";
+import logo from "../../assets/img/logo.png";
+import logic from "../../logic";
+import NavCard from '../NavCard'
 
+function Navbar({ history, userLogged}) {
+const [userName, setUserName] = useState('')
 
+/* userLogged() */
 
-function Navbar({history}) {
   return (
     <nav class='navbar' role='navigation' aria-label='main navigation'>
       <div class='navbar-brand'>
         <a class='navbar-item' href='https://bulma.io'>
-          <img src={logo}  />
+          <img src={logo} />
         </a>
         <a
           role='button'
@@ -44,11 +48,38 @@ function Navbar({history}) {
 
         <div class='navbar-end'>
           <div class='navbar-item'>
+            <NavCard/>
             <div class='buttons'>
-              <a class='button is-primary' onClick={(e) => history.push('/register')}>
-                <strong>Sign up</strong>
-              </a>
-              <a class='button is-light' onClick={(e) => history.push('/login')}>Log in</a>
+              {!logic.isUserLoggedIn && (
+                <a class='button is-primary' onClick={e => history.push("/register")}>
+                  <strong>Sign up</strong>
+                </a>
+              )}
+              {!logic.isUserLoggedIn && (
+                <a class='button is-light' onClick={e => history.push("/login")}>
+                  Log in
+                </a>
+              )}
+                <p>{userName}</p>
+              {logic.isUserLoggedIn && (
+                <a class='button is-light' onClick={e => history.push("/login")}>
+                  Profile
+                </a>
+              )}
+              {logic.isUserLoggedIn && (
+                <a class='button is-light' onClick={e => {
+                  logic.logOut()
+                  history.push("/landing")
+                  
+                  }}>
+                  LogOut
+                </a>
+              )}
+              {logic.isUserLoggedIn && (
+                <a class='button is-light' onClick={e => history.push("/login")}>
+                  Orders
+                </a>
+              )}
             </div>
           </div>
         </div>

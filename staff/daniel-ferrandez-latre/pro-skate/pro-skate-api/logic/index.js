@@ -1,4 +1,4 @@
-//@ts-check
+
 const  { models, mongoose } = require('pro-skate-data')
 const argon2 = require('argon2')
 const { validate } = require('pro-skate-common')
@@ -23,13 +23,11 @@ const logic = {
 
         
         return (async () => {
-            debugger
             const userDb = await User.findOne({email})
 
             if (userDb) throw new LogicError(`user with email "${email}" already exists`)
             const hash = await argon2.hash(password)
 
-            debugger
             await User.create({ name, surname, email, password: hash, age: _age, imageUrl })
         })()
     },
@@ -64,9 +62,9 @@ const logic = {
         return (async () => {
             const userDb = await User.findById(id)
             if(!userDb) throw new LogicError(`User with id ${id} doesn't exist`)
-            const { name, surname, email, age } = userDb
+            const { name, surname, email, age, date, cart, wishlist, historic } = userDb
 
-            return { name, surname, email, age }
+            return { name, surname, email, age, date, cart, wishlist, historic}
         })()
     },
 
@@ -102,6 +100,18 @@ const logic = {
         })()
  
     },
+
+    createProduct(product){
+        return ( async ()=> {
+            try{
+                await Product.create(product)
+            }catch(err){
+                if(err.code === 11000) throw new LogicError(`Product ${product.name} already exist and can not duplicate`)
+            }
+        })()
+
+    },
+    
     
     retrieveProduct(id){
         validate.arguments([
@@ -124,13 +134,18 @@ const logic = {
     },
 
     retrieveProductsByTag(tag){
-        debugger
+        
         validate.arguments([
             { name: 'tag', value: tag, type: 'string', notEmpty: true }
         ])
-        debugger
+        
         return(async ()=>{
-            const productsByTag = await Product.find({tag:{$in:[tag]}})
+            let productsByTag = await Product.find({'tag':{$in:[tag]}})
+            // productsByTag = productsByTag.filter( product => {
+            //     for( let i=0; i < product.tag.length ; i++){
+            //         if(product.tag[i] === tag ) return product
+            //     }
+            // })
             // const productsByTag = allProducts.filter( product => {
             //     if(product.tag.includes(tag)) return product
             // })
@@ -139,14 +154,36 @@ const logic = {
 
     },
 
-    retrieveProductsByPrice(price){
+    retrieveProductsByBrand(brand){
+        
         validate.arguments([
-            { name: 'price', value: price, type: 'string', notEmpty: true }
+            { name: 'brand', value: brand, type: 'string', notEmpty: true }
+        ])
+        
+        return(async ()=>{
+            let productsByBrand = await Product.find()
+            productsByBrand = productsByBrand.filter( product => {
+                if(product.brand === brand){
+                    return product
+                }
+            })
+            // const productsByTag = allProducts.filter( product => {
+            //     if(product.tag.includes(tag)) return product
+            // })
+            return productsByBrand
+        })()
+
+    },
+
+    retrieveProductsByPrice(maxprice, minprice){
+        validate.arguments([
+            { name: 'maxprice', value: maxprice, type: 'string', notEmpty: true },
+            { name: 'minprice', value: minprice, type: 'string', notEmpty: true }
         ])
         return(async ()=>{
             const allProducts = await Product.find()
             const productsByPrice = allProducts.filter( product => {
-                if(parseFloat(product.price) === parseFloat(price)) return product
+                if((parseFloat(product.price) <= parseFloat(maxprice)) && (parseFloat(product.price) >= parseFloat(minprice))) return product
             })
             return productsByPrice
         })()
@@ -184,7 +221,7 @@ const logic = {
         })()
     },
 
-    addProductToCart(idUser, idProduct, quantity){
+    addProductToCart(idUser, quantity , idProduct){
         validate.arguments([
             { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
             { name: 'idProduct', value: idProduct, type: 'string', notEmpty: true },

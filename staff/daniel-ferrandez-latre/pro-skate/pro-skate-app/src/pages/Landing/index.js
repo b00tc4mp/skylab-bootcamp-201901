@@ -1,26 +1,28 @@
-import React from 'react'
+import React, { useState, useEffect } from "react";
+import logic from "../../logic";
+import CardBundle from "../../components/CardBundle";
+import Card from "../../components/Card";
 
+function Landing({handleProductDetail}) {
+  const [ranSelection, setRandomSelection] = useState(null)
+  
+  useEffect(() =>{
+    handleRetrieveByBrand()
+  },[])
 
-function Landing(){
-  return(
-  <>
-  <section class="section">
-    <div class="container">
-      <h1 class="title">Our today's selection 1</h1>
-      <h2 class="subtitle">
-        A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-      </h2>
-    </div>
-  </section>
-  <section class="section">
-    <div class="container">
-      <h1 class="title">Our today's selection 2</h1>
-      <h2 class="subtitle">
-        A simple container to divide your page into <strong>sections</strong>, like the one you're currently reading
-      </h2>
-    </div>
-  </section>
-  </>)
+  const handleRetrieveByBrand = async () => {
+      const randomSelection = await logic.retrieveRandomSelection()
+      setRandomSelection(randomSelection)
+  };
+
+  return (
+    <>
+      {ranSelection && <CardBundle ranSelection={ranSelection} handleProductDetail={handleProductDetail}/>}
+      {ranSelection && <CardBundle ranSelection={ranSelection} handleProductDetail={handleProductDetail}/>}
+      {ranSelection && <CardBundle ranSelection={ranSelection} handleProductDetail={handleProductDetail}/>}
+
+    </>
+  );
 }
 
-export default Landing
+export default Landing;

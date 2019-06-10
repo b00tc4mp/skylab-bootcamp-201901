@@ -22,7 +22,11 @@ describe("data-api", () => {
   let name, surname, email, imageUrl, _password, age
 
   before(() => mongoose.connect(url, { useNewUrlParser: true }));
-  after(async () => mongoose.disconnect());
+  after(async () => {
+    await User.deleteMany()
+    await Product.deleteMany()
+    mongoose.disconnect()
+  });
 
   beforeEach(async () => {
     await User.deleteMany();

@@ -54,7 +54,6 @@ const dataApi = {
             { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
         return ( async ()=>{
-
             const res = await call(`${this.__url__}/users`, {
                 headers: { Authorization: `Bearer ${token}` },
                 timeout: this.__timeout__
@@ -190,8 +189,12 @@ const dataApi = {
     addProductToCart(token, quantity ,productId){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'quantity', value: quantity, type: 'number', notEmpty: true },
             { name: 'productId', value: productId, type: 'string', notEmpty: true }
         ])
+        debugger
+        const quantityStr = quantity.toString() 
+        debugger
         return( async () => {
             const res = await call(`${this.__url__}/users/cart`, {
                 method: 'POST',
@@ -199,7 +202,7 @@ const dataApi = {
                     Authorization: `Bearer ${token}`,
                     'Content-Type': 'application/json'
                 },
-                data: { productId , quantity }
+                data: { productId , quantity: quantityStr }
             })
             const { message } = res
             return message
@@ -271,8 +274,6 @@ const dataApi = {
         })()
     }
 
-
-    
 }
 
 module.exports = dataApi

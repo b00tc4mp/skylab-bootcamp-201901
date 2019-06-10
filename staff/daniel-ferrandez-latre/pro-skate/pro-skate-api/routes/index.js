@@ -139,11 +139,11 @@ router.get('/users/historic', auth, (req, res) => {
 /** PRODUCT */
 
 //createProduct
-router.post('/product', jsonParser,auth, (req, res) => {
-    const { userId, body: { name, imagesUrl, description, price, tag } } = req
+router.post('/product', jsonParser, (req, res) => {
+    const { body: { name, imageUrlMain, description, price, tag, brand, size } } = req
 
     handleErrors(async () => {
-        await logic.createProduct( userId, { name, imagesUrl, description, price, tag } )
+        await logic.createProduct( { name, imageUrlMain, description, price, size, tag, brand } )
         res.status(201).json({ message: 'Ok, product created.' })
     },res) 
 })
@@ -169,9 +169,11 @@ router.get('/products', (req, res) => {
 })
 
 //retrieveProductsByTag
-router.get('/products', (req, res) => {
+router.get('/productsquery', (req, res) => {
     handleErrors(async () => {
+        
         const { query: { tag } } = req
+        console.log(tag)
         const productsByTag = await logic.retrieveProductsByTag(tag)
         return res.json(productsByTag)
     },

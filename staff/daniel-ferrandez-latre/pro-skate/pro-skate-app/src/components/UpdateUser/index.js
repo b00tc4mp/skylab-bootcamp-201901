@@ -2,22 +2,30 @@ import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import logic from '../../logic'
 
-function Login ({history, userLogged}) {
+function Update ({history}) {
   const [messageError, setErrorMessage] = useState(null)
+  const [userBd, setUserBd] = useState(null)
 
-  if (logic.isUserLoggedIn) history.push('/home')
+  useEffect( () => {
+    async function retrieveUserBd (){
+      const retrieve = await logic.retrieveUser(logic.__userToken__)
+      setUserBd(retrieve)
+    }
+    retrieveUserBd()
+  }, []);
 
 
   async function handleSubmit (event) {
     event.preventDefault()
     const {
+      name: { value: name },
+      surname: { value: surname },
       email: { value: email },
-      password: { value: password }
+      age: { value: age }
     } = event.target
     try {
       debugger
-      await logic.loginUser( email, password )
-      userLogged()
+      await logic.updateUser(logic.__userToken__, name, surname, email, age)
       history.push('/home')
     } catch (error) {
       setErrorMessage(error.message)
@@ -35,11 +43,24 @@ function Login ({history, userLogged}) {
         <section className="column is-half">
     <form onSubmit={handleSubmit}>
 
+      <div className='field'>
+        <label className='label'>Name</label>
+        <div className='control'>
+          <input className='input' name='name' type='text' placeholder={userBd.name} />
+        </div>
+      </div>
+
+      <div className='field'>
+        <label className='label'>Surname</label>
+        <div className='control'>
+          <input className='input' name='surname' type='text' placeholder={userBd.surname} />
+        </div>
+      </div>
 
       <div className='field'>
         <label className='label'>Email</label>
         <div className='control'>
-          <input className='input' name='email' type='email' placeholder='email' />
+          <input className='input' name='email' type='email' placeholder={userBd.email} />
         </div>
       </div>
 
@@ -49,10 +70,17 @@ function Login ({history, userLogged}) {
           <input className='input' name='password' type='password' placeholder='password' />
         </div>
       </div>
+   
+      <div className='field'> 
+        <label className='label'>Age</label>
+        <div className='control'>
+          <input className='input' name='age' type='number' placeholder={userBd.age} />
+        </div>
+      </div>
 
       <p className='control'>
         <button className='button is-info is-outlined'>
-          Register
+          Update
         </button>
       </p>
       
@@ -70,4 +98,4 @@ function Login ({history, userLogged}) {
   )
 }
 
-export default withRouter(Login)
+export default withRouter(Update)
