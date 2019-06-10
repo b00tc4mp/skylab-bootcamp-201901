@@ -12,9 +12,9 @@ function MapList({ lang, maps }) {
             {
                 maps.map(map => {
                     return (
-                        <div key={map._id} className="uk-margin-small-bottom">
+                        <div key={map.id} className="uk-margin-small-bottom">
                             <div className="uk-card uk-card-default uk-card-body">
-                                <h4 className="uk-card-title"><Link className="card-link" to={`/map/${map._id}`}>{map.title}</Link></h4>
+                                <h4 className="uk-card-title"><Link className="card-link" to={`/map/${map.id}`}>{map.title}</Link></h4>
                                 <div>
                                     <img src={map.coverImage} width="" height="" alt="" />
                                 </div>

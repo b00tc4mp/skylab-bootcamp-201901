@@ -41,14 +41,15 @@ const NewMarker = props => {
           mapCollections={props.mapCollections}
         />
       ) : (
-        <NewPinWindow
-          place={props.place}
-          onAddPinHere={handleAddNewPinHere}
-          onCancel={props.onNewPinWindowClosed}
-          lang={props.lang}
-          mapCollections={props.mapCollections}
-        />
-      )}
+          <NewPinWindow
+            lang={props.lang}
+            place={props.place}
+            onAddPinHere={handleAddNewPinHere}
+            onCancel={props.onNewPinWindowClosed}
+            lang={props.lang}
+            mapCollections={props.mapCollections}
+          />
+        )}
     </>
   );
 };

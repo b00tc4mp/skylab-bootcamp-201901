@@ -39,9 +39,17 @@ h6 {
 }
 
 .mini-margin-top {
-  margin-top: 20px;
+  margin-top: 10px;
+}
+
+.mini-margin-bottom {
+  margin-bottom: 10px;
 }
 
 ul {
   list-style-type: none;
+}
+
+.border-blue {
+  border: 1px solid blue;
 }

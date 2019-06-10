@@ -75,7 +75,7 @@ class CollectionSection extends Component {
                       <ul className="uk-margin-left uk-accordion-content">
                         {collection.pins.map(pin => (
                           <CollectionPin
-                            key={pin._id}
+                            key={pin.id}
                             pin={pin}
                             onSelect={props.onPinSelect}
                             onDelete={props.onPinDelete}

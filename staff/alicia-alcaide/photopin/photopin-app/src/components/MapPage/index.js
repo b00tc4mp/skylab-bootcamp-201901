@@ -50,9 +50,8 @@ class MapPage extends Component {
   };
 
   handleNewCollection = async title => {
-    debugger;
     try {
-      await logic.createCollection(this.state.pmap._id, title);
+      await logic.createCollection(this.state.pmap.id, title);
       this.fetchMapAndUpdateState(this.state.mapId);
     } catch (error) {
       this.setState({ error });
@@ -97,7 +96,7 @@ class MapPage extends Component {
             longitude: place.coordinates.longitude
           }
         };
-        const resp = await logic.createPin(this.state.pmap._id, place.collection, pin);
+        const resp = await logic.createPin(this.state.pmap.id, place.collection, pin);
         this.setState({ newPinId: resp.id });
         this.fetchMapAndUpdateState(this.state.mapId);
       } catch (error) {
@@ -140,34 +139,32 @@ class MapPage extends Component {
     return (
       <div className="map-page">
         <NavBar lang={props.lang} onLogout={props.onLogout} />
-        <div>
-          {state.pmap && <h2 className="uk-text-center">{state.pmap.title}</h2>}
-          <div className="custom-flex">
-            <section className="custom-flex_items-bar">
-              <CollectionSection
-                pmap={state.pmap}
-                lang={props.lang}
-                onNewCollection={this.handleNewCollection}
-                onCollectionDelete={this.handleCollectionDelete}
-                onCollectionEdit={this.handleCollectionEdit}
-                onPinSelect={this.handlePinSelect}
-                onPinDelete={this.handlePinDelete}
-                onCollectionVisibilityToggle={this.handleCollectionVisibilityToggle}
-              />
-            </section>
-            <section className="custom-flex__content">
-              <MapSection
-                pmap={state.pmap}
-                lang={props.lang}
-                onNewPin={this.handleNewPin}
-                onPinEdited={this.handlePinEdit}
-                onPinDelete={this.handlePinDelete}
-                newPinId={state.newPinId}
-                selectedPinId={state.selectedPinId}
-                visibleCollections={state.collectionVisibility}
-              />
-            </section>
-          </div>
+        {state.pmap && <h2 className="uk-text-center uk-margin-remove-top">{state.pmap.title}</h2>}
+        <div className="custom-flex central-section">
+          <section className="custom-flex_items-bar">
+            <CollectionSection
+              pmap={state.pmap}
+              lang={props.lang}
+              onNewCollection={this.handleNewCollection}
+              onCollectionDelete={this.handleCollectionDelete}
+              onCollectionEdit={this.handleCollectionEdit}
+              onPinSelect={this.handlePinSelect}
+              onPinDelete={this.handlePinDelete}
+              onCollectionVisibilityToggle={this.handleCollectionVisibilityToggle}
+            />
+          </section>
+          <section className="custom-flex__content">
+            <MapSection
+              pmap={state.pmap}
+              lang={props.lang}
+              onNewPin={this.handleNewPin}
+              onPinEdited={this.handlePinEdit}
+              onPinDelete={this.handlePinDelete}
+              newPinId={state.newPinId}
+              selectedPinId={state.selectedPinId}
+              visibleCollections={state.collectionVisibility}
+            />
+          </section>
         </div>
       </div>
     );

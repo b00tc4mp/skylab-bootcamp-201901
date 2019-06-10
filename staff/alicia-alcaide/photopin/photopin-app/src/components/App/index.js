@@ -67,7 +67,7 @@ class App extends Component {
       handleLogout
     } = this
 
-    return <div>
+    return <>
       <Switch>
         <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing lang={lang} onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
 
@@ -87,7 +87,7 @@ class App extends Component {
 
         <Redirect to="/" />
       </Switch>
-    </div>
+    </>
   }
 }
 

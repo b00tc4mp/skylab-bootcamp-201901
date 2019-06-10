@@ -26,7 +26,6 @@ class MapForm extends Component {
 
 
     componentDidMount() {
-        debugger
         logic.isUserLoggedIn && this.props.match.params.id &&
             logic
                 .retrieveUserMap(this.props.match.params.id)
@@ -57,7 +56,6 @@ class MapForm extends Component {
     handleSubmit = (e) => {
         e.preventDefault();
 
-        debugger
         (async () => {
             try {
                 const validateErrors = {}

@@ -170,7 +170,12 @@ const logic = {
     ]);
 
     return (async () => {
-      const maps = await PMap.find({ author: userId }).lean();
+      const maps = await PMap.find({ author: userId }).select("-__v").lean();
+
+      maps.map(map => {
+        map.id = map._id.toString();
+        delete map._id;
+      })
 
       if (!maps) throw new LogicError(`no maps for user with id ${userId}`);
 
@@ -194,6 +199,18 @@ const logic = {
       const map = await PMap.findById(mapId)
         .populate("collections.pins")
         .lean();
+
+      map.id = map._id.toString();
+      delete map._id;
+      delete map.__v;
+
+      map.collections.map(col => {
+        col.pins.map(pin => {
+          pin.id = pin._id.toString();
+          delete pin._id
+          pin.mapId = pin.mapId.toString()
+        })
+      })
 
       if (!map) throw new LogicError(`no maps for user with id ${mapId}`);
 

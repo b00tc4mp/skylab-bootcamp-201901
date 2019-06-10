@@ -20,7 +20,7 @@ class MapSection extends Component {
         collection.pins &&
           collection.pins.forEach(pin => {
             places.push({
-              id: pin._id,
+              id: pin.id,
               title: pin.title,
               description: pin.description,
               urlImage: pin.urlImage,
@@ -43,7 +43,7 @@ class MapSection extends Component {
     this.setState({ places, mapCollections });
   }
 
-  pinToPlace = pin => {};
+  pinToPlace = pin => { };
 
   handleMarkerClicked = placeId => {
     this.togglePlaceInfoWindowVisibility(placeId);
@@ -60,7 +60,7 @@ class MapSection extends Component {
     });
   };
 
-  shouldEnableInfoWidowForPin = (props, pin) => pin._id === props.newPinId || pin._id === props.selectedPinId;
+  shouldEnableInfoWidowForPin = (props, pin) => pin.id === props.newPinId || pin.id === props.selectedPinId;
 
   togglePlaceInfoWindowVisibility = pinIdToToggle => {
     this.setState(state => {
