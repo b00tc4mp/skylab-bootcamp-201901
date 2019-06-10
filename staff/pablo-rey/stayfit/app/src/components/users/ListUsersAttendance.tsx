@@ -1,58 +1,63 @@
+import { IonButton, IonItem, IonList, IonPopover } from '@ionic/react';
 import React, { useContext, useState } from 'react';
-import {
-  IonList,
-  IonSelect,
-  IonSelectOption,
-  IonPopover,
-  IonMenu,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonItem,
-  IonButton,
-} from '@ionic/react';
-import { UserBasic } from './UserBasic';
-import { AttendanceStatus } from '../attendances/AttendanceStatus';
+import { ATTENDANCESTATUSES, ATTENDANCEPAYMENTTYPES } from '../../enums';
 import { MainContext } from '../../logic/contexts/main-context';
-import { AttendanceStatusesInfo, ATTENDANCESTATUSES } from '../../enums';
+import { AttendanceStatus } from '../attendances/AttendanceStatus';
+import { UserBasic } from './UserBasic';
+import { AttendancePaymentType } from '../attendances/AttendancePaymentType';
 
 export default function ListUsersAttendances({ attendances, onChange }) {
   const ctx = useContext(MainContext);
 
-  const [change, setChange] = useState(null);
-  let att = null;
+  const [changeStatus, setChangeStatus] = useState(null);
+  const [changePayment, setChangePayment] = useState(null);
 
   if (!attendances) return null;
 
-  // FIXME: Don't work
-
-  const handleChange = async newStatus => {
-    debugger
-    const result = await ctx.logic.updateAttendance(att.id, 'OK'); //TODO: POC
+  const handleChangeStatus = async newStatus => {
+    const result = await ctx.logic.updateAttendance(changeStatus.id, newStatus);
     if (result) {
-      att.status = 'OK';
-      onChange(att);
+      changeStatus.status = newStatus;
+      onChange(changeStatus);
+      setChangeStatus(null);
     } else {
-      //TODO: toast
+      ctx.setErrorMessage('Unable to change status');
     }
   };
-  
-  const handleClick = attendance => {
-    att = attendance;
-    setChange(true);
+
+  const handleChangePayment = async newPayment => {
+    const result = await ctx.logic.updatePaymentAttendance(changePayment.id, newPayment);
+    if (result) {
+      changePayment.paymentType = newPayment;
+      onChange(changePayment);
+      setChangePayment(null);
+    } else {
+      ctx.setErrorMessage('Unable to change payment');
+    }
   };
 
   return (
     <>
-      <IonPopover isOpen={change} onDidDismiss={() => setChange(null)}>
+      <IonPopover isOpen={!!changeStatus} onDidDismiss={() => setChangeStatus(null)}>
         <IonList>
           {ATTENDANCESTATUSES.map(status => (
-            <IonItem>
-              <AttendanceStatus key={status} status={status} onClick={handleChange.bind(status)} />
+            <IonItem key={status}>
+              <AttendanceStatus  status={status} onClick={() => handleChangeStatus(status)} />
             </IonItem>
           ))}
-          <IonButton expand="block" onClick={() => setChange(null)}>
+          <IonButton expand="block" onClick={() => setChangeStatus(null)}>
+            No change
+          </IonButton>
+        </IonList>
+      </IonPopover>
+      <IonPopover isOpen={!!changePayment} onDidDismiss={() => setChangePayment(null)}>
+        <IonList>
+          {ATTENDANCEPAYMENTTYPES.map(paymentType => (
+            <IonItem key={paymentType}>
+              <AttendancePaymentType paymentType={paymentType} onClick={() => handleChangePayment(paymentType)} />
+            </IonItem>
+          ))}
+          <IonButton expand="block" onClick={() => setChangePayment(null)}>
             No change
           </IonButton>
         </IonList>
@@ -62,7 +67,12 @@ export default function ListUsersAttendances({ attendances, onChange }) {
           <UserBasic
             key={att.id}
             user={att.user}
-            render={<AttendanceStatus status={att.status} onClick={() => handleClick(att)} />}
+            render={
+              <div key={att.id}>
+                <AttendancePaymentType paymentType={att.paymentType} onClick={() => setChangePayment(att)} />
+                <AttendanceStatus status={att.status} onClick={() => setChangeStatus(att)} />
+              </div>
+            }
           />
         ))}
       </IonList>

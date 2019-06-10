@@ -1,15 +1,23 @@
-import { IonContent, IonPage } from '@ionic/react';
+import { IonContent, IonPage, IonImg, IonButton } from '@ionic/react';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import './index.css';
 
 export default function Landing() {
-
   return (
-    <IonPage id="landing">
-      <IonContent>
-        <h1>Landing</h1>
-        <p><Link to="/register">Register</Link> or <Link to="/login">login</Link></p>
-      </IonContent>
-    </IonPage>
+    <div className="back-image">
+      <div className="logo">
+        <img className="logo__img" src="/logo.png" />
+        <img className="logo__text" src="/text-logo.png" />
+        <div>
+          <Link className="landing__button" to="/register">
+            <IonButton expand="block">Register</IonButton>
+          </Link>
+          <Link to="/login">
+            <IonButton expand="block">Login</IonButton>
+          </Link>
+        </div>{' '}
+      </div>
+    </div>
   );
 }

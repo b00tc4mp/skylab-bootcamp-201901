@@ -1,5 +1,6 @@
 import React from 'react';
 import { IonChip, IonIcon, IonLabel } from '@ionic/react';
+import { CONFIRMED, OK, CANCELLEDBYPROVIDER, CANCELLEDBYUSER, NOSHOW, ATTENDED, NOCOUNT, PENDINGAPPROVAL, PENDINGCANCELLATION } from '../../enums';
 
 export function AttendanceStatus({ status, onClick = null}: {status: any, onClick?: any}) {
 
@@ -8,63 +9,63 @@ export function AttendanceStatus({ status, onClick = null}: {status: any, onClic
   }
 
   switch (status) {
-    case 'CONFIRMED':
+    case CONFIRMED:
       return (
         <IonChip onClick={handleClick} color="success">
           <IonIcon name="checkmark-circle-outline" />
           <IonLabel>Confirmed</IonLabel>
         </IonChip>
       );
-    case 'OK':
+    case OK:
       return (
         <IonChip onClick={handleClick} color="success">
           <IonIcon name="checkmark-circle-outline" />
           <IonLabel>Ok</IonLabel>
         </IonChip>
       );
-    case 'CANCELLEDBYPROVIDER':
+    case CANCELLEDBYPROVIDER:
       return (
         <IonChip onClick={handleClick} color="red">
           <IonIcon name="close-circle-outline" />
           <IonLabel>Cancelado</IonLabel>
         </IonChip>
       );
-    case 'CANCELLEDBYUSER':
+    case CANCELLEDBYUSER:
       return (
         <IonChip onClick={handleClick} color="red">
           <IonIcon name="close-circle-outline" />
           <IonLabel>Anulado</IonLabel>
         </IonChip>
       );
-    case 'NOSHOW':
+    case NOSHOW:
       return (
         <IonChip onClick={handleClick} color="red">
           <IonIcon name="information-circle-outline" />
           <IonLabel>No show</IonLabel>
         </IonChip>
       );
-    case 'ATTENDED':
+    case ATTENDED:
       return (
         <IonChip onClick={handleClick} color="success">
           <IonIcon name="information-circle-outline" />
           <IonLabel>Attended</IonLabel>
         </IonChip>
       );
-    case 'NOCOUNT':
+    case NOCOUNT:
       return (
         <IonChip onClick={handleClick} color="warning">
           <IonIcon name="information-circle-outline" />
           <IonLabel>No count</IonLabel>
         </IonChip>
       );
-    case 'PENDINGAPPROVAL':
+    case PENDINGAPPROVAL:
       return (
         <IonChip onClick={handleClick} color="info">
           <IonIcon name="help-circle-outline" />
           <IonLabel>Pending approval</IonLabel>
         </IonChip>
       );
-    case 'PENDINGCANCELLATION':
+    case PENDINGCANCELLATION:
       return (
         <IonChip onClick={handleClick}>
           <IonIcon name="help-circle-outline" color="info" />

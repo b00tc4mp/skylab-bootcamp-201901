@@ -356,6 +356,23 @@ export default {
     return data.updateStatusAttendance;
   },
 
+  async updatePaymentAttendance(attendanceId: string, paymentType: string) {
+    const mutation = gql`
+      mutation UpdatePaymentTypeAttendance($attendanceId: String!, $paymentType: String!) {
+        updatePaymentTypeAttendance(attendanceId: $attendanceId, paymentType: $paymentType)
+      }
+    `;
+
+    const { data, error } = await this.__gCall({
+      mutation,
+      variables: {
+        attendanceId,
+        paymentType,
+      },
+    });
+    return data.updatePaymentTypeAttendance;
+  },
+
   async listMyNextAttendances(): Promise<any> {
     const query = gql`
       query {
