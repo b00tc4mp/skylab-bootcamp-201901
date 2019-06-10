@@ -4,5 +4,16 @@
             position: absolute;
             top: 0;
         }
+
+        & > .populate {
+            display: none;
+            top: 24px;
+            left: 50%;
+            padding: 12px;
+            position: absolute;
+            width: 200px;
+            height: 45px;
+            z-index: 3;
+        }
     }
 }

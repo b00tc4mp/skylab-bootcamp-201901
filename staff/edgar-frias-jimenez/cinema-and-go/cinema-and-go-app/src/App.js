@@ -15,8 +15,6 @@ import Home from './pages/Home'
 import './App.scss'
 
 function App ({ history }) {
-
-    const [ locate, setLocate ] = useState(null)
     const [ feedback, setFeedback ] = useState(null)
     const [ showSpinner, handleSpinner ] = useState(null)
 
@@ -54,7 +52,8 @@ function App ({ history }) {
         try{
             appLogic.handleInitialLocation()
                 .then(res => {
-                    setLocate(res.reverse())
+                    const initPos = res.reverse()
+                    localStorage.setItem('userLocation', initPos)
                 })
         } catch ({ message }) {
             console.log(message)
@@ -69,10 +68,10 @@ function App ({ history }) {
         <Fragment>
             <GlobalContext.Provider value={{ feedback, setFeedback, showSpinner, handleSpinner }}>
                 <Spinner />
-                <Route exact path='/' render={() => !appLogic.isUserLoggedIn ? <Landing  locate={locate} /> : <Redirect to="/home" /> } />
-                <Route exact path='/login' render={() => appLogic.isUserLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} locate={locate} />} />
-                <Route exact path='/register' render={() => appLogic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} locate={locate} />} />
-                <Route exact path='/home' render={() => !appLogic.isUserLoggedIn ? <Redirect to="/" /> : <Home locate={locate} />} />
+                <Route exact path='/' render={() => !appLogic.isUserLoggedIn ? <Landing /> : <Redirect to="/home" /> } />
+                <Route exact path='/login' render={() => appLogic.isUserLoggedIn ? <Redirect to="/home" /> : <Login onLogin={handleLogin} />} />
+                <Route exact path='/register' render={() => appLogic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} />} />
+                <Route exact path='/home' render={() => !appLogic.isUserLoggedIn ? <Redirect to="/" /> : <Home />} />
             </GlobalContext.Provider>
             {feedback && <Feedback />}
         </Fragment>

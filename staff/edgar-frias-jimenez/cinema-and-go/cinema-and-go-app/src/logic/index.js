@@ -92,6 +92,16 @@ const appLogic = {
         })()
     },
 
+    populateDb() {
+        return (async () => {
+            try {
+                await cinemaApi.populateDb(this.__userToken__)
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
+    },
+
     handleInitialLocation() {
         if (navigator.geolocation) {
             try {
@@ -112,20 +122,26 @@ const appLogic = {
                       reject(`ERROR(${err.code}): ${err.message}`)
                     }
 
-                    navigator.geolocation.getCurrentPosition(success, error, options)
-
-                    setInterval (
-                        navigator.geolocation.watchPosition(success, error, options)
-                    , 3000)
+                    navigator.geolocation.watchPosition(success, error, options)
                 })
 
-                return geoLocation.then(locationCoords => locationCoords)
+                return geoLocation//.then(locationCoords => locationCoords)
             } catch (error) {
                 console.error(`Error: The Geolocation service failed. ${error}`)
             }
         } else {
             console.error('Error: Your browser doesn\'t support geolocation.')
         }
+    },
+
+    retrieveAllSessions(sessionId) {
+        return (async () => {
+            try {
+                return await cinemaApi.retrieveAllSessions(this.__userToken__, sessionId)
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
     },
 
     retrieveNearestCinemas(userPosition, dist) {

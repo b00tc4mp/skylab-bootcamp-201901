@@ -27,7 +27,6 @@
     "dotenv": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
     "node-sass": "^4.11.0",
-    "query-string": "^6.5.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-router-dom": "^5.0.0",

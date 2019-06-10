@@ -1,15 +1,32 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
+import appLogic from '../../logic'
 
 import './index.scss'
 
-const CinemaModal = ({ handleCloseModal }) => {
+const CinemaModal = ({ onClose, id }) => {
+
+    const [cinema, setCinema] = useState({})
+
+    useEffect(() => {
+        (async() => {
+            const cinemaInfo = await appLogic.retrieveCinemaInfo(id)
+            console.log(cinemaInfo)
+            setCinema(cinemaInfo)
+        })()
+    },[id])
+
+    const fecthSessions = () => {
+        cinema.movieSessions.map(session => {
+            appLogic.retrieveAllSessions(session.id)
+        })
+    }
 
     return (
         <div className="modal">
             <div className="modal__content">
-                <i className="close-modal" onClick={handleCloseModal} />
+                <i className="close-modal" onClick={onClose} />
                 <section className="cinema">
-                    <h2 className="cinema__title">Cinema Name</h2>
+                    <h2 className="cinema__title">{cinema.name}</h2>
 
                     <ul className="cinema__movies">
                         <li className="movie__item">
@@ -20,10 +37,13 @@ const CinemaModal = ({ handleCloseModal }) => {
                                 <p>Movie cast</p>
                             </div>
                             <i className="show-sessions" />
+                            <ul className="movie-sessions">
+                                <li className="session"></li>
+                            </ul>
                         </li>
                     </ul>
                 </section>
-                <div className="layer" onClick={handleCloseModal}></div>
+                <div className="layer" onClick={onClose}></div>
             </div>
         </div>
     )

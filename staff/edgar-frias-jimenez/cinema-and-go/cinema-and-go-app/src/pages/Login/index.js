@@ -6,7 +6,7 @@ import Feedback from '../../components/Feedback'
 
 import './index.scss'
 
-function Login({ onLogin, locate }) {
+function Login({ onLogin }) {
 
     const { feedback } = useContext(GlobalContext)
 
@@ -38,13 +38,9 @@ function Login({ onLogin, locate }) {
 
                         </form>
                 </section>
-                {locate &&
-                    <section className="maps">
-                        <GoogleMaps
-                            defaultPos={locate}
-                        />
-                    </section>
-                }
+                <section className="maps">
+                    <GoogleMaps />
+                </section>
             </section>
         </section>
     )

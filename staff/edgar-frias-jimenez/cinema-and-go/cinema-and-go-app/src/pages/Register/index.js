@@ -6,7 +6,7 @@ import Feedback from '../../components/Feedback'
 
 import './index.scss'
 
-function Register({ onRegister, locate }) {
+function Register({ onRegister }) {
 
     const { feedback } = useContext(GlobalContext)
 
@@ -42,13 +42,10 @@ function Register({ onRegister, locate }) {
                         {feedback && <Feedback />}
                     </form>
                 </section>
-                {locate &&
-                    <section className="maps">
-                        <GoogleMaps
-                            defaultPos={locate}
-                        />
-                    </section>
-                }
+
+                <section className="maps">
+                    <GoogleMaps />
+                </section>
             </section>
         </section>
     )

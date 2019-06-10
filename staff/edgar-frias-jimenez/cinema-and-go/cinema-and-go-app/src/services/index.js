@@ -95,12 +95,13 @@ const cinemaApi = {
         })
     },
 
-    retrieveAllSessions(token) {
+    retrieveAllSessions(token, sessionId) {
         validate.arguments([
-            { name: 'token', value: token, type: 'string', notEmpty: true }
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'sessionId', value: sessionId, type: 'string', notEmpty: true }
         ])
 
-        return call(`${this.__url__}/cinema/sessions`, {
+        return call(`${this.__url__}/cinema/sessions/${sessionId}`, {
             headers: { Authorization: `Bearer ${token}` }
         })
     },
@@ -113,6 +114,16 @@ const cinemaApi = {
         ])
 
         return call(`${this.__url__}/cinemas/near?lng=${userPosition.lng}&lat=${userPosition.lat}&dist=${dist}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+    },
+
+    populateDb(token) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true }
+        ])
+
+        return call(`${this.__url__}/cinemas/scrapper`, {
             headers: { Authorization: `Bearer ${token}` }
         })
     }

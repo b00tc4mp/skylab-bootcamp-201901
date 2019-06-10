@@ -5,7 +5,7 @@ import GoogleMaps from '../../components/Maps'
 
 import './index.scss'
 
-function Landing({ locate }) {
+function Landing() {
     return (
         <section className="landing">
             <section className="landing__content">
@@ -18,13 +18,9 @@ function Landing({ locate }) {
                     </section>
                 </section>
             </section>
-            {locate &&
-                <section className="maps">
-                    <GoogleMaps
-                        defaultPos={locate}
-                    />
-                </section>
-            }
+            <section className="maps">
+                <GoogleMaps />
+            </section>
         </section>
     )
 }

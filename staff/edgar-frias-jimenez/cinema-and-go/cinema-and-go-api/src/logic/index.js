@@ -166,16 +166,26 @@ const logic = {
         return (async() => {
             const cinema = await Cinema.find({ _id: id }).select('-__v').lean()
 
-            return cinema
+            return cinema[0]
         })()
     },
 
-    retrieveAllCinemaSessions() {
+    retrieveAllCinemaSessions(id) {
         return (async() => {
-            const sessions = await MovieSessions.find().select('-__v')
-                .populate('movieSessions').lean()
-
-            return sessions
+            return await MovieSessions.find({ _id: id })
+            .select('-__v')
+            .populate({
+                path: 'movieSessions',
+                model: 'movieSessions',
+                select: '-__v',
+                options: { lean: true },
+                populate: {
+                    path: 'movie',
+                    model: 'movie',
+                    select: '-__v',
+                    options: { lean: true }
+                },
+            })
         })()
     },
 

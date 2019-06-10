@@ -81,9 +81,11 @@ router.get('/cinema/:cinemaId', auth, (req, res) => {
     }, res)
 })
 
-router.get('/cinema/sessions', auth, (req, res) => {
+router.get('/cinema/sessions/:sessionId', auth, (req, res) => {
+    const { params: { sessionId } } = req
+
     handleErrors(async () => {
-        const sessions = await logic.retrieveAllCinemaSessions()
+        const sessions = await logic.retrieveAllCinemaSessions(sessionId)
 
         return res.json(sessions)
     }, res)

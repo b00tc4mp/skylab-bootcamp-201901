@@ -1,65 +1,61 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import appLogic from '../../logic'
 import GoogleMaps from '../../components/Maps'
 import CustomMarker from '../../components/Marker'
 import CinemaModal from '../../components/CinemaModal'
 import { Circle } from '@react-google-maps/api'
 
-const Home = ({ locate }) => {
+const Home = () => {
     const [cinemaPoi, setCinemaPoi] = useState(null)
     const [ modalVisible, setModalVisible ] = useState(false)
+    const [currentMarker, setCurrentMarker] = useState(null)
 
     const handleCloseModal = () => {
         console.log('handle close click')
         setModalVisible(false)
     }
 
-    const threshold = 1500
-
-    const cinemas = async () => {
-        if(locate) {
-            const userPosition = {
-                lat: locate[1],
-                lng: locate[0]
-            }
-
-            return await appLogic.retrieveNearestCinemas(userPosition, threshold)
-        }
+    const handlePopulate = () => {
+        appLogic.populateDb()
     }
 
-    cinemas()
-        .then(cinemaLocations => {
-            setCinemaPoi(cinemaLocations)
-        })
-        .catch(console.error)
+    const defaultPos = localStorage.getItem('userLocation').split(',').map(item => parseFloat(item))
+
+    const userPosition = {
+        lng: defaultPos[0],
+        lat: defaultPos[1]
+    }
+
+    const threshold = 5500
+
+    useEffect(() => {
+        const cinemas = async () => {
+            if(defaultPos) {
+                const cinemaPoints = await appLogic.retrieveNearestCinemas(userPosition, threshold)
+                localStorage.setItem('cinemaPoints', JSON.stringify(cinemaPoints))
+                return setCinemaPoi(cinemaPoints)
+            }
+        }
+        cinemas()
+    },[])
 
     return (
         <section className="home">
-            {
-                modalVisible && <CinemaModal onClose={handleCloseModal} />
-            }
-
+            {modalVisible && <CinemaModal onClose={handleCloseModal} id={currentMarker} />}
 
             <section className="home__content">
-            {locate &&
+
+            <button className="populate" onClick={handlePopulate}> Populate! </button>
+
+            {defaultPos &&
                 <section className="maps">
                     <GoogleMaps
                         customZoom={14.5}
-                        defaultPos={locate}
                     >
                         <Circle
-                            // optional
-                            onLoad={circle => {
-                                console.log('Circle onLoad circle: ', circle)
-                            }}
-                            // optional
-                            onUnmount={circle => {
-                                console.log('Circle onUnmount circle: ', circle)
-                            }}
-
                             center={{
-                                lat: locate[0],
-                                lng: locate[1]
+                                lat: defaultPos[0],
+                                lng: defaultPos[1]
                             }}
                             options={{
                                 strokeColor: '#ce9234',
@@ -78,7 +74,7 @@ const Home = ({ locate }) => {
 
                         <CustomMarker
                             clickable={false}
-                            customPosition={locate}
+                            customPosition={defaultPos}
                         />
 
                         {cinemaPoi &&
@@ -88,6 +84,7 @@ const Home = ({ locate }) => {
                                         key={id}
                                         customPosition={location.coordinates}
                                         customHandler={() => {
+                                            setCurrentMarker(id)
                                             setModalVisible(true)
                                             console.log('handleClick here', modalVisible)
                                         }}
