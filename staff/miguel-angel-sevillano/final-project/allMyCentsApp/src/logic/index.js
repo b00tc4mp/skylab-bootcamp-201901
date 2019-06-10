@@ -349,6 +349,7 @@ const logic = {
             const tickets = await restApi.listPrivateTickets(token)
             for (let i = 0; i < tickets.length; i++) {
 
+                conincidence= false
                 tickets[i].items.forEach(item => {
 
                     if (!itemPushed) {
@@ -381,6 +382,9 @@ const logic = {
     getAlertOverload(token) {
 
         return (async () => {
+            
+
+            try{
 
             const list = await logic.listAlerts(token)
             let alertMessage = null
@@ -388,6 +392,7 @@ const logic = {
             list.forEach(product => {if (product.Euro > product.maxValue) alertMessage= "Check your alerts!"})
             debugger
             return alertMessage
+            }catch{}
         })()
 
     },
@@ -474,7 +479,7 @@ const logic = {
                 }
 
             })
-            for (let i = 0; i < filteredTicket.length; i++) { if (typeof filteredTicket[i] === 'string') finalTicket.push({ name: filteredTicket[i], Euro: filteredTicket[i + 1] }) }
+            for (let i = 0; i < filteredTicket.length; i++) { if (typeof(filteredTicket[i]) === 'string') finalTicket.push({ name: filteredTicket[i], Euro: filteredTicket[i + 1] }) }
 
 
 

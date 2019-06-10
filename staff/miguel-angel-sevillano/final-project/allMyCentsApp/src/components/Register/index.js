@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import './index.sass'
+
 
 
 function Register({ onRegister, message, cancel, clear }) {
@@ -22,10 +24,12 @@ function Register({ onRegister, message, cancel, clear }) {
 
     }
 
-    return <div class="containeRegister">
+    return<>
+
+    <div class="registerForm" >
         <form id="registerForm" onSubmit={handleSubmit}>
-            <div class="box">
-                <h1>Register</h1>
+            <div id="reg" class="box">
+                <h1 id="reg">Register</h1>
             </div>
             <div class="box">
                 <div class="field ">
@@ -58,20 +62,21 @@ function Register({ onRegister, message, cancel, clear }) {
                         <button class="button is-link">Register</button>
                     </div>
                     <div class="control">
-                        <button class="button is-text butcancel" onClick={cancel}>Cancel</button>
+                        <button class="button is-danger" onClick={cancel}>Cancel</button>
                     </div>
                     <div class="control">
-                        <button class="button is-text butcancel" onClick={clear}>Clear</button>
+                        <button class="button is-primary" onClick={clear}>Clear</button>
+                    </div>
+                    <div>
+                    {message && <span class="tag is-warning">{message}</span>}
                     </div>
                 </div>
             </div>
-            {message && <span class="tag is-warning">{message}</span>}
+            
         </form>
 
     </div>
-
-
-
+</>
 
 }
 

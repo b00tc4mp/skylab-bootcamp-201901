@@ -7,7 +7,7 @@ export function Modal({ children, onClose }) {
 debugger
     return ReactDOM.createPortal(
         <div class="modal is-active">
-            <div class="modal-background"></div>
+            <div class="modal-background" ></div>
             <div class="modal-content">
                 <div class="box">
                     <div class="content">

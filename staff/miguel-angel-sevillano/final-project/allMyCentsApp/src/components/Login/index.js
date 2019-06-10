@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import './index.sass'
 
 
 function Login({ onLogin, message, cancel, clear }) {
@@ -25,8 +26,7 @@ function Login({ onLogin, message, cancel, clear }) {
 
     }
 
-    return <div class="containeLogin">
-        <form id="loginForm" onSubmit={handleSubmit}>
+    return <form id="loginForm" onSubmit={handleSubmit}>
             <div class="box">
                 <h1>Login</h1>
             </div>
@@ -63,7 +63,7 @@ function Login({ onLogin, message, cancel, clear }) {
 
         </form>
 
-    </div>
+ 
 
 
 

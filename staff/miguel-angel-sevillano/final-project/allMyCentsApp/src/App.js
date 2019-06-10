@@ -1,16 +1,23 @@
 import React, { useState } from 'react';
 import { Route, Switch, withRouter, Redirect, Link } from "react-router-dom";
-import './App.css';
-import logo from '../src/logo.png'
+import mainLogo from '../src/images/logo.png'
+import secondLogo from '../src/images/secondLogo.png'
+import mainTitle from '../src/images/mainTitlev2.png'
+import coin from '../src/images/coin.png'
 import Register from './components/Register'
 import Login from './components/Login'
 import logic from './logic/index'
 import Home from './components/Home'
 import UserContext from './components/UserContext'
+import './index.sass'
+import { Modal } from './components/Modal'
 
 
 
 function App(props) {
+
+
+  const [activateModal, setActivateModal] = useState(false)
 
   const [messageReg, isRegistered] = useState(null)
   const [registerOk, setRegOk] = useState(null)
@@ -23,8 +30,24 @@ function App(props) {
   let [checkedAlerts, setCheckedAlerts] = useState(null)
 
 
+
+
+
   function returnLanding() {
+    isRegistered(null)
+    isLogin(null)
+    setActivateModal(false)
     props.history.push("/")
+  }
+
+  function setModal() {
+    debugger
+    setActivateModal(true)
+  }
+
+  function closeModal() {
+    setActivateModal(false)
+
   }
 
 
@@ -34,12 +57,7 @@ function App(props) {
 
       try {
         const response = await logic.register(name, surname, email, password)
-        if (response.message === "Ok,user Registerd") {
-
-          isRegistered(response.message)
-          props.history.push("/Login")
-
-        } else isRegistered(response.message)
+        props.history.push("/Login")
       }
       catch (error) {
         isRegistered(error.message)
@@ -49,7 +67,7 @@ function App(props) {
   }
 
   function handleLogin(email, password) {
-
+    setActivateModal(false)
     return (async () => {
       isLogin(false)
 
@@ -58,9 +76,7 @@ function App(props) {
         const response = await logic.logIn(email, password)
         sessionStorage.setItem('token', response.token)
         const { name } = await logic.retrieveUser(response.token)
-
         const areAlerts = await logic.getAlertOverload(sessionStorage.token)
-        debugger
         if (areAlerts) setCheckedAlerts(areAlerts)
         setName(name)
         setLogOk(true)
@@ -79,47 +95,64 @@ function App(props) {
   return <Switch>
 
     <UserContext.Provider value={{ loggedOk, registerOk, setLogOk, setRegOk, userName }}>
-      <Route>
 
-        <Route exact path="/" render={() =>
-          <>
-
-            <div>
-              <img src={logo} width="500" ></img>
-
-            </div>
-            <div>
-
-              <Link className="button is-link" to={'/Register'}>Register</Link>
-              <Link className="button is-link" to={'/Login'}>Login</Link>
-            </div> </>} />
-
-
-        <Route exact path="/Register" render={() =>
-          registerOk ? <Redirect to="/Login" /> :
-            <div>
-              <img src={logo} width="500" ></img>
-              <Register onRegister={handleRegister} message={messageReg} cancel={returnLanding} />
-            </div>} />
-
-
-        <Route exact path="/Login" render={() =>
-          loggedOk ? <Redirect to="/Home" /> :
-            <div>
-              <img src={logo} width="500" ></img>
-              <Login onLogin={handleLogin} message={messageLog} cancel={returnLanding} />
-            </div>} />
-
-
-      </Route>
-
-      <Route path="/Home" render={() =>
-        !loggedOk ? <Redirect to="/" /> :
+      <Route exact path="/" render={() =>
+        sessionStorage.token ? <Redirect to="/Home" /> :
+        <div class="landingBody">
+          <span class="titleLogo">
+            <img src={mainTitle} className="mainTitle"  ></img>
+            <container className="coinContainer">
+              <img src={coin} className="coin"  ></img>
+            </container>
+            <a onClick={setModal}>
+              <img src={mainLogo} className="mainLogo" ></img>
+            </a>
+          </span>
           <div>
-            <Home checkAlerts={checkedAlerts} />
+            {activateModal && <Modal onClose={closeModal} >
+              <div class="modalBody" >
+                <div>
+                  <img class="selectLogo" src={mainLogo}  ></img>
+                </div>
+                <div class="landingButtons">
+                  <Link class="button is-link" id="link" to={'/Register'} onClick={closeModal}>Register</Link>
+                  <Link class="button is-primary" id="link" to={'/Login'} onclick={closeModal}>Login</Link>
+                </div>
+              </div>
+            </Modal>}
+          </div>
+        </div>
+
+      } />
+      <Route exact path="/Register" render={() =>
+        registerOk ? <Redirect to="/Login" /> :
+          <div class="registerBody">
+            <span class="titleLogo">
+              <img src={mainTitle} className="mainTitle"  ></img>
+            </span>
+            <div>
+              <Register onRegister={handleRegister} message={messageReg} cancel={returnLanding} />
+            </div>
           </div>} />
 
+      <Route exact path="/Login" render={() =>
+        loggedOk ? <Redirect to="/Home" /> :
+          <div class="loginBody">
+            <span class="titleLogo">
+              <img src={mainTitle} className="mainTitle"  ></img>
+            </span>
+            <div>
+              <Login class="appBody" onLogin={handleLogin} message={messageLog} cancel={returnLanding} />
+            </div>
+          </div>} />
 
+      <div class="home">
+        <Route path="/Home" render={() =>
+          !sessionStorage.token ? <Redirect to="/" /> :
+            <div class="home">
+              <Home checkAlerts={checkedAlerts} />
+            </div>} />
+      </div>
 
     </UserContext.Provider>
 

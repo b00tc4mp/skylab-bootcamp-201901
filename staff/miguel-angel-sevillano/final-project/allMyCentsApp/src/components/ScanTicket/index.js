@@ -1,8 +1,9 @@
 import '../../../node_modules/@synapsestudios/react-drop-n-crop/lib/react-drop-n-crop.min.css';
 import DropNCrop from '@synapsestudios/react-drop-n-crop';
-
+import './index.sass'
 import React, { useState } from 'react';
 import logo from './logo.png';
+import secondLogo from '../../images/secondLogo.png'
 import { LoadingModal } from '../LoadingModal'
 
 
@@ -45,32 +46,41 @@ function ScanTicket({ scannedTicket }) {
 
 
 
-    return <div>
-        <div class="box">
-            <div class="box">
-                <DropNCrop onChange={itsChanging} value={state} canvasHeight="500px" canvasWidth="500px" maxFileSize={6145728} cropperOptions={{ guides: true, viewMode: 1, autoCropArea: 1 }} />
-                <div class="box">
-                    <p>Please fit your image as this example</p>
-                </div>
+    return <div class="scanBody">
+        <span class="dragAndExample">
+            <div class="box" id="drag">
+                <p class="info">Please fit your ticket as this example</p>
                 <img src={logo} width="400px"></img>
             </div>
-            {result && <div class="box">
-                <img src={result} width="400px"></img>
-            </div>}
-        </div>
+            <div class="box" id="drag">
+                <DropNCrop onChange={itsChanging} value={state} canvasHeight="500px" canvasWidth="500px" maxFileSize={6145728} cropperOptions={{ guides: true, viewMode: 1, autoCropArea: 1 }} />
+            </div>
+            <div class="box" id="drag">
+                <p class="info ">Your ticket preview will show here</p>
+                <img src={result} class="preview" label="No image"></img>
+            </div>
+        </span>
+
+
 
         {loading && <LoadingModal >
             <div>
-                <p>Processing image.......</p>
-                <progress class="progress is-large is-info" max="100"></progress>
+            <img class="secondLogo" src={secondLogo}  ></img>
+            </div>
+            <div>
+                <p className="tag is-warning is-medium">Processing ticket.......</p>
+
             </div>
         </LoadingModal>}
-        <div class="buttons">
-            <span class={isDisabledPreview} onClick={handlePreview}>Preview image</span>
-            <span class="button is-danger" onClick={handleClear}>Clear image</span>
-            <span class={isDisabledSend} onClick={handleSend}>Send image</span>
+        <span class="scanTicketButtons">
+        <div class="box">
+            <div class="buttons">
+                <span class={isDisabledPreview} onClick={handlePreview}>Preview ticket</span>
+                <span class="button is-danger" onClick={handleClear}>Clear ticket</span>
+                <span class={isDisabledSend} onClick={handleSend}>Send ticket</span>
+            </div>
         </div>
-
+        </span>
     </div>
 
 

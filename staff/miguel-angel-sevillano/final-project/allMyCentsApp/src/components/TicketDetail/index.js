@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { stringTypeAnnotation } from '@babel/types';
+import './index.sass'
 import { Modal } from "../Modal"
+import errorLogo from "../../images/error-logo.png"
 
 
 function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toScanAgain }) {
@@ -18,8 +19,9 @@ function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toS
 
     let ticket = processedTicket.map(item => {
 
-        return (<div class="control">
-            Product <input class="input" type="text" name="item" placeholder={item.name} /> Euro <input class="input" type="text" name="Euro" placeholder={item.Euro} />
+        return (<div class="control" id="ticket">
+            <div class="itemTicketDetail">Product <input class="input" type="text" name="item" placeholder={item.name} /> </div>
+            <div class="itemTicketDetail">Euro <input class="input" type="text" name="Euro" placeholder={item.Euro} /></div>
         </div>
         )
 
@@ -70,17 +72,23 @@ function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toS
     }
 
 
-    return <div>
+    return <div class="ticketDetailBody">
 
-        {ticket.length ? <form id="registerForm" onSubmit={handleSubmit}>
-            {ticket}
-            <button class="button is-success" >Save Ticket</button>
-        </form> :
-
-            <div class="box">
-                <p>No results from scanned ticket</p>
-                <button class="button is-success" onClick={() => toScanAgain()} >Scan ticket again</button>
-
+        {ticket.length ?
+            <div class="ticketCointaner">
+                <div class="box" id="ticketPosition">
+                    <form class="ticketDetailForm" onSubmit={handleSubmit}>
+                        {ticket}
+                        <button class="button is-success" id="saveTicket" >Save Ticket</button>
+                        
+                    </form></div> </div> :
+            <div class="errorContainer">
+                <div class="box" id="error">
+                <img class="errorLogoTicketDetail" src={errorLogo}  ></img>
+                    <p>No results from scanned ticket</p>
+                    <button class="button is-success" onClick={() => toScanAgain()} >Scan a ticket again</button>
+                    
+                </div>
             </div>}
 
         {modalActive && !getTicketDetailError && <Modal onClose={handleCloseModal} >

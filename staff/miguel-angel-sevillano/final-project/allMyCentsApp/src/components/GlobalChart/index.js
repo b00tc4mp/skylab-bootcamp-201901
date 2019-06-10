@@ -27,6 +27,14 @@ function Chart(props) {
    
 
     data.forEach(item => {
+        debugger
+
+        
+        let fixed = item.Euro
+        fixed = Number(fixed.toFixed(2))
+        item.Euro = fixed
+        debugger
+        
 
         if (item.date) {
             date = item.date
@@ -38,7 +46,7 @@ function Chart(props) {
     return <>
 
         <div>
-            <span class=" tag is-warning">{date}</span>
+            <span class=" tag is-warning is-medium">Until {date}</span>
 
             <BarChart
                 width={1600}
@@ -47,7 +55,7 @@ function Chart(props) {
                 margin={{ top: 50, right: 30, left: 50, bottom: 15 }}>
 
                 <CartesianGrid strokeDasharray="3 3" />
-                <XAxis dataKey="name" fontSize="1em" />
+                <XAxis dataKey="name" fontSize="0.8em"  />
                 <Tooltip />
 
                 <YAxis label={{ value: '€', angle: 0, position: 'left', fontSize: "2em" }} />
@@ -57,7 +65,7 @@ function Chart(props) {
             </BarChart>
 
 
-            <span class="tag is-warning">Overall consumption = {totalP.toFixed(2)} €</span>
+            <span class="tag is-warning is-large">Overall consumption = {totalP.toFixed(2)} €</span>
         </div>
     </>
 

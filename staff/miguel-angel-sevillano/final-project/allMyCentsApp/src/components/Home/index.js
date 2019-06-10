@@ -1,5 +1,5 @@
-import React, { useState, useContext, Fragment } from 'react';
-import { Route, withRouter } from "react-router-dom";
+import React, { useState, useContext, Fragment ,useEffect } from 'react';
+import { Route, withRouter, Redirect } from "react-router-dom";
 import logic from '../../logic'
 import UserProfile from '../UserProfile/index'
 import UserContext from '../UserContext/index'
@@ -12,22 +12,26 @@ import MyTickets from "../Mytickets"
 import MyAlerts from "../MyAlerts"
 import Estadistics from '../Estadistics'
 import EditTicket from '../EditTicket'
+import './index.sass'
+import errorLogo from '../../images/error-logo.png'
 
 
 
 
 function Home(props) {
 
-    let{checkAlerts} = props
+    let { checkAlerts } = props
 
-    debugger
-
-
+    const [alertsChecked, setAlertsChecked] = useState(checkAlerts)
     const { loggedOk, registerOk, setLogOk, setRegOk, userName } = useContext(UserContext)
-
     const [profile, setProfile] = useState(null)
-
     const [globalMessage, setGlobalMessage] = useState(null)
+
+
+    //userUpdate
+
+    const [updatedUserOk, setUpdatedUserOk] = useState(null)
+    const [updatedUserFail, setUpdatedUserFail] = useState(null)
 
     //charts
 
@@ -77,8 +81,17 @@ function Home(props) {
     const [products, setProducts] = useState([])
     const [productsError, setProductsError] = useState(null)
 
+    useEffect(() => {
 
-    
+           switch(props.location.pathname) {
+               
+            case "/Home/MyAlerts" :
+                handleMyAlerts()
+            break;
+
+        }
+      },[]);
+
 
 
     function mountGlobalChart() {
@@ -97,11 +110,13 @@ function Home(props) {
 
     if (!updateChart) {
         mountGlobalChart()
+        
         setChart(true)
     }
 
     function handleCloseModal() {
         setGlobalMessage(null)
+        setAlertsChecked(false)
     }
 
     function toScanTicket() { props.history.push("/Home/ScanTicket") }
@@ -119,10 +134,12 @@ function Home(props) {
 
 
     function toEstadistics() {
+        setProductsError(null)
         setProducts([])
         setCategoryError(null)
         setCategory(null)
-        props.history.push("/Home/Estadistics")
+        setMonth(null)
+        props.history.push("/Home/Stadistics")
 
     }
 
@@ -153,10 +170,34 @@ function Home(props) {
         })()
 
     }
+    function handleUpdateUser(data) {
+
+
+        return (async () => {
+
+            setUpdatedUserOk(null)
+            setUpdatedUserFail(null)
+
+            try {
+                const res = await logic.updateUser(sessionStorage.token, data)
+
+                const user = await logic.retrieveUser(sessionStorage.token)
+                setProfile(user)
+                setUpdatedUserOk(res)
+            }
+            catch (error) { setUpdatedUserFail(error.message) }
+        })()
+    }
+
 
     function handleProfile() {
 
+        setUpdatedUserOk(null)
+        setUpdatedUserFail(null)
+
         return (async () => {
+
+
 
             try {
                 const user = await logic.retrieveUser(sessionStorage.token)
@@ -174,7 +215,7 @@ function Home(props) {
             try {
                 const ticketDetail = await logic.getTicket(sessionStorage.token, ticketId)
                 setTicketToEddit(ticketDetail)
-                props.history.push("/Home/EditTicket")
+                props.history.push(`/Home/editTicket/${ticketId}`)
 
 
             }
@@ -190,6 +231,7 @@ function Home(props) {
             try {
                 const ticketUpdated = await logic.editTicket(sessionStorage.token, ticketId, data, position)
                 const ticketDetail = await logic.getTicket(sessionStorage.token, ticketId)
+
                 setTicketToEddit(ticketDetail)
                 setTicketEditedOk(ticketUpdated)
             }
@@ -268,7 +310,7 @@ function Home(props) {
 
     function handleFindProduct(product) {
 
-
+        setProductsError(null)
         return (async () => {
             try {
                 const res = await logic.getAmountByProduct(sessionStorage.token, product)
@@ -385,39 +427,58 @@ function Home(props) {
     return <Fragment>
 
 
-        <Navbar
-            goHome={toHome}
-            goProfile={handleProfile}
-            goScanTicket={toScanTicket}
-            goMytickets={handleMyTcikets}
-            goMyAlerts={handleMyAlerts}
-            goMyEstadistics={toEstadistics}
-            logOut={logOut} />
+        <div className="homeBody">
+            <Navbar class="navBar"
+                goHome={toHome}
+                goProfile={handleProfile}
+                goScanTicket={toScanTicket}
+                goMytickets={handleMyTcikets}
+                goMyAlerts={handleMyAlerts}
+                goMyEstadistics={toEstadistics}
+                logOut={logOut} />
 
-        {globalMessage && <Modal onClose={handleCloseModal} >
-            <div>
-                {globalMessage}
-            </div>
-        </Modal>}
+            {globalMessage && <Modal onClose={handleCloseModal} >
+                <div>
+                    {globalMessage}
+                </div>
+            </Modal>}
 
-        {checkAlerts && <Modal onClose={handleCloseModal} >
-            <div>
-                {checkAlerts}
-            </div>
-        </Modal>}
-
-
-        <Route>
-            <div class="box">
-                <p>Welcome {userName}</p>
-            </div>
+            {alertsChecked && <Modal onClose={handleCloseModal} >
+                <div>
+                    {alertsChecked}
+                </div>
+            </Modal>}
 
 
-            <Route exact path="/Home" render={() => globalChart ? <div class="box"> <GlobalChart data={globalChart} /></div> : <p>Not enough tickets to display global consumption </p>} />
+            <Route exact path="/Home" render={() =>
+                globalChart ? <>
+                    <span class="welcome">
+                        <div class="box" id="wlcomeUserName">
+                            <p>Welcome {userName} ! </p>
+                        </div>
+                    </span>
+                    <div class="globalChart">
+                        <div class="box is-hidden-mobile" >
+                            <GlobalChart data={globalChart} />
+                        </div> </div> </> : <>
+                        <span class="welcome">
+                            <div class="box" id="wlcomeUserName">
+                                <p>Welcome {userName} ! </p>
+                            </div>
+                        </span>
+                        <span className="noTicketsError">
+                            <div class="box" id="noTickersErrorMessage">
+                                <img class="errorLogoHome" src={errorLogo}  ></img>
+                                <p>Not enough tickets to display global consumption... </p>
+                            </div>
+                        </span>
+                    </>
+            } />
+
 
             <Route exact path="/Home/Profile" render={() =>
 
-                <UserProfile getUser={profile} />
+                <UserProfile getUser={profile} updateUserData={handleUpdateUser} updatedOk={updatedUserOk} updatedFail={updatedUserFail} />
             } />
 
             <Route exact path="/Home/ScanTicket" render={() =>
@@ -425,12 +486,12 @@ function Home(props) {
             } />
 
             <Route exact path="/Home/TicketDetail" render={() =>
-                <TicketDetail
+                !ticketProcessed ? <Redirect to="/Home" /> : <TicketDetail
                     processedTicket={ticketProcessed}
                     toSaveTicket={handleSaveTicket}
                     getTicketDetailError={ticketDetailError}
-                    toScanAgain={toScanTicket} />
-            } />
+                    toScanAgain={toScanTicket} />}
+            />}
 
             <Route exact path="/Home/MyTickets" render={() =>
                 <MyTickets
@@ -453,7 +514,8 @@ function Home(props) {
                     deletedOk={deleteAlertOk} />
             } />
 
-            <Route exact path="/Home/Estadistics" render={() =>
+            <Route exact path="/Home/Stadistics" render={() =>
+
                 <Estadistics
                     selectedCategory={hanldeSelectedCategory}
                     recivedCategory={category}
@@ -470,8 +532,8 @@ function Home(props) {
 
             } />
 
-            <Route exact path="/Home/EditTicket" render={() =>
-                <EditTicket ticketToEdit={ticketToEdit}
+            <Route exact path="/Home/EditTicket/:ticketId" render={() =>
+                !ticketToEdit ? <Redirect to="/Home" /> : <EditTicket ticketToEdit={ticketToEdit}
                     onUpdate={handleEditTicket}
                     ticketOkEdited={ticketEditedOk}
                     ticketError={ticketEditedError}
@@ -480,7 +542,7 @@ function Home(props) {
 
             } />
 
-        </Route>
+        </div>
     </Fragment>
 
 

@@ -82,9 +82,19 @@ const logic = {
             let mail
             let user = await User.findById(id)
 
-            if (data.mail) mail = await User.findOne(data.email)
+            if (data.email) {
 
-            if (mail) throw new LogicError(`email ${mail} already registered`)
+                const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+                if (!re.test(String(data.email))) throw new LogicError(`${data.email} is not an e-mail`)
+
+                mail = await User.findOne({ email: data.email })
+            }
+
+
+
+
+            if (mail) throw new LogicError(`email ${data.email} already registered`)
             else {
 
                 await User.findByIdAndUpdate(id, {
@@ -424,25 +434,33 @@ const logic = {
             if (!user) throw new LogicError(`user with id "${id}" does not exist`)
             if (user.id != id) throw new LogicError(`worng credentials `)
 
-            const { items } = await Cat.findOne({ category }).lean()
+            const { items } = await Cat.findOne({ category: category })
+
 
             user.tickets.forEach(ticket => {
                 ticket.items.forEach(first => {
 
+
                     for (let i = 0; i < items.length; i++) {
+                        coincidence = false
+
                         if (first.name === items[i]) {
 
+                            results.forEach(resItems => {
 
-                            if (results.length > 0) {
+                                if (first.name === resItems.name) {
+                                    resItems.Euro += first.Euro
+                                    coincidence = true
+                                }
 
-                                results.forEach(resItems => {
-                                    if (resItems.name === first.name) resItems.Euro += first.Euro, coincidence = true
+                            })
 
-                                })
+                            if (!coincidence) {
+                                console.log(first.name)
+                                results.push({ name: first.name, Euro: first.Euro })
 
-                                if (!coincidence) results.push({ name: first.name, Euro: first.Euro }), coincidence = false
+                            }
 
-                            } else results.push({ name: first.name, Euro: first.Euro })
 
                         }
 

@@ -152,6 +152,16 @@ describe('logic', () => {
 
             })
 
+            it('should fail if email already exist', async () => {
+
+                try{
+                await logic.updateUser(id, {email:email})
+                }catch(error){    
+                expect(error.message).to.be.equal(`email ${email} already registered`)
+                }
+
+            })
+
         })
         describe('delete user', () => {
 
@@ -219,7 +229,7 @@ describe('logic', () => {
             let user
             let id
             let ticket_1 = [{ name: 'manzana', Euro: 1.65 }, { name: 'pera', Euro: 2.75 }]
-            let ticket_2 = [{ name: 'platano', Euro: 7.65 }, { name: 'naranja', Euro: 4.75 }]
+            let ticket_2 = [{ name: 'zumo', Euro: 7.65 }, { name: 'nectar', Euro: 4.75 }]
 
             beforeEach(async () => {
 
@@ -258,7 +268,7 @@ describe('logic', () => {
 
                 const { tickets } = user
                 let ticketId = tickets[3]._id.toString()
-                let data = { name: "VENTILADOR" }
+                let data = { name: "nectar" }
                 let position = "1"
 
                 await logic.updatePrivateTicket(id, ticketId, data, position)
@@ -316,6 +326,18 @@ describe('logic', () => {
 
             })
 
+            it('should fail if there are no tickets', async () => {
+
+                try{
+
+                    await logic.listPrivateTickets(id)
+                }catch(error){
+
+                    expect(error.message).to.be.equal("No tickets found")
+
+                }
+            })
+
             it('should succeed removing a private ticket', async () => {
 
               
@@ -365,12 +387,31 @@ describe('logic', () => {
 
             })
 
+            it('should fail if there is no tickets from month query', async () => {
+
+                try{
+                    await logic.retrivePrivateTicketsByDates(id, { month: "2019/09" })
+                }catch(error){
+                    expect(error.message).to.be.equal("No tickets found")
+                }
+
+            })
+
             it('should succeed retriving ticket by a day', async () => {
 
                 const tickets = await logic.retrivePrivateTicketsByDates(id, { day: "2019/05/31" })
 
                 expect(tickets[0].date).to.equal("2019/05/31")
 
+
+            })
+            it('should fail if there no tickets  by a day query ', async () => {
+                
+                try{
+                    await logic.retrivePrivateTicketsByDates(id, { day: "2019/09/01" })
+                }catch(error){
+                    expect(error.message).to.be.equal("No tickets found")
+                }
 
             })
         })
@@ -396,9 +437,23 @@ describe('logic', () => {
                 const amount = await logic.retrieveAmountByProdcut(id, product)
 
                 expect(amount).to.exist
-                expect(amount).to.be.equal(5.5)
+                expect(amount).to.be.equal("5.50")
 
             })
+
+            it("sould fail if the product dont exist", async () => {
+
+                try{
+                        
+                const product = "Horchata"
+                const amount = await logic.retrieveAmountByProdcut(id, product)
+                }catch(error){
+
+                        expect(error.message).to.be.equal("Product not found")
+                }
+
+            })
+            
 
             it("sould return product name and amount by category ", async () => {
 
@@ -411,12 +466,25 @@ describe('logic', () => {
 
             })
 
+      /*       it("sould fail if dont exist category ", async () => {
+
+                const category = "frutas"
+                const products = await logic.retrieveByCategory(id, category)
+
+                expect(products[0]).to.exist
+                expect(products[0].name).to.be.equal("pera")
+                expect(products[0].Euro).to.be.equal(5.5)
+
+            })
+ */
+            
+
         })
         describe("alerts", () => {
 
             let user
             let id
-            let alert = { name: "platano", Euro:0, maxValue: 100 }
+            let alert = { name: "manzana", Euro:0, maxValue: 100 }
 
             beforeEach(async () => {
                 user = await User.create({ name, surname, email, password })

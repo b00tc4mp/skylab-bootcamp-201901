@@ -2,6 +2,7 @@
 import React, { Fragment, useState } from 'react';
 import { Modal } from '../Modal'
 import Toast from '../Toast'
+import './index.sass'
 
 
 function EditTicket({ ticketToEdit, onUpdate, ticketOkEdited, ticketError }) {
@@ -55,17 +56,17 @@ function EditTicket({ ticketToEdit, onUpdate, ticketOkEdited, ticketError }) {
 
     ticket = ticketToEdit.items.map(({ name, Euro }, index) => {
 
-        return (<>
+        return (
             <form id="updateForm" onSubmit={handleUpdateTicket}>
-                Product <input class="input" type="text" name="item" placeholder={name} /> Euro <input class="input" type="text" name="Euro" placeholder={Euro} />
-                <button class="button is-success" value={index} >Update</button>
+                <p>Product</p> <input class="input" id="productImput" type="text" name="item" placeholder={name} /><p id="euroName">Euro</p><input class="input" type="text" id="euroImput" name="Euro" placeholder={Euro} />
+                <button class="button is-success"  id="button"value={index} >Update</button>
             </form>
-        </>)
+        )
     })
 
 
     return <Fragment>
-        {!notNumber && <div class="box">{ticket}</div>}
+        {!notNumber &&<div class="editTicketContainer"><div class="box" id="editTicket">{ticket}</div></div> }
         {notNumber && <Modal onClose={handleCloseModal} >
             <div>
                 {"Wrong information detected , please check the filed"}
