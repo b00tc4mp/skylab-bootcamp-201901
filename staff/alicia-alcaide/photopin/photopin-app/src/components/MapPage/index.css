@@ -2,11 +2,13 @@
   height: 100vh;
   width: 100vw;
   --items-width: 300px;
+  --margin-width: 60px;
   --header-height: 130px;
+  --margin-height: 10px;
 }
 
 .central-section {
-  height: calc(100vh - var(--header-height));
+  height: calc(100vw - (calc (var(--items-height) + var(--margin-height))));
 }
 
 .map-page .custom-flex {
@@ -32,8 +34,12 @@
 }
 
 .map-page .custom-flex > .custom-flex__content {
-  width: calc(100vw - var(--items-width));
+  width: calc(100vw - (calc (var(--items-width) + var(--margin-widt))));
 }
 .map-page .custom-flex > .custom-flex__content .sc-bdVaJa {
   max-width: 90%;
+}
+
+.mini-padding-right {
+  padding-right: 15px;
 }

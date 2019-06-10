@@ -1,10 +1,14 @@
 import React, { Component } from "react";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import literals from "./literals";
 import logic from "../../logic";
 import NavBar from "../NavBar";
 import MapSection from "./MapSection";
 import CollectionSection from "./CollectionSection";
+import YesNoModal from "../Common/YesNoModal";
+import iconEdit from "../../assets/icons/icon_pencil.png";
+import iconDelete from "../../assets/icons/icon_trash.png";
 import "./index.css";
 
 class MapPage extends Component {
@@ -13,7 +17,8 @@ class MapPage extends Component {
     mapId: this.props.match.params.id,
     newPinId: null,
     selectedPinId: null,
-    collectionVisibility: {}
+    collectionVisibility: {},
+    deletingMap: false
   };
 
   componentDidMount() {
@@ -76,8 +81,28 @@ class MapPage extends Component {
     }
   };
 
+  handleDeleteMap = () => {
+    this.setState({ deletingMap: true });
+  };
+
+  handleEditMap = () => {
+    this.setState({ redirectToMapForm: true });
+  };
+
+  handleSubmitDeleteMap = async () => {
+    this.setState({ deletingMap: false });
+    try {
+      await logic.removeMap(this.state.mapId);
+      this.setState({ redirectToHome: true });
+    } catch (error) {
+      this.setState({ error });
+    }
+  };
+
+  handleDeleteMapCancel = () => this.setState({ deletingMap: false });
+
   handlePinSelect = pinId => {
-    this.setState({ selectedPinId: pinId });
+    this.setState({ selectedPinId: pinId, newPinId: null });
   };
 
   handleNewPin = async place => {
@@ -97,7 +122,7 @@ class MapPage extends Component {
           }
         };
         const resp = await logic.createPin(this.state.pmap.id, place.collection, pin);
-        this.setState({ newPinId: resp.id });
+        this.setState({ newPinId: resp.id, selectedPinId: null });
         this.fetchMapAndUpdateState(this.state.mapId);
       } catch (error) {
         this.setState({ error });
@@ -127,7 +152,7 @@ class MapPage extends Component {
         pin.travelInformation
       );
       this.fetchMapAndUpdateState(this.state.mapId);
-      this.setState({ selectedPinId: null });
+      this.setState({ selectedPinId: pin.id, newPinId: null });
     } catch (error) {
       this.setState({ error });
     }
@@ -135,38 +160,75 @@ class MapPage extends Component {
 
   render() {
     const { state, props } = this;
+    const literal = literals[props.lang];
 
     return (
-      <div className="map-page">
-        <NavBar lang={props.lang} onLogout={props.onLogout} />
-        {state.pmap && <h2 className="uk-text-center uk-margin-remove-top">{state.pmap.title}</h2>}
-        <div className="custom-flex central-section">
-          <section className="custom-flex_items-bar">
-            <CollectionSection
-              pmap={state.pmap}
+      <>
+        {state.redirectToHome && <Redirect to="/home" />}
+        {state.redirectToMapForm && <Redirect to={`/mapform/${this.state.mapId}`} />}
+        <div className="map-page">
+          <NavBar lang={props.lang} onLogout={props.onLogout} />
+          {state.pmap && (
+            <h2 className="uk-margin-remove-top">
+              <div className="uk-flex uk-column uk-flex-between">
+                <div className="uk-left" />
+                <div className="uk-middle">{state.pmap.title}</div>
+                <div className="uk-right mini-padding-right">
+                  <button
+                    className="uk-button uk-button-default uk-button-small"
+                    type="button"
+                    onClick={this.handleEditMap}
+                  >
+                    <img className="" src={iconEdit} height="18" width="18" alt="" />
+                  </button>
+                  <button
+                    className="uk-button uk-button-default uk-button-small"
+                    type="button"
+                    onClick={this.handleDeleteMap}
+                  >
+                    <img className="" src={iconDelete} height="18" width="18" alt="" />
+                  </button>
+                </div>
+              </div>
+            </h2>
+          )}
+          {state.deletingMap && (
+            <YesNoModal
+              title={literal.deleteMapTitle}
+              desc={literal.deleteMapDesc}
+              onYes={this.handleSubmitDeleteMap}
+              onNo={this.handleDeleteMapCancel}
               lang={props.lang}
-              onNewCollection={this.handleNewCollection}
-              onCollectionDelete={this.handleCollectionDelete}
-              onCollectionEdit={this.handleCollectionEdit}
-              onPinSelect={this.handlePinSelect}
-              onPinDelete={this.handlePinDelete}
-              onCollectionVisibilityToggle={this.handleCollectionVisibilityToggle}
             />
-          </section>
-          <section className="custom-flex__content">
-            <MapSection
-              pmap={state.pmap}
-              lang={props.lang}
-              onNewPin={this.handleNewPin}
-              onPinEdited={this.handlePinEdit}
-              onPinDelete={this.handlePinDelete}
-              newPinId={state.newPinId}
-              selectedPinId={state.selectedPinId}
-              visibleCollections={state.collectionVisibility}
-            />
-          </section>
+          )}
+          <div className="custom-flex central-section">
+            <section className="custom-flex_items-bar">
+              <CollectionSection
+                pmap={state.pmap}
+                lang={props.lang}
+                onNewCollection={this.handleNewCollection}
+                onCollectionDelete={this.handleCollectionDelete}
+                onCollectionEdit={this.handleCollectionEdit}
+                onPinSelect={this.handlePinSelect}
+                onPinDelete={this.handlePinDelete}
+                onCollectionVisibilityToggle={this.handleCollectionVisibilityToggle}
+              />
+            </section>
+            <section className="custom-flex__content">
+              <MapSection
+                pmap={state.pmap}
+                lang={props.lang}
+                onNewPin={this.handleNewPin}
+                onPinEdited={this.handlePinEdit}
+                onPinDelete={this.handlePinDelete}
+                newPinId={state.newPinId}
+                selectedPinId={state.selectedPinId}
+                visibleCollections={state.collectionVisibility}
+              />
+            </section>
+          </div>
         </div>
-      </div>
+      </>
     );
   }
 }
