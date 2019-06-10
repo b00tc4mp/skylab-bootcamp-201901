@@ -86,7 +86,7 @@ export default {
         $phone: String!
         $password: String!
         $role: String!
-        $providerId: String!
+        $providerId: String
       ) {
         createUser(
           data: {
@@ -156,6 +156,7 @@ export default {
     const { data, error } = await this.__gCall({
       query,
     });
+    if (error) throw new Error(error[0]);
     return data.me;
   },
 
@@ -175,6 +176,7 @@ export default {
     const { data, error } = await this.__gCall({
       query,
     });
+    if (error) throw new Error(error[0]);
     return data.me;
   },
 
@@ -315,6 +317,7 @@ export default {
         providerId: this.providerId,
       },
     });
+    if (error) throw new Error(error[0]);
     return data.retrieveSession;
   },
 
@@ -331,6 +334,7 @@ export default {
         providerId: this.providerId,
       },
     });
+    if (error) throw new Error(error[0]);
     return data.deleteSession;
   },
 
@@ -353,6 +357,7 @@ export default {
             endTime
             maxAttendants
             countAttendances
+            notes
             type {
               title
             }
@@ -372,6 +377,7 @@ export default {
         day,
       },
     });
+    if (error) throw new Error(error[0]);
     return data.listMyAvailableSessions.map(sa => ({ ...sa.session, myAttendance: sa.myAttendance }));
   },
 
@@ -396,6 +402,7 @@ export default {
           countAttendances
           visibility
           status
+          notes
           type {
             id
             title
@@ -422,6 +429,7 @@ export default {
         day: day.format('YYYY-MM-DD'),
       },
     });
+    if (error) throw new Error(error[0]);
     return data.listSessions;
   },
 
@@ -443,7 +451,7 @@ export default {
         },
       },
     });
-
+    if (error) throw new Error(error[0]);
     return data.attendSession;
   },
 
@@ -461,6 +469,8 @@ export default {
         status,
       },
     });
+
+    if (error) throw new Error(error[0]);
     return data.updateStatusAttendance;
   },
 
@@ -478,7 +488,48 @@ export default {
         paymentType,
       },
     });
+
+    if (error) throw new Error(error[0]);
     return data.updatePaymentTypeAttendance;
+  },
+
+  async listAttendances(userId, providerId) {
+    debugger
+    const query = gql`
+      query ListAttendances($userId: String!, $providerId: String!) {
+      listAttendances (userId: $userId, providerId: $providerId){
+          session {
+            id
+            title
+            startTime
+            endTime
+            visibility
+            status
+            type {
+              type
+              title
+            }
+          }
+          myAttendance {
+            id
+            paymentType
+            status
+          }
+        }
+      }
+    `;    
+    const { data, error } = await this.__gCall({
+      query,
+      variables: {
+        userId: userId,
+        providerId: providerId,
+      }
+    });
+    if (error) throw new Error(error[0]);
+
+    const result = data.listAttendances.map(sa => ({ ...sa.session, attendance: sa.myAttendance }));
+    result.sort((a, b) => (a.startTime < b.startTime ? 1 : -1));
+    return result;
   },
 
   async listMyNextAttendances(): Promise<any> {
@@ -502,6 +553,7 @@ export default {
             visibility
             countAttendances
             status
+            notes
             type {
               type
               title
@@ -517,6 +569,8 @@ export default {
     const { data, error } = await this.__gCall({
       query,
     });
+    if (error) throw new Error(error[0]);
+
     const result = data.listMyNextAttendances.map(sa => ({ ...sa.session, myAttendance: sa.myAttendance }));
     result.sort((a, b) => (a.startTime > b.startTime ? 1 : -1));
     return result;
@@ -537,6 +591,7 @@ export default {
     const { data, error } = await this.__gCall({
       query,
     });
+    if (error) throw new Error(error[0]);
 
     return data.listProvidersPublicInfo;
   },
@@ -563,6 +618,8 @@ export default {
     const { data, error } = await this.__gCall({
       query,
     });
+    if (error) throw new Error(error[0]);
+
     return data.listMyProvidersInfo;
   },
 
@@ -590,6 +647,8 @@ export default {
         providerId,
       },
     });
+    if (error) throw new Error(error[0]);
+
     return data.listCustomers;
   },
 
@@ -612,6 +671,7 @@ export default {
         providerId,
       },
     });
+    if (error) throw new Error(error[0]);
     return data.retrievePendingRequest;
   },
 
@@ -629,6 +689,7 @@ export default {
         status,
       },
     });
+    if (error) throw new Error(error[0]);
     return data.updateRequestCustomer;
   },
 
@@ -664,6 +725,7 @@ export default {
         providerId,
       },
     });
+    if (error) throw new Error(error[0]);
     return data.retrieveRequestCustomer;
   },
 };

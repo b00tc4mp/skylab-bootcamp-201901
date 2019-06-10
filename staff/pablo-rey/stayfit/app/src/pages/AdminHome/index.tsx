@@ -1,37 +1,17 @@
-import {
-  IonBadge,
-  IonFab,
-  IonFabButton,
-  IonIcon,
-  IonLabel,
-  IonPage,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonTabs,
-} from '@ionic/react';
-import React, { useContext, useEffect } from 'react';
+import { IonBadge, IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
+import React, { useContext } from 'react';
 import { Route, withRouter } from 'react-router-dom';
 import { PENDING } from '../../enums';
-import logic from '../../logic';
 import { MainContext } from '../../logic/contexts/main-context';
+import CreateSession from '../Session/CreateSession';
+import EditSession from '../Session/EditSession';
 import AdminCustomers from './AdminCustomers';
 import AdminSessions from './AdminSessions';
-import CreateSession from '../Session/CreateSession';
 import MainAdmin from './MainAdmin';
 import MySettingsAdmin from './MySettingsAdmin';
-import EditSession from '../Session/EditSession';
 
 const AdminHome: React.FC<any> = ({ history, location }) => {
   const ctx = useContext(MainContext);
-
-  // useEffect(() => {
-  //   (async () => {
-  //     if (!ctx.provider) return;
-  //     const crs = await logic.listCustomers(ctx.provider.id);
-  //     ctx.setCustomers(crs);
-  //   })();
-  // }, [ctx.provider]);
 
   if (!ctx.user) {
     return <p>No user loaded</p>;

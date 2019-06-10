@@ -6,7 +6,7 @@ import { AttendanceStatus } from '../attendances/AttendanceStatus';
 import { UserBasic } from './UserBasic';
 import { AttendancePaymentType } from '../attendances/AttendancePaymentType';
 
-export default function ListUsersAttendances({ attendances, onChange }) {
+export default function ListUsersAttendance({ attendances, onChange }) {
   const ctx = useContext(MainContext);
 
   const [changeStatus, setChangeStatus] = useState(null);

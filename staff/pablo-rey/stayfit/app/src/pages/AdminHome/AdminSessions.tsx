@@ -1,4 +1,4 @@
-import { IonContent, IonDatetime, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonPage } from '@ionic/react';
+import { IonContent, IonDatetime, IonFab, IonFabButton, IonIcon, IonItem, IonLabel, IonPage, IonRefresher, IonRefresherContent } from '@ionic/react';
 import moment from 'moment';
 import React, { useState, useContext, useEffect } from 'react';
 import { withRouter } from 'react-router';
@@ -10,14 +10,23 @@ function AdminSessions({ history }) {
 
   const [date, setDate] = useState(moment().format('YYYY-MM-DD'));
   const [sessions, setSessions] = useState([]);
+  
+  const refresh = async (event?) => {
+    const sessions = await ctx.logic.listSessions(ctx.provider.id, moment(date, 'YYYY-MM-DD'))
+    setSessions(sessions);
+    if (event && event.target && event.target.complete) event.target.complete();
+  }
 
   useEffect(() => {
-    ctx.logic.listSessions(ctx.provider.id, moment(date, 'YYYY-MM-DD')).then(sessions => setSessions(sessions));
+    refresh()
   }, [date])
 
   return (
     <IonPage id="admin_sessions">
       <IonContent>
+      <IonRefresher slot="fixed" onIonRefresh={refresh}>
+          <IonRefresherContent />
+        </IonRefresher>
         <IonItem>
           <IonLabel position="stacked">Date</IonLabel>
           <IonDatetime

@@ -8,6 +8,7 @@ export default function Superadmin() {
     <IonPage id="superadmin">
       <IonContent>
         <h1>Superadmin</h1>
+        <p>Work in progress</p>
       </IonContent>
     </IonPage>
   );

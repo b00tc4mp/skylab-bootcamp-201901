@@ -8,6 +8,7 @@ import { SUPERADMIN_ROLE } from '../../data/enums';
 export const ONLY_SUPERADMIN = 'ONLY_SUPERADMIN';
 export const ONLY_OWN_USER = 'ONLY_OWN_USER';
 export const ONLY_ADMINS_OF_PROVIDER = 'ONLY_PROVIDER_ADMIN';
+export const ONLY_IF_MY_CUSTOMER = 'ONLY_IF_MY_CUSTOMER';
 export const ALWAYS_OWN_USER = 'ALWAYS_OWN_USER';
 export const ALWAYS_OWN_CUSTOMER = 'ALWAYS_OWN_CUSTOMER';
 
@@ -15,11 +16,11 @@ export const authChecker: AuthChecker<MyContext> = async ({ root, args, context,
   const ownerId = context.userId;
   let ownerRole = context.role;
   let owner: User | null = null;
-  const a = info
+  const a = info;
 
   if (!ownerId || !ownerRole) throw new AuthorizationError('Invalid credentials to authentication');
-  
-  if (ONLY_OWN_USER && info.path.prev && info.path.prev.key === 'me') return true
+
+  if (ONLY_OWN_USER && info.path.prev && info.path.prev.key === 'me') return true;
 
   // ALWAYS checking
   if (ownerRole === SUPERADMIN_ROLE) return true;
@@ -50,7 +51,15 @@ export const authChecker: AuthChecker<MyContext> = async ({ root, args, context,
         if (!providerId && !!args.data) providerId = args.data.providerId;
         if (!providerId) throw new LogicError(`Provider is required`);
         owner = context.user = await UserModel.findById(ownerId);
-        if (!owner!.adminOf.includes(providerId)) throw new AuthenticationError('Only admins can do that')
+        if (!owner!.adminOf.includes(providerId)) throw new AuthenticationError('Only admins can do that');
+        break;
+      case ONLY_IF_MY_CUSTOMER:
+        let customerUserId = args.userId;
+        if (!customerUserId && !!args.data) customerUserId = args.data.userId;
+        if (!customerUserId) throw new LogicError(`user target is required`);
+        const customer = await UserModel.findById(customerUserId);
+        if (!customer) throw new AuthorizationError('user target not found');
+        if (!customer.customerOf.includes(args.providerId)) throw new AuthenticationError('Only can retrieve your customers');
         break;
     }
   }

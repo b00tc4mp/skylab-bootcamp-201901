@@ -55,28 +55,6 @@ export class User extends Typegoose {
   @arrayProp({ itemsRef: Provider })
   adminOf: Ref<Provider>[];
 
-  // // *+++++++++++++++++++++++++++++++++ Suscriptions not working yet
-  // @Field(returns => Subscription)
-  // @arrayProp({ itemsRef: Subscription })
-  // subscriptions:Subscription[];
-
-  // @instanceMethod
-  // activeSubscriptions(sessionType: SessionType, _date: Date = new Date()) {
-  //   const active: Subscription[] = [];
-  //   for (let sub of this.subscriptions) {
-  //     if (sub.active && moment(_date).isBetween(sub.startDate, sub.endDate) && !sub.used) {
-  //       const sl = sub.sessionsLimit.find(sl => sl.type === sessionType);
-  //       if (sl && !sl.used) active.push(sub);
-  //     }
-  //   }
-  //   return active.sort((a, b) => (a.paymentType > b.paymentType ? 1 : -1));
-  // }
-
-  // @instanceMethod
-  // attend(session: Session) {
-  //   const attendance =
-  // }
-
   @prop({ default: '' })
   uploadedBanner: string;
 
@@ -95,7 +73,7 @@ export class User extends Typegoose {
   @Field(() => String)
   @prop() // this will create a virtual property
   get portraitImageUrl(): string {
-    return (this as any)._doc.uploadedPortrait || 'default';
+    return (this as any)._doc.uploadedPortrait || '/user-no-picture.png';
   }
   set portraitImageUrl(img) {
     (this as any).uploadedPortrait = img;

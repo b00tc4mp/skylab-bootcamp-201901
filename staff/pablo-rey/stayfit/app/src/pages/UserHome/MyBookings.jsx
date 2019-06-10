@@ -8,10 +8,9 @@ export default function MyBookings() {
   const ctx = useContext(MainContext);
   const { refreshUserData, nextAttendances } = ctx;
 
-  function refresh(event) {
-    refreshUserData().then(() => {
-      if (event && event.target && event.target.complete) event.target.complete();
-    });
+  async function refresh(event) {
+    await refreshUserData()
+    if (event && event.target && event.target.complete) event.target.complete();
   }
 
   return (

@@ -1,20 +1,8 @@
-import {
-  IonItemDivider,
-  IonLabel,
-  IonList,
-  IonModal,
-  IonToolbar,
-  IonButtons,
-  IonButton,
-  IonTitle,
-  IonContent,
-  IonPage,
-  IonHeader,
-} from '@ionic/react';
+import { IonItemDivider, IonLabel, IonList } from '@ionic/react';
 import moment from 'moment';
 import React, { useState } from 'react';
 import AttendanceItem from '../attendances/AttendanceItem';
-import ViewSession from './ViewSession';
+import ModalViewSession from './ModalViewSession';
 
 export default function ListSessionsCustomer({
   sessions,
@@ -48,21 +36,7 @@ export default function ListSessionsCustomer({
 
   return (
     <>
-      <IonModal isOpen={!!showDetail} onDidDismiss={() => setShowDetail(null)} animated>
-        <IonPage>
-          <IonHeader>
-            <IonToolbar>
-              <IonButtons slot="start">
-                <IonButton onClick={() => setShowDetail(null)}>Close</IonButton>
-              </IonButtons>
-              <IonTitle>Session details</IonTitle>
-            </IonToolbar>
-          </IonHeader>
-          <IonContent>
-            <ViewSession session={showDetail} />
-          </IonContent>
-        </IonPage>
-      </IonModal>
+      <ModalViewSession showDetail={showDetail} onDidDismiss={() => setShowDetail(null)} />
       <IonList>
         {!!groups.today.length && showToday && (
           <>

@@ -1,15 +1,4 @@
-import {
-  IonButton,
-  IonCol,
-  IonGrid,
-  IonImg,
-  IonInput,
-  IonItem,
-  IonLabel,
-  IonRow,
-  IonText,
-  IonToast,
-} from '@ionic/react';
+import { IonButton, IonCol, IonGrid, IonImg, IonInput, IonItem, IonLabel, IonRow } from '@ionic/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import logic from '../../logic';
@@ -47,7 +36,6 @@ function Register({ history }) {
         password,
         phone,
         role: 'GUEST_ROLE',
-        providerId: provider.id,
       });
     }
     await ctx.login(email, password);

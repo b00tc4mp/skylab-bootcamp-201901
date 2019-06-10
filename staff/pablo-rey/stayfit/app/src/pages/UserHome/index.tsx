@@ -1,25 +1,6 @@
-import React, { useState, useContext } from 'react';
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonContent,
-  IonButtons,
-  IonMenuButton,
-  IonSegment,
-  IonSegmentButton,
-  IonSearchbar,
-  IonLoading,
-  IonBadge,
-  IonModal,
-  IonTabs,
-  IonRouterOutlet,
-  IonTabBar,
-  IonTabButton,
-  IonLabel,
-} from '@ionic/react';
-import { IonIcon, IonButton } from '@ionic/react';
-import { withRouter, Route } from 'react-router-dom';
+import { IonIcon, IonLabel, IonPage, IonRouterOutlet, IonTabBar, IonTabButton, IonTabs } from '@ionic/react';
+import React, { useContext } from 'react';
+import { Route, withRouter } from 'react-router-dom';
 import { MainContext } from '../../logic/contexts/main-context';
 import MainUser from './MainUser';
 import MyBookings from './MyBookings';
@@ -27,13 +8,7 @@ import MyProviders from './MyProviders';
 import MySettingsUser from './MySettingsUser';
 
 const Home: React.FC<any> = ({ history, location }) => {
-  const [view, setView] = useState('all');
   const ctx = useContext(MainContext);
-
-  const updateSegment = (e: CustomEvent) => {
-    const _view = e.detail.value;
-    setView(_view);
-  };
 
   if (!ctx.user) {
     return <p>No user loaded</p>;

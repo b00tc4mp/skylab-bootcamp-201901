@@ -76,7 +76,7 @@ function MainContextProvider(props) {
       }
     }
     if (options) {
-      if (options.refreshCustomers) {
+      if (options.refreshCustomers && !!provider) {
         const _customers = await logic.listCustomers(provider.id);
         setCustomers(_customers);
         return _customers;

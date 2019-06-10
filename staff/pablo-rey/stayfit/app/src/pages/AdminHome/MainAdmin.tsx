@@ -1,4 +1,4 @@
-import { IonContent, IonPage } from '@ionic/react';
+import { IonContent, IonPage, IonRefresher, IonRefresherContent } from '@ionic/react';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import ListSessionsAdmin from '../../components/sessions/ListSessionsAdmin';
@@ -10,8 +10,10 @@ export default function MainAdmin() {
   const [sessions, setSessions] = useState([]);
   const ctx = useContext(MainContext);
 
-  const refresh = () => {
-    ctx.provider && logic.listSessions(ctx.provider.id, moment()).then(sessions => setSessions(sessions));
+  const refresh = async (event?) => {
+    ctx.provider && (await logic.listSessions(ctx.provider.id, moment()).then(sessions => setSessions(sessions)));
+    await ctx.refreshUserData({ refreshCustomers: true });
+    if (event && event.target && event.target.complete) event.target.complete();
   };
 
   useEffect(() => {
@@ -21,9 +23,12 @@ export default function MainAdmin() {
   return (
     <IonPage id="main-admin">
       <IonContent>
+        <IonRefresher slot="fixed" onIonRefresh={refresh}>
+          <IonRefresherContent />
+        </IonRefresher>
         <h1>Admin Main</h1>
         {ctx.customers && <ListCustomers customersAndRequests={ctx.customers} showActive={false} />}
-        <h2>Sesiones para hoy</h2>
+        <h2>Today sessions</h2>
         {!!sessions && <ListSessionsAdmin sessions={sessions} onChange={refresh} />}
       </IonContent>
     </IonPage>

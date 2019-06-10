@@ -1,12 +1,9 @@
 import { IonCol, IonGrid, IonItem, IonLabel, IonRow, IonText } from '@ionic/react';
 import moment from 'moment';
-import React, { useContext } from 'react';
-import { MainContext } from '../../logic/contexts/main-context';
-import ListUsersAttendance from '../users/ListUsersAttendance'
+import React from 'react';
+import ListUsersAttendance from '../users/ListUsersAttendance';
 
-const ViewSession: React.FC<any> = ({ session, onChangeAttendance }) => {
-  const ctx = useContext(MainContext);
-
+export default function ViewSession({ session, onChangeAttendance }) {
   if (!session) return null;
 
   return (
@@ -87,11 +84,9 @@ const ViewSession: React.FC<any> = ({ session, onChangeAttendance }) => {
       </IonRow>
       <IonRow>
         <IonCol>
-          <ListUsersAttendance attendances={session.attendances} onChange={onChangeAttendance}/>
+          <ListUsersAttendance attendances={session.attendances} onChange={onChangeAttendance} />
         </IonCol>
       </IonRow>
     </IonGrid>
   );
-};
-
-export default ViewSession;
+}

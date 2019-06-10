@@ -1,22 +1,22 @@
-import React, { useState, useEffect, useContext } from 'react';
-import { MainContext } from '../../logic/contexts/main-context';
-import moment from 'moment';
-import logic from '../../logic';
-import AttendanceItem from '../../components/attendances/AttendanceItem';
 import {
-  IonPage,
   IonButton,
   IonButtons,
   IonIcon,
-  IonSegmentButton,
-  IonSegment,
+  IonImg,
+  IonItem,
+  IonPage,
   IonRefresher,
   IonRefresherContent,
-  IonImg,
-  IonAvatar,
+  IonSegment,
+  IonSegmentButton,
   IonThumbnail,
-  IonItem,
 } from '@ionic/react';
+import moment from 'moment';
+import React, { useContext, useEffect, useState } from 'react';
+import AttendanceItem from '../../components/attendances/AttendanceItem';
+import logic from '../../logic';
+import { MainContext } from '../../logic/contexts/main-context';
+import ModalViewSession from '../../components/sessions/ModalViewSession';
 
 export default function MyProviders({ history, location }) {
   const ctx = useContext(MainContext);
@@ -27,6 +27,7 @@ export default function MyProviders({ history, location }) {
   const [provider, setProvider] = useState(customerOf[0]);
   const [view, setView] = useState(moment().format('YYYY-MM-DD'));
   const [sessions, setSessions] = useState([]);
+  const [showDetail, setShowDetail] = useState(null)
 
   function refresh(event) {
     logic.availableSessions(provider.id, view).then(data => {
@@ -35,6 +36,10 @@ export default function MyProviders({ history, location }) {
       if (event) event.target.complete();
     });
   }
+
+  const handleDetail = session => {
+    setShowDetail(session);
+  };
 
   const handleProviderPlus = () => {
     if (providerNum < customerOf.length - 1) {
@@ -57,7 +62,7 @@ export default function MyProviders({ history, location }) {
     const _day = e.detail.value;
     setView(_day);
   };
-  
+
   const day = moment();
   return (
     <IonPage id="providers-user">
@@ -75,7 +80,7 @@ export default function MyProviders({ history, location }) {
             <ion-title>{provider.name}</ion-title>
           </IonItem>
           <IonButtons slot="end">
-            <IonButton onClick={handleProviderPlus} disabled={providerNum >= customerOf.length -1}>
+            <IonButton onClick={handleProviderPlus} disabled={providerNum >= customerOf.length - 1}>
               <IonIcon name="arrow-dropright" />
             </IonButton>
           </IonButtons>
@@ -97,12 +102,18 @@ export default function MyProviders({ history, location }) {
         </IonSegment>
       </ion-header>
       <ion-content>
+        <ModalViewSession showDetail={showDetail} onDidDismiss={() => setShowDetail(null)} />
         <IonRefresher slot="fixed" onIonRefresh={refresh}>
           <IonRefresherContent />
         </IonRefresher>
         <ion-list>
           {sessions.map(sessionAttendance => (
-            <AttendanceItem key={sessionAttendance.id} session={sessionAttendance} onChange={refresh} />
+            <AttendanceItem
+              key={sessionAttendance.id}
+              session={sessionAttendance}
+              onChange={refresh}
+              onDetail={handleDetail}
+            />
           ))}
         </ion-list>
       </ion-content>

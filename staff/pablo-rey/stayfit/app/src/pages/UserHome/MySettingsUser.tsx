@@ -10,8 +10,9 @@ export default function MySettingsUser() {
     <IonPage id="settings-user">
       <IonContent>
         <IonButton expand="block" onClick={ctx.logout} >Logout</IonButton>
-        <h1>My providers</h1>
+        <h2>My providers</h2>
         <ListProviders providers={ctx.myProviders} />
+
       </IonContent>
     </IonPage>
   );

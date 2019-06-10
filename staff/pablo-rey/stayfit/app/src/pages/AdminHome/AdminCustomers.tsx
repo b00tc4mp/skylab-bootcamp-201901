@@ -1,24 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { IonContent, IonPage, IonButton } from '@ionic/react';
+import { IonContent, IonPage, IonButton, IonModal, IonHeader, IonToolbar, IonButtons, IonTitle } from '@ionic/react';
 import { Link } from 'react-router-dom';
 import logic from '../../logic';
 import { MainContext } from '../../logic/contexts/main-context';
 import ListCustomers from '../../components/users/ListCustomers';
+import ViewSession from '../../components/sessions/ViewSession';
+import ListUserAttendances from '../../components/users/ListUserAllAttendances';
 
 export default function AdminCustomers() {
   const [customers, setCustomers] = useState([]);
 
   const ctx = useContext(MainContext);
-
-  const handleAcceptRequest = async (userId: string) => {
-    await logic.updateRequestCustomer(userId, ctx.provider.id, 'ACCEPT');
-    logic.listCustomers(ctx.provider.id).then(customers => setCustomers(customers));
-  };
-
-  const handleDenyRequest = async (userId: string) => {
-    await logic.updateRequestCustomer(userId, ctx.provider.id, 'DENIEDBYPROVIDER');
-    logic.listCustomers(ctx.provider.id).then(customers => setCustomers(customers));
-  };
 
   useEffect(() => {
     logic.listCustomers(ctx.provider.id).then(customers => setCustomers(customers));

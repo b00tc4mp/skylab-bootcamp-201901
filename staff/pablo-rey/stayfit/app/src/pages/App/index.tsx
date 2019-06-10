@@ -1,27 +1,22 @@
 import '@ionic/core';
-// import '@ionic/core/css/core.css';
 import '@ionic/core/css/ionic.bundle.css';
 import { IonApp, IonContent, IonToast } from '@ionic/react';
-import React, { useEffect } from 'react';
+import ApolloClient from 'apollo-boost';
+import React from 'react';
+import { ApolloProvider } from 'react-apollo';
 import { HashRouter as Router, Redirect, Route, Switch } from 'react-router-dom';
+import { SERVER_URL } from '../../config';
+import logic from '../../logic';
+import { MainContext, MainProvider } from '../../logic/contexts/main-context';
 import '../../style.css';
-import Home from '../UserHome';
+import Admin from '../AdminHome';
 import Landing from '../Landing';
 import Login from '../Login';
 import Register from '../Register';
-import Admin from '../AdminHome';
 import Superadmin from '../SuperadminHome';
-import Temp from '../temp';
-import Temp2 from '../temp2';
+import Home from '../UserHome';
 
-import ApolloClient, { InMemoryCache } from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
 
-import { SERVER_URL } from '../../config';
-import logic from '../../logic';
-import { MainProvider, MainContext } from '../../logic/contexts/main-context';
-import CreateSession from '../Session/CreateSession';
-import EditSession from '../Session/EditSession';
 
 const gqlClient = new ApolloClient({
   uri: SERVER_URL + '/graphql',
@@ -61,8 +56,6 @@ const App: React.SFC = () => {
                         ]}
                       />
                       <Switch>
-                        <Route path="/temp" render={() => <Temp client={gqlClient} />} />
-                        <Route path="/temp2" render={() => <Temp2 client={gqlClient} />} />
                         <Route
                           path="/"
                           exact
