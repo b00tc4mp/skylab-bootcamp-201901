@@ -153,7 +153,7 @@ router.post('/presentations/slides/element', auth, (req, res) => {
         const { userId, body: { presentationId, slideId, style, type, content } } = req
 
         return logic.createElement(userId, presentationId, slideId, style, type, content)
-            .then(() => res.status(201).json({ message: 'Ok, element created.' }))
+            .then(element => res.json(element))
     },
         res)
 })

@@ -4,15 +4,17 @@ import { Carousel } from 'react-responsive-carousel'
 import 'tippy.js/themes/light.css'
 import tippy from 'tippy.js'
 import logic from '../../../logic'
+import Slide from './Slide'
 
 import 'react-responsive-carousel/lib/styles/carousel.css'
 
 import './index.sass'
 
-function Playground({ refreshSlide , renderSlides, presentationId }) {
+function Playground({ slideCounterSetter, refreshSlide , renderSlides, presentationId }) {
     const [slides, setSlides] = useState([])
     const [syncreate, setsyncCreate] = useState([])
     const [domlist, setDomlist] = useState([])
+    const [actual, setactual] = useState(0)
 
     const handleCreate = () => {
         //const basic = React.createElement('div', { key:this.state.domlist.length , className: 'basic', onClick:this.handleclick }, 'hola');
@@ -20,13 +22,16 @@ function Playground({ refreshSlide , renderSlides, presentationId }) {
         setDomlist(domlist.concat(basic))
     }
 
+    useEffect(()=>{
+        slideCounterSetter(actual)
+    },[actual])
+
     const handleCreateSlide = async () => {
-        await logic.createSlide(presentationId,"background-color: green")
+        await logic.createSlide(presentationId,"background-color: blue")
         refreshSlide()
     }
         //const basic = React.createElement('div', { key:this.state.domlist.length , className: 'basic', onClick:this.handleclick }, 'hola');
-
-    useEffect(() => {
+    /* useEffect(() => {
         const template = document.querySelector('.slideForm')
         tippy('.createSlide', {
             content: template,
@@ -36,18 +41,25 @@ function Playground({ refreshSlide , renderSlides, presentationId }) {
             trigger: 'click',
             interactive: true,
         })
-    }, [])
+    }, []) */
 
     useEffect(() => {
         if(renderSlides && slides.length<renderSlides.length){
-            renderSlides.forEach(element => {
-                const dbsync = slides.concat(
+            renderSlides.forEach((element) => {
+                const dbsync = slides.concat(<Slide 
+                    presentationId={presentationId} 
+                    slideid={renderSlides[slides.length]._id} 
+                    slideClass={renderSlides[slides.length].class} 
+                    elements={renderSlides[slides.length].elements} 
+                />)
+                // const dbsync = slides.concat(<Slide slideClass={element.class} elements={renderSlides[slides.length].elements} />)
+                /* const dbsync = slides.concat(
                     (<div className="my-slide primary complex">
                         <div className={"manager " + renderSlides[slides.length].class}>
                             {renderSlides[slides.length].class}
                         </div>
                     </div>)
-                    )
+                    ) */
                 setSlides(dbsync) 
             })
         } 
@@ -81,6 +93,8 @@ function Playground({ refreshSlide , renderSlides, presentationId }) {
         </nav>
         <div class="container">
             <Carousel showThumbs={false}
+            onChange={(index) => setactual(index)}
+            selectedItem={actual}
             showStatus={false}
             useKeyboardArrows
             className="presentation-mode"
@@ -108,7 +122,7 @@ function Playground({ refreshSlide , renderSlides, presentationId }) {
         {/* <div className="manager">
             {domlist}
         </div> */}
-        <form class="slideForm breadcrumb is-centered" aria-label="breadcrumbs" onSubmit={handleCreate} >
+        {/* <form class="slideForm breadcrumb is-centered" aria-label="breadcrumbs" onSubmit={handleCreate} >
             <div class="field is-horizontal" >
                 <div class="field-label is-normal">
                     <label class="label">Title</label>
@@ -124,7 +138,7 @@ function Playground({ refreshSlide , renderSlides, presentationId }) {
                     <button class="button is-primary">Create</button>
                 </div>
             </div>
-        </form>
+        </form> */}
     </>
     );
 

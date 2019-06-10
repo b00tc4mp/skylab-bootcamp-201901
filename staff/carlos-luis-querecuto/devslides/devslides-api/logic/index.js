@@ -142,7 +142,7 @@ const logic = {
             { name: 'user_id', value: user_id, type: 'string', notEmpty: true },
             { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
             { name: 'slideId', value: slideId, type: 'string', notEmpty: true },
-            { name: 'title', value: style, type: 'string', notEmpty: true }
+            { name: 'style', value: style, type: 'string', notEmpty: true }
         ])
         return (async () => {
             const user = await User.findById(user_id).lean()
@@ -279,8 +279,10 @@ const logic = {
             const presentation = await Presentation.findById(presentation_id)
             const slideIndex = presentation.slides.findIndex(slide => slide._id.toString() === slide_id)
             if (slideIndex === -1) throw Error('Slide doesnt exist')
-            presentation.slides[slideIndex].elements.push(new Element({ style, type, content }))
+            const element = new Element({ style, type, content })
+            presentation.slides[slideIndex].elements.push(element)
             await presentation.save()
+            return element
 
         })()
     },

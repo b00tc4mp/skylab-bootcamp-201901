@@ -123,6 +123,25 @@ const logic = {
         })()
     },
 
+    createElement(presentationId, slideId, style, type, content){
+        validate.arguments([
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
+            { name: 'slideId', value: slideId, type: 'string', notEmpty: true },
+            { name: 'style', value: style, type: 'string', notEmpty: true },
+            { name: 'type', value: type, type: 'string', notEmpty: true },
+            { name: 'content', value: content, type: 'string', notEmpty: true },
+        ])
+        return (async () => {
+            try {
+                const res = await api.createElement(this.__userToken__, presentationId, slideId, style, type, content)
+                return res
+            }
+            catch (error) {
+                throw error
+            }
+        })()
+    },
+
     retrievePresentations() {
         return (async () => {
             try {

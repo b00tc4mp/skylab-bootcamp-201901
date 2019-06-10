@@ -10,8 +10,11 @@ import './index.sass'
 
 function Editor({ history, match }) {
 
+    const [slidesEditor, setslidesEditor] = useState([])
+    const [dbStyles, setdbStyles] = useState("")
     const [dbSlides, setdbSlides] = useState(null)
     const [slides, setSlides] = useState([])
+    const [actualSlide, setActualSlide] = useState(0)
     const [slidesCounter, setSlidesCounter] = useState(0)
     const [Globalstyles, setGlobalstyles] = useState(null)
     const { params: { id } } = match
@@ -27,23 +30,36 @@ function Editor({ history, match }) {
         }
         retrievePresentation()
     }
+    useEffect(() =>{
+        console.log(slidesCounter)
+    },[slidesCounter])
 
     useEffect(() => {
         if (dbSlides) {
+            let stylesPerSlide= []
             let slidesStyle = ''
-            const renderSlide = dbSlides.map(slide => {
-                const { _id, style } = slide
-                slidesStyle += `.S${_id}{ \n ${style} }`
+            const renderSlide = dbSlides.map((slide,index) => {
+                const { _id, style, elements } = slide
+                slidesStyle = `.Slide-${index}{ \n ${style} \n}\n\n`
+                elements.forEach((element) => {
+                    slidesStyle += `.${element.type}{ \n ${element.style} \n}\n\n`
+                })
+                stylesPerSlide.push(slidesStyle)
                 return {
-                    class: `S${_id}`
+                    _id,
+                    elements,
+                    class: `Slide-${index}`
                 }
             })
-            handleStyle(slidesStyle)
+            setslidesEditor(stylesPerSlide) 
+            setdbStyles(slidesStyle)
+       /*      handleStyle(slidesStyle) */
             setSlides(renderSlide)
         }
     }, [dbSlides]);
 
-    const handleStyle = (styles) => {
+
+    /* const handleStyle = (styles) => {
         if (Globalstyles) {
             let style = document.createElement('style');
             style.type = "text/css"
@@ -56,7 +72,7 @@ function Editor({ history, match }) {
             style.innerHTML = styles
         }
         setGlobalstyles(styles)
-    }
+    } */
 
     return (<>
         <section class="container   ">
@@ -68,10 +84,10 @@ function Editor({ history, match }) {
                         </p>
 
                     </aside>
-                    <Manager styles={handleStyle} />
+                    <Manager dbStyles={slidesEditor[slidesCounter]}/>
                 </div>
                 <div class="column is-four-fifths">
-                    <Playground renderSlides={slides} presentationId={id} refreshSlide={refreshSlides} />
+                    <Playground slideCounterSetter={setSlidesCounter} renderSlides={slides} presentationId={id} refreshSlide={refreshSlides} />
                 </div>
             </div>
         </section>
