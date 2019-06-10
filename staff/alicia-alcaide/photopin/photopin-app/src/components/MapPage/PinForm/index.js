@@ -4,7 +4,6 @@ import literals from "./literals";
 import Modal from "react-modal";
 import { placeType } from "../../../types";
 
-
 const modalStyles = {
   content: {
     position: "relative",
@@ -19,15 +18,11 @@ const modalStyles = {
   }
 };
 
-class NewPinForm extends React.Component {
+class PinForm extends React.Component {
   state = { showModal: false };
 
   componentDidMount() {
     this.props.place && this.setState({ showModal: true });
-  }
-
-  componentDidUpdate(prevProps) {
-    //  this.props.place !== prevProps.place && this.setState({ showModal: true });
   }
 
   handleCloseModal = e => {
@@ -42,9 +37,9 @@ class NewPinForm extends React.Component {
     e.stopPropagation();
 
     //TODO: validar los campos del formulario
-    debugger
 
     const newPin = {
+      id: this.props.place.id,
       title: e.target.title.value,
       description: e.target.description.value,
       urlImage: e.target.urlImage.value,
@@ -56,19 +51,25 @@ class NewPinForm extends React.Component {
         latitude: this.props.place.geometry.location.lat,
         longitude: this.props.place.geometry.location.lng
       },
-      collectionSel: e.target.collectionSel.value
+      collection: this.isEditing() ? this.props.place.collection : e.target.collectionSel.value
     };
 
+    debugger;
     this.setState({ showModal: false });
-    this.props.onNewPin(newPin);
+    this.props.onSubmit(newPin);
   };
+
+  stopPropagation = e => e.stopPropagation;
+
+  isEditing = () => this.props.place.id && this.props.place.id !== "";
 
   render() {
     const {
       state: { showModal },
-      props: { mapCollections, lang, onNewPin, place },
+      props: { mapCollections, lang, place },
       handleCloseModal,
-      handleSubmit
+      handleSubmit,
+      isEditing
     } = this;
 
     const {
@@ -81,51 +82,55 @@ class NewPinForm extends React.Component {
       travelInfo,
       collection,
       add,
-      cancel
+      update,
+      cancel,
+      headerAdd,
+      headerUpdate
     } = literals[lang];
 
     return (
       <>
-        {place && mapCollections && onNewPin && (
-          <Modal
-            isOpen={showModal}
-            onRequestClose={handleCloseModal}
-            style={modalStyles}
-          >
+        {place && mapCollections && (
+          <Modal isOpen={showModal} onRequestClose={handleCloseModal} style={modalStyles} ariaHideApp={false}>
             <div className="modal">
+              <h2>{isEditing() ? headerUpdate : headerAdd}</h2>
               <form onSubmit={handleSubmit}>
                 <span>{title}</span>
-                <input type="text" name="title" autoFocus />
+                <input type="text" name="title" defaultValue={place.title} autoFocus />
                 <br />
                 <span>{description}</span>
-                <input type="text" name="description" />
+                <input type="text" name="description" defaultValue={place.description} />
                 <br />
                 <span>{urlImage}</span>
-                <input type="text" name="urlImage" />
+                <input type="text" name="urlImage" defaultValue={place.urlImage} />
                 <br />
                 <span>{bestTimeYear}</span>
-                <input type="text" name="bestTimeYear" />
+                <input type="text" name="bestTimeYear" defaultValue={place.bestTimeOfYear} />
                 <br />
                 <span>{bestTimeDay}</span>
-                <input type="text" name="bestTimeDay" />
+                <input type="text" name="bestTimeDay" defaultValue={place.bestTimeOfDay} />
                 <br />
                 <span>{photoTips}</span>
-                <textarea type="text" name="photoTips" rows="2" cols="25" />
+                <textarea type="text" name="photoTips" rows="2" cols="25" defaultValue={place.photographyTips} />
                 <br />
                 <span>{travelInfo}</span>
-                <textarea type="text" name="travelInfo" rows="2" cols="25" />
+                <textarea type="text" name="travelInfo" rows="2" cols="25" defaultValue={place.travelInformation} />
                 <br />
-                <span>{collection}</span>
-                <select name="collectionSel">
-                  {mapCollections.map(collection => (
-                    <option value={collection} key={collection}>
-                      {collection}
-                    </option>
-                  ))}
-                </select>
+                {!isEditing() && (
+                  <>
+                    <span>{collection}</span>
+                    <select name="collectionSel" defaultValue={place.collection}>
+                      {mapCollections.map(collection => (
+                        <option value={collection} key={collection}>
+                          {collection}
+                        </option>
+                      ))}
+                    </select>
+                  </>
+                )}
                 <br />
                 <div>
-                  <button type="submit">{add}</button>
+                  <button type="submit">{isEditing() ? update : add}</button>
                   <button type="button" onClick={this.handleCloseModal}>
                     {cancel}
                   </button>
@@ -140,12 +145,12 @@ class NewPinForm extends React.Component {
   }
 }
 
-NewPinForm.propTypes = {
+PinForm.propTypes = {
   place: placeType,
   mapCollections: PropTypes.arrayOf(string).isRequired,
   lang: PropTypes.string.isRequired,
-  onNewPin: PropTypes.func.isRequired,
+  onSubmit: PropTypes.func.isRequired,
   onCancel: PropTypes.func.isRequired
 };
 
-export default NewPinForm;
+export default PinForm;

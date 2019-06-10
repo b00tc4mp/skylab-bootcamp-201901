@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import NewPinForm from "../NewPinForm";
+import PinForm from "../PinForm";
 import NewPinWindow from "../NewPinWindow";
 import { placeType } from "../../../types";
 
 const NewMarker = props => {
-  const [showNewPinForm, setShowNewPinForm] = useState(false);
+  const [showPinForm, setShowPinForm] = useState(false);
 
   const markerStyle = {
     border: "1px solid white",
@@ -20,37 +20,35 @@ const NewMarker = props => {
   const handleAddNewPinHere = e => {
     e.preventDefault();
     e.stopPropagation();
-    setShowNewPinForm(true);
+    setShowPinForm(true);
+    props.onPinFormOpen();
   };
 
-  const handleCancel = () => {
-    setShowNewPinForm(false);
-    props.onCancel && props.onCancel();
+  const handleFormCancelled = () => {
+    setShowPinForm(false);
+    props.onPinFormClosed();
   };
 
   return (
     <>
-      <div
-        style={markerStyle}
-        alt={props.place.title}
-        {...(props.onClick ? { onClick: props.onClick } : {})}
-      />
-      {showNewPinForm ? (
-        <NewPinForm
+      <div style={markerStyle} alt={props.place.title} {...(props.onClick ? { onClick: props.onClick } : {})} />
+      {showPinForm ? (
+        <PinForm
           place={props.place}
-          onNewPin={props.onNewPin}
-          onCancel={handleCancel}
+          onSubmit={props.onNewPinSubmitted}
+          onCancel={handleFormCancelled}
           lang={props.lang}
           mapCollections={props.mapCollections}
         />
       ) : (
-          <NewPinWindow
-            place={props.place}
-            onAddPinHere={handleAddNewPinHere}
-            lang={props.lang}
-            mapCollections={props.mapCollections}
-          />
-        )}
+        <NewPinWindow
+          place={props.place}
+          onAddPinHere={handleAddNewPinHere}
+          onCancel={props.onNewPinWindowClosed}
+          lang={props.lang}
+          mapCollections={props.mapCollections}
+        />
+      )}
     </>
   );
 };
@@ -63,8 +61,10 @@ NewMarker.propTypes = {
   place: placeType.isRequired,
   lat: PropTypes.number.isRequired,
   lng: PropTypes.number.isRequired,
-  onNewPin: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  onNewPinSubmitted: PropTypes.func.isRequired,
+  onPinFormOpen: PropTypes.func.isRequired,
+  onPinFormClosed: PropTypes.func.isRequired,
+  onNewPinWindowClosed: PropTypes.func.isRequired,
   mapCollections: PropTypes.arrayOf(PropTypes.string).isRequired,
   lang: PropTypes.string.isRequired
 };

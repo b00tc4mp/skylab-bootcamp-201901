@@ -1,7 +1,6 @@
-import React, { useContext } from 'react'
-import { AppContext } from '../AppContext'
+import React from 'react'
 import literals from './literals'
-import logo from '../../asserts/logo/icon_v2_white.png'
+import logo from '../../assets/logo/icon_v2_white.png'
 import './index.css'
 
 function Landing({ lang, onRegister, onLogin }) {

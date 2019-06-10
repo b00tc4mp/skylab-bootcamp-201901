@@ -1,13 +1,21 @@
-const logic = require('../../logic')
-const handleErrors = require('../../middlewares/handle-errors')
+const logic = require("../../logic");
+const handleErrors = require("../../middlewares/handle-errors");
 
 module.exports = (req, res) => {
-    handleErrors(async () => {
-        const { userId, params: { id: mapId, title: collectionTitle }, body: { newtitle } } = req
+  handleErrors(async () => {
+    const {
+      userId,
+      params: { id: mapId, title: collectionTitle },
+      body: { newTitle }
+    } = req;
 
-        const user = await logic.updateCollection(userId, mapId, collectionTitle, newtitle)
+    const user = await logic.updateCollection(
+      userId,
+      mapId,
+      collectionTitle,
+      newTitle
+    );
 
-        return res.json(user)
-
-    }, res)
-}
+    return res.json(user);
+  }, res);
+};

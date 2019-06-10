@@ -8,6 +8,7 @@ import MapList from '../MapList';
 class YourMaps extends Component {
     state = { maps: [] }
 
+
     componentDidMount() {
         logic.isUserLoggedIn &&
             logic.retrieveUserMaps()
@@ -19,6 +20,7 @@ class YourMaps extends Component {
                 )
     }
 
+
     render() {
         const {
             state: { maps },
@@ -29,8 +31,8 @@ class YourMaps extends Component {
         const { title } = literals[lang]
 
         return <>
-            <h3 className='uk-text-center'>{title}</h3>
-            {maps && <MapList maps={maps} />}
+            <h2 className='uk-text-center uk-margin-medium-bottom uk-margin-remove-top'>{title}</h2>
+            {maps && <MapList lang={lang} maps={maps} />}
         </>
     }
 }

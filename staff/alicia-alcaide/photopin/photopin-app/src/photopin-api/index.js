@@ -101,13 +101,12 @@ const photopinApi = {
     },
 
 
-    createMap(token, title, description, coverImage, tags) {
+    createMap(token, title, description, coverImage) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'title', value: title, type: 'string', notEmpty: true },
-            { name: 'description', value: description, type: 'string', notEmpty: true },
-            { name: 'coverImage', value: coverImage, type: 'string', notEmpty: true },
-            { name: 'tags', value: tags, type: 'object', notEmpty: true }
+            { name: 'description', value: description, type: 'string' },
+            { name: 'coverImage', value: coverImage, type: 'string' }
         ])
 
         return call(`${this.__url__}/map`, {
@@ -116,7 +115,7 @@ const photopinApi = {
                 Authorization: `Bearer ${token}`,
                 'Content-Type': 'application/json'
             },
-            data: { title, description, coverImage, tags }
+            data: { title, description, coverImage }
         })
     },
 

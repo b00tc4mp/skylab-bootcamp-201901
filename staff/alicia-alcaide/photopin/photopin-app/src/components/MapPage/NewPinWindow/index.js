@@ -7,7 +7,7 @@ const NewPinWindow = props => {
 
   const NewPinWindowStyle = {
     position: "relative",
-    bottom: 150,
+    bottom: 65,
     left: "-45px",
     width: 220,
     backgroundColor: "white",
@@ -17,11 +17,16 @@ const NewPinWindow = props => {
     zIndex: 100
   };
 
+  const stopPropagation = e => e.stopPropagation();
+
   return (
-    <div style={NewPinWindowStyle}>
+    <div onClick={stopPropagation} style={NewPinWindowStyle}>
       <div style={{ fontSize: 16 }}>{place.title}</div>
       <button type="button" onClick={onAddPinHere}>
         Add pin here
+      </button>
+      <button type="button" onClick={() => props.onCancel(place.id)}>
+        x
       </button>
     </div>
   );
@@ -29,7 +34,8 @@ const NewPinWindow = props => {
 
 NewPinWindow.propTypes = {
   place: placeType,
-  onAddPinHere: PropTypes.func.isRequired
+  onAddPinHere: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired
 };
 
 export default NewPinWindow;

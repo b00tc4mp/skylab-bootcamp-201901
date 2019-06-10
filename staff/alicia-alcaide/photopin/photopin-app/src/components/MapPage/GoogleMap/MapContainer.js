@@ -4,7 +4,15 @@ import GoogleMapReact from "google-map-react";
 import SearchBox from "./SearchBox";
 import Marker from "../Marker";
 import NewMarker from "../NewMarker";
-import { placeType, coordinateType } from "../../../types";
+import { placeType } from "../../../types";
+
+const MAP_DEFAULT_ZOOM = 6;
+const MAP_DEFAULT_ZOOM_ON_PIN_SELECTED = 6;
+const MAP_DEFAULT_ZOOM_ON_SEARCH_RESULT = 10;
+const MAP_DEFAULT_CENTER = {
+  lat: 63.53331,
+  lng: -19.51168
+};
 
 class MapContainer extends React.Component {
   state = {
@@ -12,12 +20,16 @@ class MapContainer extends React.Component {
     mapInstance: null,
     mapApi: null,
     places: [],
-    newPlace: null
+    newPlace: null,
+    isPinFormOpen: false,
+    mapCenter: MAP_DEFAULT_CENTER,
+    mapZoom: MAP_DEFAULT_ZOOM
   };
 
   componentWillReceiveProps(props) {
     const { places } = props;
     this.setState({ places });
+    this.state.mapApiLoaded && this.positionMapOnFirstPlace(places);
   }
 
   apiHasLoaded = (map, maps) => {
@@ -27,12 +39,28 @@ class MapContainer extends React.Component {
       mapApi: maps
     });
     map.setOptions({ draggableCursor: "crosshair" });
+    this.positionMapOnFirstPlace(this.state.places);
+  };
+
+  positionMapOnFirstPlace = places => {
+    if (places && places.length > 0) {
+      this.setState({
+        mapCenter: places[0].geometry.location,
+        mapZoom: MAP_DEFAULT_ZOOM_ON_PIN_SELECTED
+      });
+    }
   };
 
   handleSearchResult = gmapPlace => {
     const place = {
       id: "",
       title: gmapPlace.name,
+      description: "",
+      urlImage: "",
+      bestTimeOfYear: "",
+      bestTimeOfDay: "",
+      photographyTips: "",
+      travelInformation: "",
       collection: null,
       showInfo: false,
       geometry: {
@@ -48,22 +76,53 @@ class MapContainer extends React.Component {
       this.state.mapInstance.fitBounds(place.geometry.viewport);
     } else {
       this.state.mapInstance.setCenter(place.geometry.location);
-      this.state.mapInstance.setZoom(this.props.zoomOnSearchResult);
+      this.state.mapInstance.setZoom(MAP_DEFAULT_ZOOM_ON_SEARCH_RESULT);
     }
   };
 
-  handleNewPinCancelled = () => {
-    this.setState({ newPlace: null });
+  handlePinFormOpen = pin => {
+    this.setState({ isPinFormOpen: true });
   };
 
-  onChildClickCallback = key => {
+  handlePinFormClosed = () => {
+    this.setState({ newPlace: null, isPinFormOpen: false });
+  };
+
+  handleNewPinSubmitted = place => {
+    this.setState({ newPlace: null, isPinFormOpen: false });
+    this.props.onNewPin(place);
+  };
+
+  handlePinEdited = place => {
+    this.setState({ isPinFormOpen: false });
+    this.props.onPinEdited(place);
+  };
+
+  handleNewPinWindowClosed = placeId => {
+    this.setState({ newPlace: null });
+    this.handleMapElementClicked(placeId);
+  };
+
+  handleInfoWindowClosed = placeId => {
+    this.handleMapElementClicked(placeId);
+  };
+
+  handleMapElementClicked = key => {
+    this.setState({ newPlace: null });
     this.props.onMarkerClick && this.props.onMarkerClick(key);
   };
 
-  onClickCallback = e => {
+  handleMapClicked = e => {
+    if (this.state.isPinFormOpen) return;
     const place = {
       id: "",
       title: "",
+      description: "",
+      urlImage: "",
+      bestTimeOfYear: "",
+      bestTimeOfDay: "",
+      photographyTips: "",
+      travelInformation: "",
       collection: null,
       showInfo: false,
       geometry: {
@@ -78,56 +137,57 @@ class MapContainer extends React.Component {
     this.props.onMapClick && this.props.onMapClick(e);
   };
 
-  static defaultProps = {
-    center: {
-      lat: 63.53331,
-      lng: -19.51168
-    },
-    zoom: 10
-  };
-
   render() {
-    const { places, newPlace, mapApiLoaded, mapInstance, mapApi } = this.state;
+    const { places, newPlace, mapApiLoaded, mapInstance, mapApi, mapCenter, mapZoom } = this.state;
     return (
       // Important! Always set the container height explicitly
       <div style={{ height: "100vh", width: "100%" }}>
-        {mapApiLoaded && (
-          <SearchBox
-            map={mapInstance}
-            mapApi={mapApi}
-            onSearchResult={this.handleSearchResult}
-          />
-        )}
+        {mapApiLoaded && <SearchBox map={mapInstance} mapApi={mapApi} onSearchResult={this.handleSearchResult} />}
         <GoogleMapReact
           bootstrapURLKeys={{
             key: process.env.REACT_APP_GOOGLE_MAPS_ID,
             libraries: ["places", "geometry"]
           }}
-          defaultCenter={this.props.center}
-          defaultZoom={this.props.defaultZoom}
+          defaultCenter={MAP_DEFAULT_CENTER}
+          defaultZoom={MAP_DEFAULT_ZOOM}
+          center={mapCenter}
+          zoom={mapZoom}
           yesIWantToUseGoogleMapApiInternals
           onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
-          onChildClick={this.onChildClickCallback}
-          onClick={this.onClickCallback}
+          onChildClick={this.handleMapElementClicked}
+          onClick={this.handleMapClicked}
+          hoverDistance={10}
+          options={{ fullscreenControl: false }}
         >
           {places &&
             places.length > 0 &&
-            places.map(place => (
-              <Marker
-                key={place.id}
-                place={place}
-                text={place.name}
-                lat={place.geometry.location.lat}
-                lng={place.geometry.location.lng}
-              />
-            ))}
+            places.map(
+              place =>
+                place.visible && (
+                  <Marker
+                    key={place.id}
+                    place={place}
+                    text={place.name}
+                    lat={place.geometry.location.lat}
+                    lng={place.geometry.location.lng}
+                    onEditPinSubmitted={this.handlePinEdited}
+                    onPinFormOpen={this.handlePinFormOpen}
+                    onInfoWindowClosed={this.handleInfoWindowClosed}
+                    onPinDelete={this.props.onPinDelete}
+                    mapCollections={this.props.mapCollections}
+                    lang={this.props.lang}
+                  />
+                )
+            )}
           {newPlace && (
             <NewMarker
               place={newPlace}
               lat={newPlace.geometry.location.lat}
               lng={newPlace.geometry.location.lng}
-              onNewPin={this.props.onNewPin}
-              onCancel={this.handleNewPinCancelled}
+              onNewPinSubmitted={this.handleNewPinSubmitted}
+              onPinFormOpen={this.handlePinFormOpen}
+              onPinFormClosed={this.handlePinFormClosed}
+              onNewPinWindowClosed={this.handleNewPinWindowClosed}
               mapCollections={this.props.mapCollections}
               lang={this.props.lang}
             />
@@ -140,12 +200,10 @@ class MapContainer extends React.Component {
 
 MapContainer.propTypes = {
   places: PropTypes.arrayOf(placeType),
-  center: coordinateType.isRequired,
-  defaultZoom: PropTypes.number.isRequired,
-  zoomOnSearchResult: PropTypes.number.isRequired,
   onMapClick: PropTypes.func,
   lang: PropTypes.string.isRequired,
   onNewPin: PropTypes.func.isRequired,
+  onPinDelete: PropTypes.func.isRequired,
   mapCollections: PropTypes.arrayOf(PropTypes.string).isRequired
 };
 
