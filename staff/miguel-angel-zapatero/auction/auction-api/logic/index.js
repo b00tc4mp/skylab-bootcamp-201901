@@ -160,29 +160,15 @@ const logic = {
         })()
     },
 
-    retrieveUserItems(id) {
-        validate.arguments([
-            { name: 'id', value: id, type: String, notEmpty: true }
-        ])
-
-        return (async() => {
-            const {items} = await User.findById(id).select('items').lean()
-            
-            return items
-        })()
-    },
-
     /**
      * Retrieve only the user bids from the item with the given userId
      * 
-     * @param {*} itemId The item id
-     * @param {*} userId The user id
+     * @param {String} userId The user id
      * 
-     * @return {Object} the item with the user bids filtered
+     * @return {Array} the items with the user bids filtered
      */
-    retriveUserItemBids(itemId, userId) {
+    retriveUserItemsBids(userId) {
         validate.arguments([
-            { name: 'itemId', value: itemId, type: String, notEmpty: true },
             { name: 'userId', value: userId, type: String, notEmpty: true }
         ])
 
@@ -190,24 +176,39 @@ const logic = {
             const user = await User.findById(userId)
             if(!user) throw new LogicError(`user with id "${userId}" doesn't exist`)
 
-            const item = await Item.findById(itemId)
-            if(!item) throw new LogicError(`item with id "${itemId}" doesn't exist`)
+            const {items} = await User.findById(userId).select('items').lean()
+            debugger
+            const userItems = await Promise.all(items.map(async(itemId) => {
+                // debugger
+                // return await Item.findById(itemId).select('finisDate title images bids').lean()
 
-            const [itemUserBids] = await Item.aggregate([
-                { $match: {"_id": ObjectId(itemId) }},
-                { $project: { "_id": 0, "title": 1 ,"images": 1, "bids": { 
-                    $filter: {
-                        "input": "$bids",
-                        "as": "bid",
-                        "cond": { $eq: ["$$bid.userId", ObjectId(userId)]} 
-                }}}}
-            ])
+                return await Item.aggregate(
+                    { $match: {"_id": ObjectId(itemId) }},
+                    // { $project: { "finishDate": 1, "title": 1 ,"images": 1, "bids": { 
+                    //     $filter: {
+                    //         "input": "$bids",
+                    //         "as": "bid",
+                    //         "cond": { $eq: ["$$bid.userId", ObjectId(userId)]} 
+                    // }}}}
+                    { $project: { "finishDate": 1, "title": 1 ,"images": 1, "bids": 1}}
+                )
+            }))
 
-            itemUserBids.bids.forEach(item => {
-                delete item._id
-            })
+            debugger
 
-            return itemUserBids
+            // if(userItems) {
+            //     userItems.forEach(item => {
+            //         item.id = item._id
+            //         delete item._id
+            //         if(item.bids) {
+            //             item.bids.forEach(bid => {
+            //                 delete bid._id
+            //             })
+            //         }
+            //     })
+            // }
+
+            return userItems
         })()
     },
 
@@ -234,10 +235,20 @@ const logic = {
             
             if(item.isClosed()) throw new LogicError(`item with id "${itemId}" is closed`)
 
-            if(item.startPrice >= amount) throw new LogicError(`sorry, the current bid "${amount}" is lower than the start price`)
+            if(item.isInDate()) throw new LogicError(`the auction item with id "${itemId}" has not started`)
 
-            let bid = item.winningBid()
-            if(bid && bid.amount >= amount) throw new LogicError(`sorry, the bid "${amount}" is lower than the current amount`)
+            if(item.startPrice > amount) throw new LogicError(`sorry, the current bid "${amount}" is lower than the start price`)
+
+            const bid = item.winningBid()
+            const totalBids = item.countBids()
+            
+            if (bid && (totalBids >= 1 && totalBids < 10) && (bid.amount+100) > amount) {
+                throw new LogicError(`sorry, the bid "${amount}" is lower than the minimum bid "${bid.amount+100}"`)
+            } else if (bid && (totalBids >= 10 && totalBids < 15) && (bid.amount+500) > amount) {
+                throw new LogicError(`sorry, the bid "${amount}" is lower than the minimum bid "${bid.amount+500}"`)
+            } else if (bid && totalBids >= 15 && (bid.amount+1000) > amount) {
+                throw new LogicError(`sorry, the bid "${amount}" is lower than the minimum bid "${bid.amount+1000}"`)
+            }
             
             //To continue the auction 1 minute more 
             const now = moment()
@@ -342,23 +353,28 @@ const logic = {
         })()
     },
 
-    //ESTA YA NO LA NECESITO PORQUE CON LA DE retrieveItemBids tengo todos los datos!!!
-    //Preguntar a Manu para eliminar esta función o no?¿??¿??¿¿? o tengo que hacer
-    // 2 llamadas?¿ 1 para los datos del item y la otra para los datos de los bids?¿¿?
     /**
      * Retrieve an item with the given item id
      * 
-     * @param {String} id The item id 
+     * @param {String} itemId The item id 
+     * @param {String} userId the user id
      * 
      * @returns {Object} An item with the given id
      */
-    retrieveItem(id) {
+    retrieveItem(itemId, userId) {
         validate.arguments([
-            { name: 'id', value: id, type: String, notEmpty: true },
+            { name: 'itemId', value: itemId, type: String, notEmpty: true },
+            { name: 'userId', value: userId, type: String, notEmpty: true },
         ])
 
         return (async () => {
-            const item = await Item.findById(id).select('-__v').lean()
+            const user = await User.findById(userId)
+            if(!user) throw new LogicError(`user with id "${userId}" doesn't exist`)
+
+            let item = await Item.findById(itemId)
+            if(!item) throw new LogicError(`item with id "${itemId}" doesn't exist`)
+
+            item = await Item.findById(itemId).select('-__v').lean()
             
             item.id = item._id
             delete item._id
@@ -400,10 +416,12 @@ const logic = {
                     model: 'User',
                     select: 'name avatar'
                 }).lean()
- 
+
             bids.bids.forEach(bid => {
-                bid.userId.id = bid.userId._id
-                delete bid.userId._id
+                if(bid.userId._id) {
+                    bid.userId.id = bid.userId._id.toString()
+                    delete bid.userId._id
+                }    
             })
 
             return bids

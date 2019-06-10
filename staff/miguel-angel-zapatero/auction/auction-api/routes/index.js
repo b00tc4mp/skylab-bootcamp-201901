@@ -61,23 +61,13 @@ router.delete('/users/delete', jsonParser, auth, (req, res) => {
     }, res)
 })
 
-router.get('/users/items', auth, (req, res) => {
+router.get('/users/items/bids', auth, (req, res) => {
     const { userId } = req
-
+    
     handleErrors(async () => {
-        const userItems = await logic.retrieveUserItems(userId)
+        const userItems = await logic.retriveUserItemsBids(userId)
         
         return res.json(userItems)
-    }, res)
-})
-
-router.get('/users/items/bids', jsonParser, auth, (req, res) => {
-    const { userId, body: { itemId } } = req
-
-    handleErrors(async () => {
-        const userItemBids = await logic.retriveUserItemBids(itemId, userId)
-        
-        return res.json(userItemBids)
     }, res)
 })
 
@@ -105,8 +95,8 @@ router.post('/items', jsonParser, auth, (req, res) => {
     const { userId, body } = req
 
     let { title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city } = body
-    debugger
-    //FALTA DE MIRAR LO DEL TEMA DE LAS IMAGENES!!!!!
+
+    //CHECK UPLOAD IMAGES ON CREATE ITEM
     startDate = new Date(startDate)
     finishDate = new Date(finishDate)
     
@@ -139,11 +129,11 @@ router.get('/items', jsonParser, (req, res) => {
     }, res)
 })
 
-router.get('/items/:id', (req, res) => {
-    const { params: { id } } = req 
-    
+router.get('/items/:id', auth, (req, res) => {
+    const { userId, params: { id } } = req 
+    debugger
     handleErrors(async () => {
-        const item = await logic.retrieveItem(id)
+        const item = await logic.retrieveItem(id, userId)
         
         return res.json(item)
     }, res)
