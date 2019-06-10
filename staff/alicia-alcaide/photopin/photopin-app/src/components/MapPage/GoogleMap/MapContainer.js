@@ -138,11 +138,14 @@ class MapContainer extends React.Component {
   };
 
   render() {
+    const { lang } = this.props;
     const { places, newPlace, mapApiLoaded, mapInstance, mapApi, mapCenter, mapZoom } = this.state;
     return (
       // Important! Always set the container height explicitly
-      <div style={{ height: "calc(100vh - 130px)", width: "calc(100vw - 300px)" }}>
-        {mapApiLoaded && <SearchBox map={mapInstance} mapApi={mapApi} onSearchResult={this.handleSearchResult} />}
+      <div style={{ height: "calc(100vh - 150px)", width: "calc(100vw - 360px)" }}>
+        {mapApiLoaded && !this.state.isPinFormOpen && (
+          <SearchBox map={mapInstance} mapApi={mapApi} onSearchResult={this.handleSearchResult} lang={lang} />
+        )}
         <GoogleMapReact
           bootstrapURLKeys={{
             key: process.env.REACT_APP_GOOGLE_MAPS_ID,
@@ -156,7 +159,7 @@ class MapContainer extends React.Component {
           onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
           onChildClick={this.handleMapElementClicked}
           onClick={this.handleMapClicked}
-          hoverDistance={10}
+          hoverDistance={20}
           options={{ fullscreenControl: false }}
         >
           {places &&
@@ -172,6 +175,7 @@ class MapContainer extends React.Component {
                     lng={place.geometry.location.lng}
                     onEditPinSubmitted={this.handlePinEdited}
                     onPinFormOpen={this.handlePinFormOpen}
+                    onPinFormClosed={this.handlePinFormClosed}
                     onInfoWindowClosed={this.handleInfoWindowClosed}
                     onPinDelete={this.props.onPinDelete}
                     mapCollections={this.props.mapCollections}

@@ -5,9 +5,10 @@ import { withRouter } from "react-router-dom";
 import CollectionPin from "./CollectionPin";
 import CollectionForm from "./CollectionForm";
 import literals from "./literals";
+import YesNoModal from "../../Common/YesNoModal";
 
 class CollectionSection extends Component {
-  state = { error: null, addingCollection: false, editingCollection: null };
+  state = { error: null, addingCollection: false, editingCollection: null, deletingCollection: false };
 
   handleNewCollection = () => {
     this.setState({ addingCollection: true });
@@ -17,20 +18,32 @@ class CollectionSection extends Component {
     this.setState({ editingCollection: collection });
   };
 
+  handleDeleteCollection = collection => {
+    this.setState({ deletingCollection: collection });
+  };
+
   handleSubmitNewCollection = collection => {
     this.setState({ addingCollection: false });
     this.props.onNewCollection(collection.title);
   };
 
-  handleSubmitEditCollection = newCollection => {
+  handleSubmitEditCollection = collection => {
     const oldCollection = this.state.editingCollection;
     this.setState({ editingCollection: null });
-    this.props.onCollectionEdit(oldCollection.title, newCollection.title);
+    this.props.onCollectionEdit(oldCollection.title, collection.title);
+  };
+
+  handleSubmitDeleteCollection = () => {
+    this.setState({ deletingCollection: null });
+    const title = this.state.deletingCollection.title;
+    this.props.onCollectionDelete(title);
   };
 
   handleNewCollectionCancel = () => this.setState({ addingCollection: false });
 
   handleEditCollectionCancel = () => this.setState({ editingCollection: null });
+
+  handleDeleteCollectionCancel = () => this.setState({ deletingCollection: null });
 
   render() {
     const { props, state } = this;
@@ -58,6 +71,15 @@ class CollectionSection extends Component {
               lang={props.lang}
             />
           )}
+          {state.deletingCollection && (
+            <YesNoModal
+              title={literal.deleteColectionTitle}
+              desc={literal.deleteColectionDesc}
+              onYes={this.handleSubmitDeleteCollection}
+              onNo={this.handleDeleteCollectionCancel}
+              lang={props.lang}
+            />
+          )}
         </section>
         <section className="collections">
           {props.pmap && props.pmap.collections && (
@@ -69,7 +91,7 @@ class CollectionSection extends Component {
                       <button onClick={() => props.onCollectionVisibilityToggle(collection.title)}>T</button>
                       {collection.title}
                       <button onClick={() => this.handleEditCollection(collection)}>E</button>
-                      <button onClick={() => props.onCollectionDelete(collection.title)}>D</button>
+                      <button onClick={() => this.handleDeleteCollection(collection)}>D</button>
                     </h6>
                     {collection.pins && (
                       <ul className="uk-margin-left uk-accordion-content">

@@ -3,19 +3,11 @@ import PropTypes from "prop-types";
 import PinForm from "../PinForm";
 import NewPinWindow from "../NewPinWindow";
 import { placeType } from "../../../types";
+import "./index.css";
+import pinYellow from "../../../assets/icons/icon_pin_yellow.png";
 
 const NewMarker = props => {
   const [showPinForm, setShowPinForm] = useState(false);
-
-  const markerStyle = {
-    border: "1px solid white",
-    borderRadius: "50%",
-    height: 10,
-    width: 10,
-    backgroundColor: "violet",
-    cursor: "pointer",
-    zIndex: 10
-  };
 
   const handleAddNewPinHere = e => {
     e.preventDefault();
@@ -31,7 +23,7 @@ const NewMarker = props => {
 
   return (
     <>
-      <div style={markerStyle} alt={props.place.title} {...(props.onClick ? { onClick: props.onClick } : {})} />
+      <img className="new-marker-default" src={pinYellow} height="20" width="20" alt="Pin" />
       {showPinForm ? (
         <PinForm
           place={props.place}
@@ -41,15 +33,14 @@ const NewMarker = props => {
           mapCollections={props.mapCollections}
         />
       ) : (
-          <NewPinWindow
-            lang={props.lang}
-            place={props.place}
-            onAddPinHere={handleAddNewPinHere}
-            onCancel={props.onNewPinWindowClosed}
-            lang={props.lang}
-            mapCollections={props.mapCollections}
-          />
-        )}
+        <NewPinWindow
+          lang={props.lang}
+          place={props.place}
+          onAddPinHere={handleAddNewPinHere}
+          onCancel={props.onNewPinWindowClosed}
+          mapCollections={props.mapCollections}
+        />
+      )}
     </>
   );
 };

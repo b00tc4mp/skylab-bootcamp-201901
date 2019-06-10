@@ -1,25 +1,15 @@
 import React from "react";
 import { PropTypes, string } from "prop-types";
 import literals from "./literals";
+import validate from "photopin-validate";
 import Modal from "react-modal";
 import { placeType } from "../../../types";
+import placeholderImage from "../../../assets/images/placeholder-image.png";
+import './index.css'
 
-const modalStyles = {
-  content: {
-    position: "relative",
-    bottom: 150,
-    left: 50,
-    width: 280,
-    height: 420,
-    backgroundColor: "white",
-    boxShadow: "0 2px 7px 1px rgba(0, 0, 0, 0.3)",
-    padding: 10,
-    fontSize: 14
-  }
-};
 
 class PinForm extends React.Component {
-  state = { showModal: false };
+  state = { showModal: false, coverImage: "" };
 
   componentDidMount() {
     this.props.place && this.setState({ showModal: true });
@@ -30,6 +20,19 @@ class PinForm extends React.Component {
     e.stopPropagation();
     this.setState({ showModal: false });
     this.props.onCancel();
+  };
+
+  handleChangeImage = e => {
+    let changedCoverImage = null;
+    if (e.target.value !== "") {
+      try {
+        validate.url(e.target.value);
+        changedCoverImage = e.target.value;
+      } catch {
+        changedCoverImage = null;
+      }
+    }
+    this.setState({ coverImage: changedCoverImage });
   };
 
   handleSubmit = e => {
@@ -68,6 +71,7 @@ class PinForm extends React.Component {
       props: { mapCollections, lang, place },
       handleCloseModal,
       handleSubmit,
+      handleChangeImage,
       isEditing
     } = this;
 
@@ -90,52 +94,106 @@ class PinForm extends React.Component {
     return (
       <>
         {place && mapCollections && (
-          <Modal isOpen={showModal} onRequestClose={handleCloseModal} style={modalStyles} ariaHideApp={false}>
+          <Modal isOpen={showModal} onRequestClose={handleCloseModal} ariaHideApp={false} className="Modal" >
             <div className="modal">
-              <h2>{isEditing() ? headerUpdate : headerAdd}</h2>
-              <form onSubmit={handleSubmit}>
-                <span>{title}</span>
-                <input type="text" name="title" defaultValue={place.title} autoFocus />
-                <br />
-                <span>{description}</span>
-                <input type="text" name="description" defaultValue={place.description} />
-                <br />
-                <span>{urlImage}</span>
-                <input type="text" name="urlImage" defaultValue={place.urlImage} />
-                <br />
-                <span>{bestTimeYear}</span>
-                <input type="text" name="bestTimeYear" defaultValue={place.bestTimeOfYear} />
-                <br />
-                <span>{bestTimeDay}</span>
-                <input type="text" name="bestTimeDay" defaultValue={place.bestTimeOfDay} />
-                <br />
-                <span>{photoTips}</span>
-                <textarea type="text" name="photoTips" rows="2" cols="25" defaultValue={place.photographyTips} />
-                <br />
-                <span>{travelInfo}</span>
-                <textarea type="text" name="travelInfo" rows="2" cols="25" defaultValue={place.travelInformation} />
-                <br />
-                {!isEditing() && (
-                  <>
-                    <span>{collection}</span>
-                    <select name="collectionSel" defaultValue={place.collection}>
-                      {mapCollections.map(collection => (
-                        <option value={collection} key={collection}>
+              <h2 className="uk-text-center mini-margin-top uk-margin-remove-bottom">{isEditing() ? headerUpdate : headerAdd}</h2>
+              <div className="uk-grid uk-margin-remove-left uk-grid-match uk-center uk-child-width-expand@s" data-uk-grid>
+                <div className="uk-card uk-card-default custom-card-body mini-margin-top">
+                  <form className="uk-form-stacked" onSubmit={handleSubmit}>
+                    <div className="">
+                      <label className="" htmlFor="form-stacked-text">
+                        {title}
+                      </label>
+                      <div className="uk-form-controls">
+                        <input className="custom-input custom-form-width"
+                          id="form-stacked-text" type="text" name="title" defaultValue={place.title} autoFocus />
+                      </div>
+                    </div>
+                    <div className="mini-margin-top">
+                      <label className="" htmlFor="form-stacked-text">
+                        {description}
+                      </label>
+                      <div className="uk-form-controls">
+                        <input className="custom-input custom-form-width"
+                          id="form-stacked-text" type="text" name="description" defaultValue={place.description} />
+                      </div>
+                    </div>
+                    <div className="mini-margin-top">
+                      <label className="" htmlFor="form-stacked-text">
+                        {urlImage}
+                      </label>
+                      <div className="uk-form-controls">
+                        <input className="custom-input custom-form-width"
+                          id="form-stacked-text" type="url" name="urlImage" defaultValue={place.urlImage} onChange={handleChangeImage} />
+                      </div>
+                    </div>
+                    <div className="mini-margin-top">
+                      <label className="" htmlFor="form-stacked-text">
+                        {bestTimeYear}
+                      </label>
+                      <div className="uk-form-controls">
+                        <input className="custom-input custom-form-width"
+                          id="form-stacked-text" type="text" name="bestTimeYear" defaultValue={place.bestTimeOfYear} />
+                      </div>
+                    </div>
+                    <div className="mini-margin-top">
+                      <label className="" htmlFor="form-stacked-text">
+                        {bestTimeDay}
+                      </label>
+                      <div className="uk-form-controls">
+                        <input className="custom-input custom-form-width"
+                          id="form-stacked-text" type="text" name="bestTimeDay" defaultValue={place.bestTimeOfDay} />
+                      </div>
+                    </div>
+                    <div className="mini-margin-top">
+                      <label className="" htmlFor="form-stacked-text">
+                        {photoTips}
+                      </label>
+                      <div className="uk-form-controls">
+                        <textarea className="custom-form-width"
+                          id="form-stacked-text"
+                          type="text" name="photoTips" rows="1" cols="25" defaultValue={place.photographyTips} />
+                      </div>
+                    </div>
+                    <div className="mini-margin-top">
+                      <label className="" htmlFor="form-stacked-text">
+                        {travelInfo}
+                      </label>
+                      <div className="uk-form-controls">
+                        <textarea className="custom-form-width"
+                          id="form-stacked-text"
+                          type="text" name="travelInfo" rows="1" cols="25" defaultValue={place.travelInformation} />
+                      </div>
+                    </div>
+                    {!isEditing() && (
+                      <div className="mini-margin-top">
+                        <label className="" htmlFor="form-stacked-text">
                           {collection}
-                        </option>
-                      ))}
-                    </select>
-                  </>
-                )}
-                <br />
-                <div>
-                  <button type="submit">{isEditing() ? update : add}</button>
-                  <button type="button" onClick={this.handleCloseModal}>
-                    {cancel}
-                  </button>
+                        </label>
+                        <select className="custom-select"
+                          id="form-stacked-text" name="collectionSel" defaultValue={place.collection}>
+                          {mapCollections.map(collection => (
+                            <option value={collection} key={collection}>
+                              {collection}
+                            </option>
+                          ))}
+                        </select>
+                      </div>
+                    )}
+                    <div className="uk-flex uk-flex-center">
+                      <button className="custom-form-button-small" type="submit">{isEditing() ? update : add}</button>
+                      <button className="custom-form-button-small" type="button" onClick={this.handleCloseModal}>
+                        {cancel}
+                      </button>
+                    </div>
+                  </form>
                 </div>
-                {/* {error && <span>{error}</span>} */}
-              </form>
+                <div>
+                  <div className="uk-card uk-card-default custom-card-body mini-margin-top">
+                    <img src={place.urlImage ? place.urlImage : placeholderImage} width="" height="" alt="" />
+                  </div>
+                </div>
+              </div>
             </div>
           </Modal>
         )}

@@ -1,6 +1,5 @@
 .bg-landing {
-  background: url(https://images.unsplash.com/photo-1513147122760-ad1d5bf68cdb?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2800&q=80)
-    no-repeat center center;
+  background: url(../../assets/images/photo-landing.jpg) no-repeat center center;
   background-size: cover;
   height: 100vh;
   width: 100vw;
