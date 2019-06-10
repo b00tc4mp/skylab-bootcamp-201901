@@ -45,9 +45,18 @@ function Nav({ onHome, onMenu, onCart, onLogout }) {
                 <div className="navbar-start">
                     <a className="navbar-item" href="" onClick={() => onHome()}>Home</a>
                     <a className="navbar-item" href="" onClick={() => onMenu()}>Carta</a>
-                    {logic.isUserLoggedIn && <a className="navbar-item" href="" onClick={() => onLogout()}>Cerrar Sesión</a>}
+                </div>
+                <div className="navbar-end">
+                    <div className="navbar-item">
+                        <p className="control">
+                            {logic.isUserLoggedIn && <a className="button logout" href="" onClick={() => onLogout()}>Cerrar Sesión</a>}
+                        </p>
+                    </div>
                 </div>
             </div>
+
+
+
         </nav>
 
     </>

@@ -3,9 +3,22 @@ const { errors: { LogicError } } = require('kaori-utils')
 const { models, mongoose: { Schema: { Types: { ObjectId } } } } = require('kaori-data')
 const bcrypt = require('bcrypt')
 
-const { User, Product, CartItem, Order } = models
+const { User, Product, Order } = models
 
 const logic = {
+
+    /**
+     * Register user
+     * 
+     * @param {String} name The user name
+     * @param {String} surname The user surname
+     * @param {String} phone The user phone 
+     * @param {String} email The user email 
+     * @param {String} password The user password 
+     * 
+     * @returns {Object} Object with new user
+     */
+
     registerUser(name, surname, phone, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -26,6 +39,15 @@ const logic = {
         })()
     },
 
+    /**
+     * Authenticates a user and verifies if the user exists and the password is correct
+     * 
+     * @param {String} email The user email
+     * @param {String} password The user password
+     * 
+     * @returns {String} The user's id
+     */
+
     authenticateUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
@@ -44,6 +66,14 @@ const logic = {
 
         })()
     },
+
+    /**
+     * Retrieves the user's information 
+     * 
+     * @param {String} id The user id
+     * 
+     * @returns {Object} The user's information
+     */
 
     retrieveUser(id) {
         validate.arguments([
@@ -67,6 +97,17 @@ const logic = {
         //TODO
     },
 
+    /**
+     * Creates products 
+     *
+     * @param {String} title The name of the product 
+     * @param {String} image The url image of the product
+     * @param {String} description The description of the product
+     * @param {Number} price The price of the product
+     * @param {String} category The category of the product
+     * 
+     */
+
     createProduct(title, image, description, price, category) {
         validate.arguments([
             { name: 'title', value: title, type: 'string', notEmpty: true },
@@ -81,6 +122,14 @@ const logic = {
         })()
     },
 
+    /**
+     * Retrieves a product and verifies if the product exists
+     * 
+     * @param {String} id The product's id
+     * 
+     * @returns {Object} The product information 
+     */
+
     retrieveProduct(id) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
@@ -93,6 +142,14 @@ const logic = {
         })()
 
     },
+
+    /**
+     * Retrieves products by category and verifies if the category exists
+     * 
+     * @param {String} category The category of the products
+     * 
+     * @returns {Object} The products' information
+     */
 
     retrieveProductsByCategory(category) {
         validate.arguments([
@@ -113,6 +170,15 @@ const logic = {
         })()
     },
 
+    /**
+     * Adds a product to the cart and verifies if user and product exists
+     * 
+     * @param {String} productId The product's Id
+     * @param {String} userId The user's id
+     * 
+     * @returns {Object} The user's cart
+     */
+    
     addToCart(productId, userId) {
         validate.arguments([
             { name: 'productId', value: productId, type: 'string', notEmpty: true },
@@ -136,7 +202,13 @@ const logic = {
             return user.cart
         })()
     },
-
+    /**
+     * Deletes a product of the cart
+     * 
+     * @param {*} idProduct The product's id
+     * @param {*} userId The user's id
+     * 
+     */
     deleteToCart(idProduct, userId) {
         validate.arguments([
             { name: 'idProduct', value: idProduct, type: 'string', notEmpty: true },
@@ -176,6 +248,13 @@ const logic = {
             })
         })()
     },
+    /**
+     * Retrieve the user's cart and verifies if the user exists
+     * 
+     * @param {*} userId The user's id
+     * 
+     * @returns {Array} Array of objects with the cart's products
+     */
 
     retrieveCart(userId) {
         validate.arguments([
@@ -205,7 +284,14 @@ const logic = {
 
         })()
     },
-
+    
+    /**
+     * Move the products to the buying order
+     * 
+     * @param {*} userId The user's id
+     * 
+     * @returns {String} The order's id
+     */
     cartToOrder(userId) {
         validate.arguments([
             { name: 'userId', value: userId, type: 'string', notEmpty: true }

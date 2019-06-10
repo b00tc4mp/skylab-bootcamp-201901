@@ -1,20 +1,20 @@
 import React from 'react'
 import './index.scss'
 
-function SelectCategory({ onCategory }) {
+function SelectCategory({ onCategory, currentCategory }) {
 
     const getCategory = e => {
-
         const category = e.target.value
         onCategory(category)
     }
+
     return <>
         <div className="field has-addons">
             <div className="control is-expanded">
                 <div className="select is-fullwidth">
-                    <select className='select-category' onChange={getCategory}>
+                    <select className='select-category' onChange={getCategory} value={currentCategory}>
                         <option value='ENTRANTES' >Entrantes</option>
-                        <option value='PACKS' >Packs</option>
+                        <option value='PACKS'>Packs</option>
                         <option value='FISH_ROLLS'>Fish-rolls</option>
                         <option value='MAKIS'>Makis</option>
                     </select>

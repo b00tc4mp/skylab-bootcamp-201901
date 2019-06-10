@@ -1,4 +1,4 @@
-.register{
+.message{
     padding: 5px 20px;
     text-align: center;
     position: relative;
@@ -10,6 +10,6 @@
     width: 100%;
 }
 
-section:last-child{
+.message h2,h3{
     margin-top:20px;
 }

@@ -1,8 +1,10 @@
 import React from 'react'
+import StripePayament from '../StripePayament'
 import './index.scss'
 
 function ProductCart({ items, deleteCart }) {
 
+    
     return <>
         <section className="cart" >
             {!items[0] && <p>No hay productos en la cesta</p>}
@@ -33,8 +35,8 @@ function ProductCart({ items, deleteCart }) {
                     })
                 }
             </ul>
-            {items[0] && <p>TOTAL:</p>}
-            {items[0] && <button className='button is-fullwidth'>Pagar ahora</button>}
+            {items[0] && <p>TOTAL:{items.quantity}</p>}
+            {/* {items[0] && <StripePayament onTokenSucces={handlePurchase}/>} */}
         </section>
     </>
 

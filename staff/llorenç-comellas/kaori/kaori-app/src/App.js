@@ -9,7 +9,7 @@ import Menu from './components/Menu'
 import Cart from './components/Cart'
 import Footer from './components/Footer'
 import { Route, withRouter, Redirect } from 'react-router-dom'
-import './App.css';
+
 
 class App extends Component {
 
@@ -17,22 +17,12 @@ class App extends Component {
 
   handleHome = () => this.props.history.push('/')
 
-  handleMenu = () => this.props.history.push('/menu')
+  handleMenu = () => this.props.history.push('/menu/ENTRANTES')
 
   handleCart = () => this.props.history.push('/cart')
 
-  handleStarters = () => {
-    try {
-      logic.retrieveProductsByCategory('ENTRANTES')
-        .then(() => this.props.history.push(`/menu/ENTRANTES`))
-        .catch(error =>
-          this.setState({ error: error.message })
-        )
-    } catch ({ message }) {
-      this.setState({ error: message })
-    }
-  }
-
+  handleStarters = () => this.props.history.push('/menu/ENTRANTES')
+  
   handlePacks = () => this.props.history.push('/menu/PACKS')
 
   handleMakis = () => this.props.history.push('/menu/MAKIS')
@@ -63,7 +53,7 @@ class App extends Component {
   handleLogin = (email, password) => {
     try {
       logic.loginUser(email, password)
-        .then(() => this.props.history.push('/menu'))
+        .then(() => this.props.history.push('/menu/ENTRANTES'))
         .catch(error =>
           this.setState({ error: error.message })
         )

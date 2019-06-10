@@ -4,6 +4,17 @@ $main-color:#2A6160;
 $second-color: #7BA5A6;
 $font:'Montserrat', sans-serif;
 
+html{ height:100%; }
+
+body{ 
+  min-height:100%;
+  font-family: $font;
+  padding:0; 
+  margin:0;
+  position:relative; 
+}
+
+body::after{ content:''; display:block; height:100px; }
 
 body{
   font-family: $font;
@@ -42,6 +53,7 @@ h3,h2{
   font-family: $font;
   margin-top:20px;
 }
+
 hr{
   background-color:$second-color;
   margin:0;
@@ -49,6 +61,11 @@ hr{
 
 a {
   color: #2a6060;
+}
+
+.footer{
+  background-color:$second-color;
+  padding: 1rem ;
 }
 // <div class="field">
 // <p class="control">

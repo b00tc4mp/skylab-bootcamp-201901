@@ -1,6 +1,8 @@
 @import '../../index.scss';
 
 .footer{
-    background-color:$second-color;
-    padding: 1rem ;
+    position:absolute; 
+    bottom:0; 
+    width:100%; 
+ 
 }
