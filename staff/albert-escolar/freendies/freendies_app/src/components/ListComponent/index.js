@@ -26,7 +26,7 @@ class ListComponent extends Component {
     render() {
         const { results } = this.state
         const { listResults } = this
-        return <div>
+        return <div className = "List">
             {results && listResults(results)}
 
         </div>

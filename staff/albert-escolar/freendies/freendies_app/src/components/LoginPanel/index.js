@@ -25,12 +25,17 @@ class LoginPanel extends Component {
         const { onInputChange, onSubmit } = this
 
 
-        return <div>
-            <h1>Login</h1>
+        return <div className="Login">
+            <h2 className="Login__title">Login</h2>
             <form onSubmit={onSubmit}>
-                <input required name="email" placeholder="insert your user mail" type="text" onChange={event => onInputChange(event)} />
-                <input required name="password" placeholder="insert your user password" type="password" onChange={event => onInputChange(event)} />
-                <button>Submit</button>
+                <p>Email</p>
+                <input className="Login__input"required name="email" placeholder="Insert your user mail" type="text" onChange={event => onInputChange(event)} />
+                <br/>
+                <p>Password</p>
+                <input className="Login__input" required name="password" placeholder="Insert your user password" type="password" onChange={event => onInputChange(event)} />
+                <br/>
+                <br/>
+                <button  className="Login__submitButton">Submit</button>
             </form>
         </div>
     }

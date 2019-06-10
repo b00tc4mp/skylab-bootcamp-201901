@@ -27,14 +27,23 @@ class RegisterPanel extends Component {
         const { history } = this.props
         const { onInputChange, onSubmit } = this
 
-        return <div>
-            <h1>Register</h1>
+        return <div className="Register">
+            <h2 className="Register__title">Register</h2>
             <form onSubmit={onSubmit}>
-                <input required name="username" placeholder="insert your user name" type="text" onChange={event => onInputChange(event)} />
-                <input required name="email" placeholder="insert your user mail" type="text" onChange={event => onInputChange(event)} />
-                <input required name="password" placeholder="insert your user password" type="password" onChange={event => onInputChange(event)} />
-                <input required name="passwordConfirmation" placeholder="confirm you password" type="password" onChange={event => onInputChange(event)} />
-                <button>Submit</button>
+                <p>Name</p>
+                <input className="Register__input" required name="username" placeholder="Insert your user name" type="text" onChange={event => onInputChange(event)} />
+                <br />
+                <p>Email</p>
+                <input className="Register__input"required name="email" placeholder="Insert your user mail" type="text" onChange={event => onInputChange(event)} />
+                <br />
+                <p>Password</p>
+                <input className="Register__input"required name="password" placeholder="Insert your user password" type="password" onChange={event => onInputChange(event)} />
+                <br />
+                <p>Password Confirmation</p>
+                <input className="Register__input"required name="passwordConfirmation" placeholder="Confirm you password" type="password" onChange={event => onInputChange(event)} />
+                <br />
+                <br />
+                <button className="Register__submitButton">Submit</button>
             </form>
         </div>
 

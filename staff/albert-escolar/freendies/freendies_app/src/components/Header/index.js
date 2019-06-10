@@ -50,9 +50,12 @@ class Header extends Component {
     goToLogout = event => {
         event.preventDefault()
 
-        const { props: { handleLogout } } = this
+        const { props: { handleLogout, handleGoToLanding } } = this
+        
 
         handleLogout()
+        handleGoToLanding()
+        
     }
 
     goToUserPanel = event => {
@@ -72,20 +75,22 @@ class Header extends Component {
 
     renderUnloggedButtons(goToRegister, goToLogin) {
 
-        return <div>
-            <button onClick={goToRegister}>Register</button>
-            <button onClick={goToLogin}>Login</button>
+        return <div className="Header__unloggedButton-margin">
+            <button className="Header__button" onClick={goToRegister}>Register</button>
+            <button className="Header__button" onClick={goToLogin}>Login</button>
 
         </div>
 
     }
 
-    renderLoggedButtons=(goToLogout, goToUserPanel, goToUploadGame)=> {
-        const{user:{username}}=this.state
-        return <div>
-            <button onClick={goToUploadGame}>Upload Game</button>
-            <button onClick={goToUserPanel}>{username}</button>
-            <button onClick={goToLogout}>Logout</button>
+    renderLoggedButtons = (goToLogout, goToUserPanel, goToUploadGame) => {
+        const { user: { username } } = this.state
+        return <div className="Header__loggedButtons">
+            <i className="Header__uploadIcon fas fa-upload" onClick={goToUploadGame}/>
+            <div className="Header__loggedButton-margin">
+                <a className="Header__userButton" onClick={goToUserPanel}>{username}</a>
+                <i className="Header__icons fas fa-sign-out-alt"onClick={goToLogout}></i>
+            </div>
         </div>
     }
 
@@ -95,18 +100,16 @@ class Header extends Component {
     render() {
         const {
             goToRegister, goToLogin, goToLanding, goToLogout,
-            goToUserPanel,goToUploadGame, renderUnloggedButtons, renderLoggedButtons, props: {onSearch, onSearchByGenre},
+            goToUserPanel, goToUploadGame, renderUnloggedButtons, renderLoggedButtons, props: { onSearch, onSearchByGenre },
             state: { user }
         } = this
-        return <div>
-            <h1>Header</h1>
-            <button onClick={goToLanding}>Go To Landing</button>
-            {user ? renderLoggedButtons(goToLogout, goToUserPanel, goToUploadGame) : renderUnloggedButtons(goToRegister, goToLogin)}
-            <SearchBar onSearch={onSearch}/>
+        return <div className="Header">
+            <a className="Header__title" onClick={goToLanding}><h1 className="Header__titleReset">Freendies</h1></a>
             <GenresDropdown onSearchByGenre={onSearchByGenre} />
+            <SearchBar onSearch={onSearch} />
+            {user ? renderLoggedButtons(goToLogout, goToUserPanel, goToUploadGame) : renderUnloggedButtons(goToRegister, goToLogin)}
+
         </div>
-
-
     }
 
 }

@@ -25,30 +25,28 @@ class GenresDropdown extends Component {
 
         const { toggleGenres} = this.state
         const { toggleGenresHandler, onSearchGenre } = this
-        return <div>
-            <button onClick={toggleGenresHandler}>Categories</button>
-            {toggleGenres && <div>
-                <ul>
-                    <li>
+        return <div className="Genres">
+            <button className="Genres__button" onClick={toggleGenresHandler}>Categories</button>
+            {toggleGenres && <ul className="Genres__list">
+                    <li className="Genres__listItems">
                         <a onClick={onSearchGenre}>any</a>
                     </li>
-                    <li>
+                    <li className="Genres__listItems">
                         <a onClick={onSearchGenre}>action</a>
                     </li>
-                    <li>
+                    <li className="Genres__listItems">
                         <a onClick={onSearchGenre}>platforms</a>
                     </li>
-                    <li>
+                    <li className="Genres__listItems">
                         <a onClick={onSearchGenre}>shooter</a>
                     </li>
-                    <li>
+                    <li className="Genres__listItems">
                         <a onClick={onSearchGenre}>adventure</a>
                     </li>
-                    <li>
+                    <li className="Genres__listItems">
                         <a onClick={onSearchGenre}>sports</a>
                     </li>
-                </ul>
-            </div>}
+                </ul>}
         </div>
     }
 }

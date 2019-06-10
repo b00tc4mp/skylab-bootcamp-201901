@@ -1,0 +1,47 @@
+.gameDetail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: Monsterrat;
+    padding: 0px 450px;
+    height: 100vh;
+
+    &__title {
+        text-transform: capitalize;
+        font-size: 80px;
+        margin-bottom: 30px;
+
+    }
+
+    &__img {
+
+        height: 400px;
+    }
+
+    &__genreDetail {
+        text-transform: capitalize;
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0px;
+    }
+
+    &__iconsContainer {
+        margin: 15px 0px
+    }
+
+    &__icons {
+        color: orange;
+        font-size: 30px;
+        margin: 0px 10px;
+    }
+
+    &__descriptionBox {
+        overflow:hidden;
+        width: 60%;
+        text-align: left;
+    }
+
+
+
+
+}
