@@ -1,26 +1,32 @@
-import { gCall } from '../../../../common/test-utils/gqlCall';
-import { AttendanceModel, Attendance } from '../../../../data/models/attendance';
-import { User } from '../../../../data/models/user';
-import { SessionModel, Session } from '../../../../data/models/session';
-import {
-  PAIDINADVANCE,
-  CONFIRMED,
-  TOPAYINSESSION,
-  NOSHOW,
-  USER_ROLE,
-  SUPERADMIN_ROLE,
-  ACTIVE,
-  PUBLIC,
-} from '../../../../data/enums';
 import { gql } from 'apollo-server';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
 import * as mongoose from 'mongoose';
-import { SessionTypeModel } from '../../../../data/models/session-type';
+import {
+  ACTIVE,
+  CONFIRMED,
+  NOSHOW,
+  PAIDINADVANCE,
+  PUBLIC,
+  SUPERADMIN_ROLE,
+  TOPAYINSESSION,
+  USER_ROLE,
+  PENDINGCANCELLATION,
+  CANCELLEDBYPROVIDER,
+  ATTENDED,
+  NOCOUNT,
+  OK,
+  PENDINGAPPROVAL,
+} from '../../../../data/enums';
+import { CANCELLEDBYUSER } from './../../../../../../app/src/enums';
+import { User } from '../../../../data/models/user';
+import { Session, SessionModel } from '../../../../data/models/session';
+import { Attendance, AttendanceModel } from '../../../../data/models/attendance';
 import { createRandomUser } from '../../../tests-utils';
-import { deleteModels, createTestProvider } from '../../../../common/test-utils';
 import { random } from '../../../../common/utils';
+import { gCall } from '../../../../common/test-utils/gqlCall';
+import { createTestProvider, deleteModels } from '../../../../common/test-utils';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -107,6 +113,7 @@ describe('attend/unattend session', function() {
       expect(_session!.attendances[0].toString()).to.be.equal(_attendance!.id);
     });
   });
+
   describe('attend session', function() {
     this.timeout(15000);
     beforeEach(() => deleteModels());
@@ -127,7 +134,7 @@ describe('attend/unattend session', function() {
       });
     });
 
-    it('should update session status', async () => {
+    it('should update session status with superadmin credentials', async () => {
       const mutation = gql`
         mutation UpdateStatusAttendance($attendanceId: String!, $status: String!) {
           updateStatusAttendance(attendanceId: $attendanceId, status: $status)
@@ -152,6 +159,89 @@ describe('attend/unattend session', function() {
       expect(_attendance).not.to.be.null;
       expect(_attendance!.status).to.be.equal(NOSHOW);
     });
+
+    it('should update session status with user credentials', async () => {
+      const mutation = gql`
+        mutation UpdateStatusAttendance($attendanceId: String!, $status: String!) {
+          updateStatusAttendance(attendanceId: $attendanceId, status: $status)
+        }
+      `;
+      const response = await gCall({
+        source: mutation,
+        variableValues: {
+          attendanceId: attendance.id.toString(),
+          status: PENDINGCANCELLATION,
+        },
+        ctx: {
+          userId: superadmin.id,
+          role: superadmin.role,
+        },
+      });
+      if (response.errors) console.log(response.errors);
+      expect(response.errors).not.to.exist;
+      expect(response).to.have.property('data').and.not.to.be.null;
+      expect(response.data!.updateStatusAttendance).to.be.true;
+      const _attendance = await AttendanceModel.findById(attendance.id);
+      expect(_attendance).not.to.be.null;
+      expect(_attendance!.status).to.be.equal(PENDINGCANCELLATION);
+    });
+
+    describe('updates not allow user', () => {
+      async function shouldFail(oldStatus: string, newStatus: string) {
+        attendance = await AttendanceModel.create({
+          user: user.id,
+          session: mongoose.Types.ObjectId(session.id),
+          paymentType: PAIDINADVANCE,
+          status: oldStatus,
+        });
+        const mutation = gql`
+          mutation UpdateStatusAttendance($attendanceId: String!, $status: String!) {
+            updateStatusAttendance(attendanceId: $attendanceId, status: $status)
+          }
+        `;
+        const response = await gCall({
+          source: mutation,
+          variableValues: {
+            attendanceId: attendance.id.toString(),
+            status: newStatus,
+          },
+          ctx: {
+            userId: user.id,
+            role: user.role,
+          },
+        });
+        expect(response.errors).to.exist;
+        expect(response.errors![0].message).to.match(/^(user not allowed)/);
+        expect(response).to.have.property('data').and.to.be.null;
+        const _attendance = await AttendanceModel.findById(attendance.id);
+        expect(_attendance).not.to.be.null;
+        expect(_attendance!.status).to.be.equal(oldStatus);
+      }
+
+      it('should fail update session status with user credentials from CONFIRMED to CANCELLEDBYUSER', async () => {
+        await shouldFail(CONFIRMED, CANCELLEDBYUSER);
+      });
+      it('should fail update session status with user credentials from PENDINGCANCELLATION to OK', async () => {
+        await shouldFail(PENDINGCANCELLATION, OK);
+      });
+      it('should fail update session status with user credentials from OK to anything but CANCELLEDBYUSER', async () => {
+        await shouldFail(OK, CONFIRMED);
+      });
+      it('should fail update session status with user credentials from PENDINGAPPROVAL to anything but CANCELLEDBYUSER', async () => {
+        await shouldFail(PENDINGAPPROVAL, CONFIRMED);
+      });
+      it('should fail update session status with user credentials newStatus: [CANCELLEDBYPROVIDER, NOSHOW, ATTENDED, NOCOUNT] ', async () => {
+        for (let newStatus of [CANCELLEDBYPROVIDER, NOSHOW, ATTENDED, NOCOUNT]) {
+          await shouldFail(CONFIRMED, newStatus);
+        }
+      });
+      it('should fail update session status with user credentials oldStatus: [CANCELLEDBYPROVIDER, NOSHOW, ATTENDED, NOCOUNT] ', async () => {
+        for (let oldStatus of [CANCELLEDBYPROVIDER, NOSHOW, ATTENDED, NOCOUNT]) {
+          await shouldFail(oldStatus, CANCELLEDBYUSER);
+        }
+      });
+    });
+
     it('should update session payment', async () => {
       const mutation = gql`
         mutation UpdatePaymentTypeAttendance($attendanceId: String!, $paymentType: String!) {

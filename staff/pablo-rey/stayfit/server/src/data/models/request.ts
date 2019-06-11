@@ -1,22 +1,9 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { prop, Ref, Typegoose, staticMethod } from 'typegoose';
+import { prop, Ref, Typegoose } from 'typegoose';
+import { REQUESTSTATUS, REQUESTTYPES } from '../enums';
+import { Provider } from './provider';
 import { Session } from './session';
 import { User } from './user';
-import { Provider } from './provider';
-
-import {
-  REQUESTBECUSTOMER,
-  REQUESTBEPROVIDER,
-  REQUESTTYPES,
-  CANCEL,
-  ACCEPT,
-  DENIEDBYUSER,
-  DENIEDBYPROVIDER,
-  PENDING,
-  BLOCKEDBYUSER,
-  BLOCKEDBYPROVIDER,
-  REQUESTSTATUS,
-} from '../enums';
 
 @ObjectType()
 export class RequestCustomer extends Typegoose {

@@ -1,3 +1,6 @@
+import { ACCEPT } from './../../../data/enums';
+import { REQUESTBECUSTOMER } from './../../../../../app/src/enums';
+import { RequestCustomer, RequestCustomerModel } from './../../../data/models/request';
 import { gql } from 'apollo-server';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
@@ -48,7 +51,7 @@ describe('list of providers', function() {
         source: query,
         ctx: {
           userId: superadmin.id.toString(),
-          role: superadmin.role
+          role: superadmin.role,
         },
       });
       if (response.errors) console.log(response.errors);
@@ -90,7 +93,7 @@ describe('list of providers', function() {
         .and.to.have.lengthOf(1);
     });
 
-    it('should fail to retrieve administrative info from providers providers in full with SUPERADMIN ', async () => {
+    it('should fail to retrieve administrative info from providers providers in full without SUPERADMIN ', async () => {
       const query = gql`
         query {
           listProvidersPublicInfo {
@@ -120,6 +123,62 @@ describe('list of providers', function() {
       });
       expect(response.errors).to.exist;
       expect(response.data).not.to.exist;
+    });
+  });
+
+  describe('list of all providers with respective requests for user', function () {
+    this.timeout(15000)
+    it('should list providers data with requests', async () => {
+      const { customers, provider: provider1 } = await createTestProvider({});
+      const user = customers[0];
+      const request = await RequestCustomerModel.create({
+        user,
+        provider: provider1,
+        type: REQUESTBECUSTOMER,
+        status: ACCEPT,
+      });
+      const { provider: provider2 } = await createTestProvider({});
+      const query = gql`
+        query {
+          listMyProvidersInfo {
+            provider {
+              id
+              name
+              bannerImageUrl
+              portraitImageUrl
+            }
+            customerOf
+            adminOf
+            coachOf
+            request {
+              status
+            }
+          }
+        }
+      `;
+      const response = await gCall({
+        source: query,
+        ctx: {
+          userId: user.id,
+          role: user.role,
+        },
+      });
+      if (response.errors) console.log(response.errors);
+      expect(response.errors).not.to.exist;
+      expect(response.data).to.exist;
+      const data = response.data!.listMyProvidersInfo;
+      expect(data).to.be.instanceOf(Array).and.to.have.lengthOf(2);
+      const indexProvider1 = data.findIndex((_provider: any) => provider1.id.toString() === _provider.provider.id);
+      const indexProvider2 = indexProvider1 === 0 ? 1 : 0
+      expect(data[indexProvider1]).not.to.be.null;
+      expect(data[indexProvider1].customerOf).to.be.true;
+      expect(data[indexProvider1].request).not.to.be.null;
+      expect(data[indexProvider1].request.status).to.be.equal(ACCEPT);
+      expect(data[indexProvider2]).not.to.be.null;
+      expect(data[indexProvider2].customerOf).to.be.false;
+      expect(data[indexProvider2].request).to.be.null;
+
+
     });
   });
 });

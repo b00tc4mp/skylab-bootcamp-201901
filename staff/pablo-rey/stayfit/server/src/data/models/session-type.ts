@@ -8,7 +8,7 @@ export class SessionType extends Typegoose {
   id: number;
 
   @Field()
-  @prop({ index: true})
+  @prop({ index: true })
   type: string;
 
   @Field()
@@ -18,11 +18,10 @@ export class SessionType extends Typegoose {
   @Field()
   @prop({ required: true, default: true })
   active: string;
-  
+
   @Field(returns => Provider)
   @prop({ ref: Provider, required: true })
   provider: Ref<Provider>;
-
 }
 
 export const SessionTypeModel = new SessionType().getModelForClass(SessionType, {

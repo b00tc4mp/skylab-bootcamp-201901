@@ -1,26 +1,11 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { arrayProp, instanceMethod, prop, Ref, Typegoose } from 'typegoose';
-import { Attendance, AttendanceModel } from './attendance';
+import { arrayProp, prop, Ref, Typegoose } from 'typegoose';
+import { ATTENDANCESTATUSES, OK, SESSIONSTATUS, SESSIONVISIBILITY } from '../enums';
+import { Attendance } from './attendance';
 import { Provider } from './provider';
 import { SessionType } from './session-type';
 import { User } from './user';
 
-import {
-  ACTIVE,
-  CANCELLED,
-  FINISHED,
-  CLOSED,
-  FULL,
-  SESSIONSTATUS,
-  PUBLIC,
-  ONLY_REGISTERED,
-  OWN_CUSTOMERS,
-  OWN_STAFF,
-  PRIVATE,
-  SESSIONVISIBILITY,
-  ATTENDANCESTATUSES,
-  OK,
-} from '../enums';
 
 @ObjectType()
 export class Session extends Typegoose {

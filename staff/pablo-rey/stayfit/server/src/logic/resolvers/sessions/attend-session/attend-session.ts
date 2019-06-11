@@ -42,7 +42,7 @@ export class AttendanceInput {
 
 function allowChangeStatusByUser(attendance: Attendance, newStatus: string) {
   if (isIn(newStatus, [CANCELLEDBYPROVIDER, NOSHOW, ATTENDED, NOCOUNT])) {
-    throw new AuthorizationError(`user not allowed to push new status ` + status);
+    throw new AuthorizationError(`user not allowed to push new status ` + newStatus);
   }
   if (isIn(attendance.status, [CANCELLEDBYPROVIDER, NOSHOW, ATTENDED, NOCOUNT])) {
     throw new AuthorizationError(`user not allowed to change previous ` + attendance.status);
