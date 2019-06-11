@@ -131,3 +131,4 @@ export default function ViewUserDetail({ user, isAdmin = false }) {
     </>
   );
 }
+  
