@@ -13,17 +13,14 @@ export class Provider extends Typegoose {
   @prop({ required: true, trim: true })
   name: string;
 
-  @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Field(returns => [User], { nullable: 'items' })
   @arrayProp({ itemsRef: { name: 'User' } })
   admins: Ref<User>[];
 
-  @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Field(returns => [User], { nullable: 'items' })
   @arrayProp({ itemsRef: { name: 'User' } })
   coaches: Ref<User>[];
 
-  @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Field(returns => [User], { nullable: 'items' })
   @arrayProp({ itemsRef: { name: 'User' } })
   customers: Ref<User>[];
