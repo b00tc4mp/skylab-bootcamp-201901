@@ -597,7 +597,7 @@ describe('dataApi', () => {
 
             const _order = await Order.find({ ubication }).lean()
             expect(_order).toBeDefined()
-            debugger
+            
             expect(_order[0].products[0].toString()).toEqual(productId1)
             expect(_order[0].products[1].toString()).toEqual(productId2)
 

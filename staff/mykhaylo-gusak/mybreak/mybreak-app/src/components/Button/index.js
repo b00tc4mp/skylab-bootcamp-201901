@@ -7,9 +7,9 @@ function Button({ primary, secondary, accept, cancel, register, login, start, cl
 
 
     const className = cx({
-        'button is-primary is-rounded': primary,
-        'button is-rounded': secondary,
-        'button g-Button--circular': start || next || prev
+        'g-Button button is-primary is-rounded': primary,
+        'g-Button button is-rounded': secondary,
+        'g-Button button g-Button--circular': start || next || prev
     })
 
     const text = cx({

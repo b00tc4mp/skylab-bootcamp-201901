@@ -154,7 +154,7 @@ const logic = {
     retrieveAllProducts() {
         return (async () => {
             try {
-                const products = await Product.find({ }).lean()
+                const products = await Product.find({}).lean()
                 if (!products) throw Error(`There are no products.`)
                 return products
             } catch (err) {
@@ -210,6 +210,8 @@ const logic = {
                 user.card = []
 
                 await User.findByIdAndUpdate(id, user)
+
+                return order._id
             } catch (err) {
                 throw Error(err.message)
             }
@@ -241,6 +243,25 @@ const logic = {
                 const orders = await Order.find().select('products date ubication author -_id').populate('products').populate('author', 'name surname').lean()
                 if (!orders) throw Error('Products are not exists.')
                 return orders
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
+    },
+
+    retrieveOrderById(id) {
+        const validator = {
+            id: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
+        }
+
+        const validation = Joi.validate({ id }, validator)
+        if (validation.error) throw new ValidationError(validation.error.message)
+
+        return (async () => {
+            try {
+                const order = await Order.findById(id).select('products date ubication author -_id').populate('products').populate('author', 'name surname').lean()
+                if (!order) throw Error('Order do not exist.')
+                return order
             } catch (err) {
                 throw Error(err.message)
             }

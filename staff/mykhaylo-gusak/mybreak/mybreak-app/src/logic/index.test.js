@@ -493,11 +493,11 @@ describe('dataApi', () => {
             expect(user.card[1]._id).toEqual(productId2)
 
             const order = await logic.addOrder(ubication)
-            expect(order).toBeUndefined()
+            expect(order.id).toBeDefined()
+
 
             const _order = await Order.find({ ubication }).lean()
             expect(_order).toBeDefined()
-            debugger
             expect(_order[0].products[0].toString()).toEqual(productId1)
             expect(_order[0].products[1].toString()).toEqual(productId2)
 
@@ -552,7 +552,6 @@ describe('dataApi', () => {
             product2 = products[1]
             productId1 = products[0]._id.toString()
             productId2 = products[1]._id.toString()
-            debugger
             await dataApi.cardUpdate(productId1, token)
             await dataApi.cardUpdate(productId2, token)
             await dataApi.createOrder(ubication, token)
@@ -561,7 +560,6 @@ describe('dataApi', () => {
         it('should succed on corrrect retrieve data order', async () => {
             await logic.loginUser(email, password)
             const orders = await logic.retrieveMyOrders()
-            debugger
             expect(orders).toBeDefined()
             expect(orders[0].products[0]._id).toEqual(productId1)
             expect(orders[0].products[0].title).toEqual(product1.title)
@@ -621,6 +619,26 @@ describe('dataApi', () => {
             expect(orders[0].products[1].title).toEqual(product2.title)
             expect(orders[0].products[1].ubication).toEqual(product2.ubication)
             expect(orders[0].products[1].date).toEqual(product2.date)
+        })
+    })
+
+    
+    describe('log out', () => {
+        let category, ubication, productId1, productId2, product1, product2
+        beforeEach(async () => {
+            await User.deleteMany()
+            await Product.deleteMany()
+            await Order.deleteMany()
+
+            await User.create({ email, password, name, surname, age })
+        })
+
+        it('should succed on corrrect user log out', async () => {
+            await logic.loginUser(email, password)
+            expect(logic.isUserLoggedIn).toBeTruthy()
+            const response = logic.logOut()
+            expect(response).toBeUndefined()
+            expect(logic.isUserLoggedIn).toBeFalsy()
         })
     })
 

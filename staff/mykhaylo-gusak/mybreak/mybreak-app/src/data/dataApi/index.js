@@ -96,7 +96,7 @@ const dataApi = {
         if (validation.error) throw new ValidationError(validation.error.message)
         return (async () => {
             try {
-                await call(`${this.__url__}/order/add`, {
+                const response = await call(`${this.__url__}/order/add`, {
                     method: 'POST',
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -105,6 +105,8 @@ const dataApi = {
                     body: JSON.stringify({ ubication }),
                     timeout: this.__timeout__
                 })
+                debugger
+                return await response.json()
             } catch (err) {
                 throw Error(err.message)
             }
@@ -155,6 +157,27 @@ const dataApi = {
             }
         })()
     },
+
+    retrieveOrderById(id) {
+        const validator = {
+            id: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
+        }
+        const validation = Joi.validate({ id }, validator);
+
+        if (validation.error) throw new ValidationError(validation.error.message)
+
+        return (async () => {
+            try {
+                const response = await call(`${this.__url__}/order/${id}`, {
+                    timeout: this.__timeout__
+                })
+                return await response.json()
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
+    },
+    
 
     retrieveProducts(category, token) {
         const validator = {

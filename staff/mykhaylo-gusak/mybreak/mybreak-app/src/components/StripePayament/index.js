@@ -1,28 +1,36 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import StripeCheckout from 'react-stripe-checkout'
+import './index.sass'
 
-function StripePayament({ onTokenSucces, email, total }) {
+function StripePayament({ onTokenSucces, email, total, card }) {
+
+    const [error, setError] = useState(false)
 
     const onToken = (token) => {
         onTokenSucces(token)
-        console.log(token)
-        if (true) alert('dadde')
     }
 
+    useEffect(() => {
+        if (card.length < 1) setError(true)
+    }, [])
+
     return (
-        <>
+        <>{!error ?
             <StripeCheckout
                 email={email}
-                description="Helado de 3 Bolas"
-                name="Gelato"
+                description='Best breakfast ever!'
+                name='MyBreak APP'
                 token={onToken}
                 stripeKey="pk_test_O7FBNQHITGbDbRD7Ix7fgXY6"
                 amount={total * 100}
                 currency="EUR"
                 alipay
                 bitcoin
-                allowRememberMe='false'
+                allowRememberMe='true'
             />
+            :
+            <h2>Please, choose at least one product.</h2>
+        }
         </>
     )
 }

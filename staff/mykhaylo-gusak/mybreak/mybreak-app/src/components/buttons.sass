@@ -1,1206 +1,2672 @@
-/*!
- *
- * bttn.css - https://ganapativs.github.io/bttn.css
- * Version - 0.2.4
- * Demo: https://bttn.surge.sh
- *
- * Licensed under the MIT license - http://opensource.org/licenses/MIT
- *
- * Copyright (c) 2016 Ganapati V S (@ganapativs)
- *
 
-.bttn-default
-  color: #fff
+h1, h2, h3, h4, h5, h6
+  font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+  margin: 0.3em 0 0.1em
+  font-weight: 100
 
-.bttn, .bttn-lg, .bttn-md, .bttn-primary, .bttn-sm, .bttn-xs
-  color: #1d89ff
+h1
+  font-size: 4em
+  font-weight: 100
 
-.bttn-warning
-  color: #feab3a
+h2
+  font-size: 3em
 
-.bttn-danger
-  color: #ff5964
+h3
+  font-size: 2.2em
 
-.bttn-success
-  color: #28b78d
+h4
+  font-size: 1.8em
 
-.bttn-royal
-  color: #bd2df5
+h5
+  font-size: 1.3em
 
-.bttn, .bttn-lg, .bttn-md, .bttn-sm, .bttn-xs
-  margin: 0
-  padding: 0
-  border-width: 0
-  border-color: transparent
-  background: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
+h6
+  font-size: 1em
 
-.bttn-lg
-  padding: 8px 15px
-  font-size: 24px
-  font-family: inherit
+.description
+  margin: 0 0 1em
 
-.bttn-md
-  font-family: inherit
-  font-size: 20px
-  padding: 5px 12px
+.alpha
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.8em 1.6em
+    font-weight: normal
+    border-width: 0
+    border-style: solid
+    background: transparent
+    border-radius: 0.2666666667em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: box-shadow 0.2s, transform 0.2s, color 0.2s
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:hover
+      box-shadow: 0 2px 12px rgba(0, 0, 0, 0.5)
+    &:active
+      transform: translateY(3px)
+  .btn-primary
+    box-shadow: 0 3px 0 0 #367f14, 0 4px 4px -1px rgba(0, 0, 0, 0.6), 0 4px 6px 1px rgba(0, 0, 0, 0.3), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.1) inset
+    background-color: #52C11F
+    background-image: linear-gradient(-45deg, #52C11F, #7ccc14)
+    color: #E6EAEF
+    &:hover
+      box-shadow: 0 3px 0 0 #367f14, 0 6px 4px -1px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.14) inset
+    &:active
+      box-shadow: 0 0px 0 0 #2d6911, 0 3px 0 0 rgba(0, 0, 0, 0), 0 4px 16px rgba(0, 0, 0, 0), 0 1px 2px 1px rgba(0, 0, 0, 0.5) inset, 0 -18px 32px -2px rgba(255, 255, 255, 0.1) inset
+      transition: 0s
+      color: #367f14
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3)
+  .btn-secondary
+    box-shadow: 0 3px 0 0 #082fa6, 0 4px 4px -1px rgba(0, 0, 0, 0.6), 0 4px 6px 1px rgba(0, 0, 0, 0.3), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.1) inset
+    background-color: #0B44EF
+    background-image: linear-gradient(-45deg, #0B44EF, #007dfa)
+    color: #E6EAEF
+    &:hover
+      box-shadow: 0 3px 0 0 #082fa6, 0 6px 4px -1px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.14) inset
+    &:active
+      box-shadow: 0 0px 0 0 #07288d, 0 3px 0 0 rgba(0, 0, 0, 0), 0 4px 16px rgba(0, 0, 0, 0), 0 1px 2px 1px rgba(0, 0, 0, 0.5) inset, 0 -18px 32px -2px rgba(255, 255, 255, 0.1) inset
+      transition: 0s
+      color: #082fa6
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3)
+  .btn-tertiary
+    box-shadow: 0 3px 0 0 #b3004a, 0 4px 4px -1px rgba(0, 0, 0, 0.6), 0 4px 6px 1px rgba(0, 0, 0, 0.3), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.1) inset
+    background-color: #FF006A
+    background-image: linear-gradient(-45deg, #FF006A, #ff00aa)
+    color: #E6EAEF
+    &:hover
+      box-shadow: 0 3px 0 0 #b3004a, 0 6px 4px -1px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.14) inset
+    &:active
+      box-shadow: 0 0px 0 0 #990040, 0 3px 0 0 rgba(0, 0, 0, 0), 0 4px 16px rgba(0, 0, 0, 0), 0 1px 2px 1px rgba(0, 0, 0, 0.5) inset, 0 -18px 32px -2px rgba(255, 255, 255, 0.1) inset
+      transition: 0s
+      color: #b3004a
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3)
+  .btn-tetrary
+    box-shadow: 0 3px 0 0 #6b139e, 0 4px 4px -1px rgba(0, 0, 0, 0.6), 0 4px 6px 1px rgba(0, 0, 0, 0.3), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.1) inset
+    background-color: #991BE2
+    background-image: linear-gradient(-45deg, #991BE2, #640eef)
+    color: #E6EAEF
+    &:hover
+      box-shadow: 0 3px 0 0 #6b139e, 0 6px 4px -1px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.14) inset
+    &:active
+      box-shadow: 0 0px 0 0 #5b1087, 0 3px 0 0 rgba(0, 0, 0, 0), 0 4px 16px rgba(0, 0, 0, 0), 0 1px 2px 1px rgba(0, 0, 0, 0.5) inset, 0 -18px 32px -2px rgba(255, 255, 255, 0.1) inset
+      transition: 0s
+      color: #6b139e
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3)
+  .btn-black
+    box-shadow: 0 3px 0 0 #040405, 0 4px 4px -1px rgba(0, 0, 0, 0.6), 0 4px 6px 1px rgba(0, 0, 0, 0.3), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.1) inset
+    background-color: #252730
+    background-image: linear-gradient(-45deg, #252730, #212934)
+    color: #E6EAEF
+    &:hover
+      box-shadow: 0 3px 0 0 #040405, 0 6px 4px -1px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.14) inset
+    &:active
+      box-shadow: 0 0px 0 0 black, 0 3px 0 0 rgba(0, 0, 0, 0), 0 4px 16px rgba(0, 0, 0, 0), 0 1px 2px 1px rgba(0, 0, 0, 0.5) inset, 0 -18px 32px -2px rgba(255, 255, 255, 0.1) inset
+      transition: 0s
+      color: #040405
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3)
+  .btn-dark
+    box-shadow: 0 3px 0 0 #1e1f26, 0 4px 4px -1px rgba(0, 0, 0, 0.6), 0 4px 6px 1px rgba(0, 0, 0, 0.3), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.1) inset
+    background-color: #3F4351
+    background-image: linear-gradient(-45deg, #3F4351, #384758)
+    color: #E6EAEF
+    &:hover
+      box-shadow: 0 3px 0 0 #1e1f26, 0 6px 4px -1px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.14) inset
+    &:active
+      box-shadow: 0 0px 0 0 #121418, 0 3px 0 0 rgba(0, 0, 0, 0), 0 4px 16px rgba(0, 0, 0, 0), 0 1px 2px 1px rgba(0, 0, 0, 0.5) inset, 0 -18px 32px -2px rgba(255, 255, 255, 0.1) inset
+      transition: 0s
+      color: #1e1f26
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3)
+  .btn-gray
+    box-shadow: 0 3px 0 0 #4a4b56, 0 4px 4px -1px rgba(0, 0, 0, 0.6), 0 4px 6px 1px rgba(0, 0, 0, 0.3), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.1) inset
+    background-color: #6D6F7F
+    background-image: linear-gradient(-45deg, #6D6F7F, #61708b)
+    color: #E6EAEF
+    &:hover
+      box-shadow: 0 3px 0 0 #4a4b56, 0 6px 4px -1px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.14) inset
+    &:active
+      box-shadow: 0 0px 0 0 #3e3f48, 0 3px 0 0 rgba(0, 0, 0, 0), 0 4px 16px rgba(0, 0, 0, 0), 0 1px 2px 1px rgba(0, 0, 0, 0.5) inset, 0 -18px 32px -2px rgba(255, 255, 255, 0.1) inset
+      transition: 0s
+      color: #4a4b56
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3)
+  .btn-light
+    box-shadow: 0 3px 0 0 #b7c3d1, 0 4px 4px -1px rgba(0, 0, 0, 0.6), 0 4px 6px 1px rgba(0, 0, 0, 0.3), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.1) inset
+    background-color: #E6EAEF
+    background-image: linear-gradient(-45deg, #E6EAEF, #e4edf1)
+    color: #252730
+    &:hover
+      box-shadow: 0 3px 0 0 #b7c3d1, 0 6px 4px -1px rgba(0, 0, 0, 0.3), 0 4px 16px rgba(0, 0, 0, 0.5), 0 1px 2px 1px rgba(0, 0, 0, 0) inset, 0 18px 32px -2px rgba(255, 255, 255, 0.14) inset
+    &:active
+      box-shadow: 0 0px 0 0 #a8b6c7, 0 3px 0 0 rgba(0, 0, 0, 0), 0 4px 16px rgba(0, 0, 0, 0), 0 1px 2px 1px rgba(0, 0, 0, 0.5) inset, 0 -18px 32px -2px rgba(255, 255, 255, 0.1) inset
+      transition: 0s
+      color: #b7c3d1
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.3)
 
-.bttn-sm
-  padding: 4px 10px
-  font-size: 16px
-  font-family: inherit
+.beta
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.35em 0.8em
+    font-weight: normal
+    border-width: 1px
+    border-style: solid
+    background: transparent
+    border-radius: 0.2em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    border-style: solid
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+  .btn-primary
+    background-color: #52C11F
+    background-image: linear-gradient(0deg, #3f9518, #6ade35)
+    color: #E6EAEF
+    border-color: #3f9518
+    text-shadow: 0 1px 1px #2d6911
+    &:hover
+      background-image: linear-gradient(0deg, #3f9518, #52C11F)
+    &:active
+      background-color: #49ab1b
+      background-image: linear-gradient(180deg, #3c8c17, #3f9518)
+      color: #23530d
+      text-shadow: 0 1px 1px #6ade35
+      transition: 0s
+    &:focus
+      border-color: #2d6911
+  .btn-secondary
+    background-color: #0B44EF
+    background-image: linear-gradient(0deg, #0936be, #3767f6)
+    color: #E6EAEF
+    border-color: #0936be
+    text-shadow: 0 1px 1px #07288d
+    &:hover
+      background-image: linear-gradient(0deg, #0936be, #0B44EF)
+    &:active
+      background-color: #0a3dd7
+      background-image: linear-gradient(180deg, #0833b4, #0936be)
+      color: #052175
+      text-shadow: 0 1px 1px #3767f6
+      transition: 0s
+    &:focus
+      border-color: #07288d
+  .btn-tertiary
+    background-color: #FF006A
+    background-image: linear-gradient(0deg, #cc0055, #ff3388)
+    color: #E6EAEF
+    border-color: #cc0055
+    text-shadow: 0 1px 1px #990040
+    &:hover
+      background-image: linear-gradient(0deg, #cc0055, #FF006A)
+    &:active
+      background-color: #e6005f
+      background-image: linear-gradient(180deg, #c20051, #cc0055)
+      color: #800035
+      text-shadow: 0 1px 1px #ff3388
+      transition: 0s
+    &:focus
+      border-color: #990040
+  .btn-tetrary
+    background-color: #991BE2
+    background-image: linear-gradient(0deg, #7a16b4, #ae47e9)
+    color: #E6EAEF
+    border-color: #7a16b4
+    text-shadow: 0 1px 1px #5b1087
+    &:hover
+      background-image: linear-gradient(0deg, #7a16b4, #991BE2)
+    &:active
+      background-color: #8a18cb
+      background-image: linear-gradient(180deg, #7414ab, #7a16b4)
+      color: #4c0d70
+      text-shadow: 0 1px 1px #ae47e9
+      transition: 0s
+    &:focus
+      border-color: #5b1087
+  .btn-black
+    background-color: #252730
+    background-image: linear-gradient(0deg, #0f1013, #3b3e4d)
+    color: #E6EAEF
+    border-color: #0f1013
+    text-shadow: 0 1px 1px black
+    &:hover
+      background-image: linear-gradient(0deg, #0f1013, #252730)
+    &:active
+      background-color: #1a1b22
+      background-image: linear-gradient(180deg, #0a0b0d, #0f1013)
+      color: black
+      text-shadow: 0 1px 1px #3b3e4d
+      transition: 0s
+    &:focus
+      border-color: black
+  .btn-dark
+    background-color: #3F4351
+    background-image: linear-gradient(0deg, #292b34, #555b6e)
+    color: #E6EAEF
+    border-color: #292b34
+    text-shadow: 0 1px 1px #121418
+    &:hover
+      background-image: linear-gradient(0deg, #292b34, #3F4351)
+    &:active
+      background-color: #343743
+      background-image: linear-gradient(180deg, #24272f, #292b34)
+      color: #070809
+      text-shadow: 0 1px 1px #555b6e
+      transition: 0s
+    &:focus
+      border-color: #121418
+  .btn-gray
+    background-color: #6D6F7F
+    background-image: linear-gradient(0deg, #555764, #878998)
+    color: #E6EAEF
+    border-color: #555764
+    text-shadow: 0 1px 1px #3e3f48
+    &:hover
+      background-image: linear-gradient(0deg, #555764, #6D6F7F)
+    &:active
+      background-color: #616371
+      background-image: linear-gradient(180deg, #51525e, #555764)
+      color: #32333a
+      text-shadow: 0 1px 1px #878998
+      transition: 0s
+    &:focus
+      border-color: #3e3f48
+  .btn-light
+    background-color: #E6EAEF
+    background-image: linear-gradient(0deg, #c7d0db, white)
+    color: #252730
+    border-color: #c7d0db
+    text-shadow: 0 1px 1px #a8b6c7
+    &:hover
+      background-image: linear-gradient(0deg, #c7d0db, #E6EAEF)
+    &:active
+      background-color: #d6dde5
+      background-image: linear-gradient(180deg, #c1cbd7, #c7d0db)
+      color: #98a9bd
+      text-shadow: 0 1px 1px white
+      transition: 0s
+    &:focus
+      border-color: #a8b6c7
 
-.bttn-xs
-  font-family: inherit
-  padding: 3px 8px
-  font-size: 12px
+.gamma
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.3em 1.1em
+    font-weight: normal
+    border-width: 1px
+    border-style: solid
+    background: transparent
+    border-radius: 1.01em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    box-shadow: 0 1px 1px 0 rgba(255, 255, 255, 0.2) inset
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+  .btn-primary
+    color: #E6EAEF
+    background-color: #52C11F
+    background-image: linear-gradient(0deg, #52C11F, #59d322)
+    border-color: #3f9518
+    &:hover
+      background-color: #4baf1c
+      background-image: linear-gradient(0deg, #4baf1c, #52C11F)
+    &:active
+      background-color: #47a71b
+      background-image: linear-gradient(0deg, #45a21a, #4cb41d)
+      box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.4) inset
+  .btn-secondary
+    color: #E6EAEF
+    background-color: #0B44EF
+    background-image: linear-gradient(0deg, #0B44EF, #1a51f4)
+    border-color: #0936be
+    &:hover
+      background-color: #0a3edb
+      background-image: linear-gradient(0deg, #0a3edb, #0B44EF)
+    &:active
+      background-color: #0a3cd2
+      background-image: linear-gradient(0deg, #093acd, #0a40e0)
+      box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.4) inset
+  .btn-tertiary
+    color: #E6EAEF
+    background-color: #FF006A
+    background-image: linear-gradient(0deg, #FF006A, #ff1476)
+    border-color: #cc0055
+    &:hover
+      background-color: #eb0062
+      background-image: linear-gradient(0deg, #eb0062, #FF006A)
+    &:active
+      background-color: #e0005d
+      background-image: linear-gradient(0deg, #db005b, #f00064)
+      box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.4) inset
+  .btn-tetrary
+    color: #E6EAEF
+    background-color: #991BE2
+    background-image: linear-gradient(0deg, #991BE2, #a12ce6)
+    border-color: #7a16b4
+    &:hover
+      background-color: #8d19d0
+      background-image: linear-gradient(0deg, #8d19d0, #991BE2)
+    &:active
+      background-color: #8618c7
+      background-image: linear-gradient(0deg, #8317c2, #9019d4)
+      box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.4) inset
+  .btn-black
+    color: #E6EAEF
+    background-color: #252730
+    background-image: linear-gradient(0deg, #252730, #2e303c)
+    border-color: #0f1013
+    &:hover
+      background-color: #1c1e24
+      background-image: linear-gradient(0deg, #1c1e24, #252730)
+    &:active
+      background-color: #18191f
+      background-image: linear-gradient(0deg, #15171c, #1e2027)
+      box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.4) inset
+  .btn-dark
+    color: #E6EAEF
+    background-color: #3F4351
+    background-image: linear-gradient(0deg, #3F4351, #484c5c)
+    border-color: #292b34
+    &:hover
+      background-color: #363a46
+      background-image: linear-gradient(0deg, #363a46, #3F4351)
+    &:active
+      background-color: #323540
+      background-image: linear-gradient(0deg, #2f323d, #383c48)
+      box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.4) inset
+  .btn-gray
+    color: #E6EAEF
+    background-color: #6D6F7F
+    background-image: linear-gradient(0deg, #6D6F7F, #77798a)
+    border-color: #555764
+    &:hover
+      background-color: #646574
+      background-image: linear-gradient(0deg, #646574, #6D6F7F)
+    &:active
+      background-color: #5f616f
+      background-image: linear-gradient(0deg, #5d5e6c, #666877)
+      box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.4) inset
+  .btn-light
+    color: #252730
+    background-color: #E6EAEF
+    background-image: linear-gradient(0deg, #E6EAEF, #f2f4f7)
+    border-color: #c7d0db
+    &:hover
+      background-color: #dae0e7
+      background-image: linear-gradient(0deg, #dae0e7, #E6EAEF)
+    &:active
+      background-color: #d3dae3
+      background-image: linear-gradient(0deg, #d0d8e1, #dde2e9)
+      box-shadow: 0 1px 3px -1px rgba(0, 0, 0, 0.4) inset
 
-.bttn-gradient, .bttn-simple
-  margin: 0
-  padding: 0
-  border-color: transparent
-  background: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  overflow: hidden
-  border-width: 0
-  border-radius: 4px
-  background: hsla(0, 0%, 100%, 0.4)
-  color: #fff
-  -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
+.delta
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.6em 1.6em
+    font-weight: normal
+    border-width: 1px
+    border-style: solid
+    background: transparent
+    border-radius: 0.25em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    background-color: transparent
+    border-width: 1px
+    border-style: solid
+    box-shadow: 0 1.31em 0 0 rgba(255, 255, 255, 0.1) inset
+    transition: box-shadow 0.3s cubic-bezier(0.215, 0.61, 0.355, 1), border-color 0.3s cubic-bezier(0.215, 0.61, 0.355, 1)
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      box-shadow: 0 1.31em 0.2em 0 rgba(0, 0, 0, 0.08) inset
+      transition: box-shadow 0.1s
+  .btn-primary
+    background-color: #52C11F
+    background-image: linear-gradient(-45deg, #52C11F, #7ccc14)
+    color: #E6EAEF
+    border-top-color: #8ae660
+    border-left-color: #5ddb23
+    border-right-color: #5ddb23
+    border-bottom-color: #2d6911
+    &:hover
+      background-image: linear-gradient(-45deg, #56ca20, #82d515)
+    &:active
+      color: #2d6911
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+      background-color: #4eb81e
+      background-image: linear-gradient(-45deg, #4eb81e, #76c313)
+      border-top-color: #2d6911
+      border-left-color: #47a71b
+      border-right-color: #47a71b
+      border-bottom-color: #47a71b
+  .btn-secondary
+    background-color: #0B44EF
+    background-image: linear-gradient(-45deg, #0B44EF, #007dfa)
+    color: #E6EAEF
+    border-top-color: #688cf8
+    border-left-color: #2458f5
+    border-right-color: #2458f5
+    border-bottom-color: #07288d
+    &:hover
+      background-image: linear-gradient(-45deg, #1049f4, #0582ff)
+    &:active
+      color: #07288d
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+      background-color: #0b41e5
+      background-image: linear-gradient(-45deg, #0b41e5, #0078f0)
+      border-top-color: #07288d
+      border-left-color: #0a3cd2
+      border-right-color: #0a3cd2
+      border-bottom-color: #0a3cd2
+  .btn-tertiary
+    background-color: #FF006A
+    background-image: linear-gradient(-45deg, #FF006A, #ff00aa)
+    color: #E6EAEF
+    border-top-color: #ff66a6
+    border-left-color: #ff1f7c
+    border-right-color: #ff1f7c
+    border-bottom-color: #990040
+    &:hover
+      background-image: linear-gradient(-45deg, #ff0a70, #ff0aad)
+    &:active
+      color: #990040
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+      background-color: #f50066
+      background-image: linear-gradient(-45deg, #f50066, #f500a3)
+      border-top-color: #990040
+      border-left-color: #e0005d
+      border-right-color: #e0005d
+      border-bottom-color: #e0005d
+  .btn-tetrary
+    background-color: #991BE2
+    background-image: linear-gradient(-45deg, #991BE2, #640eef)
+    color: #E6EAEF
+    border-top-color: #c275ee
+    border-left-color: #a635e7
+    border-right-color: #a635e7
+    border-bottom-color: #5b1087
+    &:hover
+      background-image: linear-gradient(-45deg, #9d23e5, #6a16f1)
+    &:active
+      color: #5b1087
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+      background-color: #931ad9
+      background-image: linear-gradient(-45deg, #931ad9, #600ee5)
+      border-top-color: #5b1087
+      border-left-color: #8618c7
+      border-right-color: #8618c7
+      border-bottom-color: #8618c7
+  .btn-black
+    background-color: #252730
+    background-image: linear-gradient(-45deg, #252730, #212934)
+    color: #E6EAEF
+    border-top-color: #51566a
+    border-left-color: #323541
+    border-right-color: #323541
+    border-bottom-color: black
+    &:hover
+      background-image: linear-gradient(-45deg, #292c36, #252e3b)
+    &:active
+      color: black
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+      background-color: #21222a
+      background-image: linear-gradient(-45deg, #21222a, #1d242e)
+      border-top-color: black
+      border-left-color: #18191f
+      border-right-color: #18191f
+      border-bottom-color: #18191f
+  .btn-dark
+    background-color: #3F4351
+    background-image: linear-gradient(-45deg, #3F4351, #384758)
+    color: #E6EAEF
+    border-top-color: #6c728a
+    border-left-color: #4c5162
+    border-right-color: #4c5162
+    border-bottom-color: #121418
+    &:hover
+      background-image: linear-gradient(-45deg, #434857, #3c4c5e)
+    &:active
+      color: #121418
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+      background-color: #3b3e4b
+      background-image: linear-gradient(-45deg, #3b3e4b, #344252)
+      border-top-color: #121418
+      border-left-color: #323540
+      border-right-color: #323540
+      border-bottom-color: #323540
+  .btn-gray
+    background-color: #6D6F7F
+    background-image: linear-gradient(-45deg, #6D6F7F, #61708b)
+    color: #E6EAEF
+    border-top-color: #a2a4b0
+    border-left-color: #7c7e8f
+    border-right-color: #7c7e8f
+    border-bottom-color: #3e3f48
+    &:hover
+      background-image: linear-gradient(-45deg, #727484, #657591)
+    &:active
+      color: #3e3f48
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+      background-color: #686a7a
+      background-image: linear-gradient(-45deg, #686a7a, #5d6b85)
+      border-top-color: #3e3f48
+      border-left-color: #5f616f
+      border-right-color: #5f616f
+      border-bottom-color: #5f616f
+  .btn-light
+    background-color: #E6EAEF
+    background-image: linear-gradient(-45deg, #E6EAEF, #e4edf1)
+    color: #252730
+    border-top-color: white
+    border-left-color: #f9fafb
+    border-right-color: #f9fafb
+    border-bottom-color: #a8b6c7
+    &:hover
+      background-image: linear-gradient(-45deg, #eceff3, #ebf2f5)
+    &:active
+      color: #a8b6c7
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+      background-color: #e0e5eb
+      background-image: linear-gradient(-45deg, #e0e5eb, #dde9ee)
+      border-top-color: #a8b6c7
+      border-left-color: #d3dae3
+      border-right-color: #d3dae3
+      border-bottom-color: #d3dae3
 
-.bttn-gradient
-  &:focus, &:hover
-    opacity: .75
+.epsilon
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.6em 2.5em
+    font-weight: normal
+    border-width: 0
+    border-style: solid
+    background: transparent
+    border-radius: 1.31em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: box-shadow 0.15s, transform 0.15s, color 0.15s
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      transform: translateY(2px)
+  .btn-primary
+    background-color: #52C11F
+    background-image: linear-gradient(0deg, #439e19, #52C11F, #5bd723)
+    color: #E6EAEF
+    box-shadow: 0 2px 0 0 #2d6911, 0 1.31em 2em 0 rgba(255, 255, 255, 0) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.1) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.4), 0 0 12px 1px rgba(82, 193, 31, 0.5), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:hover
+      box-shadow: 0 2px 0 0 #2d6911, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.15) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.6), 0 0 10px 1px rgba(82, 193, 31, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:active
+      background-color: #49ab1b
+      background-image: linear-gradient(180deg, #3f9518, #4baf1c)
+      color: #2d6911
+      transition: 0s
+      box-shadow: 0 0px 0 0 #23530d, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 2px 0 rgba(255, 255, 255, 0) inset, 0 1px 4px 0px rgba(0, 0, 0, 0), 0 0 10px 1px rgba(82, 193, 31, 0.1), 0 2px 2px -1px rgba(0, 0, 0, 0.7) inset
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+  .btn-secondary
+    background-color: #0B44EF
+    background-image: linear-gradient(0deg, #0939c8, #0B44EF, #1f54f5)
+    color: #E6EAEF
+    box-shadow: 0 2px 0 0 #07288d, 0 1.31em 2em 0 rgba(255, 255, 255, 0) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.1) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.4), 0 0 12px 1px rgba(11, 68, 239, 0.5), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:hover
+      box-shadow: 0 2px 0 0 #07288d, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.15) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.6), 0 0 10px 1px rgba(11, 68, 239, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:active
+      background-color: #0a3dd7
+      background-image: linear-gradient(180deg, #0936be, #0a3edb)
+      color: #07288d
+      transition: 0s
+      box-shadow: 0 0px 0 0 #052175, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 2px 0 rgba(255, 255, 255, 0) inset, 0 1px 4px 0px rgba(0, 0, 0, 0), 0 0 10px 1px rgba(11, 68, 239, 0.1), 0 2px 2px -1px rgba(0, 0, 0, 0.7) inset
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+  .btn-tertiary
+    background-color: #FF006A
+    background-image: linear-gradient(0deg, #d60059, #FF006A, #ff1a79)
+    color: #E6EAEF
+    box-shadow: 0 2px 0 0 #990040, 0 1.31em 2em 0 rgba(255, 255, 255, 0) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.1) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.4), 0 0 12px 1px rgba(255, 0, 106, 0.5), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:hover
+      box-shadow: 0 2px 0 0 #990040, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.15) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.6), 0 0 10px 1px rgba(255, 0, 106, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:active
+      background-color: #e6005f
+      background-image: linear-gradient(180deg, #cc0055, #eb0062)
+      color: #990040
+      transition: 0s
+      box-shadow: 0 0px 0 0 #800035, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 2px 0 rgba(255, 255, 255, 0) inset, 0 1px 4px 0px rgba(0, 0, 0, 0), 0 0 10px 1px rgba(255, 0, 106, 0.1), 0 2px 2px -1px rgba(0, 0, 0, 0.7) inset
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+  .btn-tetrary
+    background-color: #991BE2
+    background-image: linear-gradient(0deg, #8017be, #991BE2, #a330e6)
+    color: #E6EAEF
+    box-shadow: 0 2px 0 0 #5b1087, 0 1.31em 2em 0 rgba(255, 255, 255, 0) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.1) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.4), 0 0 12px 1px rgba(153, 27, 226, 0.5), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:hover
+      box-shadow: 0 2px 0 0 #5b1087, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.15) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.6), 0 0 10px 1px rgba(153, 27, 226, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:active
+      background-color: #8a18cb
+      background-image: linear-gradient(180deg, #7a16b4, #8d19d0)
+      color: #5b1087
+      transition: 0s
+      box-shadow: 0 0px 0 0 #4c0d70, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 2px 0 rgba(255, 255, 255, 0) inset, 0 1px 4px 0px rgba(0, 0, 0, 0), 0 0 10px 1px rgba(153, 27, 226, 0.1), 0 2px 2px -1px rgba(0, 0, 0, 0.7) inset
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+  .btn-black
+    background-color: #252730
+    background-image: linear-gradient(0deg, #131419, #252730, #30333e)
+    color: #E6EAEF
+    box-shadow: 0 2px 0 0 black, 0 1.31em 2em 0 rgba(255, 255, 255, 0) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.1) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.4), 0 0 12px 1px rgba(37, 39, 48, 0.5), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:hover
+      box-shadow: 0 2px 0 0 black, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.15) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.6), 0 0 10px 1px rgba(37, 39, 48, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:active
+      background-color: #1a1b22
+      background-image: linear-gradient(180deg, #0f1013, #1c1e24)
+      color: black
+      transition: 0s
+      box-shadow: 0 0px 0 0 black, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 2px 0 rgba(255, 255, 255, 0) inset, 0 1px 4px 0px rgba(0, 0, 0, 0), 0 0 10px 1px rgba(37, 39, 48, 0.1), 0 2px 2px -1px rgba(0, 0, 0, 0.7) inset
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+  .btn-dark
+    background-color: #3F4351
+    background-image: linear-gradient(0deg, #2d303a, #3F4351, #4a4f5f)
+    color: #E6EAEF
+    box-shadow: 0 2px 0 0 #121418, 0 1.31em 2em 0 rgba(255, 255, 255, 0) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.1) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.4), 0 0 12px 1px rgba(63, 67, 81, 0.5), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:hover
+      box-shadow: 0 2px 0 0 #121418, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.15) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.6), 0 0 10px 1px rgba(63, 67, 81, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:active
+      background-color: #343743
+      background-image: linear-gradient(180deg, #292b34, #363a46)
+      color: #121418
+      transition: 0s
+      box-shadow: 0 0px 0 0 #070809, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 2px 0 rgba(255, 255, 255, 0) inset, 0 1px 4px 0px rgba(0, 0, 0, 0), 0 0 10px 1px rgba(63, 67, 81, 0.1), 0 2px 2px -1px rgba(0, 0, 0, 0.7) inset
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+  .btn-gray
+    background-color: #6D6F7F
+    background-image: linear-gradient(0deg, #5a5c69, #6D6F7F, #797b8c)
+    color: #E6EAEF
+    box-shadow: 0 2px 0 0 #3e3f48, 0 1.31em 2em 0 rgba(255, 255, 255, 0) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.1) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.4), 0 0 12px 1px rgba(109, 111, 127, 0.5), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:hover
+      box-shadow: 0 2px 0 0 #3e3f48, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.15) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.6), 0 0 10px 1px rgba(109, 111, 127, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:active
+      background-color: #616371
+      background-image: linear-gradient(180deg, #555764, #646574)
+      color: #3e3f48
+      transition: 0s
+      box-shadow: 0 0px 0 0 #32333a, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 2px 0 rgba(255, 255, 255, 0) inset, 0 1px 4px 0px rgba(0, 0, 0, 0), 0 0 10px 1px rgba(109, 111, 127, 0.1), 0 2px 2px -1px rgba(0, 0, 0, 0.7) inset
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+  .btn-light
+    background-color: #E6EAEF
+    background-image: linear-gradient(0deg, #cdd5df, #E6EAEF, #f6f7f9)
+    color: #252730
+    box-shadow: 0 2px 0 0 #a8b6c7, 0 1.31em 2em 0 rgba(255, 255, 255, 0) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.1) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.4), 0 0 12px 1px rgba(230, 234, 239, 0.5), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:hover
+      box-shadow: 0 2px 0 0 #a8b6c7, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 1px 0 rgba(255, 255, 255, 0.15) inset, 0 2px 3px 1px rgba(0, 0, 0, 0.6), 0 0 10px 1px rgba(230, 234, 239, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0) inset
+    &:active
+      background-color: #d6dde5
+      background-image: linear-gradient(180deg, #c7d0db, #dae0e7)
+      color: #a8b6c7
+      transition: 0s
+      box-shadow: 0 0px 0 0 #98a9bd, 0 1.31em 1em 0 rgba(255, 255, 255, 0.05) inset, 0 2px 2px 0 rgba(255, 255, 255, 0) inset, 0 1px 4px 0px rgba(0, 0, 0, 0), 0 0 10px 1px rgba(230, 234, 239, 0.1), 0 2px 2px -1px rgba(0, 0, 0, 0.7) inset
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
 
-.bttn-simple
-  &:focus, &:hover
-    opacity: .75
+.zeta
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.2em 0.6em
+    font-weight: normal
+    border-width: 1px
+    border-style: solid
+    background: transparent
+    border-radius: 0
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    box-shadow: 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 0 1px 3px 0 rgba(0, 0, 0, 0.4)
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      box-shadow: 0 2px 4px -2px rgba(0, 0, 0, 0.2) inset, 0 1px 3px 0 rgba(0, 0, 0, 0.1)
+  .btn-primary
+    color: #E6EAEF
+    background-color: #52C11F
+    background-image: linear-gradient(0deg, #3f9518, #56ca20)
+    border-color: #2d6911
+    &:active
+      background-image: linear-gradient(0deg, #3f9518, #47a71b)
+  .btn-secondary
+    color: #E6EAEF
+    background-color: #0B44EF
+    background-image: linear-gradient(0deg, #0936be, #1049f4)
+    border-color: #07288d
+    &:active
+      background-image: linear-gradient(0deg, #0936be, #0a3cd2)
+  .btn-tertiary
+    color: #E6EAEF
+    background-color: #FF006A
+    background-image: linear-gradient(0deg, #cc0055, #ff0a70)
+    border-color: #990040
+    &:active
+      background-image: linear-gradient(0deg, #cc0055, #e0005d)
+  .btn-tetrary
+    color: #E6EAEF
+    background-color: #991BE2
+    background-image: linear-gradient(0deg, #7a16b4, #9d23e5)
+    border-color: #5b1087
+    &:active
+      background-image: linear-gradient(0deg, #7a16b4, #8618c7)
+  .btn-black
+    color: #E6EAEF
+    background-color: #252730
+    background-image: linear-gradient(0deg, #0f1013, #292c36)
+    border-color: black
+    &:active
+      background-image: linear-gradient(0deg, #0f1013, #18191f)
+  .btn-dark
+    color: #E6EAEF
+    background-color: #3F4351
+    background-image: linear-gradient(0deg, #292b34, #434857)
+    border-color: #121418
+    &:active
+      background-image: linear-gradient(0deg, #292b34, #323540)
+  .btn-gray
+    color: #E6EAEF
+    background-color: #6D6F7F
+    background-image: linear-gradient(0deg, #555764, #727484)
+    border-color: #3e3f48
+    &:active
+      background-image: linear-gradient(0deg, #555764, #5f616f)
+  .btn-light
+    color: #252730
+    background-color: #E6EAEF
+    background-image: linear-gradient(0deg, #c7d0db, #eceff3)
+    border-color: #a8b6c7
+    &:active
+      background-image: linear-gradient(0deg, #c7d0db, #d3dae3)
 
-.bttn-gradient.bttn-xs, .bttn-simple.bttn-xs
-  padding: 3px 8px
-  font-size: 12px
-  font-family: inherit
+.eta
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.5em 1.8em
+    font-weight: normal
+    border-width: 2px
+    border-style: solid
+    background: transparent
+    border-radius: 0.2em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    position: relative
+    overflow: hidden
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2)
+    transition: box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1)
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.2)
+      transition-duration: 0.2s
+      &:after
+        background-image: linear-gradient(-90deg, rgba(255, 255, 255, 0.02) 20%, rgba(255, 255, 255, 0))
+    &:after
+      content: ""
+      display: block
+      position: absolute
+      top: 0
+      left: 0
+      height: 100%
+      width: 100%
+      transform: rotate(-19deg) translateY(-1.3em) scale(1.05)
+      filter: blur(1px)
+      background-image: linear-gradient(-90deg, rgba(255, 255, 255, 0.12) 20%, rgba(255, 255, 255, 0))
+  .btn-primary
+    background-color: #52C11F
+    color: #E6EAEF
+    border-color: #439e19
+    border-bottom-color: #347b14
+    box-shadow: 0 1px 1px -1px rgba(255, 255, 255, 0.9) inset, 0 40px 20px -20px rgba(255, 255, 255, 0.15) inset, 0 -1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 -40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 9px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.3), 7px 7px 8px -4px rgba(0, 0, 0, 0.1), -7px 7px 8px -4px rgba(0, 0, 0, 0.1), 0 -4px 12px 2px rgba(91, 215, 35, 0.2)
+    &:hover
+      background-color: #59d322
+    &:active
+      box-shadow: 0 -1px 1px -1px rgba(255, 255, 255, 0.4) inset, 0 -40px 20px -20px rgba(255, 255, 255, 0.1) inset, 0 1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 7px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.2), 7px 7px 8px -4px rgba(0, 0, 0, 0.05), -7px 7px 8px -4px rgba(0, 0, 0, 0.05), 0 -4px 12px 2px rgba(91, 215, 35, 0.1)
+      background-color: #4baf1c
+      color: #307212
+  .btn-secondary
+    background-color: #0B44EF
+    color: #E6EAEF
+    border-color: #0939c8
+    border-bottom-color: #072ea1
+    box-shadow: 0 1px 1px -1px rgba(255, 255, 255, 0.9) inset, 0 40px 20px -20px rgba(255, 255, 255, 0.15) inset, 0 -1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 -40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 9px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.3), 7px 7px 8px -4px rgba(0, 0, 0, 0.1), -7px 7px 8px -4px rgba(0, 0, 0, 0.1), 0 -4px 12px 2px rgba(31, 84, 245, 0.2)
+    &:hover
+      background-color: #1a51f4
+    &:active
+      box-shadow: 0 -1px 1px -1px rgba(255, 255, 255, 0.4) inset, 0 -40px 20px -20px rgba(255, 255, 255, 0.1) inset, 0 1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 7px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.2), 7px 7px 8px -4px rgba(0, 0, 0, 0.05), -7px 7px 8px -4px rgba(0, 0, 0, 0.05), 0 -4px 12px 2px rgba(31, 84, 245, 0.1)
+      background-color: #0a3edb
+      color: #072b97
+  .btn-tertiary
+    background-color: #FF006A
+    color: #E6EAEF
+    border-color: #d60059
+    border-bottom-color: #ad0048
+    box-shadow: 0 1px 1px -1px rgba(255, 255, 255, 0.9) inset, 0 40px 20px -20px rgba(255, 255, 255, 0.15) inset, 0 -1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 -40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 9px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.3), 7px 7px 8px -4px rgba(0, 0, 0, 0.1), -7px 7px 8px -4px rgba(0, 0, 0, 0.1), 0 -4px 12px 2px rgba(255, 26, 121, 0.2)
+    &:hover
+      background-color: #ff1476
+    &:active
+      box-shadow: 0 -1px 1px -1px rgba(255, 255, 255, 0.4) inset, 0 -40px 20px -20px rgba(255, 255, 255, 0.1) inset, 0 1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 7px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.2), 7px 7px 8px -4px rgba(0, 0, 0, 0.05), -7px 7px 8px -4px rgba(0, 0, 0, 0.05), 0 -4px 12px 2px rgba(255, 26, 121, 0.1)
+      background-color: #eb0062
+      color: #a30044
+  .btn-tetrary
+    background-color: #991BE2
+    color: #E6EAEF
+    border-color: #8017be
+    border-bottom-color: #681299
+    box-shadow: 0 1px 1px -1px rgba(255, 255, 255, 0.9) inset, 0 40px 20px -20px rgba(255, 255, 255, 0.15) inset, 0 -1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 -40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 9px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.3), 7px 7px 8px -4px rgba(0, 0, 0, 0.1), -7px 7px 8px -4px rgba(0, 0, 0, 0.1), 0 -4px 12px 2px rgba(163, 48, 230, 0.2)
+    &:hover
+      background-color: #a12ce6
+    &:active
+      box-shadow: 0 -1px 1px -1px rgba(255, 255, 255, 0.4) inset, 0 -40px 20px -20px rgba(255, 255, 255, 0.1) inset, 0 1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 7px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.2), 7px 7px 8px -4px rgba(0, 0, 0, 0.05), -7px 7px 8px -4px rgba(0, 0, 0, 0.05), 0 -4px 12px 2px rgba(163, 48, 230, 0.1)
+      background-color: #8d19d0
+      color: #611190
+  .btn-black
+    background-color: #252730
+    color: #E6EAEF
+    border-color: #131419
+    border-bottom-color: #010202
+    box-shadow: 0 1px 1px -1px rgba(255, 255, 255, 0.9) inset, 0 40px 20px -20px rgba(255, 255, 255, 0.15) inset, 0 -1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 -40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 9px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.3), 7px 7px 8px -4px rgba(0, 0, 0, 0.1), -7px 7px 8px -4px rgba(0, 0, 0, 0.1), 0 -4px 12px 2px rgba(48, 51, 62, 0.2)
+    &:hover
+      background-color: #2e303c
+    &:active
+      box-shadow: 0 -1px 1px -1px rgba(255, 255, 255, 0.4) inset, 0 -40px 20px -20px rgba(255, 255, 255, 0.1) inset, 0 1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 7px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.2), 7px 7px 8px -4px rgba(0, 0, 0, 0.05), -7px 7px 8px -4px rgba(0, 0, 0, 0.05), 0 -4px 12px 2px rgba(48, 51, 62, 0.1)
+      background-color: #1c1e24
+      color: black
+  .btn-dark
+    background-color: #3F4351
+    color: #E6EAEF
+    border-color: #2d303a
+    border-bottom-color: #1b1d23
+    box-shadow: 0 1px 1px -1px rgba(255, 255, 255, 0.9) inset, 0 40px 20px -20px rgba(255, 255, 255, 0.15) inset, 0 -1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 -40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 9px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.3), 7px 7px 8px -4px rgba(0, 0, 0, 0.1), -7px 7px 8px -4px rgba(0, 0, 0, 0.1), 0 -4px 12px 2px rgba(74, 79, 95, 0.2)
+    &:hover
+      background-color: #484c5c
+    &:active
+      box-shadow: 0 -1px 1px -1px rgba(255, 255, 255, 0.4) inset, 0 -40px 20px -20px rgba(255, 255, 255, 0.1) inset, 0 1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 7px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.2), 7px 7px 8px -4px rgba(0, 0, 0, 0.05), -7px 7px 8px -4px rgba(0, 0, 0, 0.05), 0 -4px 12px 2px rgba(74, 79, 95, 0.1)
+      background-color: #363a46
+      color: #17181d
+  .btn-gray
+    background-color: #6D6F7F
+    color: #E6EAEF
+    border-color: #5a5c69
+    border-bottom-color: #474953
+    box-shadow: 0 1px 1px -1px rgba(255, 255, 255, 0.9) inset, 0 40px 20px -20px rgba(255, 255, 255, 0.15) inset, 0 -1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 -40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 9px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.3), 7px 7px 8px -4px rgba(0, 0, 0, 0.1), -7px 7px 8px -4px rgba(0, 0, 0, 0.1), 0 -4px 12px 2px rgba(121, 123, 140, 0.2)
+    &:hover
+      background-color: #77798a
+    &:active
+      box-shadow: 0 -1px 1px -1px rgba(255, 255, 255, 0.4) inset, 0 -40px 20px -20px rgba(255, 255, 255, 0.1) inset, 0 1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 7px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.2), 7px 7px 8px -4px rgba(0, 0, 0, 0.05), -7px 7px 8px -4px rgba(0, 0, 0, 0.05), 0 -4px 12px 2px rgba(121, 123, 140, 0.1)
+      background-color: #646574
+      color: #43444e
+  .btn-light
+    background-color: #E6EAEF
+    color: #252730
+    border-color: #cdd5df
+    border-bottom-color: #b4c0cf
+    box-shadow: 0 1px 1px -1px rgba(255, 255, 255, 0.9) inset, 0 40px 20px -20px rgba(255, 255, 255, 0.15) inset, 0 -1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 -40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 9px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.3), 7px 7px 8px -4px rgba(0, 0, 0, 0.1), -7px 7px 8px -4px rgba(0, 0, 0, 0.1), 0 -4px 12px 2px rgba(246, 247, 249, 0.2)
+    &:hover
+      background-color: #f2f4f7
+    &:active
+      box-shadow: 0 -1px 1px -1px rgba(255, 255, 255, 0.4) inset, 0 -40px 20px -20px rgba(255, 255, 255, 0.1) inset, 0 1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 7px 8px -4px rgba(0, 0, 0, 0.4), 0 2px 1px -1px rgba(0, 0, 0, 0.2), 7px 7px 8px -4px rgba(0, 0, 0, 0.05), -7px 7px 8px -4px rgba(0, 0, 0, 0.05), 0 -4px 12px 2px rgba(246, 247, 249, 0.1)
+      background-color: #dae0e7
+      color: #aebbcb
 
-.bttn-gradient.bttn-sm, .bttn-simple.bttn-sm
-  padding: 4px 10px
-  font-size: 16px
-  font-family: inherit
+.theta
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.7em 1.4em
+    font-weight: normal
+    border-width: 3px
+    border-style: solid
+    background: transparent
+    border-radius: 0
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    position: relative
+    transform: translate(0.5em -0.4em)
+    transition: transform 0.2s
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:before
+      content: ""
+      display: block
+      position: absolute
+      top: 0
+      left: 0
+      height: 100%
+      width: 100%
+      z-index: -1
+      transform: translate(0.6em, -0.3em)
+      transition: transform 0.2s, background-color 0.2s
+  .btn-primary
+    color: #52C11F
+    border-color: #52C11F
+    &:hover
+      transform: translate(0.2em, -0.1em)
+      &:before
+        transform: translate(-0.4em, 0.4em)
+    &:active
+      transform: translate(0, 0)
+      transition-duration: 0.1s
+      &:before
+        transition-duration: 0.1s
+        transform: translate(0, 0)
+        background-color: rgba(31, 193, 142, 0.5)
+    &:before
+      background-color: rgba(31, 193, 142, 0.4)
+  .btn-secondary
+    color: #0B44EF
+    border-color: #0B44EF
+    &:hover
+      transform: translate(0.2em, -0.1em)
+      &:before
+        transform: translate(-0.4em, 0.4em)
+    &:active
+      transform: translate(0, 0)
+      transition-duration: 0.1s
+      &:before
+        transition-duration: 0.1s
+        transform: translate(0, 0)
+        background-color: rgba(182, 11, 239, 0.5)
+    &:before
+      background-color: rgba(182, 11, 239, 0.4)
+  .btn-tertiary
+    color: #FF006A
+    border-color: #FF006A
+    &:hover
+      transform: translate(0.2em, -0.1em)
+      &:before
+        transform: translate(-0.4em, 0.4em)
+    &:active
+      transform: translate(0, 0)
+      transition-duration: 0.1s
+      &:before
+        transition-duration: 0.1s
+        transform: translate(0, 0)
+        background-color: rgba(255, 149, 0, 0.5)
+    &:before
+      background-color: rgba(255, 149, 0, 0.4)
+  .btn-tetrary
+    color: #991BE2
+    border-color: #991BE2
+    &:hover
+      transform: translate(0.2em, -0.1em)
+      &:before
+        transform: translate(-0.4em, 0.4em)
+    &:active
+      transform: translate(0, 0)
+      transition-duration: 0.1s
+      &:before
+        transition-duration: 0.1s
+        transform: translate(0, 0)
+        background-color: rgba(226, 27, 100, 0.5)
+    &:before
+      background-color: rgba(226, 27, 100, 0.4)
+  .btn-black
+    color: #252730
+    border-color: #252730
+    &:hover
+      transform: translate(0.2em, -0.1em)
+      &:before
+        transform: translate(-0.4em, 0.4em)
+    &:active
+      transform: translate(0, 0)
+      transition-duration: 0.1s
+      &:before
+        transition-duration: 0.1s
+        transform: translate(0, 0)
+        background-color: rgba(46, 37, 48, 0.5)
+    &:before
+      background-color: rgba(46, 37, 48, 0.4)
+  .btn-dark
+    color: #3F4351
+    border-color: #3F4351
+    &:hover
+      transform: translate(0.2em, -0.1em)
+      &:before
+        transform: translate(-0.4em, 0.4em)
+    &:active
+      transform: translate(0, 0)
+      transition-duration: 0.1s
+      &:before
+        transition-duration: 0.1s
+        transform: translate(0, 0)
+        background-color: rgba(77, 63, 81, 0.5)
+    &:before
+      background-color: rgba(77, 63, 81, 0.4)
+  .btn-gray
+    color: #6D6F7F
+    border-color: #6D6F7F
+    &:hover
+      transform: translate(0.2em, -0.1em)
+      &:before
+        transform: translate(-0.4em, 0.4em)
+    &:active
+      transform: translate(0, 0)
+      transition-duration: 0.1s
+      &:before
+        transition-duration: 0.1s
+        transform: translate(0, 0)
+        background-color: rgba(125, 109, 127, 0.5)
+    &:before
+      background-color: rgba(125, 109, 127, 0.4)
+  .btn-light
+    color: #3F4351
+    border-color: #E6EAEF
+    &:hover
+      transform: translate(0.2em, -0.1em)
+      &:before
+        transform: translate(-0.4em, 0.4em)
+    &:active
+      transform: translate(0, 0)
+      transition-duration: 0.1s
+      &:before
+        transition-duration: 0.1s
+        transform: translate(0, 0)
+        background-color: rgba(235, 230, 239, 0.5)
+    &:before
+      background-color: rgba(235, 230, 239, 0.4)
 
-.bttn-gradient.bttn-md, .bttn-simple.bttn-md
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-
-.bttn-gradient.bttn-lg, .bttn-simple.bttn-lg
-  padding: 8px 15px
-  font-size: 24px
-  font-family: inherit
-
-.bttn-gradient.bttn-default, .bttn-simple.bttn-default
-  background: hsla(0, 0%, 100%, 0.4)
-
-.bttn-gradient.bttn-primary, .bttn-simple.bttn-primary
-  background: #1d89ff
-
-.bttn-gradient.bttn-warning, .bttn-simple.bttn-warning
-  background: #feab3a
-
-.bttn-gradient.bttn-danger, .bttn-simple.bttn-danger
-  background: #ff5964
-
-.bttn-gradient.bttn-success, .bttn-simple.bttn-success
-  background: #28b78d
-
-.bttn-gradient.bttn-royal, .bttn-simple.bttn-royal
-  background: #bd2df5
-
-.bttn-bordered
-  margin: 0
-  padding: 0
-  border-width: 0
-  border-color: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  overflow: hidden
-  border: 1px solid hsla(0, 0%, 100%, 0.4)
-  border-radius: 4px
-  background: transparent
-  color: #fff
-  -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:focus, &:hover
-    border-color: hsla(0, 0%, 100%, 0.7)
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-  &.bttn-default
-    border-color: hsla(0, 0%, 100%, 0.4)
-    color: #fff
-    &:focus, &:hover
-      border-color: hsla(0, 0%, 100%, 0.7)
-  &.bttn-primary
-    border-color: rgba(29, 137, 255, 0.4)
-    color: #1d89ff
-    &:focus, &:hover
-      border-color: rgba(29, 137, 255, 0.7)
-  &.bttn-warning
-    border-color: rgba(254, 171, 58, 0.4)
-    color: #feab3a
-    &:focus, &:hover
-      border-color: rgba(254, 171, 58, 0.7)
-  &.bttn-danger
-    border-color: rgba(255, 89, 100, 0.4)
-    color: #ff5964
-    &:focus, &:hover
-      border-color: rgba(255, 89, 100, 0.7)
-  &.bttn-success
-    border-color: rgba(40, 183, 141, 0.4)
-    color: #28b78d
-    &:focus, &:hover
-      border-color: rgba(40, 183, 141, 0.7)
-  &.bttn-royal
-    border-color: rgba(189, 45, 245, 0.4)
-    color: #bd2df5
-    &:focus, &:hover
-      border-color: rgba(189, 45, 245, 0.7)
-
-.bttn-gradient
-  border-radius: 100px
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.25)
-  text-shadow: 0 1px 0 hsla(0, 0%, 100%, 0.25)
-  background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #d6e3ff))
-  background-image: -webkit-linear-gradient(top, #fff, #d6e3ff)
-  background-image: linear-gradient(180deg, #fff 0, #d6e3ff)
-  background-image: -webkit-linear-gradient(93deg, #d6e3ff, #fff)
-  color: #1d89ff
-  &.bttn-default
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #fff), color-stop(1, #d6e3ff))
-    background-image: -webkit-linear-gradient(top, #fff, #d6e3ff)
-    background-image: linear-gradient(180deg, #fff 0, #d6e3ff)
-    background-image: -webkit-linear-gradient(93deg, #d6e3ff, #fff)
-    color: #1d89ff
-  &.bttn-primary
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #00bbd4), color-stop(1, #3f51b5))
-    background-image: -webkit-linear-gradient(top, #00bbd4, #3f51b5)
-    background-image: linear-gradient(180deg, #00bbd4 0, #3f51b5)
-    background-image: -webkit-linear-gradient(93deg, #3f51b5, #00bbd4)
-    color: #fff
-  &.bttn-warning
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #feab3a), color-stop(1, #f35626))
-    background-image: -webkit-linear-gradient(top, #feab3a, #f35626)
-    background-image: linear-gradient(180deg, #feab3a 0, #f35626)
-    background-image: -webkit-linear-gradient(93deg, #f35626, #feab3a)
-    color: #fff
-  &.bttn-danger
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #ff97c2), color-stop(1, #e91e63))
-    background-image: -webkit-linear-gradient(top, #ff97c2, #e91e63)
-    background-image: linear-gradient(180deg, #ff97c2 0, #e91e63)
-    background-image: -webkit-linear-gradient(93deg, #e91e63, #ff97c2)
-    color: #fff
-  &.bttn-success
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #9ccc65), color-stop(1, #009688))
-    background-image: -webkit-linear-gradient(top, #9ccc65, #009688)
-    background-image: linear-gradient(180deg, #9ccc65 0, #009688)
-    background-image: -webkit-linear-gradient(93deg, #009688, #9ccc65)
-    color: #fff
-  &.bttn-royal
-    background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0, #9c27b0), color-stop(1, #512da8))
-    background-image: -webkit-linear-gradient(top, #9c27b0, #512da8)
-    background-image: linear-gradient(180deg, #9c27b0 0, #512da8)
-    background-image: -webkit-linear-gradient(93deg, #512da8, #9c27b0)
-    color: #fff
-
-.bttn-minimal
-  margin: 0
-  padding: 0
-  border-color: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  overflow: hidden
-  border-width: 0
-  border-radius: 4px
-  background: transparent
-  color: #fff
-  -webkit-transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:after, &:before
-    position: absolute
-    bottom: 0
-    left: 10px
-    width: calc(100% - 20px)
-    height: 1px
-    background: currentColor
-    content: ''
-    opacity: .65
-    -webkit-transition: opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.5s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:focus, &:hover
-    opacity: .9
-  &:focus:after, &:hover:after
-    opacity: 1
-    -webkit-transform: translateX(-10px) rotate(0.001deg)
-    transform: translateX(-10px) rotate(0.001deg)
-  &:focus:before, &:hover:before
-    opacity: 1
-    -webkit-transform: translateX(10px) rotate(0.001deg)
-    transform: translateX(10px) rotate(0.001deg)
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-  &.bttn-default
-    color: #fff
-  &.bttn-primary
-    color: #1d89ff
-  &.bttn-warning
-    color: #feab3a
-  &.bttn-danger
-    color: #ff5964
-  &.bttn-success
-    color: #28b78d
-  &.bttn-royal
-    color: #bd2df5
-
-.bttn-stretch
-  margin: 0
-  padding: 0
-  border-color: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  overflow: hidden
-  border-width: 0
-  border-radius: 0
-  background: transparent
-  color: #fff
-  letter-spacing: 0
-  -webkit-transition: all 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: all 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:after, &:before
-    -webkit-transition: all 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: all 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:after, &:before
-    position: absolute
-    left: 0
-    width: 100%
-    height: 1px
-    background: currentColor
-    content: ''
-    opacity: .65
-    -webkit-transform: scaleX(0)
-    transform: scaleX(0)
-  &:after
-    top: 0
-  &:before
-    bottom: 0
-  &:focus, &:hover
-    letter-spacing: 2px
-    opacity: .9
-    -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:focus
-    &:after, &:before
-      opacity: 1
-      -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-      transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-      -webkit-transform: scaleX(1)
+.iota
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.6em 1.6em
+    font-weight: normal
+    border-width: 2px
+    border-style: solid
+    background: transparent
+    border-radius: 1.46em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    position: relative
+    border-style: solid
+    overflow: hidden
+    transition: background-color 0.3s, color 0.3s
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:hover:after
       transform: scaleX(1)
-  &:hover
-    &:after, &:before
       opacity: 1
-      -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-      transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-      -webkit-transform: scaleX(1)
-      transform: scaleX(1)
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-  &.bttn-default
-    color: #fff
-  &.bttn-primary
-    color: #1d89ff
-  &.bttn-warning
-    color: #feab3a
-  &.bttn-danger
-    color: #ff5964
-  &.bttn-success
-    color: #28b78d
-  &.bttn-royal
-    color: #bd2df5
+      transition: transform 0.3s, opacity 0.3s
+    &:after
+      content: ""
+      display: block
+      position: absolute
+      top: 0
+      left: 0
+      height: 100%
+      width: 100%
+      z-index: -1
+      border-radius: 1.46em
+      transform: scaleX(0.7)
+      opacity: 0
+      transition: transform 0.8s, opacity 0.3s
+  .btn-primary
+    color: #52C11F
+    border-color: #52C11F
+    &:hover
+      color: #E6EAEF
+      background-color: #52C11F
+    &:active
+      background-color: #4cb41d
+      &:after
+        background-color: #4cb41d
+    &:after
+      background-color: #52C11F
+  .btn-secondary
+    color: #0B44EF
+    border-color: #0B44EF
+    &:hover
+      color: #E6EAEF
+      background-color: #0B44EF
+    &:active
+      background-color: #0a40e0
+      &:after
+        background-color: #0a40e0
+    &:after
+      background-color: #0B44EF
+  .btn-tertiary
+    color: #FF006A
+    border-color: #FF006A
+    &:hover
+      color: #E6EAEF
+      background-color: #FF006A
+    &:active
+      background-color: #f00064
+      &:after
+        background-color: #f00064
+    &:after
+      background-color: #FF006A
+  .btn-tetrary
+    color: #991BE2
+    border-color: #991BE2
+    &:hover
+      color: #E6EAEF
+      background-color: #991BE2
+    &:active
+      background-color: #9019d4
+      &:after
+        background-color: #9019d4
+    &:after
+      background-color: #991BE2
+  .btn-black
+    color: #252730
+    border-color: #252730
+    &:hover
+      color: #E6EAEF
+      background-color: #252730
+    &:active
+      background-color: #1e2027
+      &:after
+        background-color: #1e2027
+    &:after
+      background-color: #252730
+  .btn-dark
+    color: #3F4351
+    border-color: #3F4351
+    &:hover
+      color: #E6EAEF
+      background-color: #3F4351
+    &:active
+      background-color: #383c48
+      &:after
+        background-color: #383c48
+    &:after
+      background-color: #3F4351
+  .btn-gray
+    color: #6D6F7F
+    border-color: #6D6F7F
+    &:hover
+      color: #E6EAEF
+      background-color: #6D6F7F
+    &:active
+      background-color: #666877
+      &:after
+        background-color: #666877
+    &:after
+      background-color: #6D6F7F
+  .btn-light
+    color: #E6EAEF
+    border-color: #E6EAEF
+    &:hover
+      color: #252730
+      background-color: #E6EAEF
+    &:active
+      background-color: #dde2e9
+      &:after
+        background-color: #dde2e9
+    &:after
+      background-color: #E6EAEF
 
-.bttn-jelly
-  margin: 0
-  padding: 0
-  border-width: 0
-  border-color: transparent
-  background: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  overflow: hidden
-  background: #fff
-  color: #1d89ff
-  border-radius: 50px
-  -webkit-transition: all 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: all 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:before
-    border-radius: 50px
-    -webkit-transition: all 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: all 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 100%
-    background: currentColor
-    content: ''
-    z-index: -1
-    opacity: 0
-    -webkit-transform: scale(0.2)
-    transform: scale(0.2)
-  &:focus, &:hover
-    box-shadow: 0 1px 8px rgba(58, 51, 53, 0.4)
-    -webkit-transform: scale(1.1)
-    transform: scale(1.1)
-  &:focus, &:hover
-    -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-    &:before
-      -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-      transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:focus:before, &:hover:before
-    opacity: .15
-    -webkit-transform: scale(1)
-    transform: scale(1)
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 4px rgba(58, 51, 53, 0.4)
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 6px rgba(58, 51, 53, 0.4)
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-    &:focus, &:hover
-      box-shadow: 0 1px 8px rgba(58, 51, 53, 0.4)
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 10px rgba(58, 51, 53, 0.4)
-  &.bttn-default
-    background: #fff
-    color: #1d89ff
-  &.bttn-primary
-    background: #1d89ff
-    color: #fff
-  &.bttn-warning
-    background: #feab3a
-    color: #fff
-  &.bttn-danger
-    background: #ff5964
-    color: #fff
-  &.bttn-success
-    background: #28b78d
-    color: #fff
-  &.bttn-royal
-    background: #bd2df5
-    color: #fff
+.kappa
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.8em 1.4em
+    font-weight: normal
+    border-width: 0
+    border-style: solid
+    background: transparent
+    border-radius: 0.6em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1)
+    transition: box-shadow 0.4s cubic-bezier(0.23, 1, 0.32, 1), transform 0.4s cubic-bezier(0.23, 1, 0.32, 1)
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      transition-duration: 0.2s
+      transform: scale(0.98)
+  .btn-primary
+    background-color: #52C11F
+    color: #307212
+    box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.5), inset 0 -2px 5px -1px rgba(54, 127, 20, 0.6), 0 -3px 12px -1px rgba(122, 226, 74, 0.6), inset 0 3px 4px -1px rgba(122, 226, 74, 0.3), inset 0 0 4px 1px rgba(138, 230, 96, 0.8), inset 0 1.1em 1.4em 0 rgba(122, 226, 74, 0.5)
+    &:active
+      color: #25580e
+      box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.4), inset 0 -4px 16px 0 rgba(122, 226, 74, 0.9), 0 -3px 12px -1px rgba(122, 226, 74, 0.6), inset 0 4px 12px 0 rgba(54, 127, 20, 0.5), inset 0 0 4px 1px rgba(138, 230, 96, 0.8)
+  .btn-secondary
+    background-color: #0B44EF
+    color: #072b97
+    box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.5), inset 0 -2px 5px -1px rgba(8, 47, 166, 0.6), 0 -3px 12px -1px rgba(80, 121, 247, 0.6), inset 0 3px 4px -1px rgba(80, 121, 247, 0.3), inset 0 0 4px 1px rgba(104, 140, 248, 0.8), inset 0 1.1em 1.4em 0 rgba(80, 121, 247, 0.5)
+    &:active
+      color: #06237a
+      box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.4), inset 0 -4px 16px 0 rgba(80, 121, 247, 0.9), 0 -3px 12px -1px rgba(80, 121, 247, 0.6), inset 0 4px 12px 0 rgba(8, 47, 166, 0.5), inset 0 0 4px 1px rgba(104, 140, 248, 0.8)
+  .btn-tertiary
+    background-color: #FF006A
+    color: #a30044
+    box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.5), inset 0 -2px 5px -1px rgba(179, 0, 74, 0.6), 0 -3px 12px -1px rgba(255, 77, 151, 0.6), inset 0 3px 4px -1px rgba(255, 77, 151, 0.3), inset 0 0 4px 1px rgba(255, 102, 166, 0.8), inset 0 1.1em 1.4em 0 rgba(255, 77, 151, 0.5)
+    &:active
+      color: #850037
+      box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.4), inset 0 -4px 16px 0 rgba(255, 77, 151, 0.9), 0 -3px 12px -1px rgba(255, 77, 151, 0.6), inset 0 4px 12px 0 rgba(179, 0, 74, 0.5), inset 0 0 4px 1px rgba(255, 102, 166, 0.8)
+  .btn-tetrary
+    background-color: #991BE2
+    color: #611190
+    box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.5), inset 0 -2px 5px -1px rgba(107, 19, 158, 0.6), 0 -3px 12px -1px rgba(184, 94, 236, 0.6), inset 0 3px 4px -1px rgba(184, 94, 236, 0.3), inset 0 0 4px 1px rgba(194, 117, 238, 0.8), inset 0 1.1em 1.4em 0 rgba(184, 94, 236, 0.5)
+    &:active
+      color: #4f0e75
+      box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.4), inset 0 -4px 16px 0 rgba(184, 94, 236, 0.9), 0 -3px 12px -1px rgba(184, 94, 236, 0.6), inset 0 4px 12px 0 rgba(107, 19, 158, 0.5), inset 0 0 4px 1px rgba(194, 117, 238, 0.8)
+  .btn-black
+    background-color: #252730
+    color: black
+    box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.5), inset 0 -2px 5px -1px rgba(4, 4, 5, 0.6), 0 -3px 12px -1px rgba(70, 74, 91, 0.6), inset 0 3px 4px -1px rgba(70, 74, 91, 0.3), inset 0 0 4px 1px rgba(81, 86, 106, 0.8), inset 0 1.1em 1.4em 0 rgba(70, 74, 91, 0.5)
+    &:active
+      color: black
+      box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.4), inset 0 -4px 16px 0 rgba(70, 74, 91, 0.9), 0 -3px 12px -1px rgba(70, 74, 91, 0.6), inset 0 4px 12px 0 rgba(4, 4, 5, 0.5), inset 0 0 4px 1px rgba(81, 86, 106, 0.8)
+  .btn-dark
+    background-color: #3F4351
+    color: #17181d
+    box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.5), inset 0 -2px 5px -1px rgba(30, 31, 38, 0.6), 0 -3px 12px -1px rgba(96, 103, 124, 0.6), inset 0 3px 4px -1px rgba(96, 103, 124, 0.3), inset 0 0 4px 1px rgba(108, 114, 138, 0.8), inset 0 1.1em 1.4em 0 rgba(96, 103, 124, 0.5)
+    &:active
+      color: #090a0c
+      box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.4), inset 0 -4px 16px 0 rgba(96, 103, 124, 0.9), 0 -3px 12px -1px rgba(96, 103, 124, 0.6), inset 0 4px 12px 0 rgba(30, 31, 38, 0.5), inset 0 0 4px 1px rgba(108, 114, 138, 0.8)
+  .btn-gray
+    background-color: #6D6F7F
+    color: #43444e
+    box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.5), inset 0 -2px 5px -1px rgba(74, 75, 86, 0.6), 0 -3px 12px -1px rgba(149, 150, 164, 0.6), inset 0 3px 4px -1px rgba(149, 150, 164, 0.3), inset 0 0 4px 1px rgba(162, 164, 176, 0.8), inset 0 1.1em 1.4em 0 rgba(149, 150, 164, 0.5)
+    &:active
+      color: #34353d
+      box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.4), inset 0 -4px 16px 0 rgba(149, 150, 164, 0.9), 0 -3px 12px -1px rgba(149, 150, 164, 0.6), inset 0 4px 12px 0 rgba(74, 75, 86, 0.5), inset 0 0 4px 1px rgba(162, 164, 176, 0.8)
+  .btn-light
+    background-color: #E6EAEF
+    color: #aebbcb
+    box-shadow: 0 4px 8px -1px rgba(0, 0, 0, 0.5), inset 0 -2px 5px -1px rgba(183, 195, 209, 0.6), 0 -3px 12px -1px rgba(255, 255, 255, 0.6), inset 0 3px 4px -1px rgba(255, 255, 255, 0.3), inset 0 0 4px 1px rgba(255, 255, 255, 0.8), inset 0 1.1em 1.4em 0 rgba(255, 255, 255, 0.5)
+    &:active
+      color: #9babbf
+      box-shadow: 0 3px 6px -1px rgba(0, 0, 0, 0.4), inset 0 -4px 16px 0 rgba(255, 255, 255, 0.9), 0 -3px 12px -1px rgba(255, 255, 255, 0.6), inset 0 4px 12px 0 rgba(183, 195, 209, 0.5), inset 0 0 4px 1px rgba(255, 255, 255, 0.8)
 
-.bttn-fill
-  margin: 0
-  padding: 0
-  border-width: 0
-  border-color: transparent
-  background: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  z-index: 0
-  border: none
-  background: #fff
-  color: #1d89ff
-  -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:before
-    position: absolute
-    bottom: 0
-    left: 0
-    width: 100%
-    height: 100%
-    background: #1d89ff
-    content: ''
-    opacity: 0
-    -webkit-transition: opacity .15s ease-out,-webkit-transform .15s ease-out
-    transition: opacity .15s ease-out,-webkit-transform .15s ease-out
-    transition: transform .15s ease-out,opacity .15s ease-out
-    transition: transform .15s ease-out,opacity .15s ease-out,-webkit-transform .15s ease-out
-    z-index: -1
-    -webkit-transform: scaleX(0)
-    transform: scaleX(0)
-  &:focus, &:hover
-    box-shadow: 0 1px 8px rgba(58, 51, 53, 0.3)
-    color: #fff
-    -webkit-transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:focus:before, &:hover:before
-    opacity: 1
-    -webkit-transition: opacity .2s ease-in,-webkit-transform .2s ease-in
-    transition: opacity .2s ease-in,-webkit-transform .2s ease-in
-    transition: transform .2s ease-in,opacity .2s ease-in
-    transition: transform .2s ease-in,opacity .2s ease-in,-webkit-transform .2s ease-in
-    -webkit-transform: scaleX(1)
-    transform: scaleX(1)
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 4px rgba(58, 51, 53, 0.3)
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 6px rgba(58, 51, 53, 0.3)
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-    &:focus, &:hover
-      box-shadow: 0 1px 8px rgba(58, 51, 53, 0.3)
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 10px rgba(58, 51, 53, 0.3)
-  &.bttn-default
-    background: #fff
-    color: #1d89ff
-    &:focus, &:hover
-      color: #fff
-    &:before
-      background: #1d89ff
-  &.bttn-primary
-    background: #1d89ff
-    color: #fff
-    &:focus, &:hover
-      color: #1d89ff
-    &:before
-      background: #fff
-  &.bttn-warning
-    background: #feab3a
-    color: #fff
-    &:focus, &:hover
-      color: #feab3a
-    &:before
-      background: #fff
-  &.bttn-danger
-    background: #ff5964
-    color: #fff
-    &:focus, &:hover
-      color: #ff5964
-    &:before
-      background: #fff
-  &.bttn-success
-    background: #28b78d
-    color: #fff
-    &:focus, &:hover
-      color: #28b78d
-    &:before
-      background: #fff
-  &.bttn-royal
-    background: #bd2df5
-    color: #fff
-    &:focus, &:hover
-      color: #bd2df5
-    &:before
-      background: #fff
+.lambda
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.5em 1.8em
+    font-weight: normal
+    border-width: 1px
+    border-style: solid
+    background: transparent
+    border-radius: 1.21em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.1)
+    box-shadow: 0 1px 4px -1px rgba(255, 255, 255, 0.4) inset, 0 6px 12px 1px rgba(0, 0, 0, 0.15), 0 6px 2px 1px rgba(0, 0, 0, 0.1), 6px 6px 12px 1px rgba(0, 0, 0, 0.05), -6px 6px 12px 1px rgba(0, 0, 0, 0.05), 4px 4px 2px 1px rgba(0, 0, 0, 0.07), -4px 4px 2px 1px rgba(0, 0, 0, 0.07), 6px 0 2px 1px rgba(255, 255, 255, 0.4), -6px 0 2px 1px rgba(255, 255, 255, 0.4), 6px 0 2px 1px rgba(0, 0, 0, 0.1), -6px 0 2px 1px rgba(0, 0, 0, 0.1), 4px -4px 2px 1px rgba(255, 255, 255, 0.8), -4px -4px 2px 1px rgba(255, 255, 255, 0.8), 0 -6px 12px 1px rgba(255, 255, 255, 0.9), 0 -6px 2px 1px rgba(255, 255, 255, 0.9), 0 0.6em 1em 0 rgba(0, 0, 0, 0.08) inset, 0 -0.6em 1em rgba(255, 255, 255, 0.08) inset
+    transition: box-shadow 0.2s cubic-bezier(0.23, 1, 0.32, 1), transform 0.35s cubic-bezier(0.23, 1, 0.32, 1)
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      box-shadow: 0 1px 4px -1px rgba(255, 255, 255, 0.1) inset, 0 6px 12px 1px rgba(0, 0, 0, 0.2), 0 6px 2px 1px rgba(0, 0, 0, 0.1), 6px 6px 12px 1px rgba(0, 0, 0, 0.05), -6px 6px 12px 1px rgba(0, 0, 0, 0.05), 4px 4px 2px 1px rgba(0, 0, 0, 0.07), -4px 4px 2px 1px rgba(0, 0, 0, 0.07), 6px 0 2px 1px rgba(255, 255, 255, 0.4), -6px 0 2px 1px rgba(255, 255, 255, 0.4), 6px 0 2px 1px rgba(0, 0, 0, 0.1), -6px 0 2px 1px rgba(0, 0, 0, 0.1), 4px -4px 2px 1px rgba(255, 255, 255, 0.8), -4px -4px 2px 1px rgba(255, 255, 255, 0.8), 0 -6px 12px 1px rgba(255, 255, 255, 0.9), 0 -6px 2px 1px rgba(255, 255, 255, 0.9), 0 0.6em 1em 0 rgba(0, 0, 0, 0.15) inset, 0 -0.6em 1em rgba(255, 255, 255, 0.15) inset
+  .btn-primary
+    background-color: #52C11F
+    color: #E6EAEF
+    border-color: #439e19
+    &:hover
+      background-color: #54c520
+    &:active
+      background-color: #4eb81e
+  .btn-secondary
+    background-color: #0B44EF
+    color: #E6EAEF
+    border-color: #0939c8
+    &:hover
+      background-color: #0b45f4
+    &:active
+      background-color: #0b41e5
+  .btn-tertiary
+    background-color: #FF006A
+    color: #E6EAEF
+    border-color: #d60059
+    &:hover
+      background-color: #ff056d
+    &:active
+      background-color: #f50066
+  .btn-tetrary
+    background-color: #991BE2
+    color: #E6EAEF
+    border-color: #8017be
+    &:hover
+      background-color: #9b1ee4
+    &:active
+      background-color: #931ad9
+  .btn-black
+    background-color: #252730
+    color: #E6EAEF
+    border-color: #131419
+    &:hover
+      background-color: #272933
+    &:active
+      background-color: #21222a
+  .btn-dark
+    background-color: #3F4351
+    color: #E6EAEF
+    border-color: #2d303a
+    &:hover
+      background-color: #414554
+    &:active
+      background-color: #3b3e4b
+  .btn-gray
+    background-color: #6D6F7F
+    color: #E6EAEF
+    border-color: #5a5c69
+    &:hover
+      background-color: #6f7182
+    &:active
+      background-color: #686a7a
+  .btn-light
+    background-color: #E6EAEF
+    color: #252730
+    border-color: #cdd5df
+    &:hover
+      background-color: #e9edf1
+    &:active
+      background-color: #e0e5eb
 
-.bttn-material-circle
-  margin: 0
-  padding: 0
-  border-color: transparent
-  background: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  overflow: hidden
-  border-width: 0
-  border-radius: 50%
-  background: #fff
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.18), 0 1px 5px 0 rgba(0, 0, 0, 0.15)
-  color: #1d89ff
-  -webkit-transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-  -webkit-transform: translateZ(0)
-  transform: translateZ(0)
-  &:focus, &:hover
-    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
-    -webkit-transition: box-shadow .4s ease-out
-    transition: box-shadow .4s ease-out
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-    width: 28px
-    height: 28px
-    line-height: 24px
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-    width: 36px
-    height: 36px
-    line-height: 30px
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-    width: 44px
-    height: 44px
-    line-height: 38px
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-    width: 54px
-    height: 54px
-    line-height: 44px
-  &.bttn-default
-    background: #fff
-    color: #1d89ff
-  &.bttn-primary
-    background: #1d89ff
-    color: #fff
-  &.bttn-warning
-    background: #feab3a
-    color: #fff
-  &.bttn-danger
-    background: #ff5964
-    color: #fff
-  &.bttn-success
-    background: #28b78d
-    color: #fff
-  &.bttn-royal
-    background: #bd2df5
-    color: #fff
+.mu
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.7em 1.4em
+    font-weight: normal
+    border-width: 1px
+    border-style: solid
+    background: transparent
+    border-radius: 1.41em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+  .btn-primary
+    color: #52C11F
+    border-color: #52C11F
+  .btn-secondary
+    color: #0B44EF
+    border-color: #0B44EF
+  .btn-tertiary
+    color: #FF006A
+    border-color: #FF006A
+  .btn-tetrary
+    color: #991BE2
+    border-color: #991BE2
+  .btn-black
+    color: #252730
+    border-color: #252730
+  .btn-dark
+    color: #3F4351
+    border-color: #3F4351
+  .btn-gray
+    color: #6D6F7F
+    border-color: #6D6F7F
+  .btn-light
+    color: #E6EAEF
+    border-color: #E6EAEF
 
-.bttn-material-flat
-  margin: 0
-  padding: 0
-  border-color: transparent
-  background: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  overflow: hidden
-  border-width: 0
-  border-radius: 2px
-  background: #fff
-  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, 0.18), 0 1px 5px 0 rgba(0, 0, 0, 0.15)
-  color: #1d89ff
-  text-transform: uppercase
-  -webkit-transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: all 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-  -webkit-transform: translateZ(0)
-  transform: translateZ(0)
-  &:focus, &:hover
-    box-shadow: 0 5px 11px 0 rgba(0, 0, 0, 0.18), 0 4px 15px 0 rgba(0, 0, 0, 0.15)
-    -webkit-transition: box-shadow .4s ease-out
-    transition: box-shadow .4s ease-out
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-  &.bttn-default
-    background: #fff
-    color: #1d89ff
-  &.bttn-primary
-    background: #1d89ff
-    color: #fff
-  &.bttn-warning
-    background: #feab3a
-    color: #fff
-  &.bttn-danger
-    background: #ff5964
-    color: #fff
-  &.bttn-success
-    background: #28b78d
-    color: #fff
-  &.bttn-royal
-    background: #bd2df5
-    color: #fff
+.nu
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.8em 2.5em
+    font-weight: normal
+    border-width: 3px
+    border-style: solid
+    background: transparent
+    border-radius: 0
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: background-color 0.2s, color 0.2s, padding 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275), border-radius 0.2s
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+  .btn-primary
+    color: #52C11F
+    border-color: #52C11F
+    &:hover
+      background-color: #52C11F
+      color: #E6EAEF
+      padding-left: 3.5em
+      padding-right: 3.5em
+      border-radius: 0.4em
+    &:active
+      background-color: #4cb41d
+      border-color: #4cb41d
+  .btn-secondary
+    color: #0B44EF
+    border-color: #0B44EF
+    &:hover
+      background-color: #0B44EF
+      color: #E6EAEF
+      padding-left: 3.5em
+      padding-right: 3.5em
+      border-radius: 0.4em
+    &:active
+      background-color: #0a40e0
+      border-color: #0a40e0
+  .btn-tertiary
+    color: #FF006A
+    border-color: #FF006A
+    &:hover
+      background-color: #FF006A
+      color: #E6EAEF
+      padding-left: 3.5em
+      padding-right: 3.5em
+      border-radius: 0.4em
+    &:active
+      background-color: #f00064
+      border-color: #f00064
+  .btn-tetrary
+    color: #991BE2
+    border-color: #991BE2
+    &:hover
+      background-color: #991BE2
+      color: #E6EAEF
+      padding-left: 3.5em
+      padding-right: 3.5em
+      border-radius: 0.4em
+    &:active
+      background-color: #9019d4
+      border-color: #9019d4
+  .btn-black
+    color: #252730
+    border-color: #252730
+    &:hover
+      background-color: #252730
+      color: #E6EAEF
+      padding-left: 3.5em
+      padding-right: 3.5em
+      border-radius: 0.4em
+    &:active
+      background-color: #1e2027
+      border-color: #1e2027
+  .btn-dark
+    color: #3F4351
+    border-color: #3F4351
+    &:hover
+      background-color: #3F4351
+      color: #E6EAEF
+      padding-left: 3.5em
+      padding-right: 3.5em
+      border-radius: 0.4em
+    &:active
+      background-color: #383c48
+      border-color: #383c48
+  .btn-gray
+    color: #6D6F7F
+    border-color: #6D6F7F
+    &:hover
+      background-color: #6D6F7F
+      color: #E6EAEF
+      padding-left: 3.5em
+      padding-right: 3.5em
+      border-radius: 0.4em
+    &:active
+      background-color: #666877
+      border-color: #666877
+  .btn-light
+    color: #E6EAEF
+    border-color: #E6EAEF
+    &:hover
+      background-color: #E6EAEF
+      color: #252730
+      padding-left: 3.5em
+      padding-right: 3.5em
+      border-radius: 0.4em
+    &:active
+      background-color: #dde2e9
+      border-color: #dde2e9
 
-.bttn-pill
-  margin: 0
-  padding: 0
-  border-width: 0
-  border-color: transparent
-  background: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  z-index: 0
-  overflow: hidden
-  border: none
-  border-radius: 100px
-  background: #fff
-  color: #1d89ff
-  -webkit-transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: all 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:after, &:before
-    position: absolute
-    right: 0
-    bottom: 0
-    width: 100px
-    height: 100px
-    border-radius: 50%
-    background: #1d89ff
-    content: ''
-    opacity: 0
-    -webkit-transition: opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1)
-    z-index: -1
-    -webkit-transform: translate(100%, -25%) translateZ(0)
-    transform: translate(100%, -25%) translateZ(0)
-  &:focus, &:hover
-    box-shadow: 0 1px 8px rgba(58, 51, 53, 0.3)
-    color: #fff
-    -webkit-transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-    -webkit-transform: scale(1.1) translateZ(0)
-    transform: scale(1.1) translateZ(0)
-  &:focus:before, &:hover:before
-    opacity: .15
-    -webkit-transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-    -webkit-transform: translate3d(50%, 0, 0) scale(0.9)
-    transform: translate3d(50%, 0, 0) scale(0.9)
-  &:focus:after, &:hover:after
-    opacity: .25
-    -webkit-transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s, -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s
-    transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s, -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s
-    transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s, opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s
-    transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s, opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s, -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1) 0.05s
-    -webkit-transform: translate(50%) scale(1.1)
-    transform: translate(50%) scale(1.1)
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 4px rgba(58, 51, 53, 0.3)
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 6px rgba(58, 51, 53, 0.3)
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-    &:focus, &:hover
-      box-shadow: 0 1px 8px rgba(58, 51, 53, 0.3)
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 10px rgba(58, 51, 53, 0.3)
-  &.bttn-default
-    background: #fff
-    color: #1d89ff
-    &:focus, &:hover
-      color: #1d89ff
-    &:after, &:before
-      background: #1d89ff
-  &.bttn-primary
-    background: #1d89ff
-    color: #fff
-    &:focus, &:hover
-      color: #fff
-    &:after, &:before
-      background: #fff
-  &.bttn-warning
-    background: #feab3a
-    color: #fff
-    &:focus, &:hover
-      color: #fff
-    &:after, &:before
-      background: #fff
-  &.bttn-danger
-    background: #ff5964
-    color: #fff
-    &:focus, &:hover
-      color: #fff
-    &:after, &:before
-      background: #fff
-  &.bttn-success
-    background: #28b78d
-    color: #fff
-    &:focus, &:hover
-      color: #fff
-    &:after, &:before
-      background: #fff
-  &.bttn-royal
-    background: #bd2df5
-    color: #fff
-    &:focus, &:hover
-      color: #fff
-    &:after, &:before
-      background: #fff
+.xi
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.6em 1.8em
+    font-weight: normal
+    border-width: 0
+    border-style: solid
+    background: transparent
+    border-radius: 1.31em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: box-shadow 0.2s, background-color 0.2s, color 0.2s
+    position: relative
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.15)
+    box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2), 0 2px 4px 0 rgba(0, 0, 0, 0.2), 0 -1px 0 0 rgba(0, 0, 0, 0.1) inset, 0 -1.31em 1.31em -1.31em rgba(0, 0, 0, 0.3) inset, 0 0 1px 0 rgba(0, 0, 0, 0.1)
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      transition-duration: 0.05s
+      text-shadow: 0 1px 0 rgba(255, 255, 255, 0.15)
+      box-shadow: 0 -1px 1px 0 rgba(0, 0, 0, 0), 0 -2px 4px 0 rgba(0, 0, 0, 0), 0 -1px 0 0 rgba(0, 0, 0, 0) inset, 0 1.31em 1.31em -1.31em rgba(0, 0, 0, 0.3) inset, 0 0 4px 0 rgba(0, 0, 0, 0.1)
+      transform: scale(0.99)
+      &:before
+        transform: translateY(1.01)
+    &:before
+      content: ""
+      position: absolute
+      top: -7px
+      left: -7px
+      right: -7px
+      bottom: -7px
+      border-radius: 1.71em
+      background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.06), rgba(0, 0, 0, 0.1))
+      z-index: -1
+  .btn-primary
+    background-color: #52C11F
+    color: #bbf0a2
+    &:hover
+      background-color: #58ce21
+    &:active
+      background-color: #4cb41d
+      color: #2d6911
+  .btn-secondary
+    background-color: #0B44EF
+    color: #b1c4fb
+    &:hover
+      background-color: #154df4
+    &:active
+      background-color: #0a40e0
+      color: #07288d
+  .btn-tertiary
+    background-color: #FF006A
+    color: #ffb3d2
+    &:hover
+      background-color: #ff0f73
+    &:active
+      background-color: #f00064
+      color: #990040
+  .btn-tetrary
+    background-color: #991BE2
+    color: #e0b9f7
+    &:hover
+      background-color: #9f27e5
+    &:active
+      background-color: #9019d4
+      color: #5b1087
+  .btn-black
+    background-color: #252730
+    color: #747a94
+    &:hover
+      background-color: #2c2e39
+    &:active
+      background-color: #1e2027
+      color: black
+  .btn-dark
+    background-color: #3F4351
+    color: #969bad
+    &:hover
+      background-color: #464a5a
+    &:active
+      background-color: #383c48
+      color: #121418
+  .btn-gray
+    background-color: #6D6F7F
+    color: #ccccd3
+    &:hover
+      background-color: #747687
+    &:active
+      background-color: #666877
+      color: #3e3f48
+  .btn-light
+    background-color: #E6EAEF
+    color: #a8b6c7
+    &:hover
+      background-color: #eff2f5
+    &:active
+      background-color: #dde2e9
+      color: #a8b6c7
 
-.bttn-float
-  margin: 0
-  padding: 0
-  border-width: 0
-  border-color: transparent
-  background: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  overflow: hidden
-  border: 1px dotted #fff
-  border-radius: 4px
-  background: hsla(0, 0%, 100%, 0.4)
-  color: #fff
-  -webkit-transition: opacity 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), box-shadow 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: opacity 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), box-shadow 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), box-shadow 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), box-shadow 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:focus, &:hover
-    box-shadow: 0 30px 30px rgba(0, 0, 0, 0.16)
-    opacity: .85
-    -webkit-transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), box-shadow 0.4s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), box-shadow 0.4s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), box-shadow 0.4s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), box-shadow 0.4s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-    &:focus, &:hover
-      -webkit-transform: translateY(-6px)
-      transform: translateY(-6px)
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-    &:focus, &:hover
-      -webkit-transform: translateY(-8px)
-      transform: translateY(-8px)
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-    &:focus, &:hover
-      -webkit-transform: translateY(-10px)
-      transform: translateY(-10px)
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-    &:focus, &:hover
-      -webkit-transform: translateY(-12px)
-      transform: translateY(-12px)
-  &.bttn-default
-    border-color: #fff
-    background: hsla(0, 0%, 100%, 0.4)
-    color: #fff
-  &.bttn-primary
-    border-color: #1d89ff
-    background: rgba(29, 137, 255, 0.4)
-    color: #1d89ff
-  &.bttn-warning
-    border-color: #feab3a
-    background: rgba(254, 171, 58, 0.4)
-    color: #feab3a
-  &.bttn-danger
-    border-color: #ff5964
-    background: rgba(255, 89, 100, 0.4)
-    color: #ff5964
-  &.bttn-success
-    border-color: #28b78d
-    background: rgba(40, 183, 141, 0.4)
-    color: #28b78d
-  &.bttn-royal
-    border-color: #bd2df5
-    background: rgba(189, 45, 245, 0.4)
-    color: #bd2df5
+.omicron
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.8em 2.2em
+    font-weight: normal
+    border-width: 2px
+    border-style: solid
+    background: transparent
+    border-radius: 1.66em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: box-shadow 0.15s, background-color 0.15s
+    box-shadow: 0 0 1em 0 rgba(255, 255, 255, 0.1) inset, 0 2.2em 0 -1em rgba(255, 255, 255, 0.2) inset, 0 1.5em 1em -1em rgba(255, 255, 255, 0.3) inset, 0 0 4px 1px rgba(0, 0, 0, 0.2) inset
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      box-shadow: 0 0 1em 0 rgba(0, 0, 0, 0.1) inset, 0 2.2em 1em -1em rgba(255, 255, 255, 0.05) inset, 0 1.5em 1em -1em rgba(255, 255, 255, 0) inset, 0 0 4px 1px rgba(0, 0, 0, 0.2) inset
+  .btn-primary
+    background-image: radial-gradient(ellipse at bottom center, #4ffa00, #52C11F)
+    background-color: #52C11F
+    color: rgba(35, 83, 13, 0.8)
+    border-color: #3f9518
+    &:hover
+      background-image: radial-gradient(ellipse at bottom center, #65ff1e, #52C11F)
+    &:active
+      background-image: radial-gradient(ellipse at bottom center, #3ec700, #52C11F)
+  .btn-secondary
+    background-image: radial-gradient(ellipse at bottom center, #154fff, #0B44EF)
+    background-color: #0B44EF
+    color: rgba(5, 33, 117, 0.8)
+    border-color: #0936be
+    &:hover
+      background-image: radial-gradient(ellipse at bottom center, #386aff, #0B44EF)
+    &:active
+      background-image: radial-gradient(ellipse at bottom center, #0038e1, #0B44EF)
+  .btn-tertiary
+    background-image: radial-gradient(ellipse at bottom center, #ff1a79, #FF006A)
+    background-color: #FF006A
+    color: rgba(128, 0, 53, 0.8)
+    border-color: #cc0055
+    &:hover
+      background-image: radial-gradient(ellipse at bottom center, #ff3d8e, #FF006A)
+    &:active
+      background-image: radial-gradient(ellipse at bottom center, #e6005f, #FF006A)
+  .btn-tetrary
+    background-image: radial-gradient(ellipse at bottom center, #aa18ff, #991BE2)
+    background-color: #991BE2
+    color: rgba(76, 13, 112, 0.8)
+    border-color: #7a16b4
+    &:hover
+      background-image: radial-gradient(ellipse at bottom center, #b73bff, #991BE2)
+    &:active
+      background-image: radial-gradient(ellipse at bottom center, #9000e4, #991BE2)
+  .btn-black
+    background-image: radial-gradient(ellipse at bottom center, #20284f, #252730)
+    background-color: #252730
+    color: rgba(0, 0, 0, 0.8)
+    border-color: #0f1013
+    &:hover
+      background-image: radial-gradient(ellipse at bottom center, #2a3568, #252730)
+    &:active
+      background-image: radial-gradient(ellipse at bottom center, #0e142e, #252730)
+  .btn-dark
+    background-image: radial-gradient(ellipse at bottom center, #314179, #3F4351)
+    background-color: #3F4351
+    color: rgba(7, 8, 9, 0.8)
+    border-color: #292b34
+    &:hover
+      background-image: radial-gradient(ellipse at bottom center, #3b4e92, #3F4351)
+    &:active
+      background-image: radial-gradient(ellipse at bottom center, #1c2a5a, #3F4351)
+  .btn-gray
+    background-image: radial-gradient(ellipse at bottom center, #545eb2, #6D6F7F)
+    background-color: #6D6F7F
+    color: rgba(50, 51, 58, 0.8)
+    border-color: #555764
+    &:hover
+      background-image: radial-gradient(ellipse at bottom center, #6d75bd, #6D6F7F)
+    &:active
+      background-image: radial-gradient(ellipse at bottom center, #37429b, #6D6F7F)
+  .btn-light
+    background-image: radial-gradient(ellipse at bottom center, #f3f7fb, #E6EAEF)
+    background-color: #E6EAEF
+    color: #5d7592
+    border-color: #c7d0db
+    &:hover
+      background-image: radial-gradient(ellipse at bottom center, white, #E6EAEF)
+    &:active
+      background-image: radial-gradient(ellipse at bottom center, #c9dbf2, #E6EAEF)
 
-.bttn-unite
-  margin: 0
-  padding: 0
-  border-width: 0
-  border-color: transparent
-  background: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  z-index: 0
-  overflow: hidden
-  border: 1px solid #1d89ff
-  border-radius: 100px
-  background: #fff
-  color: #1d89ff
-  -webkit-transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), border-color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), border-color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:before
-    background: #d6e3ff
-    -webkit-transform: translate3d(-110%, -10%, 0) skewX(-20deg)
-    transform: translate3d(-110%, -10%, 0) skewX(-20deg)
-  &:after, &:before
-    position: absolute
-    top: 0
-    left: 0
-    width: 100%
-    height: 120%
-    content: ''
-    opacity: 0
-    z-index: -1
-    -webkit-transition: opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.15s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.15s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:after
-    background: rgba(214, 227, 255, 0.7)
-    -webkit-transform: translate3d(110%, -10%, 0) skewX(-20deg)
-    transform: translate3d(110%, -10%, 0) skewX(-20deg)
-  &:focus, &:hover
-    box-shadow: 0 1px 8px rgba(58, 51, 53, 0.3)
-    color: #1d89ff
-    -webkit-transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: all 0.5s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:focus:before, &:hover:before
-    -webkit-transform: translate3d(-50%, -10%, 0) skewX(-20deg)
-    transform: translate3d(-50%, -10%, 0) skewX(-20deg)
-  &:focus
-    &:after, &:before
+.pi
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.6em 1.6em
+    font-weight: normal
+    border-width: 0
+    border-style: solid
+    background: transparent
+    border-radius: 0.5em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: box-shadow 0.2s, transform 0.2s
+    border-radius: 12%/50%
+    box-shadow: 0 0 0 1px rgba(0, 0, 0, 0.1)
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:hover
+      transform: scale(1.02)
+      box-shadow: 0 1px 10px 1px rgba(0, 0, 0, 0.2)
+    &:active
+      transform: scale(0.99)
+      box-shadow: 0 2px 6px 1px rgba(0, 0, 0, 0.15) inset
+      transition-duration: 0.05s
+  .btn-primary
+    color: #52C11F
+  .btn-secondary
+    color: #0B44EF
+  .btn-tertiary
+    color: #FF006A
+  .btn-tetrary
+    color: #991BE2
+  .btn-black
+    color: #252730
+  .btn-dark
+    color: #3F4351
+  .btn-gray
+    color: #6D6F7F
+  .btn-light
+    color: #5d7592
+
+.rho
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.6em 2.2em
+    font-weight: normal
+    border-width: 0
+    border-style: solid
+    background: transparent
+    border-radius: 1.46em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: box-shadow 0.2s, background-color 0.2s
+    position: relative
+    background-color: #CED0DB
+    background-image: linear-gradient(0deg, #CED0DB, #E6EAEF)
+    color: #3F4351
+    box-shadow: 0 1px 1px rgba(0, 0, 0, 0.3), 0 1px 4px rgba(0, 0, 0, 0.3), 0 2px 7px rgba(0, 0, 0, 0.4)
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:before
+      content: ""
+      display: block
+      position: absolute
+      padding: 0.35em
+      text-shadow: none
+      top: -0.35em
+      left: -0.35em
+      right: -0.35em
+      bottom: -0.35em
+      border-radius: 1.81em
+      box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.2) inset, 0 3px 3px -2px rgba(0, 0, 0, 0.2) inset
+      z-index: -1
+  .btn-primary
+    &:active
+      background-color: #bfc2d0
+      background-image: linear-gradient(0deg, #CED0DB, #d6dde5)
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1), 0 2px 7px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) inset
+    &:before
+      background-color: #52C11F
+  .btn-secondary
+    &:active
+      background-color: #bfc2d0
+      background-image: linear-gradient(0deg, #CED0DB, #d6dde5)
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1), 0 2px 7px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) inset
+    &:before
+      background-color: #0B44EF
+  .btn-tertiary
+    &:active
+      background-color: #bfc2d0
+      background-image: linear-gradient(0deg, #CED0DB, #d6dde5)
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1), 0 2px 7px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) inset
+    &:before
+      background-color: #FF006A
+  .btn-tetrary
+    &:active
+      background-color: #bfc2d0
+      background-image: linear-gradient(0deg, #CED0DB, #d6dde5)
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1), 0 2px 7px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) inset
+    &:before
+      background-color: #991BE2
+  .btn-black
+    &:active
+      background-color: #bfc2d0
+      background-image: linear-gradient(0deg, #CED0DB, #d6dde5)
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1), 0 2px 7px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) inset
+    &:before
+      background-color: #252730
+  .btn-dark
+    &:active
+      background-color: #bfc2d0
+      background-image: linear-gradient(0deg, #CED0DB, #d6dde5)
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1), 0 2px 7px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) inset
+    &:before
+      background-color: #3F4351
+  .btn-gray
+    &:active
+      background-color: #bfc2d0
+      background-image: linear-gradient(0deg, #CED0DB, #d6dde5)
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1), 0 2px 7px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) inset
+    &:before
+      background-color: #6D6F7F
+  .btn-light
+    &:active
+      background-color: #bfc2d0
+      background-image: linear-gradient(0deg, #CED0DB, #d6dde5)
+      box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1), 0 1px 4px rgba(0, 0, 0, 0.1), 0 2px 7px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1) inset
+    &:before
+      background-color: #E6EAEF
+
+.sigma
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.45em 2.5em
+    font-weight: normal
+    border-width: 1px
+    border-style: solid
+    background: transparent
+    border-radius: 0.2em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: box-shadow 0.3s, background-color 0.3s
+    text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.2), 0 1px 0 rgba(255, 255, 255, 0.2)
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      transition-duration: 0.1s
+      text-shadow: 0 1px 0 rgba(0, 0, 0, 0.1), 0 -1px 0 rgba(255, 255, 255, 0.1)
+  .btn-primary
+    background-color: #52C11F
+    color: #307212
+    border-color: #3c8c17
+    box-shadow: 0 -4px 12px -1px rgba(82, 193, 31, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.35), 0 2px 6px 1px rgba(0, 0, 0, 0.3), 0 10px 6px -2px rgba(0, 0, 0, 0.25), 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 0 -2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+    &:hover
+      background-color: #56ca20
+    &:active
+      background-color: #49ab1b
+      box-shadow: 0 -4px 12px -1px rgba(82, 193, 31, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 1px rgba(0, 0, 0, 0.2), 0 8px 6px -2px rgba(0, 0, 0, 0.2), 0 -1px 0 0 rgba(255, 255, 255, 0.1) inset, 0 2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+  .btn-secondary
+    background-color: #0B44EF
+    color: #072b97
+    border-color: #0833b4
+    box-shadow: 0 -4px 12px -1px rgba(11, 68, 239, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.35), 0 2px 6px 1px rgba(0, 0, 0, 0.3), 0 10px 6px -2px rgba(0, 0, 0, 0.25), 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 0 -2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+    &:hover
+      background-color: #1049f4
+    &:active
+      background-color: #0a3dd7
+      box-shadow: 0 -4px 12px -1px rgba(11, 68, 239, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 1px rgba(0, 0, 0, 0.2), 0 8px 6px -2px rgba(0, 0, 0, 0.2), 0 -1px 0 0 rgba(255, 255, 255, 0.1) inset, 0 2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+  .btn-tertiary
+    background-color: #FF006A
+    color: #a30044
+    border-color: #c20051
+    box-shadow: 0 -4px 12px -1px rgba(255, 0, 106, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.35), 0 2px 6px 1px rgba(0, 0, 0, 0.3), 0 10px 6px -2px rgba(0, 0, 0, 0.25), 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 0 -2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+    &:hover
+      background-color: #ff0a70
+    &:active
+      background-color: #e6005f
+      box-shadow: 0 -4px 12px -1px rgba(255, 0, 106, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 1px rgba(0, 0, 0, 0.2), 0 8px 6px -2px rgba(0, 0, 0, 0.2), 0 -1px 0 0 rgba(255, 255, 255, 0.1) inset, 0 2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+  .btn-tetrary
+    background-color: #991BE2
+    color: #611190
+    border-color: #7414ab
+    box-shadow: 0 -4px 12px -1px rgba(153, 27, 226, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.35), 0 2px 6px 1px rgba(0, 0, 0, 0.3), 0 10px 6px -2px rgba(0, 0, 0, 0.25), 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 0 -2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+    &:hover
+      background-color: #9d23e5
+    &:active
+      background-color: #8a18cb
+      box-shadow: 0 -4px 12px -1px rgba(153, 27, 226, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 1px rgba(0, 0, 0, 0.2), 0 8px 6px -2px rgba(0, 0, 0, 0.2), 0 -1px 0 0 rgba(255, 255, 255, 0.1) inset, 0 2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+  .btn-black
+    background-color: #252730
+    color: black
+    border-color: #0a0b0d
+    box-shadow: 0 -4px 12px -1px rgba(37, 39, 48, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.35), 0 2px 6px 1px rgba(0, 0, 0, 0.3), 0 10px 6px -2px rgba(0, 0, 0, 0.25), 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 0 -2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+    &:hover
+      background-color: #292c36
+    &:active
+      background-color: #1a1b22
+      box-shadow: 0 -4px 12px -1px rgba(37, 39, 48, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 1px rgba(0, 0, 0, 0.2), 0 8px 6px -2px rgba(0, 0, 0, 0.2), 0 -1px 0 0 rgba(255, 255, 255, 0.1) inset, 0 2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+  .btn-dark
+    background-color: #3F4351
+    color: #17181d
+    border-color: #24272f
+    box-shadow: 0 -4px 12px -1px rgba(63, 67, 81, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.35), 0 2px 6px 1px rgba(0, 0, 0, 0.3), 0 10px 6px -2px rgba(0, 0, 0, 0.25), 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 0 -2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+    &:hover
+      background-color: #434857
+    &:active
+      background-color: #343743
+      box-shadow: 0 -4px 12px -1px rgba(63, 67, 81, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 1px rgba(0, 0, 0, 0.2), 0 8px 6px -2px rgba(0, 0, 0, 0.2), 0 -1px 0 0 rgba(255, 255, 255, 0.1) inset, 0 2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+  .btn-gray
+    background-color: #6D6F7F
+    color: #43444e
+    border-color: #51525e
+    box-shadow: 0 -4px 12px -1px rgba(109, 111, 127, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.35), 0 2px 6px 1px rgba(0, 0, 0, 0.3), 0 10px 6px -2px rgba(0, 0, 0, 0.25), 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 0 -2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+    &:hover
+      background-color: #727484
+    &:active
+      background-color: #616371
+      box-shadow: 0 -4px 12px -1px rgba(109, 111, 127, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 1px rgba(0, 0, 0, 0.2), 0 8px 6px -2px rgba(0, 0, 0, 0.2), 0 -1px 0 0 rgba(255, 255, 255, 0.1) inset, 0 2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+  .btn-light
+    background-color: #E6EAEF
+    color: #5d7592
+    border-color: #c1cbd7
+    box-shadow: 0 -4px 12px -1px rgba(230, 234, 239, 0.3), 0 1px 1px 0 rgba(0, 0, 0, 0.35), 0 2px 6px 1px rgba(0, 0, 0, 0.3), 0 10px 6px -2px rgba(0, 0, 0, 0.25), 0 1px 0 0 rgba(255, 255, 255, 0.2) inset, 0 -2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+    &:hover
+      background-color: #eceff3
+    &:active
+      background-color: #d6dde5
+      box-shadow: 0 -4px 12px -1px rgba(230, 234, 239, 0.2), 0 1px 1px 0 rgba(0, 0, 0, 0.3), 0 2px 6px 1px rgba(0, 0, 0, 0.2), 0 8px 6px -2px rgba(0, 0, 0, 0.2), 0 -1px 0 0 rgba(255, 255, 255, 0.1) inset, 0 2.5em 2em -1.5em rgba(0, 0, 0, 0.12) inset
+
+.tau
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 1.2em 2.4em
+    font-weight: normal
+    border-width: 0
+    border-style: solid
+    background: transparent
+    border-radius: 0
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: background-color 0.3s
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      transition-duration: 0.1s
+  .btn-primary
+    background-color: #52C11F
+    color: #E6EAEF
+    &:hover
+      background-color: #59d322
+    &:active
+      background-color: #4baf1c
+  .btn-secondary
+    background-color: #0B44EF
+    color: #E6EAEF
+    &:hover
+      background-color: #1a51f4
+    &:active
+      background-color: #0a3edb
+  .btn-tertiary
+    background-color: #FF006A
+    color: #E6EAEF
+    &:hover
+      background-color: #ff1476
+    &:active
+      background-color: #eb0062
+  .btn-tetrary
+    background-color: #991BE2
+    color: #E6EAEF
+    &:hover
+      background-color: #a12ce6
+    &:active
+      background-color: #8d19d0
+  .btn-black
+    background-color: #252730
+    color: #E6EAEF
+    &:hover
+      background-color: #2e303c
+    &:active
+      background-color: #1c1e24
+  .btn-dark
+    background-color: #3F4351
+    color: #E6EAEF
+    &:hover
+      background-color: #484c5c
+    &:active
+      background-color: #363a46
+  .btn-gray
+    background-color: #6D6F7F
+    color: #E6EAEF
+    &:hover
+      background-color: #77798a
+    &:active
+      background-color: #646574
+  .btn-light
+    background-color: #E6EAEF
+    color: #5d7592
+    &:hover
+      background-color: #f2f4f7
+    &:active
+      background-color: #dae0e7
+
+.upsilon
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 1.2em 1.6em
+    font-weight: normal
+    border-width: 0
+    border-style: solid
+    background: transparent
+    border-radius: 6px
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: background-color 0.2s, box-shadow 0.2s, transform 0.2s
+    box-shadow: 0 -2px 0 0 rgba(0, 0, 0, 0.3) inset
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:active
+      transition-duration: 0.1s
+      box-shadow: 0 0 0 0 rgba(0, 0, 0, 0.3) inset
+      transform: translateY(1px)
+  .btn-primary
+    background-color: #52C11F
+    color: #E6EAEF
+    &:hover
+      background-color: #59d322
+    &:active
+      background-color: #4baf1c
+  .btn-secondary
+    background-color: #0B44EF
+    color: #E6EAEF
+    &:hover
+      background-color: #1a51f4
+    &:active
+      background-color: #0a3edb
+  .btn-tertiary
+    background-color: #FF006A
+    color: #E6EAEF
+    &:hover
+      background-color: #ff1476
+    &:active
+      background-color: #eb0062
+  .btn-tetrary
+    background-color: #991BE2
+    color: #E6EAEF
+    &:hover
+      background-color: #a12ce6
+    &:active
+      background-color: #8d19d0
+  .btn-black
+    background-color: #252730
+    color: #E6EAEF
+    &:hover
+      background-color: #2e303c
+    &:active
+      background-color: #1c1e24
+  .btn-dark
+    background-color: #3F4351
+    color: #E6EAEF
+    &:hover
+      background-color: #484c5c
+    &:active
+      background-color: #363a46
+  .btn-gray
+    background-color: #6D6F7F
+    color: #E6EAEF
+    &:hover
+      background-color: #77798a
+    &:active
+      background-color: #646574
+  .btn-light
+    background-color: #E6EAEF
+    color: #5d7592
+    &:hover
+      background-color: #f2f4f7
+    &:active
+      background-color: #dae0e7
+
+.phi
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 1.2em 1.6em
+    font-weight: normal
+    border-width: 3px
+    border-style: solid
+    background: transparent
+    border-radius: 0.4em
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), box-shadow 0.3s, background-color 0.3s
+    border-radius: 0.5em 0.6em/0.6em 1em 3em 1em
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:hover
+      transform: translate(-2px, -2px)
+    &:active
+      transition-duration: 0.1s
+      transform: translate(4px, 4px)
+  .btn-primary
+    color: #52C11F
+    border-color: #52C11F
+    box-shadow: 6px 0 0 0 #52C11F, 6px 6px 0 0 #52C11F, 0 6px 0 0 #52C11F
+    &:hover
+      box-shadow: 8px 0 0 0 #52C11F, 8px 8px 0 0 #52C11F, 0 8px 0 0 #52C11F
+    &:active
+      background-color: #52C11F
+      color: #E6EAEF
+      box-shadow: 2px 0 0 0 #52C11F, 2px 2px 0 0 #52C11F, 0 2px 0 0 #52C11F
+  .btn-secondary
+    color: #0B44EF
+    border-color: #0B44EF
+    box-shadow: 6px 0 0 0 #0B44EF, 6px 6px 0 0 #0B44EF, 0 6px 0 0 #0B44EF
+    &:hover
+      box-shadow: 8px 0 0 0 #0B44EF, 8px 8px 0 0 #0B44EF, 0 8px 0 0 #0B44EF
+    &:active
+      background-color: #0B44EF
+      color: #E6EAEF
+      box-shadow: 2px 0 0 0 #0B44EF, 2px 2px 0 0 #0B44EF, 0 2px 0 0 #0B44EF
+  .btn-tertiary
+    color: #FF006A
+    border-color: #FF006A
+    box-shadow: 6px 0 0 0 #FF006A, 6px 6px 0 0 #FF006A, 0 6px 0 0 #FF006A
+    &:hover
+      box-shadow: 8px 0 0 0 #FF006A, 8px 8px 0 0 #FF006A, 0 8px 0 0 #FF006A
+    &:active
+      background-color: #FF006A
+      color: #E6EAEF
+      box-shadow: 2px 0 0 0 #FF006A, 2px 2px 0 0 #FF006A, 0 2px 0 0 #FF006A
+  .btn-tetrary
+    color: #991BE2
+    border-color: #991BE2
+    box-shadow: 6px 0 0 0 #991BE2, 6px 6px 0 0 #991BE2, 0 6px 0 0 #991BE2
+    &:hover
+      box-shadow: 8px 0 0 0 #991BE2, 8px 8px 0 0 #991BE2, 0 8px 0 0 #991BE2
+    &:active
+      background-color: #991BE2
+      color: #E6EAEF
+      box-shadow: 2px 0 0 0 #991BE2, 2px 2px 0 0 #991BE2, 0 2px 0 0 #991BE2
+  .btn-black
+    color: #252730
+    border-color: #252730
+    box-shadow: 6px 0 0 0 #252730, 6px 6px 0 0 #252730, 0 6px 0 0 #252730
+    &:hover
+      box-shadow: 8px 0 0 0 #252730, 8px 8px 0 0 #252730, 0 8px 0 0 #252730
+    &:active
+      background-color: #252730
+      color: #E6EAEF
+      box-shadow: 2px 0 0 0 #252730, 2px 2px 0 0 #252730, 0 2px 0 0 #252730
+  .btn-dark
+    color: #3F4351
+    border-color: #3F4351
+    box-shadow: 6px 0 0 0 #3F4351, 6px 6px 0 0 #3F4351, 0 6px 0 0 #3F4351
+    &:hover
+      box-shadow: 8px 0 0 0 #3F4351, 8px 8px 0 0 #3F4351, 0 8px 0 0 #3F4351
+    &:active
+      background-color: #3F4351
+      color: #E6EAEF
+      box-shadow: 2px 0 0 0 #3F4351, 2px 2px 0 0 #3F4351, 0 2px 0 0 #3F4351
+  .btn-gray
+    color: #6D6F7F
+    border-color: #6D6F7F
+    box-shadow: 6px 0 0 0 #6D6F7F, 6px 6px 0 0 #6D6F7F, 0 6px 0 0 #6D6F7F
+    &:hover
+      box-shadow: 8px 0 0 0 #6D6F7F, 8px 8px 0 0 #6D6F7F, 0 8px 0 0 #6D6F7F
+    &:active
+      background-color: #6D6F7F
+      color: #E6EAEF
+      box-shadow: 2px 0 0 0 #6D6F7F, 2px 2px 0 0 #6D6F7F, 0 2px 0 0 #6D6F7F
+  .btn-light
+    color: #E6EAEF
+    border-color: #E6EAEF
+    box-shadow: 6px 0 0 0 #E6EAEF, 6px 6px 0 0 #E6EAEF, 0 6px 0 0 #E6EAEF
+    &:hover
+      box-shadow: 8px 0 0 0 #E6EAEF, 8px 8px 0 0 #E6EAEF, 0 8px 0 0 #E6EAEF
+    &:active
+      background-color: #E6EAEF
+      color: #5d7592
+      box-shadow: 2px 0 0 0 #E6EAEF, 2px 2px 0 0 #E6EAEF, 0 2px 0 0 #E6EAEF
+
+.chi
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.6em 1.8em
+    font-weight: normal
+    border-width: 3px
+    border-style: solid
+    background: transparent
+    border-radius: 0
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    position: relative
+    transition: color 0.4s, transform 0.4s cubic-bezier(0.645, 0.045, 0.355, 1)
+    box-sizing: border-box
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:hover
+      &:before
+        transform: scaleY(1)
+      &:after
+        transform: translate(6px, 6px)
+    &:active
+      transition-duration: 0.05s
+      transform: translate(6px, 6px)
+      &:after
+        transition-duration: 0.05s
+        transform: translate(0, 0)
+    &:before, &:after
+      content: ""
+      position: absolute
+      display: block
+      top: 0
+      left: 0
+      height: 100%
+      width: 100%
+      z-index: -1
+    &:before
+      transform-origin: top center
+      transform: scaleY(0)
+      transition: transform cubic-bezier(1, 0, 0, 1) 0.4s
+    &:after
+      top: -3px
+      left: -3px
+      border-width: 3px
+      border-style: solid
+      transition: transform cubic-bezier(0.645, 0.045, 0.355, 1) 0.4s
+  .btn-primary
+    color: #52C11F
+    border-color: #52C11F
+    &:hover
+      color: #E6EAEF
+    &:before
+      background-color: #52C11F
+    &:after
+      border-color: #52C11F
+  .btn-secondary
+    color: #0B44EF
+    border-color: #0B44EF
+    &:hover
+      color: #E6EAEF
+    &:before
+      background-color: #0B44EF
+    &:after
+      border-color: #0B44EF
+  .btn-tertiary
+    color: #FF006A
+    border-color: #FF006A
+    &:hover
+      color: #E6EAEF
+    &:before
+      background-color: #FF006A
+    &:after
+      border-color: #FF006A
+  .btn-tetrary
+    color: #991BE2
+    border-color: #991BE2
+    &:hover
+      color: #E6EAEF
+    &:before
+      background-color: #991BE2
+    &:after
+      border-color: #991BE2
+  .btn-black
+    color: #252730
+    border-color: #252730
+    &:hover
+      color: #E6EAEF
+    &:before
+      background-color: #252730
+    &:after
+      border-color: #252730
+  .btn-dark
+    color: #3F4351
+    border-color: #3F4351
+    &:hover
+      color: #E6EAEF
+    &:before
+      background-color: #3F4351
+    &:after
+      border-color: #3F4351
+  .btn-gray
+    color: #6D6F7F
+    border-color: #6D6F7F
+    &:hover
+      color: #E6EAEF
+    &:before
+      background-color: #6D6F7F
+    &:after
+      border-color: #6D6F7F
+  .btn-light
+    color: #E6EAEF
+    border-color: #E6EAEF
+    &:hover
+      color: #5d7592
+    &:before
+      background-color: #E6EAEF
+    &:after
+      border-color: #E6EAEF
+
+.psi
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.5em 1.5em
+    font-weight: normal
+    border-width: 2px
+    border-style: solid
+    background: transparent
+    border-radius: 2px
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    position: relative
+    background-color: #252730
+    transition: color 0.25s, box-shadow 0.25s
+    overflow: hidden
+    box-shadow: 0 1px 1px -1px rgba(255, 255, 255, 0.8) inset, 0 40px 20px -20px rgba(255, 255, 255, 0.08) inset, 0 -1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 -40px 20px -20px rgba(0, 0, 0, 0.06) inset, 0 11px 8px -3px rgba(0, 0, 0, 0.4), 0 4px 2px -2px rgba(0, 0, 0, 0.3), 0 1px 6px 1px rgba(0, 0, 0, 0.5)
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:hover:after
       opacity: 1
-      -webkit-transition: opacity 0.25s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-      transition: opacity 0.25s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-      transition: transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-      transition: transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.25s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:hover
-    &:after, &:before
-      opacity: 1
-      -webkit-transition: opacity 0.25s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-      transition: opacity 0.25s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-      transition: transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-      transition: transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1), opacity 0.25s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.25s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:focus:after, &:hover:after
-    -webkit-transform: translate3d(50%, -10%, 0) skewX(-20deg)
-    transform: translate3d(50%, -10%, 0) skewX(-20deg)
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 4px rgba(58, 51, 53, 0.3)
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 6px rgba(58, 51, 53, 0.3)
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-    &:focus, &:hover
-      box-shadow: 0 1px 8px rgba(58, 51, 53, 0.3)
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-    &:focus, &:hover
-      box-shadow: 0 1px 10px rgba(58, 51, 53, 0.3)
-  &.bttn-default
-    border-color: #1d89ff
-    color: #1d89ff
-    &:focus, &:hover
-      background: #d6e3ff
-      color: #1d89ff
-    &:before
-      background: #a7c3ff
+    &:active
+      transition-duration: 0.1s
+      box-shadow: 0 -1px 1px -1px rgba(255, 255, 255, 0.3) inset, 0 -40px 20px -20px rgba(255, 255, 255, 0.05) inset, 0 -1px 1px -1px rgba(0, 0, 0, 0.7) inset, 0 40px 20px -20px rgba(0, 0, 0, 0.05) inset, 0 11px 8px -3px rgba(0, 0, 0, 0.25), 0 4px 2px -2px rgba(0, 0, 0, 0.2), 0 1px 6px 1px rgba(0, 0, 0, 0.4)
+      &:after
+        transition-duration: 0.1s
+        opacity: 0.2
     &:after
-      background: #d6e3ff
-  &.bttn-primary
-    border-color: #1d89ff
-    color: #1d89ff
-    &:focus, &:hover
-      background: #1d89ff
-      color: #fff
-    &:before
-      background: #006de3
-    &:after
-      background: #1d89ff
-  &.bttn-warning
-    border-color: #feab3a
-    color: #feab3a
-    &:focus, &:hover
-      background: #feab3a
-      color: #fff
-    &:before
-      background: #f89001
-    &:after
-      background: #feab3a
-  &.bttn-danger
-    border-color: #ff5964
-    color: #ff5964
-    &:focus, &:hover
-      background: #ff5964
-      color: #fff
-    &:before
-      background: #ff1424
-    &:after
-      background: #ff5964
-  &.bttn-success
-    border-color: #28b78d
-    color: #28b78d
-    &:focus, &:hover
-      background: #28b78d
-      color: #fff
-    &:before
-      background: #209271
-    &:after
-      background: #28b78d
-  &.bttn-royal
-    border-color: #bd2df5
-    color: #bd2df5
-    &:focus, &:hover
-      background: #bd2df5
-      color: #fff
-    &:before
-      background: #a20bdd
-    &:after
-      background: #bd2df5
+      content: ""
+      display: block
+      position: absolute
+      top: 0
+      left: 0
+      height: 100%
+      width: 100%
+      transform: rotate(-19deg) translateY(-1.3em) scale(1.08)
+      filter: blur(1px)
+      -webkit-filter: blur(1px)
+      background-image: linear-gradient(-90deg, rgba(255, 255, 255, 0.18) 10%, rgba(255, 255, 255, 0) 45%)
+      opacity: 0.6
+      transition: opacity 0.25s
+  .btn-primary
+    color: #52C11F
+    border-color: #0f1013
+    text-shadow: 0 0 16px rgba(82, 193, 31, 0.5), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:hover
+      text-shadow: 0 0 16px rgba(82, 193, 31, 0.75), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:active
+      text-shadow: 0 0 16px rgba(82, 193, 31, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1)
+      color: #3f9518
+  .btn-secondary
+    color: #0B44EF
+    border-color: #0f1013
+    text-shadow: 0 0 16px rgba(11, 68, 239, 0.5), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:hover
+      text-shadow: 0 0 16px rgba(11, 68, 239, 0.75), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:active
+      text-shadow: 0 0 16px rgba(11, 68, 239, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1)
+      color: #0936be
+  .btn-tertiary
+    color: #FF006A
+    border-color: #0f1013
+    text-shadow: 0 0 16px rgba(255, 0, 106, 0.5), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:hover
+      text-shadow: 0 0 16px rgba(255, 0, 106, 0.75), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:active
+      text-shadow: 0 0 16px rgba(255, 0, 106, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1)
+      color: #cc0055
+  .btn-tetrary
+    color: #991BE2
+    border-color: #0f1013
+    text-shadow: 0 0 16px rgba(153, 27, 226, 0.5), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:hover
+      text-shadow: 0 0 16px rgba(153, 27, 226, 0.75), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:active
+      text-shadow: 0 0 16px rgba(153, 27, 226, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1)
+      color: #7a16b4
+  .btn-black
+    color: #6D6F7F
+    border-color: #0f1013
+    text-shadow: 0 0 16px rgba(37, 39, 48, 0.5), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:hover
+      text-shadow: 0 0 16px rgba(37, 39, 48, 0.75), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:active
+      text-shadow: 0 0 16px rgba(37, 39, 48, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1)
+      color: #555764
+  .btn-dark
+    color: #6D6F7F
+    border-color: #0f1013
+    text-shadow: 0 0 16px rgba(63, 67, 81, 0.5), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:hover
+      text-shadow: 0 0 16px rgba(63, 67, 81, 0.75), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:active
+      text-shadow: 0 0 16px rgba(63, 67, 81, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1)
+      color: #555764
+  .btn-gray
+    color: #CED0DB
+    border-color: #0f1013
+    text-shadow: 0 0 16px rgba(109, 111, 127, 0.5), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:hover
+      text-shadow: 0 0 16px rgba(109, 111, 127, 0.75), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:active
+      text-shadow: 0 0 16px rgba(109, 111, 127, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1)
+      color: #b1b4c5
+  .btn-light
+    color: #E6EAEF
+    border-color: #0f1013
+    text-shadow: 0 0 16px rgba(230, 234, 239, 0.5), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:hover
+      text-shadow: 0 0 16px rgba(230, 234, 239, 0.75), 0 -1px 0 rgba(0, 0, 0, 0.9)
+    &:active
+      text-shadow: 0 0 16px rgba(230, 234, 239, 0.3), 0 1px 0 rgba(255, 255, 255, 0.1)
+      color: #c7d0db
 
-.bttn-slant
-  margin: 0
-  padding: 0
-  border-width: 0
-  border-color: transparent
-  font-weight: 400
-  cursor: pointer
-  position: relative
-  font-size: 20px
-  font-family: inherit
-  padding: 5px 12px
-  z-index: 0
-  border: none
-  border-radius: 0
-  background: transparent
-  color: #1d89ff
-  -webkit-transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  transition: color 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1), -webkit-transform 0.3s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:before
-    width: 100%
-    background: #fafafa
-    -webkit-transition: box-shadow 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: box-shadow 0.2s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:after, &:before
-    position: absolute
-    top: 0
-    left: 0
-    z-index: -1
-    height: 100%
-    content: ''
-    -webkit-transform: skewX(20deg)
-    transform: skewX(20deg)
-  &:after
-    width: 0
-    background: hsla(0, 0%, 98%, 0.3)
-    opacity: 0
-    -webkit-transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), width 0.15s cubic-bezier(0.02, 0.01, 0.47, 1)
-    transition: opacity 0.2s cubic-bezier(0.02, 0.01, 0.47, 1), width 0.15s cubic-bezier(0.02, 0.01, 0.47, 1)
-  &:focus, &:hover
-    -webkit-transform: translateX(5px)
-    transform: translateX(5px)
-  &:focus:after, &:hover:after
-    width: 5px
-    opacity: 1
-  &:focus:before, &:hover:before
-    box-shadow: inset 0 -1px 0 #a7c3ff,inset 0 1px 0 #a7c3ff,inset -1px 0 0 #a7c3ff
-  &.bttn-xs
-    padding: 3px 8px
-    font-size: 12px
-    font-family: inherit
-  &.bttn-sm
-    padding: 4px 10px
-    font-size: 16px
-    font-family: inherit
-  &.bttn-md
-    font-size: 20px
-    font-family: inherit
-    padding: 5px 12px
-  &.bttn-lg
-    padding: 8px 15px
-    font-size: 24px
-    font-family: inherit
-  &.bttn-default
-    color: #1d89ff
-    &:focus:before, &:hover:before
-      box-shadow: inset 0 -1px 0 #a7c3ff,inset 0 1px 0 #a7c3ff,inset -1px 0 0 #a7c3ff
+.omega
+  .btn
+    display: inline-block
+    margin: 6px
+    font-size: inherit
+    line-height: 1.42
+    padding: 0.8em 1.6em
+    font-weight: normal
+    border-width: 2px
+    border-style: solid
+    background: transparent
+    border-radius: 0
+    cursor: pointer
+    font-family: "Booster Next FY", "Avenir Next", Avenir, sans-serif
+    user-select: none
+    vertical-align: bottom
+    transition: transform 0.3s cubic-bezier(0.645, 0.045, 0.355, 1)
+    color: #3F4351
+    border-color: #3F4351
+    position: relative
+    &.btn-disabled
+      cursor: not-allowed
+      opacity: 0.8
+      &:active
+        opacity: 0.6
+    &:hover:before
+      transform: scale(0.85, 1.1) translate(8%, -15%)
+    &:active:before
+      transition-duration: 0.15s
+      transition-timing-function: cubic-bezier(0.175, 0.885, 0.32, 1.275)
+      transform: scale(1.04, 1.1) translate(6%, 3%)
     &:before
-      background: #fff
-    &:after
-      background: #a7c3ff
-  &.bttn-primary
-    color: #fff
-    &:focus:before, &:hover:before
-      box-shadow: inset 0 -1px 0 #006de3,inset 0 1px 0 #006de3,inset -1px 0 0 #006de3
+      content: ""
+      display: block
+      position: absolute
+      left: 0
+      top: 0
+      width: 100%
+      height: 100%
+      transform: scale(0.4, 0.15) translate(12%, -20%)
+      transform-origin: -5% -5%
+      transition: transform 0.3s, background-color 0.3s
+      z-index: -1
+  .btn-primary
+    &:hover
+      color: #E6EAEF
     &:before
-      background: #1d89ff
-    &:after
-      background: #006de3
-  &.bttn-warning
-    color: #fff
-    &:focus:before, &:hover:before
-      box-shadow: inset 0 -1px 0 #f89001,inset 0 1px 0 #f89001,inset -1px 0 0 #f89001
+      background-color: #52C11F
+  .btn-secondary
+    &:hover
+      color: #E6EAEF
     &:before
-      background: #feab3a
-    &:after
-      background: #f89001
-  &.bttn-danger
-    color: #fff
-    &:focus:before, &:hover:before
-      box-shadow: inset 0 -1px 0 #ff1424,inset 0 1px 0 #ff1424,inset -1px 0 0 #ff1424
+      background-color: #0B44EF
+  .btn-tertiary
+    &:hover
+      color: #E6EAEF
     &:before
-      background: #ff5964
-    &:after
-      background: #ff1424
-  &.bttn-success
-    color: #fff
-    &:focus:before, &:hover:before
-      box-shadow: inset 0 -1px 0 #209271,inset 0 1px 0 #209271,inset -1px 0 0 #209271
+      background-color: #FF006A
+  .btn-tetrary
+    &:hover
+      color: #E6EAEF
     &:before
-      background: #28b78d
-    &:after
-      background: #209271
-  &.bttn-royal
-    color: #fff
-    &:focus:before, &:hover:before
-      box-shadow: inset 0 -1px 0 #a20bdd,inset 0 1px 0 #a20bdd,inset -1px 0 0 #a20bdd
+      background-color: #991BE2
+  .btn-black
+    &:hover
+      color: #E6EAEF
     &:before
-      background: #bd2df5
-    &:after
-      background: #a20bdd
+      background-color: #252730
+  .btn-dark
+    &:hover
+      color: #E6EAEF
+    &:before
+      background-color: #3F4351
+  .btn-gray
+    &:hover
+      color: #E6EAEF
+    &:before
+      background-color: #6D6F7F
+  .btn-light
+    &:hover
+      color: #252730
+    &:before
+      background-color: #E6EAEF
 
-.bttn-block
-  display: block
-  width: 100%
+.btn-sm
+  font-size: 0.85em !important
 
-.bttn-no-outline
-  outline: none
-  &:active, &:focus, &:hover
-    outline: none
+.btn-md
+  font-size: 1.2em !important
+
+.btn-lg
+  font-size: 1.6em !important

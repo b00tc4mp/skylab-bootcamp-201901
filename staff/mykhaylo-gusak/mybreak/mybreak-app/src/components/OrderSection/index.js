@@ -2,26 +2,14 @@ import React, { useState } from 'react'
 import './index.sass'
 import ProductSection from './ProductSection'
 import Button from '../Button'
+import Maps from '../Maps'
 
-function OrderSection({ products, showError, handleAddCard, card }) {
-
-    const [step, setStep] = useState(0)
-
-    const handlenNextStep = () => {
-        if (step < 4) setStep(step + 1)
-    }
-
-    const handlenPrevStep = () => {
-        if (step > 0) setStep(step - 1)
-    }
-
+function OrderSection({ products, showError, handleAddCard, card, handleAddOrder, newOrder, email }) {
     return (
         <div className='g-Home__order-ctn'>
-            <Button click={handlenPrevStep} prev={true} primary={true} />
             <section className='g-Home__order-section'>
-                {products && <ProductSection products={products} showError={showError} card={card} handleAddCard={handleAddCard} />}
+                <ProductSection products={products} showError={showError} card={card} handleAddCard={handleAddCard} handleAddOrder={handleAddOrder} newOrder={newOrder} email={email} />
             </section>
-            <Button click={handlenNextStep} prev={true} primary={true} />
         </div>
     );
 }

@@ -14,8 +14,8 @@ function UserInfo({ user, handleOpenMenu, handleOpenCard }) {
 
     return (
         <header className='g-UserInfo'>
-            <div className='g-UserInfo__icon'>
-                <FontAwesomeIcon icon={faAlignJustify} onClick={handleOpenMenu} />
+            <div className='g-UserInfo__icon' onClick={handleOpenMenu} >
+                <FontAwesomeIcon icon={faAlignJustify}  />
             </div>
             <h1 className='g-UserInfo__title'>MyBreakfast</h1>
 

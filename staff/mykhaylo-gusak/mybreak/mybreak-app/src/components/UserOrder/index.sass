@@ -7,13 +7,15 @@
     width: 40%
     max-width: 300px
     height: 100vh
+    opacity: auto
     overflow: hidden
-    opacity: 1
     transition: opacity 0.3s
 
     &--opened
         opacity: 1
 
+    &--closed
+        opacity: 0
 
 .g-Home__order-user
     width: 400px
@@ -38,3 +40,7 @@
         padding-right: 30px 
         padding-bottom: 17px
 
+@media screen and (max-width: $break-tablet )
+
+    .g-Home__order-back
+        display: none

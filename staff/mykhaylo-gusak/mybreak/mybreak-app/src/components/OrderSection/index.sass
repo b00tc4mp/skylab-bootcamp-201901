@@ -1,11 +1,37 @@
 @import ../config.sass
 
+.g-Home__order
 
-.g-Home__order-section
-   height: 70vh
-   background: white
-   overflow: scroll
-   padding: 10px
-   border-radius: 10px
+   &-ctn
+      width: 50vw
+      max-width: 1000px
+
+
+   &-section
+      height: 70vh
+      background: white
+      overflow: hidden
+
+
+@media screen and (max-width: $break-tablet )
+   .g-Home__order-ctn
+      width: 70vw
+      display: block
+
+      &-section
+
+@media screen and (max-width: $break-mobile )
+   .g-Home__order-ctn
+      width: 100vw
+      display: block
+      height: 90vh
+
+      &-section
+         height: 90vh
+
+
+
+
+
 
 

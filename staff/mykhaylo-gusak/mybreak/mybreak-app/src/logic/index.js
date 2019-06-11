@@ -14,7 +14,6 @@ const logic = {
     },
 
     get isUserLoggedIn() {
-        console.log(!(this.__userToken__))
         return !!(this.__userToken__)
     },
 
@@ -114,7 +113,7 @@ const logic = {
 
     addOrder(ubication) {
         const validator = {
-            ubication: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
+            ubication: Joi.string().regex(/^[a-zA-Z0-9\s]{3,30}$/).required()
         }
 
         const validation = Joi.validate({ ubication }, validator);
@@ -123,12 +122,11 @@ const logic = {
 
         return (async () => {
             try {
-                await dataApi.createOrder(ubication, this.__userToken__)
+                return await dataApi.createOrder(ubication, this.__userToken__)
             } catch (err) {
                 throw Error(err.message)
             }
         })()
-
     },
 
     retrieveMyOrders() {
@@ -149,6 +147,26 @@ const logic = {
                 throw Error(err.message)
             }
         })()
+    },
+
+    retrieveOrderById(id) {
+        const validator = {
+            id: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
+        }
+
+        const validation = Joi.validate({ id }, validator);
+
+        if (validation.error) throw new ValidationError(validation.error.message)
+
+        return (async () => {
+            try {
+                return await dataApi.retrieveOrderById(id)
+            } catch (err) {
+                throw Error(err.message)
+            }
+        })()
+
+
     },
 
     cardUpdate(id) {

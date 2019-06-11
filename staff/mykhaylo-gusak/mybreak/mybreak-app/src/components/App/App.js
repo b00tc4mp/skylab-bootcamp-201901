@@ -1,22 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { Route, Redirect } from 'react-router-dom'
+import { Route, Redirect, Switch } from 'react-router-dom'
 import Header from '../Header'
 import Home from '../../pages/Home'
 import Footer from '../Footer'
 import Landing from '../../pages/Landing'
 import logic from '../../logic'
+import Terminal from '../Terminal'
 
 function App() {
 
   const [user, setUser] = useState(false)
-
   const [userMenu, setUserMenu] = useState(false)
   const [userCard, setUserCard] = useState(false)
-
   const [card, setCard] = useState(false)
-
   const [orders, setOrders] = useState(false)
   const [orderError, setOrderError] = useState(false)
+  const [newOrder, setNewOrder] = useState(false)
 
   const handleAddCard = async (id) => {
     await logic.cardUpdate(id)
@@ -37,7 +36,8 @@ function App() {
   const handleAddOrder = () => {
     return (async () => {
       try {
-        await logic.addOrder('ubication')
+        const { id } = await logic.addOrder('ubication')
+        if (id) setNewOrder(id)
         handleRetrieveUser()
         handleUpdateMyOrders()
       } catch (err) {
@@ -95,7 +95,8 @@ function App() {
     <>
       <Header user={user} handleRetrieveUser={handleRetrieveUser} handleOpenCard={handleOpenCard} handleOpenMenu={handleOpenMenu} />
       <Route exact path='/' render={() => !logic.isUserLoggedIn ? <Landing /> : <Redirect to='/home' />} />
-      <Route exact path='/home' render={() => logic.isUserLoggedIn ? <Home user={user} handleUpdateMyOrders={handleUpdateMyOrders} handleAddCard={handleAddCard} handleAddOrder={handleAddOrder} logOut={logOut} userMenu={userMenu} userCard={userCard} handleCloseMenu={handleCloseMenu} handleCloseCard={handleCloseCard} orders={orders} /> : <Redirect to='/' />} />
+      <Route exact path='/home' render={() => logic.isUserLoggedIn ? <Home user={user} handleUpdateMyOrders={handleUpdateMyOrders} handleAddCard={handleAddCard} handleAddOrder={handleAddOrder} logOut={logOut} userMenu={userMenu} userCard={userCard} handleCloseMenu={handleCloseMenu} handleCloseCard={handleCloseCard} orders={orders} newOrder={newOrder} /> : <Redirect to='/' />} />
+      <Route exact path='/order/:id' render={() => !logic.isUserLoggedIn && <Terminal />} />
       <Footer />
     </>
   );

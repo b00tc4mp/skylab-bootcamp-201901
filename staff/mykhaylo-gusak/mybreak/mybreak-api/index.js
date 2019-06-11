@@ -133,9 +133,8 @@ const { env: { JWT_SECRET, MONGO_URL } } = process
 
                 return (async () => {
                     try {
-                        await logic.addOrder(userId, ubication)
-
-                        res.status(200).json()
+                        const id = await logic.addOrder(userId, ubication)
+                        res.status(200).json({ id })
                     } catch (err) {
                         res.status(400).json({ message: err.message })
                     }
@@ -150,6 +149,20 @@ const { env: { JWT_SECRET, MONGO_URL } } = process
                     try {
                         const orders = await logic.retrieveOrderByAuthor(userId)
                         res.status(200).json(orders)
+                    } catch (err) {
+                        res.status(400).json({ message: err.message })
+                    }
+                })()
+            })
+
+            app.get('/order/:id', (req, res) => {
+                const { params: { id } } = req
+                debugger
+                return (async () => {
+                    try {
+                        const order = await logic.retrieveOrderById(id)
+                        debugger
+                        res.status(200).json(order)
                     } catch (err) {
                         res.status(400).json({ message: err.message })
                     }

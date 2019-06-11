@@ -7,285 +7,70 @@ const url = 'mongodb://localhost/test-mybreak-app';
 describe('logic', () => {
     let userData, name, surname, email, password, age
 
-    beforeAll(() => mongoose.connect(url, { useNewUrlParser: true }))
-
-    beforeEach(async () => {
-
-        await User.deleteMany()
-        name = `name-${Math.random()}`
-        surname = `surname-${Math.random()}`
-        email = `email-${Math.random()}`
-        password = `password-${Math.random()}`
-        age = Math.random()
-
-        await User.deleteMany()
-        await Order.deleteMany()
-
+    beforeAll(async () => {
+        mongoose.connect(url, { useNewUrlParser: true })
+        await Product.deleteMany()
     })
 
+    it('should create oproducts !!', async () => {
 
-    describe('create', () => {
-        it('should succed on corrrect user data', async () => {
-            const response = await logic.registerUser(name, surname, email, password, age)
-            expect(response).toBeUndefined()
+        // Coffee
+        await Product.create({ title: 'Coffee', price: '1.5', category: 'Drink', subCategory: 'Coffee', image: 'https://image.flaticon.com/icons/svg/1153/1153111.svg' })
+        await Product.create({ title: 'Capuccino', price: '1.75', category: 'Drink', subCategory: 'Coffee', image: 'https://image.flaticon.com/icons/svg/1732/1732215.svg' })
+        await Product.create({ title: 'Mocca', price: '1.5', category: 'Drink', subCategory: 'Coffee', image: 'https://image.flaticon.com/icons/svg/1816/1816279.svg' })
+        await Product.create({ title: 'Solo', price: '1.75', category: 'Drink', subCategory: 'Coffee', image: 'https://image.flaticon.com/icons/svg/924/924514.svg' })
 
-            const user = await User.findOne({ email }).lean()
-            expect(user).toBeDefined()
-            expect(user.name).toEqual(name)
-            expect(user.surname).toEqual(surname)
-            expect(user.email).toEqual(email)
-            expect(user.password).toEqual(password)
-            expect(user.age).toEqual(age)
-            expect(user.card).toEqual([])
-            expect(user.orders).toEqual([])
-        })
+        // Refreshing drink
 
 
-    })
+        // Juice
+        await Product.create({ title: 'Strawberry juice', price: '2.5', category: 'Drink', subCategory: 'Juice', image: 'https://image.flaticon.com/icons/svg/167/167254.svg' })
+        await Product.create({ title: 'Watermelon  juice', price: '2.5', category: 'Drink', subCategory: 'Juice', image: 'https://image.flaticon.com/icons/svg/167/167248.svg' })
+        await Product.create({ title: 'Lemon  juice', price: '2.5', category: 'Drink', subCategory: 'Juice', image: 'https://image.flaticon.com/icons/svg/167/167252.svg' })
+        await Product.create({ title: 'Cherry  juice', price: '2.5', category: 'Drink', subCategory: 'Juice', image: 'https://image.flaticon.com/icons/svg/167/167250.svg' })
+        await Product.create({ title: 'Pineapple  juice', price: '2.5', category: 'Drink', subCategory: 'Juice', image: 'https://image.flaticon.com/icons/svg/167/167258.svg' })
+        await Product.create({ title: 'Banana juice', price: '2.5', category: 'Drink', subCategory: 'Juice', image: 'https://image.flaticon.com/icons/svg/167/167257.svg' })
+        await Product.create({ title: 'Kiwi  juice', price: '2.75', category: 'Drink', subCategory: 'Juice', image: 'https://image.flaticon.com/icons/svg/167/167253.svg' })
+        await Product.create({ title: 'Carrot  juice', price: '2.2', category: 'Drink', subCategory: 'Juice', image: 'https://image.flaticon.com/icons/svg/167/167256.svg' })
 
-    describe('login user', () => {
+        // Burger
+        await Product.create({ title: 'Cheeseburger', price: '1.1', category: 'Food', subCategory: 'Fast food', image: 'https://image.flaticon.com/icons/svg/1046/1046784.svg' })
+        await Product.create({ title: 'Doble cheeseburger', price: '1.1', category: 'Food', subCategory: 'Fast food', image: 'https://image.flaticon.com/icons/svg/1046/1046787.svg' })
+        await Product.create({ title: 'Kebab', price: '1.1', category: 'Food', subCategory: 'Fast food', image: 'https://image.flaticon.com/icons/svg/1046/1046764.svg' })
+        await Product.create({ title: 'Pizza', price: '1.1', category: 'Food', subCategory: 'Fast food', image: 'https://image.flaticon.com/icons/svg/1046/1046771.svg' })
+        await Product.create({ title: 'Taco', price: '1.1', category: 'Food', subCategory: 'Fast food', image: 'https://image.flaticon.com/icons/svg/1046/1046759.svg' })
+        await Product.create({ title: 'Hot dog', price: '1.1', category: 'Food', subCategory: 'Fast food', image: 'https://image.flaticon.com/icons/svg/1046/1046779.svg' })
+        await Product.create({ title: 'Noodles ', price: '1.1', category: 'Food', subCategory: 'Fast food', image: 'https://image.flaticon.com/icons/svg/1046/1046748.svg' })
+        await Product.create({ title: 'Fried potatoes ', price: '1.1', category: 'Food', subCategory: 'Fast food', image: 'https://image.flaticon.com/icons/svg/1046/1046786.svg' })
+        await Product.create({ title: 'Fried potatoes ', price: '1.1', category: 'Food', subCategory: 'Fast food', image: 'https://image.flaticon.com/icons/svg/1046/1046786.svg' })
+        await Product.create({ title: 'Salade ', price: '1.1', category: 'Food', subCategory: 'Fast food', image: 'https://image.flaticon.com/icons/svg/1046/1046786.svg' })
 
-        beforeEach(async () => {
-            await User.create({ email, password, name, surname, age })
+        // Fruits
+        await Product.create({ title: 'Apple', price: '1.5', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
+        await Product.create({ title: 'Pineapple', price: '1.75', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/135/135598.svg' })
+        await Product.create({ title: 'Cherries ', price: '1', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/135/135695.svg' })
+        await Product.create({ title: 'Watermelon', price: '1.25', category: 'Food', subCategory: 'Salade', image: 'https://image.flaticon.com/icons/svg/1809/1809230.svg' })
+        await Product.create({ title: 'Banana', price: '1', category: 'Food', subCategory: 'Salade', image: 'https://image.flaticon.com/icons/svg/1808/1808744.svg' })
+        await Product.create({ title: 'Grape  ', price: '1', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/1514/1514997.svg' })
+        await Product.create({ title: 'Pear  ', price: '1', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/135/135576.svg' })
 
-        })
-
-        it('should succed on corrrect user data', async () => {
-            const user = await User.findOne({ email }).lean()
-            expect(user).toBeDefined()
-
-            expect(user.name).toEqual(name)
-            expect(user.surname).toEqual(surname)
-            expect(user.email).toEqual(email)
-            expect(user.password).toEqual(password)
-            expect(user.age).toEqual(age)
-            expect(user.card).toEqual([])
-            expect(user.orders).toEqual([])
-
-            const response = await logic.loginUser(email, password)
-            expect(response).toBeUndefined()
-            // expect(logic.__token__).toBeDefined()
-        })
-
-        //TODO FAILS
-
-
-
-    })
-
-    describe('retrieve user', () => {
-
-        beforeEach(async () => {
-            await User.create({ email, password, name, surname, age })
-        })
-
-        it('should succed on corrrect user data', async () => {
-            await logic.loginUser(email, password)
-
-            const user = await logic.retrieveUser()
-
-            console.log(user)
-
-            expect(user.name).toEqual(name)
-            expect(user.surname).toEqual(surname)
-            expect(user.email).toEqual(email)
-            expect(user.password).toBeUndefined()
-            expect(user.age).toEqual(age)
-            expect(user.card).toEqual([])
-            expect(user.orders).toEqual([])
-
-        })
-
-        //TODO FAILS
+        // Boleria
+        await Product.create({ title: 'Croissant ', price: '1.1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/1888/1888782.svg' })
+        await Product.create({ title: 'Cookie', price: '1.1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/541/541732.svg' })
+        await Product.create({ title: 'Cookie', price: '1.1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/541/541803.svg' })
+        await Product.create({ title: 'Donut', price: '1.1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/1725/1725630.svg' })
+        await Product.create({ title: 'Cupcake', price: '1.1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/1725/1725660.svg' })
+        await Product.create({ title: 'Cupcake ', price: '1.1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/1824/1824449.svg' })
+        await Product.create({ title: 'Cake', price: '1.1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/992/992754.svg' })
+        await Product.create({ title: 'Macaron ', price: '1.1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/1725/1725653.svg' })
 
 
     })
 
 
-    describe('retrieve products', () => {
-        let category
-        beforeEach(async () => {
-            await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Water', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-
-            await Product.create({ title: 'Apple', price: '1.5', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Pineapple', price: '1.75', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Coconut', price: '1', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Cease', price: '1.25', category: 'Food', subCategory: 'Salade', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Green', price: '1', category: 'Food', subCategory: 'Salade', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-
-            await Product.create({ title: 'Muffin', price: '1.5', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Classic Coffee Cake', price: '1.75', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Chocolate Croissant', price: '1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Chonga Bagel', price: '1.25', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Almond Croissant', price: '1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await User.create({ email, password, name, surname, age })
-            category = 'drink'
-        })
-
-        it('should succed on corrrect products category', async () => {
-            await logic.loginUser(email, password)
-
-            const products = await logic.retrieveProducts(category)
-            expect(products).toBeDefined()
-
-
-            const _products = await Product.find({ category }).lean()
-            expect(_products).toBeDefined()
-            expect(products[0].title).toEqual(_products[0].title)
-            expect(products[1].title).toEqual(_products[1].title)
-            expect(products[2].title).toEqual(_products[2].title)
-            expect(products[3].title).toEqual(_products[3].title)
-            expect(products[4].title).toEqual(_products[4].title)
-
-            expect(products[0].category).toEqual(_products[0].category)
-            expect(products[1].category).toEqual(_products[1].category)
-            expect(products[2].category).toEqual(_products[2].category)
-            expect(products[3].category).toEqual(_products[3].category)
-            expect(products[4].category).toEqual(_products[4].category)
-
-            expect(products[0].price).toEqual(_products[0].price)
-            expect(products[1].price).toEqual(_products[1].price)
-            expect(products[2].price).toEqual(_products[2].price)
-            expect(products[3].price).toEqual(_products[3].price)
-            expect(products[4].price).toEqual(_products[4].price)
-
-            expect(products[0].price).toEqual(_products[0].price)
-            expect(products[1].price).toEqual(_products[1].price)
-            expect(products[2].price).toEqual(_products[2].price)
-            expect(products[3].price).toEqual(_products[3].price)
-            expect(products[4].price).toEqual(_products[4].price)
-
-            expect(products[0].subCategory).toEqual(_products[0].subCategory)
-            expect(products[1].subCategory).toEqual(_products[1].subCategory)
-            expect(products[2].subCategory).toEqual(_products[2].subCategory)
-            expect(products[3].subCategory).toEqual(_products[3].subCategory)
-            expect(products[4].subCategory).toEqual(_products[4].subCategory)
-
-            expect(products[0].image).toEqual(_products[0].image)
-            expect(products[1].image).toEqual(_products[1].image)
-            expect(products[2].image).toEqual(_products[2].image)
-            expect(products[3].image).toEqual(_products[3].image)
-            expect(products[4].image).toEqual(_products[4].image)
-
-
-
-        })
-
-        //TODO FAILS
-
-
+    afterAll(async () => {
+        mongoose.disconnect()
     })
-
-    describe('card update', () => {
-        let category
-        beforeEach(async () => {
-            await User.deleteMany()
-            await Product.deleteMany()
-
-            await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Water', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-
-            await Product.create({ title: 'Apple', price: '1.5', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Pineapple', price: '1.75', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Coconut', price: '1', category: 'Food', subCategory: 'Fruits', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Cease', price: '1.25', category: 'Food', subCategory: 'Salade', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Green', price: '1', category: 'Food', subCategory: 'Salade', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-
-            await Product.create({ title: 'Muffin', price: '1.5', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Classic Coffee Cake', price: '1.75', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Chocolate Croissant', price: '1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Chonga Bagel', price: '1.25', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-            await Product.create({ title: 'Almond Croissant', price: '1', category: 'Bakery', subCategory: 'Bakery', image: 'https://image.flaticon.com/icons/svg/415/415733.svg' })
-
-            await User.create({ email, password, name, surname, age })
-            category = 'drink'
-        })
-
-        it('should succed on corrrect card data', async () => {
-            const { token } = await dataApi.authenticate(email, password)
-            expect(token).toBeDefined()
-
-            const products = await dataApi.retrieveProducts(category, token)
-            expect(products).toBeDefined()
-
-            const _products = await Product.find({ category }).lean()
-            expect(_products).toBeDefined()
-            expect(products[0]._id).toBeDefined()
-            expect(products[1]._id).toBeDefined()
-            expect(products[2]._id).toBeDefined()
-            expect(products[3]._id).toBeDefined()
-            expect(products[4]._id).toBeDefined()
-
-
-            const id = products[0]._id
-            await logic.loginUser(email, password)
-            const response = await logic.cardUpdate(id)
-            expect(response).toBeUndefined()
-
-            const { card } = await User.findOne({ email }).select('card -_id').lean()
-            expect(card[0].toJSON()).toBe(id)
-
-            const user = await dataApi.retrieve(token)
-
-            expect(user.card).toBeDefined()
-
-            expect(user.card[0]._id).toEqual(id)
-
-        })
-        //TODO FAILS
-    })
-
-    describe('retrieve orders', () => {
-        let category, ubication, token, productId1, productId2
-        beforeEach(async () => {
-            await User.deleteMany()
-            await Product.deleteMany()
-            await Order.deleteMany()
-
-            await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Water', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
-
-            await User.create({ email, password, name, surname, age })
-            category = 'drink'
-            ubication = 'ubication'
-
-            const user = await dataApi.authenticate(email, password)
-            token = user.token
-            const products = await dataApi.retrieveProducts(category, token)
-            productId1 = products[0]._id
-            productId2 = products[1]._id
-
-            await dataApi.cardUpdate(productId1, token)
-            await dataApi.cardUpdate(productId2, token)
-            await dataApi.createOrder(ubication, token)
-        })
-
-        fit('should succed on corrrect retrieve data order', async () => {
-            
-
-            const orders = await dataApi.retrieveOrder(token)
-            expect(orders).toBeDefined()
-
-            expect(orders[0].products[0]._id).toEqual(productId1)
-            expect(orders[0].products[1]._id).toEqual(productId2)
-
-
-
-        })
-        //TODO FAILS
-    })
-
-
 
 
 

@@ -8,12 +8,12 @@ import './index.sass'
 
 const cx = require('classnames');
 
-function UserOrder({ user,handleUpdateMyOrders, handleAddCard, handleCloseCard, userCard, handleAddOrder, orders }) {
+function UserOrder({ user, handleAddCard, handleCloseCard, userCard, orders }) {
     const { card } = user
 
     const className1 = cx({
         'g-Home__order-back g-Home__order-back--opened': userCard,
-        'g-Home__order-back': !userCard
+        'g-Home__order-back g-Home__order-back--closed': !userCard
     })
 
     const [total, setTotal] = useState(0)
@@ -21,22 +21,22 @@ function UserOrder({ user,handleUpdateMyOrders, handleAddCard, handleCloseCard, 
 
     useEffect(() => {
         let acc = 0
-        card.map(elem => {
+        card && card.map(elem => {
             acc += Number(elem.price)
         })
         setTotal(acc)
         setCard(card)
-    }, [card, orders])
+    }, [card, orders])  
 
     return (
-        <section className={className1}>
+        <section className={className1}  >
             <div className='g-Home__order-user'>
                 <div className='g-Home__order-user-close' >
                     <CloserX close={handleCloseCard} />
                 </div>
                 <TitleCategory title={'Your order'} />
                 <TitleSubCategory subTitle={'Drinks'} />
-                <MyProducts card={myCard} categoryOfProduct={'drink'} handleAddCard={handleAddCard} />
+                <MyProducts card={myCard} categoryOfProduct={'Drink'} handleAddCard={handleAddCard} />
                 <TitleSubCategory subTitle={'Food'} />
                 <MyProducts card={myCard} categoryOfProduct={'Food'} handleAddCard={handleAddCard} />
                 <TitleSubCategory subTitle={'bakery'} />
@@ -44,7 +44,6 @@ function UserOrder({ user,handleUpdateMyOrders, handleAddCard, handleCloseCard, 
                 <div className='g-Home__order-user-total'>
                     <ProductPrice price={`TOTAL: ${total}`} />
                 </div>
-                <button onClick={handleAddOrder}>Order</button>
             </div>
         </section>
     )
