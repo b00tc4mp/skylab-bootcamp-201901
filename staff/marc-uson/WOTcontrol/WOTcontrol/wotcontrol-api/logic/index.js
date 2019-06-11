@@ -8,6 +8,14 @@ const { Users, Devices, Inputs, Outputs } = models
 
 const logic = {
 
+    /** Creates a new user on the DB with the given data
+     *
+     * @param {string} name first name of the user
+     * @param {string} surname second name or surname of the user
+     * @param {string} email email direction of the user, will be used to login in the application
+     * @param {string} password password used for sign in
+     * @param {boolean} admin if true, save the user as admin user to have more privileges (not yet implemented). By default, admin is false
+     */
     registerUser(name, surname, email, password, admin = false) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -36,6 +44,11 @@ const logic = {
         })()
     },
 
+    /** Autenticates the user to the application
+     * 
+     * @param {string} email email defined by the user in registration process
+     * @param {string} password password defined from the user in registration process
+     */
     authenticateUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
@@ -57,6 +70,10 @@ const logic = {
         })()
     },
 
+    /** retrieves the name, surname, email and list of devices of the user asociated with the passed id
+     *
+     * @param {string} id unique id of the user
+     */
     retrieveUser(id) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
@@ -71,6 +88,11 @@ const logic = {
         })()
     },
 
+    /** Updates the information of the current user with the information given in the data object. The data object must contain the keys named the same as the parameters of the registerUser function
+     *
+     * @param {string} id unique id of the user
+     * @param {object} data contains the data to be updated. the data to be updated must have the key identical to the parameters of the registerUser function
+     */
     updateUser(id, data) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -104,6 +126,10 @@ const logic = {
         })()
     },
 
+    /** deletes the user asociated to the id passed
+     *
+     * @param {string} id unique id of the user
+     */
     deleteUser(id) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
@@ -120,6 +146,12 @@ const logic = {
         })()
     },
 
+    /** 
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceIp your device IP
+     * @param {number} devicePort your device Port
+     */
     checkDevice(id, deviceIp, devicePort){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -143,7 +175,7 @@ const logic = {
             }
         })()
     },
-
+ 
     addDevice(id, deviceName, deviceIp, devicePort){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
