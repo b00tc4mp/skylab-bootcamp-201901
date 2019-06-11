@@ -1,4 +1,4 @@
-import React, { useState, useContext, Fragment ,useEffect } from 'react';
+import React, { useState, useContext, Fragment, useEffect } from 'react';
 import { Route, withRouter, Redirect } from "react-router-dom";
 import logic from '../../logic'
 import UserProfile from '../UserProfile/index'
@@ -20,10 +20,41 @@ import errorLogo from '../../images/error-logo.png'
 
 function Home(props) {
 
+
+
+    useEffect(() => {
+
+
+        switch (props.location.pathname) {
+
+            case "/Home/MyAlerts":
+                debugger
+                handleMyAlerts()
+                break;
+            case "/Home/Profile":
+                debugger
+                handleProfile()
+                break;
+            case "/Home/MyTickets":
+                debugger
+                handleMyTcikets()
+                break;
+
+            case "/Home":
+                debugger
+                handleUserName()
+                break;
+
+
+        }
+    }, []);
+
+
+
     let { checkAlerts } = props
 
     const [alertsChecked, setAlertsChecked] = useState(checkAlerts)
-    const { loggedOk, registerOk, setLogOk, setRegOk, userName } = useContext(UserContext)
+    const { loggedOk, registerOk, setLogOk, setRegOk, userName, setName } = useContext(UserContext)
     const [profile, setProfile] = useState(null)
     const [globalMessage, setGlobalMessage] = useState(null)
 
@@ -81,16 +112,18 @@ function Home(props) {
     const [products, setProducts] = useState([])
     const [productsError, setProductsError] = useState(null)
 
-    useEffect(() => {
 
-           switch(props.location.pathname) {
-               
-            case "/Home/MyAlerts" :
-                handleMyAlerts()
-            break;
+    function handleUserName() {
 
-        }
-      },[]);
+        return (async () => {
+
+            try {
+                const user = await logic.retrieveUser(sessionStorage.token)
+                setName(user.name)
+            }
+            catch (error) { }
+        })()
+    }
 
 
 
@@ -110,7 +143,7 @@ function Home(props) {
 
     if (!updateChart) {
         mountGlobalChart()
-        
+
         setChart(true)
     }
 
@@ -125,6 +158,7 @@ function Home(props) {
 
         return (async () => {
             await mountGlobalChart()
+            handleUserName()
             props.history.push("/Home")
 
         })()
@@ -139,6 +173,7 @@ function Home(props) {
         setCategoryError(null)
         setCategory(null)
         setMonth(null)
+        setMonthError(null)
         props.history.push("/Home/Stadistics")
 
     }
@@ -192,16 +227,18 @@ function Home(props) {
 
     function handleProfile() {
 
-        setUpdatedUserOk(null)
-        setUpdatedUserFail(null)
+       
 
         return (async () => {
+            setUpdatedUserOk(null)
+            setUpdatedUserFail(null)
 
 
 
             try {
                 const user = await logic.retrieveUser(sessionStorage.token)
                 setProfile(user)
+                setName(user.name)
                 props.history.push("/Home/Profile")
 
             }
@@ -266,7 +303,7 @@ function Home(props) {
             try {
 
                 const res = await logic.saveTicket(sessionStorage.token, ticketToSave)
-                props.history.push("/Home")
+                toHome()
                 setGlobalMessage(res)
                 setChart(false)
 
@@ -280,7 +317,7 @@ function Home(props) {
 
         return (async () => {
             try {
-
+                setMyTickets(null)
                 const res = await logic.deleteTicket(sessionStorage.token, ticketId)
                 setTicketDeleted(res)
                 const tickets = await logic.listTickets(sessionStorage.token)
@@ -290,7 +327,7 @@ function Home(props) {
 
 
 
-            } catch (error) { setGlobalMessage(error.message) }
+            } catch (error) { handleMyTcikets() }
         })()
 
     }
@@ -299,11 +336,13 @@ function Home(props) {
 
         return (async () => {
             try {
+
                 const res = await logic.deleteAllTickets(sessionStorage.token)
                 setChart(false)
                 setMyTickets(null)
+                handleMyTcikets()
 
-            } catch (error) { setGlobalMessage(error) }
+            } catch (error) { handleMyTcikets() }
         })()
 
     }
@@ -383,14 +422,14 @@ function Home(props) {
     }
 
 
-    function handleSelectedMonth(mon, monthString) {
+    function handleSelectedMonth(mon, monthString, year) {
         return (async () => {
 
             try {
 
                 const res = await logic.monthTicket(sessionStorage.token, mon)
 
-                setMonth({ monthString, res })
+                setMonth({ monthString, res, year })
                 setMonthError(null)
 
             } catch (error) {
@@ -454,7 +493,7 @@ function Home(props) {
                 globalChart ? <>
                     <span class="welcome">
                         <div class="box" id="wlcomeUserName">
-                            <p>Welcome {userName} ! </p>
+                            {userName && <p>Welcome {userName} ! </p>}
                         </div>
                     </span>
                     <div class="globalChart">
@@ -478,6 +517,7 @@ function Home(props) {
 
             <Route exact path="/Home/Profile" render={() =>
 
+                profile &&
                 <UserProfile getUser={profile} updateUserData={handleUpdateUser} updatedOk={updatedUserOk} updatedFail={updatedUserFail} />
             } />
 
@@ -502,6 +542,7 @@ function Home(props) {
                     noTicketsFound={noTickets}
                     addTicket={toScanTicket}
                     getTicketDetail={handleTicketDetail} />
+
             } />
 
             <Route exact path="/Home/MyAlerts" render={() =>

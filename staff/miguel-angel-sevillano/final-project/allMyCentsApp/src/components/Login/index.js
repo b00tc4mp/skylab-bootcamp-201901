@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import './index.sass'
-
+import mainTitle from '../../images/mainTitlev2.png'
 
 function Login({ onLogin, message, cancel, clear }) {
 
@@ -27,6 +27,8 @@ function Login({ onLogin, message, cancel, clear }) {
     }
 
     return <form id="loginForm" onSubmit={handleSubmit}>
+
+
             <div class="box">
                 <h1>Login</h1>
             </div>

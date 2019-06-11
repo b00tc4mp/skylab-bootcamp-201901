@@ -9,13 +9,14 @@ function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toS
     let [modalActive, setModal] = useState(false)
     let [errorMessage, setError] = useState(null)
     let [errorFromSaeve, setErrorFs] = useState(true)
-    let [ticketLength, setTicketLength] = useState(false)
+    let [errorChecked , setErrorChecked] = useState(false)
 
 
 
 
     let savedTicket = []
-    let errorFound = false
+    let errorFound=false
+   
 
     let ticket = processedTicket.map(item => {
 
@@ -30,7 +31,7 @@ function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toS
 
 
     function handleCloseModal() {
-        errorFound = false
+        setErrorChecked(true)
         setErrorFs(false)
         setModal(false)
 
@@ -60,15 +61,30 @@ function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toS
 
 
         for (let i = 0; i < string.length; i++) { savedTicket.push({ name: string[i], Euro: Number(number[i].replace(/,/g, ".")) }) }
-        debugger
-        savedTicket.forEach(item => { if (isNaN(item.Euro)) errorFound = true })
-        if (errorFound) {
-            setError("Wrong information detected , please check your ticket")
-            setModal(true)
-        }
-        else {
-            toSaveTicket(savedTicket)
-        }
+
+        savedTicket.forEach(item => {
+           
+            errorFound=false
+         
+            if (isNaN(item.Euro)) {
+                setError("Wrong information detected , please check your ticket")
+                setModal(true)
+                errorFound=true
+            }
+            
+
+            if (item.Euro > 20 && !errorChecked) {
+                setError("Warning prices seems to be high above , check ticket please")
+                setModal(true)
+                errorFound=true
+            }
+            
+        })
+
+        if(!errorFound && errorChecked )toSaveTicket(savedTicket)
+        else if(!errorFound)toSaveTicket(savedTicket)
+        
+
     }
 
 
@@ -77,17 +93,19 @@ function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toS
         {ticket.length ?
             <div class="ticketCointaner">
                 <div class="box" id="ticketPosition">
-                    <form class="ticketDetailForm" onSubmit={handleSubmit}>
-                        {ticket}
+                    <form onSubmit={handleSubmit}>
+                        <div class="ticketDetailForm" >
+                            {ticket}
+                        </div>
                         <button class="button is-success" id="saveTicket" >Save Ticket</button>
-                        
+
                     </form></div> </div> :
             <div class="errorContainer">
                 <div class="box" id="error">
-                <img class="errorLogoTicketDetail" src={errorLogo}  ></img>
+                    <img class="errorLogoTicketDetail" src={errorLogo}  ></img>
                     <p>No results from scanned ticket</p>
                     <button class="button is-success" onClick={() => toScanAgain()} >Scan a ticket again</button>
-                    
+
                 </div>
             </div>}
 
@@ -107,6 +125,7 @@ function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toS
     </div>
 
 }
+
 
 
 export default TicketDetail

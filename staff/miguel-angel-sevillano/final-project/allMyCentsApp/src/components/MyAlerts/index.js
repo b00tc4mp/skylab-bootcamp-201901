@@ -23,7 +23,7 @@ function MyAlerts({ data, addAlert, addOneAlertError, deleteAlert, addedOk, dele
 
         const { name, maxValue } = e.target
 
-        const newAlert = { name: name.value, Euro: 0, maxValue: Number(maxValue.value) }
+        const newAlert = { name: name.value.toLowerCase(), Euro: 0, maxValue: Number(maxValue.value) }
 
         addAlert(newAlert)
 

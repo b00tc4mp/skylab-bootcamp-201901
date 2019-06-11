@@ -74,8 +74,8 @@ function MyTickets({ data,
                         items.map(item => {
                             return <div class="ticketElements">
 
-                                <span class="tag is-info is-medium">{item.name}</span>
-                                <span class="tag is-success is-medium">{item.Euro} €</span>
+                                <span >{item.name}</span>
+                                <span class="tag  is-warning is-medium">{item.Euro} €</span>
 
 
                             </div>

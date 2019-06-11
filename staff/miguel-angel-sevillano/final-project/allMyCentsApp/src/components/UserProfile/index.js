@@ -7,36 +7,53 @@ import Toast from '../Toast'
 
 
 
-function UserProfile({ getUser, updateUserData, updatedOk,updatedFail }) {
+function UserProfile({ getUser, updateUserData, updatedOk, updatedFail }) {
 
 
     let [imputError, setImputError] = useState(null)
     let [closeModal, setCloseModal] = useState(false)
-    
+
 
     let { name, surname, email } = getUser
 
-    
+
 
     function handleUpdate(e) {
-       
+
         e.preventDefault()
         setCloseModal(true)
-        
+      
 
         const { name, surname, email } = e.target
 
-        if (name && name.value) updateUserData({ name: name.value })
+        const updatedUser = {
+            name: name.value || name.placeholder,
+            surname: surname.value || surname.placeholder,
+            email: email.value || null
+        }
 
-        else if (surname && surname.value) updateUserData({ surname: surname.value })
-
-        else if (email && email.value) updateUserData({ email: email.value })
+        if(!name.value && !surname.value& !email.value)setImputError("Nothing to Update")
+        else if (updatedUser.email === email.placeholder) updatedUser.email = null
         
-        else { setImputError("Nothing to Update") }
+        if(typeof(imputError) === null ){
+            updateUserData(updatedUser)
+        }
 
-        document.getElementById("updateUserName").reset();
-        document.getElementById("updateUserSurname").reset();
-        document.getElementById("updateUserEmail").reset();
+
+        document.getElementById("updateUserForm").reset();
+        /*    const { name, surname, email } = e.target
+   
+           if (name && name.value) updateUserData({ name: name.value })
+   
+           else if (surname && surname.value) updateUserData({ surname: surname.value })
+   
+           else if (email && email.value) updateUserData({ email: email.value })
+           
+           else { setImputError("Nothing to Update") }
+   
+           document.getElementById("updateUserName").reset();
+           document.getElementById("updateUserSurname").reset();
+           document.getElementById("updateUserEmail").reset(); */
 
     }
 
@@ -47,27 +64,20 @@ function UserProfile({ getUser, updateUserData, updatedOk,updatedFail }) {
         <div class="box" id="userProfile">
 
             <img src={mainLogo} className="mainLogo" ></img>
-            <div class="control">
+
+            <form id="updateUserForm" onSubmit={handleUpdate}>
+
                 Name
-            <form id="updateUserName" onSubmit={handleUpdate}>
                     <input class="input" type="text" name="name" placeholder={name} />
-                    <button class="button is-success" onClick={() => setImputError(null)} >Update</button>
-                </form>
-            </div>
-            <div class="control">
                 Surname
-            <form id="updateUserSurname" onSubmit={handleUpdate}>
                     <input class="input" type="text" name="surname" placeholder={surname} />
-                    <button class="button is-success" onClick={() => setImputError(null)} >Update</button>
-                </form>
-            </div>
-            <div class="control">
                 Email
-            <form id="updateUserEmail" onSubmit={handleUpdate}>
                     <input class="input" type="text" name="email" placeholder={email} />
+                <div>
                     <button class="button is-success" onClick={() => setImputError(null)} >Update</button>
-                </form>
-            </div>
+                </div>
+            </form>
+
         </div>
 
         {typeof (imputError) === "string" && <Toast error={imputError} toastType="is-danger" />}

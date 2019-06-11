@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const expect = require('chai').expect
 const logic = require('.')
 const { errors: { LogicError } } = require('allMyCents-utils')
-const { models: { User, Item, Ticket,alert }, mongoose } = require('allMyCents-data')
+const { models: { User, Item, Ticket, alert }, mongoose } = require('allMyCents-data')
 
 const { env: { MONGO_URL_USER_API_TEST: url } } = process
 
@@ -37,6 +37,22 @@ describe('logic', () => {
                 const res = await logic.registerUser(name, surname, email, password)
 
                 expect(res).to.be.equal("User succesfully registered")
+
+            })
+
+
+            it('should fail if email format is wrong', async () => {
+
+                try {
+
+                    const res = await logic.registerUser(name, surname, "noEmail", password)
+                } catch (error) {
+
+                    expect(error.message).to.be.equal("noEmail is not an e-mail")
+
+                }
+
+
 
             })
 
@@ -90,6 +106,18 @@ describe('logic', () => {
                     expect(error.message).to.equal("Unexisting user")
                 }
             })
+            it('should fail if password is incorrect', async () => {
+
+                try {
+                    await logic.authenticateUser(email, "dkdjflksjdlkfksd")
+
+                    throw Error('should not reach this point')
+                } catch (error) {
+
+
+                    expect(error.message).to.equal("wrong credentials")
+                }
+            })
         })
 
         describe('retrieve user', () => {
@@ -125,7 +153,7 @@ describe('logic', () => {
 
                     expect(error).to.exist
                     expect(error).to.be.instanceOf(LogicError)
-                    expect(error.message).to.equal(`user with id "${id}" does not exist`)
+                    expect(error.message).to.equal('user with id 01234567890123456789abcd does not exist')
                 }
             })
         })
@@ -152,12 +180,36 @@ describe('logic', () => {
 
             })
 
+
+            it('should fail on unexisting user', async () => {
+
+                const wrongId = "dhfkldslkfsd"
+
+                try {
+                    await logic.updateUser(wrongId, updateInfo)
+
+                } catch (error) {
+                    expect(error.message).to.be.equal(`user with id ${wrongId} does not exist`)
+                }
+
+            })
+
+            it('should fail email format is  wrong', async () => {
+
+                try {
+                    await logic.updateUser(id, { email: "mash#mash" })
+                } catch (error) {
+                    expect(error.message).to.be.equal('mash#mash is not an e-mail')
+                }
+
+            })
+
             it('should fail if email already exist', async () => {
 
-                try{
-                await logic.updateUser(id, {email:email})
-                }catch(error){    
-                expect(error.message).to.be.equal(`email ${email} already registered`)
+                try {
+                    await logic.updateUser(id, { email: email })
+                } catch (error) {
+                    expect(error.message).to.be.equal(`email ${email} already registered`)
                 }
 
             })
@@ -211,6 +263,21 @@ describe('logic', () => {
             })
 
 
+
+            
+            it('should fail ading the same item', async () => {
+
+                await logic.addItem(newItem)
+
+                try{
+                    await logic.addItem(newItem)
+                }catch(error){
+                    expect(error.message).to.be.equal("Item already exist")
+                }
+
+            })
+
+
             it('should list all items', async () => {
 
                 await Item.create(newItem)
@@ -223,6 +290,19 @@ describe('logic', () => {
                 expect(list[1].text).to.be.a('string')
 
             })
+
+
+            it('should fail if there is no items to list', async () => {
+
+              
+
+               try{
+                   await logic.listItems()
+               }catch(error){
+                   expect(error.message).to.be.equal("")
+               }
+
+            })
         })
 
         describe('ticket', () => {
@@ -230,6 +310,7 @@ describe('logic', () => {
             let id
             let ticket_1 = [{ name: 'manzana', Euro: 1.65 }, { name: 'pera', Euro: 2.75 }]
             let ticket_2 = [{ name: 'zumo', Euro: 7.65 }, { name: 'nectar', Euro: 4.75 }]
+            const ticketFail = [{ name: 'bañador', Euro: 7.65 }, { name: 'nectar', Euro: 4.75 }]
 
             beforeEach(async () => {
 
@@ -260,6 +341,35 @@ describe('logic', () => {
                 expect(items[1].name).to.equal(ticket_1[1].name)
             })
 
+
+            it('should fail if product of ticket dont exist', async () => {
+
+                try {
+
+                    await logic.addPrivateTicket(id, ticketFail)
+                } catch (error) {
+
+                    expect(error.message).to.be.equal("No tickets found")
+
+                }
+            })
+
+
+            it('should fail adding ticket  on unexisting user', async () => {
+
+                const wrongId = "dhfkldslkfsd"
+
+                try {
+                    await logic.addPrivateTicket(wrongId, ticket_1)
+
+                } catch (error) {
+                    expect(error.message).to.be.equal(`user with id ${wrongId} does not exist`)
+                }
+
+            })
+
+
+
             it('should succeed updating a private ticket', async () => {
 
 
@@ -282,6 +392,30 @@ describe('logic', () => {
                 expect(items[0].name).to.equal(ticket_1[0].name)
                 expect(items[1].name).to.equal(data.name)
             })
+
+
+            it('should fail updating ticket on unexisting user', async () => {
+
+                const wrongId = "dhfkldslkfsd"
+
+                try {
+
+                    await logic.addPrivateTicket(id, ticket_1)
+
+                    const user = await User.findById(id).lean()
+
+                    const { tickets } = user
+                    let ticketId = tickets[3]._id.toString()
+                    let data = { name: "nectar" }
+                    let position = "1"
+
+                    await logic.updatePrivateTicket(wrongId, ticketId, data, position)
+
+                } catch (error) {
+                    expect(error.message).to.be.equal(`user with id ${wrongId} does not exist`)
+                }
+            })
+
             it('should succeed retriving a private ticket', async () => {
 
                 await logic.addPrivateTicket(id, ticket_1)
@@ -313,6 +447,27 @@ describe('logic', () => {
 
             })
 
+            it('should fail retriving ticket on unexisting user', async () => {
+
+                const wrongId = "dhfkldslkfsd"
+
+                try {
+
+                    await logic.addPrivateTicket(id, ticket_1)
+                    await logic.addPrivateTicket(id, ticket_2)
+
+                    const _user = await User.findById(id).lean()
+                    const { tickets } = _user
+
+                    let fTicketId = tickets[3]._id.toString()
+                    let sTicketId = tickets[4]._id.toString()
+                    await logic.retrivePrivateTicket(wrongId, fTicketId)
+
+                } catch (error) {
+                    expect(error.message).to.be.equal(`user with id ${wrongId} does not exist`)
+                }
+            })
+
             it('should succed listing all tickets', async () => {
 
 
@@ -326,21 +481,36 @@ describe('logic', () => {
 
             })
 
+
+            it('should fail listin all tickets on unexisting user', async () => {
+
+                const wrongId = "dhfkldslkfsd"
+
+                try {
+                    await logic.listPrivateTickets(wrongId)
+
+                } catch (error) {
+                    expect(error.message).to.be.equal(`user with id ${wrongId} does not exist`)
+                }
+            })
             it('should fail if there are no tickets', async () => {
 
-                try{
+                try {
 
                     await logic.listPrivateTickets(id)
-                }catch(error){
+                } catch (error) {
 
                     expect(error.message).to.be.equal("No tickets found")
 
                 }
             })
 
+
+
+
             it('should succeed removing a private ticket', async () => {
 
-              
+
                 const user = await User.findById(id).lean()
                 const { tickets } = user
 
@@ -353,23 +523,60 @@ describe('logic', () => {
                 const { tickets: _tickets } = _user
 
                 expect(_tickets).to.have.lengthOf(2)
-               
+
 
             })
+
+
+
+
+            it('should fail removing private ticket on unexisting user', async () => {
+
+                const wrongId = "dhfkldslkfsd"
+
+                try {
+
+
+                    const user = await User.findById(id).lean()
+                    const { tickets } = user
+
+                    let fTicketId = tickets[2]._id.toString()
+                    await logic.removePrivateTicket(wrongId, fTicketId)
+
+                } catch (error) {
+                    expect(error.message).to.be.equal(`user with id ${wrongId} does not exist`)
+                }
+            })
+
             it('should succeed removing all private tickets', async () => {
 
-               
+
                 await logic.removeAllPrivateTickets(id)
                 const _user = await User.findById(id)
 
                 expect(_user.tickets).to.have.lengthOf(0)
             })
 
+
+            it('should fail removing  all private ticket on unexisting user', async () => {
+
+                const wrongId = "dhfkldslkfsd"
+
+                try {
+
+                    await logic.removeAllPrivateTickets(wrongId)
+
+                } catch (error) {
+                    expect(error.message).to.be.equal(`user with id ${wrongId} does not exist`)
+                }
+            })
+
+
             it('should succeed retriving ticket by range of dates', async () => {
 
 
                 const tickets = await logic.retrivePrivateTicketsByDates(id, { init: "2019/04/01", end: "2019/05/31" })
-               
+
 
                 expect(tickets[0].date).to.equal("2019/04/01")
                 expect(tickets[1].date).to.equal("2019/05/01")
@@ -389,9 +596,9 @@ describe('logic', () => {
 
             it('should fail if there is no tickets from month query', async () => {
 
-                try{
+                try {
                     await logic.retrivePrivateTicketsByDates(id, { month: "2019/09" })
-                }catch(error){
+                } catch (error) {
                     expect(error.message).to.be.equal("No tickets found")
                 }
 
@@ -406,10 +613,10 @@ describe('logic', () => {
 
             })
             it('should fail if there no tickets  by a day query ', async () => {
-                
-                try{
+
+                try {
                     await logic.retrivePrivateTicketsByDates(id, { day: "2019/09/01" })
-                }catch(error){
+                } catch (error) {
                     expect(error.message).to.be.equal("No tickets found")
                 }
 
@@ -443,17 +650,17 @@ describe('logic', () => {
 
             it("sould fail if the product dont exist", async () => {
 
-                try{
-                        
-                const product = "Horchata"
-                const amount = await logic.retrieveAmountByProdcut(id, product)
-                }catch(error){
+                try {
 
-                        expect(error.message).to.be.equal("Product not found")
+                    const product = "Horchata"
+                    const amount = await logic.retrieveAmountByProdcut(id, product)
+                } catch (error) {
+
+                    expect(error.message).to.be.equal("Product not found")
                 }
 
             })
-            
+
 
             it("sould return product name and amount by category ", async () => {
 
@@ -466,25 +673,27 @@ describe('logic', () => {
 
             })
 
-      /*       it("sould fail if dont exist category ", async () => {
+            it("sould fail if there no products inside category ", async () => {
 
-                const category = "frutas"
-                const products = await logic.retrieveByCategory(id, category)
 
-                expect(products[0]).to.exist
-                expect(products[0].name).to.be.equal("pera")
-                expect(products[0].Euro).to.be.equal(5.5)
+                try {
+
+                    const category = "hogar"
+                    await logic.retrieveByCategory(id, category)
+                } catch (error) {
+                    expect(error.message).to.be.equal("No results found")
+                }
 
             })
- */
-            
+
+
 
         })
         describe("alerts", () => {
 
             let user
             let id
-            let alert = { name: "manzana", Euro:0, maxValue: 100 }
+            let alert = { name: "manzana", Euro: 0, maxValue: 100 }
 
             beforeEach(async () => {
                 user = await User.create({ name, surname, email, password })
@@ -502,6 +711,19 @@ describe('logic', () => {
                 expect(alerts).to.exist
                 expect(alerts).to.have.lengthOf(1)
                 expect(alerts[0].name).to.equal(alert.name)
+
+            })
+
+            it('should fail  adding alert on unexisting user', async () => {
+
+                const wrongId = "dhfkldslkfsd"
+
+                try {
+                    await logic.addAlert(wrongId,alert)
+
+                } catch (error) {
+                    expect(error.message).to.be.equal(`user with id ${wrongId} does not exist`)
+                }
 
             })
 
@@ -544,6 +766,44 @@ describe('logic', () => {
                 expect(_alerts).to.exist
                 expect(_alerts).to.have.lengthOf(0)
 
+            })
+
+            it('should fail  deleting an  alert on unexisting user', async () => {
+
+                const wrongId = "dhfkldslkfsd"
+                
+                await logic.addAlert(id, alert)
+
+                const user = await User.findById(id).lean()
+                const { alerts } = user
+
+                let alertId = alerts[0]._id.toString()
+
+
+                try {
+                    await logic.deleteAlert(wrongId,alertId)
+
+                } catch (error) {
+                    expect(error.message).to.be.equal(`user with id ${wrongId} does not exist`)
+                }
+
+            })
+
+
+
+
+            it('should fail if alert dont exist', async () => {
+
+
+                
+                    try{
+                        await logic.deleteAlert(id, "43095843095")
+                    }catch(error){
+                        expect(error.message).to.be.equal("Alert dosen\'t exist")
+                    }
+                
+
+           
             })
 
             it('should succeed deleting all alerts', async () => {
@@ -597,6 +857,26 @@ describe('logic', () => {
                 expect(alerts[0].maxValue).to.equal(alert.maxValue)
 
             })
+
+
+            
+            it('should fail if dont exist any alert', async () => {
+
+
+                
+                try{
+                    await logic.deleteAllAlerts(id)
+                }catch(error){
+                    expect(error.message).to.be.equal("Alert dosen\'t exist")
+                }
+            
+
+       
+        })
+
+
+
+            
 
 
         })

@@ -455,7 +455,7 @@ const logic = {
             let filteredTicket = []
             let finalTicket = []
             let check = 0
-
+debugger
             rawTicket.forEach(items => {
 
                 const { text } = items

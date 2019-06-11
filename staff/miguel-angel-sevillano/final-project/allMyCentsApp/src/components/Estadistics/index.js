@@ -24,6 +24,7 @@ function Estadistics({ selectedCategory,
 
     let productQuery
     let products
+    
 
 
     if (recivedProduct.length > 0) {
@@ -53,12 +54,13 @@ function Estadistics({ selectedCategory,
     function handleMonth() {
 
         let date = new Date().toISOString().replace('-', '/').split('T')[0].replace('-', '/')
+        
         let e = document.getElementsByName("Month");
         let monthChoosen = e[0].options[e[0].selectedIndex].value
         let monthString = e[0].options[e[0].selectedIndex].label
         date = date.slice(0, 4)
-        debugger
-        selectedMonth({ month: date + "/" + monthChoosen }, monthString)
+        let year = date.slice(0,4)
+        selectedMonth({ month: date + "/" + monthChoosen }, monthString,year)
 
 
 
@@ -68,7 +70,7 @@ function Estadistics({ selectedCategory,
 
         let e = document.getElementsByName("query");
         productQuery = e[0].value
-        findProduct(productQuery)
+        findProduct(productQuery.toLowerCase())
     }
 
 
@@ -112,7 +114,7 @@ function Estadistics({ selectedCategory,
                                     <option value="05" name="May">May</option>
                                     <option value="06" name="June">June</option>
                                     <option value="07" name="July">July</option>
-                                    <option value="08" name="Agoust">Agoust</option>
+                                    <option value="08" name="August">August</option>
                                     <option value="09" name="September">September</option>
                                     <option value="10" name="October">October</option>
                                     <option value="11" name="Novermber">November</option>

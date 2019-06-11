@@ -94,34 +94,34 @@ function App(props) {
 
   return <Switch>
 
-    <UserContext.Provider value={{ loggedOk, registerOk, setLogOk, setRegOk, userName }}>
+    <UserContext.Provider value={{ loggedOk, registerOk, setLogOk, setRegOk, userName ,setName}}>
 
       <Route exact path="/" render={() =>
         sessionStorage.token ? <Redirect to="/Home" /> :
-        <div class="landingBody">
-          <span class="titleLogo">
-            <img src={mainTitle} className="mainTitle"  ></img>
-            <container className="coinContainer">
-              <img src={coin} className="coin"  ></img>
-            </container>
-            <a onClick={setModal}>
-              <img src={mainLogo} className="mainLogo" ></img>
-            </a>
-          </span>
-          <div>
-            {activateModal && <Modal onClose={closeModal} >
-              <div class="modalBody" >
-                <div>
-                  <img class="selectLogo" src={mainLogo}  ></img>
+          <div class="landingBody">
+            <span class="titleLogo">
+              <img src={mainTitle} className="mainTitle"  ></img>
+              <container className="coinContainer">
+                <img src={coin} className="coin"  ></img>
+              </container>
+              <a onClick={setModal}>
+                <img src={mainLogo} className="mainLogo" ></img>
+              </a>
+            </span>
+            <div>
+              {activateModal && <Modal onClose={closeModal} >
+                <div class="modalBody" >
+                  <div>
+                    <img class="selectLogo" src={mainLogo}  ></img>
+                  </div>
+                  <div class="landingButtons">
+                    <Link class="button is-link" id="link" to={'/Register'} onClick={closeModal}>Register</Link>
+                    <Link class="button is-primary" id="link" to={'/Login'} onclick={closeModal}>Login</Link>
+                  </div>
                 </div>
-                <div class="landingButtons">
-                  <Link class="button is-link" id="link" to={'/Register'} onClick={closeModal}>Register</Link>
-                  <Link class="button is-primary" id="link" to={'/Login'} onclick={closeModal}>Login</Link>
-                </div>
-              </div>
-            </Modal>}
+              </Modal>}
+            </div>
           </div>
-        </div>
 
       } />
       <Route exact path="/Register" render={() =>
@@ -136,7 +136,7 @@ function App(props) {
           </div>} />
 
       <Route exact path="/Login" render={() =>
-        loggedOk ? <Redirect to="/Home" /> :
+        sessionStorage.token ? <Redirect to="/Home" /> :
           <div class="loginBody">
             <span class="titleLogo">
               <img src={mainTitle} className="mainTitle"  ></img>
@@ -146,13 +146,13 @@ function App(props) {
             </div>
           </div>} />
 
-      <div class="home">
-        <Route path="/Home" render={() =>
-          !sessionStorage.token ? <Redirect to="/" /> :
-            <div class="home">
-              <Home checkAlerts={checkedAlerts} />
-            </div>} />
-      </div>
+
+      <Route path="/Home" render={() =>
+        !sessionStorage.token ? <Redirect to="/" /> :
+
+          <Home checkAlerts={checkedAlerts} />
+      } />
+
 
     </UserContext.Provider>
 

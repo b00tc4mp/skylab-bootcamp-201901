@@ -9,24 +9,12 @@ import {
 
 function MonthChart({data}) {
 
-    let{monthString,res}=data
+    let{monthString,res ,year}=data
 
-    function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-          color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-      }
-
-      
-
-
-   
+ 
     let totalP = 0
     let width = 0
-    let color = getRandomColor()
+   
 
     if(res.length<5)width = 600
     else width=900
@@ -53,7 +41,7 @@ function MonthChart({data}) {
             
 
             <span class="tag is-warning is-large">
-                {monthString}
+                {monthString}  {year}
             </span>
 
 
@@ -67,9 +55,9 @@ function MonthChart({data}) {
                 <XAxis dataKey="name" fontSize="0.8em" />
                 <Tooltip />
 
-                <YAxis label={{ value: '€', angle: 0, position: 'left', fontSize: "0.8em" }} />
+            
                 <Brush dataKey='name' height={30} stroke="#8884d8"/>
-                <Bar dataKey="Euro" fill={color} stackOffset="expnad"  />
+                <Bar dataKey="Euro" fill="green" stackOffset="expnad"  />
 
             </BarChart>
 

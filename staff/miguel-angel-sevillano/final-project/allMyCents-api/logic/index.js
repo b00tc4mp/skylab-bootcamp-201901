@@ -62,7 +62,7 @@ const logic = {
         return (async () => {
             let user = await User.findById(id).lean()
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
             delete user._id
             delete user.password
             delete user.__v
@@ -81,8 +81,10 @@ const logic = {
 
             let mail
             let user = await User.findById(id)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
 
             if (data.email) {
+                
 
                 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -153,8 +155,8 @@ const logic = {
 
 
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+            
 
             user.tickets.push(new Ticket({ items: ticket }))
 
@@ -185,8 +187,8 @@ const logic = {
             let rTicket
 
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+            
 
             user.tickets.forEach((item, index) => {
                 if (item._id.toString() === ticketId.toString())
@@ -212,6 +214,8 @@ const logic = {
 
 
             let user = await User.findById(id)
+
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
             let { tickets } = user
             let products = await Item.find()
 
@@ -223,8 +227,8 @@ const logic = {
             })
             if (!coincidence) throw new LogicError("This product dont exist")
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            
+           
 
             tickets.forEach(ticket => {
 
@@ -264,8 +268,8 @@ const logic = {
             let user = await User.findById(id)
             const { tickets } = user
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+        
 
             let retrivedTickets = []
             let init = false
@@ -324,8 +328,8 @@ const logic = {
         return (async () => {
             const user = await User.findById(id)
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+        
 
             if (user.tickets.length) return user.tickets
             else throw new LogicError("No tickets found")
@@ -345,8 +349,8 @@ const logic = {
         return (async () => {
             let user = await User.findById(id)
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+           
 
             user.tickets.forEach((item, index) => {
                 if (item._id.toString() === ticketId.toString())
@@ -367,8 +371,8 @@ const logic = {
         return (async () => {
             let user = await User.findById(id)
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+          
 
             user.tickets = []
 
@@ -396,8 +400,8 @@ const logic = {
         return (async () => {
             const user = await User.findById(id)
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+           
 
 
 
@@ -431,8 +435,8 @@ const logic = {
             const user = await User.findById(id)
 
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+      
 
             const { items } = await Cat.findOne({ category: category })
 
@@ -470,7 +474,7 @@ const logic = {
             })
 
             if (results.length) return results
-            else throw LogicError("No results found")
+            else throw new LogicError("No results found")
 
         })()
 
@@ -496,8 +500,8 @@ const logic = {
 
 
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+           
 
 
             if (typeof user.alerts[0] === "object") {
@@ -536,8 +540,8 @@ const logic = {
             const user = await User.findById(id)
             let { alerts, tickets } = user
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+        
 
             if (alerts[0]) {
 
@@ -545,7 +549,7 @@ const logic = {
 
                     tickets[i].items.forEach(item => {
                         alerts.forEach(_item => {
-                            if (item.name == _item.name) _item.Euro += item.Euro.toFixed(2)
+                            if (item.name == _item.name) _item.Euro += item.Euro
                         })
                     })
 
@@ -576,8 +580,8 @@ const logic = {
             let added = false
 
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+           
 
             alerts.forEach(item => {
 
@@ -606,8 +610,8 @@ const logic = {
             let { alerts } = user
             let deleted = false
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+           
 
             alerts.forEach((items, index) => {
                 if (items._id.toString() === alertId) {
@@ -635,8 +639,8 @@ const logic = {
             let user = await User.findById(id)
             let alerts = []
 
-            if (!user) throw new LogicError(`user with id "${id}" does not exist`)
-            if (user.id != id) throw new LogicError(`worng credentials `)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+           
 
             await User.findByIdAndUpdate(id, { alerts: alerts })
             await user.save()

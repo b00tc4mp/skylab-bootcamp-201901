@@ -11,22 +11,14 @@ function CategoryChart({ data }) {
 
     let { cat, res } = data
 
-    function getRandomColor() {
-        var letters = '0123456789ABCDEF';
-        var color = '#';
-        for (var i = 0; i < 6; i++) {
-            color += letters[Math.floor(Math.random() * 16)];
-        }
-        return color;
-    }
-
+    
 
 
 
     let date = new Date().toISOString().replace('-', '/').split('T')[0].replace('-', '/')
     let totalP = 0
     let width = 0
-    let color = getRandomColor()
+    
 
     if (res.length < 5) width = 300
     else width = 300
@@ -69,9 +61,9 @@ function CategoryChart({ data }) {
                 <XAxis dataKey="name" fontSize="0.8em" />
                 <Tooltip />
 
-                <YAxis label={{ value: '€', angle: 0, position: 'left', fontSize: "0.8em" }} />
+               
                 <Brush dataKey='name' height={30} stroke="#8884d8" />
-                <Bar dataKey="Euro" fill={color} stackOffset="expnad" />
+                <Bar dataKey="Euro" fill="blue" stackOffset="expnad" />
 
             </BarChart>
 
