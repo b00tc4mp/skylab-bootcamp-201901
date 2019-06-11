@@ -1,4 +1,18 @@
-import { IonAvatar, IonButton, IonCol, IonContent, IonGrid, IonImg, IonInput, IonItem, IonLabel, IonList, IonPage, IonPopover, IonRow } from '@ionic/react';
+import {
+  IonAvatar,
+  IonButton,
+  IonCol,
+  IonContent,
+  IonGrid,
+  IonImg,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonList,
+  IonPage,
+  IonPopover,
+  IonRow,
+} from '@ionic/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { ATTENDANCEPAYMENTTYPES, ATTENDANCESTATUSES } from '../../enums';
 import { MainContext } from '../../logic/contexts/main-context';
@@ -58,64 +72,62 @@ export default function ViewUserDetail({ user, isAdmin = false }) {
   };
 
   return (
-    <IonPage>
-      <IonContent>
-        <IonGrid>
-          <IonRow>
-            <IonCol size="3">
-              <IonAvatar>
-                <IonImg src={user.portraitImageUrl} />
-              </IonAvatar>
-            </IonCol>
-            <IonCol size="9">
-              <IonLabel position="stacked">Full name</IonLabel>
-              <IonInput disabled type="text" name="name" placeholder="name" value={user.name + ' ' + user.surname} />
-            </IonCol>
-          </IonRow>
-        </IonGrid>
+    <>
+      <IonGrid>
+        <IonRow>
+          <IonCol size="3">
+            <IonAvatar>
+              <IonImg src={user.portraitImageUrl} />
+            </IonAvatar>
+          </IonCol>
+          <IonCol size="9">
+            <IonLabel position="stacked">Full name</IonLabel>
+            <IonInput disabled type="text" name="name" placeholder="name" value={user.name + ' ' + user.surname} />
+          </IonCol>
+        </IonRow>
+      </IonGrid>
 
-        <h3>Bookings</h3>
-        {!!sessions && (
-          <>
-            {isAdmin && (
-              <>
-                <IonPopover isOpen={!!changeStatus} onDidDismiss={() => setChangeStatus(null)}>
-                  <IonList>
-                    {ATTENDANCESTATUSES.map(status => (
-                      <IonItem key={status}>
-                        <AttendanceStatus status={status} onClick={() => handleChangeStatus(status)} />
-                      </IonItem>
-                    ))}
-                    <IonButton expand="block" onClick={() => setChangeStatus(null)}>
-                      No change
-                    </IonButton>
-                  </IonList>
-                </IonPopover>
-                <IonPopover isOpen={!!changePayment} onDidDismiss={() => setChangePayment(null)}>
-                  <IonList>
-                    {ATTENDANCEPAYMENTTYPES.map(paymentType => (
-                      <IonItem key={paymentType}>
-                        <AttendancePaymentType
-                          paymentType={paymentType}
-                          onClick={() => handleChangePayment(paymentType)}
-                        />
-                      </IonItem>
-                    ))}
-                    <IonButton expand="block" onClick={() => setChangePayment(null)}>
-                      No change
-                    </IonButton>
-                  </IonList>
-                </IonPopover>
-              </>
-            )}
-            <ListUserAllAttendances
-              sessions={sessions}
-              onClickPayment={handleClickPayment}
-              onClickStatus={handleClickStatus}
-            />
-          </>
-        )}
-      </IonContent>
-    </IonPage>
+      <h3>Bookings</h3>
+      {!!sessions && (
+        <>
+          {isAdmin && (
+            <>
+              <IonPopover isOpen={!!changeStatus} onDidDismiss={() => setChangeStatus(null)}>
+                <IonList>
+                  {ATTENDANCESTATUSES.map(status => (
+                    <IonItem key={status}>
+                      <AttendanceStatus status={status} onClick={() => handleChangeStatus(status)} />
+                    </IonItem>
+                  ))}
+                  <IonButton expand="block" onClick={() => setChangeStatus(null)}>
+                    No change
+                  </IonButton>
+                </IonList>
+              </IonPopover>
+              <IonPopover isOpen={!!changePayment} onDidDismiss={() => setChangePayment(null)}>
+                <IonList>
+                  {ATTENDANCEPAYMENTTYPES.map(paymentType => (
+                    <IonItem key={paymentType}>
+                      <AttendancePaymentType
+                        paymentType={paymentType}
+                        onClick={() => handleChangePayment(paymentType)}
+                      />
+                    </IonItem>
+                  ))}
+                  <IonButton expand="block" onClick={() => setChangePayment(null)}>
+                    No change
+                  </IonButton>
+                </IonList>
+              </IonPopover>
+            </>
+          )}
+          <ListUserAllAttendances
+            sessions={sessions}
+            onClickPayment={handleClickPayment}
+            onClickStatus={handleClickStatus}
+          />
+        </>
+      )}
+    </>
   );
 }
