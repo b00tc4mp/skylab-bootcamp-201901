@@ -1,27 +1,12 @@
-import React, { useState, useContext, useEffect } from 'react';
-import {
-  IonLabel,
-  IonPage,
-  IonContent,
-  IonPopover,
-  IonList,
-  IonItem,
-  IonButton,
-  IonGrid,
-  IonRow,
-  IonCol,
-  IonText,
-  IonImg,
-  IonInput,
-  IonAvatar,
-} from '@ionic/react';
-import ListUserAllAttendances from './ListUserAllAttendances';
+import { IonAvatar, IonButton, IonCol, IonContent, IonGrid, IonImg, IonInput, IonItem, IonLabel, IonList, IonPage, IonPopover, IonRow } from '@ionic/react';
+import React, { useContext, useEffect, useState } from 'react';
+import { ATTENDANCEPAYMENTTYPES, ATTENDANCESTATUSES } from '../../enums';
 import { MainContext } from '../../logic/contexts/main-context';
-import { ATTENDANCESTATUSES, ATTENDANCEPAYMENTTYPES } from '../../enums';
-import { AttendanceStatus } from '../attendances/AttendanceStatus';
 import { AttendancePaymentType } from '../attendances/AttendancePaymentType';
+import { AttendanceStatus } from '../attendances/AttendanceStatus';
+import ListUserAllAttendances from './ListUserAllAttendances';
 
-export default function ViewUserDetail({ user }) {
+export default function ViewUserDetail({ user, isAdmin = false }) {
   const ctx = useContext(MainContext);
 
   const [sessions, setSessions] = useState([]);
@@ -31,7 +16,8 @@ export default function ViewUserDetail({ user }) {
   const refresh = async () => {
     debugger;
     if (!user) return;
-    const sessions = await ctx.logic.listAttendances(user.id, ctx.provider.id);
+    const providerId = ctx.provider ? ctx.provider.id : null;
+    const sessions = await ctx.logic.listAttendances(user.id, providerId);
     setSessions(sessions);
   };
 
@@ -63,10 +49,12 @@ export default function ViewUserDetail({ user }) {
   };
 
   const handleClickPayment = attendance => {
+    if (!isAdmin) return;
     setChangePayment(attendance);
   };
 
   const handleClickStatus = attendance => {
+    if (!isAdmin) return;
     setChangeStatus(attendance);
   };
 
@@ -87,34 +75,40 @@ export default function ViewUserDetail({ user }) {
           </IonRow>
         </IonGrid>
 
-        <p>Bookings</p>
+        <h3>Bookings</h3>
         {!!sessions && (
           <>
-            <IonPopover isOpen={!!changeStatus} onDidDismiss={() => setChangeStatus(null)}>
-              <IonList>
-                {ATTENDANCESTATUSES.map(status => (
-                  <IonItem key={status}>
-                    <AttendanceStatus status={status} onClick={() => handleChangeStatus(status)} />
-                  </IonItem>
-                ))}
-                <IonButton expand="block" onClick={() => setChangeStatus(null)}>
-                  No change
-                </IonButton>
-              </IonList>
-            </IonPopover>
-            <IonPopover isOpen={!!changePayment} onDidDismiss={() => setChangePayment(null)}>
-              <IonList>
-                {ATTENDANCEPAYMENTTYPES.map(paymentType => (
-                  <IonItem key={paymentType}>
-                    <AttendancePaymentType paymentType={paymentType} onClick={() => handleChangePayment(paymentType)} />
-                  </IonItem>
-                ))}
-                <IonButton expand="block" onClick={() => setChangePayment(null)}>
-                  No change
-                </IonButton>
-              </IonList>
-            </IonPopover>
-
+            {isAdmin && (
+              <>
+                <IonPopover isOpen={!!changeStatus} onDidDismiss={() => setChangeStatus(null)}>
+                  <IonList>
+                    {ATTENDANCESTATUSES.map(status => (
+                      <IonItem key={status}>
+                        <AttendanceStatus status={status} onClick={() => handleChangeStatus(status)} />
+                      </IonItem>
+                    ))}
+                    <IonButton expand="block" onClick={() => setChangeStatus(null)}>
+                      No change
+                    </IonButton>
+                  </IonList>
+                </IonPopover>
+                <IonPopover isOpen={!!changePayment} onDidDismiss={() => setChangePayment(null)}>
+                  <IonList>
+                    {ATTENDANCEPAYMENTTYPES.map(paymentType => (
+                      <IonItem key={paymentType}>
+                        <AttendancePaymentType
+                          paymentType={paymentType}
+                          onClick={() => handleChangePayment(paymentType)}
+                        />
+                      </IonItem>
+                    ))}
+                    <IonButton expand="block" onClick={() => setChangePayment(null)}>
+                      No change
+                    </IonButton>
+                  </IonList>
+                </IonPopover>
+              </>
+            )}
             <ListUserAllAttendances
               sessions={sessions}
               onClickPayment={handleClickPayment}

@@ -1,4 +1,15 @@
-import { IonContent, IonPage, IonRefresher, IonRefresherContent } from '@ionic/react';
+import {
+  IonContent,
+  IonPage,
+  IonRefresher,
+  IonRefresherContent,
+  IonToolbar,
+  IonHeader,
+  IonItem,
+  IonThumbnail,
+  IonImg,
+  IonTitle,
+} from '@ionic/react';
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import ListSessionsAdmin from '../../components/sessions/ListSessionsAdmin';
@@ -20,15 +31,24 @@ export default function MainAdmin() {
     refresh();
   }, [ctx.provider]);
 
+  if (!ctx.provider) return null;
+
   return (
     <IonPage id="main-admin">
+      <IonHeader>
+        <IonToolbar>
+          <IonItem>
+            <IonThumbnail slot="start">
+              <IonImg src={ctx.provider.portraitImageUrl} />
+            </IonThumbnail>
+            <IonTitle>{ctx.provider.name}</IonTitle>
+          </IonItem>
+        </IonToolbar>
+      </IonHeader>
       <IonContent>
         <IonRefresher slot="fixed" onIonRefresh={refresh}>
           <IonRefresherContent />
         </IonRefresher>
-        <h1>Admin Main</h1>
-        {ctx.customers && <ListCustomers customersAndRequests={ctx.customers} showActive={false} />}
-        <h2>Today sessions</h2>
         {!!sessions && <ListSessionsAdmin sessions={sessions} onChange={refresh} />}
       </IonContent>
     </IonPage>

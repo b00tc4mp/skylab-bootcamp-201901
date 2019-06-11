@@ -72,7 +72,7 @@ export default function ListCustomers({
             </IonToolbar>
           </IonHeader>
           <IonContent>
-            <ViewUserDetail user={customer} />
+            <ViewUserDetail user={customer} isAdmin={true}/>
           </IonContent>
         </IonPage>
       </IonModal>

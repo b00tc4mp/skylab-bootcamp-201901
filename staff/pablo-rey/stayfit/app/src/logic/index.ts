@@ -124,6 +124,7 @@ export default {
         me {
           id
           name
+          surname
           role
           bannerImageUrl
           portraitImageUrl
@@ -496,7 +497,7 @@ export default {
   async listAttendances(userId, providerId) {
     debugger
     const query = gql`
-      query ListAttendances($userId: String!, $providerId: String!) {
+      query ListAttendances($userId: String!, $providerId: String) {
       listAttendances (userId: $userId, providerId: $providerId){
           session {
             id
@@ -521,8 +522,8 @@ export default {
     const { data, error } = await this.__gCall({
       query,
       variables: {
-        userId: userId,
-        providerId: providerId,
+        userId,
+        providerId,
       }
     });
     if (error) throw new Error(error[0]);

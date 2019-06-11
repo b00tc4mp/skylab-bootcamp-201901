@@ -9,9 +9,7 @@ export default function Superadmin() {
   return (
     <IonPage id="admin-settings">
       <IonContent>
-        <h1>Settings admin</h1>
-        <IonButton onClick={ctx.logout}>Logout</IonButton>
-        
+        <IonButton expand="block" onClick={ctx.logout}>Logout</IonButton>
       </IonContent>
     </IonPage>
   );

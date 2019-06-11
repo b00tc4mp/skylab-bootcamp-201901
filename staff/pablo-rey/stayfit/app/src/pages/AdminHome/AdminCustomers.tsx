@@ -1,5 +1,16 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { IonContent, IonPage, IonButton, IonModal, IonHeader, IonToolbar, IonButtons, IonTitle } from '@ionic/react';
+import {
+  IonContent,
+  IonPage,
+  IonButton,
+  IonModal,
+  IonHeader,
+  IonToolbar,
+  IonButtons,
+  IonTitle,
+  IonRefresher,
+  IonRefresherContent,
+} from '@ionic/react';
 import { Link } from 'react-router-dom';
 import logic from '../../logic';
 import { MainContext } from '../../logic/contexts/main-context';
@@ -12,13 +23,21 @@ export default function AdminCustomers() {
 
   const ctx = useContext(MainContext);
 
+  const refresh = async () => {
+    const customers = await logic.listCustomers(ctx.provider.id);
+    setCustomers(customers);
+  };
+
   useEffect(() => {
-    logic.listCustomers(ctx.provider.id).then(customers => setCustomers(customers));
+    refresh();
   }, []);
 
   return (
     <IonPage id="admin_customers">
       <IonContent>
+        <IonRefresher slot="fixed" onIonRefresh={refresh}>
+          <IonRefresherContent />
+        </IonRefresher>
         {ctx.customers && <ListCustomers customersAndRequests={ctx.customers} showActive showPending showOthers />}
       </IonContent>
     </IonPage>

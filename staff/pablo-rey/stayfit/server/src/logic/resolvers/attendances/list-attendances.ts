@@ -1,3 +1,4 @@
+import { ALWAYS_OWN_USER } from './../../middleware/authChecker';
 import * as moment from 'moment';
 import { Arg, Authorized, Ctx, Query, Resolver } from 'type-graphql';
 import { ProviderModel } from '../../../data/models/provider';
@@ -32,9 +33,9 @@ export class ListAttendancesResolvers {
     return attendances.map(att => ({ myAttendance: att, session: att.session }));
   }
 
-  @Authorized(ONLY_IF_MY_CUSTOMER)
+  @Authorized([ALWAYS_OWN_USER, ONLY_IF_MY_CUSTOMER])
   @Query(returns => [SessionsWithMyAttendance])
-  async listAttendances(@Arg('userId') userId: string, @Arg('providerId') providerId: string) {
+  async listAttendances(@Arg('userId') userId: string, @Arg('providerId', {nullable: true}) providerId: string) {
     let attendances = await AttendanceModel.find({ user: userId }).populate({
       path: 'session',
       populate: { path: 'coaches type provider attendances' },
