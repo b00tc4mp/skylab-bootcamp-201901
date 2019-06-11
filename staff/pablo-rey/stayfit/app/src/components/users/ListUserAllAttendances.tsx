@@ -5,7 +5,6 @@ import SessionSlim from '../sessions/SessionSlim';
 
 export default function ListUserAllAttendances({ sessions, onClickStatus, onClickPayment }) {
   if (!sessions || !sessions.length) return null;
-  debugger;
   let month = '';
   return (
     <IonList>

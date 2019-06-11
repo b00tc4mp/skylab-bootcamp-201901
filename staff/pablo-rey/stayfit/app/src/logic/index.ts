@@ -495,7 +495,6 @@ export default {
   },
 
   async listAttendances(userId, providerId) {
-    debugger
     const query = gql`
       query ListAttendances($userId: String!, $providerId: String) {
       listAttendances (userId: $userId, providerId: $providerId){

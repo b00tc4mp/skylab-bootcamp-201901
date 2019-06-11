@@ -14,7 +14,6 @@ export default function ViewUserDetail({ user, isAdmin = false }) {
   const [changePayment, setChangePayment] = useState(null);
 
   const refresh = async () => {
-    debugger;
     if (!user) return;
     const providerId = ctx.provider ? ctx.provider.id : null;
     const sessions = await ctx.logic.listAttendances(user.id, providerId);
