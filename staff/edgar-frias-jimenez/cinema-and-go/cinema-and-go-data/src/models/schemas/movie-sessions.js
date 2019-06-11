@@ -1,6 +1,5 @@
 const { Schema, ObjectId } = require('mongoose')
 
-
 const movieSessions = new Schema({
   movie: { type: ObjectId, ref: 'Movie', required: true },
   sessions: {

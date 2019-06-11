@@ -51,7 +51,7 @@ const logic = {
 
         return (async () => {
             const user = await User.findById(ObjectId(id)).select('-__v  -password').lean()
-            if (!user) throw new LogicError(`user with id "${id}" does not exists`)
+            // if (!user) throw new LogicError(`user with id "${id}" does not exists`)
 
             return user
         })()
@@ -175,16 +175,10 @@ const logic = {
             return await MovieSessions.find({ _id: id })
             .select('-__v')
             .populate({
-                path: 'movieSessions',
-                model: 'movieSessions',
+                path: 'movie',
+                model: 'movie',
                 select: '-__v',
-                options: { lean: true },
-                populate: {
-                    path: 'movie',
-                    model: 'movie',
-                    select: '-__v',
-                    options: { lean: true }
-                },
+                options: { lean: true }
             })
         })()
     },

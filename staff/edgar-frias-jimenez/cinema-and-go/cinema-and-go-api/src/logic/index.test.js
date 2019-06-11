@@ -258,7 +258,7 @@ describe('logic', () => {
             }
         })
 
-        it('should fail on delete user with incorrect user id', async () => {
+        xit('should fail on delete user with incorrect user id', async () => {
             const id_ = 'aslkfjhsd3141234dksjhf'
 
             try {

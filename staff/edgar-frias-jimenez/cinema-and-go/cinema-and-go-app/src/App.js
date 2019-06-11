@@ -53,10 +53,10 @@ function App ({ history }) {
             appLogic.handleInitialLocation()
                 .then(res => {
                     const initPos = res.reverse()
-                    localStorage.setItem('userLocation', initPos)
+                    sessionStorage.setItem('userLocation', initPos)
                 })
         } catch ({ message }) {
-            console.log(message)
+            console.log('error:', message)
         }
     }
 

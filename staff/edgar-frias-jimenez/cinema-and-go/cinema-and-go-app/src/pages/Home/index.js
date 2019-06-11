@@ -13,7 +13,6 @@ const Home = () => {
     const [currentMarker, setCurrentMarker] = useState(null)
 
     const handleCloseModal = () => {
-        console.log('handle close click')
         setModalVisible(false)
     }
 
@@ -21,20 +20,20 @@ const Home = () => {
         appLogic.populateDb()
     }
 
-    const defaultPos = localStorage.getItem('userLocation').split(',').map(item => parseFloat(item))
+    const defaultPos = sessionStorage.getItem('userLocation').split(',').map(item => parseFloat(item))
 
     const userPosition = {
         lng: defaultPos[0],
         lat: defaultPos[1]
     }
 
-    const threshold = 10500
+    const threshold = 1500
 
     useEffect(() => {
         const cinemas = async () => {
             if(defaultPos) {
                 const cinemaPoints = await appLogic.retrieveNearestCinemas(userPosition, threshold)
-                localStorage.setItem('cinemaPoints', JSON.stringify(cinemaPoints))
+                sessionStorage.setItem('cinemaPoints', JSON.stringify(cinemaPoints))
                 return setCinemaPoi(cinemaPoints)
             }
         }
@@ -76,6 +75,7 @@ const Home = () => {
                         <CustomMarker
                             clickable={false}
                             customPosition={defaultPos}
+                            // icon={''}
                         />
 
                         {cinemaPoi &&
@@ -87,7 +87,6 @@ const Home = () => {
                                         customHandler={() => {
                                             setCurrentMarker(id)
                                             setModalVisible(true)
-                                            console.log('handleClick here', modalVisible)
                                         }}
                                     />
                             )

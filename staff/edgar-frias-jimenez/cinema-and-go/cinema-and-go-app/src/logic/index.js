@@ -105,7 +105,7 @@ const appLogic = {
     handleInitialLocation() {
         if (navigator.geolocation) {
             try {
-                const geoLocation = new Promise((resolve, reject) => {
+                const geoLocation = () => {
                     var options = {
                         timeout: 10000,
                         enableHighAccuracy: true,
@@ -115,15 +115,15 @@ const appLogic = {
                     const success = pos => {
                       const crd = pos.coords
                       const locationCoords = [crd.longitude, crd.latitude]
-                      resolve(locationCoords)
+                      return(locationCoords)
                     }
 
                     const error = err => {
-                      reject(`ERROR(${err.code}): ${err.message}`)
+                      throw Error(`ERROR(${err.code}): ${err.message}`)
                     }
 
                     navigator.geolocation.watchPosition(success, error, options)
-                })
+                }
 
                 return geoLocation//.then(locationCoords => locationCoords)
             } catch (error) {
