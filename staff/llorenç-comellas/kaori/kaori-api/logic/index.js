@@ -18,7 +18,8 @@ const logic = {
      * 
      * @returns {Object} Object with new user
      */
-
+    
+    
     registerUser(name, surname, phone, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -89,13 +90,13 @@ const logic = {
 
     },
 
-    updateUser() {
-        //TODO
-    },
+    // updateUser() {
+    //     //TODO
+    // },
 
-    deleteUser() {
-        //TODO
-    },
+    // deleteUser() {
+    //     //TODO
+    // },
 
     /**
      * Creates products 

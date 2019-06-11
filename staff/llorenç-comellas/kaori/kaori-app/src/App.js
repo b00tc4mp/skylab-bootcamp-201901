@@ -8,7 +8,7 @@ import MainImage from './components/MainImage'
 import Menu from './components/Menu'
 import Cart from './components/Cart'
 import Footer from './components/Footer'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 
 
 class App extends Component {
@@ -22,7 +22,7 @@ class App extends Component {
   handleCart = () => this.props.history.push('/cart')
 
   handleStarters = () => this.props.history.push('/menu/ENTRANTES')
-  
+
   handlePacks = () => this.props.history.push('/menu/PACKS')
 
   handleMakis = () => this.props.history.push('/menu/MAKIS')
@@ -35,6 +35,7 @@ class App extends Component {
 
   handleLogout = () => {
     logic.logoutUser()
+    this.props.history.push('/')
   }
 
   handleRegister = (name, surname, phone, email, password) => {
@@ -81,17 +82,24 @@ class App extends Component {
     } = this
 
     return <>
+
       <Route path="/" render={() => <Nav onHome={handleHome} onMenu={handleMenu} onCart={handleCart} onLogout={handleLogout} />} />
-      <Route exact path="/" render={() => <MainImage />} />
-      <Route exact path="/" render={() => <MainCategory onStarter={handleStarters} onPacks={handlePacks} onRolls={handleRolls} onMakis={handleMakis} />} />
-      <Route exact path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/" /> : <Login onLogin={handleLogin} onRegister={handleRegisterNavigation} error={error} />} />
-      <Route exact path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/" /> : <Register onRegister={handleRegister} onLogin={handleLoginNavigation} error={error} />} />
-      <Route path="/menu" render={() => <Menu />} />
-      <Route path="/cart" render={() => <Cart />} />
+      <Switch>
+        <Route exact path="/" render={() => {
+          return (<>
+            <MainImage />
+            <MainCategory onStarter={handleStarters} onPacks={handlePacks} onRolls={handleRolls} onMakis={handleMakis} />
+          </>)
+        }} />
+        <Route exact path="/login" render={() => logic.isUserLoggedIn ? <Redirect to="/" /> : <Login onLogin={handleLogin} onRegister={handleRegisterNavigation} error={error} />} />
+        <Route exact path="/register" render={() => logic.isUserLoggedIn ? <Redirect to="/" /> : <Register onRegister={handleRegister} onLogin={handleLoginNavigation} error={error} />} />
+        <Route path="/menu" render={() => <Menu />} />
+        <Route path="/cart" render={() => <Cart />} />
+        <Redirect to='/' />
+      </Switch>
       <Route path="/" render={() => <Footer />} />
-      {/* <Route path='*' exact={true} render={() => <Nav/>} /> */}
-      {/* <Redirect from='*' to='/' /> */}
     </>
+
   }
 }
 export default withRouter(App)

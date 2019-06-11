@@ -1,5 +1,4 @@
 import React from 'react'
-import Footer from '../Footer'
 import './index.scss'
 
 function MainCategory({ onStarter, onPacks, onRolls, onMakis }) {

@@ -4,6 +4,7 @@ $main-color:#2A6160;
 $second-color: #7BA5A6;
 $font:'Montserrat', sans-serif;
 
+
 html{ height:100%; }
 
 body{ 
@@ -14,7 +15,7 @@ body{
   position:relative; 
 }
 
-body::after{ content:''; display:block; height:100px; }
+body::after{ content:''; display:block; height: 50px; }
 
 body{
   font-family: $font;

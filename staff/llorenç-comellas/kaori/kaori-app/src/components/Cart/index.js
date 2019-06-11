@@ -1,18 +1,18 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
 import ProductCart from '../ProductCart'
-import StripePayament from '../StripePayament'
 import PayamentMessage from '../PayamentMessage'
 
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 
 class Cart extends Component {
-    state = { error: null, cart: [] }
+    state = { error: null, cart: [], pay: false }
 
     retrieve = () => {
         try {
 
             logic.retrieveCart()
+
                 .then((res) => { this.setState({ cart: res }) })
                 .catch(error =>
                     this.setState({ error: error.message })
@@ -40,9 +40,10 @@ class Cart extends Component {
     }
 
     handlePurchase = () => {
+
         try {
             logic.cartToOrder()
-                .then(() => { this.setState({ cart: [] }, () => { this.props.history.push(`/cart/thankyou`) }) })
+                .then(() => { this.setState({ cart: [], pay: true }, () => { this.props.history.push(`/cart/thankyou`) }) })
                 .catch(error =>
                     this.setState({ error: error.message })
                 )
@@ -51,20 +52,18 @@ class Cart extends Component {
             this.setState({ error: message })
         }
 
-
     }
 
     render() {
         const {
-            state: { error, cart },
+            state: { error, cart, pay },
             handleDeleteToCart,
             handlePurchase
         } = this
 
         return <>
-                <Route exact path="/cart" render={() => < ProductCart items={cart} deleteCart={handleDeleteToCart} error={error} />} />
-                <Route exact path="/cart" render={() => <StripePayament onTokenSucces={handlePurchase} />} />
-                <Route exact path='/cart/thankyou' render={() => <PayamentMessage />} />
+            <Route exact path="/cart" render={() => < ProductCart items={cart} deleteCart={handleDeleteToCart} onTokenSucces={handlePurchase} error={error} />} />
+            <Route exact path="/cart/thankyou" render={() => pay ? <PayamentMessage /> : <Redirect to='/' />} />
         </>
     }
 

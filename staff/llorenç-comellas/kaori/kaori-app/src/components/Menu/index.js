@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import logic from '../../logic'
 import SelectCategory from '../SelectCategory'
 import Category from '../Category'
-import { Route, withRouter, Redirect } from 'react-router-dom'
+import { Route, withRouter , Redirect} from 'react-router-dom'
 
 
 class Menu extends Component {
@@ -27,6 +27,9 @@ class Menu extends Component {
     handleCart = id => {
         try {
             logic.addToCart(id)
+            .catch(error =>
+                this.setState({ error: error.message })
+            )
 
         } catch ({ message }) {
             this.setState({ error: message })
@@ -48,8 +51,7 @@ class Menu extends Component {
 
         return <>
             <SelectCategory onCategory={handleCategory} currentCategory={category} error={error} />
-            <Route exact path="/menu/:category" render={() => <Category products={sushi} onLogin={handleLoginNavigation} addCart={handleCart} error={error} />} />
-
+            <Route exact path="/menu/:category" render={() => <Category products={sushi} onLogin={handleLoginNavigation} addCart={handleCart} error={error} />} /> 
         </>
     }
 }
