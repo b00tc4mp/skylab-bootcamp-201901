@@ -5,15 +5,25 @@
             top: 0;
         }
 
-        & > .populate {
-            display: none;
-            top: 24px;
-            left: 50%;
-            padding: 12px;
-            position: absolute;
-            width: 200px;
-            height: 45px;
-            z-index: 3;
+    }
+
+    & > .populate {
+        display: none;
+        border-radius: 8px;
+        background-color: var(--regular-blue);
+        color: white;
+        font-weight: bold;
+        top: 24px;
+        left: calc(50% - 100px);
+        text-align: center;
+        padding: 12px;
+        position: absolute;
+        width: 200px;
+        height: 45px;
+        z-index: 3;
+
+        &:hover {
+            cursor: pointer;
         }
     }
 }

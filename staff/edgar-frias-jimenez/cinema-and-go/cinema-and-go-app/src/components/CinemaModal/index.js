@@ -15,11 +15,15 @@ const CinemaModal = ({ onClose, id }) => {
         })()
     },[id])
 
-    const fecthSessions = () => {
-        cinema.movieSessions.map(session => {
-            appLogic.retrieveAllSessions(session.id)
-        })
-    }
+    // const getSessionInfo = () => {
+    //     cinema.movieSessions.map(session => {
+    //         console.log(session)
+    //     })
+    // }
+
+    // if (cinema) {
+    //     getSessionInfo()
+    // }
 
     return (
         <div className="modal">
@@ -30,16 +34,21 @@ const CinemaModal = ({ onClose, id }) => {
 
                     <ul className="cinema__movies">
                         <li className="movie__item">
-                            <img />
-                            <div>
-                                <p>Movie title</p>
-                                <p>Movie info</p>
-                                <p>Movie cast</p>
-                            </div>
-                            <i className="show-sessions" />
-                            <ul className="movie-sessions">
-                                <li className="session"></li>
-                            </ul>
+                            <section>
+                                <img src="https://www.ecartelera.com/carteles/12800/12806/004-th.jpg" />
+                                <div>
+                                    <p>Aladdín</p>
+                                    <p>128 min. | EE.UU. | Música | TP</p>
+                                    <p>Mena Massoud, Billy Magnussen, Naomi Scott, Dir. Guy Ritchie</p>
+                                    <ul className="movie-sessions">
+                                        <li className="session">16:30</li>
+                                        <li className="session">18:00</li>
+                                        <li className="session">19:15</li>
+                                        <li className="session">20:45</li>
+                                        <li className="session">22:00</li>
+                                    </ul>
+                                </div>
+                            </section>
                         </li>
                     </ul>
                 </section>

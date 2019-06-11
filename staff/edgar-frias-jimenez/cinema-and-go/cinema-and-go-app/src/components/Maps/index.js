@@ -1,7 +1,7 @@
 import React from 'react'
 import { GoogleMap, LoadScript } from '@react-google-maps/api'
 
-import { defaultMapZoom } from './config'
+import { defaultMapZoom, defaultMapProps, nightMapProps } from './config'
 const { REACT_APP_MAPS_KEY } = process.env
 
 function GoogleMaps({  customZoom, children }) {
@@ -24,11 +24,11 @@ function GoogleMaps({  customZoom, children }) {
             googleMapsApiKey={REACT_APP_MAPS_KEY}
         >
             <GoogleMap
-                id='example-map'
                 center={userPosition}
                 mapContainerClassName='map-container'
                 mapContainerStyle={{ height: '100vh', width: '100vw' }}
                 zoom={customZoom ? customZoom : zoom}
+                options={nightMapProps}
             >
                 {children}
             </GoogleMap>

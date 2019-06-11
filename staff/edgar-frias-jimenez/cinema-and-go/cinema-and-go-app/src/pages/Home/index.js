@@ -5,6 +5,8 @@ import CustomMarker from '../../components/Marker'
 import CinemaModal from '../../components/CinemaModal'
 import { Circle } from '@react-google-maps/api'
 
+import './index.scss'
+
 const Home = () => {
     const [cinemaPoi, setCinemaPoi] = useState(null)
     const [ modalVisible, setModalVisible ] = useState(false)
@@ -26,7 +28,7 @@ const Home = () => {
         lat: defaultPos[1]
     }
 
-    const threshold = 5500
+    const threshold = 10500
 
     useEffect(() => {
         const cinemas = async () => {
@@ -43,10 +45,9 @@ const Home = () => {
         <section className="home">
             {modalVisible && <CinemaModal onClose={handleCloseModal} id={currentMarker} />}
 
+            <span className="populate" onClick={handlePopulate}> Populate! </span>
+
             <section className="home__content">
-
-            <button className="populate" onClick={handlePopulate}> Populate! </button>
-
             {defaultPos &&
                 <section className="maps">
                     <GoogleMaps
