@@ -9,10 +9,17 @@ import './index.css'
 
 
 class PinForm extends React.Component {
-  state = { showModal: false, coverImage: "" };
+  state = { showModal: false, urlImage: null, errors: {} };
 
   componentDidMount() {
-    this.props.place && this.setState({ showModal: true });
+    this.props.place && this.setState({ showModal: true, urlImage: this.props.place.urlImage || null });
+
+    if (this.props.mapCollections.length === 0) {
+      //poner error en toaster
+      window.alert("You can not create a pin without having a collection")
+      this.setState({ showModal: false });
+      this.props.onCancel();
+    }
   }
 
   handleCloseModal = e => {
@@ -23,42 +30,54 @@ class PinForm extends React.Component {
   };
 
   handleChangeImage = e => {
-    let changedCoverImage = null;
+    let changedUrlImage = null;
     if (e.target.value !== "") {
       try {
         validate.url(e.target.value);
-        changedCoverImage = e.target.value;
+        changedUrlImage = e.target.value;
       } catch {
-        changedCoverImage = null;
+        changedUrlImage = null;
       }
     }
-    this.setState({ coverImage: changedCoverImage });
+    this.setState({ urlImage: changedUrlImage });
   };
 
   handleSubmit = e => {
     e.preventDefault();
     e.stopPropagation();
 
-    //TODO: validar los campos del formulario
+    const validateErrors = {};
+    if (!e.target.title.value || e.target.title.value === "") validateErrors.title = "Title can not be empty";
 
-    const newPin = {
-      id: this.props.place.id,
-      title: e.target.title.value,
-      description: e.target.description.value,
-      urlImage: e.target.urlImage.value,
-      bestTimeOfYear: e.target.bestTimeYear.value,
-      bestTimeOfDay: e.target.bestTimeDay.value,
-      photographyTips: e.target.photoTips.value,
-      travelInformation: e.target.travelInfo.value,
-      coordinates: {
-        latitude: this.props.place.geometry.location.lat,
-        longitude: this.props.place.geometry.location.lng
-      },
-      collection: this.isEditing() ? this.props.place.collection : e.target.collectionSel.value
-    };
+    if (e.target.urlImage.value !== "") {
+      try {
+        validate.url(e.target.urlImage.value);
+      } catch {
+        validateErrors.urlImage = "This is not a correct url";
+      }
+    }
+    if (Object.keys(validateErrors).length !== 0) {
+      this.setState({ errors: validateErrors });
+    } else {
+      const newPin = {
+        id: this.props.place.id,
+        title: e.target.title.value,
+        description: e.target.description.value,
+        urlImage: e.target.urlImage.value,
+        bestTimeOfYear: e.target.bestTimeYear.value,
+        bestTimeOfDay: e.target.bestTimeDay.value,
+        photographyTips: e.target.photoTips.value,
+        travelInformation: e.target.travelInfo.value,
+        coordinates: {
+          latitude: this.props.place.geometry.location.lat,
+          longitude: this.props.place.geometry.location.lng
+        },
+        collection: this.isEditing() ? this.props.place.collection : e.target.collectionSel.value
+      };
 
-    this.setState({ showModal: false });
-    this.props.onSubmit(newPin);
+      this.setState({ showModal: false });
+      this.props.onSubmit(newPin);
+    }
   };
 
   stopPropagation = e => e.stopPropagation;
@@ -104,9 +123,12 @@ class PinForm extends React.Component {
                       <label className="" htmlFor="form-stacked-text">
                         {title}
                       </label>
+                      {this.state.errors.title && (
+                        <span className="uk-text-danger uk-margin-small-left">{this.state.errors.title}</span>
+                      )}
                       <div className="uk-form-controls">
                         <input className="custom-input custom-form-width"
-                          id="form-stacked-text" type="text" name="title" defaultValue={place.title} autoFocus />
+                          id="form-stacked-text" type="text" name="title" defaultValue={place.title} autoFocus required />
                       </div>
                     </div>
                     <div className="mini-margin-top">
@@ -122,6 +144,9 @@ class PinForm extends React.Component {
                       <label className="" htmlFor="form-stacked-text">
                         {urlImage}
                       </label>
+                      {this.state.errors.urlImage && (
+                        <span className="uk-text-danger uk-margin-small-left">{this.state.errors.urlImage}</span>
+                      )}
                       <div className="uk-form-controls">
                         <input className="custom-input custom-form-width"
                           id="form-stacked-text" type="url" name="urlImage" defaultValue={place.urlImage} onChange={handleChangeImage} />
@@ -150,7 +175,7 @@ class PinForm extends React.Component {
                         {photoTips}
                       </label>
                       <div className="uk-form-controls">
-                        <textarea className="custom-form-width"
+                        <textarea className="custom-input custom-form-width"
                           id="form-stacked-text"
                           type="text" name="photoTips" rows="1" cols="25" defaultValue={place.photographyTips} />
                       </div>
@@ -160,7 +185,7 @@ class PinForm extends React.Component {
                         {travelInfo}
                       </label>
                       <div className="uk-form-controls">
-                        <textarea className="custom-form-width"
+                        <textarea className="custom-input custom-form-width"
                           id="form-stacked-text"
                           type="text" name="travelInfo" rows="1" cols="25" defaultValue={place.travelInformation} />
                       </div>
@@ -190,7 +215,7 @@ class PinForm extends React.Component {
                 </div>
                 <div>
                   <div className="uk-card uk-card-default custom-card-body mini-margin-top">
-                    <img src={place.urlImage ? place.urlImage : placeholderImage} width="" height="" alt="" />
+                    <img src={this.state.urlImage ? this.state.urlImage : placeholderImage} width="" height="" alt="" />
                   </div>
                 </div>
               </div>

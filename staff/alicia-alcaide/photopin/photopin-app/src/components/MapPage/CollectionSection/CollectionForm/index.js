@@ -2,6 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import literals from "./literals";
 import Modal from "react-modal";
+import './index.css'
 
 const modalStyles = {
   content: {
@@ -63,26 +64,26 @@ class CollectionForm extends React.Component {
     return (
       <>
         {collection && (
-          <Modal isOpen={showModal} onRequestClose={handleCloseModal} style={modalStyles} ariaHideApp={false}>
-            <div className="modal">
+          <Modal isOpen={showModal} onRequestClose={handleCloseModal} ariaHideApp={false} className="modal-collection-page modal-collection">
+            <div className="uk-container custom-pading-medium">
               <h2>{isEditing() ? headerUpdate : headerAdd}</h2>
               <form onSubmit={handleSubmit}>
                 <span>{title}</span>
                 <input
+                  className="uk-input uk-form-width-large"
                   type="text"
                   name="title"
                   defaultValue={isEditing() ? collection.title : placeholderNewCol}
-                  autoFocus
+                  autoFocus required
                 />
                 <br />
                 <br />
-                <div>
-                  <button type="submit">{isEditing() ? update : add}</button>
-                  <button type="button" onClick={this.handleCloseModal}>
+                <div className="uk-flex uk-flex-center">
+                  <button className="custom-form-button-small" type="submit">{isEditing() ? update : add}</button>
+                  <button className="custom-form-button-small" type="button" onClick={this.handleCloseModal}>
                     {cancel}
                   </button>
                 </div>
-                {/* {error && <span>{error}</span>} */}
               </form>
             </div>
           </Modal>

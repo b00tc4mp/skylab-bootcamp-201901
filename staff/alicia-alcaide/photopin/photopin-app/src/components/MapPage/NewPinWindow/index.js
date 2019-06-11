@@ -4,6 +4,7 @@ import { placeType } from "../../../types";
 import literals from "./literals";
 import iconPin from '../../../assets/icons/icon_pin.png';
 import iconCancel from '../../../assets/icons/icon_undo_back.png';
+import iconClose from '../../../assets/icons/icon_close.png';
 
 
 const NewPinWindow = props => {
@@ -38,7 +39,7 @@ const NewPinWindow = props => {
           <img className="" src={iconPin} height="15" width="15" alt="" />
         </button>
         <button className="uk-button uk-button-default uk-button-small" type="button" onClick={() => props.onCancel(place.id)}>
-          <img className="" src={iconCancel} height="18" width="18" alt="" />
+          <img className="" src={iconClose} height="18" width="18" alt="" />
         </button>
       </div>
     </div>
