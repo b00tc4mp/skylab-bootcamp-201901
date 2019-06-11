@@ -4,11 +4,11 @@ import { ACCEPT, DENIEDBYPROVIDER, DENIEDBYUSER, PENDING } from '../../enums';
 
 export function CustomerBasic({ customerRequest, onClick }) {
   return (
-    <IonItem >
+    <IonItem onClick={onClick}>
       <IonAvatar slot="start">
         <IonImg src={customerRequest.customer.portraitImageUrl} />
       </IonAvatar>
-      <IonLabel onClick={onClick}>{`${customerRequest.customer.name} ${customerRequest.customer.surname}`}</IonLabel>
+      <IonLabel>{`${customerRequest.customer.name} ${customerRequest.customer.surname}`}</IonLabel>
       {(() => {
         if (!customerRequest.request) return <IonIcon slot="end" name="help" />;
         switch (customerRequest.request.status) {

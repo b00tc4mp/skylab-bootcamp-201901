@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "scripts": {
     "start": "ts-node ./src/index.ts",
+    "build": "rm -rf dist && tsc",
     "dev": "ts-node-dev .",
     "dev:debug": "ts-node-dev --inspect --respawn .",
     "reinstall": "rm -rf node_modules && npm install",

@@ -7,5 +7,6 @@ export function expectError (response: any, errorName?: string, errorMessage?: s
   const error = response.errors![0];
   expect(error).to.be.instanceof(GraphQLError);
   if (errorName) expect(error.originalError!.name).to.be.equal(errorName)
-  if (errorMessage) expect(error.message).to.be.equal(errorMessage);  
+  if (errorMessage) expect(error.message).to.be.equal(errorMessage);
+  return true  
 }

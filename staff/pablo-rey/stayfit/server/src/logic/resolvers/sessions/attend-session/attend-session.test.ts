@@ -19,7 +19,7 @@ import {
   OK,
   PENDINGAPPROVAL,
 } from '../../../../data/enums';
-import { CANCELLEDBYUSER } from './../../../../../../app/src/enums';
+import { CANCELLEDBYUSER } from './../../../../data/enums';
 import { User } from '../../../../data/models/user';
 import { Session, SessionModel } from '../../../../data/models/session';
 import { Attendance, AttendanceModel } from '../../../../data/models/attendance';

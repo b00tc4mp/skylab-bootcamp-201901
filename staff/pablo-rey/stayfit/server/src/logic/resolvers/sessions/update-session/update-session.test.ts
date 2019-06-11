@@ -1,5 +1,4 @@
-import { SessionType } from './../../../../data/models/session-type';
-import { FINISHED, PRIVATE } from './../../../../../../app/src/enums';
+import { FINISHED, PRIVATE } from './../../../../data/enums';
 import { User } from './../../../../data/models/user';
 import { gql } from 'apollo-server';
 import * as chai from 'chai';

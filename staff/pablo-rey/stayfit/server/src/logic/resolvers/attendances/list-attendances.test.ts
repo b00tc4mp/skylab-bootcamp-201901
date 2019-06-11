@@ -1,3 +1,4 @@
+import { User } from './../../../data/models/user';
 import { gql } from 'apollo-server-express';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';

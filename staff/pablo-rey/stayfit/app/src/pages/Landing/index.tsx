@@ -5,19 +5,22 @@ import './index.css';
 
 export default function Landing() {
   return (
-    <div className="back-image">
-      <div className="logo">
-        <img className="logo__img" src="/logo.png" />
-        <img className="logo__text" src="/text-logo.png" />
-        <div>
-          <Link className="landing__button" to="/register">
-            <IonButton expand="block">Register</IonButton>
-          </Link>
-          <Link to="/login">
-            <IonButton expand="block">Login</IonButton>
-          </Link>
-        </div>{' '}
-      </div>
-    </div>
+    <IonPage>
+      <IonContent>
+        <div className="back-image">
+          <div className="container">
+            <img src="/logo-with-text.png" className="logo__img" />
+            <div className="landing__buttons-container">
+              <Link className="landing__button" to="/register">
+                <IonButton size="large" expand="block">Register</IonButton>
+              </Link>
+              <Link className="landing__button" to="/login">
+                <IonButton size="large" expand="block">Login</IonButton>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </IonContent>
+    </IonPage>
   );
 }

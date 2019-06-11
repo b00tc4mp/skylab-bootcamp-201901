@@ -1,5 +1,5 @@
 import { ACCEPT } from './../../../data/enums';
-import { REQUESTBECUSTOMER } from './../../../../../app/src/enums';
+import { REQUESTBECUSTOMER } from './../../../data/enums';
 import { RequestCustomer, RequestCustomerModel } from './../../../data/models/request';
 import { gql } from 'apollo-server';
 import * as chai from 'chai';
