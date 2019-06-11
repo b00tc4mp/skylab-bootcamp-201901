@@ -49,8 +49,9 @@ const [userName, setUserName] = useState('')
 
         <div class='navbar-end'>
           <div class='navbar-item'>
-
-            { logic.isUserLoggedIn && <NavCard quantity={quantity}/>}
+            <div onClick={()=> history.push('/cart')} >
+            { logic.isUserLoggedIn && <NavCard quantity={quantity} />}
+            </div>
             <div class='buttons'>
               {!logic.isUserLoggedIn && (
                 <a class='button is-primary' onClick={e => history.push("/register")}>
@@ -75,11 +76,6 @@ const [userName, setUserName] = useState('')
                   
                   }}>
                   LogOut
-                </a>
-              )}
-              {logic.isUserLoggedIn && (
-                <a class='button is-light' onClick={e => history.push("/login")}>
-                  Orders
                 </a>
               )}
             </div>

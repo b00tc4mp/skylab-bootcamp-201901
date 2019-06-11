@@ -115,18 +115,16 @@ const logic = {
       try {
         debugger
         const userDb = await dataApi.retrieveUser(token)
-        let quantity
         let productUserCart
-        if (userDb.cart.length > 0) {
+        if (userDb.cart.length === 0) {
+          await dataApi.addProductToCart(token, 1 ,productId)
+        } else {
           productUserCart = userDb.cart.find( product => product.productId === productId)
           if(!productUserCart){
-            quantity = 1
-            await dataApi.addProductToCart(token, quantity ,productId)
-          } else {
-            const quantitySum = productUserCart.quantity + 1
-            await dataApi.addProductToCart(token, quantitySum ,productId)
+            await dataApi.addProductToCart(token, 1 ,productId)
+          } else { 
+            await dataApi.addProductToCart(token, productUserCart.quantity + 1 ,productId)
           }
-
         }
       } catch(err) {
         throw new LogicError(err.message)
@@ -156,20 +154,18 @@ const logic = {
 
     })();
 
+  },
+
+  retrieveCart(){
+    return ( async ()=>{
+      try{
+        const userCart = await dataApi.retrieveCart(logic.__userToken__)
+        return userCart
+      } catch(err) {
+        throw new LogicError(err.message)
+      }
+
+    })();
   }
-
-
-
-  // takeOutProductToCart(token, quantity ,productId){
-  //   return ( async () => {
-  //     try {
-  //       return await dataApi.addProductToCart(userId, productId)
-  //     } catch(err) {
-  //       throw new LogicError(err.message)
-  //     }
-
-  //   })();
-
-  // }
 }
 module.exports = logic;

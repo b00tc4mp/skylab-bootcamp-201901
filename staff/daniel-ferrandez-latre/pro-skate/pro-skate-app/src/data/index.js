@@ -214,6 +214,7 @@ const dataApi = {
             { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
         return( async () => {
+            debugger
             const res = await call(`${this.__url__}/users/cart`, {
                 method: 'GET',
                 headers: { 

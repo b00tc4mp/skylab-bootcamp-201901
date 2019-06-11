@@ -4,7 +4,7 @@ import {withRouter} from 'react-router-dom'
 import './index.sass'
 
 function Card({history,  product, handleProductDetail }) {
-  // const [productId, setProductId] = useState('')
+  // const [productId, setProductId] = suseState('')
 
 
   return (

@@ -9,6 +9,7 @@ import "bulma/bulma.sass";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import Detail from './components/Detail'
+import Cart from './components/Cart'
 import logic from './logic';
 
 
@@ -16,15 +17,14 @@ import logic from './logic';
 function App({history}) {
   const [userName, setUserName] = useState('')
   const [quantity, setQuantity] = useState('')
-  const [productDetail, setProductDetail] = useState({})
-  const [cartQuantity, setCartQuantity] = useState('')
+  const [cartItems, setCartItems] = useState([])
 
 useEffect( async ()=>{
   
   logic.isUserLoggedIn && await cartItemsQuantity()
 
 }, [])
- 
+
 
   const handleProductDetail = async (id) => {
     console.log(id)
@@ -43,16 +43,33 @@ useEffect( async ()=>{
   const cartItemsQuantity =  async () => {
     debugger
     if(logic.isUserLoggedIn) {
-      const user = await logic.retrieveUser(logic.__userToken__)
-      const cart = user.cart
+      debugger
+      const cart = await logic.retrieveCart()
       let quantity = 0
       cart.forEach(product => {
         quantity = quantity + product.quantity
       });
       setQuantity(quantity)
+      setCartItems(cart)
       //return quantity
     }
   }
+  // const cartItemsQuantity =  async () => {
+  //   debugger
+  //   if(logic.isUserLoggedIn) {
+  //     const user = await logic.retrieveUser(logic.__userToken__)
+  //     const cart = user.cart
+  //     let quantity = 0
+  //     cart.forEach(product => {
+  //       quantity = quantity + product.quantity
+  //     });
+  //     setQuantity(quantity)
+  //     setCartItems(cart)
+  //     //return quantity
+  //   }
+  // }
+
+
   
   return (
     <div className='App'>
@@ -62,6 +79,7 @@ useEffect( async ()=>{
         <Route exact path='/register' render={() => <Register />} />
         <Route exact path='/login' render={() => <Login userIsLogged={userLogged} />} />
         <Route exact path={`/detail/:id`} render={() => <Detail userLogged={userLogged} cartItemsQuantity={cartItemsQuantity}/>} /> 
+        <Route exact path='/cart' render={() => <Cart userLogged={userLogged} cartItems={cartItems} cartItemsQuantity={cartItemsQuantity}/>} />
       </Switch>
     </div>
   );

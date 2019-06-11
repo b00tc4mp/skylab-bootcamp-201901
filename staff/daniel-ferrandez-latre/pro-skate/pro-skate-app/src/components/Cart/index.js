@@ -1,39 +1,44 @@
 import React, { useState, useEffect } from "react";
 import {withRouter} from 'react-router-dom'
 import logic from "../../logic";
+import CartItem from "../CartItem"
+import './index.sass'
 
-function Cart({userLogged}) {
+function Cart({userLogged, cartItems, cartItemsQuantity}) {
 
-
+  
   userLogged()
 
   return(
     <>
+    <ul>
+      {cartItems.map((product) =>{
+        return( 
+          <li>
+            <CartItem product={ product } cartItemsQuantity={cartItemsQuantity}/>
+          </li>
+        )
+      })}
+    </ul>
     
-    <div className='container'>
-  <section class='section'>
-    <div class='container'>
-      <h1 class='title'> Your orders</h1>
-    </div>
-  </section>
-    <section className='card is-horizontal columns'>
-      
-    <section class='section'>
-    <div class='container'>
-      <h3 class='title'> Order </h3>
-    </div>
-  </section>  <section class='section'>
-    <div class='container'>
-      <h3 class='title'> Order</h3>
-    </div>
-  </section>  <section class='section'>
-    <div class='container'>
-      <h3 class='title'> Order</h3>
-    </div>
-  </section>
+    {/* <div className='cart'>
+      <ul>
+        <li className="cart-item columns">
+          <div className="column is-2 is-offset-1">
+            <img src=""/>
+            aaa
+          </div>
+          <div className="column is-2">aa</div>
+          <div className="column is-2">aaa</div>
+          <div className="column is-2">aa</div>
+          <div className="column is-2">aa</div>
+        </li>
+      </ul>
+  
     
-    </section>
-  </div>
+    </div> */}
+
+
     
     
     </>

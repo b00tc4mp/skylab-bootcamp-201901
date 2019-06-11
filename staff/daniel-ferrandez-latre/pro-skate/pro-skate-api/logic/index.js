@@ -258,8 +258,7 @@ const logic = {
         return( async ()=>{
             const userBd = await User.findById(idUser).populate('cart.productId')
             if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
-            if(userBd.cart.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his cart`)
-            
+            /* if(userBd.cart.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his cart`) */
             return userBd.cart
         })()
     },

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import {withRouter} from 'react-router-dom'
 import logic from "../../logic";
+import Tags from "../Tags"
 import './index.sass'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
@@ -38,8 +39,6 @@ function Detail({userLogged, match, cartItemsQuantity }) {
   }
 
   async function handleTakeOfCart() {
-    debugger
-    console.log(logic.__userToken__)
     if (logic.__userToken__) {
       await logic.takeOutProductToCart(logic.__userToken__, id);
       await cartItemsQuantity()
@@ -83,6 +82,8 @@ function Detail({userLogged, match, cartItemsQuantity }) {
               <br/>
               <p>{detail.price}€</p>
             </div>
+
+          
             <div className='buttons'>
               <div id="add" className='button' onClick={e =>  handleAddToCart()}>
                 <FontAwesomeIcon icon={faPlus} className='g-ShoppingBasket__icon' />

@@ -589,7 +589,6 @@ describe("logic", () => {
 
         expect(() => logic.updateUser(id, {})).to.throw(RequirementError, `id is not optional`);
       });
-
       it("should fail on empty id", () => {
         const id = "";
 
