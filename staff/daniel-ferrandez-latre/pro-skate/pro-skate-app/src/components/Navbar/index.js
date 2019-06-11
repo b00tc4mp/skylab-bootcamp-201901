@@ -4,8 +4,9 @@ import logo from "../../assets/img/logo.png";
 import logic from "../../logic";
 import NavCard from '../NavCard'
 
-function Navbar({ history, userLogged}) {
+function Navbar({ history, userLogged, quantity}) {
 const [userName, setUserName] = useState('')
+
 
 /* userLogged() */
 
@@ -48,7 +49,8 @@ const [userName, setUserName] = useState('')
 
         <div class='navbar-end'>
           <div class='navbar-item'>
-            <NavCard/>
+
+            { logic.isUserLoggedIn && <NavCard quantity={quantity}/>}
             <div class='buttons'>
               {!logic.isUserLoggedIn && (
                 <a class='button is-primary' onClick={e => history.push("/register")}>

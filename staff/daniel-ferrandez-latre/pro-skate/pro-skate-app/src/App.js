@@ -1,4 +1,4 @@
-import React , { useState }from "react";
+import React , { useState, useEffect }from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import { Switch, Route  } from "react-router-dom";
@@ -15,9 +15,15 @@ import logic from './logic';
 
 function App({history}) {
   const [userName, setUserName] = useState('')
+  const [quantity, setQuantity] = useState('')
   const [productDetail, setProductDetail] = useState({})
+  const [cartQuantity, setCartQuantity] = useState('')
 
+useEffect( async ()=>{
   
+  logic.isUserLoggedIn && await cartItemsQuantity()
+
+}, [])
  
 
   const handleProductDetail = async (id) => {
@@ -29,19 +35,33 @@ function App({history}) {
 
   const userLogged = ( async () => {
     if(logic.isUserLoggedIn) {
-      const userBd = await logic.retrieveUser(logic.__userToken__)
-      setUserName(userBd.name)
+      const user = await logic.retrieveUser(logic.__userToken__)
+      setUserName(user.name)
     }
   })
 
+  const cartItemsQuantity =  async () => {
+    debugger
+    if(logic.isUserLoggedIn) {
+      const user = await logic.retrieveUser(logic.__userToken__)
+      const cart = user.cart
+      let quantity = 0
+      cart.forEach(product => {
+        quantity = quantity + product.quantity
+      });
+      setQuantity(quantity)
+      //return quantity
+    }
+  }
+  
   return (
     <div className='App'>
-      <Navbar  userLogged={userLogged} username={userName}/>
+      <Navbar  userLogged={userLogged} username={userName}  quantity={quantity}/>
       <Switch>
         <Route exact path='/landing' render={() => <Landing handleProductDetail={handleProductDetail} />} />
         <Route exact path='/register' render={() => <Register />} />
         <Route exact path='/login' render={() => <Login userIsLogged={userLogged} />} />
-        <Route exact path={`/detail/:id`} render={() => <Detail userLogged={userLogged} />} /> 
+        <Route exact path={`/detail/:id`} render={() => <Detail userLogged={userLogged} cartItemsQuantity={cartItemsQuantity}/>} /> 
       </Switch>
     </div>
   );

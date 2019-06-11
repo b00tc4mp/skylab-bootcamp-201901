@@ -6,7 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faMinus } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 
-function Detail({userLogged, match }) {
+function Detail({userLogged, match, cartItemsQuantity }) {
   const [modalLogin, setModalLogin] = useState("modal");
   const [messageError, setErrorMessage] = useState(null);
   const [detail, setDetail] = useState({})
@@ -30,6 +30,8 @@ function Detail({userLogged, match }) {
     console.log(logic.__userToken__)
     if (logic.__userToken__) {
       await logic.addProductToCart(logic.__userToken__, id);
+      debugger
+      await cartItemsQuantity()
     } else {
       setModalLogin("modal is-active");
     }
@@ -40,6 +42,7 @@ function Detail({userLogged, match }) {
     console.log(logic.__userToken__)
     if (logic.__userToken__) {
       await logic.takeOutProductToCart(logic.__userToken__, id);
+      await cartItemsQuantity()
     } else {
       setModalLogin("modal is-active");
     }
@@ -129,7 +132,7 @@ function Detail({userLogged, match }) {
                   )}
                 </div>
               </div>
-              <button className='modal-close is-large' aria-label='close' />
+              <button className='modal-close is-large' aria-label='close' onClick={()=> setModalLogin('modal')} />
             </div>
           }
         </section>
