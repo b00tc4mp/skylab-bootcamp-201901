@@ -9,7 +9,7 @@ function Motor({deviceName, pinNumber, onMotorChange}){
         </div>
         <div className="uk-card-body">
             <div className='uk-container'>
-                <img className='uk-margin-large-bottom' src="https://img.icons8.com/wired/64/000000/engine.png" />
+                <img alt='motor' className='uk-margin-large-bottom' src="https://img.icons8.com/wired/64/000000/engine.png" />
                 <input type="range" min="0" max="100" defaultValue='0' className="uk-range uk-padding-remove-bottom" id="myRange" onMouseUp={e => onMotorChange(deviceName, pinNumber, e.target.value)} />
             </div>
         </div>

@@ -109,10 +109,9 @@ const logic = {
                 const response = await restApi.checkDevice(this.__userToken__, deviceIp, devicePort)
                 return response
             } catch (error) {
-                if ((error == 'Connection refused') || (error.message == 'Connection timed out')||(error.includes('ENOTFOUND')))
+                if ((error === 'Connection refused') || (error.message === 'Connection timed out')||(error.includes('ENOTFOUND')))
                 throw new LogicError(`Can't find any device with ip: ${deviceIp} and port: ${devicePort}`)
-                else {console.log(error)
-                throw new LogicError(error)}
+                else throw new LogicError(error)
             }
         })()
     },
@@ -226,7 +225,6 @@ const logic = {
             try {
                 const response = await restApi.toggleDigitalOutput(this.__userToken__,deviceName, pinNumber)
                 if(response.status) return response.status
-                else return 'no response'
             } catch (error) {
                 throw new LogicError(error)
             }
@@ -280,8 +278,8 @@ const logic = {
                         value,
                         date
                     })
+                    return resultsArr
                 })
-                return resultsArr
             } catch (error) {
                 throw new LogicError(error)
             }
@@ -304,8 +302,8 @@ const logic = {
                         value,
                         date
                     })
+                    return resultsArr
                 })
-                return resultsArr
             } catch (error) {
                 throw new LogicError(error)
             }
@@ -314,7 +312,7 @@ const logic = {
 }
 
 //TESTING
-module.exports = logic
+// module.exports = logic
 
 //REACT
-//  export default logic
+ export default logic

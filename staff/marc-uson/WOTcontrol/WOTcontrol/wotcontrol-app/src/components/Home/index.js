@@ -4,6 +4,7 @@ import Device from '../Device'
 import './index.css'
 
 function Home({
+    user,
     onLogout,
     device,
     deviceStatus,
@@ -26,6 +27,7 @@ function Home({
 
     return <div>
         <Navbar
+            user={user}
             onLogout={onLogout}
             device={device}
             deviceStatus={deviceStatus}

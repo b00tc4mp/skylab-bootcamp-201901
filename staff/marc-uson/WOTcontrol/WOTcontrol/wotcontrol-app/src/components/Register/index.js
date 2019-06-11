@@ -1,4 +1,4 @@
-import React, { useContext }  from 'react'
+import React from 'react'
 import logoGreen from '../../assets/images/logoTextShortGreen.png'
 
 function Register({ onRegister, navigateToLogin }) {
@@ -17,7 +17,7 @@ function Register({ onRegister, navigateToLogin }) {
     return <div className='card uk-flex uk-flex-center uk-position-center' >
         <div className='uk-card-body uk-width-xlarge uk-padding uk-text-center'>
             <div >
-                <img width="232" height="184" src={logoGreen} />
+                <img alt='WOTcon logo' width="232" height="184" src={logoGreen} />
                 <p className="select-none" >The easiest way to monitor & control your process</p>
             </div>
             <form className="uk-form-stacked" onSubmit={handleSubmit}>
@@ -31,7 +31,7 @@ function Register({ onRegister, navigateToLogin }) {
                 </div>
                 <button className="uk-button uk-button-default uk-margin-top">Sign Up</button>
             </form>
-            <p className="select-none" >or <a onClick={navigateToLogin}>Login</a></p>
+            <p className="select-none" onClick={e => e.preventDefault()} >or <a href=" " onClick={navigateToLogin}>Login</a></p>
         </div>
     </div>
 

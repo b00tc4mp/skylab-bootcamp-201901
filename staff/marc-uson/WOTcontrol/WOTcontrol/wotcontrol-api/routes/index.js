@@ -205,11 +205,8 @@ router.get('/devices/:name/inputs/analog', auth,jsonParser, (req, res) => {
 
 router.post('/devices/:name/inputs/digital', jsonParser, (req, res) => {
     const {params: { name }, body: { userid: userId, din1, din2 } } = req
-    console.log(userId, din1, din2)
     const _value1 = Number(din1)
     const _value2 = Number(din2)
-    console.log('numbers:'+_value1+', '+_value2)
-
     handleErrors(async () => {
         await logic.saveDigitalInput(userId, name, _value1, 1)
         await logic.saveDigitalInput(userId, name, _value2, 2)

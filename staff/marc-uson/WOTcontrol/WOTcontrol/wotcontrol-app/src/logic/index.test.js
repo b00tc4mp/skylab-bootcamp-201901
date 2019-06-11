@@ -6,7 +6,7 @@ const logic = require('.')
 const restApi = require('../rest-api')
 require('dotenv').config()
 
-const { env: { MONGO_URL_API_TEST: url } } = process
+const { env: { MONGO_URL_API: url } } = process
 
 const { Users, Devices } = models
 
@@ -314,6 +314,13 @@ describe('Logic', () => {
                 expect(user.password).to.not.exist
             })
 
+            it('should succeed on correct user logged in', async () => {
+                const response = logic.isUserLoggedIn
+
+                expect(response).to.exist
+                expect(response).to.be.true
+            })
+
             it('should fail on incorrect user token', async () => {
                 logic.__userToken__ ='invalid token'
                 try {
@@ -323,6 +330,23 @@ describe('Logic', () => {
                     expect(error).to.exist
                     expect(error.message).to.equal(`jwt malformed`)
                 }
+            })
+        })
+
+        describe('logout user', () => {
+            let _password
+
+            beforeEach(async () => {
+                _password = bcrypt.hashSync(password, 10)
+                await Users.create({ name, surname, email, password: _password })
+
+                const { token:_token } = await restApi.authenticateUser(email,password)
+                logic.__userToken__ = _token
+            })
+
+            it('should succeed on correct logout', () => {
+                logic.logoutUser()
+                expect(logic.__userToken__).to.be.undefined
             })
         })
 
@@ -492,7 +516,7 @@ describe('Logic', () => {
             logic.__userToken__ = _token
         })
 
-        describe.only('check if WOTdevice exists', () => {
+        describe('check if WOTdevice exists', () => {
             it('should succed on checking the selected WOTdevice', async () => {
                 const response = await logic.checkDevice(deviceIp, devicePort)
 
@@ -623,6 +647,54 @@ describe('Logic', () => {
                 expect(user.devices[0].outputs[6].direction).to.equal(2)
             })
 
+            it('should fail on device name with spaces', async () => {
+                let _deviceName="device 123"
+
+                try {
+                    await logic.addDevice(_deviceName, deviceIp, devicePort, timeInterval)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`The device name can not include spaces`)
+                }
+            })
+
+            it('should fail on wrong device ip', async () => {
+                let _deviceIp = '0.0.0.0'
+
+                try {
+                    await logic.addDevice(deviceName, _deviceIp, devicePort, timeInterval)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`Connection refused`)
+                }
+            })
+
+            it('should fail on wrong device port', async () => {
+                let _devicePort = 89
+
+                try {
+                    await logic.addDevice(deviceName, deviceIp, _devicePort, timeInterval)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`Connection refused`)
+                }
+            })
+
+            it('should fail on undefined token', async () => {
+                logic.__userToken__ = 'invalid token'
+
+                try {
+                    await logic.addDevice(deviceName, deviceIp, devicePort, timeInterval)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`jwt malformed`)
+                }
+            })
+
             it('should fail on undefined deviceName', () => {
                 const deviceName = undefined
 
@@ -732,6 +804,18 @@ describe('Logic', () => {
                 expect(user.devices).to.have.lengthOf(0)
             })
 
+            it('should fail on wrong device name', async () => {
+                let _deviceName = 'anything'
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                try {
+                    await logic.deleteDevice(_deviceName)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`A device named ${_deviceName} does not exist`)
+                }
+            })
+
             it('should fail on undefined deviceName', () => {
                 const deviceName = undefined
 
@@ -775,6 +859,18 @@ describe('Logic', () => {
                 expect(user.devices[0].outputs).to.exist
             })
 
+            it('should fail on wrong device name', async () => {
+                let _deviceName = 'anything'
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                try {
+                    await logic.retrieveDevice(_deviceName)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`A device named ${_deviceName} does not exist in your collection`)
+                }
+            })
+
             it('should fail on undefined deviceName', () => {
                 const deviceName = undefined
 
@@ -814,6 +910,18 @@ describe('Logic', () => {
                 expect(user.devices).to.exist
                 expect(user.devices).to.have.lengthOf(1)
                 expect(user.devices[0].name).to.equal(newDeviceName)
+            })
+
+            it('should fail on wrong device name', async () => {
+                let _deviceName = 'anything'
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                try {
+                    await logic.renameDevice(_deviceName, newDeviceName)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`A device named ${_deviceName} does not exist in your collection`)
+                }
             })
 
             it('should fail on undefined deviceName', () => {
@@ -875,6 +983,30 @@ describe('Logic', () => {
                 expect(response).to.exist
                 expect(response).to.equal('Device refresh time updated')
 
+            })
+
+            it('should fail on wrong device name', async () => {
+                let _deviceName = 'anything'
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                try {
+                    await logic.changeDeviceTime(_deviceName, timeInterval)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`A device named ${_deviceName} does not exist in your collection`)
+                }
+            })
+
+            it('should fail on wrong time interval', async () => {
+                let _timeInterval = 20
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                try {
+                    await logic.changeDeviceTime(deviceName, _timeInterval)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`time interval ${_timeInterval} is too low. must be at least 1000`)
+                }
             })
 
             it('should fail on undefined deviceName', () => {
@@ -943,6 +1075,34 @@ describe('Logic', () => {
                 expect(_response).to.equal('OFF')
             })
 
+            it('should fail on wrong device name', async () => {
+                let _deviceName = 'anything'
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                await restApi.changeDeviceId(logic.__userToken__, deviceName, deviceName)
+                await restApi.addOutput(logic.__userToken__, deviceName, 'digital', pinNumber)
+                try {
+                    await await logic.toggleDigitalOutput(_deviceName, pinNumber)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`A device named ${_deviceName} does not exist in your collection`)
+                }
+            })
+
+            it('should fail on wrong pin number', async () => {
+                let _pinNumber = 4
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                await restApi.changeDeviceId(logic.__userToken__, deviceName, deviceName)
+                await restApi.addOutput(logic.__userToken__, deviceName, 'digital', pinNumber)
+                try {
+                    await await logic.toggleDigitalOutput(deviceName, _pinNumber)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`${_pinNumber} is not a valid digital pinNumber`)
+                }
+            })
+
             it('should fail on undefined deviceName', () => {
                 const deviceName = undefined
 
@@ -1008,6 +1168,34 @@ describe('Logic', () => {
 
                 expect(_response).to.exist
                 expect(_response).to.equal(15)
+            })
+
+            it('should fail on wrong device name', async () => {
+                let _deviceName = 'anything'
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                await restApi.changeDeviceId(logic.__userToken__, deviceName, deviceName)
+                await restApi.addOutput(logic.__userToken__, deviceName, 'servo', pinNumber)
+                try {
+                    await logic.setServo(_deviceName, pinNumber, angle)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`A device named ${_deviceName} does not exist in your collection`)
+                }
+            })
+
+            it('should fail on wrong pin number', async () => {
+                let _pinNumber = 4
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                await restApi.changeDeviceId(logic.__userToken__, deviceName, deviceName)
+                await restApi.addOutput(logic.__userToken__, deviceName, 'servo', pinNumber)
+                try {
+                    await logic.setServo(deviceName, _pinNumber, angle)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`${_pinNumber} is not a valid servo direction`)
+                }
             })
 
             it('should fail on undefined deviceName', () => {
@@ -1099,6 +1287,34 @@ describe('Logic', () => {
 
                 expect(_response).to.exist
                 expect(_response).to.equal(15)
+            })
+
+            it('should fail on wrong device name', async () => {
+                let _deviceName = 'anything'
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                await restApi.changeDeviceId(logic.__userToken__, deviceName, deviceName)
+                await restApi.addOutput(logic.__userToken__, deviceName, 'motor', pinNumber)
+                try {
+                    await logic.setMotor(_deviceName, pinNumber, speed)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`A device named ${_deviceName} does not exist in your collection`)
+                }
+            })
+
+            it('should fail on wrong pin number', async () => {
+                let _pinNumber = 4
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                await restApi.changeDeviceId(logic.__userToken__, deviceName, deviceName)
+                await restApi.addOutput(logic.__userToken__, deviceName, 'motor', pinNumber)
+                try {
+                    await logic.setMotor(deviceName, _pinNumber, speed)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`${_pinNumber} is not a valid motor direction`)
+                }
             })
 
             it('should fail on undefined deviceName', () => {
@@ -1197,6 +1413,20 @@ describe('Logic', () => {
                 expect(response[0]._id).to.not.exist
             })
 
+            it('should fail on wrong device name', async () => {
+                let _deviceName = 'anything'
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                await restApi.changeDeviceId(logic.__userToken__, deviceName, deviceName)
+                await restApi.addInput(logic.__userToken__, deviceName, 'analog', pinNumber)
+                try {
+                    await logic.retrieveAnalog(_deviceName)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`A device named ${_deviceName} does not exist in your collection`)
+                }
+            })
+
             it('should fail on undefined deviceName', () => {
                 const deviceName = undefined
 
@@ -1243,6 +1473,34 @@ describe('Logic', () => {
                 expect(response[0].value).to.exist
                 expect(response[0].date).to.exist
                 expect(response[0]._id).to.not.exist
+            })
+
+            it('should fail on wrong device name', async () => {
+                let _deviceName = 'anything'
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                await restApi.changeDeviceId(logic.__userToken__, deviceName, deviceName)
+                await restApi.addInput(logic.__userToken__, deviceName, 'digital', pinNumber)
+                try {
+                    await logic.retrieveDigital(_deviceName, pinNumber)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`A device named ${_deviceName} does not exist in your collection`)
+                }
+            })
+
+            it('should fail on wrong device pin number', async () => {
+                let _pinNumber = 4
+                await restApi.addDevice(logic.__userToken__, deviceName, deviceIp, devicePort)
+                await restApi.changeDeviceId(logic.__userToken__, deviceName, deviceName)
+                await restApi.addInput(logic.__userToken__, deviceName, 'digital', pinNumber)
+                try {
+                    await logic.retrieveDigital(deviceName, _pinNumber)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.exist
+                    expect(error.message).to.equal(`no digital input declared in the WOTdevice newWOTDevice`)
+                }
             })
 
             it('should fail on undefined deviceName', () => {

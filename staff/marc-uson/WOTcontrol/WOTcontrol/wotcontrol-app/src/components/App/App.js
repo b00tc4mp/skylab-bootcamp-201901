@@ -21,11 +21,11 @@ function App(props) {
 
     useEffect(() => {
         const [, main, device] = props.location.pathname.split('/')
-        if (main == "home") {
+        if (main === "home") {
             if(device)handleRetrieveDevice(device)
             handleUpdate()
         }
-    },[])
+    },)
 
     const handleUpdate = async () => {
         let devicesArr = []
@@ -128,7 +128,6 @@ function App(props) {
             setDeviceStatus(response.status)
             const _interval = Number(response.interval)
             setInterval(_interval)
-            console.log(device)
         } catch (error) {
             Uikit.notification({ message: error.message, status: 'danger' })
         }
@@ -141,7 +140,10 @@ function App(props) {
             await handleRetrieveDevice(name)
             Uikit.notification({ message: `Device ${name} succesfully refreshed`, status: 'succes' })
         } catch (error) {
+            Uikit.notification.closeAll()
             Uikit.notification({ message: error.message, status: 'danger' })
+            setDeviceStatus('OFF')
+            setInterval(20000)
         }
     }
 
@@ -169,7 +171,7 @@ function App(props) {
         const _pin= Number(pin)
         const _angle = Number(angle)
         try {
-            const angle = await logic.setServo(name, _pin, _angle)
+            await logic.setServo(name, _pin, _angle)
 
             handleUpdate()
         } catch (error) {
@@ -189,8 +191,10 @@ function App(props) {
             setDigital1Val(value1)
             setDigital2Val(value2)
         } catch (error) {
+            Uikit.notification.closeAll()
             Uikit.notification({ message: error.message, status: 'danger' })
             setDeviceStatus('OFF')
+            setInterval(20000)
         }
     }
 
