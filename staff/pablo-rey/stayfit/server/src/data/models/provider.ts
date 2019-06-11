@@ -1,6 +1,7 @@
 import { Field, ID, ObjectType, Authorized } from 'type-graphql';
 import { arrayProp, instanceMethod, prop, Ref, Typegoose } from 'typegoose';
 import { User } from './user';
+import { SessionType } from './session-type';
 
 @ObjectType()
 export class Provider extends Typegoose {
@@ -23,6 +24,10 @@ export class Provider extends Typegoose {
   @arrayProp({ itemsRef: { name: 'User' } })
   customers: Ref<User>[];
 
+  @Field(returns => [SessionType])
+  @arrayProp({ itemsRef: SessionType, default: []})
+  sessionTypes: SessionType[];
+
   @Field()
   @prop({ required: true, default: 'fitness'})
   icon : string;
@@ -31,24 +36,18 @@ export class Provider extends Typegoose {
   uploadedBanner: string;
 
   @Field(() => String)
-  @prop() // this will create a virtual property called 'fullName'
+  @prop()
   get bannerImageUrl() {
-    return this.uploadedBanner || 'default';
-  }
-  set bannerImageUrl(img) {
-    this.uploadedBanner = img;
+    return (this as any)._doc.uploadedBanner || 'default';
   }
 
   @prop({ default: '' })
   uploadedPortrait: string;
 
   @Field(() => String)
-  @prop() // this will create a virtual property called 'fullName'
+  @prop()
   get portraitImageUrl() {
-    return this.uploadedPortrait || 'default';
-  }
-  set portraitImageUrl(img) {
-    this.uploadedPortrait = img;
+    return (this as any)._doc.uploadedPortrait || 'default';
   }
 
   @Field()

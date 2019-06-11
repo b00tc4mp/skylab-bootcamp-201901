@@ -26,23 +26,30 @@ export const PRIVATE = 'PRIVATE';
 
 export const SESSIONVISIBILITY = [PUBLIC, ONLY_REGISTERED, OWN_CUSTOMERS, OWN_STAFF, PRIVATE];
 
-
 // Request
 
 export const REQUESTBECUSTOMER = 'REQUESTBECUSTOMER';
 export const REQUESTBEPROVIDER = 'REQUESTBEPROVIDER';
 
-export const REQUESTTYPES = [REQUESTBECUSTOMER, REQUESTBEPROVIDER]
+export const REQUESTTYPES = [REQUESTBECUSTOMER, REQUESTBEPROVIDER];
 
-export const CANCEL = 'CANCEL'
-export const ACCEPT = 'ACCEPT'
-export const DENIEDBYUSER = 'DENIEDBYUSER'
-export const DENIEDBYPROVIDER = 'DENIEDBYPROVIDER'
-export const PENDING = 'PENDING'
-export const BLOCKEDBYUSER = 'BLOCKEDBYUSER'
-export const BLOCKEDBYPROVIDER = 'BLOCKEDBYPROVIDER'
+export const CANCEL = 'CANCEL';
+export const ACCEPT = 'ACCEPT';
+export const DENIEDBYUSER = 'DENIEDBYUSER';
+export const DENIEDBYPROVIDER = 'DENIEDBYPROVIDER';
+export const PENDING = 'PENDING';
+export const BLOCKEDBYUSER = 'BLOCKEDBYUSER';
+export const BLOCKEDBYPROVIDER = 'BLOCKEDBYPROVIDER';
 
-export const REQUESTSTATUS = [ACCEPT, DENIEDBYUSER, DENIEDBYPROVIDER, PENDING, BLOCKEDBYUSER, BLOCKEDBYPROVIDER, CANCEL]
+export const REQUESTSTATUS = [
+  ACCEPT,
+  DENIEDBYUSER,
+  DENIEDBYPROVIDER,
+  PENDING,
+  BLOCKEDBYUSER,
+  BLOCKEDBYPROVIDER,
+  CANCEL,
+];
 
 // Attendance
 
@@ -64,6 +71,45 @@ export const PENDINGAPPROVAL = 'PENDINGAPPROVAL';
 export const PENDINGCANCELLATION = 'PENDINGCANCELLATION';
 export const NOCOUNT = 'NOCOUNT';
 
+export const AttendanceStatusesInfo = {
+  CANCELLEDBYPROVIDER: {
+    title: 'Cancelled by provider',
+    sort: 90,
+  },
+  CONFIRMED: {
+    title: 'Confirmed',
+    sort: 20,
+  },
+  OK: {
+    title: 'Ok',
+    sort: 21,
+  },
+  NOSHOW: {
+    title: 'No show',
+    sort: 31,
+  },
+  ATTENDED: {
+    title: 'Attended',
+    sort: 30,
+  },
+  PENDINGAPPROVAL: {
+    title: 'Pending approval',
+    sort: 11,
+  },
+  PENDINGCANCELLATION: {
+    title: 'Pending Cancellation',
+    sort: 12,
+  },
+  NOCOUNT: {
+    title: 'No count',
+    sort: 50,
+  },
+  CANCELLEDBYUSER: {
+    title: 'Cancelled by user',
+    sort: 99,
+  },
+};
+
 export const ATTENDANCESTATUSES = [
   CANCELLEDBYPROVIDER,
   CANCELLEDBYUSER,
@@ -76,6 +122,6 @@ export const ATTENDANCESTATUSES = [
   NOCOUNT,
 ];
 
-export const ATTENDANCEDEFAULTS = [OK, PENDINGAPPROVAL]
+export const ATTENDANCEDEFAULTS = [OK, PENDINGAPPROVAL];
 export const ATTENDANCECOUNTSTATUSES = [CONFIRMED, NOSHOW, ATTENDED, PENDINGAPPROVAL];
 export const ATTENDANCENOCOUNTSTATUSES = [CANCELLEDBYPROVIDER, CANCELLEDBYUSER, NOCOUNT];

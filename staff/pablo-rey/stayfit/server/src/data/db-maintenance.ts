@@ -1,18 +1,23 @@
 import * as bcrypt from 'bcryptjs';
 import { createSession } from '../logic/resolvers/sessions/create-session/create-session';
-import { ACTIVE, PUBLIC, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE } from './enums';
-import { SessionModel } from './models/session';
+import { ACTIVE, PUBLIC, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE, ACCEPT, REQUESTBECUSTOMER, ATTENDANCEPAYMENTTYPES, ATTENDANCESTATUSES} from './enums';
 import { User, UserModel } from './models/user';
+import { SessionModel } from './models/session';
 import { ProviderModel, Provider } from './models/provider';
 import { SessionTypeModel } from './models/session-type';
 import moment = require('moment');
 import faker = require('faker');
+import { RequestCustomerModel } from './models/request';
+import { random } from '../common/utils';
+import { AttendanceModel } from './models/attendance';
 
 export async function cleanDb() {
   await UserModel.deleteMany({});
   await ProviderModel.deleteMany({});
   await SessionTypeModel.deleteMany({});
   await SessionModel.deleteMany({});
+  await RequestCustomerModel.deleteMany({});
+  await AttendanceModel.deleteMany({})
 }
 
 export async function populateDb() {
@@ -74,12 +79,12 @@ export async function populateDb() {
   }
 
   const provider1 = await ProviderModel.create({
-    name: faker.company.companyName(),
+    name: "Agogé Physical Training",
     admins: [admin],
     coaches,
     customers: [],
-    bannerImageUrl: 'https://crossfitstreets.com/wp-content/uploads/2016/02/banner-stayatcrossfit.jpg',
-    logoImageUrl: 'https://www.48hourslogo.com/48hourslogo_data/2018/11/12/78999_1542026387.jpg',
+    uploadedBanner: 'https://www.agoge.ovh/images/logo_agoge.jpg',
+    uploadedPortrait: 'https://www.48hourslogo.com/48hourslogo_data/2018/11/12/78999_1542026387.jpg',
   });
 
   admin.adminOf = [provider1];
@@ -91,9 +96,9 @@ export async function populateDb() {
     admins: [admin2],
     coaches,
     customers: [],
-    bannerImageUrl:
+    uploadedBanner:
       'https://blogmedia.dealerfire.com/wp-content/uploads/sites/394/2018/06/Crossfit-training-3-banner.jpg',
-    logoImageUrl:
+    uploadedPortrait:
       'https://image.shutterstock.com/image-vector/modern-vector-professional-sign-logo-260nw-594906506.jpg',
   });
 
@@ -110,48 +115,49 @@ export async function populateDb() {
     const providers = [];
     if (ii < 20) providers.push(provider1);
     if (ii >= 10 && ii < 30) providers.push(provider2);
-    customers.push(
-      await UserModel.create({
-        name: faker.name.firstName(),
-        surname: faker.name.lastName(),
-        email: `user${ii}@stay.fit`,
-        password: await bcrypt.hash('123', 12),
-        role: USER_ROLE,
-        adminOf: [],
-        coachOf: [],
-        customerOf: providers,
-        uploadedPortrait: `https://randomuser.me/api/portraits/${faker.random.arrayElement([
-          'men',
-          'women',
-        ])}/${faker.random.number(80)}.jpg`,
-      })
-    );
+    const user = await UserModel.create({
+      name: faker.name.firstName(),
+      surname: faker.name.lastName(),
+      email: `user${ii}@stay.fit`,
+      password: await bcrypt.hash('123', 12),
+      role: USER_ROLE,
+      adminOf: [],
+      coachOf: [],
+      customerOf: providers,
+      uploadedPortrait: `https://randomuser.me/api/portraits/${faker.random.arrayElement([
+        'men',
+        'women',
+      ])}/${faker.random.number(80)}.jpg`,
+    });
+    for (let provider of providers) {
+      await RequestCustomerModel.create({provider, user, type:REQUESTBECUSTOMER, status: ACCEPT, })
+    }
+    customers.push(user);
   }
 
   console.log('Creando provider1...');
 
   provider1.customers = customers.slice(0, 20);
-  provider1.save();
-
   provider2.customers = customers.slice(10, 20);
-  provider2.save();
 
   // Session Types
 
   console.log('Creando session types...');
   for (let provider of [provider1, provider2]) {
-    await SessionTypeModel.create({ type: 'wod', title: 'WOD', active: true, provider });
-    await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider });
-    await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider });
+    provider.sessionTypes.push(await SessionTypeModel.create({ type: 'wod', title: 'WOD', active: true, provider }));
+    provider.sessionTypes.push(await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider }));
+    provider.sessionTypes.push(await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider }));
   }
-  await SessionTypeModel.create({ type: 'nut', title: 'Nutrición', active: true, provider: provider2 });
-  await SessionTypeModel.create({ type: 'ob', title: 'Fisioterapia', active: true, provider: provider1 });
+  provider2.sessionTypes.push(await SessionTypeModel.create({ type: 'nut', title: 'Nutrición', active: true, provider: provider2 }));
+  provider1.sessionTypes.push(await SessionTypeModel.create({ type: 'ob', title: 'Fisioterapia', active: true, provider: provider1 }));
+  await provider1.save();
+  await provider2.save()
 
   // Sessions
 
   console.log('Creando session types...');
   const day = moment().format('YYYY-MM-DD');
-  const startTime = moment(`${day} 08:00:00`, 'YYYY-MM-DD hh:mm:ss', true);
+  let startTime = moment(`${day} 08:00:00`, 'YYYY-MM-DD hh:mm:ss', true);
   await populateSessions(provider1, startTime, 10, coaches);
   await populateSessions(provider1, startTime, 10, coaches);
   await populateSessions(provider1, startTime, 10, coaches);
@@ -164,11 +170,28 @@ export async function populateDb() {
   await populateSessions(provider1, startTime, 10, coaches);
   await populateSessions(provider1, startTime, 10, coaches);
 
+  startTime = moment(`${day} 08:00:00`, 'YYYY-MM-DD hh:mm:ss', true);
+  await populateSessions(provider2, startTime, 10, coaches);
+  await populateSessions(provider2, startTime, 10, coaches);
+
   // create attendances
+  const sessions = await SessionModel.find({}).populate('provider');
+  for (let session of sessions) {
+    let s = new Set();
+    let ll= Math.max(random(session.maxAttendants), random(10) < 4 ? session.maxAttendants : 0);
+    for (let ii=0; ii < ll; ii++){
+      s.add(random((session.provider as Provider).customers))
+    }
+    for (let user of s) {
+      const attendance = await AttendanceModel.create({user, session, paymentType: random(ATTENDANCEPAYMENTTYPES), status: random(ATTENDANCESTATUSES)})
+      session.attendances.push(attendance)
+      await session.save();
+    }
+  }
 }
 
 async function populateSessions(provider: Provider, _startTime: moment.Moment, numDays: number, coaches: User[]) {
-  const type = await SessionTypeModel.findOne({ type: 'wod', provider: provider.id });
+  const type = random(provider.sessionTypes)
   const title = faker.company.bs();
   const providerId = provider.id.toString();
   const startTime = _startTime.toDate();
@@ -197,6 +220,7 @@ async function populateSessions(provider: Provider, _startTime: moment.Moment, n
       visibility,
       startTime,
       endTime,
+      notes: '*'
     },
     provider,
     coaches

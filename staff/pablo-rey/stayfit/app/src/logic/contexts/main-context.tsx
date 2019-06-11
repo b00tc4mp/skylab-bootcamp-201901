@@ -1,13 +1,23 @@
 import React, { useReducer, useState, useEffect } from 'react';
 import { ApolloClient } from 'apollo-boost';
 import logic from '..';
+import moment from 'moment';
 
 export type TProvider = {
   id: string;
   name: string;
+  coaches: TUser[];
+  sessionTypes: TSessionType[];
   bannerImageUrl: string;
   portraitImageUrl: string;
   registrationUrl: string;
+};
+
+export type TSessionType = {
+  id: string;
+  title: string;
+  type: string;
+  active: boolean;
 };
 
 export type TUser = {
@@ -16,50 +26,73 @@ export type TUser = {
   role: string;
   customerOf: TProvider[];
   adminOf: TProvider[];
+  bannerImageUrl: string;
+  portraitImageUrl: string;
 };
 
 export type TMainContext = {
   gqlClient?: ApolloClient<{}>;
   errorMessage?: string | null;
+  setErrorMessage?: any;
   user?: TUser | null;
   userId?: string | null;
   role?: string | null;
+  myProviders?: any;
   provider?: TProvider | null;
-  pendingRequests?: any,
-  setPendingRequests?: any,
+  customers?: any;
+  setCustomers?: any;
+  nextAttendances?: any;
+  refreshUserData?: any;
+  logic: any;
   login?: (email: string, password: string) => Promise<boolean>;
   logout?: () => boolean;
 };
 
-// let reducer = (state, action) => {
-//   switch (action.type) {
-//     case "increment":
-//       return { ...state, count: state.count + 1 };
-//     case "decrement":
-//       return { ...state, count: state.count - 1 };
-//     default:
-//       return;
-//   }
-// };
-
-const initialState: TMainContext = { errorMessage: null };
+const initialState: TMainContext = { errorMessage: null, logic };
 const MainContext = React.createContext(initialState);
 
-function MainProvider(props) {
+function MainContextProvider(props) {
   const [userId, setUserId] = useState(null);
   const [user, setUser] = useState(null);
+  const [myProviders, setMyProviders] = useState(null);
   const [provider, setProvider] = useState(null);
-  const [pendingRequests, setPendingRequests] = useState(null);
+  const [customers, setCustomers] = useState(null);
+  const [sessions, setSessions] = useState(null)
   const [role, setRole] = useState(null);
   const [errorMessage, setErrorMessage] = useState(null);
+  const [nextAttendances, setNextAttendances] = useState(null);
 
-  const refreshUserData = async () => {
-    const user = await logic.retrieveMe();
-    setRole(user.role);
-    setUserId(user.id);
-    setUser(user);
-    if (user.adminOf.length) {
-      setProvider(user.adminOf[0]);
+  const refreshUserData = async (options?: { refreshCustomers?: boolean; refreshAttendances?: boolean, refreshProviders?: boolean }) => {
+    if (!options) {
+      const user = await logic.retrieveMe();
+      setRole(user.role);
+      setUserId(user.id);
+      setUser(user);
+      if (user.adminOf.length) {
+        setProvider(user.adminOf[0]);
+        logic.providerId = user.adminOf[0].id;
+      } else {
+        options = { refreshProviders: true, refreshAttendances: true}
+      }
+    }
+    if (options) {
+      if (options.refreshCustomers && !!provider) {
+        const _customers = await logic.listCustomers(provider.id);
+        setCustomers(_customers);
+        return _customers;
+      }
+      if (options.refreshProviders) {
+        const providers = await logic.listMyProviders();
+        setMyProviders(providers);
+      }
+      if (options.refreshAttendances) {
+        const data = await logic.listMyNextAttendances();
+        if (data) {
+          setNextAttendances(data);
+        } else {
+          setNextAttendances(null);
+        }
+      }
     }
     return user;
   };
@@ -72,7 +105,7 @@ function MainProvider(props) {
       return true;
     } catch (error) {
       logout();
-      setErrorMessage(error.message);
+      setErrorMessage('Login failed');
     }
     return false;
   };
@@ -81,23 +114,38 @@ function MainProvider(props) {
     setRole(null);
     setUserId(null);
     setUser(null);
-    setProvider(null)
+    setMyProviders(null);
+    setProvider(null);
+    setCustomers(null);
     return true;
   };
 
   useEffect(() => {
-    if (logic.token) {
-      refreshUserData();
-    }
-  }, []);
+    refreshUserData();
+  }, [userId]);
 
-  // const [state, dispatch] = useReducer(reducer, initialState);
   return (
     <MainContext.Provider
-      value={{ login, logout, role, userId, user, provider, pendingRequests, setPendingRequests,  errorMessage: null, gqlClient: props.gqlClient }}
+      value={{
+        login,
+        logout,
+        logic,
+        role,
+        userId,
+        user,
+        myProviders,
+        provider,
+        customers,
+        setCustomers,
+        nextAttendances,
+        refreshUserData,
+        errorMessage,
+        setErrorMessage,
+        gqlClient: props.gqlClient,
+      }}
     >
       {props.children}
     </MainContext.Provider>
   );
 }
-export { MainContext, MainProvider };
+export { MainContext, MainContextProvider as MainProvider };

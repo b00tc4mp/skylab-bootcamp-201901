@@ -20,6 +20,7 @@ import * as mongoose from 'mongoose';
 import { SessionTypeModel } from '../../../../data/models/session-type';
 import { createRandomUser } from '../../../tests-utils';
 import { deleteModels, createTestProvider } from '../../../../common/test-utils';
+import { random } from '../../../../common/utils';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;
@@ -30,12 +31,13 @@ const {
 } = process;
 
 describe('attend/unattend session', function() {
+  this.timeout(15000);
   before(() => mongoose.connect(MONGODB_URL_TESTING!, { useNewUrlParser: true }));
   after(async () => await mongoose.disconnect());
 
   async function createDummySession() {
     const { provider, coaches } = await createTestProvider({});
-    const type = await SessionTypeModel.findOne({ type: 'wod', provider });
+    const type = random(provider.sessionTypes);
     const title = 'Test session';
     const startTime = new Date();
     const endTime = new Date();
@@ -60,7 +62,7 @@ describe('attend/unattend session', function() {
   }
 
   describe('attend session', function() {
-    this.timeout(5000);
+    this.timeout(15000);
     beforeEach(() => deleteModels());
 
     const mutation = gql`
@@ -106,7 +108,7 @@ describe('attend/unattend session', function() {
     });
   });
   describe('attend session', function() {
-    this.timeout(10000);
+    this.timeout(15000);
     beforeEach(() => deleteModels());
 
     let superadmin: User;

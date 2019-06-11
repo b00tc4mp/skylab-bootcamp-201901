@@ -1,3 +1,4 @@
+import { UpdateSessionResolver } from './../../logic/resolvers/sessions/update-session/update-session';
 import { MeResolver } from './../../logic/resolvers/users/me';
 import { buildSchema } from 'type-graphql';
 import { LoginResolver } from '../../logic/resolvers/auth/login';
@@ -14,11 +15,15 @@ import { RetrieveUserResolver } from '../../logic/resolvers/users/retrieve-user'
 import { myProvidersInfo } from '../../logic/resolvers/providers/list-providers';
 import { CreateSessionsResolver } from '../../logic/resolvers/sessions/create-session/create-session';
 import { CreateSessionsInput } from '../../logic/resolvers/sessions/create-session/create-session';
-import { ListSessionsByUserResolvers, SessionsWithMyAttendance } from '../../logic/resolvers/sessions/list-sessions/list-sessions-users';
+import {
+  ListSessionsByUserResolvers,
+  SessionsWithMyAttendance,
+} from '../../logic/resolvers/sessions/list-sessions/list-sessions-users';
 import { AttendSessionResolvers, AttendanceInput } from '../../logic/resolvers/sessions/attend-session/attend-session';
 import { ListAttendancesResolvers } from './../../logic/resolvers/attendances/list-attendances';
-import { ListSessionsAdminsResolvers } from './../../logic/resolvers/sessions/list-sessions/list-sessions-admins'
+import { ListSessionsAdminsResolvers } from './../../logic/resolvers/sessions/list-sessions/list-sessions-admins';
 import { ProviderResolver } from '../../logic/resolvers/providers/retrieve-provider';
+
 export async function createSchema() {
   return await buildSchema({
     resolvers: [
@@ -28,6 +33,7 @@ export async function createSchema() {
       CreateSessionsInput,
       ListSessionsByUserResolvers,
       AttendSessionResolvers,
+      UpdateSessionResolver,
       AttendanceInput,
       LoginResolver,
       InvalidateCredentialsResolver,

@@ -1,0 +1,7 @@
+{
+  "appId": "dev.pablorey.duckappv2",
+  "appName": "duck-app-v2",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build"
+}

@@ -76,9 +76,10 @@ export async function createTestProvider({
   for (let customer of customers) {
     await UserModel.findByIdAndUpdate(customer.id, {customerOf : [provider.id]});
   }
-  await SessionTypeModel.create({ type: 'wod', title: 'WOD', active: true, provider });
-  await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider });
-  await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider });
+  provider.sessionTypes.push(await SessionTypeModel.create({ type: 'wod', title: 'WOD', active: true, provider }));
+  provider.sessionTypes.push(await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider }));
+  provider.sessionTypes.push(await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider }));
+  provider.save();
   return {
     name,
     superadmin,

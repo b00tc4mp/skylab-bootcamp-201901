@@ -29,7 +29,7 @@ export class CreateSessionsInput {
   @Field(() => Date)
   endTime: Date;
 
-  @Field(() => [Date])
+  @Field(() => [Date], {nullable: true})
   repeat?: Date[];
 
   @Field()
@@ -45,6 +45,9 @@ export class CreateSessionsInput {
   @Field()
   @IsIn(SESSIONVISIBILITY)
   visibility: string;
+
+  @Field()
+  notes: string;
 }
 
 @Resolver(Provider)
@@ -56,20 +59,15 @@ export class CreateSessionsResolver {
 
     const provider = ctx.provider || (await ProviderModel.findById(providerId));
     if (!provider) throw new LogicError('provider is required');
-    let coaches: User[] = [];
-    if (coachesId && coachesId.length) {
-      for (let id of coachesId) {
-        const coach = await UserModel.findById(id);
-        if (!coach) throw new LogicError(`id ${id} not exist`);
-        coaches.push(coach);
-      }
-    }
+
+    const coaches = await UserModel.find({ _id: coachesId})
+
     return await createSession(data, provider, coaches);
   }
 }
 
 export async function createSession(data: CreateSessionsInput, provider: Provider, coaches: User[]) {
-  const { title, providerId, coachesId, repeat = [], maxAttendants, typeId, status, visibility } = data;
+  const { title, providerId, coachesId, repeat = [], maxAttendants, typeId, status, visibility, notes } = data;
   let { startTime, endTime } = data;
 
   let sessionsId: string[] = [];
@@ -102,6 +100,7 @@ export async function createSession(data: CreateSessionsInput, provider: Provide
       type: _type,
       status,
       visibility,
+      notes,
     });
     sessionsId.push(session.id);
   }

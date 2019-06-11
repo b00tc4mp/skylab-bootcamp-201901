@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonGrid, IonImg, IonInput, IonItem, IonLabel, IonRow, IonText, IonToast } from '@ionic/react';
+import { IonButton, IonCol, IonGrid, IonImg, IonInput, IonItem, IonLabel, IonRow } from '@ionic/react';
 import React, { useContext, useEffect, useState } from 'react';
 import { withRouter } from 'react-router-dom';
 import logic from '../../logic';
@@ -36,11 +36,10 @@ function Register({ history }) {
         password,
         phone,
         role: 'GUEST_ROLE',
-        providerId: provider.id,
       });
     }
     await ctx.login(email, password);
-    history.push('/')
+    history.push('/');
   };
 
   const url = window.location.toString();
@@ -57,28 +56,19 @@ function Register({ history }) {
   return (
     <IonGrid>
       <form onSubmit={handleLogin}>
+        {provider && (
+          <IonRow>
+            <IonCol size="10" push="1">
+              <IonImg src={provider.bannerImageUrl} alt="logo" />
+            </IonCol>
+          </IonRow>
+        )}
         <IonRow>
-          <IonCol size="10" push="1">
-            <IonText>
-              <h2>Register {provider && 'in ' + provider.name}</h2>
-            </IonText>
-            {provider && <IonImg src={provider.bannerImageUrl} alt="logo" />}
+          <IonCol size="6" offset="3">
+            <IonImg src="/logo-with-text.png" />
           </IonCol>
         </IonRow>
-        <IonToast
-          isOpen={!!error}
-          onDidDismiss={() => setError('')}
-          message={error}
-          position="top"
-          duration={3000}
-          buttons={[
-            {
-              text: 'Close',
-              role: 'cancel',
-              handler: () => setError(''),
-            },
-          ]}
-        />
+
         <IonRow>
           <IonCol size="10" push="1">
             <IonItem>
