@@ -260,53 +260,56 @@ const logic = {
                 if (puntuation.OneEggNestAmount >= mission[0][1]) {
                     for (let j = 1; j <= 3 && toHatch.length < mission[0][1]; j++) {
                         for (let i = 0; i < map[j].length && toHatch.length < mission[0][1]; i++) {
-                            if (map[j][i][0] === 1) {
+                            if (map[j][i][0] === 1 && map[j][i][2] === false) {
                                 toHatch.push({ row: j, column: i })
                             }
                         }
                     }
+                    if (toHatch.length === mission[0][1]) return { toComplete: true, toHatch, type: "love" }
+                    else return ohNo
 
-                    return { toComplete: true, toHatch, type: "love" }
                 } else return ohNo
 
             case "2EGG":
                 if (puntuation.TwoEggNestAmount >= mission[0][1]) {
                     for (let j = 1; j <= 3 && toHatch.length < mission[0][1]; j++) {
                         for (let i = 0; i < map[j].length && toHatch.length < mission[0][1]; i++) {
-                            if (map[j][i][0] === 1) {
+                            if (map[j][i][0] === 2 && map[j][i][2] === false) {
                                 toHatch.push({ row: j, column: i })
                             }
                         }
                     }
+                    if (toHatch.length === mission[0][1]) return { toComplete: true, toHatch, type: "love" }
+                    else return ohNo
 
-                    return { toComplete: true, toHatch, type: "love" }
                 } else return ohNo
 
             case "3EGG":
                 if (puntuation.ThreeEggNestAmount >= mission[0][1]) {
                     for (let j = 1; j <= 3 && toHatch.length < mission[0][1]; j++) {
                         for (let i = 0; i < map[j].length && toHatch.length < mission[0][1]; i++) {
-                            if (map[j][i][0] === 1) {
+                            if (map[j][i][0] === 3 && map[j][i][2] === false) {
                                 toHatch.push({ row: j, column: i })
                             }
                         }
                     }
-                    return { toComplete: true, toHatch, type: "love" }
+                    if (toHatch.length === mission[0][1]) return { toComplete: true, toHatch, type: "love" }
+                    else return ohNo
 
                 } else return ohNo
-
 
             case "4EGG":
                 if (puntuation.FourEggNestAmount >= mission[0][1]) {
                     for (let j = 1; j <= 3 && toHatch.length < mission[0][1]; j++) {
                         for (let i = 0; i < map[j].length && toHatch.length < mission[0][1]; i++) {
-                            if (map[j][i][0] === 1) {
+                            if (map[j][i][0] === 4) {
                                 toHatch.push({ row: j, column: i })
                             }
                         }
                     }
+                    if (toHatch.length === mission[0][1]) return { toComplete: true, toHatch, type: "love" }
+                    else return ohNo
 
-                    return { toComplete: true, toHatch, type: "love" }
                 } else return ohNo
         }
     },

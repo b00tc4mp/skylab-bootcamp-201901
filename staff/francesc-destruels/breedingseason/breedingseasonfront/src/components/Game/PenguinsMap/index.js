@@ -19,20 +19,15 @@ function PenguinsMap({ send, leftGame }) {
             return
         }
 
-
         setClickable([
             logic.__isSecurityAvailable__(1, SecurityLvLAmounts, SecurityLvLPoints),
             logic.__isSecurityAvailable__(2, SecurityLvLAmounts, SecurityLvLPoints),
             logic.__isSecurityAvailable__(3, SecurityLvLAmounts, SecurityLvLPoints)])
-            // logic.__isSecurityAvailable__(4, SecurityLvLAmounts, SecurityLvLPoints)])
-
 
     }, [ActionToUse, ActionUsed])
 
     const handleSecurity = number => {
 
-        console.log(ActionToUse, number, puntuation.SecurityLvL[number])
-        console.log(`Increased security on Row ${number}`)
         setActionTurn({ row: number, column: 0, resource: ActionToUse.resource, nest: "" })
         setActionUsed(true)
         setPuntuation({ ...puntuation, ...puntuation["SecurityLvL"][number]++ })
@@ -49,6 +44,7 @@ function PenguinsMap({ send, leftGame }) {
                 <Penguin position={[1, 5]} />
                 <div className={clickable[0] ? "penguinMap__Foc penguinMap__Foc--Clickable" : "penguinMap__Foc"}>
                     <img  className="penguinMap__Foc--img" src={foc} onClick={clickable[0] ? () => handleSecurity(1) : null} />
+                    <p className={clickable[0] ? "penguinMap__Level F1--Clickable" : "penguinMap__Level F1"}>*{clickable[0] ? `${SecurityLvLPoints[1][SecurityLvLAmounts[1] +1]}P ${SecurityLvLAmounts[1] +1}/2 Lv` :  `${SecurityLvLPoints[2][SecurityLvLAmounts[1]]}P ${SecurityLvLAmounts[1]}/2 Lv`}  </p>
                 </div>
             </div>
 
@@ -61,6 +57,7 @@ function PenguinsMap({ send, leftGame }) {
                 <Penguin position={[2, 5]} />
                 <div className={clickable[1] ? "penguinMap__Foc penguinMap__Foc--Clickable" : "penguinMap__Foc"}>
                     <img  className="penguinMap__Foc--img" src={foc} onClick={clickable[1] ? () => handleSecurity(2) : null} />
+                    <p className={clickable[1] ? "penguinMap__Level F2--Clickable" : "penguinMap__Level F2"}>*{clickable[1] ? `${SecurityLvLPoints[2][SecurityLvLAmounts[2] +1]}P ${SecurityLvLAmounts[2] +1}/3 Lv` :  `${SecurityLvLPoints[2][SecurityLvLAmounts[2]]}P ${SecurityLvLAmounts[2]}/3 Lv`}  </p>
                 </div>
             </div>
 
@@ -73,6 +70,7 @@ function PenguinsMap({ send, leftGame }) {
                 <Penguin position={[3, 5]} />
                 <div className={clickable[2] ? "penguinMap__Foc penguinMap__Foc--Clickable" : "penguinMap__Foc"}>
                     <img className="penguinMap__Foc--img" src={foc} onClick={clickable[2] ? () => handleSecurity(3) : null} />
+                    <p className={clickable[2] ? "penguinMap__Level F3--Clickable" : "penguinMap__Level F3"}>*{clickable[2] ? `${SecurityLvLPoints[3][SecurityLvLAmounts[3] +1]}P ${SecurityLvLAmounts[3] +1}/3 Lv` :  `${SecurityLvLPoints[3][SecurityLvLAmounts[3]]}P ${SecurityLvLAmounts[3]}/3 Lv`}  </p>
                 </div>
             </div>
 
@@ -89,17 +87,4 @@ function PenguinsMap({ send, leftGame }) {
         </div>)
 }
 
-            // {/* <div className="penguinMap__penguinRow4" data-value="4">
-            //     <Penguin position={[4, 0]} />
-            //     <Penguin position={[4, 1]} />
-            //     <Penguin position={[4, 2]} />
-            //     <Penguin position={[4, 3]} />
-            //     <Penguin position={[4, 4]} />
-            //     <Penguin position={[4, 5]} />
-            //     <Penguin position={[4, 6]} />
-            //     <div className={clickable[3] ? "penguinMap__Foc penguinMap__Foc--Clickable" : "penguinMap__Foc"}>
-            //         {/* <p>LvL: {puntuation.SecurityLvL[4]}</p> */}
-            //         {/* <img height="200vp" src={foc} onClick={clickable[3] ? () => handleSecurity(1) : null} />
-            //     </div>
-            // // // </div> */} */}
 export default PenguinsMap

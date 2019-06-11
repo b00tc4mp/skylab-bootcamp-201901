@@ -77,12 +77,15 @@ function Penguin({ position }) {
                 setMap({ ...Map, ...Map[position[0]][position[1]][0]++ })
                 switch (Map[position[0]][position[1]][0]) {
                     case 2:
+                        setPuntuation({ ...puntuation, ...puntuation.OneEggNestAmount-- })
                         setPuntuation({ ...puntuation, ...puntuation.TwoEggNestAmount++ })
                         break
                     case 3:
+                        setPuntuation({ ...puntuation, ...puntuation.TwoEggNestAmount-- })
                         setPuntuation({ ...puntuation, ...puntuation.ThreeEggNestAmount++ })
                         break
                     case 4:
+                        setPuntuation({ ...puntuation, ...puntuation.ThreeEggNestAmount-- })
                         setPuntuation({ ...puntuation, ...puntuation.FourEggNestAmount++ })
                         break
                 }

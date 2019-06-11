@@ -65,17 +65,22 @@
         transform: scale(1.5) translateX(70%)
         width: 20vh
         text-align: start
+    
+    &__Level
+        color: black
+        z-index: 2
 
     &__Foc
         grid-area: Foc
+        font-size: 1.5vh
 
     &__Foc--img
         position: relative
         max-width: 100%
+        transform: translateY(-5%)
         
     &__Foc--Clickable
-        background-image: radial-gradient(green 10%, rgba(255, 0, 0, 0) 60%)
-        transform: scale(1.1)
+        transform: scale(1.1) translateY(-5%)
         cursor: pointer
 
     &__penguin
@@ -89,3 +94,21 @@
         background-image: radial-gradient(green 10%, rgba(255, 0, 0, 0) 60%)
         cursor: pointer
 
+.F1
+    transform: translate(25%, -220%)
+
+    &--Clickable
+        color: Red
+        transform: translate(25%, -220%)
+.F2
+    transform: translate(25%, -220%)
+
+    &--Clickable
+        color: Red
+        transform: translate(25%, -220%)
+.F3
+    transform: translate(25%, -220%)
+
+    &--Clickable
+        color: Red
+        transform: translate(25%, -220%)

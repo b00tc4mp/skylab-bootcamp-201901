@@ -1,23 +1,29 @@
 
 .Home
     display: grid
-    justify-content: center
-    height: 100% 
+    height: 100%
     width: 100%
+    grid-template-columns: 20% 60% 20%
+    grid-template-rows: 100%
+    grid-template-areas: " . B . "
+    align-items: center
 
 .Panel
+    grid-area: B
+    position: relative
     display: grid
-    align-self: flex-start
     justify-items: center
-    height: 80%
-    transform: translateY(10%)
-    border: 1px solid red
-    font-size: 2em
+    align-items: center
+    height: 75%
+    width: 100%
+    font-size: 150%
+
+.Panel > Button
+    font-size: 200%
+    width: 40%
 
 .Panel > p
     margin: 0%
 
-.Panel > Button
-    font-size: 1.8em
-    width: 100%
-    
+
+

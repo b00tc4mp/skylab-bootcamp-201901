@@ -12,8 +12,9 @@ function MissionCards() {
     const [clickable, setClickable] = useState([{ toComplete: false, toHatch: [], type: "" }, { toComplete: false, toHatch: [], type: "" }, { toComplete: false, toHatch: [], type: "" }])
     const [picture, setPicture] = useState()
 
+    useEffect(() => {setPicture()}, [missionCards])
+
     useEffect(() => {
-        console.log(missionCards, missionCards[0][3][0][0])
         let img = []
 
         for (let i = 0; i < missionCards.length; i++) {
@@ -47,9 +48,6 @@ function MissionCards() {
                     break
             }
         }
-
-        console.log(img)
-
         setPicture(img)
 
     }, [missionCards])

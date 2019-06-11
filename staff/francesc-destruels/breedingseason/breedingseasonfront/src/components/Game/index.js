@@ -44,6 +44,7 @@ function Game({ history }) {
         setInitialTurnCards(turnCards)
         setMap(mapStatus)
         setRound(round)
+        setMissionsDone({ 0: false, 1: false, 2: false })
     }
 
     const handleToSend = async () => {

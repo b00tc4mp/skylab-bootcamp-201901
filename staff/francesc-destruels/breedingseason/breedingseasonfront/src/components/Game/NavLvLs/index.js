@@ -1,6 +1,7 @@
 import React, { useContext, useState, useEffect } from 'react'
 import logic from '../../../logic'
 import './index.sass'
+import numberImg from '../img/index'
 
 import { GameContext } from "../../GameContext"
 
@@ -54,28 +55,24 @@ function NavLvLs({ send }) {
     return (
         <div className="Game__NavLvL NavLvL">
             <div className={clickable[0] ? 'NavLvL__Points NavLvL--Clickable' : "NavLvL__Points"} onClick={clickable[0] ? () => { handleClick("One") } : null}>
-                <h4 className={"NavLvL__Element"}>1Egg <br /> Nest</h4>
-                <p className={"NavLvL__Level"}>{OneEggNestLvL}/1</p>
+                <img src={numberImg.mission[1]} className={"NavLvL__Element E1"} alt="Breeding Season 1EGG Level" />
+                <p className={clickable[0] ? "NavLvL__Level L1--Clickable" : "NavLvL__Level L1"}>*{clickable[0] ? `${puntuationSchema.OneEggNestLvL[OneEggNestLvL] +1}P ${OneEggNestLvL +1}/1L v` : `${puntuationSchema.OneEggNestLvL[OneEggNestLvL]}P ${OneEggNestLvL}/1 Lv`}</p>
             </div>
             <div className={clickable[1] ? 'NavLvL__Points NavLvL--Clickable' : "NavLvL__Points"} onClick={clickable[1] ? () => { handleClick("Two") } : null}>
-                <h4 className={"NavLvL__Element"}>2Egg <br /> Nest</h4>
-                <p className={"NavLvL__Level"}>{TwoEggNestLvL}/2</p>
+                <img src={numberImg.mission[2]} className={"NavLvL__Element E2"} alt="Breeding Season 2EGG Level" />
+                <p className={clickable[1] ? "NavLvL__Level L2--Clickable" : "NavLvL__Level L2"}>*{clickable[1] ? `${puntuationSchema.TwoEggNestLvL[TwoEggNestLvL +1]}P ${TwoEggNestLvL +1}/2 Lv` : `${puntuationSchema.TwoEggNestLvL[TwoEggNestLvL]}P ${TwoEggNestLvL}/2 Lv`} </p>
             </div>
             <div className={clickable[2] ? 'NavLvL__Points NavLvL--Clickable' : "NavLvL__Points"} onClick={clickable[2] ? () => { handleClick("Three") } : null}>
-                <h4 className={"NavLvL__Element"}>3Egg <br /> Nest</h4>
-                <p className={"NavLvL__Level"}>{ThreeEggNestLvL}/3</p>
+                <img src={numberImg.mission[3]} className={"NavLvL__Element E3"} alt="Breeding Season 3EGG Level" />
+                <p className={clickable[2] ? "NavLvL__Level L3--Clickable" : "NavLvL__Level L3"}>*{clickable[1] ? `${puntuationSchema.ThreeEggNestLvL[ThreeEggNestLvL +1]}P ${ThreeEggNestLvL +1}/3 Lv` : `${puntuationSchema.ThreeEggNestLvL[ThreeEggNestLvL]}P ${ThreeEggNestLvL }/3 Lv`} </p>
             </div>
             <div className={clickable[3] ? 'NavLvL__Points NavLvL--Clickable' : "NavLvL__Points"} onClick={clickable[3] ? () => { handleClick("Four") } : null}>
-                <h4 className={"NavLvL__Element"}>4Egg <br /> Nest</h4>
-                <p className={"NavLvL__Level"}>{FourEggNestLvL}/3</p>
+                <img src={numberImg.mission[4]} className={"NavLvL__Element E4"} alt="Breeding Season 4EGG Level" />
+                <p className={clickable[3] ? "NavLvL__Level L4--Clickable" : "NavLvL__Level L4"}>*{clickable[1] ? `${puntuationSchema.FourEggNestLvL[FourEggNestLvL +1]}P ${FourEggNestLvL +1}/3 Lv` :  `${puntuationSchema.FourEggNestLvL[FourEggNestLvL]}P ${FourEggNestLvL}/3 Lv`}  </p>
             </div>
             <div className="NavLvL__Points NavLvL__Tool">
-                <h4 className={"NavLvL__Element"}>Tools</h4>
-                <p className={"NavLvL__Level"}>{ToolsUsed}</p>
-            </div>
-            <div className={StrikeLvL === 2 ? 'NavLvL__Points NavLvL--Danger' : "NavLvL__Points"}>
-                <h4 className={"NavLvL__Element"}>Strikes</h4>
-                <p className={"NavLvL__Level"}>{StrikeLvL}</p>
+                <img src={numberImg.mission[0]} className={"NavLvL__Element ET"} alt="Breeding Season Tool Level" />
+                <p className={"NavLvL__Level  LT"}>{ToolsUsed}</p>
             </div>
         </div>)
 }
