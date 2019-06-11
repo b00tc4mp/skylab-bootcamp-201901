@@ -3,6 +3,7 @@ const logic = require('.')
 const { RequirementError, ValueError, LogicError } = require('pg-errors')
 const bcrypt = require('bcrypt')
 require('../../pg-util/src/math-random.polyfill')
+const fs = require('fs').promises
 
 const { models, mongoose } = require('pg-data')
 const { UserData, Thing, Location } = models
@@ -182,6 +183,7 @@ describe('logic', () => {
         const address = 'Plaça Catalunya, Barcelona'
         const longitude = 40.7127837
         const latitude = -74.0059413
+        const image = 'http://www.example.com/image.jpg'
 
         beforeEach(async () => {
                 
@@ -189,16 +191,24 @@ describe('logic', () => {
             userId = user._id.toString()
             loc = await Location.create({ name, address, latitude, longitude })
             locId = loc._id.toString()                
-            stuff = await Thing.create({category, description, owner: userId, loc: locId})
+            stuff = await Thing.create({image, category, description, owner: userId, loc: locId})
             thingId = stuff.id.toString()
             status = stuff.status
         })
             
         describe('add things', () => {
-                       
-            it('should succeed on correct public upload', async () => {
+            let image
 
-                const res = await logic.addPublicThing(category, description, userId, locId)
+            beforeEach(async () => {
+                image = await fs.readFile('./test/home01.jpg')
+            })
+
+            it('should succeed on correct public upload', async () => {
+               
+
+                const res = await logic.addPublicThing(image, category, description, userId, locId)
+
+
                 expect(res).toBeUndefined()
 
                 const things = await Thing.find()
@@ -212,6 +222,7 @@ describe('logic', () => {
                 expect(thing.owner.toString()).toEqual(userId)                
                 expect(thing.loc._id.toString()).toEqual(locId)                
                 expect(thing.status).toBeDefined()
+                expect(thing.image).toBeDefined()
             })
         })
 
@@ -231,20 +242,9 @@ describe('logic', () => {
                 expect(thing.status).toEqual(status) 
                 
             })
-
-            // it('should fail on incorrect id', async ()=> {
-            //     try {
-            //         await logic.updatePublicThing(id = 'DDf24a0f3a54bd384c2f42d4')
-            //         // throw Error('should not reach this point')
-            //     } catch (err) {
-            //         expect(err).toBeDefined()
-            //         expect(err).toBeInstanceOf(LogicError)
-            //         expect(err.message).toBe(`thing with id ${id} does not exist`)
-            //     }
-            // })    
+           
         })    
            
-
         describe('search', () => {
 
             it('should succeed on correct search category', async () => {                
@@ -253,8 +253,9 @@ describe('logic', () => {
 
                 expect(category1).toBeDefined()
                 expect(category1).toBeInstanceOf(Array)
+                debugger
                 expect(category1).toHaveLength(1)
-
+debugger
                 category1.forEach(categor => {
 
                     expect(categor.description).toBeDefined()
@@ -277,7 +278,8 @@ describe('logic', () => {
                 const things = await logic.searchByLocation(name)
                 expect(things).toBeDefined()
                 expect(things).toBeInstanceOf(Array)
-                // expect(things).toHaveLength(1)
+                expect(things).toHave
+                Length(1)
 
                 things.forEach(thing => {
 
@@ -346,9 +348,9 @@ describe('logic', () => {
             })
         })
     })
-    afterAll(async () => {
-        
-        mongoose.disconnect()
+
+    afterAll(async () => {    
+        await mongoose.disconnect()
     })
 })
 

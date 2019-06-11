@@ -36,11 +36,11 @@ function Register(props) {
                 <div className='control'>
                     <div class="control has-icons-left has-icons-right">
                         <input className='input' name='name' type='text' placeholder='Name' />
-                        <span class="icon is-small is-left">
-                            <i class="fas fa-user"></i>
+                        <span className="icon is-small is-left">
+                            <i className="fas fa-user"></i>
                         </span>
-                        <span class="icon is-small is-right">
-                            <i class="fas fa-check"></i>
+                        <span className="icon is-small is-right">
+                            <i className="fas fa-check"></i>
                         </span>
                     </div>
                 </div>

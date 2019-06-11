@@ -4,7 +4,7 @@ const { models } = require('pg-data')
 const bcrypt = require('bcrypt')
 const streamifier = require('streamifier')
 const cloudinary = require('cloudinary').v2
-const {CLOUDINARY_API_KEY, CLOUDINARY_SECRET_KEY, CLOUDINARY_NAME} = require('../config')
+const { CLOUDINARY_API_KEY, CLOUDINARY_SECRET_KEY, CLOUDINARY_NAME } = require('../config')
 const { UserData, Thing } = models
 
 const logic = {
@@ -25,7 +25,7 @@ const logic = {
             if (users.length) throw new LogicError(`user with email ${email} already exists`)
 
             const encryptPassword = await bcrypt.hash(password, 5)
-            
+
 
             await UserData.create({ name, email, password: encryptPassword })
         })()
@@ -53,7 +53,7 @@ const logic = {
     },
 
     retrieveUser(id) {
-        
+
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
         ])
@@ -63,11 +63,11 @@ const logic = {
             const user = await UserData.findById(id).select('name email').lean()
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
             return user
-        
+
         })()
     },
 
-    async addPublicThing(buffer, category, description, userId, locId) {
+    addPublicThing(buffer, category, description, userId, locId) {
 
         validate.arguments([
             { name: 'buffer', value: buffer, type: 'object', notEmpty: true },
@@ -77,41 +77,42 @@ const logic = {
             { name: 'locId', value: locId, type: 'string', notEmpty: true },
         ])
 
-        cloudinary.config({
-            cloud_name: CLOUDINARY_NAME,
-            api_key: CLOUDINARY_API_KEY,
-            api_secret: CLOUDINARY_SECRET_KEY
-        })
-
-        const image = await new Promise(( resolve, reject) => {
-            const uploadStream = cloudinary.uploader.upload_stream((err, image) => {
-                if(err) throw new LogicError('Image could not be uploaded')
-                resolve(image)
-            })
-            streamifier.createReadStream(buffer).pipe(uploadStream)
-            
-        })
-
         return (async () => {
-            
-            const carme = await Thing.create({ image: image.secure_url, category, description, owner: userId, loc: locId}) 
+            cloudinary.config({
+                cloud_name: CLOUDINARY_NAME,
+                api_key: CLOUDINARY_API_KEY,
+                api_secret: CLOUDINARY_SECRET_KEY
+            })
+    
+            const image = await new Promise((resolve, reject) => {
+                const uploadStream = cloudinary.uploader.upload_stream((err, image) => {
+                    if (err) throw new LogicError('Image could not be uploaded')
+                    resolve(image)
+                })
+                streamifier.createReadStream(buffer).pipe(uploadStream)
+    
+            })
+
+            debugger
+            const carme = await Thing.create({ image: image.secure_url, category, description, owner: userId, loc: locId })
+            debugger
             console.log(carme)
-            
+
         })()
     },
-    
+
     updatePublicThing(userId, id, status) {
         validate.arguments([
             { name: 'userId', value: userId, type: 'string', notEmpty: true },
             { name: 'id', value: id, type: 'string', notEmpty: true },
-            { name: 'status', value: status, type: 'number'}
-        ])        
+            { name: 'status', value: status, type: 'number' }
+        ])
 
         return (async () => {
 
-            try {                                
-                const thing = await Thing.findByIdAndUpdate(id, {status})                
-                if (!thing) throw new LogicError(`thing with id ${id} does not exist`)                
+            try {
+                const thing = await Thing.findByIdAndUpdate(id, { status })
+                if (!thing) throw new LogicError(`thing with id ${id} does not exist`)
                 return thing
             }
             catch (err) {
@@ -125,53 +126,58 @@ const logic = {
             { name: 'userId', value: userId, type: 'string', notEmpty: true },
             { name: 'category', value: category, type: 'string', notEmpty: true }
         ])
+        debugger
+        return (async () => {
+            try {
 
-        return (async () => {        
-         
-        return await Thing.find({category}).populate('loc', 'name -_id').select('status image category description loc').lean()   
-    })()
+                return await Thing.find({ category }).populate('loc', 'name -_id').select('status image category description loc').lean()
+            }
+            catch (err) {
+                throw new LogicError(err)
+            }
+        })()
     },
 
     searchByLocation(location) {
         validate.arguments([
-           
+
             { name: 'location', value: location, type: 'string', notEmpty: true }
         ])
 
-        return (async () =>  {
-     
+        return (async () => {
+
             const all = await Thing.find().populate('loc', 'name address -_id').select('-_id -__v -owner')
-            
+
             const locationThings = all.filter(thing => thing.loc.name === location)
 
             return locationThings
-        
-        })()    
+
+        })()
 
     },
 
-    retrivePrivateThings(userId) { 
+    retrivePrivateThings(userId) {
         validate.arguments([
-            { name: 'userId', value: userId, type: 'string', notEmpty: true },            
-        ])       
-         
-        return (async() => {
-  
-            return await Thing.find({'owner': userId}).populate('owner','-_id -password -__v -email').populate('loc name', '-_id').select('-_id -__v').lean()
-                        
-        })()       
+            { name: 'userId', value: userId, type: 'string', notEmpty: true },
+        ])
+
+        return (async () => {
+
+            return await Thing.find({ 'owner': userId }).populate('owner', '-_id -password -__v -email').populate('loc name', '-_id').select('-_id -__v').lean()
+
+        })()
     },
 
     retrieveThing(thingId) {
-        
+
         validate.arguments([
-          
+
             { name: 'thingId', value: thingId, type: 'string', notEmpty: true },
         ])
 
         return (async () => {
-                  
-            return await Thing.findById(thingId).populate('loc', 'name -_id').select('-owner -__v -_id').lean()            
+
+            return await Thing.findById(thingId).populate('loc', 'name -_id').select('-owner -__v -_id').lean()
         })()
     }
 }

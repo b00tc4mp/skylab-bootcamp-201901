@@ -32,7 +32,7 @@ function CategorySearch(props) {
                
                return (                    
                   <li key={id} onClick={() => handleSearchByCategory(id)} className="lisearch" htmlFor={id}>
-                     <img className="imgsearch" src={`../../../images/${id}.png`} />
+                     <img className="imgsearch" src={`../../../images/${id}.png`} alt=""/>
                   </li>
                )
             })
@@ -53,4 +53,3 @@ function CategorySearch(props) {
    )
 }
 export default withRouter(CategorySearch)
-

@@ -1,5 +1,4 @@
-import React, { useState, Fragment } from 'react'
-import { Route, Redirect } from 'react-router-dom'
+import React, { useState} from 'react'
 import './index.sass'
 import logic from '../../logic'
 
@@ -9,9 +8,7 @@ function AddThing(props) {
     const [image, setImage] = useState([])
     const [thingUpload, setThingUpoad] = useState(false)
 
-    
-    if(!logic.isUserLoggedIn) props.history.push('/login')
-       
+    if (!logic.isUserLoggedIn) props.history.push('/login')
 
     async function handleSubmit(e) {
         e.preventDefault()
@@ -21,28 +18,22 @@ function AddThing(props) {
             description: { value: description },
             location: { value: location }
         } = e.target
-       
+
         try {
 
             await logic.addPublicThings(image, category, description, location)
-            
+            document.getElementsByName('description')[0].value = ""
+            document.getElementsByName('image')[0].value = ""
+            document.getElementsByName('error')[0].value = ""
             setThingUpoad(true)
         } catch (error) {
-
+            
             setMessageError(error.message)
         }
 
-        // const thingInserted = () => {
-        //     <Fragment>
-        //     <div class="notification is-primary">
-        //                             Thing upload
-        //     </div>    
-        //     </Fragment>
-        // }
-
     }
     return (
-        <form className="contens" onSubmit={handleSubmit}>
+        <form id="form" className="contens" onSubmit={handleSubmit}>
             <div className="field">
                 <label className="label">Category</label>
                 <div className="control">
@@ -76,10 +67,6 @@ function AddThing(props) {
                     </div>
                 </div>
             </div>
-            {/* <div className="file-upload">
-                <label htmlFor="upload" className="file-upload__label"></label>
-                <input id="upload" className="file-upload__input" type="file" name="file-upload"  />
-            </div> */}
             <div className="file">
                 <div className="file has-name">
                     <label className="file-label">
@@ -88,18 +75,19 @@ function AddThing(props) {
                 </div>
             </div>
             <div className="control">
-                <button className="button is-primary">Submit</button>
+                <button className="button is-success" >Submit</button>
             </div>
-            {messageError && <div className="message-error">
+            {setThingUpoad && <div className="thingupload">
+                <p>Thing upload!</p>
+            {messageError && <div className="message-error" name="error">
                 <p>{messageError}</p>
+            </div>}
+
             </div>}
         </form>
 
+
     )
-    // {thingUpload && thingInserted}
-    {/* {!thingUpload && form} */ }
-
-
 }
 
 export default AddThing

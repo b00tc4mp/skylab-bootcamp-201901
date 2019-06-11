@@ -10,7 +10,7 @@ function Nav() {
                 {/* <li><a href="/search/category"><img id="logo" src="/../../../images/logo.png" /></a></li> */}
                 <li>
                     <Link to="/search/category">
-                        <img id="put" src="/../../../images/logo.png" />
+                        <img id="logo" src="/../../../images/logo.png" alt="logo"/>
                     </Link>
                 </li>
             </ul>
@@ -19,12 +19,12 @@ function Nav() {
                     {/* <li><a href="/search/user/things"><img id="awards" src="/../../../images/award.png" /></a></li> */}
                     <li>
                         <Link to="/search/user/things">
-                            <img id="awards" src="/../../../images/award.png" />
+                            <img id="awards" src="/../../../images/award.png" alt="awards"/>
                         </Link>
                     </li>  
                     <li>
                         <Link to="/things">
-                            <img id="put" src="/../../../images/put.png" />
+                            <img id="put" src="/../../../images/put.png" alt="put" />
                         </Link>
                     </li>
                 </ul>

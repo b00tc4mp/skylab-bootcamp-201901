@@ -1,18 +1,12 @@
-import React from 'react'
-import ReactDOM from 'react-dom'
+// import { GoogleMap, Marker } from "react-google-maps"
 
-export function Modal({ children, onClose }) {
+// const MyMapComponent = (props) =>
+//   <GoogleMap
+//     defaultZoom={8}
+//     defaultCenter={{ lat: -34.397, lng: 150.644 }}
+//   >
+//     {props.isMarkerShown && <Marker position={{ lat: -34.397, lng: 150.644 }} />}
+//   </GoogleMap>
 
-    return ReactDOM.createPortal(
-        <div className='modal is-active'>
-            <div className='modal-background' />
-            <div className='modal-content'>
-                <div className='box'>
-                    {children}
-                </div>
-            </div>
-            <button aria-label='close' className='modal-close is-large' onClick={onClose}>x</button>
-        </div>
-        ,document.getElementById('modal')
-    )
-}
+// <MyMapComponent isMarkerShown />// Map with a Marker
+// <MyMapComponent isMarkerShown={false} />// Just only Map

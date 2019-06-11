@@ -1,18 +1,22 @@
 import React, { Fragment } from 'react'
-import logic from '../../logic'
+import { Link } from 'react-router-dom'
 import './index.sass'
 
-function Maps(props) {
+function Map() {    
 
-    // if(!logic.isUserLoggedIn) props.history.push('/login')
-return(<Fragment>
-    <div id="navbar-bottom">
-            <ul className="navigation">    
-                <li><a href="/search/locations"><img  id="map" src="../../../images/map.png" /></a></li>
+    return (<Fragment>
+        <div id="navbar-bottom">
+            <ul className="navigation">
+                <li>
+                    {/* <Link to="/search/locations"> */}
+                    <Link to="/search/locations">
+                        <img className="img-map" id="map" src="../../../images/map.png" alt="map"/>
+                    </Link>
+                </li>
             </ul>
         </div>
-        </Fragment>
-)
+    </Fragment>
+    )
 }
 
-export default Maps
+export default Map

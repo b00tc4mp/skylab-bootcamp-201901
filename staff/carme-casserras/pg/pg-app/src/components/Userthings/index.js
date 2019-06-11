@@ -5,7 +5,7 @@ import logic from '../../logic';
 function UserThings() {
 
     const [results, setResults] = useState([])
-
+        
     useEffect(() => {
         async function retrieve() {
             const res = await logic.retrivePrivateThings('userId')
@@ -14,26 +14,32 @@ function UserThings() {
         retrieve()
     }, [])
 
-    return (<ul>
-        <div>
-            <h1>AWARDS</h1>
-            <p>For each </p>
-        </div>
+    return (<div className="contens3">
+        <ul className="navigation-bodyresults1">
+            <div className="awards">
+                <h1><strong>AWARDS</strong></h1>
+                <p>For each upload thing you can take a </p>
+            </div>
 
-        {results &&
-            results.map(({ image, category, description, loc: { name } }) => {
+            {results &&
+                results.map(({ image, category, description, loc: { name } }) => {
 
-                return (
+                    return (
 
-                    <li key={category}>
-                        <img src={image} />
-                        <h2>{category}</h2>
-                        <p>{description}</p>
-                        <p>{name}</p>
-                    </li>)
-            })
-        }
-    </ul>
+                        <li className="liresults1" key={category}>
+                            <div className="product-short1">
+                                <img className="imgresults1" src={image} alt=""/>
+                                <div>
+                                    <h2><strong>Category: </strong> {category}</h2>
+                                    <p><strong>Description: </strong> {description}</p>
+                                    <p><strong>Location: </strong> {name}</p>
+                                </div>
+                            </div>
+                        </li>)
+                })
+            }
+        </ul>
+    </div>
     )
 }
 

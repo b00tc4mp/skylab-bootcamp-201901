@@ -7,11 +7,11 @@ function CategoryResults(props) {
     const [results, setResults] = useState([])
 
     const { match: { params: { category } } } = props
-    
+
     useEffect(() => {
         async function retrieve() {
             const res = await logic.searchByCategory(category)
-            
+
             setResults(res)
         }
         retrieve()
@@ -23,26 +23,26 @@ function CategoryResults(props) {
     }
 
     return (<div className="contens2">
-    <ul className="navigation-bodyresults">
+        <ul className="navigation-bodyresults">
 
-        {results &&
+            {results &&
 
-            results.map(({ _id: id, status, image, category, description, loc: {name} }) => {
+                results.map(({ _id: id, status, image, category, description, loc: { name } }) => {
 
-                return status == 0 &&
-                    (<li className="liresults" key={id} onClick={() => handleThing(id)}>
-                        <div className="product-short">
-                            <img className="imgresults" src={image} />
-                            <div>
-                                <h2>Category: {category}</h2>
-                                <p>Description: {description}</p>
-                                <p>Location:{name}</p>
+                    return status === 0 &&
+                        (<li className="liresults" key={id} onClick={() => handleThing(id)}>
+                            <div className="product-short">
+                                <img className="imgresults" src={image} alt="" />
+                                <div>
+                                    <h2><strong>Category: </strong> {category}</h2>
+                                    <p><strong>Description: </strong> {description}</p>
+                                    <p><strong>Location: </strong> {name}</p>
+                                </div>
                             </div>
-                        </div>
-                    </li>) 
-            })
-        }
-    </ul>
+                        </li>)
+                })
+            }
+        </ul>
     </div>
     )
 }
