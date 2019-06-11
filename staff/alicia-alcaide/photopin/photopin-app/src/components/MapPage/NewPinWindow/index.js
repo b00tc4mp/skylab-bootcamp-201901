@@ -3,7 +3,6 @@ import PropTypes from "prop-types";
 import { placeType } from "../../../types";
 import literals from "./literals";
 import iconPin from '../../../assets/icons/icon_pin.png';
-import iconCancel from '../../../assets/icons/icon_undo_back.png';
 import iconClose from '../../../assets/icons/icon_close.png';
 
 

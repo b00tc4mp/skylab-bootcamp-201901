@@ -4,20 +4,6 @@ import literals from "./literals";
 import Modal from "react-modal";
 import './index.css'
 
-const modalStyles = {
-  content: {
-    position: "relative",
-    bottom: 150,
-    left: 50,
-    width: 280,
-    height: 420,
-    backgroundColor: "white",
-    boxShadow: "0 2px 7px 1px rgba(0, 0, 0, 0.3)",
-    padding: 10,
-    fontSize: 14
-  }
-};
-
 class CollectionForm extends React.Component {
   state = { showModal: false };
 
@@ -35,8 +21,6 @@ class CollectionForm extends React.Component {
   handleSubmit = e => {
     e.preventDefault();
     e.stopPropagation();
-
-    //TODO: validar los campos del formulario
 
     const newCollection = {
       title: e.target.title.value

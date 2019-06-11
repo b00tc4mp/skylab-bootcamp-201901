@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { withRouter, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
+import { toast } from "react-toastify";
 import literals from "./literals";
 import logic from "../../logic";
 import NavBar from "../NavBar";
@@ -58,8 +59,9 @@ class MapPage extends Component {
     try {
       await logic.createCollection(this.state.pmap.id, title);
       this.fetchMapAndUpdateState(this.state.mapId);
+      this.reportSuccess();
     } catch (error) {
-      this.setState({ error });
+      this.reportError();
     }
   };
 
@@ -67,8 +69,9 @@ class MapPage extends Component {
     try {
       await logic.removeCollection(this.state.mapId, title);
       this.fetchMapAndUpdateState(this.state.mapId);
+      this.reportSuccess();
     } catch (error) {
-      this.setState({ error });
+      this.reportError();
     }
   };
 
@@ -76,8 +79,9 @@ class MapPage extends Component {
     try {
       await logic.updateCollection(this.state.mapId, oldTitle, newTitle);
       this.fetchMapAndUpdateState(this.state.mapId);
+      this.reportSuccess();
     } catch (error) {
-      this.setState({ error });
+      this.reportError();
     }
   };
 
@@ -94,8 +98,9 @@ class MapPage extends Component {
     try {
       await logic.removeMap(this.state.mapId);
       this.setState({ redirectToHome: true });
+      this.reportSuccess();
     } catch (error) {
-      this.setState({ error });
+      this.reportError();
     }
   };
 
@@ -124,8 +129,9 @@ class MapPage extends Component {
         const resp = await logic.createPin(this.state.pmap.id, place.collection, pin);
         this.setState({ newPinId: resp.id, selectedPinId: null });
         this.fetchMapAndUpdateState(this.state.mapId);
+        this.reportSuccess();
       } catch (error) {
-        this.setState({ error });
+        this.reportError();
       }
     }
   };
@@ -134,8 +140,9 @@ class MapPage extends Component {
     try {
       await logic.removePin(pinId);
       this.fetchMapAndUpdateState(this.state.mapId);
+      this.reportSuccess();
     } catch (error) {
-      this.setState({ error });
+      this.reportError();
     }
   };
 
@@ -153,10 +160,14 @@ class MapPage extends Component {
       );
       this.fetchMapAndUpdateState(this.state.mapId);
       this.setState({ selectedPinId: pin.id, newPinId: null });
+      this.reportSuccess();
     } catch (error) {
-      this.setState({ error });
+      this.reportError();
     }
   };
+
+  reportSuccess = () => toast.success(literals[this.props.lang].successMsg);
+  reportError = () => toast.error(literals[this.props.lang].successMsg);
 
   render() {
     const { state, props } = this;
@@ -164,10 +175,11 @@ class MapPage extends Component {
 
     return (
       <>
+        {!logic.isUserLoggedIn && <Redirect to="/logout" />}
         {state.redirectToHome && <Redirect to="/home" />}
         {state.redirectToMapForm && <Redirect to={`/mapform/${this.state.mapId}`} />}
         <div className="map-page">
-          <NavBar lang={props.lang} onLogout={props.onLogout} />
+          <NavBar lang={props.lang} onLogout={props.onLogout} onLangChange={props.onLangChange} />
           {state.pmap && (
             <h2 className="uk-margin-remove-top">
               <div className="uk-flex uk-column uk-flex-between">
@@ -234,7 +246,8 @@ class MapPage extends Component {
 }
 
 MapPage.propTypes = {
-  lang: PropTypes.string
+  lang: PropTypes.string,
+  onLangChange: PropTypes.func.isRequired
 };
 
 export default withRouter(MapPage);

@@ -10,7 +10,9 @@ export default {
     description: "Description: ",
     descriptionPlaceholder: "map description",
     coverImage: "Cover image: ",
-    coverImagePlaceholder: "url of the cover image"
+    coverImagePlaceholder: "url of the cover image",
+    successMsg: "Success!",
+    errorMsg: "Couldn't complete operation"
   },
   es: {
     titleNew: "Nuevo mapa",
@@ -23,6 +25,8 @@ export default {
     description: "Description: ",
     descriptionPlaceholder: "descriptión del mapa",
     coverImage: "Imagen de portada: ",
-    coverImagePlaceholder: "url para la imagen de portada"
+    coverImagePlaceholder: "url para la imagen de portada",
+    successMsg: "Hecho!",
+    errorMsg: "No se pudo completar la operación"
   }
 };

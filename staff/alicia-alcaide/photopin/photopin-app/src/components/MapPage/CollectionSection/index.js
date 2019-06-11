@@ -1,12 +1,13 @@
 import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { pmapType } from "../../../types";
-import { withRouter } from "react-router-dom";
+import { withRouter, Redirect } from "react-router-dom";
 import CollectionPin from "./CollectionPin";
 import CollectionForm from "./CollectionForm";
 import literals from "./literals";
 import './index.css'
 import YesNoModal from "../../Common/YesNoModal";
+import logic from "../../../logic";
 import iconShow from "../../../assets/icons/icon_eye.png";
 import iconEdit from "../../../assets/icons/icon_pencil.png";
 import iconDelete from "../../../assets/icons/icon_trash.png";
@@ -56,6 +57,7 @@ class CollectionSection extends Component {
 
     return (
       <>
+        {!logic.isUserLoggedIn && <Redirect to="/logout" />}
         <section className="collections__addCollection">
           <button className="button--addCollection" onClick={() => this.handleNewCollection()}>
             {literal.addCollection}

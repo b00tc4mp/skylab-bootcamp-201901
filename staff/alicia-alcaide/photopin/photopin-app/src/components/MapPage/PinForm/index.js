@@ -1,5 +1,6 @@
 import React from "react";
 import { PropTypes, string } from "prop-types";
+import { toast } from "react-toastify";
 import literals from "./literals";
 import validate from "photopin-validate";
 import Modal from "react-modal";
@@ -15,8 +16,7 @@ class PinForm extends React.Component {
     this.props.place && this.setState({ showModal: true, urlImage: this.props.place.urlImage || null });
 
     if (this.props.mapCollections.length === 0) {
-      //poner error en toaster
-      window.alert("You can not create a pin without having a collection")
+      toast.error(literals[this.props.lang].errorMsg);
       this.setState({ showModal: false });
       this.props.onCancel();
     }
@@ -107,7 +107,8 @@ class PinForm extends React.Component {
       update,
       cancel,
       headerAdd,
-      headerUpdate
+      headerUpdate,
+      errorMsg
     } = literals[lang];
 
     return (

@@ -5,7 +5,6 @@ import "./index.css";
 import iconShow from "../../../assets/icons/icon_eye.png";
 import iconEdit from "../../../assets/icons/icon_pencil.png";
 import iconDelete from "../../../assets/icons/icon_trash.png";
-import iconCancel from "../../../assets/icons/icon_undo_back.png";
 import iconClose from '../../../assets/icons/icon_close.png';
 
 const InfoWindow = props => {

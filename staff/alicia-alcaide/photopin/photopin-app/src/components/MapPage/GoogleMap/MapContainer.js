@@ -1,10 +1,12 @@
 import React from "react";
+import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import GoogleMapReact from "google-map-react";
 import SearchBox from "./SearchBox";
 import Marker from "../Marker";
 import NewMarker from "../NewMarker";
 import { placeType } from "../../../types";
+import logic from "../../../logic";
 
 const MAP_DEFAULT_ZOOM = 6;
 const MAP_DEFAULT_ZOOM_ON_PIN_SELECTED = 6;
@@ -142,62 +144,65 @@ class MapContainer extends React.Component {
     const { places, newPlace, mapApiLoaded, mapInstance, mapApi, mapCenter, mapZoom } = this.state;
     return (
       // Important! Always set the container height explicitly
-      <div style={{ height: "calc(100vh - 150px)", width: "calc(100vw - 360px)" }}>
-        {mapApiLoaded && !this.state.isPinFormOpen && (
-          <SearchBox map={mapInstance} mapApi={mapApi} onSearchResult={this.handleSearchResult} lang={lang} />
-        )}
-        <GoogleMapReact
-          bootstrapURLKeys={{
-            key: process.env.REACT_APP_GOOGLE_MAPS_ID,
-            libraries: ["places", "geometry"]
-          }}
-          defaultCenter={MAP_DEFAULT_CENTER}
-          defaultZoom={MAP_DEFAULT_ZOOM}
-          center={mapCenter}
-          zoom={mapZoom}
-          yesIWantToUseGoogleMapApiInternals
-          onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
-          onChildClick={this.handleMapElementClicked}
-          onClick={this.handleMapClicked}
-          hoverDistance={20}
-          options={{ fullscreenControl: false }}
-        >
-          {places &&
-            places.length > 0 &&
-            places.map(
-              place =>
-                place.visible && (
-                  <Marker
-                    key={place.id}
-                    place={place}
-                    text={place.name}
-                    lat={place.geometry.location.lat}
-                    lng={place.geometry.location.lng}
-                    onEditPinSubmitted={this.handlePinEdited}
-                    onPinFormOpen={this.handlePinFormOpen}
-                    onPinFormClosed={this.handlePinFormClosed}
-                    onInfoWindowClosed={this.handleInfoWindowClosed}
-                    onPinDelete={this.props.onPinDelete}
-                    mapCollections={this.props.mapCollections}
-                    lang={this.props.lang}
-                  />
-                )
-            )}
-          {newPlace && (
-            <NewMarker
-              place={newPlace}
-              lat={newPlace.geometry.location.lat}
-              lng={newPlace.geometry.location.lng}
-              onNewPinSubmitted={this.handleNewPinSubmitted}
-              onPinFormOpen={this.handlePinFormOpen}
-              onPinFormClosed={this.handlePinFormClosed}
-              onNewPinWindowClosed={this.handleNewPinWindowClosed}
-              mapCollections={this.props.mapCollections}
-              lang={this.props.lang}
-            />
+      <>
+        {!logic.isUserLoggedIn && <Redirect to="/logout" />}
+        <div style={{ height: "calc(100vh - 150px)", width: "calc(100vw - 360px)" }}>
+          {mapApiLoaded && !this.state.isPinFormOpen && (
+            <SearchBox map={mapInstance} mapApi={mapApi} onSearchResult={this.handleSearchResult} lang={lang} />
           )}
-        </GoogleMapReact>
-      </div>
+          <GoogleMapReact
+            bootstrapURLKeys={{
+              key: process.env.REACT_APP_GOOGLE_MAPS_ID,
+              libraries: ["places", "geometry"]
+            }}
+            defaultCenter={MAP_DEFAULT_CENTER}
+            defaultZoom={MAP_DEFAULT_ZOOM}
+            center={mapCenter}
+            zoom={mapZoom}
+            yesIWantToUseGoogleMapApiInternals
+            onGoogleApiLoaded={({ map, maps }) => this.apiHasLoaded(map, maps)}
+            onChildClick={this.handleMapElementClicked}
+            onClick={this.handleMapClicked}
+            hoverDistance={20}
+            options={{ fullscreenControl: false }}
+          >
+            {places &&
+              places.length > 0 &&
+              places.map(
+                place =>
+                  place.visible && (
+                    <Marker
+                      key={place.id}
+                      place={place}
+                      text={place.name}
+                      lat={place.geometry.location.lat}
+                      lng={place.geometry.location.lng}
+                      onEditPinSubmitted={this.handlePinEdited}
+                      onPinFormOpen={this.handlePinFormOpen}
+                      onPinFormClosed={this.handlePinFormClosed}
+                      onInfoWindowClosed={this.handleInfoWindowClosed}
+                      onPinDelete={this.props.onPinDelete}
+                      mapCollections={this.props.mapCollections}
+                      lang={this.props.lang}
+                    />
+                  )
+              )}
+            {newPlace && (
+              <NewMarker
+                place={newPlace}
+                lat={newPlace.geometry.location.lat}
+                lng={newPlace.geometry.location.lng}
+                onNewPinSubmitted={this.handleNewPinSubmitted}
+                onPinFormOpen={this.handlePinFormOpen}
+                onPinFormClosed={this.handlePinFormClosed}
+                onNewPinWindowClosed={this.handleNewPinWindowClosed}
+                mapCollections={this.props.mapCollections}
+                lang={this.props.lang}
+              />
+            )}
+          </GoogleMapReact>
+        </div>
+      </>
     );
   }
 }

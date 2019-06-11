@@ -12,7 +12,8 @@ export default {
     collection: "Collection: ",
     add: "Add",
     update: "Update",
-    cancel: "Cancel"
+    cancel: "Cancel",
+    errorMsg: "Couldn't create a new pin without any collection"
   },
   es: {
     headerAdd: "Crear nuevo pin",
@@ -27,6 +28,7 @@ export default {
     collection: "Colección: ",
     add: "Añadir",
     update: "Actualizar",
-    cancel: "Cancelar"
+    cancel: "Cancelar",
+    errorMsg: "No se puede crear un nuevo pin sin una colección"
   }
 };

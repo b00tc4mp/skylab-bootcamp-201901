@@ -43,7 +43,7 @@ class MapSection extends Component {
     this.setState({ places, mapCollections });
   }
 
-  pinToPlace = pin => { };
+  pinToPlace = pin => {};
 
   handleMarkerClicked = placeId => {
     this.togglePlaceInfoWindowVisibility(placeId);

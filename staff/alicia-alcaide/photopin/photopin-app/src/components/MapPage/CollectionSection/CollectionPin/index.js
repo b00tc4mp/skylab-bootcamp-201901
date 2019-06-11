@@ -9,10 +9,11 @@ const CollectionPin = props => {
     e.stopPropagation();
     props.onSelect(props.pin.id);
   };
-  const handleDelete = e => {
-    e.stopPropagation();
-    props.onDelete(props.pin.id);
-  };
+
+  // const handleDelete = e => {
+  //   e.stopPropagation();
+  //   props.onDelete(props.pin.id);
+  // };
 
   return (
     <li key={props.pin.id} className="uk-flex">

@@ -1,5 +1,5 @@
 const validate = require("photopin-validate");
-const { LogicError } = require("photopin-errors");
+const { LogicError, UnauthorizedError } = require("photopin-errors");
 const photopinApi = require("../photopin-api");
 
 const logic = {
@@ -48,6 +48,7 @@ const logic = {
   },
 
   logoutUser() {
+    this.__userToken__ = null;
     sessionStorage.clear();
   },
 
@@ -90,7 +91,7 @@ const logic = {
       try {
         return await photopinApi.retrieveUserMaps(this.__userToken__);
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },
@@ -102,7 +103,7 @@ const logic = {
       try {
         return await photopinApi.retrieveUserMap(this.__userToken__, mapId);
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },
@@ -118,7 +119,7 @@ const logic = {
       try {
         return await photopinApi.createMap(this.__userToken__, title, description, coverImage);
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },
@@ -133,7 +134,7 @@ const logic = {
       try {
         return await photopinApi.createCollection(this.__userToken__, mapId, title);
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },
@@ -149,7 +150,7 @@ const logic = {
       try {
         return await photopinApi.createPin(this.__userToken__, mapId, collectionTitle, newPin);
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },
@@ -164,7 +165,7 @@ const logic = {
       try {
         await photopinApi.updateMap(this.__userToken__, mapId, data);
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },
@@ -180,7 +181,7 @@ const logic = {
       try {
         await photopinApi.updateCollection(this.__userToken__, mapId, collectionTitle, title);
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },
@@ -211,7 +212,7 @@ const logic = {
           travelInformation
         );
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },
@@ -223,7 +224,7 @@ const logic = {
       try {
         await photopinApi.removeMap(this.__userToken__, mapId);
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },
@@ -238,7 +239,7 @@ const logic = {
       try {
         await photopinApi.removeCollection(this.__userToken__, mapId, collectionTitle);
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },
@@ -250,11 +251,18 @@ const logic = {
       try {
         await photopinApi.removePin(this.__userToken__, pinId);
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
+  },
+
+  handleError(error) {
+    if (error.status === 401) {
+      this.logoutUser();
+      throw new UnauthorizedError(error);
+    }
+    throw new LogicError(error);
   }
 };
 
 module.exports = logic;
-//export default logic

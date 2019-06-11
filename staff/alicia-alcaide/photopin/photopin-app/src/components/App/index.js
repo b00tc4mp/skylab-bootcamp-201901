@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { Route, withRouter, Redirect, Switch } from "react-router-dom";
-import logic from "../../logic";
 
+import logic from "../../logic";
 import Landing from "../Landing";
 import Register from "../Register";
 import Welcome from "../Welcome";
@@ -47,6 +47,10 @@ class App extends Component {
     this.props.history.push("/");
   };
 
+  handleLangChange = lang => {
+    this.setState({ lang });
+  };
+
   render() {
     const {
       state: { lang, error },
@@ -54,7 +58,8 @@ class App extends Component {
       handleLoginNavigation,
       handleLogin,
       handleRegister,
-      handleLogout
+      handleLogout,
+      handleLangChange
     } = this;
 
     return (
@@ -67,7 +72,12 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <Redirect to="/home" />
               ) : (
-                <Landing lang={lang} onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />
+                <Landing
+                  lang={lang}
+                  onRegister={handleRegisterNavigation}
+                  onLogin={handleLoginNavigation}
+                  onLangChange={handleLangChange}
+                />
               )
             }
           />
@@ -78,7 +88,7 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <Redirect to="/home" />
               ) : (
-                <Register lang={lang} onRegister={handleRegister} error={error} />
+                <Register lang={lang} onRegister={handleRegister} error={error} onLangChange={handleLangChange} />
               )
             }
           />
@@ -89,7 +99,7 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <Redirect to="/home" />
               ) : (
-                <Welcome lang={lang} onLogin={handleLoginNavigation} error={error} />
+                <Welcome lang={lang} onLogin={handleLoginNavigation} error={error} loggedOut={false} onLangChange={handleLangChange}/>
               )
             }
           />
@@ -97,19 +107,33 @@ class App extends Component {
           <Route
             path="/login"
             render={() =>
-              logic.isUserLoggedIn ? <Redirect to="/home" /> : <Login lang={lang} onLogin={handleLogin} error={error} />
+              logic.isUserLoggedIn ? (
+                <Redirect to="/home" />
+              ) : (
+                <Login lang={lang} onLogin={handleLogin} error={error} onLangChange={handleLangChange} />
+              )
             }
           />
 
           <Route
             path="/home"
-            render={() => (logic.isUserLoggedIn ? <Home lang={lang} onLogout={handleLogout} /> : <Redirect to="/" />)}
+            render={() =>
+              logic.isUserLoggedIn ? (
+                <Home lang={lang} onLogout={handleLogout} onLangChange={handleLangChange} />
+              ) : (
+                <Redirect to="/" />
+              )
+            }
           />
 
           <Route
             path="/map/:id"
             render={() =>
-              logic.isUserLoggedIn ? <MapPage lang={lang} onLogout={handleLogout} /> : <Redirect to="/" />
+              logic.isUserLoggedIn ? (
+                <MapPage lang={lang} onLogout={handleLogout} onLangChange={handleLangChange} />
+              ) : (
+                <Redirect to="/" />
+              )
             }
           />
 
@@ -117,14 +141,22 @@ class App extends Component {
             exact
             path="/mapform/:id"
             render={() =>
-              logic.isUserLoggedIn ? <MapForm lang={lang} onLogout={handleLogout} /> : <Redirect to="/" />
+              logic.isUserLoggedIn ? (
+                <MapForm lang={lang} onLogout={handleLogout} onLangChange={handleLangChange} />
+              ) : (
+                <Redirect to="/" />
+              )
             }
           />
 
           <Route
             path="/mapform"
             render={() =>
-              logic.isUserLoggedIn ? <MapForm lang={lang} onLogout={handleLogout} /> : <Redirect to="/" />
+              logic.isUserLoggedIn ? (
+                <MapForm lang={lang} onLogout={handleLogout} onLangChange={handleLangChange} />
+              ) : (
+                <Redirect to="/" />
+              )
             }
           />
 

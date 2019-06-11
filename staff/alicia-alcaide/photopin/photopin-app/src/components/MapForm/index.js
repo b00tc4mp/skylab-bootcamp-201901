@@ -6,6 +6,7 @@ import validate from "photopin-validate";
 import NavBar from "../NavBar";
 import placeholderImage from "../../assets/images/placeholder-image.png";
 import logic from "../../logic";
+import { toast } from "react-toastify";
 
 class MapForm extends Component {
   state = {
@@ -40,7 +41,10 @@ class MapForm extends Component {
             description: pmapInfo.description
           });
         })
-        .catch(error => this.setState({ error: error.message }));
+        .catch(error => {
+          toast.error(literals[this.props.lang].errorMsg);
+          this.setState({ error: error.message });
+        });
   }
 
   handleChangeImage = e => {
@@ -87,10 +91,12 @@ class MapForm extends Component {
             if (this.state.description !== "") data.description = this.state.description;
             if (e.target.coverImage.value) data.coverImage = e.target.coverImage.value;
             await logic.updateMap(this.state.mapId, data);
+            toast.success(literals[this.props.lang].successMsg);
             this.setState({ redirectToMap: true });
           }
         }
       } catch (error) {
+        toast.error(literals[this.props.lang].errorMsg);
         this.setState({ error });
       }
     })();
@@ -128,7 +134,7 @@ class MapForm extends Component {
         {this.state.redirectToHome && <Redirect to="/home" />}
         {this.state.redirectToMap && <Redirect to={`/map/${this.state.mapId}`} />}
 
-        <NavBar lang={lang} onLogout={onLogout} />
+        <NavBar lang={lang} onLogout={onLogout} onLangChange={this.props.onLangChange} />
         <h2 className="uk-text-center uk-margin-medium-bottom uk-margin-remove-top">
           {this.state.mapId ? titleEdit : titleNew}
         </h2>
@@ -218,6 +224,7 @@ class MapForm extends Component {
 MapForm.propTypes = {
   lang: PropTypes.string.isRequired,
   onLogout: PropTypes.func.isRequired,
+  onLangChange: PropTypes.func.isRequired,
   mapId: PropTypes.string
 };
 
