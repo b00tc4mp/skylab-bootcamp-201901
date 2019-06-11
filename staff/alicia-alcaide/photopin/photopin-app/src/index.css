@@ -50,6 +50,10 @@ ul {
   list-style-type: none;
 }
 
+a {
+  color: #666 !important;
+}
+
 .border-blue {
   border: 1px solid blue;
 }
@@ -87,4 +91,12 @@ ul {
   text-align: center;
   text-decoration: none;
   text-transform: uppercase;
+}
+
+.custom-pading-medium {
+  padding-top: 20px;
+}
+
+.ReactModal__Overlay {
+  z-index: 9;
 }

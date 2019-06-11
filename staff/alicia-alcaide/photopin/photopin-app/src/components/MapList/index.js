@@ -13,28 +13,24 @@ function MapList({ lang, maps }) {
           return (
             <div key={map.id} className="uk-margin-small-bottom">
               <div className="uk-card uk-card-default uk-card-body">
-                <h4 className="uk-card-title">
-                  <Link className="card-link" to={`/map/${map.id}`}>
-                    {map.title}
-                  </Link>
-                </h4>
-                <div>
-                  <img src={map.coverImage} width="" height="" alt="" />
-                </div>
+                <Link className="card-link" to={`/map/${map.id}`}>
+                  <h3 className="">{map.title}</h3>
+                  <div>
+                    <img src={map.coverImage} width="" height="" alt="" />
+                  </div>
+                </Link>
               </div>
             </div>
           );
         })}
         <div className="uk-margin-small-bottom">
           <div className="uk-card uk-card-default uk-card-body">
-            <h4 className="uk-card-title uk-width-auto">
-              <Link className="card-link" to="/mapform">
-                {create}
-              </Link>
-            </h4>
-            <div>
-              <img src={logo} alt="logo-PhotoPin" width="180" height="180" />
-            </div>
+            <Link className="card-link" to="/mapform">
+              <h3 className="uk-width-auto">{create}</h3>
+              <div>
+                <img src={logo} alt="logo-PhotoPin" width="180" height="180" />
+              </div>
+            </Link>
           </div>
         </div>
       </div>

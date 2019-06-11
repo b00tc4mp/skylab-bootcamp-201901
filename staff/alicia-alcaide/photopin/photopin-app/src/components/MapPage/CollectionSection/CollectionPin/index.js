@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { pinType } from "../../../../types";
-import iconDelete from "../../../../assets/icons/icon_trash.png";
+import './index.css'
+import iconPinUp from "../../../../assets/icons/icon_pin_up.png";
 
 const CollectionPin = props => {
   const handleSelect = e => {
@@ -16,12 +17,13 @@ const CollectionPin = props => {
   return (
     <li key={props.pin.id} className="uk-flex">
       <div className="">
+        <img className="" src={iconPinUp} height="15" width="15" alt="" />
         <a onClick={handleSelect}> {props.pin.title}</a>
       </div>
       <div className="">
-        <button className="uk-button uk-button-default uk-button-small" type="button" onClick={handleDelete}>
+        {/* <button className="uk-button uk-button-default uk-button-small" type="button" onClick={handleDelete}>
           <img className="" src={iconDelete} height="18" width="18" alt="" />
-        </button>
+        </button> */}
       </div>
     </li>
   );

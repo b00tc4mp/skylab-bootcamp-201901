@@ -155,7 +155,7 @@ const logic = {
     })();
   },
 
-  //-------------------------------------------------------------------------------------------
+  //------------------ A partir de aquí revisar las cabeceras ----------------------------
 
   /**
    * Retrieve the complete user data (name, surname, email, avatar, language and )

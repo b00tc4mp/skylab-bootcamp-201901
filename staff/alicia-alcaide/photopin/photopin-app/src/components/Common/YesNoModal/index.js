@@ -1,21 +1,8 @@
 import React from "react";
 import { PropTypes } from "prop-types";
 import literals from "./literals";
+import './index.css';
 import Modal from "react-modal";
-
-const modalStyles = {
-  content: {
-    position: "relative",
-    bottom: 150,
-    left: 50,
-    width: 280,
-    height: 420,
-    backgroundColor: "white",
-    boxShadow: "0 2px 7px 1px rgba(0, 0, 0, 0.3)",
-    padding: 10,
-    fontSize: 14
-  }
-};
 
 class YesNoModal extends React.Component {
   state = { showModal: false };
@@ -45,13 +32,13 @@ class YesNoModal extends React.Component {
     const literal = literals[props.lang];
 
     return (
-      <Modal isOpen={state.showModal} onRequestClose={handleNo} style={modalStyles} ariaHideApp={false}>
-        <div className="modal">
+      <Modal isOpen={state.showModal} onRequestClose={handleNo} ariaHideApp={false} className="modal-yesno-page modal-yesno">
+        <div className="uk-container custom-pading-medium">
           <h2>{props.title}</h2>
-          <h3>{props.desc}</h3>
-          <div>
-            <button onClick={handleYes}>{literal.yes}</button>
-            <button onClick={handleNo}>{literal.no}</button>
+          <h4>{props.desc}</h4>
+          <div className="uk-flex uk-flex-center">
+            <button className="custom-form-button-small" onClick={handleYes}>{literal.yes}</button>
+            <button className="custom-form-button-small" onClick={handleNo}>{literal.no}</button>
           </div>
         </div>
       </Modal>

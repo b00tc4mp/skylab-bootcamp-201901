@@ -5,7 +5,12 @@ import { withRouter } from "react-router-dom";
 import CollectionPin from "./CollectionPin";
 import CollectionForm from "./CollectionForm";
 import literals from "./literals";
+import './index.css'
 import YesNoModal from "../../Common/YesNoModal";
+import iconShow from "../../../assets/icons/icon_eye.png";
+import iconEdit from "../../../assets/icons/icon_pencil.png";
+import iconDelete from "../../../assets/icons/icon_trash.png";
+
 
 class CollectionSection extends Component {
   state = { error: null, addingCollection: false, editingCollection: null, deletingCollection: false };
@@ -83,18 +88,61 @@ class CollectionSection extends Component {
         </section>
         <section className="collections">
           {props.pmap && props.pmap.collections && (
+            // ---------  VIEJO  -------------
+            // <ul uk-accordion="multiple: true">
+            //   {props.pmap.collections.map(collection => {
+            //     return (
+            //       <li key={collection.title} className="uk-open">
+            //         <h6 className="uk-margin-left uk-accordion-title">
+            //           <button onClick={() => props.onCollectionVisibilityToggle(collection.title)}>T</button>
+            //           {collection.title}
+            //           <button onClick={() => this.handleEditCollection(collection)}>E</button>
+            //           <button onClick={() => this.handleDeleteCollection(collection)}>D</button>
+            //         </h6>
+            //         {collection.pins && (
+            //           <ul className="uk-margin-left uk-accordion-content">
+            //             {collection.pins.map(pin => (
+            //               <CollectionPin
+            //                 key={pin.id}
+            //                 pin={pin}
+            //                 onSelect={props.onPinSelect}
+            //                 onDelete={props.onPinDelete}
+            //               />
+            //             ))}
+            //           </ul>
+            //         )}
+            //       </li>
+            //     );
+            //   })}
+            // </ul>
+            // ---------  NUEVO pero solo sale +  -------------
             <ul uk-accordion="multiple: true">
               {props.pmap.collections.map(collection => {
                 return (
                   <li key={collection.title} className="uk-open">
-                    <h6 className="uk-margin-left uk-accordion-title">
-                      <button onClick={() => props.onCollectionVisibilityToggle(collection.title)}>T</button>
-                      {collection.title}
-                      <button onClick={() => this.handleEditCollection(collection)}>E</button>
-                      <button onClick={() => this.handleDeleteCollection(collection)}>D</button>
-                    </h6>
+                    <div className="uk-accordion-title uk-flex uk-column uk-flex-between" >
+                      <div className="uk-left">
+                        <h6 className="uk-accordion-title custom-accordion-title">
+                          {collection.title}
+                        </h6>
+                      </div>
+                      <div className="uk-right">
+                        <button className="uk-button uk-button-default uk-button-small custom-buttom-mini"
+                          onClick={() => props.onCollectionVisibilityToggle(collection.title)}>
+                          <img className="" src={iconShow} height="18" width="18" alt="" />
+                        </button>
+                        <button className="uk-button uk-button-default uk-button-small custom-buttom-mini"
+                          onClick={() => this.handleEditCollection(collection)}>
+                          <img className="" src={iconEdit} height="15" width="15" alt="" />
+                        </button>
+                        <button className="uk-button uk-button-default uk-button-small custom-buttom-mini"
+                          onClick={() => this.handleDeleteCollection(collection)}>
+                          <img className="" src={iconDelete} height="15" width="15" alt="" />
+                        </button>
+                      </div>
+                    </div >
                     {collection.pins && (
-                      <ul className="uk-margin-left uk-accordion-content">
+                      <ul className="uk-accordion-content custom-accordion-content custom-ul">
                         {collection.pins.map(pin => (
                           <CollectionPin
                             key={pin.id}
