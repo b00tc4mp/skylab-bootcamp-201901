@@ -6,7 +6,9 @@ require('dotenv').config()
 //   } = process;
 
 const dataApi = {
-    __url__: 'http://localhost:8080/api',
+    /* __url__: 'http://localhost:8080/api', */
+    __url__: 'https://rocky-beach-96004.herokuapp.com/api',
+
     __timeout__: 0,
 
 

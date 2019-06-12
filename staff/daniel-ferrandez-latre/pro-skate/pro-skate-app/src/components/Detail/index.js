@@ -16,30 +16,21 @@ function Detail({ match, cartItemsQuantity }) {
     params: { id }
   } = match;
 
-  // useEffect(function() {
-  //   async function getProduct() {
-  //     const detailA = await logic.retrieveProduct(id);
-  //     setDetail(detailA);
-  //   }
-  //   getProduct();
-  // }, []);
+  useEffect(()=>{
+    async function verify(){
+      const detailA = await logic.retrieveProduct(id);
+      setDetail(detailA);
 
-
-  useEffect(
-    ()=>(
-      async () =>{
-        const detailA = await logic.retrieveProduct(id);
-        setDetail(detailA);
-      }
-    )()
-  , []);
+    }
+    verify()
+  }, []);
+  
 
   async function handleAddToCart() {
-    debugger;
     console.log(logic.__userToken__);
     if (logic.__userToken__) {
       await logic.addProductToCart(logic.__userToken__, id);
-      debugger;
+
       await cartItemsQuantity();
     } else {
       setModalLogin("modal is-active");

@@ -21,13 +21,13 @@ function App({history}) {
   const [totalAmount, setTotalAmount] = useState(0)
   
 
-  useEffect( 
-    ()=> (
-      async ()=>{
-        logic.isUserLoggedIn && await cartItemsQuantity()
-      }
-    )()
-  , [])
+  // useEffect( ()=> {
+  //   cartItemsQuantity()
+  //   /* async function verify(){
+  //     logic.isUserLoggedIn && await cartItemsQuantity()
+  //   }
+  //   verify() */
+  // }, [])
 
 
   const handleProductDetail = async (id) => {
@@ -49,7 +49,6 @@ function App({history}) {
   const cartItemsQuantity =  async () => {
     
     if(logic.isUserLoggedIn) {
-      
       const cart = await logic.retrieveCart()
       let quantity = 0
       let amount = 0
@@ -89,13 +88,13 @@ function App({history}) {
   
   return (
     <div className='App'>
-      <Navbar  userLogged={userLogged} username={userName}  quantity={quantity}/>
+      <Navbar username={userName} quantity={quantity}/>
       <Switch>
         <Route exact path='/' render={() => <Landing handleProductDetail={handleProductDetail} />} />
-        <Route exact path='/register' render={() => <Register />} />
-        <Route exact path='/login' render={() => <Login />} />
-        <Route exact path='/detail/:id' render={() => <Detail cartItemsQuantity={cartItemsQuantity}/>} /> 
-        <Route exact path='/cart' render={() => logic.isUserLoggedIn ? <Cart cartItems={cartItems} cartItemsQuantity={cartItemsQuantity} totalAmount={totalAmount} /> : <Redirect to="/" /> } />
+        <Route  path='/register' render={() => <Register />} />
+        <Route  path='/login' render={() => <Login />} />
+        <Route  path='/detail/:id' render={() => <Detail cartItemsQuantity={cartItemsQuantity}/>} /> 
+        <Route  exact='/cart' render={() => logic.isUserLoggedIn ? <Cart cartItems={cartItems} cartItemsQuantity={cartItemsQuantity} totalAmount={totalAmount} /> : console.log('hola') } />
       </Switch>
     </div>
   );

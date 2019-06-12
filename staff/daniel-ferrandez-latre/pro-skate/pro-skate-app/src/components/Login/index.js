@@ -5,7 +5,7 @@ import logic from "../../logic";
 function Login({ history }) {
   const [messageError, setErrorMessage] = useState(null);
 
-  if (logic.isUserLoggedIn) history.push("/home");
+  if (logic.isUserLoggedIn) history.push("/");
 
   async function handleSubmit(event) {
     event.preventDefault();
@@ -14,13 +14,11 @@ function Login({ history }) {
       password: { value: password }
     } = event.target;
     try {
-      debugger;
       await logic.loginUser(email, password);
       history.push("/");
     } catch (error) {
       setErrorMessage(error.message);
     }
-    console.log(messageError);
   }
 
   return (

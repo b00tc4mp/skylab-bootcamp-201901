@@ -9,14 +9,14 @@ function Cart({cartItems, cartItemsQuantity, totalAmount}) {
 
   const [userMail, setUserMail] = useState('')
 
-    useEffect(
-      ()=> (
-        async()=>{
+    useEffect( () =>{
+      async function retrieveEmail(){
         const user = await logic.retrieveUser(logic.__userToken__)
         setUserMail(user.email)
-        }
-      )()
-      ,[])
+
+      }
+      retrieveEmail()
+    },[])
 
 
   const handleCheckout = async (token)=>{
@@ -43,4 +43,4 @@ function Cart({cartItems, cartItemsQuantity, totalAmount}) {
 
 }
 
-export default Cart
+export default withRouter(Cart)

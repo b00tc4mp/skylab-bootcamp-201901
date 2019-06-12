@@ -6,13 +6,11 @@ import NavCard from "../NavCard";
 
 function Navbar({ history, quantity }) {
 
-  
-
   return (
     <nav class='navbar' role='navigation' aria-label='main navigation'>
       <div class='navbar-brand'>
-        <a class='navbar-item' onClick={() => { debugger
-          return history.push("/")}}>
+        <a class='navbar-item' onClick={() => history.push("/")}>
+          
           <img src={logo} />
         </a>
         <a
@@ -48,27 +46,21 @@ function Navbar({ history, quantity }) {
 
         <div class='navbar-end'>
           <div class='navbar-item'>
-            <div onClick={() => history.push("/cart")}>
-              {logic.isUserLoggedIn && <NavCard quantity={quantity} />}
-            </div>
-            <div class='buttons'>
-              {!logic.isUserLoggedIn && (
+            <div >
+              {!logic.isUserLoggedIn ? <div class='buttons'>
                 <a class='button is-primary' onClick={e => history.push("/register")}>
                   <strong>Sign up</strong>
                 </a>
-              )}
-              {!logic.isUserLoggedIn && (
                 <a class='button is-light' onClick={e => history.push("/login")}>
                   Log in
                 </a>
-              )}
-              {/* <p>{userName}</p> */}
-              {logic.isUserLoggedIn && (
+                </div>
+                :
+                <div class='buttons'>
+                <NavCard quantity={quantity} />
                 <a class='button is-light' onClick={e => history.push("/login")}>
                   Profile
                 </a>
-              )}
-              {logic.isUserLoggedIn && (
                 <a
                   class='button is-light'
                   onClick={e => {
@@ -77,7 +69,13 @@ function Navbar({ history, quantity }) {
                   }}>
                   LogOut
                 </a>
-              )}
+                </div>
+              }
+
+
+
+
+
             </div>
           </div>
         </div>
