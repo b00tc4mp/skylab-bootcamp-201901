@@ -528,7 +528,6 @@ describe('auctionlive-api', () => {
             let item_, _item_, _password, token
     
             beforeEach(async ()=> {
-                debugger
                 _password = bcrypt.hashSync(password, 10)
                 
                 await User.create({name, surname, email, password: _password})
@@ -934,6 +933,53 @@ describe('auctionlive-api', () => {
                 } catch (error) {
                     expect(error).toBeDefined()
                     expect(error).toBeInstanceOf(Error)
+                    expect(error.message).toBe("jwt malformed")
+                }
+            })
+        })
+
+        describe('retrieve item users bids', ()=> {
+            it('should success on correct item and user id', async () =>{
+                let amount = 1000
+                await auctionLiveApi.placeBid(item.id, token, amount)
+
+                let amount2 = 1500
+                await auctionLiveApi.placeBid(item.id, token, amount2)
+
+                const _item = await auctionLiveApi.retrieveUserItemsBids(token)
+            
+                expect(_item).toBeInstanceOf(Array)
+                expect(_item[0].bids.length).toBe(2)
+                
+                expect(_item[0].bids[0].userId.id).toBe(user.id)
+                expect(_item[0].bids[0].amount).toBe(amount2)
+                expect(_item[0].bids[1].userId.id).toBe(user.id)
+                expect(_item[0].bids[1].amount).toBe(amount)
+            })
+
+            it('should fail on incorrect user id', async () => {
+                let token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
+                
+                try {
+                    await auctionLiveApi.retrieveUserItemsBids(token)              
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(Error)
+    
+                    expect(error.message).toBe('invalid signature')
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                let token = 'wrong-id'
+                
+                try {
+                    await auctionLiveApi.retrieveUserItemsBids(token)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+            
                     expect(error.message).toBe("jwt malformed")
                 }
             })

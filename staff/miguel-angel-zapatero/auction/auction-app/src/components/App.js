@@ -14,6 +14,7 @@ import Footer from './Footer'
 import handleErrors from '../common/handleErrors'
 import UIkit from 'uikit'
 import './index.sass'
+import moment from 'moment'
 
 function App({ history }) {
 

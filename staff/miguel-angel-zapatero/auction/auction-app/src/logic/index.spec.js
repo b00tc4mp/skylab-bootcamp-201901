@@ -638,7 +638,7 @@ describe('logic', () => {
                 logic.__userToken__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
                 
                 try {
-                    await auctionLiveApi.retrieveItem(_item_.id, token)               
+                    await logic.retrieveItem(_item_.id)               
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
@@ -648,11 +648,11 @@ describe('logic', () => {
                 }
             })
 
-            it('should fail on incorrect user id', async () => {
+            it('should fail on incorrect user token', async () => {
                 logic.__userToken__ = 'wrong-id'
                 
                 try {
-                    await auctionLiveApi.retrieveItem(_item_.id, token)
+                    await logic.retrieveItem(_item_.id)
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
@@ -753,6 +753,60 @@ describe('logic', () => {
                 expect(_user.items[0].toString()).toBe(item.id)
             })
 
+            it('should fail on item is closed', async () => {
+                const _item = await Item.create({
+                    title: `Car-${Math.random()}`,
+                    description: `description-${Math.random()}`,
+                    startPrice: Math.floor(Math.random() * 200) + 10,
+                    startDate: Date.now(),
+                    finishDate: Date.now() - (Math.ceil(Math.random() * 1000000000)),
+                    reservedPrice: Math.floor(Math.random() * 1),
+                    city: cities[Math.floor(Math.random() * cities.length)],
+                    category: categories[Math.floor(Math.random() * categories.length)],
+                    images: "image1.jpg"
+                })
+                
+                let amount = 100
+                
+                try {
+                    await logic.placeBid(_item.id, amount)
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(Error)
+    
+                    expect(error.message).toBe(`item with id "${_item.id}" is closed`)
+
+                    
+                }
+            })
+
+            it('should fail on item is upcoming', async () => {
+                const _item = await Item.create({
+                    title: `Car-${Math.random()}`,
+                    description: `description-${Math.random()}`,
+                    startPrice: Math.floor(Math.random() * 200) + 10,
+                    startDate: Date.now() + (Math.ceil(Math.random() * 1000000000)),
+                    finishDate: Date.now() + (Math.ceil(Math.random() * 1000000000)),
+                    reservedPrice: Math.floor(Math.random() * 1),
+                    city: cities[Math.floor(Math.random() * cities.length)],
+                    category: categories[Math.floor(Math.random() * categories.length)],
+                    images: "image1.jpg"
+                })
+                
+                let amount = 100
+                
+                try {
+                    await logic.placeBid(_item.id, amount)
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(Error)
+    
+                    expect(error.message).toBe(`the auction item with id "${_item.id}" has not started`)
+                }
+            })
+
             it('should fail if the bid is lower than the start price', async () => {
                 let amount = 5
                 try {
@@ -767,10 +821,13 @@ describe('logic', () => {
                 }
             })
 
-            it('should fail if the bid is lower than the current bid', async () => {
-                let amount = 2000
+            it('should fail if the bid is lower than the current bid with less than 10 bids', async () => {
+                let amount = 2000, currentBid
                 try {
                     await logic.placeBid(item.id, amount)
+
+                    const _items = await Item.findById(item.id)
+                    currentBid = _items.bids[0].amount
                     
                     amount = 1000
                     await logic.placeBid(item.id, amount)
@@ -778,9 +835,9 @@ describe('logic', () => {
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    expect(error).toBeInstanceOf(LogicError)
+                    expect(error).toBeInstanceOf(Error)
     
-                    expect(error.message).toBe(`sorry, the bid "${amount}" is lower than the current amount`)
+                    expect(error.message).toBe(`sorry, the bid "${amount}" is lower than the minimum bid "${currentBid+100}"`)
                 }
             })
 
@@ -925,6 +982,53 @@ describe('logic', () => {
                 } catch (error) {
                     expect(error).toBeDefined()
                     expect(error).toBeInstanceOf(LogicError)
+                    expect(error.message).toBe("jwt malformed")
+                }
+            })
+        })
+
+        describe('retrieve item users bids', ()=> {
+            it('should success on correct item and user id', async () =>{
+                let amount = 1000
+                await logic.placeBid(item.id, amount)
+
+                let amount2 = 1500
+                await logic.placeBid(item.id, amount2)
+
+                const _item = await logic.retrieveUserItemsBids()
+            
+                expect(_item).toBeInstanceOf(Array)
+                expect(_item[0].bids.length).toBe(2)
+                
+                expect(_item[0].bids[0].userId.id).toBe(user.id)
+                expect(_item[0].bids[0].amount).toBe(amount2)
+                expect(_item[0].bids[1].userId.id).toBe(user.id)
+                expect(_item[0].bids[1].amount).toBe(amount)
+            })
+
+            it('should fail on incorrect user id', async () => {
+                logic.__userToken__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
+                
+                try {
+                    await logic.retrieveUserItemsBids()              
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(Error)
+    
+                    expect(error.message).toBe('invalid signature')
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                logic.__userToken__ = 'wrong-id'
+                
+                try {
+                    await logic.retrieveUserItemsBids()                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+            
                     expect(error.message).toBe("jwt malformed")
                 }
             })
