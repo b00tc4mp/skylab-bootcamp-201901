@@ -41,26 +41,3 @@ Users can:
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<!-- 
-[](https://66.media.tumblr.com/5ce5a8a261dc02e96cfab980383a7b66/tumblr_nt75wcjCDz1tybnd7o1_400.gif)
-[](https://media1.tenor.com/images/3ccc0e15cbf9bee22c30701649065643/tenor.gif?itemid=3393582) -->
-
-

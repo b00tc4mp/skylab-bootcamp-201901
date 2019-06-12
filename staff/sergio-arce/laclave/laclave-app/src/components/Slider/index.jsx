@@ -3,7 +3,7 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faSearch } from "@fortawesome/free-solid-svg-icons"
 
-import video from '../../img/video.mp4'
+import backgroundImg from '../../img/background-social.jpeg'
 
 function Slider({ onSearchItems }) {
 
@@ -16,16 +16,12 @@ function Slider({ onSearchItems }) {
 
     return (
 
-        <section className="slider">
-            {/* <video id="slider__video" loop autoPlay muted > */}
-                    {/* <source src="" type="video/mp4" />
-                    <source src={video} type="video/ogg" /> */}
+        <section className="slider" style={{ backgroundImage: `url("${backgroundImg}")`}} >
                 <div>
-                    
                     <header className="slider__header">
                         <h1>La Clave</h1>
-                        <p>Beautiful, free photos.</p>
-                        <p>Gifted by the world’s most generous community of photographers.</p>
+                        <p>Find the best congress in your city.</p>
+                        <p>Life is better when you dancing</p>
                     </header>
 
                     <form onSubmit={handleSearch} className="slider__search" >
@@ -34,10 +30,9 @@ function Slider({ onSearchItems }) {
                         
                     </form>
 
-                    <p>Trending searches: flower, wall, paper, background, sad, love</p>
+                    <p>#artists #barcelona #congresses</p>
                     
                 </div>
-            {/* </video> */}
         </section>
 
     )

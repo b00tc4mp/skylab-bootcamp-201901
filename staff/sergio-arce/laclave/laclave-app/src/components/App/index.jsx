@@ -211,6 +211,9 @@ class App extends Component {
                     <Route exact path="/item/:itemId" 
                         render={() => <Detail /> } 
                     />
+
+
+                    
                 </Switch>
             </>
         )

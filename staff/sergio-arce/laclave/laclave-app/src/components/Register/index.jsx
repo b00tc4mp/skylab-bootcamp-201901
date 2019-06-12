@@ -2,6 +2,8 @@ import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Link } from 'react-router-dom'
 
+import backgroundImg from '../../img/register-image.png'
+
 function Register({ onRegister }) {
 
     function handleRegister(event) {
@@ -22,12 +24,12 @@ function Register({ onRegister }) {
 
         <section className="register">
         
-            <header className="register__header">
+            <header className="register__header" style={{ backgroundImage: `url("${backgroundImg}")`}} >
                 <Link to="/" className="register__header__icon">
                     <FontAwesomeIcon icon="home" />
                 </Link>
-                <h1>Creation starts here</h1>
-                <p>Access 1,007,979 free, high-resolution photos you can’t find anywhere else Uploaded over 1 year ago by Deva Darshan</p>
+                <h1>Live the unique experience</h1>
+                <p>Find the best congress in your city. Share your artists from mambo, salsa, bachata with the community.</p>
             </header>
 
             <div>

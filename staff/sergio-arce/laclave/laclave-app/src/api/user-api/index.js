@@ -1,7 +1,7 @@
 const userApi = {
 
-    // __url__ : 'http://192.168.1.131:3000', 
-    __url__ : 'http://localhost:8000/api', 
+    __url__ : 'https://shrouded-retreat-99966.herokuapp.com/api', 
+    // __url__ : 'http://localhost:8000/api', 
 
     registerUser(name, username, email, password) {
 
