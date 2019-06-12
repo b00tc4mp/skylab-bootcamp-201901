@@ -278,8 +278,7 @@ debugger
                 const things = await logic.searchByLocation(name)
                 expect(things).toBeDefined()
                 expect(things).toBeInstanceOf(Array)
-                expect(things).toHave
-                Length(1)
+                expect(things).toHaveLength(1)
 
                 things.forEach(thing => {
 

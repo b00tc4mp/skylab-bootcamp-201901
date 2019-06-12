@@ -9,6 +9,15 @@ const { UserData, Thing } = models
 
 const logic = {
 
+    /**
+     * Register user
+     * 
+     * @param {string} name 
+     * @param {string} email 
+     * @param {string} password 
+     * 
+     */
+
     registerUser(name, email, password) {
 
         validate.arguments([
@@ -31,6 +40,15 @@ const logic = {
         })()
     },
 
+    /**
+     * Verify if is the correct user
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     * 
+     * @returns {string} user id
+     */
+
     authenticateUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
@@ -41,7 +59,7 @@ const logic = {
 
         return (async () => {
 
-            // el find no s'utiliza, el findOne et retorna un objecte
+            // el findOne et retorna un objecte
             const user = await UserData.findOne({ email })
 
             if (!user) throw new LogicError(`user with email ${email} does not exist`)
@@ -51,6 +69,16 @@ const logic = {
             return user.id
         })()
     },
+
+    /**
+     * Returns some information of user
+     * 
+     * @param {*} id user
+     * 
+     * @returns {object} userid, name, email
+     * 
+     */
+
 
     retrieveUser(id) {
 
@@ -66,6 +94,17 @@ const logic = {
 
         })()
     },
+
+    /**
+     * Add an item to container
+     * 
+     * @param {object} buffer 
+     * @param {string} category 
+     * @param {string} description 
+     * @param {string} userId 
+     * @param {string} locId 
+     * 
+     */
 
     addPublicThing(buffer, category, description, userId, locId) {
 
@@ -89,17 +128,22 @@ const logic = {
                     if (err) throw new LogicError('Image could not be uploaded')
                     resolve(image)
                 })
-                streamifier.createReadStream(buffer).pipe(uploadStream)
-    
+                streamifier.createReadStream(buffer).pipe(uploadStream)    
             })
 
-            debugger
-            const carme = await Thing.create({ image: image.secure_url, category, description, owner: userId, loc: locId })
-            debugger
-            console.log(carme)
-
+            await Thing.create({ image: image.secure_url, category, description, owner: userId, loc: locId })
+            
         })()
     },
+
+    /**
+     * Update if the item is or not in the container
+     * 
+     * @param {*} userId 
+     * @param {*} id 
+     * @param {*} status 
+     * 
+     */
 
     updatePublicThing(userId, id, status) {
         validate.arguments([
@@ -115,28 +159,43 @@ const logic = {
                 if (!thing) throw new LogicError(`thing with id ${id} does not exist`)
                 return thing
             }
-            catch (err) {
-                throw new LogicError(err)
-            }
+            catch (err) {throw new LogicError(err)}
         })()
     },
+
+    /**
+     * Seach all the items by category
+     * 
+     * @param {*} userId 
+     * @param {*} category 
+     * 
+     * @returns {array} for each item returns: status, image, category, description, location, address 
+     * 
+     */
 
     searchByCategory(userId, category) {
         validate.arguments([
             { name: 'userId', value: userId, type: 'string', notEmpty: true },
             { name: 'category', value: category, type: 'string', notEmpty: true }
         ])
-        debugger
+    
         return (async () => {
             try {
 
-                return await Thing.find({ category }).populate('loc', 'name -_id').select('status image category description loc').lean()
+                return await Thing.find({ category }).populate('loc', 'name address -_id').select('status image category description loc').lean()
             }
-            catch (err) {
-                throw new LogicError(err)
-            }
+            catch (err) {throw new LogicError(err)}
         })()
     },
+
+    /**
+     * Seach all the items by location
+     * 
+     * @param {*} location 
+     * 
+     * @returns {array} for each item returns: status, image, category, description, location, address 
+     * 
+     */
 
     searchByLocation(location) {
         validate.arguments([
@@ -146,7 +205,7 @@ const logic = {
 
         return (async () => {
 
-            const all = await Thing.find().populate('loc', 'name address -_id').select('-_id -__v -owner')
+            const all = await Thing.find().populate('loc', 'name address -_id').select('-__v -owner')
 
             const locationThings = all.filter(thing => thing.loc.name === location)
 
@@ -155,6 +214,15 @@ const logic = {
         })()
 
     },
+
+    /**
+     * Retrieve all the items's user
+     * 
+     * @param {*} userId 
+     * 
+     * @returns {array} for each item returns: image, category, description, location
+     * 
+     */
 
     retrivePrivateThings(userId) {
         validate.arguments([
@@ -168,6 +236,14 @@ const logic = {
         })()
     },
 
+    /**
+     * Retrieve all the information on an item
+     * 
+     * @param {*} thingId 
+     * 
+     * @returns {array} image, category, description, location, address 
+     */
+    
     retrieveThing(thingId) {
 
         validate.arguments([
@@ -177,7 +253,7 @@ const logic = {
 
         return (async () => {
 
-            return await Thing.findById(thingId).populate('loc', 'name -_id').select('-owner -__v -_id').lean()
+            return await Thing.findById(thingId).populate('loc', 'name address -_id').select('-owner -__v -_id').lean()
         })()
     }
 }

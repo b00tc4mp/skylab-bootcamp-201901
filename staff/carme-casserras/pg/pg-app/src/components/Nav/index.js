@@ -7,7 +7,6 @@ function Nav() {
     return (<Fragment>
         <div id="navbar-top">
             <ul className="navbar-left">
-                {/* <li><a href="/search/category"><img id="logo" src="/../../../images/logo.png" /></a></li> */}
                 <li>
                     <Link to="/search/category">
                         <img id="logo" src="/../../../images/logo.png" alt="logo"/>
@@ -16,7 +15,6 @@ function Nav() {
             </ul>
             <div className="navbar-right">
                 <ul className="navigation">
-                    {/* <li><a href="/search/user/things"><img id="awards" src="/../../../images/award.png" /></a></li> */}
                     <li>
                         <Link to="/search/user/things">
                             <img id="awards" src="/../../../images/award.png" alt="awards"/>

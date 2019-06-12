@@ -117,7 +117,7 @@ const pgApi = {
             { name: 'token', value: token, type: 'string', notEmpty: true },
             { name: 'location', value: location, type: 'string', notEmpty: true }
         ])
-debugger
+
         return call(`${this.__url__}/search/locations/${location}`, {
             headers: { 
                 Authorization: `Bearer ${token}`,

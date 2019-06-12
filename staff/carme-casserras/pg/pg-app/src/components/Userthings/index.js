@@ -9,6 +9,7 @@ function UserThings() {
     useEffect(() => {
         async function retrieve() {
             const res = await logic.retrivePrivateThings('userId')
+            res.reverse()
             setResults(res)
         }
         retrieve()
@@ -18,7 +19,11 @@ function UserThings() {
         <ul className="navigation-bodyresults1">
             <div className="awards">
                 <h1><strong>AWARDS</strong></h1>
-                <p>For each upload thing you can take a </p>
+                <p>- Up to 7 things you will get a 5% discount on the garbage fee.</p>
+                <p>- For 15 things you get the certificate of solidarity.</p>
+                <p>- Over 25 things, yo can go as audience in TV3 Marató, and 10% discount on the garbage fee.</p> 
+                <p></p>
+                <p><strong>YOU HAVE GIVEN ALL THIS THINGS</strong></p>
             </div>
 
             {results &&

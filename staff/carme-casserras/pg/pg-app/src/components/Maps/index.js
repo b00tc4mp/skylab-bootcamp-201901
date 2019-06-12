@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from 'react-router-dom'
 import './index.sass'
-import { withScriptjs, withGoogleMap, GoogleMap, Marker, DirectionsRenderer } from "react-google-maps"
+import { withScriptjs, withGoogleMap, GoogleMap, Marker } from "react-google-maps"
 
 function Maps({ handleAddUbication }) {
 
@@ -19,7 +19,7 @@ function Maps({ handleAddUbication }) {
 
         </GoogleMap>
     ))
-
+    
     return (
         <section className='g-Order__map' >
             <MyMapComponent
@@ -35,4 +35,3 @@ function Maps({ handleAddUbication }) {
     
 }
 export default withRouter(Maps)
-// export default Maps

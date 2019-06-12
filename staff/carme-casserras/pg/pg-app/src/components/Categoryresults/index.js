@@ -27,16 +27,17 @@ function CategoryResults(props) {
 
             {results &&
 
-                results.map(({ _id: id, status, image, category, description, loc: { name } }) => {
+                results.map(({ _id: id, status, image, category, description, loc: { name }, loc: { address } }) => {
 
                     return status === 0 &&
                         (<li className="liresults" key={id} onClick={() => handleThing(id)}>
                             <div className="product-short">
                                 <img className="imgresults" src={image} alt="" />
-                                <div>
+                                <div className="info">
                                     <h2><strong>Category: </strong> {category}</h2>
                                     <p><strong>Description: </strong> {description}</p>
                                     <p><strong>Location: </strong> {name}</p>
+                                    <p><strong>Address: </strong> {address}</p>
                                 </div>
                             </div>
                         </li>)

@@ -25,20 +25,20 @@ function CategorySearch(props) {
         
    const renderCategory = () => (
       <div className="contens1">
-         <div className="navigation-body">
-            <ul> 
+         {/* <div > */}
+            <ul className="navigation-body"> 
          {
-            Object.values(nameCategory).map(id => {
-               
-               return (                    
+            Object.values(nameCategory).map(id => {   
+
+                  return (                    
                   <li key={id} onClick={() => handleSearchByCategory(id)} className="lisearch" htmlFor={id}>
                      <img className="imgsearch" src={`../../../images/${id}.png`} alt=""/>
                   </li>
-               )
-            })
+               )} 
+            )
          }
             </ul>
-         </div>
+         {/* </div> */}
          {<Footer/>}
       </div>
    )

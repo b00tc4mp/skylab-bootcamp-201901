@@ -34,7 +34,7 @@ function Login(props) {
     if(logic.isUserLoggedIn) props.history.push('/search/category')
 
     return (
-        <form className="contens" onSubmit={handleSubmit}>
+        <form className="contens6" onSubmit={handleSubmit}>
             <div className="field">
                 <div className="control has-icons-left has-icons-right">
                     <input className="input" name='email' type="email" placeholder="Email" />
@@ -67,10 +67,6 @@ function Login(props) {
             {messageError && <div className="message-error">
                 <p>{messageError}</p>
             </div>}
-
-            {/* <div>
-               <iframe src="https://www.google.com/maps/d/embed?mid=16P1m6IsdnoO_Jb9whdflYnq3tsAF8lfy" width="640" height="800"></iframe>
-            </div> */}
         </form>
     )
 }

@@ -30,7 +30,7 @@ function Register(props) {
     
     return (
 
-        < form className="contens" onSubmit={handleSubmit} >
+        < form className="contens7" onSubmit={handleSubmit} >
             <div className='field'>
                 <label className='label'>REGISTER</label>
                 <div className='control'>
