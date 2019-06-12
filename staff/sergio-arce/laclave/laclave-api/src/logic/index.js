@@ -358,7 +358,7 @@ const logic = {
      * @param {String} userId
      * 
      * @throws {TypeError} - on non valid artistData parameters
-    * @throws {Error} - on non valid userId parameters
+     * @throws {Error} - on non valid userId parameters
      * 
      * @param {Promise} - results with a artist object created
      */
@@ -418,7 +418,6 @@ const logic = {
     * @param {Promise} - resolved with undefined
     * 
     */ 
-
    toggleFav(userId, itemId) {
        
         if (typeof itemId !== 'string') throw Error(`itemId is not a string`)
@@ -445,7 +444,35 @@ const logic = {
 
                 return 
             })
+    },
+
+
+    /**
+     * look for the detail of artist or congress by the id
+     * 
+     * @param {String} id 
+     * 
+     * @throws {Error} - on non valid id parameters
+     * 
+     * @param {Promise} - resolved with the object of the artist or congress
+     */
+    itemDetail(id) {
+
+        if (typeof id !== 'string') throw Error(`id is not a string`)
+        if (!id.trim().length) throw Error(`id is empty`)
+
+        return Artist.findById(id)
+            .then(artist => { 
+                return Congress.findById(id)
+                    .then(congress => {
+
+                            if (artist) return artist
+                            if (congress) return congress
+                    
+                    })
+            })
     }
 }
 
 module.exports = logic
+

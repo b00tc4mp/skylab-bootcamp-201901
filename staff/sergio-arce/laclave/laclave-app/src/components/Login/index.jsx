@@ -2,7 +2,6 @@ import React from 'react'
 
 function Login({ onLogin }) {
 
-    // pasar aquí desde App la llamada a logic.loginUser
     function handleSubmit(event) {
         event.preventDefault()
 
@@ -41,7 +40,6 @@ function Login({ onLogin }) {
                  </fieldset>
                 <button>Login</button>
             </form>
-                {/* //arreglar y que funcione el botón */}
                 <p>Don't have an acount? 
                     <a href="#register"> Join</a>
                 </p>    

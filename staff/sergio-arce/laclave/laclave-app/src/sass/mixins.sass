@@ -26,4 +26,33 @@ $md: 993px
     border: 1px solid #999999  
     border-radius: 3px
 
+@mixin detail
+    display: flex
+    flex-direction: column
+    padding: 20px 0
+
+    +tablet
+        flex-direction: row
+        padding: 40px 0
+        justify-content: space-around
+        margin-left: 10%
+        margin-right: 25%
+    &__image
+        margin-bottom: 10px
         
+        & img
+            width: 100%
+        +tablet
+            margin-right: 20px
+            margin-bottom: 0px
+            width: 50%
+    &__info 
+        padding: 15%
+        +tablet
+            padding: 0px 15px
+            max-width: 500px
+            padding-top: 6%
+    & h1 
+        color: $grey
+    & p
+       color: $grey

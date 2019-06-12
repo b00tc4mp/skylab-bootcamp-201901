@@ -1,4 +1,5 @@
 import React from 'react'
+import Results from '../Results'
 
 function Artists({ onArtists }) {
 
@@ -7,20 +8,7 @@ function Artists({ onArtists }) {
         <section className="artists">
 
             <h1>Yours - Artists</h1>  
-
-            <section className="artists__grid">
-
-            {!onArtists.length ?
-                    <p>You have no favorites yet</p> :
-                    onArtists.map( fav => 
-                            <div className="artists__grid__item">
-                                <h3>{fav.name}</h3>
-                                <h3>Age: {2019 - fav.year}</h3>
-                                <img src={fav.image} alt={fav.name} /> 
-                            </div>                           
-                    )
-            }
-            </section>
+            <Results onResults={onArtists} />
 
         </section>
     )

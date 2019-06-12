@@ -217,6 +217,43 @@ const userApi = {
             return 
         })
 
+    },
+
+    toggleFavorites(userId, token) {
+
+        if (typeof token !== 'string') throw Error(`token is not a string`)
+        if (!token.trim().length) throw Error(`token is empty`)
+
+        return fetch(`${this.__url__}/favorites/${userId}`, {
+            method: 'POST',
+            headers: { 
+                'authorization': `Bearer ${token}`,
+                'Content-Type' : 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+            return 
+        })
+
+    },
+
+    itemDetail(itemId) {
+        // todo
+
+    
+        return fetch(`${this.__url__}/item/detail/${itemId}`, {
+            method: 'GET',
+            headers: { 
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(response => {
+            if (response.error) throw Error(response.error)
+            return response
+        })
     }
 
 }

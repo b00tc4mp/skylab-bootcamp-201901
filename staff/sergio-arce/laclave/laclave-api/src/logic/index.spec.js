@@ -1,9 +1,7 @@
-const { expect } = require('chai') // usamos chai
+const { expect } = require('chai')
 const mongoose = require('mongoose')
 const bcrypt = require('bcrypt')
-
 const tokenHelper = require('../routes/middleware/token-helper')
-
 const logic = require('../logic')
 
 const { User } = require('../models')
@@ -333,39 +331,6 @@ describe('logic', () => {
 
     })
 
-    // describe('deleteUser', () => {
-
-    //     it('should throw an error when the user not found', () => {
-    //         const userId = '5cefbe0a5077690727cd6d80'
-    //         const userData = {
-    //             name: 'sergio',
-    //             surname: 'arce'    
-    //         }
-    //         return logic.deleteUser(userId, userData)
-
-    //                 .then(result => expect(result).to.be.undefined)
-    //                 .catch(error => {
-    //                     expect(typeof error.message).to.equal('string')
-    //                 })
-    //     })
-
-
-    //     it('should throw error when userId is an array', () => {
-    //         const userId = []
-    //         expect(() => logic.deleteUser(userId)).to.throw(Error, 'userId is not a string')
-
-    //     })
-
-    //     it('should thorw error when userId is empty', () => {
-    //         const userId = ''
-    //         expect(() => logic.deleteUser(userId)).to.throw(Error, 'userId is empty')
-    //     })
-
-    // })
-
-
-
-
     describe('createCongress', () => {
         let name, username, email, password, userId, congressName, congressDes, congressCat, congressCity, congressStartDate, congressEndDate
 
@@ -412,8 +377,6 @@ describe('logic', () => {
                     debugger
                     expect(congress).to.exist
                     expect(congress.name).to.equal(congressName)
-                    // expect(congress.description).to.equal(congressDes)
-                    //todo more validation
                 })
         })
 
@@ -504,9 +467,7 @@ describe('logic', () => {
 
         it('should throw an error when the user not found', () => {
             const userId = '5cefbe0a5077690727cd6d80'
-            
-            // congressData = { name: congressName, description: congressDes, category: congressCat, city: congressCity, startDate: congressStartDate, endDate: congressEndDate  }
-
+        
             return logic.retrieveCongress(congressId, userId)
 
                     .then(result => expect(result).to.be.undefined)
@@ -608,7 +569,6 @@ describe('logic', () => {
 
     })
 
-
     describe('searchCongresses', () => {
 
 
@@ -623,8 +583,6 @@ describe('logic', () => {
         })
 
     })
-
-
 
     describe('ARTISTS', () => {
 
@@ -651,10 +609,6 @@ describe('logic', () => {
             })
 
         })
-
-
-
-
 
         describe('retrieveArtist', () => {
 
@@ -733,48 +687,56 @@ describe('logic', () => {
             })
         })
 
-        describe('favArtist', () => {
+        describe('toggleFav', () => {
 
-            it('should throw error when artistId is an array', () => {
-                const artistId = []
-                const userId = '5cefbe0a5077690727cd6d84'
+            it('should throw error when userId is an array', () => {
+                const userId = []
+                const itemId = '5cefbe0a5077690727cd6d84'
     
-                expect(() => logic.favArtist(artistId, userId)).to.throw(Error, 'artistId is not a string')
+                expect(() => logic.toggleFav(userId, itemId)).to.throw(Error, 'userId is not a string')
             })
     
             it('should throw error when userId is empty', () => {
-                const artistId = ''
-                const userId = '5cefbe0a5077690727cd6d80'
+                const userId = ''
+                const itemId = '5cefbe0a5077690727cd6d80'
     
-                expect(() => logic.favArtist(artistId, userId)).to.throw(Error, 'artistId is empty')
+                expect(() => logic.toggleFav(userId, itemId)).to.throw(Error, 'userId is empty')
             })
            
 
-            it('should throw error when userId is an array', () => {
-                const artistId = '5cefbe0a5077690727cd6d80'
-                const userId = []
+            it('should throw error when itemId is an array', () => {
+                const userId = '5cefbe0a5077690727cd6d80'
+                const itemId = []
     
-                expect(() => logic.favArtist(artistId, userId)).to.throw(Error, 'userId is not a string')
+                expect(() => logic.toggleFav(userId, itemId)).to.throw(Error, 'itemId is not a string')
             })
     
-            it('should throw error when userId is empty', () => {
-                const artistId = '5cefbe0a5077690727cd6d80'
-                const userId = ''
+            it('should throw error when itemId is empty', () => {
+                const userId = '5cefbe0a5077690727cd6d80'
+                const itemId = ''
     
-                expect(() => logic.favArtist(artistId, userId)).to.throw(Error, 'userId is empty')
+                expect(() => logic.toggleFav(userId, itemId)).to.throw(Error, 'itemId is empty')
             })
 
-            it('should throw an error when the user not exist ', () => {
+           
+        })
 
-                const artistId = '5cefbe0a5077690727cd6d80'
-                const userId = '5ce159c70ef8035d9e86079d'
+        describe('toggleFav', () => {
 
-                return logic.favArtist(artistId, userId)
-                    .then()
-                    .catch(error => expect(error.message).to.equal('user not exist'))
+            it('should throw error when id is an array', () => {
 
+                const id = []
+    
+                expect(() => logic.itemDetail(id)).to.throw(Error, 'id is not a string')
             })
+    
+            it('should throw error when id is empty', () => {
 
+                const id = ''
+    
+                expect(() => logic.itemDetail(id)).to.throw(Error, 'id is empty')
+            })
+        
         })
     })
 

@@ -31,7 +31,7 @@ const User = new Schema({
         minlength: [6, 'the password of the user is very short']
     },
 
-    favartists: [{
+    favorites: [{
         type: ObjectId,
         ref: 'Artist'
     }],

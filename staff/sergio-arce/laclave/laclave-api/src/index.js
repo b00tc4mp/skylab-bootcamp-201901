@@ -12,8 +12,7 @@ const {
 	retrieveUser,
 	updateUser,
 	deleteUser,
-
-	favArtist,
+	toggleFavorites,
 
 	//congress
 	createCongress,
@@ -30,7 +29,9 @@ const {
 	searchArtists,
 
 	//search
-	searchItems
+	searchItems,
+
+	itemDetail
 
 } = require('./routes')
 
@@ -55,8 +56,8 @@ mongoose.connect('mongodb://localhost/laclave-data', { useNewUrlParser: true })
 		router.get('/user/get/', tokenVerifierMiddleware, retrieveUser)
 		router.put('/user/update/', [jsonBodyParser, tokenVerifierMiddleware], updateUser)
 		router.delete('/user/delete/:id', deleteUser)
-
-		router.post('/fav/artist/:artistId',tokenVerifierMiddleware, favArtist)
+		
+		router.post('/favorites/:itemId', tokenVerifierMiddleware, toggleFavorites)
 
 		// congresses
 		router.post('/congress/create', [jsonBodyParser, tokenVerifierMiddleware], createCongress)
@@ -71,13 +72,12 @@ mongoose.connect('mongodb://localhost/laclave-data', { useNewUrlParser: true })
 		router.get('/artist/get/:id', retrieveArtist)
 		router.post('/artist/create', [jsonBodyParser, tokenVerifierMiddleware], createArtist)
 		router.get('/artist/search', searchArtists) 
-		
+
 		// search Items
 		router.get('/search/items', searchItems)
-
+		router.get('/item/detail/:id', itemDetail)
 	
 		app.use('/api', router)
-
 		app.listen(port, () => console.log(`server listening in port ${port}`))
 
 	})

@@ -7,7 +7,7 @@ module.exports = {
     updateUser: require('./user/update'),
     deleteUser: require('./user/delete'),
 
-    favArtist: require('./fav/artist'),
+    toggleFavorites: require('./user/toggleFav'),
 
     //congress
     createCongress: require('./congress/create'),
@@ -24,9 +24,8 @@ module.exports = {
     searchArtists: require('./artist/search'),
 
     // search Items mix congress and artist
-    searchItems: require('./search/search')
+    searchItems: require('./search/search'),
 
-    
-  
-    
+    itemDetail: require('./item/detail')
+
 }   

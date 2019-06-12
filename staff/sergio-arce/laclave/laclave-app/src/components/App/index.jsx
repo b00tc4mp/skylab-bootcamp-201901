@@ -1,30 +1,23 @@
 import React, { Component } from "react"
 import Register from "../Register"
 import logic from "../../logic"
-
 import Login from '../Login'
 import UserProfile from '../UserProfile'
 import Menu from '../Menu'
-import Results from '../Results'
-import Slider from '../Slider'
 import Create from '../Create'
 import HomePage from '../HomePage'
-
 import CreateArtist from '../CreateArtist'
-
+import Detail from '../Detail'
 // toast notification
 import { ToastContainer, toast } from "react-toastify"
 import "react-toastify/dist/ReactToastify.css"
-
 import { Route, withRouter, Redirect, Switch } from "react-router-dom"
-
 // normalize
 import "normalize.css"
 
 class App extends Component {
 
     state = { results: false }
-
 
     // register user (registrar usuario)
     handleRegister = (name, username, email, emailConfirm, password, passwordConfirm) => {
@@ -105,16 +98,19 @@ class App extends Component {
     }
 
     handleCreateArtist = (name) => {
-        // todo create artists  
-        logic.createArtist(name)
 
+        logic.createArtist(name)
     }
  
     // search items - search artists and congresses (busca artistas y congresos)
     handleSearchItems = query => {
         try {
+
             logic.searchItems(query)
-                .then(mixedResults => this.setState({ results: mixedResults.artists.concat(mixedResults.congresses) }))
+                .then(mixedResults => {
+                    this.setState({ results: mixedResults.artists.concat(mixedResults.congresses) })
+                    this.props.history.push('/')      
+                })
                 .catch(({ message }) => toast(message))
         } catch (error) {
             toast(error.message)
@@ -145,7 +141,6 @@ class App extends Component {
                         onUserProfile={this.handleGoToProfile} 
                         onLogout={this.handleLogout}
                         onSearchArtist={this.handleSearchItems}
-
                         onGoToCreate={this.handleGoToCreate}
                         onGoToLogin={this.handleGoToLogin} 
                         onGoToRegister={this.handleGoToRegister}
@@ -159,13 +154,19 @@ class App extends Component {
                                         // todo => búsqueda de congresos y artistas
                                         onSearchItems={this.handleSearchItems} 
                                       />} 
-                        
                     />
 
                      {/* si el usario intenta ir a /profile y NO está logeado le hace un redirect a '/' */}
-                     <Route exact path="/create" 
+                     <Route exact path="/create-congres" 
                         render={() => logic.isUserLoggedIn ?       
                                         <Create onCreateArtist={ this.handleCreateArtist}/> : 
+                                        <Redirect to="/"/>} 
+                    />
+
+                    {/* si el usario intenta ir a /profile y NO está logeado le hace un redirect a '/' */}
+                     <Route exact path="/create-artist" 
+                        render={() => logic.isUserLoggedIn ?       
+                                        <CreateArtist onCreateArtist={ this.handleCreateArtist}/> : 
                                         <Redirect to="/"/>} 
                     />                   
 
@@ -180,7 +181,7 @@ class App extends Component {
                     />
 
                     {/* si el usuario intenta ir a /register y está logeado se le hace un redirect hacia la homepage '/' */}
-                    <Route exact path="/register" 
+                    <Route exact path="/register/" 
                         render={() => logic.isUserLoggedIn ? 
                                       <Redirect to="/" /> : 
                                       <Register onRegister={this.handleRegister} />  
@@ -194,8 +195,11 @@ class App extends Component {
                                         <Login onLogin={this.handleLogin}  />} 
                     />
 
+                    {/* si el usuario carga una url con la estructura /item/5cfe96553174e7e1b166efab */}                    
+                    <Route exact path="/item/:itemId" 
+                        render={() => <Detail /> } 
+                    />
                 </Switch>
-
             </>
         )
   }

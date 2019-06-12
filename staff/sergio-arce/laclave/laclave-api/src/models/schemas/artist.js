@@ -38,6 +38,12 @@ const Artist = new Schema({
     owner: { 
         type: ObjectId, 
         ref: 'User' 
+    },
+
+    resultsType: {
+        type: String,
+        required: true,
+        default: 'artist'
     }
 })
 

@@ -1,12 +1,13 @@
+
 const logic = require('../../logic')
 
 module.exports = (req, res) => {
 
-    const { userId, params: { artistId } } = req
+    const { userId, params: { itemId } } = req
 
     try {
 
-        logic.favArtist(artistId, userId)
+        logic.toggleFav(userId, itemId)
 
             .then(() => res.json({ message: 'ok' }))
             .catch(({ message }) => res.send({ error: message }))

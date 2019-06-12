@@ -41,7 +41,6 @@ const tokenHelper = {
         const { headers: { authorization } } = req
 
         const token = authorization.substring(7)
-
         try {
             const userId = this.verifyToken(token)
 

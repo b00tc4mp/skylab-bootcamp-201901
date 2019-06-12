@@ -1,12 +1,11 @@
 import React from 'react'
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-
 import { Link } from 'react-router-dom'
 
 function Register({ onRegister }) {
 
     function handleRegister(event) {
+
         event.preventDefault()
 
         const name = event.target.name.value
@@ -100,7 +99,6 @@ function Register({ onRegister }) {
                                     required
                                 />
                         </fieldset>
-
 
                         <button type="submit">Register</button>
 

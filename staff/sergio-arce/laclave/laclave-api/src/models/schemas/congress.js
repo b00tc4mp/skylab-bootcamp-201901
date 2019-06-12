@@ -73,6 +73,12 @@ const Congress = new Schema({
     owner: { 
         type: ObjectId, 
         ref: 'User' 
+    },
+
+    resultsType: {
+        type: String,
+        required: true,
+        default: 'congress'
     }
 })
 

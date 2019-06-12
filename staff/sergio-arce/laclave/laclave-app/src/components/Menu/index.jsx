@@ -1,19 +1,15 @@
 import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faSearch, faEye } from "@fortawesome/free-solid-svg-icons"
-
 import { Link } from 'react-router-dom'
 
-function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToCreate, onGoToLogin, onGoToRegister, onGoToCongress}) {
+function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToLogin, onGoToRegister}) {
 
-     
-     
     function handleSearch(e) {
         e.preventDefault()
         const query = e.target.query.value
 
         onSearchArtist(query)
-        console.log(query)
     }
     return (
         <header className="menu">
@@ -23,12 +19,6 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToCr
                 <Link to="/" className="menu__nav-icons__icon">
                     <FontAwesomeIcon icon={faHome} />
                 </Link>
-                {/* <Link to="/" className="menu__nav-icons__icon">
-                    <FontAwesomeIcon icon="home" />
-                </Link> */}
-                {/* <Link to="/" className="menu__nav-icons__icon">
-                    <FontAwesomeIcon icon="home" />
-                </Link> */}
                 <Link to="/" className="menu__nav-icons__icon">
                     <FontAwesomeIcon icon={faSearch} />
                 </Link>
@@ -40,13 +30,8 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToCr
             
                 { !isUserLoggedIn && <button className="menu__buttons__login" onClick={onGoToLogin}>Login</button> }
                 { !isUserLoggedIn && <button className="menu__buttons__register" onClick={onGoToRegister}>Join free</button> }
- 
-                { isUserLoggedIn && <button className="menu__buttons__logout" onClick={onLogout}>Log out</button> }
-                
-                                                                    {/*********** donde se enjecuta esta prop */}
+                { isUserLoggedIn && <button className="menu__buttons__logout" onClick={onLogout}>Log out</button> }                                         
                 { isUserLoggedIn && <button className="menu__buttons__profile" onClick={onUserProfile}>Edit profile</button> }
-
-                {/* { isUserLoggedIn && <button className="menu__buttons__congress" onClick={onGoToCreate} >Go up Congress</button> } */}
 
             </section>
 
@@ -57,7 +42,6 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToCr
                     <Link to="/">
                         <FontAwesomeIcon icon={faEye} className="menu__topbar__left__logo"/>
                     </Link>
-
                     <form onSubmit={handleSearch} className="menu__topbar__left__search">                   
                         <FontAwesomeIcon icon={faSearch} className="menu__topbar__left__search-icon" />
                         <input name="query" placeholder="Search your congress" className="menu__topbar__left__search-input" autoCorrect={false}/>
@@ -65,14 +49,10 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToCr
                 </div>
 
                 <div className="menu__topbar__right">
-
                     {!isUserLoggedIn && <button className="menu__topbar__right__button-login" onClick={onGoToLogin}>Login</button> }
                     {!isUserLoggedIn && <button className="menu__topbar__right__button-register" onClick={onGoToRegister}>Join free</button> }
-
-                    {/* {isUserLoggedIn && <button className="menu__topbar__right__button-congress"  onClick={onGoToCreate}> Go up Congress</button>}  */}
                     {isUserLoggedIn && <button className="menu__topbar__right__button-logout" onClick={onLogout}>Log out</button> }
                     {isUserLoggedIn && <button className="menu__topbar__right__button-profile" onClick={onUserProfile}>Edit profile</button> }
-  
                 </div>
 
             </nav>
@@ -80,18 +60,17 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToCr
             {/* //all - top bar */}
             <nav className="menu__nav-links">
 
-                <Link to="/" className="menu__nav-links__link">
-                    Eres un profesional???
-                </Link> 
-                <Link to="/create" className="menu__nav-links__link">
-                    Crea tu perfil de artista
-                </Link>
-                {/* <Link to="/" className="menu__nav-links__link">
-                    Tienes un congresso
-                </Link> */}
-                <Link to="/create" className="menu__nav-links__link">
-                    Crea tu congresso
-                </Link>
+               {isUserLoggedIn && <Link to="/" className="menu__nav-links__link">
+                    You are a professional ???
+                </Link> }
+                
+                {isUserLoggedIn &&<Link to="/create-artist" className="menu__nav-links__link">
+                    Create your artist profile
+                </Link>}
+     
+                {isUserLoggedIn && <Link to="/create-congres" className="menu__nav-links__link">
+                    Create your congress
+                </Link>}
 
             </nav> 
 

@@ -14,10 +14,8 @@ import { toast } from 'react-toastify';
 class UserProfile extends Component {
     state =  { userData: false, profileShow: true, favoritesShow: false, congressesShow: false, artistsShow: false  }
     
-
-    //antes de que se monte el componente
     componentWillMount() {
-        // this.props.onRetrieveUser()
+
         this.handleRetrieveUser()
     }
 
@@ -26,12 +24,12 @@ class UserProfile extends Component {
         logic.retrieveUser()    
             .then(userData => {
                 this.setState({ userData })
-                //this.props.history.push('/profile')
             })
             .catch(error => toast(error.message))
     }
 
     handleSubmit = event => {
+        
         event.preventDefault()
         const userData = {
             name: event.target.name.value,

@@ -31,11 +31,12 @@ function Slider({ onSearchItems }) {
                     <form onSubmit={handleSearch} className="slider__search" >
                         <FontAwesomeIcon icon={faSearch} className="slider__search-icon" />
                         <input name="query" placeholder="Search your congress" className="slider__search-input" autoCorrect={false} />
+                        
                     </form>
 
                     <p>Trending searches: flower, wall, paper, background, sad, love</p>
+                    
                 </div>
-
             {/* </video> */}
         </section>
 
