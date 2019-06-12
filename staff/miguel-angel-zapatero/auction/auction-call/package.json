@@ -10,6 +10,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "auction-errors": "file:../auction-errors",
     "auction-validate": "file:../auction-validate",
     "axios": "^0.18.0"
   }

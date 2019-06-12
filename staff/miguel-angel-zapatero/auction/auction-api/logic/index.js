@@ -127,10 +127,6 @@ const logic = {
         })()
     },
 
-    updateUserAvatar() {
-        //TODO
-    },
-
     /**
      * Delete an user with the correct user credentials
      * 
@@ -177,36 +173,32 @@ const logic = {
             if(!user) throw new LogicError(`user with id "${userId}" doesn't exist`)
 
             const {items} = await User.findById(userId).select('items').lean()
-            debugger
-            const userItems = await Promise.all(items.map(async(itemId) => {
-                // debugger
-                // return await Item.findById(itemId).select('finisDate title images bids').lean()
-
-                return await Item.aggregate(
-                    { $match: {"_id": ObjectId(itemId) }},
-                    // { $project: { "finishDate": 1, "title": 1 ,"images": 1, "bids": { 
-                    //     $filter: {
-                    //         "input": "$bids",
-                    //         "as": "bid",
-                    //         "cond": { $eq: ["$$bid.userId", ObjectId(userId)]} 
-                    // }}}}
-                    { $project: { "finishDate": 1, "title": 1 ,"images": 1, "bids": 1}}
-                )
+            
+            const userItems = await Promise.all(items.map(async(itemId) => {  
+                return await Item.findById(itemId).select('finishDate title images bids').populate({
+                    path: 'bids.userId',
+                    model: 'User',
+                    select: 'name avatar'
+                }).lean()
             }))
 
-            debugger
+            if(userItems && userItems.length) {
+                userItems.forEach(item => {
+                    item.id = item._id
+                    delete item._id
+                    if(item.bids) {
+                        item.bids.forEach(bid => {
+                            bid.id = bid._id
+                            delete bid._id
 
-            // if(userItems) {
-            //     userItems.forEach(item => {
-            //         item.id = item._id
-            //         delete item._id
-            //         if(item.bids) {
-            //             item.bids.forEach(bid => {
-            //                 delete bid._id
-            //             })
-            //         }
-            //     })
-            // }
+                            if(bid.userId._id) {
+                                bid.userId.id = bid.userId._id.toString()
+                                delete bid.userId._id
+                            }   
+                        })
+                    }
+                })
+            }
 
             return userItems
         })()

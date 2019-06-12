@@ -243,9 +243,6 @@ describe('logic', () => {
                     } catch (error) {
                         expect(error).toBeDefined()
                         
-                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR
-                        // expect(error).toBeInstanceOf(FormatError)
-                        // expect(error.message).toBe('invalid id')
                         expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
                     }
                 })
@@ -321,10 +318,7 @@ describe('logic', () => {
                         throw Error('should not reach this point')
                     } catch (error) {
                         expect(error).toBeDefined()
-                        
-                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR?
-                        // expect(error).toBeInstanceOf(FormatError)
-                        // expect(error.message).toBe('invalid id')
+                     
                         expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
                     }
                 })
@@ -378,10 +372,7 @@ describe('logic', () => {
                         throw Error('should not reach this point')
                     } catch (error) {
                         expect(error).toBeDefined()
-                        
-                        // COMO PONER LOS MONGOOSE ERRORS COMO FORMAT ERROR?
-                        // expect(error).toBeInstanceOf(FormatError)
-                        // expect(error.message).toBe('invalid id')
+                       
                         expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
                     }
                 })
@@ -414,10 +405,6 @@ describe('logic', () => {
                     }
                 })
             })
-
-            describe('update user avatar', () => {
-                //TODO
-            })
         })
     })
 
@@ -441,7 +428,6 @@ describe('logic', () => {
                     city: cities[Math.floor(Math.random() * cities.length)],
 	                category: categories[Math.floor(Math.random() * categories.length)],
                     // images: ['image1.jpg', 'image2.jpg', 'image3.jpg']
-                    // images: ['./logic/avacyn.png', './logic/avacyn.1.png', './logic/avacyn.2.png']
                 }
             })
 
@@ -527,8 +513,8 @@ describe('logic', () => {
                 let { text, category, city, startDate, endDate, startPrice, endPrice } = query
                 let items_ = items.filter(item => (item.startPrice >= 20 && item.startPrice <= 150))
 
-                startPrice = 21 
-                endPrice = 149 
+                startPrice = 20
+                endPrice = 150
 
                 const _items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
 
@@ -542,8 +528,8 @@ describe('logic', () => {
 
                 city = 'London'
                 category = 'Jewellery'
-                startPrice = 21 
-                endPrice = 149 
+                startPrice = 20 
+                endPrice = 150
 
                 const _items = await logic.searchItems(text, category, city, startDate, endDate, startPrice, endPrice)
                 
@@ -561,26 +547,80 @@ describe('logic', () => {
         })
 
         describe('retrieve item', () => {
-            let user
+            let user, item_, _item_
             beforeEach(async ()=> {
-                user = await User.create({name, surname, email, password})   
+                user = await User.create({name, surname, email, password}) 
+                
+                item_ = items[Math.floor(Math.random() * items.length)]
+                _item_ = await Item.create(item_)
             })
 
             it('should success on correc item id', async () => {
-                let item_ = items[Math.floor(Math.random() * items.length)]
-                const item = await Item.create(item_)
-
-                const _item = await logic.retrieveItem(item.id, user.id)
+                const _item = await logic.retrieveItem(_item_.id, user.id)
                 
-                expect(_item.title).toBe(item.title)
-                expect(_item.description).toBe(item.description)
-                expect(_item.startPrice).toBe(item.startPrice)
-                expect(_item.startDate).toEqual(item.startDate)
-                expect(_item.finishDate).toEqual(item.finishDate)
-                expect(_item.reservedPrice).toBe(item.reservedPrice)
-                expect(_item.city).toBe(item.city)
-                expect(_item.category).toBe(item.category)
+                expect(_item.title).toBe(_item_.title)
+                expect(_item.description).toBe(_item_.description)
+                expect(_item.startPrice).toBe(_item_.startPrice)
+                expect(_item.startDate).toEqual(_item_.startDate)
+                expect(_item.finishDate).toEqual(_item_.finishDate)
+                expect(_item.reservedPrice).toBe(_item_.reservedPrice)
+                expect(_item.city).toBe(_item_.city)
+                expect(_item.category).toBe(_item_.category)
                 expect(_item.images).toBeInstanceOf(Array)
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.retrieveItem(id, user.id)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                }
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.retrieveItem(id, user.id)                     
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                  
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.retrieveItem(_item_.id, id)               
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.retrieveItem(_item_.id, id)
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                   
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
+                }
             })
         })
 
@@ -671,6 +711,60 @@ describe('logic', () => {
                 expect(_user.items[0].toString()).toBe(item.id)
             })
 
+            it('should fail on item is closed', async () => {
+                const _item = await Item.create({
+                    title: `Car-${Math.random()}`,
+                    description: `description-${Math.random()}`,
+                    startPrice: Math.floor(Math.random() * 200) + 10,
+                    startDate: Date.now(),
+                    finishDate: Date.now() - (Math.ceil(Math.random() * 1000000000)),
+                    reservedPrice: Math.floor(Math.random() * 1),
+                    city: cities[Math.floor(Math.random() * cities.length)],
+                    category: categories[Math.floor(Math.random() * categories.length)],
+                    images: "image1.jpg"
+                })
+                
+                let amount = 100
+                
+                try {
+                    await logic.placeBid(_item.id, user.id, amount)
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`item with id "${_item.id}" is closed`)
+
+                    
+                }
+            })
+
+            it('should fail on item is upcoming', async () => {
+                const _item = await Item.create({
+                    title: `Car-${Math.random()}`,
+                    description: `description-${Math.random()}`,
+                    startPrice: Math.floor(Math.random() * 200) + 10,
+                    startDate: Date.now() + (Math.ceil(Math.random() * 1000000000)),
+                    finishDate: Date.now() + (Math.ceil(Math.random() * 1000000000)),
+                    reservedPrice: Math.floor(Math.random() * 1),
+                    city: cities[Math.floor(Math.random() * cities.length)],
+                    category: categories[Math.floor(Math.random() * categories.length)],
+                    images: "image1.jpg"
+                })
+                
+                let amount = 100
+                
+                try {
+                    await logic.placeBid(_item.id, user.id, amount)
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(LogicError)
+    
+                    expect(error.message).toBe(`the auction item with id "${_item.id}" has not started`)
+                }
+            })
+
             it('should fail if the bid is lower than the start price', async () => {
                 let amount = 5
                 try {
@@ -684,10 +778,13 @@ describe('logic', () => {
                 }
             })
 
-            it('should fail if the bid is lower than the current bid', async () => {
-                let amount = 2000
+            it('should fail if the bid is lower than the current bid with less than 10 bids', async () => {
+                let amount = 2000, currentBid
                 try {
                     await logic.placeBid(item.id, user.id, amount)
+
+                    const _items = await Item.findById(item.id)
+                    currentBid = _items.bids[0].amount
                     
                     amount = 1000
                     await logic.placeBid(item.id, user.id, amount)
@@ -697,7 +794,7 @@ describe('logic', () => {
                     expect(error).toBeDefined()
                     expect(error).toBeInstanceOf(LogicError)
     
-                    expect(error.message).toBe(`sorry, the bid "${amount}" is lower than the current amount`)
+                    expect(error.message).toBe(`sorry, the bid "${amount}" is lower than the minimum bid "${currentBid+100}"`)
                 }
             })
 
@@ -725,8 +822,7 @@ describe('logic', () => {
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    // expect(error).toBeInstanceOf(LogicError)
-                    // expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                  
                     expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
                 }
             })
@@ -755,8 +851,7 @@ describe('logic', () => {
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    // expect(error).toBeInstanceOf(LogicError)
-                    // expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                   
                     expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
                 }
             })
@@ -814,8 +909,7 @@ describe('logic', () => {
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    // expect(error).toBeInstanceOf(LogicError)
-                    // expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                   
                     expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
                 }
             })
@@ -842,14 +936,13 @@ describe('logic', () => {
                     throw new Error('should not reach this point')
                 } catch (error) {
                     expect(error).toBeDefined()
-                    // expect(error).toBeInstanceOf(LogicError)
-                    // expect(error.message).toBe(`user with id "${id}" doesn't exist`)
+                    
                     expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "User"`)
                 }
             })
         })
 
-        describe('retrieve item user bids', ()=> {
+        describe('retrieve item users bids', ()=> {
             let _user
 
             beforeEach(async() => {
@@ -866,10 +959,12 @@ describe('logic', () => {
                 const _item = await logic.retriveUserItemsBids(_user.id)
             
                 expect(_item).toBeInstanceOf(Array)
-                expect(_item[0].bids.length).toBe(1)
-                expect(_item[0].bids[0].userId.toString()).toBe(_user.id)
+                expect(_item[0].bids.length).toBe(2)
+                
+                expect(_item[0].bids[0].userId.id).toBe(_user.id)
                 expect(_item[0].bids[0].amount).toBe(amount2)
-                expect(_item[0].bids[1]).toBeUndefined()
+                expect(_item[0].bids[1].userId.id).toBe(user.id)
+                expect(_item[0].bids[1].amount).toBe(amount)
             })
 
             it('should fail on incorrect user id', async () => {
