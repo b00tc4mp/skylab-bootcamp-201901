@@ -1,0 +1,23 @@
+
+.Register
+    display: grid
+    position: absolute
+    color: black
+    height: 100%
+    width: 100%
+    grid-template-columns: 20% 60% 20%
+    grid-template-rows: 40% 06%
+    grid-template-areas: " . Logo . " " . DATA . "
+
+    &__Logo
+        grid-area: Logo
+        justify-self: center
+
+    &__RegNav
+        display: grid
+        grid-area: DATA
+        justify-self: center
+        font-size: 200%
+        width: 50%
+        padding: 7%
+        height: 50%

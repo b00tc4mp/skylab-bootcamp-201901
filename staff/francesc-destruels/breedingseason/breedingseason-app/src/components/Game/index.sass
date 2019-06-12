@@ -1,0 +1,44 @@
+.Game
+    position: absolute
+    height: 100% 
+    width: 100%
+    overflow: hidden
+    display: grid
+    grid-template-columns: 10% 14% 15% 10% 50%
+    grid-template-rows: 10% 10% 79.5%
+    grid-template-areas: "MissionCards MissionCards MissionCards Logo NavLvL Button" "MissionCards MissionCards MissionCards Logo NavLvL Button" "TurnCards TurnCards Map Map Map Map"
+   
+    &__Logo 
+        grid-area: Logo
+        justify-self: center
+        align-self: center
+        height: 85%
+        width: 90%
+        transform: translate(-0, +40%) scale(1.5)
+        
+    &__NavLvL
+        height: 100%
+        width: 100%
+    
+    &__MissionCards
+        grid-area: MissionCards
+        height: 100%
+        width: 100%
+    
+    &__TurnCards
+        grid-area: TurnCards
+        justify-self: center
+        height: 100%
+        width: 100%
+
+    &__Map 
+        grid-area: Map
+        height: 100%
+        width: 100%
+
+    &__Results
+        position: absolute
+
+
+
+

@@ -1,0 +1,25 @@
+
+.Login
+    display: grid
+    position: absolute
+    color: black
+    height: 100%
+    width: 100%
+    grid-template-columns: 20% 60% 20%
+    grid-template-rows: 40% 60%
+    grid-template-areas: " . Logo . " " . DATA . "
+
+    &__Logo
+        grid-area: Logo
+        justify-self: center
+
+    &__LogNav
+        display: grid
+        grid-area: DATA
+        justify-self: center
+        font-size: 200%
+        padding: 8%
+        height: 50%
+
+
+        
