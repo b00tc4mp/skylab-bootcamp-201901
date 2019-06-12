@@ -326,27 +326,33 @@ describe('logic', () => {
 
     describe('register cinema distance and duration of the trip', () => {
         it('should register distance and duration values for a given cinema', async () => {
-            const cinema = ['1,7 km', '21 min']
-            const cinemaInfo = await logic.registerCinemaLocation(cinema[0], cinema[1])
+            const cinema = [1700, 1260]
+            const cinemaId = '5d00d4a4ce7cea47141ad159'
+            const userId = '5d011b449472e747a8c90ebc'
+            const cinemaInfo = await logic.registerCinemaLocation(ObjectId(cinemaId), ObjectId(userId), cinema[0], cinema[1])
             expect(cinemaInfo).toBeUndefined()
         })
 
         it('should fetch information from google maps and then register that data', async () => {
+            const cinemaId = '5d00d4a4ce7cea47141ad159'
+            const userId = '5d011b449472e747a8c90ebc'
             const origin = '41.4161666,2.1893583999999997'
             const destination = '41.4048732,2.1925995'
             const MAPS_KEY = 'AIzaSyDUJnlk-inpNkXenyzldRXMGWOAPjZR2S4'
 
-            const insertData = await logic.setCinemaLocation(origin, destination, MAPS_KEY)
+            const insertData = await logic.setCinemaLocation(ObjectId(cinemaId), ObjectId(userId), origin, destination, MAPS_KEY)
 
             expect(insertData).toBeUndefined()
         })
 
         it('should retrieve the correct distance and trip duration for a given data', async () => {
+            const cinemaId = '5d00d4a4ce7cea47141ad159'
+            const userId = '5d011b449472e747a8c90ebc'
             const origin = '41.4161666,2.1893583999999997'
             const destination = '41.4048732,2.1925995'
             const MAPS_KEY = 'AIzaSyDUJnlk-inpNkXenyzldRXMGWOAPjZR2S4'
 
-            const insertData = await logic.setCinemaLocation(origin, destination, MAPS_KEY)
+            const insertData = await logic.setCinemaLocation(ObjectId(cinemaId), ObjectId(userId), origin, destination, MAPS_KEY)
 
             expect(insertData).toBeUndefined()
 

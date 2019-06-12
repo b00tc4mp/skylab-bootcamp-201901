@@ -144,10 +144,10 @@ const appLogic = {
         }
     },
 
-    retrieveTimeToArrive(defaultPos, cinemaLocation, { REACT_APP_MAPS_KEY: MAPS_KEY }) {
+    retrieveTimeToArrive(cinemaId, defaultPos, cinemaLocation) {
         return (async () => {
             try {
-                return await cinemaApi.retrieveTimeToArrive(this.__userToken__, defaultPos, cinemaLocation, MAPS_KEY)
+                return await cinemaApi.retrieveTimeToArrive(this.__userToken__, cinemaId, defaultPos, cinemaLocation, REACT_APP_MAPS_KEY)
             } catch (error) {
                 throw new LogicError(error)
             }

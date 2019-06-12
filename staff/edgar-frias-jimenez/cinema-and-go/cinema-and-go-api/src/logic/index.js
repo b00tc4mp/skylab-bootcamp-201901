@@ -192,13 +192,14 @@ const logic = {
         })()
     },
 
-    registerCinemaLocation(distance, duration) {
+    registerCinemaLocation(cinema, user, distance, duration) {
         return(async () => {
-            await Distance.create({ distance, duration })
+            await Distance.create({ distance, duration, cinema, user })
         })()
     },
 
-    setCinemaLocation(defaultPos, cinemaLocation, MAPS_KEY) {
+    setCinemaLocation(cinemaId, userId, defaultPos, cinemaLocation, MAPS_KEY) {
+debugger
         const mapsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${defaultPos}&destination=${cinemaLocation}&key=${MAPS_KEY}&mode=walking`
 
         return (async () => {
@@ -206,16 +207,19 @@ const logic = {
 
             const gMapsInfo = await gMaps.getData(mapsUrl)
 
-            cinema.duration = gMapsInfo.routes[0].legs[0].duration.text
-            cinema.distance = gMapsInfo.routes[0].legs[0].distance.text
+            cinema.duration = gMapsInfo.routes[0].legs[0].duration.value
+            cinema.distance = gMapsInfo.routes[0].legs[0].distance.value
 
-            await logic.registerCinemaLocation(cinema.distance, cinema.duration)
+            return cinema
+            //await logic.registerCinemaLocation(cinemaId, userId, cinema.distance, cinema.duration)
         })()
     },
 
-    retrieveCinemaLocation() {
+    retrieveCinemaLocation(cinemaId, userId) {
+
         return(async () => {
-            const cinemaData = await Distance.find()
+            const cinemaData = await Distance.findOne({$and: [{user: ObjectId(userId)}, {cinema: ObjectId(cinemaId)}]})
+
 
             return cinemaData
         })()

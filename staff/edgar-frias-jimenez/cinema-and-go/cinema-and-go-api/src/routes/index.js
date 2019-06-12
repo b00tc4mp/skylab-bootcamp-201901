@@ -64,10 +64,13 @@ router.delete('/users/delete', jsonParser, auth, (req, res) => {
 })
 
 router.get('/user/distance/cinema', auth, (req, res) => {
-    const { query: { defaultPos, cinemaLocation, MAPS_KEY } } = req
+
+    const { query: { defaultPos, cinemaId, cinemaLocation, MAPS_KEY }, userId } = req
 
     handleErrors(async () => {
-        const distance = await logic.retrieveCinemaLocation(defaultPos, cinemaLocation, MAPS_KEY)
+
+        const distance = await logic.setCinemaLocation(cinemaId, userId, defaultPos, cinemaLocation, MAPS_KEY)
+        //const distance = await logic.retrieveCinemaLocation(cinemaId, userId, defaultPos, cinemaLocation, MAPS_KEY)
 
         return res.json(distance)
     }, res)

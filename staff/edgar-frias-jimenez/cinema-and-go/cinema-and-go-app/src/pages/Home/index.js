@@ -5,7 +5,8 @@ import CustomMarker from '../../components/Marker'
 import CinemaModal from '../../components/CinemaModal'
 import { defaultPosition, getUserPosition } from '../../utils'
 import { Circle,
-    // DirectionsService, DirectionsRenderer
+    DirectionsService,
+    DirectionsRenderer
 } from '@react-google-maps/api'
 
 import './index.scss'
@@ -14,14 +15,28 @@ const Home = () => {
     // Globals
     const defaultPos = defaultPosition()
     const userPosition = getUserPosition()
-    const threshold = 1500
+    const threshold = 10500
 
     // State
     const [ cinemaPoi, setCinemaPoi ] = useState(null)
     const [ modalVisible, setModalVisible ] = useState(false)
     const [ currentMarker, setCurrentMarker ] = useState(null)
+    const [ destination, setDestination ] = useState(null)
+    const [ response, setResponse ] = useState(null)
 
     // Handlers
+    const directionsCallback = responseCb => {
+        console.log(responseCb)
+
+        if (responseCb !== null) {
+            if (responseCb.status === 'OK') {
+                    setResponse(responseCb)
+            } else {
+                console.log('response: ', responseCb)
+            }
+        }
+    }
+
     const handleCloseModal = () => {
         setModalVisible(false)
     }
@@ -30,15 +45,10 @@ const Home = () => {
         appLogic.populateDb()
     }
 
-
-    const getCinemaLocation = () => {
-        try {
-            appLogic.retrieveTimeToArrive(userPosition, )
-        } catch ({ message }) {
-
-        }
+    const handleDirectionsService = (location) => {
+        setDestination(location)
+        setModalVisible(false)
     }
-
 
     // Lifecicle
     useEffect(() => {
@@ -54,7 +64,7 @@ const Home = () => {
 
     return (
         <section className="home">
-            {modalVisible && <CinemaModal onClose={handleCloseModal} id={currentMarker} />}
+            {modalVisible && <CinemaModal onClose={handleCloseModal} id={currentMarker} onDirectionsService={handleDirectionsService} />}
 
             <span className="populate" onClick={handlePopulate}> Populate! </span>
 
@@ -78,7 +88,7 @@ const Home = () => {
                                 clickable: false,
                                 draggable: false,
                                 editable: false,
-                                visible: true,
+                                visible: !response,
                                 radius: 1500,
                                 zIndex: 1
                             }}
@@ -87,6 +97,7 @@ const Home = () => {
                         <CustomMarker
                             clickable={false}
                             customPosition={defaultPos}
+                            visible={!response}
                             // icon={''}
                         />
 
@@ -100,9 +111,39 @@ const Home = () => {
                                             setCurrentMarker(id)
                                             setModalVisible(true)
                                         }}
+                                        visible={!response}
                                     />
                             )
                         }
+
+
+                        {
+                            (
+                              destination !== null
+                            ) && (
+                              <DirectionsService
+                                options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop
+                                  destination: destination,
+                                  origin: defaultPos.join(),
+                                  travelMode: 'WALKING'
+                                }}
+                                callback={directionsCallback}
+                              />
+                            )
+                          }
+
+                          {
+                            response !== null && (
+                              <DirectionsRenderer
+                                options={{ // eslint-disable-line react-perf/jsx-no-new-object-as-prop
+                                  directions: response
+                                }}
+                              />
+                            )
+                          }
+
+
+
                     </GoogleMaps>
                 </section>
             }

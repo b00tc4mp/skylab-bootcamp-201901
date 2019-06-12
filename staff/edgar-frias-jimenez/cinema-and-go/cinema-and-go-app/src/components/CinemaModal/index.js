@@ -1,55 +1,73 @@
 import React, { useState, useEffect } from 'react'
+import { GlobalContext } from '../../components/GlobalContext'
 import appLogic from '../../logic'
 import { defaultPosition } from '../../utils'
 import './index.scss'
 
-const { REACT_APP_MAPS_KEY } = process.env
+const CinemaModal = ({ onClose, id, onDirectionsService }) => {
+    // Globals
+    const userPosition = defaultPosition().join()
+    const popcornMinutes = 900
+    const now = () => {
+        const date = new Date;
+        const seconds = date.getSeconds()
+        const minutes = date.getMinutes() * 60
+        const hour = date.getHours() * 3600
 
-const CinemaModal = ({ onClose, id }) => {
+        return seconds + minutes + hour
+    }
+
+
     // State
     const [cinema, setCinema] = useState({})
     const [movieInfoState, setMovieInfoState] = useState([])
-    const [gmaps, setGmaps] = useState(null)
+    const [ showSpinner, handleSpinner ] = useState(null)
 
     // State setter
     const getSessionInfo = async cinema => {
         if (cinema.movieSessions) {
-            const movieSessions = await Promise.all(cinema.movieSessions.map(async session =>
-                await appLogic.retrieveAllSessions(session)
-            ))
 
+            const cinemaLocation = await appLogic.retrieveTimeToArrive(cinema._id, userPosition, cinema.location.coordinates.join());
+            const movieSessions = await Promise.all(cinema.movieSessions.map(async movie =>{
+                const currentSessions = await appLogic.retrieveAllSessions(movie)
+
+                currentSessions.forEach(currentSession => {
+                    currentSession.sessions.forEach((session, index) => {
+                        session = session.replace('.', ':')
+                        const a = session.split(':')
+                        const seconds = (+a[0]) * 60 * 60 + (+a[1]) * 60
+                        if(cinemaLocation && session !== ''){
+                            currentSession.sessions[index] = {session, state: now()+popcornMinutes+cinemaLocation.duration <= seconds, value: seconds}
+                        }
+                    })
+                })
+
+
+                return currentSessions
+            }))
+
+            //setGmaps(cinemaLocation)
             setMovieInfoState(movieSessions.flat())
         }
+    }
+
+    const directionsService = location => {
+        onDirectionsService(location)
     }
 
     // Lifecicle
     useEffect(() => {
         (async () => {
-            const cinema = await appLogic.retrieveCinemaInfo(id)
-            setCinema(cinema)
-            getSessionInfo(cinema)
+            const currentCinema = await appLogic.retrieveCinemaInfo(id)
 
-            // const gmapsTime = async () => {
-            //     if(cinema) {
-            //         const userPos = defaultPosition().toString()
-            //         const cinePos = cinema.location.coordinates.toString()
+            // const cinemaLocation = await appLogic.retrieveTimeToArrive(currentCinema._id, userPosition, currentCinema.location.coordinates.join())
 
-            //         console.log('userPos', userPos)
-            //         console.log('cinePos', cinePos)
+            setCinema(currentCinema)
+            getSessionInfo(currentCinema)
 
-            //         await appLogic.getTimeToArrive(userPos, cinePos,REACT_APP_MAPS_KEY)
-
-            //         return setGmaps(gmapsTime)
-            //     }
-            // }
-            // gmapsTime()
         })()
     }, [id])
 
-    // console.log('getUserPosition', defaultPosition())
-    // console.log('movieInfoState', movieInfoState)
-    // console.log('cinema', cinema)
-    console.log('gmaps', gmaps)
     return (
         <div className="modal">
             <div className="modal__content">
@@ -66,9 +84,10 @@ const CinemaModal = ({ onClose, id }) => {
                                             <p>{movie.movie.title}</p>
                                             <p>{movie.movie.info && movie.movie.info.join(', ')}</p>
                                             <p>{movie.movie.cast}</p>
+                                            {console.log(movie.sessions)}
                                             <ul className="movie-sessions">
-                                                {movie.sessions && !(movie.sessions[0] === '') && movie.sessions.map((session, index) =>
-                                                    <li className="session" key={`session-${index}`} >{session}</li>
+                                                {(movie.sessions && movie.sessions[0] !== '') && movie.sessions.map((session, index) =>
+                                                    <li className={`session ${session.state ? 'green' : 'red'}`}  key={`session-${index}`} onClick={() =>directionsService(cinema.location.coordinates.join())} >{session.session}</li>
                                                 )}
                                             </ul>
                                         </div>

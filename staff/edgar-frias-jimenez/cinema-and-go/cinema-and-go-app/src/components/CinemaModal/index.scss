@@ -120,6 +120,14 @@
                                 font-weight: bold;
                                 padding: 4px;
                                 background: var(--sky-blue);
+
+                                &.green {
+                                    background-color: green;
+                                }
+
+                                &.red {
+                                    background-color: red;
+                                }
                             }
                         }
                     }
