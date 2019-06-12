@@ -4,10 +4,8 @@ import logic from "../../logic";
 import CartItem from "../CartItem"
 import './index.sass'
 
-function Cart({userLogged, cartItems, cartItemsQuantity}) {
+function Cart({cartItems, cartItemsQuantity}) {
 
-  
-  userLogged()
 
   return(
     <>

@@ -1,19 +1,18 @@
-import React , {useState} from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import logic from "../../logic";
-import NavCard from '../NavCard'
+import NavCard from "../NavCard";
 
-function Navbar({ history, userLogged, quantity}) {
-const [userName, setUserName] = useState('')
+function Navbar({ history, quantity }) {
+  const [userName, setUserName] = useState("");
 
-
-/* userLogged() */
+  /* userLogged() */
 
   return (
     <nav class='navbar' role='navigation' aria-label='main navigation'>
       <div class='navbar-brand'>
-        <a class='navbar-item' href='https://bulma.io'>
+        <a class='navbar-item' onClick={() => history.push("/")}>
           <img src={logo} />
         </a>
         <a
@@ -49,8 +48,8 @@ const [userName, setUserName] = useState('')
 
         <div class='navbar-end'>
           <div class='navbar-item'>
-            <div onClick={()=> history.push('/cart')} >
-            { logic.isUserLoggedIn && <NavCard quantity={quantity} />}
+            <div onClick={() => history.push("/cart")}>
+              {logic.isUserLoggedIn && <NavCard quantity={quantity} />}
             </div>
             <div class='buttons'>
               {!logic.isUserLoggedIn && (
@@ -63,17 +62,18 @@ const [userName, setUserName] = useState('')
                   Log in
                 </a>
               )}
-                <p>{userName}</p>
+              <p>{userName}</p>
               {logic.isUserLoggedIn && (
                 <a class='button is-light' onClick={e => history.push("/login")}>
                   Profile
                 </a>
               )}
               {logic.isUserLoggedIn && (
-                <a class='button is-light' onClick={e => {
-                  logic.logOut()
-                  history.push("/landing")
-                  
+                <a
+                  class='button is-light'
+                  onClick={e => {
+                    logic.logOut();
+                    history.push("/");
                   }}>
                   LogOut
                 </a>

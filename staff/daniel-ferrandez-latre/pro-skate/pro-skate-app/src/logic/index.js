@@ -166,6 +166,34 @@ const logic = {
       }
 
     })();
-  }
+  },
+
+  toggleWhishProduct(productId){
+    validate.arguments([
+        { name: 'productId', value: productId, type: 'string', notEmpty: true }
+    ])
+    return ( async ()=>{
+      try{
+        await dataApi.toggleWhishProduct(logic.__userToken__, productId)
+      } catch(err) {
+        throw new LogicError(err.message)
+      }
+    })();
+},
+
+retrieveWishList(){
+  validate.arguments([
+      { name: 'token', value: token, type: 'string', notEmpty: true }
+  ])
+  return ( async ()=>{
+    try{
+      await dataApi.retrieveWishList(logic.__userToken__)
+    } catch(err) {
+      throw new LogicError(err.message)
+    }
+  })();
+},
+
+
 }
 module.exports = logic;

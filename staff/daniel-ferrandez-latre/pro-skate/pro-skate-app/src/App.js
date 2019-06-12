@@ -1,7 +1,7 @@
 import React , { useState, useEffect }from "react";
 import logo from "./logo.svg";
 import "./App.css";
-import { Switch, Route  } from "react-router-dom";
+import { Switch, Route, Redirect  } from "react-router-dom";
 import {  withRouter } from "react-router-dom";
 import Landing from "./pages/Landing";
 import Navbar from "./components/Navbar";
@@ -75,11 +75,11 @@ useEffect( async ()=>{
     <div className='App'>
       <Navbar  userLogged={userLogged} username={userName}  quantity={quantity}/>
       <Switch>
-        <Route exact path='/landing' render={() => <Landing handleProductDetail={handleProductDetail} />} />
+        <Route exact path='/' render={() => <Landing handleProductDetail={handleProductDetail} />} />
         <Route exact path='/register' render={() => <Register />} />
-        <Route exact path='/login' render={() => <Login userIsLogged={userLogged} />} />
-        <Route exact path={`/detail/:id`} render={() => <Detail userLogged={userLogged} cartItemsQuantity={cartItemsQuantity}/>} /> 
-        <Route exact path='/cart' render={() => <Cart userLogged={userLogged} cartItems={cartItems} cartItemsQuantity={cartItemsQuantity}/>} />
+        <Route exact path='/login' render={() => <Login />} />
+        <Route exact path={`/detail/:id`} render={() => <Detail cartItemsQuantity={cartItemsQuantity}/>} /> 
+        <Route exact path='/cart' render={() => logic.isUserLoggedIn ? <Cart cartItems={cartItems} cartItemsQuantity={cartItemsQuantity}/> : <Redirect to="/" /> } />
       </Switch>
     </div>
   );

@@ -1,38 +1,36 @@
 import React, { useState, useEffect } from "react";
-import {withRouter} from 'react-router-dom'
+import { withRouter } from "react-router-dom";
 import logic from "../../logic";
-import Tags from "../Tags"
-import './index.sass'
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faMinus } from '@fortawesome/free-solid-svg-icons';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import Tags from "../Tags";
+import "./index.sass";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-function Detail({userLogged, match, cartItemsQuantity }) {
+
+function Detail({ match, cartItemsQuantity }) {
   const [modalLogin, setModalLogin] = useState("modal");
   const [messageError, setErrorMessage] = useState(null);
-  const [detail, setDetail] = useState({})
+  const [detail, setDetail] = useState({});
 
-  const { params: { id } } = match
+  const {
+    params: { id }
+  } = match;
 
-  useEffect( function(){
-    
-    async function getProduct(){
-      const detailA = await logic.retrieveProduct(id)
-      setDetail(detailA)
+  useEffect(function() {
+    async function getProduct() {
+      const detailA = await logic.retrieveProduct(id);
+      setDetail(detailA);
     }
-    getProduct()
-  }
-  , [])
-
-
+    getProduct();
+  }, []);
 
   async function handleAddToCart() {
-    debugger
-    console.log(logic.__userToken__)
+    debugger;
+    console.log(logic.__userToken__);
     if (logic.__userToken__) {
       await logic.addProductToCart(logic.__userToken__, id);
-      debugger
-      await cartItemsQuantity()
+      debugger;
+      await cartItemsQuantity();
     } else {
       setModalLogin("modal is-active");
     }
@@ -41,7 +39,7 @@ function Detail({userLogged, match, cartItemsQuantity }) {
   async function handleTakeOfCart() {
     if (logic.__userToken__) {
       await logic.takeOutProductToCart(logic.__userToken__, id);
-      await cartItemsQuantity()
+      await cartItemsQuantity();
     } else {
       setModalLogin("modal is-active");
     }
@@ -54,15 +52,12 @@ function Detail({userLogged, match, cartItemsQuantity }) {
       password: { value: password }
     } = event.target;
     try {
-
       await logic.loginUser(email, password);
-      userLogged()
-      setModalLogin('modal')
+      setModalLogin("modal");
     } catch (error) {
       setErrorMessage(error.message);
-      setTimeout(() => setModalLogin('modal'), 4000)
+      setTimeout(() => setModalLogin("modal"), 4000);
     }
-    
   }
 
   return (
@@ -71,24 +66,23 @@ function Detail({userLogged, match, cartItemsQuantity }) {
         <section className='columns'>
           <section className='column'>
             <figure class='image is-4by3'>
-              <img className="image-detail" src={detail.imageUrlMain} alt='Placeholder image' />
+              <img className='image-detail' src={detail.imageUrlMain} alt='Placeholder image' />
             </figure>
           </section>
           <section className='column'>
             <div className='box'>
               <p has-text-justified>{detail.name}</p>
-              <br/>
+              <br />
               <p has-text-justified>{detail.description}</p>
-              <br/>
+              <br />
               <p>{detail.price}€</p>
             </div>
 
-          
             <div className='buttons'>
-              <div id="add" className='button' onClick={e =>  handleAddToCart()}>
+              <div id='add' className='button' onClick={e => handleAddToCart()}>
                 <FontAwesomeIcon icon={faPlus} className='g-ShoppingBasket__icon' />
               </div>
-              <div id="withdraw" className='button' onClick={e => handleTakeOfCart()}>
+              <div id='withdraw' className='button' onClick={e => handleTakeOfCart()}>
                 <FontAwesomeIcon icon={faMinus} className='g-ShoppingBasket__icon' />
               </div>
               <div className='button '>add to wish list</div>
@@ -133,7 +127,11 @@ function Detail({userLogged, match, cartItemsQuantity }) {
                   )}
                 </div>
               </div>
-              <button className='modal-close is-large' aria-label='close' onClick={()=> setModalLogin('modal')} />
+              <button
+                className='modal-close is-large'
+                aria-label='close'
+                onClick={() => setModalLogin("modal")}
+              />
             </div>
           }
         </section>
