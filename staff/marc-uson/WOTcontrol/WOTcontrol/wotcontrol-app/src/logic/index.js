@@ -16,6 +16,14 @@ const logic = {
         return !!this.__userToken__
     },
 
+    /** Creates a new user on the DB with the given data
+     *
+     * @param {string} name first name of the user
+     * @param {string} surname second name or surname of the user
+     * @param {string} email email direction of the user, will be used to login in the application
+     * @param {string} password password used for sign in
+     * @param {boolean} admin if true, save the user as admin user to have more privileges (not yet implemented). By default, admin is false
+     */
     registerUser(name, surname, email, password, admin = false) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -37,6 +45,11 @@ const logic = {
         })()
     },
 
+    /** Autenticates the user to the application
+     * 
+     * @param {string} email email defined by the user in registration process
+     * @param {string} password password defined from the user in registration process
+     */
     loginUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
@@ -55,6 +68,9 @@ const logic = {
         })()
     },
 
+    /** retrieves the name, surname, email and list of devices of the user asociated with the passed id
+     *
+     */
     logoutUser(){
         sessionStorage.clear()
     },
@@ -72,6 +88,11 @@ const logic = {
         })()
     },
 
+    /** Updates the information of the current user with the information given in the data object. The data object must contain the keys named the same as the parameters of the registerUser function
+     *
+     * @param {object} data contains the data to be updated. the data to be updated must have the key identical to the parameters of the registerUser function
+     * @return {string} 'User succesfully updated'
+     */
     updateUser(data) {
         validate.arguments([
             { name: 'data', value: data, type: 'object'}
@@ -86,6 +107,10 @@ const logic = {
         })()
     },
 
+    /** deletes the user asociated to the token passed
+     *
+     * @return {string} 'User succesfully deleted'
+     */
     deleteUser() {
 
         return (async () => {
@@ -98,6 +123,12 @@ const logic = {
         })()
     },
 
+    /** check if there's a device connected on the ip given.
+     *
+     * @param {string} deviceIp your device IP
+     * @param {number} devicePort your device Port
+     * @return {Object} object containing the status and the time interval
+     */
     checkDevice(deviceIp, devicePort){
         validate.arguments([
             { name: 'deviceIp', value: deviceIp, type: 'string', notEmpty: true },
@@ -116,6 +147,13 @@ const logic = {
         })()
     },
 
+    /** Adds a new device into the users database, and creates all his inputs and outputs
+     *
+     * @param {string} deviceName name of the device, must be unique in users database and not containing spaces
+     * @param {string} deviceIp unique ip of the device
+     * @param {number} devicePort port defined in to device
+     * @param {number} timeInterval desired time interval in miliseconds
+     */
     addDevice(deviceName, deviceIp, devicePort, timeInterval){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
@@ -153,6 +191,10 @@ const logic = {
         })()
     },
 
+    /** Deletes the selected device in the users database.
+     *
+     * @param {string} deviceName name of the device, must be unique in users database and not containing spaces
+     */
     deleteDevice(deviceName){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
@@ -168,6 +210,10 @@ const logic = {
         })()
     },
 
+     /** retrieves the selected device of the users database.
+     *
+     * @param {string} deviceName name of the device, must be unique in users database and not containing spaces
+     */
     retrieveDevice(deviceName){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
@@ -183,6 +229,11 @@ const logic = {
         })()
     },
 
+    /** changes de name of the selected device in the users database.
+     *
+     * @param {string} deviceName name of the device
+     * @param {string} deviceName new name of the device, must be unique in users database and not containing spaces
+     */
     renameDevice(deviceName, newDeviceName){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
@@ -199,6 +250,11 @@ const logic = {
         })()
     },
 
+    /** changes the time interval of the selected device in the users database.
+     *
+     * @param {string} deviceName name of the device
+     * @param {number} timeInterval desired time interval in miliseconds
+     */
     changeDeviceTime(deviceName, timeInterval){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
@@ -215,6 +271,11 @@ const logic = {
         })()
     },
 
+    /** toggles the selected digital output to the selected device in the users database.
+     *
+     * @param {string} deviceName name of the device
+     * @param {number} pinNumber pin of the output to add, see the documentation about pinNumbers in diferent device types
+     */
     toggleDigitalOutput(deviceName, pinNumber){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
@@ -231,6 +292,12 @@ const logic = {
         })()
     },
 
+    /** selected servo output to the selected device in the users database.
+     *
+     * @param {string} deviceName name of the device
+     * @param {number} servoNumber pin of the output to add, see the documentation about pinNumbers in diferent device types
+     * @param {number} angle the angle to set to the servo 5º-175º
+     */
     setServo(deviceName, pinNumber, angle){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
@@ -247,6 +314,12 @@ const logic = {
         })()
     },
 
+    /** toggles the selected motor output to the selected device in the users database.
+     *
+     * @param {string} deviceName name of the device
+     * @param {number} motorNumber pin of the output to add, see the documentation about pinNumbers in diferent device types
+     * @param {number} speed percentage of speed to set to the motor 0-100%
+     */
     setMotor(deviceName, pinNumber, speed){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
@@ -263,6 +336,10 @@ const logic = {
         })()
     },
 
+    /** retrieves the analog input values from the selected device in the users database.
+     *
+     * @param {string} deviceName name of the device
+     */
     retrieveAnalog(deviceName){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true }
@@ -278,14 +355,19 @@ const logic = {
                         value,
                         date
                     })
-                    return resultsArr
                 })
+                return resultsArr
             } catch (error) {
                 throw new LogicError(error)
             }
         })()
     },
 
+    /** retrieves the analog input values from the selected device in the users database.
+     *
+     * @param {string} deviceName name of the device
+     * @param {string} pinNumber pin of the desired input, must be 1 or 2
+     */
     retrieveDigital(deviceName, pinNumber){
         validate.arguments([
             { name: 'deviceName', value: deviceName, type: 'string', notEmpty: true },
@@ -302,8 +384,8 @@ const logic = {
                         value,
                         date
                     })
-                    return resultsArr
                 })
+                return resultsArr
             } catch (error) {
                 throw new LogicError(error)
             }

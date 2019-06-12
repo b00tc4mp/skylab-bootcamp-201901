@@ -84,17 +84,17 @@ function Navbar({
             </div>
             <div className="uk-navbar-left uk-margin-left-small uk-hidden@s">
                 <div className="uk-navbar-item uk-text-center">
-                    <a href=" " className="uk-navbar-item uk-logo uk-center" >
+                    <a href="" className="uk-navbar-item uk-logo uk-center" >
                         {device && <div  data-uk-scrollspy="cls:uk-animation-fade" >{device.name}<div className="uk-navbar-subtitle">{device.ip} - {deviceStatus}</div></div>}
                     </a>
                 </div>
             </div>
             <div className="uk-navbar-center uk-visible@s">
                 {device && <div data-uk-scrollspy="cls:uk-animation-fade" >
-                    <a href=" " data-uk-toggle="target: #refresh-modal"><span className="uk-padding uk-icon-link" data-uk-icon="future"></span></a>
+                    <a href="" data-uk-toggle="target: #refresh-modal"><span className="uk-padding uk-icon-link" data-uk-icon="future"></span></a>
                 </div>}
                 <div className="uk-navbar-item uk-text-center">
-                    <a href=" " className="uk-navbar-item uk-logo uk-center" >
+                    <a href="" className="uk-navbar-item uk-logo uk-center" >
                         {device && <div  data-uk-scrollspy="cls:uk-animation-fade" >{device.name}<div className="uk-navbar-subtitle">{device.ip} - {deviceStatus}</div></div>}
                     </a>
                 </div>
@@ -106,7 +106,7 @@ function Navbar({
             <div className="uk-navbar-right">
                 <ul className="uk-navbar-nav">
                     <li>
-                        <a href=" ">Devices</a>
+                        <a href=" " onClick={(e) => e.preventDefault()}>Devices</a>
                         <div id="deviceDropdown" className="uk-navbar-dropdown" >
                             <ul className="uk-nav uk-dropdown-nav">
                                 {deviceList && (

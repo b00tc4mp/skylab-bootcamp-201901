@@ -22,10 +22,10 @@ function App(props) {
     useEffect(() => {
         const [, main, device] = props.location.pathname.split('/')
         if (main === "home") {
-            if(device)handleRetrieveDevice(device)
+            if(device) handleRetrieveDevice(device)
             handleUpdate()
         }
-    },)
+    },[])
 
     const handleUpdate = async () => {
         let devicesArr = []
@@ -122,6 +122,7 @@ function App(props) {
 
         props.history.push(`/home/${deviceName}`)
         try {
+            setDevice(null)
             const device = await logic.retrieveDevice(deviceName)
             const response = await logic.checkDevice(device.ip, device.port )
             setDevice(device)
@@ -194,7 +195,7 @@ function App(props) {
             Uikit.notification.closeAll()
             Uikit.notification({ message: error.message, status: 'danger' })
             setDeviceStatus('OFF')
-            setInterval(20000)
+            setInterval(2000)
         }
     }
 

@@ -6,7 +6,7 @@ const routes = require('./routes')
 const cors = require('cors')
 const { mongoose } = require('wotcontrol-data')
 
-const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = process;
+const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 4949], } = process;
 
 (async () => {
     await mongoose.connect(url, { useNewUrlParser: true, useFindAndModify: false })

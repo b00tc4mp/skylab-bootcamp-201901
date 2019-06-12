@@ -92,6 +92,7 @@ const logic = {
      *
      * @param {string} id unique id of the user
      * @param {object} data contains the data to be updated. the data to be updated must have the key identical to the parameters of the registerUser function
+     * @return {string} 'User succesfully updated'
      */
     updateUser(id, data) {
         validate.arguments([
@@ -129,6 +130,7 @@ const logic = {
     /** deletes the user asociated to the id passed
      *
      * @param {string} id unique id of the user
+     * @return {string} 'User succesfully deleted'
      */
     deleteUser(id) {
         validate.arguments([
@@ -146,11 +148,12 @@ const logic = {
         })()
     },
 
-    /** 
+    /** check if there's a device connected on the ip given.
      *
      * @param {string} id unique id of the user
      * @param {string} deviceIp your device IP
      * @param {number} devicePort your device Port
+     * @return {Object} object containing the status and the time interval
      */
     checkDevice(id, deviceIp, devicePort){
         validate.arguments([
@@ -175,7 +178,14 @@ const logic = {
             }
         })()
     },
- 
+
+    /** Adds a new device into the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device, must be unique in users database and not containing spaces
+     * @param {string} deviceIp unique ip of the device
+     * @param {number} devicePort port defined in to device
+     */
     addDevice(id, deviceName, deviceIp, devicePort){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -206,6 +216,11 @@ const logic = {
         })()
     },
 
+    /** Deletes the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device, must be unique in users database and not containing spaces
+     */
     deleteDevice(id, deviceName){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -233,6 +248,11 @@ const logic = {
         })()
     },
 
+    /** retrieves the selected device of the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device, must be unique in users database and not containing spaces
+     */
     retrieveDevice(id, deviceName){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -257,6 +277,12 @@ const logic = {
         })()
     },
 
+    /** Activates the selected device in the users database.
+     * 
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {number} timeInterval time interval you want the device sends you the inputs data.
+     */
     activateDevice(id, deviceName, timeInterval){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -288,6 +314,12 @@ const logic = {
         })()
     },
 
+    /** changes de name of the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {string} deviceName new name of the device, must be unique in users database and not containing spaces
+     */
     changeDeviceId(id, deviceName, newDeviceName){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -322,6 +354,13 @@ const logic = {
         })()
     },
 
+    /** adds a new input to the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {string} type the type of the devvice input to add. should be 'analog' or 'digital
+     * @param {number} direction pin of the input to add, see the documentation about pinNumbers in diferent device types
+     */
     addInput(id, deviceName, type, direction){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -362,6 +401,13 @@ const logic = {
         })()
     },
 
+    /** deletes a input on the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {string} type the type of the devvice input to add. should be 'analog' or 'digital
+     * @param {number} direction pin of the input to delete, see the documentation about pinNumbers in diferent device types
+     */
     deleteInput(id, deviceName, type, direction){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -401,6 +447,13 @@ const logic = {
         })()
     },
 
+    /** adds a new output to the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {string} type the type of the devvice input to add. should be 'servo', 'motor' or 'digital
+     * @param {number} direction pin of the output to add, see the documentation about pinNumbers in diferent device types
+     */
     addOutput(id, deviceName, type, direction){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -439,6 +492,13 @@ const logic = {
         })()
     },
 
+    /** deletes a output on the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {string} type the type of the devvice input to add. should be 'servo', 'motor' or 'digital
+     * @param {number} direction pin of the output to delete, see the documentation about pinNumbers in diferent device types
+     */
     deleteOutput(id, deviceName, type, direction){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -479,6 +539,12 @@ const logic = {
         })()
     },
 
+    /** toggles the selected digital output to the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {number} pinNumber pin of the output to add, see the documentation about pinNumbers in diferent device types
+     */
     toggleDigitalOutput(id, deviceName, pinNumber){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -529,6 +595,13 @@ const logic = {
         })()
     },
 
+    /** selected servo output to the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {number} servoNumber pin of the output to add, see the documentation about pinNumbers in diferent device types
+     * @param {number} angle the angle to set to the servo 5º-175º
+     */
     setServoPosition(id, deviceName, servoNumber, angle) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -579,6 +652,13 @@ const logic = {
         })()
     },
 
+    /** toggles the selected motor output to the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {number} motorNumber pin of the output to add, see the documentation about pinNumbers in diferent device types
+     * @param {number} speed percentage of speed to set to the motor 0-100%
+     */
     setMotorSpeed(id, deviceName, motorNumber, speed){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -630,6 +710,12 @@ const logic = {
         })()
     },
 
+    /** saves the analog input value to the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {number} value value from 0 to 100 of the analog input
+     */
     saveAnalogInput(id, deviceName, value){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -668,6 +754,13 @@ const logic = {
         })()
     },
 
+    /** saves the analog input value to the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {number} value value from 0 to 1 of the analog input
+     * @param {number} pinNumber pin of the desired input, must be 1 or 2
+     */
     saveDigitalInput(id, deviceName, value, pinNumber){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -706,6 +799,11 @@ const logic = {
         })()
     },
 
+    /** retrieves the analog input values from the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     */
     retrieveAnalog(id, deviceName){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -736,6 +834,12 @@ const logic = {
         })()
     },
 
+    /** retrieves the analog input values from the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {string} pinNumber pin of the desired input, must be 1 or 2
+     */
     retrieveDigital(id, deviceName, pinNumber){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },

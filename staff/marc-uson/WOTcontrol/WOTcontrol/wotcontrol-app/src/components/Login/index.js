@@ -12,7 +12,7 @@ function Login({ onLogin, navigateToRegister }) {
         onLogin(username, password)
     }
 
-    return <div className='card uk-flex uk-flex-center uk-position-center'>
+    return <div className='card uk-flex uk-flex-center uk-position-center' data-uk-scrollspy="cls:uk-animation-fade">
         <div className='uk-card-body uk-width-xlarge uk-padding uk-text-center'>
             <div>
                 <img alt='WOTcon logo' width="232" height="184" src={logoGreen} />
