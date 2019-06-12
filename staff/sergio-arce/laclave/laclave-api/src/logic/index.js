@@ -270,7 +270,12 @@ const logic = {
         return Artist.find({ 'name': new RegExp(query, 'i')}).lean()
             .then(artists => {
 
-                return Congress.find({ 'name': new RegExp(query, 'i')}).lean()
+                return Congress.find({ 
+                    $or:[
+                        {'name': new RegExp(query, 'i')},
+                        {'city': new RegExp(query, 'i')}
+                    ]
+                }).lean()
                     .then(congresses => {
 
                         const response = {}
@@ -280,7 +285,7 @@ const logic = {
                             }
                             return obj
                         })
-                        console.log()
+                        
                         response.congresses = congresses.map(e => {
                             const obj = {...e, resultsType: 'congress'}
                             return obj
@@ -347,8 +352,7 @@ const logic = {
      */
     listArtists() {
         return Artist.find()
-            .then(artists => artists)
-            
+            .then(artists => artists)    
     },
 
     /**
@@ -445,7 +449,6 @@ const logic = {
                 return 
             })
     },
-
 
     /**
      * look for the detail of artist or congress by the id

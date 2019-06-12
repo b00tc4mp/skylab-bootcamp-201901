@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import logic from '../../logic'
 
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 import Favorites from '../Favorites'
 
@@ -65,7 +64,7 @@ class UserProfile extends Component {
                         congressesShow,
                         artistsShow
                     }, 
-                showFavorites, showCongresses, showProfile, showArtists} = this
+                showFavorites, showCongresses, showProfile, showArtists, handleRetrieveUser} = this
 
         return (
 
@@ -134,7 +133,7 @@ class UserProfile extends Component {
                 }
 
                 {favoritesShow &&
-                <Favorites onFavorites={userData.favorites} />
+                <Favorites onFavorites={userData.favorites} onRefreshFav={handleRetrieveUser} />
                 }
 
                 {congressesShow &&

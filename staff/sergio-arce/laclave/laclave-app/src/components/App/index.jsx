@@ -118,16 +118,28 @@ class App extends Component {
     }
 
     // => redirect to '/login'
-    handleGoToLogin = () => (this.props.history.push('/login'))
+    handleGoToLogin = () => {
+        this.setState({ results: false })
+        this.props.history.push('/login')
+    }
 
     // => redirect to '/register'
-    handleGoToRegister = () => ( this.props.history.push('/register'))
+    handleGoToRegister = () => {
+        this.setState({ results: false })
+        this.props.history.push('/register')
+    }
 
     // => redirect to '/profile'
-    handleGoToProfile = () => ( this.props.history.push('/profile'))
+    handleGoToProfile = () => {
+        this.setState({ results: false })
+        this.props.history.push('/profile')
+    }
 
      // => redirect to '/create'
-    handleGoToCreate = () => ( this.props.history.push('/create'))
+    handleGoToCreate = () => {
+        this.setState({ results: false })
+        this.props.history.push('/create')
+    }
     
 
     render() {

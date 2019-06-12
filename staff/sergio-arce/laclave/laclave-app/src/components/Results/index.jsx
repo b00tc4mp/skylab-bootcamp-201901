@@ -12,6 +12,10 @@ class Results extends Component {
        if(logic.isUserLoggedIn) this.handleRetrieveUser()
     }
 
+    // componentDidMount() {
+    //   if(this.props.onResults.length <= 0) toast.info("Oops! No results found.")
+    // }
+
     handleRetrieveUser = () => {
       
         logic.retrieveUser()    
@@ -28,6 +32,8 @@ class Results extends Component {
 
               .then(() => {
                   this.handleRetrieveUser()
+                  if (this.props.onRefreshFav) this.props.onRefreshFav()
+                  
               })
               .catch(error => toast(error.message)) 
         } catch (error) {
@@ -47,7 +53,9 @@ class Results extends Component {
 
           <section className="results">
 
-            {onResults.map(item => {
+            {onResults.length ?
+              
+              onResults.map(item => {
 
               const isFav = favorites? favorites.some(fav => fav._id === item._id) : false
 
@@ -58,7 +66,11 @@ class Results extends Component {
                         onDetail={handleDetail}
                         />
 
-              })}
+              }) :
+
+              <p className="results__message">You have no results</p>
+                 
+            }
             
           </section>
         )

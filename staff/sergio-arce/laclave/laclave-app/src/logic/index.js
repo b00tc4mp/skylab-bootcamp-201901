@@ -14,7 +14,7 @@ const logic = {
      * 
      * @throws {Error} - on non valid input parameters
      * 
-     * 
+     * @return {Promise} - esolve with the user id after create it
      */
     registerUser(name, username, email, emailConfirm, password, passwordConfirm) {
 
@@ -52,7 +52,7 @@ const logic = {
      * 
      * @throws {Error} - on non valid input parameters
      * 
-     * @return {??????}
+     * @return {Promise} - resolve with the token the user
      */
 
     loginUser(email, password) {
@@ -72,7 +72,7 @@ const logic = {
 
 
     /**
-     * ?????????
+     * 
      */
     get isUserLoggedIn() {
 
@@ -80,14 +80,16 @@ const logic = {
     },
 
     /**
-     * ??????????
+     * delete the token from the sessionStorage
      */
     logOutUser() {
         sessionStorage.clear()
     },
 
-    /**
-     * ?????????
+   /**
+     * return user object profile
+     * 
+     * @param {Promise} - solve with user data
      */
     retrieveUser() {
 
@@ -97,14 +99,13 @@ const logic = {
     },
 
     /**
-     * update user through his userData
+     * update user through userData
      * 
      * @param {Object} userData 
      * 
      * @throws {TypeError} - on non valid input parameters
      * 
-     * @param {????????} - 
-     * 
+     * @param {Promise}- results with an updated user message
      */
     updateUser(userData) {
 
@@ -117,14 +118,14 @@ const logic = {
     },
 
 
-    /**
+     /**
      * look for congresses
      * 
      * @param {String} query 
      * 
      * @throws {Error} - when the query is not correct
      * 
-     * @param {??????????}
+     * @param {Promise} - resolved with the congress found
      */
     searchCongresses(query) {
 
@@ -135,14 +136,14 @@ const logic = {
 
     },
 
-    /**
+   /**
      * look for artist
      * 
      * @param {String} query 
      * 
      * @throws {Error} - when the query is not correct
      * 
-     * @param {???????}
+     * @param {Promise} - resolved with the artists found
      */
     searchArtist(query) {
 
@@ -152,14 +153,14 @@ const logic = {
         return userApi.searchArtist(query)
     },
 
-    /**
+     /**
      * look for congresses or artists
      * 
-     * @param {String} query 
+     * @param {String} query
      * 
      * @throws {Error} - when the query is not correct
      * 
-     * @param {????????????} 
+     * @param {Promise} - returns the query search
      */
     searchItems(query) {
 
@@ -169,14 +170,14 @@ const logic = {
         return userApi.searchItems(query)
     },
 
-     /**
-     * create a artist with the user's credentials
+    /**
+     * Create an artist with your data
      * 
      * @param {Object} artistData 
      * 
      * @throws {TypeError} - on non valid artistData parameters
      * 
-     * @param {???????????}
+     * @param {Promise} - results with an artist object created and the userId
      */
     createArtist(artistData) {
 
@@ -192,13 +193,13 @@ const logic = {
     },
 
     /**
-     * create a congress with the user's credentials
+     * Create a congress with the congress data
      * 
      * @param {Object} data 
      * 
      * @throws {TypeError} - on non valid congressData parameters
      * 
-     * @param {?????????????} 
+     * @param {Promise} - results with a congress object created
      */
     createCongress(data) {
 
@@ -217,7 +218,7 @@ const logic = {
     * 
     * @throws {Error} - when the invalid parameters
     * 
-    * @param {??????????????} 
+    * @param {Promise} 
     * 
     */ 
     toggleFavorites(itemId) {
@@ -228,15 +229,14 @@ const logic = {
         return userApi.toggleFavorites(itemId, sessionStorage.userToken)
     },
 
-     /**
-     * look for the detail of artist or congress by the itemId
+    /**
+     * look for the detail of artist or congress by the id
      * 
-     * @param {String} id 
+     * @param {String} itemId 
      * 
      * @throws {Error} - on non valid id parameters
      * 
-     * @param {??????} 
-     * 
+     * @param {Promise} - resolved with the object of the artist or congress
      */
     itemDetail(itemId) {
 

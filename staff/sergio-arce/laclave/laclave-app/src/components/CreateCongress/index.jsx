@@ -18,7 +18,7 @@ class CreateCongress extends Component {
             .then(artists => {
                 this.setState({ artists })  
             })
-            .catch(error => console.log(error.message))
+            .catch(({ message }) => toast(message))
     }
 
     getImageURL = file => new Promise(function(resolve, reject) {

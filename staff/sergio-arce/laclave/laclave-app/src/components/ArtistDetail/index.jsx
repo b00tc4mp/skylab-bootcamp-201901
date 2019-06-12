@@ -12,9 +12,9 @@ function ArtistDetail ({ onItem }) {
               
               <div className="artist-detail__info">
                 <h1>{onItem.name}</h1>
-                <p>age: {onItem.year}</p>
-                <p>country: {onItem.country}</p>
-                <p>category: {onItem.category[0]}</p>
+                <p>Age: {2019 - onItem.year}</p>
+                <p>Country: {onItem.country}</p>
+                <p>Category: {onItem.category[0]}</p>
               </div>
           
         </section>

@@ -19,16 +19,17 @@ Users can:
 . Crear un perfil de un Artista
 ```
 ## Use Cases
-![](./images/uses-cases.jpg)
+![](./images/use-cases.jpg)
 ## Flows
 ![](./images/flows.jpg)
 
 
 
 
+
 # Technical Description
 ## Blocks
-![](./images/blocks.jpg)
+![](./images/block.jpg)
 ## Components
 ![](./images/components.jpg)
 

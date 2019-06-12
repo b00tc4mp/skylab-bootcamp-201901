@@ -22,7 +22,8 @@ const Congress = new Schema({
         minlength: [2, 'the address is very short'],
         maxlength: [100, 'the address is very long']
     },
-
+    
+    //**buscar por ciudad tambien */
     city: {
         type: String,
     },

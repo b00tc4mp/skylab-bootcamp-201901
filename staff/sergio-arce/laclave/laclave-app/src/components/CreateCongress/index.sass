@@ -15,10 +15,13 @@
         border: 0 
         flex-grow: 1
     & textarea
-        border: 1px solid black
+        border: 1px solid $grey
+        width: 100%
+       
     & select 
-        border: 1px solid black
+        border: 1px solid $grey
         padding: 14px    
+        width: 100%
     & label
     color: black
     &__button
@@ -28,13 +31,16 @@
         +inputs
     &__button
         display: flex
+        justify-content: space-around
         color: white
         &__more
             background-color: green
             color: white
+            width: 30%
         &__less
             background-color: red
             color: white
+            width: 30%
     &__submit
         +btnLogin
         margin: 15px
