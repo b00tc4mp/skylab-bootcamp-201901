@@ -288,4 +288,4 @@ const logic = {
 
 }
 
-module.exports= logic
+export default logic
