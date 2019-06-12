@@ -18,7 +18,34 @@ A normal bug is a problem in the main functionality. It is usually encountered b
 What's a request? 
 A request is not a problem in the software, it is a demand from the Product Expert or someone else that has to be done by a technical expert, e.g a database query. The SLA in request will be 7 day.  
 ````
-
+![Use Cases](images/projectImage.png)
 ## Planning
 
 Trello: [https://trello.com/b/dPd4s6vR/dashboardissues](Trello) to see my planning.
+
+## Functional Description
+
+### Use Cases
+
+![Use Cases](images/useCase.png)
+
+### Flow
+
+![Flow](images/flow.png)
+
+## Technical Description
+
+### Block
+
+### Components
+
+### Class/ Objects
+
+### Data Model
+
+### Coverage
+##### Server Side
+![Server Side](images/server-side.png)
+
+##### Client Side
+![Client Side](images/client-side.png)

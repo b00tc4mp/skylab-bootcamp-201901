@@ -9,7 +9,7 @@ import Profile from './Profile'
 import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 import 'uikit/dist/js/uikit.min.js'
 import UIkit from 'uikit/dist/js/uikit.min.js'
-import moment from 'moment'
+
 
 
 
@@ -126,18 +126,7 @@ class App extends Component{
             handleComeBack
         } = this
         
-        // const dateFrom = moment().subtract(1, 'month').format('YYYY-MM-DD')
-        // const dateTo = moment().format('YYYY-MM-DD')
-        
         return <>
-                {/* <Switch>
-                    <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
-                    <Route path="/register" render={()=> logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} goLogin={handleLoginNavigation}/> }/>
-                    <Route path="/login" render={() => logic.isUserLoggedIn  ? (profile ==='product-expert'? <Redirect to={`/home?from=${dateFrom}&to=${dateTo}&statistics=0`} /> : <Redirect to="/homeAdmin" />): <Login onLogin={handleLogin} error={error} goRegister={handleRegisterNavigation}/>} />
-                    <Route path="/home" render={() => logic.isUserLoggedIn ? (profile ==='product-expert'? <HomePE user={user} onLogout={handleLogout} goProfile={handleProfileNavigation} /> : <Redirect to="/homeAdmin" />) : <Redirect to="/" />} />
-                    {user && <Route path="/profile" render={() => logic.isUserLoggedIn && (profile ==='product-expert') ? <Profile user={user} onReturn={handleComeBack} onUpdate={handleUpdateUser}/> : <Redirect to="/" />} />}
-                    <Route path="/homeAdmin" render={() => logic.isUserLoggedIn ?(profile !== 'product-expert'? <HomeAdmin onLogout={handleLogout} error={error}/>: <Redirect to={`/home?from=${dateFrom}&to=${dateTo}&statistics=0`} />) : <Redirect to="/" />} />
-                </Switch> */}
                 <Switch>
                     <Route exact path="/" render={() => logic.isUserLoggedIn ? <Redirect to="/home" /> : <Landing onRegister={handleRegisterNavigation} onLogin={handleLoginNavigation} />} />
                     <Route path="/register" render={()=> logic.isUserLoggedIn ? <Redirect to="/home" /> : <Register onRegister={handleRegister} error={error} goLogin={handleLoginNavigation}/> }/>

@@ -60,8 +60,6 @@ class HomePE extends Component{
         }
     }
     componentDidMount(){
-        //const { from, to, statistic } = queryString.parse(this.props.location.search)
-       // this.props.user && this.handleSwitch(from, to, statistic, this.props.user.country)
         const dateFrom = moment().subtract(1, 'month').format('YYYY-MM-DD')
         const dateTo = moment().format('YYYY-MM-DD')
         this.props.user && this.handleSwitch(dateFrom, dateTo, '0', this.props.user.country)
@@ -74,11 +72,6 @@ class HomePE extends Component{
         this.handleSwitch(dateFrom, dateTo, '0', this.props.user.country)
         }
     }
-
-    // handleNewQuery = (dateFrom, dateTo, statistic, country) => {
-    //     this.country = country
-    //     this.props.history.push(`?from=${dateFrom}&to=${dateTo}&statistic=${statistic}`)
-    // }
 
     render(){
         const {

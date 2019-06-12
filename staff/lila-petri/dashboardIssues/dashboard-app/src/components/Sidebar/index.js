@@ -36,7 +36,7 @@ function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, statistic,
                                 <input className="uk-input uk-form-small" data-uk-tooltip="title: end date" id="dateTo" type="date" name="dateTo" required defaultValue={dateTo} min={dateFrom}></input>
                             </div>
                             <div className="uk-form-controls">
-                                <select className="uk-select uk-form-small" value={statistic || ""} data-uk-tooltip="title: statistic type" name="statistic" defaultValue={statistic} onChange={event => onStatisticsChange(event.target.value)}>
+                                <select className="uk-select uk-form-small"  data-uk-tooltip="title: statistic type" name="statistic" defaultValue={statistic} onChange={event => onStatisticsChange(event.target.value)}>
                                     <option value="0">By Resolution</option>
                                     <option value="1" >By SLA</option>
                                 </select>
@@ -59,7 +59,7 @@ function Sidebar({error, onSwitch, user, onLogout , dateFrom, dateTo, statistic,
                                     <li><p>Product Expert</p></li>
                                     <li className="uk-nav-divider"></li>
                                     <li><a className="uk-nav-header" href="#/profile" onClick={goProfile}>Profile</a></li>
-                                    <li><a href="" onClick={onLogout}>Logout</a></li>
+                                    <li><a href=" " onClick={onLogout}>Logout</a></li>
                                 </ul>
                             </div>
                         </li>

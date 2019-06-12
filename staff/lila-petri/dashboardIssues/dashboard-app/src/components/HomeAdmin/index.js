@@ -15,6 +15,7 @@ class HomeAdmin extends Component{
     
             this.setState({loadingLoad: true, visibleLoad: false})
             await logic.clearUpBuffer()
+            await logic.loadJirasByMonth('March')
             await logic.loadJirasByMonth('April')
             await logic.loadJirasByMonth('May')
             await logic.loadJirasByMonth('June')
