@@ -5,7 +5,6 @@ import Card from '../Card'
 function CardBundle({ ranSelection, handleProductDetail }){
 
 
-
   return (<>
   <div className='container'>
   <section class='section'>

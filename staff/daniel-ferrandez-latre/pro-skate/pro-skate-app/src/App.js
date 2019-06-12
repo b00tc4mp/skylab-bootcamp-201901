@@ -18,12 +18,21 @@ function App({history}) {
   const [userName, setUserName] = useState('')
   const [quantity, setQuantity] = useState('')
   const [cartItems, setCartItems] = useState([])
-
-useEffect( async ()=>{
+  const [totalAmount, setTotalAmount] = useState(0)
   
-  logic.isUserLoggedIn && await cartItemsQuantity()
 
-}, [])
+  // useEffect( async ()=>{
+  //   logic.isUserLoggedIn && await cartItemsQuantity()
+  // }, [])
+
+
+  useEffect( 
+    ()=> (
+      async ()=>{
+        logic.isUserLoggedIn && await cartItemsQuantity()
+      }
+    )()
+  , [])
 
 
   const handleProductDetail = async (id) => {
@@ -36,24 +45,36 @@ useEffect( async ()=>{
   const userLogged = ( async () => {
     if(logic.isUserLoggedIn) {
       const user = await logic.retrieveUser(logic.__userToken__)
+      debugger
+     
       setUserName(user.name)
     }
   })
 
   const cartItemsQuantity =  async () => {
-    debugger
+    
     if(logic.isUserLoggedIn) {
-      debugger
+      
       const cart = await logic.retrieveCart()
       let quantity = 0
+      let amount = 0
       cart.forEach(product => {
         quantity = quantity + product.quantity
+        amount = amount + (product.productId.price * product.quantity)
       });
       setQuantity(quantity)
+      setTotalAmount(amount)
       setCartItems(cart)
+      
       //return quantity
     }
   }
+
+
+
+
+  
+
   // const cartItemsQuantity =  async () => {
   //   debugger
   //   if(logic.isUserLoggedIn) {
@@ -78,8 +99,8 @@ useEffect( async ()=>{
         <Route exact path='/' render={() => <Landing handleProductDetail={handleProductDetail} />} />
         <Route exact path='/register' render={() => <Register />} />
         <Route exact path='/login' render={() => <Login />} />
-        <Route exact path={`/detail/:id`} render={() => <Detail cartItemsQuantity={cartItemsQuantity}/>} /> 
-        <Route exact path='/cart' render={() => logic.isUserLoggedIn ? <Cart cartItems={cartItems} cartItemsQuantity={cartItemsQuantity}/> : <Redirect to="/" /> } />
+        <Route exact path='/detail/:id' render={() => <Detail cartItemsQuantity={cartItemsQuantity}/>} /> 
+        <Route exact path='/cart' render={() => logic.isUserLoggedIn ? <Cart cartItems={cartItems} cartItemsQuantity={cartItemsQuantity} totalAmount={totalAmount} /> : <Redirect to="/" /> } />
       </Switch>
     </div>
   );

@@ -182,9 +182,6 @@ const logic = {
 },
 
 retrieveWishList(){
-  validate.arguments([
-      { name: 'token', value: token, type: 'string', notEmpty: true }
-  ])
   return ( async ()=>{
     try{
       await dataApi.retrieveWishList(logic.__userToken__)
@@ -194,6 +191,16 @@ retrieveWishList(){
   })();
 },
 
+checkoutCart() {
+  return (async () => {
+    try {
+      await dataApi.checkoutCart(this.__userToken__);
+    } catch (err) {
+      debugger;
+      throw new LogicError(err.message);
+    }
+  })();
+},
 
 }
 module.exports = logic;

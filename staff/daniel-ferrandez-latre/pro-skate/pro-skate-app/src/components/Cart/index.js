@@ -2,13 +2,30 @@ import React, { useState, useEffect } from "react";
 import {withRouter} from 'react-router-dom'
 import logic from "../../logic";
 import CartItem from "../CartItem"
+import Checkout from '../Checkout'
 import './index.sass'
 
-function Cart({cartItems, cartItemsQuantity}) {
+function Cart({cartItems, cartItemsQuantity, totalAmount}) {
+
+  const [userMail, setUserMail] = useState('')
+
+  useEffect(
+    async function(){
+      const user = await logic.retrieveUser(logic.__userToken__)
+      setUserMail(user.email)
+    }
+    ,[])
 
 
+  const handleCheckout = async (token)=>{
+    if(token){
+      await logic.checkoutCart()
+      cartItemsQuantity()
+    }
+  }
   return(
     <>
+    <div>{totalAmount ? totalAmount.toFixed(2) : ''}</div>
     <ul>
       {cartItems.map((product) =>{
         return( 
@@ -18,31 +35,11 @@ function Cart({cartItems, cartItemsQuantity}) {
         )
       })}
     </ul>
-    
-    {/* <div className='cart'>
-      <ul>
-        <li className="cart-item columns">
-          <div className="column is-2 is-offset-1">
-            <img src=""/>
-            aaa
-          </div>
-          <div className="column is-2">aa</div>
-          <div className="column is-2">aaa</div>
-          <div className="column is-2">aa</div>
-          <div className="column is-2">aa</div>
-        </li>
-      </ul>
-  
-    
-    </div> */}
-
-
-    
+    {totalAmount ? <Checkout total={totalAmount} email={userMail} onTokenSuccess={handleCheckout} card={cartItemsQuantity} />: <p> There's no products on your Orders</p>} 
     
     </>
-
   )
 
 }
 
-export default withRouter(Cart)
+export default Cart

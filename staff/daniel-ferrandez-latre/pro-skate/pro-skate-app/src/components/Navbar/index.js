@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import logic from "../../logic";
@@ -7,12 +7,17 @@ import NavCard from "../NavCard";
 function Navbar({ history, quantity }) {
   const [userName, setUserName] = useState("");
 
-  /* userLogged() */
+  useEffect(
+    function(){
+      
+    }
+  ,[])
 
   return (
     <nav class='navbar' role='navigation' aria-label='main navigation'>
       <div class='navbar-brand'>
-        <a class='navbar-item' onClick={() => history.push("/")}>
+        <a class='navbar-item' onClick={() => { debugger
+          return history.push("/")}}>
           <img src={logo} />
         </a>
         <a

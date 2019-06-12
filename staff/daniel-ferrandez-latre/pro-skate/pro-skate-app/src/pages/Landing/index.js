@@ -4,13 +4,14 @@ import CardBundle from "../../components/CardBundle";
 import Card from "../../components/Card";
 
 function Landing({handleProductDetail}) {
+  debugger
   const [ranSelection, setRandomSelection] = useState(null)
   
   useEffect(() =>{
-    handleRetrieveByBrand()
+    handleRetrieveByRandom()
   },[])
 
-  const handleRetrieveByBrand = async () => {
+  const handleRetrieveByRandom = async () => {
       const randomSelection = await logic.retrieveRandomSelection()
       setRandomSelection(randomSelection)
   };
@@ -24,5 +25,4 @@ function Landing({handleProductDetail}) {
     </>
   );
 }
-
 export default Landing;

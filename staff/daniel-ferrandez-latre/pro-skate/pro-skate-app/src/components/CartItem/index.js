@@ -29,7 +29,6 @@ function CartItem({ history, product, cartItemsQuantity }) {
   return (
 
     <>
-   
       <div class='container'>
         <div class='section'>
           <div class='card is-horizontal columns'>
@@ -72,16 +71,6 @@ function CartItem({ history, product, cartItemsQuantity }) {
               </div>
               <div className='button '>add to wish list</div>
             </div>
-                  <div class='field is-grouped is-grouped-multiline'>
-                    <div class='control'>
-                      <div class='tags has-addons'>
-                        <span class='tag is-link'>axiomaciae</span>
-                        <span class='tag is-info'>24. 07. 2020</span>
-                      </div>
-                    </div>
-                    <br />
-                    
-                  </div>
                 </div>
               </div>
             </div>
