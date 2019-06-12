@@ -6,12 +6,16 @@ const { mongoose, models: { User, Event, EventType, Comment, Purchase, Organizat
 
 const logic = {
     /***********************************MEDICAL-FIELDS FUNCTIONS*********************************************/
-    createMedicalField(name) {
+    createMedicalField(userId, name) {
 
         const { error } = validateField({ name })
         if (error) throw new ValidateError(error.details[0].message);
-
+        debugger
         return (async () => {
+
+            const user = await User.findById(userId)
+            if (user.role !== 'superAdmin') throw new LogicError('You are not allowed to create medical fields')
+
             try {
                 const medicalField = new MedicalField({
                     name
@@ -26,25 +30,27 @@ const logic = {
     },
 
     getOnefield(id) {
-        return (async()=>{
+        return (async () => {
             return await MedicalField.findById(id)
         })()
     },
 
     getAllfields() {
-        return(async()=>{
+        return (async () => {
             return await MedicalField.find().select('name').sort('name')
         })()
     },
 
     /***********************************EVENT-TYPES FUNCTIONS*********************************************/
 
-    createEventType(name) {
+    createEventType(userId, name) {
 
         const { error } = validateEventType({ name });
         if (error) throw new ValidateError(error.details[0].message);
 
         return (async () => {
+            const user = await User.findById(userId)
+            if (user.role !== 'superAdmin') throw new LogicError('You are not allowed to create event types')
             try {
                 const eventType = new EventType({
                     name
@@ -58,13 +64,13 @@ const logic = {
     },
 
     getOneEventType(id) {
-        return(async()=>{
+        return (async () => {
             return await EventType.findById(id)
         })()
     },
 
     getAllEventTypes() {
-        return(async()=>{
+        return (async () => {
             return await EventType.find()
         })()
     },
@@ -72,20 +78,23 @@ const logic = {
     /***********************************ORGANIZATION FUNCTIONS*********************************************/
 
 
-    createOrganization(name, phone, address, mail) {
-
+    createOrganization(userId, name, phone, address, mail) {
+        
         const { error } = validateOrganization({ name, phone, address, mail });
         if (error) throw new ValidateError(error.details[0].message);
-
+        
         return (async () => {
-
-            let user = await Organization.findOne({ mail })
-            if (user) throw Error(`The organization with the email ${mail} already exists`)
+            
+            const user = await User.findById(userId)
+            if (user.role !== 'superAdmin') throw new LogicError('You are not allowed to create organizations')
+            
+            let org = await Organization.findOne({ mail })
+            if (org) throw Error(`The organization with the email ${mail} already exists`)
 
             try {
-                user = await new Organization({ name, phone, address, mail })
-                await user.save()
-                return user
+                org = await new Organization({ name, phone, address, mail })
+                await org.save()
+                return org
             } catch (ex) {
                 for (field in ex.errors)
                     throw new ValidateError(ex.errors[field].message);
@@ -163,27 +172,33 @@ const logic = {
             let info
             if (user.role === 'admin') {
                 info = { userId: user.id, orgId: user.organization } // TODO use role instead of organization
+
             } else {
                 info = { userId: user.id }
+
             }
             return info
         })()
 
     },
     retrieveUser(id) {
+
         return (async () => {
-            let user = await User.findById(id).select('-password'); // TODO do not return a mongoose-connected object, but a plain object (use .lean())
-            if (!user) throw Error('User does not exist') // TODO use LogicError instead
+            let user = await User.findById(id).select('-password').lean(); // TODO do not return a mongoose-connected object, but a plain object (use .lean())
+            if (!user) throw new LogicError('User does not exist') // TODO use LogicError instead
 
             // TODO clean user, return _id value in id property and remove _id property
-            
+            user.id = user._id.toString()
+            delete user._id
+            delete user.__v
+
             return user
         })()
     },
 
     /**************************************EVENTS FUNCTIONS************************************************/
 
-    createEvent(userId, orgId, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price) {
+    createEvent(userId, orgId, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price, image) {
         if (!orgId) throw Error('You are not allowed to create events')
 
         const { error } = validateEvent({ userId, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price })
@@ -208,7 +223,8 @@ const logic = {
                         location,
                         date,
                         numberTicketsAvailable,
-                        price
+                        price,
+                        image
                     })
                     await event.save()
                     orga.events.push(event.id)
@@ -226,28 +242,27 @@ const logic = {
     },
 
     retrieveEvents(medicalField, eventType) {
-
+        debugger
         return (async () => {
             debugger
-            if (!medicalField && !eventType) {
-                const events = await Event.find()
+            if (medicalField=='undefined' && eventType=='undefined') {
+                const events = await Event.find().populate('medicalField').populate('representant').populate('medicalField').populate('eventType').lean()
                 if (!events) throw Error('There are no events available')
                 return events
             }
 
             debugger
-            if (medicalField && eventType) {
-                const events = await Event.find().populate('medicalField eventType').lean()
+            if (medicalField && eventType!=='undefined') {
+                const events = await Event.find().populate('medicalField eventType').populate('representant').populate('medicalField').populate('eventType').lean()
                 const result = events.filter(event => {
                     return event.medicalField.name === medicalField && event.eventType.name === eventType
                 });
-                // const events = await Event.find().and([{ 'medicalField.name': medicalField }, { 'eventType.name': eventType }])
                 if (!result) throw Error('There are no events available')
                 return result;
             }
             else if (medicalField) {
                 debugger
-                const events = await Event.find().populate('medicalField').lean()
+                const events = await Event.find().populate('medicalField').populate('representant').populate('medicalField').populate('eventType').lean()
                 const result = events.filter(event => {
                     return event.medicalField.name === medicalField
                 });
@@ -263,11 +278,13 @@ const logic = {
 
     retrieveOneEvent(id) {
         return (async () => {
-            const event = await Event.findById(id)
+            const event = await Event.findById(id).populate('representant').populate('medicalField').populate('eventType').lean();
             if (!event) throw Error('This events does not exist anymore')
+            for (let key in event) {
+                if (key.startsWith('__')) delete event[key] 
+            }
             return event;
         })()
-
     },
 
     updateDescriptionEvent(eventId, userId, description) {
@@ -305,6 +322,7 @@ const logic = {
                 orga.events.indexOf(eventid) >= 0 && orga.representants.indexOf(sub) >= 0 ? role = 'Representant of the event' : role = 'normal'
             }
             debugger
+            const event= await Event.findById(eventid)
             let post = await new Comment({
                 event: eventid,
                 author: sub,
@@ -312,9 +330,10 @@ const logic = {
                 text
             })
 
-
             await post.save()
-
+            event.comments.push(post)
+            await event.save()
+            debugger
             return post;
         })()
     },
@@ -336,35 +355,35 @@ const logic = {
 
         return (async () => {
 
-                const event = await Event.findById(eventId)
+            const event = await Event.findById(eventId)
 
-                if (event.numberTicketsAvailable === 0) return 'SOLD OUT' // TODO avoid returning messages on unexpected situtation. throw logic error instead.
-                
-                const purchase = new Purchase({
-                    customer: customerId,
-                    event: eventId,
-                    numberOfTickets
+            if (event.numberTicketsAvailable === 0) return 'SOLD OUT' // TODO avoid returning messages on unexpected situtation. throw logic error instead.
 
-                })
-                try {
-                    const result = await purchase.save()
+            const purchase = new Purchase({
+                customer: customerId,
+                event: eventId,
+                numberOfTickets
 
-                    const result1 = await Event.findById(eventId)
+            })
+            try {
+                const result = await purchase.save()
 
-                    result1.numberTicketsAvailable = result1.numberTicketsAvailable - numberOfTickets
+                const result1 = await Event.findById(eventId)
 
-                    await result1.save()
+                result1.numberTicketsAvailable = result1.numberTicketsAvailable - numberOfTickets
 
-                    return result;
-                } catch (ex) {
+                await result1.save()
 
-                    throw Error('Something failed') // TODO LogicError instead, and send the ex.message
-                }
-            })()
+                return result;
+            } catch (ex) {
+
+                throw Error('Something failed') // TODO LogicError instead, and send the ex.message
+            }
+        })()
     },
 
     retrievePurchases(userId, orgId) { // TODO is orgId required?
-        return(async()=>{
+        return (async () => {
             const purchases = await Purchase.find()
             return purchases
 

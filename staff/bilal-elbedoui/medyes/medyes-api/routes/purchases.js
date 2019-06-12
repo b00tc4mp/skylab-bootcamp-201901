@@ -8,7 +8,7 @@ router.post('/:id', auth, (req, res) => {
 
     handleErrors(async () => {
         debugger
-        const { params: { id }, userId, body: { numberOfticketsBoughts } }
+        const { params: { id }, userId, body: { numberOfticketsBoughts } } = req
         const purchase = await logic.makePurchase(id, userId, numberOfticketsBoughts)
         debugger
         res.json('Purchase done', purchase)

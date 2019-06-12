@@ -6,8 +6,21 @@ const { expect } = require('chai')
 
 
 describe('LOGIC', () => {
+    let superUser,fullname, email, undefined, phone, position, password
+    before(async() => {
+       await  mongoose.connect('mongodb://localhost/project-test', { useNewUrlParser: true })
+    })
 
-    before(() => mongoose.connect('mongodb://localhost/project-test', { useNewUrlParser: true }))
+    beforeEach(async()=>{
+        await User.deleteMany()
+       debugger
+       superUser= await logic.createUser(fullname='superName', email='superMail@supermail.com', role = 'normal', organization=undefined, phone='super1234578', position='planner', password='BBbb11..')
+       debugger
+       superUser.role='superAdmin'
+       debugger
+       await superUser.save()
+     
+    })
 
     describe('MEDICAL-FIELDS', () => {
 
@@ -22,7 +35,7 @@ describe('LOGIC', () => {
         describe('Create a medical field', () => {
             let field
             it('Should create the entry', async () => {
-                field = await logic.createMedicalField(name)
+                field = await logic.createMedicalField(superUser.id, name)
 
                 expect(field).to.not.be.undefined
                 expect(field.name).to.equal(name)
@@ -31,7 +44,7 @@ describe('LOGIC', () => {
                 try {
                     name = 5
 
-                    field = await logic.createMedicalField(name)
+                    field = await logic.createMedicalField(superUser.id, name)
                 } catch (error) {
                     expect(error.message).to.not.be.undefined
                     expect(error.message).to.equal('"name" must be a string')
@@ -40,7 +53,7 @@ describe('LOGIC', () => {
             it('should fail if the field has more than 40 carachters', async () => {
                 try {
                     name = "sjhsaajkascnanasclnlnlncan kbbjklnlbjkbacnldslncnlcdnanaclknalnadlañlda.acdndjbdcdajbackjbakbj"
-                    field = await logic.createMedicalField(name)
+                    field = await logic.createMedicalField(superUser.id, name)
                 } catch (error) {
                     expect(error.message).to.not.be.undefined
                     expect(error.message).to.equal("Path `name` (`sjhsaajkascnanasclnlnlncan kbbjklnlbjkbacnldslncnlcdnanaclknalnadlañlda.acdndjbdcdajbackjbakbj`) is longer than the maximum allowed length (40).")
@@ -49,7 +62,7 @@ describe('LOGIC', () => {
         })
         describe('Retrieve a field', () => {
             let field
-            beforeEach(async () => field = await logic.createMedicalField(name)
+            beforeEach(async () => field = await logic.createMedicalField(superUser.id, name)
             )
             it('Should retrieve a field providing the id ', async () => {
                 const fieldRetrieved = await logic.getOnefield(field.id)
@@ -66,11 +79,11 @@ describe('LOGIC', () => {
 
             beforeEach(async () => {
 
-                await logic.createMedicalField(name)
-                await logic.createMedicalField(name)
-                await logic.createMedicalField(name)
-                await logic.createMedicalField(name)
-                await logic.createMedicalField(name)
+                await logic.createMedicalField(superUser.id, name)
+                await logic.createMedicalField(superUser.id, name)
+                await logic.createMedicalField(superUser.id, name)
+                await logic.createMedicalField(superUser.id, name)
+                await logic.createMedicalField(superUser.id, name)
                 // fields = new Array(10).fill().map(field => {
                 //     return field = {
                 //         name: `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`
@@ -96,7 +109,7 @@ describe('LOGIC', () => {
         describe('Create an event type', () => {
 
             it('Should create the entry', async () => {
-                const event = await logic.createEventType(name)
+                const event = await logic.createEventType(superUser.id,name)
 
                 expect(event).to.not.be.undefined
                 expect(event.name).to.equal(name)
@@ -105,7 +118,7 @@ describe('LOGIC', () => {
                 try {
                     name = 5
 
-                    field = await logic.createEventType(name)
+                    field = await logic.createEventType(superUser.id, name)
                 } catch (error) {
                     expect(error.message).to.not.be.undefined
                     expect(error.message).to.equal('"name" must be a string')
@@ -114,7 +127,7 @@ describe('LOGIC', () => {
             it('should fail if the event type name has more than 40 carachters', async () => {
                 try {
                     name = "sjhsaajkascnanasclnlnlncan kbbjklnlbjkbacnldslncnlcdnanaclknalnadlañlda.acdndjbdcdajbackjbakbj"
-                    field = await logic.createEventType(name)
+                    field = await logic.createEventType(superUser.id, name)
                 } catch (error) {
                     expect(error.message).to.not.be.undefined
                     expect(error.message).to.equal("Path `name` (`sjhsaajkascnanasclnlnlncan kbbjklnlbjkbacnldslncnlcdnanaclknalnadlañlda.acdndjbdcdajbackjbakbj`) is longer than the maximum allowed length (40).")
@@ -123,7 +136,7 @@ describe('LOGIC', () => {
         })
         describe('Retrieve the event type', () => {
             let events
-            beforeEach(async () => eventType = await logic.createEventType(name)
+            beforeEach(async () => eventType = await logic.createEventType(superUser.id,name)
             )
             it('Should retrieve the event type providing the id ', async () => {
 
@@ -138,20 +151,14 @@ describe('LOGIC', () => {
             let events;
 
             beforeEach(async () => {
-                await logic.createEventType(name)
-                await logic.createEventType(name)
-                await logic.createEventType(name)
-                await logic.createEventType(name)
-                await logic.createEventType(name)
-                // events = new Array(7).fill().map(event => {
-                //     return event = {
-                //         name: `Cardio${Math.floor(Math.random() * (1000 - 1)) + 1}logy`
-                //     }
-                // })
-                // return await Promise.all(events.map(async event => await logic.createEventType(event)))
+                await logic.createEventType(superUser.id, name)
+                await logic.createEventType(superUser.id, name)
+                await logic.createEventType(superUser.id, name)
+                await logic.createEventType(superUser.id, name)
+                await logic.createEventType(superUser.id, name)
             })
             it('Should retrieve all the fields', async () => {
-                const campos = await logic.getAllEventType()
+                const campos = await logic.getAllEventTypes()
 
                 expect(campos).to.have.lengthOf(5)
             })
@@ -165,14 +172,13 @@ describe('LOGIC', () => {
         beforeEach(async () => {
 
             await Organization.deleteMany()
-            await User.deleteMany()
 
             name = `Enterprise-${Math.floor(Math.random() * (1000 - 1)) + 1}`
             phone = `654896321-${Math.floor(Math.random() * (1000 - 1)) + 1}`
             address = `adresssss-${Math.floor(Math.random() * (1000 - 1)) + 1}`
             mail = `emailenterprise-${Math.floor(Math.random() * (1000 - 1)) + 1}@gmail.com`
-
-            orga = await logic.createOrganization(name, phone, address, mail)
+            debugger
+            orga = await logic.createOrganization(superUser.id, name, phone, address, mail)
 
             fullname = `Carlos-${Math.floor(Math.random() * (1000 - 1)) + 1}tonto`
             email = `emailenterprise-${Math.floor(Math.random() * (1000 - 1)) + 1}@gmail.com`
@@ -183,15 +189,13 @@ describe('LOGIC', () => {
 
             it('Should create a representant of random company', async () => {
                 role = 'admin'
-
+                debugger
                 const userAdmin = await logic.createUser(fullname, email, role, organization = orga.id, phone, position, password)
 
                 expect(userAdmin).to.exist
                 expect(userAdmin.organization).to.be.an('object')
 
-                const userCreated = await User.find()
-
-                const [user] = userCreated
+                const user = await User.findById(userAdmin.id)
 
                 expect(user.fullname).to.equal(fullname)
                 expect(user.email).to.equal(email)
@@ -269,11 +273,10 @@ describe('LOGIC', () => {
                 expect(normalUser.role).to.equal('normal')
                 expect(normalUser).to.be.an('object')
                 debugger
-                const user = await User.find()
+                const userResult = await User.findById(normalUser.id)
 
                 role = 'normal'
-                const [userResult] = user
-
+    
                 expect(userResult.fullname).to.equal(fullname)
                 expect(userResult.email).to.equal(email)
                 expect(userResult.role).to.equal(role)
@@ -302,7 +305,7 @@ describe('LOGIC', () => {
         describe('Authenticate Admin USer', () => {
             let user, orga
             beforeEach(async () => {
-                orga = await logic.createOrganization(name = 'testName56', phone = '123test456', address = 'CAlle roc borronat', mail = 'testemail@gmila.com')
+                orga = await logic.createOrganization(superUser.id, name = 'testName56', phone = '123test456', address = 'CAlle roc borronat', mail = 'testemail@gmila.com')
                 user = await logic.createUser(fullname, email, role = 'admin', organization = orga.id, phone, position, password)
                 debugger
             })
@@ -383,6 +386,7 @@ describe('LOGIC', () => {
         describe('Retrieve User', () => {
             let user
             beforeEach(async () => {
+                debugger
                 user = await logic.createUser(fullname, email, role = 'normal', undefined, phone, position, password)
             })
             it('Should Retrieve a user that have been created before', async () => {
@@ -413,7 +417,7 @@ describe('LOGIC', () => {
         describe('Register organization', () => {
             it('Should succed registering a new organization', async () => {
                 debugger
-                const res = await logic.createOrganization(name, phone, address, mail)
+                const res = await logic.createOrganization(superUser.id, name, phone, address, mail)
                 debugger
                 expect(res).to.exist
 
@@ -429,11 +433,9 @@ describe('LOGIC', () => {
                 expect(organization.mail).to.equal(mail)
             })
             it('Should fail if the email already exists', async () => {
-                await Organization.deleteMany()
-
-                await logic.createOrganization(name = 'entreprise-prueba', phone = '123456789', address = 'Calle de la marina', mail = 'email@gmaiiil.com')
+                await logic.createOrganization(superUser.id, name = 'entreprise-prueba', phone = '123456789', address = 'Calle de la marina', mail = 'email@gmaiiil.com')
                 try {
-                    await logic.createOrganization(name, phone, address, organizationMail = 'email@gmaiiil.com')
+                    await logic.createOrganization(superUser.id, name, phone, address, organizationMail = 'email@gmaiiil.com')
                 } catch (error) {
                     expect(error.message).to.be.not.undefined
                     expect(error.message).to.equal(`The organization with the email email@gmaiiil.com already exists`)
@@ -441,7 +443,7 @@ describe('LOGIC', () => {
             })
             it('Should fail if the organization name has less than 10 characters', async () => {
                 try {
-                    await logic.createOrganization(name = 'bilalot', phone, address, organizationMail)
+                    await logic.createOrganization(superUser.id, name = 'bilalot', phone, address, organizationMail)
 
                 } catch (error) {
                     expect(error.message).to.exist
@@ -451,7 +453,7 @@ describe('LOGIC', () => {
         })
         describe('Retrieve Organization', () => {
             let orga
-            beforeEach(async () => orga = await logic.createOrganization(name, phone, address, mail))
+            beforeEach(async () => orga = await logic.createOrganization(superUser.id, name, phone, address, mail))
 
             it('Should retrieve a correct user', async () => {
                 const result = await logic.retrieveOrganization(orga._id)
@@ -485,14 +487,13 @@ describe('LOGIC', () => {
             beforeEach(async () => {
                 await Event.deleteMany()
                 await Organization.deleteMany()
-                await User.deleteMany()
 
                 name = `Enterprise-${Math.floor(Math.random() * (1000 - 1)) + 1}`
                 phone = `654896321-${Math.floor(Math.random() * (1000 - 1)) + 1}`
                 mail = `emailenterprise-${Math.floor(Math.random() * (1000 - 1)) + 1}@gmail.com`
                 address = `adresssss-${Math.floor(Math.random() * (1000 - 1)) + 1}`
-
-                orga = await logic.createOrganization(name, phone, address, mail)
+                debugger
+                orga = await logic.createOrganization(superUser.id, name, phone, address, mail)
 
                 fullname = `Carlos-${Math.floor(Math.random() * (1000 - 1)) + 1}tonto`
                 email = `user-${Math.floor(Math.random() * (1000 - 1)) + 1}@gmail.com`
@@ -502,12 +503,12 @@ describe('LOGIC', () => {
 
                 user = await logic.createUser(fullname, email, role = 'admin', organization = orga.id, phone, position, password)
                 userAuthenticated = await logic.authenticateUser(email, password)
-
+                debugger
                 let nameField = `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`
                 let nameType = `Master${Math.floor(Math.random() * (1000 - 1)) + 1}class`
 
-                field = await logic.createMedicalField(name = nameField)
-                eventType = await logic.createEventType(name = nameType)
+                field = await logic.createMedicalField(superUser.id, name = nameField)
+                eventType = await logic.createEventType(superUser.id, name = nameType)
 
 
                 title = "PARA POSSSST"
@@ -518,12 +519,12 @@ describe('LOGIC', () => {
                 date = "Sun Jun 02 2019 12:38:27 GMT+0200"
                 numberTicketsAvailable = 100
                 price = 600
-
+                debugger
             })
             it('a User Admin Should be able to create an event', async () => {
                 debugger
-                const { sub, org } = userAuthenticated
-                const eventCreated = await logic.createEvent(sub, org, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
+                const { userId, orgId } = userAuthenticated
+                const eventCreated = await logic.createEvent(userId, orgId, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
 
                 const eventFound = await Event.findById(eventCreated.id)
 
@@ -537,9 +538,9 @@ describe('LOGIC', () => {
             it('should fail if the organization in not provided in the token', async () => {
                 debugger
                 try {
-                    let { sub, org } = userAuthenticated
+                    let { userId, orgId } = userAuthenticated
                     org = undefined
-                    await logic.createEvent(sub, org, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
+                    await logic.createEvent(userId,undefined, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
                 } catch (error) {
                     expect(error.message).to.exist
                     expect(error.message).to.equal('You are not allowed to create events')
@@ -548,8 +549,8 @@ describe('LOGIC', () => {
             it('should fail if the fields are not correct', async () => {
                 title = 533263
                 try {
-                    const { sub, org } = userAuthenticated
-                    await logic.createEvent(sub, org, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
+                    const { userId, orgId } = userAuthenticated
+                    await logic.createEvent(userId, orgId, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
                 } catch (error) {
                     expect(error.message).to.exist
                     expect(error.message).to.equal('"title" must be a string')
@@ -558,27 +559,14 @@ describe('LOGIC', () => {
             it('should fail if Mongoose Schema is not respected', async () => {
                 price = 2000
                 try {
-                    const { sub, org } = userAuthenticated
-                    await logic.createEvent(sub, org, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
+                    const { userId, orgId } = userAuthenticated
+                    await logic.createEvent(userId, orgId, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
                 } catch (error) {
 
                     expect(error.message).to.exist
                     expect(error.message).to.equal('Path `price` (2000) is more than maximum allowed value (1000).')
                 }
             })
-            // it('should fail if the representant does belong to the organization',async ()=>{
-            //     try{
-            //         const {sub , subOrga} = userAuthenticated
-            //         debugger
-            //         await orga.representants.splice(0)
-            //         await orga.save()
-            //         await logic.createEvent({sub, subOrga},event)
-            //     }catch(error){
-            //         debugger
-            //         expect(error.message).to.exist
-            //         // expect(error.message).to.equal('Path `price` (2000) is more than maximum allowed value (1000).')
-            //     }
-            // })
         })
         describe('Retrieve events', () => {
             let orga, mail, userAuthenticated, event, medicalField, field, eventType, title, description, numberTicketsAvailable, price, location, date
@@ -590,14 +578,13 @@ describe('LOGIC', () => {
                 await EventType.deleteMany()
                 await Event.deleteMany()
                 await Organization.deleteMany()
-                await User.deleteMany()
 
                 name = `Enterprise-${Math.floor(Math.random() * (1000 - 1)) + 1}`
                 phone = `654896321-${Math.floor(Math.random() * (1000 - 1)) + 1}`
                 mail = `emailenterprise-${Math.floor(Math.random() * (1000 - 1)) + 1}@gmail.com`
                 address = `adresssss-${Math.floor(Math.random() * (1000 - 1)) + 1}`
-
-                orga = await logic.createOrganization(name, phone, address, mail)
+                debugger
+                orga = await logic.createOrganization(superUser.id, name, phone, address, mail)
 
                 fullname = `Carlos-${Math.floor(Math.random() * (1000 - 1)) + 1}tonto`
                 email = `user-${Math.floor(Math.random() * (1000 - 1)) + 1}@gmail.com`
@@ -606,13 +593,13 @@ describe('LOGIC', () => {
                 password = `BBbb11..-${Math.floor(Math.random() * (1000 - 1)) + 1}`
 
                 user = await logic.createUser(fullname, email, role = 'admin', organization = orga.id, phone, position, password)
-                const { sub, org } = await logic.authenticateUser(email, password)
+                const { userId,orgId } = await logic.authenticateUser(email, password)
 
                 nameMedicalField = `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`
                 nameEventType = `Master${Math.floor(Math.random() * (1000 - 1)) + 1}class`
 
-                field = await logic.createMedicalField(name = nameMedicalField)
-                eventType = await logic.createEventType(name = nameEventType)
+                field = await logic.createMedicalField(superUser.id, name = nameMedicalField)
+                eventType = await logic.createEventType(superUser.id, name = nameEventType)
 
 
                 title = "PARA POSSSST"
@@ -624,7 +611,7 @@ describe('LOGIC', () => {
                 numberTicketsAvailable = 100
                 price = 600
 
-                eventCreated = await logic.createEvent(sub, org, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
+                eventCreated = await logic.createEvent(userId,orgId , title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
 
             })
             it('Shoud retrieve all the fiels if the query is not provided', async () => {
@@ -705,14 +692,13 @@ describe('LOGIC', () => {
                 await EventType.deleteMany()
                 await Event.deleteMany()
                 await Organization.deleteMany()
-                await User.deleteMany()
 
                 name = `Enterprise-${Math.floor(Math.random() * (1000 - 1)) + 1}`
                 phone = `654896321-${Math.floor(Math.random() * (1000 - 1)) + 1}`
                 mail = `emailenterprise-${Math.floor(Math.random() * (1000 - 1)) + 1}@gmail.com`
                 address = `adresssss-${Math.floor(Math.random() * (1000 - 1)) + 1}`
 
-                orga = await logic.createOrganization(name, phone, address, mail)
+                orga = await logic.createOrganization(superUser.id, name, phone, address, mail)
 
                 fullname = `Carlos-${Math.floor(Math.random() * (1000 - 1)) + 1}tonto`
                 email = `user-${Math.floor(Math.random() * (1000 - 1)) + 1}@gmail.com`
@@ -726,8 +712,8 @@ describe('LOGIC', () => {
                 nameMedicalField = `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`
                 nameEventType = `Master${Math.floor(Math.random() * (1000 - 1)) + 1}class`
 
-                field = await logic.createMedicalField(name = nameMedicalField)
-                eventType = await logic.createEventType(name = nameEventType)
+                field = await logic.createMedicalField(superUser.id, name = nameMedicalField)
+                eventType = await logic.createEventType(superUser.id, name = nameEventType)
 
 
                 title = "PARA POSSSST"
@@ -739,22 +725,22 @@ describe('LOGIC', () => {
                 numberTicketsAvailable = 100
                 price = 600
 
-                const { sub, org } = userAuthenticated
+                const { userId,orgId  } = userAuthenticated
 
-                eventCreated = await logic.createEvent(sub, org, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
+                eventCreated = await logic.createEvent(userId,orgId , title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
 
             })
             it('Should update the description event', async () => {
                 debugger
-                const { sub, org } = userAuthenticated
+                const { userId,orgId  } = userAuthenticated
                 const body = 'holoooooooooooooooooooooooooooooooooooooooooooooooooooaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaakkkkkkkkkkkkkkkkkkkkkkñññññññññññññññññññññññññññññññññññññññññññññññññññkkkkkkkkkkkkkkkkkkkkkkkkñññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññ'
 
-                const eventUpdated = await logic.updateDescriptionEvent(eventCreated.id, sub, body)
+                const eventUpdated = await logic.updateDescriptionEvent(eventCreated.id, userId, body)
 
                 expect(eventUpdated.description).to.equal(body)
             })
             it('Should not leave a normal user update the event decription', async () => {
-                let { sub, org } = userAuthenticated
+                let { userId,orgId } = userAuthenticated
                 const body = 'holoooooooooooooooooooooooooooooooooooooooooooooooooooaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaakkkkkkkkkkkkkkkkkkkkkkñññññññññññññññññññññññññññññññññññññññññññññññññññkkkkkkkkkkkkkkkkkkkkkkkkñññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññññ'
                 try {
                     await logic.updateDescriptionEvent(eventCreated.id, '5cfa39b8b47eb914acb14204', body)
@@ -771,17 +757,17 @@ describe('LOGIC', () => {
                 await EventType.deleteMany()
                 await Event.deleteMany()
                 await Organization.deleteMany()
-                await User.deleteMany()
+
                 debugger
-                orga = await logic.createOrganization(name = 'prubeaaaaaa', phone = '1234567891', address = 'calee Marinaa 179', mail = 'bilal4563@gmail.com')
+                orga = await logic.createOrganization(superUser.id, name = 'prubeaaaaaa', phone = '1234567891', address = 'calee Marinaa 179', mail = 'bilal4563@gmail.com')
                 userAdmin = await logic.createUser(fullname = 'nameTest', email = 'pruebaa@gmallll.com', role = 'admin', organization = orga.id, phone = '1234567891', position = 'student', password = 'BBbb11..')
                 userNormal = await logic.createUser(fullname = 'nameTest', email = 'pruebaaNormal@gmallll.com', role = 'normal', undefined, phone = '1234567891', position = 'student', password = 'BBbb11..')
 
                 nameMedicalField = `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`
                 nameEventType = `Master${Math.floor(Math.random() * (1000 - 1)) + 1}class`
 
-                field = await logic.createMedicalField(name = nameMedicalField)
-                eventType = await logic.createEventType(name = nameEventType)
+                field = await logic.createMedicalField(superUser.id, name = nameMedicalField)
+                eventType = await logic.createEventType(superUser.id, name = nameEventType)
 
                 title = "PARA POSSSST"
                 description = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo blanditiis illum cum consequuntur aliquid veritatis alias quas fuga velit reprehenderit? Natus quis dolor cumque numquam accusantium id itaque autem quam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo blanditiis illum cum consequuntur aliquid veritatis alias quas fuga velit reprehenderit? Natus quis dolor cumque numquam accusantium id itaque autem quam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo blanditiis illum cum consequuntur aliquid veritatis alias quas fuga velit reprehenderit? Natus quis dolor cumque numquam accusantium id itaque autem quam."
@@ -794,18 +780,18 @@ describe('LOGIC', () => {
 
                 userAdminAuthenticated = await logic.authenticateUser(email = 'pruebaa@gmallll.com', password = 'BBbb11..')
 
-                const { sub, org } = userAdminAuthenticated
+                const { userId,orgId } = userAdminAuthenticated
 
                 usernormalAuthenticated = await logic.authenticateUser(email = 'pruebaaNormal@gmallll.com', password = 'BBbb11..')
 
-                eventCreated = await logic.createEvent(sub, org, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
+                eventCreated = await logic.createEvent(userId,orgId, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
 
             })
             it('Should add a post by the event representant as an answer ', async () => {
                 text = "pruebaaaaaaa"
-                let { sub, org } = userAdminAuthenticated
+                let { userId,orgId } = userAdminAuthenticated
                 debugger
-                const post = await logic.addNewPost(eventCreated.id, sub, org, text)
+                const post = await logic.addNewPost(eventCreated.id, userId,orgId, text)
 
                 expect(post).to.exist
                 expect(post.roleAuthor).to.equal('Representant of the event')
@@ -814,8 +800,8 @@ describe('LOGIC', () => {
             it('Should add a post by a normal user as an question ', async () => {
                 debugger
                 text = "pruebaaaaaaa"
-                const { sub } = usernormalAuthenticated
-                const post = await logic.addNewPost(eventCreated.id, sub, org = undefined, text)
+                const { userId } = usernormalAuthenticated
+                const post = await logic.addNewPost(eventCreated.id, userId,orgId = undefined, text)
                 debugger
                 expect(post).to.exist
                 expect(post.roleAuthor).to.equal('normal')
@@ -823,8 +809,8 @@ describe('LOGIC', () => {
             it('Should retrieve the posts', async () => {
                 debugger
                 text = "pruebaaaaaaa"
-                const { sub } = usernormalAuthenticated
-                let posts = await logic.addNewPost(eventCreated.id, sub, org = undefined, text)
+                const { userId } = usernormalAuthenticated
+                let posts = await logic.addNewPost(eventCreated.id, userId,orgId = undefined, text)
 
                 posts = await logic.retrievePosts(eventCreated.id)
 
@@ -842,17 +828,16 @@ describe('LOGIC', () => {
                 await EventType.deleteMany()
                 await Event.deleteMany()
                 await Organization.deleteMany()
-                await User.deleteMany()
 
-                orga = await logic.createOrganization(name = 'prubeaaaaaa', phone = '1234567891', address = 'calee Marinaa 179', mail = 'bilal4563@gmail.com')
+                orga = await logic.createOrganization(superUser.id, name = 'prubeaaaaaa', phone = '1234567891', address = 'calee Marinaa 179', mail = 'bilal4563@gmail.com')
                 userAdmin = await logic.createUser(fullname = 'nameTest', email = 'pruebaa@gmallll.com', role = 'admin', organization = orga.id, phone = '1234567891', position = 'student', password = 'BBbb11..')
                 userNormal = await logic.createUser(fullname = 'nameTest', email = 'pruebaaNormal@gmallll.com', role = 'normal', undefined, phone = '1234567891', position = 'student', password = 'BBbb11..')
 
                 nameMedicalField = `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`
                 nameEventType = `Master${Math.floor(Math.random() * (1000 - 1)) + 1}class`
 
-                field = await logic.createMedicalField(name = nameMedicalField)
-                eventType = await logic.createEventType(name = nameEventType)
+                field = await logic.createMedicalField(superUser.id, name = nameMedicalField)
+                eventType = await logic.createEventType(superUser.id, name = nameEventType)
 
                 title = "PARA POSSSST"
                 description = " Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo blanditiis illum cum consequuntur aliquid veritatis alias quas fuga velit reprehenderit? Natus quis dolor cumque numquam accusantium id itaque autem quam.Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo blanditiis illum cum consequuntur aliquid veritatis alias quas fuga velit reprehenderit? Natus quis dolor cumque numquam accusantium id itaque autem quam. Lorem ipsum dolor sit amet consectetur adipisicing elit. Illo blanditiis illum cum consequuntur aliquid veritatis alias quas fuga velit reprehenderit? Natus quis dolor cumque numquam accusantium id itaque autem quam."
@@ -865,20 +850,20 @@ describe('LOGIC', () => {
 
                 userAdminAuthenticated = await logic.authenticateUser(email = 'pruebaa@gmallll.com', password = 'BBbb11..')
 
-                const { sub, org } = userAdminAuthenticated
+                const { userId,orgId } = userAdminAuthenticated
 
                 userNormalAuthenticated = await logic.authenticateUser(email = 'pruebaaNormal@gmallll.com', password = 'BBbb11..')
 
-                eventCreated = await logic.createEvent(sub, org, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
+                eventCreated = await logic.createEvent(userId,orgId, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price)
 
                 numberOfTickets = 2
                 debugger
             })
             it('Should decrease the amount of tickets available once a purchase is done', async () => {
                 
-                const { sub } = userNormalAuthenticated
+                const { userId } = userNormalAuthenticated
                 debugger
-                const purchase = await logic.makePurchase(eventCreated.id, sub, numberOfTickets)
+                const purchase = await logic.makePurchase(eventCreated.id, userId, numberOfTickets)
                 const purchaseRetrieved = await Purchase.findById(purchase.id)
                 const eventRetrieved = await Event.findById(eventCreated.id)
 

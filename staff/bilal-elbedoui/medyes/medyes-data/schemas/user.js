@@ -19,7 +19,7 @@ const user = new Schema({
     role: {
         type: String,
         required: true,
-        enum: ['normal', 'admin']
+        enum: ['normal', 'admin','superAdmin']
     },
     organization: {
         type: ObjectId,

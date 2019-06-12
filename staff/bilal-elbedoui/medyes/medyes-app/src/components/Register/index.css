@@ -1,0 +1,78 @@
+*{
+    box-sizing: border-box;
+}
+
+.body{
+    background:#92bde7;
+    color: #485e74;
+    line-height: 1.6;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding:1em
+
+}
+
+.container{
+    max-width: 1170px;
+    margin-left: auto;
+    margin-right: auto;
+    padding:1em
+}
+ul{
+    list-style:none;
+    padding: 0px;
+}
+.brand{
+    text-align:center;
+}
+.brand span{
+    color:white;
+}
+.wrapper{
+    box-shadow: 0 0 20px 0 rgba(72,92,116,0.7)
+}
+.wrapper > *{
+    padding: 1em;
+}
+.company-info, .toLogin{
+    background: #c9effc;
+}
+.company-info h3, .company-info ul{
+    text-align: center;
+    margin: 0 0 1rem 0;
+}
+
+.register{
+    background:#f9feff
+}
+
+
+/* FORM STYLES */
+/* 
+.register form{
+    display: grid;
+    grid-template-columns: 1fr 
+} */
+.field{
+    display: flex;
+    flex-direction: column;
+}
+.register form label{
+    display: block;
+}
+.contact form p{
+    margin:0;
+}
+.register form button, .register form input{
+    width: 100%;
+    padding: 1em;
+}
+
+.register form button{
+    background: #c9e6ff;
+}
+.register form button:hover, .register form button:focus{
+    background:#92bde7;
+    color: white;
+    outline:0;
+    transition: background-color 2s ease-out
+} 

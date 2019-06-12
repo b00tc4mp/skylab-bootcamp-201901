@@ -27,9 +27,9 @@ router.post('/',auth, async (req, res) => {
     debugger
     handleErrors(async () => {
 
-        const { body: { name } } = req
+        const { userId, body: { name } } = req
 
-        const result = await logic.createEventType(name)
+        const result = await logic.createEventType(userId, name)
         
         res.json(result);
     }, res)

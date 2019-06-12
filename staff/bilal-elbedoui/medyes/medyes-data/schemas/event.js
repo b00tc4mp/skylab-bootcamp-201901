@@ -51,7 +51,10 @@ const event = new Schema({
         min: 0,
         max: 1000
     },
-    comments: [comment]
+    comments: [comment],
+    image:{
+        type:String
+    }
 })
 
 module.exports = event

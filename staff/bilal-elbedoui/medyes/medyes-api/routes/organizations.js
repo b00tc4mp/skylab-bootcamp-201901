@@ -11,8 +11,8 @@ const { env: { jwtPrivateKey } } = process
 router.get('/me', auth, (req, res) => {
 
     handleErrors(async () => {
-
-        const organization = await logic.retrieveOrganization(req.user._id)
+        const { user: { id } } = req
+        const organization = await logic.retrieveOrganization(id)
 
         res.json(organization);
 
@@ -22,9 +22,9 @@ router.get('/me', auth, (req, res) => {
 router.post('/', auth, (req, res) => {
 
     handleErrors(async () => {
-        const { body: { name, phone, address, mail } } = req
+        const { userId, body: { name, phone, address, mail } } = req
 
-        await logic.createOrganization(name, phone, address, mail)
+        await logic.createOrganization(userId, name, phone, address, mail)
 
         res.json({ message: 'Organization registered' })
     }, res)

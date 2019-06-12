@@ -29,9 +29,9 @@ router.get('/:id', auth, async (req, res) => { // TODO required? otherwise remov
 router.post('/', auth, async (req, res) => {
     handleErrors(async () => {
 
-        const { body: { name } } = req
+        const { userId, body: { name } } = req
 
-        const result = await logic.createMedicalField(name)
+        const result = await logic.createMedicalField(userId, name)
         res.json(result)
     }, res)
 })

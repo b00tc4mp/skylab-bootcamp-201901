@@ -11,6 +11,7 @@ const { env: { jwtPrivateKey } } = process
 router.get('/me', auth, (req, res) => {
 
     handleErrors(async () => {
+        debugger
         const { userId } = req
 
         const user = await logic.retrieveUser(userId)
@@ -22,12 +23,12 @@ router.get('/me', auth, (req, res) => {
 })
 
 router.post('/', (req, res) => {
-
+    debugger
     handleErrors(async () => {
 
-        const { body: { fullname, email, role, organization, phone, situation, password } } = req
+        const { body: { fullname, email, role, organization, phone, position, password } } = req
 
-        await logic.createUser(fullname, email, role, organization, phone, situation, password);
+        await logic.createUser(fullname, email, role, organization, phone, position, password);
 
         res.json({ message: 'User registered' });
 
@@ -40,10 +41,10 @@ router.post('/auth', (req, res) => {
 
         const { body: { email, password } } = req
 
-        const info = await logic.authenticateUser(email, password);
-
-        const token = jwt.sign(info, jwtPrivateKey);
-
+        const {userId , orgId} = await logic.authenticateUser(email, password);
+        debugger
+        const token = jwt.sign({userId , orgId}, jwtPrivateKey);
+        debugger
         res.json({ message: 'User logged in', token })
 
     }, res)

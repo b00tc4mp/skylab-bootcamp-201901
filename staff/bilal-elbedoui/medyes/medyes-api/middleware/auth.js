@@ -8,13 +8,13 @@ module.exports = function (req,res,next){
     
     try{
         debugger
-        const {sub , org}= jwt.verify(token, jwtPrivateKey);
+        const {userId , orgId}= jwt.verify(token, jwtPrivateKey);
         
-        req.userId = sub;
-        if(org) req.orgId = org
-
+        req.userId = userId;
+        if(orgId) req.orgId = orgId
+        debugger        
         next();
-
+        debugger
     }catch(ex){
 
         res.status(400).send('Invalid token.')
