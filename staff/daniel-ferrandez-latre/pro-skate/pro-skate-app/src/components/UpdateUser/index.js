@@ -30,7 +30,6 @@ function Update ({history}) {
     } catch (error) {
       setErrorMessage(error.message)
     }
-    console.log(messageError)
   }
 
 

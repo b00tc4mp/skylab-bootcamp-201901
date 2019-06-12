@@ -16,13 +16,23 @@ function Detail({ match, cartItemsQuantity }) {
     params: { id }
   } = match;
 
-  useEffect(function() {
-    async function getProduct() {
-      const detailA = await logic.retrieveProduct(id);
-      setDetail(detailA);
-    }
-    getProduct();
-  }, []);
+  // useEffect(function() {
+  //   async function getProduct() {
+  //     const detailA = await logic.retrieveProduct(id);
+  //     setDetail(detailA);
+  //   }
+  //   getProduct();
+  // }, []);
+
+
+  useEffect(
+    ()=>(
+      async () =>{
+        const detailA = await logic.retrieveProduct(id);
+        setDetail(detailA);
+      }
+    )()
+  , []);
 
   async function handleAddToCart() {
     debugger;

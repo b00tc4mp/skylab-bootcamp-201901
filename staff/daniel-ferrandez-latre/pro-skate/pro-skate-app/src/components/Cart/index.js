@@ -9,12 +9,14 @@ function Cart({cartItems, cartItemsQuantity, totalAmount}) {
 
   const [userMail, setUserMail] = useState('')
 
-  useEffect(
-    async function(){
-      const user = await logic.retrieveUser(logic.__userToken__)
-      setUserMail(user.email)
-    }
-    ,[])
+    useEffect(
+      ()=> (
+        async()=>{
+        const user = await logic.retrieveUser(logic.__userToken__)
+        setUserMail(user.email)
+        }
+      )()
+      ,[])
 
 
   const handleCheckout = async (token)=>{
@@ -35,8 +37,7 @@ function Cart({cartItems, cartItemsQuantity, totalAmount}) {
         )
       })}
     </ul>
-    {totalAmount ? <Checkout total={totalAmount} email={userMail} onTokenSuccess={handleCheckout} card={cartItemsQuantity} />: <p> There's no products on your Orders</p>} 
-    
+    {totalAmount ? <Checkout total={totalAmount} email={userMail} onTokenSuccess={handleCheckout} card={cartItemsQuantity} />: <p> There's no products on your Orders</p>}
     </>
   )
 

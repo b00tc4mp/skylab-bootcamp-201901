@@ -21,11 +21,6 @@ function App({history}) {
   const [totalAmount, setTotalAmount] = useState(0)
   
 
-  // useEffect( async ()=>{
-  //   logic.isUserLoggedIn && await cartItemsQuantity()
-  // }, [])
-
-
   useEffect( 
     ()=> (
       async ()=>{

@@ -4,7 +4,6 @@ import CardBundle from "../../components/CardBundle";
 import Card from "../../components/Card";
 
 function Landing({handleProductDetail}) {
-  debugger
   const [ranSelection, setRandomSelection] = useState(null)
   
   useEffect(() =>{

@@ -5,13 +5,8 @@ import logic from "../../logic";
 import NavCard from "../NavCard";
 
 function Navbar({ history, quantity }) {
-  const [userName, setUserName] = useState("");
 
-  useEffect(
-    function(){
-      
-    }
-  ,[])
+  
 
   return (
     <nav class='navbar' role='navigation' aria-label='main navigation'>
@@ -67,7 +62,7 @@ function Navbar({ history, quantity }) {
                   Log in
                 </a>
               )}
-              <p>{userName}</p>
+              {/* <p>{userName}</p> */}
               {logic.isUserLoggedIn && (
                 <a class='button is-light' onClick={e => history.push("/login")}>
                   Profile
