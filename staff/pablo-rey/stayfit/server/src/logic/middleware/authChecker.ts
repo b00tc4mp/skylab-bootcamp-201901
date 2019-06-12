@@ -2,6 +2,7 @@ import { AuthenticationError } from './../../common/errors/index';
 import { AuthChecker } from 'type-graphql';
 import { AuthorizationError, LogicError } from '../../common/errors';
 import { UserModel, User } from '../../data/models/user';
+import { Provider } from './../../data/models/provider';
 import { MyContext } from './MyContext';
 import { SUPERADMIN_ROLE } from '../../data/enums';
 
@@ -20,7 +21,7 @@ export const authChecker: AuthChecker<MyContext> = async ({ root, args, context,
 
   if (!ownerId || !ownerRole) throw new AuthorizationError('Invalid credentials to authentication');
 
-  if (ONLY_OWN_USER && info.path.prev && info.path.prev.key === 'me') return true;
+  if (roles.includes(ONLY_OWN_USER) && info.path && info.path.prev && info.path.prev.key === 'me') return true;
 
   // ALWAYS checking
   if (ownerRole === SUPERADMIN_ROLE) return true;
@@ -32,7 +33,14 @@ export const authChecker: AuthChecker<MyContext> = async ({ root, args, context,
         if (ownerId === userId) return true;
         break;
       case ALWAYS_OWN_CUSTOMER:
-        if (ownerId === userId) return true;
+        let customerUserId = args.userId;
+        if (!customerUserId && !!args.data) customerUserId = args.data.userId;
+        if (!customerUserId) throw new LogicError(`user target is required`);
+        owner = owner || await UserModel.findById(ownerId).populate('adminOf');
+        if (!owner) throw new LogicError(`owner not valid`);
+        for (let provider of owner.adminOf) {
+          if ((provider as Provider).customers.some(id => id.toString() === customerUserId)) return true;
+        }
         break;
     }
   }

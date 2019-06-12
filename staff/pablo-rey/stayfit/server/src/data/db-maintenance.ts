@@ -1,6 +1,16 @@
 import * as bcrypt from 'bcryptjs';
 import { createSession } from '../logic/resolvers/sessions/create-session/create-session';
-import { ACTIVE, PUBLIC, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE, ACCEPT, REQUESTBECUSTOMER, ATTENDANCEPAYMENTTYPES, ATTENDANCESTATUSES} from './enums';
+import {
+  ACTIVE,
+  PUBLIC,
+  STAFF_ROLE,
+  SUPERADMIN_ROLE,
+  USER_ROLE,
+  ACCEPT,
+  REQUESTBECUSTOMER,
+  ATTENDANCEPAYMENTTYPES,
+  ATTENDANCESTATUSES,
+} from './enums';
 import { User, UserModel } from './models/user';
 import { SessionModel } from './models/session';
 import { ProviderModel, Provider } from './models/provider';
@@ -17,7 +27,7 @@ export async function cleanDb() {
   await SessionTypeModel.deleteMany({});
   await SessionModel.deleteMany({});
   await RequestCustomerModel.deleteMany({});
-  await AttendanceModel.deleteMany({})
+  await AttendanceModel.deleteMany({});
 }
 
 export async function populateDb() {
@@ -79,7 +89,7 @@ export async function populateDb() {
   }
 
   const provider1 = await ProviderModel.create({
-    name: "Agogé Physical Training",
+    name: 'Agogé Physical Training',
     admins: [admin],
     coaches,
     customers: [],
@@ -130,7 +140,7 @@ export async function populateDb() {
       ])}/${faker.random.number(80)}.jpg`,
     });
     for (let provider of providers) {
-      await RequestCustomerModel.create({provider, user, type:REQUESTBECUSTOMER, status: ACCEPT, })
+      await RequestCustomerModel.create({ provider, user, type: REQUESTBECUSTOMER, status: ACCEPT });
     }
     customers.push(user);
   }
@@ -145,13 +155,21 @@ export async function populateDb() {
   console.log('Creando session types...');
   for (let provider of [provider1, provider2]) {
     provider.sessionTypes.push(await SessionTypeModel.create({ type: 'wod', title: 'WOD', active: true, provider }));
-    provider.sessionTypes.push(await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider }));
-    provider.sessionTypes.push(await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider }));
+    provider.sessionTypes.push(
+      await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider })
+    );
+    provider.sessionTypes.push(
+      await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider })
+    );
   }
-  provider2.sessionTypes.push(await SessionTypeModel.create({ type: 'nut', title: 'Nutrición', active: true, provider: provider2 }));
-  provider1.sessionTypes.push(await SessionTypeModel.create({ type: 'ob', title: 'Fisioterapia', active: true, provider: provider1 }));
+  provider2.sessionTypes.push(
+    await SessionTypeModel.create({ type: 'nut', title: 'Nutrición', active: true, provider: provider2 })
+  );
+  provider1.sessionTypes.push(
+    await SessionTypeModel.create({ type: 'ob', title: 'Fisioterapia', active: true, provider: provider1 })
+  );
   await provider1.save();
-  await provider2.save()
+  await provider2.save();
 
   // Sessions
 
@@ -178,20 +196,25 @@ export async function populateDb() {
   const sessions = await SessionModel.find({}).populate('provider');
   for (let session of sessions) {
     let s = new Set();
-    let ll= Math.max(random(session.maxAttendants), random(10) < 4 ? session.maxAttendants : 0);
-    for (let ii=0; ii < ll; ii++){
-      s.add(random((session.provider as Provider).customers))
+    let ll = Math.max(random(session.maxAttendants), random(10) < 4 ? session.maxAttendants : 0);
+    for (let ii = 0; ii < ll; ii++) {
+      s.add(random((session.provider as Provider).customers));
     }
     for (let user of s) {
-      const attendance = await AttendanceModel.create({user, session, paymentType: random(ATTENDANCEPAYMENTTYPES), status: random(ATTENDANCESTATUSES)})
-      session.attendances.push(attendance)
+      const attendance = await AttendanceModel.create({
+        user,
+        session,
+        paymentType: random(ATTENDANCEPAYMENTTYPES),
+        status: random(ATTENDANCESTATUSES),
+      });
+      session.attendances.push(attendance);
       await session.save();
     }
   }
 }
 
 async function populateSessions(provider: Provider, _startTime: moment.Moment, numDays: number, coaches: User[]) {
-  const type = random(provider.sessionTypes)
+  const type = random(provider.sessionTypes);
   const title = faker.company.bs();
   const providerId = provider.id.toString();
   const startTime = _startTime.toDate();
@@ -220,7 +243,7 @@ async function populateSessions(provider: Provider, _startTime: moment.Moment, n
       visibility,
       startTime,
       endTime,
-      notes: '*'
+      notes: '*',
     },
     provider,
     coaches

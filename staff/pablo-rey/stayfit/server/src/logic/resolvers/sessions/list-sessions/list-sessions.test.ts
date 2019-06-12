@@ -5,13 +5,13 @@ import * as dotenv from 'dotenv';
 import * as moment from 'moment';
 import * as mongoose from 'mongoose';
 import { random } from '../../../../common/utils';
-import { gCall } from '../../../../common/test-utils/gqlCall';
 import { ADMIN_ROLE, USER_ROLE, STAFF_ROLE, PUBLIC, ACTIVE, PAIDINADVANCE, OK } from '../../../../data/enums';
 import { User, UserModel } from '../../../../data/models/user';
 import { Provider, ProviderModel } from '../../../../data/models/provider';
 import { SessionTypeModel } from '../../../../data/models/session-type';
 import { Session, SessionModel } from '../../../../data/models/session';
 import { Attendance, AttendanceModel } from '../../../../data/models/attendance';
+import { gCall } from '../../../../common/test-utils/gqlCall';
 import { createRandomUser, deleteModels } from '../../../../common/test-utils';
 
 chai.use(chaiAsPromised);
@@ -173,6 +173,83 @@ describe('list sessions', function() {
       });
       if (response.errors) console.log(response.errors);
       expect(response.errors).not.to.exist;
+    });
+  });
+
+  describe('retrieve a session', () => {
+    const query = gql`
+      query RetrieveSession($sessionId: String!, $providerId: String!) {
+        retrieveSession(sessionId: $sessionId, providerId: $providerId) {
+          id
+          title
+          coaches {
+            id
+            name
+          }
+          startTime
+          endTime
+          maxAttendants
+          status
+          visibility
+          notes
+          type {
+            id
+            title
+          }
+          attendanceDefaultStatus
+          attendances {
+            id
+            user {
+              id
+              name
+            }
+            paymentType
+            status
+          }
+        }
+      }
+    `;
+
+    it('retrieve a session', async () => {
+      const response = await gCall({
+        source: query,
+        variableValues: {
+          sessionId: sessions[0].id,
+          providerId: provider.id,
+        },
+        ctx: {
+          userId: admin.id.toString(),
+          role: admin.role,
+        },
+      });
+      if (response.errors) console.log(response.errors);
+      expect(response.errors).not.to.exist;
+      expect(response.data).to.exist;
+      const result = response.data!.retrieveSession;
+      expect(response).to.exist;
+      const session = sessions[0];
+      expect(result!.id).to.be.equal(session.id)
+      expect(result!.title).to.be.equal(session.title)
+      expect(result!.attendances).to.be.instanceOf(Array);
+    });
+
+    it('should failt to retrieve a session of a different provider', async () => {
+      const admin2 = await createRandomUser(ADMIN_ROLE);
+      const provider2 = await ProviderModel.create({name:"test", admins:[admin2]});
+      const response = await gCall({
+        source: query,
+        variableValues: {
+          sessionId: sessions[0].id,
+          providerId: provider2.id,
+        },
+        ctx: {
+          userId: admin2.id.toString(),
+          role: admin2.role,
+        },
+      });
+      expect(response.errors).to.exist;
+      expect(response.data).not.to.exist;
+
     });
   });
 });

@@ -1,4 +1,3 @@
-import { ProviderModel, Provider } from './../../../data/models/provider';
 import * as bcrypt from 'bcryptjs';
 import { IsIn, IsNotEmpty } from 'class-validator';
 import { Arg, Ctx, Field, InputType, Mutation, Resolver } from 'type-graphql';
@@ -6,8 +5,9 @@ import { isEmail, isIn } from 'validator';
 import { AuthorizationError, ValidationError } from '../../../common/errors';
 import { MyContext } from '../../middleware/MyContext';
 import { GUEST_ROLE, ROLES, SUPERADMIN_ROLE, REQUESTBECUSTOMER, PENDING, USER_ROLE } from './../../../data/enums';
-import { RequestCustomerModel } from './../../../data/models/request';
 import { User, UserModel } from '../../../data/models/user';
+import { ProviderModel } from './../../../data/models/provider';
+import { RequestCustomerModel } from './../../../data/models/request';
 
 @InputType()
 export class CreateInput {
@@ -49,7 +49,7 @@ export class CreateUserResolver {
     if (!isEmail(email)) throw new ValidationError('email must be an email');
     const _users = await UserModel.find({ email });
     if (_users.length) throw new ValidationError('email already registered');
-
+    
     // Authorization
     const owner = ctx ? ctx!.user || (await UserModel.findById(ctx.userId)) : null;
     if (!role) throw new AuthorizationError('role for new user not provided');
@@ -59,7 +59,7 @@ export class CreateUserResolver {
     }
 
     // Create
-    const provider = !!providerId ? await ProviderModel.findById(providerId) : null;
+    const provider = providerId ? await ProviderModel.findById(providerId) : null;
     if (providerId && !provider) throw new ValidationError('provider not found');
 
     const hashPassword = await bcrypt.hash(password!, 12);

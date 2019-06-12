@@ -20,8 +20,6 @@ import {
 } from '@ionic/react';
 import { PENDING, ACCEPT, DENIEDBYPROVIDER } from '../../enums';
 import { MainContext } from '../../logic/contexts/main-context';
-import logic from '../../logic';
-import ListUserAllAttendances from './ListUserAllAttendances';
 import ViewUserDetail from './ViewUserDetail';
 
 export default function ListCustomers({

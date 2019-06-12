@@ -2,13 +2,12 @@ import { gql } from 'apollo-server';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as dotenv from 'dotenv';
-import * as jwt from 'jsonwebtoken';
 import * as mongoose from 'mongoose';
-import { UserModel } from '../../../data/models/user';
-import { random } from '../../../common/utils';
+import { fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
 import { expectError } from '../../../common/test-utils/error-handling';
 import { gCall } from '../../../common/test-utils/gqlCall';
-import { fillDbRandomUsers, userAndPlainPassword } from '../../../common/test-utils';
+import { random } from '../../../common/utils';
+import { UserModel } from '../../../data/models/user';
 
 chai.use(chaiAsPromised);
 const { expect } = chai;

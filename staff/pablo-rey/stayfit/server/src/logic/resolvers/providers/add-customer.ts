@@ -1,3 +1,4 @@
+import { ALWAYS_OWN_USER } from './../../middleware/authChecker';
 import {
   ACCEPT,
   PENDING,
@@ -47,7 +48,7 @@ export class AddProviderCustomerResolver {
     return true;
   }
 
-  @Authorized([ALWAYS_OWN_CUSTOMER, ONLY_ADMINS_OF_PROVIDER])
+  @Authorized([ALWAYS_OWN_USER, ONLY_ADMINS_OF_PROVIDER])
   @Mutation(returns => Boolean)
   async updateRequestCustomer(
     @Arg('providerId') providerId: string,
@@ -118,7 +119,7 @@ export class AddProviderCustomerResolver {
     return true;
   }
 
-  @Authorized([ALWAYS_OWN_CUSTOMER, ONLY_ADMINS_OF_PROVIDER])
+  @Authorized([ALWAYS_OWN_USER, ONLY_ADMINS_OF_PROVIDER])
   @Query(returns => RequestCustomer, { nullable: true })
   async retrieveRequestCustomer(
     @Arg('providerId') providerId: string,

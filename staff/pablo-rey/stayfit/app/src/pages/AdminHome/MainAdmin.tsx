@@ -13,7 +13,6 @@ import {
 import moment from 'moment';
 import React, { useContext, useEffect, useState } from 'react';
 import ListSessionsAdmin from '../../components/sessions/ListSessionsAdmin';
-import ListCustomers from '../../components/users/ListCustomers';
 import logic from '../../logic';
 import { MainContext } from '../../logic/contexts/main-context';
 
@@ -22,8 +21,11 @@ export default function MainAdmin() {
   const ctx = useContext(MainContext);
 
   const refresh = async (event?) => {
-    ctx.provider && (await logic.listSessions(ctx.provider.id, moment()).then(sessions => setSessions(sessions)));
-    await ctx.refreshUserData({ refreshCustomers: true });
+    if (ctx.provider) {
+      const sessions = await logic.listSessions(ctx.provider.id, moment())
+      setSessions(sessions);
+    }
+     await ctx.refreshUserData({ refreshCustomers: true });
     if (event && event.target && event.target.complete) event.target.complete();
   };
 

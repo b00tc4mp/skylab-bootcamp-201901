@@ -43,7 +43,8 @@ describe('update coaches of provider', function() {
     await fillDbRandomUsers(staffUsers, 5, STAFF_ROLE);
     staffUsersId = staffUsers.map(user => user.user.id!.toString());
     admin = await createRandomUser(STAFF_ROLE);
-    provider = await ProviderModel.create({ name, admins: [admin] });
+    const coach = await createRandomUser(STAFF_ROLE);
+    provider = await ProviderModel.create({ name, admins: [admin], coaches:[coach] });
     admin.adminOf = [provider];
     await UserModel.updateOne({_id: admin.id}, admin);
   });

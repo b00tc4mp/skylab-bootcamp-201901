@@ -1,7 +1,8 @@
 {
-  "name": "duck-app-v2",
+  "name": "stayfit",
   "integrations": {
-    "capacitor": {}
+    "capacitor": {},
+    "cordova": {}
   },
   "type": "angular"
 }

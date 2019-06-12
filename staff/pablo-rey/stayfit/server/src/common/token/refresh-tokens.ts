@@ -2,12 +2,11 @@ import { User } from '../../data/models/user';
 import { MyContext } from '../../logic/middleware/MyContext';
 import { sign, verify } from 'jsonwebtoken';
 
-const accessTokenDuration = 1000 * 60; // 15seconds //TODO: change
+const accessTokenDuration = 1000 * 60 * 15; 
 const refreshTokenDuration = 1000 * 60 * 60 * 24 * 10; // 15min
 
 export async function refreshToken(user: User, ctx: MyContext) {
 
-  //TODO: validate user active
   const refreshToken = await sign({ userId: user.id, role: user.role, count: user.refreshTokenCount }, process.env.JWT_REFRESH_SECRET!, {
     expiresIn: refreshTokenDuration,
   });

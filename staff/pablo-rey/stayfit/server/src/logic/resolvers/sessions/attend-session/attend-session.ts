@@ -1,3 +1,4 @@
+import { Provider } from './../../../../data/models/provider';
 import { Session } from './../../../../data/models/session';
 import { IsIn } from 'class-validator';
 import { Arg, Authorized, Ctx, Field, InputType, Mutation, Resolver } from 'type-graphql';
@@ -16,6 +17,7 @@ import {
   OK,
   PENDINGAPPROVAL,
   PENDINGCANCELLATION,
+  SUPERADMIN_ROLE
 } from '../../../../data/enums';
 import { SessionModel } from '../../../../data/models/session';
 import { User, UserModel } from '../../../../data/models/user';
@@ -42,7 +44,7 @@ export class AttendanceInput {
 
 function allowChangeStatusByUser(attendance: Attendance, newStatus: string) {
   if (isIn(newStatus, [CANCELLEDBYPROVIDER, NOSHOW, ATTENDED, NOCOUNT])) {
-    throw new AuthorizationError(`user not allowed to push new status ` + status);
+    throw new AuthorizationError(`user not allowed to push new status ` + newStatus);
   }
   if (isIn(attendance.status, [CANCELLEDBYPROVIDER, NOSHOW, ATTENDED, NOCOUNT])) {
     throw new AuthorizationError(`user not allowed to change previous ` + attendance.status);
@@ -108,7 +110,6 @@ export class AttendSessionResolvers {
     return attendance.id;
   }
 
-  @Authorized(ALWAYS_OWN_CUSTOMER)
   @Mutation(returns => Boolean)
   async updateStatusAttendance(
     @Arg('attendanceId') attendanceId: string,
@@ -117,8 +118,17 @@ export class AttendSessionResolvers {
   ) {
     if (!isIn(status, ATTENDANCESTATUSES)) throw new ValidationError('status must be in enum');
 
-    const attendance = await AttendanceModel.findById(attendanceId).populate('session');
+    const attendance = await AttendanceModel.findById(attendanceId).populate({
+      path: 'session',
+      populate: { path: 'provider' },
+    });
     if (!attendance) throw new LogicError('attendace is required');
+
+    const isAdminOfThisAttendance = ((attendance.session as Session).provider as Provider).admins.find(
+      id => id.toString() === ctx.userId
+    );
+    if (ctx.role !== SUPERADMIN_ROLE && attendance.user.toString() !== ctx.userId && !isAdminOfThisAttendance)
+      throw new AuthorizationError('only own customer and admins can do that');
 
     const isUser = ctx.userId === attendance.user.toString();
     const isAdmin = !isUser;

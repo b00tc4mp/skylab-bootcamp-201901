@@ -3,11 +3,9 @@ import * as dotenv from 'dotenv';
 import * as chai from 'chai';
 import * as chaiAsPromised from 'chai-as-promised';
 import * as mongoose from 'mongoose';
-import { gCall } from '../../../common/test-utils/gqlCall';
 import { User, UserModel } from '../../../data/models/user';
 import {
   ACCEPT,
-  CANCELLEDBYPROVIDER,
   PENDING,
   DENIEDBYPROVIDER,
   DENIEDBYUSER,
@@ -19,6 +17,7 @@ import {
 } from '../../../data/enums';
 import { Provider, ProviderModel } from '../../../data/models/provider';
 import { RequestCustomer, RequestCustomerModel } from '../../../data/models/request';
+import { gCall } from '../../../common/test-utils/gqlCall';
 import { createRandomUser, deleteModels } from '../../../common/test-utils';
 
 chai.use(chaiAsPromised);
@@ -49,7 +48,8 @@ describe('update a request to be customer', function() {
     await deleteModels();
     user = await createRandomUser(USER_ROLE);
     admin = await createRandomUser(ADMIN_ROLE);
-    provider = await ProviderModel.create({ name: 'test', admins: [admin] });
+    provider = await ProviderModel.create({ name: 'test', admins: [admin], customers:[user] });
+    await UserModel.findByIdAndUpdate(user.id, { customerOf: [provider]})
     await UserModel.findByIdAndUpdate(admin.id, { adminOf: [provider] });
   });
 

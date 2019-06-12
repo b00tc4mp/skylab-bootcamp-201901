@@ -41,7 +41,7 @@ export class UpdateSessionResolver {
     session.status = status;
     session.visibility = visibility;
     session.notes = notes;
-    session.save();
+    await session.save();
     return true;
   }
 

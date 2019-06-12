@@ -1,10 +1,10 @@
+import { Authorized, Field, ID, ObjectType, Root } from 'type-graphql';
+import { arrayProp, prop, Ref, Typegoose } from 'typegoose';
 import { ONLY_OWN_USER, ONLY_SUPERADMIN } from '../../logic/middleware/authChecker';
-import { Field, ID, ObjectType, Root, Authorized } from 'type-graphql';
-import { prop, Ref, Typegoose, arrayProp } from 'typegoose';
+// Constants
+import { GUEST_ROLE, ROLES } from '../enums';
 import { Provider } from './provider';
 
-// Constants
-import { SUPERADMIN_ROLE, BUSINESS_ROLE, ADMIN_ROLE, STAFF_ROLE, USER_ROLE, GUEST_ROLE, ROLES } from '../enums';
 
 @ObjectType()
 export class User extends Typegoose {
@@ -20,11 +20,9 @@ export class User extends Typegoose {
   surname: string;
 
   @Field()
-  // @IsEmail()
   @prop({
     required: true,
     trim: true,
-    // validate: [{ validator: email => isEmail(email), message: 'email not contains a valid email' }],
   })
   email: string;
 

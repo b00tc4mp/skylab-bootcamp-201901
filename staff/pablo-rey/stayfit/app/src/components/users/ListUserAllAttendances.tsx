@@ -11,7 +11,7 @@ export default function ListUserAllAttendances({ sessions, onClickStatus, onClic
       {sessions.map(sa => (
         <>
           {month !== moment(sa.startTime).format('MM/YYYY') && (
-            <IonItemDivider>
+            <IonItemDivider key={'MONTH'+sa.id}>
               <IonLabel>{(month = moment(sa.startTime).format('MM/YYYY'))}</IonLabel>
             </IonItemDivider>
           )}

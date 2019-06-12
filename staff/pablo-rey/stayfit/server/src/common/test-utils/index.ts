@@ -2,7 +2,7 @@ import * as mongoose from 'mongoose';
 import * as bcrypt from 'bcryptjs';
 import { random } from '../utils';
 import { ROLES, STAFF_ROLE, SUPERADMIN_ROLE, USER_ROLE } from '../../data/enums';
-import {  User, UserModel } from '../../data/models/user';
+import { User, UserModel } from '../../data/models/user';
 import { ProviderModel } from '../../data/models/provider';
 import { AttendanceModel } from '../../data/models/attendance';
 import { SessionModel } from '../../data/models/session';
@@ -71,14 +71,16 @@ export async function createTestProvider({
   const customers = customersUserPassword.map(up => up.user);
   const customersId = customersUserPassword.map(up => up.user.id!.toString());
   const provider = await ProviderModel.create({ name, admins: [admin], coaches, customers });
-  admin.adminOf = [provider.id]
+  admin.adminOf = [provider.id];
   admin.save();
   for (let customer of customers) {
-    await UserModel.findByIdAndUpdate(customer.id, {customerOf : [provider.id]});
+    await UserModel.findByIdAndUpdate(customer.id, { customerOf: [provider.id] });
   }
   provider.sessionTypes.push(await SessionTypeModel.create({ type: 'wod', title: 'WOD', active: true, provider }));
   provider.sessionTypes.push(await SessionTypeModel.create({ type: 'ob', title: 'Open Box', active: true, provider }));
-  provider.sessionTypes.push(await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider }));
+  provider.sessionTypes.push(
+    await SessionTypeModel.create({ type: 'pt', title: 'Personal training', active: true, provider })
+  );
   provider.save();
   return {
     name,

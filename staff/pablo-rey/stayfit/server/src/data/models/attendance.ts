@@ -1,28 +1,9 @@
 import { Field, ID, ObjectType } from 'type-graphql';
-import { prop, Ref, Typegoose, staticMethod } from 'typegoose';
+import { prop, Ref, staticMethod, Typegoose } from 'typegoose';
+import { ATTENDANCECOUNTSTATUSES, ATTENDANCEPAYMENTTYPES, ATTENDANCESTATUSES } from '../enums';
 import { Session } from './session';
 import { User } from './user';
 
-import {
-  PAIDINADVANCE,
-  TOPAYINSESSION,
-  POSTPAID,
-  INCLUDED,
-  FREE,
-  ATTENDANCEPAYMENTTYPES,
-  CANCELLEDBYPROVIDER,
-  CANCELLEDBYUSER,
-  CONFIRMED,
-  OK,
-  NOSHOW,
-  ATTENDED,
-  PENDINGAPPROVAL,
-  PENDINGCANCELLATION,
-  NOCOUNT,
-  ATTENDANCESTATUSES,
-  ATTENDANCECOUNTSTATUSES,
-  ATTENDANCENOCOUNTSTATUSES,
-} from '../enums';
 
 @ObjectType()
 export class Attendance extends Typegoose {
