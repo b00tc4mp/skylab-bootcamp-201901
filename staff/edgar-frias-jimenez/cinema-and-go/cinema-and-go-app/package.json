@@ -26,6 +26,7 @@
     "create-react-app": "^3.0.1",
     "dotenv": "^8.0.0",
     "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
     "node-sass": "^4.11.0",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",

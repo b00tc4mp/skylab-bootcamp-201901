@@ -1,7 +1,10 @@
 import normalize from '../components/Normalize'
 const validate = require('../components/Validate')
 const { LogicError } = require('../components/Errors')
+// const moment = require('moment')
 const cinemaApi = require('../services')
+// const jwt = require('jsonwebtoken')
+const { REACT_APP_MAPS_KEY } = process.env
 
 const appLogic = {
     __userToken__ : null,
@@ -15,6 +18,13 @@ const appLogic = {
     },
 
     get isUserLoggedIn() {
+        // const exp = this.__userToken__ && jwt.decode(this.__userToken__).exp
+        // const now = moment().unix()
+
+        // // const isExpired = moment.duration(now.diff(exp))
+
+        // console.log('isExpired', moment.unix(exp).utc())
+
         return !!this.__userToken__
     },
 
@@ -105,7 +115,7 @@ const appLogic = {
     handleInitialLocation() {
         if (navigator.geolocation) {
             try {
-                const geoLocation = () => {
+                const geoLocation = new Promise((resolve, reject) => {
                     var options = {
                         timeout: 10000,
                         enableHighAccuracy: true,
@@ -115,23 +125,33 @@ const appLogic = {
                     const success = pos => {
                       const crd = pos.coords
                       const locationCoords = [crd.longitude, crd.latitude]
-                      return(locationCoords)
+                      resolve(locationCoords)
                     }
 
                     const error = err => {
-                      throw Error(`ERROR(${err.code}): ${err.message}`)
+                      reject(`ERROR(${err.code}): ${err.message}`)
                     }
 
                     navigator.geolocation.watchPosition(success, error, options)
-                }
+                })
 
-                return geoLocation//.then(locationCoords => locationCoords)
+                return geoLocation.then(locationCoords => locationCoords)
             } catch (error) {
                 console.error(`Error: The Geolocation service failed. ${error}`)
             }
         } else {
             console.error('Error: Your browser doesn\'t support geolocation.')
         }
+    },
+
+    retrieveTimeToArrive(defaultPos, cinemaLocation, { REACT_APP_MAPS_KEY: MAPS_KEY }) {
+        return (async () => {
+            try {
+                return await cinemaApi.retrieveTimeToArrive(this.__userToken__, defaultPos, cinemaLocation, MAPS_KEY)
+            } catch (error) {
+                throw new LogicError(error)
+            }
+        })()
     },
 
     retrieveAllSessions(sessionId) {

@@ -1,5 +1,5 @@
 const dotenv = require('dotenv')
-const { mongoose, User, Movie, MovieSessions, Cinema } = require('cinema-and-go-data/src/models')
+const { mongoose, User, Movie, MovieSessions, Cinema, Distance } = require('cinema-and-go-data/src/models')
 const { Types: { ObjectId } } = mongoose
 const bcrypt = require('bcrypt')
 const logic = require('.')
@@ -29,6 +29,7 @@ describe('logic', () => {
         await Movie.deleteMany()
         await MovieSessions.deleteMany()
         await Cinema.deleteMany()
+        await Distance.deleteMany()
 
         name = `name-${Math.random()}`
         email = `email-${Math.random()}@mail.com`
@@ -258,7 +259,7 @@ describe('logic', () => {
             }
         })
 
-        xit('should fail on delete user with incorrect user id', async () => {
+        it('should fail on delete user with incorrect user id', async () => {
             const id_ = 'aslkfjhsd3141234dksjhf'
 
             try {
@@ -317,9 +318,44 @@ describe('logic', () => {
     })
 
     describe('Scrap an entire city', () => {
-        it('should get all cinemas from a given city', async () => {
+        fit('should get all cinemas from a given city', async () => {
             const cityCinemas = await logic.scrapCinemaMovies()
             expect(cityCinemas).toBeUndefined()
+        })
+    })
+
+    describe('register cinema distance and duration of the trip', () => {
+        it('should register distance and duration values for a given cinema', async () => {
+            const cinema = ['1,7 km', '21 min']
+            const cinemaInfo = await logic.registerCinemaLocation(cinema[0], cinema[1])
+            expect(cinemaInfo).toBeUndefined()
+        })
+
+        it('should fetch information from google maps and then register that data', async () => {
+            const origin = '41.4161666,2.1893583999999997'
+            const destination = '41.4048732,2.1925995'
+            const MAPS_KEY = 'AIzaSyDUJnlk-inpNkXenyzldRXMGWOAPjZR2S4'
+
+            const insertData = await logic.setCinemaLocation(origin, destination, MAPS_KEY)
+
+            expect(insertData).toBeUndefined()
+        })
+
+        it('should retrieve the correct distance and trip duration for a given data', async () => {
+            const origin = '41.4161666,2.1893583999999997'
+            const destination = '41.4048732,2.1925995'
+            const MAPS_KEY = 'AIzaSyDUJnlk-inpNkXenyzldRXMGWOAPjZR2S4'
+
+            const insertData = await logic.setCinemaLocation(origin, destination, MAPS_KEY)
+
+            expect(insertData).toBeUndefined()
+
+            const cinemaData = await logic.retrieveCinemaLocation()
+            expect(cinemaData).toBeDefined()
+            expect(cinemaData[0].distance).toBeDefined()
+            expect(typeof cinemaData[0].distance).toBeTruthy()
+            expect(cinemaData[0].duration).toBeDefined()
+            expect(typeof cinemaData[0].duration).toBeTruthy()
         })
     })
 

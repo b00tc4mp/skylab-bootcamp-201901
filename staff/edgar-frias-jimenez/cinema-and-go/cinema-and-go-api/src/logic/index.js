@@ -3,8 +3,9 @@ const { LogicError } = require('../common/errors')
 const validate = require('../common/validate')
 const models = require('cinema-and-go-data/src/models')
 const scrapper = require('../lib/scrapper')
+const gMaps = require('../lib/maps')
 
-const { mongoose, User, Movie, MovieSessions, City, Cinema, Point } = models
+const { mongoose, User, Movie, MovieSessions, City, Cinema, Point, Distance } = models
 const {Types: {ObjectId}} = mongoose
 
 const logic = {
@@ -51,7 +52,7 @@ const logic = {
 
         return (async () => {
             const user = await User.findById(ObjectId(id)).select('-__v  -password').lean()
-            // if (!user) throw new LogicError(`user with id "${id}" does not exists`)
+            if (!user) throw new LogicError(`user with id "${id}" does not exists`)
 
             return user
         })()
@@ -189,7 +190,37 @@ const logic = {
 
             return cinemaLocations
         })()
+    },
+
+    registerCinemaLocation(distance, duration) {
+        return(async () => {
+            await Distance.create({ distance, duration })
+        })()
+    },
+
+    setCinemaLocation(defaultPos, cinemaLocation, MAPS_KEY) {
+        const mapsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${defaultPos}&destination=${cinemaLocation}&key=${MAPS_KEY}&mode=walking`
+
+        return (async () => {
+            const cinema = {}
+
+            const gMapsInfo = await gMaps.getData(mapsUrl)
+
+            cinema.duration = gMapsInfo.routes[0].legs[0].duration.text
+            cinema.distance = gMapsInfo.routes[0].legs[0].distance.text
+
+            await logic.registerCinemaLocation(cinema.distance, cinema.duration)
+        })()
+    },
+
+    retrieveCinemaLocation() {
+        return(async () => {
+            const cinemaData = await Distance.find()
+
+            return cinemaData
+        })()
     }
+
 }
 
 module.exports = logic

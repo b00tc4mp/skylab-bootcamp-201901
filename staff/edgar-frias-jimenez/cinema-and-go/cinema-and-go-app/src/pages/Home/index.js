@@ -3,15 +3,25 @@ import appLogic from '../../logic'
 import GoogleMaps from '../../components/Maps'
 import CustomMarker from '../../components/Marker'
 import CinemaModal from '../../components/CinemaModal'
-import { Circle } from '@react-google-maps/api'
+import { defaultPosition, getUserPosition } from '../../utils'
+import { Circle,
+    // DirectionsService, DirectionsRenderer
+} from '@react-google-maps/api'
 
 import './index.scss'
 
 const Home = () => {
-    const [cinemaPoi, setCinemaPoi] = useState(null)
-    const [ modalVisible, setModalVisible ] = useState(false)
-    const [currentMarker, setCurrentMarker] = useState(null)
+    // Globals
+    const defaultPos = defaultPosition()
+    const userPosition = getUserPosition()
+    const threshold = 1500
 
+    // State
+    const [ cinemaPoi, setCinemaPoi ] = useState(null)
+    const [ modalVisible, setModalVisible ] = useState(false)
+    const [ currentMarker, setCurrentMarker ] = useState(null)
+
+    // Handlers
     const handleCloseModal = () => {
         setModalVisible(false)
     }
@@ -20,15 +30,17 @@ const Home = () => {
         appLogic.populateDb()
     }
 
-    const defaultPos = sessionStorage.getItem('userLocation').split(',').map(item => parseFloat(item))
 
-    const userPosition = {
-        lng: defaultPos[0],
-        lat: defaultPos[1]
+    const getCinemaLocation = () => {
+        try {
+            appLogic.retrieveTimeToArrive(userPosition, )
+        } catch ({ message }) {
+
+        }
     }
 
-    const threshold = 1500
 
+    // Lifecicle
     useEffect(() => {
         const cinemas = async () => {
             if(defaultPos) {

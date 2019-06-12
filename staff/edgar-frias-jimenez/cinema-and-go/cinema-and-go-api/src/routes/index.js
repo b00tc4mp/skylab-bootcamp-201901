@@ -27,7 +27,7 @@ router.post('/users/auth', jsonParser, (req, res) => {
     handleErrors(async () => {
         const sub = await logic.authenticateUser(email, password)
 
-        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '1h' })
+        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '2h' })
 
         return res.json({ token })
     }, res)
@@ -61,6 +61,16 @@ router.delete('/users/delete', jsonParser, auth, (req, res) => {
 
         return res.json({ message: 'Ok, user deleted.' })
     }, res)()
+})
+
+router.get('/user/distance/cinema', auth, (req, res) => {
+    const { query: { defaultPos, cinemaLocation, MAPS_KEY } } = req
+
+    handleErrors(async () => {
+        const distance = await logic.retrieveCinemaLocation(defaultPos, cinemaLocation, MAPS_KEY)
+
+        return res.json(distance)
+    }, res)
 })
 
 router.get('/cinemas', auth, (req, res) => {
@@ -100,8 +110,9 @@ router.post('/cinemas/scrapper', auth, (req, res) => {
 })
 
 router.get('/cinemas/near', auth, (req, res) => {
+    const { query: { lng, lat, dist } } = req
     return (async () => {
-        const cinemas = await logic.retireveNearestCinemas(parseFloat(req.query.lng), parseFloat(req.query.lat), parseFloat(req.query.dist))
+        const cinemas = await logic.retireveNearestCinemas(parseFloat(lng), parseFloat(lat), parseFloat(dist))
 
         return res.json(cinemas)
     })()

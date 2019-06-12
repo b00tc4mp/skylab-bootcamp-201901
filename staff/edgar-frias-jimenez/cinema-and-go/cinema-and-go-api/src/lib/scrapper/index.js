@@ -2,12 +2,7 @@ const axios = require('axios')
 const cheerio = require('cheerio')
 const validate = require('../../common/validate')
 
-// const url_cities = 'https://www.ecartelera.com/cartelera/'
-// const url_city = 'https://www.ecartelera.com/cines/0,9,23.html' // Bcn city cinemas
-// const url_cinema = 'https://www.ecartelera.com/cines/89,0,1.html' // a cinema and it's movies
-
 const scrapper = {
-
    /**
    * Fetch from Axios of a given url
    *
@@ -103,7 +98,7 @@ const scrapper = {
         return { name, phone, address, location, projectionDay, billboard }
     },
 
-    // getAllCities() {
+    // getAllCities() { // Not in use in v1.0
     //     return (async () => {
     //         const html = await this.__getHtml(url_cities)
     //         const cities = await this.__getAllCities(html)

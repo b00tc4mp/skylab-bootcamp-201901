@@ -27,7 +27,7 @@ function GoogleMaps({  customZoom, children }) {
                 mapContainerClassName='map-container'
                 mapContainerStyle={{ height: '100vh', width: '100vw' }}
                 zoom={customZoom ? customZoom : zoom}
-                options={now <= 18 ? defaultMapProps :  nightMapProps}
+                options={(now >= 6 && now <= 18) ? defaultMapProps :  nightMapProps}
             >
                 {children}
             </GoogleMap>

@@ -1,6 +1,5 @@
 const { Schema, ObjectId } = require('mongoose')
 const point = require('./point')
-// const movieSessions = require('./movie-sessions')
 
 const cinema = new Schema({
   name: { type: String, required: true },
@@ -16,7 +15,7 @@ const cinema = new Schema({
     ref: 'movieSessions',
     required: true
   }],
-  city: { type: ObjectId, ref: 'City' }
+  city: { type: ObjectId, ref: 'City' },
 })
 
 cinema.index({ location: '2dsphere' })

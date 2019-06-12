@@ -106,6 +106,19 @@ const cinemaApi = {
         })
     },
 
+    retrieveTimeToArrive(token, defaultPos, cinemaLocation, MAPS_KEY) {
+        validate.arguments([
+            { name: 'token', value: token, type: 'string', notEmpty: true },
+            { name: 'defaultPos', value: defaultPos, type: 'string', notEmpty: true },
+            { name: 'cinemaLocation', value: cinemaLocation, type: 'string', notEmpty: true },
+            { name: 'MAPS_KEY', value: MAPS_KEY, type: 'string', notEmpty: true }
+        ])
+
+        return call(`${this.__url__}/user/distance/cinema?origin=${defaultPos}&destination=${cinemaLocation}&key=${MAPS_KEY}`, {
+            headers: { Authorization: `Bearer ${token}` }
+        })
+    },
+
     retrieveNearestCinemas(token, userPosition, dist) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },

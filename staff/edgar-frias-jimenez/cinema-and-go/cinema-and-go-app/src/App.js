@@ -36,7 +36,7 @@ function App ({ history }) {
     const handleLogin = (email, password) => {
         handleSpinner(true)
 
-        try{
+        try {
             appLogic.loginUser(email, password)
                 .then(() => {
                     handleSpinner(null)
@@ -49,7 +49,7 @@ function App ({ history }) {
     }
 
     const setCurrentPosition = () => {
-        try{
+        try {
             appLogic.handleInitialLocation()
                 .then(res => {
                     const initPos = res.reverse()

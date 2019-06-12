@@ -4,6 +4,7 @@ const movie = require('./movie')
 const movieSessions = require('./movie-sessions')
 const user = require('./user')
 const point = require('./point')
+const distance = require('./distance')
 
 module.exports = {
   city,
@@ -11,5 +12,6 @@ module.exports = {
   movie,
   movieSessions,
   user,
-  point
+  point,
+  distance
 }
