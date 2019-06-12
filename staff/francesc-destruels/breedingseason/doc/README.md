@@ -6,35 +6,40 @@ A game were you will have to help penguins to breed!
 
 todo...
 
-<!-- ## Functional description
+ ## Functional description
 
 ### Use cases
 
-![Usea cases](images/use-cases.jpg)
+![Usea cases](./img/use-cases.jpg)
 
-### Flows
+ ### Flows
 
-![List recipes flow](images/flow.jpg)
+![List recipes flow](img/flow.png)
 
 ## Technical description
 
 ### Blocks
 
-![Blocks](images/blocks.jpg)
+![Blocks](img/blocks.jpg)
 
 ### Components
 
-![Components](images/components.jpg)
+![Components](img/components.jpg)
 
 ## Data model
 
-![Data model](images/data-model.jpg)
+![Data model](img/data-model.jpg)
 
 ### Technologies
 
-React Js, ES6
+React Js, ES6, Mongo, Mongoose, Express, Bulma
 
 ## Code Coverage
 
-![Test Coverage](images/coverage.jpg) -->
+### API
+![Test Coverage](img/API_COV.png) 
+
+### APP
+![Test Coverage](img/APP_COV.png) 
+
 

@@ -27,6 +27,16 @@ const logic = {
         return !!(this.__userToken__)
     },
 
+    /**
+     * It registers the user on the database
+     * 
+     * @param {String} nickname 
+     * @param {Number} age 
+     * @param {String} email 
+     * @param {Hash} password 
+     * 
+     */
+
     async registerUser(nickname, age, email, password) {
         try { ow(nickname, ow.string.not.empty) } catch (err) { throw Error("Nickname can not be empty") }
         try { ow(age, ow.number.is(x => x > 13)) } catch (err) { throw Error("You have to be older than 13") }
@@ -39,6 +49,14 @@ const logic = {
             throw new LogicError(error)
         }
     },
+
+    /**
+     * Checks the user and it's password on the data base
+     * 
+     * @param {String} nicknameOEmail 
+     * @param {String} password 
+     * 
+     */
 
     loginUser(nicknameOEmail, password) {
         try { ow(nicknameOEmail, ow.string.not.empty) } catch (err) { throw Error("Nickname or Email required") }
@@ -54,6 +72,13 @@ const logic = {
         })()
     },
 
+    /**
+     * Uses the user id to look on the db for the user
+     * 
+     * 
+     * @returns {Object} Users nickname, age, email and avatar
+     */
+
     async retrieveUser() {
         const { error, nickname, age, email, avatar } = await restApi.retrieveUser(this.__userToken__)
 
@@ -63,6 +88,13 @@ const logic = {
 
         } else throw new LogicError("Bad Way")
     },
+
+    /**
+     * Uses the user id to find it on the db and bring back the user game historic
+     * 
+     * 
+     * @returns {Object} 5 user game records
+     */
 
     async retrieveUserGameHistory() {
         const response = await restApi.retrieveUserGameHistory(this.__userToken__)
@@ -76,6 +108,13 @@ const logic = {
 
     //gameLogic
 
+    /**
+     * To create an instance of the game
+     * 
+     * @param {Object} style with the information required to start the game: mode == Solo or Multiplayer, playersNumber: the number of allowed participants.
+     * @param {Boolean} privateGame volean to know if the game is private or not
+     */
+
     async newGame(style, privateGame) {
 
         const { gameId } = await restApi.newGame(this.__userToken__, style, privateGame)
@@ -88,17 +127,11 @@ const logic = {
         } else throw new LogicError("Bad Way")
     },
 
-    // async joinGame(gameId) {
-    //     const response = await restApi.joinGame(this.__userToken__, gameId ? gameId : "searching")
-
-    //     if (response.status === 200) {
-    //         response.json()
-
-    //         this.__ActualGame__ = response
-
-    //     } else throw new LogicError("Bad Way")
-    // },
-
+    /**
+    * This function will say to the api that you are ready
+    * 
+    * @returns {Object} initial package with all the games needs to start on the server side 
+    */
 
     async startGame() {
         const initialGameData = await restApi.startGame(this.__userToken__, this.__ActualGame__)
@@ -113,16 +146,15 @@ const logic = {
         } else throw new LogicError("Bad Way")
     },
 
-    // async updateGame() {
-    //     const response = await restApi.updateGame(this.__userToken__, this.__ActualGame__)
-
-    //     if (response.status === 200) {
-    //         response.json()
-
-    //         if (typeof response === Object) return response // if length finishedGame()
-
-    //     } else throw new LogicError("Bad Way")
-    // },
+    /**
+    * This method will actualice the user puntuation and sends the next round when all player are ok whit it
+    * 
+    * @param {Object} with the actions of the turn
+    * @param {Object} with data from the game map
+    * 
+    * @returns for ONE player will bring back the next tourn elements
+    * 
+    */
 
     async nextGame(gamePlay, updatedAmount) {
         ow(gamePlay, ow.object)
@@ -138,6 +170,14 @@ const logic = {
         } else throw new LogicError("Not response from the server")
 
     },
+
+    /**
+     * This will keep the map information updated all moment in the api
+     * 
+     * @param {Object} Map Map with the elements state
+     * 
+     * @returns {Object} updated info
+     */
 
     __updatedValues__(Map) {
         ow(Map, ow.object)
@@ -170,6 +210,15 @@ const logic = {
         return { One, Two, Three, Four }
     },
 
+    /**
+     * Will return true or false depending if it's posible to click on the element
+     * 
+     * @param {Object} map 
+     * @param {Object} position where on the map
+     * @param {Object} rocks how many
+     * 
+     * @returns {Boolean}
+     */
 
     __isBreedable__(map, position, rocks) {
         ow(map, ow.object)
@@ -190,6 +239,14 @@ const logic = {
         return can
     },
 
+    /**
+     * Will return true or false depending if it's posible to click on the element
+     * 
+     * @param {Object} map 
+     * @param {Object} position 
+     * @param {String} resource type of resource to anylize usability
+     * @returns {Boolean}
+     */
     __isUsable__(map, position, resource) {
         ow(map, ow.object)
         ow(position, ow.object)
@@ -234,6 +291,15 @@ const logic = {
 
     },
 
+
+    /**
+     * It returns true if the requeriments are fullfilled
+     * 
+     * @param {Object} map to check in case of "Love"
+     * @param {Object} puntuation to check the values
+     * @param {Object} mission to check the requeriments
+     * @returns {Boolean}
+     */
     __isCompleted__(map, puntuation, mission) {
         ow(map, ow.object)
         ow(puntuation, ow.object)
@@ -302,7 +368,7 @@ const logic = {
                 if (puntuation.FourEggNestAmount >= mission[0][1]) {
                     for (let j = 1; j <= 3 && toHatch.length < mission[0][1]; j++) {
                         for (let i = 0; i < map[j].length && toHatch.length < mission[0][1]; i++) {
-                            if (map[j][i][0] === 4) {
+                            if (map[j][i][0] === 4 && map[j][i][2] === false) {
                                 toHatch.push({ row: j, column: i })
                             }
                         }
@@ -314,6 +380,13 @@ const logic = {
         }
     },
 
+    /**
+     * Will return true or false depending if it's posible to click on the element
+     * 
+     * @param {Number} number to compare
+     * @param {Object} toCompare element with index to compare
+     * @param {Object} maximum  element with index to compare
+     */
     __isSecurityAvailable__(number, toCompare, maximum) {
         ow(toCompare, ow.object)
         ow(number, ow.number)
@@ -322,19 +395,31 @@ const logic = {
         return toCompare[number] < maximum[number].length - 1 ? true : false
     },
 
+    /**
+     * Will return true or false depending if it's posible to click on the element
+     * 
+     * @param {number} toCompare length with
+     * @param {object} maximum object to analyze
+     * @returns {Boolean}length
+     */
     __isUpgradeAvailable__(toCompare, maximum) {
         ow(toCompare, ow.number)
         ow(maximum, ow.object)
 
         return toCompare < maximum.length - 1 ? true : false
-
     },
 
+    /**
+     * To erase the gameId from the sessionStorage
+     */
     finishedGame() { // hacer a con la data para poder pintarlo :D
 
         localStorage.removeItem("userActualGame")
     },
 
+    /**
+     * To erase the token from the sessionstorage
+     */
     logoutUser() {
         sessionStorage.clear()
     },

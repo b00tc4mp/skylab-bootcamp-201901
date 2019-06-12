@@ -303,7 +303,7 @@ describe('user data', () => {
 
     describe('startGame', () => {
         let random9 = Math.floor(Math.random() * 6)
-        let random8 = Math.floor(Math.random() * 7)
+        let random8 = Math.floor(Math.random() * 6)
 
         beforeEach(async () => {
             alivePrivateGames.pop()
@@ -359,7 +359,7 @@ describe('user data', () => {
             expect(mapStatus[3]).toBeInstanceOf(Array)
             expect(mapStatus[1].length).toBe(6)
             expect(mapStatus[2].length).toBe(6)
-            expect(mapStatus[3].length).toBe(7)
+            expect(mapStatus[3].length).toBe(6)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
@@ -755,8 +755,8 @@ describe('user data', () => {
 
     describe('updateGame', () => {
         let userToAdd, GameId, creator
-        let random9 = Math.floor(Math.random() * 5)
-        let random8 = Math.floor(Math.random() * 6)
+        let random9 = Math.floor(Math.random() * 4)
+        let random8 = Math.floor(Math.random() * 4)
 
         beforeEach(async () => {
             alivePrivateGames.pop()
@@ -821,7 +821,7 @@ describe('user data', () => {
             expect(mapStatus[3]).toBeInstanceOf(Array)
             expect(mapStatus[1].length).toBe(6)
             expect(mapStatus[2].length).toBe(6)
-            expect(mapStatus[3].length).toBe(7)
+            expect(mapStatus[3].length).toBe(6)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)

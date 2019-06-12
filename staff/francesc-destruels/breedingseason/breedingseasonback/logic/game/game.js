@@ -1,9 +1,21 @@
-
 const { models: { MissionDeck, GameDeck, Result, GameRecord, User }, mongoose: { Types: { ObjectId } } } = require("breedingseason-data")
 const ow = require('ow')
 
+//Arrays where the game instances will be saved
+
 const alivePublicGames = []
 const alivePrivateGames = []
+
+
+/**
+ * This is a contructor function to create instance of the game
+ * 
+ * @param {String} creatorId That will have the control over the instance on multiplayer games 
+ * @param {String} gameId Id for the game instance
+ * @param {Object} style  with the information required to start the game: mode == Solo or Multiplayer, playersNumber: the number of allowed participants.
+ * 
+ *  @returns {Object} intance of the game
+ */
 
 function Game(creatorId, gameId, style) {
     ow(creatorId, ow.string.not.empty)
@@ -31,6 +43,12 @@ function Game(creatorId, gameId, style) {
     this.missionCards = []; // [{ objectives: "", completed: false, firstPoint: X, otherPoints: Y  }] * 3
     this.penguinCards = { 1: [], 2: [], 3: [] }
 }
+
+/**
+ * Private function that initialize the game fetching the missionCards and the gameDeck from the database
+ * 
+ * @returns {string} message "Cards Fetched"
+ */
 
 Game.prototype.init = async function () { //Tested but I need to do the Penguin Cards
 
@@ -74,9 +92,13 @@ Game.prototype.init = async function () { //Tested but I need to do the Penguin 
     return "Cards Fetched"
 }
 
-//                                                                       //
-//This methodwill add players on a game with is maxPlayers is not full   //
-//                                                                       //
+/**
+ * This method will add players on a game with is maxPlayers is not full
+ * 
+ * @param {String} playerId Id from the player who wants to join
+ * 
+ * @returns {String} returs the game id to make the new player be able to use the instance of it
+ */
 
 Game.prototype.addPlayer = function (playerId) { //Done and Tested
     ow(playerId, ow.string.not.empty)
@@ -90,9 +112,14 @@ Game.prototype.addPlayer = function (playerId) { //Done and Tested
     return this.id
 }
 
-// //                                                              //
-// //This method starts the game  when all player are ok whit it   //
-// //                                                              //
+/**
+ * This method starts the game when all player are ok with it
+ * 
+ * @param {String} playerId Id`
+ * 
+ * @returns For One player function __sendInitialPackage, for Multiplayer depens if everybody is ready
+ * 
+ */
 
 Game.prototype.startFunction = async function (userId) { //Checked for 1 player
     ow(userId, ow.string.not.empty)
@@ -129,9 +156,13 @@ Game.prototype.startFunction = async function (userId) { //Checked for 1 player
     } else throw Error("Game already Started")
 }
 
-// //                                                              //
-// //This function will be call once everybody is start === true   //
-// //                                                              //
+/**
+ * This function will be call once everybody is start === true
+ * 
+ * @param {String} playerId `
+ * 
+ * @returns {Object} initial package with all the games needs to start on the server side 
+ */
 
 Game.prototype.__sendInitialPackage__ = async function (userId) {
     ow(userId, ow.string.not.empty)
@@ -190,9 +221,16 @@ Game.prototype.__sendInitialPackage__ = async function (userId) {
     return initialPackage
 }
 
-// //                                                                  //
-// //This method sends the next round when all player are ok whit it   //
-// //                                                                  //
+/**
+ * This method will actualice the user puntuation and sends the next round when all player are ok whit it
+ * 
+ * @param {String} playerId `
+ * @param {Object} with the actions of the turn
+ * @param {Object} with data from the game map
+ * 
+ * @returns for ONE player the function __sendNextRound__ if not finished and for multiplayer depends on the state of the group
+ * 
+ */
 
 Game.prototype.nextFunction = async function (userId, gameAction, updatedAmount) {
     ow(userId, ow.string.not.empty)
@@ -224,12 +262,12 @@ Game.prototype.nextFunction = async function (userId, gameAction, updatedAmount)
     if (!player) throw Error("User not loged in this game")
     let { userPuntuation, mapStatus } = player
 
-    const { One, Two, Three, Four } = updatedAmount // I have to test this
-
-    userPuntuation.OneEggNestAmount = One ? One : 0
-    userPuntuation.TwoEggNestAmount = Two ? Two : 0
-    userPuntuation.ThreeEggNestAmount = Three ? Three : 0
-    userPuntuation.FourEggNestAmount = Four ? Four : 0
+    const { OneEggNestAmount, TwoEggNestAmount, ThreeEggNestAmount, FourEggNestAmount } = updatedAmount // I have to test this
+    
+    userPuntuation.OneEggNestAmount = OneEggNestAmount ? OneEggNestAmount : 0
+    userPuntuation.TwoEggNestAmount = TwoEggNestAmount ? TwoEggNestAmount : 0
+    userPuntuation.ThreeEggNestAmount = ThreeEggNestAmount ? ThreeEggNestAmount : 0
+    userPuntuation.FourEggNestAmount = FourEggNestAmount ? FourEggNestAmount : 0
 
     let missionStatus = [false, false, false]
 
@@ -318,9 +356,14 @@ Game.prototype.nextFunction = async function (userId, gameAction, updatedAmount)
     } else return
 }
 
-// //                                                       //
-// //This function will send next round of cards           //
-// //                                                       //
+/**
+ * This function will send next round of cards
+ * 
+ * @param {String} playerId `
+ * 
+ * @returns {Object} Sends the next round of cards
+ * 
+ */
 
 Game.prototype.__sendNextRound__ = function (userId) {
     ow(userId, ow.string.not.empty)
@@ -345,9 +388,15 @@ Game.prototype.__sendNextRound__ = function (userId) {
     return { turnCards, round: userPackage.userRound, missionStatus: this.missionCardsStatus }
 }
 
-// //                                                  //
-// //This function looks for status updates            //
-// //                                                  //
+/**
+ * This function looks for status updates 
+ * 
+ * @param {String} playerId `
+ * 
+ * @returns for Multiplayer Only depending on the state the next action to do
+ * 
+ */
+
 
 Game.prototype.update = async function (userId) {
 
@@ -359,9 +408,14 @@ Game.prototype.update = async function (userId) {
     else return
 }
 
-// //                                                  //
-// //This function send the player the results         //
-// //                                                  //
+/**
+ * This function send the player the results
+ * 
+ * @param {String} playerId `
+ * 
+ * @returns {Object} Sends the results of all players
+ * 
+ */
 
 Game.prototype.__results__ = async function (userId) {
 
@@ -389,9 +443,12 @@ Game.prototype.__results__ = async function (userId) {
     // I will have to save the results to the user object in memory
 }
 
-// //                                            //
-// //This function checks if there is a winner   //
-// //                                            //
+/** 
+ * It check the results and save them to the users package
+ * 
+ * @returns {Object} On SOLO sends back the user package 
+ * 
+ */                                           
 
 Game.prototype.__checkWinner__ = async function () {
     if (!this.finish) throw Error("Game did not finish")

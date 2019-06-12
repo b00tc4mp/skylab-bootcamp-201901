@@ -3,6 +3,7 @@ const bodyParser = require('body-parser')
 const logic = require('../logic')
 const jwt = require('jsonwebtoken')
 const auth = require('./auth')
+const bcrypt = require('bcrypt')
 const { alivePrivateGames, alivePublicGames } = require('../logic/game/game')
 
 const { env: { JWT_SECRET } } = process
@@ -17,9 +18,16 @@ const router = express.Router()
 router.post('/user', jsonParser, async (req, res) => { //OK
     const { body: { nickname, age, email, password } } = req
 
+    const hashedPassword = await new Promise((resolve, reject) => {
+        bcrypt.hash(password, 10, function (err, hash) {
+            if (err) reject(err)
+            resolve(hash)
+        });
+    })
+
     try {
 
-        await logic.registerUser(nickname, age, email, password)
+        await logic.registerUser(nickname, age, email, hashedPassword)
 
         res.status(201).json({ message: 'Ok, user registered. ' })
     } catch ({ message }) {
@@ -63,7 +71,6 @@ router.get('/user', auth, async (req, res) => { //OK
 // User game retrieve route
 router.get('/user/gamedata', auth, async (req, res) => {
     const { userId } = req //sacar token
-
     try {
         const gamedata = await logic.retrieveUserGameData(userId) // Should be an object containing a key GAMES with an array with up to 5 games data and the id key of the user
 

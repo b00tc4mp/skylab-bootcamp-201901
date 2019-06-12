@@ -2,11 +2,11 @@ import React, { useContext } from 'react'
 import './index.sass'
 import Feedback from '../Feedback'
 import Logo from "../Logo"
-import { GameContext } from '../GameContext'
+import { AppContext } from '../AppContext'
 
 function Register({ onSignUp }) {
 
-    const { feedback } = useContext(GameContext)
+    const { feedback } = useContext(AppContext)
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -21,15 +21,15 @@ function Register({ onSignUp }) {
         onSignUp(nickname, parseInt(age), email, password)
     }
 
-    return <section className="register">
-        <Logo sizeX={"500vh"} main={true} />
-        <h2>Register</h2>
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="nickname" placeholder="Nickname" />
-            <input type="number" name="age" placeholder="Age" />
-            <input type="text" name="email" placeholder="email" />
-            <input type="password" name="password" placeholder="password" />
-            <button>Register</button>
+    return <section className="Register">
+        <Logo sizeX={"50%"} classToUse={"Register__Logo"}  main={true} />
+        <form className="Register__RegNav" onSubmit={handleSubmit}>
+            <h2>Register</h2>
+            <input className="input is-large" type="text" name="nickname" placeholder="Nickname" required />
+            <input className="input is-large" type="number" name="age" placeholder="Age" required />
+            <input className="input is-large" type="text" name="email" placeholder="email" required/>
+            <input className="input is-large" type="password" name="password" placeholder="password" required />
+            <button className="button is-link is-large">Register</button>
             {feedback && <Feedback message={feedback} />}
         </form>
     </section>

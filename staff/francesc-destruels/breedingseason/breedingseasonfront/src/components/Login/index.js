@@ -1,12 +1,13 @@
 import React, { useContext } from 'react'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 import './index.sass'
 import Feedback from '../Feedback'
 import Logo from "../Logo"
-import { GameContext } from '../GameContext'
+import { AppContext } from '../AppContext'
 
-function Login({ onLogin }) {
+function Login({ onLogin, history }) {
 
-    const { feedback } = useContext(GameContext)
+    const { feedback } = useContext(AppContext)
 
     function handleSubmit(e) {
         e.preventDefault()
@@ -17,16 +18,23 @@ function Login({ onLogin }) {
         onLogin(nicknameOEmail, password)
     }
 
-    return <section className="login">
-        <Logo sizeX={"500vh"} main={true} />
-        <h2>Login</h2>
-        <form onSubmit={handleSubmit}>
-            <input type="text" name="nicknameOEmail" placeholder="Nickname or Email" />
-            <input type="password" name="password" placeholder="Password" />
-            <button>Login</button>
+    const handleToGoBack = () => {
+        history.push('/')
+    }
+
+    return <section className="Login">
+        <Logo sizeX={"50%"} main={true} classToUse={"Login__Logo"} />
+        <form className={"Login__LogNav"} onSubmit={handleSubmit}>
+            <h2>Login</h2>
+            <p class="control">
+                <input className="input is-large" type="text" name="nicknameOEmail" placeholder="Nickname or Email" required />
+
+                <input className="input is-large" type="password" name="password" placeholder="Password" required/>
+            </p>
+            <button className="button is-link is-large">Login</button>
             {feedback && <Feedback message={feedback} />}
         </form>
     </section>
 }
 
-export default Login
+export default withRouter(Login)

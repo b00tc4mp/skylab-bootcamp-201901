@@ -54,7 +54,7 @@ function HowToPLay({ history }) {
                 <br/>
                 How to finish: 
                 <ul>
-                    <li>&nbsp;&nbsp;&nbsp;&nbsp;One everyone has already breed</li>
+                    <li>&nbsp;&nbsp;&nbsp;&nbsp;Everyone has already breed</li>
                     <li>&nbsp;&nbsp;&nbsp;&nbsp;You completed each mission</li>
                     <li>&nbsp;&nbsp;&nbsp;&nbsp;You got 3 strikes</li>
                 </ul>

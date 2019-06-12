@@ -790,7 +790,7 @@ describe('Game Data', () => {
             expect(mapStatus[3]).toBeInstanceOf(Array)
             expect(mapStatus[1].length).toBe(6)
             expect(mapStatus[2].length).toBe(6)
-            expect(mapStatus[3].length).toBe(7)
+            expect(mapStatus[3].length).toBe(6)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
@@ -1355,7 +1355,7 @@ describe('Game Data', () => {
             expect(mapStatus[3]).toBeInstanceOf(Array)
             expect(mapStatus[1].length).toBe(6)
             expect(mapStatus[2].length).toBe(6)
-            expect(mapStatus[3].length).toBe(7)
+            expect(mapStatus[3].length).toBe(6)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
@@ -1531,7 +1531,7 @@ describe('Game Data', () => {
             expect(mapStatus[3]).toBeInstanceOf(Array)
             expect(mapStatus[1].length).toBe(6)
             expect(mapStatus[2].length).toBe(6)
-            expect(mapStatus[3].length).toBe(7)
+            expect(mapStatus[3].length).toBe(6)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
@@ -1811,7 +1811,7 @@ describe('Game Data', () => {
                     }
                 },
                 missions: [false, true, false]
-            }, { One: 1, Two: 0, Three: 0, Four: 0 })
+            }, { OneEggNestAmount: 1, TwoEggNestAmount: 0, ThreeEggNestAmount: 0, FourEggNestAmount: 0 })
 
             //Cheking the package
             expect(nextPackage).toBeDefined()
@@ -1879,7 +1879,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            }, { One: 0, Two: 2, Three: 0, Four: 0 })
+            }, { OneEggNestAmount: 0, TwoEggNestAmount: 2, ThreeEggNestAmount: 0, FourEggNestAmount: 0 })
 
 
             //Cheking the package
@@ -1918,7 +1918,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            }, { One: 0, Two: 0, Three: 3, Four: 0 })
+            }, { OneEggNestAmount: 0, TwoEggNestAmount: 0, ThreeEggNestAmount: 3, FourEggNestAmount: 0 })
 
             const nextPackage = await gameToTest.nextFunction(UserId, {
 
@@ -1971,7 +1971,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, true]
 
-            }, { One: 0, Two: 0, Three: 0, Four: 4 })
+            }, { OneEggNestAmount: 0, TwoEggNestAmount: 0, ThreeEggNestAmount: 3, FourEggNestAmount: 4 })
 
             //Cheking the package
             expect(nextPackage).toBeDefined()
@@ -2035,7 +2035,7 @@ describe('Game Data', () => {
                 },
                 missions: [true, false, false]
 
-            }, { One: 0, Two: 0, Three: 0, Four: 0 })
+            }, { OneEggNestAmount: 0, TwoEggNestAmount: 2, ThreeEggNestAmount: 0, FourEggNestAmount: 0 })
 
             //Cheking the package
             expect(nextPackage).toBeDefined()
@@ -2101,7 +2101,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            }, { One: 0, Two: 0, Three: 0, Four: 0 })
+            }, { OneEggNestAmount: 1, TwoEggNestAmount: 0, ThreeEggNestAmount: 0, FourEggNestAmount: 0 })
 
             //Cheking the package
             expect(nextPackage).toBeDefined()
@@ -2162,7 +2162,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            }, { One: 0, Two: 0, Three: 0, Four: 0 })
+            }, { OneEggNestAmount: 0, TwoEggNestAmount: 0, ThreeEggNestAmount: 0, FourEggNestAmount: 0 })
 
             //Cheking the package
             expect(nextPackage).toBeDefined()
@@ -2224,7 +2224,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            }, { One: 0, Two: 0, Three: 0, Four: 0 })
+            }, { OneEggNestAmount: 0, TwoEggNestAmount: 0, ThreeEggNestAmount: 0, FourEggNestAmount: 0 })
 
             //Cheking the package
             expect(lastStrike).toBeDefined
@@ -2265,7 +2265,7 @@ describe('Game Data', () => {
                 },
                 missions: [false, false, false]
 
-            }, { One: 0, Two: 0, Three: 0, Four: 0 })
+            }, { OneEggNestAmount: 0, TwoEggNestAmount: 0, ThreeEggNestAmount: 0, FourEggNestAmount: 0 })
 
             //Cheking the package
             expect(results).toBeDefined
@@ -2927,7 +2927,7 @@ describe('Game Data', () => {
             expect(mapStatus[3]).toBeInstanceOf(Array)
             expect(mapStatus[1].length).toBe(6)
             expect(mapStatus[2].length).toBe(6)
-            expect(mapStatus[3].length).toBe(7)
+            expect(mapStatus[3].length).toBe(6)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)

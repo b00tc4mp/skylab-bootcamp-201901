@@ -1,6 +1,8 @@
 
 .UserData
     display: grid
+    position: absolute
+    color: black
     height: 100%
     width: 100%
     grid-template-columns: 20% 60% 20%
@@ -21,8 +23,9 @@
         padding: 3%
         align-self: start
         justify-self: center
-        background-color: lightblue
+        background-color: rgba(161, 235, 234, 0.6)
         border: 2px solid darkblue
+        border-radius: 1%
         height: 80%
         font-size: 150%
 
@@ -61,3 +64,13 @@
     &__Data5
         grid-area: D5
         justify-self: start
+
+    &__GB
+        position: absolute
+        border: 2px solid black
+        height: 5%
+        width: 5%
+        bottom: 5%
+        left: 2%
+
+        

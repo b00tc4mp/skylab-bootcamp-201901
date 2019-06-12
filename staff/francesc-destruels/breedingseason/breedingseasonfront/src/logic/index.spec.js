@@ -37,7 +37,7 @@ describe.only('user data', () => {
             expect(user._id).toBeDefined()
             expect(user.nickname).toBe(users_[0].nickname)
             expect(user.email).toBe(users_[0].email)
-            expect(user.password).toBe(users_[0].password)
+            expect(user.password).toBeDefined()
             expect(user.age).toBe(users_[0].age)
 
         })
@@ -438,7 +438,7 @@ describe.only('user data', () => {
             expect(mapStatus[3]).toBeInstanceOf(Array)
             expect(mapStatus[1].length).toBe(6)
             expect(mapStatus[2].length).toBe(6)
-            expect(mapStatus[3].length).toBe(7)
+            expect(mapStatus[3].length).toBe(6)
             expect(mapStatus[1][random9]).toBeInstanceOf(Array)
             expect(mapStatus[2][random9]).toBeInstanceOf(Array)
             expect(mapStatus[3][random8]).toBeInstanceOf(Array)
@@ -941,7 +941,7 @@ describe.only('user data', () => {
         })
 
         it('Should return toComplete: true, a toHatch that is an array abs && type: "love" on a completed 1EGG NEST mission', () => {
-            const map = { 1: [[1], [2], [1], [1]], 2: [[1], [2], [3]], 3: [[3], [4], [4]] }
+            const map = { 1: [[1, , false], [2, 0, false], [1, 0, false], [1, 0, false]], 2: [[1, 0, false], [2, 0, false], [3, 0, false]], 3: [[3, 0, false], [4, 0, false], [4, 0, false]] }
             const puntuation = { OneEggNestAmount: 4 }
             let mission = { 0: ["1EGG", 4] }
 
@@ -952,8 +952,19 @@ describe.only('user data', () => {
             expect(type).toBe("love")
         })
 
+        it('Should return toComplete: false on an incompleted 1EGG NEST mission because of Hatchlings', () => {
+            const map = { 1: [[1, 0, false], [1, 0, true], [1, 0, false]], 2: [[1, 0, false], [2, 0, false], [3, 0, false]], 3: [[3, 0, false], [4, 0, false], [4, 0, false]] }
+            const puntuation = { OneEggNestAmount: 4 }
+            let mission = { 0: ["1EGG", 4] }
+
+            const { toComplete, toHatch } = logic.__isCompleted__(map, puntuation, mission)
+            expect(toHatch).toBeUndefined()
+            expect(toComplete).toBeFalsy()
+        })
+
+
         it('Should return toComplete: false on an incompleted 1EGG NEST mission', () => {
-            const map = { 1: [[1], [2], [1]], 2: [[1], [2], [3]], 3: [[3], [4], [4]] }
+            const map = { 1: [[1, 0, false], [2, 0, false], [1, 0, false]], 2: [[1, 0, false], [2, 0, false], [3, 0, false]], 3: [[3, 0, false], [4, 0, false], [4, 0, false]] }
             const puntuation = { OneEggNestAmount: 3 }
             let mission = { 0: ["1EGG", 4] }
 
@@ -963,7 +974,7 @@ describe.only('user data', () => {
         })
 
         it('Should return toComplete: true, a toHatch that is an array abs && type: "love" on a completed 2EGG NEST mission', () => {
-            const map = { 1: [[1], [2], [1], [1]], 2: [[1], [2], [3]], 3: [[3], [4], [4]] }
+            const map = { 1: [[1, 0, false], [2, 0, false], [1, 0, false], [1, 0, false]], 2: [[1, 0, false], [2, 0, false], [3, 0, false]], 3: [[3, 0, false], [4, 0, false], [4, 0, false]] }
             const puntuation = { TwoEggNestAmount: 2 }
             let mission = { 0: ["2EGG", 2] }
 
@@ -975,7 +986,7 @@ describe.only('user data', () => {
         })
 
         it('Should return toComplete: false on an incompleted 2EGG NEST mission', () => {
-            const map = { 1: [[1], [2], [1]], 2: [[1], [2], [3]], 3: [[3], [4], [4]] }
+            const map = { 1: [[1, 0, false], [2, 0, false], [1, 0, false]], 2: [[1], [2], [3]], 3: [[3], [4], [4]] }
             const puntuation = { TwoEggNestAmount: 2 }
             let mission = { 0: ["2EGG", 3] }
 
@@ -984,8 +995,18 @@ describe.only('user data', () => {
             expect(toComplete).toBeFalsy()
         })
 
+        it('Should return toComplete: false on an incompleted 2EGG NEST mission', () => {
+            const map = { 1: [[1, 0, false], [2, 0, false], [2, 0, true]], 2: [[1], [2], [3]], 3: [[3], [4], [4]] }
+            const puntuation = { TwoEggNestAmount: 3 }
+            let mission = { 0: ["2EGG", 3] }
+
+            const { toComplete, toHatch } = logic.__isCompleted__(map, puntuation, mission)
+            expect(toHatch).toBeUndefined()
+            expect(toComplete).toBeFalsy()
+        })
+
         it('Should return toComplete: true, a toHatch that is an array abs && type: "love" on a completed 3EGG NEST mission', () => {
-            const map = { 1: [[1], [2], [1], [1]], 2: [[1], [2], [3]], 3: [[3], [4], [4]] }
+            const map = { 1: [[1, 0, false], [2, 0, false], [1, 0, false], [1, 0, false]], 2: [[1, 0, false], [2], [3, 0, false]], 3: [[3, 0, false], [4, 0, false], [4, 0, false]] }
             const puntuation = { ThreeEggNestAmount: 2 }
             let mission = { 0: ["3EGG", 2] }
 
@@ -997,7 +1018,7 @@ describe.only('user data', () => {
         })
 
         it('Should return toComplete: false on an incompleted 3EGG NEST mission', () => {
-            const map = { 1: [[1], [2], [1]], 2: [[1], [2], [3]], 3: [[3], [4], [4]] }
+            const map = { 1: [[1], [2, 0, false], [1, 0, false]], 2: [[1, 0, false], [2, 0, false], [3, 0, false]], 3: [[3], [4, 0, false], [4]] }
             const puntuation = { ThreeEggNestAmount: 2 }
             let mission = { 0: ["3EGG", 3] }
 
@@ -1006,8 +1027,18 @@ describe.only('user data', () => {
             expect(toComplete).toBeFalsy()
         })
 
+        it('Should return toComplete: false on an incompleted 3EGG NEST mission because of a Hatchling', () => {
+            const map = { 1: [[1], [2, 0, false], [3, 0, true]], 2: [[1, 0, false], [2, 0, false], [3, 0, false]], 3: [[3], [4, 0, false], [4]] }
+            const puntuation = { ThreeEggNestAmount: 3 }
+            let mission = { 0: ["3EGG", 3] }
+
+            const { toComplete, toHatch } = logic.__isCompleted__(map, puntuation, mission)
+            expect(toHatch).toBeUndefined()
+            expect(toComplete).toBeFalsy()
+        })
+
         it('Should return toComplete: true, a toHatch that is an array abs && type: "love" on a completed 4EGG NEST mission', () => {
-            const map = { 1: [[1], [2], [1], [1]], 2: [[1], [2], [3]], 3: [[3], [4], [4]] }
+            const map = { 1: [[1, 0, false], [2, 0, false], [1, 0, false], [1, 0, false]], 2: [[1, 0, false], [2, 0, false], [3, 0, false]], 3: [[3, 0, false], [4, 0, false], [4, 0, false]] }
             const puntuation = { FourEggNestAmount: 2 }
             let mission = { 0: ["4EGG", 2] }
 
@@ -1019,7 +1050,7 @@ describe.only('user data', () => {
         })
 
         it('Should return toComplete: false on an incompleted 4EGG NEST mission', () => {
-            const map = { 1: [[1], [2], [1]], 2: [[1], [2], [3]], 3: [[3], [4], [4]] }
+            const map = { 1: [[1, 0, false], [4, 0, true], [1, 0, false]], 2: [[1 ,0, false], [2, 0, false], [3, 0, false]], 3: [[3, 0, false], [4, 0, false], [4, 0, false]] }
             const puntuation = { FourEggNestAmount: 2 }
             let mission = { 0: ["4EGG", 3] }
 
@@ -1027,7 +1058,18 @@ describe.only('user data', () => {
             expect(toHatch).toBeUndefined()
             expect(toComplete).toBeFalsy()
         })
+
+        it('Should return toComplete: false on an incompleted 4EGG NEST mission because of a hatchling', () => {
+            const map = { 1: [[1], [2, 0, false], [4, 0, true]], 2: [[1, 0, false], [2, 0, false], [4, 0, false]], 3: [[4], [3, 0, false], [3]] }
+            const puntuation = { FourEggNestAmount: 3 }
+            let mission = { 0: ["4EGG", 3] }
+
+            const { toComplete, toHatch } = logic.__isCompleted__(map, puntuation, mission)
+            expect(toHatch).toBeUndefined()
+            expect(toComplete).toBeFalsy()
+        })
     })
+
     describe('__isSecurityAvailable__', () => {
 
         it('Should return true when toCompare index of Number is lower than the maximum on the same index length -1', () => {

@@ -47,6 +47,10 @@ function Game({ history }) {
         setMissionsDone({ 0: false, 1: false, 2: false })
     }
 
+    useState(() => {
+        return handleStart()
+    })
+
     const handleToSend = async () => {
 
         if (!PenguinTurn) setPuntuation({ ...puntuation, ...puntuation.StrikeLvL++ })
@@ -99,7 +103,7 @@ function Game({ history }) {
     useEffect(() => () => { return logic.finishedGame() }, [])
 
     return <div className="Game">
-        {!start && !finish && <button className="Game__StartButton" onClick={handleStart}>Start Game!</button>}
+        {/* {!start && !finish && <button className="Game__StartButton" onClick={handleStart}>Start Game!</button>} */}
         {Round && !finish && 
             <GameContext.Provider value={{ InitialTurnCards, missionCards, setActionUsed, missionsDone, setMissionsDone, ActionUsed, ActionTurn, setActionTurn, setNumberUsed, NumberUsed, puntuation, setPuntuation, Map, setMap, Round, NextCards, NumberToUse, setNumberToUse, ActionToUse, setActionToUse, PenguinTurn, setPenguinTurn }}>
                 <MissionCards send={handleToSend} Cards={missionCards} />

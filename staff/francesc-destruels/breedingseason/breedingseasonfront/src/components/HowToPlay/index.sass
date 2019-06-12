@@ -1,10 +1,11 @@
 
 .HowToPlay
+    position: absolute
     display: grid
     height: 100%
     width: 100%
     grid-template-columns: 40% 60%
-    grid-auto-rows: 20% 70% 10%
+    grid-template-rows: 20% 70% 10%
     grid-template-areas: " Logo Logo " " HOW IMG " " B1 . "
     align-items: center
 
@@ -17,12 +18,13 @@
     &__Exp
         justify-self: end
         justify-content: center
-        background-color: lightblue
         color: Black
-        border: 1px solid darkblue
         grid-area: HOW
         font-size: 1.5vh
         padding: 5%
+        background-color: rgba(161, 235, 234, 0.6)
+        border: 2px solid darkblue
+        border-radius: 1%
 
     &__Exp > h2 
         font-size: 3vh
@@ -30,8 +32,8 @@
     &__Gb
         grid-area: B1 
         border: 2px solid black
-        height: 30%
-        width: 10%
+        height: 50%
+        width: 20%
     
     &__Logo
         grid-area: Logo
