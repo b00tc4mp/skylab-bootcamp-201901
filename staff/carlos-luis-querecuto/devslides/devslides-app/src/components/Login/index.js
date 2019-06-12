@@ -1,7 +1,8 @@
-import React, { useState, useEffect,useContext } from 'react'
+import React, { useState, useEffect, useContext } from 'react'
 import { Route, withRouter, Switch } from 'react-router-dom'
 import { Message } from '../Contexts'
 import Feedback from '../Feedback';
+import './index.sass'
 
 function Login({ onLogin }) {
 
@@ -21,38 +22,33 @@ function Login({ onLogin }) {
         <section class="login_form">
             <div class="container">
                 <div class=" register_form">
-                    <div class=" register_slogan">
-                        [DEVSLIDES]
-                    </div>
                     <div class="">
-                        <form onSubmit={handleSubmit}>
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">Username or Email</label>
-                                </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <p class="control">
-                                            <input class="input" name="username" placeholder="Insert Email or Username" />
-                                        </p>
+                        <form id="elementForm" class="breadcrumb is-centered" aria-label="breadcrumbs" onSubmit={handleSubmit}>
+                            <div class="menu-label">
+                                <div class="has-text-centered">
+                                    <div class=" register_slogan login-logo">
+                                        {"</DS>"}
                                     </div>
                                 </div>
                             </div>
-                            <div class="field is-horizontal">
-                                <div class="field-label is-normal">
-                                    <label class="label">Password</label>
+                            <div class="menu-label">
+                                <div class="has-text-centered">
+                                    <p class="lighttext" >Username or Email</p>
                                 </div>
-                                <div class="field-body">
-                                    <div class="field">
-                                        <p class="control">
-                                            <input class="input" name="password" placeholder="Insert Password" />
-                                        </p>
-                                    </div>
+                                <input input class="input" name="username" placeholder="Insert Email or Username" />
+                            </div>
+
+                            <div class="menu-label">
+                                <div class="has-text-centered">
+                                    <p class="lighttext" >Password</p>
                                 </div>
+                                <input class="input" type="password" name="password" placeholder="Insert Password" required />
                             </div>
-                            <div class="control">
-                                <button class="button is-primary">Login</button>
-                            </div>
+                            <button class="button is-medium is-fullwidth">
+                                <div class="menu-label has-text-centered">
+                                    <p class="lighttext">Login</p>
+                                </div>
+                            </button>
                         </form>
                         {message && <Feedback feedback={message} setFeedback={setMessage} />}
                     </div>

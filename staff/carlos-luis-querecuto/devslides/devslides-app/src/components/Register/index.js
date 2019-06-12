@@ -28,13 +28,13 @@ function Register({ onRegister }) {
             <div class="container">
                 <div class="columns register_form">
                     <div class="column register_slogan">
-                        Soon Make Awesome presentations!
+                        Make Awesome presentations with your coding Skills!
                     </div>
                     <div class="column">
                         <form onSubmit={handleSubmit}>
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">Name</label>
+                                    <label class="label boldtext">Name</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">
@@ -46,7 +46,7 @@ function Register({ onRegister }) {
                             </div>
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">Surname</label>
+                                    <label class="label boldtext">Surname</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">
@@ -58,7 +58,7 @@ function Register({ onRegister }) {
                             </div>
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">Username</label>
+                                    <label class="label boldtext">Username</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">
@@ -70,7 +70,7 @@ function Register({ onRegister }) {
                             </div>
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">Email</label>
+                                    <label class="label boldtext">Email</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">
@@ -82,7 +82,7 @@ function Register({ onRegister }) {
                             </div>
                             <div class="field is-horizontal">
                                 <div class="field-label is-normal">
-                                    <label class="label">Password</label>
+                                    <label class="label boldtext">Password</label>
                                 </div>
                                 <div class="field-body">
                                     <div class="field">
@@ -92,9 +92,11 @@ function Register({ onRegister }) {
                                     </div>
                                 </div>
                             </div>
-                            <div class="control">
-                                <button class="button is-primary">Register</button>
-                            </div>
+                            <button class="button is-medium is-fullwidth">
+                                <div class="menu-label has-text-centered">
+                                    <p class="lighttext ">Register</p>
+                                </div>
+                            </button>
                         </form>
                         <Feedback feedback={message} setFeedback={setMessage} />
                     </div>

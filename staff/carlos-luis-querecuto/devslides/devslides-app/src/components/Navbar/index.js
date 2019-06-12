@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
 import logic from '../../logic'
+import './index.sass'
 
 import Login from '../Login'
 
@@ -14,68 +15,50 @@ function Navbar({ history, onLogin, onLoginError }) {
     }
 
     return (
-        <nav class="navbar container" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <a class="navbar-item" onClick={() => history.push('/')}>
-                    DEVSLIDES
-                </a>
-
-                <a role="button" onClick={() => setToggleNav(!togglenav)} class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                    <span aria-hidden="true"></span>
-                </a>
-            </div>
-
-            <div id="navbarBasicExample" class={"navbar-menu"  + (togglenav ? "is-active" : "")}>
-                <div class="navbar-start">
-                    <a class="navbar-item">
-                        Home
-                </a>
-                    <a class="navbar-item">
-                        Documentation
-                </a>
-                    <div class="navbar-item has-dropdown is-hoverable">
-                        <a class="navbar-link">
-                            More
+        <nav class="navbar is-white navbar-shadow" role="navigation" aria-label="main navigation">
+            <div class="container navbar-shadow">
+                <div class="navbar-brand">
+                    <a class="navbar-item navbarLogo" onClick={() => history.push('/')}>
+                        {"</DEVSLIDES>"}
                     </a>
-                        <div class="navbar-dropdown">
-                            <a class="navbar-item">
-                                About
-                        </a>
-                            <a class="navbar-item">
-                                Jobs
-                        </a>
-                            <a class="navbar-item">
-                                Contact
-                        </a>
-                            <hr class="navbar-divider" />
-                            <a class="navbar-item">
-                                Report an issue
-                        </a>
-                        </div>
-                    </div>
+
+                    <a role="button" onClick={() => setToggleNav(!togglenav)} class="navbar-burger burger" aria-label="menu" aria-expanded="false" data-target="navbarBasicExample">
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </a>
                 </div>
-                <div class="navbar-end">
-                    <div class="navbar-item">
-                        {logic.isUserLoggedIn ? <div class="buttons">
-                            <a class="button is-light" onClick={() => history.push('/Personal/Profile')}>
-                                Profile
-                            </a>
-                            <a class="button is-light " onClick={() => handleLogout()}>
-                                Log Out
-                            </a>
-                        </div>
-                            :
-                            <div class="buttons">
-                                <a class="button is-light" onClick={() => history.push('/register')}>
-                                    Sign Up
-                            </a>
-                                <a class="button is-light " onClick={() => history.push('/login')}>
-                                    Log in
+
+                <div id="navbarBasicExample" class={"navbar-menu" + (togglenav ? "is-active" : "")}>
+                    <div class="navbar-start">
+                        <a class="navbar-item lighttext">
+                            HOME
+                        </a>
+                        <a class="navbar-item lighttext">
+                            DOCUMENTATION
+                        </a>
+                    </div>
+                    <div class="navbar-end">
+                        <div class="navbar-item">
+                            {logic.isUserLoggedIn ? <div class="buttons">
+                                <a class="button is-medium boldtext" onClick={() => history.push('/Personal/Profile')}>
+                                    Profile
+                                </a>
+                                <a class="button is-medium boldtext" onClick={() => handleLogout()}>
+                                    Log Out
                                 </a>
                             </div>
-                        }
+                                :
+                                <div class="buttons">
+                                    <a class="button is-medium boldtext" onClick={() => history.push('/register')}>
+                                        SIGN UP
+                                    </a>
+                                    <a class="button is-medium  boldtext" onClick={() => history.push('/login')}>
+                                        LOG IN
+                                    </a>
+                                </div>
+                            }
+                        </div>
                     </div>
                 </div>
             </div>

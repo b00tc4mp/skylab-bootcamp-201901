@@ -14,7 +14,7 @@ function Editor({ history, match }) {
     const [dbStyles, setdbStyles] = useState("")
     const [dbSlides, setdbSlides] = useState(null)
     const [slides, setSlides] = useState([])
-    const [actualSlide, setActualSlide] = useState(0)
+    const [onChangeStyle, setonChangeStyle] = useState(false)
     const [slidesCounter, setSlidesCounter] = useState(0)
     const [actualStyle, setActualstyle] = useState(null)
     const { params: { id } } = match
@@ -31,13 +31,16 @@ function Editor({ history, match }) {
         retrievePresentation()
     }
     useEffect(() => {
-
+        setonChangeStyle(false)
     }, [slidesCounter])
 
     async function updateSlide() {
-        const res = await logic.updateSlideStyles(id, dbSlides[slidesCounter]._id, actualStyle)
-        slidesEditor[slidesCounter]=actualStyle
-        console.log(res)
+        if(onChangeStyle){
+            const res = await logic.updateSlideStyles(id, dbSlides[slidesCounter]._id, actualStyle)
+            slidesEditor[slidesCounter]=actualStyle
+            console.log(res)
+            setonChangeStyle(false)
+        }
     }
 
     useEffect(() => {
@@ -63,36 +66,33 @@ function Editor({ history, match }) {
             setSlides(renderSlide)
         }
     }, [dbSlides]);
-
-
-    /* const handleStyle = (styles) => {
-        if (Globalstyles) {
-            let style = document.createElement('style');
-            style.type = "text/css"
-
-            style.innerHTML = styles
-            const ref = document.querySelector('.manager');
-            ref.parentNode.insertBefore(style, ref);
-        } else {
-            var style = document.querySelector('style');
-            style.innerHTML = styles
-        }
-        setGlobalstyles(styles)
-    } */
-
     return (<>
-        <section class="container   ">
+        <section class="container">
             <div class="columns">
                 <div class="column is-one-fifth">
                     <aside class="menu">
-                        <p class="menu-label" onClick={() => console.log(id)}>
-                            Editor
-                        </p>
-                        <button class="button is-primary" onClick={() => updateSlide()}>Update </button>
+                        <div class="menu-label" onClick={() => console.log(id)}>
+                            <nav class="level manager_menu">
+                                <div class="level-item has-text-centered">
+                                    <p >Editor</p>
+                                </div>
+                                <div class="level-item has-text-centered">
+                                    {onChangeStyle?
+                                        <button class="button is-small" onClick={() => updateSlide()}>
+                                            <p>UPDATE</p>
+                                        </button>
+                                        :
+                                        <button class="button is-small" disabled onClick={() => updateSlide()}>
+                                            <p>UPDATE</p>
+                                        </button>
+                                    }
+                                </div>
+                            </nav>                           
+                        </div>
+                        <Manager dbStyles={slidesEditor[slidesCounter]} setActualSlideStyle={setActualstyle} setonChangeStyle={setonChangeStyle} />
                     </aside>
-                    <Manager dbStyles={slidesEditor[slidesCounter]} setActualSlideStyle={setActualstyle} />
                 </div>
-                <div class="column is-four-fifths">
+                <div class="playground column is-four-fifths">
                     <Playground slideCounterSetter={setSlidesCounter} renderSlides={slides} presentationId={id} refreshSlide={refreshSlides} />
                 </div>
             </div>

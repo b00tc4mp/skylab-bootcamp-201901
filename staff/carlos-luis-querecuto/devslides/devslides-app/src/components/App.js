@@ -10,8 +10,8 @@ import Editor from '../components/Editor'
 import { Message } from './Contexts'
 
 import logic from '../logic'
-
 import 'bulma/bulma.sass'
+
 
 
 function App({history}) {

@@ -10,7 +10,8 @@ import Profile from './Profile'
 function Home({ history }) {
 
     return (<>
-        <section class="container   ">
+    <div class="home">
+        <section class="container">
             <div class="columns">
                 <div class="column is-one-fifth">
                     <aside class="menu">
@@ -31,6 +32,7 @@ function Home({ history }) {
                 </div>
             </div>
         </section>
+    </div>
     </>)
 }
 

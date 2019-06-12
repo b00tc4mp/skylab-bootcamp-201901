@@ -42,7 +42,55 @@ const logic = {
                 throw error
             }
         })()
+    },
 
+    updateUser(name, surname, username, email, password) {
+        validate.arguments([
+            { name: 'name', value: name, type: 'string', notEmpty: true },
+            { name: 'surname', value: surname, type: 'string', notEmpty: true },
+            { name: 'username', value: username, type: 'string', notEmpty: true },
+            { name: 'email', value: email, type: 'string', notEmpty: true },
+            { name: 'password', value: password, type: 'string', notEmpty: true },
+        ])
+
+        validate.email(email)
+
+        return (async () => {
+            try {
+                await api.updateUser(this.__userToken__, {name, surname, username, email, password})
+                return 'User Updated!'
+            }
+            catch (error) {
+                throw error
+            }
+        })()
+    },
+
+    retrieveUser() {
+        return (async () => {
+            try {
+                return await api.retrieveUser(this.__userToken__)
+            }
+            catch (error) {
+                throw error
+            }
+        })()
+    },
+
+    deleteUser(password) {
+        validate.arguments([
+            { name: 'password', value: password, type: 'string', notEmpty: true }
+        ])
+
+        return (async () => {
+            try {
+                await api.deleteUser(this.__userToken__, password)
+                return 'User Deleted!'
+            }
+            catch (error) {
+                throw error
+            }
+        })()
     },
 
     authenticateUser(username, password) {
@@ -123,6 +171,22 @@ const logic = {
         })()
     },
 
+    deleteSlide(presentationId, slideId) {
+        validate.arguments([
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
+            { name: 'slideId', value: slideId, type: 'string', notEmpty: true },
+        ])
+        return (async () => {
+            try {
+                const res = await api.deleteSlide(this.__userToken__,presentationId, slideId)
+                return res
+            }
+            catch (error) {
+                throw error
+            }
+        })()
+    },
+
     createElement(presentationId, slideId, style, type, content){
         validate.arguments([
             { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
@@ -142,6 +206,23 @@ const logic = {
         })()
     },
 
+    deleteElement(presentationId, slideId, elementId){
+        validate.arguments([
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
+            { name: 'slideId', value: slideId, type: 'string', notEmpty: true },
+            { name: 'elementId', value: elementId, type: 'string', notEmpty: true },
+        ])
+        return (async () => {
+            try {
+                const res = await api.deleteElement(this.__userToken__, presentationId, slideId, elementId)
+                return res
+            }
+            catch (error) {
+                throw error
+            }
+        })()
+    },
+
     updateSlideStyles(presentationId, slideId, style){
         validate.arguments([
             { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
@@ -151,6 +232,25 @@ const logic = {
         return (async () => {
             try {
                 const res = await api.updateSlideStyle(this.__userToken__, presentationId, slideId, style)
+                return res
+            }
+            catch (error) {
+                throw error
+            }
+        })()
+    },
+
+    updateSlideElement(presentationId, slideId, elementId, elementClass, elementContent){
+        validate.arguments([
+            { name: 'presentationId', value: presentationId, type: 'string', notEmpty: true },
+            { name: 'slideId', value: slideId, type: 'string', notEmpty: true },
+            { name: 'elementId', value: elementId, type: 'string', notEmpty: true },
+            { name: 'elementClass', value: elementClass, type: 'string', notEmpty: true },
+            { name: 'elementContent', value: elementContent, type: 'string', notEmpty: true }
+        ])
+        return (async () => {
+            try {
+                const res = await api.updateSlide(this.__userToken__, presentationId, [slideId], [{_id:elementId, type:elementClass,content:elementContent,style: "color: black"}])
                 return res
             }
             catch (error) {

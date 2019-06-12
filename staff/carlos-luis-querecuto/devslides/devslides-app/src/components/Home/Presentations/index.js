@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Route, withRouter, Switch } from 'react-router-dom'
 //import IntroLanding from './IntroLanding'
-import PresentationCard from './PresentationCard';
+import PresentationBoard from './PresentationBoard';
 import tippy from 'tippy.js'
 import 'tippy.js/themes/light.css'
 import './index.sass'
@@ -43,7 +43,9 @@ function Presentations() {
         } = e.target
         try {
             await logic.createPresentation(title)
-            setCards(await logic.retrievePresentations())
+            const _cards = await logic.retrievePresentations()
+            debugger
+            setCards(_cards)
         }
         catch (error) {
             console.log(error)
@@ -53,7 +55,8 @@ function Presentations() {
     const handleDelete = async (id) => {
         try {
             await logic.deletePresentation(id)
-            setCards(await logic.retrievePresentations())
+            const _cards = await logic.retrievePresentations()
+            setCards(_cards)
         }
         catch (error) {
             console.log(error)
@@ -63,29 +66,30 @@ function Presentations() {
 
 
     return (<section >
+
         <form id="presentationForm" class="breadcrumb is-centered" aria-label="breadcrumbs" onSubmit={e => handleCreate(e)} >
-            <div class="field is-horizontal" >
-        
-                <div class="field-body">
-                    <div class="field">
-                        <p class="control">
-                            <input class="input" name="title" />
-                        </p>
-                    </div>
+            <div class="menu-label">
+                <div class="has-text-centered">
+                    <p >title</p>
                 </div>
-                <div>
-                    <button class="button is-primary">Create</button>
-                </div>
+                <input class="input" name="title" />
             </div>
+            <button class="button is-medium is-fullwidth">
+                <div class="menu-label has-text-centered" >
+                    <p >CREATE</p>
+                </div>
+            </button>
         </form>
         <nav class="level">
-            <p class="level-item has-text-centered">
-                <a id="createPresentation"  class="button is-primary">Create Presentation</a>
-            </p>
+            <button id="createPresentation" class="button is-medium is-fullwidth">
+                <div class="menu-label has-text-centered">
+                    <p >New Presentation</p>
+                </div>
+            </button>
         </nav>
         <div class="breadcrumb is-centered">
             <section class="container">
-                {!cards ? <div></div> : cards.length > 0 ? <PresentationCard presentations={cards} deletepresentation={handleDelete} /> : "No presentations"}
+                {!cards ? <div></div> : (cards.length > 0 ? <PresentationBoard presentations={cards} deletepresentation={handleDelete} /> : "No presentations")}
             </section>
         </div>
     </section>)

@@ -1,36 +1,47 @@
 import React, { useState, useEffect } from 'react'
-import Element from './Element'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { Carousel } from 'react-responsive-carousel'
 import 'tippy.js/themes/light.css'
 import tippy from 'tippy.js'
 import logic from '../../../logic'
 import Slide from './Slide'
 
+import { faWindowMaximize } from "@fortawesome/free-regular-svg-icons";
+import { faWindowClose } from "@fortawesome/free-regular-svg-icons";
+
 import 'react-responsive-carousel/lib/styles/carousel.css'
 
 import './index.sass'
 
-function Playground({ slideCounterSetter, refreshSlide , renderSlides, presentationId }) {
+function Playground({ slideCounterSetter, refreshSlide, renderSlides, presentationId }) {
     const [slides, setSlides] = useState([])
     const [syncreate, setsyncCreate] = useState([])
     const [domlist, setDomlist] = useState([])
     const [actual, setactual] = useState(0)
 
-    const handleCreate = () => {
-        //const basic = React.createElement('div', { key:this.state.domlist.length , className: 'basic', onClick:this.handleclick }, 'hola');
-        const basic = <Element key={domlist.length} />
-        setDomlist(domlist.concat(basic))
-    }
+    /*  const handleCreate = () => {
+         const basic = <Element key={domlist.length} />
+         setDomlist(domlist.concat(basic))
+     } */
 
-    useEffect(()=>{
+    useEffect(() => {
         slideCounterSetter(actual)
-    },[actual])
+    }, [actual])
+
+
+    const handleDeleteSlide = async () => {
+        if (actual > 0) {
+            setactual(actual - 1)
+            await logic.deleteSlide(presentationId, renderSlides[actual]._id)
+            refreshSlide()
+        }
+    }
 
     const handleCreateSlide = async () => {
-        await logic.createSlide(presentationId,`.Slide-${slides.length}{\nbackground-color: white \n} `)
+        await logic.createSlide(presentationId, `.Slide-${slides.length}{\nbackground-color: white \n} `)
         refreshSlide()
     }
-        //const basic = React.createElement('div', { key:this.state.domlist.length , className: 'basic', onClick:this.handleclick }, 'hola');
+    //const basic = React.createElement('div', { key:this.state.domlist.length , className: 'basic', onClick:this.handleclick }, 'hola');
     /* useEffect(() => {
         const template = document.querySelector('.slideForm')
         tippy('.createSlide', {
@@ -44,13 +55,15 @@ function Playground({ slideCounterSetter, refreshSlide , renderSlides, presentat
     }, []) */
 
     useEffect(() => {
-        if(renderSlides && slides.length<renderSlides.length){
+        if (renderSlides && slides.length < renderSlides.length) {
             renderSlides.forEach((element) => {
-                const dbsync = slides.concat(<Slide 
-                    presentationId={presentationId} 
-                    slideid={renderSlides[slides.length]._id} 
-                    slideClass={renderSlides[slides.length].class} 
-                    elements={renderSlides[slides.length].elements} 
+                const dbsync = slides.concat(<Slide
+                    presentationId={presentationId}
+                    slideid={renderSlides[slides.length]._id}
+                    slideClass={renderSlides[slides.length].class}
+                    elements={renderSlides[slides.length].elements}
+                    refreshSlide={refreshSlide}
+
                 />)
                 // const dbsync = slides.concat(<Slide slideClass={element.class} elements={renderSlides[slides.length].elements} />)
                 /* const dbsync = slides.concat(
@@ -60,46 +73,39 @@ function Playground({ slideCounterSetter, refreshSlide , renderSlides, presentat
                         </div>
                     </div>)
                     ) */
-                setSlides(dbsync) 
+                setSlides(dbsync)
             })
-        } 
+        }
     }, [slides])
 
     useEffect(() => {
-        if(renderSlides){
-            setSlides([]) 
-        } 
+        if (renderSlides) {
+            setSlides([])
+        }
     }, [renderSlides])
 
     return (<>
-        <nav class="navbar" role="navigation" aria-label="main navigation">
-            <div class="navbar-brand">
-                <h1 class="navbar-item">
-                    DEVSLIDES
-                </h1>
-            </div>
-
+        <nav  role="navigation" aria-label="main navigation">
             <div id="navbarBasicExample" class="navbar-menu">
                 <div class="navbar-start">
-                    <a class="navbar-item" onClick={handleCreate}>
-                        Element
+                    <a class="slide_options navbar-item" onClick={handleCreateSlide} >
+                        <FontAwesomeIcon icon={faWindowMaximize} size="2x" color="#A6A6A6"/>
                     </a>
-
-                    <a class="createSlide navbar-item" onClick={handleCreateSlide} >
-                        Slide
+                    <a class="slide_options navbar-item" onClick={handleDeleteSlide} >
+                        <FontAwesomeIcon icon={faWindowClose} size="2x" color="#A6A6A6" />
                     </a>
                 </div>
             </div>
         </nav>
         <div class="container">
             <Carousel showThumbs={false}
-            onChange={(index) => setactual(index)}
-            selectedItem={actual}
-            showStatus={false}
-            useKeyboardArrows
-            className="presentation-mode"
+                onChange={(index) => setactual(index)}
+                selectedItem={actual}
+                showStatus={false}
+                /* useKeyboardArrows */
+                className="presentation-mode"
             >
-            {slides}
+                {slides}
             </Carousel>
         </div>
         {/* <Carousel showThumbs={false}
