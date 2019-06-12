@@ -3,6 +3,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faHome, faSearch, faEye } from "@fortawesome/free-solid-svg-icons"
 import { Link } from 'react-router-dom'
 
+import logo from '../../img/logo.png'
+
 function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToLogin, onGoToRegister}) {
 
     function handleSearch(e) {
@@ -40,7 +42,8 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToLo
 
                 <div className="menu__topbar__left">
                     <Link to="/">
-                        <FontAwesomeIcon icon={faEye} className="menu__topbar__left__logo"/>
+                        {/* <FontAwesomeIcon icon={faEye} className="menu__topbar__left__logo"/> */}
+                        <img src={logo} alt="la clave salsa" />
                     </Link>
                     <form onSubmit={handleSearch} className="menu__topbar__left__search">                   
                         <FontAwesomeIcon icon={faSearch} className="menu__topbar__left__search-icon" />
