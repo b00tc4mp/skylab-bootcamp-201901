@@ -4,9 +4,7 @@ import './index.scss'
 
 
 function Category({ products, onLogin, addCart }) {
-   
-
-
+    
     return <>
         <section className="category" onClick={e => e.preventDefault()}>
             {!logic.isUserLoggedIn && <p>Para añadir productos tienes que <a href="#" onClick={() => onLogin()}><strong>Inicar sesión</strong></a></p>}
@@ -25,7 +23,7 @@ function Category({ products, onLogin, addCart }) {
                                     <div className="column is-three-fifths-mobile">
                                         <h2>{title}</h2>
                                         <p>{description}</p>
-                                        {logic.isUserLoggedIn && <button className="button" onClick={() =>  addCart(id)}>Añadir</button>}
+                                        {logic.isUserLoggedIn && <button className="button" onClick={() => addCart(id)}>Añadir</button>}
                                     </div>
                                 </div>
                                 <hr></hr>

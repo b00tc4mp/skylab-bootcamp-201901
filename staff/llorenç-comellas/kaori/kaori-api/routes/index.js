@@ -26,7 +26,7 @@ router.post('/users/auth', jsonParser, (req, res) => {
     handleErrors(async () => {
         const sub = await logic.authenticateUser(email, password)
 
-        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '2h' })
+        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '24h' })
         return res.json({ token })
 
     }, res)

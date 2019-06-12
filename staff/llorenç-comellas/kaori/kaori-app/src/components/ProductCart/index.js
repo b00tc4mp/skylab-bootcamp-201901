@@ -12,7 +12,7 @@ function ProductCart({ items, deleteCart, onTokenSucces }) {
                 {
                     items && items.map(({ product, quantity }) => {
                         cost += product.price * quantity
-                       
+                        
                         return <>
                             <li key={product.id} className="" >
                                 <div className="columns is-mobile">
@@ -30,9 +30,11 @@ function ProductCart({ items, deleteCart, onTokenSucces }) {
                                     </div>
                                 </div>
                                 <hr></hr>
+                               
                             </li>
                         </>
                     })
+                    
                 }
             </ul>
             {items[0] && <p>TOTAL: <strong>{cost.toFixed(2) + '€'}</strong></p>}

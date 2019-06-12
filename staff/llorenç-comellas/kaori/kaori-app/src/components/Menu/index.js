@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import logic from '../../logic'
 import SelectCategory from '../SelectCategory'
 import Category from '../Category'
-import { Route, withRouter , Redirect} from 'react-router-dom'
+import { Route, withRouter } from 'react-router-dom'
 
 
 class Menu extends Component {
@@ -25,6 +25,7 @@ class Menu extends Component {
     handleLoginNavigation = () => this.props.history.push('/login')
 
     handleCart = id => {
+        
         try {
             logic.addToCart(id)
             .catch(error =>

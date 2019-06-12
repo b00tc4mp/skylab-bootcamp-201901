@@ -3,14 +3,13 @@ import logic from '../../logic'
 import ProductCart from '../ProductCart'
 import PayamentMessage from '../PayamentMessage'
 
-import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
+import { Route, withRouter, Redirect } from 'react-router-dom'
 
 class Cart extends Component {
     state = { error: null, cart: [], pay: false }
 
     retrieve = () => {
         try {
-
             logic.retrieveCart()
 
                 .then((res) => { this.setState({ cart: res }) })

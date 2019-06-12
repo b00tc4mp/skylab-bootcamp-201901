@@ -24,6 +24,8 @@ function Nav({ onHome, onMenu, onCart, onLogout }) {
 
     })
 
+
+
     return <>
 
         < nav className="navbar is-transparent" onClick={e => e.preventDefault()} >
@@ -36,8 +38,10 @@ function Nav({ onHome, onMenu, onCart, onLogout }) {
                     <span></span>
 
                 </div>
+
                 <span className="icon">
                     <i className="fas fa-shopping-cart" onClick={() => onCart()}></i>
+
                 </span>
             </div>
 
@@ -54,11 +58,8 @@ function Nav({ onHome, onMenu, onCart, onLogout }) {
                     </div>
                 </div>
             </div>
-
-
-
         </nav>
-
+        
     </>
 }
 

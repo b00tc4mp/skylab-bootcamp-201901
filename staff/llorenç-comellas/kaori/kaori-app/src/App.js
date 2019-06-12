@@ -13,7 +13,7 @@ import { Route, withRouter, Redirect, Switch } from 'react-router-dom'
 
 class App extends Component {
 
-  state = { error: null }
+  state = { error: null ,itemsQuantity:null }
 
   handleHome = () => this.props.history.push('/')
 
@@ -66,7 +66,7 @@ class App extends Component {
 
   render() {
     const {
-      state: { error },
+      state: { error, itemsQuantity},
       handleHome,
       handleMenu,
       handleCart,
