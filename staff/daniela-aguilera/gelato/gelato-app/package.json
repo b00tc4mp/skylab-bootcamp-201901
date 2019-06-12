@@ -13,6 +13,7 @@
     "qrious": "^4.0.2",
     "react": "16.8.6",
     "react-dom": "16.8.6",
+    "react-google-maps": "^9.4.5",
     "react-router-dom": "5.0.0",
     "react-scripts": "3.0.1",
     "react-stripe-checkout": "2.6.3"
@@ -20,10 +21,10 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --runInBand",
     "eject": "react-scripts eject",
-    "test:debug2": "react-scripts debug test --runInBand --no-cache",
-    "test:debug": "node --inspect-brk node_modules/jest/bin/jest.js --runInBand --watchAll"
+    "test:debug": "react-scripts debug test --runInBand --no-cache",
+    "test:coverage": "react-scripts test --coverage --runInBand --watchAll=false"
   },
   "browserslist": {
     "production": [
@@ -41,5 +42,24 @@
     "gelato-data": "file:../gelato-data",
     "jsonwebtoken": "8.5.1",
     "node-sass": "4.12.0"
+  },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/api/*.js",
+      "src/logic/*.js",
+      "!<rootDir>/node_modules/"
+    ],
+    "coverageThreshold": {
+      "global": {
+        "branches": 60,
+        "functions": 60,
+        "lines": 60,
+        "statements": 60
+      }
+    },
+    "coverageReporters": [
+      "text",
+      "html"
+    ]
   }
 }

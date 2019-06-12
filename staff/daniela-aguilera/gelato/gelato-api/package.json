@@ -10,7 +10,7 @@
     "debug": "node debug src",
     "test": "mocha src/**/*.test.js",
     "test:debug": "mocha debug src/**/*.test.js",
-    "test:coverage": "nyc --reporter=text --reporter=html mocha $(find src -name *.test.js)"
+    "test:coverage": "nyc --reporter=text --reporter=html --include=src/logic mocha $(find src -name *.test.js)"
   },
   "author": "",
   "license": "ISC",

@@ -22,7 +22,6 @@ router.post('/user', jsonParser, (req, res) => {
 
 router.post('/user/auth', jsonParser, (req, res) => {
   const { body: { email, password } } = req
-
   handleErrors(async () => {
     const { id, superUser } = await logic.authenticateUser(email, password)
     const token = jwt.sign({ sub: id, adm: superUser }, JWT_SECRET, { expiresIn: '10h' })
@@ -75,12 +74,21 @@ router.get('/user/orders', auth, (req, res) => {
   }, res)
 })
 
-router.get('/user/order/:id', auth, jsonParser, (req, res) => {
-  const { userId } = req
+// router.get('/user/order/:id', auth, jsonParser, (req, res) => {
+//   const { userId } = req
+//   const { id } = req.params
+
+//   handleErrors(async () => {
+//     const order = await logic.retrieveOneOrderByOrderId({ orderId: id, userId })
+//     return res.json(order)
+//   }, res)
+// })
+
+router.get('/user/order/:id', jsonParser, (req, res) => {
   const { id } = req.params
 
   handleErrors(async () => {
-    const order = await logic.retrieveOneOrderByOrderId({ orderId: id, userId })
+    const order = await logic.retrieveOneOrderByOrderId({ orderId: id })
     return res.json(order)
   }, res)
 })

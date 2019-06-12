@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Redirect } from 'react-router-dom'
 import logic from '../../logic'
 import { Loading } from '../Loading'
@@ -46,21 +46,21 @@ export function AllStoreOrders () {
             <div className='card' key={order.id}>
               <header className='card-header'>
                 <p className='card-header-title'>
-    Client order:
+                Client order:
                 </p>
               </header>
               <div className='card-content'>
-                <div className='content'>
-                  <p className='subtitle is-6'>OrderId: {order.id}</p>
-                  <p className='subtitle is-6'>Type: {order.type}</p>
-                  <p className='subtitle is-6'>Size: {order.size}</p>
-                  <p className='subtitle is-6'>Flavors: {order.flavors.join(', ')}</p>
-                  <p className='subtitle is-6'>Price: {order.totalPrice} $</p>
-                  <p className='subtitle is-6'>Status: {order.status}</p>
+                <div className='content-store-orders'>
+                  <p className='subtitle is-6'><span className='order-store-span'>OrderId:</span> {order.id}</p>
+                  <p className='subtitle is-6'><span className='order-store-span'>Type: </span>{order.type}</p>
+                  <p className='subtitle is-6'><span className='order-store-span'>Size: </span> {order.size}</p>
+                  <p className='subtitle is-6'><span className='order-store-span'>Flavors: </span> {order.flavors.join(', ')}</p>
+                  <p className='subtitle is-6'><span className='order-store-span'>Price: </span> {order.totalPrice} $</p>
+                  <p className='subtitle is-6'><span className='order-store-span'>Status: </span>{order.status}</p>
                 </div>
               </div>
               <footer className='card-footer'>
-                <button className='card-footer-item' onClick={(e) => {
+                <button className='button is-danger is-fullwidth' onClick={(e) => {
                   e.preventDefault()
                   handleDeleteSubmit(order.id)
                 }}>Delete</button>

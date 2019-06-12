@@ -125,18 +125,11 @@ describe('logic', () => {
   describe('authenticate user', () => {
     let user
 
-    // beforeEach(() =>
-    //   bcrypt.hash(password, 10)
-    //     .then(hash => User.create({ name, email, password: hash }))
-    // )
-
     beforeEach(async () => {
       const hash = await bcrypt.hash(password, 10)
       user = await User.create({ name, surname, email, password: hash
       })
     })
-
-    // beforeEach(async () => { user = await User.create({ name, surname, email, password }) })
 
     it('should succeed on correct credentials', async () => {
       const { id, superUser } = await logic.authenticateUser(email, password)
@@ -188,6 +181,24 @@ describe('logic', () => {
         await logic.retrieveUserBy(id)
       } catch (error) {
         expect(error.message).to.equal(`Cast to ObjectId failed for value "${id}" at path "_id" for model "User"`)
+      }
+    })
+
+    it('should fail retrieving an existing user sending an array as id', async () => {
+      const id = []
+      try {
+        await logic.retrieveUserBy(id)
+      } catch (error) {
+        expect(error.message).to.equal(`id  is not a string`)
+      }
+    })
+
+    it('should fail retrieving an existing user with undefined id', async () => {
+      const id = undefined
+      try {
+        await logic.retrieveUserBy(id)
+      } catch (error) {
+        expect(error.message).to.equal('id is not optional')
       }
     })
   })
@@ -493,7 +504,7 @@ describe('logic', () => {
       await Promise.all(gelatos.map(async gelato => orders.push(await Order.create(gelato))))
     })
     it('should success by retorning one order by order id', async () => {
-      const oneOrder = await logic.retrieveOneOrderByOrderId({ orderId: orders[0].id, userId: user.id })
+      const oneOrder = await logic.retrieveOneOrderByOrderId({ orderId: orders[0].id })
       expect(oneOrder[0].type).to.exist
       expect(oneOrder).to.have.length(1)
       expect(oneOrder[0].id).to.be.equal(orders[0].id)
@@ -503,16 +514,16 @@ describe('logic', () => {
     it('should fail by retorning one order by non-existent order id', async () => {
       const fakeId = '692837982630'
       try {
-        await logic.retrieveOneOrderByOrderId({ orderId: fakeId, userId: user.id })
+        await logic.retrieveOneOrderByOrderId({ orderId: fakeId })
       } catch (error) {
-        expect(error.message).to.equal('order Id not found')
+        expect(error.message).to.equal('order not found')
       }
     })
 
     it('should fail by retorning one order by empty order id', async () => {
       const emptyId = ' \t    \n'
       try {
-        await logic.retrieveOneOrderByOrderId({ orderId: emptyId, userId: user.id })
+        await logic.retrieveOneOrderByOrderId({ orderId: emptyId })
       } catch (error) {
         expect(error.message).to.equal('orderId is empty')
       }
@@ -521,7 +532,7 @@ describe('logic', () => {
     it('should fail by retorning one order by empty order id', async () => {
       const undefinedId = undefined
       try {
-        await logic.retrieveOneOrderByOrderId({ orderId: undefinedId, userId: user.id })
+        await logic.retrieveOneOrderByOrderId({ orderId: undefinedId })
       } catch (error) {
         expect(error.message).to.equal('orderId is not optional')
       }
@@ -530,18 +541,34 @@ describe('logic', () => {
     it('should fail by retorning one order by sending random numbers instead of the order id in string', async () => {
       const randomNumbersId = 7373733
       try {
-        await logic.retrieveOneOrderByOrderId({ orderId: randomNumbersId, userId: user.id })
+        await logic.retrieveOneOrderByOrderId({ orderId: randomNumbersId })
       } catch (error) {
-        console.log(error.message)
         expect(error.message).to.equal(`orderId ${randomNumbersId} is not a string`)
       }
     })
   })
 
-  afterAll(async () => {
+  // describe('update user', () => {
+  //   beforeEach(async () => {
+  //     await User.create({ name, surname, email, password })
+  //   })
+
+  //   it('should success by updating an user', async () => {
+  //     debugger
+  //     const { id } = await logic.authenticateUser({ email, password })
+  //     debugger
+  //     const data = {
+  //       name: 'daniela'
+  //     }
+  //     const res = await logic.updateUser({ id, data })
+  //     debugger
+  //   })
+  // })
+
+  after(async () => {
     await User.deleteMany()
     await Order.deleteMany()
-    mongoose.disconnect()
+    await mongoose.disconnect()
   })
 
   // after(() => mongoose.disconnect())

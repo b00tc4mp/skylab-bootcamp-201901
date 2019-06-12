@@ -57,7 +57,7 @@ export function UserProfile ({ history }) {
   return (
     <Fragment>
       <div>
-        <h1><strong>Update your profile, {user.name}</strong></h1>
+        <h1>Update your profile, <strong className='userName'> {user.name}</strong></h1>
         {
           notification.msg && <article className={notificationClassName}>
             <div className='message-body'>

@@ -9,7 +9,6 @@ export function Events () {
   useEffect(function () {
     async function getEvents () {
       const events = await logic.retrieveEvents()
-      console.log(events)
       setEvents(events)
     }
 
@@ -22,7 +21,6 @@ export function Events () {
   }
 
   const deleteEvent = async (eventId) => {
-    debugger
     await logic.deleteEvent(eventId)
     setDeletedEvent(false)
     setDisableButton(false)
@@ -30,7 +28,7 @@ export function Events () {
 
   return (
     <div>
-      <h1 className='title'>Events</h1>
+      <h1 className='title-event'>Don't Miss Our Upcoming <span className='getato-event'>Getato</span> Events! </h1>
       {
         events.map(function (e) {
           return (
@@ -42,7 +40,6 @@ export function Events () {
                 <h1 className='subtitle is-marginless'>{e.title}</h1>
                 <strong>{renderDate(e.date)}</strong>
                 <p>{e.description}</p>
-                <p>{e.id}</p>
               </div>
               {logic.__userIsAdmin__ && !disableButton && <button className='button is-primary' onClick={(event) => {
                 event.preventDefault()

@@ -51,7 +51,6 @@ export default {
 
     const response = await restApi.authenticateUser(email, password)
     if (response) {
-      console.log(response.isAdmin)
       const { token, isAdmin } = response
       this.__userToken__ = token
       this.__userIsAdmin__ = isAdmin
@@ -114,8 +113,12 @@ export default {
     return restApi.retrieveOrdersByUserId(this.__userToken__)
   },
 
+  // retrieveOneOrder (id) {
+  //   return restApi.retrieveOneOrder(this.__userToken__, id)
+  // },
+
   retrieveOneOrder (id) {
-    return restApi.retrieveOneOrder(this.__userToken__, id)
+    return restApi.retrieveOneOrder(id)
   },
 
   removeOneOrderBy (id) {

@@ -37,6 +37,7 @@ export function OrderForm () {
   const [type, setType] = useState(null)
   const [size, setSize] = useState(null)
   const [step, setStep] = useState(0)
+  const [orderId, setOrderId] = useState(null)
 
   const handleTypeChange = e => {
     const { value } = e.target
@@ -93,7 +94,6 @@ export function OrderForm () {
       <h2 className='subtitle is-3'>Select your type!</h2>
       {
         Object.keys(TYPES).map(typeId => {
-          console.log(typeId)
           const { price } = TYPES[typeId]
           const id = `TYPE-${typeId}`
           return (
@@ -166,7 +166,6 @@ export function OrderForm () {
           Object.keys(FLAVORS).map(flavorId => {
             const { literal } = FLAVORS[flavorId]
             const id = `flavor-${flavorId}`
-            console.log(id)
             return (
               <Fragment key={id}>
                 <input
@@ -235,7 +234,8 @@ export function OrderForm () {
 
   if (step === 4) {
     return (
-      <Redirect to='/my-basket' />
+      // <Redirect to='/my-basket' />
+      <Redirect to='/store/map' />
     )
   }
 

@@ -167,7 +167,6 @@ const logic = {
     if (!isAdmin) throw new UnauthorizedError('You do not have permission to do this')
 
     let allOrders = await Order.find().sort('-date').populate('client', 'name').lean()
-    console.log(allOrders)
 
     if (allOrders.length >= 1) {
       allOrders.forEach(order => {
@@ -175,7 +174,7 @@ const logic = {
         delete order._id
         const { client } = order
 
-        if (client !== null) {
+        if (client !== null && client._id) {
           client.id = client._id.toString()
           delete client._id
         }
@@ -184,13 +183,12 @@ const logic = {
 
     return allOrders
   },
-
-  retrieveOneOrderByOrderId ({ orderId, userId }) {
+  retrieveOneOrderByOrderId ({ orderId }) {
     validate.arguments([
       { name: 'orderId', value: orderId, type: 'string', notEmpty: true }
     ])
     return (async () => {
-      const order = await Order.find({ _id: orderId, client: userId })
+      const order = await Order.find({ _id: orderId })
       if (order.length >= 1) {
         const [{ client }] = order
         client.id = client._id.toString()
@@ -201,7 +199,7 @@ const logic = {
           delete order._id
         })
       } else {
-        throw new LogicError('order Id not found')
+        throw new LogicError('order not found')
       }
       return order
     })()
@@ -245,7 +243,6 @@ const logic = {
 
   async retrieveEvents () {
     const events = await Event.find().lean()
-    console.log(events)
 
     events.forEach(event => {
       if (event._id) {

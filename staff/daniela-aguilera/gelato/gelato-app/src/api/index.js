@@ -106,15 +106,15 @@ const restApi = {
     })
   },
 
-  retrieveOneOrder (token, id) {
+  retrieveOneOrder (id) {
     validate.arguments([
-      { name: 'token', value: token, type: 'string', notEmpty: true },
+      // { name: 'token', value: token, type: 'string', notEmpty: true },
       { name: 'id', value: id, type: 'string', notEmpty: true }
     ])
 
     return call(`${this.__url__}/user/order/${id}`, {
       method: 'GET',
-      headers: { Authorization: `Bearer ${token}` },
+      // headers: { Authorization: `Bearer ${token}` },
       timeout: this.__timeout__
     })
   },

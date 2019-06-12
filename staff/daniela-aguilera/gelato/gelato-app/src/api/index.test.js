@@ -1,12 +1,12 @@
 const { default: restApi } = require('.')
 const { User, Order, mongoose } = require('gelato-data')
-const { env: { MONGO_URL_LOGIC_TEST } } = process
+const { env: { MONGO_URL_TEST } } = process
 const faker = require('faker')
 
 describe('rest api', () => {
   let name, surname, email, password, name1, surname1, email1, password1
 
-  beforeAll(() => mongoose.connect(MONGO_URL_LOGIC_TEST, { useNewUrlParser: true }))
+  beforeAll(() => mongoose.connect(MONGO_URL_TEST, { useNewUrlParser: true }))
 
   beforeEach(async () => {
     await User.deleteMany()
@@ -195,10 +195,7 @@ describe('rest api', () => {
 
     it('should succeed retrieving an existing user with correct id', async () => {
       const _token = await restApi.authenticateUser(email, password)
-      // let { sub } = jwt.decode(_token.token)
-
       const _user = await restApi.retrieveUser(_token.token)
-      // expect(_user.id).toBe(undefined)
       expect(_user.name).toEqual(name)
       expect(_user.surname).toEqual(surname)
       expect(_user.email).toEqual(email)
@@ -249,7 +246,6 @@ describe('rest api', () => {
 
     it('should succeed adding an order on existing user', async () => {
       const res = await restApi.authenticateUser(email, password)
-      // let { sub } = jwt.decode(res.token)
       let _token = res.token
 
       let type = 'cone'
@@ -413,7 +409,6 @@ describe('rest api', () => {
     })
 
     it('should fail eliminating an existing user with empty token', async () => {
-      // const res = await restApi.authenticateUser(email, password)
       let _token
       try {
         await restApi.deleteUser(_token)
@@ -423,7 +418,6 @@ describe('rest api', () => {
     })
 
     it('should fail eliminating an existing user with empty wrong token', async () => {
-      // const res = await restApi.authenticateUser(email, password)
       let _token = '82368926321'
       try {
         await restApi.deleteUser(_token)
@@ -544,60 +538,8 @@ describe('rest api', () => {
       await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
       const allorders = await restApi.retrieveOrdersByUserId(userToken)
       const orderId = allorders[0].id
-      const retrievedOrderByUserAndOrderId = await restApi.retrieveOneOrder(userToken, orderId)
+      const retrievedOrderByUserAndOrderId = await restApi.retrieveOneOrder(orderId)
       expect(retrievedOrderByUserAndOrderId).toHaveLength(1)
-    })
-
-    it('should fail retrieving one order by undefined token', async () => {
-      try {
-        const _token = await restApi.authenticateUser(email, password)
-        const userToken = undefined
-        let type = 'cone'
-        let size = 'big'
-        let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        let totalPrice = 12
-
-        await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
-        const allorders = await restApi.retrieveOrdersByUserId(userToken)
-        const orderId = allorders[0].id
-        await restApi.retrieveOneOrder(userToken, orderId)
-      } catch (error) {
-        expect(error.message).toBe('token is not optional')
-      }
-    })
-
-    it('should fail retrieving one order by empty token', async () => {
-      try {
-        const _token = await restApi.authenticateUser(email, password)
-        const userToken = ' \t    \n'
-        let type = 'cone'
-        let size = 'big'
-        let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        let totalPrice = 12
-        await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
-        const allorders = await restApi.retrieveOrdersByUserId(userToken)
-        const orderId = allorders[0].id
-        await restApi.retrieveOneOrder(userToken, orderId)
-      } catch (error) {
-        expect(error.message).toBe('token is empty')
-      }
-    })
-
-    it('should fail retrieving one order by sending and object as token', async () => {
-      try {
-        const _token = await restApi.authenticateUser(email, password)
-        const userToken = []
-        let type = 'cone'
-        let size = 'big'
-        let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-        let totalPrice = 12
-        await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
-        const allorders = await restApi.retrieveOrdersByUserId(userToken)
-        const orderId = allorders[0].id
-        await restApi.retrieveOneOrder(userToken, orderId)
-      } catch (error) {
-        expect(error.message).toBe('token  is not a string')
-      }
     })
 
     it('should fail retrieving one order by sending and object as orderId', async () => {
@@ -610,7 +552,7 @@ describe('rest api', () => {
         let totalPrice = 12
         await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
         const orderId = []
-        await restApi.retrieveOneOrder(userToken, orderId)
+        await restApi.retrieveOneOrder(orderId)
       } catch (error) {
         expect(error.message).toBe('id  is not a string')
       }
@@ -626,7 +568,7 @@ describe('rest api', () => {
         let totalPrice = 12
         await restApi.addOrder(_token.token, flavors, size, type, totalPrice)
         const orderId = '\t    \n'
-        await restApi.retrieveOneOrder(userToken, orderId)
+        await restApi.retrieveOneOrder(orderId)
       } catch (error) {
         expect(error.message).toBe('id is empty')
       }
@@ -642,7 +584,7 @@ describe('rest api', () => {
         let totalPrice = 12
         await restApi.addOrder(userToken, flavors, size, type, totalPrice)
         const orderId = undefined
-        await restApi.retrieveOneOrder(userToken, orderId)
+        await restApi.retrieveOneOrder(orderId)
       } catch (error) {
         expect(error.message).toBe('id is not optional')
       }
@@ -828,13 +770,9 @@ describe('rest api', () => {
   })
 
   describe('retrieve all users orders', () => {
-    let type, type2, size, size2, flavors, flavors2, totalPrice, totalPrice2, userToken, userToken2
-    
+    let type, type2, size, size2, flavors, flavors2, totalPrice, totalPrice2, userToken, userToken1
+
     beforeEach(async () => {
-    })
-    
-    it('should succeed retrieving all users orders', async () => {
-      debugger
       type = faker.commerce.product()
       type2 = faker.commerce.product()
       size = faker.commerce.productAdjective()
@@ -846,47 +784,71 @@ describe('rest api', () => {
       await restApi.registerUser(name, surname, email, password)
       await restApi.registerUser(name1, surname1, email1, password1)
       const _token = await restApi.authenticateUser(email, password)
-      debugger
-
       const _token1 = await restApi.authenticateUser(email1, password1)
-      debugger
       userToken = _token.token
-      userToken2 = _token1.token
-      debugger
+      userToken1 = _token1.token
       await restApi.addOrder(userToken, flavors2, size2, type2, totalPrice)
-      await restApi.addOrder(userToken2, flavors, size, type, totalPrice2)
-      // let type = 'cones'
-      // let type2 = 'tarrina'
-      // let size = 'big'
-      // let size2 = 'small'
-      // let flavors = ['vanilla', 'chocolate', 'blackberry rosé']
-      // let flavors2 = ['lemon', 'strawberry', 'cheesecake']
-      // let totalPrice = 12
-
-      const allUsersOrders = await restApi.retrieveAllUsersOrders()
-      debugger
-      expect(allUsersOrders).toBeDefined()
-      expect(allUsersOrders).toHaveLength(2)
-      expect(allUsersOrders[0].type).toBe(type2)
-      expect(allUsersOrders[0].size).toBe(size2)
-      expect(allUsersOrders[1].type).toBe(type)
-      expect(allUsersOrders[1].size).toBe(size)
+      await restApi.addOrder(userToken1, flavors, size, type, totalPrice2)
+    })
+    it('should succeed retrieving all users orders', async () => {
+      const data = { superUser: 'true', name: 'daniela' }
+      const user = await User.findOne({ email })
+      const id = user.id
+      await User.findByIdAndUpdate(id, data)
+      const _token2 = await restApi.authenticateUser(email, password)
+      const orders = await restApi.retrieveAllUsersOrders(_token2.token)
+      expect(orders).toBeDefined()
     })
 
-    it('should succeed retrieving all users orders', async () => {
+    it('should fail retrieving all users orders', async () => {
       try {
-        await restApi.authenticateUser(email, password)
-        await restApi.authenticateUser(email1, password1)
-        await restApi.retrieveAllUsersOrders()
+        await restApi.retrieveAllUsersOrders(userToken1)
       } catch (error) {
-        expect(error.message).toBe("Sorry, you don't have any order")
+        expect(error.message).toBe('You do not have permission to do this')
       }
     })
   })
-  afterAll(async () => {
-    await User.deleteMany()
-    await Order.deleteMany()
-    mongoose.disconnect()
+
+  describe('update user', () => {
+    const data = { name: 'Test', surname: 'Aguilera' }
+    let token
+
+    beforeEach(async () => {
+      email = `daniela-${Math.random()}@gmail.com`
+      password = `Pass-${Math.random()}`
+
+      await restApi.registerUser(name, surname, email, password)
+      token = await restApi.authenticateUser(email, password)
+    })
+
+    it('should succeed on correct credentials', async () => {
+      await restApi.updateUser(token.token, data)
+      const user = await User.findOne({ email })
+      expect(user.name).toBe(data.name)
+      expect(user.surname).toBe(data.surname)
+    })
+
+    it('should fail on empty data', () =>
+      expect(() => restApi.updateUser(token.token)).toThrowError('data is not optional'))
+
+    it('should fail when data is a number', () =>
+      expect(() => restApi.updateUser(token.token, 1)).toThrowError('data 1 is not a object'))
+
+    it('should fail when data is an object', () =>
+      expect(() => restApi.updateUser(token.token, 'hola')).toThrowError('data hola is not a object'))
+
+    it('should fail when data is a boolean', () =>
+      expect(() => restApi.updateUser(token.token, true)).toThrowError('data true is not a object'))
+
+    it('should fail when token is a string', () =>
+      expect(() => restApi.updateUser([], data)).toThrowError('token  is not a string'))
+
+    it('should fail when token is a number', () =>
+      expect(() => restApi.updateUser(1, data)).toThrowError('token 1 is not a string'))
+
+    it('should fail when token is a bolean', () =>
+      expect(() => restApi.updateUser(true, data)).toThrowError('token true is not a string'))
   })
-  // afterAll(() => mongoose.disconnect())
+
+  afterAll(() => mongoose.disconnect())
 })

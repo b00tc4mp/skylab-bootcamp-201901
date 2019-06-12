@@ -13,6 +13,10 @@ $modal-background-background-color: rgba(95, 27, 49, 0.55);
 @import './pages/Login/index';
 @import './pages/MyBasket/index';
 @import './pages/Register/index';
+@import './pages/Order/index';
+@import './pages/UserProfile/index';
+@import './components/Maps/index';
+@import './components/AllStoreOrders/index';
 
 body {
   font-family: $family-sans-serif;
