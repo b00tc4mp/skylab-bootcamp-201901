@@ -4,12 +4,16 @@ const call = require ('dashboard-call')
 const dotenv = require('dotenv')
 dotenv.config()
 
-//const { env: { URL_SERVER: url } } = process
-const port = process.env.REACT_APP_APP_PORT
+const url = process.env.REACT_APP_URL_SERVER
+
 
 const restApi = {
-    __url__: `http://localhost:${port}/api`,
+    //__url__: `http://localhost:${port}/api`,
+    
+    //__url__: 'https://dashboard-issues-1979.herokuapp.com/api',
 
+    __url__: url,
+    
     registerUser(name, surname, email, password, profile, country){
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true},

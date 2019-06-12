@@ -108,7 +108,7 @@ const logic = {
     },
 
     /**
-     * Calulate if every issue is overdue or ontime
+     * Calulates if every issue is overdue or ontime
      * @param {string} id to identify an authenticated user
      */
     calculateOverdue(id){
@@ -183,7 +183,15 @@ const logic = {
             await Bufferissue.deleteMany()
         })()
     },
-    
+
+    /**
+     * Retrieves all issues of the same type and specific country, by resolution, of a range of dates
+     * @param {string} id to identify an authenticated user
+     * @param {string} issueType type of issues (HotFix, BugFix, Bug, Request)
+     * @param {string} country to to consult
+     * @param {string} startDate date from 
+     * @param {string} endDate date to
+     */
     retrieveIssuesByResolution(id, issueType, country, startDate, endDate){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true},
@@ -263,6 +271,15 @@ const logic = {
         })()
 
     },
+
+    /**
+     * Retrieves all issues of the same type and specific country, by SLA (Services Level Agreement), of a range of dates
+     * @param {string} id to identify an authenticated user
+     * @param {string} issueType type of issues (HotFix, BugFix, Bug, Request)
+     * @param {string} country to to consult
+     * @param {string} startDate date from 
+     * @param {string} endDate date to
+     */
     retrieveIssuesBySLA(id,issueType, country, startDate, endDate){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true},
@@ -338,6 +355,14 @@ const logic = {
         })()
 
     },
+
+    /**
+     * Retrieves a summary by country of issues order by issues type by SLA
+     * @param {string} id to identify an authenticated user
+     * @param {string} country to to consult
+     * @param {string} startDate date form
+     * @param {string} endDate date to
+     */
     retrieveIssuesByTable(id, country, startDate, endDate){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true},
@@ -396,6 +421,16 @@ const logic = {
             return table
         })()
     },
+
+    /**
+     * Creates a new unique user with a specific profile
+     * @param {string} name of new user
+     * @param {string} surname of new user
+     * @param {string} email (unique) with valid format
+     * @param {string} password of new user
+     * @param {string} profile can be product-expert or admin
+     * @param {string} country where the user belongs
+     */
     registerUser(name, surname, email, password, profile, country) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true},
@@ -424,6 +459,14 @@ const logic = {
 
         })()
     },
+
+    /**
+     * Authenticates an existent user
+     * @param {string} email registerd and unique with valid format
+     * @param {string} password registered
+     * 
+     * @returns user id
+     */
     authenticateUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true},
@@ -438,6 +481,13 @@ const logic = {
             else throw new LogicError('wrong credentials')
         })()
     },
+
+    /**
+     * Retrieve en existent user
+     * @param {string} id to identify an authenticated user 
+     * 
+     * @returns name, surname, email, country and profile form the user
+     */
     retrieveUser(id) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true}
@@ -455,6 +505,14 @@ const logic = {
 
         })()
     },
+
+    /**
+     * Allows to update some information from the user
+     * @param {string} id to identify an authenticated user 
+     * @param {string} name to update
+     * @param {string} surname to update
+     * @param {string} country to update
+     */
     updateUser(id, name, surname, country ){
         
         validate.arguments([
@@ -479,6 +537,11 @@ const logic = {
             
         })()
     },
+
+    /**
+     * Allows to delete a register user
+     * @param {*} id o identify an authenticated user 
+     */
     deleteUser(id){
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true}
