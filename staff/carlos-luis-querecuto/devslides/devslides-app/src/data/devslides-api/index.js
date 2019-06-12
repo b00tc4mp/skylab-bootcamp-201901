@@ -2,7 +2,8 @@ const validate = require('../../common/validate')
 const call = require('../../common/call')
 
 const api = {
-    __url__: 'http://localhost:8080/api',
+    /* __url__: 'http://localhost:8080/api', */
+    __url__: 'https://polar-citadel-76140.herokuapp.com/api',
     __timeout__: 0,
     registerUser(name, surname, username, email, password) {
         validate.arguments([
