@@ -32,48 +32,48 @@ function Register ({history}) {
 
     <body>
     <section className="container">
-      <section className="columns">
-        <section className="column is-half"></section>
-        <section className="column is-half">
+      <section className="columns is-one-is-offset-one-fifth-touch">
+      
+        <section className="column">
     <form onSubmit={handleSubmit}>
 
       <div className='field'>
-        <label className='label'>Name</label>
+        <label className='label is-size-5 is-radiusless'>Name</label>
         <div className='control'>
-          <input className='input' name='name' type='text' placeholder='Name' />
+          <input className='input is-medium is-radiusless' name='name' type='text' placeholder='Name' />
         </div>
       </div>
 
       <div className='field'>
-        <label className='label'>Surname</label>
+        <label className='label is-size-5 is-radiusless'>Surname</label>
         <div className='control'>
-          <input className='input' name='surname' type='text' placeholder='Surname' />
+          <input className='input is-medium is-radiusless' name='surname' type='text' placeholder='Surname' />
         </div>
       </div>
 
       <div className='field'>
-        <label className='label'>Email</label>
+        <label className='label is-size-5 is-radiusless'>Email</label>
         <div className='control'>
-          <input className='input' name='email' type='email' placeholder='email' />
+          <input className='input is-medium is-radiusless' name='email' type='email' placeholder='email' />
         </div>
       </div>
 
       <div className='field'> 
-        <label className='label'>Password</label>
+        <label className='label is-size-5 is-radiusless'>Password</label>
         <div className='control'>
-          <input className='input' name='password' type='password' placeholder='password' />
+          <input className='input is-medium is-radiusless' name='password' type='password' placeholder='password' />
         </div>
       </div>
    
       <div className='field'> 
-        <label className='label'>Age</label>
+        <label className='label is-size-5 is-radiusless'>Age</label>
         <div className='control'>
-          <input className='input' name='age' type='number' placeholder='age' />
+          <input className='input is-medium is-radiusless' name='age' type='number' placeholder='age' />
         </div>
       </div>
 
       <p className='control'>
-        <button className='button is-info is-outlined'>
+        <button className='button is-danger is-info is-outlined is-size-8 is-radiusless is-fullwidth'>
           Register
         </button>
       </p>

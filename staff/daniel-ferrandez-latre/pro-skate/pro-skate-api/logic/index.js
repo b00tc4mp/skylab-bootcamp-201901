@@ -154,72 +154,26 @@ const logic = {
 
     },
 
-    retrieveProductsByBrand(brand){
+    // retrieveProductsByBrand(brand){
         
-        validate.arguments([
-            { name: 'brand', value: brand, type: 'string', notEmpty: true }
-        ])
+    //     validate.arguments([
+    //         { name: 'brand', value: brand, type: 'string', notEmpty: true }
+    //     ])
         
-        return(async ()=>{
-            let productsByBrand = await Product.find()
-            productsByBrand = productsByBrand.filter( product => {
-                if(product.brand === brand){
-                    return product
-                }
-            })
-            // const productsByTag = allProducts.filter( product => {
-            //     if(product.tag.includes(tag)) return product
-            // })
-            return productsByBrand
-        })()
+    //     return(async ()=>{
+    //         let productsByBrand = await Product.find()
+    //         productsByBrand = productsByBrand.filter( product => {
+    //             if(product.brand === brand){
+    //                 return product
+    //             }
+    //         })
+    //         // const productsByTag = allProducts.filter( product => {
+    //         //     if(product.tag.includes(tag)) return product
+    //         // })
+    //         return productsByBrand
+    //     })()
 
-    },
-
-    retrieveProductsByPrice(maxprice, minprice){
-        validate.arguments([
-            { name: 'maxprice', value: maxprice, type: 'string', notEmpty: true },
-            { name: 'minprice', value: minprice, type: 'string', notEmpty: true }
-        ])
-        return(async ()=>{
-            const allProducts = await Product.find()
-            const productsByPrice = allProducts.filter( product => {
-                if((parseFloat(product.price) <= parseFloat(maxprice)) && (parseFloat(product.price) >= parseFloat(minprice))) return product
-            })
-            return productsByPrice
-        })()
-    },
-
-    toggleWhishProduct(idUser, idProduct){
-        validate.arguments([
-            { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
-            { name: 'idProduct', value: idProduct, type: 'string', notEmpty: true }
-        ])
-
-        return( async ()=>{
-            const userBd = await User.findById(idUser)
-            if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
-            const productDB = await Product.findById(idProduct)
-            if (!productDB) throw new LogicError(`product with id "${idProduct}" doesn't exists`)
-            const isInWishList = userBd.wishlist.some( product =>  product._id.toString() === idProduct)
-            if(!isInWishList) {
-                userBd.wishlist.push(productDB._id)}
-            else {userBd.wishlist = userBd.wishlist.filter( product =>  product._id.toString() !== idProduct)}
-            await userBd.save()
-        })()
-    },
-
-    retrieveWhishList(idUser){
-        validate.arguments([
-            { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
-        ])
-        return( async ()=>{
-            const userBd = await User.findById(idUser).populate('wishlist')
-            if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
-            if(userBd.wishlist.length === 0) throw new LogicError(`User with id "${idUser}" doesn't have any product on his whishlist`)
-            
-            return userBd.wishlist
-        })()
-    },
+    // },
 
     addProductToCart(idUser, quantity , idProduct){
         validate.arguments([

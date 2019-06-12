@@ -4,78 +4,48 @@ import logo from "../../assets/img/logo.png";
 import logic from "../../logic";
 import NavCard from "../NavCard";
 
+import './index.sass'
+
 function Navbar({ history, quantity }) {
 
   return (
-    <nav class='navbar' role='navigation' aria-label='main navigation'>
-      <div class='navbar-brand'>
-        <a class='navbar-item' onClick={() => history.push("/")}>
+    <nav className='navbar is-danger' aria-label='main navigation'>
+      <div className='navbar-brand is-danger'>
+        <a className='navbar-item' onClick={() => history.push("/")}>
           
-          <img src={logo} />
-        </a>
-        <a
-          role='button'
-          class='navbar-burger burger'
-          aria-label='menu'
-          aria-expanded='false'
-          data-target='navbarBasicExample'>
-          <span aria-hidden='true' />
-          <span aria-hidden='true' />
-          <span aria-hidden='true' />
+          <img className="logo" src={logo} />
         </a>
       </div>
 
-      <div id='navbarBasicExample' class='navbar-menu has-background-grey-lighter'>
-        <div class='navbar-start'>
-          <a class='navbar-item'>Home</a>
+      <div className='navbar-menu is-danger'>
+        <div className='navbar-start'>
 
-          <a class='navbar-item'>Documentation</a>
-
-          <div class='navbar-item has-dropdown is-hoverable'>
-            <a class='navbar-link'>More</a>
-
-            <div class='navbar-dropdown'>
-              <a class='navbar-item'>About</a>
-              <a class='navbar-item'>Jobs</a>
-              <a class='navbar-item'>Contact</a>
-              <hr class='navbar-divider' />
-              <a class='navbar-item'>Report an issue</a>
-            </div>
-          </div>
         </div>
 
-        <div class='navbar-end'>
-          <div class='navbar-item'>
+        <div >
+          <div className='navbar-item'>
             <div >
-              {!logic.isUserLoggedIn ? <div class='buttons'>
-                <a class='button is-primary' onClick={e => history.push("/register")}>
+              {!logic.isUserLoggedIn ? <div className='navbar-end'>
+                <a className='navbar-item is-size-5' onClick={e => history.push("/register")}>
                   <strong>Sign up</strong>
                 </a>
-                <a class='button is-light' onClick={e => history.push("/login")}>
+                <a className='navbar-item navbar-item is-size-5' onClick={e => history.push("/login")}>
                   Log in
                 </a>
                 </div>
                 :
-                <div class='buttons'>
+                <div className='navbar-end  '>
                 <NavCard quantity={quantity} />
-                <a class='button is-light' onClick={e => history.push("/login")}>
+                <a className='navbar-item navbar-item is-size-5' onClick={e => history.push("/login")}>
                   Profile
                 </a>
                 <a
-                  class='button is-light'
-                  onClick={e => {
-                    logic.logOut();
-                    history.push("/");
-                  }}>
+                  className='navbar-item navbar-item is-size-5'
+                  onClick={e => logic.logOut()}>
                   LogOut
                 </a>
                 </div>
               }
-
-
-
-
-
             </div>
           </div>
         </div>

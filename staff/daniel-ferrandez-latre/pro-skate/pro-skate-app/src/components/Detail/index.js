@@ -6,8 +6,7 @@ import "./index.sass";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMinus, faPlus } from "@fortawesome/free-solid-svg-icons";
 
-
-function Detail({ match, cartItemsQuantity }) {
+function Detail({history, match, cartItemsQuantity }) {
   const [modalLogin, setModalLogin] = useState("modal");
   const [messageError, setErrorMessage] = useState(null);
   const [detail, setDetail] = useState({});
@@ -16,15 +15,14 @@ function Detail({ match, cartItemsQuantity }) {
     params: { id }
   } = match;
 
-  useEffect(()=>{
-    async function verify(){
+  useEffect(() => {
+    async function verify() {
       const detailA = await logic.retrieveProduct(id);
       setDetail(detailA);
-
+      setModalLogin('modal')
     }
-    verify()
+    verify();
   }, []);
-  
 
   async function handleAddToCart() {
     console.log(logic.__userToken__);
@@ -46,47 +44,41 @@ function Detail({ match, cartItemsQuantity }) {
     }
   }
 
-  async function handleSubmit(event) {
-    event.preventDefault();
-    const {
-      email: { value: email },
-      password: { value: password }
-    } = event.target;
-    try {
-      await logic.loginUser(email, password);
-      setModalLogin("modal");
-    } catch (error) {
-      setErrorMessage(error.message);
-      setTimeout(() => setModalLogin("modal"), 4000);
-    }
-  }
+  async function handleModalLogin() {
+      
+      setTimeout(() => history.push('/login'), 4000);}
 
   return (
     <>
-      <div className='container box'>
+
+      <div className='container'>
         <section className='columns'>
           <section className='column'>
             <figure class='image is-4by3'>
               <img className='image-detail' src={detail.imageUrlMain} alt='Placeholder image' />
             </figure>
           </section>
-          <section className='column'>
-            <div className='box'>
-              <p has-text-justified>{detail.name}</p>
+          <section id="features" className='column'>
+            <div >
+              <p className="is-size-5 has-text-danger"  >{detail.name}</p>
               <br />
-              <p has-text-justified>{detail.description}</p>
+              <p className="is-size-5" >{detail.description}</p>
               <br />
-              <p>{detail.price}€</p>
+              <p className="is-size-5"  >{detail.price}€</p>
             </div>
-
-            <div className='buttons'>
-              <div id='add' className='button' onClick={e => handleAddToCart()}>
+            
+            <div id="addCart">
+              <div>
+                <div>
+            <p className="is-size-4 has-text-weight-bold">Add to cart</p>
+            </div>
+            </div>
+              <div id='add' className='button is-radiusless' onClick={e => handleAddToCart()}>
                 <FontAwesomeIcon icon={faPlus} className='g-ShoppingBasket__icon' />
               </div>
-              <div id='withdraw' className='button' onClick={e => handleTakeOfCart()}>
+              <div id='withdraw' className='button is-radiusless' onClick={e => handleTakeOfCart()}>
                 <FontAwesomeIcon icon={faMinus} className='g-ShoppingBasket__icon' />
               </div>
-              <div className='button '>add to wish list</div>
             </div>
           </section>
 
@@ -95,37 +87,8 @@ function Detail({ match, cartItemsQuantity }) {
               <div className='modal-background' />
 
               <div className='modal-content'>
-                Login
-                <div className='box'>
-                  <form onSubmit={handleSubmit}>
-                    <div className='field'>
-                      <label className='label'>Email</label>
-                      <div className='control'>
-                        <input className='input' name='email' type='email' placeholder='email' />
-                      </div>
-                    </div>
-
-                    <div className='field'>
-                      <label className='label'>Password</label>
-                      <div className='control'>
-                        <input
-                          className='input'
-                          name='password'
-                          type='password'
-                          placeholder='password'
-                        />
-                      </div>
-                    </div>
-
-                    <p className='control'>
-                      <button className='button is-info is-outlined'>Login</button>
-                    </p>
-                  </form>
-                  {messageError && (
-                    <div className='message-body'>
-                      <p>{messageError}</p>
-                    </div>
-                  )}
+                <div className='box' >
+                  <p>You need to be logged in to add products on cart</p>
                 </div>
               </div>
               <button

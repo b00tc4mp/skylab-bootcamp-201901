@@ -11,6 +11,8 @@ import Login from "./components/Login";
 import Detail from './components/Detail'
 import Cart from './components/Cart'
 import logic from './logic';
+import './index.sass'
+
 
 
 

@@ -25,25 +25,24 @@ function Login({ history }) {
     <body>
       <section className='container'>
         <section className='columns'>
-          <section className='column is-half' />
-          <section className='column is-half'>
+          <section className='column'>
             <form onSubmit={handleSubmit}>
               <div className='field'>
-                <label className='label'>Email</label>
+                <label className='label is-size-5 is-radiusless'>Email</label>
                 <div className='control'>
-                  <input className='input' name='email' type='email' placeholder='email' />
+                  <input className='input is-medium is-radiusless' name='email' type='email' placeholder='email' />
                 </div>
               </div>
 
               <div className='field'>
-                <label className='label'>Password</label>
+                <label className='label is-size-5'>Password</label>
                 <div className='control'>
-                  <input className='input' name='password' type='password' placeholder='password' />
+                  <input className='input is-medium is-radiusless' name='password' type='password' placeholder='password' />
                 </div>
               </div>
 
               <p className='control'>
-                <button className='button is-info is-outlined'>Register</button>
+                <button className='button is-danger is-info is-outlined is-size-8 is-radiusless is-fullwidth'>Login</button>
               </p>
 
               {messageError && (
