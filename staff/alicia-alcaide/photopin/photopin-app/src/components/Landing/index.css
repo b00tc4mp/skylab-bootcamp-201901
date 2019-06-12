@@ -4,3 +4,11 @@
   height: 100vh;
   width: 100vw;
 }
+
+.nav-bar {
+  height: 80px;
+}
+
+.nav-bar > li > a {
+  min-height: 80px;
+}

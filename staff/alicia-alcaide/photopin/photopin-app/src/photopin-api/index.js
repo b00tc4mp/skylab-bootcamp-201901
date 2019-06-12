@@ -6,6 +6,7 @@ const port = process.env.REACT_APP_APP_PORT
 const photopinApi = {
 
     __url__: `http://localhost:${port}/api`,
+    //__url__: `https://radiant-ocean-32759.herokuapp.com/api`,
     __timeout__: 0,
 
     registerUser(name, surname, email, password) {

@@ -155,14 +155,12 @@ const logic = {
     })();
   },
 
-  //------------------ A partir de aquí revisar las cabeceras ----------------------------
-
   /**
-   * Retrieve the complete user data (name, surname, email, avatar, language and )
+   * Retrieve an array with the information of all maps of the user
    *
    * @param {String} userId The user id
    *
-   * @returns {Object} The user data
+   * @returns {Array} The maps data
    */
   retrieveUserMaps(userId) {
     validate.arguments([
@@ -184,14 +182,16 @@ const logic = {
   },
 
   /**
-   * Retrieve the complete user data (name, surname, email, avatar, language and )
+   * Retrieve the complete map data, with all the pins
    *
    * @param {String} userId The user id
+   * @param {String} mapId The map id
    *
    * @returns {Object} The user data
    */
   retrieveUserMap(userId, mapId) {
     validate.arguments([
+      { name: "userId", value: userId, type: "string", notEmpty: true },
       { name: "mapId", value: mapId, type: "string", notEmpty: true }
     ]);
 
@@ -199,6 +199,11 @@ const logic = {
       const map = await PMap.findById(mapId)
         .populate("collections.pins")
         .lean();
+
+      if (!map) throw new LogicError(`no maps for user with id ${mapId}`);
+
+      if (!map.isPublic && !map.author.equals(userId))
+        throw new LogicError(`map ${mapId} is not from user ${userId}`);
 
       map.id = map._id.toString();
       delete map._id;
@@ -212,15 +217,19 @@ const logic = {
         })
       })
 
-      if (!map) throw new LogicError(`no maps for user with id ${mapId}`);
-
-      if (!map.isPublic && !map.author.equals(userId))
-        throw new LogicError(`map ${mapId} is not from user ${userId}`);
-
       return map;
     })();
   },
 
+  /** Create a new map
+     *
+     * @param {String} userId The user id
+     * @param {String} title The map title
+     * @param {String} description The map description
+     * @param {String} coverImage The url of the map cover
+     *
+     * @returns {String} The id of the created map
+  */
   createMap(userId, title, description, coverImage) {
     validate.arguments([
       { name: "userId", value: userId, type: "string", notEmpty: true },
@@ -240,6 +249,15 @@ const logic = {
     })();
   },
 
+
+  /** Update de data of a map
+     *
+     * @param {String} userId The user id
+     * @param {String} mapId The map id
+     * @param {Object} data The data to be modified (key: value)
+     *
+     * @returns {Object} The map modified
+  */
   updateMap(userId, mapId, data) {
     validate.arguments([
       { name: "userId", value: userId, type: "string", notEmpty: true },
@@ -264,28 +282,23 @@ const logic = {
       } catch (error) {
         throw new LogicError(`error updating map with id ${mapId}`)
       }
-
-      // try {
-      //   const mapUpdated = await PMap.findByIdAndUpdate(mapId, { $set: data })
-      //     .select("-__v")
-      //     .lean();
-      //   return mapUpdated;
-      // } catch (error) {
-      //   throw new LogicError(`map with id ${mapId} doesn't exists`);
-      // }
     })();
   },
 
+
+  /** Create a new collection in a map
+     *
+     * @param {String} userId The user id
+     * @param {String} mapId The map id
+     * @param {string} collectionTitle The title for the new collection
+     *
+     * @returns {number} number the collections of the map
+  */
   createCollection(userId, mapId, collectionTitle) {
     validate.arguments([
       { name: "userId", value: userId, type: "string", notEmpty: true },
       { name: "mapId", value: mapId, type: "string", notEmpty: true },
-      {
-        name: "collectionTitle",
-        value: collectionTitle,
-        type: "string",
-        notEmpty: true
-      }
+      { name: "collectionTitle", value: collectionTitle, type: "string", notEmpty: true }
     ]);
 
     return (async () => {
@@ -297,18 +310,27 @@ const logic = {
         throw new LogicError(`map ${mapId} is not from user ${userId}`);
 
       try {
-        const mapUpdated = map.collections.push({
+        const numCol = map.collections.push({
           title: collectionTitle,
           pins: []
         });
         await map.save();
-        return mapUpdated;
+        return numCol;
       } catch (error) {
         throw new LogicError(`error creating new collection on map ${mapId}`);
       }
     })();
   },
 
+  /** Modify the collection title
+   *
+   * @param {String} userId The user id
+   * @param {String} mapId The map id
+   * @param {string} collectionTitle The title of the collection to modify
+   * @param {string} newTitle The new title
+   *
+   * @returns {} 
+*/
   updateCollection(userId, mapId, collectionTitle, newTitle) {
     validate.arguments([
       { name: "userId", value: userId, type: "string", notEmpty: true },
@@ -323,26 +345,26 @@ const logic = {
     ]);
 
     return (async () => {
-      const map = await PMap.findById(mapId);
+      const pmap = await PMap.findById(mapId);
 
-      if (!map) throw new LogicError(`no maps with id ${mapId}`);
+      if (!pmap) throw new LogicError(`no maps with id ${mapId}`);
 
-      if (!map.author.equals(userId))
+      if (!pmap.author.equals(userId))
         throw new LogicError(`map ${mapId} is not from user ${userId}`);
 
+      const colIndex = pmap.collections.findIndex(
+        col => col.title.toString() === collectionTitle
+      );
+      const colIndexNewTitle = pmap.collections.findIndex(
+        col => col.title.toString() === newTitle
+      );
+      if (colIndexNewTitle > 0)
+        throw new LogicError(
+          `error updating, collection ${newTitle} already exist on map ${mapId}`
+        );
       try {
-        const colIndex = map.collections.findIndex(
-          col => col.title === collectionTitle
-        );
-        const colIndexNewTitle = map.collections.findIndex(
-          col => col.title === newTitle
-        );
-        if (colIndexNewTitle > 0)
-          throw new LogicError(
-            `error updating, collection ${newTitle} already exist on map ${mapId}`
-          );
-        map.collections[colIndex].title = newTitle;
-        await map.save();
+        pmap.collections[colIndex].title = newTitle;
+        await pmap.save();
       } catch (error) {
         throw new LogicError(
           `error updating collection ${collectionTitle} on map ${mapId}`
@@ -351,26 +373,41 @@ const logic = {
     })();
   },
 
+  /** Create a new pin
+     *
+     * @param {String} userId The user id
+     * @param {String} mapId The map id
+     * @param {string} collectionTitle The title of the collection to modify
+     * @param {object} newPin The new pin data
+     *
+     * @returns {string} id of the pin created 
+  */
   createPin(userId, mapId, collectionTitle, newPin) {
     validate.arguments([
       { name: "userId", value: userId, type: "string", notEmpty: true },
       { name: "mapId", value: mapId, type: "string", notEmpty: true },
-      {
-        name: "collectionTitle",
-        value: collectionTitle,
-        type: "string",
-        notEmpty: true
-      },
+      { name: "collectionTitle", value: collectionTitle, type: "string", notEmpty: true },
       { name: "newPin", value: newPin, type: "object", notEmpty: true }
     ]);
 
     return (async () => {
-      const map = await PMap.findById(mapId);
+      let pmap
+      try {
+        pmap = await PMap.findById(mapId);
+      } catch (error) {
+        throw new LogicError(`no maps for user with id ${mapId}`);
+      }
 
-      if (!map) throw new LogicError(`no maps for user with id ${mapId}`);
+      if (!pmap) throw new LogicError(`no maps for user with id ${mapId}`);
 
-      if (!map.author.equals(userId))
+      if (!pmap.author.equals(userId))
         throw new LogicError(`map ${mapId} is not from user ${userId}`);
+
+      const colIndex = pmap.collections.findIndex(
+        col => col.title.toString() === collectionTitle.toString()
+      );
+      if (colIndex < 0)
+        throw new LogicError(`collection ${collectionTitle} not found`);
 
       try {
         const pinCreated = await Pin.create({
@@ -388,13 +425,8 @@ const logic = {
             longitude: newPin.coordinates.longitude
           }
         });
-        const colIndex = map.collections.findIndex(
-          col => col.title === collectionTitle
-        );
-        if (colIndex < 0)
-          throw new LogicError(`collection ${collectionTitle} not found`);
-        map.collections[colIndex].pins.push(pinCreated.id);
-        await map.save();
+        pmap.collections[colIndex].pins.push(pinCreated.id);
+        await pmap.save();
         return pinCreated.id;
       } catch (error) {
         throw new LogicError(`error creating new pin on map ${mapId}`);
@@ -402,6 +434,15 @@ const logic = {
     })();
   },
 
+
+  /** Update the pin data
+     *
+     * @param {String} userId The user id
+     * @param {String} pinId The pin id
+     * @param {object} newPin The new pin data
+     *
+     * @returns {object} pin updated
+  */
   async updatePin(userId, pinId, data) {
     validate.arguments([
       { name: "userId", value: userId, type: "string", notEmpty: true },
@@ -431,6 +472,15 @@ const logic = {
     }
   },
 
+
+
+  /** delete map and all its pins
+     *
+     * @param {String} userId The user id
+     * @param {String} mapId The map to remove
+     *
+     * @returns {object} map deleted
+  */
   removeMap(userId, mapId) {
     validate.arguments([
       { name: "userId", value: userId, type: "string", notEmpty: true },
@@ -450,39 +500,15 @@ const logic = {
     })();
   },
 
-  removeCollection_OLD(userId, mapId, collectionTitle) {
-    validate.arguments([
-      { name: "userId", value: userId, type: "string", notEmpty: true },
-      { name: "mapId", value: mapId, type: "string", notEmpty: true },
-      {
-        name: "collectionTitle",
-        value: collectionTitle,
-        type: "string",
-        notEmpty: true
-      }
-    ]);
 
-    return (async () => {
-      const map = await PMap.findById(mapId);
-      if (!map) throw new LogicError(`map with id ${mapId} doesn't exists`);
-
-      if (!map.author.equals(userId))
-        throw new LogicError(`map ${mapId} is not from user ${userId}`);
-
-      const colIndex = map.collections.findIndex(
-        col => col.id === collectionTitle
-      );
-      map.collections.splice(colIndex, 1);
-      await map.save();
-
-      map.collections[colIndex].pins.forEach(async pin => {
-        await Pin.findByIdAndDelete(pin);
-      });
-
-      return map;
-    })();
-  },
-
+  /** delete collection and all its pins
+     *
+     * @param {String} userId The user id
+     * @param {String} mapId The map id
+     * @param {String} collectionTitle The collection to remove
+     *
+     * @returns {object} map with the collection deleted
+  */
   removeCollection(userId, mapId, collectionTitle) {
     validate.arguments([
       { name: "userId", value: userId, type: "string", notEmpty: true },
@@ -523,6 +549,14 @@ const logic = {
     })();
   },
 
+
+  /** delete pin
+     *
+     * @param {String} userId The user id
+     * @param {String} pinId The pin to delete
+     *
+     * @returns {}
+  */
   removePin(userId, pinId) {
     validate.arguments([
       { name: "userId", value: userId, type: "string", notEmpty: true },

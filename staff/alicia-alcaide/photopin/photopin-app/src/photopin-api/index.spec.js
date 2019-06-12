@@ -81,8 +81,6 @@ describe('photopin-api', () => {
                 expect(() => photopinApi.registerUser(name, surname, ' \t    \n', password)).to.throw(ValueError, 'email is empty')
             })
 
-            //TODO resto de casos síncronos de variables obligatorias (name, surname, password)
-
         })
 
         describe('authenticate user', () => {
