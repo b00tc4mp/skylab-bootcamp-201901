@@ -29,7 +29,6 @@ function NavLvLs({ send }) {
     }, [ActionToUse])
 
     const handleClick = (where) => {
-        console.log(`Clickaste aqui wey! ${where}`)
         setActionTurn({ row: 0, column: 0, resource: ActionToUse.resource, nest: where })
         setActionUsed(true)
         setClickable([false, false, false, false])
