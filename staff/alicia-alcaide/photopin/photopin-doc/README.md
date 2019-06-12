@@ -6,7 +6,6 @@ Photopin is an tool aimed at professional and enthusiast photographers who requi
 
 The application allows users to create their own maps and populate them with collections of locations. For each location, users can store valuable information and reference images that will help them assess the best time and conditions for a successful photographic session.
 
-
 # Functional Documentation
 
 ## Use Cases
@@ -47,9 +46,8 @@ This application contains the following modules:
 - **photopin-data**: data schemas (mongoose)
 - **photopin-doc**: project documentation
 - **photopin-errors**: common error definitions
-- **photopin-normalize**:  common helper functions
+- **photopin-normalize**: common helper functions
 - **photopin-validation**: common validation logic
-
 
 ## Project set up
 
@@ -63,17 +61,16 @@ This application contains the following modules:
 - See client-side configuration in the [photopin-app specific docs](../photopin-app/README.md))
 - See server-side configuration in the [photopin-api specific docs](../photopin-api/README.md))
 
-
 ## Technology stack
 
 This application has been built using the following main technologies
+
 - React.js
 - Node.js
 - MongoDB
 
 In addition, it does intensive use of Google's Maps and Places apis
 
-
 ### Code Coverage
 
-![Code Coverage](images/coverage.png)
+![Code Coverage](images/coverage.PNG)

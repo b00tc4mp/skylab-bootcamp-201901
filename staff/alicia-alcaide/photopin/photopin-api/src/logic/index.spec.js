@@ -357,12 +357,12 @@ describe('logic', () => {
                 author: userId,
                 collections: [
                     {
-                        title: map01.title,
-                        pins: map01.pins
+                        title: map01.collections[0].title,
+                        pins: []
                     },
                     {
-                        title: map01.title,
-                        pins: map01.pins
+                        title: map01.collections[1].title,
+                        pins: []
                     }
                 ]
             })
@@ -564,7 +564,9 @@ describe('logic', () => {
 
             let map, mapId, pin01, pin01Id, pin02, pin02Id
             const descMod = "description modified"
-            const data = { description: descMod }
+            const descTitle = "description modified"
+            const descCoverImg = "description modified"
+            const data = { description: descMod, title: descTitle, coverImage: descCoverImg }
 
             beforeEach(async () => {
                 map = await PMap.create({
@@ -574,12 +576,12 @@ describe('logic', () => {
                     author: userId,
                     collections: [
                         {
-                            title: map01.title,
-                            pins: map01.pins
+                            title: map01.collections[0].title,
+                            pins: []
                         },
                         {
-                            title: map01.title,
-                            pins: map01.pins
+                            title: map01.collections[1].title,
+                            pins: []
                         }
                     ]
                 })
@@ -715,9 +717,873 @@ describe('logic', () => {
             })
         })
 
+        describe('create a map collection', () => {
 
+            let map, mapId, pin01, pin01Id, pin02, pin02Id
+            const collectionTitle = "New Collection"
 
+            beforeEach(async () => {
+                map = await PMap.create({
+                    title: map01.title,
+                    description: map01.description,
+                    coverImage: map01.coverImage,
+                    author: userId,
+                    collections: [
+                        {
+                            title: map01.collections[0].title,
+                            pins: []
+                        },
+                        {
+                            title: map01.collections[1].title,
+                            pins: []
+                        }
+                    ]
+                })
+                mapId = map.id
 
+                pin01 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData01.title,
+                    description: pinData01.description,
+                    urlImage: pinData01.urlImage,
+                    bestTimeOfYear: pinData01.bestTimeOfYear,
+                    bestTimeOfDay: pinData01.bestTimeOfDay,
+                    photographyTips: pinData01.photographyTips,
+                    travelInformation: pinData01.travelInformation,
+                    coordinates: {
+                        latitude: pinData01.coordinates.latitude,
+                        longitude: pinData01.coordinates.longitude
+                    }
+                })
+                pin01Id = pin01.id
+
+                pin02 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData02.title,
+                    description: pinData02.description,
+                    urlImage: pinData02.urlImage,
+                    bestTimeOfYear: pinData02.bestTimeOfYear,
+                    bestTimeOfDay: pinData02.bestTimeOfDay,
+                    photographyTips: pinData02.photographyTips,
+                    travelInformation: pinData02.travelInformation,
+                    coordinates: {
+                        latitude: pinData02.coordinates.latitude,
+                        longitude: pinData02.coordinates.longitude
+                    }
+                })
+                pin02Id = pin02.id
+
+                map.collections[0].pins.push(pin01Id)
+                map.collections[1].pins.push(pin02Id)
+                await map.save()
+
+            })
+
+            it('should succeed on correct collection title from existing user and map', async () => {
+                const newCol = await logic.createCollection(userId, mapId, collectionTitle)
+                expect(newCol).to.equals(3)
+            })
+
+            it('should fail on incorrect map id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    const pmap = await logic.createCollection(userId, wrongId, collectionTitle)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`no maps with id ${wrongId}`)
+                }
+            })
+
+            it('should fail on wrong author id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    const mapUpdated = await logic.createCollection(wrongId, mapId, collectionTitle)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`map ${mapId} is not from user ${wrongId}`)
+                }
+            })
+
+            it('should fail on undefined user id', () => {
+                expect(() => logic.createCollection(undefined, mapId, collectionTitle)).to.throw(RequirementError, `userId is not optional`)
+            })
+
+            it('should fail on null user id', () => {
+                expect(() => logic.createCollection(null, mapId, collectionTitle)).to.throw(RequirementError, `userId is not optional`)
+            })
+
+            it('should fail on empty user id', () => {
+                expect(() => logic.createCollection('', mapId, collectionTitle)).to.throw(ValueError, 'userId is empty')
+            })
+
+            it('should fail on blank user id', () => {
+                expect(() => logic.createCollection(' \t    \n', mapId, collectionTitle)).to.throw(ValueError, 'userId is empty')
+            })
+
+            it('should fail on a not string user id', () => {
+                expect(() => logic.createCollection(123, mapId, collectionTitle)).to.throw(TypeError, `userId 123 is not a string`)
+            })
+
+            it('should fail on undefined mapId', () => {
+                expect(() => logic.createCollection(userId, undefined, collectionTitle)).to.throw(RequirementError, `mapId is not optional`)
+            })
+
+            it('should fail on null mapId', () => {
+                expect(() => logic.createCollection(userId, null, collectionTitle)).to.throw(RequirementError, `mapId is not optional`)
+            })
+
+            it('should fail on empty mapId', () => {
+                expect(() => logic.createCollection(userId, '', collectionTitle)).to.throw(ValueError, 'mapId is empty')
+            })
+
+            it('should fail on blank mapId', () => {
+                expect(() => logic.createCollection(userId, ' \t    \n', collectionTitle)).to.throw(ValueError, 'mapId is empty')
+            })
+
+            it('should fail on a not string mapId', () => {
+                expect(() => logic.createCollection(userId, 123, collectionTitle)).to.throw(TypeError, `mapId 123 is not a string`)
+            })
+
+            it('should fail on undefined collectionTitle', () => {
+                expect(() => logic.createCollection(userId, mapId, undefined)).to.throw(RequirementError, `collectionTitle is not optional`)
+            })
+
+            it('should fail on null collectionTitle', () => {
+                expect(() => logic.createCollection(userId, mapId, null)).to.throw(RequirementError, `collectionTitle is not optional`)
+            })
+
+            it('should fail on empty collectionTitle', () => {
+                expect(() => logic.createCollection(userId, mapId, '')).to.throw(Error, 'collectionTitle is empty')
+            })
+
+            it('should fail on blank collectionTitle', () => {
+                expect(() => logic.createCollection(userId, mapId, ' \t    \n')).to.throw(Error, 'collectionTitle is empty')
+            })
+
+            it('should fail on a not string collectionTitle', () => {
+                expect(() => logic.createCollection(userId, mapId, 123)).to.throw(TypeError, `collectionTitle 123 is not a string`)
+            })
+        })
+
+        describe('modify the title of a collection', () => {
+
+            let map, mapId, pin01, pin01Id, pin02, pin02Id
+            let newTitle = "New Collection Title"
+            let collectionTitle
+
+            beforeEach(async () => {
+                collectionTitle = map01.collections[0].title
+                newTitleDup = map01.collections[1].title
+                newTitle = "New collection title"
+
+                map = await PMap.create({
+                    title: map01.title,
+                    description: map01.description,
+                    coverImage: map01.coverImage,
+                    author: userId,
+                    collections: [
+                        {
+                            title: map01.collections[0].title,
+                            pins: []
+                        },
+                        {
+                            title: map01.collections[1].title,
+                            pins: []
+                        }
+                    ]
+                })
+                mapId = map.id
+
+                pin01 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData01.title,
+                    description: pinData01.description,
+                    urlImage: pinData01.urlImage,
+                    bestTimeOfYear: pinData01.bestTimeOfYear,
+                    bestTimeOfDay: pinData01.bestTimeOfDay,
+                    photographyTips: pinData01.photographyTips,
+                    travelInformation: pinData01.travelInformation,
+                    coordinates: {
+                        latitude: pinData01.coordinates.latitude,
+                        longitude: pinData01.coordinates.longitude
+                    }
+                })
+                pin01Id = pin01.id
+
+                pin02 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData02.title,
+                    description: pinData02.description,
+                    urlImage: pinData02.urlImage,
+                    bestTimeOfYear: pinData02.bestTimeOfYear,
+                    bestTimeOfDay: pinData02.bestTimeOfDay,
+                    photographyTips: pinData02.photographyTips,
+                    travelInformation: pinData02.travelInformation,
+                    coordinates: {
+                        latitude: pinData02.coordinates.latitude,
+                        longitude: pinData02.coordinates.longitude
+                    }
+                })
+                pin02Id = pin02.id
+
+                map.collections[0].pins.push(pin01Id)
+                map.collections[1].pins.push(pin02Id)
+                await map.save()
+
+            })
+
+            it('should succeed on correct id from existing user and map', async () => {
+                const res = await logic.updateCollection(userId, mapId, collectionTitle, newTitle)
+                expect(res).to.be.undefined
+            })
+
+            it('should fail on a new title that alredy exists', async () => {
+                try {
+                    const res = await logic.updateCollection(userId, mapId, collectionTitle, newTitleDup)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`error updating, collection ${newTitleDup} already exist on map ${mapId}`)
+                }
+            })
+
+            it('should fail on incorrect map id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    const res = await logic.updateCollection(userId, wrongId, collectionTitle, newTitle)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`no maps with id ${wrongId}`)
+                }
+            })
+
+            it('should fail on wrong author id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    const res = await logic.updateCollection(wrongId, mapId, collectionTitle, newTitle)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`map ${mapId} is not from user ${wrongId}`)
+                }
+            })
+
+            it('should fail on undefined user id', () => {
+                expect(() => logic.createCollection(undefined, mapId, collectionTitle, newTitle)).to.throw(RequirementError, `userId is not optional`)
+            })
+
+            it('should fail on null user id', () => {
+                expect(() => logic.createCollection(null, mapId, collectionTitle, newTitle)).to.throw(RequirementError, `userId is not optional`)
+            })
+
+            it('should fail on empty user id', () => {
+                expect(() => logic.createCollection('', mapId, collectionTitle, newTitle)).to.throw(ValueError, 'userId is empty')
+            })
+
+            it('should fail on blank user id', () => {
+                expect(() => logic.createCollection(' \t    \n', mapId, collectionTitle, newTitle)).to.throw(ValueError, 'userId is empty')
+            })
+
+            it('should fail on a not string user id', () => {
+                expect(() => logic.createCollection(123, mapId, collectionTitle, newTitle)).to.throw(TypeError, `userId 123 is not a string`)
+            })
+
+            it('should fail on undefined mapId', () => {
+                expect(() => logic.createCollection(userId, undefined, collectionTitle, newTitle)).to.throw(RequirementError, `mapId is not optional`)
+            })
+
+            it('should fail on null mapId', () => {
+                expect(() => logic.createCollection(userId, null, collectionTitle, newTitle)).to.throw(RequirementError, `mapId is not optional`)
+            })
+
+            it('should fail on empty mapId', () => {
+                expect(() => logic.createCollection(userId, '', collectionTitle, newTitle)).to.throw(ValueError, 'mapId is empty')
+            })
+
+            it('should fail on blank mapId', () => {
+                expect(() => logic.createCollection(userId, ' \t    \n', collectionTitle, newTitle)).to.throw(ValueError, 'mapId is empty')
+            })
+
+            it('should fail on a not string mapId', () => {
+                expect(() => logic.createCollection(userId, 123, collectionTitle, newTitle)).to.throw(TypeError, `mapId 123 is not a string`)
+            })
+
+            it('should fail on undefined collectionTitle', () => {
+                expect(() => logic.createCollection(userId, mapId, undefined, newTitle)).to.throw(RequirementError, `collectionTitle is not optional`)
+            })
+
+            it('should fail on null collectionTitle', () => {
+                expect(() => logic.createCollection(userId, mapId, null, newTitle)).to.throw(RequirementError, `collectionTitle is not optional`)
+            })
+
+            it('should fail on empty collectionTitle', () => {
+                expect(() => logic.createCollection(userId, mapId, '', newTitle)).to.throw(Error, 'collectionTitle is empty')
+            })
+
+            it('should fail on blank collectionTitle', () => {
+                expect(() => logic.createCollection(userId, mapId, ' \t    \n', newTitle)).to.throw(Error, 'collectionTitle is empty')
+            })
+
+            it('should fail on a not string collectionTitle', () => {
+                expect(() => logic.createCollection(userId, mapId, 123, newTitle)).to.throw(TypeError, `collectionTitle 123 is not a string`)
+            })
+        })
+
+        describe('create a new pin', () => {
+
+            let map, mapId, pin01, pin01Id
+            let collectionTitle
+
+            beforeEach(async () => {
+                collectionTitle = map01.collections[1].title
+                map = await PMap.create({
+                    title: map01.title,
+                    description: map01.description,
+                    coverImage: map01.coverImage,
+                    author: userId,
+                    collections: [
+                        {
+                            title: map01.collections[0].title,
+                            pins: []
+                        },
+                        {
+                            title: map01.collections[1].title,
+                            pins: []
+                        }
+                    ]
+                })
+                mapId = map.id
+                pin01 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData01.title,
+                    description: pinData01.description,
+                    urlImage: pinData01.urlImage,
+                    bestTimeOfYear: pinData01.bestTimeOfYear,
+                    bestTimeOfDay: pinData01.bestTimeOfDay,
+                    photographyTips: pinData01.photographyTips,
+                    travelInformation: pinData01.travelInformation,
+                    coordinates: {
+                        latitude: pinData01.coordinates.latitude,
+                        longitude: pinData01.coordinates.longitude
+                    }
+                })
+                pin01Id = pin01.id
+                map.collections[0].pins.push(pin01Id)
+                await map.save()
+            })
+
+            it('should succeed on correct data for existing user and map', async () => {
+                const newPinId = await logic.createPin(userId, mapId, collectionTitle, pinData02)
+                expect(newPinId).to.exist
+            })
+
+            it('should fail on incorrect collection', async () => {
+                const wrongCollection = 'Wrong collection'
+                try {
+                    const res = await logic.createPin(userId, mapId, wrongCollection, pinData02)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`collection ${wrongCollection} not found`)
+                }
+            })
+
+            it('should fail on incorrect user Id', async () => {
+                const wrongUser = 'Wrong user'
+                try {
+                    const res = await logic.createPin(wrongUser, mapId, collectionTitle, pinData02)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`map ${mapId} is not from user ${wrongUser}`)
+                }
+            })
+
+            it('should fail on undefined user id', () => {
+                expect(() => logic.createPin(undefined, mapId, collectionTitle, pinData02)).to.throw(RequirementError, `userId is not optional`)
+            })
+
+            it('should fail on null user id', () => {
+                expect(() => logic.createPin(null, mapId, collectionTitle, pinData02)).to.throw(RequirementError, `userId is not optional`)
+            })
+
+            it('should fail on empty user id', () => {
+                expect(() => logic.createPin('', mapId, collectionTitle, pinData02)).to.throw(ValueError, 'userId is empty')
+            })
+
+            it('should fail on blank user id', () => {
+                expect(() => logic.createPin(' \t    \n', mapId, collectionTitle, pinData02)).to.throw(ValueError, 'userId is empty')
+            })
+
+            it('should fail on a not string user id', () => {
+                expect(() => logic.createPin(123, mapId, collectionTitle, pinData02)).to.throw(TypeError, `userId 123 is not a string`)
+            })
+
+            it('should fail on undefined mapId', () => {
+                expect(() => logic.createPin(userId, undefined, collectionTitle, pinData02)).to.throw(RequirementError, `mapId is not optional`)
+            })
+
+            it('should fail on null mapId', () => {
+                expect(() => logic.createPin(userId, null, collectionTitle, pinData02)).to.throw(RequirementError, `mapId is not optional`)
+            })
+
+            it('should fail on empty mapId', () => {
+                expect(() => logic.createPin(userId, '', collectionTitle, pinData02)).to.throw(ValueError, 'mapId is empty')
+            })
+
+            it('should fail on blank mapId', () => {
+                expect(() => logic.createPin(userId, ' \t    \n', collectionTitle, pinData02)).to.throw(ValueError, 'mapId is empty')
+            })
+
+            it('should fail on a not string mapId', () => {
+                expect(() => logic.createPin(userId, 123, collectionTitle, pinData02)).to.throw(TypeError, `mapId 123 is not a string`)
+            })
+
+            it('should fail on undefined collectionTitle', () => {
+                expect(() => logic.createPin(userId, mapId, undefined, pinData02)).to.throw(RequirementError, `collectionTitle is not optional`)
+            })
+
+            it('should fail on null collectionTitle', () => {
+                expect(() => logic.createPin(userId, mapId, null, pinData02)).to.throw(RequirementError, `collectionTitle is not optional`)
+            })
+
+            it('should fail on empty collectionTitle', () => {
+                expect(() => logic.createPin(userId, mapId, '', pinData02)).to.throw(Error, 'collectionTitle is empty')
+            })
+
+            it('should fail on blank collectionTitle', () => {
+                expect(() => logic.createPin(userId, mapId, ' \t    \n', pinData02)).to.throw(Error, 'collectionTitle is empty')
+            })
+
+            it('should fail on a not string collectionTitle', () => {
+                expect(() => logic.createPin(userId, mapId, collectionTitle, 123)).to.throw(TypeError, `newPin 123 is not a object`)
+            })
+        })
+
+        describe('update pin', () => {
+
+            let map, mapId, pin01, pin01Id, pin02, pin02Id, pinId, data
+
+            beforeEach(async () => {
+                map = await PMap.create({
+                    title: map01.title,
+                    description: map01.description,
+                    coverImage: map01.coverImage,
+                    author: userId,
+                    collections: [
+                        {
+                            title: map01.collections[0].title,
+                            pins: []
+                        },
+                        {
+                            title: map01.collections[1].title,
+                            pins: []
+                        }
+                    ]
+                })
+                mapId = map.id
+
+                pin01 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData01.title,
+                    description: pinData01.description,
+                    urlImage: pinData01.urlImage,
+                    bestTimeOfYear: pinData01.bestTimeOfYear,
+                    bestTimeOfDay: pinData01.bestTimeOfDay,
+                    photographyTips: pinData01.photographyTips,
+                    travelInformation: pinData01.travelInformation,
+                    coordinates: {
+                        latitude: pinData01.coordinates.latitude,
+                        longitude: pinData01.coordinates.longitude
+                    }
+                })
+                pin01Id = pin01.id
+                pinId = pin01Id
+
+                pin02 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData02.title,
+                    description: pinData02.description,
+                    urlImage: pinData02.urlImage,
+                    bestTimeOfYear: pinData02.bestTimeOfYear,
+                    bestTimeOfDay: pinData02.bestTimeOfDay,
+                    photographyTips: pinData02.photographyTips,
+                    travelInformation: pinData02.travelInformation,
+                    coordinates: {
+                        latitude: pinData02.coordinates.latitude,
+                        longitude: pinData02.coordinates.longitude
+                    }
+                })
+                pin02Id = pin02.id
+
+                map.collections[0].pins.push(pin01Id)
+                map.collections[1].pins.push(pin02Id)
+                await map.save()
+
+                data =
+                    {
+                        title: "Skogafoss 2",
+                        description: "My favorite waterfall2",
+                        urlImage: "https://images.unsplash.com/photo-1523302348819-ffd5c0521796?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=602",
+                        bestTimeOfYear: "All2",
+                        bestTimeOfDay: "All2",
+                        photographyTips: "Don't leave your camera at home2",
+                        travelInformation: "Need car2",
+                    }
+            })
+
+            it('should succeed on correct data', async () => {
+                await logic.updatePin(userId, pinId, data)
+                const pinUpdated = await Pin.findById(pinId).lean()
+                expect(pinUpdated.title).to.equal(data.title)
+                expect(pinUpdated.description).to.equal(data.description)
+                expect(pinUpdated.urlImage).to.equal(data.urlImage)
+                expect(pinUpdated.bestTimeOfYear).to.equal(data.bestTimeOfYear)
+                expect(pinUpdated.bestTimeOfDay).to.equal(data.bestTimeOfDay)
+                expect(pinUpdated.photographyTips).to.equal(data.photographyTips)
+                expect(pinUpdated.travelInformation).to.equal(data.travelInformation)
+            })
+
+            it('should fail on wrong pin id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    const pinUpdated = await logic.updatePin(userId, wrongId, data)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`no pin with id ${wrongId}`)
+                }
+            })
+
+            it('should fail on wrong author id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    const pinUpdated = await logic.updatePin(wrongId, pinId, data)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`pin ${pinId} is not from user ${wrongId}`)
+                }
+            })
+        })
+
+        describe('remove map', () => {
+
+            let map, mapId, pin01, pin01Id, pin02, pin02Id, pinId, data
+
+            beforeEach(async () => {
+                map = await PMap.create({
+                    title: map01.title,
+                    description: map01.description,
+                    coverImage: map01.coverImage,
+                    author: userId,
+                    collections: [
+                        {
+                            title: map01.collections[0].title,
+                            pins: []
+                        },
+                        {
+                            title: map01.collections[1].title,
+                            pins: []
+                        }
+                    ]
+                })
+                mapId = map.id
+
+                pin01 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData01.title,
+                    description: pinData01.description,
+                    urlImage: pinData01.urlImage,
+                    bestTimeOfYear: pinData01.bestTimeOfYear,
+                    bestTimeOfDay: pinData01.bestTimeOfDay,
+                    photographyTips: pinData01.photographyTips,
+                    travelInformation: pinData01.travelInformation,
+                    coordinates: {
+                        latitude: pinData01.coordinates.latitude,
+                        longitude: pinData01.coordinates.longitude
+                    }
+                })
+                pin01Id = pin01.id
+                pinId = pin01Id
+
+                pin02 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData02.title,
+                    description: pinData02.description,
+                    urlImage: pinData02.urlImage,
+                    bestTimeOfYear: pinData02.bestTimeOfYear,
+                    bestTimeOfDay: pinData02.bestTimeOfDay,
+                    photographyTips: pinData02.photographyTips,
+                    travelInformation: pinData02.travelInformation,
+                    coordinates: {
+                        latitude: pinData02.coordinates.latitude,
+                        longitude: pinData02.coordinates.longitude
+                    }
+                })
+                pin02Id = pin02.id
+
+                map.collections[0].pins.push(pin01Id)
+                map.collections[1].pins.push(pin02Id)
+                await map.save()
+            })
+
+            it('should succeed on correct data', async () => {
+                await logic.removeMap(userId, mapId)
+
+                try {
+                    const map = await PMap.findById(mapId).lean()
+                    expect(map).to.be.null
+                    const pins = await Pin.find().lean()
+                    expect(pins).to.have.lengthOf(0)
+                } catch (error) {
+                    throw Error('should not reach this point')
+                }
+            })
+
+            it('should fail on wrong map id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    await logic.removeMap(userId, wrongId)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`map with id ${wrongId} doesn't exists`)
+                }
+            })
+
+            it('should fail on wrong author id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    await logic.removeMap(wrongId, mapId)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`map ${mapId} is not from user ${wrongId}`)
+                }
+            })
+        })
+
+        describe('remove collection', () => {
+
+            let map, mapId, pin01, pin01Id, pin02, pin02Id, collectionTitle
+
+            beforeEach(async () => {
+                collectionTitle = map01.collections[0].title
+
+                map = await PMap.create({
+                    title: map01.title,
+                    description: map01.description,
+                    coverImage: map01.coverImage,
+                    author: userId,
+                    collections: [
+                        {
+                            title: map01.collections[0].title,
+                            pins: []
+                        },
+                        {
+                            title: map01.collections[1].title,
+                            pins: []
+                        }
+                    ]
+                })
+                mapId = map.id
+
+                pin01 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData01.title,
+                    description: pinData01.description,
+                    urlImage: pinData01.urlImage,
+                    bestTimeOfYear: pinData01.bestTimeOfYear,
+                    bestTimeOfDay: pinData01.bestTimeOfDay,
+                    photographyTips: pinData01.photographyTips,
+                    travelInformation: pinData01.travelInformation,
+                    coordinates: {
+                        latitude: pinData01.coordinates.latitude,
+                        longitude: pinData01.coordinates.longitude
+                    }
+                })
+                pin01Id = pin01.id
+                pinId = pin01Id
+
+                pin02 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData02.title,
+                    description: pinData02.description,
+                    urlImage: pinData02.urlImage,
+                    bestTimeOfYear: pinData02.bestTimeOfYear,
+                    bestTimeOfDay: pinData02.bestTimeOfDay,
+                    photographyTips: pinData02.photographyTips,
+                    travelInformation: pinData02.travelInformation,
+                    coordinates: {
+                        latitude: pinData02.coordinates.latitude,
+                        longitude: pinData02.coordinates.longitude
+                    }
+                })
+                pin02Id = pin02.id
+
+                map.collections[0].pins.push(pin01Id)
+                map.collections[1].pins.push(pin02Id)
+                await map.save()
+            })
+
+            it('should succeed on correct data', async () => {
+                await logic.removeCollection(userId, mapId, collectionTitle)
+
+                try {
+                    const map = await PMap.findById(mapId).lean()
+                    expect(map.collections).to.have.lengthOf(1)
+                } catch (error) {
+                    throw Error('should not reach this point')
+                }
+            })
+
+            it('should fail on wrong map id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    await logic.removeCollection(userId, wrongId, collectionTitle)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`map with id ${wrongId} doesn't exists`)
+                }
+            })
+
+            it('should fail on wrong author id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    await logic.removeCollection(wrongId, mapId, collectionTitle)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`map ${mapId} is not from user ${wrongId}`)
+                }
+            })
+
+            it('should fail on wrong collection title', async () => {
+                const wrongCollectionTitle = 'Wrong collection title'
+                try {
+                    await logic.removeCollection(userId, mapId, wrongCollectionTitle)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`map ${mapId} doesn't have a collection with title ${wrongCollectionTitle}`)
+                }
+            })
+        })
+
+        describe('remove pin', () => {
+
+            let map, mapId, pin01, pin01Id, pin02, pin02Id, pinId
+
+            beforeEach(async () => {
+                collectionTitle = map01.collections[0].title
+
+                map = await PMap.create({
+                    title: map01.title,
+                    description: map01.description,
+                    coverImage: map01.coverImage,
+                    author: userId,
+                    collections: [
+                        {
+                            title: map01.collections[0].title,
+                            pins: []
+                        },
+                        {
+                            title: map01.collections[1].title,
+                            pins: []
+                        }
+                    ]
+                })
+                mapId = map.id
+
+                pin01 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData01.title,
+                    description: pinData01.description,
+                    urlImage: pinData01.urlImage,
+                    bestTimeOfYear: pinData01.bestTimeOfYear,
+                    bestTimeOfDay: pinData01.bestTimeOfDay,
+                    photographyTips: pinData01.photographyTips,
+                    travelInformation: pinData01.travelInformation,
+                    coordinates: {
+                        latitude: pinData01.coordinates.latitude,
+                        longitude: pinData01.coordinates.longitude
+                    }
+                })
+                pin01Id = pin01.id
+                pinId = pin01Id
+
+                pin02 = await Pin.create({
+                    mapId,
+                    author: userId,
+                    title: pinData02.title,
+                    description: pinData02.description,
+                    urlImage: pinData02.urlImage,
+                    bestTimeOfYear: pinData02.bestTimeOfYear,
+                    bestTimeOfDay: pinData02.bestTimeOfDay,
+                    photographyTips: pinData02.photographyTips,
+                    travelInformation: pinData02.travelInformation,
+                    coordinates: {
+                        latitude: pinData02.coordinates.latitude,
+                        longitude: pinData02.coordinates.longitude
+                    }
+                })
+                pin02Id = pin02.id
+
+                map.collections[0].pins.push(pin01Id)
+                map.collections[1].pins.push(pin02Id)
+                await map.save()
+            })
+
+            it('should succeed on correct data', async () => {
+                await logic.removePin(userId, pinId)
+
+                try {
+                    const pin = await Pin.findById(pinId).lean()
+                    expect(pin).to.be.null
+                } catch (error) {
+                    throw Error('should not reach this point')
+                }
+            })
+
+            it('should fail on wrong pin id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    await logic.removePin(userId, wrongId)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`No pin with id ${wrongId} was found for user ${userId}`)
+                }
+            })
+
+            it('should fail on wrong author id', async () => {
+                const wrongId = '342452654635'
+                try {
+                    await logic.removePin(wrongId, pinId)
+                    throw Error('should not reach this point')
+                } catch (error) {
+                    expect(error).to.be.instanceOf(LogicError)
+                    expect(error.message).to.equal(`No pin with id ${pinId} was found for user ${wrongId}`)
+                }
+            })
+        })
     })
 
 
