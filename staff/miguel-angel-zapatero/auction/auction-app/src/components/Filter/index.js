@@ -99,50 +99,57 @@ function Filter({ onFilter, query, filters, history }) {
 
     }
 
-    return <div className='home__section-filter'> 
-        <form className="uk-form-stacked" onChange={handleChange} onSubmit={deleteFilters}>
-            <div className="uk-margin">
-                <label className="uk-form-label" htmlFor="form-stacked-startdate">From</label>
-                <div className="uk-form-controls">
-                    <input className="uk-input uk-form-small" id="form-stacked-startdate" type="date" name="startDate" max={moment(endDate).format('YYYY-MM-DD')} />
-                </div>
-                <label className="uk-form-label" htmlFor="form-stacked-enddate">To</label>
-                <div className="uk-form-controls">
-                    <input className="uk-input uk-form-small" id="form-stacked-enddate" type="date" name="endDate" min={moment(startDate).format('YYYY-MM-DD')} />
-                </div>
-            </div>
-            
-            <div className="uk-margin">
-                <label className="uk-form-label">Estimate</label>
-                <RangeSlider onFilters={handleChange}/>
-            </div>
-            
-            <div className="uk-margin">
-                <label className="uk-form-label" htmlFor="form-stacked-city">City</label>
-                <div className="uk-form-controls">
-                    <select className="uk-select uk-form-small" id="form-stacked-city" name="city">
-                    {cities && cities.map((city, index) =>
-                        <option key={index} value={city}>{city}</option>
-                    )}
-                    </select>
-                </div>
-            </div>
+    return <ul className="uk-margin-remove-top" data-uk-accordion>
+        <li>
+            <a className="uk-accordion-title" href="#">Filters {((startDate && endDate) || (startPrice && endPrice) || city || category) && <span className="uk-label uk-label-success">Selected</span>}</a>
+            <div className="uk-accordion-content">
+                <div className='home__section-filter'> 
+                    <form className="uk-form-stacked" onChange={handleChange} onSubmit={deleteFilters}>
+                        <div className="uk-margin">
+                            <label className="uk-form-label" htmlFor="form-stacked-startdate">From</label>
+                            <div className="uk-form-controls">
+                                <input className="uk-input uk-form-small" id="form-stacked-startdate" type="date" name="startDate" max={moment(endDate).format('YYYY-MM-DD')} />
+                            </div>
+                            <label className="uk-form-label" htmlFor="form-stacked-enddate">To</label>
+                            <div className="uk-form-controls">
+                                <input className="uk-input uk-form-small" id="form-stacked-enddate" type="date" name="endDate" min={moment(startDate).format('YYYY-MM-DD')} />
+                            </div>
+                        </div>
+                        
+                        <div className="uk-margin">
+                            <label className="uk-form-label">Estimate</label>
+                            <RangeSlider onFilters={handleChange}/>
+                        </div>
+                        
+                        <div className="uk-margin">
+                            <label className="uk-form-label" htmlFor="form-stacked-city">City</label>
+                            <div className="uk-form-controls">
+                                <select className="uk-select uk-form-small" id="form-stacked-city" name="city">
+                                {cities && cities.map((city, index) =>
+                                    <option key={index} value={city}>{city}</option>
+                                )}
+                                </select>
+                            </div>
+                        </div>
 
-            <div className="uk-margin">
-                <label className="uk-form-label" htmlFor="form-stacked-category">Category</label>
-                <div className="uk-form-controls">
-                    <select className="uk-select uk-form-small" id="form-stacked-category" name="category">
-                        {categories && categories.map((category, index) =>
-                            <option key={index} value={category}>{category}</option>
-                        )}
-                    </select>
+                        <div className="uk-margin">
+                            <label className="uk-form-label" htmlFor="form-stacked-category">Category</label>
+                            <div className="uk-form-controls">
+                                <select className="uk-select uk-form-small" id="form-stacked-category" name="category">
+                                    {categories && categories.map((category, index) =>
+                                        <option key={index} value={category}>{category}</option>
+                                    )}
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                    
+                    { ((startDate && endDate) || (startPrice && endPrice) || city || category) &&
+                    <FiltersDelete startDate={startDate} endDate={endDate} startPrice={startPrice} endPrice={endPrice} city={city} category={category} onDelete={deleteFilters} filters={filters}/>}
                 </div>
             </div>
-        </form>
-        
-        { ((startDate && endDate) || (startPrice && endPrice) || city || category) &&
-        <FiltersDelete startDate={startDate} endDate={endDate} startPrice={startPrice} endPrice={endPrice} city={city} category={category} onDelete={deleteFilters}/>}
-    </div>
+        </li>
+    </ul>
 }
 
 export default withRouter(Filter)

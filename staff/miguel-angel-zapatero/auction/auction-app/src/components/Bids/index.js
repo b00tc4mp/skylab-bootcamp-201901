@@ -1,8 +1,9 @@
 import React, {useState} from 'react'
 import BidsDetail from '../BidsDetail'
+import logic from '../../logic'
 import './index.sass'
 
-function Bids({bids, onBid, isClosed, quickBid, userId}) {
+function Bids({bids, onBid, isClosed, quickBid}) {
     const [amount, setAmount] = useState(null)
 
     function handleSubmit(e){
@@ -22,14 +23,14 @@ function Bids({bids, onBid, isClosed, quickBid, userId}) {
     }
     
     return <>
-        <ul id="bids" className="uk-list uk-list-striped bids">
+        <ul id="bids" className="uk-list bids">
             {bids && bids.map((bid, index) =>
-                <BidsDetail key={index} bid={bid} userId={userId}/>
+                <BidsDetail key={index} bid={bid}/>
             )}
         </ul>
         <form onSubmit={handleSubmit}>
             <input className="uk-input uk-text-center" type="number" min={quickBid} name="amount" onChange={e=>setAmount(e.target.value)} placeholder="SET YOUR MAXIMUM BID" disabled={isClosed}/>
-            <button name="quickbid" value={quickBid} className="uk-button uk-button-primary uk-width-1-1" disabled={isClosed}>Place next Bid: {quickBid} €</button>
+            <button name="quickbid" value={quickBid} className="uk-button uk-button-primary uk-width-1-1" disabled={isClosed}>Place next Bid: {logic.getFormat(quickBid)}</button>
         </form>
     </>
 }

@@ -5,7 +5,7 @@ import bcrypt from  'bcrypt'
 import jwt from 'jsonwebtoken'
 import auctionLiveApi from '../data/auctionlive-api';
 
-// jest.setTimeout(100000)
+jest.setTimeout(100000)
 
 const { User, Item, Bid } = models
 
@@ -309,42 +309,37 @@ describe('logic', () => {
                 })
 
                 it('should succeed on correct data', async () => {    
-                    const response = await logic.updateUser(data)
-                    expect(response).toBeUndefined()
-                    
-                    const _user = await User.findById(user.id)
-                    
+                    const _user = await logic.updateUser(data)
                     expect(_user).toBeDefined()
-                    expect(_user.id).toBe(user.id)
+                    
+                    expect(_user.id).toBeUndefined()
                     expect(_user.surname).toBe(data.surname)
                     expect(_user.name).toBe(data.name)
                     expect(_user.email).toBe(data.email)
+                    expect(_user.avatar).toBeDefined()
 
-                    const pass = bcrypt.compareSync(data.password, _user.password)
+                    const user_ = await User.findById(user.id)
+                    const pass = bcrypt.compareSync(data.password, user_.password)
 
                     expect(pass).toBeTruthy()
-                    expect(Object.keys(_user._doc).length).toEqual(Object.keys(user._doc).length)
                 })
 
                 it('should succeed changing some fields', async () => {    
                     const data = { name: 'n', email: 'e@e.com'}
     
-                    const response = await logic.updateUser(data)
-                    expect(response).toBeUndefined()
-                    
-                    const _user = await User.findById(user.id)
-                    
+                    const _user = await logic.updateUser(data)
                     expect(_user).toBeDefined()
-                    expect(_user.id).toBe(user.id)
+                    expect(_user.id).toBeUndefined()
                     expect(_user.name).toBe(data.name)
                     expect(_user.email).toBe(data.email)
                     
                     expect(_user.name).not.toBe(user.name)
                     expect(_user.email).not.toBe(user.email)
-                    expect(_user.surname).toBe(user.surname)
-                    expect(_user.password).toBe(user.password)
-    
-                    expect(Object.keys(_user._doc).length).toEqual(Object.keys(user._doc).length)
+                    
+                    const user_ = await User.findById(user.id)
+                    
+                    expect(user_.surname).toBe(user.surname)
+                    expect(user_.password).toBe(user.password)
                 })
 
                 it('should fail on existing email user', async () => {    
@@ -500,32 +495,6 @@ describe('logic', () => {
             await Promise.all(items.map(async item => await Item.create(item)))
         })
 
-        xdescribe('create items', () => {
-            it('should success on correct data', async () => {
-                let item = items[Math.floor(Math.random() * items.length)]
-                
-                let { title, description, startPrice, startDate, finishDate, reservedPrice, city, category, images } = item
-
-                startDate = new Date(startDate)
-                finishDate = new Date(finishDate)
-                
-                await logic.createItem(title, description, startPrice, startDate, finishDate, reservedPrice, images, category, city)
-                
-                const _item = await Item.findOne({title: title})
-                
-                expect(_item.title).toBe(title)
-                expect(_item.description).toBe(description)
-                expect(_item.startPrice).toBe(startPrice)
-                expect(_item.startDate).toEqual(startDate)
-                expect(_item.finishDate).toEqual(finishDate)
-                expect(_item.reservedPrice).toBe(reservedPrice)
-                expect(_item.city).toBe(city)
-                expect(_item.category).toBe(category)
-                expect(_item.images).toBeInstanceOf(Array)
-                // expect(_item.images).toContain(images)
-            })
-        })
-
         describe('search items', () => {
             let query
 
@@ -573,8 +542,8 @@ describe('logic', () => {
             it('should success on correct start price range', async () => {
                 let items_ = items.filter(item => (item.startPrice >= 20 && item.startPrice <= 150))
 
-                query.startPrice = 21 
-                query.endPrice = 149 
+                query.startPrice = 20
+                query.endPrice = 150
 
                 const _items = await logic.searchItems(query)
 
@@ -587,8 +556,8 @@ describe('logic', () => {
 
                 query.city = 'London'
                 query.category = 'Jewellery'
-                query.startPrice = 21 
-                query.endPrice = 149 
+                query.startPrice = 20 
+                query.endPrice = 150
 
                 const _items = await logic.searchItems(query)
                 
@@ -605,7 +574,20 @@ describe('logic', () => {
         })
 
         describe('retrieve item', () => {
-            it('should success on correc item id', async () => {
+            let item_, _item_, _password
+    
+            beforeEach(async ()=> {
+                _password = bcrypt.hashSync(password, 10)
+                await User.create({name, surname, email, password: _password})
+               
+                const res = await auctionLiveApi.authenticateUser(email, password)
+                logic.__userToken__ = res.token  
+
+                item_ = items[Math.floor(Math.random() * items.length)]
+                _item_ = await Item.create(item_)
+            })
+            
+            it('should success on correct item id', async () => {
                 let item_ = items[Math.floor(Math.random() * items.length)]
                 const item = await Item.create(item_)
 
@@ -623,6 +605,60 @@ describe('logic', () => {
                 expect(_item.city).toBe(item.city)
                 expect(_item.category).toBe(item.category)
                 expect(_item.images).toBeInstanceOf(Array)
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let id = '01234567890123456789abcd'
+                
+                try {
+                    await logic.retrieveItem(id)                    
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(Error)
+    
+                    expect(error.message).toBe(`item with id "${id}" doesn't exist`)
+                }
+            })
+
+            it('should fail on incorrect item id', async () => {
+                let id = 'wrong-id'
+                
+                try {
+                    await logic.retrieveItem(id)                     
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                  
+                    expect(error.message).toBe(`Cast to ObjectId failed for value "wrong-id" at path "_id" for model "Item"`)
+                }
+            })
+
+            it('should fail on incorrect user token', async () => {
+                logic.__userToken__ = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1Y2YwNWRiMTlhOWFkMDE2MGMxODhlYmMiLCJpYXQiOjE1NTkyNTY1MDEsImV4cCI6MTU1OTI2MDEwMX0.HXQ4YMq6bdsXfQQthBKKZ4sdfsdfsXUOCF3xdqs1h69F7bg'
+                
+                try {
+                    await auctionLiveApi.retrieveItem(_item_.id, token)               
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                    expect(error).toBeInstanceOf(Error)
+    
+                    expect(error.message).toBe('invalid signature')
+                }
+            })
+
+            it('should fail on incorrect user id', async () => {
+                logic.__userToken__ = 'wrong-id'
+                
+                try {
+                    await auctionLiveApi.retrieveItem(_item_.id, token)
+                    throw new Error('should not reach this point')
+                } catch (error) {
+                    expect(error).toBeDefined()
+                   
+                    expect(error.message).toBe('jwt malformed')
+                }
             })
         })
 
@@ -815,25 +851,28 @@ describe('logic', () => {
                 let amount2 = 1500
                 await logic.placeBid(item.id, amount2)
 
-                const bids = await logic.retrieveItemBids(item.id)
+                const _item = await logic.retrieveItemBids(item.id)
                 
-                expect(bids.length).toBeGreaterThan(0)
+                expect(_item).toBeInstanceOf(Object)
+                expect(_item.bids.length).toBe(2)
 
-                expect(bids[0].amount).toBe(amount2)
-                expect(bids[0].timeStamp).toBeDefined()
-                expect(bids[0].userId.name).toBe(user.name)
-                expect(bids[0].userId.name).toBe(user.name)
-                expect(bids[0].userId.name).toBe(user.name)
-                expect(bids[0].userId.password).toBeUndefined()
-                expect(bids[0].userId._id).toBeUndefined()
+                expect(_item.bids[0].amount).toBe(amount2)
+                expect(_item.bids[0].timeStamp).toBeDefined()
+                expect(_item.bids[0].userId.name).toBe(user.name)
+                expect(_item.bids[0].userId.avatar).toBeDefined()
+                expect(_item.bids[0].userId.id).toBe(user.id)
+                expect(_item.bids[0].userId.name).toBe(user.name)
+                expect(_item.bids[0].userId.surname).toBeUndefined()
+                expect(_item.bids[0].userId.password).toBeUndefined()
 
-                expect(bids[1].amount).toBe(amount)
-                expect(bids[1].timeStamp).toBeDefined()
-                expect(bids[1].userId.name).toBe(user.name)
-                expect(bids[1].userId.surname).toBeUndefined()
-                expect(bids[1].userId.email).toBeUndefined()
-                expect(bids[1].userId.password).toBeUndefined()
-                expect(bids[1].userId._id).toBeUndefined()
+                expect(_item.bids[1].amount).toBe(amount)
+                expect(_item.bids[1].timeStamp).toBeDefined()
+                expect(_item.bids[1].userId.name).toBe(user.name)
+                expect(_item.bids[1].userId.avatar).toBeDefined()
+                expect(_item.bids[1].userId.id).toBe(user.id)
+                expect(_item.bids[1].userId.name).toBe(user.name)
+                expect(_item.bids[1].userId.surname).toBeUndefined()
+                expect(_item.bids[1].userId.password).toBeUndefined()
             })
 
             it('should fail on incorrect item id', async () => {
