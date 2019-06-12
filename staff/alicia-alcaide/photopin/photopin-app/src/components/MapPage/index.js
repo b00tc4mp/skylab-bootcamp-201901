@@ -167,7 +167,7 @@ class MapPage extends Component {
   };
 
   reportSuccess = () => toast.success(literals[this.props.lang].successMsg);
-  reportError = () => toast.error(literals[this.props.lang].successMsg);
+  reportError = () => toast.error(literals[this.props.lang].errorMsg);
 
   render() {
     const { state, props } = this;

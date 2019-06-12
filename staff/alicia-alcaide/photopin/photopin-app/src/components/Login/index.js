@@ -50,7 +50,6 @@ function Login({ lang, onLogin, error, onLangChange }) {
                 type="email"
                 name="username"
                 placeholder={email}
-                defaultValue="ali@mail.com"
               />
             </div>
           </div>
@@ -62,7 +61,6 @@ function Login({ lang, onLogin, error, onLangChange }) {
                 type="password"
                 name="password"
                 placeholder={password}
-                defaultValue="123"
               />
             </div>
           </div>

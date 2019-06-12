@@ -1,14 +1,8 @@
-# PhotoPin
+![Photopin](photopin-doc/images/intro-header.png)
 
-PhotoPin is an app to save photographic locations on a map. You can create different maps and in them save locations (pins) with all the information you need about this spot, either photographic or logistics information.
+Photopin is an tool aimed at professional and enthusiast photographers who require careful planning of their photographic trips, as well as an easy and visual way to keep track of their favorite photographic locations.
 
-
-<img src="photopin-doc/images/photopin-logo/iconfinder_v2.png" alt="logo" width="120px" />
-
-
-## [Planning](https://docs.google.com/spreadsheets/d/1FhPfRvsASocZMx397xKO8jK24CFqp_BnGvC5RqeB8ME/edit?usp=sharing)
-
-## [Tasks (trello)]()
+The application allows users to create their own maps and populate them with collections of locations. For each location, users can store valuable information and reference images that will help them assess the best time and conditions for a successful photographic session.
 
 ## [Documentation](photopin-doc/README.md)
 

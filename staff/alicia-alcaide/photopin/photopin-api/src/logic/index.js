@@ -155,14 +155,14 @@ const logic = {
     })();
   },
 
-  //------------------ A partir de aquí revisar las cabeceras ----------------------------
+  //------------------ TODO: A partir de aquí revisar las cabeceras ----------------------------
 
   /**
-   * Retrieve the complete user data (name, surname, email, avatar, language and )
+   * Retrieve an array with the information of all maps of the user
    *
    * @param {String} userId The user id
    *
-   * @returns {Object} The user data
+   * @returns {Array} The maps data
    */
   retrieveUserMaps(userId) {
     validate.arguments([
@@ -184,14 +184,16 @@ const logic = {
   },
 
   /**
-   * Retrieve the complete user data (name, surname, email, avatar, language and )
+   * Retrieve the complete map data, with all the pins
    *
    * @param {String} userId The user id
+   * @param {String} mapId The map id
    *
    * @returns {Object} The user data
    */
   retrieveUserMap(userId, mapId) {
     validate.arguments([
+      { name: "userId", value: userId, type: "string", notEmpty: true },
       { name: "mapId", value: mapId, type: "string", notEmpty: true }
     ]);
 
@@ -199,6 +201,11 @@ const logic = {
       const map = await PMap.findById(mapId)
         .populate("collections.pins")
         .lean();
+
+      if (!map) throw new LogicError(`no maps for user with id ${mapId}`);
+
+      if (!map.isPublic && !map.author.equals(userId))
+        throw new LogicError(`map ${mapId} is not from user ${userId}`);
 
       map.id = map._id.toString();
       delete map._id;
@@ -212,14 +219,11 @@ const logic = {
         })
       })
 
-      if (!map) throw new LogicError(`no maps for user with id ${mapId}`);
-
-      if (!map.isPublic && !map.author.equals(userId))
-        throw new LogicError(`map ${mapId} is not from user ${userId}`);
-
       return map;
     })();
   },
+
+
 
   createMap(userId, title, description, coverImage) {
     validate.arguments([
