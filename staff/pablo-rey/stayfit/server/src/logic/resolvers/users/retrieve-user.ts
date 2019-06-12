@@ -7,7 +7,7 @@ import { MyContext } from '../../middleware/MyContext';
 @Resolver(User)
 export class RetrieveUserResolver {
   @Authorized([ALWAYS_OWN_USER])
-  @Query(returns => [User])
+  @Query(returns => User)
   async retrieveUser(@Arg('userId') userId: string, @Ctx() ctx: MyContext) {
     if (!userId) throw new ValidationError('user is required')
     return await UserModel.findById(userId);

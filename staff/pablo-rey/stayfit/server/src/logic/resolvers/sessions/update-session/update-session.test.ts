@@ -102,7 +102,6 @@ describe('update/delete session', function() {
         },
       });
 
-      debugger
       // Expect
       const { data, errors } = response;
       expect(errors).to.be.undefined;

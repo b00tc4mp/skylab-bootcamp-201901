@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { refreshToken as refreshTokenFn, verifyAccessToken, verifyRefreshToken } from '../../common/token/refresh-tokens';
+import { refreshToken as refreshTokenFn, verifyAccessToken, verifyRefreshToken } from '../token/refresh-tokens';
 import { UserModel } from '../../data/models/user';
 
 export default async function({ req, res }: { req: Request; res: Response }) {

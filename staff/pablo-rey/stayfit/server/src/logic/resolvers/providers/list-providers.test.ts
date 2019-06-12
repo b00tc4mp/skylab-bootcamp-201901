@@ -92,42 +92,10 @@ describe('list of providers', function() {
         .to.be.instanceOf(Array)
         .and.to.have.lengthOf(1);
     });
-
-    it('should fail to retrieve administrative info from providers providers in full without SUPERADMIN ', async () => {
-      const query = gql`
-        query {
-          listProvidersPublicInfo {
-            name
-            admins {
-              id
-              email
-            }
-            coaches {
-              id
-              email
-            }
-            customers {
-              id
-              email
-            }
-          }
-        }
-      `;
-
-      const { superadmin } = await createTestProvider({});
-      const response = await gCall({
-        source: query,
-        ctx: {
-          userId: superadmin.id.toString(),
-        },
-      });
-      expect(response.errors).to.exist;
-      expect(response.data).not.to.exist;
-    });
   });
 
-  describe('list of all providers with respective requests for user', function () {
-    this.timeout(15000)
+  describe('list of all providers with respective requests for user', function() {
+    this.timeout(15000);
     it('should list providers data with requests', async () => {
       const { customers, provider: provider1 } = await createTestProvider({});
       const user = customers[0];
@@ -167,9 +135,11 @@ describe('list of providers', function() {
       expect(response.errors).not.to.exist;
       expect(response.data).to.exist;
       const data = response.data!.listMyProvidersInfo;
-      expect(data).to.be.instanceOf(Array).and.to.have.lengthOf(2);
+      expect(data)
+        .to.be.instanceOf(Array)
+        .and.to.have.lengthOf(2);
       const indexProvider1 = data.findIndex((_provider: any) => provider1.id.toString() === _provider.provider.id);
-      const indexProvider2 = indexProvider1 === 0 ? 1 : 0
+      const indexProvider2 = indexProvider1 === 0 ? 1 : 0;
       expect(data[indexProvider1]).not.to.be.null;
       expect(data[indexProvider1].customerOf).to.be.true;
       expect(data[indexProvider1].request).not.to.be.null;
@@ -177,8 +147,6 @@ describe('list of providers', function() {
       expect(data[indexProvider2]).not.to.be.null;
       expect(data[indexProvider2].customerOf).to.be.false;
       expect(data[indexProvider2].request).to.be.null;
-
-
     });
   });
 });

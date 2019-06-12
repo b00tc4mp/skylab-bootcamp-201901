@@ -52,7 +52,7 @@ describe('list my attendances', function() {
     return session;
   }
 
-  it.only('should list my attendances', async () => {
+  it('should list my attendances', async () => {
     const query = gql`
       query {
         listMyNextAttendances {
@@ -86,7 +86,6 @@ describe('list my attendances', function() {
         }
       }
     `;
-    debugger
     const session = await createDummySession();
     const user = (session.provider as Provider).customers[0] as User;
     const att = await AttendanceModel.create({ user, session, paymentType: PAIDINADVANCE, status: OK });
