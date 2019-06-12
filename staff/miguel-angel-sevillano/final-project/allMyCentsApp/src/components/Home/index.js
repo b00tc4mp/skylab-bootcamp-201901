@@ -287,7 +287,7 @@ function Home(props) {
             try {
 
                 const result = await logic.scanTicket(scannedTicket)
-                setTiketToProcess(result)
+                setTiketToProcess({result,scannedTicket})
                 props.history.push("/Home/TicketDetail")
             } catch (error) { }
         })()

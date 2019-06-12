@@ -127,22 +127,26 @@ function App(props) {
       <Route exact path="/Register" render={() =>
         registerOk ? <Redirect to="/Login" /> :
           <div class="registerBody">
+            <div class="formPosition">
             <span class="titleLogo">
               <img src={mainTitle} className="mainTitle"  ></img>
             </span>
             <div>
               <Register onRegister={handleRegister} message={messageReg} cancel={returnLanding} />
             </div>
+            </div>
           </div>} />
 
       <Route exact path="/Login" render={() =>
         sessionStorage.token ? <Redirect to="/Home" /> :
           <div class="loginBody">
+            <div class="loginFormPosition">
             <span class="titleLogo">
               <img src={mainTitle} className="mainTitle"  ></img>
             </span>
             <div>
               <Login class="appBody" onLogin={handleLogin} message={messageLog} cancel={returnLanding} />
+            </div>
             </div>
           </div>} />
 

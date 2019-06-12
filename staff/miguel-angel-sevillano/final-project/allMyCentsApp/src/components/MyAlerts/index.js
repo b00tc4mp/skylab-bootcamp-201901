@@ -38,17 +38,18 @@ function MyAlerts({ data, addAlert, addOneAlertError, deleteAlert, addedOk, dele
     if (data instanceof Object) {
         debugger
         alerts = data.map(({ name, _id, Euro, maxValue }) => {
+            let euroFixed = Euro.toFixed(2)
             let progressStatus = ""
 
             if (Euro < maxValue / 2.2) progressStatus = "progress is-success"
             if (Euro > maxValue / 2.2 && Euro < maxValue / 1.5) progressStatus = "progress is-warning"
             if (Euro > maxValue / 1.5) progressStatus = "progress is-danger"
-            return <div class="box" id="alertsMap">
+            return <div  id="alertsMap">
                     <div class="box" >
-                        <span class="tag is-warning is-medium">{name}</span>
+                        <span class="tag is-success is-medium">{name}</span>
                     </div>
                     <div class="box" id="alertsItems">
-                        <span class="tag is-warning is-medium">Actual : {Euro} €</span>
+                        <span class="tag is-warning is-medium">Actual : {euroFixed} €</span>
                         <progress class={progressStatus} id="progressBar" value={Euro} max={maxValue}></progress>
                         <span class="tag is-warning is-medium" id="maxValue">Max : {maxValue} €</span>
                     </div>
@@ -88,7 +89,7 @@ function MyAlerts({ data, addAlert, addOneAlertError, deleteAlert, addedOk, dele
                 </div>
             </div>
 
-            {alerts.length > 0 &&<div class="box" id="alerts" >{alerts}</div>}
+            {alerts.length > 0 &&<div  id="alerts" >{alerts}</div>}
 
         </div>
 

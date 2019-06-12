@@ -1,6 +1,6 @@
 html
     height: 100vh
-    background-image: url(C:\Users\mash5\Documents\skylab\bootcamp\collab\skylab-bootcamp-201904\staff\miguel-angel-sevillano\final-project\allMyCentsApp\src\images\tickets_alerts.jpg)
+    background-image: url(../../../src/images/tickets_alerts.jpg)
     background-size: cover
     
 .homeBody
@@ -18,10 +18,12 @@ html
     justify-content: center
     justify-items: center
     margin-top: 50px
+    animation: 1s pulse
 
 #userName
     width: 300px
     text-align: center
+   
 
 .noTicketsError
     display: flex
@@ -31,6 +33,7 @@ html
     justify-content: center
     justify-items: center
     margin-top: 50px
+    animation: 1.1s pulse
     
 .globalChart
     display: flex
@@ -40,8 +43,19 @@ html
     justify-content: center
     justify-items: center
     margin-top: 50px
+    animation: 1.1s pulse
 
 .errorLogoHome
     margin-left: 165px
     width: 100px
+    animation: 1.2s pulse
 
+@keyframes pulse 
+0% 
+    opacity: 0
+    transform: scale(0)
+
+  
+100% 
+    opacity: 1
+    transform: scale(1)

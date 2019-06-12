@@ -10,15 +10,16 @@ import Toast from '../Toast'
 function UserProfile({ getUser, updateUserData, updatedOk, updatedFail }) {
 
 
-    let [imputError, setImputError] = useState(null)
+     let [noInput, setNoInput] = useState(null) 
     let [closeModal, setCloseModal] = useState(false)
 
 
     let { name, surname, email } = getUser
 
-
+    let inputError = null 
 
     function handleUpdate(e) {
+        inputError= null
 
         e.preventDefault()
         setCloseModal(true)
@@ -32,10 +33,14 @@ function UserProfile({ getUser, updateUserData, updatedOk, updatedFail }) {
             email: email.value || null
         }
 
-        if(!name.value && !surname.value& !email.value)setImputError("Nothing to Update")
+        if(!name.value && !surname.value& !email.value){
+            inputError=true
+            setNoInput("Nothing to Update")
+           
+        }
         else if (updatedUser.email === email.placeholder) updatedUser.email = null
         
-        if(typeof(imputError) === null ){
+        if(inputError === null){
             updateUserData(updatedUser)
         }
 
@@ -74,20 +79,20 @@ function UserProfile({ getUser, updateUserData, updatedOk, updatedFail }) {
                 Email
                     <input class="input" type="text" name="email" placeholder={email} />
                 <div>
-                    <button class="button is-success" onClick={() => setImputError(null)} >Update</button>
+                    <button class="button is-success" onClick={()=>setNoInput(null)} >Update</button>
                 </div>
             </form>
 
         </div>
 
-        {typeof (imputError) === "string" && <Toast error={imputError} toastType="is-danger" />}
+        {noInput  && <Toast error={noInput} toastType="is-danger" />}
         {updatedOk && <Toast error={updatedOk} toastType="is-success" />}
 
         {closeModal && updatedFail && <Modal onClose={() => setCloseModal(false)} >
             <div>
                 {updatedFail}
             </div>
-        </Modal>} }
+        </Modal>} 
 </div>
 
 }

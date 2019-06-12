@@ -1,6 +1,7 @@
 .editTicketContainer
     display: flex
     justify-content: center
+    animation: 1s pulse
 
 #editTicket
     margin-top: 30px
@@ -20,9 +21,23 @@
     
 #productImput
     margin-left: 10px
+    animation: 1.5s pulse
 #euroImput
     margin-left: 10px
+    animation: 1.5s pulse
 #euroName
     margin-left: 10px
+    animation: 1.5s pulse
 #button
     margin-left: 10px
+    animation: 1.5s pulse
+
+@keyframes pulse 
+0% 
+    opacity: 0
+    transform: scale(0)
+
+  
+100% 
+    opacity: 1
+    transform: scale(1)

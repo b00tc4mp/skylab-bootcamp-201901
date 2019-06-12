@@ -43,6 +43,9 @@ function Chart(props) {
 
     })
 
+     date = date.split('/').reverse().join('/')
+   
+
     return <>
 
         <div>
@@ -52,7 +55,7 @@ function Chart(props) {
                 width={1600}
                 height={500}
                 data={data}
-                margin={{ top: 50, right: 30, left: 50, bottom: 15 }}>
+                margin={{ top: 10, right: 30, left: 30, bottom: 15 }}>
 
                 <CartesianGrid strokeDasharray="3 3" />
                 <XAxis dataKey="name" fontSize="0.8em"  />
@@ -60,7 +63,7 @@ function Chart(props) {
 
                 <YAxis label={{ value: '€', angle: 0, position: 'left', fontSize: "2em" }} />
                 <Brush dataKey='name' height={30} stroke="#8884d8"/>
-                <Bar dataKey="Euro" fill={color} stackOffset="expnad" />
+                <Bar dataKey="Euro" fill={color}  />
 
             </BarChart>
 

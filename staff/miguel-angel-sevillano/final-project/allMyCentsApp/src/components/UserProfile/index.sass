@@ -2,6 +2,7 @@
     display: flex   
     flex-direction: row
     justify-content: center
+    animation: 0.5s pulse
     
 
 #userProfile
@@ -10,13 +11,26 @@
     justify-content: center
     margin-top: 100px
     width: 400px
+    animation: 0.8s pulse
 
 
 
 .mainLogo
     margin-right: 120px
+    animation: 0.8s pulse
 
 
 
    
-   
+
+
+    
+@keyframes pulse 
+0% 
+    opacity: 0
+    transform: scale(0)
+
+  
+100% 
+    opacity: 1
+    transform: scale(1)

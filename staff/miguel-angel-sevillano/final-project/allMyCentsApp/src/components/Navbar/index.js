@@ -20,16 +20,16 @@ function Navbar({ goHome,
             <div id="navbar" class="navbar-menu">
                 <div class="navbar-start">
                     <img class="logo" src={logo}  ></img>
-                    <a class="navbar-item" onClick={goHome}>Home</a>
-                    <a class="navbar-item" onClick={goProfile}>Profile</a>
-                    <a class="navbar-item" onClick={goScanTicket}>Scan Ticket</a>
-                    <a class="navbar-item" onClick={goMytickets}>My Tickets</a>
-                    <a class="navbar-item" onClick={goMyAlerts}>My Alerts</a>
-                    <a class="navbar-item is-hidden-mobile" onClick={goMyEstadistics}>Stadistics</a>
+                    <a class="navbar-item" id="home" onClick={goHome}>Home</a>
+                    <a class="navbar-item" id="profile" onClick={goProfile}>Profile</a>
+                    <a class="navbar-item"  id="scanTicket" onClick={goScanTicket}>Scan Ticket</a>
+                    <a class="navbar-item"  id="myTickets" onClick={goMytickets}>My Tickets</a>
+                    <a class="navbar-item" id="myAlerts" onClick={goMyAlerts}>My Alerts</a>
+                    <a class="navbar-item is-hidden-mobile" id="stadistics" onClick={goMyEstadistics}>Stadistics</a>
                     <div class="navbar-end">
                         <div class="navbar-item">
                             <div class="buttons" id="logOutButton">
-                                <a class="button is-danger" onClick={logOut}>
+                                <a class="button is-danger"  id="logout" onClick={logOut}>
                                     <strong>Log Out</strong>
                                 </a>
                             </div>

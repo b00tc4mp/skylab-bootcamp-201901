@@ -149,7 +149,7 @@ function Estadistics({ selectedCategory,
             <div class="chartContainer">
                 <div class="categoryChart">
 
-                    {!recivedCategoryError && recivedCategory && <div class="box">
+                    {!recivedCategoryError && recivedCategory && <div class="box" id="categoryChart">
                         <CategoryChart data={recivedCategory} />
                         <button class="button is-danger" onClick={clearCategory}>Close</button>
                     </div>}

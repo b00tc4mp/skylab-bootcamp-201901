@@ -12,6 +12,15 @@ const logic = {
 
     //CRUD------------------------------------------------------------------------------------------------------
 
+    /**
+     * creates a user into the database
+     * @param {strign} name 
+     * @param {string} surname 
+     * @param {string} email 
+     * @param {string} password 
+     * @throws {LogicError} string
+     * @returns {string} confirmation message
+     */
     registerUser(name, surname, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -34,7 +43,14 @@ const logic = {
 
         })()
     },
-
+/**
+ * Autehnticates user
+ * 
+ * @param {string} email 
+ * @param {string} password 
+ * @throws {LogicError} string
+ *@returns {string} returns user id
+ */
     authenticateUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
@@ -53,7 +69,14 @@ const logic = {
             else return user.id
         })()
     },
-
+/**
+ * Retrive user data
+ * 
+ * @param {string} id 
+ * 
+ * @throws {LogicError} string
+ * @returns {Object} returns user data
+ */
     retrieveUser(id) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
@@ -71,6 +94,15 @@ const logic = {
         })()
     },
 
+/**
+ * Updates params of user profile
+ * @param {string} id 
+ * @param {Obejct} data 
+ * 
+ * @throws {LogicError} string
+ * @returns {string} confirmation message
+ */
+
     updateUser(id, data) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -84,7 +116,7 @@ const logic = {
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
 
             if (data.email) {
-                
+
 
                 const re = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
@@ -112,6 +144,13 @@ const logic = {
 
         })()
     },
+
+    /**
+     * Delete a user from database
+     * @param {string} id 
+     * @throws {LogicError} string
+     * @returns {string} confirmation message
+     */
     deleteUser(id) {
 
         validate.arguments([
@@ -131,6 +170,14 @@ const logic = {
 
     //USER TICKETS----------------------------------------------------------------------------------------------------
 
+
+    /**Adds a ticket to user profile
+     * 
+     * @param {string} id 
+     * @param {Object} ticket 
+     * @throws {LogicError} string
+     * @returns {string} confirmation message
+     */
     addPrivateTicket(id, ticket) {                                                      //ADD TICKET--------------------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -156,7 +203,7 @@ const logic = {
 
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-            
+
 
             user.tickets.push(new Ticket({ items: ticket }))
 
@@ -174,6 +221,16 @@ const logic = {
         })()
 
     },
+
+
+    /**
+     * Returns a single user ticket
+     * @param {string} id 
+     * @param {string} ticketId 
+     * * 
+     * @throws {LogicError} string
+     * @returns {object} ticket
+     */
     retrivePrivateTicket(id, ticketId) {                                                    //RETRIVE TICKET--------------------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -188,7 +245,7 @@ const logic = {
 
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-            
+
 
             user.tickets.forEach((item, index) => {
                 if (item._id.toString() === ticketId.toString())
@@ -200,6 +257,17 @@ const logic = {
         })()
 
     },
+
+    /**
+     * Updates a param of a single user ticket
+     * @param {string} id 
+     * @param {string} ticketId 
+     * @param {object} data 
+     * @param {string} position 
+     * @throws {LogicError} string
+     * @returns {string} confirmation message
+     * 
+     */
 
     updatePrivateTicket(id, ticketId, data, position) {                                 //UPDATE TICKET-------------------------------
         validate.arguments([
@@ -227,8 +295,8 @@ const logic = {
             })
             if (!coincidence) throw new LogicError("This product dont exist")
 
-            
-           
+
+
 
             tickets.forEach(ticket => {
 
@@ -254,6 +322,15 @@ const logic = {
 
     },
 
+    /**
+     * Returns tickets form user profile filtered by range of dates , silgle date , or month
+     * @param {string} id 
+     * @param {object} data 
+     * * 
+     * @throws {LogicError} string
+     * @returns {Object} returns tickets
+     */
+
     retrivePrivateTicketsByDates(id, data) {                                                 //GET TICKETS BY DATES--------------------------
 
 
@@ -269,7 +346,7 @@ const logic = {
             const { tickets } = user
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-        
+
 
             let retrivedTickets = []
             let init = false
@@ -319,6 +396,13 @@ const logic = {
 
     },
 
+    /**
+     * List all tickets from user profile
+     * @param {*} id 
+     * @throws {LogicError} string
+     * @returns {object} returns tickets
+     */
+
     listPrivateTickets(id) {                                                        //LIST ALL TICKETS----------------------------------
 
         validate.arguments([
@@ -329,7 +413,7 @@ const logic = {
             const user = await User.findById(id)
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-        
+
 
             if (user.tickets.length) return user.tickets
             else throw new LogicError("No tickets found")
@@ -339,6 +423,15 @@ const logic = {
 
 
 
+    /**
+     * Removes a single ticket form user profile
+     * 
+     * @param {string} id 
+     * @param {sting} ticketId 
+     * * 
+     * @throws {LogicError} string
+     * @returns {string} confirmation message
+     */
     removePrivateTicket(id, ticketId) {                                                      //DELETE TICKET-----------------------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -350,7 +443,7 @@ const logic = {
             let user = await User.findById(id)
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-           
+
 
             user.tickets.forEach((item, index) => {
                 if (item._id.toString() === ticketId.toString())
@@ -363,6 +456,17 @@ const logic = {
 
     },
 
+    /**
+     * Reemove all tickets from user profile
+     * 
+     * @param {string} id 
+     * 
+     * @throws {LogicError} string
+     * @returns {string} confirmation message
+     * 
+     * 
+     */
+
     removeAllPrivateTickets(id) {                                                            //DELETE ALL TICKETS-----------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true }
@@ -372,7 +476,7 @@ const logic = {
             let user = await User.findById(id)
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-          
+
 
             user.tickets = []
 
@@ -383,6 +487,16 @@ const logic = {
     },
 
     //TICKET ITEMS----------------------------------------------------------------------------------------------
+
+    /**
+     * retruns total amount of an item provided
+     * 
+     * @param {string} id 
+     * @param {string} product 
+     * 
+     * @throws {LogicError} string
+     * @returns {number} Amount f profuct
+     */
 
 
     retrieveAmountByProdcut(id, product) {                                                  //GET AMOUNT BY ITEM QUERY--------------------------
@@ -401,7 +515,7 @@ const logic = {
             const user = await User.findById(id)
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-           
+
 
 
 
@@ -420,6 +534,16 @@ const logic = {
     },
 
 
+    /**
+     * retruns all amount of each iteam that mathces items of category provided 
+     * 
+     * @param {string} id 
+     * @param {string} category 
+     * 
+     * @throws {LogicError} string
+     * @returns {Object}  products 
+     */
+
     retrieveByCategory(id, category) {                                                  //GET ITEMS BY CATEGORY QUERY--------
 
 
@@ -436,7 +560,7 @@ const logic = {
 
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-      
+
 
             const { items } = await Cat.findOne({ category: category })
 
@@ -483,6 +607,16 @@ const logic = {
 
     //USER ALERTS -------------------------------------------------------------------------------------------------
 
+
+    /**
+     * Adds an alert to user profile
+     * 
+     * @param {string} id 
+     * @param {object} alert
+     * @throws {LogicError} string
+     * @returns {string} confirmation message
+     */
+
     addAlert(id, alert) {                                                               //ADD AN ALERT---------------------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -501,7 +635,7 @@ const logic = {
 
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-           
+
 
 
             if (typeof user.alerts[0] === "object") {
@@ -530,6 +664,15 @@ const logic = {
     },
 
 
+    /**
+     * List all user alerts
+     * 
+     * @param {string} id 
+     * @throws {LogicError} string
+     * @returns {Object} Aletts 
+     */
+
+
     listAlerts(id) {                                                               //LIST ALERTS---------------------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -541,7 +684,7 @@ const logic = {
             let { alerts, tickets } = user
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-        
+
 
             if (alerts[0]) {
 
@@ -565,6 +708,17 @@ const logic = {
         })()
     },
 
+    /**
+     * Edits params of an user alert 
+     * 
+     * @param {string} id 
+     * @param {string} alertId 
+     * @param {object} data 
+     * @throws {LogicError} string
+     * @returns {string} confirmation message
+     * 
+     */
+
     editAlert(id, alertId, data) {                                                                  //EDIT ALERT------------------------
 
         validate.arguments([
@@ -581,7 +735,7 @@ const logic = {
 
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-           
+
 
             alerts.forEach(item => {
 
@@ -598,6 +752,16 @@ const logic = {
         })()
     },
 
+    /**
+     * Deletes an user alert
+     * 
+     * @param {string} id 
+     * @param {string} alertId 
+     * 
+     *  @throws {LogicError} string
+     * @returns {string} confirmation message
+     */
+
     deleteAlert(id, alertId) {                                                                      //DELETE ALERT-----------------------
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -607,11 +771,13 @@ const logic = {
         return (async () => {
 
             let user = await User.findById(id)
+            if (!user) throw new LogicError(`user with id ${id} does not exist`)
+
             let { alerts } = user
             let deleted = false
 
-            if (!user) throw new LogicError(`user with id ${id} does not exist`)
-           
+
+
 
             alerts.forEach((items, index) => {
                 if (items._id.toString() === alertId) {
@@ -627,6 +793,15 @@ const logic = {
         })()
     },
 
+    /**
+     * Delete all user alerts 
+     * 
+     * @param {string} id 
+     * 
+     * @throws {LogicError}string
+     * 
+     * @returns {string} confirmation message
+     */
 
     deleteAllAlerts(id) {                                                                           //DELETE ALL ALERTS
 
@@ -640,7 +815,7 @@ const logic = {
             let alerts = []
 
             if (!user) throw new LogicError(`user with id ${id} does not exist`)
-           
+
 
             await User.findByIdAndUpdate(id, { alerts: alerts })
             await user.save()
@@ -651,6 +826,18 @@ const logic = {
 
     },
 
+
+
+
+    /**
+     * Adds a new item to the db collection "items"
+     * 
+     * @param {object} item 
+     * 
+     *  @throws {LogicError} string
+     * 
+     * @returns {Promise} resolves on correct data rejects on wrong data
+     */
 
     //ITEMS--------------------------------------------------------------------------------------------------
 
@@ -669,6 +856,15 @@ const logic = {
             return newItem
         })()
     },
+
+
+    /**
+  * list all items from db collection "Items"
+  * 
+  *  @throws {LogicError} string
+  * 
+  * @returns {Promise} resolves on correct data rejects on wrong data
+  */
 
 
     listItems() {

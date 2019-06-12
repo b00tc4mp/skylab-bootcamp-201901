@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './index.sass'
 import { Modal } from "../Modal"
 import errorLogo from "../../images/error-logo.png"
@@ -9,16 +9,21 @@ function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toS
     let [modalActive, setModal] = useState(false)
     let [errorMessage, setError] = useState(null)
     let [errorFromSaeve, setErrorFs] = useState(true)
-    let [errorChecked , setErrorChecked] = useState(false)
+    let [errorChecked, setErrorChecked] = useState(false)
+    
 
+
+    const { result, scanedTicket } = processedTicket
+
+debugger
 
 
 
     let savedTicket = []
-    let errorFound=false
-   
+    let errorFound = false
 
-    let ticket = processedTicket.map(item => {
+
+    let ticket = result.map(item => {
 
         return (<div class="control" id="ticket">
             <div class="itemTicketDetail">Product <input class="input" type="text" name="item" placeholder={item.name} /> </div>
@@ -63,32 +68,33 @@ function TicketDetail({ processedTicket, toSaveTicket, getTicketDetailError, toS
         for (let i = 0; i < string.length; i++) { savedTicket.push({ name: string[i], Euro: Number(number[i].replace(/,/g, ".")) }) }
 
         savedTicket.forEach(item => {
-           
-            errorFound=false
-         
+
+            errorFound = false
+
             if (isNaN(item.Euro)) {
                 setError("Wrong information detected , please check your ticket")
                 setModal(true)
-                errorFound=true
+                errorFound = true
             }
-            
+
 
             if (item.Euro > 20 && !errorChecked) {
                 setError("Warning prices seems to be high above , check ticket please")
                 setModal(true)
-                errorFound=true
+                errorFound = true
             }
-            
+
         })
 
-        if(!errorFound && errorChecked )toSaveTicket(savedTicket)
-        else if(!errorFound)toSaveTicket(savedTicket)
-        
+        if (!errorFound && errorChecked) toSaveTicket(savedTicket)
+        else if (!errorFound) toSaveTicket(savedTicket)
+
 
     }
 
 
     return <div class="ticketDetailBody">
+
 
         {ticket.length ?
             <div class="ticketCointaner">

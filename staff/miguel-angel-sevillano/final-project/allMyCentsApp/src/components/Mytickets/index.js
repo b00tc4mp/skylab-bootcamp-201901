@@ -66,9 +66,10 @@ function MyTickets({ data,
 
 
         ticketsProccesed = data.map(({ date, _id, items }) => {
+            date = date.split('/').reverse().join('/')
             return <div class="box" id="animation">
-                <div class="ticket">
-                    <span class="tag is-warning is-large">Ticket date :{date}</span>
+                <div class="ticket" id="ticketBody">
+                    <span class="tag is-warning is-large">Ticket date : {date}</span>
 
                     {
                         items.map(item => {

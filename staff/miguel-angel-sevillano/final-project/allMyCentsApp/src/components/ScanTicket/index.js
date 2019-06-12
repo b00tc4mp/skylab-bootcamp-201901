@@ -52,11 +52,11 @@ function ScanTicket({ scannedTicket }) {
                 <p class="info">Please fit your ticket as this example</p>
                 <img src={logo} width="400px"></img>
             </div>
-            <div class="box" id="drag">
+            <div class="box" id="drag2">
                 <DropNCrop onChange={itsChanging} value={state} canvasHeight="500px" canvasWidth="500px" maxFileSize={6145728} cropperOptions={{ guides: true, viewMode: 1, autoCropArea: 1 }} />
             </div>
-            <div class="box" id="drag">
-                <p class="info ">Your ticket preview will show here</p>
+            <div class="box" id="drag3">
+                <p class="info ">Your ticket preview will be shown here</p>
                 <img src={result} class="preview" label="No image"></img>
             </div>
         </span>
