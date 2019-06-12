@@ -2,11 +2,11 @@ import React from "react";
 import { Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import GoogleMapReact from "google-map-react";
-import SearchBox from "./SearchBox";
+import SearchBox from "../SearchBox";
 import Marker from "../Marker";
 import NewMarker from "../NewMarker";
-import { placeType } from "../../../types";
-import logic from "../../../logic";
+import { placeType } from "../../../../types";
+import logic from "../../../../logic";
 
 const MAP_DEFAULT_ZOOM = 6;
 const MAP_DEFAULT_ZOOM_ON_PIN_SELECTED = 6;

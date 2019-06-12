@@ -4,10 +4,9 @@ import { toast } from "react-toastify";
 import literals from "./literals";
 import validate from "photopin-validate";
 import Modal from "react-modal";
-import { placeType } from "../../../types";
-import placeholderImage from "../../../assets/images/placeholder-image.png";
-import './index.css'
-
+import { placeType } from "../../../../types";
+import placeholderImage from "../../../../assets/images/placeholder-image.png";
+import "./index.css";
 
 class PinForm extends React.Component {
   state = { showModal: false, urlImage: null, errors: {} };
@@ -114,10 +113,15 @@ class PinForm extends React.Component {
     return (
       <>
         {place && mapCollections && (
-          <Modal isOpen={showModal} onRequestClose={handleCloseModal} ariaHideApp={false} className="Modal" >
+          <Modal isOpen={showModal} onRequestClose={handleCloseModal} ariaHideApp={false} className="Modal">
             <div className="modal">
-              <h2 className="uk-text-center mini-margin-top uk-margin-remove-bottom">{isEditing() ? headerUpdate : headerAdd}</h2>
-              <div className="uk-grid uk-margin-remove-left uk-grid-match uk-center uk-child-width-expand@s" data-uk-grid>
+              <h2 className="uk-text-center mini-margin-top uk-margin-remove-bottom">
+                {isEditing() ? headerUpdate : headerAdd}
+              </h2>
+              <div
+                className="uk-grid uk-margin-remove-left uk-grid-match uk-center uk-child-width-expand@s"
+                data-uk-grid
+              >
                 <div className="uk-card uk-card-default custom-card-body mini-margin-top">
                   <form className="uk-form-stacked" onSubmit={handleSubmit}>
                     <div className="">
@@ -128,8 +132,15 @@ class PinForm extends React.Component {
                         <span className="uk-text-danger uk-margin-small-left">{this.state.errors.title}</span>
                       )}
                       <div className="uk-form-controls">
-                        <input className="custom-input custom-form-width"
-                          id="form-stacked-text" type="text" name="title" defaultValue={place.title} autoFocus required />
+                        <input
+                          className="custom-input custom-form-width"
+                          id="form-stacked-text"
+                          type="text"
+                          name="title"
+                          defaultValue={place.title}
+                          autoFocus
+                          required
+                        />
                       </div>
                     </div>
                     <div className="mini-margin-top">
@@ -137,8 +148,13 @@ class PinForm extends React.Component {
                         {description}
                       </label>
                       <div className="uk-form-controls">
-                        <input className="custom-input custom-form-width"
-                          id="form-stacked-text" type="text" name="description" defaultValue={place.description} />
+                        <input
+                          className="custom-input custom-form-width"
+                          id="form-stacked-text"
+                          type="text"
+                          name="description"
+                          defaultValue={place.description}
+                        />
                       </div>
                     </div>
                     <div className="mini-margin-top">
@@ -149,8 +165,14 @@ class PinForm extends React.Component {
                         <span className="uk-text-danger uk-margin-small-left">{this.state.errors.urlImage}</span>
                       )}
                       <div className="uk-form-controls">
-                        <input className="custom-input custom-form-width"
-                          id="form-stacked-text" type="url" name="urlImage" defaultValue={place.urlImage} onChange={handleChangeImage} />
+                        <input
+                          className="custom-input custom-form-width"
+                          id="form-stacked-text"
+                          type="url"
+                          name="urlImage"
+                          defaultValue={place.urlImage}
+                          onChange={handleChangeImage}
+                        />
                       </div>
                     </div>
                     <div className="mini-margin-top">
@@ -158,8 +180,13 @@ class PinForm extends React.Component {
                         {bestTimeYear}
                       </label>
                       <div className="uk-form-controls">
-                        <input className="custom-input custom-form-width"
-                          id="form-stacked-text" type="text" name="bestTimeYear" defaultValue={place.bestTimeOfYear} />
+                        <input
+                          className="custom-input custom-form-width"
+                          id="form-stacked-text"
+                          type="text"
+                          name="bestTimeYear"
+                          defaultValue={place.bestTimeOfYear}
+                        />
                       </div>
                     </div>
                     <div className="mini-margin-top">
@@ -167,8 +194,13 @@ class PinForm extends React.Component {
                         {bestTimeDay}
                       </label>
                       <div className="uk-form-controls">
-                        <input className="custom-input custom-form-width"
-                          id="form-stacked-text" type="text" name="bestTimeDay" defaultValue={place.bestTimeOfDay} />
+                        <input
+                          className="custom-input custom-form-width"
+                          id="form-stacked-text"
+                          type="text"
+                          name="bestTimeDay"
+                          defaultValue={place.bestTimeOfDay}
+                        />
                       </div>
                     </div>
                     <div className="mini-margin-top">
@@ -176,9 +208,15 @@ class PinForm extends React.Component {
                         {photoTips}
                       </label>
                       <div className="uk-form-controls">
-                        <textarea className="custom-input custom-form-width"
+                        <textarea
+                          className="custom-input custom-form-width"
                           id="form-stacked-text"
-                          type="text" name="photoTips" rows="1" cols="25" defaultValue={place.photographyTips} />
+                          type="text"
+                          name="photoTips"
+                          rows="1"
+                          cols="25"
+                          defaultValue={place.photographyTips}
+                        />
                       </div>
                     </div>
                     <div className="mini-margin-top">
@@ -186,9 +224,15 @@ class PinForm extends React.Component {
                         {travelInfo}
                       </label>
                       <div className="uk-form-controls">
-                        <textarea className="custom-input custom-form-width"
+                        <textarea
+                          className="custom-input custom-form-width"
                           id="form-stacked-text"
-                          type="text" name="travelInfo" rows="1" cols="25" defaultValue={place.travelInformation} />
+                          type="text"
+                          name="travelInfo"
+                          rows="1"
+                          cols="25"
+                          defaultValue={place.travelInformation}
+                        />
                       </div>
                     </div>
                     {!isEditing() && (
@@ -196,8 +240,12 @@ class PinForm extends React.Component {
                         <label className="" htmlFor="form-stacked-text">
                           {collection}
                         </label>
-                        <select className="custom-select"
-                          id="form-stacked-text" name="collectionSel" defaultValue={place.collection}>
+                        <select
+                          className="custom-select"
+                          id="form-stacked-text"
+                          name="collectionSel"
+                          defaultValue={place.collection}
+                        >
                           {mapCollections.map(collection => (
                             <option value={collection} key={collection}>
                               {collection}
@@ -207,7 +255,9 @@ class PinForm extends React.Component {
                       </div>
                     )}
                     <div className="uk-flex uk-flex-center">
-                      <button className="custom-form-button-small" type="submit">{isEditing() ? update : add}</button>
+                      <button className="custom-form-button-small" type="submit">
+                        {isEditing() ? update : add}
+                      </button>
                       <button className="custom-form-button-small" type="button" onClick={this.handleCloseModal}>
                         {cancel}
                       </button>

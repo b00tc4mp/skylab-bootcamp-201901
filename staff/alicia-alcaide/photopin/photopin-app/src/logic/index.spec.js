@@ -82,8 +82,6 @@ describe('logic', () => {
                 expect(() => logic.registerUser(name, surname, ' \t    \n', password)).to.throw(ValueError, 'email is empty')
             })
 
-            //TODO resto de casos síncronos de variables obligatorias (name, surname, password)
-
         })
 
         describe('login user', () => {

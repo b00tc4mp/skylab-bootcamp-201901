@@ -108,3 +108,22 @@ a .white-title {
 .ReactModal__Overlay {
   z-index: 9;
 }
+
+.alert {
+  padding: 15px;
+  background-color: #f8584c;
+  font-size: 12px;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.alert-closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}

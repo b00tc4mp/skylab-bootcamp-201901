@@ -1,11 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { placeType } from "../../../types";
+import { placeType } from "../../../../types";
 import "./index.css";
-import iconShow from "../../../assets/icons/icon_eye.png";
-import iconEdit from "../../../assets/icons/icon_pencil.png";
-import iconDelete from "../../../assets/icons/icon_trash.png";
-import iconClose from '../../../assets/icons/icon_close.png';
+import iconShow from "../../../../assets/icons/icon_eye.png";
+import iconEdit from "../../../../assets/icons/icon_pencil.png";
+import iconDelete from "../../../../assets/icons/icon_trash.png";
+import iconClose from "../../../../assets/icons/icon_close.png";
 
 const InfoWindow = props => {
   const { place } = props;

@@ -9,7 +9,7 @@ export default {
     placeholderNewCol: "Title"
   },
   es: {
-    headerAdd: "Crear nueva colección",
+    headerAdd: "Nueva colección",
     headerUpdate: "Editar colección",
     title: "Título: ",
     add: "Añadir",

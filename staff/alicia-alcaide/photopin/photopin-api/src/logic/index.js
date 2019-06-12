@@ -155,8 +155,6 @@ const logic = {
     })();
   },
 
-  //------------------ TODO: A partir de aquí revisar las cabeceras ----------------------------
-
   /**
    * Retrieve an array with the information of all maps of the user
    *

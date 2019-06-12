@@ -42,7 +42,7 @@ const logic = {
 
         this.__userToken__ = res.token;
       } catch (error) {
-        throw new LogicError(error);
+        this.handleError(error);
       }
     })();
   },

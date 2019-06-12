@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import PropTypes from "prop-types";
 import { pmapType } from "../../../types";
 import { withRouter } from "react-router-dom";
-import MapContainer from "../GoogleMap/MapContainer";
+import MapContainer from "./MapContainer";
 
 class MapSection extends Component {
   state = {

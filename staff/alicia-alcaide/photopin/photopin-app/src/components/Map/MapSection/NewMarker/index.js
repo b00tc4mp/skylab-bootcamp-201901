@@ -2,9 +2,9 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import PinForm from "../PinForm";
 import NewPinWindow from "../NewPinWindow";
-import { placeType } from "../../../types";
+import { placeType } from "../../../../types";
 import "./index.css";
-import pinYellow from "../../../assets/icons/icon_pin_yellow.png";
+import pinYellow from "../../../../assets/icons/icon_pin_yellow.png";
 
 const NewMarker = props => {
   const [showPinForm, setShowPinForm] = useState(false);

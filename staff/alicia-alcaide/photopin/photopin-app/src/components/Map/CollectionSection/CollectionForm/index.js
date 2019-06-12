@@ -2,7 +2,7 @@ import React from "react";
 import { PropTypes } from "prop-types";
 import literals from "./literals";
 import Modal from "react-modal";
-import './index.css'
+import "./index.css";
 
 class CollectionForm extends React.Component {
   state = { showModal: false };
@@ -48,7 +48,12 @@ class CollectionForm extends React.Component {
     return (
       <>
         {collection && (
-          <Modal isOpen={showModal} onRequestClose={handleCloseModal} ariaHideApp={false} className="modal-collection-page modal-collection">
+          <Modal
+            isOpen={showModal}
+            onRequestClose={handleCloseModal}
+            ariaHideApp={false}
+            className="modal-collection-page modal-collection"
+          >
             <div className="uk-container custom-pading-medium">
               <h2>{isEditing() ? headerUpdate : headerAdd}</h2>
               <form onSubmit={handleSubmit}>
@@ -57,13 +62,17 @@ class CollectionForm extends React.Component {
                   className="uk-input uk-form-width-large"
                   type="text"
                   name="title"
-                  defaultValue={isEditing() ? collection.title : placeholderNewCol}
-                  autoFocus required
+                  defaultValue={isEditing() ? collection.title : ""}
+                  placeholder={placeholderNewCol}
+                  autoFocus
+                  required
                 />
                 <br />
                 <br />
                 <div className="uk-flex uk-flex-center">
-                  <button className="custom-form-button-small" type="submit">{isEditing() ? update : add}</button>
+                  <button className="custom-form-button-small" type="submit">
+                    {isEditing() ? update : add}
+                  </button>
                   <button className="custom-form-button-small" type="button" onClick={this.handleCloseModal}>
                     {cancel}
                   </button>

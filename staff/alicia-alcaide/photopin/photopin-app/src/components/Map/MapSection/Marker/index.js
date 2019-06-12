@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import PropTypes from "prop-types";
-import { placeType } from "../../../types";
+import { placeType } from "../../../../types";
 import InfoWindow from "../InfoWindow";
 import PinForm from "../PinForm";
 import "./index.css";
-import pinBlue from "../../../assets/icons/icon_pin_blue.png";
-import pinRed from "../../../assets/icons/icon_pin_red.png";
+import pinBlue from "../../../../assets/icons/icon_pin_blue.png";
+import pinRed from "../../../../assets/icons/icon_pin_red.png";
 
 const Marker = props => {
   const [showPinForm, setShowPinForm] = useState(false);

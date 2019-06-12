@@ -3,9 +3,9 @@ import { withRouter, Redirect } from "react-router-dom";
 import PropTypes from "prop-types";
 import literals from "./literals";
 import validate from "photopin-validate";
-import NavBar from "../NavBar";
-import placeholderImage from "../../assets/images/placeholder-image.png";
-import logic from "../../logic";
+import NavBar from "../../NavBar";
+import placeholderImage from "../../../assets/images/placeholder-image.png";
+import logic from "../../../logic";
 import { toast } from "react-toastify";
 
 class MapForm extends Component {

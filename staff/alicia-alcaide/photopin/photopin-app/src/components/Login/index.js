@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { Link } from "react-router-dom";
 import literals from "./literals";
 import logo from "../../assets/logo/icon_v2_white.png";
 import "./index.css";
 
-function Login({ lang, onLogin, error, onLangChange }) {
+function Login({ lang, onLogin, error, onLangChange, onClearError }) {
   const { title, subtitle, email, password, enter } = literals[lang];
 
   function handleSubmit(e) {
@@ -14,6 +15,12 @@ function Login({ lang, onLogin, error, onLangChange }) {
 
     onLogin(username, password);
   }
+
+  useEffect(() => {
+    onClearError();
+  }, []);
+
+  const { home } = literals[lang];
 
   return (
     <section className="bg-login">
@@ -29,6 +36,9 @@ function Login({ lang, onLogin, error, onLangChange }) {
           </ul>
           <div className="uk-navbar-right">
             <ul className="uk-navbar-nav">
+              <li className="uk-active">
+                <Link to="/home">{home}</Link>
+              </li>
               <li className={lang !== "en" ? "uk-active" : ""}>
                 <a onClick={() => onLangChange("en")}>en</a>
               </li>
@@ -50,6 +60,7 @@ function Login({ lang, onLogin, error, onLangChange }) {
                 type="email"
                 name="username"
                 placeholder={email}
+                required
               />
             </div>
           </div>
@@ -61,12 +72,21 @@ function Login({ lang, onLogin, error, onLangChange }) {
                 type="password"
                 name="password"
                 placeholder={password}
+                required
               />
             </div>
           </div>
-
           <button className="uk-button default-button uk-text-bold uk-width-1-1">{enter}</button>
-          <span>{error}</span>
+          {error && (
+            <div className="uk-margin">
+              <div className="alert">
+                <span className="alert-closebtn" onClick={() => onClearError()}>
+                  &times;
+                </span>
+                {error}
+              </div>
+            </div>
+          )}
         </form>
       </div>
     </section>

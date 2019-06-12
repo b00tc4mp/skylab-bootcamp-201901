@@ -44,11 +44,13 @@ function call(url, options = {}) {
 
       const { response } = error;
       if (response && response.status) {
-        const err = new HttpError();
+        const msg =
+          response.data && response.data.error ? response.data.error : "Error";
+        const err = new HttpError(msg);
         err.status = response.status;
         throw err;
       }
-
+      Y;
       throw error;
     }
   })();

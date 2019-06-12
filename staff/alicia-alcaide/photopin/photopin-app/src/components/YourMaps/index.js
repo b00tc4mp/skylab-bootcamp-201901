@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import { withRouter, Redirect } from "react-router-dom";
 import literals from "./literals";
 import logic from "../../logic";
-import MapList from "../MapList";
+import MapList from "./MapList";
 
 class YourMaps extends Component {
   state = { maps: [] };

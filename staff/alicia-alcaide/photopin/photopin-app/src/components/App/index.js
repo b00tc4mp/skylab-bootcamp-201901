@@ -7,8 +7,8 @@ import Register from "../Register";
 import Welcome from "../Welcome";
 import Login from "../Login";
 import Home from "../Home";
-import MapPage from "../MapPage";
-import MapForm from "../MapForm";
+import MapPage from "../Map";
+import MapForm from "../YourMaps/MapForm";
 
 class App extends Component {
   state = { lang: "en", error: null };
@@ -18,14 +18,10 @@ class App extends Component {
   handleLoginNavigation = () => this.props.history.push("/login");
 
   handleRegister = (name, surname, email, password) => {
-    try {
-      logic
-        .registerUser(name, surname, email, password)
-        .then(() => this.props.history.push("/welcome"))
-        .catch(error => this.setState({ error: error.message }));
-    } catch ({ message }) {
-      this.setState({ error: message });
-    }
+    logic
+      .registerUser(name, surname, email, password)
+      .then(() => this.props.history.push("/welcome"))
+      .catch(error => this.setState({ error: error.message }));
   };
 
   handleLogin = (email, password) => {
@@ -33,12 +29,14 @@ class App extends Component {
       logic
         .loginUser(email, password)
         .then(() => logic.retrieveUser())
-        .then(({ name }) => {
+        .then(() => {
           this.setState({ error: null }, () => this.props.history.push("/home"));
         })
-        .catch(error => this.setState({ error: error.message }));
-    } catch ({ message }) {
-      this.setState({ error: message });
+        .catch(error => {
+          this.setState({ error: error.message });
+        });
+    } catch ({ error }) {
+      this.setState({ error: error.message });
     }
   };
 
@@ -51,6 +49,8 @@ class App extends Component {
     this.setState({ lang });
   };
 
+  handleClearError = () => this.setState({ error: null });
+
   render() {
     const {
       state: { lang, error },
@@ -59,7 +59,8 @@ class App extends Component {
       handleLogin,
       handleRegister,
       handleLogout,
-      handleLangChange
+      handleLangChange,
+      handleClearError
     } = this;
 
     return (
@@ -72,13 +73,13 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <Redirect to="/home" />
               ) : (
-                <Landing
-                  lang={lang}
-                  onRegister={handleRegisterNavigation}
-                  onLogin={handleLoginNavigation}
-                  onLangChange={handleLangChange}
-                />
-              )
+                  <Landing
+                    lang={lang}
+                    onRegister={handleRegisterNavigation}
+                    onLogin={handleLoginNavigation}
+                    onLangChange={handleLangChange}
+                  />
+                )
             }
           />
 
@@ -88,8 +89,14 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <Redirect to="/home" />
               ) : (
-                <Register lang={lang} onRegister={handleRegister} error={error} onLangChange={handleLangChange} />
-              )
+                  <Register
+                    lang={lang}
+                    onRegister={handleRegister}
+                    error={error}
+                    onLangChange={handleLangChange}
+                    onClearError={handleClearError}
+                  />
+                )
             }
           />
 
@@ -99,8 +106,14 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <Redirect to="/home" />
               ) : (
-                <Welcome lang={lang} onLogin={handleLoginNavigation} error={error} loggedOut={false} onLangChange={handleLangChange}/>
-              )
+                  <Welcome
+                    lang={lang}
+                    onLogin={handleLoginNavigation}
+                    error={error}
+                    loggedOut={false}
+                    onLangChange={handleLangChange}
+                  />
+                )
             }
           />
 
@@ -110,8 +123,14 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <Redirect to="/home" />
               ) : (
-                <Login lang={lang} onLogin={handleLogin} error={error} onLangChange={handleLangChange} />
-              )
+                  <Login
+                    lang={lang}
+                    onLogin={handleLogin}
+                    error={error}
+                    onLangChange={handleLangChange}
+                    onClearError={handleClearError}
+                  />
+                )
             }
           />
 
@@ -121,8 +140,8 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <Home lang={lang} onLogout={handleLogout} onLangChange={handleLangChange} />
               ) : (
-                <Redirect to="/" />
-              )
+                  <Redirect to="/" />
+                )
             }
           />
 
@@ -132,8 +151,8 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <MapPage lang={lang} onLogout={handleLogout} onLangChange={handleLangChange} />
               ) : (
-                <Redirect to="/" />
-              )
+                  <Redirect to="/" />
+                )
             }
           />
 
@@ -144,8 +163,8 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <MapForm lang={lang} onLogout={handleLogout} onLangChange={handleLangChange} />
               ) : (
-                <Redirect to="/" />
-              )
+                  <Redirect to="/" />
+                )
             }
           />
 
@@ -155,8 +174,8 @@ class App extends Component {
               logic.isUserLoggedIn ? (
                 <MapForm lang={lang} onLogout={handleLogout} onLangChange={handleLangChange} />
               ) : (
-                <Redirect to="/" />
-              )
+                  <Redirect to="/" />
+                )
             }
           />
 
