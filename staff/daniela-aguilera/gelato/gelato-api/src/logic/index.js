@@ -7,6 +7,17 @@ const cloudinary = require('cloudinary').v2
 const { CLOUDINARY_API_KEY, CLOUDINARY_NAME, CLOUDINARY_SECRET_KEY } = require('../config')
 
 const logic = {
+  /**
+     * Registers a user.
+     *
+     * @param {String} - name
+     * @param {String} - surname
+     * @param {String} - email
+     * @param {String} - password
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty or password and password confirm do not match.
+     */
+
   registerUser (name, surname, email, password) {
     validate.arguments([
       { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -27,6 +38,17 @@ const logic = {
     })()
   },
 
+  /**
+     * Authenticates a user.
+     *
+     * @param {String} - email
+     * @param {String} - password
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty, email is not found or password does not match.
+     *
+     * @returns {String} - token.
+     */
+
   authenticateUser (email, password) {
     validate.arguments([
       { name: 'email', value: email, type: 'string', notEmpty: true },
@@ -45,6 +67,14 @@ const logic = {
     })()
   },
 
+  /**
+     * Retrieves user
+     *@param {String} - id
+     * @returns {Object} - user.
+    * @throws {TypeError} - if id is noy a string
+     *
+     */
+
   retrieveUserBy (id) {
     validate.arguments([
       { name: 'id', value: id, type: 'string', notEmpty: true }
@@ -56,6 +86,18 @@ const logic = {
       return user
     })()
   },
+
+  /**
+     * Updates a user.
+     *
+     * @param {Object} - data
+     * @param {String} - id
+     * @throws {TypeError} - if data is not an object.
+     * @throws {Error} - if any data is empty.
+     * @throws {TypeError} - if id is not a string.
+     * @throws {Error} - if id is empty.
+     * @returns {Object} - user.
+     */
 
   updateUser (id, data) {
     validate.arguments([
@@ -73,9 +115,6 @@ const logic = {
       const user = await User.findById(id)
       if (!user) throw new LogicError(`user with id "${id}" does not exist`)
 
-      // const existingEmail = await User.findOne({ email: email })
-      // if (existingEmail) throw new LogicError(`email "${email}" already exist`)
-
       const data = {
         name: name || user.name,
         surname: surname || user.surname,
@@ -87,7 +126,14 @@ const logic = {
     })()
   },
 
-  removeUser (userId, email) {
+  /**
+     * Delete an user.
+     *@param {string} - userId
+    * @throws {TypeError} - if id is not a string.
+     * @throws {Error} - if id is empty.
+     */
+
+  removeUser (userId) {
     validate.arguments([
       { name: 'userId', value: userId, type: 'string', notEmpty: true }
     ])
@@ -103,6 +149,18 @@ const logic = {
     })()
   },
 
+  /**
+     * add order
+     *@param {string} - client
+     * @param {Object} - flavors
+     * @param {String} - size
+     * @param {String} - type
+     * @param {Number} - TotalPrice
+     * @throws {TypeError} - if any param is not a string or if flavors is not and object, if
+     *  totalPrice is not a number or if client is not a string
+     * @throws {Error} - if a param is empty.
+     */
+
   addOrder ({ client, type, size, flavors, totalPrice }) {
     validate.arguments([
       { name: 'client', value: client, type: 'string', notEmpty: true },
@@ -116,6 +174,15 @@ const logic = {
       await Order.create({ client, type, size, flavors, totalPrice })
     })()
   },
+
+  /**
+     * removeOneOrder
+     *@param {string} - client
+     * @param {String} - size
+     * @param {boolean} - is admin
+     * @throws {TypeError} - if client or size is not a string or if admin is not a boolean
+     * @throws {Error} - if a param is empty.
+     */
 
   removeOneOrder ({ orderId, isAdmin, userId }) {
     validate.arguments([
@@ -138,6 +205,13 @@ const logic = {
     })()
   },
 
+  /**
+     * Retrieve orders
+     *@param {string} - userId
+     * @throws {TypeError} - if userId is not a string
+     * @throws {Error} - if a param is empty.
+     */
+
   retrieveOrdersByUserId (userId) {
     validate.arguments([
       { name: 'userId', value: userId, type: 'string', notEmpty: true }
@@ -158,6 +232,12 @@ const logic = {
       return orders
     })()
   },
+  /**
+     * retrieve all orders
+     *@param {boolean} - isAdmin
+     * @throws {TypeError} - if isAdmin is not a boolean
+     * @throws {Error} - if a param is empty.
+     */
 
   async retrieveAllOrders ({ isAdmin }) {
     validate.arguments([
@@ -183,6 +263,14 @@ const logic = {
 
     return allOrders
   },
+
+  /**
+     * retrieve all orders
+     *@param {String} - orderid
+     * @throws {TypeError} - if orderId is not a string
+     * @throws {Error} - if a param is empty.
+     */
+
   retrieveOneOrderByOrderId ({ orderId }) {
     validate.arguments([
       { name: 'orderId', value: orderId, type: 'string', notEmpty: true }
@@ -204,6 +292,17 @@ const logic = {
       return order
     })()
   },
+
+  /**
+     * add order
+     *@param {string} - title
+     * @param {Object} - buffer
+     * @param {String} - description
+     * @param {String} - date
+     * @param {Boolean} - isAdmin
+     * @throws {TypeError} - if any param is not a string or if buffer is not an object or if isAdmin is not a boolean
+     * @throws {Error} - if a param is empty.
+     */
 
   async createEvent (title, description, date, buffer, isAdmin) {
     validate.arguments([
@@ -241,6 +340,11 @@ const logic = {
     })()
   },
 
+  /**
+     * retrieve eventsd
+     * @returns {Object}
+     */
+
   async retrieveEvents () {
     const events = await Event.find().lean()
 
@@ -253,6 +357,14 @@ const logic = {
 
     return events
   },
+
+  /**
+     * delete Event
+     * @param {String} - id
+     * @param {Boolean} - isAdmin
+     * @throws {TypeError} - if id is not a string or if isAdmin is not a boolean
+     * @throws {Error} - if a param is empty.
+     */
 
   async deleteEvent ({ id, isAdmin }) {
     validate.arguments([

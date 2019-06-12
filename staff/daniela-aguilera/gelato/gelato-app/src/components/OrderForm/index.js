@@ -20,9 +20,9 @@ const SIZES = {
 }
 
 const LIMIT_FLAVORS = {
-  'small': 2, // small
-  'medium': 3, // medium
-  'big': 4 // big
+  'small': 2,
+  'medium': 3,
+  'big': 4
 }
 
 const TYPES = {
@@ -75,19 +75,13 @@ export function OrderForm () {
   }
 
   useEffect(function () {
-    // tomamos el element que hemos guardado en la referencia
     const element = orderScrollerElement.current
-    // comprobamos si tenemos un elemento
     if (element) {
-      // tomamos el ancho del elemento
       const elementWidth = element.clientWidth
-      // multiplicamos el ancho del elemento por el paso actual y lo hacemos negativo
-      // ya que el movimiento es hacia la izquierda.
       const movement = (elementWidth * step * -1) + 'px'
-      // usamos translate3d porque usa la aceleración del hardware
       element.style = `transform: translate3d(${movement}, 0, 0)`
     }
-  }, [step]) // este efecto lo ejecutamos sólo cuando cambia el valor de step
+  }, [step])
 
   const renderTypeInputs = () => (
     <section className='g-Order-step'>
@@ -208,8 +202,6 @@ export function OrderForm () {
 
   async function _handleSubmit (event) {
     event.preventDefault()
-    // const totalPrice = calculatePrice()
-    // await logic.addOrder(flavors, size, type, totalPrice)
     setStep(3)
   }
 
@@ -234,7 +226,6 @@ export function OrderForm () {
 
   if (step === 4) {
     return (
-      // <Redirect to='/my-basket' />
       <Redirect to='/store/map' />
     )
   }

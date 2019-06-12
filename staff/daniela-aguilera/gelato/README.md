@@ -1,4 +1,6 @@
+# Gelato App
 
+## [Documentation] (./gelato-doc/README.md)
 
-https://trello.com/b/sHreo0SU/gelato
+## [Demo] ()
 

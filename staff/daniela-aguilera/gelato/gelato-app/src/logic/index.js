@@ -3,17 +3,35 @@ import { normalize } from '../common/normalize'
 import restApi from '../api'
 
 export default {
+  /**
+     * Save in the sessionStorage the token
+     *
+     */
   set __userToken__ (token) {
     window.sessionStorage.userToken = token
   },
+  /**
+     * Save in the sessionStorage if the user is admin or not
+     *
+     */
 
   set __userIsAdmin__ (isAdmin) {
     window.sessionStorage.userIsAdmin = isAdmin
   },
 
+  /**
+     * @returns {Token}
+     *
+     */
+
   get __userToken__ () {
     return normalize.undefinedOrNull(window.sessionStorage.userToken)
   },
+
+  /**
+     * @returns {Boolean}
+     *
+     */
 
   get __userIsAdmin__ () {
     const userIsAdmin = normalize.undefinedOrNull(window.sessionStorage.userIsAdmin)
@@ -22,13 +40,32 @@ export default {
       : false
   },
 
+  /**
+     * Checks if user is logged in.
+     *@returns {Boolean}
+     */
   get isUserLoggedIn () {
     return !!this.__userToken__
   },
 
+  /**
+     * Checks if user is admin.
+     *@returns {Boolean}
+     */
+
   get isUserAdmin () {
     return !!this.__userIsAdmin__
   },
+  /**
+     * Registers a user.
+     *
+     * @param {String} - name
+     * @param {String} - surname
+     * @param {String} - email
+     * @param {String} - password
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty or password and password confirm do not match.
+     */
 
   registerUser (name, surname, email, password) {
     validate.arguments([
@@ -42,6 +79,17 @@ export default {
 
     return restApi.registerUser(name, surname, email, password)
   },
+
+  /**
+     * Authenticates a user.
+     *
+     * @param {String} - email
+     * @param {String} - password
+     * @throws {TypeError} - if any param is not a string.
+     * @throws {Error} - if any param is empty, email is not found or password does not match.
+     *
+     * @returns {String} - token.
+     */
 
   async authenticateUser (email, password) {
     validate.arguments([
@@ -57,9 +105,26 @@ export default {
     }
   },
 
+  /**
+     * Retrieves user
+     *
+     * @returns {Object} - user.
+     */
+
   retrieveUserBy () {
     return restApi.retrieveUser(this.__userToken__)
   },
+
+  /**
+     * Updates a user.
+     *
+     * @param {Object} - data
+     *
+     * @throws {TypeError} - if data is not an object.
+     * @throws {Error} - if any data is empty.
+     *
+     * @returns {Object} - user.
+     */
 
   updateUser (data) {
     validate.arguments([
@@ -69,9 +134,25 @@ export default {
     return restApi.updateUser(this.__userToken__, data)
   },
 
+  /**
+     * Delete an user.
+     *
+     */
+
   deleteUser () {
     return restApi.deleteUser(this.__userToken__)
   },
+  /**
+     * add order
+     *
+     * @param {Object} - flavors
+     * @param {String} - size
+     * @param {String} - type
+     * @param {Number} - TotalPrice
+     * @throws {TypeError} - if any param is not a string or if flavors is not and object or if
+     *  totalPrice is not a number
+     * @throws {Error} - if any param is empty
+     */
 
   addOrder (flavors, size, type, totalPrice) {
     validate.arguments([
@@ -82,6 +163,17 @@ export default {
     ])
     return restApi.addOrder(this.__userToken__, flavors, size, type, totalPrice)
   },
+
+  /**
+     * Create event
+     *
+     * @param {String} - title
+     * @param {String} - description
+     * @param {String} - date
+     * @param {Object} - image
+     * @throws {TypeError} - if any param is not a string or if the image is not an object
+     * @throws {Error} - if any param is empty
+     */
 
   createEvent (title, description, date, image) {
     validate.arguments([
@@ -101,33 +193,63 @@ export default {
     return restApi.createEvent(formData, this.__userToken__)
   },
 
+  /**
+     * Retrieve events
+     * @returns {Object} - events
+     */
+
   retrieveEvents () {
     return restApi.retrieveEvents()
   },
+
+  /**
+     * Delete event
+     * @param {String} - eventId
+     * @throws {TypeError} - if eventId is not a string
+     */
 
   deleteEvent (eventId) {
     return restApi.deleteEvent(this.__userToken__, eventId)
   },
 
+  /**
+     * Retrieve user orders
+     * @returns {Object} - orders
+     */
+
   retrieveUserOrders () {
     return restApi.retrieveOrdersByUserId(this.__userToken__)
   },
 
-  // retrieveOneOrder (id) {
-  //   return restApi.retrieveOneOrder(this.__userToken__, id)
-  // },
-
+  /**
+     * Retrieve user order
+     * @returns {Object} - order
+     */
   retrieveOneOrder (id) {
     return restApi.retrieveOneOrder(id)
   },
+
+  /**
+     * Remove one order
+     * @param {String}
+     */
 
   removeOneOrderBy (id) {
     return restApi.removeOneOrder(this.__userToken__, id)
   },
 
+  /**
+     * Retrieve all users orders
+    * @returns {Object} - orders
+     */
+
   retrieveAllUsersOrders () {
     return restApi.retrieveAllUsersOrders(this.__userToken__)
   },
+
+  /**
+     * Logout the user.
+     */
 
   logoutUser () {
     window.sessionStorage.clear()

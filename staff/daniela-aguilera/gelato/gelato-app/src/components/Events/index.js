@@ -22,7 +22,7 @@ export function Events () {
 
   const deleteEvent = async (eventId) => {
     await logic.deleteEvent(eventId)
-    setDeletedEvent(false)
+    setDeletedEvent(eventId)
     setDisableButton(false)
   }
 

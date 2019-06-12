@@ -3,13 +3,10 @@ import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from 'reac
 import { Redirect } from 'react-router-dom'
 
 function Maps () {
-  // const [placeUbication, setPlaceUbication] = useState(false)
   const [showBasket, setShowBasket] = useState(false)
 
   const handlePlaceUbication = (ubic) => {
     setShowBasket(ubic)
-    // setPlaceUbication(ubic)
-    // <Redirect to='/my-basket' />
   }
 
   if (showBasket) {
@@ -49,9 +46,6 @@ function Maps () {
         containerElement={<div style={{ height: `350px`, width: `100%` }} />}
         mapElement={<div style={{ height: `100%` }} />}
       />
-      {/* {placeUbication &&
-      <p><span>Gelato Shop!</span> {placeUbication}</p>
-      } */}
     </section>
   )
 }

@@ -6,6 +6,7 @@ export function EventsForm () {
   const [image, setImage] = useState([])
   const [isEventInserted, setIsEventInserted] = useState(false)
   const [isLoading, setIsLoading] = useState(false)
+  const [errorMessage, setErrorMessage] = useState(null)
 
   async function _hadleSubmit (event) {
     event.preventDefault()
@@ -14,11 +15,15 @@ export function EventsForm () {
       description: { value: description },
       date: { value: date }
     } = event.target
-
-    setIsLoading(true)
-    await logic.createEvent(title, description, date, image)
-    setIsEventInserted(true)
-    setIsLoading(false)
+    try {
+      setIsLoading(true)
+      await logic.createEvent(title, description, date, image)
+      setIsEventInserted(true)
+      setIsLoading(false)
+    } catch (error) {
+      setIsLoading(false)
+      setErrorMessage(error.message)
+    }
   }
 
   const renderForm = () => (
@@ -55,6 +60,7 @@ export function EventsForm () {
           <button className='button is-link'>Save</button>
         </div>
       </div>
+      {errorMessage && <p>{errorMessage}</p> }
     </form>
   )
 
