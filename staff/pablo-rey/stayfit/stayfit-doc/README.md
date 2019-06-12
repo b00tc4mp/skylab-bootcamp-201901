@@ -23,39 +23,45 @@ StayFit is a platform to make online appointments of personal trainer, group cla
 
 Annonimous users can:
 
--
--
--
+- Register
+- Register with default provider
+- Login
 
-Users can:
+Logged users can:
 
-- 
--
--
+- Send requests to providers to be customers
+- View and book sessions with their providers for next 15 days
+- View the details of next sessions but not the attendants
+- View theirs previous attendances and payment details
+- View their providers and brief profile
 
 Admins of providers can:
 
--
--
--
--
+- Accept or deny request to be customer
+- Create, update and delete sessions
+- View future sessions with the users that will attend
+- Modify the payment status of each session and user
+- Modify the status of the user appointment to cancel or approve the booking 
 
 
 ### Use cases
 
-![Use cases] (images/use-cases.png)
+![Use cases](images/use-cases.png)
 
 
 ## Technical description
 
 ### Blocks
 
+![Blocks](images/blocks.png)
 
 ### Components
 
+![Components](images/components.png)
 
 ### Data model
 
+![Data model](images/data-model.png)
 
 ### Code coverage
 
