@@ -4,7 +4,8 @@
   "description": "",
   "main": "src/index.js",
   "scripts": {
-    "start": "nodemon src/index.js",
+    "start": "node index.js",
+    "start:watch": "nodemon index.js",
     "debug": "node --inspect-brk",
     "test": "jest --runInBand",
     "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"
@@ -17,9 +18,11 @@
     "cors": "^2.8.5",
     "dotenv": "^8.0.0",
     "express": "^4.17.1",
-    "jest": "^24.8.0",
     "jsonwebtoken": "^8.5.1",
     "kaori-data": "file:../kaori-data",
     "kaori-utils": "file:../kaori-utils"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
   }
 }
