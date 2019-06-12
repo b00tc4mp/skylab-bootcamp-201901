@@ -9,7 +9,7 @@ function Dout({deviceName, pinNumber, value, onDoChange}){
         </div>
         <div className="uk-card-body uk-flex uk-flex-column uk-flex.center uk-flex-between">
             <div>
-                <img src="https://img.icons8.com/wired/64/000000/led-diode.png" />
+                <img alt='diode' src="https://img.icons8.com/wired/64/000000/led-diode.png" />
             </div>
             <div className="uk-padding-large">
                 <label className="switch">

@@ -8,10 +8,10 @@ function Din({pinNumber, dinData}){
         </div>
         <div className="uk-card-body uk-flex uk-flex-column uk-flex-between">
             <div>
-                <img src="https://img.icons8.com/wired/64/000000/led-diode.png" />
+                <img alt='diode' src="https://img.icons8.com/wired/64/000000/led-diode.png" />
             </div>
             <div>
-                {dinData.value == 0 ? <h3 className="select-none">OFF</h3> : <h3 className="select-none">ON</h3>}
+                {dinData.value === 0 ? <h3 className="select-none">OFF</h3> : <h3 className="select-none">ON</h3>}
             </div>
             <div>
                 <p>{dinData.date}</p>

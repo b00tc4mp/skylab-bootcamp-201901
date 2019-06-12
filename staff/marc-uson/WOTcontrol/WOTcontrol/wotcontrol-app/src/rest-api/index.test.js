@@ -5,7 +5,7 @@ const {  ValueError, RequirementError, FormatError, Error } = require('wotcontro
 const restApi = require('.')
 require('dotenv').config()
 
-const { env: { MONGO_URL_API_TEST: url } } = process
+const { env: { MONGO_URL_API: url } } = process
 
 const { Users, Devices } = models
 

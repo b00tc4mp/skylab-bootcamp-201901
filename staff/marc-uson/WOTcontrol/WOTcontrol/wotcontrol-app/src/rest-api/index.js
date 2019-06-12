@@ -10,8 +10,15 @@ const { REACT_APP_URL_SERVER: url } = process.env
 const restApi = {
 
     __url__ : url,
-    // __url__ : 'http://localhost:8080/api',
 
+    /** Creates a new user on the DB with the given data
+     *
+     * @param {string} name first name of the user
+     * @param {string} surname second name or surname of the user
+     * @param {string} email email direction of the user, will be used to login in the application
+     * @param {string} password password used for sign in
+     * @param {boolean} admin if true, save the user as admin user to have more privileges (not yet implemented). By default, admin is false
+     */
     registerUser(name, surname, email, password, admin = false) {
         validate.arguments([
             { name: 'name', value: name, type: 'string', notEmpty: true },
@@ -34,6 +41,11 @@ const restApi = {
         })()
     },
 
+    /** Autenticates the user to the application
+     * 
+     * @param {string} email email defined by the user in registration process
+     * @param {string} password password defined from the user in registration process
+     */
     authenticateUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: 'string', notEmpty: true },
@@ -55,6 +67,10 @@ const restApi = {
         })()
     },
 
+    /** retrieves the name, surname, email and list of devices of the user asociated with the passed id
+     *
+     * @param {string} token unique token of the user
+     */
     retrieveUser(token) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true }
@@ -70,6 +86,12 @@ const restApi = {
         })()
     },
 
+    /** Updates the information of the current user with the information given in the data object. The data object must contain the keys named the same as the parameters of the registerUser function
+     *
+     * @param {string} token unique token of the user
+     * @param {object} data contains the data to be updated. the data to be updated must have the key identical to the parameters of the registerUser function
+     * @return {string} 'User succesfully updated'
+     */
     updateUser(token, data) {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -89,6 +111,11 @@ const restApi = {
         })()
     },
 
+    /** deletes the user asociated to the token passed
+     *
+     * @param {string} token unique token of the user
+     * @return {string} 'User succesfully deleted'
+     */
     deleteUser(token){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true}
@@ -102,6 +129,13 @@ const restApi = {
         })()
     },
 
+    /** check if there's a device connected on the ip given.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceIp your device IP
+     * @param {number} devicePort your device Port
+     * @return {Object} object containing the status and the time interval
+     */
     checkDevice(token, deviceIp, devicePort){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -120,6 +154,13 @@ const restApi = {
         })()
     },
 
+    /** Adds a new device into the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device, must be unique in users database and not containing spaces
+     * @param {string} deviceIp unique ip of the device
+     * @param {number} devicePort port defined in to device
+     */
     addDevice(token, deviceName, deviceIp, devicePort){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -141,6 +182,11 @@ const restApi = {
         })()
     },
 
+    /** Deletes the selected device in the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device, must be unique in users database and not containing spaces
+     */
     deleteDevice(token, deviceName){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -155,6 +201,11 @@ const restApi = {
         })()
     },
 
+    /** retrieves the selected device of the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device, must be unique in users database and not containing spaces
+     */
     retrieveDevice(token, deviceName){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -172,6 +223,12 @@ const restApi = {
         })()
     },
 
+    /** Activates the selected device in the users database.
+     * 
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device
+     * @param {number} timeInterval time interval you want the device sends you the inputs data.
+     */
     activateDevice(token, deviceName, timeInterval){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -190,6 +247,12 @@ const restApi = {
         })()
     },
 
+    /** changes de name of the selected device in the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device
+     * @param {string} deviceName new name of the device, must be unique in users database and not containing spaces
+     */
     changeDeviceId(token, deviceName, newDeviceName){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -210,6 +273,13 @@ const restApi = {
         })()
     },
 
+    /** adds a new input to the selected device in the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device
+     * @param {string} type the type of the devvice input to add. should be 'analog' or 'digital
+     * @param {number} direction pin of the input to add, see the documentation about pinNumbers in diferent device types
+     */
     addInput(token, deviceName, inputType, inputDirection){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -231,6 +301,13 @@ const restApi = {
         })()
     },
 
+    /** deletes a input on the selected device in the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device
+     * @param {string} type the type of the devvice input to add. should be 'analog' or 'digital
+     * @param {number} direction pin of the input to delete, see the documentation about pinNumbers in diferent device types
+     */
     deleteInput(token, deviceName, inputType, inputDirection){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -247,6 +324,13 @@ const restApi = {
         })()
     },
 
+    /** adds a new output to the selected device in the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device
+     * @param {string} type the type of the devvice input to add. should be 'servo', 'motor' or 'digital
+     * @param {number} direction pin of the output to add, see the documentation about pinNumbers in diferent device types
+     */
     addOutput(token, deviceName, outputType, outputDirection){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -268,6 +352,13 @@ const restApi = {
         })()
     },
 
+    /** deletes a output on the selected device in the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device
+     * @param {string} type the type of the devvice input to add. should be 'servo', 'motor' or 'digital
+     * @param {number} direction pin of the output to delete, see the documentation about pinNumbers in diferent device types
+     */
     deleteOutput(token, deviceName, outputType, outputDirection){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -284,6 +375,12 @@ const restApi = {
         })()
     },
 
+    /** toggles the selected digital output to the selected device in the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device
+     * @param {number} pinNumber pin of the output to add, see the documentation about pinNumbers in diferent device types
+     */
     toggleDigitalOutput(token, deviceName, pinNumber){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -302,6 +399,13 @@ const restApi = {
         })()
     },
 
+    /** selected servo output to the selected device in the users database.
+     *
+     * @param {string} id unique id of the user
+     * @param {string} deviceName name of the device
+     * @param {number} servoNumber pin of the output to add, see the documentation about pinNumbers in diferent device types
+     * @param {number} angle the angle to set to the servo 5º-175º
+     */
     setServoPosition(token, deviceName, pinNumber, angle){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -321,6 +425,13 @@ const restApi = {
         })()
     },
 
+    /** toggles the selected motor output to the selected device in the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device
+     * @param {number} motorNumber pin of the output to add, see the documentation about pinNumbers in diferent device types
+     * @param {number} speed percentage of speed to set to the motor 0-100%
+     */
     setMotorSpeed(token, deviceName, pinNumber, speed){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -340,6 +451,11 @@ const restApi = {
         })()
     },
 
+    /** retrieves the analog input values from the selected device in the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device
+     */
     retrieveAnalog(token, deviceName){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },
@@ -357,6 +473,12 @@ const restApi = {
         })()
     },
 
+    /** retrieves the analog input values from the selected device in the users database.
+     *
+     * @param {string} token unique token of the user
+     * @param {string} deviceName name of the device
+     * @param {string} pinNumber pin of the desired input, must be 1 or 2
+     */
     retrieveDigital(token, deviceName, pinNumber){
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true },

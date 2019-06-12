@@ -20,13 +20,12 @@ function Device({
 
     useEffect(() => {
         let interval
-        if(timeInterval > 1000) interval = timeInterval
+        if (timeInterval > 1000) interval = timeInterval
         else interval = 1000
         const retrieveInterval = setInterval(async () => {
             retrieveInputs()
         }, interval);
         return () => clearInterval(retrieveInterval)
-
 
     }, [timeInterval, device]);
 
