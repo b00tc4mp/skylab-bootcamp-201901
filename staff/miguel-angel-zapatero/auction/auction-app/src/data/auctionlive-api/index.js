@@ -1,12 +1,23 @@
 import validate from 'auction-validate'
 import call from 'auction-call'
 
-const { REACT_APP_PORT } = process.env
+const { REACT_APP_HEROKU_URL, REACT_APP_PORT } = process.env
 
 const auctionLiveApi = {
     __url__: `http://localhost:${REACT_APP_PORT}/api`,
+    // __url__: REACT_APP_HEROKU_URL,
     __timeout__: 0,
 
+    /**
+     * Call the api to register a user
+     * 
+     * @param {String} name The user name
+     * @param {String} surname The user surname
+     * @param {String} email The user email
+     * @param {String} password The user password
+     * 
+     * @returns {Object} the response from the api
+     */
     registerUser(name, surname, email, password) {
         validate.arguments([
             { name: 'name', value: name, type: String, notEmpty: true },
@@ -25,6 +36,14 @@ const auctionLiveApi = {
         })
     },
 
+    /**
+     * Call the api to authenticate the user credentials and retrieve a token if the user exists.
+     * 
+     * @param {String} email The user email
+     * @param {String} password The user password
+     * 
+     * @returns {Object} the user token
+     */
     authenticateUser(email, password) {
         validate.arguments([
             { name: 'email', value: email, type: String, notEmpty: true },
@@ -41,6 +60,13 @@ const auctionLiveApi = {
         })
     },
 
+    /**
+     * Call the api to retrieve the user data with the correct user token 
+     * 
+     * @param {String} token The user token
+     * 
+     * @returns {Object} The user data
+     */
     retrieveUser(token) {
         validate.arguments([
             { name: 'token', value: token, type: String, notEmpty: true }
@@ -52,6 +78,14 @@ const auctionLiveApi = {
         })
     },
 
+    /**
+     * Call the api to update the user data with the correct user token
+     * 
+     * @param {String} token The user token
+     * @param {Object} data The user data to update
+     * 
+     * @returns {Object} The user updated data
+     */
     updateUser(token, data) {
         validate.arguments([
             { name: 'token', value: token, type: String, notEmpty: true },
@@ -69,6 +103,15 @@ const auctionLiveApi = {
         })
     },
 
+    /**
+     * Call the api to delete the user with the correct user token and user credentials 
+     * 
+     * @param {String} token The user token
+     * @param {String} email The user email
+     * @param {String} password The user password
+     * 
+     * @return {Object} The response from the api
+     */
     deleteUser(token, email, password) {
         validate.arguments([
             { name: 'token', value: token, type: String, notEmpty: true },
@@ -87,11 +130,18 @@ const auctionLiveApi = {
         })
     },
 
+    /**
+     * Call the api to retrieve the user items that the user bidded
+     * 
+     * @param {String} token The user token
+     * 
+     * @returns {Array} The user bidded items
+     */
     retrieveUserItemsBids(token) {
         validate.arguments([
             { name: 'token', value: token, type: String, notEmpty: true }
         ])
-
+        debugger
         return call(`${this.__url__}/users/items/bids`, {
             headers: {
                 Authorization: `Bearer ${token}`,
@@ -101,6 +151,15 @@ const auctionLiveApi = {
         })
     },
 
+    /**
+     * Call the api to place an amount bid on the item id given with the correct user token
+     * 
+     * @param {String} itemId The item id
+     * @param {String} token The user token
+     * @param {Number} amount The amount
+     * 
+     * @returns {Object} The message response from the api 
+     */
     placeBid(itemId, token, amount) {
         validate.arguments([
             { name: 'itemId', value: itemId, type: String, notEmpty: true },
@@ -119,6 +178,14 @@ const auctionLiveApi = {
         })
     },
 
+    /**
+     * Call the api to retrieve the all the actual item bids from the given id on the correct user token
+     * 
+     * @param {String} itemId The item id
+     * @param {String} token The user token
+     * 
+     * @returns {Object} The item data
+     */
     retrieveItemBids(itemId, token){
         validate.arguments([
             { name: 'itemId', value: itemId, type: String, notEmpty: true },
@@ -134,6 +201,13 @@ const auctionLiveApi = {
         })
     },
 
+    /**
+     * Call the api to retrieve all the items with the given query data
+     * 
+     * @param {Object} data The query to serach items
+     * 
+     * @return {Array} The items finded 
+     */
     searchItems(data) {
         validate.arguments([
             { name: 'data', value: data, type: Object, optional: true}
@@ -156,6 +230,14 @@ const auctionLiveApi = {
         })
     },
     
+    /**
+     * Call the Api to retrieve an item with the given id item and correct user token
+     * 
+     * @param {String} itemId The item id
+     * @param {String} token The user token
+     * 
+     * @returns {Object} The item data 
+     */
     retrieveItem(itemId, token) {
         validate.arguments([
             { name: 'itemId', value: itemId, type: String, notEmpty: true},
@@ -171,6 +253,9 @@ const auctionLiveApi = {
         })
     },
 
+    /**
+     * Call the api to retrieve all the cities from the items
+     */
     retrieveCities() {
         return call(`${this.__url__}/cities`, {
             headers: {
@@ -180,6 +265,9 @@ const auctionLiveApi = {
         })
     },
 
+    /**
+     * Call the api to retrieve all the categories from the items
+     */
     retrieveCategories() {
         return call(`${this.__url__}/categories`, {
             headers: {

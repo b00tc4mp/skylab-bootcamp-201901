@@ -8,7 +8,7 @@ import logic from '../../logic';
 import moment from 'moment'
 import handleErrors from '../../common/handleErrors';
 
-function Item({item, getItem, itemId, history}) {
+function Item({item, getItem, itemId, history, onLogout}) {
 
     const [bids, setBids] = useState(null)
     const [amount, setAmound] = useState(null)
@@ -17,7 +17,6 @@ function Item({item, getItem, itemId, history}) {
     const [startDate, setStartDate] = useState(null)
     const [endDate, setEndDate] = useState(null)
     const [now, setNow] = useState(null)
-    const [userId, setUserId] = useState(null)
     const [isClosed, setIsClosed] = useState(null)
     const [isUpcoming, setIsUpcoming] = useState(null)
     const [quickBid, setQuickBid] = useState(null)
@@ -31,14 +30,17 @@ function Item({item, getItem, itemId, history}) {
         const interval = 1000
         const auction = setInterval(async () => {
             try {
+                if(!logic.isUserLoggedIn) {
+                    clearInterval(auction)
+                    onLogout()
+                }
+
                 const _bids = await logic.retrieveItemBids(itemId)
                 const { bids: arrBids } = _bids
-                const _userId = logic.getUserId()
                 
-                if(arrBids.length && _userId === arrBids[0].userId.id) setIsWin(true)
+                if(arrBids.length && logic.userId === arrBids[0].userId.id) setIsWin(true)
                 else setIsWin(false)
 
-                setUserId(_userId)
                 setBids(arrBids)
                 setCity(item.city)
                 setTotalBids(arrBids.length)
@@ -97,7 +99,7 @@ function Item({item, getItem, itemId, history}) {
                     <Link className="uk-button uk-button-danger" to="/">Back to home</Link></> : 
                     <><CountDown nowDate={now} endDate={endDate}/>
                     <BidsInfo currentAmount={amount} totalBids={totalBids} date={endDate} city={city} win={isWin}/>
-                    <Bids bids={bids} onBid={handleBid} isClosed={isClosed} quickBid={quickBid} userId={userId}/>
+                    <Bids bids={bids} onBid={handleBid} isClosed={isClosed} quickBid={quickBid}/>
                     </>
                 }
                 </div>

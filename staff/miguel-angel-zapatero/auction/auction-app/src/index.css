@@ -1,4 +1,5 @@
 @import '../node_modules/uikit/dist/css/uikit.min.css';
+@import url('https://fonts.googleapis.com/css?family=Monoton&display=swap');
 
 body {
   margin: 0;

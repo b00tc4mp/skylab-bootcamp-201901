@@ -36,7 +36,7 @@ function RangeSlider({onFilters}) {
 
     return <>
         <div style={wrapperStyle}>
-        <Range onAfterChange={handleRange} min={minValue} max={maxValue} defaultValue={[minValue, maxValue]} pushable tipFormatter={value => value} />
+        <Range onAfterChange={handleRange} min={minValue} max={maxValue} defaultValue={[minValue, maxValue]} tipFormatter={value => value} />
         </div>
     </>
 }

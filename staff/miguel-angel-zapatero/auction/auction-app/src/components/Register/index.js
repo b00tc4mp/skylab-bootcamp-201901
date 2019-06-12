@@ -14,7 +14,8 @@ function Register({ onRegister }) {
     }
 
     return <>
-        <form className="uk-form-horizontal uk-margin-large" onSubmit={handleSubmit}>
+        <h2 className="uk-margin-remove">Register</h2>
+        <form className="uk-form-horizontal uk-margin-small" onSubmit={handleSubmit}>
             <div className="uk-margin">
                 <label className="uk-form-label">Name</label>
                 <div className="uk-form-controls">
