@@ -23,7 +23,7 @@ function Items({items, onItem}) {
                             <hr className="uk-divider-icon"/>
                             <dd>Estimate: {logic.getFormat(startPrice)}</dd>
                             <dd className="uk-text-uppercase uk-text-small">
-                            {moment(finishDate).format('DD MMM YYYY')} | {moment(finishDate).format('LT')} | {city}
+                            {moment().isBefore(startDate) ? moment(startDate).format('DD MMM YYYY') : moment(finishDate).format('DD MMM YYYY')} | {moment().isBefore(startDate) ? moment(startDate).format('LT') : moment(finishDate).format('LT')} | {city}
                             </dd>
                         </dl>
                     </div>

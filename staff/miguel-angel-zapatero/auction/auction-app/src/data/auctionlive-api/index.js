@@ -4,8 +4,8 @@ import call from 'auction-call'
 const { REACT_APP_HEROKU_URL, REACT_APP_PORT } = process.env
 
 const auctionLiveApi = {
-    __url__: `http://localhost:${REACT_APP_PORT}/api`,
-    // __url__: REACT_APP_HEROKU_URL,
+    // __url__: `http://localhost:${REACT_APP_PORT}/api`,
+    __url__: REACT_APP_HEROKU_URL,
     __timeout__: 0,
 
     /**
