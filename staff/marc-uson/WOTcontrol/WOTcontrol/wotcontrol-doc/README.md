@@ -10,7 +10,7 @@ Once you logged into the app, you can add or delete as many devices as you want 
 
 ## Before you start
 
-To set up a device you should have a nodeMCU board and a micro usb cable and the arduino IDE installed and ready to download code to an arduino board.
+To set up a device you should have a nodeMCU board a micro usb cable and the arduino IDE installed and ready to download code to an arduino board.
 
 First, download the code from the nodeMCU board [here](../../WOT-arduino/wotdevice)
 
