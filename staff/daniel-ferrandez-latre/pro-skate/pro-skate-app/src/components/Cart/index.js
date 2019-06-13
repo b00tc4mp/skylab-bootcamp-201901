@@ -27,7 +27,8 @@ function Cart({cartItems, cartItemsQuantity, totalAmount}) {
   }
   return(
     <>
-    <div>{totalAmount ? totalAmount.toFixed(2) : ''}</div>
+    <span className="is-dark  is-size-5"> Total amount: 
+    {totalAmount ? totalAmount.toFixed(2) : ''}€</span>
     <ul>
       {cartItems.map((product) =>{
         return( 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
 import logic from "../../logic";
@@ -7,6 +7,8 @@ import NavCard from "../NavCard";
 import './index.sass'
 
 function Navbar({ history, quantity }) {
+
+
 
   return (
     <nav className='navbar is-danger' aria-label='main navigation'>
@@ -41,7 +43,9 @@ function Navbar({ history, quantity }) {
                 </a>
                 <a
                   className='navbar-item navbar-item is-size-5'
-                  onClick={e => logic.logOut()}>
+                  onClick={e => {logic.logOut()
+                  
+                  history.push('/')}}>
                   LogOut
                 </a>
                 </div>

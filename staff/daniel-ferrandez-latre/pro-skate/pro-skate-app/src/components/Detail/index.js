@@ -30,6 +30,7 @@ function Detail({history, match, cartItemsQuantity }) {
       await logic.addProductToCart(logic.__userToken__, id);
 
       await cartItemsQuantity();
+      history.push('/cart')
     } else {
       setModalLogin("modal is-active");
     }

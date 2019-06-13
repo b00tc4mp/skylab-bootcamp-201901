@@ -31,6 +31,13 @@ function App({history}) {
   //   verify() */
   // }, [])
 
+    useEffect( ()=>{
+      cartItemsQuantity()
+      
+      }
+  , [])
+
+
 
   const handleProductDetail = async (id) => {
     console.log(id)
