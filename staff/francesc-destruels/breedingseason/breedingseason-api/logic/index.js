@@ -53,16 +53,18 @@ const logic = {
 
             if (re.test(String(nicknameOEmail))) {
                 user = await User.findOne({ email: nicknameOEmail })
+                const match = await bcrypt.compare(password, await user.password)
 
-                if (user && bcrypt.compare(password, user.password)) {
+                if (user && match) {
                     const { _id: id } = user
                     return id
                 } else throw new LogicError(`Email and Password do not match`)
 
             } else {
                 user = await User.findOne({ nickname: nicknameOEmail })
+                const match = await bcrypt.compare(password, await user.password)
 
-                if (user && bcrypt.compare(password, user.password)) {
+                if (user && match) {
                     const { _id: id } = user
                     return id
                 } else throw new LogicError(`Nickname and Password do not match`)
