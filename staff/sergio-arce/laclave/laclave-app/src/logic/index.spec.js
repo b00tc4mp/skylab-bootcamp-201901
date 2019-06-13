@@ -243,6 +243,28 @@ describe('logic', () => {
 
     describe('createArtist', () => {
 
+        it('createArtist', () => {
+
+            const userToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI1ZDAxNGU4OTdkNmU0YzAwNDljMjc1NDEiLCJpYXQiOjE1NjAzNjY3NTEsImV4cCI6MTU2MjA5NDc1MX0.6X46LAWmhlsAdLMnq9Cco62sQlE3DK1T8DAksLr6Mt0'
+            sessionStorage.userToken = userToken
+
+            const artist = {
+                name: "Mónica Pinzón",
+                year: 30,
+                country: "bolivia",
+                category: "salsa",
+                image: "https://goandance-images.imgix.net/artists/images/1321-adolfo-indacochea-20180612202916.jpg"
+            }
+
+            return logic.createArtist(artist)
+                    .then(response => {
+                        expect(response).not.toBeDefined()
+                    })
+
+            
+            
+        })
+
         describe('createArtist - ERROR', () => {
 
             it('should throw error when artistData is array', () => {
@@ -311,5 +333,36 @@ describe('logic', () => {
         })
     })
     
+
+    describe('getter isUserLoggedIn', () => {
+
+        it('getter isUserLoggedIn', () => {
+
+            const userToken = 'ascasdcascdasdc'
+            sessionStorage.userToken = userToken
+
+            const isLoggedIn = logic.isUserLoggedIn
+
+            expect(isLoggedIn).toBe(true)
+            
+        })
+
+    })
+
+
+    describe('logOutUser', () => {
+
+        it('logOutUser', () => {
+
+            const userToken = 'ascasdcascdasdc'
+            sessionStorage.userToken = userToken
+
+            logic.logOutUser()
+
+            expect(sessionStorage.userToken).not.toBeDefined()
+            
+        })
+
+    })
 
 })

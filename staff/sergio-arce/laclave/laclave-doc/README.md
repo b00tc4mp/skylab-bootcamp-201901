@@ -40,7 +40,11 @@ Users can:
 
 ## Test Coverage
 
-![](./images/test-coverage.png)
+Test coverage app
+![](./images/test-coverage-app.png)
+
+Test coverage api
+![](./images/test-coverage-api.png)
 
 ## Working  Progress
 

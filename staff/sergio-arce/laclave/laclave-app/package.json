@@ -2,6 +2,9 @@
   "name": "my-first-app",
   "version": "0.1.0",
   "private": true,
+  "collectCoverageFrom": [
+      "**/index.spec.{js,jsx}"
+  ],
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "^1.2.18",
     "@fortawesome/free-regular-svg-icons": "^5.9.0",
@@ -28,7 +31,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "test:coverage": "react-scripts test --coverage --watchAll",
+    "test:coverage": "react-scripts test --env=jsdom src/logic/ --coverage  --collectCoverageFrom=src/logic/**/*.js",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
