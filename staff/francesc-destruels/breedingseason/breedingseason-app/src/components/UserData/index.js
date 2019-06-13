@@ -10,8 +10,6 @@ function UserData({ history, user, gameData }) {
         history.push('/home')
     }
 
-    console.log(gameData)
-
     return (
         <div className="UserData">
             <Logo sizeX={"20%"} main={true} classToUse={"UserData__Logo"} />

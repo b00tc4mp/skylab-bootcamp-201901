@@ -6,8 +6,6 @@
 
 ## Documentation
 
-![](./doc/img/letsbreed.jpg)
-
 [Documentation](./doc/README.md)
 
 [Live Demo](http://breeding-season-skylab19.surge.sh/)
