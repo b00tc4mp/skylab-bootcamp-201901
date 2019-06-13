@@ -1,12 +1,12 @@
-# WOTcontrol
+# WOTcon
 
 ## Introduccion
 
-easily connect your nodeMCU arduino based devices to an app to monitor and control its inputs and outputs.
+with WOTcon app you can easily connect your nodeMCU arduino based devices to an app to monitor and control its inputs and outputs.
 
 ![NodeMCU](images/nodeMCU.png)
 
-Once you logged in to the app, you can add or delete as many devices as you want and monitor and/or controle it through the web application.
+Once you logged into the app, you can add or delete as many devices as you want and monitor and/or controle it through the web application.
 
 ## Before you start
 
