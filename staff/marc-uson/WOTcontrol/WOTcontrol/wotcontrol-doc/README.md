@@ -36,33 +36,33 @@ Users can:
 
 ## Use cases
 
-![use cases](images\FuntionalDescription.png)
+![use cases](images/FuntionalDescription.png)
 
 
 ## Technical Description
 
 ### Blocks
 
-![Blocks](images\Blocks.png)
+![Blocks](images/Blocks.png)
 
 ### Components
 
-![Components](images\Component.png)
+![Components](images/Component.png)
 
 ### Data Model
 
-![Data Model](images\DataModels.png)
+![Data Model](images/DataModels.png)
 
 ### Code Coverage
 
 #### Api coverage
 
-![Api coverage](images\apiCoverage.png)
+![Api coverage](images/apiCoverage.png)
 
 
 #### App coverage
 
-![App coverage](images\appCoverage.png)
+![App coverage](images/appCoverage.png)
 
 ### Technologies
 
