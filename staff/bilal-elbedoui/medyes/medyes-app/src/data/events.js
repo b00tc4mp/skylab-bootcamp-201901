@@ -5,6 +5,10 @@ const events = {
 
     __url__: 'http://localhost:8080/api/event',
 
+        // __url__: 'https://evening-hamlet-54593.herokuapp.com/api/event',
+
+
+
 
     retrieveEvents(token, medicalField, eventType) {
 

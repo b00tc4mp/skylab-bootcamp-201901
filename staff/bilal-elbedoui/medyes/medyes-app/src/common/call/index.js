@@ -16,6 +16,7 @@ function call(url, options) {
                     data,
                     timeout
                 })
+                debugger
                 return result
             } catch (err) {
                 if (err.code === 'ENOTFOUND' || err.code === 'ECONNREFUSED') throw new ConnectionError('cannot connect')

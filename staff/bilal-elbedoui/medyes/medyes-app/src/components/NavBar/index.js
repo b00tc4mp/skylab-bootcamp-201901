@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom'
-import styles from './index.css';
 import logic from '../../logic'
+import styles from './index.scss';
 import { userInfo } from 'os';
 import '../../../node_modules/bulma/bulma.sass'
 import { FieldsToPost } from '../Fields-to-post'
@@ -12,7 +12,7 @@ import { async } from 'q';
 export default function NavBar() {
     const [user, setUser] = useState([])
     const [modal, setModal] = useState('modal')
-    const [modalOrg, setModalOrg] = useState('modal1')
+    const [modalOrg, setModalOrg] = useState('modal')
     const [response, setResponse] = useState(null)
     const [responseOrg, setResponseOrg] = useState(null)
 
@@ -62,6 +62,7 @@ export default function NavBar() {
     }
 
     const handleCreateOrganization = (event) => {
+        event.preventDefault()
 
         const {
             name: { value: name },
@@ -73,11 +74,12 @@ export default function NavBar() {
         return (async () => {
             try {
                 debugger
-                const _response = await logic.createOrganization(name, phone, address, mail)
+                const { data: { message } } = await logic.createOrganization(name, phone, address, mail)
                 debugger
-                setResponseOrg(_response)
-            } catch (error) {
-                setResponseOrg(error)
+                setResponseOrg(message)
+            } catch ({ message }) {
+                debugger
+                setResponseOrg(message)
             }
         })()
     }
@@ -86,27 +88,37 @@ export default function NavBar() {
 
     return (
         <div>
-            <nav>
-                <p className="salutation">Hello M. {user.fullname}</p>
 
-                <ul>
-                    <li><a className="" onClick={() => window.location.href = '/home'}>Home</a></li>
+            <nav class="uk-navbar-container uk-margin" uk-navbar="mode: click">
+                <div class="uk-navbar-left">
 
-                    {logic.isUserLoggedIn && (
-                        <li><a className="">Profile</a></li>)}
+                    <ul class="uk-navbar-nav">
+                        <li><a className="" onClick={() => window.location.href = '/home'}>Home</a></li>
 
-                    {logic.isUserLoggedIn && user.role === 'admin' && (
+                        {logic.isUserLoggedIn && (
+                            <li><a className="">Profile</a></li>)}
+                        
+                        {logic.isUserLoggedIn && user.role === 'admin' && (
                         <li><a className="" onClick={() => setModal('modal is-active')}>Create event</a></li>)}
 
+                        {logic.isUserLoggedIn && user.role === 'superAdmin' && (
+                            <li><a className="" onClick={() => setModalOrg('modal is-active')}>Register an Organization</a></li>)}
 
-                    {logic.isUserLoggedIn && user.role === 'superAdmin' && (
-                        <li><a className="" onClick={() => setModalOrg('modal is-active')}>Register an Organization</a></li>)}
+                        {logic.isUserLoggedIn && (
+                            <li><a className="" onClick={() => handleLogout()}>logOut</a></li>
+                        )}
 
-                    {logic.isUserLoggedIn && (
-                        <li><a className="" onClick={() => handleLogout()}>logOut</a></li>
-                    )}
-                </ul>
+                    </ul>
+
+                </div>
+
             </nav>
+
+            
+            <br/>
+            <p className="salutation">Hello M. {user.fullname}</p>
+            <br/>
+           
 
 
             <div class={modalOrg}>

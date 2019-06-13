@@ -190,7 +190,7 @@ describe('LOGIC', () => {
             it('Should create a representant of random company', async () => {
                 role = 'admin'
                 debugger
-                const userAdmin = await logic.createUser(fullname, email, role, organization = orga.id, phone, position, password)
+                const userAdmin = await logic.createUser(fullname, email, role, organization = orga, phone, position, password)
 
                 expect(userAdmin).to.exist
                 expect(userAdmin.organization).to.be.an('object')
@@ -209,7 +209,7 @@ describe('LOGIC', () => {
                 role = 'normal';
                 let userAdmin
                 try {
-                    await logic.createUser(fullname, email, role, organization = orga.id, phone, position, password)
+                    await logic.createUser(fullname, email, role, organization = orga, phone, position, password)
                 } catch (error) {
                     expect(userAdmin).to.be.undefined
                     expect(error.message).to.equal('You should not have a Organization ID')
@@ -240,10 +240,10 @@ describe('LOGIC', () => {
             it('Should fail is the user already exists', async () => {
                 role = 'admin'
 
-                await logic.createUser(fullname, email = 'usesexisting@gmail.es', role, organization = orga.id, phone, position, password)
+                await logic.createUser(fullname, email = 'usesexisting@gmail.es', role, organization = orga, phone, position, password)
                 try {
 
-                    await logic.createUser(fullname, email = 'usesexisting@gmail.es', role, organization = orga.id, phone, position, password)
+                    await logic.createUser(fullname, email = 'usesexisting@gmail.es', role, organization = orga, phone, position, password)
                 } catch (error) {
 
                     expect(error.message).to.be.not.undefined
@@ -254,7 +254,7 @@ describe('LOGIC', () => {
                 try {
                     role = 'admin'
 
-                    await logic.createUser(fullname, email, role, organization = orga.id, phone, position = 'nonCorrectsituation', password)
+                    await logic.createUser(fullname, email, role, organization = orga, phone, position = 'nonCorrectsituation', password)
                 } catch (error) {
 
                     expect(error.message).to.be.not.undefined
@@ -306,7 +306,7 @@ describe('LOGIC', () => {
             let user, orga
             beforeEach(async () => {
                 orga = await logic.createOrganization(superUser.id, name = 'testName56', phone = '123test456', address = 'CAlle roc borronat', mail = 'testemail@gmila.com')
-                user = await logic.createUser(fullname, email, role = 'admin', organization = orga.id, phone, position, password)
+                user = await logic.createUser(fullname, email, role = 'admin', organization = orga, phone, position, password)
                 debugger
             })
 
@@ -456,7 +456,7 @@ describe('LOGIC', () => {
             beforeEach(async () => orga = await logic.createOrganization(superUser.id, name, phone, address, mail))
 
             it('Should retrieve a correct user', async () => {
-                const result = await logic.retrieveOrganization(orga._id)
+                const result = await logic.retrieveOrganization(orga)
 
                 expect(result).to.exist
                 expect(result).to.be.an('object')
@@ -501,7 +501,7 @@ describe('LOGIC', () => {
                 position = 'student'
                 password = `BBbb11..-${Math.floor(Math.random() * (1000 - 1)) + 1}`
 
-                user = await logic.createUser(fullname, email, role = 'admin', organization = orga.id, phone, position, password)
+                user = await logic.createUser(fullname, email, role = 'admin', organization = orga, phone, position, password)
                 userAuthenticated = await logic.authenticateUser(email, password)
                 debugger
                 let nameField = `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`
@@ -592,7 +592,7 @@ describe('LOGIC', () => {
                 position = 'student'
                 password = `BBbb11..-${Math.floor(Math.random() * (1000 - 1)) + 1}`
 
-                user = await logic.createUser(fullname, email, role = 'admin', organization = orga.id, phone, position, password)
+                user = await logic.createUser(fullname, email, role = 'admin', organization = orga, phone, position, password)
                 const { userId,orgId } = await logic.authenticateUser(email, password)
 
                 nameMedicalField = `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`
@@ -706,7 +706,7 @@ describe('LOGIC', () => {
                 position = 'student'
                 password = `BBbb11..-${Math.floor(Math.random() * (1000 - 1)) + 1}`
 
-                user = await logic.createUser(fullname, email, role = 'admin', organization = orga.id, phone, position, password)
+                user = await logic.createUser(fullname, email, role = 'admin', organization = orga, phone, position, password)
                 userAuthenticated = await logic.authenticateUser(email, password)
 
                 nameMedicalField = `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`
@@ -760,7 +760,7 @@ describe('LOGIC', () => {
 
                 debugger
                 orga = await logic.createOrganization(superUser.id, name = 'prubeaaaaaa', phone = '1234567891', address = 'calee Marinaa 179', mail = 'bilal4563@gmail.com')
-                userAdmin = await logic.createUser(fullname = 'nameTest', email = 'pruebaa@gmallll.com', role = 'admin', organization = orga.id, phone = '1234567891', position = 'student', password = 'BBbb11..')
+                userAdmin = await logic.createUser(fullname = 'nameTest', email = 'pruebaa@gmallll.com', role = 'admin', organization = orga, phone = '1234567891', position = 'student', password = 'BBbb11..')
                 userNormal = await logic.createUser(fullname = 'nameTest', email = 'pruebaaNormal@gmallll.com', role = 'normal', undefined, phone = '1234567891', position = 'student', password = 'BBbb11..')
 
                 nameMedicalField = `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`
@@ -830,7 +830,7 @@ describe('LOGIC', () => {
                 await Organization.deleteMany()
 
                 orga = await logic.createOrganization(superUser.id, name = 'prubeaaaaaa', phone = '1234567891', address = 'calee Marinaa 179', mail = 'bilal4563@gmail.com')
-                userAdmin = await logic.createUser(fullname = 'nameTest', email = 'pruebaa@gmallll.com', role = 'admin', organization = orga.id, phone = '1234567891', position = 'student', password = 'BBbb11..')
+                userAdmin = await logic.createUser(fullname = 'nameTest', email = 'pruebaa@gmallll.com', role = 'admin', organization = orga, phone = '1234567891', position = 'student', password = 'BBbb11..')
                 userNormal = await logic.createUser(fullname = 'nameTest', email = 'pruebaaNormal@gmallll.com', role = 'normal', undefined, phone = '1234567891', position = 'student', password = 'BBbb11..')
 
                 nameMedicalField = `Allerd${Math.floor(Math.random() * (1000 - 1)) + 1}ogy`

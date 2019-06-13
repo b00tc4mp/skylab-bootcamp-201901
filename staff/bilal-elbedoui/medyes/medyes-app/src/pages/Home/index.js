@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import { Redirect, Link } from 'react-router-dom'
-import styles from './index.css';
+import styles from './index.scss';
 import logic from '../../logic'
 import { MedicalFields } from '../../components/Medical-fields'
 import { EventTypes } from '../../components/Event-types'
 import NavBar from '../../components/NavBar'
+import moment from 'moment'
 
 
 
@@ -38,38 +39,48 @@ export function Home() {
 
     if (logic.isUserLoggedIn) {
         return (
-            <div className='body'>
-                    <header className='header'>
-                        <h3 className="brand"><NavBar /></h3>
-                    </header>
-                    <div className="wrapper">
-                        <section className='queries'>
-                            <div className='select'>
-                                <MedicalFields selectCategory={handleSelectCategory} />
-                            </div>
-                            <div className='select'>
-                                <EventTypes selectedType={handleSelectType} />
-                            </div>
-                        </section>
+            <div className='body uk-container'>
+                <header className='header'>
+                    <h3 className="brand"><NavBar /></h3>
+                </header>
+                <section className='home_top'>
+                        <div className='select'>
+                            <MedicalFields selectCategory={handleSelectCategory} />
+                        </div>
 
-                        <main className='main'>
+                        <div className='select'>
+                            <EventTypes selectedType={handleSelectType} />
+                        </div>
+
+                    </section>
+                <div className="home_wrapper">
+
+                    <section className="home_main">
+                        <div class="uk-child-width-1-2@s uk-child-width-1-3@m uk-child-width-1-4@l uk-grid-small uk-text-center uk-margin-top" data-uk-grid>
+
                             {events && events.map(function (e) {
-
                                 return (
                                     <Link to={`../event/${e._id}`}>
 
-                                        <div className="card">
-                                            <img className="card_image" alt='' src='https://www.mckinsey.com/~/media/McKinsey/Business%20Functions/Operations/Our%20Insights/The%20expanding%20role%20of%20design%20in%20creating%20an%20end%20to%20end%20customer%20experience/Expanding-role-of-design-1536x1536-400_Standard.ashx'></img>
-                                            <div className="card_description">
-                                                <p className="title">{e.title}</p>
-                                                <p>{e.location.city}</p>
+                                        <div class="uk-card uk-card-default">
+                                            <div class="uk-card-media-top">
+                                                <img src={e.image} alt="" />
+                                            </div>
+                                            <div class="uk-card-body">
+                                                <h3 class="uk-card-title">{e.title}</h3>
+                                                <p>{e.location.city}, {e.location.country}</p>
+                                                <p>{moment(e.date).format('YYYY-MM-DD')}</p>
+                                                <br />
+                                                <p>{e.numberTicketsAvailable} places are still available</p>
                                             </div>
                                         </div>
+
                                     </Link>
                                 )
                             }
                             )}
-                        </main>
+                        </div>
+                    </section>
                 </div>
             </div>
         )

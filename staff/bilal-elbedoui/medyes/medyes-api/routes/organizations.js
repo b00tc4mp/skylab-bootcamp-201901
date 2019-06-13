@@ -22,11 +22,12 @@ router.get('/me', auth, (req, res) => {
 router.post('/', auth, (req, res) => {
 
     handleErrors(async () => {
+        debugger
         const { userId, body: { name, phone, address, mail } } = req
 
-        await logic.createOrganization(userId, name, phone, address, mail)
+        const organizationId= await logic.createOrganization(userId, name, phone, address, mail)
 
-        res.json({ message: 'Organization registered' })
+        res.json({ message: `Organization registered, Here is the Organization key ${organizationId}` })
     }, res)
 
 })

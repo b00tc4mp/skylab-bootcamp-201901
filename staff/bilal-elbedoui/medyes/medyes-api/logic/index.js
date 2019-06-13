@@ -94,7 +94,7 @@ const logic = {
             try {
                 org = await new Organization({ name, phone, address, mail })
                 await org.save()
-                return org
+                return org.id
             } catch (ex) {
                 for (field in ex.errors)
                     throw new ValidateError(ex.errors[field].message);
@@ -255,7 +255,7 @@ const logic = {
             if (medicalField && eventType!=='undefined') {
                 const events = await Event.find().populate('medicalField eventType').populate('representant').populate('medicalField').populate('eventType').lean()
                 const result = events.filter(event => {
-                    return event.medicalField.name === medicalField && event.eventType.name === eventType
+                    return event.medicalField.name === medicalField
                 });
                 if (!result) throw Error('There are no events available')
                 return result;
@@ -278,7 +278,7 @@ const logic = {
 
     retrieveOneEvent(id) {
         return (async () => {
-            const event = await Event.findById(id).populate('representant').populate('medicalField').populate('eventType').lean();
+            const event = await Event.findById(id).populate('representant').select('-password').populate('medicalField').populate('eventType').lean();
             if (!event) throw Error('This events does not exist anymore')
             for (let key in event) {
                 if (key.startsWith('__')) delete event[key] 
@@ -323,9 +323,10 @@ const logic = {
             }
             debugger
             const event= await Event.findById(eventid)
+            const user= await User.findById(sub)
             let post = await new Comment({
                 event: eventid,
-                author: sub,
+                author: user.fullname,
                 roleAuthor: role,
                 text
             })

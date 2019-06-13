@@ -6,6 +6,9 @@ const users = {
 
     __url__: 'http://localhost:8080/api/user',
 
+    // __url__: 'https://evening-hamlet-54593.herokuapp.com/api/user',
+    
+
 
     createUser(fullname, email, role, organization, phone, position, password) {
 

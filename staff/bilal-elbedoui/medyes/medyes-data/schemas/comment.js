@@ -8,7 +8,7 @@ const comment = new Schema({
         required: true
     },
     author: {
-        type: ObjectId,
+        type: String,
         ref: 'User',
         required: true
     },

@@ -1,9 +1,0 @@
-ul{
-    list-style: none;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-around;
-}
-nav{
-    border: 1px solid white;
-}

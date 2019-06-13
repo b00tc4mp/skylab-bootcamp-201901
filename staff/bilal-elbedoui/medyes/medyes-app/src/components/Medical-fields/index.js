@@ -14,9 +14,9 @@ export function MedicalFields({ selectCategory }) {
 
     return (
 
-        <div class="control">
-            <div class="select">
-                <select name="medicalfield" class="is-focused" onChange={selectedField}>
+        <div>
+            <div class="uk-form-controls">
+                <select name="medicalfield" class="uk-select" id="form-stacked-select" onChange={selectedField}>
                     <option value="">Select Speciality</option>
                     <option value="Allergology">Allergology</option>
                     <option value="Andrology">Andrology</option>

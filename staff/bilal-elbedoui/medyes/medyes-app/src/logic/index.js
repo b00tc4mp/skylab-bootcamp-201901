@@ -81,7 +81,7 @@ const logic = {
             try{
                 return await events.retrieveOneEvent(this.__userToken__,id)
             }catch(error){
-                throw new LogicError(error.response)
+                throw new LogicError(error)
             }
         })()
     },
@@ -91,7 +91,7 @@ const logic = {
                     return await events.publishEvent(this.__userToken__,title, description, medicalField, eventType, location, date, parseInt(numberTicketsAvailable), parseInt(price), image)
 
                 }catch(error){
-                    throw new LogicError(error.response)
+                    throw new LogicError(error)
                 }
         })()
     },
@@ -101,7 +101,7 @@ const logic = {
                 debugger
                 return await events.sendComment(id, this.__userToken__, text)
             }catch(error){
-                throw new LogicError(error.response)
+                throw new LogicError(error)
             }
         })()
     },
@@ -111,7 +111,7 @@ const logic = {
             try{
                return await organization.addOrganization(this.__userToken__, name,phone,address,mail)
             }catch(error){
-                throw new LogicError(error.response)
+                throw new LogicError(error)
             }
         })()
     }

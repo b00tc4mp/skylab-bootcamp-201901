@@ -14,9 +14,9 @@ export function EventTypes({ selectedType }) {
 
     return (
 
-        <div class="control">
-            <div class="select">
-                <select name="eventType" class="is-focused" onChange={selectType}>
+        <div>
+            <div class="uk-form-controls">
+                <select name="eventType" class="uk-select" id="form-stacked-select" onChange={selectType}>
                     <option value="">Select Type</option>
                     <option value="Conference">Conference</option>
                     <option value="Congress">Congress</option>

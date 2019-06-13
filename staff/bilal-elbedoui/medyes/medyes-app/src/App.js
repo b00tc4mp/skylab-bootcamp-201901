@@ -5,8 +5,7 @@ import { Home } from './pages/Home'
 import { Login } from './components/Login'
 import { Event } from './pages/Event'
 import logic from './logic'
-import './index.sass'
-import './index.css'
+import './index.scss'
 
 
 
