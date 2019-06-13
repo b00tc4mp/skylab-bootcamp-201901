@@ -4,10 +4,8 @@
 #include <elapsedMillis.h>
 #include <Servo.h>
 
-const char* ssid ="skylabCodersAcademy";     //SKYLAB
-const char* password = "skylabRocks";        //SKYLAB
-// const char* ssid ="bivid_307C";              //Lleida
-// const char* password = "71AF092F875E";       //Lleida
+const char* ssid ="skylabCodersAcademy";     //YOUR SSID
+const char* password = "skylabRocks";        //YOUR WIFI PASSWORD
 String id = "newWOTDevice";
 String userId = "notDefined";
 
