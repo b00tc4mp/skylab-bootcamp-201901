@@ -14,7 +14,6 @@ import Footer from './Footer'
 import handleErrors from '../common/handleErrors'
 import UIkit from 'uikit'
 import './index.sass'
-import moment from 'moment'
 
 function App({ history }) {
 
@@ -26,26 +25,23 @@ function App({ history }) {
     const [user, setUser] = useState(null)
 
     useEffect(() => {
-        if (isLoggedIn) {
-            (async () => {
-                try {
+        (async () => {
+            try {
+                if (logic.isUserLoggedIn) {
                     const _user = await logic.retrieveUser()
                     setUser(_user)
+                    // setIsLoggedIn(logic.isUserLoggedIn)
                     UIkit.notification({message: `Welcome ${_user.name}!`, status: 'success'})
-                } catch (error) {
-                    handleErrors(error)
                 }
-            })()
-        }
+            } catch (error) {
+                handleErrors(error)
+            }
+        })()
     }, [isLoggedIn])
 
     useEffect(() => {
         handleSearch(query)
     }, [query]);
-
-    useEffect(() => {
-        setIsLoggedIn(logic.isUserLoggedIn)
-    }, [isLoggedIn])
 
     async function handleSearch(query) {
         try {
@@ -70,7 +66,7 @@ function App({ history }) {
         try {
             if(!logic.isUserLoggedIn) {
                 logic.logoutUser()
-                setIsLoggedIn(logic.isUserLoggedIn)
+                // setIsLoggedIn(logic.isUserLoggedIn)
                 setUser(null)
                 history.push('/')
             }
@@ -85,22 +81,17 @@ function App({ history }) {
 
     async function handleRetrieve(id) {
         try {
-            if (isLoggedIn) {
-                if(!logic.isUserLoggedIn) {
-                    logic.logoutUser()
-                    setIsLoggedIn(logic.isUserLoggedIn)
-                    setUser(null)
-                    history.push('/')
-                }
-
-                const item = await logic.retrieveItem(id)
-                setItem(item)
-                history.push(`/items/${item.id}`)
+            if (logic.isUserLoggedIn) {
+                const _item = await logic.retrieveItem(id)
+                setItem(_item)
+                history.push(`/items/${_item.id}`)
             } else {
+                logic.logoutUser()
                 UIkit.modal.confirm('Sorry, you need to be logged. Do you want to create an account?').then(function () {
                     history.push('/register')
+                }, function () {
                 })
-            }
+            } 
         } catch (error) {
             handleErrors(error)
         }
@@ -135,7 +126,7 @@ function App({ history }) {
 
     return <>
         <div className="home uk-container">
-            <Nav onLogin={handleLogin} onLogout={handleLogout} isLogged={isLoggedIn} user={user} path="/" />
+            <Nav onLogin={handleLogin} onLogout={handleLogout} user={user} path="/" />
 
             <Route exact path="/" render={() => <Search onSearch={handleQuery} />} />
 
@@ -144,15 +135,15 @@ function App({ history }) {
             <Switch>
                 <Route exact path="/" render={() => <Items items={items} onItem={handleRetrieve} />} />
 
-                {isLoggedIn && item && <Route path="/items/:id" render={(props) => < Item item={item} getItem={handleRetrieve} itemId={props.match.params.id}onLogout={handleLogout} />} />}
+                {logic.isUserLoggedIn && <Route path="/items/:id" render={(props) => < Item item={item} getItem={handleRetrieve} itemId={props.match.params.id} onLogout={handleLogout} />} />}
                 
-                {isLoggedIn && <Route path="/user/mybids" render={() => <MyBids isLogged={isLoggedIn} onItem={handleRetrieve} onLogout={handleLogout}/>} />}
+                {logic.isUserLoggedIn && <Route path="/user/mybids" render={() => <MyBids isLogged={logic.isUserLoggedIn} onItem={handleRetrieve} onLogout={handleLogout}/>} />}
 
-                {isLoggedIn && <Route path="/user" render={() => <Profile onUpdate={handleUpdate} user={user}/>} />}
+                {logic.isUserLoggedIn && <Route path="/user" render={() => <Profile onUpdate={handleUpdate} user={user}/>} />}
 
                 <Route path="/register" render={() => <Register onRegister={handleRegister} />} />
 
-                <Route path="/404" render={() => <NotFound />} />
+                <Route exac path="/404" render={() => <NotFound />} />
                 <Redirect to="/" />
             </Switch>
             <Footer />

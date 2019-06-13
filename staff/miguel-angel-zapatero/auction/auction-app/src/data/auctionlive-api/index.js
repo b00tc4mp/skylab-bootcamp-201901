@@ -141,7 +141,7 @@ const auctionLiveApi = {
         validate.arguments([
             { name: 'token', value: token, type: String, notEmpty: true }
         ])
-        debugger
+
         return call(`${this.__url__}/users/items/bids`, {
             headers: {
                 Authorization: `Bearer ${token}`,
