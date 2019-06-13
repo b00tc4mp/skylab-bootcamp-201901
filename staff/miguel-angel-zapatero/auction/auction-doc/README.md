@@ -35,6 +35,7 @@ This project emulate an auction house where you can search diferents items to bi
 - FIX query string
 - FIX filters
 - FIX show message errors
+- Upload user photo
 
 ## NEXT FUNCTIONALITIES AND MORE!
 - Add lots in same auction
