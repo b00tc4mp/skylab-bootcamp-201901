@@ -6,7 +6,7 @@ import Footer from '../Footer'
 import Landing from '../../pages/Landing'
 import logic from '../../logic'
 import Terminal from '../Terminal'
-
+import NotFound from '../NotFound'
 function App() {
 
   const [user, setUser] = useState(false)
@@ -93,11 +93,11 @@ function App() {
 
   return (
     <>
-      <Header user={user} handleRetrieveUser={handleRetrieveUser} handleOpenCard={handleOpenCard} handleOpenMenu={handleOpenMenu} />
-      <Route exact path='/' render={() => !logic.isUserLoggedIn ? <Landing /> : <Redirect to='/home' />} />
-      <Route exact path='/home' render={() => logic.isUserLoggedIn ? <Home user={user} handleUpdateMyOrders={handleUpdateMyOrders} handleAddCard={handleAddCard} handleAddOrder={handleAddOrder} logOut={logOut} userMenu={userMenu} userCard={userCard} handleCloseMenu={handleCloseMenu} handleCloseCard={handleCloseCard} orders={orders} newOrder={newOrder} /> : <Redirect to='/' />} />
-      <Route exact path='/order/:id' render={() => !logic.isUserLoggedIn && <Terminal />} />
-      <Footer />
+        <Header user={user} handleRetrieveUser={handleRetrieveUser} handleOpenCard={handleOpenCard} handleOpenMenu={handleOpenMenu} />
+        <Route exact path='/' render={() => !logic.isUserLoggedIn ? <Landing /> : <Redirect to='/home' />} />
+        <Route exact path='/home' render={() => logic.isUserLoggedIn ? <Home user={user} handleUpdateMyOrders={handleUpdateMyOrders} handleAddCard={handleAddCard} handleAddOrder={handleAddOrder} logOut={logOut} userMenu={userMenu} userCard={userCard} handleCloseMenu={handleCloseMenu} handleCloseCard={handleCloseCard} orders={orders} newOrder={newOrder} setNewOrder={setNewOrder} /> : <Redirect to='/' />} />
+        <Route exact path='/order/:id' render={() => <Terminal />} />
+        <Footer />
     </>
   );
 

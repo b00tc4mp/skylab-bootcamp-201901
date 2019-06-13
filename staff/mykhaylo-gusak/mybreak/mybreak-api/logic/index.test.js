@@ -1143,6 +1143,94 @@ describe('logic', () => {
                 expect(_order[0].author).to.deep.equal(allOrders[0].author._id)
             })
         })
+        
+        describe('Orders retrieve by id', () => {
+            beforeEach(async () => {
+
+                await User.create({ name, surname, email, password, age })
+                user = await User.findOne({ email }).lean()
+                id = user._id.toString()
+
+                _product1 = await Product.find({ title: product1.title }).lean()
+                productId = _product1[0]._id.toString()
+                await logic.updateCard(id, productId)
+                author = mongoose.Types.ObjectId(id)
+                
+            })
+            
+            it('should succed on correct order retrieve by author', async () => {
+                const orderId = await logic.addOrder(id, ubication)
+                const _order = await Order.find({ author }).lean()
+                expect(_order).to.exist
+                expect(_order).to.have.length(1)
+
+                const allOrders = await logic.retrieveOrderById(id)
+                expect(allOrders).to.have.length(1)
+
+                expect(_order[0].products[0].toString()).to.have.string(_order[0].products[0])
+                expect(_order[0].ubication).to.have.string(allOrders[0].ubication)
+                expect(_order[0].date).to.deep.equal(allOrders[0].date).that.is.a('Date')
+
+                expect(allOrders[0]._id).not.to.exist
+                expect(allOrders[0].author).not.to.exist
+
+            })
+            describe('author fails', () => {
+
+                it('should fail on undefined id', () => {
+                    const id = undefined
+                    try {
+                        logic.retrieveOrderByAuthor(author)
+                        expect('should not reach this point').to.exis
+                    } catch (err) {
+                        expect(err).to.be.an.instanceof(Error).with.property('message', 'child "id" fails because ["id" is required]')
+                    }
+                })
+
+                it('should fail on null id', () => {
+                    const id = null
+                    try {
+                        logic.retrieveOrderByAuthor(author)
+                        expect('should not reach this point').to.exis
+                    } catch (err) {
+                        expect(err).to.be.an.instanceof(Error).with.property('message', 'child "id" fails because ["id" must be a string]')
+                    }
+                })
+
+                it('should fail on empty id', () => {
+                    const id = ''
+                    try {
+                        logic.retrieveOrderByAuthor(author)
+                        expect('should not reach this point').to.exis
+                    } catch (err) {
+                        expect(err).to.be.an.instanceof(Error).with.property('message', 'child "id" fails because ["id" is not allowed to be empty]')
+                    }
+
+                })
+
+                it('should fail on no valid id', () => {
+                    const id = 12345
+                    try {
+                        logic.retrieveOrderByAuthor(author)
+                        expect('should not reach this point').to.exis
+                    } catch (err) {
+                        expect(err).to.be.an.instanceof(Error).with.property('message', 'child "id" fails because ["id" must be a string]')
+                    }
+
+                })
+
+                it('should fail on blank id', () => {
+                    const id = '     '
+                    try {
+                        logic.retrieveOrderByAuthor(author)
+                        expect('should not reach this point').to.exis
+                    } catch (err) {
+                        expect(err).to.be.an.instanceof(Error).with.property('message', `child "id" fails because ["id" with value "${id}" fails to match the required pattern: /^[a-zA-Z0-9]{3,30}$/]`)
+                    }
+                })
+
+            })
+        })
     })
 
     after(async () => {

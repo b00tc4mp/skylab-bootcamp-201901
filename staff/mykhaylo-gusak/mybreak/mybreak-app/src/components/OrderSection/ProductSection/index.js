@@ -3,20 +3,21 @@ import './index.sass'
 import ProductSubCategory from './ProductSubCategory'
 import TitleCategory from '../../TitleCategory'
 import Maps from '../../Maps'
-import StripePayament from '../../StripePayament'
+import StripePayment from '../../StripePayment'
 import QrCode from '../../QrCode'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleRight, faAngleLeft } from '@fortawesome/free-solid-svg-icons';
 import QRCode from 'qrcode'
 import logic from '../../../logic'
 import Button from '../../Button'
+import Loader from '../../Loader'
 
-function ProductSection({ card, products, handleAddCard, showError, email, handleAddOrder, newOrder }) {
+function ProductSection({ card, setNewOrder, handleResetProducts, products, handleAddCard, showError, email, handleAddOrder, newOrder }) {
 
     const [total, setTotal] = useState(false)
     const [step, setStep] = useState(0)
     const [map, setMap] = useState(false)
-
+    const [loader, setLoader] = useState(false)
     const [qr, setQr] = useState(false)
     const [placeUbication, setPlaceUbication] = useState(false)
 
@@ -25,6 +26,7 @@ function ProductSection({ card, products, handleAddCard, showError, email, handl
     }
 
     const handleQrCode = (code) => {
+        setLoader(true)
         var opts = {
             errorCorrectionLevel: 'Q',
             type: 'image/jpeg',
@@ -34,10 +36,11 @@ function ProductSection({ card, products, handleAddCard, showError, email, handl
         }
 
         const { host, protocol } = window.location
-        
+
         return (async () => {
             try {
                 return setQr(await QRCode.toDataURL(`${protocol}//${host}/order/${code}`, opts))
+
             } catch (err) {
                 alert(err)
             }
@@ -45,7 +48,12 @@ function ProductSection({ card, products, handleAddCard, showError, email, handl
     }
 
     const handleRestartDate = () => {
-
+        setPlaceUbication(false)
+        setStep(0)
+        setQr(false)
+        handleResetProducts()
+        setMap(false)
+        setNewOrder(false)
     }
 
     const handlePurchase = (token) => {
@@ -84,13 +92,11 @@ function ProductSection({ card, products, handleAddCard, showError, email, handl
                                 <h3>Your chosen site:</h3>
                                 <p>{placeUbication}</p>
                             </div>
-
                         }
                         {!placeUbication &&
                             <div className='g-Home__order-section-products-category-place'>
-                                <h3>Choose the site where you want to pick up your order</h3>
+                                <h3>Choose the place:</h3>
                             </div>
-
                         }
                     </div>
                 }
@@ -117,7 +123,6 @@ function ProductSection({ card, products, handleAddCard, showError, email, handl
                 {placeUbication && step === 4 &&
                     <div className='g-Home__order-section-products-category'>
                         <div className='g-Home__order-section-products-category-pay-title'>
-
                             {!newOrder &&
                                 <>
                                     <h2>Almost done!</h2>
@@ -125,36 +130,26 @@ function ProductSection({ card, products, handleAddCard, showError, email, handl
                                 </>
                             }
 
-                            {newOrder &&
+                            {newOrder && !loader &&
                                 <>
                                     <h2>Here you have your</h2>
                                     <p>QR CODE</p>
                                 </>
                             }
                         </div>
-
-                        {newOrder &&
+                        {newOrder && !loader &&
                             <>
-                                <QrCode callback={() => handleQrCode(newOrder)} qr={qr} />
-                                <Button prev={true} primary={true} />
+                                <QrCode callback={() => handleQrCode(newOrder)} qr={qr} setLoader={setLoader} handleRestartDate={handleRestartDate} />
                             </>
                         }
-
+                        {loader &&
+                            <Loader />
+                        }
                         <div className='g-Home__order-section-products-category-pay-button'>
-                            {!newOrder && <StripePayament onTokenSucces={handlePurchase} email={email} total={total} card={card}/>}
+                            {!newOrder && <StripePayment onTokenSucces={handlePurchase} email={email} total={total} card={card} />}
                         </div>
                     </div>
                 }
-                {/* {newOrder && placeUbication &&
-                    < div className='g-Home__order-sectio`n-products-category'>
-                        <h2>Here is your QR code</h2>
-                        <QrCode callback={handleQrCode} />
-                    </div>
-                } */}
-                {/* <div className='g-Home__order-section-products-button'>
-                    <Button click={handlenPrevStep} prev={true} primary={true} />
-                    <Button click={handlenNextStep} next={true} primary={true} />
-                </div> */}
                 {!qr && placeUbication &&
                     <div className='g-Home__order-section-products-manipulation'>
                         {step > 0 &&

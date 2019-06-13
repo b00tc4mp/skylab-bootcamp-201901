@@ -3,7 +3,7 @@ import './index.sass'
 import '../../../node_modules/bulma/bulma.sass'
 const cx = require('classnames');
 
-function Button({ primary, secondary, accept, cancel, register, login, start, click, logOut, next, prev }) {
+function Button({ primary, anotherOrder, secondary, accept, cancel, register, login, start, click, logOut, next, prev }) {
 
 
     const className = cx({
@@ -20,8 +20,8 @@ function Button({ primary, secondary, accept, cancel, register, login, start, cl
         'Start': start,
         'LogOut': logOut,
         'Next': next,
-        'Prev': prev
-
+        'Prev': prev,
+        'Make another order': anotherOrder
     })
 
     return (

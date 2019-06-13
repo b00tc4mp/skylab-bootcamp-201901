@@ -1,13 +1,20 @@
 import React from 'react'
 import Button from '../Button'
 import './index.sass'
-import Maps from '../Maps'
-
-function Start({ handleProducts }) {
+import Loader from '../Loader'
+import Logo from '../../pages/Landing/Logo'
+function Start({ handleProducts, loader }) {
     return (
         <section className='g-Order__Start' >
-            <Button className='g-Order__Start-button' start={true} primary={true} click={handleProducts} />
-            <Maps />
+            {!loader ?
+                <>
+                    <h1 className='g-Landing__section-title'>Breakfast to your needs to take away</h1>
+                    <Logo />
+                    <Button className='g-Order__Start-button' start={true} primary={true} click={handleProducts} />
+                </>
+                :
+                <Loader />
+            }
         </section>
     )
 }

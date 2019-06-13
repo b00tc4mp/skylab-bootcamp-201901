@@ -58,7 +58,6 @@ function Input({ email, password, name, surname }) {
                         {email && <FontAwesomeIcon icon={faCheck} />}
                         {password && <FontAwesomeIcon icon={faCheck} />}
                     </span>
-                    {password && <a>Forgot Password?</a>}
                 </p>
             </div>
         </div>

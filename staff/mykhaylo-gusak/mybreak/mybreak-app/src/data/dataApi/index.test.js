@@ -50,7 +50,7 @@ describe('dataApi', () => {
                 await User.deleteMany()
             })
 
-            it.only('should fail on already existing user', async () => {
+            it('should fail on already existing user', async () => {
                 await User.create({ name, surname, email, password, age })
                 expect(async () => await dataApi.create(email, password, { name, surname, age })).toThrowError(new Error('child "name" fails because ["name" is required]'))
                 // try {
@@ -544,240 +544,325 @@ describe('dataApi', () => {
                 const token = 'd3d d2 3-.d'
                 expect(() => dataApi.cardUpdate(productId, token)).toThrowError(new Error(`child "token" fails because ["token" with value "${token}" fails to match the required pattern: /^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$/]`))
             })
-        })
-    })
 
-    describe('create order', () => {
-        let category, ubication, token
-        beforeEach(async () => {
-            await User.deleteMany()
-            await Product.deleteMany()
-            await Order.deleteMany()
+            describe('product id fails', () => {
+                it('should fail on undefined productId', () => {
+                    const productId = undefined
+                    expect(() => dataApi.cardUpdate(productId, token)).toThrowError(new Error('child "productId" fails because ["productId" is required]'))
+                })
 
-            await Product.create({ title: 'Coffee', price: '1.5', category: 'Drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Capuccino', price: '1.75', category: 'Drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Water', price: '1', category: 'Drink', subCategory: 'Water', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Cola', price: '1.25', category: 'Drink', subCategory: 'Refreshing Drinks', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Fanta', price: '1', category: 'Drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+                it('should fail on null productId', () => {
+                    const productId = null
+                    expect(() => dataApi.cardUpdate(productId, token)).toThrowError(new Error('child "productId" fails because ["productId" must be a string]'))
+                })
 
+                it('should fail on empty productId', () => {
+                    const productId = ''
+                    expect(() => dataApi.cardUpdate(productId, token)).toThrowError(new Error('child "productId" fails because ["productId" is not allowed to be empty]'))
+                })
 
-            category = 'Drink'
-
-            await User.create({ email, password, name, surname, age })
-            const response = await dataApi.authenticate(email, password)
-            token = response.token
-            ubication = 'ubication'
-        })
-
-        it('should succed on corrrect add data order', async () => {
-            const { token } = await dataApi.authenticate(email, password)
-            expect(token).toBeDefined()
-
-            const products = await Product.find({ category }).lean()
-
-            const productId1 = products[0]._id.toString()
-            const productId2 = products[1]._id.toString()
-            const response1 = await dataApi.cardUpdate(productId1, token)
-            expect(response1).toBeUndefined()
-
-            const response2 = await dataApi.cardUpdate(productId2, token)
-            expect(response2).toBeUndefined()
-
-            const { orders } = await User.findOne({ email }).select('orders -_id').lean()
-
-            const user = await dataApi.retrieve(token)
-            expect(user.orders).toBeDefined()
-            expect(user.orders).toEqual([])
-
-            expect(user.card[0]._id).toEqual(productId1)
-            expect(user.card[1]._id).toEqual(productId2)
-
-            const order = await dataApi.createOrder(ubication, token)
-            expect(order).toBeUndefined()
-
-            const _order = await Order.find({ ubication }).lean()
-            expect(_order).toBeDefined()
-            
-            expect(_order[0].products[0].toString()).toEqual(productId1)
-            expect(_order[0].products[1].toString()).toEqual(productId2)
-
-        })
-
-        describe('token fails', () => {
-            it('should fail on undefined token', () => {
-                const token = undefined
-                expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "token" fails because ["token" is required]'))
-            })
-
-            it('should fail on null token', () => {
-                const token = null
-                expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "token" fails because ["token" must be a string]'))
-            })
-
-            it('should fail on empty token', () => {
-                const token = ''
-                expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "token" fails because ["token" is not allowed to be empty]'))
-            })
-
-            it('should fail on no valid token', () => {
-                const token = 'd3d d2 3-.d'
-                expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error(`child "token" fails because ["token" with value "${token}" fails to match the required pattern: /^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$/]`))
+                it('should fail on no valid productId', () => {
+                    const productId = 'd3d d2 3-.d'
+                    expect(() => dataApi.cardUpdate(productId, token)).toThrowError(new Error(`child "productId" fails because ["productId" with value "${productId}" fails to match the required pattern: /^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$/]`))
+                })
             })
         })
 
-        describe('ubication fails', () => {
-            it('should fail on undefined ubication', () => {
-                const ubication = undefined
-                expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "ubication" fails because ["ubication" is required]'))
+        describe('create order', () => {
+            let category, ubication, token
+            beforeEach(async () => {
+                await User.deleteMany()
+                await Product.deleteMany()
+                await Order.deleteMany()
+
+                await Product.create({ title: 'Coffee', price: '1.5', category: 'Drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Capuccino', price: '1.75', category: 'Drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Water', price: '1', category: 'Drink', subCategory: 'Water', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Cola', price: '1.25', category: 'Drink', subCategory: 'Refreshing Drinks', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Fanta', price: '1', category: 'Drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+
+
+                category = 'Drink'
+
+                await User.create({ email, password, name, surname, age })
+                const response = await dataApi.authenticate(email, password)
+                token = response.token
+                ubication = 'ubication'
             })
 
-            it('should fail on null ubication', () => {
-                const ubication = null
-                expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "ubication" fails because ["ubication" must be a string]'))
+            it('should succed on corrrect add data order', async () => {
+                const { token } = await dataApi.authenticate(email, password)
+                expect(token).toBeDefined()
+
+                const products = await Product.find({ category }).lean()
+
+                const productId1 = products[0]._id.toString()
+                const productId2 = products[1]._id.toString()
+                const response1 = await dataApi.cardUpdate(productId1, token)
+                expect(response1).toBeUndefined()
+
+                const response2 = await dataApi.cardUpdate(productId2, token)
+                expect(response2).toBeUndefined()
+
+                const { orders } = await User.findOne({ email }).select('orders -_id').lean()
+
+                const user = await dataApi.retrieve(token)
+                expect(user.orders).toBeDefined()
+                expect(user.orders).toEqual([])
+
+                expect(user.card[0]._id).toEqual(productId1)
+                expect(user.card[1]._id).toEqual(productId2)
+
+                const order = await dataApi.createOrder(ubication, token)
+                expect(order).toBeUndefined()
+
+                const _order = await Order.find({ ubication }).lean()
+                expect(_order).toBeDefined()
+
+                expect(_order[0].products[0].toString()).toEqual(productId1)
+                expect(_order[0].products[1].toString()).toEqual(productId2)
+
             })
 
-            it('should fail on empty ubication', () => {
-                const ubication = ''
-                expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "ubication" fails because ["ubication" is not allowed to be empty]'))
+            describe('token fails', () => {
+                it('should fail on undefined token', () => {
+                    const token = undefined
+                    expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "token" fails because ["token" is required]'))
+                })
+
+                it('should fail on null token', () => {
+                    const token = null
+                    expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "token" fails because ["token" must be a string]'))
+                })
+
+                it('should fail on empty token', () => {
+                    const token = ''
+                    expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "token" fails because ["token" is not allowed to be empty]'))
+                })
+
+                it('should fail on no valid token', () => {
+                    const token = 'd3d d2 3-.d'
+                    expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error(`child "token" fails because ["token" with value "${token}" fails to match the required pattern: /^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$/]`))
+                })
             })
 
-            it('should fail on no valid ubication', () => {
-                const ubication = 'd3d d2 3-.d'
-                expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error(`child "ubication" fails because ["ubication" with value "${ubication}" fails to match the required pattern: /^[a-zA-Z0-9]{3,30}$/]`))
+            describe('ubication fails', () => {
+                it('should fail on undefined ubication', () => {
+                    const ubication = undefined
+                    expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "ubication" fails because ["ubication" is required]'))
+                })
+
+                it('should fail on null ubication', () => {
+                    const ubication = null
+                    expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "ubication" fails because ["ubication" must be a string]'))
+                })
+
+                it('should fail on empty ubication', () => {
+                    const ubication = ''
+                    expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error('child "ubication" fails because ["ubication" is not allowed to be empty]'))
+                })
+
+                it('should fail on no valid ubication', () => {
+                    const ubication = 'd3d d2 3-.d'
+                    expect(() => dataApi.createOrder(ubication, token)).toThrowError(new Error(`child "ubication" fails because ["ubication" with value "${ubication}" fails to match the required pattern: /^[a-zA-Z0-9]{3,30}$/]`))
+                })
             })
         })
-    })
 
-    describe('retrieve orders', () => {
-        let category, ubication, token, productId1, productId2, product1, product2
-        beforeEach(async () => {
-            await User.deleteMany()
-            await Product.deleteMany()
-            await Order.deleteMany()
+        describe('retrieve orders', () => {
+            let category, ubication, token, productId1, productId2, product1, product2
+            beforeEach(async () => {
+                await User.deleteMany()
+                await Product.deleteMany()
+                await Order.deleteMany()
 
-            await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Water', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Water', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
 
-            await User.create({ email, password, name, surname, age })
-            category = 'drink'
-            ubication = 'ubication'
+                await User.create({ email, password, name, surname, age })
+                category = 'drink'
+                ubication = 'ubication'
 
-            const user = await dataApi.authenticate(email, password)
-            token = user.token
-            const products = await dataApi.retrieveProducts(category, token)
-            product1 = products[0]
-            product2 = products[1]
-            productId1 = products[0]._id
-            productId2 = products[1]._id
+                const user = await dataApi.authenticate(email, password)
+                token = user.token
+                const products = await dataApi.retrieveProducts(category, token)
+                product1 = products[0]
+                product2 = products[1]
+                productId1 = products[0]._id
+                productId2 = products[1]._id
 
-            await dataApi.cardUpdate(productId1, token)
-            await dataApi.cardUpdate(productId2, token)
-            await dataApi.createOrder(ubication, token)
+                await dataApi.cardUpdate(productId1, token)
+                await dataApi.cardUpdate(productId2, token)
+                await dataApi.createOrder(ubication, token)
+            })
+
+            it('should succed on corrrect retrieve data order', async () => {
+                const orders = await dataApi.retrieveOrder(token)
+                expect(orders).toBeDefined()
+                expect(orders[0].products[0]._id).toEqual(productId1)
+                expect(orders[0].products[0].title).toEqual(product1.title)
+                expect(orders[0].products[0].ubication).toEqual(product1.ubication)
+                expect(orders[0].products[0].date).toEqual(product1.date)
+
+                expect(orders[0].products[1]._id).toEqual(productId2)
+                expect(orders[0].products[1].title).toEqual(product2.title)
+                expect(orders[0].products[1].ubication).toEqual(product2.ubication)
+                expect(orders[0].products[1].date).toEqual(product2.date)
+            })
+
+            describe('token fails', () => {
+                it('should fail on undefined token', () => {
+                    const token = undefined
+                    expect(() => dataApi.retrieveOrder(token)).toThrowError(new Error('child "token" fails because ["token" is required]'))
+                })
+
+                it('should fail on null token', () => {
+                    const token = null
+                    expect(() => dataApi.retrieveOrder(token)).toThrowError(new Error('child "token" fails because ["token" must be a string]'))
+                })
+
+                it('should fail on empty token', () => {
+                    const token = ''
+                    expect(() => dataApi.retrieveOrder(token)).toThrowError(new Error('child "token" fails because ["token" is not allowed to be empty]'))
+                })
+
+                it('should fail on no valid token', () => {
+                    const token = 'd3d d2 3-.d'
+                    expect(() => dataApi.retrieveOrder(token)).toThrowError(new Error(`child "token" fails because ["token" with value "${token}" fails to match the required pattern: /^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$/]`))
+                })
+            })
         })
 
-        it('should succed on corrrect retrieve data order', async () => {
-            const orders = await dataApi.retrieveOrder(token)
-            expect(orders).toBeDefined()
-            expect(orders[0].products[0]._id).toEqual(productId1)
-            expect(orders[0].products[0].title).toEqual(product1.title)
-            expect(orders[0].products[0].ubication).toEqual(product1.ubication)
-            expect(orders[0].products[0].date).toEqual(product1.date)
+        describe('retrieve all orders', () => {
+            let category, ubication, token, productId1, productId2, product1, product2
+            beforeEach(async () => {
+                await User.deleteMany()
+                await Product.deleteMany()
+                await Order.deleteMany()
 
-            expect(orders[0].products[1]._id).toEqual(productId2)
-            expect(orders[0].products[1].title).toEqual(product2.title)
-            expect(orders[0].products[1].ubication).toEqual(product2.ubication)
-            expect(orders[0].products[1].date).toEqual(product2.date)
+                await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Water', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+
+                await User.create({ email, password, name, surname, age })
+                category = 'drink'
+                ubication = 'ubication'
+
+                const user = await dataApi.authenticate(email, password)
+                token = user.token
+                const products = await dataApi.retrieveProducts(category, token)
+                product1 = products[0]
+                product2 = products[1]
+                productId1 = products[0]._id
+                productId2 = products[1]._id
+
+                await dataApi.cardUpdate(productId1, token)
+                await dataApi.cardUpdate(productId2, token)
+                await dataApi.createOrder(ubication, token)
+            })
+
+            it('should succed on corrrect retrieve data order', async () => {
+                const orders = await dataApi.retrieveAllOrders(token)
+                expect(orders).toBeDefined()
+                expect(orders[0].products[0]._id).toEqual(productId1)
+                expect(orders[0].products[0].title).toEqual(product1.title)
+                expect(orders[0].products[0].ubication).toEqual(product1.ubication)
+                expect(orders[0].products[0].date).toEqual(product1.date)
+
+                expect(orders[0].products[1]._id).toEqual(productId2)
+                expect(orders[0].products[1].title).toEqual(product2.title)
+                expect(orders[0].products[1].ubication).toEqual(product2.ubication)
+                expect(orders[0].products[1].date).toEqual(product2.date)
+            })
+
+            describe('token fails', () => {
+                it('should fail on undefined token', () => {
+                    const token = undefined
+                    expect(() => dataApi.retrieveAllOrders(token)).toThrowError(new Error('child "token" fails because ["token" is required]'))
+                })
+
+                it('should fail on null token', () => {
+                    const token = null
+                    expect(() => dataApi.retrieveAllOrders(token)).toThrowError(new Error('child "token" fails because ["token" must be a string]'))
+                })
+
+                it('should fail on empty token', () => {
+                    const token = ''
+                    expect(() => dataApi.retrieveAllOrders(token)).toThrowError(new Error('child "token" fails because ["token" is not allowed to be empty]'))
+                })
+
+                it('should fail on no valid token', () => {
+                    const token = 'd3d d2 3-.d'
+                    expect(() => dataApi.retrieveAllOrders(token)).toThrowError(new Error(`child "token" fails because ["token" with value "${token}" fails to match the required pattern: /^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$/]`))
+                })
+            })
         })
 
-        describe('token fails', () => {
-            it('should fail on undefined token', () => {
-                const token = undefined
-                expect(() => dataApi.retrieveOrder(token)).toThrowError(new Error('child "token" fails because ["token" is required]'))
+
+        describe('retrieve order by id', () => {
+            let category, ubication, token, productId1, productId2, product1, product2
+            beforeEach(async () => {
+                await User.deleteMany()
+                await Product.deleteMany()
+                await Order.deleteMany()
+
+                await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Water', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+                await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+
+                await User.create({ email, password, name, surname, age })
+                category = 'drink'
+                ubication = 'ubication'
+
+                const user = await dataApi.authenticate(email, password)
+                token = user.token
+                const products = await dataApi.retrieveProducts(category, token)
+                product1 = products[0]
+                product2 = products[1]
+                productId1 = products[0]._id
+                productId2 = products[1]._id
+
+                await dataApi.cardUpdate(productId1, token)
+                await dataApi.cardUpdate(productId2, token)
+                await dataApi.createOrder(ubication, token)
+
+
             })
 
-            it('should fail on null token', () => {
-                const token = null
-                expect(() => dataApi.retrieveOrder(token)).toThrowError(new Error('child "token" fails because ["token" must be a string]'))
+            it('should succed on corrrect retrieve data order', async () => {
+                const { id } = await dataApi.createOrder(ubication, token)
+                const orders = await dataApi.retrieveOrderById(id)
+                expect(orders).toBeDefined()
+
             })
 
-            it('should fail on empty token', () => {
-                const token = ''
-                expect(() => dataApi.retrieveOrder(token)).toThrowError(new Error('child "token" fails because ["token" is not allowed to be empty]'))
-            })
+            describe('id fails', () => {
+                it('should fail on undefined id', () => {
+                    const id = undefined
+                    expect(() => dataApi.retrieveOrderById(id)).toThrowError(new Error('child "id" fails because ["id" is required]'))
+                })
 
-            it('should fail on no valid token', () => {
-                const token = 'd3d d2 3-.d'
-                expect(() => dataApi.retrieveOrder(token)).toThrowError(new Error(`child "token" fails because ["token" with value "${token}" fails to match the required pattern: /^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$/]`))
-            })
-        })
-    })
+                it('should fail on null id', () => {
+                    const id = null
+                    expect(() => dataApi.retrieveOrderById(id)).toThrowError(new Error('child "id" fails because ["id" must be a string]'))
+                })
 
-    describe('retrieve all orders', () => {
-        let category, ubication, token, productId1, productId2, product1, product2
-        beforeEach(async () => {
-            await User.deleteMany()
-            await Product.deleteMany()
-            await Order.deleteMany()
+                it('should fail on empty id', () => {
+                    const id = ''
+                    expect(() => dataApi.retrieveOrderById(id)).toThrowError(new Error('child "id" fails because ["id" is not allowed to be empty]'))
+                })
 
-            await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Water', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
-            await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
-
-            await User.create({ email, password, name, surname, age })
-            category = 'drink'
-            ubication = 'ubication'
-
-            const user = await dataApi.authenticate(email, password)
-            token = user.token
-            const products = await dataApi.retrieveProducts(category, token)
-            product1 = products[0]
-            product2 = products[1]
-            productId1 = products[0]._id
-            productId2 = products[1]._id
-
-            await dataApi.cardUpdate(productId1, token)
-            await dataApi.cardUpdate(productId2, token)
-            await dataApi.createOrder(ubication, token)
-        })
-
-        it('should succed on corrrect retrieve data order', async () => {
-            const orders = await dataApi.retrieveAllOrders(token)
-            expect(orders).toBeDefined()
-            expect(orders[0].products[0]._id).toEqual(productId1)
-            expect(orders[0].products[0].title).toEqual(product1.title)
-            expect(orders[0].products[0].ubication).toEqual(product1.ubication)
-            expect(orders[0].products[0].date).toEqual(product1.date)
-
-            expect(orders[0].products[1]._id).toEqual(productId2)
-            expect(orders[0].products[1].title).toEqual(product2.title)
-            expect(orders[0].products[1].ubication).toEqual(product2.ubication)
-            expect(orders[0].products[1].date).toEqual(product2.date)
-        })
-
-        describe('token fails', () => {
-            it('should fail on undefined token', () => {
-                const token = undefined
-                expect(() => dataApi.retrieveAllOrders(token)).toThrowError(new Error('child "token" fails because ["token" is required]'))
-            })
-
-            it('should fail on null token', () => {
-                const token = null
-                expect(() => dataApi.retrieveAllOrders(token)).toThrowError(new Error('child "token" fails because ["token" must be a string]'))
-            })
-
-            it('should fail on empty token', () => {
-                const token = ''
-                expect(() => dataApi.retrieveAllOrders(token)).toThrowError(new Error('child "token" fails because ["token" is not allowed to be empty]'))
-            })
-
-            it('should fail on no valid token', () => {
-                const token = 'd3d d2 3-.d'
-                expect(() => dataApi.retrieveAllOrders(token)).toThrowError(new Error(`child "token" fails because ["token" with value "${token}" fails to match the required pattern: /^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.?[A-Za-z0-9-_.+\\/=]*$/]`))
+                it('should fail on no valid id', () => {
+                    const id = 'd3d d2 3-.d'
+                    expect(() => dataApi.retrieveOrderById(id)).toThrowError(new Error(`child "id" fails because ["id" with value "${id}" fails to match the required pattern: /^[a-zA-Z0-9]{3,30}$/]`))
+                })
             })
         })
     })

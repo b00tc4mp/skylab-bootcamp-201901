@@ -17,7 +17,7 @@ function Order({ products, date }) {
         <div className='g-order'>
             <div className='g-order__prev'>
                 <p>Products: {products.length}</p>
-                <p>Total: {total} €</p>
+                <p>Total: {total.toFixed(2)} €</p>
             </div>
             <div className='g-order__extra'>
                 {products.map(({ image, title, price }) => {

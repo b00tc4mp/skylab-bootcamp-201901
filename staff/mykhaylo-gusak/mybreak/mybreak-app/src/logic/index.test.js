@@ -521,7 +521,7 @@ describe('dataApi', () => {
 
             it('should fail on no valid ubication', () => {
                 const ubication = 'd3d d2 3-.d'
-                expect(() => logic.addOrder(ubication)).toThrowError(new Error(`child "ubication" fails because ["ubication" with value "${ubication}" fails to match the required pattern: /^[a-zA-Z0-9]{3,30}$/]`))
+                expect(() => logic.addOrder(ubication)).toThrowError(new Error(`child "ubication" fails because ["ubication" with value "${ubication}" fails to match the required pattern: /^[a-zA-Z0-9\\s]{3,30}$/]`))
             })
         })
     })
@@ -622,7 +622,7 @@ describe('dataApi', () => {
         })
     })
 
-    
+
     describe('log out', () => {
         let category, ubication, productId1, productId2, product1, product2
         beforeEach(async () => {
@@ -642,6 +642,67 @@ describe('dataApi', () => {
         })
     })
 
+    describe('retrieve order by id', () => {
+        let category, ubication, token, productId1, productId2, product1, product2
+        beforeEach(async () => {
+            await User.deleteMany()
+            await Product.deleteMany()
+            await Order.deleteMany()
+
+            await Product.create({ title: 'Coffee', price: '1.5', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+            await Product.create({ title: 'Capuccino', price: '1.75', category: 'drink', subCategory: 'Coffee', image: 'https://picsum.photos/200' })
+            await Product.create({ title: 'Water', price: '1', category: 'drink', subCategory: 'Water', image: 'https://picsum.photos/200' })
+            await Product.create({ title: 'Cola', price: '1.25', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+            await Product.create({ title: 'Fanta', price: '1', category: 'drink', subCategory: 'Refreshing drinks', image: 'https://picsum.photos/200' })
+
+            await User.create({ email, password, name, surname, age })
+            category = 'drink'
+            ubication = 'ubication'
+
+            const user = await dataApi.authenticate(email, password)
+            token = user.token
+            const products = await dataApi.retrieveProducts(category, token)
+            product1 = products[0]
+            product2 = products[1]
+            productId1 = products[0]._id
+            productId2 = products[1]._id
+
+            await dataApi.cardUpdate(productId1, token)
+            await dataApi.cardUpdate(productId2, token)
+            await dataApi.createOrder(ubication, token)
+
+
+        })
+
+        it('should succed on corrrect retrieve data order', async () => {
+            const { id } = await dataApi.createOrder(ubication, token)
+            const orders = await logic.retrieveOrderById(id)
+            expect(orders).toBeDefined()
+
+        })
+
+        describe('id fails', () => {
+            it('should fail on undefined id', () => {
+                const id = undefined
+                expect(() => logic.retrieveOrderById(id)).toThrowError(new Error('child "id" fails because ["id" is required]'))
+            })
+
+            it('should fail on null id', () => {
+                const id = null
+                expect(() => logic.retrieveOrderById(id)).toThrowError(new Error('child "id" fails because ["id" must be a string]'))
+            })
+
+            it('should fail on empty id', () => {
+                const id = ''
+                expect(() => logic.retrieveOrderById(id)).toThrowError(new Error('child "id" fails because ["id" is not allowed to be empty]'))
+            })
+
+            it('should fail on no valid id', () => {
+                const id = 'd3d d2 3-.d'
+                expect(() => logic.retrieveOrderById(id)).toThrowError(new Error(`child "id" fails because ["id" with value "${id}" fails to match the required pattern: /^[a-zA-Z0-9]{3,30}$/]`))
+            })
+        })
+    })
     afterAll(async () => {
         await Product.deleteMany()
         await Order.deleteMany()

@@ -3,6 +3,8 @@ import './index.sass'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, DirectionsRenderer, InfoWindow } from "react-google-maps"
 import { func } from "prop-types";
 
+const { REACT_APP_MAP_KEY } = process.env
+
 function Maps({ handlePlaceUbication }) {
 
     const [userUbication, setUserUbication] = useState(false) // de momento no se utiliza
@@ -10,7 +12,6 @@ function Maps({ handlePlaceUbication }) {
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(position => {
             setUserUbication(position)
-            debugger
         })
     }, [])
 
@@ -28,11 +29,11 @@ function Maps({ handlePlaceUbication }) {
                 </Marker>
             }
 
-            <Marker position={{ lat: 41.39404704231163, lng: 2.1970611184605673 }} onClick={() => handlePlaceUbication('Carrer Àlaba Pàdel Nova Icària 08071 Barcelona')} >
+            <Marker position={{ lat: 41.39147850723364, lng: 2.187032190409468 }} onClick={() => handlePlaceUbication('Carrer de Pujades 1 08019 Barcelona')} >
                 <InfoWindow>
                     <span>
-                        <h1>Store 2</h1>
-                        <p>Carrer d'Àlaba, Pàdel Nova Icària, 08071 Barcelona, España</p>
+                        <h1>Place 2</h1>
+                        <p>Carrer de Pujades, 1, 08019 Barcelona, España</p>
                     </span>
                 </InfoWindow>
             </Marker>
@@ -40,7 +41,7 @@ function Maps({ handlePlaceUbication }) {
             <Marker position={{ lat: 41.4037255, lng: 2.2057369 }} title='holaa' onClick={() => handlePlaceUbication('Carrer de Llull 182 0805 Barcelona')} >
                 <InfoWindow>
                     <span>
-                        <h1>Store 2</h1>
+                        <h1>Place 2</h1>
                         <p>Carrer de Llull 182 0805 Barcelona</p>
                     </span>
                 </InfoWindow>
@@ -52,7 +53,7 @@ function Maps({ handlePlaceUbication }) {
         <section className='g-Order__map' >
             <MyMapComponent
                 isMarkerShown
-                googleMapURL="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyAeQaJ0WROB5TGpLn8G8ErZM44oXQpEkyw"
+                googleMapURL={REACT_APP_MAP_KEY}
                 loadingElement={<div style={{ height: `100%` }} />}
                 containerElement={<div style={{ height: `450px` }} />}
                 mapElement={<div style={{ height: `100%` }} />}

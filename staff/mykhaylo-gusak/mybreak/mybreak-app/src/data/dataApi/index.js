@@ -1,11 +1,24 @@
+import { call, ValidationError } from 'mybreak-utils'
 const Joi = require('@hapi/joi');
-const call = require('../../common/call')
-const { ValidationError } = require('../../common/error/error')
+
+// const { env: { REACT_APP_URL } } = process
+const { REACT_APP_URL } = process.env
 
 const dataApi = {
-    __url__: 'http://localhost:3030',
+    __url__: REACT_APP_URL,
     __timeout__: 0,
 
+    /**
+     * Creates a user.
+     * 
+     * @param {String} name 
+     * @param {String} surname 
+     * @param {Object} data 
+     * 
+     * @throws {ValidationError} - if any param is not a string or age is not a number, if params are empty or has incorrect format
+     * @throws {Error} - throw an error in the lower layer
+     *
+     */
     create(email, password, data) {
 
         const { name, surname, age } = data
@@ -36,6 +49,16 @@ const dataApi = {
 
     },
 
+    /**
+     * Authenticate with user accout information.
+     *
+     * @param {String} email
+     * @param {String} password
+     *
+     * @throws {ValidationError} - if emails is not a string, if password has less than 3 or more than 30 digits and if it is not composed of only numbers or letters 
+     * @throws {Error} - throw an error in the lower layer
+     *
+     */
     authenticate(email, password) {
 
         const validator = {
@@ -64,6 +87,17 @@ const dataApi = {
 
     },
 
+    /**
+     * Retrieves user information
+     * 
+     * @param {String} token
+     * 
+     * @throws {ValidationError} - if token is not a string, has less than 3 or more than 30 digits and if it is not composed of only numbers or letters 
+     * @throws {ValidationError} -if token it does not have a token format 
+     * @throws {Error} - throw an error in the lower layer
+     *
+     * @returns {Object} - user.
+     */
     retrieve(token) {
         const validator = {
             token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required()
@@ -87,6 +121,17 @@ const dataApi = {
         })()
     },
 
+    /**
+     * Creat a order.
+     * 
+     * @param {String} ubication
+     * @param {String} token
+     * 
+     * @throws {ValidationError} - if ubication is not a string, has less than 3 or more than 30 digits and if it is not composed of only numbers or letters
+     * @throws {ValidationError} -if token it does not have a token format 
+     * @throws {Error} - connection error.
+     * 
+     */
     createOrder(ubication, token) {
         const validator = {
             token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required(),
@@ -105,7 +150,6 @@ const dataApi = {
                     body: JSON.stringify({ ubication }),
                     timeout: this.__timeout__
                 })
-                debugger
                 return await response.json()
             } catch (err) {
                 throw Error(err.message)
@@ -115,6 +159,14 @@ const dataApi = {
 
     },
 
+    /**
+     * Retrieve all orders
+     * 
+     * @throws {ValidationError} -if token it does not have a token format 
+     * @throws {Error} - connection error.
+     *
+     * @returns {Array} - orders.
+     */
     retrieveAllOrders(token) {
         const validator = {
             token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required()
@@ -137,6 +189,16 @@ const dataApi = {
 
     },
 
+    /**
+     * Retrieves orders by author
+     * 
+     * @param {String} token
+     * 
+     * @throws {ValidationError} -if token it does not have a token format
+     * @throws {Error} - connection error.
+     *
+     * @returns {Array} - orders.
+     */
     retrieveOrder(token) {
         const validator = {
             token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required()
@@ -158,6 +220,16 @@ const dataApi = {
         })()
     },
 
+    /**
+     * Retrieve orders by id
+     * 
+     * @param {String} id
+     * 
+     * @throws {ValidationError} - if id is not a string, has less than 3 or more than 30 digits and if it is not composed of only numbers or letters 
+     * @throws {Error} - connection error.
+     *
+     * @returns {Array} - order.
+     */
     retrieveOrderById(id) {
         const validator = {
             id: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
@@ -177,8 +249,18 @@ const dataApi = {
             }
         })()
     },
-    
 
+    /**
+     * Retrieves products by category
+     * 
+     * @param {String} category
+     * 
+     * @throws {ValidationError} -if token it does not have a token format
+     * @throws {ValidationError} - if category is not a string, has less than 3 or more than 30 digits and if it is not composed of only numbers or letters 
+     * @throws {Error} - connection error.
+     *
+     * @returns {Array} - products.
+     */
     retrieveProducts(category, token) {
         const validator = {
             category: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
@@ -201,6 +283,15 @@ const dataApi = {
         })()
     },
 
+    /**
+     * Retrieve all products.
+     * 
+     * @throws {ValidationError} -if token it does not have a token format
+     * @throws {Error} - connection error.
+     * 
+     * @returns {Array} - products.
+     * 
+     */
     retrieveAllProducts(token) {
         const validator = {
             token: Joi.string().regex(/^[A-Za-z0-9-_=]+\.[A-Za-z0-9-_=]+\.?[A-Za-z0-9-_.+/=]*$/).required()
@@ -222,6 +313,16 @@ const dataApi = {
         })()
     },
 
+    /**
+     * Add a product to the user's shopping cart.
+     * 
+     * @param {String} id
+     * 
+     * @throws {ValidationError} -if token it does not have a token format
+     * @throws {ValidationError} - if id is not a string, has less than 3 or more than 30 digits and if it is not composed of only numbers or letters 
+     * @throws {Error} - connection error.
+     *
+     */
     cardUpdate(productId, token) {
         const validator = {
             productId: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required(),
@@ -248,12 +349,7 @@ const dataApi = {
                 throw Error(err.message)
             }
         })()
-
     }
-
-
-
-
 }
 
 export default dataApi

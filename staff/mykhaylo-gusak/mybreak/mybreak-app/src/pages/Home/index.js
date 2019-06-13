@@ -8,25 +8,30 @@ import { CSSTransition } from 'react-transition-group'
 import logic from '../../logic'
 
 
-function Home({ user, orders, handleUpdateMyOrders, handleAddCard, handleAddOrder, logOut, userMenu, userCard, handleCloseMenu, handleCloseCard, newOrder }) {
+function Home({ user, orders, setNewOrder, handleUpdateMyOrders, handleAddCard, handleAddOrder, logOut, userMenu, userCard, handleCloseMenu, handleCloseCard, newOrder }) {
 
     const [products, setProducts] = useState(false)
     const [showError, setErrorMessage] = useState(false)
+    const [loader, setLoader] = useState(false)
 
     const handleProducts = () => {
         return (async () => {
             try {
+                setLoader(true)
                 const _products = await logic.retrieveAllProducts()
                 setProducts(_products)
+                setLoader(false)
             } catch (err) {
                 setErrorMessage(err.message)
             }
         })()
     }
-
+    const handleResetProducts = () => {
+        setProducts(false)
+    }
     return (
         <section className='g-Home'>
-            {!products && <Start className='g-Home__start' handleProducts={handleProducts} />}
+            {!products && <Start className='g-Home__start' loader={loader} handleProducts={handleProducts} />}
             {user && <UserMenu orders={orders} logOut={logOut} handleCloseMenu={handleCloseMenu} userMenu={userMenu} />}
             {user && < UserOrder user={user} userCard={userCard} handleUpdateMyOrders={handleUpdateMyOrders} handleAddCard={handleAddCard} handleCloseCard={handleCloseCard} handleAddOrder={handleAddOrder} orders={orders} />}
             <CSSTransition
@@ -35,7 +40,7 @@ function Home({ user, orders, handleUpdateMyOrders, handleAddCard, handleAddOrde
                 classNames='orderSection'
             >
                 <div>
-                    {products && <OrderSection card={user.card} products={products} showError={showError} handleAddCard={handleAddCard} handleAddOrder={handleAddOrder} newOrder={newOrder} email={user.email} />}
+                    {products && <OrderSection setNewOrder={setNewOrder} handleResetProducts={handleResetProducts} loader={loader} card={user.card} products={products} showError={showError} handleAddCard={handleAddCard} handleAddOrder={handleAddOrder} newOrder={newOrder} email={user.email} />}
                 </div>
             </CSSTransition >
         </section>

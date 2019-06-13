@@ -157,11 +157,9 @@ const { env: { JWT_SECRET, MONGO_URL } } = process
 
             app.get('/order/:id', (req, res) => {
                 const { params: { id } } = req
-                debugger
                 return (async () => {
                     try {
                         const order = await logic.retrieveOrderById(id)
-                        debugger
                         res.status(200).json(order)
                     } catch (err) {
                         res.status(400).json({ message: err.message })

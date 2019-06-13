@@ -1,22 +1,46 @@
 import dataApi from '../data/dataApi/index.js'
-import normalize from '../common/normalize'
+import { normalize, LogicError, ValidationError } from 'mybreak-utils'
 const Joi = require('@hapi/joi');
-const { ValidationError, LogicError } = require('../common/error/error')
 
+/**
+ * Abstraction of business logic.
+ */
 const logic = {
 
+    /**
+    * Set token to sessionStorage.
+    */
     set __userToken__(token) {
         sessionStorage.userToken = token
     },
 
+    /**
+    * Return token from sessionStorage.
+    */
     get __userToken__() {
         return normalize.undefinedOrNull(sessionStorage.userToken)
     },
 
+    /**
+    * Checks if user is logged in.
+    */
     get isUserLoggedIn() {
         return !!(this.__userToken__)
     },
 
+    /**
+     * Registers a user.
+     * 
+     * @param {String} name 
+     * @param {String} surname 
+     * @param {String} email 
+     * @param {String} password 
+     * @param {Number} age 
+     * 
+     * @throws {ValidationError} - if any param is not a string or age is not a number, if params are empty or has incorrect format
+     * @throws {Error} - throw an error in the lower layer
+     *
+     */
     registerUser(name, surname, email, password, age) {
 
         const validator = {
@@ -35,12 +59,23 @@ const logic = {
             try {
                 await dataApi.create(email, password, { name, surname, age })
             } catch (err) {
-                throw new LogicError(err.message)
+                throw new Error(err.message)
             }
         })()
 
     },
 
+    /**
+     * Log in with user accout.
+     *
+     * @param {String} email
+     * @param {String} password
+     *
+     * @throws {ValidationError} - if emails is not a string, if password has less than 3 or more than 30 digits and if it is not composed of only numbers or letters 
+     * @throws {LogicError} - if any param is empty, email is not found or password does not match.
+     * @throws {Error} - throw an error in the lower layer
+     *
+     */
     loginUser(email, password) {
 
         const validator = {
@@ -56,7 +91,6 @@ const logic = {
             try {
                 const { token } = await dataApi.authenticate(email, password)
                 if (!token) throw new LogicError(`User with email${email} no exists.`)
-                // sessionStorage.setItem('token', token)
                 this.__userToken__ = token
                 return
             } catch (err) {
@@ -67,11 +101,19 @@ const logic = {
 
     },
 
+    /**
+     * Retrieves user information
+     * 
+     * @param {String} id
+     * 
+     * @throws {Error} - throw an error in the lower layer
+     *
+     * @returns {Object} - user.
+     */
     retrieveUser() {
         return (async () => {
             try {
                 const user = await dataApi.retrieve(this.__userToken__)
-                if (!user) throw new LogicError(`Incorrect token:${this.__userToken__}.`)
                 return user
             } catch (err) {
                 throw Error(err.message)
@@ -79,10 +121,23 @@ const logic = {
         })()
     },
 
+    /**
+     * Log out user's session
+     */
     logOut() {
         sessionStorage.clear()
     },
 
+    /**
+     * Retrieves products by category
+     * 
+     * @param {String} category
+     * 
+     * @throws {ValidationError} - if category is not a string, has less than 3 or more than 30 digits and if it is not composed of only numbers or letters 
+     * @throws {Error} - connection error.
+     *
+     * @returns {Array} - products.
+     */
     retrieveProducts(category) {
         const validator = {
             category: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
@@ -101,6 +156,14 @@ const logic = {
 
     },
 
+    /**
+     * Retrieve all products.
+     * 
+     * @throws {Error} - connection error.
+     * 
+     * @returns {Array} - products.
+     * 
+     */
     retrieveAllProducts() {
         return (async () => {
             try {
@@ -111,6 +174,16 @@ const logic = {
         })()
     },
 
+    /**
+     * Add order
+     * 
+     * @param {String} productId
+     * 
+     * @throws {ValidationError} - if uication is not a string, has less than 3 or more than 30 digits and if it is not composed of only numbers or letters 
+     * @throws {Error} - connection error.
+     *
+     * @returns {Object} - order id.
+     */
     addOrder(ubication) {
         const validator = {
             ubication: Joi.string().regex(/^[a-zA-Z0-9\s]{3,30}$/).required()
@@ -129,6 +202,13 @@ const logic = {
         })()
     },
 
+    /**
+     * Retrieve all user's orders
+     * 
+     * @throws {Error} - connection error.
+     *
+     * @returns {Array} - orders.
+     */
     retrieveMyOrders() {
         return (async () => {
             try {
@@ -139,6 +219,13 @@ const logic = {
         })()
     },
 
+    /**
+     * Retrieve all orders
+     * 
+     * @throws {Error} - connection error.
+     *
+     * @returns {Array} - orders.
+     */
     retrieveAllOrders() {
         return (async () => {
             try {
@@ -149,6 +236,14 @@ const logic = {
         })()
     },
 
+    /**
+     * Retrieve orders by id
+     * 
+     * @throws {ValidationError} - if author is not a string, has less than 3 or more than 30 digits and if it is not composed of only numbers or letters 
+     * @throws {Error} - connection error.
+     *
+     * @returns {Array} - order.
+     */
     retrieveOrderById(id) {
         const validator = {
             id: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
@@ -169,6 +264,15 @@ const logic = {
 
     },
 
+    /**
+     * Add a product to the user's shopping cart.
+     * 
+     * @param {String} id
+     * 
+     * @throws {ValidationError} - if id is not a string, has less than 3 or more than 30 digits and if it is not composed of only numbers or letters 
+     * @throws {Error} - connection error.
+     *
+     */
     cardUpdate(id) {
         const validator = {
             id: Joi.string().regex(/^[a-zA-Z0-9]{3,30}$/).required()
@@ -191,6 +295,4 @@ const logic = {
 
 }
 
-
 export default logic
-// module.exports = logic
