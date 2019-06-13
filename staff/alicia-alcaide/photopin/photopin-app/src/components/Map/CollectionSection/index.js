@@ -5,7 +5,6 @@ import { withRouter, Redirect } from "react-router-dom";
 import CollectionPin from "./CollectionPin";
 import CollectionForm from "./CollectionForm";
 import literals from "./literals";
-import './index.css'
 import YesNoModal from "../../Common/YesNoModal";
 import logic from "../../../logic";
 import iconShow from "../../../assets/icons/icon_eye.png";
