@@ -2,8 +2,8 @@ const logic = require('.')
 require('../common/utils/array-random.polyfill')
 const { models: { User, Result, GameRecord, MissionDeck, GameDeck }, mongoose } = require('breedingseason-data')
 const { alivePrivateGames, alivePublicGames, Game } = require("./game/game")
-
-const url = 'mongodb://localhost/breeding-user-api-test'
+const bcrypt = require('bcrypt')
+const url = 'mongodb://localhost/breeding-test'
 
 describe('user data', () => {
     beforeAll(async () => {
@@ -75,7 +75,13 @@ describe('user data', () => {
         let retrievedUser
 
         beforeEach(async () => {
-            retrievedUser = new User({ nickname: users_[2].nickname, age: users_[2].age, email: users_[2].email, password: users_[2].password, avatar: "hellomotto" })
+            const hashedPassword = await new Promise((resolve, reject) => {
+                bcrypt.hash(users_[2].password, 10, function (err, hash) {
+                    if (err) reject(err)
+                    resolve(hash)
+                })
+            })
+            retrievedUser = new User({ nickname: users_[2].nickname, age: users_[2].age, email: users_[2].email, password: hashedPassword, avatar: "hellomotto" })
             await retrievedUser.save()
         })
 
@@ -105,7 +111,13 @@ describe('user data', () => {
         let authUser
 
         beforeEach(async () => {
-            authUser = new User({ nickname: users_[2].nickname, age: users_[2].age, email: users_[2].email, password: users_[2].password, avatar: "hellomotto" })
+            const hashedPassword = await new Promise((resolve, reject) => {
+                bcrypt.hash(users_[2].password, 10, function (err, hash) {
+                    if (err) reject(err)
+                    resolve(hash)
+                })
+            })
+            authUser = new User({ nickname: users_[2].nickname, age: users_[2].age, email: users_[2].email, password: hashedPassword, avatar: "hellomotto" })
             await authUser.save()
         })
 
@@ -127,7 +139,7 @@ describe('user data', () => {
 
         it('should fail on not matching Email and Password', async () => {
             try {
-                await logic.authenticateUser(users_[3].email, users_[4].password)
+                await logic.authenticateUser(users_[2].email, users_[1].password)
 
                 throw Error("Should not reach this point")
             } catch (err) {
@@ -138,7 +150,7 @@ describe('user data', () => {
 
         it('should fail on not matching Nickname and Password', async () => {
             try {
-                await logic.authenticateUser(users_[3].nickname, users_[4].password)
+                await logic.authenticateUser(users_[2].nickname, users_[1].password)
 
                 throw Error("Should not reach this point")
             } catch (err) {

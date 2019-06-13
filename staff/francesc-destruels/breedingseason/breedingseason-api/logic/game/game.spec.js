@@ -1308,7 +1308,7 @@ describe('Game Data', () => {
 
     describe('.__sendInitialPackage__', () => {
         let random9 = Math.floor(Math.random() * 6)
-        let random8 = Math.floor(Math.random() * 7)
+        let random8 = Math.floor(Math.random() * 6)
 
         it("Should success on returning the initial package for solo player", async () => {
             gameToTest.mode = "solo"
