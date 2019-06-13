@@ -1,6 +1,6 @@
 # WOTcontrol app
 
-## [Documentation](WOTcontrol/wotcontrol-app/README.md)
+## [Documentation](WOTcontrol/wotcontrol-doc/README.md)
 
 ## [Demo](http://wotcon.surge.sh/#/)
 
