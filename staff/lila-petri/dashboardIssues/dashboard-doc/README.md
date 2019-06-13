@@ -1,4 +1,3 @@
-# Dashboard Issues
 
 ## Description
 ````
@@ -18,10 +17,11 @@ A normal bug is a problem in the main functionality. It is usually encountered b
 What's a request? 
 A request is not a problem in the software, it is a demand from the Product Expert or someone else that has to be done by a technical expert, e.g a database query. The SLA in request will be 7 day.  
 ````
-![Use Cases](images/projectImage.png)
+![project](images/projectImage.png)
+
 ## Planning
 
-Trello: [https://trello.com/b/dPd4s6vR/dashboardissues](Trello) to see my planning.
+Trello: (https://trello.com/b/dPd4s6vR/dashboardissues) to see my planning.
 
 ## Functional Description
 
@@ -51,3 +51,12 @@ Trello: [https://trello.com/b/dPd4s6vR/dashboardissues](Trello) to see my planni
 
 ##### Client Side
 ![client side](images/client-side.png)
+
+### TO DO List 
+````
+
+- Create an admin who will able to see all country at the same time
+-  Implement query string
+
+````
+
