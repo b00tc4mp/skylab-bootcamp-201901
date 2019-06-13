@@ -25,7 +25,10 @@
     "test": "mocha --timeout 10000 '**/*.spec.js'",
     "test:chrome": "mocha --inspect-brk  '**/*.spec.js' --timeout 30000",
     "test:debug": "mocha debug -r esm '**/*.spec.js'",
-    "test:coverage": "nyc --reporter=text --reporter=html mocha '**/*.spec.js' --timeout 10000"
+    "test:coverage": "nyc --reporter=text --reporter=html mocha 'logic/*.spec.js' --timeout 10000"
+  },
+  "nyc": {
+    "include": "logic"
   },
   "keywords": [],
   "author": "",

@@ -50,9 +50,6 @@ function Editor({ history, match }) {
             const renderSlide = dbSlides.map((slide, index) => {
                 const { _id, style, elements } = slide
                 slidesStyle = `${style}\n\n`
-                /* elements.forEach((element) => {
-                    slidesStyle += `.${element.type}{ \n ${element.style} \n}\n\n`
-                }) */
                 stylesPerSlide.push(slidesStyle)
                 return {
                     _id,

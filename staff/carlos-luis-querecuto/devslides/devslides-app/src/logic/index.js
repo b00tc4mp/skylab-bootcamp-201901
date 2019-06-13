@@ -1,6 +1,5 @@
-const validate = require('../common/validate')
-const call = require('../common/call')
-const api = require('../data/devslides-api')
+import validate from '../common/validate'
+import api from '../data/devslides-api'
 
 const logic = {
     __url__: 'http://localhost:8080/api',
@@ -272,4 +271,4 @@ const logic = {
     }
 }
 
-module.exports = logic
+export default logic

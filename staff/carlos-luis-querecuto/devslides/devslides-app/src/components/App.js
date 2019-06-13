@@ -20,9 +20,9 @@ function App({history}) {
 
     const handleRegister = async (name, surname, username, email, password) => {
         try {
-            const res = await logic.registerUser(name, surname, username, email, password)
+            await logic.registerUser(name, surname, username, email, password)
             setMessage(null)
-            history.push('/register')
+            history.push('/login')
         }
         catch (error) {
             setMessage({ message: error.message, type: 'Error' })

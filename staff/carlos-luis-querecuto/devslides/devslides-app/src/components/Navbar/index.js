@@ -30,14 +30,6 @@ function Navbar({ history, onLogin, onLoginError }) {
                 </div>
 
                 <div id="navbarBasicExample" class={"navbar-menu" + (togglenav ? "is-active" : "")}>
-                    <div class="navbar-start">
-                        <a class="navbar-item lighttext">
-                            HOME
-                        </a>
-                        <a class="navbar-item lighttext">
-                            DOCUMENTATION
-                        </a>
-                    </div>
                     <div class="navbar-end">
                         <div class="navbar-item">
                             {logic.isUserLoggedIn ? <div class="buttons">

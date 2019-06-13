@@ -42,7 +42,7 @@ class LogicError extends Error {
     }
 }
 
-module.exports = {
+export{
     ValueError,
     FormatError,
     HttpError,

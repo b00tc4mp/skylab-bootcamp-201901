@@ -39,7 +39,7 @@ function Register({ onRegister }) {
                                 <div class="field-body">
                                     <div class="field">
                                         <p class="control">
-                                            <input class="input" name="name" placeholder="Insert Name" />
+                                            <input class="input" name="name" placeholder="Insert Name" required/>
                                         </p>
                                     </div>
                                 </div>
@@ -51,7 +51,7 @@ function Register({ onRegister }) {
                                 <div class="field-body">
                                     <div class="field">
                                         <p class="control">
-                                            <input class="input" name="surname" placeholder="Insert Surname" />
+                                            <input class="input" name="surname" placeholder="Insert Surname" required/>
                                         </p>
                                     </div>
                                 </div>
@@ -63,7 +63,7 @@ function Register({ onRegister }) {
                                 <div class="field-body">
                                     <div class="field">
                                         <p class="control">
-                                            <input class="input" name="username" placeholder="Insert Username" />
+                                            <input class="input" name="username" placeholder="Insert Username" required/>
                                         </p>
                                     </div>
                                 </div>
@@ -75,7 +75,7 @@ function Register({ onRegister }) {
                                 <div class="field-body">
                                     <div class="field">
                                         <p class="control">
-                                            <input class="input" name="email" type="email" placeholder="Insert Email" />
+                                            <input class="input" name="email" type="email" placeholder="Insert Email" required/>
                                         </p>
                                     </div>
                                 </div>
@@ -87,7 +87,7 @@ function Register({ onRegister }) {
                                 <div class="field-body">
                                     <div class="field">
                                         <p class="control">
-                                            <input class="input" name="password" placeholder="Insert Password" />
+                                            <input class="input" name="password" type="password" placeholder="Insert Password" required/>
                                         </p>
                                     </div>
                                 </div>

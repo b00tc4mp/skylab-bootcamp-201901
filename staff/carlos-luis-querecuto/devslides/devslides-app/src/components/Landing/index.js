@@ -39,7 +39,6 @@ function Landing() {
                         <Carousel showArrows={false} dynamicHeight={false} infiniteLoop autoPlay >
                             <img src="https://cdn-images-1.medium.com/max/1050/1*07Eda0j0Xf-3xCYi1ZllcQ.jpeg" />
                         </Carousel>
-                        {/* <img class="landingslogan_logo" src="https://i.pinimg.com/236x/c9/11/dc/c911dc5bd32f96afe77f40b839d95367--the-square-brackets.jpg" /> */}
                     </div>
                 </div>
             </div>

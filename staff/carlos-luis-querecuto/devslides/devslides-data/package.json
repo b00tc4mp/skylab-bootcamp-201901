@@ -4,6 +4,9 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "engines": { 
+    "node": "8.11.4" 
+  },
   "dependencies": {
     "esm": "^3.2.25",
     "bcrypt": "^3.0.6",

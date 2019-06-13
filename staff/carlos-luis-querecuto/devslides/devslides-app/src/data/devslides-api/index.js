@@ -1,5 +1,5 @@
-const validate = require('../../common/validate')
-const call = require('../../common/call')
+import validate from '../../common/validate'
+import call from '../../common/call'
 
 const api = {
     /* __url__: 'http://localhost:8080/api', */
@@ -256,4 +256,4 @@ const api = {
     }
 }
 
-module.exports = api
+export default api

@@ -245,7 +245,7 @@ describe('logic', () => {
         describe('slide', () => {
             let user, style
             beforeEach(async () => {
-                style = `{ background-color: red; border: 1px solid #${Math.random()} }`
+                style = `.Slide-0{\nbackground-color: white \n}`
                 user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) })
                 await logic.createPresentation(user.id, `presentation-${Math.random()}`)
             })
@@ -272,7 +272,7 @@ describe('logic', () => {
                 await logic.deleteSlide(user.id, presentation_Id.toString(), slide._id.toString())
                 presentation_Slides = await Presentation.findById(presentation_Id)
 
-                expect(presentation_Slides.slides).to.have.length(0)
+                expect(presentation_Slides.slides).to.have.length(1)
             })
         })
         describe('element', () => {
@@ -327,7 +327,7 @@ describe('logic', () => {
             beforeEach(async () => {
                 content = `Lorem-ipsum-${Math.random()}`
                 type = `textbox-${Math.random()}`
-                style = `{ background-color: red; border: 1px solid #${Math.random()} }`
+                style = `.Slide-0{\nbackground-color: white \n}`
                 user = await User.create({ name, surname, username, email, password: await bcrypt.hash(password, 5) })
 
                 await logic.createPresentation(user.id, `Presentation-to-JSON-${Math.random()}`)
@@ -351,7 +351,7 @@ describe('logic', () => {
             it('should retrieve presentations and its childrens JSONified', async () => {
                 const objectPresentation = await logic.retrievePresentation(user.id, presentation._id.toString())
 
-                expect(objectPresentation.slides).to.have.length(slidesQuantity)
+                expect(objectPresentation.slides).to.have.length(slidesQuantity+1)
                 for (let i = 0; i < slidesQuantity; i++) {
                     expect(objectPresentation.slides[i].elements).to.have.length(elementsQuantity)
                     expect(objectPresentation.slides[i].style).to.equal(style)

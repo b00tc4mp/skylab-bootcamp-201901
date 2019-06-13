@@ -1,6 +1,6 @@
-const validate = require('../validate')
-const { ConnectionError, HttpError } = require('../errors')
-const axios = require('axios')
+import validate from '../validate'
+import { ConnectionError, HttpError } from '../errors'
+import axios from 'axios'
 
 /**
  * Makes an HTTP call.
@@ -45,4 +45,4 @@ function call(url, options = {}) {
     })()
 }
 
-module.exports = call
+export default call
