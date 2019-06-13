@@ -4,6 +4,7 @@ const token = require('./token')
 const file = require('./utils/file')
 const validate = require('./validate')
 const dateApi = require('./utils/date-api-format')
+const normalize = require('./normalize')
 
 module.exports = {
     call,
@@ -11,5 +12,6 @@ module.exports = {
     token,
     file,
     validate,
-    dateApi
+    dateApi,
+    normalize
 }

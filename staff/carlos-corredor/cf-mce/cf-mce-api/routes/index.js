@@ -66,33 +66,36 @@ router.post('/customers', auth, jsonParser, (req, res) => {
 })
 
 router.get('/customers', auth, jsonParser, (req, res) => {
-    const { body } = req
-
+    const { query } = req
+    // key = Object.keys(query)[0]
+    // value = query[key]
+    // const criteria = {[key]: value};
+    // let criteria = {}
+    // criteria[key] = value
     handleErrors( async () => {
-        const customers = await logic.findCustomers(body)
+        const customers = await logic.findCustomers(query)
         return res.json(customers)
     }, res)
 })
 
-router.put('/customers', auth, jsonParser, (req, res) => {
-    const { body: {id} } = req
+router.put('/customers/:customerId', auth, jsonParser, (req, res) => {
+    const { params: {customerId}, body } = req
     handleErrors(async () => {
-        const { body } = req
-        await logic.updateCustomer(id, body)
+        await logic.updateCustomer(customerId, body)
         return res.status(201).json({ message: 'Ok, customer updated.' })
     }, res)
 })
 
-router.delete('/customers', auth, jsonParser, (req, res) => {
-    const { body: { id } } = req
+router.delete('/customers/:customerId', auth, jsonParser, (req, res) => {
+    const { params: { customerId } } = req
     handleErrors(async () => {
-        await logic.deleteCustomer(id)
+        await logic.deleteCustomer(customerId)
         return res.status(201).json({ message: 'Ok, customer deleted.' })
     }, res)
 })
 
-router.post('/customers/notes', auth, jsonParser, (req, res) => {
-    const { body: {id: customerId, text }, userId } = req
+router.post('/customers/notes/:customerId', auth, jsonParser, (req, res) => {
+    const { body: { text }, params: {customerId}, userId } = req
 
     handleErrors( async () => {
         await logic.addCustomerNote(customerId, text, userId)
@@ -100,19 +103,19 @@ router.post('/customers/notes', auth, jsonParser, (req, res) => {
     }, res)
 })
 
-router.get('/customers/notes', auth, jsonParser, (req, res) => {
-    const { body: {id} } = req
+router.get('/customers/notes/:customerId', auth, jsonParser, (req, res) => {
+    const { params: {customerId} } = req
 
     handleErrors( async () => {
-        const notes = await logic.listCustomerNotes(id)
+        const notes = await logic.listCustomerNotes(customerId)
         return res.json(notes)
     }, res)
 })
 
-router.delete('/customers/notes', auth, jsonParser, (req, res) => {
-    const { body: { id, noteId } } = req
+router.delete('/customers/notes/:customerId', auth, jsonParser, (req, res) => {
+    const { body: { noteId }, params: {customerId} } = req
     handleErrors(async () => {
-        await logic.deleteCustomerNotes(id, noteId)
+        await logic.deleteCustomerNotes(customerId, noteId)
         if(noteId) return res.status(201).json({ message: 'Ok, note is deleted.' })
         return res.status(201).json({ message: 'Ok, notes are deleted.' })
     }, res)
@@ -129,7 +132,8 @@ router.post('/electronicmodules', auth, jsonParser, (req, res) => {
         device,
         serial,
         fail,
-        owner } } = req
+        owner,
+        status } } = req
 
     handleErrors( async () => {
         await logic.registerElectronicModule(
@@ -143,40 +147,40 @@ router.post('/electronicmodules', auth, jsonParser, (req, res) => {
             device,
             serial,
             fail,
-            owner)
+            owner,
+            status)
         return res.status(201).json({ message: 'Ok, electronic module registered.' })
     }, res)
 
 })
 
 router.get('/electronicmodules', auth, jsonParser, (req, res) => {
-    const { body } = req
+    const { query } = req
 
     handleErrors( async () => {
-        const electronicModules = await logic.findElectronicModules(body)
+        const electronicModules = await logic.findElectronicModules(query)
         return res.json(electronicModules)
     }, res)
 })
 
-router.put('/electronicmodules', auth, jsonParser, (req, res) => {
-    const { body: {id} } = req
+router.put('/electronicmodules/:electronicModuleId', auth, jsonParser, (req, res) => {
+    const { params: {electronicModuleId}, body } = req
     handleErrors(async () => {
-        const { body } = req
-        await logic.updateElectronicModule(id, body)
+        await logic.updateElectronicModule(electronicModuleId, body)
         return res.status(201).json({ message: 'Ok, electronic module updated.' })
     }, res)
 })
 
-router.delete('/electronicmodules', auth, jsonParser, (req, res) => {
-    const { body: { id } } = req
+router.delete('/electronicmodules/:electronicModuleId', auth, jsonParser, (req, res) => {
+    const { params: { electronicModuleId } } = req
     handleErrors(async () => {
-        await logic.deleteElectronicModule(id)
+        await logic.deleteElectronicModule(electronicModuleId)
         return res.status(201).json({ message: 'Ok, electronic module deleted.' })
     }, res)
 })
 
-router.post('/electronicmodules/notes', auth, jsonParser, (req, res) => {
-    const { body: {id: electronicModuleId, text }, userId } = req
+router.post('/electronicmodules/notes/:electronicModuleId', auth, jsonParser, (req, res) => {
+    const { body: { text }, params: {electronicModuleId}, userId } = req
 
     handleErrors( async () => {
         await logic.addElectronicModuleNote(electronicModuleId, text, userId)
@@ -184,46 +188,46 @@ router.post('/electronicmodules/notes', auth, jsonParser, (req, res) => {
     }, res)
 })
 
-router.get('/electronicmodules/notes', auth, jsonParser, (req, res) => {
-    const { body: {id} } = req
+router.get('/electronicmodules/notes/:electronicModuleId', auth, jsonParser, (req, res) => {
+    const { params: {electronicModuleId} } = req
 
     handleErrors( async () => {
-        const notes = await logic.listElectronicModuleNotes(id)
+        const notes = await logic.listElectronicModuleNotes(electronicModuleId)
         return res.json(notes)
     }, res)
 })
 
-router.delete('/electronicmodules/notes', auth, jsonParser, (req, res) => {
-    const { body: { id, noteId } } = req
+router.delete('/electronicmodules/notes/:electronicModuleId&noteId', auth, jsonParser, (req, res) => {
+    const { body: { noteId }, params: { electronicModuleId } } = req
     handleErrors(async () => {
-        await logic.deleteElectronicModuleNotes(id, noteId)
+        await logic.deleteElectronicModuleNotes(electronicModuleId, noteId)
         if(noteId) return res.status(201).json({ message: 'Ok, note is deleted.' })
         return res.status(201).json({ message: 'Ok, notes are deleted.' })
     }, res)
 })
 
-router.post('/electronicmodules/budget', auth, jsonParser, (req, res) => {
-    const { body: {id, description, price } } = req
+router.post('/electronicmodules/budget/:electronicModuleId', auth, jsonParser, (req, res) => {
+    const { params: { electronicModuleId, body: { description, price } } } = req
 
     handleErrors( async () => {
-        await logic.addElectronicModuleBudget(id, description, price)
+        await logic.addElectronicModuleBudget(electronicModuleId, description, price)
         return res.status(201).json({ message: 'Ok, a product has been added' })
     }, res)
 })
 
-router.get('/electronicmodules/budget', auth, jsonParser, (req, res) => {
-    const { body: {id} } = req
+router.get('/electronicmodules/budget/:electronicModuleId', auth, jsonParser, (req, res) => {
+    const { params: {electronicModuleId} } = req
 
     handleErrors( async () => {
-        const budget = await logic.listElectronicModuleBudgets(id)
+        const budget = await logic.listElectronicModuleBudgets(electronicModuleId)
         return res.json(budget)
     }, res)
 })
 
-router.delete('/electronicmodules/budget', auth, jsonParser, (req, res) => {
-    const { body: { id, productId } } = req
+router.delete('/electronicmodules/budget/:electronicModuleId', auth, jsonParser, (req, res) => {
+    const { body: { productId }, params: {electronicModuleId} } = req
     handleErrors(async () => {
-        await logic.deleteElectronicModuleBudgets(id, productId)
+        await logic.deleteElectronicModuleBudgets(electronicModuleId, productId)
         if(productId) return res.status(201).json({ message: 'Ok, product is deleted.' })
         return res.status(201).json({ message: 'Ok, products are deleted.' })
     }, res)

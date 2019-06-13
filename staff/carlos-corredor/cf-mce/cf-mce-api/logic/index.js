@@ -285,6 +285,9 @@ const logic = {
         ])
         validate.idMongodb(owner)
         if (status != null)  validate.status(status)
+        if (status == null) status = undefined
+        if (device == null) device = undefined
+
 
         return (async () => {
             const electronicModule = await ElectronicModule.findOne({orderNumber}).lean()
@@ -346,15 +349,15 @@ const logic = {
         
         if (data.id && id !== data.id) throw new ValueError('data id does not match criteria id')
 
-        if(data.received) data.received = dateApi.createDate(data.received)
-        
-        if(data.reviewed) data.reviewed = dateApi.createDate(data.reviewed) 
-        if(data.budgeted) data.budgeted = dateApi.createDate(data.budgeted) 
-        if(data.approved) data.approved = dateApi.createDate(data.approved) 
-        if(data.repaired) data.repaired = dateApi.createDate(data.repaired) 
-        if(data.delivered) data.delivered = dateApi.createDate(data.delivered) 
-        if(data.toCollect) data.toCollect = dateApi.createDate(data.toCollect) 
-        if(data.collected) data.collected = dateApi.createDate(data.collected) 
+        // para ser implementado en la versión 2
+        // if(data.received) data.received = dateApi.createDate(data.received)
+        // if(data.reviewed) data.reviewed = dateApi.createDate(data.reviewed) 
+        // if(data.budgeted) data.budgeted = dateApi.createDate(data.budgeted) 
+        // if(data.approved) data.approved = dateApi.createDate(data.approved) 
+        // if(data.repaired) data.repaired = dateApi.createDate(data.repaired) 
+        // if(data.delivered) data.delivered = dateApi.createDate(data.delivered) 
+        // if(data.toCollect) data.toCollect = dateApi.createDate(data.toCollect) 
+        // if(data.collected) data.collected = dateApi.createDate(data.collected) 
 
         return (async () => {
             const electronicModule = await ElectronicModule.findOne({orderNumber: data.orderNumber})
@@ -390,6 +393,14 @@ const logic = {
                 electronicModule.id = electronicModule._id.toString()
                 delete electronicModule._id
                 electronicModule.owner = electronicModule.owner.toString()
+                if(electronicModule.received) electronicModule.received = electronicModule.received.toDateString()
+                if(electronicModule.reviewed) electronicModule.reviewed = electronicModule.reviewed.toDateString()
+                if(electronicModule.budgeted) electronicModule.budgeted = electronicModule.budgeted.toDateString()
+                if(electronicModule.approved) electronicModule.approved = electronicModule.approved.toDateString()
+                if(electronicModule.repaired) electronicModule.repaired = electronicModule.repaired.toDateString()
+                if(electronicModule.delivered) electronicModule.delivered = electronicModule.delivered.toDateString()
+                if(electronicModule.toCollect) electronicModule.toCollect = electronicModule.toCollect.toDateString()
+                if(electronicModule.collected) electronicModule.collected = electronicModule.collected.toDateString()
             })
 
             return electronicModules
@@ -474,6 +485,7 @@ const logic = {
         ])
         validate.idMongodb(electronicModuleId)
         if (description != null)  validate.description(description)
+        if (description == null) description = undefined
 
         return (async () => {
             const electronicModule = await ElectronicModule.findById(electronicModuleId)
