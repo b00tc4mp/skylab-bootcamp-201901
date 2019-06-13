@@ -1,5 +1,9 @@
 # Project name: Breeding Season
 
+
+![](./img/letsbreed.jpg)
+
+
 A game were you will have to help penguins to breed!
 
 ## APP DESCRIPTION
@@ -29,6 +33,12 @@ In this first version you will be able to play Breeding Season on Solo Mode. In 
 ## Data model
 
 ![Data model](img/data-model.jpg)
+
+##TODO
+
+    · Move the Game Instance from Memory to DB
+    · Make the APP work on Multiplayer (API already able to carry it).
+    . UI improvements
 
 ### Technologies
 
