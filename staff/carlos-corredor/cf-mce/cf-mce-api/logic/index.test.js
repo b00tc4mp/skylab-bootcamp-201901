@@ -1316,6 +1316,10 @@ describe('logic', () => {
                     const customersListed = await logic.findCustomers()
     
                     expect(customersListed.length).to.equal(customers.length)
+
+                    customers.forEach(customer => {
+                        delete customer.notes
+                    })
     
                     expect(customersListed).to.deep.equal(customers)
     
@@ -1325,6 +1329,10 @@ describe('logic', () => {
                     const customersListed = await logic.findCustomers({})
     
                     expect(customersListed.length).to.equal(customers.length)
+
+                    customers.forEach(customer => {
+                        delete customer.notes
+                    })
     
                     expect(customersListed).to.deep.equal(customers)
     
@@ -1334,6 +1342,10 @@ describe('logic', () => {
                     const customersListed = await logic.findCustomers(null)
     
                     expect(customersListed.length).to.equal(customers.length)
+
+                    customers.forEach(customer => {
+                        delete customer.notes
+                    })
     
                     expect(customersListed).to.deep.equal(customers)
     
@@ -1358,6 +1370,9 @@ describe('logic', () => {
                     
                     customersFound = await logic.findCustomers(criteria)
                     expect(customersFound.length).to.equal(customersWithCriteria.length)
+                    customersWithCriteria.forEach(customer => {
+                        delete customer.notes
+                    })
                     expect(customersFound).to.deep.equal(customersWithCriteria)
                 })
 
@@ -1812,6 +1827,9 @@ describe('logic', () => {
         let orderNumber, brand, model, cylinders, transmission, year, engine, device, serial, fail, owner, status
 
         const statusList = ['RECEIVED', 'REVIEWED', 'BUDGETED', 'APPROVED', 'REPAIRED', 'TO-COLLECT', 'DELIVERED', 'COLLECTED']
+        const statusDefault = 'RECEIVED'
+        const deviceDefault = 'MCE'
+
         beforeEach(async () => {
             await Customer.deleteMany()
 
@@ -1907,8 +1925,10 @@ describe('logic', () => {
                 transmission = undefined
                 year = undefined
                 engine = undefined
+                device = undefined
                 serial = undefined
                 fail = undefined
+                status = undefined
 
                 const res = await logic.registerElectronicModule(
                     orderNumber,
@@ -1940,11 +1960,11 @@ describe('logic', () => {
                 expect(electronicModule.transmission).to.not.exist
                 expect(electronicModule.year).to.not.exist
                 expect(electronicModule.engine).to.not.exist
-                expect(electronicModule.device).to.equal(device)
+                expect(electronicModule.device).to.equal(deviceDefault)
                 expect(electronicModule.serial).to.not.exist
                 expect(electronicModule.fail).to.not.exist
                 expect(electronicModule.owner.toString()).to.equal(owner)
-                expect(electronicModule.status).to.equal(status)
+                expect(electronicModule.status).to.equal(statusDefault)
         
             })
 
@@ -1956,8 +1976,10 @@ describe('logic', () => {
                 transmission = null
                 year = null
                 engine = null
+                device = null
                 serial = null
                 fail = null
+                status = null
 
                 const res = await logic.registerElectronicModule(
                     orderNumber,
@@ -1989,11 +2011,11 @@ describe('logic', () => {
                 expect(electronicModule.transmission).to.not.exist
                 expect(electronicModule.year).to.not.exist
                 expect(electronicModule.engine).to.not.exist
-                expect(electronicModule.device).to.equal(device)
+                expect(electronicModule.device).to.equal(deviceDefault)
                 expect(electronicModule.serial).to.not.exist
                 expect(electronicModule.fail).to.not.exist
                 expect(electronicModule.owner.toString()).to.equal(owner)
-                expect(electronicModule.status).to.equal(status)
+                expect(electronicModule.status).to.equal(statusDefault)
         
             })
 
@@ -2419,42 +2441,6 @@ describe('logic', () => {
                     status)).to.throw(TypeError, `engine ${engine} is not a string`)
             })
 
-            it('should fail on undefined device', () => {
-                device = undefined
-
-                expect(() => logic.registerElectronicModule(
-                    orderNumber,
-                    brand,
-                    model,
-                    cylinders,
-                    transmission,
-                    year,
-                    engine,
-                    device,
-                    serial,
-                    fail,
-                    owner,
-                    status)).to.throw(RequirementError, `device is not optional`)
-            })
-
-            it('should fail on null device', () => {
-                device = null
-
-                expect(() => logic.registerElectronicModule(
-                    orderNumber,
-                    brand,
-                    model,
-                    cylinders,
-                    transmission,
-                    year,
-                    engine,
-                    device,
-                    serial,
-                    fail,
-                    owner,
-                    status)).to.throw(RequirementError, `device is not optional`)
-            })
-
             it('should fail on empty device', () => {
                 device = ''
 
@@ -2758,42 +2744,6 @@ describe('logic', () => {
                     fail,
                     owner,
                     status)).to.throw(TypeError, `owner ${owner} is not a string`)
-            })
-
-            it('should fail on undefined status', () => {
-                status = undefined
-
-                expect(() => logic.registerElectronicModule(
-                    orderNumber,
-                    brand,
-                    model,
-                    cylinders,
-                    transmission,
-                    year,
-                    engine,
-                    device,
-                    serial,
-                    fail,
-                    owner,
-                    status)).to.throw(RequirementError, `status is not optional`)
-            })
-
-            it('should fail on null status', () => {
-                status = null
-
-                expect(() => logic.registerElectronicModule(
-                    orderNumber,
-                    brand,
-                    model,
-                    cylinders,
-                    transmission,
-                    year,
-                    engine,
-                    device,
-                    serial,
-                    fail,
-                    owner,
-                    status)).to.throw(RequirementError, `status is not optional`)
             })
 
             it('should fail on empty status', () => {
@@ -3295,7 +3245,14 @@ describe('logic', () => {
                     fail = `${fails.random()}`
                     owner = `${owners.random()}`
                     status = statusList.random()
-
+                    received = new Date(`${2000 + Math.random(18)}-${Math.random(1, 12)}-${Math.random(1, 28)}`)
+                    reviewed = new Date(`${2000 + Math.random(18)}-${Math.random(1, 12)}-${Math.random(1, 28)}`)
+                    budgeted = new Date(`${2000 + Math.random(18)}-${Math.random(1, 12)}-${Math.random(1, 28)}`)
+                    approved = new Date(`${2000 + Math.random(18)}-${Math.random(1, 12)}-${Math.random(1, 28)}`)
+                    repaired = new Date(`${2000 + Math.random(18)}-${Math.random(1, 12)}-${Math.random(1, 28)}`)
+                    delivered = new Date(`${2000 + Math.random(18)}-${Math.random(1, 12)}-${Math.random(1, 28)}`)
+                    toCollect = new Date(`${2000 + Math.random(18)}-${Math.random(1, 12)}-${Math.random(1, 28)}`)
+                    collected = new Date(`${2000 + Math.random(18)}-${Math.random(1, 12)}-${Math.random(1, 28)}`)
                     await ElectronicModule.create({
                         orderNumber,
                         brand,
@@ -3308,7 +3265,15 @@ describe('logic', () => {
                         serial,
                         fail,
                         owner,
-                        status
+                        status,
+                        received,
+                        reviewed,
+                        budgeted,
+                        approved,
+                        repaired,
+                        delivered,
+                        toCollect,
+                        collected
                     })
                     
                     const electronicModule = await ElectronicModule.findOne({orderNumber})
@@ -3327,6 +3292,14 @@ describe('logic', () => {
                         fail,
                         owner,
                         status,
+                        received,
+                        reviewed,
+                        budgeted,
+                        approved,
+                        repaired,
+                        delivered,
+                        toCollect,
+                        collected,
                         budget: [],
                         notes: []
                     })
@@ -3340,6 +3313,19 @@ describe('logic', () => {
 
                     expect(electronicModulesListed.length).to.equal(electronicModules.length)
 
+                    electronicModules.forEach(electronicModule => {
+                        delete electronicModule.notes
+                        delete electronicModule.budget
+                        electronicModule.received = electronicModule.received.toDateString()
+                        electronicModule.reviewed = electronicModule.reviewed.toDateString()
+                        electronicModule.budgeted = electronicModule.budgeted.toDateString()
+                        electronicModule.approved = electronicModule.approved.toDateString()
+                        electronicModule.repaired = electronicModule.repaired.toDateString()
+                        electronicModule.delivered = electronicModule.delivered.toDateString()
+                        electronicModule.toCollect = electronicModule.toCollect.toDateString()
+                        electronicModule.collected = electronicModule.collected.toDateString()
+                    })
+
                     expect(electronicModulesListed).to.deep.equal(electronicModules)
     
                 })
@@ -3348,6 +3334,18 @@ describe('logic', () => {
                     const electronicModulesListed = await logic.findElectronicModules({})
     
                     expect(electronicModulesListed.length).to.equal(electronicModules.length)
+                    electronicModules.forEach(electronicModule => {
+                        delete electronicModule.notes
+                        delete electronicModule.budget
+                        electronicModule.received = electronicModule.received.toDateString()
+                        electronicModule.reviewed = electronicModule.reviewed.toDateString()
+                        electronicModule.budgeted = electronicModule.budgeted.toDateString()
+                        electronicModule.approved = electronicModule.approved.toDateString()
+                        electronicModule.repaired = electronicModule.repaired.toDateString()
+                        electronicModule.delivered = electronicModule.delivered.toDateString()
+                        electronicModule.toCollect = electronicModule.toCollect.toDateString()
+                        electronicModule.collected = electronicModule.collected.toDateString()
+                    })
     
                     expect(electronicModulesListed).to.deep.equal(electronicModules)
     
@@ -3357,6 +3355,18 @@ describe('logic', () => {
                     const electronicModulesListed = await logic.findElectronicModules(null)
     
                     expect(electronicModulesListed.length).to.equal(electronicModules.length)
+                    electronicModules.forEach(electronicModule => {
+                        delete electronicModule.notes
+                        delete electronicModule.budget
+                        electronicModule.received = electronicModule.received.toDateString()
+                        electronicModule.reviewed = electronicModule.reviewed.toDateString()
+                        electronicModule.budgeted = electronicModule.budgeted.toDateString()
+                        electronicModule.approved = electronicModule.approved.toDateString()
+                        electronicModule.repaired = electronicModule.repaired.toDateString()
+                        electronicModule.delivered = electronicModule.delivered.toDateString()
+                        electronicModule.toCollect = electronicModule.toCollect.toDateString()
+                        electronicModule.collected = electronicModule.collected.toDateString()
+                    })
     
                     expect(electronicModulesListed).to.deep.equal(electronicModules)
     
@@ -3381,6 +3391,18 @@ describe('logic', () => {
                     
                     electronicModulesFound = await logic.findElectronicModules(criteria)
                     expect(electronicModulesFound.length).to.equal(electronicModulesWithCriteria.length)
+                    electronicModulesWithCriteria.forEach(electronicModule => {
+                        delete electronicModule.notes
+                        delete electronicModule.budget
+                        electronicModule.received = electronicModule.received.toDateString()
+                        electronicModule.reviewed = electronicModule.reviewed.toDateString()
+                        electronicModule.budgeted = electronicModule.budgeted.toDateString()
+                        electronicModule.approved = electronicModule.approved.toDateString()
+                        electronicModule.repaired = electronicModule.repaired.toDateString()
+                        electronicModule.delivered = electronicModule.delivered.toDateString()
+                        electronicModule.toCollect = electronicModule.toCollect.toDateString()
+                        electronicModule.collected = electronicModule.collected.toDateString()
+                    })
                     expect(electronicModulesFound).to.deep.equal(electronicModulesWithCriteria)
                 })
 
@@ -3394,7 +3416,6 @@ describe('logic', () => {
 
                 it('should return an empty array on non existing value into criteria object', async () => {
                     criteria = {[key]: 'no-existing-value'}
-                    debugger
                     electronicModulesFound = await logic.findElectronicModules(criteria)
                     expect(electronicModulesFound).to.have.lengthOf(0)
                     expect(electronicModulesFound).to.be.instanceOf(Array)
@@ -3835,7 +3856,7 @@ describe('logic', () => {
     
             let electronicModule, description, price
             const descriptions = ['REVISION', 'REPAIR', 'RESTORATION', 'MAINTENANCE', 'SPARES', 'REFUND', 'DISCOUNT' ]
-    
+            descriptionDefault = 'REVISION'
             beforeEach(async () => {
                 electronicModule = await ElectronicModule.findOne()
                 description = descriptions.random()
@@ -3872,6 +3893,52 @@ describe('logic', () => {
                     expect(product.id).to.exist
         
                     expect(product.description).to.equal(description)
+                    expect(product.price).to.equal(price)
+        
+                })
+
+                it('should succeed on existing electronic module with undefined description', async () => {
+                    description = undefined
+    
+                    const res = await logic.addElectronicModuleBudget(electronicModule.id, description, price)
+        
+                    expect(res).to.be.undefined
+                    
+                    const electronicModuleWithNewBudget = await ElectronicModule.findById(electronicModule.id)
+        
+                    const { budget } = electronicModuleWithNewBudget
+        
+                    expect(budget).to.exist
+                    expect(budget).to.have.lengthOf(1)
+        
+                    const [product] = budget
+        
+                    expect(product.id).to.exist
+        
+                    expect(product.description).to.equal(descriptionDefault)
+                    expect(product.price).to.equal(price)
+        
+                })
+
+                it('should succeed on existing electronic module with null description', async () => {
+                    description = null
+    
+                    const res = await logic.addElectronicModuleBudget(electronicModule.id, description, price)
+        
+                    expect(res).to.be.undefined
+                    
+                    const electronicModuleWithNewBudget = await ElectronicModule.findById(electronicModule.id)
+        
+                    const { budget } = electronicModuleWithNewBudget
+        
+                    expect(budget).to.exist
+                    expect(budget).to.have.lengthOf(1)
+        
+                    const [product] = budget
+        
+                    expect(product.id).to.exist
+        
+                    expect(product.description).to.equal(descriptionDefault)
                     expect(product.price).to.equal(price)
         
                 })
@@ -3935,19 +4002,6 @@ describe('logic', () => {
     
                     expect(() => logic.addElectronicModuleBudget(id, description, price)).to.throw(TypeError, `electronicModuleId ${id} is not a string`)
                 })
-
-                it('should fail on undefined electronic module description', () => {
-                    description = undefined
-    
-                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, description, price)).to.throw(RequirementError, `description is not optional`)
-    
-                })
-    
-                it('should fail on null electronic module description', () => {
-                    description = null
-    
-                    expect(() => logic.addElectronicModuleBudget(electronicModule.id, description, price)).to.throw(RequirementError, `description is not optional`)
-                })
     
                 it('should fail on empty electronic module description', () => {
                     description = ''
@@ -3994,7 +4048,7 @@ describe('logic', () => {
                 })
             })
         
-            describe('list electronic module budgets', () => {
+            describe('list electronic module products', () => {
                         
                 it('should succeed for existing electronic module budget', async () => {
                     const _budget = await logic.listElectronicModuleBudgets(electronicModule.id)
@@ -4079,7 +4133,7 @@ describe('logic', () => {
                 })
             })
     
-            describe('delete electronic module budgets', () => {
+            describe('delete electronic module products', () => {
     
                 it('should succeed for all existing electronic module budget', async () => {
                     await logic.deleteElectronicModuleBudgets(electronicModule.id)

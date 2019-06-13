@@ -12,7 +12,7 @@ const axios = require('axios')
  * @version 4.0.0
  */
 function call(url, options = {}) {
-    const { method = 'GET', headers, data } = options
+    const { method = 'GET', headers, body: data } = options
 
     validate.arguments([
         { name: 'url', value: url, type: 'string', notEmpty: true },
@@ -32,7 +32,7 @@ function call(url, options = {}) {
                 data
             })
 
-            return response.data
+            return await response.data
         } catch (error) {
             if (error.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')
 
@@ -40,7 +40,7 @@ function call(url, options = {}) {
 
             if (response && response.status) {
                 const err = new HttpError()
-
+                err.message = response.data.error
                 err.status = response.status
 
                 throw err
