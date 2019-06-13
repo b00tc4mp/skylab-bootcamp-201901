@@ -30,8 +30,18 @@
 
 ![Blocks](images/blocks.png)
 
+
+### Data Model
+
+![Data Model](images/data.png)
+
 ## [Planning]()
 
+* Add budget and notes to modules.
+* Clear prices and budget products.
+* Change modules status.
+* Update parameters in general.
+* Deleting of modules, customers and users.
 
 #### Proyect developer
 
@@ -39,4 +49,8 @@
 
 ### Api coverage
 
-![Coverage](images/coverage.png)
+![Coverage](images/coverage-1.png)
+
+![Coverage2](images/coverage-2.png)
+
+
