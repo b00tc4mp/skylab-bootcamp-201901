@@ -37,7 +37,6 @@ export function OrderForm () {
   const [type, setType] = useState(null)
   const [size, setSize] = useState(null)
   const [step, setStep] = useState(0)
-  const [orderId, setOrderId] = useState(null)
 
   const handleTypeChange = e => {
     const { value } = e.target

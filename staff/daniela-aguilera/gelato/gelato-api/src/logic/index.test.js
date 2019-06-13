@@ -548,23 +548,6 @@ describe('logic', () => {
     })
   })
 
-  // describe('update user', () => {
-  //   beforeEach(async () => {
-  //     await User.create({ name, surname, email, password })
-  //   })
-
-  //   it('should success by updating an user', async () => {
-  //     debugger
-  //     const { id } = await logic.authenticateUser({ email, password })
-  //     debugger
-  //     const data = {
-  //       name: 'daniela'
-  //     }
-  //     const res = await logic.updateUser({ id, data })
-  //     debugger
-  //   })
-  // })
-
   after(async () => {
     await User.deleteMany()
     await Order.deleteMany()

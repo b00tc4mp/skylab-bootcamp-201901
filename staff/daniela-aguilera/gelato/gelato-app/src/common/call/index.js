@@ -21,7 +21,6 @@ function call (url, options = {}) {
     { name: 'body', value: body, type: 'object', optional: true },
     { name: 'timeout', value: timeout, type: 'number', notEmpty: true, optional: true }
   ])
-  debugger
   validate.url(url)
 
   return axios({

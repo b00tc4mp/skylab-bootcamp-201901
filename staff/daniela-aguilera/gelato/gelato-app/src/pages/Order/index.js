@@ -13,7 +13,6 @@ export function Order ({ match }) {
         let result = await logic.retrieveOneOrder(orderId)
         setOrder(result)
       } catch (error) {
-        debugger
         setErrorMessage(error.message)
       }
     }

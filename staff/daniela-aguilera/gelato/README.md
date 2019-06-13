@@ -1,6 +1,6 @@
 # Gelato App
 
-## [Documentation] (./gelato-doc/README.md)
+## [Documentation](./gelato-doc/README.md)
 
-## [Demo] ()
+## [Demo](http://gelatoapp.surge.sh/)
 

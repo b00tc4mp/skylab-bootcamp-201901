@@ -2,7 +2,6 @@ import validate from 'gelato-validation'
 import call from '../common/call'
 
 const { REACT_APP_HEROKU_URL } = process.env
-debugger
 const restApi = {
   __url__: REACT_APP_HEROKU_URL,
   __timeout__: 0,
