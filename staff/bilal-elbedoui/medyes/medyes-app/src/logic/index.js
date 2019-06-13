@@ -1,8 +1,8 @@
-const normalize = require('../common/normalize')
-const users = require('../data/users')
-const events= require('../data/events')
-const organization = require('../data/organizations')
-const {LogicError}= require('../common/errors')
+import normalize from '../common/normalize'
+import users from '../data/users'
+import events from '../data/events'
+import organization from '../data/organizations'
+import {LogicError} from '../common/errors'
 
 const logic = {
 

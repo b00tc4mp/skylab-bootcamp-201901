@@ -1,4 +1,4 @@
-const call = require('../common/call')
+import call from '../common/call'
 
 
 const events = {

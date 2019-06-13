@@ -1,5 +1,6 @@
-const axios = require('axios')
-const { ConnectionError, TimeoutError, HttpError } = require('../errors')
+import axios from 'axios'
+
+import { ConnectionError, TimeoutError, HttpError } from '../errors'
 
 
 function call(url, options) {

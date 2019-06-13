@@ -1,6 +1,5 @@
-const Joi = require('@hapi/joi')
-const PasswordComplexity = require('joi-password-complexity')
-Joi.objectId = require('joi-objectid')(Joi)
+import Joi from '@hapi/joi'
+import PasswordComplexity from 'joi-password-complexity'
 
 const password = {
     min: 5,
