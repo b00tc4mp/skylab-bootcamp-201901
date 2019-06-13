@@ -4,7 +4,7 @@
 
 <img src="./images/memory-rom.png" >
 
-![Alterna](images/electrday.jpg)
+![Alterna](images/electronics.gif)
 
 ## Introduction
 
