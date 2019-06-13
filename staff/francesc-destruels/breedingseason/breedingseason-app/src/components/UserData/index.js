@@ -27,7 +27,7 @@ function UserData({ history, user, gameData }) {
                 {gameData ? gameData[3] ? <p className="UserData__Data4">You got {gameData[3].gameHistory[0].puntuation} points on  {moment(gameData[3].date).format('D MMM YYYY, LT')}</p> : <p className="UserData__Data4">You should start playing!</p> : <p className="UserData__Data4">No game Data recived</p>}
                 {gameData ? gameData[4] ? <p className="UserData__Data5">You got {gameData[4].gameHistory[0].puntuation} points on  {moment(gameData[4].date).format('D MMM YYYY, LT')}</p> : <p className="UserData__Data5">You should start playing!</p> : <p className="UserData__Data5">No game Data recived</p>}
             </div>
-            <button className="UserData__GB button is-link" onClick={handleToGoBack}>
+            <button className="UserData__GB button is-link is-rounded" onClick={handleToGoBack}>
                 Go Back
                 </button>
         </ div>)

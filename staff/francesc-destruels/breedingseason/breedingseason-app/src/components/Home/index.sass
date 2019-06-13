@@ -6,23 +6,21 @@
     grid-template-columns: 20% 60% 20%
     grid-template-rows: 100%
     grid-template-areas: " . B . "
-    align-items: center
 
 .Panel
     grid-area: B
+    border: 5%
     position: relative
     display: grid
     justify-items: center
-    align-items: center
-    height: 80%
-    width: 100%
-    font-size: 150%
+    font-size: 200%
 
     &__Logo
-        transform: translateY(-20%)
+        height: 30%
+        align-self: center
 
 .Panel > Button
-    font-size: 180%
+    font-size: 150%
     height: 90%
     width: 42%
 
