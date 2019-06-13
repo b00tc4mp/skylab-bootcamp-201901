@@ -9,7 +9,6 @@ import moment from 'moment'
 import handleErrors from '../../common/handleErrors';
 
 function Item({item, getItem, itemId, history, onLogout}) {
-
     const [bids, setBids] = useState(null)
     const [amount, setAmound] = useState(null)
     const [city, setCity] = useState(null)
@@ -34,38 +33,41 @@ function Item({item, getItem, itemId, history, onLogout}) {
                     clearInterval(auction)
                     onLogout()
                 }
-
-                const _bids = await logic.retrieveItemBids(itemId)
-                const { bids: arrBids } = _bids
                 
-                if(arrBids.length && logic.userId === arrBids[0].userId.id) setIsWin(true)
-                else setIsWin(false)
+                if(itemId.length === 24) {
+                    const _bids = await logic.retrieveItemBids(itemId)
+                    const { bids: arrBids } = _bids
+                    
+                    if(arrBids.length && logic.userId === arrBids[0].userId.id) setIsWin(true)
+                    else setIsWin(false)
+                    
+                    setBids(arrBids)
+                    setCity(item.city)
+                    setTotalBids(arrBids.length)
+                    arrBids.length ? setAmound(arrBids[0].amount) : setAmound(item.startPrice)
+                    setIsClosed(moment().isAfter(_bids.finishDate))
+                    setIsUpcoming(moment().isBefore(_bids.startDate))
+                    setStartDate(_bids.startDate)
+                    setEndDate(_bids.finishDate)
+                    setNow(moment())
 
-                setBids(arrBids)
-                setCity(item.city)
-                setTotalBids(arrBids.length)
-                arrBids.length ? setAmound(arrBids[0].amount) : setAmound(item.startPrice)
-                setIsClosed(moment().isAfter(_bids.finishDate))
-                setIsUpcoming(moment().isBefore(_bids.startDate))
-                setStartDate(_bids.startDate)
-                setEndDate(_bids.finishDate)
-                setNow(moment())
+                    if(arrBids.length) {
+                        if (arrBids.length >= 1 && arrBids.length < 10) {
+                            setQuickBid(arrBids[0].amount + 100)
+                        } else if (arrBids.length >= 10 && arrBids.length < 15) {
+                            setQuickBid(arrBids[0].amount + 500)
+                        } else if (arrBids.length >= 15) {
+                            setQuickBid(arrBids[0].amount + 1000)
+                        }
+                    } else setQuickBid(item.startPrice + 100)
 
-                if(arrBids.length) {
-                    if (arrBids.length >= 1 && arrBids.length < 10) {
-                        setQuickBid(arrBids[0].amount + 100)
-                    } else if (arrBids.length >= 10 && arrBids.length < 15) {
-                        setQuickBid(arrBids[0].amount + 500)
-                    } else if (arrBids.length >= 15) {
-                        setQuickBid(arrBids[0].amount + 1000)
-                    }
-                } else setQuickBid(item.startPrice + 100)
-
-                if(isClosed) clearInterval(auction)
+                    if(isClosed) clearInterval(auction)
+                } else {
+                    history.push('/404')
+                }
             } catch (error) {
-                clearInterval(auction)
                 handleErrors(error)
-                history.push("/notfound")
+                history.push('/404')
             }
         }, interval); 
 
