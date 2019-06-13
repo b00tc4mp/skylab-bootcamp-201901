@@ -19,6 +19,13 @@ export class SessionsWithMyAttendance {
 @Resolver(User)
 export class ListSessionsByUserResolvers {
   // @Authorized(ONLY_OWN_USER)
+  /**
+   * List the Next avaliable session for a provider of authenticated user
+   * 
+   * @param providerId 
+   * @param day 
+   * @param ctx 
+   */
   @Query(returns => [SessionsWithMyAttendance])
   async listMyAvailableSessions(@Arg('providerId') providerId: string, @Arg('day') day: string, @Ctx() ctx: MyContext) {
     const user = ctx.user || (await UserModel.findById(ctx.userId));

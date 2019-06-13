@@ -69,6 +69,13 @@ function allowChangeStatusByUser(attendance: Attendance, newStatus: string) {
 
 @Resolver(User)
 export class AttendSessionResolvers {
+
+  /**
+   * Book a session with no previous attendance
+   * 
+   * @param param0 userId, sessionId, paymentType, status
+   * @param ctx 
+   */
   @Authorized(ALWAYS_OWN_CUSTOMER)
   @Mutation(returns => String)
   async attendSession(
@@ -110,6 +117,13 @@ export class AttendSessionResolvers {
     return attendance.id;
   }
 
+  /**
+   * Update status of an attendance
+   * 
+   * @param attendanceId 
+   * @param status 
+   * @param ctx 
+   */
   @Mutation(returns => Boolean)
   async updateStatusAttendance(
     @Arg('attendanceId') attendanceId: string,
@@ -144,6 +158,14 @@ export class AttendSessionResolvers {
     }
     return false;
   }
+
+  /**
+   * Updates the payment type of an attendance
+   * 
+   * @param attendanceId 
+   * @param paymentType 
+   * @param ctx 
+   */
 
   @Authorized(ALWAYS_OWN_CUSTOMER)
   @Mutation(returns => Boolean)

@@ -6,6 +6,13 @@ import { ONLY_SUPERADMIN, ALWAYS_OWN_USER } from '../../middleware/authChecker';
 
 @Resolver()
 export class InvalidateCredentialsResolver {
+
+  /**
+   * Invalidate the refresh token issued now
+   * 
+   * @param userId 
+   * @param ctx 
+   */
   @Authorized([ALWAYS_OWN_USER, ONLY_SUPERADMIN])
   @Mutation(() => Boolean)
   async invalidateCredentials(@Arg('userId') userId: string, @Ctx() ctx: MyContext): Promise<boolean> {

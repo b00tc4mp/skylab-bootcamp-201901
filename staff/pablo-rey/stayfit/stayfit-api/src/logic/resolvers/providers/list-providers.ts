@@ -28,6 +28,11 @@ class ProviderAndRequest {
 
 @Resolver(User)
 export class myProvidersInfo {
+  /**
+   * List all providers with all information
+   * 
+   * @param ctx 
+   */
   @Authorized(ONLY_SUPERADMIN)
   @Query(returns => [Provider])
   async listProviders(@Ctx() ctx: MyContext) {
@@ -37,6 +42,12 @@ export class myProvidersInfo {
       .populate('coaches');
   }
 
+  /**
+   * List all providers with the information of the authenticated user, with the request(if any) and if he is customer, admin or coach 
+   * of each provider
+   * 
+   * @param ctx 
+   */
   @Authorized()
   @Query(returns => [ProviderAndRequest])
   async listMyProvidersInfo(@Ctx() ctx: MyContext) {

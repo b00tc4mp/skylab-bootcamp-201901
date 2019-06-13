@@ -7,6 +7,13 @@ import { ONLY_ADMINS_OF_PROVIDER } from '../../middleware/authChecker';
 
 @Resolver(Provider)
 export class RemoveProviderCustomerResolver {
+  /**
+   * Remove this user from the provider
+   * 
+   * @param providerId 
+   * @param userId 
+   * @param ctx 
+   */
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Mutation(returns => Boolean)
   async removeProviderCustomer(

@@ -19,6 +19,15 @@ import { ONLY_ADMINS_OF_PROVIDER, ALWAYS_OWN_CUSTOMER } from '../../middleware/a
 
 @Resolver(Provider)
 export class AddProviderCustomerResolver {
+
+  /**
+   * Add a user as customer of this provider. User and provider neeeds to accept the request to 
+   * be customer/provider before
+   * 
+   * @param providerId 
+   * @param userId 
+   * @param ctx 
+   */
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Mutation(returns => Boolean)
   async addProviderCustomer(
@@ -48,6 +57,14 @@ export class AddProviderCustomerResolver {
     return true;
   }
 
+  /**
+   * Update a previous request of a user or provider to new status
+   * 
+   * @param providerId 
+   * @param userId 
+   * @param status 
+   * @param ctx 
+   */
   @Authorized([ALWAYS_OWN_USER, ONLY_ADMINS_OF_PROVIDER])
   @Mutation(returns => Boolean)
   async updateRequestCustomer(
@@ -119,6 +136,13 @@ export class AddProviderCustomerResolver {
     return true;
   }
 
+  /**
+   * Retrieve the request of a user/provider
+   * 
+   * @param providerId 
+   * @param userId 
+   * @param ctx 
+   */
   @Authorized([ALWAYS_OWN_USER, ONLY_ADMINS_OF_PROVIDER])
   @Query(returns => RequestCustomer, { nullable: true })
   async retrieveRequestCustomer(

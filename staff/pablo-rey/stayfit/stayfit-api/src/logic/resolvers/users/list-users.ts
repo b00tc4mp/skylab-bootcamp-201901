@@ -22,12 +22,24 @@ export class UserAndRequest {
 
 @Resolver(User)
 export class ListUsersResolvers {
+  /**
+   * List all users
+   * 
+   * @param ctx 
+   */
   @Authorized(ONLY_SUPERADMIN)
   @Query(returns => [User])
   async listAllUsers(@Ctx() ctx: MyContext) {
     return await UserModel.find();
   }
 
+
+  /**
+   * List all customers and request for each(if any)
+   * 
+   * @param providerId 
+   * @param ctx 
+   */
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Query(returns => [UserAndRequest])
   async listCustomers(@Arg('providerId') providerId: string, @Ctx() ctx: MyContext) {

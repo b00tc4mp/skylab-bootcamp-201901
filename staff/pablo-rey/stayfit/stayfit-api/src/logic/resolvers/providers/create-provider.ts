@@ -5,6 +5,13 @@ import { ONLY_SUPERADMIN } from '../../middleware/authChecker';
 
 @Resolver(Provider)
 export class CreateProviderResolver {
+
+  /**
+   * Create an empty provider
+   * 
+   * @param name 
+   * @param ctx 
+   */
   @Authorized(ONLY_SUPERADMIN)
   @Mutation(returns => String)
   async createProvider(@Arg('name') name: string, @Ctx() ctx: MyContext) {

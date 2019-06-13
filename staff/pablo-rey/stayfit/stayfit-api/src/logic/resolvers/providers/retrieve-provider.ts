@@ -5,6 +5,12 @@ import { MyContext } from '../../middleware/MyContext';
 
 @Resolver(Provider)
 export class ProviderResolver {
+  /**
+   * Retrieve all information of a provider (authorized only for admins of this provider)
+   * 
+   * @param providerId 
+   * @param ctx 
+   */
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Query(returns => Provider)
   async retrieveProvider(@Arg('providerId') providerId: string, @Ctx() ctx: MyContext) {

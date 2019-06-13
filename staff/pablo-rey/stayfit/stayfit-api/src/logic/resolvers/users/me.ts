@@ -4,6 +4,11 @@ import { MyContext } from '../../middleware/MyContext';
 
 @Resolver(User)
 export class MeResolver {
+  /**
+   * Retrieve all user data of authenticated user
+   * 
+   * @param ctx 
+   */
   @Authorized()
   @Query(returns => User)
   async me(@Ctx() ctx: MyContext) {

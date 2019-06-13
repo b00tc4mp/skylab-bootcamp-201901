@@ -67,3 +67,20 @@ Admins of providers can:
 
 ![Code coverage](images/coverage.png)
 
+## MVP
+
+- Login/register/request be customer
+- Book/cancel bookings
+- Multiprovider/Multiclient
+- Create/update/delete sessions
+- Track past/future attendances of clients
+
+### Todos
+
+- Better display of errors to user
+- Assign a default behaviour of session (confirm/require confirm of provider)
+- Social authentication
+- Select if you want to publish your attendance to other users
+- Subscritions/prepaid/postpaid
+- Better management of payments for admins
+- Frontend for superadmin

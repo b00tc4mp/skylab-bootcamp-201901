@@ -31,6 +31,12 @@ export class LoginArgs {
 
 @Resolver()
 export class LoginResolver {
+  /**
+   * Check if user is registered and give refresh/access token and inject to cookies too
+   * 
+   * @param emailPassword email and password 
+   * @param ctx graphql/express context
+   */
   @Mutation(() => AuthResponse)
   async login(@Arg('input') { email, password }: LoginArgs, @Ctx() ctx: MyContext): Promise<AuthResponse> {
     if (!isEmail(email)) throw new ValidationError('email must be an email');
@@ -40,7 +46,6 @@ export class LoginResolver {
 
     const valid = await bcrypt.compare(password, user.password);
     if (!valid) throw new AuthenticationError('wrong credentials');
-    ctx.res.cookie("pablo", "yo")
     return await refreshToken(user, ctx);
   }
 }

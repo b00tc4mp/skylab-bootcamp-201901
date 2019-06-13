@@ -39,6 +39,12 @@ export class CreateInput {
 
 @Resolver(User)
 export class CreateUserResolver {
+  /**
+   * Create a new user
+   * 
+   * @param data 
+   * @param ctx 
+   */
   @Mutation(returns => String)
   async createUser(
     @Arg('data')

@@ -4,6 +4,7 @@
   "description": "App to manage box, gym and personal trainer session schedules",
   "main": "stayfit-api/index.ts",
   "scripts": {
+    "start": "concurrently \"npm run start --prefix stayfit-api\" \"npm run start --prefix stayfit-app\"",
     "dev": "concurrently \"npm run dev --prefix stayfit-api\" \"npm run start --prefix stayfit-app\"",
     "dev:server": "npm run dev --prefix stayfit-api",
     "dev:app": "npm run start --prefix stayfit-app",
@@ -14,5 +15,5 @@
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^4.1.0"
-  },
+  }
 }

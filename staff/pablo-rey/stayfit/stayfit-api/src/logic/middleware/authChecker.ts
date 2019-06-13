@@ -13,6 +13,13 @@ export const ONLY_IF_MY_CUSTOMER = 'ONLY_IF_MY_CUSTOMER';
 export const ALWAYS_OWN_USER = 'ALWAYS_OWN_USER';
 export const ALWAYS_OWN_CUSTOMER = 'ALWAYS_OWN_CUSTOMER';
 
+/**
+ * Check if user is authorized to enter to query, mutation or field 
+ * 
+ * @param graphqlparams root/args/context/info from graphql 
+ * @param roles Array of roles passed in @Authorized
+ * @throws AuthorizationError if user are not authorized
+ */
 export const authChecker: AuthChecker<MyContext> = async ({ root, args, context, info }, roles) => {
   const ownerId = context.userId;
   let ownerRole = context.role;

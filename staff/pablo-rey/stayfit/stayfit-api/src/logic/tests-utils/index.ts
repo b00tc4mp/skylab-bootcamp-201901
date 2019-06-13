@@ -1,5 +1,4 @@
 import * as bcrypt from 'bcryptjs';
-import { expect } from 'chai';
 import * as faker from 'faker';
 import * as mongoose from 'mongoose';
 import { SessionModel } from '../../data/models/session';
@@ -7,6 +6,7 @@ import { SessionTypeModel } from '../../data/models/session-type';
 import {  User, UserModel } from '../../data/models/user';
 import { ROLES} from '../../data/enums';
 import { random } from '../../common/utils';
+import { expect } from 'chai';
 
 const { ObjectId } = mongoose.Types;
 
@@ -102,6 +102,4 @@ export async function cleanDb() {
   await UserModel.deleteMany({});
   await SessionModel.deleteMany({});
   await SessionTypeModel.deleteMany({});
-  await SessionTypeModel.create({ type: 'wod', title: 'WOD' });
-  await SessionTypeModel.create({ type: 'pt', title: 'Personal training' });
 }

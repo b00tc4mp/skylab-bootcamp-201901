@@ -11,6 +11,14 @@ import { AttendanceModel } from './../../../../data/models/attendance';
 
 @Resolver(Provider)
 export class UpdateSessionResolver {
+
+  /**
+   * Update the data of a session
+   * 
+   * @param sessionId 
+   * @param data 
+   * @param ctx 
+   */
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Mutation(returns => Boolean)
   async updateSession(
@@ -45,6 +53,14 @@ export class UpdateSessionResolver {
     return true;
   }
 
+
+  /**
+   * Delete a session and attendance related
+   * 
+   * @param sessionId 
+   * @param providerId 
+   * @param ctx 
+   */
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Mutation(returns => Boolean)
   async deleteSession(@Arg('sessionId') sessionId: string, @Arg('providerId') providerId: string,@Ctx() ctx: MyContext) {

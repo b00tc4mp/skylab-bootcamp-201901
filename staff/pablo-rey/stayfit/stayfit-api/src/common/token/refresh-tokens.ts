@@ -5,6 +5,12 @@ import { sign, verify } from 'jsonwebtoken';
 const accessTokenDuration = 1000 * 60 * 15; 
 const refreshTokenDuration = 1000 * 60 * 60 * 24 * 10; // 15min
 
+/**
+ * Inject and returns access and refresh tokens
+ * 
+ * @param user mongoose model of user
+ * @param ctx context with express response
+ */
 export async function refreshToken(user: User, ctx: MyContext) {
 
   const refreshToken = await sign({ userId: user.id, role: user.role, count: user.refreshTokenCount }, process.env.JWT_REFRESH_SECRET!, {

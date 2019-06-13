@@ -9,6 +9,13 @@ import { ONLY_ADMINS_OF_PROVIDER, ONLY_SUPERADMIN } from '../../middleware/authC
 
 @Resolver(Provider)
 export class UpdateProviderStaffResolver {
+  /**
+   * Updates the complete list of admins of a provider 
+   * 
+   * @param providerId 
+   * @param adminsId 
+   * @param ctx 
+   */
   @Authorized(ONLY_SUPERADMIN)
   @Mutation(returns => Boolean)
   async updateProviderAdmins(
@@ -19,6 +26,13 @@ export class UpdateProviderStaffResolver {
     return await updateStaff('admins', providerId, adminsId);
   }
 
+  /**
+   * Updates the complete list of coaches of a provider
+   *  
+   * @param providerId 
+   * @param coachesId 
+   * @param ctx 
+   */
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Mutation(returns => Boolean)
   async updateProviderCoaches(

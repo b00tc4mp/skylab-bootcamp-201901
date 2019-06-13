@@ -9,6 +9,15 @@ import * as moment from 'moment';
 
 @Resolver(Session)
 export class ListSessionsAdminsResolvers {
+
+  /**
+   * 
+   * List all sessions of a day for this provider
+   * 
+   * @param providerId 
+   * @param day 
+   * @param ctx 
+   */
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Query(returns => [Session])
   async listSessions(@Arg('providerId') providerId: string, @Arg('day') day: string, @Ctx() ctx: MyContext) {

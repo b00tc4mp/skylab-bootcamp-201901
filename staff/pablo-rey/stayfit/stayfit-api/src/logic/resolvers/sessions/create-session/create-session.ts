@@ -52,6 +52,13 @@ export class CreateSessionsInput {
 
 @Resolver(Provider)
 export class CreateSessionsResolver {
+
+  /**
+   * Create a new session
+   * 
+   * @param data 
+   * @param ctx 
+   */
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Mutation(returns => [String])
   async createSessions(@Arg('data') data: CreateSessionsInput, @Ctx() ctx: MyContext) {

@@ -21,6 +21,12 @@ export class CreateSessionTypeInput {
 
 @Resolver(SessionType)
 export class CreateSessionTypeResolver {
+  /**
+   * Create a new session type
+   * 
+   * @param data type, title, providerId, active 
+   * @param ctx 
+   */
   @Authorized(ONLY_ADMINS_OF_PROVIDER)
   @Mutation(returns => SessionType)
   async createSessionType(
