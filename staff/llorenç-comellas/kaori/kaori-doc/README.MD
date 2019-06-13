@@ -19,9 +19,6 @@ User:
 
 ![flow user](./images/flows_user.png)
 
-Anonymous:
-
-![flow anonim](./images/flow_anonim.png)
 
 ## Technical Description
 
@@ -34,13 +31,15 @@ Anonymous:
 
 ### Data Model
 
+![data model](./images/data_model.png)
+
 
 ### Code Coverage
 Api Coverage:
 
 ![block](./images/coverage_api.png)
 
-Api Coverage:
+App Coverage:
 
 ![block](./images/coverage_app.png)
 
@@ -52,7 +51,6 @@ Javascript, ReactJS, Node.js, Express, MongoDB & Mongoose.
 - Desktop version
 - Number of products in the cart
 - Add and delete products from the cart
-- Use hooks
 
 ### Planning
 
