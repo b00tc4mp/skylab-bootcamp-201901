@@ -144,7 +144,7 @@ function App(props) {
             Uikit.notification.closeAll()
             Uikit.notification({ message: error.message, status: 'danger' })
             setDeviceStatus('OFF')
-            setInterval(20000)
+            setInterval(200000)
         }
     }
 

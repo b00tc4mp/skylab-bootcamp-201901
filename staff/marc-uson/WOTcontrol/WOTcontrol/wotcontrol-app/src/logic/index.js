@@ -1,5 +1,6 @@
+import restApi from '../rest-api'
+// const restApi = require ('../rest-api')
 const validate = require ('wotcontrol-validate')
-const restApi = require ('../rest-api')
 const { LogicError } = require('wotcontrol-errors')
 
 const logic = {

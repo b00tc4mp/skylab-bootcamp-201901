@@ -498,4 +498,6 @@ const restApi = {
     }
 }
 
-module.exports = restApi
+// module.exports = restApi
+
+export default restApi
