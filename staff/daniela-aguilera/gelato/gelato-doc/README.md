@@ -72,3 +72,13 @@ App Coverage
 
 ## Technologies
 Javascript, ReactJS, Node.js, Express, MongoDB & Mongoose.
+
+For future versions: 
+
+- multi language
+- Create Schema of flavors, size and types
+- Update order state
+- Google Maps route
+- Images section
+- Sign up for events
+- Gelato animation
