@@ -27,25 +27,27 @@ Trello: [https://trello.com/b/dPd4s6vR/dashboardissues](Trello) to see my planni
 
 ### Use Cases
 
-![Use Cases](images/useCase.png)
+![use cases](images/useCase.png)
 
 ### Flow
 
-![Flow](images/flow.png)
+![flow](images/flow.png)
 
 ## Technical Description
 
 ### Block
 
-### Components
+![block](images/block.png)
 
 ### Class/ Objects
+![class](images/class.png)
 
 ### Data Model
+![data model](images/data-model.png)
 
 ### Coverage
 ##### Server Side
-![Server Side](images/server-side.png)
+![server side](images/server-side.png)
 
 ##### Client Side
-![Client Side](images/client-side.png)
+![client side](images/client-side.png)
