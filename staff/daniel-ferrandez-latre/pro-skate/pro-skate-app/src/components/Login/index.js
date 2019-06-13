@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
-import logic from "../../logic";
+import logic from "../../logic/index";
 
 function Login({ history }) {
   const [messageError, setErrorMessage] = useState(null);

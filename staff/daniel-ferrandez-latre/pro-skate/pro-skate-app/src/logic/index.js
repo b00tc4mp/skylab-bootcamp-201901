@@ -1,8 +1,8 @@
+import dataApi from "../data";
 const {
   validate,
   errors: { LogicError }
 } = require("pro-skate-common");
-const dataApi = require("../data");
 
 const logic = {
   set __userToken__(token) {
@@ -62,7 +62,6 @@ const logic = {
         const userDb = await dataApi.retrieveUser(this.__userToken__);
         return userDb;
       } catch (err) {
-        debugger;
         throw new LogicError(err.message);
       }
     })();
@@ -113,7 +112,6 @@ const logic = {
   addProductToCart(token ,productId){
     return ( async () => {
       try {
-        debugger
         const userDb = await dataApi.retrieveUser(token)
         let productUserCart
         if (userDb.cart.length === 0) {
@@ -137,11 +135,9 @@ const logic = {
   takeOutProductToCart(token ,productId){
     return ( async () => {
       try {
-        debugger
         const userDb = await dataApi.retrieveUser(token)
         let productUserCart
         if (userDb.cart.length > 0) {
-          debugger
           productUserCart = userDb.cart.find( product => product.productId === productId)
           if(productUserCart){
             const quantitySubs = productUserCart.quantity - 1
@@ -196,11 +192,10 @@ checkoutCart() {
     try {
       await dataApi.checkoutCart(this.__userToken__);
     } catch (err) {
-      debugger;
       throw new LogicError(err.message);
     }
   })();
 },
 
 }
-module.exports = logic;
+export default logic;

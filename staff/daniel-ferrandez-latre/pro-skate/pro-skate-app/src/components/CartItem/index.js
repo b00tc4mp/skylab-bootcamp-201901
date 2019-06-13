@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { withRouter } from "react-router-dom";
-import logic from "../../logic";
+import logic from "../../logic/index";
 import Tags from "../Tags"
 import "./index.sass";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,11 +10,9 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 function CartItem({ history, product, cartItemsQuantity }) {
 
   async function handleAddToCart() {
-    debugger
     console.log(logic.__userToken__)
     if (logic.__userToken__) {
       await logic.addProductToCart(logic.__userToken__, product.productId._id);
-      debugger
       await cartItemsQuantity()
     } 
   }

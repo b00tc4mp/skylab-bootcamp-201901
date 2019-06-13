@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
-import logic from '../../logic'
+import logic from '../../logic/index'
 
 function Update ({history}) {
   const [messageError, setErrorMessage] = useState(null)
@@ -24,7 +24,6 @@ function Update ({history}) {
       age: { value: age }
     } = event.target
     try {
-      debugger
       await logic.updateUser(logic.__userToken__, name, surname, email, age)
       history.push('/home')
     } catch (error) {

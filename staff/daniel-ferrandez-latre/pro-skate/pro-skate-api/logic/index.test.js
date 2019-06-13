@@ -847,7 +847,6 @@ describe("logic", () => {
 
     describe('retrieve cart products', () => {
       let arrayAllProducts, arrayPromiseProducts, user, quantity1, quantity3, _productId1
-      debugger
       beforeEach(async () => {
         Product.deleteMany();
         User.deleteMany()
@@ -901,7 +900,6 @@ describe("logic", () => {
         let _productId2 = productId2._id.toString();
         quantity3 = '3';
         let _productId3 = productId3._id.toString();
-        debugger
         await logic.addProductToCart(user.id, quantity1, _productId1 );
         await logic.addProductToCart(user.id, quantity2, _productId2 );
         await logic.addProductToCart(user.id, quantity3, _productId3 );

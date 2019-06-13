@@ -34,7 +34,6 @@ function call(url, options = {}) {
 
             return response.data
         } catch (err) {
-            debugger
             if (err.code === 'ENOTFOUND') throw new ConnectionError('cannot connect')
 
             if(!err.response) throw err

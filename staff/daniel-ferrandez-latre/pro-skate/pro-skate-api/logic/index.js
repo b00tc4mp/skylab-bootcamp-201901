@@ -181,7 +181,6 @@ const logic = {
             { name: 'idProduct', value: idProduct, type: 'string', notEmpty: true },
             { name: 'quantity', value: quantity, type: 'string', notEmpty: true }
         ])
-        debugger
         return( async ()=>{
             const userBd = await User.findById(idUser)
             if (!userBd) throw new LogicError(`user with id "${idUser}" doesn't exists`)
@@ -205,7 +204,6 @@ const logic = {
     },
 
     retrieveCart(idUser){
-        debugger
         validate.arguments([
             { name: 'idUser', value: idUser, type: 'string', notEmpty: true },
         ])

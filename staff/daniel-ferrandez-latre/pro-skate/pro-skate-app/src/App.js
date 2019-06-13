@@ -49,7 +49,6 @@ function App({history}) {
   const userLogged = ( async () => {
     if(logic.isUserLoggedIn) {
       const user = await logic.retrieveUser(logic.__userToken__)
-      debugger
      
       setUserName(user.name)
     }

@@ -1,4 +1,4 @@
-const { call, validate } = require('pro-skate-common')
+    const { call, validate } = require('pro-skate-common')
 require('dotenv').config()
 
 // const {
@@ -176,7 +176,6 @@ const dataApi = {
             { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
         return( async () => {
-            debugger
             const res = await call(`${this.__url__}/users/whishlist`, {
                 method: 'GET',
                 headers: { 
@@ -194,9 +193,7 @@ const dataApi = {
             { name: 'quantity', value: quantity, type: 'number', notEmpty: true },
             { name: 'productId', value: productId, type: 'string', notEmpty: true }
         ])
-        debugger
         const quantityStr = quantity.toString() 
-        debugger
         return( async () => {
             const res = await call(`${this.__url__}/users/cart`, {
                 method: 'POST',
@@ -263,7 +260,6 @@ const dataApi = {
         validate.arguments([
             { name: 'token', value: token, type: 'string', notEmpty: true }
         ])
-        debugger
         return( async () => {
             const res = await call(`${this.__url__}/products/?tag=`, {
                 method: 'GET',
@@ -278,4 +274,4 @@ const dataApi = {
 
 }
 
-module.exports = dataApi
+export default  dataApi

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import {withRouter} from 'react-router-dom'
-import logic from "../../logic";
+import logic from "../../logic/index";
 import CartItem from "../CartItem"
 import Checkout from '../Checkout'
 import './index.sass'

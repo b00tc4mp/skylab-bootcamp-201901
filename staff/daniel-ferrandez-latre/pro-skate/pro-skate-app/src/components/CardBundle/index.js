@@ -1,5 +1,4 @@
 import React from 'react'
-import logic from '../../logic'
 import Card from '../Card'
 
 function CardBundle({ ranSelection, handleProductDetail }){

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { withRouter } from "react-router-dom";
 import logo from "../../assets/img/logo.png";
-import logic from "../../logic";
+import logic from "../../logic/index";
 import NavCard from "../NavCard";
 
 import './index.sass'

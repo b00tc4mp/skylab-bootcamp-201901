@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { withRouter } from 'react-router-dom'
-import logic from '../../logic'
+import logic from '../../logic/index'
 
 function Register ({history}) {
   const [messageError, setErrorMessage] = useState(null)
@@ -18,7 +18,6 @@ function Register ({history}) {
       age: { value: age }
     } = event.target
     try {
-      debugger
       await logic.registerUser(name, surname, email, password, age)
       history.push('/login')
     } catch (error) {

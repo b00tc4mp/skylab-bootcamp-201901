@@ -12,8 +12,6 @@ function Tags({tagsItem}) {
           <div class='tags has-addons tags are-medium'>
             { 
               tagsItem.map(tag =>{
-
-              debugger
               return <Tag tag={tag}/>
             })}
           </div>

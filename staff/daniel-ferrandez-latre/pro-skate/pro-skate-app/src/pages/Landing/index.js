@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import logic from "../../logic";
+import logic from "../../logic/index";
 import CardBundle from "../../components/CardBundle";
 import Card from "../../components/Card";
 
