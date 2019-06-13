@@ -2,7 +2,7 @@
 require('dotenv').config()
 const { User, Game, mongoose } = require('freendies_data')
 const bcrypt = require('bcrypt')
-import freendiesApi from '.'
+import logic from '.'
 
 const { env: { REACT_APP_TEST_DB_URL } } = process
 
@@ -23,7 +23,7 @@ describe('logic', () => {
         const passwordConfirm = password
 
         it('should succeed on registering a user with valid data', async () => {
-            const message = await freendiesApi.registerUser(username, email, password, passwordConfirm)
+            const message = await logic.registerUser(username, email, password, passwordConfirm)
             expect(message).toBeDefined()
             expect(typeof message).toBe('object')
             expect(message.message).toBe('registered succesfully')
@@ -41,12 +41,12 @@ describe('logic', () => {
         it('should fail on undefined username', async () => {
             const username = undefined
             try {
-                await freendiesApi.registerUser(username, email, password, passwordConfirm)
+                await logic.registerUser(username, email, password, passwordConfirm)
             } catch (error) {
                 expect(error.message).toBe(`${username} is not a string`)
             }
             // expect(() => {
-            // freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${username} is not a string`))
+            // logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${username} is not a string`))
             // })
 
         })
@@ -55,7 +55,7 @@ describe('logic', () => {
             const username = 123
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${username} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${username} is not a string`))
             })
 
         })
@@ -64,7 +64,7 @@ describe('logic', () => {
             const username = true
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${username} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${username} is not a string`))
             })
         })
 
@@ -72,7 +72,7 @@ describe('logic', () => {
             const username = '  '
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${username} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${username} is not a string`))
             })
         })
 
@@ -80,7 +80,7 @@ describe('logic', () => {
             const username = ''
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${username} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${username} is not a string`))
             })
         })
 
@@ -88,7 +88,7 @@ describe('logic', () => {
             const email = undefined
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${email} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${email} is not a string`))
             })
 
         })
@@ -97,7 +97,7 @@ describe('logic', () => {
             const email = 123
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${email} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${email} is not a string`))
             })
 
         })
@@ -106,7 +106,7 @@ describe('logic', () => {
             const email = true
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${email} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${email} is not a string`))
             })
 
         })
@@ -114,7 +114,7 @@ describe('logic', () => {
             const email = '  '
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${email} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${email} is not a string`))
             })
         })
 
@@ -122,7 +122,7 @@ describe('logic', () => {
             const email = ''
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${email} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${email} is not a string`))
             })
         })
 
@@ -130,7 +130,7 @@ describe('logic', () => {
             const password = undefined
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${password} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${password} is not a string`))
             })
 
         })
@@ -139,7 +139,7 @@ describe('logic', () => {
             const password = 123
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${password} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${password} is not a string`))
             })
 
         })
@@ -148,7 +148,7 @@ describe('logic', () => {
             const password = true
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${password} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${password} is not a string`))
             })
 
         })
@@ -157,7 +157,7 @@ describe('logic', () => {
             const password = '  '
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${password} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${password} is not a string`))
             })
         })
 
@@ -165,7 +165,7 @@ describe('logic', () => {
             const password = ''
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${password} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${password} is not a string`))
             })
         })
 
@@ -174,7 +174,7 @@ describe('logic', () => {
             const passwordConfirm = undefined
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${passwordConfirm} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${passwordConfirm} is not a string`))
             })
 
         })
@@ -183,7 +183,7 @@ describe('logic', () => {
             const passwordConfirm = 123
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${passwordConfirm} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${passwordConfirm} is not a string`))
             })
 
         })
@@ -192,7 +192,7 @@ describe('logic', () => {
             const passwordConfirm = true
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${passwordConfirm} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${passwordConfirm} is not a string`))
             })
 
         })
@@ -200,7 +200,7 @@ describe('logic', () => {
             const passwordConfirm = '  '
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${passwordConfirm} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${passwordConfirm} is not a string`))
             })
         })
 
@@ -208,7 +208,7 @@ describe('logic', () => {
             const passwordConfirm = ''
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${passwordConfirm} is not a string`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(TypeError(`${passwordConfirm} is not a string`))
             })
         })
 
@@ -216,7 +216,7 @@ describe('logic', () => {
             const passwordConfirm = 'fail'
 
             expect(() => {
-                freendiesApi.registerUser(username, email, password, passwordConfirm).toThrow(Error(`${passwordConfirm} does not match password`))
+                logic.registerUser(username, email, password, passwordConfirm).toThrow(Error(`${passwordConfirm} does not match password`))
             })
         })
 
@@ -236,7 +236,7 @@ describe('logic', () => {
 
 
         it('should succeed to authenicate with valid credentials', async () => {
-            freendiesApi.authenticateUser(email, password).then(id => expect(id).toBeDefined())
+            logic.authenticateUser(email, password).then(id => expect(id).toBeDefined())
 
         })
 
@@ -244,7 +244,7 @@ describe('logic', () => {
             const _email = ''
 
             expect(() => {
-                freendiesApi.authenticateUser(_email, password)
+                logic.authenticateUser(_email, password)
                     .toThrow(Error(`email cannot be empty`))
             })
         })
@@ -254,7 +254,7 @@ describe('logic', () => {
             const _email = ' '
 
             expect(() => {
-                freendiesApi.authenticateUser(_email, password)
+                logic.authenticateUser(_email, password)
                     .toThrow(Error(`email cannot be empty`))
             })
         })
@@ -264,7 +264,7 @@ describe('logic', () => {
             const _email = 1233
 
             expect(() => {
-                freendiesApi.authenticateUser(_email, password)
+                logic.authenticateUser(_email, password)
                     .toThrow(Error(`${_email} is not a string`))
             })
         })
@@ -274,7 +274,7 @@ describe('logic', () => {
             const _email = []
 
             try {
-                await freendiesApi.authenticateUser(_email, password)
+                await logic.authenticateUser(_email, password)
             } catch (error) {
                 expect(error.message).toBe(`${_email} is not a string`)
             }
@@ -286,7 +286,7 @@ describe('logic', () => {
             const _email = {}
 
             expect(() => {
-                freendiesApi.authenticateUser(_email, password)
+                logic.authenticateUser(_email, password)
                     .toThrow(Error(`${_email} is not a string`))
             })
         })
@@ -295,7 +295,7 @@ describe('logic', () => {
         it('should fail on undefined email', async () => {
             const _email = undefined
             expect(() => {
-                freendiesApi.authenticateUser(_email, password)
+                logic.authenticateUser(_email, password)
                     .toThrow(Error(`${_email} is not a string`))
             })
         })
@@ -305,7 +305,7 @@ describe('logic', () => {
             const password = ''
 
             expect(() => {
-                freendiesApi.authenticateUser(email, password)
+                logic.authenticateUser(email, password)
                     .toThrow(Error(`${password} cannot be empty`))
             })
         })
@@ -315,7 +315,7 @@ describe('logic', () => {
             const password = '  '
 
             expect(() => {
-                freendiesApi.authenticateUser(email, password)
+                logic.authenticateUser(email, password)
                     .toThrow(Error(`${password} is not a string`))
             })
         })
@@ -325,7 +325,7 @@ describe('logic', () => {
             const password = 1233
 
             expect(() => {
-                freendiesApi.authenticateUser(email, password)
+                logic.authenticateUser(email, password)
                     .toThrow(Error(`${password} is not a string`))
             })
         })
@@ -335,7 +335,7 @@ describe('logic', () => {
             const password = []
 
             expect(() => {
-                freendiesApi.authenticateUser(email, password)
+                logic.authenticateUser(email, password)
                     .toThrow(Error(`${password} is not a string`))
             })
         })
@@ -344,7 +344,7 @@ describe('logic', () => {
         it('should fail on object password', async () => {
             const password = {}
             expect(() => {
-                freendiesApi.authenticateUser(email, password)
+                logic.authenticateUser(email, password)
                     .toThrow(Error(`${password} is not a string`))
             })
         })
@@ -353,7 +353,7 @@ describe('logic', () => {
         it('should fail on undefined password', async () => {
             const password = undefined
             expect(() => {
-                freendiesApi.authenticateUser(email, password)
+                logic.authenticateUser(email, password)
                     .toThrow(Error(`${password} is not a string`))
             })
         })
@@ -372,12 +372,12 @@ describe('logic', () => {
             bcrypt.hash(password, 10)
                 .then(hash => User.create({ username, email, password: hash }))
                 .then(({ id }) => userId = id)
-                .then(() => freendiesApi.authenticateUser(email, password))
+                .then(() => logic.authenticateUser(email, password))
                 .then(res => token = res)
         )
 
         it('should succeed retrieving the user on correct credentials', () => {
-            freendiesApi.retrieveUser(token)
+            logic.retrieveUser(token)
                 .then(user => {
                     expect(user.id).toBe(userId)
                     expect(user.username).toBe(username)
@@ -387,28 +387,28 @@ describe('logic', () => {
 
         it('should fail on boolean id', () => {
             expect(() => {
-                freendiesApi.retrieveUser(true)
+                logic.retrieveUser(true)
                     .toThrow(Error(`true is not a string`))
             })
         })
 
         it('should fail on object id', () => {
             expect(() => {
-                freendiesApi.retrieveUser({})
+                logic.retrieveUser({})
                     .toThrow(Error(`{} is not a string`))
             })
         })
 
         it('should fail on numeric id', () => {
             expect(() => {
-                freendiesApi.retrieveUser(123)
+                logic.retrieveUser(123)
                     .toThrow(Error(`123 is not string`))
             })
         })
 
         it('should fail on undefined id', () => {
             expect(() => {
-                freendiesApi.retrieveUser(undefined)
+                logic.retrieveUser(undefined)
                     .toThrow(Error(`undefined is not string`))
             })
         })
@@ -432,7 +432,7 @@ describe('logic', () => {
     //         const newData = {
     //             'email': 'updatedmail@mail.com'
     //         }
-    //         const user = await freendiesApi.updateUser(userId, newData)
+    //         const user = await logic.updateUser(userId, newData)
     //         expect(user).toBeTruthy()
     //         expect(user.email).toBe(newData.email)
     //         expect(user.username).toBe(username)
@@ -444,7 +444,7 @@ describe('logic', () => {
     //             'email': 'updatedmail@mail.com'
     //         }
     //         expect(() => {
-    //             freendiesApi.updateUser(wrongId, newData)
+    //             logic.updateUser(wrongId, newData)
     //                 .toThrow(Error('userId is not a string'))
     //         })
     //     })
@@ -478,13 +478,13 @@ describe('logic', () => {
         )
 
         it('should succed on retrieving a game by query', async () => {
-            const retrievedGame = await freendiesApi.retrieveGameByQuery(genre, title)
+            const retrievedGame = await logic.retrieveGameByQuery(genre, title)
             expect(retrievedGame).toBeTruthy()
             expect(retrievedGame[0].title).toBe(title)
         })
         it('should succed on retrieving a game by query and "any" genre', async () => {
             const any = 'any'
-            const retrievedGame = await freendiesApi.retrieveGameByQuery(any, title)
+            const retrievedGame = await logic.retrieveGameByQuery(any, title)
             expect(retrievedGame).toBeTruthy()
             expect(retrievedGame[0].title).toBe(title)
         })
@@ -492,7 +492,7 @@ describe('logic', () => {
         it('should fail on wrong genre', async () => {
             const wrongGenre = 'wrong'
             expect(async () => {
-                await freendiesApi.retrieveGameByQuery(wrongGenre, title)
+                await logic.retrieveGameByQuery(wrongGenre, title)
                     .toThrow(Error('wrong genre'))
 
             })
@@ -528,14 +528,14 @@ describe('logic', () => {
 
 
         it('should succeed on retrieve a game by genre', async () => {
-            const retrievedGame = await freendiesApi.retrieveGameByGenre(genre)
+            const retrievedGame = await logic.retrieveGameByGenre(genre)
             expect(retrievedGame).toBeTruthy()
             expect(retrievedGame[0].title).toBe(title)
         })
 
         it('should succeed on retrieve a game by "any" genre', async () => {
             const any = 'any'
-            const retrievedGame = await freendiesApi.retrieveGameByGenre(any)
+            const retrievedGame = await logic.retrieveGameByGenre(any)
             expect(retrievedGame).toBeTruthy()
             expect(retrievedGame[0].title).toBe(title)
         })
@@ -543,7 +543,7 @@ describe('logic', () => {
         it('should fail on wrong genre', () => {
             const wrongGenre = 'wrong'
             expect(async () => {
-                await freendiesApi.retrieveGameByGenre(wrongGenre)
+                await logic.retrieveGameByGenre(wrongGenre)
                     .toThrow(Error('wrong genre'))
             })
         })
@@ -551,14 +551,14 @@ describe('logic', () => {
         it('should fail on empty genre', () => {
             const wrongGenre = ''
             expect(async () => {
-                await freendiesApi.retrieveGameByGenre(wrongGenre)
+                await logic.retrieveGameByGenre(wrongGenre)
                     .toThrow(Error('wrong genre'))
             })
         })
         it('should fail on wrong genre', () => {
             const wrongGenre = undefined
             expect(async () => {
-                await freendiesApi.retrieveGameByGenre(wrongGenre)
+                await logic.retrieveGameByGenre(wrongGenre)
                     .toThrow(Error('wrong genre'))
             })
         })
@@ -592,7 +592,7 @@ describe('logic', () => {
         )
 
         it('should succeed to retrieve game by id with correct id', async () => {
-            const retrievedGame = await freendiesApi.retrieveGameByID(game.id)
+            const retrievedGame = await logic.retrieveGameById(game.id)
             expect(retrievedGame).toBeTruthy()
             expect(retrievedGame.title).toBe(title)
 
@@ -601,21 +601,21 @@ describe('logic', () => {
         it('should fail retrieving a game by id on wrong id', async () => {
             const wrongId = ':D'
             expect(async () => {
-                await freendiesApi.retrieveGameByID(wrongId)
+                await logic.retrieveGameById(wrongId)
                     .toThrow(Error('wrong id'))
             })
         })
         it('should fail retrieving a game by id on empty id', async () => {
             const wrongId = ''
             expect(async () => {
-                await freendiesApi.retrieveGameByID(wrongId)
+                await logic.retrieveGameById(wrongId)
                     .toThrow(Error('wrong id'))
             })
         })
         it('should fail retrieving a game by id on undefined id', async () => {
             const wrongId = undefined
             expect(async () => {
-                await freendiesApi.retrieveGameByID(wrongId)
+                await logic.retrieveGameById(wrongId)
                     .toThrow(Error('wrong id'))
             })
         })
@@ -648,7 +648,7 @@ describe('logic', () => {
         )
 
         it('should succeed on retrieving all games', async () => {
-            const retrievedGame = await freendiesApi.retrieveAllGames()
+            const retrievedGame = await logic.retrieveAllGames()
             expect(retrievedGame).toBeTruthy()
             expect(retrievedGame[0].title).toBe(title)
         })
@@ -677,31 +677,31 @@ describe('logic', () => {
                     return Game.create({ ownerId: userId, title, genre, description, images, gameFile })
                 })
                 .then(response => game = response)
-                .then(() => freendiesApi.authenticateUser(email, password))
+                .then(() => logic.authenticateUser(email, password))
                 .then(res => token = res)
         )
 
         it('should succed to retrieve user uploads on correct userId', async () => {
-            const retrievedUpload = await freendiesApi.retrieveUploads(token)
+            const retrievedUpload = await logic.retrieveUploads(token)
             expect(retrievedUpload).toBeTruthy()
         })
 
         it('should fail to retrieve user uploads on wrong userId', async () => {
             const wrongToken = 'wrongToken'
             expect(async () => {
-                await freendiesApi.retrieveUploads(wrongToken).toThrow(Error('wrong userId'))
+                await logic.retrieveUploads(wrongToken).toThrow(Error('wrong userId'))
             })
         })
         it('should fail to retrieve user uploads on undefined userId', async () => {
             const wrongToken = undefined
             expect(async () => {
-                await freendiesApi.retrieveUploads(wrongToken).toThrow(Error('wrong userId'))
+                await logic.retrieveUploads(wrongToken).toThrow(Error('wrong userId'))
             })
         })
         it('should fail to retrieve user uploads on empty userId', async () => {
             const wrongToken = ''
             expect(async () => {
-                await freendiesApi.retrieveUploads(wrongToken).toThrow(Error('wrong userId'))
+                await logic.retrieveUploads(wrongToken).toThrow(Error('wrong userId'))
             })
         })
 
@@ -731,92 +731,83 @@ describe('logic', () => {
                     return Game.create({ ownerId: userId, title, genre, description, images, gameFile })
                 })
                 .then(response => game = response)
-                .then(() => freendiesApi.authenticateUser(email, password))
+                .then(() => logic.authenticateUser(email, password))
                 .then(res => token = res)
         )
 
         it('should succeed on toggling a game to fav', async () => {
             debugger
-            await freendiesApi.toggleFavs(token, game.id)
-            const user = await freendiesApi.retrieveUser(token)
+            await logic.toggleFavs(game.id)
+            const user = await logic.retrieveUser(token)
             expect(user.favoriteGames[0].toString()).toBe(game.id)
 
         })
 
         it('should succeed on untoggling a game to fav', async () => {
-            await freendiesApi.toggleFavs(token, game.id)
-            await freendiesApi.toggleFavs(token, game.id)
-            const user = await freendiesApi.retrieveUser(token)
+            await logic.toggleFavs(game.id)
+            await logic.toggleFavs(game.id)
+            const user = await logic.retrieveUser(token)
             expect(user.favoriteGames[0]).toBe(undefined)
-        })
-
-        it('should fail on undefined userId', async () => {
-            const wrongToken = undefined
-            expect(async () => await freendiesApi.toggleFavs(wrongToken, game.id).toThrow(Error('wrong userId')))
-        })
-
-        it('should fail on empty userId', async () => {
-            const wrongToken = ''
-            expect(async () => await freendiesApi.toggleFavs(wrongToken, game.id).toThrow(Error('wrong userId')))
         })
 
         it('should fail on undefined game.id', async () => {
             const wrongGameId = undefined
-            expect(async () => await freendiesApi.toggleFavs(userId, wrongGameId).toThrow(Error('wrong userId')))
+            expect(async () => await logic.toggleFavs(wrongGameId).toThrow(Error('wrong userId')))
         })
         it('should fail on empty game.id', async () => {
             const wrongGameId = ''
-            expect(async () => await freendiesApi.toggleFavs(userId, wrongGameId).toThrow(Error('wrong userId')))
+            expect(async () => await logic.toggleFavs(wrongGameId).toThrow(Error('wrong userId')))
         })
     })
 
-    describe('retrieve user favs', () => {
-        const username = 'TestUser'
-        const email = `testmail-${Math.random()}@mail.com`
-        const password = `123-${Math.random()}`
+    // describe('retrieve user favs', () => {
+    //     const username = 'TestUser'
+    //     const email = `testmail-${Math.random()}@mail.com`
+    //     const password = `123-${Math.random()}`
 
-        let userId
+    //     let userId
 
 
-        const title = `title-${Math.random()}`
-        const genre = `genre-${Math.random()}`
-        const description = `description ${Math.random()}`
-        const images = [`images ${Math.random()}`]
-        const gameFile = `gamefile ${Math.random()}`
-        let game, token
+    //     const title = `title-${Math.random()}`
+    //     const genre = `genre-${Math.random()}`
+    //     const description = `description ${Math.random()}`
+    //     const images = [`images ${Math.random()}`]
+    //     const gameFile = `gamefile ${Math.random()}`
+    //     let game, token
 
-        beforeEach(() =>
-            bcrypt.hash(password, 10)
-                .then(hash => User.create({ username, email, password: hash }))
-                .then(({ id }) => userId = id)
-                .then(() => {
+    //     beforeEach(() =>
+    //         bcrypt.hash(password, 10)
+    //             .then(hash => User.create({ username, email, password: hash }))
+    //             .then(({ id }) => userId = id)
+    //             .then(() => {
 
-                    return Game.create({ ownerId: userId, title, genre, description, images, gameFile })
-                })
-                .then(response => game = response)
-                .then(() => freendiesApi.authenticateUser(email, password))
-                .then(res => token = res)
-                .then(() => freendiesApi.toggleFavs(token, game.id))
-        )
+    //                 return Game.create({ ownerId: userId, title, genre, description, images, gameFile })
+    //             })
+    //             .then(response => game = response)
+    //             .then(() => logic.authenticateUser(email, password))
+    //             .then(res => token = res)
+    //             .then(() => logic.toggleFavs(token, game.id))
+    //     )
 
-        it('should succeed on retrieving user favlist', async () => {
-            const favs = await freendiesApi.retrieveFavs(token)
-            expect(favs).toBeTruthy()
-            expect(favs[0].id).toBe(game.id)
-        })
-        it('should fail on wrong userId', async () => {
-            const wrongId = 'wrongId'
-            expect(async () => await freendiesApi.retrieveFavs(wrongToken).toThrow(Error('wrong userId')))
-        })
-        it('should fail on empty userId', async () => {
-            const wrongToken = ''
-            expect(async () => await freendiesApi.retrieveFavs(wrongToken).toThrow(Error('wrong userId')))
-        })
-        it('should fail on undefined userId', async () => {
-            const wrongToken = 'undefined'
-            expect(async () => await freendiesApi.retrieveFavs(wrongToken).toThrow(Error('wrong userId')))
-        })
-    })
+    //     it('should succeed on retrieving user favlist', async () => {
+    //         debugger
+    //         const favs = await logic.retrieveFavs()
+    //         expect(favs).toBeTruthy()
+    //         expect(favs[0].id).toBe(game.id)
+    //     })
+    //     it('should fail on wrong userId', async () => {
+    //         const wrongId = 'wrongId'
+    //         expect(async () => await logic.retrieveFavs().toThrow(Error('wrong userId')))
+    //     })
+    //     it('should fail on empty userId', async () => {
+    //         const wrongId = ''
+    //         expect(async () => await logic.retrieveFavs().toThrow(Error('wrong userId')))
+    //     })
+    //     it('should fail on undefined userId', async () => {
+    //         const wrongId = 'undefined'
+    //         expect(async () => await logic.retrieveFavs().toThrow(Error('wrong userId')))
+    //     })
+    // })
     afterAll(() =>
         Promise.all([
             User.deleteMany(),

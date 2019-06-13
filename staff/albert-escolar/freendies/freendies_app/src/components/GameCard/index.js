@@ -5,16 +5,30 @@ import './index.scss'
 class GameCard extends Component {
     state = {}
 
+    componentDidMount(){
+        const { title, genre, image, description, id } = this.props
+        this.setState({title, genre, image, description, id})
+    }
+
+    componentWillReceiveProps(props){
+        const { title, genre, image, description, id } = props
+        this.setState({title, genre, image, description, id})
+
+    }
+
+
     render() {
 
         const { title, genre, image, description, id } = this.props
 
-        return <Link className="GameCard__Subtitle" to={`/game/${id}`} key={id}>
-            <img className="GameCard__img" src={image} />
+        return <div className="GameCard">
+            <Link className="GameCard__Subtitle" to={`/game/${id}`} key={id}>
+                <img className="GameCard__img" src={image} />
+                <p className="GameCard__space" >{title}</p>
+                <p className="GameCard__space">{genre}</p>
 
-            <p className="GameCard__space GameCard__bold">{title}</p>
-            <p className="GameCard__space">{genre}</p>
-        </Link>
+            </Link>
+        </div>
 
 
 

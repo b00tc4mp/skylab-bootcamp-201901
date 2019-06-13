@@ -9,12 +9,13 @@
         align-items: flex-start;
         padding-left: 100px;
         height: 50%;
+        margin-bottom:30px;
     }
 
     &__sectionTitle {
         font-size: 30px;
         padding-left: 10px;
-        padding-top:30px;
         width: fit-content
+        
     }
 }

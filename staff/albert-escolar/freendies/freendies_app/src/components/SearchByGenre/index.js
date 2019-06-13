@@ -27,7 +27,7 @@ class SearchByGenre extends Component {
 
         return <div className="searchByGenre">
             <h2 className="searchByGenre__title">{genre} games</h2>
-            {results && results.length ? <ListComponent results={results} /> : <div className="searchByGenre__noResult">no results found</div>}
+            {results ? results.length ? <ListComponent results={results} /> : <div className="searchByGenre__noResult">no results found</div>:<div></div>}
         </div>
     }
 }

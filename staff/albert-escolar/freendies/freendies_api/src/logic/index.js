@@ -19,6 +19,14 @@ admin.initializeApp({
 
 const logic = {
 
+
+    /**
+     * Creates a User and encrypts the password before storing the User in DB
+     * @param {String} username the name of the user to be stored in the DB
+     * @param {String} email the email of the user to be stored in the DB
+     * @param {String} password the password of the user to be stored in the DB
+     * @param {String} passwordConfirmation the password confirmation to check that the password matches the confirmation
+     */
     async registerUser(username, email, password, passwordConfirmation) {
 
         if (typeof username !== 'string') throw TypeError(`username is not a string`)
@@ -55,6 +63,11 @@ const logic = {
         return newUser.id
     },
 
+    /**
+     * Authenticates the user if the email and password match the information stored in the DB
+     * @param {String} email the email received to check and do the authentication
+     * @param {String} password the password received to check and the authentication
+     */
     async authenticateUser(email, password) {
 
         if (typeof email !== 'string') throw TypeError(`${email} is not a string`)
@@ -73,7 +86,10 @@ const logic = {
 
     },
 
-
+    /**
+     * Retrieves the user information on correct ID
+     * @param {String} userId the User ID to retrieve the user info
+     */
     async retrieveUser(userId) {
         if (typeof userId !== 'string') throw TypeError(`${userId} is not a string`)
         if (!userId.trim().length) throw Error(`${userId} cannot be empty`)
@@ -89,11 +105,14 @@ const logic = {
     },
 
 
+    /**
+     * Updates the user information 
+     * @param {String} userId the userId to find the User which information has been changed
+     * @param {String} data the data to be changed about User in the DB
+     */
     async updateUser(userId, data) {
         if (typeof userId !== 'string') throw TypeError(`userId is not a string`)
         if (!userId.trim().length) throw Error(`userId cannot be empty`)
-        // if (typeof data !== 'string') throw TypeError('data is not a string')
-        // if (!data.trim().length) throw Error('data cannot be empty')
 
         const user = await User.findByIdAndUpdate(userId, data, { runValidators: true, new: true }).select('-password -__v').lean()
 
@@ -106,7 +125,18 @@ const logic = {
         return user
     },
 
-
+    /**
+     * Uploads the gameFile and images to firebase.
+     * Once is has been uploaded it saves the information and the gameFile and images
+     * firebase url's to the DB
+     * 
+     * @param {String} ownerId Id of the User who is uploading the game to be stored in the DB
+     * @param {String} title Title of the game being uploaded to be stored in the DB
+     * @param {String} genre Genre of the game being uploaded to be stored in the DB
+     * @param {String} description Description of the game being uploaded to be stored in the DB
+     * @param {String} images Images URL's of the game being uploaded to be stored in the DB
+     * @param {String} gameFile File URL of the game being uploaded to be stored in the DB
+     */
     async uploadGame(ownerId, title, genre, description, images, gameFile) {
         if (typeof ownerId !== 'string') throw TypeError(`${ownerId} is not a string`)
         if (!ownerId.trim().length) throw Error(`${ownerId} cannot be empty`)
@@ -166,7 +196,13 @@ const logic = {
         return newGame
     },
 
-
+    /**
+     * Retrieves a game by title.
+     * Genre can be used to focus the search for the title on specific genres
+     * If genre is "any"then it searches for the title in all genres.
+     * @param {String} genre Genre used to search for the game
+     * @param {String} query Title of the game used to search for the game
+     */
     async retrieveGameByQuery(genre, query) {
         if (typeof genre !== 'string') throw TypeError('genre is not a string')
         if (!genre.trim().length) throw Error('genre cannot be empty')
@@ -196,6 +232,10 @@ const logic = {
 
     },
 
+    /**
+     * Retrieves all games whith a specific genre
+     * @param {String} genre used to search for the games that match the genre
+     */
     async retrieveGameByGenre(genre) {
         if (typeof genre !== 'string') throw TypeError('genre is not a string')
         if (!genre.trim().length) throw Error('genre cannot be empty')
@@ -219,6 +259,10 @@ const logic = {
 
     },
 
+    /**
+     * Retrieves a specific game and returns all its information
+     * @param {String} id used to search for the specific game.
+     */
     async retrieveGameById(id) {
         if (typeof id !== 'string') throw TypeError('id is not a string')
         if (!id.trim().length) throw Error('id cannot be empty')
@@ -229,6 +273,11 @@ const logic = {
         return game
     },
 
+    /**
+     * Adds or removes the game from the user favoriteGames list.
+     * @param {String} userId used to  find the User to add or remove the id of the game.
+     * @param {String} id is added or removed of the User favoriteGames list.
+     */
     async toggleFavs(userId, id) {
         if (typeof userId !== 'string') throw TypeError('userId is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -243,6 +292,11 @@ const logic = {
         await user.save()
     },
 
+    /**
+     * Retrieves the favoriteGames list of the User
+     * 
+     * @param {String} userId used to look for the User
+     */
     async retrieveFavs(userId) {
         if (typeof userId !== 'string') throw TypeError('userId is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -261,6 +315,11 @@ const logic = {
 
     },
 
+    /**
+     * Retrieves the uploads list of the User
+     * 
+     * @param {String} userId used to search for the User
+     */
     async retrieveUploads(userId) {
         if (typeof userId !== 'string') throw TypeError('userId is not a string')
         if (!userId.trim().length) throw Error('userId cannot be empty')
@@ -277,6 +336,9 @@ const logic = {
         return uploads
     },
 
+    /**
+     * Retrieves all games found in the DB
+     */
     async retrieveAllGames() {
         const games = await Game.find().select('-__v').lean()
         games.forEach(game => {
