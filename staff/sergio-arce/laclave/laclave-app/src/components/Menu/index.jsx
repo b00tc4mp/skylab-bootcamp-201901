@@ -21,10 +21,7 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToLo
                 <Link to="/" className="menu__nav-icons__icon">
                     <img src={logo} alt="la clave salsa" />
                 </Link>
-                {/* <Link to="/" className="menu__nav-icons__icon">
-                    <FontAwesomeIcon icon={faSearch} />
-                </Link> */}
-
+    
             </nav> 
 
             {/* //mobile - login + register */}
@@ -64,7 +61,7 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToLo
             <nav className="menu__nav-links">
 
                {isUserLoggedIn && <Link to="/" className="menu__nav-links__link">
-                    You are a professional ???
+                    Are you a professional ???
                 </Link> }
                 
                 {isUserLoggedIn &&<Link to="/create-artist" className="menu__nav-links__link">

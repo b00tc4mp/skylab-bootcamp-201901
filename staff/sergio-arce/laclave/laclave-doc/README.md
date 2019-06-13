@@ -36,7 +36,7 @@ Users can:
 ![](./images/components.jpg)
 
 ## Data Models
-![](./images/data-model.jpg)
+![](./images/data-models.jpg)
 
 ## Test Coverage
 
