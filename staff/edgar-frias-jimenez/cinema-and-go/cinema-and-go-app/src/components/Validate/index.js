@@ -1,4 +1,4 @@
-const { ValueError, RequirementError, FormatError } = require('../Errors')
+import { ValueError, RequirementError, FormatError } from '../Errors'
 
 const validate = {
     arguments(args) {
@@ -28,4 +28,4 @@ const validate = {
     }
 }
 
-module.exports = validate
+export default validate

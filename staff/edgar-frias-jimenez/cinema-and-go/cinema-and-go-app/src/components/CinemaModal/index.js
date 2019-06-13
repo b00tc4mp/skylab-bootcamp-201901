@@ -21,13 +21,14 @@ const CinemaModal = ({ onClose, id, onDirectionsService }) => {
     // State
     const [cinema, setCinema] = useState({})
     const [movieInfoState, setMovieInfoState] = useState([])
-    const [ showSpinner, handleSpinner ] = useState(null)
+    // const [ showSpinner, handleSpinner ] = useState(null)
 
     // State setter
     const getSessionInfo = async cinema => {
         if (cinema.movieSessions) {
 
-            const cinemaLocation = await appLogic.retrieveTimeToArrive(cinema._id, userPosition, cinema.location.coordinates.join());
+            const cinemaLocation = await appLogic.retrieveTimeToArrive(cinema._id, userPosition, cinema.location.coordinates.join())
+
             const movieSessions = await Promise.all(cinema.movieSessions.map(async movie =>{
                 const currentSessions = await appLogic.retrieveAllSessions(movie)
 
@@ -46,7 +47,6 @@ const CinemaModal = ({ onClose, id, onDirectionsService }) => {
                 return currentSessions
             }))
 
-            //setGmaps(cinemaLocation)
             setMovieInfoState(movieSessions.flat())
         }
     }

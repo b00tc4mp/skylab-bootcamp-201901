@@ -4,7 +4,7 @@ const logic = require('../logic')
 
 dotenv.config()
 
-const { env: { MONGO_URL_TEST: url } } = process;
+const { env: { MONGO_URL_LOCAL: url } } = process;
 
 (async () => {
     try {

@@ -1,4 +1,4 @@
-const { Schema } = require('mongoose')
+import { Schema } from 'mongoose'
 
 const movie = new Schema({
     title: { type: String, required: true },
@@ -7,4 +7,4 @@ const movie = new Schema({
     cast: String
 })
 
-module.exports = movie
+export default movie

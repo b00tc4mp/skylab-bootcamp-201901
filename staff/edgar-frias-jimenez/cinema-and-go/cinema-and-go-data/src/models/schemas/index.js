@@ -1,12 +1,12 @@
-const city = require('./city')
-const cinema = require('./cinema')
-const movie = require('./movie')
-const movieSessions = require('./movie-sessions')
-const user = require('./user')
-const point = require('./point')
-const distance = require('./distance')
+import city from './city'
+import cinema from './cinema'
+import movie from './movie'
+import movieSessions from './movie-sessions'
+import user from './user'
+import point from './point'
+import distance from './distance'
 
-module.exports = {
+export default {
   city,
   cinema,
   movie,

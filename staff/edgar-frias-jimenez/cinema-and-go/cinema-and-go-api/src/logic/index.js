@@ -202,12 +202,15 @@ const logic = {
     },
 
     setCinemaLocation(defaultPos, cinemaLocation, MAPS_KEY) {
+        debugger
         const mapsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${defaultPos}&destination=${cinemaLocation}&key=${MAPS_KEY}&mode=walking`
 
         return (async () => {
+            debugger
             const cinema = {}
 
             const gMapsInfo = await gMaps.getData(mapsUrl)
+            debugger
 
             cinema.duration = gMapsInfo.routes[0].legs[0].duration.value
             cinema.distance = gMapsInfo.routes[0].legs[0].distance.value

@@ -1,5 +1,5 @@
-const { Schema, ObjectId } = require('mongoose')
-const point = require('./point')
+import { Schema, ObjectId } from 'mongoose'
+import point from './point'
 
 const cinema = new Schema({
   name: { type: String, required: true },
@@ -20,4 +20,4 @@ const cinema = new Schema({
 
 cinema.index({ location: '2dsphere' })
 
-module.exports = cinema
+export default cinema

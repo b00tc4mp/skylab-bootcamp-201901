@@ -7,4 +7,4 @@ const user = new Schema({
   distance: { type: ObjectId, ref: 'Distance' }
 })
 
-module.exports = user
+export default user

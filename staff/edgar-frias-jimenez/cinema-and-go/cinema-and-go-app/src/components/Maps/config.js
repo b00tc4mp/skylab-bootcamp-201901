@@ -154,7 +154,7 @@ const nightMapProps = {
     ]
 }
 
-module.exports = {
+export {
     defaultMapZoom,
     defaultMapProps,
     nightMapProps

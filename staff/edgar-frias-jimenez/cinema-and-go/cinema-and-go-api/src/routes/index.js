@@ -69,7 +69,7 @@ router.get('/user/distance/cinema', auth, (req, res) => {
 
     handleErrors(async () => {
 
-        const distance = await logic.setCinemaLocation(cinemaId, userId, defaultPos, cinemaLocation, MAPS_KEY)
+        const distance = await logic.setCinemaLocation(defaultPos, cinemaLocation, MAPS_KEY)
         //const distance = await logic.retrieveCinemaLocation(cinemaId, userId, defaultPos, cinemaLocation, MAPS_KEY)
 
         return res.json(distance)

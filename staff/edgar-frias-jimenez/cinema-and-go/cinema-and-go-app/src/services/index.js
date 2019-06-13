@@ -1,10 +1,8 @@
-const validate = require('../components/Validate')
-const call = require('../components/Call')
-
-const port = process.env.REACT_APP_PORT
+import validate from '../components/Validate'
+import call from '../components/Call'
 
 const cinemaApi = {
-    __url__: `http://localhost:${port}/api`,
+    __url__: 'no-url',
     __timeout__: 0,
 
     registerUser(name, email, password) {
@@ -143,4 +141,4 @@ const cinemaApi = {
     }
 }
 
-module.exports = cinemaApi
+export default cinemaApi

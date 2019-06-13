@@ -1,4 +1,4 @@
-const { Schema, ObjectId } = require('mongoose')
+import { Schema, ObjectId } from 'mongoose'
 
 const movieSessions = new Schema({
   movie: { type: ObjectId, ref: 'Movie', required: true },
@@ -8,4 +8,4 @@ const movieSessions = new Schema({
   }
 })
 
-module.exports = movieSessions
+export default movieSessions

@@ -1,4 +1,4 @@
-const { Schema, ObjectId } = require('mongoose')
+import { Schema, ObjectId } from 'mongoose'
 
 const distance = new Schema({
     distance: Number,
@@ -7,4 +7,4 @@ const distance = new Schema({
     user : { type: ObjectId, ref: 'User' }
 })
 
-module.exports = distance
+export default distance

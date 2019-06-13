@@ -1,7 +1,7 @@
 import normalize from '../components/Normalize'
-const validate = require('../components/Validate')
-const { LogicError } = require('../components/Errors')
-const cinemaApi = require('../services')
+import validate from '../components/Validate'
+import { LogicError } from '../components/Errors'
+import cinemaApi from '../services'
 const { REACT_APP_MAPS_KEY } = process.env
 
 const appLogic = {

@@ -13,4 +13,4 @@ const point = new Schema({
     }
 })
 
-module.exports = point
+export default point

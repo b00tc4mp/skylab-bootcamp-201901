@@ -6,11 +6,9 @@ const routes = require('./src/routes')
 const cors = require('cors')
 const { mongoose } = require('cinema-and-go-data')
 
-// PRO:
-// const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = process;
-
 // PRE
-const { env: { PORT, MONGO_URL_TEST: url }, argv: [, , port = PORT || 8080], } = process;
+const { env: { PORT, MONGO_URL_LOCAL: url }, argv: [, , port = PORT || 8080], } = process;
+// const { env: { PORT, MONGO_URL_TEST: url }, argv: [, , port = PORT || 8080], } = process;
 
 (async () => {
     try {
