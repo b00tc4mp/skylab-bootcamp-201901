@@ -29,7 +29,7 @@ Registered users can :
 
 ### User
 
-![image](images/flowchart.png)
+![image](images/flow.png)
 
 
 
