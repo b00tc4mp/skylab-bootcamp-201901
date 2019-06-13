@@ -17,7 +17,7 @@ const Home = () => {
     // Globals
     const defaultPos = defaultPosition()
     const userPosition = getUserPosition()
-    const threshold = 2500
+    const threshold = 2000
     // const userMarker = '../../assets/images/markers/user-marker.png'
 
     // State
@@ -91,7 +91,7 @@ const Home = () => {
                                 draggable: false,
                                 editable: false,
                                 visible: !response,
-                                radius: 1500,
+                                radius: threshold,
                                 zIndex: 1
                             }}
                         />

@@ -7,7 +7,7 @@ const { RequirementError, ValueError, FormatError, LogicError } = require('../co
 
 dotenv.config()
 
-const { env: { MONGO_URL_LOGIC_TEST: url } } = process
+const { env: { MONGO_URL_TEST: url } } = process
 
 jest.setTimeout(1000000)
 
@@ -288,13 +288,27 @@ describe('logic', () => {
         })
     })
 
+    describe('register a city', () => {
+        it('should register a new city into db', async () => {
+            const name = 'Barcelona'
+            const link = 'https://www.ecartelera.com/cines/0,9,23.html'
+            const cinemas = []
+
+            const inserted = await logic.registerCities(name, link, cinemas)
+
+            expect(inserted).toBeDefined()
+        })
+    })
+
     describe('scrap a movie', () => {
         it('should insert a movie into de database', async () => {
             const img = 'https://www.ecartelera.com/carteles/15000/15032/002-th.jpg'
             const title = 'El Hijo'
             const info = [ '90 min.', 'EE.UU.', 'Ciencia ficción', '+16' ]
             const cast = 'Elizabeth Banks, Jackson A. Dunn, David Denman Dir. David Yarovesky'
+
             const inserted = await logic.registerMovie(title, img, info, cast)
+
             expect(inserted).toBeDefined()
         })
     })
@@ -318,9 +332,17 @@ describe('logic', () => {
     })
 
     describe('Scrap an entire city', () => {
-        fit('should get all cinemas from a given city', async () => {
+        it('should get all cinemas from a given city', async () => {
             const cityCinemas = await logic.scrapCinemaMovies()
             expect(cityCinemas).toBeUndefined()
+        })
+    })
+
+    describe('retrieve all cinemas', () => {
+        it('should retrieve a list of cinemas from db', async () => {
+            const cinemas = await logic.retrieveAllCinemas()
+
+            expect(cinemas).toBeDefined()
         })
     })
 

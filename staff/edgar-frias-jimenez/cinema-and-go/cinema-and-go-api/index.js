@@ -10,7 +10,7 @@ const { mongoose } = require('cinema-and-go-data')
 // const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 8080], } = process;
 
 // PRE
-const { env: { PORT, MONGO_URL_LOGIC_TEST: url }, argv: [, , port = PORT || 8080], } = process;
+const { env: { PORT, MONGO_URL_TEST: url }, argv: [, , port = PORT || 8080], } = process;
 
 (async () => {
     try {

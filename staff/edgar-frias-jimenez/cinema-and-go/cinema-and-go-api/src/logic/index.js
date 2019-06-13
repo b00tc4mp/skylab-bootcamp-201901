@@ -129,15 +129,18 @@ const logic = {
     scrapCinemaMovies() {
         const bcnCinemas = 'https://www.ecartelera.com/cines/0,9,23.html'
         return (async () => {
-            const scrapCinemas = await scrapper.getAllCinemas(bcnCinemas);
+            const scrapCinemas = await scrapper.getAllCinemas(bcnCinemas)
+            //debugger
             await Promise.all(
-                await scrapCinemas.map(async ({ name, link, phone, address, location, billboard }) => {
+                scrapCinemas.map(async ({ name, link, phone, address, location, billboard }) => {
                     const cinemaSessions = await Promise.all(
                         billboard.map(async ({title, img, info, cast, movieSessions}) => {
                             const movie = await this.registerMovie(title, img, info, cast)
-                            return await this.registerSessions(ObjectId(movie), movieSessions);
+                            debugger
+                            return await this.registerSessions(ObjectId(movie), movieSessions)
                         })
                     )
+                    //debugger
                     await this.registerCinema(name, link, phone, address, location, cinemaSessions)
                 })
             )
@@ -198,8 +201,7 @@ const logic = {
         })()
     },
 
-    setCinemaLocation(cinemaId, userId, defaultPos, cinemaLocation, MAPS_KEY) {
-debugger
+    setCinemaLocation(defaultPos, cinemaLocation, MAPS_KEY) {
         const mapsUrl = `https://maps.googleapis.com/maps/api/directions/json?origin=${defaultPos}&destination=${cinemaLocation}&key=${MAPS_KEY}&mode=walking`
 
         return (async () => {
@@ -211,15 +213,12 @@ debugger
             cinema.distance = gMapsInfo.routes[0].legs[0].distance.value
 
             return cinema
-            //await logic.registerCinemaLocation(cinemaId, userId, cinema.distance, cinema.duration)
         })()
     },
 
     retrieveCinemaLocation(cinemaId, userId) {
-
         return(async () => {
             const cinemaData = await Distance.findOne({$and: [{user: ObjectId(userId)}, {cinema: ObjectId(cinemaId)}]})
-
 
             return cinemaData
         })()
