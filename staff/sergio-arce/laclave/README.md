@@ -1,4 +1,7 @@
 
-# laclave 
+## LaClave APP
 
-[trello](https://trello.com/b/UgnZThjA/proyecto-laclave)
+**laclave** is an app related with the world of the social dancing. laclave is a searcher of salsa, bachata and mambo congresseses.
+
+# Live demo and more in [documentation](laclave-doc/)
+
