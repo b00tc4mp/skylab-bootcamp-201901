@@ -2,21 +2,18 @@
   "name": "stayfit",
   "version": "1.0.0",
   "description": "App to manage box, gym and personal trainer session schedules",
-  "main": "server/index.ts",
+  "main": "stayfit-api/index.ts",
   "scripts": {
-    "dev": "concurrently \"npm run dev --prefix server\" \"npm run start --prefix app\"",
-    "dev:server": "npm run dev --prefix server",
-    "dev:app": "npm run start --prefix app",
-    "server:test": "npm test --prefix server",
-    "server:test:debug": "npm run test:debug --prefix server"
+    "start": "concurrently \"npm run start --prefix stayfit-api\" \"npm run start --prefix stayfit-app\"",
+    "dev": "concurrently \"npm run dev --prefix stayfit-api\" \"npm run start --prefix stayfit-app\"",
+    "dev:server": "npm run dev --prefix stayfit-api",
+    "dev:app": "npm run start --prefix stayfit-app",
+    "server:test": "npm test --prefix stayfit-api",
+    "server:test:debug": "npm run test:debug --prefix stayfit-api"
   },
   "author": "Pablo Javier Rey Sobral",
   "license": "ISC",
   "devDependencies": {
     "concurrently": "^4.1.0"
-  },
-  "dependencies": {
-    "@ionic/react": "0.0.5",
-    "moment": "^2.24.0"
   }
 }

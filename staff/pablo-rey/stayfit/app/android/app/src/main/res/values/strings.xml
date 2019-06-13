@@ -1,8 +1,0 @@
-<?xml version='1.0' encoding='utf-8'?>
-<resources>
-    <string name="app_name">stayfit</string>
-    <string name="title_activity_main">stayfit</string>
-    <string name="package_name">dev.pablorey.stayfit</string>
-    <string name="fileprovider_authority">dev.pablorey.stayfit.fileprovider</string>
-    <string name="custom_url_scheme">dev.pablorey.stayfit</string>
-</resources>
