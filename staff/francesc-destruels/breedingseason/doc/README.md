@@ -4,9 +4,9 @@ A game were you will have to help penguins to breed!
 
 ## APP DESCRIPTION
 
-todo...
+In this first version you will be able to play Breeding Season on Solo Mode. In future updates the Multiplayer version will be added.
 
- ## Functional description
+## Functional description
 
 ### Use cases
 

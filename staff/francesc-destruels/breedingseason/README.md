@@ -6,18 +6,16 @@
 
 ## Documentation
 
-[Documentation](collab/skylab-bootcamp-201904/staff/francesc-destruels/breedingseason/doc/README.md)
+![](./doc/img/letsbreed.jpg)
 
-<!-- [Live Demo](http://.surge.sh/) -->
+[Documentation](./doc/README.md)
+
+[Live Demo](http://breeding-season-skylab19.surge.sh/)
 
 
 ## APP DESCRIPTION
 
-This app is a game based on a boardgame calles Welcome to...
-
-## TECHNICAL DESCRIPTION
-
-TODO ...
+This app is a game based on a board game called Welcome to... where you have to choose combinations of numbers and actions to get as much points as possible.
 
 ### Francesc Destruels Rossello
 
