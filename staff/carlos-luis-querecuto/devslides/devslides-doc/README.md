@@ -57,9 +57,17 @@ Users can:
 ![Data Model](images/data-model.png)
 
 ### Code Coverage
+<p align="center">
+![API Coverage](https://img.shields.io/badge/API%20coverage-85.42-green.svg)
+</p>
 
-![API Coverage](https://img.shields.io/badge/API%20coverage-98.19-green.svg)
+<p align="center">
 ![API code coverage](images/api-coverage.PNG)
+</p>
+
+
+
+
 
 
 <p align="center">
