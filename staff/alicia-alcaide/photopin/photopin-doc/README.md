@@ -89,26 +89,26 @@ In addition, it does intensive use of Google's Maps and Places apis, using the a
 
 - Users
 
-  - language asociate to the user
+  - store user's preferred language
   - login with username instead of mail
   - user profile image (avatar)
 
 * Map
 
   - upload images from the file browser instead of just saving the url image
-  - Be able to mark a map as public. This maps will be accesible by all registered users
+  - Be able to mark a map as public. Public maps will be accesible by all registered users
   - add public maps to favorites
-  - allow add tags to the map
+  - allow adding tags to the map
   - share maps between users
-  - in a new map: the position default must be the user position with a litle zoom
+  - For new maps: default position should be current user's position with slightly zoomed.
 
 * Pin
 
-  - add selectors of type of icon and color for each power to customize the pins
-  - upload images from the file browser instead of just saving the url image
-  - have more than one associated image
+  - Color and icon customisation
+  - upload images from the file browser instead of just saving the image's url
+  - Allow keeping several images for a pin
 
 - Search
-  - be able to do searches on your maps or on the public
+  - be able to do searches on both private and public maps
   - search maps by title or by tags
-  - search pins by title or by tags, results on a map
+  - search pins by title or by tags, displaying results on a map
