@@ -1,4 +1,4 @@
-## Dashboard Issues
+## Dashboard-api
 ### `Get Started`
 Install Node 8 or newer.
 Navigate to this project's root directory on the command line.
