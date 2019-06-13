@@ -1,4 +1,4 @@
-# WOTcontrol app
+# WOTcon app
 
 ## [Documentation](WOTcontrol/wotcontrol-doc/README.md)
 
