@@ -19,11 +19,11 @@ function Menu({onSearchArtist, isUserLoggedIn, onLogout, onUserProfile, onGoToLo
             <nav className="menu__nav-icons">
 
                 <Link to="/" className="menu__nav-icons__icon">
-                    <FontAwesomeIcon icon={faHome} />
+                    <img src={logo} alt="la clave salsa" />
                 </Link>
-                <Link to="/" className="menu__nav-icons__icon">
+                {/* <Link to="/" className="menu__nav-icons__icon">
                     <FontAwesomeIcon icon={faSearch} />
-                </Link>
+                </Link> */}
 
             </nav> 
 
