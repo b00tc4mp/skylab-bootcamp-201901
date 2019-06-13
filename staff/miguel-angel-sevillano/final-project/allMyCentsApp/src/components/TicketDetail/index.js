@@ -39,6 +39,7 @@ debugger
         setErrorChecked(true)
         setErrorFs(false)
         setModal(false)
+        setError(false)
 
 
     }
@@ -61,6 +62,7 @@ debugger
 
             if (e.target.Euro[i].value) number.push(e.target.Euro[i].value)
             else (number.push(e.target.Euro[i].placeholder))
+
         }
 
 
@@ -78,8 +80,10 @@ debugger
             }
 
 
+
+
             if (item.Euro > 20 && !errorChecked) {
-                setError("Warning prices seems to be high above , check ticket please")
+                setError("Warning prices seems to be high above average , check ticket please")
                 setModal(true)
                 errorFound = true
             }
@@ -87,7 +91,7 @@ debugger
         })
 
         if (!errorFound && errorChecked) toSaveTicket(savedTicket)
-        else if (!errorFound) toSaveTicket(savedTicket)
+       
 
 
     }

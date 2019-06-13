@@ -43,7 +43,6 @@ const user = new Schema({
         validate: isEmail
     },
     password: { type: String, required: true },
-    age: Number,
     tickets: [ticket],
     alerts:[alert]
 })

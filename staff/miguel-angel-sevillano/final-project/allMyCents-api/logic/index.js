@@ -192,13 +192,17 @@ const logic = {
             let coincidence = false
 
             ticket.forEach(item => {
+
+                coincidence = false
                 products.forEach(product => {
 
                     if (item.name === product.text) coincidence = true
                 })
+
+                if (!coincidence) throw new LogicError("Product dont exist")
             })
 
-            if (!coincidence) throw new LogicError("Product dont exist")
+            
 
 
 

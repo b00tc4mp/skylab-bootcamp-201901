@@ -3,7 +3,7 @@ import './index.sass'
 
 
 
-function Register({ onRegister, message, cancel, clear }) {
+function Register({ onRegister, message, cancel }) {
 
     const [clearErrorMessage, setClearErrorMessage] = useState(false)
 

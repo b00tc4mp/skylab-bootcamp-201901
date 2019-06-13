@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import './index.sass'
 import mainTitle from '../../images/mainTitlev2.png'
 
-function Login({ onLogin, message, cancel, clear }) {
+function Login({ onLogin, message, cancel }) {
 
     const [clearErrorMessage, setClearErrorMessage] = useState(false)
 

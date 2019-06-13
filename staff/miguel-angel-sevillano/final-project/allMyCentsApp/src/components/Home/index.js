@@ -296,19 +296,22 @@ function Home(props) {
 
 
     function handleSaveTicket(ticketToSave) {
-
+       
 
         return (async () => {
             setTicketDetailError(null)
             try {
 
                 const res = await logic.saveTicket(sessionStorage.token, ticketToSave)
+                debugger
                 toHome()
                 setGlobalMessage(res)
                 setChart(false)
 
 
-            } catch (error) { setTicketDetailError(error.message) }
+            } catch (error) { 
+                debugger
+                setTicketDetailError(error.message) }
         })()
 
     }
