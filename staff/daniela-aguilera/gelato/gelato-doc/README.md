@@ -3,7 +3,7 @@
 ## Introduction
 Create your own ice cream choosing the size, type and flavors. Pay for the ice cream on the web and receive a qr code with which you can go to your nearest Gelato store to retrieve your order.
 
-![gelato](https://giphy.com/gifs/ice-cream-scoops-tm8r2aEXf6h1u)
+![gelato](images/giphy.gif)
 
 
 ## Functional description
