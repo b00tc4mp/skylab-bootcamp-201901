@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { withScriptjs, withGoogleMap, GoogleMap, Marker, InfoWindow } from 'react-google-maps'
 import { Redirect } from 'react-router-dom'
+const { REACT_APP_MAP_KEY } = process.env
 
 function Maps () {
   const [showBasket, setShowBasket] = useState(false)
@@ -41,7 +42,7 @@ function Maps () {
     <section className='g-Order__map' >
       <MyMapComponent
         isMarkerShown
-        googleMapURL='https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=geometry,drawing,places&key=AIzaSyDX0SuJgk5jtNqSBeqYa-2L5dQdnZKecpA'
+        googleMapURL={REACT_APP_MAP_KEY}
         loadingElement={<div style={{ height: `100%` }} />}
         containerElement={<div style={{ height: `350px`, width: `100%` }} />}
         mapElement={<div style={{ height: `100%` }} />}
