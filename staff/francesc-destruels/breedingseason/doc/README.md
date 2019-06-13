@@ -1,5 +1,9 @@
 # Project name: Breeding Season
 
+
+![](./img/letsbreed.jpg)
+
+
 A game were you will have to help penguins to breed!
 
 ## APP DESCRIPTION
