@@ -4,7 +4,7 @@
 
 This app allows to the representants of different organizations to publish medical events, to inform the different users (students and doctors...) that are working in the sector
 
-![image](https://i.gifer.com/82ad.gif)
+![image](./images/introduction.gif)
 
 ## Functional Description
 
