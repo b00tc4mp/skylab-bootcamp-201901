@@ -17,9 +17,9 @@ function Landing() {
                         <Link className="button" to="/register">Register</Link>
                     </section>
                 </section>
-            </section>
-            <section className="maps">
-                <GoogleMaps />
+                <section className="maps">
+                    <GoogleMaps />
+                </section>
             </section>
         </section>
     )

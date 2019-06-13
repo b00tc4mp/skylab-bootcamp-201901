@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react'
 import appLogic from '../../logic'
+import { defaultPosition, getUserPosition } from '../../utils'
+
+import { Circle, DirectionsService, DirectionsRenderer } from '@react-google-maps/api'
 import GoogleMaps from '../../components/Maps'
 import CustomMarker from '../../components/Marker'
 import CinemaModal from '../../components/CinemaModal'
-import { defaultPosition, getUserPosition } from '../../utils'
-import { Circle,
-    DirectionsService,
-    DirectionsRenderer
-} from '@react-google-maps/api'
+import Header from '../../components/Header'
+
+import userMarker from '../../assets/images/markers/user-marker.png'
+import cinemaMarker from '../../assets/images/markers/cinema-marker.png'
 
 import './index.scss'
 
@@ -15,7 +17,8 @@ const Home = () => {
     // Globals
     const defaultPos = defaultPosition()
     const userPosition = getUserPosition()
-    const threshold = 10500
+    const threshold = 2500
+    // const userMarker = '../../assets/images/markers/user-marker.png'
 
     // State
     const [ cinemaPoi, setCinemaPoi ] = useState(null)
@@ -36,15 +39,12 @@ const Home = () => {
             }
         }
     }
-
     const handleCloseModal = () => {
         setModalVisible(false)
     }
-
     const handlePopulate = () => {
         appLogic.populateDb()
     }
-
     const handleDirectionsService = (location) => {
         setDestination(location)
         setModalVisible(false)
@@ -64,10 +64,12 @@ const Home = () => {
 
     return (
         <section className="home">
-            {modalVisible && <CinemaModal onClose={handleCloseModal} id={currentMarker} onDirectionsService={handleDirectionsService} />}
+            {modalVisible &&
+                <CinemaModal onClose={handleCloseModal} id={currentMarker} onDirectionsService={handleDirectionsService}
+            />}
 
             <span className="populate" onClick={handlePopulate}> Populate! </span>
-
+            <Header />
             <section className="home__content">
             {defaultPos &&
                 <section className="maps">
@@ -98,7 +100,7 @@ const Home = () => {
                             clickable={false}
                             customPosition={defaultPos}
                             visible={!response}
-                            // icon={''}
+                            icon={userMarker}
                         />
 
                         {cinemaPoi &&
@@ -112,10 +114,10 @@ const Home = () => {
                                             setModalVisible(true)
                                         }}
                                         visible={!response}
+                                        icon={cinemaMarker}
                                     />
                             )
                         }
-
 
                         {
                             (
@@ -141,9 +143,6 @@ const Home = () => {
                               />
                             )
                           }
-
-
-
                     </GoogleMaps>
                 </section>
             }

@@ -109,24 +109,28 @@
 
                         .movie-sessions {
                             display: flex;
+                            flex-wrap: wrap;
                             margin-top: 12px;
+                            max-width: 360px;
 
                             .session {
                                 display: inline-block;
                                 text-align: center;
                                 width: 60px;
-                                margin: 0 8px;
+                                margin: 0 8px 8px 0;
                                 border-radius: 4px;
                                 font-weight: bold;
                                 padding: 4px;
                                 background: var(--sky-blue);
 
                                 &.green {
-                                    background-color: green;
+                                    color: white;
+                                    background-color: #7ac29a;
                                 }
 
                                 &.red {
-                                    background-color: red;
+                                    color: white;
+                                    background-color: #f44336;
                                 }
                             }
                         }

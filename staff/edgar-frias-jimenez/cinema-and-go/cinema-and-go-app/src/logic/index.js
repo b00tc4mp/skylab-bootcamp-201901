@@ -1,9 +1,7 @@
 import normalize from '../components/Normalize'
 const validate = require('../components/Validate')
 const { LogicError } = require('../components/Errors')
-// const moment = require('moment')
 const cinemaApi = require('../services')
-// const jwt = require('jsonwebtoken')
 const { REACT_APP_MAPS_KEY } = process.env
 
 const appLogic = {
@@ -18,13 +16,6 @@ const appLogic = {
     },
 
     get isUserLoggedIn() {
-        // const exp = this.__userToken__ && jwt.decode(this.__userToken__).exp
-        // const now = moment().unix()
-
-        // // const isExpired = moment.duration(now.diff(exp))
-
-        // console.log('isExpired', moment.unix(exp).utc())
-
         return !!this.__userToken__
     },
 

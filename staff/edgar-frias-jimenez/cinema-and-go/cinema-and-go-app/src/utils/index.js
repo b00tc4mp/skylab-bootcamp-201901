@@ -2,7 +2,7 @@
  * Returns the default position from the one in the sessionStorage in Array format
  */
 export function defaultPosition () {
-    const defaultPos = sessionStorage.getItem('userLocation').split(',').map(item => parseFloat(item))
+    const defaultPos = sessionStorage.getItem('userLocation') !== null && sessionStorage.getItem('userLocation').split(',').map(item => parseFloat(item))
 
     return defaultPos
 }

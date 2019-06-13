@@ -3,7 +3,12 @@
 const defaultMapZoom = 17
 
 const defaultMapProps = {
-    disableDefaultUI: true,
+    zoomControl: true,
+    mapTypeControl: false,
+    scaleControl: false,
+    streetViewControl: true,
+    rotateControl: false,
+    fullscreenControl: false,
     styles: [
         {
           "featureType": "administrative.land_parcel",
@@ -61,7 +66,12 @@ const defaultMapProps = {
 }
 
 const nightMapProps = {
-    disableDefaultUI: true,
+    zoomControl: true,
+    mapTypeControl: false,
+    scaleControl: false,
+    streetViewControl: true,
+    rotateControl: false,
+    fullscreenControl: false,
     styles: [
         {elementType: 'geometry', stylers: [{color: '#242f3e'}]},
         {elementType: 'labels.text.stroke', stylers: [{color: '#242f3e'}]},
