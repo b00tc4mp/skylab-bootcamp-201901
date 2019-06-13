@@ -5,7 +5,7 @@
     height: 100%
     width: 100%
     grid-template-columns: 20% 30% 30% 20%
-    grid-template-rows: 20% 70% 10%
+    grid-template-rows: 20% 70% 20%
     grid-template-areas: " . Logo Logo . " " . DATA DATA . " " . B C . "
 
     &__Logo
@@ -28,10 +28,10 @@
         border-radius: 1%
         height: 90%
         display: grid
+        width: 100%
         grid-template-columns: 50% 50%
         grid-template-rows: 20% 20% 20% 20% 10% 10%
-        grid-template-areas: " E1 S1 " " E2 S2 " " E3 S3 " " E4 T " " MI MI " " S TO"
-        text-align: center
+        grid-template-areas: " EG1 S1 " " EG2 S2 " " EG3 S3 " " EG4 T " " MI MI " " S TO"
 
     &__ButtonB
         align-content: center
@@ -45,59 +45,76 @@
         justify-self: start
         transform: translateX(10%)
 
-    &__E1
-        grid-area: E1
+    &__EG1
+        grid-area: EG1
+        display: flex
+        justify-content: center
+        align-items: center
         width: 100%
+        font-size: 150%
+        font-weight: bold
 
-    &__E2
-        grid-area: E2
-        justify-self: center
+    &__EG2
+        grid-area: EG2
+        display: flex
+        justify-content: center
+        align-items: center
         width: 100%
+        font-size: 150%
+        font-weight: bold
 
-    &__E3
-        grid-area: E3
-        justify-self: center
+    &__EG3
+        grid-area: EG3
+        display: flex
+        justify-content: center
+        align-items: center
         width: 100%
+        font-size: 150%
+        font-weight: bold
 
-    &__E4
-        grid-area: E4
-        justify-self: center
+    &__EG4
+        grid-area: EG4
+        display: flex
+        justify-content: center
+        align-items: center
         width: 100%
+        font-size: 150%
+        font-weight: bold
 
-    &__S1
-        grid-area: S1
-        justify-self: center
-        width: 100%   
-
-    &__S2
-        grid-area: S2
-        justify-self: center
-        width: 50%
+    &__Security
+        justify-content: center
+        align-items: center
         width: 100%
-
-    &__S3
-        grid-area: S3
-        justify-self: center
-        width: 100%
+        font-size: 150%
+        font-weight: bold
 
     &__T
-        grid-area: T
-        justify-self: center
+        justify-content: center
+        align-items: center
         width: 100%
+        font-size: 150%
+        font-weight: bold
 
     &__Mi
         grid-area: MI
         justify-self: center
         align-self: center
+        font-size: 150%
+        font-weight: bold
 
     &__St
         grid-area: S
         justify-self: center
+        font-size: 150%
+        font-weight: bold
 
     &__Total
         grid-area: TO
         justify-self: center
+        font-size: 150%
+        font-weight: bold
+
 .IMG
-    height: 95%
+    height: 80%
 
         

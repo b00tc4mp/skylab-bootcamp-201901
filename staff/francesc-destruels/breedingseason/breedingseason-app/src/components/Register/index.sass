@@ -6,18 +6,20 @@
     height: 100%
     width: 100%
     grid-template-columns: 20% 60% 20%
-    grid-template-rows: 40% 06%
+    grid-template-rows: 60% 40%
     grid-template-areas: " . Logo . " " . DATA . "
 
     &__Logo
         grid-area: Logo
         justify-self: center
+        align-self: end
+        height: 70%
 
     &__RegNav
         display: grid
         grid-area: DATA
         justify-self: center
+        align-self: start
         font-size: 200%
         width: 50%
-        padding: 7%
         height: 50%

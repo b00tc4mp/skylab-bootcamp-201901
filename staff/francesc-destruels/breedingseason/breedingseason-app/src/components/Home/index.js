@@ -46,13 +46,13 @@ function Home({ history }) {
         <div className="Home">
             <Route exact path="/home" render={() =>
                 <div className="Home__Panel Panel">
-                    <Logo classToUse={"Panel__Logo"} sizeX={"300vh"} main={true} />
+                    <Logo classToUse={"Panel__Logo"} main={true} />
                     <p>Nice to see you here, {Nickname.nickname}!</p>
                     <button className="button is-info  is-rounded" onClick={handleToHowToPlay}> How To Play </button>
                     <button className="button is-rounded" onClick={handleToSoloGame}> Solo Game</button>
                     <button className="button is-rounded" onClick={handleToMultiplayer} title="Coming Soon!" disabled> Multiplayer Game</button>
                     <button className="button is-info  is-rounded" onClick={handleToUser}> User Data</button>
-                    <button style={{ width: "10%", height: "80%", "font-size":"100%"}} className="button is-rounded is-small little" onClick={handleToSignOut}> Logout</button>
+                    <button style={{ width: "20%", height: "80%", "font-size":"100%"}} className="button is-rounded is-small little" onClick={handleToSignOut}> Logout</button>
                 </div>
             } />
 

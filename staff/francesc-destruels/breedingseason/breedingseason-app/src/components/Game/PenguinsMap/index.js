@@ -75,8 +75,8 @@ function PenguinsMap({ send, leftGame }) {
             </div>
 
             <div className="penguinMap__Buttons">
-                <button className={ PenguinTurn? "penguinMap__ButtonA button is-link" :  " penguinMap__ButtonA button is-link is-outlined"  }  disabled={!PenguinTurn} onClick={PenguinTurn ? () => send() : false}>Next Round</button>
-                <button  className="penguinMap__ButtonB button is-danger is-outlined" onClick={() => {
+                <button className={ PenguinTurn? "penguinMap__ButtonA button is-link is-rounded" :  " penguinMap__ButtonA button is-rounded is-link is-outlined"  }  disabled={!PenguinTurn} onClick={PenguinTurn ? () => send() : false}>Next Round</button>
+                <button  className="penguinMap__ButtonB button is-danger is-outlined is-rounded" onClick={() => {
                     setPenguinTurn(false)
                     send()
                 }}>{StrikeLvL === 0 ? "0 Strikes!" : StrikeLvL === 1 ? "1 Strike!" : "ONLY ONE MORE!" }</button>

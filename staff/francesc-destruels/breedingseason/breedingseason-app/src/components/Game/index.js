@@ -37,7 +37,6 @@ function Game({ history }) {
         setFinish(false)
         await logic.newGame({ mode: "solo", playersNumber: 1 }, true)
         const { mapStatus, missionCards, round, turnCards, userPuntuation } = await logic.startGame()
-        console.log(userPuntuation)
 
         setMissionCards(missionCards)
         setPuntuation(userPuntuation)
@@ -90,7 +89,6 @@ function Game({ history }) {
         } else {
             setFinish(true)
             setStart(false)
-            console.log(response)
             setResults(response)
         }
     }

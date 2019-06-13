@@ -23,15 +23,14 @@ function Login({ onLogin, history }) {
     }
 
     return <section className="Login">
-        <Logo sizeX={"50%"} main={true} classToUse={"Login__Logo"} />
+        <Logo main={true} classToUse="Login__Logo" />
         <form className={"Login__LogNav"} onSubmit={handleSubmit}>
+            <p>  
             <h2>Login</h2>
-            <p class="control">
                 <input className="input is-large" type="text" name="nicknameOEmail" placeholder="Nickname or Email" required />
-
-                <input className="input is-large" type="password" name="password" placeholder="Password" required/>
+                <input className="input is-large" type="password" name="password" placeholder="Password" required />
+                <button className="button is-link is-large is-rounded">Login</button>
             </p>
-            <button className="button is-link is-large">Login</button>
             {feedback && <Feedback message={feedback} />}
         </form>
     </section>

@@ -61,7 +61,7 @@ function HowToPLay({ history }) {
             </p>
             <img className="HowToPlay__Img" alt="Breeding Season Logo" src={howTo} />
 
-            <button className="HowToPlay__Gb button is-link" onClick={handleToGoBack}> Go Back </button>                
+            <button className="HowToPlay__Gb button is-link is-rounded" onClick={handleToGoBack}> Go Back </button>                
         </div>)
 }
 
