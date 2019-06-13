@@ -73,10 +73,42 @@ This application has been built using the following main technologies
 - Mongoose
 - UIkit
 
-In addition, it does intensive use of Google's Maps and Places apis
+In addition, it does intensive use of Google's Maps and Places apis, using the api [google-map-react](https://github.com/google-map-react/google-map-react).
 
 ### Code Coverage
 
 ![Code Coverage](images/coverage.png)
 
-## What has been left pending for future versions:
+## 🙋 "Mea culpa"
+
+- user profile page
+- pin visualization page, uses the update view
+- window info sometimes it is hidden
+
+## 🍀 For future versions:
+
+- Users
+
+  - language asociate to the user
+  - login with username instead of mail
+  - user profile image (avatar)
+
+* Map
+
+  - upload images from the file browser instead of just saving the url image
+  - Be able to mark a map as public. This maps will be accesible by all registered users
+  - add public maps to favorites
+  - allow add tags to the map
+  - share maps between users
+  - in a new map: the position default must be the user position with a litle zoom
+
+* Pin
+
+  - add selectors of type of icon and color for each power to customize the pins
+  - upload images from the file browser instead of just saving the url image
+  - have more than one associated image
+
+- Search
+  - be able to do searches on your maps or on the public
+  - search maps by title or by tags
+  - search pins by title or by tags, results on a map
