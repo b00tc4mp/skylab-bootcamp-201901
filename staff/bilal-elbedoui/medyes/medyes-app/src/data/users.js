@@ -4,7 +4,7 @@ const call = require('../common/call')
 
 const users = {
 
-    __url__: 'http://localhost:8080/api/user',
+    __url__: 'https://floating-refuge-24678.herokuapp.com/api/user',
 
     // __url__: 'https://evening-hamlet-54593.herokuapp.com/api/user',
     
@@ -51,4 +51,4 @@ const users = {
 }
 
 
-module.exports = users
+export default users

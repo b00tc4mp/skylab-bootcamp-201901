@@ -94,7 +94,7 @@ function validatePurchase(_purchase) {
     return Joi.validate(_purchase, purchase)
 }
 
-module.exports = {
+export {
     validateUser,
     validateCredentials,
     validateOrganization,

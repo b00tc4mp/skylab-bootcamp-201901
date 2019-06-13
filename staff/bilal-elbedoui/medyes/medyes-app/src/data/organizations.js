@@ -4,7 +4,7 @@ const call = require('../common/call')
 
 const organizations = {
 
-    __url__: 'http://localhost:8080/api/organization',
+    __url__: 'https://floating-refuge-24678.herokuapp.com/api/organization',
     // __url__: 'https://evening-hamlet-54593.herokuapp.com/api/organization',
 
 
@@ -21,4 +21,4 @@ const organizations = {
 }
 
 
-module.exports = organizations
+export default organizations

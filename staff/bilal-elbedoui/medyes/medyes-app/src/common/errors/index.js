@@ -72,7 +72,7 @@ class ValidateError extends Error {
     }
 }
 
-module.exports = {
+export {
     ValueError,
     FormatError,
     RequirementError,

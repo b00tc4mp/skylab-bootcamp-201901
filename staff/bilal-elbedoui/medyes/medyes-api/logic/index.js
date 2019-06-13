@@ -6,6 +6,16 @@ const { mongoose, models: { User, Event, EventType, Comment, Purchase, Organizat
 
 const logic = {
     /***********************************MEDICAL-FIELDS FUNCTIONS*********************************************/
+    
+    /**
+     * function allows the superAdmin to create new Medical, in principle this information does not has to change
+     * 
+     * 
+     * @param {String} userId the user Admin user ID
+     * @param {String} name the medical field name
+     * 
+     * @returns The medical field created
+     */
     createMedicalField(userId, name) {
 
         const { error } = validateField({ name })
@@ -28,12 +38,25 @@ const logic = {
 
         })()
     },
+    /**
+     * to get the a specifid medical field
+     * 
+     * @param {Strin} id medical field ID
+     * 
+     * @returns the field
+     */
 
     getOnefield(id) {
         return (async () => {
             return await MedicalField.findById(id)
         })()
     },
+
+    /**
+     * To retrieve all the medical fields in the data base
+     * 
+     * @returns all the medical fields
+     */
 
     getAllfields() {
         return (async () => {
@@ -43,6 +66,14 @@ const logic = {
 
     /***********************************EVENT-TYPES FUNCTIONS*********************************************/
 
+    /**
+     * function allows the superAdmin to create new Event Types, in principle this information does not has to change
+     * 
+     * @param {String} userId Super Admin user ID
+     * @param {String} name the event type name
+     * 
+     * @returns the event Type created
+     */
     createEventType(userId, name) {
 
         const { error } = validateEventType({ name });
@@ -63,11 +94,25 @@ const logic = {
         })()
     },
 
+    /**
+     * to get one specific event type 
+     * 
+     * 
+     * @param {*} id 
+     * 
+     * @returns the event type created
+     */
     getOneEventType(id) {
         return (async () => {
             return await EventType.findById(id)
         })()
     },
+
+    /**
+     * To get all event types
+     * 
+     * @returns all the event types
+     */
 
     getAllEventTypes() {
         return (async () => {
@@ -76,7 +121,18 @@ const logic = {
     },
 
     /***********************************ORGANIZATION FUNCTIONS*********************************************/
-
+    /**
+     * This function allows the superAdmin to create organizations, that will allow to their employees to create account as a representants
+     * 
+     * 
+     * @param {String} userId the SuperAdmin user, the only one able to create organizations
+     * @param {String} name    organization name
+     * @param {String} phone organization phone
+     * @param {String} address organization address
+     * @param {String} mail organization email
+     * 
+     * @returns the organization ID
+     */
 
     createOrganization(userId, name, phone, address, mail) {
         
@@ -102,6 +158,14 @@ const logic = {
         })()
     },
 
+    /**
+     * to retrieve a specific organization
+     * 
+     * @param {String} id the id organization
+     * 
+     * @returns the organization whitout the account
+     */
+
     retrieveOrganization(id) {
         return (async () => {
             const orga = await Organization.findById(id).select('-password');
@@ -113,6 +177,20 @@ const logic = {
 
     /***********************************USER FUNCTIONS*********************************************/
 
+    /**
+     * this is the function to register new users, as company representants or just as a normal users
+     * 
+     * 
+     * @param {String} fullname the user fullname
+     * @param {String} email  the user email 
+     * @param {String} role the user role
+     * @param {String} organization the organization ID, that will allow the user to create an account as an admin user
+     * @param {String} phone the user phone
+     * @param {String} position the user laboral situation
+     * @param {*String} password the user password
+     * 
+     * @returns the confirmation that the user has been properly created 
+     */
     createUser(fullname, email, role, organization, phone, position, password) {
         const { error } = validateUser({ fullname, email, role, organization, phone, position, password })
         if (error) throw new ValidateError(error.details[0].message);
@@ -156,6 +234,14 @@ const logic = {
         })()
     },
 
+    /**
+     * allows the user to authenticate
+     * 
+     * @param {String} email the user email
+     * @param {String} password the user password
+     * 
+     * @returns the user ID, and the organization ID if he represents a company 
+     */
     authenticateUser(email, password) {
 
         const { error } = validateCredentials({ email, password })
@@ -181,6 +267,14 @@ const logic = {
         })()
 
     },
+
+    /**
+     * to retrieve the user for his profile
+     * 
+     * @param {String} id user ID
+     * 
+     * @returns the user without the password
+     */
     retrieveUser(id) {
 
         return (async () => {
@@ -198,6 +292,24 @@ const logic = {
 
     /**************************************EVENTS FUNCTIONS************************************************/
 
+    /**
+     * It's the function that will allow the user representant to create a company
+     * 
+     * 
+     * @param {String} userId the user ID 
+     * @param {String} orgId the company Id to which the user belongs
+     * @param {String} title event title
+     * @param {String} description event description
+     * @param {String} medicalField the event medical field
+     * @param {String} eventType the event type
+     * @param {String} location the event location
+     * @param {String} date the event date
+     * @param {String} numberTicketsAvailable the number of the tickets that are available
+     * @param {String} price the event price
+     * @param {String} image the event poster
+     * 
+     * @returns the event created
+     */
     createEvent(userId, orgId, title, description, medicalField, eventType, location, date, numberTicketsAvailable, price, image) {
         if (!orgId) throw Error('You are not allowed to create events')
 
@@ -241,6 +353,15 @@ const logic = {
         })()
     },
 
+    /**
+     * 
+     * function that allow to search the different events with two different queries
+     * 
+     * @param {*} medicalField first query
+     * @param {*} eventType second query
+     * 
+     * @returns the results
+     */
     retrieveEvents(medicalField, eventType) {
         debugger
         return (async () => {
@@ -275,7 +396,13 @@ const logic = {
             }
         })()
     },
-
+    /**
+     * to retrieve a specific event
+     * 
+     * @param {*} id event Id
+     * 
+     * @returns the event
+     */
     retrieveOneEvent(id) {
         return (async () => {
             const event = await Event.findById(id).populate('representant').select('-password').populate('medicalField').populate('eventType').lean();
@@ -287,6 +414,15 @@ const logic = {
         })()
     },
 
+    /**
+     * Allows the event published to edit it
+     * 
+     * @param {*} eventId event ID
+     * @param {*} userId publisher Id
+     * @param {*} description the new description
+     * 
+     * @returns the new event updated
+     */
     updateDescriptionEvent(eventId, userId, description) {
         debugger
 
@@ -307,6 +443,18 @@ const logic = {
         })()
 
     },
+
+    /**
+     * Allow the users to make question and be answered by any organization responsible
+     * 
+     * 
+     * @param {*} eventid eventId
+     * @param {*} sub publisher Id
+     * @param {*} org Organization Id
+     * @param {*} text the description
+     * 
+     * @returns the post that has been sent
+     */
 
     addNewPost(eventid, sub, org, text) {
         debugger
@@ -339,6 +487,14 @@ const logic = {
         })()
     },
 
+    /**
+     * to retrieve all the posts that belongs to an event
+     * 
+     * @param {*} eventId event Id
+     * 
+     * @returns the comments
+     */
+
     retrievePosts(eventId) { // TODO comments are embed! not linked, check model schema!
         return (async () => {
             const posts = await Comment.find({ 'event': eventId })
@@ -348,6 +504,15 @@ const logic = {
 
     /******************************PURCHASE FUNCTIONS***************************/
 
+    /**
+     * function that allow the user to make a purchase
+     * 
+     * @param {*} eventId event ID
+     * @param {*} customerId customer ID
+     * @param {*} numberOfTickets the number of the tickets bougths by a user
+     * 
+     * @returns the purchase
+     */
     makePurchase(eventId, customerId, numberOfTickets) {
 
         const { error } = validatePurchase({ eventId, customerId })
@@ -381,15 +546,6 @@ const logic = {
                 throw Error('Something failed') // TODO LogicError instead, and send the ex.message
             }
         })()
-    },
-
-    retrievePurchases(userId, orgId) { // TODO is orgId required?
-        return (async () => {
-            const purchases = await Purchase.find()
-            return purchases
-
-        })()
-
     }
 }
 

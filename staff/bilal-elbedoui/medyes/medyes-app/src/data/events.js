@@ -3,7 +3,7 @@ const call = require('../common/call')
 
 const events = {
 
-    __url__: 'http://localhost:8080/api/event',
+    __url__: 'https://floating-refuge-24678.herokuapp.com/api/event',
 
         // __url__: 'https://evening-hamlet-54593.herokuapp.com/api/event',
 
@@ -52,4 +52,4 @@ const events = {
     }
 }
 
-module.exports = events
+export default events

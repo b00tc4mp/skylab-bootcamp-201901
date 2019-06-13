@@ -30,4 +30,4 @@ function call(url, options) {
         })()
 }
 
-module.exports= call;
+export default call;
