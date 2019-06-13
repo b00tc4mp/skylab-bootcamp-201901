@@ -5,7 +5,8 @@ import ListComponent from '../ListComponent'
 
 class Landing extends Component {
     state = {
-        user: ""
+        user: "",
+        games: []
     }
 
 

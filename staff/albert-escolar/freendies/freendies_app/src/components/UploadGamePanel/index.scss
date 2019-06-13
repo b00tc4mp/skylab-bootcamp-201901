@@ -4,16 +4,15 @@
     flex-direction: column;
     font-family: Montserrat;
     text-transform: capitalize;
-    padding-top: 50px;
 
     &__title {
         font-size: 30px;
         font-weight: bold;
-        margin: 50px 0px;
     }
 
     &__uploadButton {
         color: orange;
+        background-color: transparent;
         border: 0px;
         width: 80px;
         padding: 5px;
@@ -39,11 +38,25 @@
     }
 
     &__button {
-      
-       
-
-        cursor: pointer;
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
     }
+
+    &__labelButton {
+        background-color: orange;
+        color: white;
+        padding:5px 8px;
+        border-radius:4px;
+        font-family: Montserrat;
+        font-weight: bold;
+        cursor: pointer;
+
+    }
+
     &__genresSelect {
         border: 0px;
         background: none;
@@ -62,5 +75,6 @@
         width: 500px;
         height: 100px;
     }
+
 
 }

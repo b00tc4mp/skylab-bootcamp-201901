@@ -35,7 +35,7 @@ class SearchByQuery extends Component {
         return <div className="searchByQuery">
             <h2 className="searchByQuery__title">{genre} games</h2>
 
-            {results && results.length ? <ListComponent results={results} /> : <div className="searchByQuery__noResult">no results found</div>}
+            {results ? results.length ? <ListComponent results={results} /> : <div className="searchByQuery__noResult">no results found</div> : <div></div>}
         </div>
 
     }

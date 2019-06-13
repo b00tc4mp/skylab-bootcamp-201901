@@ -87,12 +87,11 @@ class App extends Component {
     this.props.history.push('/uploadGame')
   }
 
-
   handleUploadGame = (title, genre, description, images, gameFile) => {
     const { history } = this.props
 
     logic.uploadGame(title, genre, description, images, gameFile)
-      .then(() => history.push('/'))
+      .then(() => setTimeout(()=>history.push('/'),1000 ))
   }
 
   handleLogout = () => {
@@ -127,6 +126,7 @@ class App extends Component {
     return (
       <div className="App">
         <ToastContainer />
+
         <Header user={user} onSearch={handleOnSearch} onSearchByGenre={handleToSearchByGenre} user={user} handleGoToRegister={handleGoToRegister} handleGoToLogin={handleGoToLogin}
           handleGoToLanding={handleGoToLanding} handleLogout={handleLogout} handleGoToUserPanel={handleGoToUserPanel}
           handleGoToUploadGame={handleGoToUploadGame} searchResults={searchResults} />
@@ -158,15 +158,15 @@ class App extends Component {
             return <SearchByGenre {...props} history={props.history} />
           }} />
           <Route path="/search/:genre/:query" render={props => {
-
+            
             return <SearchByQuery {...props} history={props.history} />
           }} />
 
           <Route path="/game/:id" render={props => {
-            return <GameDetail {...props} favoriteGames={favoriteGames} retrieveFavs={handleRetrieveFavs} toggleFavs={handleToggleFavs} history={props.history} />
+            return <GameDetail {...props} user ={user} favoriteGames={favoriteGames} retrieveFavs={handleRetrieveFavs} toggleFavs={handleToggleFavs} history={props.history} />
           }} />
 
-          <Route path="/error" render={props => {
+          <Route path="/error"  render={props => {
             return <ErrorPage />
           }} />
 

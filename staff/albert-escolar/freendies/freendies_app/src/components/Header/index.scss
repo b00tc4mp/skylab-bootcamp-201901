@@ -4,12 +4,12 @@
     background-color: rgb(36, 37, 37);
     font-family: Russo One;
     width: 100%;
-    height: 5em;
+    height: 80px;
     padding-top: 0px;
     padding-bottom: 0px;
     justify-content: space-between;
-    position: fixed;
-    top: 0;
+    // position: fixed;
+    // top: 0;
 
     &__icons {
         color: white;
@@ -23,7 +23,7 @@
         color: orange;
         font-size: 25px;
         cursor: pointer;
-        margin-right: 312px;
+        margin-right: 290px;
 
     }
 
@@ -34,7 +34,9 @@
         background-color: transparent;
         border: 0px;
         margin-left: 20px;
+        font-family: 'Bowlby One SC', cursive;
         font-size: 30px;
+        text-transform: uppercase;
         cursor: pointer;
     }
 
@@ -47,7 +49,7 @@
         display: flex;
         flex-direction: row;
         align-items: center;
-        width: auto;
+        width: 578px;
 
     }
 
@@ -64,6 +66,8 @@
         margin-right: 5px;
         margin-top: 20px;
         margin-bottom: 20px;
+        border-radius: 4px;
+
 
         cursor: pointer;
 
@@ -74,7 +78,8 @@
         display: flex;
         width: auto;
         margin-right: 20px;
-        margin-left: 338px
+        margin-left: 338px;
+
     }
 
     &__userButton {
