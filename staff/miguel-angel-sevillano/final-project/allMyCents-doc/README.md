@@ -22,7 +22,7 @@ Registered users can :
 
 ## Use cases
 
-![image](images/Usecases.png)
+![image](images/usecases.png)
 
 
 ## Flowchart
