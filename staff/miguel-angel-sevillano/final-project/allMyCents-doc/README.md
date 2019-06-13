@@ -6,7 +6,7 @@ With AllMyCents you can scan your supermarket tickets and keep in track your
 
 consumption information , managging your tickets , adding alerts and much more !
 
-![alt text](/images/portada.jpg)
+![alt text](images/portada.jpg)
 
 
 
@@ -22,14 +22,14 @@ Registered users can :
 
 ## Use cases
 
-![alt text](/images/usecases.jpg)
+![alt text](images/usecases.jpg)
 
 
 ## Flowchart
 
 ### User
 
-![alt text](/images/flowchart.jpg)
+![alt text](images/flowchart.jpg)
 
 
 
@@ -37,26 +37,26 @@ Registered users can :
 
 ## Blocks
 
-![alt text](/images/Blocks.jpg)
+![alt text](images/Blocks.jpg)
 
 ## Components
 
-![alt text](/images/Components.jpg)
+![alt text](images/Components.jpg)
 
 ## React components
 
-![alt text](/images/ReactComponents.jpg)
+![alt text](images/ReactComponents.jpg)
 
 ## Data model
 
-![alt text](/images/DataModel.jpg)
+![alt text](images/DataModel.jpg)
 
 
 
 #Code coverage
 
 
-![alt text](/images/Coverage.jpg)
+![alt text](images/Coverage.jpg)
 
 
 
