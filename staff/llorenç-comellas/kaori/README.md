@@ -1,9 +1,9 @@
 # Kaori
 
-## [Documentation](./kaori-doc/README.md)
+## [Documentation](./kaori-doc/README.MD)
 
 
-## [Documentation Api](./kaori-api/README.md)
+## [Documentation Api](./kaori-api/README.MD)
 
 ## [Documentation App](./kaori-app/README.md)
 
