@@ -73,7 +73,7 @@ const logic = {
     /**
      * Returns some information of user
      * 
-     * @param {*} id user
+     * @param {string} id user
      * 
      * @returns {object} userid, name, email
      * 
@@ -139,9 +139,9 @@ const logic = {
     /**
      * Update if the item is or not in the container
      * 
-     * @param {*} userId 
-     * @param {*} id 
-     * @param {*} status 
+     * @param {string} userId 
+     * @param {string} id 
+     * @param {number} status 
      * 
      */
 
@@ -166,8 +166,8 @@ const logic = {
     /**
      * Seach all the items by category
      * 
-     * @param {*} userId 
-     * @param {*} category 
+     * @param {string} userId 
+     * @param {string} category 
      * 
      * @returns {array} for each item returns: status, image, category, description, location, address 
      * 
@@ -191,7 +191,7 @@ const logic = {
     /**
      * Seach all the items by location
      * 
-     * @param {*} location 
+     * @param {string} location 
      * 
      * @returns {array} for each item returns: status, image, category, description, location, address 
      * 
@@ -218,7 +218,7 @@ const logic = {
     /**
      * Retrieve all the items's user
      * 
-     * @param {*} userId 
+     * @param {string} userId 
      * 
      * @returns {array} for each item returns: image, category, description, location
      * 
@@ -239,7 +239,7 @@ const logic = {
     /**
      * Retrieve all the information on an item
      * 
-     * @param {*} thingId 
+     * @param {string} thingId 
      * 
      * @returns {array} image, category, description, location, address 
      */

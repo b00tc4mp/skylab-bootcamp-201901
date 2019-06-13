@@ -32,10 +32,12 @@ function RetrieveThing(props) {
                 <div className="image-big4">
                     <img src={image} alt="" />
                 </div>
+                <div className="text">
                     <h2><strong>Category: </strong> {category}</h2>
                     <p><strong>Description: </strong> {description}</p>
                     <p><strong>Location: </strong> {name}</p>
                     <p><strong>Address: </strong> {address}</p>
+                </div>
                     <div className="buttons">
                         <ul className="navigation">
                             <li>

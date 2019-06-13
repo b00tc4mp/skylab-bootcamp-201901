@@ -15,7 +15,7 @@ function Maps({ handleAddUbication }) {
             <Marker position={{ lat: 41.4015, lng: 2.17295 }} onClick={() => handleAddUbication('Mallorca')} />
             <Marker position={{ lat: 41.39000 , lng: 2.160115 }} onClick={() => handleAddUbication('Valencia')} />
             <Marker position={{ lat: 41.38231, lng: 2.17676 }} onClick={() => handleAddUbication('Gotic')} />
-            <Marker position={{ lat: 41.39387, lng: 2.1763 }} onClick={() => handleAddUbication('Glories')} />
+            <Marker position={{ lat: 41.39387, lng: 2.1763 }} onClick={() => handleAddUbication('Tetuan')} />
 
         </GoogleMap>
     ))

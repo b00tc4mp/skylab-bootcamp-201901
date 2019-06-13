@@ -17,6 +17,15 @@ const logic = {
         return !!(this.__userToken__) 
     },
 
+    /**
+     * Register user
+     * 
+     * @param {string} name 
+     * @param {string} email 
+     * @param {string} password 
+     * 
+     */
+
     registerUser(name, email, password) {
 
         validate.arguments([
@@ -40,6 +49,15 @@ const logic = {
         })()
     },
 
+    /**
+     * Verify if it is the correct user
+     * 
+     * @param {string} email 
+     * @param {string} password 
+     * 
+     * @returns {string} user id
+     */
+
     loginUser(email, password) {
 
         validate.arguments([
@@ -58,6 +76,15 @@ const logic = {
             })          
     },
 
+     /**
+     * Returns some information of user
+     * 
+     * @param {*} id user
+     * 
+     * @returns {object} userid, name, email
+     * 
+     */
+
     retrieveUser() {
 
         return pgApi.retrieveUser(this.__userToken__)
@@ -70,6 +97,17 @@ const logic = {
             return response
         })
     },
+
+     /**
+     * Add an item to container
+     * 
+     * @param {object} buffer 
+     * @param {string} category 
+     * @param {string} description 
+     * @param {string} userId 
+     * @param {string} locId 
+     * 
+     */
 
     addPublicThings(image, category, description, locId) {
         validate.arguments([
@@ -93,6 +131,15 @@ const logic = {
         })()
     },
 
+    /**
+     * Update if the item is or not in the container
+     * 
+     * @param {*} userId 
+     * @param {*} id 
+     * @param {*} status 
+     * 
+     */
+
     updatePublicThing(id, status) {
         validate.arguments([
             { name: 'id', value: id, type: 'string', notEmpty: true },
@@ -105,6 +152,16 @@ const logic = {
             
     },
 
+     /**
+     * Seach all the items by category
+     * 
+     * @param {*} userId 
+     * @param {*} category 
+     * 
+     * @returns {array} for each item returns: status, image, category, description, location, address 
+     * 
+     */
+
     searchByCategory(category) {
         validate.arguments([
            
@@ -115,6 +172,15 @@ const logic = {
             return await pgApi.searchByCategory(this.__userToken__, category)             
         })()           
     },
+
+    /**
+     * Seach all the items by location
+     * 
+     * @param {*} location 
+     * 
+     * @returns {array} for each item returns: status, image, category, description, location, address 
+     * 
+     */
 
     searchByLocation(location) {
         validate.arguments([
@@ -127,6 +193,15 @@ const logic = {
         })()           
     },
 
+    /**
+     * Retrieve all the items's user
+     * 
+     * @param {*} userId 
+     * 
+     * @returns {array} for each item returns: image, category, description, location
+     * 
+     */
+
     retrivePrivateThings() {
         
         return (async () =>{
@@ -135,6 +210,14 @@ const logic = {
         })()           
     },
 
+    /**
+     * Retrieve all the information on an item
+     * 
+     * @param {*} thingId 
+     * 
+     * @returns {array} image, category, description, location, address 
+     */
+    
     retrieveThing(thingId) {
         validate.arguments([          
             { name: 'thingId', value: thingId, type: 'string', notEmpty: true },

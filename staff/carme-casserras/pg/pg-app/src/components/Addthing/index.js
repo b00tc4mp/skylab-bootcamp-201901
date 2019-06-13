@@ -11,7 +11,7 @@ const locations = [
 
     {
         id: "5cfb86dee171ff0fc8f44464",
-        name: "Urquinaona",
+        name: "Tetuan",
     },
     {
         id: "5cfb895ee171ff0fc8f44467",
