@@ -26,14 +26,14 @@ router.post('/users/auth', jsonParser, (req, res) => {
     handleErrors(async () => {
         const sub = await logic.authenticateUser(email, password)
 
-        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '2h' })
+        const token = jwt.sign({ sub }, JWT_SECRET, { expiresIn: '24h' })
         return res.json({ token })
 
     }, res)
 })
 
-router.get('/users/:id', auth, (req, res) => {
-    const { params: { id: userId } } = req
+router.get('/users', auth, (req, res) => {
+    const { userId } = req
 
     handleErrors(async () => {
         const user = await logic.retrieveUser(userId)
@@ -85,26 +85,28 @@ router.delete('/products/:id/cart', auth, (req, res) => {
     const { userId, params: { id } } = req
 
     handleErrors(async () => {
-        await logic.deleteToCart(id, userId)
-        return res.status(200).json({ message: 'Ok, product delete to cart' })
-    }, res)
-})
-
-router.get('/products/cart/:id', auth, (req, res) => {
-    const { params: { id} } = req
-
-    handleErrors(async () => {
-        const cart = await logic.retrieveCart(id)
+        const cart = await logic.deleteToCart(id, userId)
         return res.json(cart)
     }, res)
 })
 
+router.get('/cart', auth, (req, res) => {
+    const { userId } = req
+
+    handleErrors(async () => {
+        const cart = await logic.retrieveCart(userId)
+        return res.json(cart)
+    }, res)
+})
+
+
 //Order:
 
-router.post('/order/:id', auth, (req, res) => {
-    const { params: { id } } = req
+router.post('/order', auth, (req, res) => {
+    const { userId } = req
+
     handleErrors(async () => {
-        await logic.cartToOrder(id)
+        await logic.cartToOrder(userId)
         return res.status(200).json({ message: 'Ok, pass cart to order' })
     }, res)
 })

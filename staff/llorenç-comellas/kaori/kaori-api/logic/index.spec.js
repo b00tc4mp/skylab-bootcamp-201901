@@ -55,7 +55,7 @@ describe('logic', () => {
                 } 
                 catch (error) {
                     expect(error).toBeDefined()
-                    debugger
+                    
                     expect(error).toBeInstanceOf(LogicError)
 
                     expect(error.message).toBe(`user with email "${email}" already exists`)
@@ -295,7 +295,7 @@ describe('logic', () => {
             it('should succed on correct category from existing product', async () => {
                 const _products = await logic.retrieveProductsByCategory(products.category)
 
-                expect(_products[0].id).toBeUndefined()
+                expect(_products[0].id).toBeDefined()
                 expect(_products[0].title).toEqual(title)
                 expect(_products[0].image).toEqual(image)
                 expect(_products[0].description).toEqual(description)
@@ -375,7 +375,7 @@ describe('logic', () => {
                 })
 
                 await logic.addToCart(product.id, user.id)
-                debugger
+            
                 const res = await logic.addToCart(product.id, user.id)
                 expect(res).toBeDefined()
 
@@ -410,9 +410,10 @@ describe('logic', () => {
                 const _user = await User.findById(user.id).lean()
 
                 const { cart } = _user
-
+                
                 expect(cart).toBeDefined()
                 expect(cart).toHaveLength(0)
+                
 
             })
         }),
@@ -451,9 +452,13 @@ describe('logic', () => {
 
                     expect(cart).toBeDefined()
                     expect(cart).toHaveLength(2)
-
-                    expect(cart[0].productId.toString()).toBe(product.id)
-                    expect(cart[1].productId.toString()).toBe(_product.id)
+                    
+                    expect(cart[0].product.id.toString()).toBe(product.id)
+                    expect(cart[0].product.title).toBe(product.title)
+                    expect(cart[0].product.description).toBe(product.description)
+                    expect(cart[0].product.image).toBe(product.image)
+                    expect(cart[0].product.price).toBe(product.price)
+                    expect(cart[1].product.id.toString()).toBe(_product.id)
                     expect(cart[0].quantity).toBe(1)
                     expect(cart[1].quantity).toBe(1)
 
