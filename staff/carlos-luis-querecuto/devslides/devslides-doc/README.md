@@ -59,7 +59,7 @@ Users can:
 ### Code Coverage
 
 ![API Coverage](https://img.shields.io/badge/API%20coverage-98.19-green.svg)
-![API code coverage](images/api-coverage.png)
+![API code coverage](images/api-coverage.PNG)
 
 
 <p align="center">
