@@ -1,4 +1,4 @@
-## APP commands
+## API commands
 
 ### `npm start`
 
