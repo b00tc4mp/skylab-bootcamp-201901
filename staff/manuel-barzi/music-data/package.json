@@ -3,7 +3,13 @@
   "version": "1.0.0",
   "main": "src/index.js",
   "license": "MIT",
+  "scripts": {
+    "lint": "npx eslint src"
+  },
   "dependencies": {
     "mongoose": "^5.4.16"
+  },
+  "devDependencies": {
+    "eslint": "^5.15.3"
   }
 }

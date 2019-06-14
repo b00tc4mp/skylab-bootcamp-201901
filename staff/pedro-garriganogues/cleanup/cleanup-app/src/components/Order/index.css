@@ -1,0 +1,25 @@
+.paymentemail{
+    border: 1px black solid;
+    border-radius: 15px;
+    padding: 1em;
+    margin: 2em;
+       
+}
+
+.globalsectionorder{
+    border: 1px black solid;
+    border-radius: 15px;
+    padding: 1em;
+    margin: 2em;
+    display: flex;
+    background-color: ghostwhite;
+}
+
+.title{
+     margin: 1em;
+}
+
+.submitbutton{
+    border-radius: 8px;
+    width: 13em;
+}

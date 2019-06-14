@@ -1,0 +1,159 @@
+@import '../../utils' 
+    
+.event-categories
+    position: absolute
+    top: 3.2em
+    left: 0
+    bottom: 0
+    right: 0
+
+    &__elements
+        position: absolute
+        top: 4em
+        left: 0
+        bottom: 0
+        right: 0
+        display: grid
+        grid-template-columns: 1fr
+        //height: 9em
+    
+    &__food
+        height: 11em
+        display: grid
+        grid-template-rows: repeat(3, 1fr)
+        background-size: 130%
+        background-repeat: no-repeat
+        background-position: center
+        border-style: solid
+        margin: 1em
+        margin-top: 1.5em
+        margin-bottom: 1.5em
+        border-radius: 10px
+        border-width: 0
+        align-self: center
+        box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+        cursor: pointer
+
+    &__div1
+        grid-row-start: 1
+        grid-row-end: 3
+
+    &__div2
+        background-color: white
+        border-radius: 0 0 10px 10px
+        display: flex
+        justify-content: center
+
+    &__title
+        align-self: center
+
+    &__american
+        background-image: url('/images/american.jpg')
+
+    &__arabian
+        background-image: url('/images/arabian.jpg')
+
+    &__chinese
+        background-image: url('/images/chinese.jpg')
+
+    &__bar
+        background-image: url('/images/bar.jpg')
+
+    &__breakfast
+        background-image: url('/images/breakfast.jpg')
+
+    &__healthy
+        background-image: url('/images/healthy.jpg')
+
+    &__indian
+        background-image: url('/images/indian.jpg')
+
+    &__italian
+        background-image: url('/images/italian.jpg')
+
+    &__japanese
+        background-image: url('/images/japanese.jpg')
+
+    &__kebab
+        background-image: url('/images/kebab.jpg')
+    
+    &__mexican
+        background-image: url('/images/mexican.jpg')
+
+    &__south-american
+        background-image: url('/images/south-american.jpg')
+
+    &__spanish
+        background-image: url('/images/spanish.jpg')
+
+    &__thai
+        background-image: url('/images/thai.jpg')
+
+    &__vegan
+        background-image: url('/images/vegan.jpg')
+
+    &__vegetarian
+        background-image: url('/images/vegetarian.jpg')
+
+@media (min-width: 768px)
+    .event-categories
+
+        &__elements
+            grid-template-columns: repeat(2, 1fr)
+            margin: 1em
+            margin-left: 3em
+            margin-right: 3em
+
+        &__food
+            height: 12em
+            margin-top: 2em
+            margin-bottom: 2em
+
+@media (min-width: 1200px)
+    .event-categories
+
+        &__elements
+            grid-template-columns: repeat(3, 1fr)
+            margin: 1em
+            margin-left: 6em
+            margin-right: 6em
+
+        &__food
+            margin: 1em
+            background-size: 150%
+            margin-top: 3em
+            margin-bottom: 3em
+
+        &__food:hover
+            height: 13em
+            transition: 0.2s
+            margin: 0
+
+        &__thai
+            background-size: 180%
+
+
+@media (min-width: 1400px)
+    .event-categories
+
+        &__elements
+            margin: 1em
+            margin-left: 8em
+            margin-right: 9em
+
+        &__food
+            height: 13em
+            margin: 1em
+            background-size: 170%
+            margin-top: 3em
+            margin-bottom: 3em
+
+        &__food:hover
+            height: 14em
+            margin: 0
+
+        
+
+    
+
+    

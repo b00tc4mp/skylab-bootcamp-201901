@@ -1,0 +1,30 @@
+{
+  "name": "course-directory",
+  "version": "0.1.0",
+  "private": true,
+  "devDependencies": {
+    "bcrypt": "^3.0.4",
+    "react-scripts": "1.0.6",
+    "startlab-data": "file:../startlab-data",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "dependencies": {
+    "bulma": "^0.7.4",
+    "node-sass": "^4.11.0",
+    "prismjs": "^1.15.0",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
+    "react-markdown": "^4.0.6",
+    "react-router-dom": "^4.1.1",
+    "react-simple-code-editor": "^0.9.3",
+    "react-toastify": "^4.5.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --env=jsdom",
+    "test-coverage": "npm test -- --coverage",
+    "eject": "react-scripts eject",
+    "styles-watch": "sass --watch src/sass/index.sass:src/css/index.css"
+  }
+}

@@ -1,0 +1,87 @@
+.profileInfo
+    margin-bottom: 100px
+
+    &__header
+        display: flex
+        flex-direction: column
+        margin-left: auto
+        margin-right: auto
+    
+    @media (min-width: 576px)
+        .profileInfo__header
+            margin-left: 5%
+            margin-right: 5%
+            flex-direction: row
+            align-items: flex-end
+
+    &__header-background
+        display: flex
+        align-items: flex-end
+        height: 400px
+        background-image: url("./header4.jpg")
+        background-repeat: no-repeat
+        background-attachment: fixed
+        background-position: bottom
+        background-size: cover
+
+    &__info
+        margin-left: 5%
+        margin-right: 5%
+
+    &__picture
+        margin: auto
+
+    &__names
+        color: white
+        text-align: center
+        h2
+            font-size: 3em
+
+    @media (min-width: 576px)
+         .profileInfo__names
+            padding-left: 20px
+
+    &__titleSection
+        margin-top: 20px
+        border-bottom: 2px solid black
+
+    &__general
+        display: flex
+
+        h5
+            width: 120px
+            
+
+
+    &__talents
+        display: flex
+        flex-flow: row wrap
+        justify-content: center
+        width: 100%
+
+
+    &__talent
+        background: #0384A1
+        color: white
+        margin-right: 10px
+        margin-top: 10px
+        border-radius: 0.3em
+        text-align: center
+
+    &__experience
+        margin-top: 20px
+        display: flex
+        align-items: center
+
+        h3
+            margin-right: 20px
+
+    &__language
+        background: #012C4C
+        color: white
+        // padding: 10px 20px
+        margin-right: 10px
+        margin-top: 10px
+        border-radius: 0.3em
+        text-align: center
+        

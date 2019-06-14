@@ -1,0 +1,77 @@
+@import '../../utils.sass'
+
+.pp-alert
+    position: fixed
+    top: 0
+    left: 0
+    width: 100%
+    height: 100%
+    background: rgba(0,0,0,0.93)
+
+    &__content
+        position: fixed
+        background: $white
+        width: 80%
+        height: auto
+        top: 50%
+        left: 50%
+        transform: translate(-50%,-50%)
+        @extend %border
+        color: $secondary
+        font-size: $large
+        text-align: center
+        box-shadow: 0.3rem 0.3rem $secondary
+        flex-shrink: 0
+
+        @include tablet
+            font-size: $large--tablet
+
+        &-checkbox
+            display: flex
+            justify-content: center
+
+            & > a
+                flex-shrink: 1
+                font-size: $medium
+                color: $secondary
+
+                @include tablet
+                    font-size: $medium--tablet
+
+        &-submit
+            margin-top: 1rem
+            display: flex
+            justify-content: center
+
+            & > button
+                font-size: $large
+
+                @include tablet
+                    font-size: $large--tablet   
+
+.checkbox__input
+    flex-shrink: 1
+    vertical-align: middle
+    width: 10% !important
+
+    @include tablet
+        font-size: $medium--tablet
+                        
+.display-block  
+    display: block
+
+.display-none
+    display: none
+
+.pp-container
+    display: flex
+    flex-direction: column
+    height: 30vh
+
+    & > button
+        flex-shrink: 0
+    &__text
+        flex-grow: 1
+        overflow: auto
+        font-size: $small
+

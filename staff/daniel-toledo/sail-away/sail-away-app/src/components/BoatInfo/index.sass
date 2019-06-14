@@ -1,0 +1,73 @@
+.boat
+    margin-bottom: 60px
+    
+    &__container
+        padding: 10px
+        display: flex
+        flex-direction: column
+
+    &__header
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+
+    &__name
+        text-align: center
+
+    &__info
+        padding-top: 35px
+        display: flex
+        flex-direction: column
+        justify-content: space-around
+        width: 100%
+
+
+        &-item
+            display: flex
+            flex-flow: row wrap
+            border-bottom: 1px solid #A9CFE4
+            width: 100%
+
+            label
+                display: flex
+                align-items: center
+                font-weight: bold
+                margin-bottom: 5px
+                width: 100px
+
+            p
+                display: flex
+                align-items: center
+                margin-bottom: 5px
+
+    &__buttons
+        padding-left: 10px
+        padding-right: 10px
+        display: flex
+        justify-content: space-around
+
+        button
+            padding: 5px 15px
+            background: none
+            border: 2px solid #012C4C
+            color: #012C4C
+            border-radius: 0.2em
+        
+        button:hover
+            background: none
+            border: 2px solid #012C4C
+            color: white
+            background: #012C4C
+
+@media (min-width: 576px)
+    .boat__container
+        display: flex
+        flex-direction: row
+
+    .boat__buttons
+        width: 250px
+        margin: 10px
+
+    .boat__info
+        padding-left: 20px
