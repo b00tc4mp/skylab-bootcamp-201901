@@ -1,0 +1,136 @@
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+.finder
+    display: flex
+    flex-direction: column
+    min-width: 300px
+    min-height: 250px
+    max-width: 660px
+    max-height: 400px
+    width: 300px
+    height: 250px
+    background-color: #ffffff
+    border: 1px solid #f2f2f2
+    border-radius: 0.5rem
+    position: absolute
+    box-shadow: 0px 0px 10px 0px grey
+    animation: open 0.2s forwards
+    border: 2px solid
+    resize: both
+    overflow: hidden
+
+    &__header
+        display: grid
+        grid-template-columns: auto auto auto
+        grid-template-rows: 20px
+        align-items: center
+        width: 100%
+        min-height: 20px
+        height: 20px
+        border-top-left-radius: 0.5rem
+        border-top-right-radius: 0.5rem
+        background-color: #f1f1f1
+
+        &:hover
+            cursor: all-scroll
+
+        i
+            grid-column: 1
+            justify-self: flex-start
+            padding: 2px
+            position: absolute
+
+            &:hover
+                transform: scale(1.1)
+                cursor: pointer
+        p
+            justify-self: center
+            grid-column: 2
+
+    &__content
+        display: flex
+        flex-direction: row
+        height: 100%
+
+    &__divider
+        border-left: 1px solid black
+        height: 100%
+
+    &__list
+        // min-width: 110px
+        min-height: 100px
+        max-height: 400px
+
+        height: auto
+        // position: absolute
+        overflow-y: scroll
+        overflow-x: hidden
+        flex-shrink: 0
+
+    &__empty
+        display: flex
+        align-items: center
+        justify-content: center
+        width: 100%
+        height: 100%
+        p
+            position: relative
+            padding: 0.5rem
+            border: 3px dotted #989898
+
+    &__item
+        display: flex
+        flex-wrap: wrap
+        align-items: center
+        justify-content: flex-start
+        min-width: 110px
+        padding-left: 0.2rem
+        height: auto
+        width: auto
+        border-radius: 0.3rem
+        cursor: pointer
+        // border: 1px solid #FFEFBA
+        border: 1px solid #b0b0b0
+
+        i
+            margin-right: 0.2rem
+    
+    &__dragzone
+        display: flex
+        flex-direction: row
+        flex-wrap: wrap
+        align-items: center
+        min-width: 120px
+        min-height: 100px
+        justify-content: flex-start
+        margin-right: auto
+        margin-left: auto
+        width: auto
+        height: auto
+        overflow: auto
+
+        &__item
+            display: flex
+            flex-direction: column
+            align-items: center
+            justify-content: center
+            margin: 0.5rem
+
+            p
+                word-wrap: break-word
+                text-align: center
+
+@keyframes open
+    0%
+        transform: scale(0)
+    100%
+        transform: scale(1)
+
+@keyframes close
+    0%
+        transform: scale(1)
+    100%
+        transform: scale(0)

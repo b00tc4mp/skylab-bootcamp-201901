@@ -1,0 +1,136 @@
+*
+    margin: 0
+    padding: 0
+    box-sizing: border-box
+
+%tool
+    width: 4.5rem
+    height: 4.5rem
+    border: 2px solid black
+    margin: 0.5rem
+    position: fixed
+    display: flex
+    justify-content: center
+    align-items: center
+    border-radius: 50%
+    background: radial-gradient(circle at 50% 120%, #323232, #0a0a0a 80%, #000000 100%)
+    box-shadow: 0.2rem 0.2rem 0.2rem grey
+    &:before
+        content: ''
+        position: absolute
+        background: radial-gradient(circle at 50% 120%, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0) 70%)
+        border-radius: 50%
+        bottom: 2.5%
+        left: 5%
+        opacity: 0.6
+        height: 100%
+        width: 90%
+        filter: blur(5px)
+        z-index: 2
+    &:after
+        content: ""
+        width: 100%
+        height: 100%
+        position: absolute
+        top: 5%
+        left: 10%
+        border-radius: 50%
+        background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8) 14%, rgba(255, 255, 255, 0) 24%)
+        transform: translateX(-15px) translateY(-30px) skewX(-20deg)
+        filter: blur(10px)
+    &:hover
+        width: 5.5rem
+        height: 5.5rem
+        cursor: pointer
+    .icon
+        font-size: 2em
+        color: white
+        .sub-icon
+            color: black
+            font-size: 0.5em
+            position: fixed
+            margin-top: 0.2rem
+
+
+.toolbar
+    width: 100%
+    height: 100%
+    position: relative
+    display: flex
+    flex-direction: column
+    align-items: flex-start
+    justify-content: center
+    margin-left: 4rem
+    &__logo
+        @extend %tool
+        transform: translate(8rem, -12rem)
+        background-image: url('../../media/logo.png')
+        background-color: #1c1c1c
+        // background: radial-gradient(circle at 50% 120%, #323232, #0a0a0a 80%, #000000 100%)
+        // height: 500px
+        background-position: center
+        background-repeat: no-repeat
+        background-size: cover
+
+        &__image
+            width: 100px
+            height: 100px
+
+        &:hover
+            i
+                font-size: 3em !important
+    &__file
+        @extend %tool
+        transform: translate(4rem, -6rem)
+        // .icon
+        //     width: 30px
+        //     height: 30px
+        //     margin: 30%
+        //     background: white
+        //     border-radius: 50%
+        //     transform: translateX(-7px) translateY(-30px) skewX(12deg) skewY(2deg)
+        //     position: absolute
+
+        // .icon:before
+        //     content: "8"
+        //     display: block
+        //     position: absolute
+        //     text-align: center
+        //     height: 80px
+        //     width: 100px
+        //     left: 50px
+        //     margin-left: -40px
+        //     top: 44px
+        //     margin-top: -40px
+        //     color: black
+        //     font-family: Arial
+        //     font-size: 90px
+        //     line-height: 104px
+
+        .fa-file
+            display: flex
+            justify-content: center
+            align-items: center
+        &:hover
+            .fa-file
+                font-size: 3em !important
+    &__folder
+        @extend %tool
+        transform: translate(2rem)
+        &:hover
+            i
+                font-size: 3em !important
+    &__calc
+        @extend %tool
+        transform: translate(4rem, 6rem)  
+        &:hover
+            i
+                font-size: 3em !important
+    &__finder
+        @extend %tool
+        transform: translate(8rem, 12rem)
+        &:hover
+            i
+                font-size: 3em !important
+
+        
