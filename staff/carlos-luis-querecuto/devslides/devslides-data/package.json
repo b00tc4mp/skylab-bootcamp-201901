@@ -1,0 +1,25 @@
+{
+  "esm": "auto",
+  "name": "devslides-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "engines": { 
+    "node": "8.11.4" 
+  },
+  "dependencies": {
+    "esm": "^3.2.25",
+    "bcrypt": "^3.0.6",
+    "dotenv": "^8.0.0",
+    "mongoose": "^5.5.11",
+    "validator": "^11.0.0"
+  },
+  "scripts": {
+    "start": "node .",
+    "watch": "nodemon .",
+    "debug": "node debug ."
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
