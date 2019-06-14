@@ -77,7 +77,7 @@ In addition, it does intensive use of Google's Maps and Places apis, using the a
 
 ### Code Coverage
 
-![Code Coverage](images/coverage.png)
+![Code Coverage](images/testcoverage.png)
 
 ## 🙋 "Mea culpa"
 
