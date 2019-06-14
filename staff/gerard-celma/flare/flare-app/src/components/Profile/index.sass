@@ -1,0 +1,111 @@
+.profile
+    // height: 100vh
+    // width: 100vw
+    background-image: url('https://res.cloudinary.com/dnvdmcxqw/image/upload/v1552719229/bkg.png')
+    background-position: center
+    background-repeat: no-repeat
+    background-size: cover
+    background-attachment: fixed
+    display: flex
+    flex-flow: column nowrap
+    justify-content: center
+    
+.profileBox
+    display: flex
+    flex-flow: column nowrap
+    align-items: center
+    border-radius: 10px
+    margin: 50px 10px 50px 10px
+    background-color: rgba(138, 161, 163, 0.8)    
+
+    & h2
+        color: white
+        // margin: 0px 0px 10px 0px
+
+    & h4
+        color: white
+        margin: 10px 10px 20px 10px
+        text-align: center
+
+    & p
+        color: white 
+
+@media (min-width: 768px)
+    .profileBox
+          margin: 50px 60px 5px 60px        
+
+@media (min-width: 992px)
+    .profileBox
+          margin: 50px 100px 5px 100px
+
+@media (min-width: 1200px)
+    .profileBox
+          margin: 50px 350px 5px 350px  
+
+    
+.profileForm
+    display: flex
+    flex-flow: column nowrap
+
+    & input
+        background: rgba(255, 255, 255, 0.1)
+        border: none
+        border-radius: 5px
+        font-size: 16px
+        height: auto
+        width: 220px
+        margin: 0px 0px 10px 0px
+        outline: 0
+        padding: 15px 
+        background-color: #e8eeef
+        color: #8a97a0
+        box-shadow: 0 1px 0 rgba(0, 0, 0, 0.03) inset
+
+    & button
+        border: 1px solid #8B6E78
+        border-radius: 5px
+        background-color: transparent
+        color: #8B6E78
+        font-size: 16px
+        text-decoration: none
+        height: 40px
+        margin-bottom: 20px
+
+    & button:hover
+        background-color: rgba(139, 110, 120, 0.8)
+        color: white        
+    
+
+@media (min-width: 576px)
+    .profileForm
+        & input
+            width: 320px
+
+@media (min-width: 768px)
+    .profileForm
+        & input
+            width: 420px
+
+@media (min-width: 992px)
+        & input
+            width: 220px
+            margin: 0px 5px 10px 5px   
+    
+    
+    
+.userImage
+    display: inline
+    margin: 0 auto
+    height: 100%
+    width: auto
+    // margin-left: -25% //centers the image
+
+.userImageCropper
+    width: 200px
+    height: 200px
+    position: relative
+    overflow: hidden
+    border-radius: 50%
+    margin-bottom: 25px
+
+

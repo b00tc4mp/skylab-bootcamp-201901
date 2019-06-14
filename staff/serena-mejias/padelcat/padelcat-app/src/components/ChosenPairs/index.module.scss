@@ -1,0 +1,20 @@
+@import "../../styles/_index.scss";
+
+section.select_pair {
+  display: flex;
+  justify-content: space-around;
+}
+
+select.select_player {
+  margin: $size-s;
+  background:  #e0f7fa;
+  border-radius:36px;
+  width: $size-l;
+  option {
+    margin: 40px;
+    background: transparent;
+    color: black;
+    border-radius: 25px;
+  }
+}
+

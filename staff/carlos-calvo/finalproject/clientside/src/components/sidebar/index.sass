@@ -1,0 +1,34 @@
+.coverright
+    height: 100vh
+    background-size: cover
+    background-attachment: fixed
+    background-position: center
+    background-repeat: no-repeat
+    background-image: url('https://s3.amazonaws.com/thinkific/courses/course_card_image_000/173/3711503419111.original.jpg?1503419111')
+    margin-left: 220px
+    
+.sidenav
+    height: 100%
+    width: 220px
+    position: fixed
+    z-index: 1
+    top: 0
+    left: 0
+    background-color: black
+    overflow-x: hidden
+    padding-top: 20px
+    a
+        padding: 6px 6px 6px 32px
+        text-decoration: none
+        font-size: 25px
+        color: #818181
+        display: block
+        &:hover
+           color: #f1f1f1
+
+
+@media screen and (max-height: 450px)
+    .sidenav
+      padding-top: 15px
+      a
+        font-size: 18px

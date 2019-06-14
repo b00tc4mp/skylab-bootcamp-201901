@@ -1,0 +1,38 @@
+{
+  "name": "st-james-vet-api",
+  "version": "4.0.0",
+  "description": "## server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src",
+    "watch": "nodemon src", 
+    "debug": "node debug src",
+    "test": "mocha src/**/*.spec.js --timeout 99999",
+    "test-debug": "mocha debug src/**/*.spec.js --timeout 999999",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha src/**/*.spec.js --timeout 99999"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "es6-promise": "^4.2.6",
+    "express": "^4.16.4",
+    "isomorphic-fetch": "^2.2.1",
+    "jsonwebtoken": "^8.5.0",
+    "moment": "^2.24.0",
+    "react-moment": "^0.8.4",
+    "st-james-vet-data": "file:../st-james-vet-data",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "expect": "^24.1.0",
+    "jest": "^24.5.0",
+    "mocha": "^6.0.2",
+    "nyc": "^13.3.0"
+  }
+}

@@ -1,0 +1,113 @@
+@import '../../utils.sass'
+
+.manage
+    display: flex
+    flex-direction: column
+    flex-wrap: nowrap
+    height: 93vh
+
+    @include desktop
+        height: 100vh
+    
+    &-header
+        flex-shrink: 0
+        padding-top: 3rem
+        align-self: center
+        text-align: center
+        fontsize: $xlarge
+        margin-left: 2rem
+        margin-right: 2rem
+
+        @include tablet
+            padding-top: 4rem
+            font-size: $xlarge--tablet
+
+    &-form
+        flex-shrink: 0
+        margin-top: 2rem
+        display: flex
+        flex-direction: column
+        justify-items: center
+        align-items: center
+        margin-left: 2rem
+        margin-right: 2rem
+        margin-bottom: 0.5rem
+
+        @include tablet
+            margin-left: 6rem
+            margin-right: 6rem
+
+        &__header
+            font-size: $large
+
+            @include tablet
+                font-size: $large--tablet
+
+        &__form
+            display: flex
+            flex-direction: column
+
+            @include tablet
+                margin-top: 1rem
+                flex-direction: row
+
+        &__input
+            display: flex
+
+    &-pendSign
+        flex-grow: 1
+        overflow: auto
+        padding-top: 1rem
+        margin-left: 2rem
+        margin-right: 2rem
+        margin-bottom: 1rem
+
+        @include tablet
+            margin-left: 6rem
+            margin-right: 6rem
+
+
+        &__header
+            flex-shrink: 0
+            font-size: $large
+
+            @include tablet
+                font-size: $large--tablet
+
+        &__content
+            flex-shrink: 0
+            font-size: $medium
+            text-align: center
+            @extend %border
+
+            @include tablet
+                font-size: $medium--tablet
+
+    &-pendEmail
+        flex-grow: 1
+        overflow: auto
+        padding-top: 1rem
+        margin-bottom: 0.5rem
+        margin-left: 2rem
+        margin-right: 2rem
+
+        @include tablet
+            margin-left: 6rem
+            margin-right: 6rem
+
+        &__header
+            font-size: $large
+
+            @include tablet
+                font-size: $large--tablet
+
+        &__content
+            font-size: $medium
+            text-align: center
+            @extend %border
+
+            @include tablet
+                font-size: $medium--tablet
+
+
+  

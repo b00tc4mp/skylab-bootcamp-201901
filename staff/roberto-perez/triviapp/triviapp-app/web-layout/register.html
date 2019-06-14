@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>quiz</title>
+    <link
+      rel="stylesheet"
+      href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+      integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr"
+      crossorigin="anonymous"
+    />
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="wrapper">
+      <div class="search__content">
+        <input
+          class="search__input"
+          type="search"
+          placeholder="Search..."
+          value=""
+        />
+        <button class="search__button">
+          <i class="fas fa-search"></i>
+        </button>
+      </div>
+
+      <aside class="sidebar">
+        <div class="sidebar__scrolling-content">
+          <div class="sidebar__scrolling-content-scroll">
+            <nav class="nav">
+              <ul class="nav__menu">
+                <li class="nav__menu-item">
+                  <a href="#" class="nav__menu-link">
+                    Home
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+        </div>
+      </aside>
+
+      <main class="main">
+        <header class="header">
+          <div class="header__content-left">
+            <div class="header__menu">
+              <div class="nav-bars">
+                <span class="nav-bars__bar"></span>
+              </div>
+              MENU
+            </div>
+          </div>
+          <div class="header__content-right">
+            <div class="header__search">
+              <button class="header__search-button toggle-search">
+                <i class="fas fa-search"></i>
+              </button>
+            </div>
+            <div class="header__logo">
+              <h1 class="header__logo-title">QUI<span>Z</span></h1>
+            </div>
+            <a class="btn__link header__btn-signup black" href="#">Sign up</a>
+            <a class="btn__link btn__link--green header__btn-login" href="#">
+              Log in
+            </a>
+          </div>
+        </header>
+
+        <div class="content">
+          <section class="login">
+            <div class="login__wrapper">
+              <div class="login__container">
+                <header class="login__header">
+                  <h2 class="login__title">Sign up</h2>
+                </header>
+                <fieldset class="login__fieldset">
+                  <p class="login__p">
+                    <label class="login__label" for="user_name">Name</label>
+                    <input
+                      class="login__input"
+                      placeholder="Name"
+                      type="text"
+                      name="name"
+                      id="user_name"
+                    />
+                  </p>
+                  <p class="login__p">
+                    <label class="login__label" for="user_email">Email</label>
+                    <input
+                      class="login__input"
+                      autocorrect="off"
+                      autocapitalize="off"
+                      placeholder="Email"
+                      autofocus="autofocus"
+                      type="email"
+                      name="email"
+                      id="user_email"
+                    />
+                  </p>
+                  <p>
+                    <label class="login__label" for="user_password"
+                      >Password</label
+                    >
+                    <input
+                      class="login__input"
+                      placeholder="Password"
+                      type="password"
+                      name="password"
+                      id="user_password"
+                    />
+                  </p>
+                  <button class="btn__link btn__link--green login__submit">
+                    Sign up
+                  </button>
+                </fieldset>
+
+                <div class="login__terms">
+                  <small>
+                    By signing up, you agree to our terms of use, privacy policy, and cookie policy. 
+                  </small>
+                </div>
+              </div>
+              <footer class="login__footer">
+                Have an account? 
+                <a class="login__login" href="#">Log in!</a>
+              </footer>
+            </div>
+          </section>
+          <footer class="footer">
+            <div class="container">
+              <div class="build">
+                Build with <i class="fas fa-heart"></i> by
+                <a
+                  href="https://github.com/robert-z"
+                  class="build__author black"
+                  >robert-z</a
+                >
+              </div>
+            </div>
+          </footer>
+        </div>
+      </main>
+    </div>
+    <script src="js/menu.js"></script>
+    <script src="js/search.js"></script>
+    <script src="js/user-profile.js"></script>
+  </body>
+</html>

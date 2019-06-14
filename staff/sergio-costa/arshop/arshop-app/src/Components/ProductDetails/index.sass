@@ -1,0 +1,116 @@
+.productDetails
+    
+    &__html
+        margin-bottom: 5em
+
+    &__icons
+        display: flex
+        justify-content: space-between
+        margin-top: 0.5em
+        margin-bottom: 2em
+
+        &--back
+            font-size: 1.9em
+            margin-left: 0.5em
+            color: black
+
+        &--heart
+            font-size: 2em
+            margin-right: 0.5em
+            color: red
+
+        &--ar
+            font-size: 2em
+            color: black
+            margin-left: 0.6em
+
+        &--arbtn
+            background: none
+            align-self: flex-start
+            border: 0
+            outline: none
+            margin-bottom: 1em
+
+        &--sold
+            position: absolute
+            width: 2em
+            height: 2em
+            background-color: white
+            border-radius: 50px
+            margin-left: 0.5em
+            margin-top: 0.5em        
+
+    &__content
+        display: flex
+        flex-direction: column
+        margin-top: 1em
+
+    &__imgcontainer
+        align-self: center
+
+    &__img
+        width: 20em
+        border-radius: 1em
+
+    &__details
+        padding: 1em
+
+    &__price
+        font-weight: bold
+        font-size: 1.5em
+
+    &__tittle
+        margin-top: 0.3em
+        font-size: 1.2em
+
+    &__description
+        margin-top: 0.3em
+        color: grey
+
+    &__btn
+        position: fixed
+        bottom: 0
+        padding: 0.8em
+        align-self: center
+        width: 100%
+        background-color: #ff9b71
+        border: 0
+        font-size: 1.2em
+        color: white
+        font-weight: bold
+
+    &__user
+        display: flex
+        border-bottom: 1px solid lightgrey
+        border-top: 1px solid lightgrey
+        padding: 1em
+
+        &--img
+            width: 4em
+            height: 4em
+            border-radius: 50px
+
+        &--name
+            align-self: center
+            margin-left: 1em
+            font-size: 1.3em
+
+@keyframes donut-spin
+  0%
+    transform: rotate(0deg)
+  
+  100%
+    transform: rotate(360deg)
+  
+.donut
+    display: inline-block
+    border: 4px solid rgba(0, 0, 0, 0.1)
+    border-left-color: #ff9b71
+    border-radius: 50%
+    width: 30px
+    height: 30px
+    animation: donut-spin 1.2s linear infinite
+
+
+
+

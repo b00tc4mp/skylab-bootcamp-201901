@@ -1,0 +1,31 @@
+@import "../../styles/_index.scss";
+
+li.player {
+  margin-bottom: 0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+
+div.player_details {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+h6.player_name {
+    padding-right: 5em;
+    font-family: 'Poppins', sans-serif;
+    font-weight: bold;
+    font-size: $size-s;
+    width: $size-xl;
+    margin-top: 1em;
+    margin-bottom: 0;
+}
+
+span.player_score {
+  font-family: 'Poppins', sans-serif;
+  font-size: $size-s;
+  margin-top: 1em;
+}
