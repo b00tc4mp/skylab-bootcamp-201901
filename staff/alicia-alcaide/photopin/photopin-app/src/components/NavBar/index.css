@@ -1,0 +1,7 @@
+.nav-bar {
+  height: 60px;
+}
+
+.nav-bar > li > a {
+  min-height: 60px;
+}

@@ -1,0 +1,8 @@
+.marker-default {
+  cursor: pointer;
+  z-index: 10;
+  border-radius: 50%;
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(112, 104, 112, 0.64);
+  -moz-box-shadow: 3px 3px 5px 0px rgba(112, 104, 112, 0.64);
+  box-shadow: 3px 3px 5px 0px rgba(112, 104, 112, 0.64);
+}

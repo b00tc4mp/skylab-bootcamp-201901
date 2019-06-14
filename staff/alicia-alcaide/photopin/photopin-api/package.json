@@ -1,0 +1,37 @@
+{
+  "name": "photopin-api",
+  "version": "1.0.1",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "watch": "nodemon .",
+    "lint": "./node_modules/.bin/eslint **/*.js",
+    "debug": "node debug src",
+    "test": "npx mocha ./src/**/*.spec.js --runInBand",
+    "test:debug": "npx mocha debug ./src/**/*.spec.js --runInBand",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./src/**/*.spec.js --runInBand"
+  },
+  "author": "Alicia Alcaide Beneitez",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "photopin-data": "file:../photopin-data",
+    "photopin-errors": "file:../photopin-errors",
+    "photopin-validate": "file:../photopin-validate"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "eslint": "^5.16.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  },
+  "nyc": {
+    "exclude": "**/*.spec.js"
+  }
+}

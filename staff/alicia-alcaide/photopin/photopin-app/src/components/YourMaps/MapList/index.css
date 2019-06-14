@@ -1,0 +1,11 @@
+.card-link {
+  color: #666;
+}
+
+.card-link:hover,
+:link,
+:visited,
+:hover,
+:active {
+  text-decoration: none;
+}

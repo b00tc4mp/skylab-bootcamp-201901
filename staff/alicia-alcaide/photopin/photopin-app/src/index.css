@@ -1,0 +1,129 @@
+@import "../node_modules/uikit/dist/css/uikit.min.css";
+
+@import url("https://fonts.googleapis.com/css?family=Lato|Montserrat&display=swap");
+
+* {
+  font-family: "Montserrat", sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-family: "Lato", sans-serif;
+  color: #666;
+}
+
+.card-transparent {
+  background: #ffffff8c;
+  color: #666;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.36);
+}
+
+.white-title {
+  color: #e5e5e5;
+}
+
+.white-button {
+  background-color: transparent;
+  color: #e5e5e5;
+  border: 1px solid #e5e5e5;
+}
+
+.default-button {
+  background-color: transparent;
+  color: #666;
+  border: 1px solid #e5e5e5;
+}
+
+.mini-margin-top {
+  margin-top: 10px;
+}
+
+.medium-margin-top {
+  margin-top: 20px;
+}
+
+.mini-margin-bottom {
+  margin-bottom: 10px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  color: #666 !important;
+}
+
+a .white-title {
+  color: #e5e5e5 !important;
+}
+
+.border-blue {
+  border: 1px solid blue;
+}
+
+.custom-form-button {
+  margin-left: 20px;
+  margin-right: 20px;
+  background-color: transparent;
+  color: #666;
+  border: 1px solid #e5e5e5;
+  font-weight: bolder;
+  padding: 0 40px;
+  line-height: 53px;
+  font-size: 0.875rem;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.custom-form-button-small {
+  margin: 20px;
+  background-color: transparent;
+  color: #666;
+  border: 1px solid #e5e5e5;
+  font-weight: bolder;
+  padding: 0 20px;
+  line-height: 33px;
+  font-size: 0.875rem;
+  display: inline-block;
+  box-sizing: border-box;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+}
+
+.custom-pading-medium {
+  padding-top: 20px;
+}
+
+.ReactModal__Overlay {
+  z-index: 9;
+}
+
+.alert {
+  padding: 15px;
+  background-color: #f8584c;
+  font-size: 12px;
+  color: white;
+  margin-bottom: 15px;
+}
+
+.alert-closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
