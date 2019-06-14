@@ -1,0 +1,109 @@
+.gameDetail {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    font-family: Monsterrat;
+    padding: 0px 450px;
+    height: 100vh;
+    border-radius: 15px;
+    padding-bottom: 50px;
+
+    &__card {
+        background-color: rgba(255, 255, 255, 0.486);
+        // border: solid black 1px;
+        padding-bottom: 50px;
+        box-shadow: 4px 4px 2px 0px rgba(0, 0, 0, 0.15);
+        border-radius: 20px;
+
+    }
+
+    &__container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+    }
+
+    &__subcontainer {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        // padding-left: 40px;
+        padding-top: 10px;
+
+    }
+
+    &__title {
+        text-transform: capitalize;
+        font-size: 60px;
+        margin-bottom: 10px;
+        background-color: orange;
+        color: white;
+        font-family: Montserrat;
+        font-weight: bold;
+        padding-bottom: 10px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+
+    }
+
+    &__img {
+        max-height: 450px;
+        max-width: 450px;
+
+    }
+
+    &__imgSize {
+        max-width: 450px;
+        max-height: 450px;
+
+    }
+
+    &__imgContainer {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        padding: 0px 45px;
+    }
+
+    &__genreDetail {
+        text-transform: capitalize;
+        font-size: 30px;
+        font-weight: bold;
+        margin: 0px;
+        font-family: Montserrat;
+
+    }
+
+    &__iconsContainer {
+        margin: 15px 0px
+    }
+
+    &__icons {
+        color: orange;
+        font-size: 30px;
+        margin: 0px 10px;
+    }
+
+    &__descriptionBox {
+        overflow: hidden;
+        width: 80%;
+        font-family: Montserrat;
+        text-align: left;
+
+    }
+
+    &__loginButton {
+        border: 0;
+        background-color: orange;
+        color: white;
+        font-weight: bold;
+        padding: 5px;
+        font-family: Montserrat;
+        border-radius: 4px;
+
+
+    }
+
+
+
+
+}
