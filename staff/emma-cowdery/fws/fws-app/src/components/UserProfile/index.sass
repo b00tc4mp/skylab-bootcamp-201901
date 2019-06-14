@@ -1,0 +1,223 @@
+@import '../../utils.sass'
+
+.user-profile
+    position: absolute
+    top: 3.2em
+    left: 0
+    bottom: 0
+    right: 0
+    padding: 2em
+
+    &__header
+        color: $dark-gray
+        display: flex
+        flex-flow: row
+
+        &-div
+            background-color: white
+
+        &-img
+            width: 9em
+            height: 9em
+            background-repeat: no-repeat
+            background-position: center
+            background-size: 100%
+            display: flex
+            justify-content: flex-end
+            align-items: flex-end
+            border-radius: 5em
+            box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+
+            &-button
+                margin: 2.2em
+                color: $dark-gray
+                background-color: white
+                opacity: 0.5
+                padding: 0.3em
+                border-radius: 15px
+                cursor: pointer
+
+        &-info
+            align-self: flex-end
+            margin-bottom: 1.7em
+            
+        &-username
+            font-size: 2em
+            margin: 0.1em
+            margin-left: 0.3em
+
+        &-socials
+            display: flex
+            flex-flow: row
+            margin-left: 0.6em
+
+            &-icon
+                color: $dark-gray
+                font-size: 1.5em
+                margin: 0.1em
+                cursor: pointer
+
+    &__upload
+        position: fixed
+        top: 3.2em
+        left: 0
+        height: 100%
+        width: 100%
+        z-index: 10
+        background-color: rgba(0,0,0,0.7) 
+        display: flex
+        justify-content: center
+
+        &-content
+            align-self: center
+            background-color: white
+            display: flex
+            flex-flow: column
+            align-items: center
+            padding: 3em
+            border-radius: 15px
+            color: $dark-gray
+
+        &-icon
+            font-size: 10em
+
+        &-buttons
+            display: flex
+            flex-flow: row
+            justify-content: space-between
+            align-content: center
+
+            &-upload
+                border-width: 0
+                border-radius: 10px
+                background-color: $dark-green
+                padding: 0.8em
+                margin: 1em
+                cursor: pointer
+                box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+            
+            &-cancel
+                border-width: 0
+                border-radius: 10px
+                background-color: $light-green
+                padding: 0.8em
+                margin: 1em
+                cursor: pointer
+                box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+
+        &-input
+            cursor: pointer
+            width: 70%
+            margin: 1em
+
+    &__body
+
+        &-editbutton
+            cursor: pointer
+            font-size: 1.5em
+            color: $dark-gray
+
+        &-edit
+            color: $dark-gray
+            display: flex
+            flex-flow: column
+            margin-top: 2em
+
+            &-inputs
+                display: flex
+                flex-flow: column
+                margin-left: 1em
+                margin-right: 1em
+
+            &-input
+                border-radius: 5px
+                border-width: 0.1em
+                border-color: #8C8C8C
+                padding: 0.5em
+                margin: 1em
+
+            &-title
+                margin-left: 1em
+
+            &-text
+                margin-left: 1em
+                font-size: 0.8em
+            
+            &-buttons
+                display: flex
+                flex-flow: row
+                justify-content: flex-end
+                margin: 1em
+                margin-bottom: 3em
+
+            &-button
+                padding: 0.8em
+                margin-left: 2em
+                border-radius: 10px
+                border-width: 0
+                box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+                cursor: pointer
+
+                &-cancel
+                    background-color: $light-green
+
+                &-update
+                    background-color: $dark-green
+        
+        &-info
+            color: $dark-gray
+            display: flex
+            flex-flow: column
+
+            &-title
+                margin-right: 1.5em
+                color: $dark-gray
+
+        &-events
+            border-width: 0
+            border-radius: 0.5em
+            padding: 1em
+            background-color: $light-green
+            box-shadow: 3px 5px 34px -10px rgba(120,90,120,1)
+
+            &-txt
+                color: white
+                font-size: 1.5em
+                margin: 0
+
+    &__event-count
+        display: flex
+        flex-flow: row
+
+@media (min-width: 768px)
+    .user-profile
+        &__header
+            margin: 1em
+            
+            &-img
+                height: 15em
+                width: 15em
+                border-radius: 7.1em
+
+                &-button
+                    margin: 2.4em
+
+            &-info
+                margin-bottom: 0.5em
+
+            &-username
+                margin: 0.5em
+
+            &-socials
+                &-icon
+                    margin: 0.3em
+
+        &__body
+            margin: 2em
+            margin-left: 4em
+            margin-right: 4em
+            
+            &-events
+                align-self: flex-start
+                    
+            

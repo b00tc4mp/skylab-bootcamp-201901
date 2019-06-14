@@ -1,0 +1,76 @@
+@import '../../utils.sass'
+
+.login-panel
+    position: absolute
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    display: flex
+    align-items: center
+    justify-content: center
+
+    &__box
+        display: flex
+        flex-flow: column
+        align-items: center
+        
+    &__form
+        display: flex
+        flex-flow: column
+        width: 120%
+    
+    &__row
+        display: flex
+        flex-flow: column
+        align-items: center
+
+    &__input-title
+        font-size: 0.8em
+        color: $dark-gray
+
+    &__input
+        padding: 0.5em
+        border-radius: 0.5em
+        border-style: solid
+        border-width: 0.1em
+        border-color: $dark-gray
+        width: 92%
+
+    &__login-button
+        align-self: flex-end
+        margin: 1em
+        border-style: solid
+        background-color: $light-yellow
+        border-radius: 0.5em
+        border-color: $button-gray
+        color: $button-gray
+        border-width: 0.125em
+        padding: 0.5em
+        padding-left: 2em
+        padding-right: 2em
+        margin-right: 0
+        cursor: pointer
+
+    &__register
+        display: flex
+        flex-flow: row
+        width: 120%
+        justify-content: space-between
+
+        &-button
+            border-style: solid
+            border-width: 0.125em
+            border-radius: 0.5em
+            border-color: $button-gray
+            background-color: white
+            padding: 0.5em
+            align-self: center
+            margin-right: 0.8em
+            color: $link-blue
+            cursor: pointer
+
+        &-text
+            font-size: 0.8em
+            margin-left: 0.8em
+            color: $dark-gray

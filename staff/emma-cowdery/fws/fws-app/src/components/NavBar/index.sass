@@ -1,0 +1,110 @@
+@import '../../utils.sass'
+    
+.nav-bar
+    display: flex
+    flex-flow: row
+    justify-content: space-between
+    align-items: center
+    background-color: $yellow
+    position: fixed
+    top: 0
+    //padding-left: 1em
+    //padding-right: 1em
+    width: 100%
+    z-index: 10
+
+    &__logo
+        margin-left: 1.5em
+        cursor: pointer
+        width: 5.9em
+        height: 3.25em
+        background-image: url('/images/logo.png')
+        background-repeat: no-repeat
+        background-position: center
+        background-size: 100%
+
+    &__no-search
+        display: none
+
+    &__search
+        width: 100%
+
+    &__search-button
+        margin: 1em
+
+    &__no-search-button
+        display: none
+
+    &__no-logo
+        display: none
+
+    // &__user-button
+    //     margin: 1em
+    //     margin-right: 2em
+    //     cursor: pointer
+
+    // &__user-button:hover
+    //     align-self: center
+    //     font-size: 1.2em
+    //     margin: 0.325em
+    //     margin-right: 1.8em
+    //     transition: 0.1s
+
+    &__user
+        display: flex
+        flex-flow: row
+        align-items: center
+        margin-right: 2em
+        margin-left: 2em
+        cursor: pointer
+
+    &__user-button
+        background-color: white
+        width: 2em
+        height: 2em
+        background-repeat: no-repeat
+        background-position: center
+        background-size: 100%
+        //margin: 0.1em
+        border-radius: 1em
+
+    &__no-user-button
+        display: none
+
+    &__events-button
+        align-self: center
+        border-style: solid
+        border-width: 0
+        background-color: $ocre
+        border-radius: 0.5em
+        padding-left: 0.9em
+        padding-right: 0.9em
+        margin: 1em
+        cursor: pointer
+
+    &__events-button:hover
+        //padding: 0.1em
+        padding-left: 1.2em
+        padding-right: 1.2em
+        margin: 0.8em
+
+    &__no-events-button
+        display: none
+
+    &__arrow
+        color: $dark-gray
+        margin-left: 0.5em
+
+    &__no-arrow
+        display: none
+        
+    &__right
+        display: flex
+        flex-flow: row
+
+        &-desksearch
+            width: 30em
+
+    &__two-buttons
+        display: flex
+        flex-flow: row

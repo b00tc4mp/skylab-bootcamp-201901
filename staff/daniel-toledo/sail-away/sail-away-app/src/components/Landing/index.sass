@@ -1,0 +1,79 @@
+.landing
+    height: 89vh
+    display: flex
+    flex-direction: column
+
+    background-image: url("./landing.jpg")
+    background-repeat: no-repeat
+    background-position: center
+    background-size: cover
+   
+
+    &__title
+        text-align: center
+        color: white
+        margin-top: 10vw
+    
+.lookingFor
+    margin-left: 20%
+    margin-right: 20%
+    margin-top: 10%
+    display: flex
+    flex-direction: column
+
+    &__item
+        margin: 0
+        margin-bottom: 10px
+        padding: 0
+        display: flex
+        flex-direction: column
+        justify-content: center
+        align-items: center
+
+    &__item:hover
+        border: 2px solid white
+        border-radius: 0.2em
+ 
+    
+    &__label
+        text-align: center
+        color: white
+        font-size: 1.5em
+        margin: 0
+        padding: 0
+        width: 200px
+
+    &__crew
+        background: none
+        color: white
+        border: none
+        font-size: 1.5em
+        margin: 0
+        padding: 0
+        text-align: left
+        display: flex
+        justify-content: center
+
+    
+    &__crew:hover
+        border: white 2px solid
+        border-radius: 0.2em
+
+@media (min-width: 576px)
+    .landing__title
+        margin-top: 1vw
+
+    .lookingFor__label
+        text-align: left
+
+    .lookingFor__item
+        margin: 0
+        margin-bottom: 10px
+        padding: 0
+        display: flex
+        flex-direction: row
+        justify-content: center
+        align-items: center
+
+    .lookingFor__crew
+        justify-content: flex-start

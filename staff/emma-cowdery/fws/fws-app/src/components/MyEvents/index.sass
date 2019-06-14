@@ -1,0 +1,57 @@
+@import '../../utils'
+
+.my-events
+    position: absolute
+    top: 3.2em
+    left: 0
+    bottom: 0
+    right: 0
+    display: flex
+    flex-flow: column
+
+    &__title
+        color: $dark-gray
+        margin: 1em
+        //margin-top: 1.5em
+        align-self: center
+
+    &__grid
+        display: grid
+        grid-template-columns: 1fr
+
+    &__event
+        margin: 1em
+        box-shadow: 3px 5px 34px -6px rgba(120,90,120,1)
+        border-radius: 1em
+
+    &__event:hover
+        margin: 0
+        height: 85%
+        transition: 0.4s
+
+@media (min-width: 768px)
+
+    .my-events
+
+        &__title
+            margin: 1em
+
+        &__grid
+            grid-template-columns: repeat(2, 1fr)
+
+        &__event
+            margin: 2em
+
+@media (min-width: 1200px)
+
+    .my-events
+        margin: 2em
+        margin-left: 4em
+        margin-right: 4em
+
+        &__grid
+            grid-template-columns: repeat(3, 1fr)
+
+        &__event
+            margin-top: 4em
+            margin-bottom: 4em

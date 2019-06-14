@@ -1,0 +1,86 @@
+@import '../../utils.sass'
+
+.chats-nav
+    position: fixed
+    top: 3.2em
+    bottom: 0
+    left: 0
+    right: 0
+    display: grid
+    grid-template-columns: 1.5fr 1fr
+    z-index: 3
+
+    &__chats
+        background-color: white
+
+    &__chat
+        background-color: $light-green
+        display: flex
+        flex-flow: row
+        justify-content: space-between
+        margin: 0.5em
+        padding: 0.5em
+        border-radius: 0.5em
+
+    &__info
+        display: flex
+        flex-flow: column
+        width: 100%
+
+    &__top
+        display: flex
+        flex-flow: row
+        justify-content: space-between
+        width: 100%
+
+    &__name
+        color: $dark-gray
+        margin: 0
+
+    &__users
+        background-color: $light-yellow
+        border-radius: 0.5em
+        padding: 0.2em
+        margin: 0
+        align-self: center
+        font-size: 0.65em
+
+    &__content
+        display: flex
+        flex-flow: row
+        justify-content: space-between
+        color: $dark-gray
+        font-size: 0.8em
+        margin-left: 0.5em
+
+        &-txt
+            margin: 0
+        
+        &-date
+            margin: 0
+
+    &__arrow
+        align-self: center
+        padding: 0.5em
+        color: $dark-gray
+
+    &__no-chats
+        background-color: white
+
+    &__background
+        background-color: $dark-gray
+        opacity: 0.9
+
+@media (min-width: 1200px)
+    .chats-nav
+        //position: absolute
+        //top: auto
+        //bottom: auto
+        //left: auto
+        //right: 60em
+        z-index: 0
+        grid-template-columns: 1fr
+        width: 30%
+
+        &__background
+            display: none

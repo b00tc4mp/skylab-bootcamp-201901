@@ -1,0 +1,162 @@
+/* Media Queries */
+
+$tablet-width: 768px
+$desktop-width: 1024px
+
+@mixin tablet
+  @media (min-width: #{$tablet-width}) 
+    @content
+
+@mixin desktop
+  @media (min-width: #{$desktop-width}) 
+    @content
+    
+/* Colors */
+
+$primary: #F1F1F1 
+$secondary: #333333 
+$white: #FFFFFF
+$black: #010101
+$blue: #1091CF
+$danger: #D5544F
+$success: #DCECA9
+$link: #471E38
+
+/* Font size */
+
+$xsmall: 0.5rem
+$small: 0.6rem
+$medium: 0.8rem
+$large: 1rem
+$xlarge: 1.1rem
+
+$xsmall--tablet: 0.7rem
+$small--tablet: 0.8rem
+$medium--tablet: 1rem
+$large--tablet: 1.1rem
+$xlarge--tablet: 1.3rem
+
+/* Button */
+
+@mixin btn-bg($bg) 
+    background: none
+    color: darken($bg, 10%)
+    &:hover
+        transition: all 0.3s ease
+        border-bottom: 0.05rem dotted darken($bg,10%)
+
+@mixin btn-inverted($bg)
+    background: darken($bg, 10%)
+    color: lighten($bg, 50%)
+    &:hover
+        border-bottom: 0.05rem dotted $bg
+        background: none
+        color: $bg
+
+.btn
+    text-decoration: none
+    font-size: $medium
+    padding: 0.2rem
+    cursor: pointer
+    border: none
+
+    @include tablet
+        font-size: $medium--tablet
+        padding: 0.3rem
+
+    // Colors & Inverted
+    &--primary
+        @include btn-bg($blue)
+        &-inverted
+            @include btn-inverted($blue)
+    &--success
+        @include btn-bg($success)
+        &-inverted
+            @include btn-inverted($success)
+    &--danger
+        @include btn-bg($danger)
+        &-inverted
+            @include btn-inverted($danger)
+
+
+/* Icons */
+.icon
+    color: $secondary
+    align-self: center
+    font-size: $xsmall
+
+    @include tablet
+        font-size: $xsmall--tablet
+
+    &--link 
+        cursor: pointer
+
+    &:hover
+        color: darken($primary, 70%)
+
+/* Inputs */
+
+input 
+    text-decoration: none
+    text-align: center
+    font-size: $medium
+    padding: 0.2rem
+    color: $secondary
+    border: none
+    background: none
+    width: 100%
+
+    @include tablet
+        font-size: $medium--tablet
+
+.input
+    &--small
+        width: 60%
+
+        @include tablet
+            width: 70%
+
+/* Links */
+
+a 
+    color: $blue
+
+a:link
+    color: $blue
+    &:visited
+        color: $blue
+
+/* Border */
+%border
+    border: 0.05rem dotted $secondary
+    padding: 0.3rem
+    margin-top: 0.2rem
+
+    &:hover
+        box-shadow: 0.2rem 0.2rem $secondary
+
+                         
+/* Line */
+.line
+    border-top: 0.08rem dashed $primary
+    margin-top: 0.5rem
+    margin-bottom: 0.5rem
+    margin-left: 0.05rem
+    margin-right: 0.05rem
+ 
+
+/* Cursor */
+.pointer
+    cursor: pointer
+
+/* Select */
+select
+    background: none
+    font-size: $xsmall
+    text-align-last: center
+    width: 100%
+
+    @include tablet
+        text-align-last: center
+        font-size: $xsmall--tablet
+        background: none

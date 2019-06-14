@@ -1,0 +1,74 @@
+@import '../../utils.sass'
+
+.drop-down
+    position: fixed
+    top: 0
+    bottom: 0
+    left: 0
+    right: 0
+    display: flex
+    justify-content: flex-end
+    z-index: 15
+    cursor: pointer
+
+    &__content
+        display: flex
+        flex-flow: column
+        color: $dark-gray
+
+        &-img
+            background-color: white
+            width: 2em
+            height: 2em
+            background-repeat: no-repeat
+            background-position: center
+            background-size: 100%
+            border-radius: 1em
+        
+        &-icondiv
+            align-self: flex-end
+            background-color: $ocre
+            display: flex
+            justify-content: center
+            padding: 0.6em
+            padding-right: 2em
+            //width: 3em
+            cursor: pointer
+
+        &-icondiv:hover
+            background-color: #BFA022
+
+        &-user
+            align-self: center
+
+        &-arrow
+            align-self: center
+            margin-left: 0.5em
+
+        &-linksdiv
+            background-color: $ocre 
+            display: flex
+            flex-flow: column
+            border-radius: 0.5em 0 0 0.5em
+            width: 8em
+
+        &-button
+            align-self: flex-end
+            color: white
+            padding: 2em
+            background-color: $ocre
+            opacity: 0.9
+            border-width: 0
+            border-radius: 0.5em
+            width: 100%
+            cursor: pointer
+
+            &-icon
+                margin-right: 1em
+
+            &-highlited
+                background-color: #BFA022
+
+        &-button:hover
+            background-color: #BFA022
+

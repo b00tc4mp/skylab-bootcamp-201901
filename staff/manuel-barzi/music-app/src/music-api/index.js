@@ -28,6 +28,7 @@ const musicApi = {
         })
             .then(response => response.json())
             .then(({ id, error }) => {
+                console.log(id, error)
                 if (error) throw Error(error)
 
                 return id

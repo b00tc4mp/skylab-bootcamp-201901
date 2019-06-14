@@ -1,0 +1,41 @@
+{
+  "name": "rest-api",
+  "version": "1.4.0",
+  "description": "## server",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src",
+    "watch": "nodemon src",
+    "debug": "node debug src",
+    "test": "mocha src/**/*.spec.js",
+    "test-debug": "mocha debug src/**/*.spec.js",
+    "test-coverage": "nyc --reporter=html --reporter=text mocha --timeout 10000 $(find src -name *.spec.js)"
+  },
+  "nyc": {
+    "include": "src/logic",
+    "exclude": "**/*.spec.js" 
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "chai": "^4.2.0",
+    "dotenv": "^6.2.0",
+    "expect": "^24.1.0",
+    "express": "^4.16.4",
+    "isomorphic-fetch": "^2.2.1",
+    "jsonwebtoken": "^8.5.0",
+    "mocha": "^6.0.2",
+    "mongoose": "^5.4.16",
+    "nodemailer": "^5.1.1",
+    "pug": "^2.0.3",
+    "sinon": "^7.2.7",
+    "sinon-chai": "^3.3.0",
+    "startlab-data": "file:../startlab-data",
+    "test-console": "^1.1.0",
+    "uuid": "^3.3.2"
+  },
+  "devDependencies": {}
+}
