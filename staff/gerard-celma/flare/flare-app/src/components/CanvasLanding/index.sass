@@ -1,0 +1,144 @@
+// html, body 
+// 	height: 100%
+// 	margin: 0
+// 	padding: 0
+	// overflow: hidden
+
+
+.hero 
+	background-color: #eeeeee
+	width: 100%
+	height: 100%
+	max-height: calc(100% - 50px)
+	overflow: hidden
+
+	& .inner 
+		position: relative
+		max-width: 960px
+		height: 100%
+		margin: 110px 0px 0px 0px
+		display: flex
+		flex-direction: column
+		flex-wrap: nowrap
+		justify-content: center
+		align-items: center
+		text-align: center
+		padding: 40px
+		box-sizing: padding-box
+		z-index: 4
+
+		& img
+			width: 150px
+			margin-top: 15px
+
+		& h1 
+			color: #000
+			font-weight: 300
+			text-transform: uppercase
+			margin-bottom: 0
+            font-family: 'Comfortaa', cursive
+		
+		& p 
+			color: #999999
+			margin-bottom: 0
+			font-size: 14px
+			line-height: 150%
+			max-width: 550px
+			&.small 
+				font-size: 12px
+         
+	
+
+	
+	.background 
+		width: 100%
+		height: 100%
+		position: absolute
+		top: 0
+		right: 0
+		bottom: 0
+		left: 0
+		background-color: #EEEEEE
+		z-index: 1
+		#hero-canvas 
+			width: 100%
+			height: 100%
+			position: relative
+		
+
+@media (min-width: 840px)
+    .hero .inner
+        margin: 190px 0px 0px 40px
+
+
+@media (min-width: 1200px)
+    .hero .inner
+        margin: 190px 150px 0px 200px
+
+
+
+.login-down
+	position: absolute
+	left: 42%
+	bottom: 50px
+	display: block
+	text-align: center
+	font-size: 30px
+	z-index: 100
+	text-decoration: none
+	text-shadow: 0
+	z-index: 9
+	-webkit-transform: translate(-50%, 0%) 
+	-moz-transform: translate(-50%, 0%) 
+	transform: translate(-50%, 0%) 
+	-webkit-animation: fade_move_down 4s ease-in-out infinite
+	-moz-animation: fade_move_down 4s ease-in-out infinite
+	animation: fade_move_down 4s ease-in-out infinite
+        
+@media (min-width: 840px)
+    .login-down
+        left: 47%
+        font-size: 40px
+
+.login-down__text
+    text-decoration: none
+    color: #8B6E78
+
+/*animated scroll arrow animation
+@-webkit-keyframes fade_move_down
+	0%
+		-webkit-transform: translate(0, -10px) 
+		opacity: 0
+
+	50%
+		opacity: 1
+
+	100%
+		-webkit-transform: translate(0, 10px) 
+		opacity: 0
+
+
+@-moz-keyframes fade_move_down
+	0%
+		-moz-transform: translate(0, -10px) 
+		opacity: 0
+
+	50%
+		opacity: 1
+
+	100%
+		-moz-transform: translate(0, 10px) 
+		opacity: 0
+
+
+@keyframes fade_move_down
+	0%
+		transform: translate(0, -10px) 
+		opacity: 0
+
+	50%
+		opacity: 1
+
+	100%
+		transform: translate(0, 10px) 
+		opacity: 0

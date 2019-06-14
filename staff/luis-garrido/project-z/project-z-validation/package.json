@@ -1,0 +1,9 @@
+{
+  "name": "project-z-validation",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "project-z-errors": "file:../project-z-errors"
+  }
+}

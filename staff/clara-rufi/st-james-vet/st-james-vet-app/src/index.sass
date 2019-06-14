@@ -1,0 +1,178 @@
+
+body
+    background-image: url('./components/images/wood.jpg') 
+    font-family: 'Roboto', sans-serif
+
+h1
+    margin-top: 3rem
+    margin-left: 3rem
+
+form
+
+    background-color: #a9a4a4
+    font-size: 0.8rem
+    color: #efeaea
+    margin: 6rem
+    padding: 0.1rem 0 1rem
+    border: 0.2rem solid black
+    border-radius: 0.4rem
+    -webkit-box-shadow: 10px 13px 32px 10px rgba(3,1,3,1)
+    -moz-box-shadow: 10px 13px 32px 10px rgba(3,1,3,1)
+    box-shadow: 10px 13px 32px 10px rgba(3,1,3,1)
+    
+.input__form
+    margin: 0 1.5rem 0.5rem 3rem
+
+.input__date
+    margin: 0 1.5rem 0.5rem 3rem
+    width: 25rem
+    border: 0
+
+label
+    font-size: 1.7rem
+    font-weight: 550
+
+select
+    color: black
+    font-size: 1.4rem
+    margin-left: 1.1rem
+    border-radius: 0.3rem
+    height: 2.4rem
+    background-color: #e8e8e8
+
+input, textarea
+
+    width: calc(100% - 2rem)
+    border-radius: 0.2rem
+    font-size: 1.2rem
+    border: 0.8px solid black
+    color: black
+    background-color: #e8e8e8
+    margin: 1rem 0 1rem 0
+    text-indent: 0.4rem 
+    font-size: 1.4rem
+    height: 2.5rem
+
+textarea 
+    height: 30rem
+
+main
+    display: flex
+    flex-direction: column
+    padding: 1.5rem
+
+.button
+    border-radius: 0.3rem
+    height: 3.5rem
+    width: 6rem
+    background-color: #2c2c99
+    color: white
+    font-size: 1.1rem
+    border: 0.1rem solid #363434
+    margin-left: 4rem
+    margin-top: 1.2rem
+
+.button__gohome
+    border-radius: 0.3rem
+    height: 3.5rem
+    width: 9rem
+    background-color: #af8514f2
+    color: white
+    font-size: 1.2rem
+    border: 0.1rem solid #363434
+    margin: 2rem 0 2rem 4rem
+
+.button__delete
+    border-radius: 0.3rem
+    height: 3rem
+    width: 7rem
+    background-color: #c70808
+    color: white
+    font-size: 1.2rem
+    border: 0.1rem solid #363434
+    margin: 2rem 0 2rem 4rem
+
+.feedback
+    font-size: 1.2rem
+    border: 0.1rem solid black
+    border-radius: 0.3rem
+    text-align: center
+    padding: 1rem
+    font-size: 1.2rem
+    margin-top: 1.2rem
+
+    &__success
+        background-color: #069406
+        color: white
+    &__error
+        background-color: tomato
+        color: white
+    &__confirmation
+        background-color: #ff8a00
+
+
+@media (max-width: 570px)
+
+    .form__login
+        padding: 0 1rem 0 1rem
+    
+    .information__vet
+        display: none
+
+
+@media (min-width: 570px)
+
+    .register
+        padding-left: 6rem
+
+    .feedback__error
+        width: 25rem
+        margin: 2rem 0 4rem 4rem
+    
+    .feedback__confirmation
+
+        width: 25rem
+        margin: 2rem 0 4rem 4rem
+
+    .button__confirm
+
+        margin-left: 7rem
+
+    .feedback__success
+        width: 25rem
+        margin: 2rem 0 4rem 4rem
+    
+    .input__form
+        width: 40rem
+        margin: 0 0 0 4rem
+
+@media (min-width: 700px)
+
+    .form__login
+        width: 53rem
+        margin-left: 13rem
+        padding: 3rem
+
+    .form__vet
+        width: 53rem
+        padding: 3rem
+        
+   
+
+@media (min-width: 900px)
+
+    .form__login
+        padding: 5rem
+        width: 60rem
+        margin-left: 27rem
+
+    .form__vet
+        margin-left: 30rem  
+
+    textarea.form-control 
+        font-size: 1.2rem
+
+    .calendar 
+        width: 70rem
+        margin-left: 25rem
+        // padding: 0 1rem 2rem 1rem

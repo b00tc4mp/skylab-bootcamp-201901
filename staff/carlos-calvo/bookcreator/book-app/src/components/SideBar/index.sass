@@ -1,0 +1,59 @@
+.bodycontainer
+    display: flex
+    flex-direction: row
+    width: 100vw
+    
+.coverright
+    margin-top: 0%
+
+.sidenav
+    text-align: right
+    height: 70px
+    line-height: 70px
+    z-index: 1000000000
+    display: flex
+
+    &__menu
+    margin-left: 30px
+    a
+        clear: right
+        text-decoration: none
+        color: gray
+        margin: 0 10px
+        line-height: 70px
+        span
+            color: #df4d19 
+        .fa-sign-out-alt
+            color: #df4d19
+    label
+        margin: 0 40px 0 0
+        font-size: 26px
+        line-height: 70px
+        position: absolute
+        display: none
+        width: 26px
+        float: right
+    #toggle
+        display: none
+    
+
+@media only screen and (max-width: 750px)
+    .sidenav
+        width: 100%
+        position: fixed
+        label
+            display: block
+            cursor: pointer
+        &__menu
+            text-align: center
+            width: 100%
+            display: none
+            background-color: #dfe2e2
+        a
+            display: block
+            border-bottom: 1px solid #EAEAEB
+            background-color: #dfe2e2
+            margin: 0
+            color: black
+        #toggle:checked + .sidenav__menu
+            display: block

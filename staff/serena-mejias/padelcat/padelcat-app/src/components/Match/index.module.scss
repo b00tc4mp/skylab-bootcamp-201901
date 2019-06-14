@@ -1,0 +1,97 @@
+@import "../../styles/_index.scss";
+
+div.teams {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin: 0 1em;
+  @media screen and (min-width: $break-large) {
+    justify-content: space-around;
+  }
+}
+
+form.chosePlayers {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+div.selects {
+  flex-direction: column;
+  align-items: center;
+  margin: $size-s;
+  label {
+    width: 100px;
+  }
+}
+
+div.select {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: baseline;
+}
+
+div.team {
+  display: flex;
+  flex-direction: column;
+}
+
+div.buttons {
+  text-align: right;
+}
+
+div.result {
+  padding: 0 0 $size-xs 0;
+  text-align: center;
+}
+
+.date {
+  margin: $size-xs 0 $size-s;
+}
+
+div.availability {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: $size-s 0;
+  align-items: center;
+}
+
+div.location {
+  padding: $size-xs 0 0 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+h6.teamName {
+  margin: $size-xs;
+}
+
+div.chosen_pairs {
+  display: flex;
+  flex-direction: column;
+  margin: $size-s auto;
+  background: #e0f7fa;
+  border-radius: 36px;
+  width: 20em;
+  h4 {
+    margin-right: 0;
+  }
+  @media screen and (min-width: $break-large) {
+    margin-left: 7em;
+  }
+}
+
+div.match {
+  display: flex;
+  flex-direction: row;
+  align-items: baseline;
+  justify-content: space-evenly;
+}
+
+h4 {
+  margin-right: $size-m;
+}

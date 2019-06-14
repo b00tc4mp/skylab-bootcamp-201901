@@ -1,0 +1,110 @@
+.createJourney
+    border-radius: 2em
+    max-width: 800px
+    background: rgba(255, 255, 255, 0.6)
+
+    &__background
+        padding-top: 50px
+        padding-bottom: 50px
+        background-image: url("./background.jpg")
+        background-repeat: no-repeat
+        background-position: center
+        background-attachment: fixed
+        background-size: cover
+
+
+    &__title
+        text-align: center
+        margin-left: 5%
+        margin-right: 5%
+        margin-top: 30px
+        margin-bottom: 20px
+
+    &__sea
+        display: flex
+        justify-content: center
+           
+    &__map
+        position: static
+        display: inline-block
+        height: 50vh
+        width: 100%
+       
+    &__calendar
+        max-width: 500px
+        margin: auto
+       
+    &__titleJourney
+        display: flex
+        justify-content: center
+        input
+            max-width: 500px
+            width: 60%
+
+       
+    &__description
+        margin-left: 5%
+        margin-right: 5%
+        textarea
+            width: 100%
+            height: 200px
+
+    &__boat
+        display: flex
+        justify-content: center
+        select
+            max-width: 500px
+            width: 60%
+
+       
+    &__boatSelected
+        margin-left: 5%
+        margin-right: 5%
+
+    &__lookingFor
+        text-align: center
+        margin-left: 5%
+        margin-right: 5%
+        margin-top: 30px
+        margin-bottom: 20px
+        border-bottom: 2px solid black
+
+    &__experience
+        max-width: 500px
+        margin: auto
+        width: 100%
+
+    &__languages
+        max-width: 500px
+        margin: auto
+        width: 100%
+        margin-bottom: 60px
+
+    &__submit
+        display: flex
+        justify-content: flex-end
+
+    &__submit-button
+        margin: 0px
+        padding: 10px
+        width: 100%
+        background: #012C4C
+        border: 2px solid #012C4C
+        color: white
+        border-bottom-left-radius: 2em
+        border-bottom-right-radius: 2em
+
+    &__submit-button:hover
+        background: none
+        border: 2px solid #012C4C
+        color: #012C4C
+
+    @media (min-width: 576px)
+        &__submit-button
+            width: 100%
+
+@media (min-width: 800px)
+    .createJourney
+        border: 2px solid black
+        margin-left: auto
+        margin-right: auto

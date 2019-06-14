@@ -1,0 +1,27 @@
+@import '../../utils.sass'
+    
+.events-nav
+    display: grid
+    grid-template-columns: repeat(3, 1fr)
+    position: fixed
+    width: 100%
+    z-index: 5
+    background-color: white
+    box-shadow: 1px 1px 30px 1px #e8d3ff
+
+    &__element
+        background-color: $light-green
+        padding: 0.6em
+        border-style: solid
+        border-radius: 1em
+        margin: 0.5em
+        cursor: pointer
+        border-width: 0
+
+        &-selected
+            background-color: $dark-green
+
+    &__element:hover
+        padding: 0.6em
+        margin: 0.4em
+        transition: 0.3s

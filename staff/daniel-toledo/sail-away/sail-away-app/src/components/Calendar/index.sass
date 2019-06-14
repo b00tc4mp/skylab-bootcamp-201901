@@ -1,0 +1,32 @@
+.calendar
+    &__title
+        text-align: center
+    
+    &__month
+        display: grid
+        grid-template-columns: repeat(7, 1fr)
+        grid-template-rows: repeat(5, 1fr)
+        cursor: pointer
+
+    &__week 
+        display: flex
+        justify-content: center
+
+
+.day
+    display: flex
+    justify-content: center
+
+.day.selected
+    background-color: #A9CFE4
+    
+
+.day.start
+    background-color: #026390
+    border-top-left-radius: 2em
+    border-bottom-left-radius: 2em
+
+.day.end
+    background-color: #026390
+    border-top-right-radius: 2em
+    border-bottom-right-radius: 2em

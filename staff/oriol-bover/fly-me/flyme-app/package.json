@@ -1,0 +1,36 @@
+{
+  "name": "flyme-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "bulma": "^0.7.4",
+    "dotenv": "^7.0.0",
+    "flyme-data": "../flyme-data/",
+    "flyme-validation": "../flyme-validation/",
+    "node-sass": "^4.11.0",
+    "react": "^16.8.3",
+    "react-beautiful-dnd": "^10.1.0",
+    "react-dom": "^16.8.3",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.5",
+    "react-toastify": "^4.5.2"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --runInBand",
+    "test:debug": "react-scripts --inspect-brk test --runInBand",
+    "test-coverage": "npm test -- --coverage",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}
