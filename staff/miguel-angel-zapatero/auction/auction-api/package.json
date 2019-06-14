@@ -1,0 +1,45 @@
+{
+  "name": "auction-api",
+  "version": "0.0.1",
+  "description": "Auction server side API",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "watch": "nodemon .",
+    "debug": "node inspect .",
+    "test": "jest --runInBand",
+    "test:debug": "node inspect ./node_modules/jest/bin/jest.js --runInBand --watchAll",
+    "test:coverage": "jest --coverage --watchAll"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/maz-e"
+  },
+  "keywords": [
+    "node",
+    "express",
+    "sockets"
+  ],
+  "author": "Miguel Angel Zapatero",
+  "license": "ISC",
+  "dependencies": {
+    "auction-data": "file:../auction-data",
+    "auction-errors": "file:../auction-errors",
+    "auction-validate": "file:../auction-validate",
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cloudinary": "^1.14.0",
+    "cors": "^2.8.5",
+    "crypto": "^1.0.1",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0"
+  },
+  "jest": {
+    "testEnvironment": "node"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
+  }
+}
