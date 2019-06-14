@@ -2,7 +2,7 @@ import call from '../../common/call'
 import ow from 'ow'
 
 const restApi = {
-    //__url__: 'https://powerful-escarpment-24575.herokuapp.com/api',
+    // __url__: 'https://powerful-escarpment-24575.herokuapp.com/api',
     __url__: 'http://localhost:7000/api',
     __timeout__: 0,
 
