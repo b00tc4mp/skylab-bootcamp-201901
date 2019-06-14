@@ -1,0 +1,31 @@
+{
+  "name": "cinema-and-go-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "watch": "nodemon index.js",
+    "debug": "node debug index.js",
+    "test": "jest --runInBand",
+    "test:debug": "node debug ./node_modules/jest/bin/jest.js --runInBand --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcrypt": "^3.0.6",
+    "body-parser": "^1.19.0",
+    "cinema-and-go-data": "file:../cinema-and-go-data",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "nodemon": "^1.19.1",
+    "axios": "^0.18.0",
+    "cheerio": "^1.0.0-rc.3",
+    "jest": "^24.8.0"
+  }
+}

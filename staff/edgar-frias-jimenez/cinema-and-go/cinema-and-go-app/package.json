@@ -1,0 +1,61 @@
+{
+  "name": "cinema-and-go-app",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "test:debug": "react-scripts debug test --runInBand --no-cache",
+    "test:debug-inspect": "react-scripts --inspect-brk test --runInBand --no-cache",
+    "test:coverage": "react-scripts test --coverage --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "dependencies": {
+    "@react-google-maps/api": "^1.2.7",
+    "aws-sdk": "^2.467.0",
+    "axios": "^0.19.0",
+    "bulma": "^0.7.5",
+    "create-react-app": "^3.0.1",
+    "dotenv": "^8.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "moment": "^2.24.0",
+    "node-sass": "^4.11.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "3.0.0"
+  },
+  "devDependencies": {
+    "bcrypt": "^3.0.6",
+    "cinema-and-go-data": "file:../cinema-and-go-data"
+  },
+  "jest": {
+    "watchPathIgnorePatterns": [
+      "src/common"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/"
+    ]
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 firefox version",
+      "last 1 chrome version",
+      "last 1 safari version"
+    ]
+  }
+}
