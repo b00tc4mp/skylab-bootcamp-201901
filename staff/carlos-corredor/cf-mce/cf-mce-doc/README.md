@@ -35,7 +35,10 @@
 
 ![Data Model](images/data.png)
 
-## [Planning]()
+## [Planning](https://trello.com/b/gTVQtTqA/skylab-project-cf-mce)
+
+
+## TODO
 
 * Add budget and notes to modules.
 * Clear prices and budget products.
