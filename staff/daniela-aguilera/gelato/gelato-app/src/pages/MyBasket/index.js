@@ -27,13 +27,11 @@ export function MyBasket () {
   }
 
   const renderQR = () => {
-    // host -> "localhost:3000"
-    // protocol -> "http"
     const { host, protocol } = window.location
 
     const qr = new QRious({
-      size: 300, // size of the image
-      value: `${protocol}//${host}/orders/${orderId}` // string to transform to qr
+      size: 300,
+      value: `${protocol}//${host}/orders/${orderId}`
     })
 
     return <img alt='QR Code' src={qr.toDataURL()} />
