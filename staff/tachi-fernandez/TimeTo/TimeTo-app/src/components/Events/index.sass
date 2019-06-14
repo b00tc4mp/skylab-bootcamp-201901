@@ -1,0 +1,40 @@
+.my-events
+    padding-left: 15px
+    padding-right: 15px
+    max-width: 500px
+    min-width: 200px
+    margin: 0 auto
+    color: white
+    &__event
+        border: 1px solid #0957ab
+        margin-top: 20px
+        margin-bottom: 20px
+        background: rgba(0, 0, 0, 0.1)
+        &-img
+            width: 100%
+            &-image
+                width: 100%
+        &-title
+            &-h2
+                display: flex
+                justify-content: center
+        &-description
+            &-paragraph
+                display: flex
+                justify-content: center
+                padding: 15px
+        &-dateAndUbication
+            border-bottom: 1px solid #0957ab
+            border-top: 1px solid #0957ab
+            display: flex
+            justify-content: center
+            justify-content: space-around
+            padding: 15px
+@media (min-width: 600px)
+    .my-events
+        max-width: 600px
+@media(min-width: 900px)
+    .my-events
+        max-width: 800px
+
+     

@@ -1,0 +1,28 @@
+* {
+  box-sizing: border-box;
+}
+
+html, body, #root {
+  width: 100%;
+  height: 100%;
+}
+
+body {
+  font-family: "Roboto", sans-serif;
+  font-size: 16px;
+  background: #499bea;
+  background: linear-gradient(to right, #499bea 0%, #499bea 3%, #0957ab 98%, #0957ab 100%);
+  padding-top: 64px;
+}
+
+.App {
+  min-height: 100%;
+  display: grid;
+  grid-template-rows: 1fr auto;
+  grid-template-columns: 100%;
+  background: #499bea;
+  background: -webkit-linear-gradient(45deg, #499bea 0%, #002775 83%, #002775 84%, #002775 100%);
+  background: linear-gradient(to right, #499bea 0%, #499bea 3%, #0957ab 98%, #0957ab 100%);
+}
+
+/*# sourceMappingURL=index.css.map */
