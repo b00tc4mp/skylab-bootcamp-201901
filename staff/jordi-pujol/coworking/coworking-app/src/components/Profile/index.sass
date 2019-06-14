@@ -1,0 +1,144 @@
+.profile
+    max-width: 100%
+    display: flex
+    flex-direction: column
+    padding-top: 5em
+    margin: auto
+
+    input.profile__content--name
+        background-color: transparent
+        border: none
+        color: white
+        font-size: 24px
+        padding-left: 2em
+
+    input.profile__content--company
+        background: transparent
+        border: none
+        color: #FFA345
+        font-size: 20px
+        padding-left: 2em
+
+
+    .profile__content
+        display: flex
+        flex-direction: column
+        margin: 0 auto
+        justify-content: space-around
+        margin-bottom: 1em
+        max-width: 90%
+
+        &--form
+            display: flex
+            flex-direction: column
+            justify-content: space-around
+            background-color: #40676E
+            min-width: 100%
+
+            &--userImage
+                border-radius: 100%
+                height: 8em
+                width: 10em
+                opacity: 1
+                margin: 0 auto
+                padding-top: 1em
+
+            &--inputs
+                color: white
+                display: flex
+                flex-direction: column
+
+.profile__info
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    background-color: #71A596
+
+
+.profile__form
+    min-width: 90%
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    align-self: center
+    padding-left: 2em
+    margin-top: 3em
+
+    &--info
+        width: 90%
+        border: none
+        margin-bottom: 1em
+        height: 2em
+        background: transparent
+        border-bottom: 1px solid #40676E
+
+.profile__button
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    align-self: center
+    
+
+.edit
+    margin: 0 auto
+    margin-top: 1em
+    border-radius: 5px
+    width: 10em
+    height: 2em
+    border: none
+    color: #fff
+    font-size: 15px
+    cursor: pointer
+    background-color: #408E61
+    border: 1px solid #40676E
+    font-weight: 600
+    font-family: 'Ubuntu', sans-serif
+
+.save
+    margin: 0 auto
+    margin-top: 1em
+    border-radius: 5px
+    width: 10em
+    height: 2em
+    border: none
+    color: #fff
+    font-size: 15px
+    cursor: pointer
+    background-color: #408E61
+    font-weight: 600
+    font-family: 'Ubuntu', sans-serif
+    margin-bottom: 1em
+    border: 1px solid #40676E
+
+.upload_image
+    margin: auto
+    color: white
+    border: none
+
+
+input.upload_image
+    margin: 0 auto
+    margin-top: 1em
+    border-radius: 5px
+    height: 2em
+    border: none
+    color: #fff
+    font-size: 15px
+    cursor: pointer
+    font-family: 'Ubuntu', sans-serif
+    margin-bottom: 1em
+    border: 1px solid #40676E
+
+@media (min-width: 1000px)
+    .profile
+        padding-top: 7em
+
+        .profile__content
+            min-width: 50%
+
+            input.profile__content--name
+                font-size: 22px
+                padding-left: 7em
+
+            input.profile__content--company
+                padding-left: 7em

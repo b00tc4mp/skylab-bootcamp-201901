@@ -1,0 +1,23 @@
+@import "../../styles/_index.scss";
+
+section.container{
+  display: flex;
+  justify-content: center;
+}
+
+ul.matches_list {
+  padding: 0 $size-s;
+}
+li.match {
+  margin-bottom: 0;
+  padding: 0;
+  text-indent: 0;
+  list-style-type: none;
+}
+.card {
+  margin-bottom: $size-m;
+  @media screen and (min-width: $break-large) {
+    width: 35em;
+  }
+  
+}

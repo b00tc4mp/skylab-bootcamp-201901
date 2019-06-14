@@ -1,0 +1,71 @@
+*
+    box-sizing: border-box
+    
+.containerLogin
+    position: absolute
+    top: 0
+    left: 0
+    z-index: 1000
+    width: 100vw
+    height: 100vh
+    background-color: rgba(0,0,0,0.6)
+    padding: 0
+    margin: 0
+    font-size: 1rem
+
+    form
+        width: 50vw
+        height: 50vh
+        position: absolute
+        top: 10vh
+        left: 25vw
+        color: white
+
+    input
+        width: 100%
+        padding: 12px 20px
+        margin: 2px 0
+        display: inline-block
+        border: 1px solid #ccc
+        box-sizing: border-box
+
+    .container-buttons
+        display: flex
+        justify-content: space-around
+        .but 
+            width: 45%
+            font-weight: bolder
+            &--cancel
+                background-color: #3c415e
+                border-radius: 4px
+                margin: 2% 
+            &--cancel:hover
+                background-color: #dfe2e2
+                border-radius: 4px
+                margin: 2%
+                border: 2px solid black 
+            &--login
+                background-color: #1cb3c8
+                border-radius: 4px
+                margin: 2%
+            &--login:hover
+                background-color: #dfe2e2
+                border-radius: 4px
+                margin: 2% 
+                border: 2px solid black
+    &:hover
+        opacity: 0.8
+    .container
+        padding: 16px
+
+    span.psw
+        float: right
+        padding-top: 16px
+
+
+    @media screen and (max-width: 300px)
+        span.psw
+            display: block
+            float: none
+        .cancelbtn
+            width: 100%

@@ -13,7 +13,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "npx eslint src"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -27,6 +28,8 @@
   "devDependencies": {
     "bcrypt": "^3.0.4",
     "dotenv": "^6.2.0",
+    "eslint": "^5.15.3",
+    "eslint-plugin-react": "^7.12.4",
     "music-data": "file:../music-data"
   }
 }

@@ -1,0 +1,116 @@
+* {
+    margin: 0;
+    padding: 0;
+}
+
+html,
+body {
+    height: 100%;
+    background: linear-gradient(
+        135deg,
+        rgb(86, 41, 122) 0%,
+        rgb(64, 158, 71) 100%
+    );
+    font-family: "Merriweather Sans", sans-serif;
+}
+
+.app {
+    height: 100vh;
+    background: radial-gradient(
+            farthest-side at bottom left,
+            rgba(255, 0, 255, 0.5),
+            transparent 50%
+        ),
+        radial-gradient(
+            farthest-corner at bottom right,
+            rgba(255, 50, 50, 0.5),
+            transparent 50%
+        );
+    display: grid;
+    grid-template-rows: 6em auto 6em;
+}
+
+.header {
+    background-color: rgba(0, 0, 0, 0.2);
+}
+.header__title {
+    text-align: center;
+    font-family: "Bungee", cursive;
+}
+
+.nav-mobile {
+    background-color: rgba(0, 0, 0, 0.2);
+    display: flex;
+    justify-content: space-around;
+    text-align: center;
+    font-size: 4em;
+}
+
+.footer {
+    display: none;
+    background-color: rgba(0, 0, 0, 0.2);
+    text-align: center;
+}
+
+.nav-mobile__icons {
+    align-self: center;
+}
+
+.five {
+    
+    width: 100px;
+    height: 100px;
+    background-color: #e0cabb;
+    margin: 0 auto;
+    position: relative;
+    left: 50px;
+}
+.five:hover {
+    left: -50px;
+}
+
+
+.main {
+    width: 100vw;
+    height: 100vh;
+    display: grid;
+    grid-template-columns: 0fr auto;
+}
+.navbar-tablet {
+    display: flex;
+    background-color: rgba(150, 150, 150, 0.2);
+    justify-content: space-around;
+    text-align: center;
+    font-size: 4em;
+    flex-direction: column;
+}
+
+.navbar-tablet__icons {
+    display: none
+}
+
+
+@media only screen and (min-width: 580px) {
+    .app {
+        display: grid;
+        grid-template-rows: 6em auto 2em;
+    }
+    .nav-mobile {
+        display: none;
+    }
+    .footer {
+        display: grid;
+    }
+    .main {
+        display: grid;
+        grid-template-columns: 8em auto;
+    }
+    .navbar-tablet {
+        display: flex;
+        left: 0px;
+    }
+
+    .navbar-tablet__icons {
+        display: block;
+    }
+}

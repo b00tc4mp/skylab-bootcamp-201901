@@ -20,7 +20,7 @@ const logic = {
     * @param {string} passwordConfirmation 
     */
     registerUser(name, surname, email, password, passwordConfirmation) {
-        validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, , { key: 'passwordConfirmation', value: passwordConfirmation, type: String }])
+        validate([{ key: 'name', value: name, type: String }, { key: 'surname', value: surname, type: String }, { key: 'email', value: email, type: String }, { key: 'password', value: password, type: String }, { key: 'passwordConfirmation', value: passwordConfirmation, type: String }])
 
         if (password !== passwordConfirmation) throw new MatchingError('passwords do not match')
 

@@ -1,0 +1,12 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,700');
+
+.host-game {
+    height: 100%;
+    background: #eee;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Poppins', sans-serif;
+
+    // display: grid;
+    // grid-template-rows: auto 1fr;
+}
