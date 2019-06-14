@@ -1,6 +1,6 @@
-#Pro-Skate App
+# Pro-Skate App
 
-##Introduction
+## Introduction
 
 Pro skate is an e-comerce app oriented to skate products. This app alowes you to chosse, order a product, keep it on you order list and pay by card.
 Enjoy it!!
