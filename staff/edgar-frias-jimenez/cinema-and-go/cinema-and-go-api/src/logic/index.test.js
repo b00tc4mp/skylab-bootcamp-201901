@@ -7,7 +7,7 @@ const { RequirementError, ValueError, FormatError, LogicError } = require('../co
 
 dotenv.config()
 
-const { env: { MONGO_URL_TEST: url } } = process
+const { env: { MONGO_URL: url } } = process
 
 jest.setTimeout(1000000)
 

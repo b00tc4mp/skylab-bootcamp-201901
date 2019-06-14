@@ -126,11 +126,13 @@
                                 &.green {
                                     color: white;
                                     background-color: #7ac29a;
+                                    cursor: pointer;
                                 }
 
                                 &.red {
                                     color: white;
                                     background-color: #f44336;
+                                    pointer-events: none;
                                 }
                             }
                         }
