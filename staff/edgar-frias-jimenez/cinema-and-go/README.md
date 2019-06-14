@@ -5,7 +5,7 @@
 [Live Demo](https://cinema-and-go.surge.sh)
 
 ## Api Documentation
-[API Docummentation](cinema-and-go-api/README.md)
+[API Documentation](cinema-and-go-api/README.md)
 
 ## App Documentation
-[APP Docummentation](cinema-and-go-app/README.md)
+[APP Documentation](cinema-and-go-app/README.md)
