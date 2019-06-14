@@ -22,9 +22,10 @@ function Items({items, onItem}) {
                         <dl>
                             <hr className="uk-divider-icon"/>
                             <dd>Estimate: {logic.getFormat(startPrice)}</dd>
-                            <dd className="uk-text-uppercase uk-text-small">
-                            {moment().isBefore(startDate) ? moment(startDate).format('DD MMM YYYY') : moment(finishDate).format('DD MMM YYYY')} | {moment().isBefore(startDate) ? moment(startDate).format('LT') : moment(finishDate).format('LT')} | {city}
+                            {moment().isBefore(startDate) && <dd className="uk-text-uppercase uk-text-small">Begins: {moment(startDate).format('DD MMM YYYY')} | {moment(startDate).format('LT')}</dd>} 
+                            <dd className="uk-text-uppercase uk-text-small">{moment().isBefore(startDate) && 'Ends:'} {moment(finishDate).format('DD MMM YYYY')} | {moment(finishDate).format('LT')}
                             </dd>
+                            <dd>{city}</dd>
                         </dl>
                     </div>
                 </div>
