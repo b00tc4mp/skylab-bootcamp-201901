@@ -22,7 +22,6 @@
     "test:debug": "react-scripts debug test --runInBand --no-cache",
     "test:debug-inspect": "react-scripts --inspect-brk test --runInBand --no-cache",
     "test:coverage": "react-scripts test --coverage --watchAll"
-
   },
   "eslintConfig": {
     "extends": "react-app"

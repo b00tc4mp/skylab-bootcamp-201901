@@ -3,6 +3,37 @@ const validate = require('../common/validate')
 const userApi = require('../data/user-api')
 const duckApi = require('../data/duck-api')
 const { LogicError } = require('../common/errors')
+<<<<<<< HEAD
+
+const sessionStorage = {
+    clear() {
+        const keys = Object.keys(sessionStorage)
+
+        keys.forEach(key => delete sessionStorage[key])
+    }
+}
+
+const logic = {
+    set __userId__(id) {
+        sessionStorage.userId = id
+    },
+
+    get __userId__() {
+        return normalize.undefinedOrNull(sessionStorage.userId)
+    },
+
+    set __userToken__(token) {
+        sessionStorage.userToken = token
+    },
+
+    get __userToken__() {
+        return normalize.undefinedOrNull(sessionStorage.userToken)
+    },
+
+    get isUserLoggedIn() {
+        return !!(this.__userId__ && this.__userToken__)
+    },
+=======
 const token = require('../common/token')
 
 class Logic {
@@ -21,6 +52,7 @@ class Logic {
     get isUserLoggedIn() {
         return !!this.__userToken__
     }
+>>>>>>> upstream/develop
 
     registerUser(name, surname, email, password) {
         validate.arguments([
@@ -38,7 +70,11 @@ class Logic {
 
                 throw new LogicError(response.error)
             })
+<<<<<<< HEAD
+    },
+=======
     }
+>>>>>>> upstream/develop
 
     loginUser(email, password) {
         validate.arguments([
@@ -51,12 +87,22 @@ class Logic {
         return userApi.authenticate(email, password)
             .then(response => {
                 if (response.status === 'OK') {
+<<<<<<< HEAD
+                    const { data: { id, token } } = response
+
+                    this.__userId__ = id
+                    this.__userToken__ = token
+                } else throw new LogicError(response.error)
+            })
+    },
+=======
                     const { data: { token } } = response
 
                     this.__userToken__ = token
                 } else throw new LogicError(response.error)
             })
     }
+>>>>>>> upstream/develop
 
     retrieveUser() {
         return userApi.retrieve(this.__userId__, this.__userToken__)
@@ -67,7 +113,11 @@ class Logic {
                     return { name, surname, email }
                 } else throw new LogicError(response.error)
             })
+<<<<<<< HEAD
+    },
+=======
     }
+>>>>>>> upstream/develop
 
     logoutUser() {
         // this.__userId__ = null
@@ -75,7 +125,11 @@ class Logic {
 
         // OR fully remove all key values from session storage
         sessionStorage.clear()
+<<<<<<< HEAD
+    },
+=======
     }
+>>>>>>> upstream/develop
 
 
     searchDucks(query) {
@@ -85,7 +139,11 @@ class Logic {
 
         return duckApi.searchDucks(query)
             .then(ducks => ducks instanceof Array ? ducks : [])
+<<<<<<< HEAD
+    },
+=======
     }
+>>>>>>> upstream/develop
 
     retrieveDuck(id) {
         validate.arguments([
@@ -93,7 +151,11 @@ class Logic {
         ])
 
         return duckApi.retrieveDuck(id)
+<<<<<<< HEAD
+    },
+=======
     }
+>>>>>>> upstream/develop
 
     toggleFavDuck(id) {
         validate.arguments([
@@ -118,7 +180,11 @@ class Logic {
 
                 throw new LogicError(response.error)
             })
+<<<<<<< HEAD
+    },
+=======
     }
+>>>>>>> upstream/develop
 
     retrieveFavDucks() {
         return userApi.retrieve(this.__userId__, this.__userToken__)
@@ -138,6 +204,11 @@ class Logic {
                 throw new LogicError(response.error)
             })
     }
+<<<<<<< HEAD
+}
+
+module.exports = logic
+=======
 
     toggleCart(id) {
         validate.arguments([
@@ -194,3 +265,4 @@ class Logic {
 
 
 module.exports = Logic
+>>>>>>> upstream/develop
