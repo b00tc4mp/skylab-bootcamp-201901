@@ -8,6 +8,6 @@
 
 ## [Live demo](https://laclave-salsa.surge.sh/#/)
 
-## [app-documentation](laclave-app/README.md)
-## [api-documentation](laclave-api/README.md)
+## [Aplication](laclave-app/README.md)
+## [API](laclave-api/README.md)
 
