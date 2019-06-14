@@ -1,0 +1,84 @@
+.item 
+    margin-top: 35px
+    display: flex
+    flex-direction: column
+    width: 100%
+    &__image
+        height: 416px
+        background-position: top center
+        background-repeat: no-repeat
+        background-size: cover
+        box-shadow: $box-shadow
+        position: relative
+        overflow: hidden
+        cursor: pointer
+    
+        &:after
+            content: ''
+            position: absolute
+            top: 0
+            left: 0
+            right: 0
+            bottom: 0
+            transition: background-color .3s linear
+            background-color: rgba(0, 0, 0, 0.3)
+        &:hover:after 
+            background-color: rgba(0, 0, 0, 0)
+    &__header
+        &__name
+            color: $letters
+            margin-left: 12px
+            font-size: 1rem
+    &__footer
+        display: flex
+        justify-content: space-between
+        margin: 10px
+        & p
+            color: black
+            margin-right: 7px
+            font-size: 0.8rem
+        &__fav
+          
+           padding: 13px
+           border-radius: 7px
+           color: $fav  
+           font-size: 18px   
+        &__city
+            display: flex
+            justify-content: space-around
+           
+            padding: 10px
+            border-radius: 7px 
+            &__icon
+                color: $grey
+                font-size: 18px
+        &__date
+            display: flex
+            justify-content: space-between
+           
+            padding: 10px
+            border-radius: 7px 
+            &__icon
+                color: $grey
+                font-size: 18px
+        &__price
+            display: flex
+            justify-content: space-between
+           
+            padding: 10px
+            border-radius: 7px 
+            &__icon
+                 color: $grey
+                 font-size: 18px   
+    +tablet
+        width: 45%
+        &__image
+            background-size: cover
+            background-position: top center
+    +laptop
+        width: 30%
+       
+       
+
+
+

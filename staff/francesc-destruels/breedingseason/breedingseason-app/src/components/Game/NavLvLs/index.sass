@@ -1,0 +1,102 @@
+@import ../../../config
+.NavLvL
+    grid-area: NavLvL
+    display: flex
+    color: black
+    justify-content: space-around
+    background-image: $bg-imgMission
+    background-repeat: no-repeat
+    background-size: 110% 110%
+    background-position-x: 50%
+    
+    &__Points
+        display: grid
+        grid-template-rows: 40% 60%
+        grid-template-areas: "A" "B"
+        height: 70%
+        width: 100%
+        align-self: flex-end
+        justify-content: center
+        
+    &--Clickable > .E1
+        background-image: radial-gradient(yellow 20%, yellow 10%, rgba(255, 0, 0, 0) 70%)
+        transform: translate(45%, 21%)
+
+    &--Clickable > .E2
+        background-image: radial-gradient(yellow 20%, yellow 10%, rgba(255, 0, 0, 0) 70%)
+        transform: translate(10%, 21%)
+
+    &--Clickable > .E3
+        background-image: radial-gradient(yellow 20%, yellow 10%, rgba(255, 0, 0, 0) 70%)
+        transform: translate(-20%, 21%)
+
+    &--Clickable > .E4
+        background-image: radial-gradient(yellow 20%, yellow 10%, rgba(255, 0, 0, 0) 70%)
+        transform: translate(-50%, 21%)
+        
+    &--Danger
+        background-color: red
+    
+    &__Level
+        grid-area: B 
+        justify-self: center
+        font-size: 1.8vh
+
+    &__Element
+        overflow: visible
+        grid-area: A
+        height: 10vh
+        justify-self: center
+        align-self: center
+
+//Level Txt
+
+.L1
+    transform: translate(50%, 50%)
+
+    &--Clickable
+        color: Lime
+        transform: translate(50%, 50%)
+
+.L2
+    transform: translate(15%, 50%)
+
+    &--Clickable
+        color: Lime
+        transform: translate(15%, 50%)
+
+
+.L3
+    transform: translate(-20%, 50%)
+
+    &--Clickable
+        color: Lime
+        transform: translate(-20%, 50%)
+
+.L4
+    transform: translate(-50%, 50%)
+
+    &--Clickable
+        color: Lime
+        transform: translate(-50%, 50%)
+
+.LT
+    transform: translate(-600%, 50%)
+
+//Element pictures
+
+.E1
+    transform: translate(45%, 21%)
+
+.E2
+    transform: translate(10%, 21%)
+
+.E3
+    transform: translate(-20%, 21%)
+
+.E4
+    transform: translate(-50%, 21%)
+
+.ET
+    transform: translate(-60%, 21%)
+        

@@ -1,0 +1,33 @@
+
+.Home
+    display: grid
+    height: 100%
+    width: 100%
+    grid-template-columns: 20% 60% 20%
+    grid-template-rows: 100%
+    grid-template-areas: " . B . "
+
+.Panel
+    grid-area: B
+    border: 5%
+    position: relative
+    display: grid
+    justify-items: center
+    font-size: 200%
+
+    &__Logo
+        height: 30%
+        align-self: center
+
+.Panel > Button
+    font-size: 150%
+    height: 90%
+    width: 42%
+
+.Panel > p
+    margin: 0%
+
+
+
+
+

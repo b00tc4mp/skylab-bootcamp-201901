@@ -1,0 +1,67 @@
+@import '../config.sass'
+
+.g-UserMenu
+    position: absolute
+    bottom: 0
+    left: 0
+    height: 100vh
+    overflow: hidden
+    background-color: rgba(158,158,158,0)
+    transition: background-color ease-in 0.3s
+    z-index: 1
+
+    &__header
+        height: $heightHeader
+        width: 100%
+        z-index: 24
+
+
+
+    &--opened
+        width: 100%
+        background-color: rgba(158,158,158,0.7  )
+
+
+    &__menu
+        width: 0
+        height: 100vh
+        background-color: white
+        transition: width ease-in 0.3s
+        display: flex
+        align-items: center
+        flex-direction: column
+        overflow: hidden
+
+        &--opened
+            width: 70%
+            max-width: 300px
+
+    &__category
+        width: 100%
+        display: flex
+        flex-direction: column
+
+        &-title
+            display: flex
+            align-items: center
+            margin-top: 20px
+
+
+            &-icon
+                margin-left: 20px
+                margin-right: 30px
+                width: 50px
+                height: 50px
+                border-radius: 50%
+                display: flex
+                justify-content: center
+                align-items: center
+                background-color: #f5f5f5
+
+                &:hover
+                    background-color: $iconHover
+
+        &-products
+
+
+

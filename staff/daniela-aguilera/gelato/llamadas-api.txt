@@ -1,0 +1,36 @@
+* usuario
+^ admin
+
+/users
+    GET: Login *^
+    POST: Register * 
+    PUT: Actualizar perfil *
+    DELETE: Eliminar usuario *
+
+/users/:userId/uploadImage
+    POST: Subir una imagen del usuario *
+
+/orders
+    GET: Recuperar pedidos ^
+    POST: Crear un pedido *
+    PUT: Actualizar pedido ^
+    DELETE: Eliminar el pedido *^
+
+/orders/findByStatus
+    GET: Recuperar pedidos por su estado ^
+
+/menu
+    GET: Recuperar el menu semanal ^*
+    PUT: Actualizar el menu semanal ^
+
+/events
+    GET: Recuperar los eventos *^
+    POST: Crear un evento ^
+
+/events/:eventsId/uploadImage
+    POST: Subir una imagen del evento ^
+
+/events/:id
+    DELETE: Eliminar un evento ^
+    PUT: Actualizar un evento ^
+    

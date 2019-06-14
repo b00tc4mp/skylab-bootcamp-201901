@@ -1,0 +1,125 @@
+.menu
+    //mobile - icons
+    &__nav-icons 
+        padding: 10px  
+        display: flex
+        justify-content: space-around
+        +tablet
+            display: none
+        & img
+            width: 60px
+            opacity: 0.8
+
+    //mobile - login + register
+    &__buttons
+        display: flex
+        justify-content: space-around
+        flex-flow: row wrap
+        padding: 10px 
+        &__logout
+            flex-grow: 1
+            color: #999
+        &__profile
+            flex-grow: 1
+            margin-left: 5px
+            background-color: $button-green // sobreescribes el background color blanco
+            color: #fff
+        &__congress
+            flex-grow: 1
+            margin-left: 5px
+            background-color: $button-green // sobreescribes el background color blanco
+            color: #fff
+        +tablet 
+            display: none
+
+        &__login
+            flex-grow: 1
+            color: #999
+            
+        &__register
+            flex-grow: 1
+            margin-left: 5px
+            background-color: $button-green // sobreescribes el background color blanco
+            color: #fff
+
+
+    //all - main menu
+    &__nav-links
+        box-shadow: $box-shadow
+        display: flex
+        justify-content: space-around
+        padding-bottom: 17px
+        padding-top: 21px
+        font-size: 14px
+        &__link
+            color: $letters
+            font-size: $base-font-size
+             
+    //all - top bar
+    &__topbar
+        display: none   
+        +tablet
+            display: flex
+            align-items: center
+            padding: 10px 15px
+
+            // logo + search form
+            &__left
+                display: flex
+                flex-grow: 1
+                align-items: center
+                margin-right: 30px
+                & img
+                    width: 60px
+                    opacity: 0.8
+                &__logo
+                    font-size: 40px
+                    color: #111
+                    margin-right: 15px
+                &__search
+                    border-radius: 24px
+                    height: 40px
+                    flex-grow: 1
+                    display: flex
+                    align-items: center
+                    background-color: transparent
+                    background-color: #eee
+
+                    &-input
+                        border: none
+                        border-radius: 24px
+                        flex-grow: 1
+                        height: 38px    
+                        margin-left: 12px
+                        background-color: #eee
+                        font-size: 15px
+                        font-family: $base-font-family
+                        color: $grey
+                        autocorrect: off
+                        &:focus
+                            outline: none      
+                    &-icon 
+                        color: rgba(153, 153, 153, 0.5)
+                        font-size: 19px
+                        margin-left: 20px
+
+            // buttons
+            &__right
+                &__button-login
+                    border: none
+                    color: #111111
+                &__button-register
+                    background-color: $button-green
+                    color: #fff         
+                &__button-congress
+                    background-color: $button-green
+                    color: #fff
+                    margin-right: 5px
+                &__button-logout
+                    border: none
+                    color: #111111
+                    border: 1px solid #ddd
+                    margin-right: 5px
+                &__button-profile
+                    background-color: $button-green
+                    color: #fff   

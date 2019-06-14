@@ -1,0 +1,16 @@
+.App {
+    text-align: center;
+    height: 100vh;
+}
+
+.content {
+    padding-top: 5em;
+    // background: url("./imgs/pac_man_monsters_vector_suits_jogging_97549_1920x1080.jpg") fixed no-repeat;
+    height: 1920px;
+    // background-color: rgb(218, 218, 218);
+    background-color: rgb(229, 229, 229);
+    width: 100%;
+    height: calc(100vh - 80px);
+    overflow-y:auto;
+
+}

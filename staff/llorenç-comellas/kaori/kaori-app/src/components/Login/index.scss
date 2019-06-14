@@ -1,0 +1,19 @@
+.login{
+    padding: 5px 20px;
+    text-align: center;
+    position: relative;
+    background-color: rgba(255, 255, 255, 0.81) !important;
+    background-image: url('https://res.cloudinary.com/dme91l7mj/image/upload/v1559641675/kaori/home.jpg');
+    background-blend-mode: color;
+    background-size: cover;
+    height: 76vh;
+    width: 100%;
+}
+
+.field:first-child{
+    margin-top: 15px;
+}
+
+section:last-child{
+    margin-top:20px;
+}

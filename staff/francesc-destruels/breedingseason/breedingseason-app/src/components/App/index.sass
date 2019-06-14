@@ -1,0 +1,38 @@
+@import ../../config
+
+.App
+    display: grid
+    height: 100%
+    width: 100%
+    grid-template-columns: 99%
+    grid-template-rows: 99%
+    grid-template-areas: "A"
+
+    &__Pages
+        grid-area: A
+        justify-content: center
+
+    &__Pages--BadResolution
+        display: none
+
+@media screen and (max-width: $break-tablet)
+    .App
+
+        &__Pages
+            display: none
+
+        &__Pages--BadResolution
+            display: block
+            grid-area: A
+    
+
+@media screen and (orientation:portrait)
+    .App
+
+        &__Pages
+            display: none
+
+        &__Pages--BadResolution
+            display: block
+            grid-area: A
+    

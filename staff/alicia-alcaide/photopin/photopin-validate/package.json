@@ -1,0 +1,12 @@
+{
+  "name": "photopin-validate",
+  "version": "1.0.0",
+  "description": "validate",
+  "main": "src/index.js",
+  "dependencies": {
+    "photopin-errors": "file:../photopin-errors"
+  },
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
+}

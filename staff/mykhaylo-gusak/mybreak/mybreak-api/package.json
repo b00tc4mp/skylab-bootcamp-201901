@@ -1,0 +1,28 @@
+{
+  "name": "mybreak-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha",
+    "test:debug": "mocha --inspect-brk *",
+    "coverage": "nyc npm run test"
+  },
+  "keywords": [],
+  "author": "Mykhaylo Gusak",
+  "license": "ISC",
+  "dependencies": {
+    "@hapi/joi": "^15.0.3",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mybreak-data": "file:../mybreak-data"
+  },
+  "devDependencies": {
+    "faker": "^4.1.0",
+    "nyc": "^14.1.1",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4"
+  }
+}

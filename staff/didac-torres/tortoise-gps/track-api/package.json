@@ -1,0 +1,33 @@
+{
+  "name": "track-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node src",
+    "watch": "nodemon src",
+    "debug": "node debug src",
+    "test": "npx mocha ./**/*.spec.js",
+    "deb": "npx mocha debug ./**/*.spec.js",
+    "cov": "nyc --reporter=html --reporter=text mocha ./**/*.spec.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.0",
+    "bcryptjs": "^2.4.3",
+    "chai": "^4.2.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1",
+    "track-data": "file:../track-data",
+    "track-utils": "file:../track-utils"
+  },
+  "nyc": {
+    "exclude": "**/*.spec.js"
+  }
+}

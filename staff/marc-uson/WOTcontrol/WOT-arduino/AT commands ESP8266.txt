@@ -1,0 +1,29 @@
+conectar wifi (Lleida): 			AT+CWJAP="bivid_307C","71AF092F875E"
+
+conectar wifi (Torrefa): 			AT+CWJAP="MOVISTAR_188C","779365653266DE8A2D1D"
+
+conectar wifi (Barna): 				AT+CWJAP="Orange-E00C","kTpmgGXF"
+
+conectar wifi (Skylab): 			AT+CWJAP="skylabCodersAcademy","skylabRocks"
+____________________________________________________________________________________________
+
+cambi de buadrate a 9600 (default 115200):	AT+UART_DEF=9600,8,1,0,0
+
+conectar a localhost:8080:			AT+CIPSTART="TCP","localhost",8080
+
+enviar tamany del GET:				AT+CIPSEND=15
+
+enviar GET de test:				GET /api/test
+
+_____________________________________________________________________________________________
+
+proves amb thingSpeak:
+
+set single connection: 				AT+CIPMUX=0
+
+Connect to thingspeak using tcp protocol:	AT+CIPSTART="TCP","api.thingspeak.com",80
+						AT+CIPSTART="TCP","184.106.153.149",80
+
+send data to thingspeak:			AT+CIPSEND=51
+						GET /update?api_key=TB8MUGBRA4QXT4MB&field1=255
+						AT+CIPCLOSE

@@ -1,0 +1,27 @@
+.searchByGenre{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    max-width: 1400px;
+    margin: 0 auto;
+    margin-top:70px;
+    width: 100%;
+    font-family: Montserrat;
+    font-weight: bold;
+    text-transform: capitalize;
+
+    &__title{
+    padding-left: 16px;
+    font-weight: bold;
+    font-size: 30px;
+
+    }
+
+    &__noResult{
+        padding-top: 100px;
+
+        padding-left: 650px;
+        font-size: 40px;
+        color: black,
+    }
+}

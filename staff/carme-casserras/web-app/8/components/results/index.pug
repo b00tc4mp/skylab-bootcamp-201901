@@ -1,0 +1,12 @@
+mixin results(ducks, favs) 
+    ul
+        each duck in ducks
+            - const isFav = favs.some(fav => fav.id === duck.id)            
+            i(class=isFav ? 'fas fa-heart' : 'far fa-heart')
+                           
+            li
+                a(href=duck.url)
+                    h2 #{duck.title}                
+                    img(src=duck.image)        
+                    p #{duck.price}
+            

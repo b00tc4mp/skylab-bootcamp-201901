@@ -1,0 +1,142 @@
+db.pins.drop()
+db.pmaps.drop()
+pinid1 = ObjectId()
+pinid2 = ObjectId()
+pinid3 = ObjectId()
+pinid4 = ObjectId()
+pinid5 = ObjectId()
+mapid1 = ObjectId()
+mapid2 = ObjectId()
+mapid3 = ObjectId()
+db.pins.insertMany([
+{ 
+    "_id": pinid1,
+    mapId: mapid1,
+    author: ObjectId("5cf28aea7949356028c9acfb"), 
+    title: "Skogafoss",
+    description: "My favorite waterfall",
+    urlImage: "https://images.unsplash.com/photo-1523302348819-ffd5c0521796?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1000&q=60",
+    bestTimeOfYear: "All",
+    bestTimeOfDay: "All",
+    photographyTips: "Don't leave your camera at home",
+    travelInformation: "Need car",
+    coordinates: { 
+        latitude : 63.53331, 
+        longitude : -19.51168
+    }
+},
+{ 
+    "_id": pinid2,
+    mapId: mapid1,
+    author: ObjectId("5cf28aea7949356028c9acfb"), 
+    title: "Jökulsárlón",
+    description: "My favorite glacier lagoon",
+    urlImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRet38OOXJmShkrdm9eRuKkG6GK48Zti6ZlLgetlE1txrrRkYaGTf9Xnua2",
+    bestTimeOfYear: "All",
+    bestTimeOfDay: "All",
+    photographyTips: "Don't leave your camera at home",
+    travelInformation: "Need car",
+    coordinates: { 
+        latitude : 64.04845, 
+        longitude : -16.19887
+    }
+},
+{ 
+    "_id": pinid3,
+    mapId: mapid1,
+    author: ObjectId("5cf28aea7949356028c9acfb"), 
+    title: "Stokness",
+    description: "Batman mountain",
+    urlImage: "https://images.unsplash.com/photo-1504829857797-ddff29c27927?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80",
+    bestTimeOfYear: "All",
+    bestTimeOfDay: "All",
+    photographyTips: "Don't leave your camera at home",
+    travelInformation: "Need car",
+    coordinates: { 
+        latitude : 64.24407,
+        longitude : -14.96483
+    }
+},
+{ 
+    "_id": pinid4,
+    mapId: mapid2,
+    author: ObjectId("5cf28aea7949356028c9acfb"), 
+    title: "Tre Cime di Lavadero",
+    description: "Refugio Locatelli | Dreizinnenhütte",
+    urlImage: "https://images.unsplash.com/photo-1556653922-ca7aa575c39f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1400&q=80",
+    bestTimeOfYear: "All",
+    bestTimeOfDay: "All",
+    photographyTips: "Don't leave your camera at home",
+    travelInformation: "Need car",
+    coordinates: { 
+        latitude : 46.63692,
+        longitude : 12.31056
+    }
+},
+{ 
+    "_id": pinid5,
+    mapId: mapid3,
+    author: ObjectId("5cf28aea7949356028c9acfb"), 
+    title: "Neist Point",
+    description: "My favorite lighthouse",
+    urlImage: "https://images.unsplash.com/photo-1524756614325-ab25ba59e6e6?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2100&q=80",
+    bestTimeOfYear: "All",
+    bestTimeOfDay: "All",
+    photographyTips: "Don't leave your camera at home",
+    travelInformation: "Need car",
+    coordinates: { 
+        latitude : 57.42972,
+        longitude : -6.77884
+    }
+}
+]
+)
+db.pmaps.insertMany([
+{ 
+    "_id": mapid1,
+    title: "Beautiful Iceland",
+    description: "My favorite locations from Iceland",
+    coverImage: "https://images.unsplash.com/photo-1476610182048-b716b8518aae?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2327&q=80",
+    author: ObjectId("5cf28aea7949356028c9acfb"),
+    isPublic: false,
+    collections: [
+    {
+        title: "Waterfalls",
+        pins: [pinid1]
+    },
+    {
+        title: "South",
+        pins: [pinid2, pinid3]
+    }
+    ]
+},
+{ 
+    "_id": mapid2,
+    title: "Dolomites",
+    description: "My favorite locations from Dolomites",
+    coverImage: "https://images.unsplash.com/photo-1440339738560-7ea831bf5244?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2106&q=80",
+    author: ObjectId("5cf28aea7949356028c9acfb"),
+    isPublic: false,
+    collections: [
+        {
+            title: "Mountains",
+            pins: [pinid4]
+        }
+    ]
+},
+{ 
+    "_id": mapid3,
+    title: "Beautiful Scotland",
+    description: "My favorite locations from Scotland",
+    coverImage: "https://images.unsplash.com/photo-1476990789491-712b869b91a5?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2388&q=80",
+    author: ObjectId("5cf28aea7949356028c9acfb"),
+    isPublic: false,
+    collections: [
+        {
+            title: "Coast",
+            pins: [pinid5]
+        }
+    ]
+}
+]
+) 

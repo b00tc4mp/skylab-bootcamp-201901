@@ -1,0 +1,21 @@
+.userPanel {
+    font-family: Montserrat;
+    text-transform: capitalize;
+    height: 100%;
+
+    &__section {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        padding-left: 100px;
+        height: 50%;
+        margin-bottom:30px;
+    }
+
+    &__sectionTitle {
+        font-size: 30px;
+        padding-left: 10px;
+        width: fit-content
+        
+    }
+}

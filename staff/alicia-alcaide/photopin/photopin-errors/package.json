@@ -1,0 +1,9 @@
+{
+  "name": "photopin-errors",
+  "version": "1.0.0",
+  "description": "errors",
+  "main": "src/index.js",
+  "devDependencies": {
+    "eslint": "^5.16.0"
+  }
+}

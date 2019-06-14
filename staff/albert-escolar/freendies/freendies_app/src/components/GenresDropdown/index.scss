@@ -1,0 +1,36 @@
+.Genres {
+    color: white;
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+    align-content: center;
+    font-family: Montserrat;
+    margin-top: 25px;
+    text-transform: capitalize;
+    position: relative;
+
+    &__button {
+        color: white;
+        background: none;
+        border: 0px;
+        cursor: pointer;
+        font-size: 20px;
+        font-family: Montserrat;
+        font-weight: bold;
+
+    }
+
+    &__list {
+        margin-top: 28px;
+        list-style-type: none;
+        padding: 0;
+        background-color: rgb(36, 37, 37);
+        cursor: pointer;
+    }
+
+    &__listItems {
+        margin: 10px 0px;
+    }
+
+
+}

@@ -1,0 +1,35 @@
+{
+  "name": "pro-skate-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "debug_vs": "node --inspect-brk .",
+    "test": "mocha --watch-extensions js,jsx '**/*.test.{js,jsx}' --watch --timeout 10000",
+    "test-chrome": "mocha --inspect-brk **/*.test.js --timeout 1000000",
+    "test-debug": "mocha  --watch-extensions js,jsx '**/*.test.{js,jsx}' --watch --inspect --timeout 10000",
+    "only-test": "mocha --inspect-brk only-test/test.js",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.23.0",
+    "cors": "^2.8.5",
+    "dotenv": "^8.0.0",
+    "jsonwebtoken": "^8.5.1",
+    "pro-skate-common": "file:../pro-skate-common",
+    "pro-skate-data": "file:../pro-skate-data",
+    "validator": "^11.0.0"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  },
+  "nyc": {
+    "exclude": "**/common/**/*.js"
+  },
+  "description": ""
+}

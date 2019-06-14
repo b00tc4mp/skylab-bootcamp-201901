@@ -1,0 +1,31 @@
+.Modal {
+  position: absolute;
+  top: 60px;
+  left: 60px;
+  right: 40px;
+  bottom: 40px;
+  width: 90vw;
+  height: 85vh;
+  background-color: white;
+  box-shadow: 0 2px 7px 1px rgba(0, 0, 0, 0.3);
+}
+
+.custom-card-body {
+  padding: 10px 10px;
+}
+
+.custom-input {
+  vertical-align: middle;
+  display: inline-block;
+  padding: 2px;
+}
+
+.custom-select {
+  height: 24px;
+  width: 270px;
+  padding: 2px;
+}
+
+.custom-form-width {
+  width: 350px;
+}

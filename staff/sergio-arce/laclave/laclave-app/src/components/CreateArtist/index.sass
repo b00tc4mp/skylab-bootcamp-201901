@@ -1,0 +1,36 @@
+.artist
+    width: 100%
+    display: flex
+    flex-direction: column
+    justify-content: center
+    align-items: center
+    &__form
+        display: flex
+        flex-direction: column
+    & fieldset
+        display: flex
+        flex-direction: column
+        align-content: center
+        margin: 0
+        border: 0 
+        flex-grow: 1
+    & label
+    color: black
+    &__button
+        display: flex
+        justify-content: center
+    & input
+        +inputs
+    & select 
+        border: 1px solid $grey
+        padding: 14px
+        width: 100%
+    & button
+        +btnLogin
+        margin: 15px
+    &__form
+        +tablet
+            display: flex
+            align-content: center
+            width: 50%
+        
