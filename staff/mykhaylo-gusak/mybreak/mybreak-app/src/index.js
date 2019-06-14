@@ -3,12 +3,12 @@ import ReactDOM from 'react-dom';
 import './index.sass';
 import App from './components/App/App';
 import * as serviceWorker from './serviceWorker';
-import { BrowserRouter } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 
 ReactDOM.render(
-    <BrowserRouter>
+    <HashRouter>
         <App />
-    </BrowserRouter>
+    </HashRouter>
 , document.getElementById('root'));
 
 // If you want your app to work offline and load faster, you can change

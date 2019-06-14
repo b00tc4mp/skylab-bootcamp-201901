@@ -7,13 +7,13 @@ function Terminal() {
     const [order, setOrder] = useState(false)
     const [total, setTotal] = useState(false)
     const [error, setError] = useState(false)
-    const { pathname } = window.location
+    const { hash } = window.location
 
     useEffect(() => {
         return (async () => {
             try {
                 let acc = 0
-                const id = pathname.slice(7)
+                const id = hash.slice(8)
                 const response = await logic.retrieveOrderById(id)
                 if (response.message) {
                     setError(`There is no order with this id number ${id}`)
@@ -27,7 +27,6 @@ function Terminal() {
 
             } catch (err) {
                 setError(err.message)
-                // if (err.message === `child "id" fails because ["id" with value "${id}" fails to match the required pattern: /^[a-zA-Z0-9]{3,30}$/]`) setError(`Invalid id ${id}.`)
 
             }
         })()
@@ -36,7 +35,7 @@ function Terminal() {
     return (
         <section className='g-terminal'>
             <div className='g-terminal-content'>
-                <h1 className='g-terminal-content-title'>Order number: {pathname.slice(7)}</h1>
+                <h1 className='g-terminal-content-title'>Order number: {hash.slice(7)}</h1>
                 <div className='g-terminal-content-products'>
                     {order && !error && order.products.map(({ image, title, price }) => {
                         return <article className='g-terminal-content-products-item'>
