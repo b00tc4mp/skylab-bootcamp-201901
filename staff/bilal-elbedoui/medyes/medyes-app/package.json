@@ -1,0 +1,49 @@
+{
+  "name": "medyes-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-native-fontawesome": "^0.1.0",
+    "bootstrap": "^4.3.1",
+    "bulma": "^0.7.5",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "moment": "^2.24.0",
+    "node-sass": "^4.12.0",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-native-svg": "^9.5.1",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "uikit": "^3.1.5"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "test:chrome": "npx mocha ./**/*.spec.js --timeout 30000",
+    "test:debug": "npx mocha debug ./**/*.spec.js --timeout 30000",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha '**/*.spec.js' --timeout 30000"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "medyes-data": "file:../medyes-data"
+  }
+}
