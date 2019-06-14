@@ -1,0 +1,268 @@
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 4em; }
+
+.header {
+  background: #edeff0;
+  margin-bottom: 2em;
+  font-size: 0.95em;
+  color: #222;
+  text-align: center;
+  text-transform: uppercase;
+  display: block;
+  padding: 1em;
+  transition: 0.2s; }
+  @media (min-width: 769px) and (max-width: 1023px) {
+    .header .main-nav {
+      display: flex;
+      flex-wrap: wrap; } }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 4em; }
+
+.register__form {
+  max-width: 520px; }
+  .register__form input {
+    margin-bottom: 1em; }
+  .register__form button {
+    max-width: 120px; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 4em; }
+
+.login__form {
+  max-width: 520px; }
+  .login__form input {
+    margin-bottom: 1em; }
+  .login__form button.is-link {
+    max-width: 120px;
+    background-color: #0791d0; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 4em; }
+
+.home .title {
+  margin-bottom: 2em; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 4em; }
+
+.start-intro {
+  font-size: 22px; }
+  .start-intro .true {
+    text-decoration: line-through; }
+.start__form {
+  border: none;
+  box-shadow: none; }
+  .start__form__editor {
+    background-color: #2d2d2d;
+    min-height: 100px; }
+    .start__form__editor pre {
+      color: #ffffff; }
+      .start__form__editor pre span.number {
+        border-radius: 0;
+        font-size: inherit;
+        display: inline;
+        background-color: inherit;
+        margin-right: 0;
+        padding: 0; }
+  .start__form__button {
+    margin-top: 15px;
+    max-width: 120px; }
+
+.start__intro__title {
+  display: flex;
+  padding: 5px; }
+.start__intro__exercise {
+  margin-bottom: 15px;
+  margin-left: 5px; }
+  .start__intro__exercise .material-icons {
+    font-size: 17px;
+    color: green;
+    margin-left: 5px;
+    font-weight: bold; }
+.start__intro .activeExercise {
+  font-weight: bolder;
+  color: black;
+  font-size: 19px; }
+.start__intro .done {
+  text-decoration: line-through; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 4em; }
+
+.itemlist__header {
+  margin-bottom: 3em;
+  display: flex;
+  justify-content: space-between; }
+  .itemlist__header__title {
+    padding: 0.8em 0; }
+.itemlist button {
+  margin-top: 1em; }
+  .itemlist button__new {
+    margin-right: 0;
+    margin-top: 26px; }
+.itemlist-item {
+  background-color: #f5f5f5; }
+
+.itemlist-item__header {
+  margin-bottom: 7px; }
+  .itemlist-item__header-delete {
+    background-color: #ff3860; }
+  .itemlist-item__header__buttons {
+    display: flex; }
+.itemlist-item__description {
+  margin-bottom: 2.5em; }
+.itemlist-item__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; }
+  .itemlist-item__footer-edit {
+    margin-left: 1.4em;
+    border-color: #0791d0; }
+  .itemlist-item__footer-theme {
+    color: #ffffff;
+    font-size: 0.85em;
+    padding: 0.2em 0.8em;
+    border-radius: 0.25em;
+    transition: 0.2s;
+    height: 27px;
+    align-items: flex-end;
+    margin-right: 1.4em; }
+    .itemlist-item__footer-theme span {
+      background-color: #ffffff; }
+  .itemlist-item__footer span.is-warning {
+    background-color: #0791d0;
+    color: #FFF; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 4em; }
+
+.exercise-form form {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 50px; }
+  .exercise-form form label {
+    margin-top: 2em; }
+  .exercise-form form button {
+    margin-top: 10px;
+    max-width: 120px; }
+.exercise-form__editor {
+  background-color: #2d2d2d;
+  min-height: 100px; }
+  .exercise-form__editor pre {
+    color: #ffffff; }
+    .exercise-form__editor pre span.number {
+      border-radius: 0;
+      font-size: inherit;
+      display: inline;
+      background-color: inherit;
+      margin-right: 0;
+      padding: 0; }
+
+.start__active-exercise {
+  margin-top: 3em;
+  margin-bottom: 3em; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 4em; }
+
+.itemlist__header {
+  margin-bottom: 3em;
+  display: flex;
+  justify-content: space-between; }
+  .itemlist__header__title {
+    padding: 0.8em 0; }
+  .itemlist__header__new {
+    max-width: 50px; }
+.itemlist button {
+  margin-top: 1em; }
+.itemlist-item {
+  background-color: #f5f5f5; }
+
+.itemlist-item__header {
+  margin-bottom: 7px; }
+  .itemlist-item__header-delete {
+    background-color: #ff3860; }
+  .itemlist-item__header__buttons {
+    display: flex; }
+.itemlist-item__description {
+  margin-bottom: 2.5em; }
+.itemlist-item__footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end; }
+  .itemlist-item__footer-edit {
+    margin-left: 1.4em;
+    max-width: 120px; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 4em; }
+
+.invitation-new__form__button {
+  margin-top: 1em; }
+
+.register, .login, .home, .start, .itemlist, .exercise-form, .invitation-new {
+  padding: 1em 4em; }
+
+.results-test {
+  font-size: 12px; }
+  .results-test__fails__item {
+    list-style: none;
+    font-size: 1rem;
+    display: flex; }
+    .results-test__fails__item i {
+      margin-right: 11px;
+      color: tomato; }
+
+* {
+  box-sizing: border-box; }
+
+html {
+  background: #0791d0; }
+
+body {
+  color: #576366;
+  background: #0791d0;
+  margin: 0;
+  font-family: "Roboto", sans-serif; }
+
+button {
+  color: white;
+  background: #4188dc;
+  padding-left: 1em;
+  padding-right: 1em;
+  cursor: pointer;
+  border-color: rgba(0, 0, 0, 0.1); }
+
+.home a, input, button, textarea {
+  padding: 0.5em;
+  font-size: 0.9em;
+  margin-right: 10px;
+  border: none;
+  border-radius: 3px;
+  border: solid 1px #ccc;
+  outline: none; }
+
+hr {
+  border: 0;
+  height: 0;
+  margin: 2.3em 0 2em 0;
+  border-top: 1px solid rgba(0, 0, 0, 0.1); }
+
+h1, h2, ul {
+  margin: 0;
+  padding: 0; }
+
+h2 {
+  color: #404040;
+  font-size: 1.6em;
+  margin-bottom: 1.25em; }
+
+ul {
+  list-style-type: none; }
+
+a {
+  text-decoration: none;
+  color: #3b80d1; }
+
+/*# sourceMappingURL=index.css.map */

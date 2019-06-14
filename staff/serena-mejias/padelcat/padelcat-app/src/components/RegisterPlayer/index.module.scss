@@ -1,0 +1,28 @@
+@import "../../styles/_index.scss";
+
+section.container {
+  display: flex;
+  justify-content: center;
+}
+form.register {
+  display: flex;
+  flex-flow: column wrap;
+  justify-content: center;
+  margin-top: $size-m;
+}
+div.inputContainer {
+  display: block;
+}
+label {
+  display: block;
+  margin-bottom: 20px;
+  select {
+    margin-left: 10px;
+  }
+}
+.buttonRegister {
+  margin-top: 20px;
+  button {
+    width: 100%;
+  }
+}

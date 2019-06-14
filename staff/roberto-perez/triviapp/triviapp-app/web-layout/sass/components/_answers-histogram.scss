@@ -1,0 +1,150 @@
+.answers-histogram {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-around;
+  width: 100%;
+
+  &__choice {
+    text-align: center;
+    display: flex;
+    flex: 0 0 90%;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 170px;
+
+    &--red {
+      color: #e21b3c;
+      & .answers-histogram__bar {
+        background: #e21b3c;
+      }
+    }
+    &--blue {
+      color: #1368ce;
+      & .answers-histogram__bar {
+        background: #1368ce;
+      }
+    }
+    &--green {
+      color: #26890d;
+      & .answers-histogram__bar {
+        background: #26890d;
+      }
+    }
+    &--yellow {
+      color: #ffa601;
+      & .answers-histogram__bar {
+        background: #ffa601;
+      }
+    }
+  }
+
+  &__bar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 0;
+    height: 10%;
+    border-radius: 6px;
+
+    &--20 {
+      animation: bar20 0.8s 1 both ease-in-out;
+    }
+    &--30 {
+      animation: bar30 0.8s 1 both ease-in-out;
+    }
+    &--40 {
+      animation: bar40 0.8s 1 both ease-in-out;
+    }
+    &--50 {
+      animation: bar50 0.8s 1 both ease-in-out;
+    }
+    &--60 {
+      animation: bar60 0.8s 1 both ease-in-out;
+    }
+    &--70 {
+      animation: bar70 0.8s 1 both ease-in-out;
+    }
+    &--80 {
+      animation: bar80 0.8s 1 both ease-in-out;
+    }
+    &--90 {
+      animation: bar90 0.8s 1 both ease-in-out;
+    }
+    &--100 {
+      animation: bar100 0.8s 1 both ease-in-out;
+    }
+  }
+
+  @keyframes bar20 {
+    from {
+      height: 10%;
+    }
+    to {
+      height: 20%;
+    }
+  }
+  @keyframes bar30 {
+    from {
+      height: 10%;
+    }
+    to {
+      height: 30%;
+    }
+  }
+  @keyframes bar40 {
+    from {
+      height: 10%;
+    }
+    to {
+      height: 40%;
+    }
+  }
+  @keyframes bar50 {
+    from {
+      height: 10%;
+    }
+    to {
+      height: 50%;
+    }
+  }
+  @keyframes bar60 {
+    from {
+      height: 10%;
+    }
+    to {
+      height: 60%;
+    }
+  }
+  @keyframes bar70 {
+    from {
+      height: 10%;
+    }
+    to {
+      height: 70%;
+    }
+  }
+  @keyframes bar80 {
+    from {
+      height: 10%;
+    }
+    to {
+      height: 80%;
+    }
+  }
+  @keyframes bar90 {
+    from {
+      height: 10%;
+    }
+    to {
+      height: 90%;
+    }
+  }
+  @keyframes bar100 {
+    from {
+      height: 10%;
+    }
+    to {
+      height: 100%;
+    }
+  }
+}

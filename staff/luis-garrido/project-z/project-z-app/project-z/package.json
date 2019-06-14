@@ -1,0 +1,36 @@
+{
+  "name": "project-z",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "bcrypt": "^3.0.4",
+    "node-sass": "^4.11.0",
+    "project-z-data": "file:../../project-z-data",
+    "project-z-errors": "file:../../project-z-errors",
+    "project-z-validation": "file:../../project-z-validation",
+    "react": "^16.8.4",
+    "react-dom": "^16.8.4",
+    "react-masonry-component": "^6.2.1",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.1.8",
+    "react-toastify": "^4.5.2",
+    "react-youtube": "^7.9.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "eject": "react-scripts eject",
+    "test": "react-scripts test --runInBand",
+    "test-debug": "react-scripts --inspect-brk test --runInBand",
+    "test-coverage": "npm test -- --coverage"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ]
+}

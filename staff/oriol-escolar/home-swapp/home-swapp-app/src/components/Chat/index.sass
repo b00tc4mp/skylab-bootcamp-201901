@@ -1,0 +1,93 @@
+.chat
+    display: block
+    width: 100%
+    &-header
+        position: fixed
+        top: 120px
+        width: 100%
+        color: white
+        background-color: #706d6d
+        padding-bottom: 1rem
+        @media (min-width: 360px ) and (max-width:  760px)
+            top: 70px
+        
+        &__image 
+            margin-top: 20px    
+            height: 100px
+            border-radius: 5rem
+            cursor: pointer
+            @media (min-width: 360px ) and (max-width:  760px)
+                height: 50px
+                margin-right: 10px
+            @media (min-width: 768px ) and (max-width: 1020)
+                height: 100px
+                margin-right: 10px
+
+    &-messages
+        margin-top: 200px
+        display: flex
+        flex-flow: column wrap  
+        width: 100%
+        &-message
+            min-width: 100vw
+            &__sent
+                font-size: 1.5rem
+                padding: .2rem
+                padding-left: 1rem 
+                padding-right: 1rem 
+                margin: 10px
+                color: white
+                background-color: #474545
+                align-self: flex-end
+                border: 1px solid #CCB096
+                border-radius: 1rem
+                @media (min-width: 360px ) and (max-width:  760px)
+                    font-size: 1rem
+            &__recieved
+                font-size: 1.5rem
+                padding: .2rem
+                padding-left: 1rem 
+                padding-right: 1rem 
+                margin: 10px
+                color: white
+                background-color: #CCB096
+                align-self: flex-start
+                border: 1px solid black
+                border-radius: 1rem
+                @media (min-width: 360px ) and (max-width:  760px)
+                    font-size: 1rem
+
+
+        @media (min-width: 360px ) and (max-width:  760px)
+            margin-top: 100px
+
+        
+
+
+    &-form
+        position: fixed
+        bottom: 60px
+        display: flex
+        justify-content: flex-start
+        width: 100%
+        background-color: black
+        &-form__input
+            position: absolute
+            left: 0
+            height: 56px
+            width: 90%
+            @media (min-width: 360px ) and (max-width:  760px)
+                width: 80%
+
+
+        &-form__button
+            position: absolute
+            right: 0
+            height: 60px
+            width: 10%
+            border-radius: 0
+            @media (min-width: 360px ) and (max-width:  760px)
+                width: 20%
+
+
+            

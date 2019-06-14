@@ -1,0 +1,19 @@
+.start-button {
+    outline: none;
+    border: 0px;
+    cursor: pointer;
+    width: 150px;
+    height: 70px;
+    background-color: #4caf50;
+    color: #fff;
+    border-radius: 5px;
+    text-transform: uppercase;
+    box-shadow: 0px 10px 7px -6px rgba(0, 0, 0, 0.2);
+    font-weight: 700;
+    font-family: "Roboto", sans-serif;
+    transition: box-shadow 0.2s;
+    &:hover {
+      background: #3b923e;
+      box-shadow: 0px 0px 0px 0px rgba(0, 0, 0, 0.2);
+    }
+  }

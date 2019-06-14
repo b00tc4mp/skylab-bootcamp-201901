@@ -1,0 +1,16 @@
+.build {
+    font-size: 0.75em;
+    font-weight: 100;
+    text-align: center;
+
+    &__author {
+        font-weight: 400;
+        text-decoration: none;
+    }
+}
+
+.build .fa-heart {
+  color: rgb(255, 0, 112);
+}
+
+

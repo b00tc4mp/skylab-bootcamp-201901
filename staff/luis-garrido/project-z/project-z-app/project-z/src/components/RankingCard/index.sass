@@ -1,0 +1,40 @@
+.ranking-card
+    display: grid
+    grid-template-columns: 2.8em 20% auto 4em
+    width: 100%
+    max-width: 800px
+    margin: auto
+    align-items: center
+    cursor: pointer
+    &:hover
+        background-color: rgba(0,0,0,0.15)
+    &--background-even
+        background-color: rgba(0,0,0,0.05)
+    &__position
+        font-size: 1.5em
+        text-align: center
+        margin: auto
+        font-family: "Bungee", cursive
+        color: rgb(40,40,40)
+    &__image
+        width: 100%
+        max-height: 4em
+        object-fit: cover
+        transition: all .1s ease-out
+        &:hover
+            transform: scale(1.1)
+    &__info
+        padding-left: 0.6em
+        & a:hover
+            background-color: transparent
+            color: rgb(185, 11, 176)
+        &--platform
+            font-size: 0.8em
+    &__final-score
+        font-size: 1.5em
+        text-align: center
+        margin: auto
+        font-family: "Bungee", cursive
+        color: rgb(40,40,40)
+
+    

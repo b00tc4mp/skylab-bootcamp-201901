@@ -1,0 +1,42 @@
+@import '../../utils.sass'
+    
+.search
+    display: flex
+    flex-flow: row
+    align-items: center
+    padding: 0.85em
+
+    &__input
+        width: 100%
+        border-width: 0
+        height: 1.75em
+        padding: 0.1em
+        padding-left: 1.5em
+        font-size: 0.8em
+        border-radius: 0.5em 0 0 0.5em
+
+    &__input:hover
+        height: 1.5em
+        border-width: 0.15em
+        border-style: solid
+        border-color: $link-blue
+        font-size: 0.9em
+        padding: 0
+        padding-left: 1.5em
+
+    &__button
+        align-self: center
+        padding: 0.135em
+        background-color: $ocre
+        color: $dark-gray
+        font-size: 1.2em
+        margin-right: 1em
+        border-radius: 0 0.5em 0.5em 0
+        padding-right: 0.5em
+        padding-left: 0.5em
+        cursor: pointer
+
+    &__close
+        color: $dark-gray
+        margin-left: 1em  
+        margin-right: 1em      

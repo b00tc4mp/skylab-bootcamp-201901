@@ -1,0 +1,68 @@
+.HouseCard
+    position: relative
+    display: flex
+    flex-flow: row wrap
+    cursor: pointer
+    height: 350px
+    width: 1300px
+    -webkit-box-shadow: 0 0 5px 2px #fff
+    -moz-box-shadow: 0 0 5px 2px #fff
+    box-shadow: 0 0 5px 2px rgba(0, 0, 0, 0.1)
+    text-transform: capitalize
+    margin-bottom: 50px
+    background-color: white
+    @media (min-width: 980px ) and (max-width: 1365px )
+        width: 80%
+        height: 300px
+    @media (max-width: 980px )
+        height: 500px
+        width: 500px
+        display: block
+
+    @media (max-width: 360px )
+        display: block
+        width: 80%
+        height: 450px
+    &__img
+        justify-self: flex-start
+        align-self: flex-start
+        position: relative
+        top: 0
+        left: 0
+        top: 0
+        height: 100%
+        width: 400px
+        @media (min-width: 768px ) and (max-width: 1023px )
+            width: 80%
+            height: 100%
+        @media (max-width: 1023px )
+            width: 100%
+            height: 60%
+
+    
+    &__text
+        margin-left: 20px
+        width: 100%
+        margin-top: 10px
+        text-align: start
+        &-info
+            font-size: 1.5rem
+            font-weight: normal
+            color: black
+            @media (min-width: 360px ) and (max-width:  760px)
+                font-size: 1rem
+
+
+
+.icon
+    position: absolute 
+    bottom: 0
+    right: 0
+    margin: 15px
+    font-size: 50px
+    
+    @media (min-width: 360px ) and (max-width:  760px)
+        font-size: 2rem
+
+
+  

@@ -1,0 +1,67 @@
+.readMessage
+    height: 100vh
+    width: 100vw
+    background-image: url('https://res.cloudinary.com/dnvdmcxqw/image/upload/v1552719229/bkg.png')
+    background-position: center
+    background-repeat: no-repeat
+    background-size: cover
+    background-attachment: fixed
+
+
+@media (min-width: 768px)
+    .readMessage
+            overflow: hidden
+    
+@media (min-width: 992px)
+    .readMessage
+            overflow: hidden   
+
+.messageBox
+    display: flex
+    flex-flow: column nowrap
+    align-items: center
+    border-radius: 10px
+    margin: 30px 10px 50px 10px
+    background-color: rgba(138, 161, 163, 0.8)
+
+    & h2
+        color: white
+        // margin: 0px 0px 10px 0px
+
+    & img
+        max-width: 250px
+
+    & p
+        max-width: 250px
+        text-align: center
+
+    & button
+        border: 1px solid #8B6E78
+        border-radius: 5px
+        background-color: transparent
+        color: #8B6E78
+        font-size: 16px
+        text-decoration: none
+        height: 40px
+        width: 250px
+        margin-bottom: 20px
+
+    & button:hover
+        background-color: rgba(139, 110, 120, 0.8)
+        color: white
+
+@media (min-width: 768px)
+    .messageBox
+          margin: 50px 150px 5px 150px        
+
+@media (min-width: 992px)
+    .messageBox
+          margin: 50px 250px 5px 250px
+
+@media (min-width: 1200px)
+    .messageBox
+          margin: 50px 350px 5px 350px 
+
+.abuse
+    color: white
+    font-size: 12px
