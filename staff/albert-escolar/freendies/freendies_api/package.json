@@ -1,0 +1,32 @@
+{
+  "name": "freendies_api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "src/index.js",
+  "scripts": {
+    "start": "node src",
+    "watch": "nodemon src",
+    "debug": "node --inspect-brk src",
+    "test": "jest --runInBand",
+    "test:debug": "node --inspect-brk node_modules/.bin/jest --runInBand --watchAll"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@google-cloud/storage": "^2.5.0",
+    "bcrypt": "^3.0.4",
+    "body-parser": "^1.18.3",
+    "cors": "^2.8.5",
+    "dotenv": "^6.2.0",
+    "express": "^4.16.4",
+    "firebase-admin": "^8.0.0",
+    "freendies_data": "file:../freendies_data",
+    "jest": "^24.8.0",
+    "jsonwebtoken": "^8.5.0",
+    "multer": "^1.4.1",
+    "nyc": "^14.1.1",
+    "path": "^0.12.7",
+    "streamifier": "^0.1.1"
+  }
+}

@@ -1,0 +1,120 @@
+
+.Results
+    display: grid
+    color: black
+    height: 100%
+    width: 100%
+    grid-template-columns: 20% 30% 30% 20%
+    grid-template-rows: 20% 70% 20%
+    grid-template-areas: " . Logo Logo . " " . DATA DATA . " " . B C . "
+
+    &__Logo
+        grid-area: Logo
+        justify-self: center
+        height: 110%
+
+    &__List
+        grid-area: DATA
+        font-size: 250%
+        height: 95%
+        justify-self: center
+        width: 65%
+
+    &__Data
+        padding: 1%
+        font-size: 55%
+        background-color: rgba(161, 235, 234, 0.6)
+        border: 2px solid darkblue
+        border-radius: 1%
+        height: 90%
+        display: grid
+        width: 100%
+        grid-template-columns: 50% 50%
+        grid-template-rows: 20% 20% 20% 20% 10% 10%
+        grid-template-areas: " EG1 S1 " " EG2 S2 " " EG3 S3 " " EG4 T " " MI MI " " S TO"
+
+    &__ButtonB
+        align-content: center
+        grid-area: B
+        justify-self: end
+        transform: translateX(-10%)
+
+    &__ButtonC
+        align-content: center
+        grid-area: C
+        justify-self: start
+        transform: translateX(10%)
+
+    &__EG1
+        grid-area: EG1
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 100%
+        font-size: 150%
+        font-weight: bold
+
+    &__EG2
+        grid-area: EG2
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 100%
+        font-size: 150%
+        font-weight: bold
+
+    &__EG3
+        grid-area: EG3
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 100%
+        font-size: 150%
+        font-weight: bold
+
+    &__EG4
+        grid-area: EG4
+        display: flex
+        justify-content: center
+        align-items: center
+        width: 100%
+        font-size: 150%
+        font-weight: bold
+
+    &__Security
+        justify-content: center
+        align-items: center
+        width: 100%
+        font-size: 150%
+        font-weight: bold
+
+    &__T
+        justify-content: center
+        align-items: center
+        width: 100%
+        font-size: 150%
+        font-weight: bold
+
+    &__Mi
+        grid-area: MI
+        justify-self: center
+        align-self: center
+        font-size: 150%
+        font-weight: bold
+
+    &__St
+        grid-area: S
+        justify-self: center
+        font-size: 150%
+        font-weight: bold
+
+    &__Total
+        grid-area: TO
+        justify-self: center
+        font-size: 150%
+        font-weight: bold
+
+.IMG
+    height: 80%
+
+        

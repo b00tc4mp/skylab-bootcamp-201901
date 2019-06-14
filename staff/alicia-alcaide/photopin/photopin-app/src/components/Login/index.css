@@ -1,0 +1,6 @@
+.bg-login {
+  background: url(../../assets/images/photo-login.jpg) no-repeat center center;
+  background-size: cover;
+  height: 100vh;
+  width: 100vw;
+}

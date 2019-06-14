@@ -1,0 +1,79 @@
+@import ../../../config
+
+
+  
+
+
+.MissionCardsArea
+    display: grid
+    grid-template-columns: 30% 30% 30%
+    grid-template-rows: 99% 
+    grid-template-areas:  "M3 M1 M2"
+    height: 100%
+    justify-content: center
+    background-image: $bg-imgMission
+    background-repeat: no-repeat
+    background-size: 110% 110%
+    background-position-x: 50%
+
+    &__Mission
+        height: 70%
+        width: 90%
+        padding: 5px
+        justify-self: center
+        align-self: end
+        justify-content: center
+        justify-items: center
+        align-items: center
+        align-content: center
+        padding: 0
+
+    &__Mission--Clikable
+        background-image: radial-gradient(yellow 20%, yellow 10%, rgba(255, 0, 0, 0) 60%)
+        cursor: pointer
+
+    &__Mission__M1
+        display: grid
+        grid-template-columns: 30% 60%
+        grid-template-rows: 80% 19%
+        grid-template-areas: " N I " " FOR FOR "
+        grid-area: M1
+
+    &__Mission__M2
+        display: grid
+        grid-template-columns: 30% 60%
+        grid-template-rows: 80% 19%
+        grid-template-areas: " N I " " FOR FOR "
+        transform: translateX(-10%)
+        grid-area: M2
+
+    &__Mission__M3
+        display: grid
+        grid-template-columns: 30% 60%
+        grid-template-rows: 80% 19%
+        grid-template-areas: " N I " " FOR FOR "
+        transform: translateX(+10%)
+        grid-area: M3
+
+    &__Amount
+        font-size: 3vh
+        margin: 0
+        color: black
+
+    &__Points
+        justify-self: center
+        align-self: end
+        transform: translateY(-10%)
+        color: black
+        font-size: 2vh
+        grid-area: FOR
+
+.MImg
+    height: 10vh
+    transform: translateX(-20%)
+
+.M0
+    height: 14vh
+    z-index: 2
+    transform: rotate(15deg) translate(-10%, 5%)
+

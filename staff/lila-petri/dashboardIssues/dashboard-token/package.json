@@ -1,0 +1,14 @@
+{
+    "name": "dashboard-token",
+    "version": "1.0.0",
+    "description": "dashboard-token",
+    "main": "src/index.js",
+    "author": "Lila Petri",
+    "license": "ISC",
+    "devDependencies": {
+        "dashboard-errors": "file:../dashboard-errors"
+    },
+    "dependencies": {
+        "atob": "^2.1.2"
+    }
+}

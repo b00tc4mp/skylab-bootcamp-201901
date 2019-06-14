@@ -1,0 +1,15 @@
+.searchbox {
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  top: 130px;
+  right: 30px;
+  -webkit-box-shadow: 3px 3px 5px 0px rgba(112, 104, 112, 0.64);
+  -moz-box-shadow: 3px 3px 5px 0px rgba(112, 104, 112, 0.64);
+  box-shadow: 3px 3px 5px 0px rgba(112, 104, 112, 0.64);
+}
+
+.searchbox input {
+  padding: 5px;
+}

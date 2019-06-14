@@ -1,0 +1,43 @@
+.login
+    display: flex
+    flex-direction: column
+    padding: 30px 10px
+    max-width: 700px
+    & h1
+        color: black
+        text-align: center
+        margin: 0 0 6px 
+    & p 
+        color: black
+        text-align: center
+        margin: 36px 0
+        height: 1px
+        & a
+            color: $grey
+    &__form
+        display: flex
+        flex-direction: column
+    
+        & fieldset
+            display: flex
+            flex-direction: column
+            align-content: center
+            margin: 10px 0
+            border: 0 
+            padding: 0
+            +tablet
+            
+        & label
+            color: $letters
+        & input 
+            +inputs
+        & button
+            background-color: black
+            color: white
+            margin-top: 20px
+            padding: 15px 12px
+    +tablet
+        width: 60%
+        margin-left: auto
+        margin-right: auto       
+           
