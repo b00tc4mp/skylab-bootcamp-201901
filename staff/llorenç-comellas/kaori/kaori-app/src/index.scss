@@ -1,0 +1,75 @@
+@import '../node_modules/bulma/bulma.sass';
+
+$main-color:#2A6160;
+$second-color: #7BA5A6;
+$font:'Montserrat', sans-serif;
+
+
+html{ height:100%; }
+
+body{ 
+  min-height:100%;
+  font-family: $font;
+  padding:0; 
+  margin:0;
+  position:relative; 
+}
+
+body::after{ content:''; display:block; height: 50px; }
+
+body{
+  font-family: $font;
+}
+
+h3,h2{
+  color:$main-color;
+  font-weight:bold;
+}
+
+.navbar-item img {
+  max-height: 2.75rem;
+}
+
+.navbar-brand, .navbar-tabs {
+  align-items: center;
+}
+
+.select select {
+  background-color:$second-color;
+  border: 2px solid $main-color;
+  border-radius: 4px;
+  color: white;
+  padding:0 10px,
+}
+
+.field.has-addons {
+  padding: 0 10px;
+}
+
+.button {
+  background-color: white;
+  border-color: $second-color;
+  color:$main-color;
+  text-transform: uppercase;
+  font-family: $font;
+  margin-top:20px;
+}
+
+hr{
+  background-color:$second-color;
+  margin:0;
+}
+
+a {
+  color: #2a6060;
+}
+
+.footer{
+  background-color:$second-color;
+  padding: 1rem ;
+}
+// <div class="field">
+// <p class="control">
+//     <button class="button is-success">Login</button>
+// </p>
+// </div>
