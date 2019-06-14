@@ -6,11 +6,10 @@ const routes = require('./routes')
 const cors = require('cors')
 const { mongoose } = require("breedingseason-data")
 
-const { env: { PORT, MONGO_URL: url }, argv: [, , port = PORT || 7000] } = process;
+const { env: { PORT }, argv: [, , port = PORT || 7000] } = process;
 
 (async () => {
-    client = await mongoose.connect('mongodb://localhost/breeding-test', { useNewUrlParser: true }) // esperamos que se levabte mongo testing!!!
-
+    client = await mongoose.connect('YOURDATABASE', { useNewUrlParser: true }) 
     const app = express()
 
     app.use(cors())
