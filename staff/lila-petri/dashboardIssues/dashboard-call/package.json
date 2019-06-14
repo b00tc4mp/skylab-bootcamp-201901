@@ -1,0 +1,16 @@
+{
+    "name": "dashboard-call",
+    "version": "1.0.0",
+    "description": "dashboard-call",
+    "main": "src/index.js",
+    "author": "Lila Petri",
+    "license": "ISC",
+    "dependencies": {
+        "axios": "^0.18.0",
+        "dashboard-errors": "file:../dashboard-errors",
+        "dashboard-validate": "file:../dashboard-validate"
+    },
+    "devDependencies": {
+        "chai": "^4.2.0"  
+    }
+}
