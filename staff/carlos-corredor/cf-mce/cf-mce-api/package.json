@@ -1,0 +1,29 @@
+{
+  "name": "cf-mce-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "npx mocha ./**/*.test.js",
+    "test:debug": "npx mocha debug ./**/*.test.js",
+    "test:inspect": "npx mocha --inspect-brk ./**/*.test.js",
+    "test:coverage": "nyc --reporter=html --reporter=text mocha ./**/*.test.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "argon2": "^0.23.0",
+    "body-parser": "^1.19.0",
+    "cf-mce-common": "file:../cf-mce-common",
+    "cf-mce-data": "file:../cf-mce-data",
+    "dotenv": "^8.0.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1"
+  },
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "nyc": "^14.1.1"
+  }
+}
