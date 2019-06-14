@@ -127,8 +127,7 @@ const logic = {
 
     /**
      * Uploads the gameFile and images to firebase.
-     * Once is has been uploaded it saves the information and the gameFile and images
-     * firebase url's to the DB
+     * Once is has been uploaded it saves the information and the gameFile and images firebase url's to the DB
      * 
      * @param {String} ownerId Id of the User who is uploading the game to be stored in the DB
      * @param {String} title Title of the game being uploaded to be stored in the DB
@@ -148,18 +147,18 @@ const logic = {
         if (!description.trim().length) throw Error(`${description} cannot be empty`)
 
 
-        const ownerUser = await User.findById(ownerId)
+        const ownerUser = await User.findById(ownerId) //Retrieves the User who is uploading the game
 
-        const bucket = admin.storage().bucket()
+        const bucket = admin.storage().bucket() //Sets the storage to upload the files
 
-        const imageTitle = `image-${title}-${Date.now()}`
+        const imageTitle = `image-${title}-${Date.now()}` //adds the title of the game and a date to the name of the file
         const gameTitle = `game-${title}-${Date.now()}`
 
-        const gameUpload = await bucket.file(gameTitle)
+        const gameUpload = await bucket.file(gameTitle) //File name to upload
 
         const imageUpload = await bucket.file(imageTitle)
 
-        const gameBlobStream = gameUpload.createWriteStream({
+        const gameBlobStream = gameUpload.createWriteStream({  //Sets headers for each file so firebase know how to process them
             metadata: {
                 contentType: 'application/zip'
             }
@@ -171,9 +170,10 @@ const logic = {
             }
         })
 
+        //Uploads the files and once uploaded looks for the files in firebase and returns its urls
         await streamifier.createReadStream(gameFile.buffer).pipe(gameBlobStream)
-
         let game = await bucket.file(gameTitle)
+        //Makes urls readable so app and users can acces it to see images and download a game
         let gameFileUploaded = await game.getSignedUrl({
             action: 'read',
             expires: '03-09-2491'
@@ -187,12 +187,14 @@ const logic = {
             expires: '03-09-2491'
         })
 
+        //Creates a game with the game info and the urls of the uploaded files
         const newGame = await Game.create({ ownerId, title, genre, description, images: imageFileUploaded[0], gameFile: gameFileUploaded[0] })
 
+        //Adds the user Id that created the game as ownerId of the game
         ownerUser.uploads.push(newGame.id)
 
         ownerUser.save()
-
+        //returns the uploaded game info
         return newGame
     },
 
