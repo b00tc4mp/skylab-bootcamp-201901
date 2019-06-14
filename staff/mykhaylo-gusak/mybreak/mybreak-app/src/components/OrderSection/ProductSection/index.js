@@ -39,7 +39,7 @@ function ProductSection({ card, setNewOrder, handleResetProducts, products, hand
 
         return (async () => {
             try {
-                return setQr(await QRCode.toDataURL(`${protocol}//${host}/order/${code}`, opts))
+                return setQr(await QRCode.toDataURL(`${protocol}//${host}/#/order/${code}`, opts))
 
             } catch (err) {
                 alert(err)

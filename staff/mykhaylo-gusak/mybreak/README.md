@@ -1,5 +1,5 @@
 # MyBreak App
 
-## [Documentation](./mybreak-doc/README.md)
+## [Documentation](mybreak-doc/README.md)
 
-## [Demo]()
+## [Demo](http://mybreak.surge.sh/)
