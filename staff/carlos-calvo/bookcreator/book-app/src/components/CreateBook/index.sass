@@ -1,0 +1,173 @@
+.formCreateBook
+    width: 100%
+    height: 100%
+    display: flex
+    align-items: center
+    justify-content: center
+    
+    form
+        padding: 2%
+        width: 80%
+        display: flex
+        border-radius: 1rem
+        background-color: #738598
+        flex-direction: column
+        justify-content: center
+        -webkit-animation-name: Anim1
+        -webkit-animation-duration: 1s
+        @-webkit-keyframes Anim1
+            from
+                opacity: 0
+            to
+                opacity: 1
+
+        .inputTitleContainer
+            display: flex
+            flex-direction: column
+            align-items: center
+            width: 100%
+            &__title
+                width: 30%
+                box-sizing: border-box
+                border: 2px solid #ccc
+                border-radius: 4px
+                font-size: 16px
+                background-color: white
+                background-position: 10px 10px
+                background-repeat: no-repeat
+                padding: 3px 5px 5px 3px
+                -webkit-transition: width 0.4s ease-in-out
+                transition: width 0.4s ease-in-out
+                &:focus
+                    width: 50%
+
+        .inputContainer
+            display: flex
+            flex-direction: row
+            justify-content: center
+            align-items: center
+            margin: 2%
+            &__input
+                color: transparent
+                &::-webkit-file-upload-button
+                    visibility: hidden
+                &::before
+                    content: 'Select a cover photo'
+                    color: black
+                    display: inline-block
+                    background: -webkit-linear-gradient(top, #f9f9f9, #e3e3e3)
+                    border: 1px solid #999
+                    border-radius: 3px
+                    padding: 5px 8px
+                    outline: none
+                    white-space: nowrap
+                    -webkit-user-select: none
+                    cursor: pointer
+                    text-shadow: 1px 1px #fff
+                    font-weight: 700
+                    font-size: 10pt
+                    &:hover::before
+                        border-color: black
+                    &:active
+                        outline: 0
+                        &::before
+                        background: -webkit-linear-gradient(top, #e3e3e3, #f9f9f9) 
+        .formButtonContainer
+            display: flex
+            justify-content: center
+            button
+                width: 40%
+        .inputContainertext
+            width: 100%
+            &__textarea
+                width: 100%
+        &_step
+            display: flex
+            justify-content: center
+            font-size: 1.5rem
+        label
+            display: flex
+            justify-content: center
+        .inputParams
+            display: flex
+            justify-content: center
+    
+
+.instructionsContainer
+    width: 100%
+    display: flex
+    flex-direction: column
+    align-content: center
+    justify-content: center
+    
+
+    .typewriter
+        overflow: hidden
+        font-weight: bolder
+        font-size: 1em
+        border-right: .15em solid orange
+        white-space: nowrap
+        margin: 0 auto
+        color: black
+        animation: typing 3.5s steps(150, end), blink-caret 0.75s step-end infinite
+
+        @keyframes typing
+            from
+                width: 0%
+            to
+                width: 39%
+        @keyframes blink-caret
+            from, to
+                border-color: transparent
+
+            45%
+                border-color: orange
+
+.btn-file
+    position: relative
+    overflow: hidden
+    input[type=file]
+        position: absolute
+        top: 0
+        right: 0
+        min-width: 100%
+        min-height: 100%
+        font-size: 100px
+        text-align: right
+        filter: alpha(opacity = 0)
+        opacity: 0
+        outline: none
+        cursor: inherit
+        display: block
+.btn
+    &--back
+        margin: 2% !important
+    &--submit
+        margin: 2% !important
+
+@media screen and (max-width: 700px)
+    .formCreateBook
+        width: 95%
+        display: flex
+        justify-content: center
+        form
+            width: 100%
+        
+        .inputTitleContainer
+            width: 90%
+            &__title
+                width: 80%
+                -webkit-transition: width 0.4s ease-in-out
+                transition: width 0.4s ease-in-out
+                &:focus
+                    width: 80%
+        .inputContainer
+            display: flex
+            flex-direction: column
+            margin: 0
+            label
+                visibility: hidden
+
+    .instructionsContainer
+        .typewriter
+            font-size: smaller

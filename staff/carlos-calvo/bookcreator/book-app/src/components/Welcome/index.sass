@@ -1,0 +1,95 @@
+nav
+    height: 10%
+
+.ContainerWelcome
+    width: 100%
+    height: 83%
+    display: flex
+    flex-direction: row
+    justify-content: center
+    li
+        margin-left: 2%
+        margin-right: 2%
+        display: inline
+        a
+            color: white
+
+    &-carrousel
+        padding-top: 1%
+        height: 100%
+        width: 80%
+footer
+    position: absolute
+    right: 0
+    bottom: 0
+    left: 0
+    background-color: #1cb3c8
+    text-align: center
+    display: flex
+    flex-direction: row
+    justify-content: space-around
+    .fa-github-square
+        color: black
+        
+.welcomesidenav
+    text-align: right
+    height: 70px
+    line-height: 70px
+    z-index: 11
+    display: flex
+    background-color: #1cb3c8
+
+    &__menu
+        padding-left: 30px
+    a
+        clear: right
+        text-decoration: none
+        color: black
+        margin: 0 10px
+        line-height: 70px
+        span
+            color: #3c415e
+        .fa-sign-out-alt
+            color: #3c415e
+    label
+        margin: 0 20px 0 10px
+        font-size: 26px
+        line-height: 70px
+        position: absolute
+        display: none
+        width: 26px
+        float: right
+    #toggle
+        display: none
+
+
+@media only screen and (max-width: 750px)
+    .welcomesidenav
+        width: 100%
+        background-color: #1cb3c8
+        label
+            display: block
+            cursor: pointer
+        &__menu
+            text-align: center
+            width: 100%
+            display: none
+            background-color: #1cb3c8
+            z-index: 9
+            margin-left: 50px
+        input
+            z-index: 10
+        a
+            display: block
+            border-bottom: 1px solid black
+            background-color: #1cb3c8
+            margin: 0
+            color: black
+        img
+            display: none
+        span
+            display: none
+        #toggle:checked + &__menu
+            display: block
+    footer
+        font-size: 0.75rem
