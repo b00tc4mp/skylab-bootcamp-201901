@@ -1,0 +1,86 @@
+* {
+  box-sizing: border-box;
+}
+
+.btn {
+  background-color: aqua;
+  border: 1px solid black;
+  border-radius: 5px;
+  padding: 0.6rem 2rem;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+main {
+  display: flex;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+}
+
+.intro {
+  align-self: center;
+  justify-self: center;
+  display: block;
+  width: 40%;
+}
+
+.intro input {
+  margin-bottom: 1rem;
+}
+
+.container {
+  display: inline-block;
+  margin: 20px auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.row {
+  display: flex;
+  height: 40px;
+}
+
+.cell {
+  background: white;
+  width: 40px;
+  border: 2px solid black;
+  text-align: center;
+  vertical-align: center;
+}
+
+#container-ships {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.ships {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#ships-vertical {
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+}
+
+.ship {
+  background-color: orange;
+  margin: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid black;
+}
+
+.finish {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}

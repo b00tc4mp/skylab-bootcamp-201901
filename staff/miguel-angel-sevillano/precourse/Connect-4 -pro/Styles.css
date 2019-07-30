@@ -1,0 +1,190 @@
+.table{
+    border:solid 10px #024FA1;
+    background-color: #024FA1;
+    border-radius: 10%;
+    width: 40%;
+    position: absolute;
+    left:100px;
+    top:150px;
+   
+    
+}
+.colum1{
+    background-color: white;
+    border:solid 8px #024FA1;
+    border-radius: 100%;
+    width: 60px;
+    height: 75px;
+    
+}
+.colum2{
+    background-color: white;
+    border:solid 8px #024FA1;
+    border-radius: 100%;
+    width: 60px;
+    height: 70px;
+    
+}
+.colum3{
+    background-color: white;
+    border:solid 8px #024FA1;
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    
+}
+.colum4{
+    background-color: white;
+    border:solid 8px #024FA1;
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    
+}
+.colum5{
+    background-color: white;
+    border:solid 8px #024FA1;
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    
+}
+.colum6{
+    background-color: white;
+    border:solid 8px #024FA1;
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    
+}
+.colum7{
+    background-color: white;
+    border:solid 8px #024FA1;
+    border-radius: 100%;
+    width: 60px;
+    height: 60px;
+    
+}
+.buttons{
+    position: absolute;
+    left:120px;
+    top:750px;
+}
+.boton{
+    display:inline-flex; /*para tener los botones pegados entre si */
+    background-color: rgb(31, 83, 161); /* color fondo boton */
+    border: 5px solid rgb(4, 51, 70); /* color borde */
+    color: white; /* color texto */
+    font-size: 20px;
+    cursor: pointer; /* puntero mano*/
+    padding:20px 20px; /* tamaño boton*/
+    border-radius: 20%;
+   
+}
+.boton:hover{
+    color:rgb(0, 140, 255);
+}
+.info{
+    position: absolute;
+    right: 250px;
+    color:#024FA1;
+    font-size: 30px;
+    text-align: center;
+    top:100px;
+}
+.infoPlayer{
+    position: absolute;
+    right:450px;
+    top:500px;
+    color:#024FA1;
+    font-size: 30px;
+    text-align: left;
+    width: 450px;
+    
+}
+#nombreJugador1{
+    text-align: left;
+}
+#nombreJugador2{
+    text-align: left;
+}
+#turnoJugador{
+    text-align: left;
+}
+#mensajes{
+    text-align: center;
+    font-size: 40px;
+    color: white;
+}
+#logo{
+    position: absolute;
+    left: 380px;
+    top:20px;
+    font-size: 40px;
+    color:#024FA1;
+}
+#gameInfo{
+    visibility: hidden;
+    color:#024FA1;
+    position: absolute;
+    left:400px;
+    top:100px;
+    background-color: rgba(63, 166, 235, 0.959);
+    text-align: center;
+    font-size:30px;
+    width: 400px;
+    padding: 300px;
+   
+    
+}
+#gameInfo2{
+    visibility: hidden;
+    color:#024FA1;
+    position: absolute;
+    left:410px;
+    background-color: rgba(63, 166, 235, 0.959);
+    text-align: center;
+    font-size:30px;
+    width: 400px;
+    top:90px;
+    height: 200px;
+    padding: 290px;
+   
+    
+}
+#gameInfo3{
+    visibility: hidden;
+    color:#024FA1;
+    position: absolute;
+    left:410px;
+    background-color: rgba(63, 166, 235, 0.959);
+    text-align: center;
+    font-size:30px;
+    width: 400px;
+    top:90px;
+    height: 200px;
+    padding: 290px;
+   
+    
+}
+#gameInfo4{
+    visibility: hidden;
+    color:#024FA1;
+    position: absolute;
+    left:600px;
+    top:300px;
+    background-color: rgba(63, 166, 235, 0.959);
+    text-align: center;
+    font-size:30px;
+    width: 400px;
+    padding: 100px;
+   
+    
+}
+#myVideo {
+    position: fixed;
+    right: 0;
+    bottom: 0;
+    min-width: 100%;
+    min-height: 100%;
+  }

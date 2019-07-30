@@ -1,0 +1,14 @@
+{
+  "name": "allMyCents-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+ 
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.5.11",
+    "validator": "^11.0.0"
+  }
+}

@@ -1,0 +1,18 @@
+height, body {
+  height: 100vh;
+}
+
+header.main-header {
+  border-bottom: 2px solid #de0000;
+  height: 85px;
+  line-height: 85px;
+  text-align: center;
+}
+
+main > section {
+  border: 2px solid #de0000;
+  border-radius: 30px;
+  margin: 15px auto;
+  padding: 30px;
+}
+/*# sourceMappingURL=styles.css.map */

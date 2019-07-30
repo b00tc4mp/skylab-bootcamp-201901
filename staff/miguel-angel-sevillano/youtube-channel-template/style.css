@@ -1,0 +1,205 @@
+.flex-head{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: red;
+    padding: 10px;
+    position: fixed;
+    width: 100%;
+    top: 0px;
+    right: 0px;
+}
+.youButton{
+  position: fixed;
+  top: 0px;
+  left: 10px;
+}
+.text{
+    justify-self: end;
+    height: 20px;
+    
+}
+.flex-background{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    top:42px;
+    left:0px;
+    right: 0px;
+    
+}
+.background{
+    height: 100px;
+    width:100%;
+}
+
+.flex-channel{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    position: fixed;
+    width: 100%;
+    background-color: gray;
+    top:142px;
+    left: 0px;
+    height: 50px;
+    border-bottom: solid 1px black;
+    color: wheat;
+}
+.myname{
+    align-self: center;
+}
+.logo{
+    width: 50px;
+    height:50px;
+    position: fixed;
+    left: 0px;
+}
+.flex-aside{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: blue;
+    width: 20%;
+    height: 90%;
+    position: fixed;
+    left: 0px;
+    top: 142px;
+    display: none;
+}
+.items{
+    align-items: center;
+    width: 60px;
+    height: 60px;
+    padding: 10px;
+}
+.flex-videos{
+    display: flex;
+    height: 60%;
+    align-items: center;
+    flex-direction: column;
+    background-color:white;
+    position: fixed;
+    bottom: 50px;
+    left:20px;
+    right :20px;
+    overflow: scroll;
+}
+
+
+.flex-bottom{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    background-color: red;
+    width: 100%;
+    color:white;
+    position: fixed;
+    bottom: 0px;  
+    left:0px 
+}
+@media only screen and (min-width: 900px){
+
+    .flex-head{
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        background-color: red;
+        padding: 10px;
+        width: 100%;
+        top: 0px;
+        right: 0px;
+    }
+    .text{
+        height: 20px;
+        width: 700px
+        
+    }
+    .flex-background{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        width: 100%;
+        height: 40%;
+        top:42px;
+        left:0px;
+        right: 0px;
+        
+    }
+    .background{
+        height: 200px;
+        width:100%;
+    }
+    
+    .flex-channel{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+        position: fixed;
+        width: 100%;
+        background-color:gray;
+        top:200px;
+        left: 0px;
+        height: 90px;
+        border-bottom: solid 1px black;
+    }
+    .myname{
+        text-align: right;
+    }
+    .logo{
+        width: 100px;
+        height:90px;
+        position: fixed;
+        left: 0px;
+    }
+    .flex-aside{
+        display:flex;
+        flex-direction: column;
+        align-items: flex-start;
+        background-color:grey;
+        width: 20%;
+        height: 90%;
+        position: fixed;
+        left: 0px;
+        top: 290px;
+        
+        
+    }
+   
+    .items{
+        justify-items: auto;
+        width: 60px;
+        height: 60px;
+        padding: 10px;
+    }
+    .flex-videos{
+        right: 0px;
+        left: 100px;
+        bottom: 10px;
+        flex-direction: row;
+        justify-content:center;
+        flex-wrap: wrap;
+        overflow: hidden; 
+    }
+  
+    
+    .flex-bottom{
+        display: flex;
+        flex-direction: row;
+        justify-content: center;
+        background-color: red;
+        width: 100%;
+        color:white;
+        position: fixed;
+        bottom: 0px;  
+        left:0px 
+    }
+    .v1{
+        padding: 10px;
+        flex-direction:column;
+        
+    }
+
+}

@@ -1,0 +1,92 @@
+*
+{
+	font-family: 'Amatic SC', cursive;
+}
+body{
+	background-color: #019AF1;
+}
+footer{
+	margin:0 auto;
+	width: 520px;
+	text-align: center;
+}
+.dot {
+	height: 60px;
+	width: 60px;
+	background-color: #fff;
+	border-radius: 50%;
+	display: inline-block;
+	text-align: center;
+	font-size: 50px;
+}
+#rosco{
+	font-size: 200%;
+	text-align: center;
+	background-color: transparent;
+	margin:0 auto;
+	padding: 10px;
+	width:520px;
+	border-radius: 15px;
+	overflow:auto;
+	display: block;
+}
+#startb{
+	width: 520px;
+	text-align: center;
+	margin:0 auto;
+}
+#answb{
+	width: 520px;
+	margin:0 auto;
+	text-align: center;
+	display: none;
+}
+#answcont{
+	font-size: 200%;
+	text-align: center;
+	background-color: white;
+	margin:0 auto;
+	padding: 10px;
+	width:380px;
+	border-radius: 15px;
+	overflow:auto;
+}
+#start{
+	font-size: 200%;
+	text-align: center;
+	background-color: white;
+	margin:0 auto;
+	padding: 10px;
+	width:120px;
+	border-radius: 15px;
+}
+#answ, #pasp, #end{
+	font-size: 200%;
+	text-align: center;
+	background-color: white;
+	margin:0 auto;
+	padding: 10px;
+	width:120px;
+	border-radius: 15px;
+}
+
+#info {
+	font-size: 200%;
+	text-align: center;
+	background-color: transparent;
+	margin:0 auto;
+	padding: 10px;
+	width:520px;
+	border-radius: 15px;
+	overflow:auto;
+}
+
+label {
+	text-align: center;
+	background-color: transparent;
+	font-weight:bold;
+	font-size:1.5em;
+}
+input[type="button"] {
+	visibility: show;
+}

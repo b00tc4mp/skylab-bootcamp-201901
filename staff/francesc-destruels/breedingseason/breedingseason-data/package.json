@@ -1,0 +1,23 @@
+{
+  "name": "breedingseason-data",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node .",
+    "watch": "nodemon .",
+    "debug": "node debug .",
+    "test": "jest --runInBand",
+    "test:debug": "node debug node_modules/.bin/jest --runInBand --watchAll"
+  },
+  "devDependencies": {
+    "jest": "^24.8.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "dotenv": "^8.0.0",
+    "mongoose": "^5.5.11"
+  }
+}

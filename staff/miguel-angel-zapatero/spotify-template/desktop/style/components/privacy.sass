@@ -1,0 +1,17 @@
+.privacy
+    display: flex
+    justify-content: center
+    &__item
+        @extend %display-link
+        font-size: $main-font-size
+        padding: 1em
+        font-weight: 100
+        color: $color-grey
+        opacity: .7
+        &:hover
+            @extend %hover-link
+    & > p
+        padding-top: .8em
+        opacity: .7
+    @media screen and (max-width: $break-small)
+        display: none

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Pasapalabra // M.G.</title>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+    <link href="https://fonts.googleapis.com/css?family=Quicksand" rel="stylesheet">
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
+</head>
+<body>
+
+<header>
+
+<div id='stars'></div>
+<div id='stars2'></div>
+<div id='stars3'></div>
+
+</header>
+  
+    <section class='container'>
+        <h1 id='logo' >GALAXY </br>PASAPALABRA</h1>
+        <p class='welcomeDisplay' id='nameMessage'>Antes, introduce tu nombre.</p>
+
+        <input type="text" name="name" id='nameValue' placeholder="  Nombre">
+
+        <input type="button" name="jugar" class='mainButton' value='JUGAR' id='mainButton'>
+       <img src="skylab.png" alt="Skylab" width="100">
+    </section>
+
+    <section id='answers' class="questions">
+        <h2>Pregunta:</h2>  
+        <p id="question" class='font_small'>Cuanto vale una onza de patatas?</p>
+    </section>
+
+
+    <section id="game_rules">
+
+        <h2 class='font_small'>Reglas del juego</h2>
+        
+        <p>El juego consiste en acertar las veinticinco palabras, cada una de las cuales se corresponde con una letra del rosco para la que se ofrece una definición relativa a un concepto Físico. Los aciertos se reflejarán en las letras mediante el color verde, mientras que los fallos se mostrarán en color rojo. Las cuestiones no respondidas o "pasapalabra" se mostrarán en color blanco.</p>
+        <p>Se calcular'a el tiempo que ha tardado en completar el rosco</p>
+        <p>Las respuestas a cada pregunta sean realizadas por escrito en el campo de respuesta. Para pasar de pregunta, escribe 'pasapalabra'.</p>
+
+    </section>
+
+    <section>
+        <ul>
+            <li class="letter">A</li>
+            <li class="letter">B</li>
+            <li class="letter">C</li>
+            <li class="letter">D</li>
+            <li class="letter">E</li>
+            <li class="letter">F</li>
+            <li class="letter">G</li>
+            <li class="letter">H</li>
+            <li class="letter">I</li>
+            <li class="letter">J</li>
+            <li class="letter">K</li>
+            <li class="letter">L</li>
+            <li class="letter">M</li>
+            <li class="letter">N</li>
+            <li class="letter">Ñ</li>
+            <li class="letter">O</li>
+            <li class="letter">P</li>
+            <li class="letter">Q</li>
+            <li class="letter">R</li>
+            <li class="letter">S</li>
+            <li class="letter">T</li>
+            <li class="letter">U</li>
+            <li class="letter">V</li>
+            <li class="letter">W</li>
+        </ul>
+    </section>
+
+    <section id='infoTime' class="timer">
+        <i class="fas fa-clock"></i>
+        <p class='font_big'><span id="minuts">00</span>:<span id="seconds">00</span></p>
+    </section>
+
+    <section id='infoPoint' class="points">
+        <i class="fas fa-check-circle"></i>
+        <p  id="correctsAnswers" class='font_big'>0</p>
+    </section>
+
+    <section id="game_over">
+        <h2>Enhorabuena!</h2>
+        <p>Jugador: <span id="infoPlayer"></span></p>
+        <p>Preguntas correctas: <span id="infoCorrectsAnswers"></span></p>
+        <p>Tiempo empleado: <span id="InfoTime"></span></p>
+
+</section>
+
+<script src="js.js"></script>
+</body>
+</html>

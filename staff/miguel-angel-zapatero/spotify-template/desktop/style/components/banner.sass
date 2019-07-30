@@ -1,0 +1,23 @@
+.banner
+    color: $color
+    letter-spacing: .08em  
+    background-image: linear-gradient(to right, #9c27b0, #90caf9)
+    weight: 100%
+    display: flex
+    justify-content: space-between
+    align-items: center
+    padding: 1em 2em
+    &__title
+        font-size: 0.7em
+        font-weight: 200
+    &__text
+        font-size: $main-font-size
+        font-weight: 300
+        padding-top: .3em
+    &__btn
+        @extend %button
+        +btn($main-font-size, $button-color-grey, .7em, 4em)
+        color: $color-btn-banner
+        margin-left: 4em
+        &:hover
+            font-size: 1em

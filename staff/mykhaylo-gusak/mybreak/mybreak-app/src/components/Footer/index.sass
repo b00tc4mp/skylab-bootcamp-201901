@@ -1,0 +1,19 @@
+@import ../config.sass
+
+.g-footer
+    width: 100%
+    height: $heightFooter
+    background-color: $footerColor
+    display: flex
+    align-items: center
+    color: grey
+    justify-content: center
+    
+    & img
+        width: 20px
+        margin-left: 10px
+
+
+@media screen and (max-width: $break-mobile )
+    .g-footer
+        display: none

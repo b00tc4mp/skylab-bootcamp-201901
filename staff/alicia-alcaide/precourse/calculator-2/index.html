@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>SkyLab Calculator</title>
+  <link href="https://fonts.googleapis.com/css?family=Covered+By+Your+Grace|Roboto" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="header">
+    <h1>SKY<span>LAB</span> Calculator</h1>
+  </div>
+  <div class="contenedor">
+    <div class="numbers">
+      <input type="number" placeholder="Enter number 1 " id="number1" min="1" required autofocus>
+      <input type="number" placeholder="Enter number 2 " id="number2" min="0" required>
+    </div>
+    <input type="button" onclick="calculator()" value="Calculate" id="buttonCalculate">
+    <ul id="results">
+    </ul>
+  </div>
+  <script src="main.js"> </script>
+</body>
+</html>

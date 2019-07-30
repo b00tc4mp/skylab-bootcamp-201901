@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <link rel="stylesheet" type="text/css" href="style/style.css">
+</head>
+<body>
+<div class="calculator">
+
+  <div id="display">
+    <p id="proces"></p>
+    <p id="result"></p>
+  </div>
+
+  <ul id='buttons'>
+    <li onclick="clean()" class="btn">CE</li>
+    <li onclick="delate()" class="btn"><=</li>  
+    <li onclick="buttonNum('.')" class="btn">,</li>  
+    <li onclick="buttonNum('1')" class="btn num">1</li>
+    <li onclick="buttonNum('2')" class="btn num">2</li>
+    <li onclick="buttonNum('3')" class="btn num">3</li>
+    <li onclick="buttonNum('4')" class="btn num">4</li>
+    <li onclick="buttonNum('5')" class="btn num">5</li>
+    <li onclick="buttonNum('6')" class="btn num">6</li>
+    <li onclick="buttonNum('7')" class="btn num">7</li>
+    <li onclick="buttonNum('8')" class="btn num">8</li>
+    <li onclick="buttonNum('9')" class="btn num">9</li>
+    <li onclick="buttonNum('+')" class="btn">+</li>
+    <li onclick="buttonNum('0')" class="btn num">0</li>
+    <li onclick="buttonNum('-')" class="btn">-</li>
+    <li onclick="buttonNum('*')" class="btn">×</li>
+    <li onclick="buttonNum('/')" class="btn">÷</li>
+    <li onclick="calculating()" class="btn">=</li>     
+  </ul>
+
+</div>
+<script src="js.js"></script>
+</body>
+</html>

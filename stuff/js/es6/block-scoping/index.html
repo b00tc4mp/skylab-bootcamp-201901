@@ -1,0 +1,40 @@
+<script>
+    // es5
+    var x = 111;
+
+    (function () {
+        var y = x * 10;
+
+        console.log(y);
+    })();
+
+    (function () {
+        var y = x / 10;
+
+        console.log(y);
+    })();
+
+    console.log(x);
+    console.log(y);
+</script>
+
+<script>
+    // es6
+
+    const x = 111
+
+    {
+        const y = x * 10
+
+        console.log(y)
+    }
+
+    {
+        const y = x / 10
+
+        console.log(y)
+    }
+
+    console.log(x);
+    console.log(y);
+</script>

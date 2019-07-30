@@ -1,0 +1,51 @@
+{
+  "name": "pro-skate-app",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.19",
+    "@fortawesome/free-solid-svg-icons": "^5.9.0",
+    "@fortawesome/react-fontawesome": "^0.1.4",
+    "bulma": "^0.7.5",
+    "dotenv": "^8.0.0",
+    "node-sass": "^4.12.0",
+    "pro-skate-common": "file:../pro-skate-common",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6",
+    "react-router-dom": "^5.0.1",
+    "react-scripts": "3.0.1",
+    "react-stripe-checkout": "^2.6.3",
+    "stripe": "^7.1.0"
+  },
+  "devDependencies": {
+    "argon2": "^0.23.0",
+    "chai": "^4.2.0",
+    "mocha": "^6.1.4",
+    "mock-local-storage": "^1.1.8",
+    "nyc": "^14.1.1",
+    "pro-skate-data": "file:../pro-skate-data"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "mocha --watch-extensions js,jsx 'src/**/*.test.{js,jsx}' --watch --timeout 10000",
+    "test-chrome": "mocha --inspect-brk 'src/**/*.test.js' --timeout 30000",
+    "test:debug": "mocha  --watch-extensions js,jsx 'src/**/*.test.{js,jsx}' --watch --inspect --timeout 10000",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

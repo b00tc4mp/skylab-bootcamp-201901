@@ -1,0 +1,59 @@
+// xs <768 (phones) maquetamos aquí
+// sm 769 - 992 (tablets)
+// md 993 - 1200 (laptops)
+// lg >1201 (desktops)
+
+$sm: 768px
+
+@mixin tablet
+    @media (min-width: #{$sm}) 
+        @content
+
+$md: 993px
+@mixin laptop
+    @media (min-width: #{$md} )
+        @content 
+
+@mixin btnLogin
+    background-color: black
+    color: white
+    margin-top: 20px
+    padding: 15px 12px 
+
+@mixin inputs
+    width: 99%
+    height: 40px
+    border: 1px solid #999999  
+    border-radius: 3px
+
+@mixin detail
+    display: flex
+    flex-direction: column
+    padding: 20px 0
+
+    +tablet
+        flex-direction: row
+        padding: 40px 0
+        justify-content: space-around
+        margin-left: 10%
+        margin-right: 25%
+    &__image
+        margin-bottom: 10px
+        
+        & img
+            width: 100%
+        +tablet
+            margin-right: 20px
+            margin-bottom: 0px
+            width: 50%
+    &__info 
+        padding: 15%
+        +tablet
+            padding: 0px 15px
+            max-width: 500px
+            padding-top: 6%
+    & h1 
+        color: $grey
+    & p
+       color: $letters
+       font-size: $base-font-size

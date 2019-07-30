@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Calculator</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <table class="calculator" id="calculator">
+        <tr>
+            <td colspan="4">
+                <input type="text" id="numValue" maxlength="20" value="0" class="boxValue" readonly="true">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="Button" id="7" value="7" class="boxButton" onclick="showNum('7')">
+            </td>
+            <td>
+                <input type="Button" id="8" value="8" class="boxButton" onclick="showNum('8')">
+            </td>
+            <td>
+                <input type="Button" id="9" value="9" class="boxButton" onclick="showNum('9')">
+            </td>
+            <td>
+                <input type="Button" id="div" value="/" class="boxButton" onclick="showOperator('/')">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="Button" id="4" value="4" class="boxButton" onclick="showNum('4')">
+            </td>
+            <td>
+                <input type="Button" id="5" value="5" class="boxButton" onclick="showNum('5')">
+            </td>
+            <td>
+                <input type="Button" id="6" value="6" class="boxButton" onclick="showNum('6')">
+            </td>
+            <td>
+                <input type="Button" id="mult" value="x" class="boxButton" onclick="showOperator('x')">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <input type="Button" id="1" value="1" class="boxButton" onclick="showNum('1')">
+            </td>
+            <td>
+                <input type="Button" id="2" value="2" class="boxButton" onclick="showNum('2')">
+            </td>
+            <td>
+                <input type="Button" id="3" value="3" class="boxButton" onclick="showNum('3')">
+            </td>
+            <td>
+                <input type="Button" id="sum" value="+" class="boxButton" onclick="showOperator('+')">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="Button" id="0" value="0" class="boxButton double" onclick="showNum('0')">
+            </td>
+            <td>
+                <input type="Button" id="," value="," class="boxButton" onclick="showDecimalPoint()">
+            </td>
+            <td>
+                <input type="Button" id="subs" value="-" class="boxButton" onclick="showOperator('-')">
+            </td>
+        </tr>
+        <tr>
+            <td colspan="2">
+                <input type="Button" id="C" value="C" class="boxButton double" onclick="clearValue()">
+            </td>
+            <td colspan="2">
+                <input type="Button" id="equal" value="=" class="boxButton double" onclick="doOperation()">
+            </td>
+        </tr>
+    </table>
+
+    <script src="main.js"> </script>    
+</body>
+</html>

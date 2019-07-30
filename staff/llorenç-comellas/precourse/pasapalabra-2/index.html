@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Pasapalabra SKYLAB</title>
+    <link type="text/css" rel="stylesheet" href ="styles.css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,800" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Righteous" rel="stylesheet">
+    <meta charset="utf-8">
+	</head>
+  <body>
+    <h1>PASAPALABRA SKYLAB</h1>
+    <div class="letras">
+      <div id="a" class="letra"><p>A</p></div>
+      <div id="b" class="letra"><p>B</p></div>
+      <div id="c" class="letra"><p>C</p></div>
+      <div id="d" class="letra"><p>D</p></div>
+      <div id="e" class="letra"><p>E</p></div>
+      <div id="f" class="letra"><p>F</p></div>
+      <div id="g" class="letra"><p>G</p></div>
+      <div id="h" class="letra"><p>H</p></div>
+      <div id="i" class="letra"><p>I</p></div>
+      <div id="j" class="letra"><p>J</p></div>
+      <div id="k" class="letra"><p>K</p></div>
+      <div id="l" class="letra"><p>L</p></div>
+      <div id="m" class="letra"><p>M</p></div>
+      <div id="n" class="letra"><p>N</p></div>
+      <div id="ñ" class="letra"><p>Ñ</p></div>
+      <div id="o" class="letra"><p>O</p></div>
+      <div id="p" class="letra"><p>P</p></div>
+      <div id="q" class="letra"><p>Q</p></div>
+      <div id="r" class="letra"><p>R</p></div>
+      <div id="s" class="letra"><p>S</p></div>
+      <div id="t" class="letra"><p>T</p></div>
+      <div id="u" class="letra"><p>U</p></div>
+      <div id="v" class="letra"><p>V</p></div>
+      <div id="w" class="letra"><p>W</p></div>
+      <div id="x" class="letra"><p>X</p></div>
+      <div id="y" class="letra"><p>Y</p></div>
+      <div id="z" class="letra"><p>Z</p></div>  
+    </div>
+    <div>
+        <button id="jugar" onclick="showQuestion()">JUGAR</button>
+      </div>
+      <div id = "questions-buttons">
+        <p id="preguntas"></p>
+        <input type="text" id="respuesta" placeholder="respuesta">
+        <button id="enviar" onclick="checkAnswer(), showQuestion()">ENVIAR</button>
+        <button id="pasapalabra" onclick="pasapalabra(), showQuestion()">PASAPALABRA</button>
+      </div>
+        <p id ="results"></p>
+        <p id ="ranking"></p>
+      </div>
+      <div>
+        <button id="reset" onclick="resetGame()">VOLVER A JUGAR</button>
+      </div>
+    
+  <script type="text/javascript" src="main.js"></script>
+  
+  </body>
+</html>

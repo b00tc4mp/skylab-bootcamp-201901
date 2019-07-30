@@ -1,0 +1,10 @@
+mixin detail(item)
+    h2= item.title
+    img(src=item.image)
+    span= item.price
+    form(method='post' action=item.favUrl)
+        button
+            i(class=item.isFav? 'fas fa-heart' : 'far fa-heart')
+    form(method='post' action=item.cartUrl)
+        button
+            i.fas.fa-cart-plus

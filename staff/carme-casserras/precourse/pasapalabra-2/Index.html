@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>PASAPALABRA</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link href="Style/style.css" rel="stylesheet">
+    </head>
+    <header>
+        <div class="ppi">
+            <div class="but">
+                <button id="start" onclick="boto()" >Jugar</button>  
+                <button id="novapart" onclick="reloa()">Nueva partida</button>
+            </div>
+        </div>
+    </header>
+    <body> 
+        <div class="columns">
+            <div class="info">
+                <p id="countdown"></p>
+                <p id="contr"></p>
+            </div>
+            <div id="parentdiv">
+                <div id="tecles">
+                    <p id="ent"><img src="Style/enterfinal.png" width="70px"></p>
+                    <p id="enter">Enviar palabra</p>
+                    <p id="shi"><img src="Style/shitfinal.png" width="70px"></p>
+                    <p id="shift">Pasapalabra</p>
+                </div>  
+            </div>
+        </div>
+    
+        <div>
+            <p id="pregunta"></p>
+        </div>
+        <div class="resp">
+            <input type="text" id="resposta" placeholder="Escribe tu respuesta"></input>
+        </div>
+        
+    </body>
+    <script type="text/javascript" src="main.js"></script>
+</html>

@@ -1,0 +1,11 @@
+{
+  "name": "photopin-data",
+  "version": "1.0.10",
+  "description": "data",
+  "main": "src/index.js",
+  "author": "Alicia Alcaide Beneitez",
+  "license": "ISC",
+  "dependencies": {
+    "mongoose": "^5.5.11"
+  }
+}

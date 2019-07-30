@@ -1,0 +1,29 @@
+.section
+
+  &__container
+    display: flex
+    align-items: center
+    justify-content: center
+    flex-wrap: wrap
+
+  &__item
+    margin: 0
+
+    &-cover
+      width: 46vw
+      height: 46vw
+      background-size: cover
+      background-position: 50%
+      margin: 0
+
+  &__title
+    &-text
+      color: $secondary
+      font-size: 2rem
+
+@media (min-width: 768px)
+  .section
+    &__item
+      &-cover
+        width: 23vw
+        height: 23vw

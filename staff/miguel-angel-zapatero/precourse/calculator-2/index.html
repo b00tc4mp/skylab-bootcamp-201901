@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Calculator</title>
+    <link rel="stylesheet" type="text/css" media="screen" href="index.css" />
+  </head>
+  <body onkeydown="bindingKeys(event)">
+    <div class="grid">
+            <p class="a" id="caption"></p>
+            <p class="a" id="result">0</p>
+            
+            <button id="AC" onclick="deleteAll()">AC</button>
+            <button id="C" onclick="deleteNumber()">C</button>
+            <button id="back" onclick="goBack()">Back</button>
+            <button id="div" onclick="safeNum(this.value)" value="/">/</button>
+       
+            <button id="7" onclick="addNumber(this.value)" value="7">7</button>
+            <button id="8" onclick="addNumber(this.value)" value="8">8</button>
+            <button id="9" onclick="addNumber(this.value)" value="9">9</button>
+            <button id="mult" onclick="safeNum(this.value)" value="*">x</button>
+            
+            <button id="4" onclick="addNumber(this.value)" value="4">4</button>
+            <button id="5" onclick="addNumber(this.value)" value="5">5</button>
+            <button id="6" onclick="addNumber(this.value)" value="6">6</button>
+            <button id="subs" onclick="safeNum(this.value)" value="-">-</button>
+            
+            <button id="1" onclick="addNumber(this.value)" value="1">1</button>
+            <button id="2" onclick="addNumber(this.value)" value="2">2</button>
+            <button id="3" onclick="addNumber(this.value)" value="3">3</button>
+            <button id="sum" onclick="safeNum(this.value)" value="+">+</button>
+    
+            <button id="0" onclick="addNumber(this.value)" value="0">0</button>
+            <button id="sign" onclick="changeSign()">+/-</button>
+            <button id="," onclick="addComma(this.value)" value=".">,</button>
+            <button id="igual" onclick="result()">=</button>
+    </div>
+
+    <script type="text/javascript" src="index.js"></script>
+  </body>
+</html>

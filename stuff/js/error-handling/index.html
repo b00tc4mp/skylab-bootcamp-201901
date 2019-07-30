@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        var form = document.createElement('form');
+
+        var operand1Input = document.createElement('input');
+        form.appendChild(operand1Input);
+
+        var plus = document.createTextNode('+');
+        form.appendChild(plus);
+
+        var operand2Input = document.createElement('input');
+        form.appendChild(operand2Input);
+
+        var addButton = document.createElement('button');
+        addButton.innerText = '=';
+        form.appendChild(addButton);
+
+        var result = document.createElement('span');
+        form.appendChild(result);
+
+        form.addEventListener('submit', function (event) {
+            event.preventDefault();
+
+            try {
+                result.innerText = add(Number(operand1Input.value), Number(operand2Input.value));
+            } catch(error) {
+                alert('please check input fields, please introduce only numbers');
+            }
+        });
+
+        document.body.appendChild(form);
+    </script>
+    <script>
+        function add(number1, number2) {
+            if (isNaN(number1)) throw TypeError(number1 + ' is not a number');
+            if (isNaN(number2)) throw TypeError(number2 + ' is not a number');
+
+            return number1 + number2;
+        }
+    </script>
+</body>
+
+</html>

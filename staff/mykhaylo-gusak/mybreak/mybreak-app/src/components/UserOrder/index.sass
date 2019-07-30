@@ -1,0 +1,46 @@
+@import ../config.sass
+
+.g-Home__order-back
+    position: absolute
+    right: 0
+    bottom: 0
+    width: 40%
+    max-width: 300px
+    height: 100vh
+    opacity: auto
+    overflow: hidden
+    transition: opacity 0.3s
+
+    &--opened
+        opacity: 1
+
+    &--closed
+        opacity: 0
+
+.g-Home__order-user
+    width: 400px
+    max-width: 300px
+    height: 100vh
+    transition: opacity 1s
+    background-color: white
+    padding: 10px
+
+    &-total
+        border-top: 1px solid black
+        margin-top: 10px
+        padding-top: 10px
+        display: flex
+        justify-content: flex-end
+
+    &-close
+        height: 10vh
+        display: flex
+        align-items: center
+        justify-content: flex-end
+        padding-right: 30px 
+        padding-bottom: 17px
+
+@media screen and (max-width: $break-tablet )
+
+    .g-Home__order-back
+        display: none

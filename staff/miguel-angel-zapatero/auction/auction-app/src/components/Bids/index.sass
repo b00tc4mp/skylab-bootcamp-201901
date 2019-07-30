@@ -1,0 +1,16 @@
+.bids
+    height: 200px
+    overflow: scroll
+    overflow-x: hidden
+    overflow-y: scroll
+    border: .5px solid #dddddd
+
+    &>li:nth-of-type(odd) 
+        border-top: 1px solid #e5e5e5
+        border-bottom: 1px solid #e5e5e5
+
+    &>li 
+        padding: 10px 10px
+
+    &>li:nth-child(n+2), &>li>ul 
+        margin-top: 0px

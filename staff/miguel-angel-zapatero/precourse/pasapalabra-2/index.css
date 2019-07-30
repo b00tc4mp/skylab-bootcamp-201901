@@ -1,0 +1,274 @@
+* {
+    font-family: "Roboto", sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    display: flex;
+    min-height: 100vh;
+    flex-direction: column;
+    background-color: #efebe9;
+  }
+
+main {
+    flex: 1 0 auto;
+}
+
+h1 {
+    color: #f44336;
+    font-size: 100px;
+    text-align: center;
+}
+
+h2 {
+    padding-top: 30px;
+    margin: 20px 20px 0 20px;
+    color: #263238;
+    font-size: 35px;
+    text-align: center;
+    border-top: 5px dotted white; 
+}
+
+#message, #msgtime {
+    font-size: 20px;
+    margin: 0 20px;
+    text-align: center;
+    color: white;
+    border-radius: 5px;
+    padding: 10px;
+}
+
+#cancel {
+   background-color: #f44336 !important; 
+}
+
+#cancel:hover {
+    background-color: #e57373  !important;
+}
+
+#pass {
+    background-color: #00695c !important;
+}
+
+#pass:hover {
+    background-color: #4db6ac !important;
+}
+
+#ronda {
+    padding: 0 20px;
+}
+
+.btn {
+    padding: 20px;
+    background-color: #009688;
+    border: 0;
+    border-radius: 3px;
+    font-size: 20px;
+    color: white;
+    width: 100%;
+}
+
+.btn:hover {
+    background-color: #4db6ac;
+}
+
+.playergrid {
+    display: grid;
+    grid-template-columns: 3fr 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 10px;
+    padding: 20px;
+}
+
+input {
+    font-size: 20px;
+    padding: 0 20px;
+    text-align: center;
+}
+
+.answergrid {
+    display: grid;
+    grid-template-columns: 0.5fr 2fr 0.5fr 1fr;
+    grid-template-areas: "q q q q"
+                         "a b c d";
+    grid-gap: 10px;
+    padding: 20px;
+}
+
+.item1 {
+    grid-area: q;
+    font-size: 20px;
+    height: 50px;
+    text-align: center;
+}
+
+.item2 {
+    grid-area: a;
+    background-color: #795548;
+    border-radius: 3px;
+    display: table;
+    height: 100%;
+}
+
+.item2 p {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+    color: white;
+    height: 100%;
+}
+
+.item3 {grid-area: b;}
+.item4 {grid-area: c;}
+.item5 {grid-area: d;}
+
+.againgrid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr;
+    grid-gap: 10px;
+    padding: 20px;
+}
+
+.lettersgrid {
+    display: grid;
+    grid-template-columns: repeat(9, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    grid-gap: 10px;
+
+    height: 300px;
+    padding: 20px;
+}
+
+.letters {
+    background-color: #2196f3;
+    text-align: center;
+    color: white;
+    font-size: 40px;
+    border-radius: 3px;
+    box-shadow: 1px 2px 2px rgb(0, 0, 0, 0.3);
+    display: table;
+    height:100%;
+}
+
+.letters p {
+    display: table-cell;
+    vertical-align: middle;
+    height: 100%;
+}
+
+.footer {
+    display: table;
+    width: 100%;
+    height: 50px;
+    background-color: #263238;
+    color: white;
+}
+
+.footer p {
+    display: table-cell;
+    vertical-align: middle;
+    text-align: center;
+}
+
+/* Tooltip container - Ejemplo sacado de W3schools*/
+.tooltip {
+    position: relative;
+    display: inline-block;
+    /* border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+  }
+  
+  /* Tooltip text */
+  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 140px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    opacity: 0.7;
+    
+    /* Position the tooltip text */
+    position: absolute;
+    z-index: 1;
+    top: 110%;
+    left: 50%; 
+    margin-left: -70px; 
+  }
+
+  /* Show the tooltip text when you mouse over the tooltip container */
+  .tooltip:hover .tooltiptext {
+    visibility: visible;
+  }
+
+  /* Show top arrow */
+  .tooltip .tooltiptext::after {
+    content: " ";
+    position: absolute;
+    bottom: 100%;  /* At the top of the tooltip */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: transparent transparent black transparent;
+  }
+
+.select {
+    background-color: #1565c0;
+}
+
+.warning {
+    background-color: #ffb300;
+}
+
+.good {
+    background-color: #4caf50;
+}
+
+.bad {
+    background-color: #f44336;
+}
+
+.rankgrid {
+    display: grid;
+    grid-template-columns: 0.5fr 3fr 0.5fr 0.5fr 0.5fr;
+    grid-gap: 3px;
+    padding: 20px;
+}
+
+.ranktitles {
+    background-color: #4db6ac;
+    color: white;
+    font-weight: bold;
+    padding: 10px;
+    text-align: center;
+}
+
+.ranktitles:nth-child(1) {
+    border-radius: 4px 0 0 0;
+}
+
+.ranktitles:nth-child(5) {
+    border-radius: 0 4px 0 0;
+}
+
+.rankitems {
+    padding: 10px;
+    text-align: center;
+    background-color: white;
+}
+
+.rankitems:nth-last-child(1) {
+    border-radius: 0 0 4px 0;
+}
+
+.rankitems:nth-last-child(5) {
+    border-radius: 0 0 0 4px;
+}
+
+.grey {
+    background-color: lightgray;
+}
+

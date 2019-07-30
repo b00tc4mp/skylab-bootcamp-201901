@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+    <title>Pasapalabras</title>
+    <link rel="stylesheet" href="index.css">
+    <link href="https://fonts.googleapis.com/css?family=Roboto+Slab" rel="stylesheet">
+ </head>
+<html>
+   
+   <body>
+    <div id="container">
+    
+      <ul class="circle">
+        <li id="title">PASAPALABRAS</li>
+        <li id="a" class="item">A</li>
+        <li id="b" class="item">B</li>
+        <li id="c" class="item">C</li>
+        <li id="d" class="item">D</li>
+        <li id="e" class="item">E</li>
+        <li id="f" class="item">F</li>
+        <li id="g" class="item">G</li>
+        <li id="h" class="item">H</li>
+        <li id="i" class="item">I</li>
+        <li id="j" class="item">J</li>
+        <li id="k" class="item">K</li>
+        <li id="l" class="item">L</li>
+        <li id="m" class="item">M</li>
+        <li id="n" class="item">N</li>
+        <li id="ñ" class="item">Ñ</li>
+        <li id="o" class="item">O</li>
+        <li id="p" class="item">P</li>
+        <li id="q" class="item">Q</li>
+        <li id="r" class="item">R</li>
+        <li id="s" class="item">S</li>
+        <li id="t" class="item">T</li>
+        <li id="u" class="item">U</li>
+        <li id="v" class="item">V</li>
+        <li id="w" class="item">W</li>
+        <li id="x" class="item">X</li>
+        <li id="y" class="item">Y</li>
+        <li id="z" class="item">Z</li>
+     </ul>
+         <div>
+            <button class="button" id="start" onclick="startGame()">Start</button>
+            <button class="button" id="stop" onclick="stop()">Stop</button>
+         </div>
+         <div>
+            <input type="text"  id="toAnswer" disabled>
+            <input type="text"  id="timer" disabled>
+         </div>
+         <div id="definition">
+             <textarea id="display" disabled></textarea>
+             <input type="text"  id="answer" placeholder="">
+             <button class="button"  id="response">Answer</button>
+             <button class="button" id="continue" onclick="continueWithIt()">Pasapalabra</button>
+         </div>
+         
+   </div>
+   <div id="containerRanking">
+       <h3>Ranking</h3>
+       <textarea id="displayRanking" disabled></textarea>    
+   </div>
+      <script type="text/javascript" src="index.js"></script>
+      <script type="text/javascript" src="helper.js"></script>
+   </body>
+</html>

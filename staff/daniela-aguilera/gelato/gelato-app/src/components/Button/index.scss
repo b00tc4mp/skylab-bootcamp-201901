@@ -1,0 +1,37 @@
+$primary: #d24070;
+$c-secondary: #77adde;
+$c-tertiary: #8BB8A8;
+
+$c-accent: #B47EB3;
+$c-light: #FFD5FF;
+
+$c-white: #fff;
+$c-black: #222;
+
+.g-Button {
+    background: $c-primary;
+    border: 0;
+    border-radius: 4px;
+    cursor: pointer;
+    color: $c-white;
+    padding: 4px 16px;
+
+    &--secondary {
+        background: $c-secondary;
+        color: $c-black;
+    }
+
+    &--tertiary {
+        background: $c-tertiary;
+    }
+
+    &--light {
+        background: #FFD5FF;
+        color: $c-black;
+    }
+
+    &--disabled {
+        cursor: default;
+        opacity: .3;
+    }
+}

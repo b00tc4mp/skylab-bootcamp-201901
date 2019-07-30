@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Conecta 4 Skylab</title>
+    <link rel="stylesheet" type="text/css" href="Styles.css">
+</head>
+<body bgcolor="Skyblue">
+    <h1 id="logo">Conecta 4 Game</h1>
+
+    <table class="table">
+        <tr id="0">
+            <td class="colum1"></td>
+            <td class="colum2"></td>
+            <td class="colum3"></td>
+            <td class="colum4"></td>
+            <td class="colum5"></td>
+            <td class="colum6"></td>
+            <td class="colum7"></td>
+        </tr>
+        <tr id="1">
+            <td class="colum1"></td>
+            <td class="colum2"></td>
+            <td class="colum3"></td>
+            <td class="colum4"></td>
+            <td class="colum5"></td>
+            <td class="colum6"></td>
+            <td class="colum7"></td>
+        </tr>
+        <tr id="2">
+            <td class="colum1"></td>
+            <td class="colum2"></td>
+            <td class="colum3"></td>
+            <td class="colum4"></td>
+            <td class="colum5"></td>
+            <td class="colum6"></td>
+            <td class="colum7"></td>
+        </tr>
+        <tr id="3">
+            <td class="colum1"></td>
+            <td class="colum2"></td>
+            <td class="colum3"></td>
+            <td class="colum4"></td>
+            <td class="colum5"></td>
+            <td class="colum6"></td>
+            <td class="colum7"></td>
+        </tr>
+      <tr id="4">
+            <td class="colum1"></td>
+            <td class="colum2"></td>
+            <td class="colum3"></td>
+            <td class="colum4"></td>
+            <td class="colum5"></td>
+            <td class="colum6"></td>
+            <td class="colum7"></td>
+        </tr>
+        <tr id="5">
+            <td class="colum1"></td>
+            <td class="colum2"></td>
+            <td class="colum3"></td>
+            <td class="colum4"></td>
+            <td class="colum5"></td>
+            <td class="colum6"></td>
+            <td class="colum7"></td>
+        </tr>  
+    </table>
+    <div class="buttons">
+        <button id="boton1" class="boton" onclick="col1()">Ficha</button>
+        <button class="boton"onclick="col2()">Ficha</button>
+        <button class="boton" onclick="col3()">Ficha</button>
+        <button class="boton" onclick="col4()">Ficha</button>
+        <button class="boton" onclick="col5()">Ficha</button>
+        <button class="boton" onclick="col6()">Ficha</button>
+        <button class="boton" onclick="col7()">Ficha</button>
+    </div>
+    <div class="info">
+        <p><strong id="titulo">Bienvenido al juego de connecta 4</strong></p>
+        
+        <p>Haz coincidir 4 fichas de tu color<br> para ganar el juego.</p>
+        <button class="boton" onclick="newGame()">Juego Nuevo</button>
+        <button class="boton" onclick="reset()">Reiniciar</button>
+        
+    </div>
+    <br>
+    <div class="infoPlayer">
+            <label><strong>Jugador Rojo:</strong></label>
+            <output id="nombreJugador1" style="color: white"></output>
+            <br>
+            <br>
+            <label><strong>Jugador Amarillo:</strong></label>
+            <output id="nombreJugador2" style="color: white"></output>
+            <br>
+            <br>
+            <label><strong>Turno:</strong></label>
+            <output id="turnoJugador" style="color:white"></output>
+            <br>
+            <br>
+            <p id="mensajes"><strong></strong></p>
+
+    </di>
+    
+    <script type="text/javascript" src="main.js"></script>   
+</body>
+</html>

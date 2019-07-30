@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Calculator</title>
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+
+<body>
+
+  <main id="container">
+      <h1>Calculadora Skylab</h1>
+
+      <input id="screen" value="0" disabled>
+
+      <button class="btn button button3" onclick="clean()" value="c">c</button>
+      <button class="button button1" onclick="square()" value="x²">x²</button>
+      <button class="button button1"onclick="insert('*')" value="*">*</button>
+
+      <button class="button button2" onclick="insert(7)" value="7">7</button>
+      <button class="button button2" onclick="insert(8)" value="8">8</button>
+      <button class="button button2" onclick="insert(9)" value="9">9</button>
+      <button class="button button1" onclick="insert('/')" value="/">/</button>
+      
+      <button class="button button2" onclick="insert(4)" value="4">4</button>
+      <button class="button button2" onclick="insert(5)" value="5">5</button>
+      <button class="button button2" onclick="insert(6)" value="6">6</button>
+      <button class="button button1" onclick="insert('-')" value="-">-</button>
+      
+      <button class="button button2" onclick="insert(1)" value="1">1</button>
+      <button class="button button2" onclick="insert(2)" value="2">2</button>
+      <button class="button button2" onclick="insert(3)" value="3">3</button>
+      <button class="button button1" id="suma" onclick="insert('+')" value="+">+</button>
+      
+      <button class="button button2" onclick="insert(0)" value="0">0</button>
+      <button class="button button1" onclick="insert('.')" value=".">.</button>
+      <button class="btn button button1" onclick="equal()" value="=">=</button>
+    
+  </main>
+
+  <script src="app.js"></script>
+</body>
+
+</html>

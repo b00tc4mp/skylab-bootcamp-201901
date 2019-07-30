@@ -1,13 +1,11 @@
-![alt skylab](./stuff/misc/skylab-logo.png)
+![](stuff/misc/skylab-logo.png)
 
-# Full-Stack Web-Development Bootcamp 
+# Full-Stack Web-Development Bootcamp 201904
 
-![alt calendar](./stuff/misc/calendar.jpg)
+![calendar](stuff/misc/calendar.jpg)
 
-[backlog](https://trello.com/b/ilEOxaCV/skylab-bootcamp-201901-board)
+[backlog](https://trello.com/b/zWyd6X7N/skylab-bootcamp-201904-board)
 
-[slides](https://docs.google.com/presentation/d/1IjYoagx1l2gp1Z8yCDO05V4t1yQ9nqzhFyer4GrOJD8/edit?usp=sharing)
+[slides](https://docs.google.com/presentation/d/1EH2JcL6yLIvH8PYc1f6Q55jVGFhdOqHgXNlk7BN1bbU/edit?usp=sharing)
 
-[shares](https://drive.google.com/drive/u/0/folders/19i4TINyvB2mMKlDqy9YXHz3lvK2IPAZo)
-
-[misc](https://drive.google.com/open?id=14GTfri1zDmgqZIXQkjgzhcX0IEIt0Fub)
+[misc](https://drive.google.com/drive/folders/1vWKm1ov2UfVOPEusm1bYpfmZbYjAIBJF?usp=sharing)

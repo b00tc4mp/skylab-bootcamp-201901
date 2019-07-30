@@ -1,0 +1,77 @@
+body{
+    font-family: 'Montserrat', sans-serif;
+    width: 100%;
+    margin: 0 auto;
+    text-align:center;
+    background-color: whitesmoke;
+}
+h1{
+    font-family: 'Righteous', cursive;
+}
+.letras{
+    width:500px;
+    margin: auto;
+}
+.letra{
+    background-color:#118FFF;
+    display:inline-block;
+    width: 50px;
+    height: 50px;
+    border-radius:50%;
+    text-align:center;
+    color:white;
+    border:2px solid white;
+}
+.letra p{
+    font-size:25px;
+    margin: 9px 0;
+}
+#jugar{
+    display: inline-block;
+    width: 80px;
+    height: 40px;
+    background: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 16px;
+    margin: 20px 0;
+}
+#questions-buttons{
+    display:none
+}
+
+#respuesta{
+    width: 200px;
+    height: 40px;
+    text-align:center;
+    font-size:18px;
+    text-transform:uppercase;
+}
+
+#enviar{
+    width: 80px;
+    height: 40px;
+    background: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#pasapalabra{
+    width: 130;
+    height: 40px;
+    background: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+#reset{
+    display:none;
+    width: 130;
+    height: 40px;
+    background: white;
+    border: 1px solid white;
+    border-radius: 5px;
+    font-size: 16px;
+}
