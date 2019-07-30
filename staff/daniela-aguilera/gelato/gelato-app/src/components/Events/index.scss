@@ -1,0 +1,33 @@
+.g-Event {
+    border-radius: 8px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, .3);
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 32px;
+    padding: 32px;
+
+
+    figure {
+        flex: 0 0 auto;
+    }
+
+    img {
+        height: 100%;
+        object-fit: cover;
+    }
+
+    div {
+        padding-left: 16px;
+    }
+
+}
+
+.title-event{
+    font-size: 40px;
+    font-weight: 200;
+    padding-bottom: 20px;   
+}
+
+.getato-event {
+    color: #d24070;
+}

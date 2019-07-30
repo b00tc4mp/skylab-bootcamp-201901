@@ -1,0 +1,23 @@
+
+.Landing
+    display: grid
+    position: absolute
+    color: black
+    height: 100%
+    width: 100%
+    grid-template-columns: 20% 60% 20%
+    grid-template-rows: 77.5% 22.5%
+    grid-template-areas: " . Logo . " " . DATA . "
+
+    &__Logo
+        grid-area: Logo
+        justify-self: center
+        align-self: end
+        margin-bottom: 5%
+
+    &__LanNav
+        grid-area: DATA
+        justify-self: center
+        font-size: 200%
+
+        

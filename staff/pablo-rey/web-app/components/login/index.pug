@@ -1,0 +1,13 @@
+extends ../index
+
+include ../feedback/index
+
+block content
+  .login
+    h2.login__title Login
+    form.login__inputs(method='post' action='/login')
+      input.input.login__input(type='text' name='email' placeholder='email' autofocus='' required='' value=email)
+      input.input.login__input(type='password' name='password' placeholder='password' required='')
+      if message
+        +feedback(message)
+      button.btn.btn--block Login

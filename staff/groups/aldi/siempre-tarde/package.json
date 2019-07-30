@@ -1,0 +1,51 @@
+{
+  "name": "siempre-tarde",
+  "version": "0.1.0",
+  "private": true,
+  "dependencies": {
+    "audit": "0.0.6",
+    "bulma": "^0.7.4",
+    "emoji-picker-react": "^2.1.1",
+    "node-sass": "^4.12.0",
+    "react": "^16.8.6",
+    "react-bulma-components": "^2.3.0",
+    "react-dom": "^16.8.6",
+    "react-easy-emoji": "^1.2.0",
+    "react-fontawesome": "^1.6.1",
+    "react-router-dom": "^5.0.0",
+    "react-scripts": "3.0.0"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test --runInBand",
+    "eject": "react-scripts eject",
+    "test:debug": "react-scripts --inspect-brk test --runInBand --no-cache",
+    "test:coverage": "react-scripts test --coverage --watchAll"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "jest": {
+    "watchPathIgnorePatterns": [
+      "src/common"
+    ],
+    "collectCoverageFrom": [
+      "src/**/*.{js,jsx,ts,tsx}",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/path/to/dir/"
+    ]
+  }
+}

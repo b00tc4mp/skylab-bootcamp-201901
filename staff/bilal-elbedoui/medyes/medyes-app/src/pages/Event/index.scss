@@ -1,0 +1,46 @@
+.details{
+    padding: 20px;
+}
+.uk-text-lead{
+    padding: 20px;
+}
+.info{
+    padding: 10px;
+}
+.wrapper{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.left{
+    width: 60%
+}
+.right{
+    color:blue;
+    width: 25%
+}
+h1{
+    text-decoration:underline;
+}
+.button_left{
+    background-color: #0D8547; /* Green */
+    border: none;
+    color: white;
+    width: 100px;
+    padding: 15px 32px;
+    text-align: center;
+    border-radius: 3px;
+    display: inline-block;
+    font-size: 16px;
+}
+.top{
+    padding-bottom: 40px;
+}
+textarea{
+    border-radius: 5px;
+}
+
+.comments{
+    padding: 10px;
+}

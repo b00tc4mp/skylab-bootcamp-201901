@@ -1,0 +1,11 @@
+{
+    "name": "dashboard-validate",
+    "version": "1.0.0",
+    "description": "dashboard-validate",
+    "main": "src/index.js",
+    "author": "Lila Petri",
+    "license": "ISC",
+    "dependencies": {
+        "dashboard-errors": "file:../dashboard-errors" 
+    }
+}

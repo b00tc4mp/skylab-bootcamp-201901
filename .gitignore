@@ -1,3 +1,5 @@
+yarn.lock
+
 
 # Created by https://www.gitignore.io/api/git,node,sass,macos,windows,visualstudiocode
 # Edit at https://www.gitignore.io/?templates=git,node,sass,macos,windows,visualstudiocode
@@ -107,7 +109,7 @@ typings/
 .yarn-integrity
 
 # dotenv environment variables file
-.env
+#.env
 .env.test
 
 # parcel-bundler cache (https://parceljs.org/)

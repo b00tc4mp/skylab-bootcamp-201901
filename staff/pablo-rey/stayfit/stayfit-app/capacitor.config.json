@@ -1,0 +1,7 @@
+{
+  "appId": "dev.pablorey.stayfit",
+  "appName": "stayfit",
+  "bundledWebRuntime": false,
+  "npmClient": "npm",
+  "webDir": "build"
+}

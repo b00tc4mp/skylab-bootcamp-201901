@@ -1,0 +1,21 @@
+p{
+    font-size:13px;
+}
+
+.column.is-three-fifths-mobile{
+    text-align: left;
+    padding: 25px 15px 0 0px;
+}
+
+.category{
+    margin: 0 8px;
+}
+
+.price{
+    font-size: 18px;
+    margin-top: -10px;
+}
+
+li:last-child hr{
+   display:none;
+}
